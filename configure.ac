@@ -464,7 +464,7 @@ fi
 
 SIM_AC_QT_PROG(MOC, moc)
 if test x"$MOC" = x"false"; then
-  SIM_AC_ERROR([no-moc]
+  SIM_AC_ERROR([no-moc])
 fi
 
 if $sim_ac_build_library; then
@@ -650,6 +650,9 @@ export MAC_FRAMEWORK_NAME MAC_FRAMEWORK_PREFIX MAC_FRAMEWORK_VERSION
 
 # Qt's moc wants Windows-style paths, so if the inputfile is an
 # absolute Cygwin-style path it needs conversion.
+#
+# FIXME: code duplicated in SoGuiExamples's configure, should share code.
+# 20031017 mortene.
 AC_PATH_PROG(UNIX2WINPATH, cygpath, false)
 if test x"$UNIX2WINPATH" = x"false"; then
   UNIX2WINPATH="echo"
