@@ -60,7 +60,7 @@
 
 GradientView::GradientView(QCanvas * c,
                            const Gradient & g,
-                           QWidget * parent, 
+                           QWidget * parent,
                            const char * name,
                            WFlags f)
                            
@@ -80,8 +80,6 @@ GradientView::GradientView(QCanvas * c,
   QVBoxLayout * topLayout = new QVBoxLayout(this);
   topLayout->setAlignment(Qt::AlignBottom);
   this->statusBar = new QStatusBar(this);
-  this->statusBar->setMaximumHeight(15);
-
   this->selectionMarker = new ImageItem(this->canvas);
   this->gradItem = new ImageItem(this->canvas);
   this->gradItem->show();
@@ -118,7 +116,8 @@ GradientView::updateView(void)
   const int width = this->canvas->width();
   const int height = this->canvas->height();
 
-  const QImage gradImage = this->grad.getImage(width, height-25, 32);
+  int h = this->statusBar->height();
+  const QImage gradImage = this->grad.getImage(width, height-10-h, 32);
   this->gradItem->setImage(gradImage);
   // FIXME: tell the graditem to redraw all of itself
   // not just those parts that have been touched by another item
@@ -134,7 +133,7 @@ GradientView::updateView(void)
     selectedImage.fill(QColor(100,100,245).rgb());
     
     this->selectionMarker->setImage(selectedImage);
-    this->selectionMarker->move(selectStart, height-25);
+    this->selectionMarker->move(selectStart, height-10-h);
     this->selectionMarker->setZ(2);
     this->selectionMarker->show();
   }
@@ -220,7 +219,7 @@ GradientView::contentsMouseMoveEvent(QMouseEvent * e)
       const float t = current->getPos();
       this->grad.moveTick(this->currenttick, t);
 
-      float value = t * (this->max - this->min);
+      int value = t * (this->max - this->min) + 0.5f;
       QString s;
       s.sprintf("Color table index: %d", (int)(value + 0.5f));
       this->statusBar->message(s);
@@ -309,7 +308,7 @@ GradientView::newTick(int x)
 {
   TickMark* i = new TickMark(this->canvas);
   i->setBrush(QColor(0,0,0));
-  i->move(0, this->canvas->height()-30);
+  i->move(0, this->canvas->height()-15-this->statusBar->height());
   i->setZ(3);
   i->setX(x);
   i->show();
