@@ -1,0 +1,46 @@
+SoQtSuperViewer, experimental
+2002-05-07 larsivi
+
+The files in this directory together makes the SoQtSuperViewer,
+a reimplementation of the VRML-viewer using Coin. The viewer
+is not completed, but most of the functionality should be there.
+The viewer will be completed ASAP (not necessarily tomorrow).
+
+This viewer is currently only a Qt project and has only been
+tested on Windows (as far as larsivi knows).
+
+SuperViewer.cpp is included so it is possible to get an application
+up and running. It works quite nice on its own. It has not been
+tested for embedding yet.
+
+The SuperViewer can be built using soqt-config
+
+Please report bugs and any good ideas for new functionality.
+
+There are couple of known bugs which are listed below.
+
+Cannot be completed without changes in the Coin-API:
+ * Flatshading (if there are normals, its not flatshaded)
+ * Some text manipulation in the menus and in the window caption
+     will be easier whenever a commited patch for SbString is 
+     inserted into the API. If its not used, it will be done
+     in other ways. This problem may also affect the refresh
+     functionality and the snapshot function.
+ * There are some problems with including the config.h which are
+     caused the lack of a real
+     Hopefully these will be solved soon.
+
+ NB! At the moment, the SuperViewer uses Coin-1 and Qt 2.3.0.
+     Also, SuperViewer isn't necessarily the final name since
+     it is just a little bit ambigous.
+
+Included files:
+SoQtSuperViewer.cpp //The main source file
+SoQtSuperViewer.h   //The main header file
+SoQtSuperViewerP.h  //Header file for private data and methods
+SoQtSuperViewerP.cpp  //The code for the private methods, including
+                      //some static stuff
+moc_SoQtSuperViewerP.icc  //The file needed to get the slots
+                         // and signals in Qt to work
+                         //This file will be updated when needed
+SuperViewer.cpp  //The testbed with the main()-method
