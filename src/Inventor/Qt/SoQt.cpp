@@ -100,13 +100,18 @@ QTimer * SoQtP::idletimer = NULL;
 QTimer * SoQtP::timerqueuetimer = NULL;
 QTimer * SoQtP::delaytimeouttimer = NULL;
 SoQtP * SoQtP::slotobj = NULL;
+bool SoQtP::didcreatemainwidget = FALSE;
 
 // This is provided for convenience when debugging the library. Should
 // make it easier to find memory leaks.
 void
 SoQtP::clean(void)
 {
-  delete SoQtP::mainwidget; SoQtP::mainwidget = NULL;
+  if (SoQtP::didcreatemainwidget) {
+    delete SoQtP::mainwidget;
+    SoQtP::mainwidget = NULL;
+    SoQtP::didcreatemainwidget = FALSE;
+  }
   delete SoQtP::appobject; SoQtP::appobject = NULL;
 
   delete SoQtP::timerqueuetimer; SoQtP::timerqueuetimer = NULL;
@@ -268,6 +273,7 @@ SoQt::internal_init(int & argc, char ** argv,
 
   SoQtP::appobject = new SoQtApplication(argc, argv);
   QWidget * mainw = new QWidget(NULL, classname);
+  SoQtP::didcreatemainwidget = TRUE;
   SoQt::init(mainw);
 
   if (appname) { SoQtP::mainwidget->setCaption(appname); }

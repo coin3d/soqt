@@ -42,6 +42,7 @@ public:
   static SoQtP * soqt_instance(void);
 
   static QWidget * mainwidget;
+  static bool didcreatemainwidget;
   static QApplication * appobject;
   static QTimer * timerqueuetimer;
   static QTimer * idletimer;
