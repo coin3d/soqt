@@ -188,7 +188,7 @@ install-data-local:
 	fi
 endif
 
-install-exec-local:
+install-exec-local: soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib
 	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
 	if @BUILD_WITH_MSVC@; then \
 	  for ext in dll pdb; do \
