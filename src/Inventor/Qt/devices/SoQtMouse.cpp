@@ -190,6 +190,11 @@ SoQtMouse::translateEvent(
     switch (mouseevent->button()) {
     case LeftButton:
       this->buttonevent->setButton(SoMouseButtonEvent::BUTTON1);
+// emulate right mouse button on MacIntosh platform by ctrl-click
+#ifdef Q_WS_MAC
+      if (mouseevent->state() & ControlButton)
+        this->buttonevent->setButton(SoMouseButtonEvent::BUTTON2);
+#endif // Q_WS_MAC
       break;
     case RightButton:
       this->buttonevent->setButton(SoMouseButtonEvent::BUTTON2);
