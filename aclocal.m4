@@ -2082,6 +2082,11 @@ AC_DEFUN([SIM_AC_DOBACKSLASH], [
 eval "$1=\"`echo $2 | sed -e 's%\\/%\\\\%g'`\""
 ])
 
+AC_DEFUN([SIM_AC_DODOUBLEBACKSLASH], [
+eval "$1=\"`echo $2 | sed -e 's%\\/%\\\\\\\\\\\\\\\\%g'`\""
+])
+
+
 # Usage:
 #  SIM_CHECK_ZLIB([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 #
@@ -2678,7 +2683,7 @@ fi
 #
 # Description:
 #   Expand these variables into their correct full directory paths:
-#    $prefix  $exec_prefix  $includedir  $libdir
+#    $prefix  $exec_prefix  $includedir  $libdir  $datadir
 # 
 # Author: Morten Eriksen, <mortene@sim.no>.
 # 
@@ -2688,6 +2693,6 @@ test x"$prefix" = x"NONE" && prefix="$ac_default_prefix"
 test x"$exec_prefix" = x"NONE" && exec_prefix="${prefix}"
 includedir="`eval echo $includedir`"
 libdir="`eval echo $libdir`"
+datadir="`eval echo $datadir`"
 ])
-
 
