@@ -18,3 +18,5 @@ sogui.doxygen
 *.plg
 *.ncb
 *.suo
+*.dsp
+*.dsw
