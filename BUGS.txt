@@ -81,6 +81,16 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     ----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] ---
 
     20020619 mortene.
+    
+    UPDATE: Not seeing the scene-graph displayed in the main window in
+    the above example is actually correct behavior: Note the FALSE
+    flag passed on for 'embed'. The fact that the scene-graph is
+    displayed when removing 'this->show()' is the actual bug... :-) A
+    quick check (SoQT/test_code/renderarea.cpp) shows that
+    SoQtRenderArea does the correct thing when passed a FALSE: It is
+    built outside of the application window. On the other hand, when
+    the widget is passed 'TRUE' for 'embed', in the code displayed
+    above, it works as expected. 20021023 rolvs
 
 =====================================================================
 
