@@ -28,7 +28,7 @@
 #include <Inventor/Qt/SoQtBasic.h>
 #include <Inventor/Qt/widgets/Gradient.h>
 
-class /*SOQT_DLL_API*/ SoQtGradientDialog : public QDialog
+class SOQT_DLL_API SoQtGradientDialog : public QDialog
 {
   Q_OBJECT
 

@@ -31,7 +31,7 @@
 
 typedef void changeCB(void * grad);
  
-class /*SOQT_DLL_API*/ Gradient {
+class SOQT_DLL_API Gradient {
 
 public:
   Gradient(const QColor& color0 = Qt::red, const QColor& color1 = Qt::blue);
