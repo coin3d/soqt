@@ -293,6 +293,11 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
 
     Not yet investigated, but sounds very likely to be a bug.
 
+    After fixing, make sure the different possible "configurations" of
+    an SoQtExaminerViewer component in a Qt component-ownership tree
+    is tested to work: both SoQtExaminerViewer as a top-level window,
+    and embedded in an application Qt widget.
+
     20021018 mortene.
 
 =====================================================================
