@@ -51,6 +51,8 @@ m4data_DATA = conf-macros/soqt.m4 conf-macros/modifierlist.m4
 
 ############################################################################
 
+built-sources: $(BUILT_SOURCES)
+
 src/Inventor/Qt/SoQtBasic.h: \
   $(top_srcdir)/src/Inventor/Qt/common/SoGuiBasic.h.in
 	@CONFIG_HEADERS=$@:SoQtBasic.h.in CONFIG_FILES=$(top_srcdir)/SoQtBasic.h.in:src/Inventor/Qt/common/SoGuiBasic.h.in ./config.status
