@@ -620,7 +620,8 @@ nodist_editors_lst_SOURCES = \
 SoQtEditorsinc_HEADERS = 
 
 nodist_SoQtEditorsinc_HEADERS = \
-	So@Gui@ColorEditor.h
+	So@Gui@ColorEditor.h \
+	So@Gui@MaterialEditor.h
 
 subdir = src/Inventor/Qt/editors
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
