@@ -106,7 +106,6 @@ SoQtDevicesinc_HEADERS =
 
 nodist_SoQtDevicesinc_HEADERS = \
 	SoQtDevice.h \
-	SoQtInputFocus.h \
 	SoQtKeyboard.h \
 	SoQtMouse.h \
 	SoQtSpaceball.h
