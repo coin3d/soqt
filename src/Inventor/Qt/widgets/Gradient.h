@@ -52,7 +52,6 @@ public:
   void getColorArray(QRgb * colors, int num) const;
   void save(const QString& filename);
   void load(const QString& filename);
-  void swapLeftAndRight(int i);
 
   QImage getImage(int w, int h, int d) const;
 

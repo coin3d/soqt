@@ -188,15 +188,6 @@ SbBool Gradient::leftEqualsRight(int i) const
   return (PRIVATE(this)->colors[i] == PRIVATE(this)->colors[(i+1) % n]);
 }
 
-void Gradient::swapLeftAndRight(int i)
-{
-  PRIVATE(this)->getColorIndex(i, TRUE);
-  int n = PRIVATE(this)->colors.size();
-
-  PRIVATE(this)->colors[i] ^= PRIVATE(this)->colors[(i+1)%n] ^= 
-  PRIVATE(this)->colors[i] ^= PRIVATE(this)->colors[(i+1)%n];
-}
-
 void Gradient::setColor(int i, SbBool left, const QRgb color)
 {
   PRIVATE(this)->getColorIndex(i, left);
