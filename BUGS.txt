@@ -3,31 +3,33 @@
 000 Adding an app-specific pushbutton to the SoQtExaminerViewer will
     make the left border too thin. Reproduce with this code:
 
-        #include <Inventor/Qt/SoQt.h>
-        #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
-        #include <Inventor/nodes/SoCone.h>
-        #include <qpushbutton.h>
-        
-        
-        int
-        main(int argc,  char ** argv)
-        {
-          QWidget * window = SoQt::init("");
-        
-          SoQtExaminerViewer * examinerviewer = new SoQtExaminerViewer(window);
-          examinerviewer->setSceneGraph(new SoCone);
-        
-          QWidget * parent = examinerviewer->getAppPushButtonParent();
-          QPushButton * button = new QPushButton(parent);
-          examinerviewer->addAppPushButton(button);
-        
-          examinerviewer->show();
-          SoQt::show(window);
-          SoQt::mainLoop();
-        
-          delete examinerviewer;
-          return 0;
-        } 
+    ----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] ---
+    #include <Inventor/Qt/SoQt.h>
+    #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
+    #include <Inventor/nodes/SoCone.h>
+    #include <qpushbutton.h>
+    
+    
+    int
+    main(int argc,  char ** argv)
+    {
+      QWidget * window = SoQt::init("");
+    
+      SoQtExaminerViewer * examinerviewer = new SoQtExaminerViewer(window);
+      examinerviewer->setSceneGraph(new SoCone);
+    
+      QWidget * parent = examinerviewer->getAppPushButtonParent();
+      QPushButton * button = new QPushButton(parent);
+      examinerviewer->addAppPushButton(button);
+    
+      examinerviewer->show();
+      SoQt::show(window);
+      SoQt::mainLoop();
+    
+      delete examinerviewer;
+      return 0;
+    } 
+    ----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] ---
 
     I see at least two problems in the SoQtFullViewer::buildLeftTrim()
     code: 1) it is always set to a fixed width of 30 pixels, 2) it is
@@ -35,28 +37,47 @@
 
 =====================================================================
 
-001 The simplest SoQtExaminerViewer example comes up with a canvas
-    sized to be of almost zero dimensions:
+002 The following example demonstrates a bug with how the Qt widgets
+    seems to be stacked when we call SoQtComponent::show():
 
     ----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] ---
     #include <Inventor/Qt/SoQt.h>
-    #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
+    #include <Inventor/Qt/viewers/SoQtViewer.h>
     #include <Inventor/nodes/SoCone.h>
+    #include <Inventor/nodes/SoSeparator.h>
+    #include <qapplication.h>
+    #include <qwidget.h>
+    
+    
+    class NewViewer : public SoQtViewer {
+    public:
+      NewViewer(QWidget * parent)
+        : SoQtViewer(parent, "buh", FALSE, SoQtViewer::BROWSER, FALSE)
+      {
+        QWidget * widget = this->buildWidget(parent);
+        this->setBaseWidget(widget);
+    
+        SoSeparator * root = new SoSeparator;
+        root->addChild(new SoCone);
+        this->setSceneGraph(root);
+    
+        // FIXME: this causes the bug, remove the next line and all is
+        // well. 20020619 mortene.
+        this->show();
+      }
+    };
     
     int
-    main(int argc, char* argv[])
+    main(int argc, char ** argv)
     {
-      QWidget * mainwin = SoQt::init(argv[0]);
-    
-      SoQtExaminerViewer * viewer = new SoQtExaminerViewer(mainwin);
-      viewer->setSceneGraph(new SoCone);
-    
-      SoQt::show(mainwin);
+      QWidget * qw = SoQt::init(argv[0]);
+      NewViewer * svapp = new NewViewer(qw);
+      SoQt::show(qw);
       SoQt::mainLoop();
-    
       return 0;
     }
     ----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] ---
 
+    20020619 mortene.
 
 =====================================================================
