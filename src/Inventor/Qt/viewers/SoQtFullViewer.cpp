@@ -2097,7 +2097,7 @@ SoQtFullViewer::setZoomSliderPosition(float zoom)
 
   float f =
     (zoom - this->zoomrange[0]) / (this->zoomrange[1] - this->zoomrange[0]);
-  f = QMAX(0.0f, QMIN(f, 1.0f)) * ZOOMSLIDERRESOLUTION;
+  f = SoQtClamp( f, 0.0f, 1.0f ) * ZOOMSLIDERRESOLUTION;
 
   this->zoomslider->setValue(f);
 } // setZoomSliderPosition()
@@ -2432,7 +2432,7 @@ SoQtFullViewer::zoomFieldChanged()
 {
   float val;
   if (sscanf(this->zoomfield->text(), "%f", &val) == 1) {
-    val = QMIN(0.001f, QMAX(179.999f, val));
+    val = SoQtClamp( val, 0.001f, 179.999f );
     this->setCameraZoom(val);
     this->setZoomSliderPosition(val);
   }
