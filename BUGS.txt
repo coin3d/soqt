@@ -360,3 +360,58 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     20030204 mortene.
 
 =====================================================================
+
+020 Likely memory leaks in SoQtExaminerViewer.
+
+    thammer reports that this app apparently shows ~60KB leaks under
+    MSWin for each SoQtExaminerViewer allocated and deallocated (while
+    apparently only 1-2KB for the SoQtRenderArea):
+
+    ----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] ---
+    #include <stdio.h>
+    #include <conio.h>
+    
+    #include <qapplication.h>
+    #include <qwidget.h>
+    
+    #include <Inventor/Qt/SoQt.h>
+    #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
+    
+    int main()
+    {
+      QWidget *unusedwidget = SoQt::init("memtest");
+    
+      QWidget *widget;
+      SoQtExaminerViewer *viewer;
+      // SoQtRenderArea *viewer;
+    
+      char c = 0;
+    
+      while (c != 'q') {
+        printf("Creating widget... ");
+        getch();
+        widget = new QWidget();
+        printf("OK.   ");
+        printf("Creating viewer... ");
+        getch();
+        viewer = new SoQtExaminerViewer(widget);
+        // viewer = new SoQtRenderArea(widget);
+        printf("OK.   ");
+        printf("Deleting viewer... ");
+        c = getch();
+        delete viewer;
+        printf("OK.   ");
+        printf("Deleting widget... ");
+        c = getch();
+        delete widget;
+        printf("OK.\n");
+      }
+      return 0;
+    }
+    ----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] ---
+
+    More investigation needed to confirm the leak.
+
+    20030214 mortene.
+
+=====================================================================
