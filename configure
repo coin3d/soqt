@@ -3564,7 +3564,7 @@ PeekInventorVersion: TGS_VERSION
 EOF
     iv_version=`$CXX -E conftest.c 2>/dev/null | grep "^PeekInventorVersion" | sed -e 's/.* //g' -e 's/.$//'`
     rm -f conftest.c
-    sim_ac_oiv_libs="inv{$iv_version}.lib"
+    sim_ac_oiv_libs="inv${iv_version}.lib"
   else
     sim_ac_oiv_libs="-lInventor -limage"
   fi
@@ -5633,12 +5633,10 @@ cross_compiling=$ac_cv_prog_cxx_cross
         #       of the Coin macros).
         # 1375: Non-virtual destructors in base classes.
         # 3201: Unused argument to a function.
-        # 3303: "Meaningless type qualifier on return type" (happens with the
-        #       SoField macros in Coin because of use of const in the macros).
         # 1110: "Statement is not reachable" (the Lex/Flex generated code in
         #       Coin/src/engines has lots of shitty code which needs this).
 
-        sim_ac_bogus_warnings="-woff 3115,3262,1174,1209,1355,1375,3201,3303,1110"
+        sim_ac_bogus_warnings="-woff 3115,3262,1174,1209,1355,1375,3201,1110"
         
 
 ac_ext=c
@@ -5649,19 +5647,19 @@ ac_link='${CC-cc} -o conftest${ac_exeext} $CFLAGS $CPPFLAGS $LDFLAGS conftest.$a
 cross_compiling=$ac_cv_prog_cc_cross
 
 echo $ac_n "checking whether $CC accepts $sim_ac_bogus_warnings... $ac_c" 1>&6
-echo "configure:5653: checking whether $CC accepts $sim_ac_bogus_warnings" 1>&5
+echo "configure:5651: checking whether $CC accepts $sim_ac_bogus_warnings" 1>&5
 
 sim_ac_save_cppflags=$CPPFLAGS
 CPPFLAGS="$CPPFLAGS $sim_ac_bogus_warnings"
 cat >conftest.$ac_ext <<EOF
-#line 5658 "configure"
+#line 5656 "configure"
 #include "confdefs.h"
 
 int main() {
 
 ; return 0; }
 EOF
-if { (eval echo configure:5665: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:5663: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
   sim_ac_accept_result=yes
 else
@@ -5830,7 +5828,7 @@ if test x"$with_doxygen" != xno; then
   # Extract the first word of "doxygen", so it can be a program name with args.
 set dummy doxygen; ac_word=$2
 echo $ac_n "checking for $ac_word... $ac_c" 1>&6
-echo "configure:5834: checking for $ac_word" 1>&5
+echo "configure:5832: checking for $ac_word" 1>&5
 if test "${ac_cv_path_sim_ac_doxygen_exe+set}" = set; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -5877,7 +5875,7 @@ fi
   # Extract the first word of "perl", so it can be a program name with args.
 set dummy perl; ac_word=$2
 echo $ac_n "checking for $ac_word... $ac_c" 1>&6
-echo "configure:5881: checking for $ac_word" 1>&5
+echo "configure:5879: checking for $ac_word" 1>&5
 if test "${ac_cv_path_sim_ac_perl_exe+set}" = set; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
