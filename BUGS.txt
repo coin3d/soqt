@@ -250,4 +250,17 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     20021022 mortene.
 
 =====================================================================
+
+014 Win32-specific build problem: if Qt or Coin is a static library,
+    SoQt must also be built static and *without* including the static
+    libraries we depend on.
+
+    If built as a DLL under those circumstances, the static libraries
+    we depend on will be linked into the DLL -- but without them being
+    accessible from the application code. Then an app programmer is
+    likely to include several instances of either Qt or Coin, which
+    results in various sorts of difficult to understand problems.
+
+    20021118 mortene.
     
+=====================================================================
