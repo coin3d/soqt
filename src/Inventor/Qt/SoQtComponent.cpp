@@ -1104,6 +1104,11 @@ SoQtComponentP::getNativeCursor(const SoQtCursor::CustomCursor * cc)
 void
 SoQtComponent::setWidgetCursor(QWidget * w, const SoQtCursor & cursor)
 {
+  // FIXME: as this function is called all the time when the cursor is
+  // grabbed by the window under X11, we should really compare with
+  // the previous cursor before doing anything, to avoid spending
+  // unnecessary clockcycles during animation. 20011203 mortene.
+
   if (cursor.getShape() == SoQtCursor::CUSTOM_BITMAP) {
     const SoQtCursor::CustomCursor * cc = &cursor.getCustomCursor();
     w->setCursor(*SoQtComponentP::getNativeCursor(cc));
@@ -1142,9 +1147,15 @@ SoQtComponent::setWidgetCursor(QWidget * w, const SoQtCursor & cursor)
   // a better way to get around the problem, but this seems easy
   // enough.
   //                                                        mortene
+
+  // FIXME: had to disable this as it didn't work under X11 (we get
+  // continuous calls to this function, which means the mousecursor is
+  // quickly pushed off the screen..). 20011203 mortene.
+#if 0
   QPoint p = w->cursor().pos();
   p.setX(p.x() + 1);
   w->cursor().setPos(p);
+#endif // disabled
 }
 
 // *************************************************************************
