@@ -239,6 +239,7 @@ WARN_FORMAT           = "$file:$line: $text"
 INPUT                 = \
 	@path_tag@@soqt_build_dir@/src/Inventor/@Gui@/So@Gui@Basic.h \
 	@path_tag@@soqt_src_dir@/src/Inventor/@Gui@/So@Gui@.cpp \
+	@path_tag@@soqt_build_dir@/src/Inventor/@Gui@/So@Gui@Common.cpp \
 	@path_tag@@soqt_build_dir@/src/Inventor/@Gui@/So@Gui@.h \
 	@path_tag@@soqt_build_dir@/src/Inventor/@Gui@/So@Gui@Object.cpp \
 	@path_tag@@soqt_build_dir@/src/Inventor/@Gui@/So@Gui@Object.h \
