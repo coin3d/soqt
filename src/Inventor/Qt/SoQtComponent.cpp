@@ -411,11 +411,6 @@ SoQtComponent::eventFilter( // virtual
   }
 #endif // 0
 
-  // Detect resize events.
-  if (e->type() == Event_Create) {
-    this->afterRealizeHook();
-  }
-
   if (e->type() == Event_Resize) {
     QResizeEvent * r = (QResizeEvent *)e;
 
@@ -449,6 +444,16 @@ SoQtComponent::eventFilter( // virtual
         cb(userdata, e->type() == Event_Show ? TRUE : FALSE);
       }
     }
+  }
+
+  // It would seem more sensible that we should trigger on
+  // Event_Create than on Event_Show for the afterRealizeHook()
+  // method, but the Event_Create type is not yet used in Qt (as of
+  // version 2.2.2 at least) -- it has just been reserved for future
+  // releases.
+  if (e->type() == Event_Show && !this->realized) {
+    this->realized = TRUE;
+    this->afterRealizeHook();
   }
 
   return FALSE;
@@ -957,7 +962,6 @@ void
 SoQtComponent::afterRealizeHook( // virtual
   void )
 {
-  this->realized = TRUE;
 }
 
 // *************************************************************************
