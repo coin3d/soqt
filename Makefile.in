@@ -71,6 +71,7 @@ CXX = @CXX@
 CXXCPP = @CXXCPP@
 DEPDIR = @DEPDIR@
 DLLTOOL = @DLLTOOL@
+GUI = @GUI@
 LIBTOOL = @LIBTOOL@
 LN_S = @LN_S@
 LT_AGE = @LT_AGE@
@@ -93,6 +94,7 @@ SOQT_MICRO_VERSION = @SOQT_MICRO_VERSION@
 SOQT_MINOR_VERSION = @SOQT_MINOR_VERSION@
 SOQT_VERSION = @SOQT_VERSION@
 VERSION = @VERSION@
+WIDGET = @WIDGET@
 install_sh = @install_sh@
 sim_ac_conf_cmd = @sim_ac_conf_cmd@
 
@@ -104,6 +106,11 @@ SUBDIRS = src/Inventor/Qt $(EXAMPLEDIR)
 bin_SCRIPTS = soqt-config
 
 BUILT_SOURCES = soqt-config
+
+EXTRA_DIST = conf-macros/soqt.m4
+
+m4datadir = $(datadir)/aclocal
+m4data_DATA = conf-macros/soqt.m4
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -112,10 +119,12 @@ CONFIG_CLEAN_FILES =  soqt-config
 SCRIPTS =  $(bin_SCRIPTS)
 
 DIST_SOURCES = 
-DIST_COMMON =  README ./stamp-h.in AUTHORS COPYING ChangeLog INSTALL \
-Makefile.am Makefile.in NEWS TODO aclocal.m4 config.guess config.h.in \
-config.sub configure configure.in depcomp install-sh ltconfig ltmain.sh \
-missing mkinstalldirs soqt-config.in
+DATA =  $(m4data_DATA)
+
+DIST_COMMON =  README $(m4data_DATA) ./stamp-h.in AUTHORS COPYING \
+ChangeLog INSTALL Makefile.am Makefile.in NEWS TODO aclocal.m4 \
+config.guess config.h.in config.sub configure configure.in depcomp \
+install-sh ltconfig ltmain.sh missing mkinstalldirs soqt-config.in
 
 
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -193,6 +202,24 @@ uninstall-binSCRIPTS:
 	  f="`echo $$p|sed '$(transform)'`"; \
 	  echo " rm -f $(DESTDIR)$(bindir)/$$f"; \
 	  rm -f $(DESTDIR)$(bindir)/$$f; \
+	done
+
+install-m4dataDATA: $(m4data_DATA)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(m4datadir)
+	@list='$(m4data_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d= ; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(m4datadir)/$$f"; \
+	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(m4datadir)/$$f; \
+	done
+
+uninstall-m4dataDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(m4data_DATA)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(m4datadir)/$$f"; \
+	  rm -f $(DESTDIR)$(m4datadir)/$$f; \
 	done
 
 # This directory's subdirectories are mostly independent; you can cd
@@ -339,6 +366,7 @@ dist-all: distdir
 distdir: $(DISTFILES)
 	-chmod -R a+w $(distdir) > /dev/null 2>&1; rm -rf $(distdir)
 	mkdir $(distdir)
+	$(mkinstalldirs) $(distdir)/conf-macros
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
@@ -372,21 +400,21 @@ all-recursive-am: config.h
 install-exec-am: install-binSCRIPTS
 install-exec: install-exec-recursive
 
-install-data-am:
+install-data-am: install-m4dataDATA
 install-data: install-data-recursive
 
 install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
 install: install-recursive
-uninstall-am: uninstall-binSCRIPTS
+uninstall-am: uninstall-binSCRIPTS uninstall-m4dataDATA
 uninstall: uninstall-recursive
-all-am: Makefile $(SCRIPTS) config.h
+all-am: Makefile $(SCRIPTS) $(DATA) config.h
 all-redirect: all-recursive-am
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) INSTALL_STRIP_FLAG=-s install
 installdirs: installdirs-recursive
 installdirs-am:
-	$(mkinstalldirs)  $(DESTDIR)$(bindir)
+	$(mkinstalldirs)  $(DESTDIR)$(bindir) $(DESTDIR)$(m4datadir)
 
 
 mostlyclean-generic:
@@ -423,12 +451,12 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f config.status
 
 .PHONY: mostlyclean-hdr distclean-hdr clean-hdr maintainer-clean-hdr \
-uninstall-binSCRIPTS install-binSCRIPTS install-recursive \
-uninstall-recursive install-data-recursive uninstall-data-recursive \
-install-exec-recursive uninstall-exec-recursive installdirs-recursive \
-uninstalldirs-recursive all-recursive check-recursive \
-installcheck-recursive info-recursive dvi-recursive \
-mostlyclean-recursive distclean-recursive clean-recursive \
+uninstall-binSCRIPTS install-binSCRIPTS uninstall-m4dataDATA \
+install-m4dataDATA install-recursive uninstall-recursive \
+install-data-recursive uninstall-data-recursive install-exec-recursive \
+uninstall-exec-recursive installdirs-recursive uninstalldirs-recursive \
+all-recursive check-recursive installcheck-recursive info-recursive \
+dvi-recursive mostlyclean-recursive distclean-recursive clean-recursive \
 maintainer-clean-recursive tags tags-recursive mostlyclean-tags \
 distclean-tags clean-tags maintainer-clean-tags distdir info-am info \
 dvi-am dvi check check-am installcheck-am installcheck all-recursive-am \

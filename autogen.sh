@@ -11,7 +11,9 @@ DIE=0
 
 PROJECT=SoQt
 MACRODIR=conf-macros
-SUBPROJECTS="$MACRODIR src/Inventor/Qt/common"
+
+SUBPROJECTS="$MACRODIR src/Inventor/Qt/common examples/components"
+SUBPROJECTNAMES="$MACRODIR SoQtCommon SoQtComponents"
 
 echo "Checking the installed configuration tools..."
 
@@ -47,16 +49,24 @@ if test -z "`automake --version | grep \" $AUTOMAKE_VER\" 2> /dev/null`"; then
 fi
 
 
+set $SUBPROJECTNAMES
+num=1
 for project in $SUBPROJECTS; do
   test -d $project || {
     echo
-    echo "The CVS sub-project '$project' was not found."
-    echo "It was probably added after you initially checked out $PROJECT."
-    echo "Do a fresh 'cvs checkout' to correct this problem - the $PROJECT build system"
-    echo "will probably not work properly otherwise.  For a fresh 'cvs checkout',"
-    echo "run 'cvs -d :pserver:cvs@cvs.sim.no:/export/cvsroot co -P $PROJECT'."
-    echo
+    echo "Could not find subdirectory '$project'."
+    echo "It was probably added after you initially fetched $PROJECT."
+    echo "To add the missing module, run 'cvs co $1' from the $PROJECT"
+    echo "base directory."
+    echo ""
+    echo "To do a completely fresh cvs checkout of the whole $PROJECT module,"
+    echo "(if all else fails), remove $PROJECT and run:"
+    echo "  cvs -z3 -d :pserver:cvs@cvs.sim.no:/export/cvsroot co -P $PROJECT"
+    echo ""
+    DIE=1
   }
+  num=`expr $num + 1`
+  shift
 done
 
 if test "$DIE" -eq 1; then
@@ -75,7 +85,6 @@ echo "[ignore any \"directory should not contain '/'\" warning]"
 automake
 
 echo "Running autoconf (generating ./configure and the Makefile files)..."
-echo "[ignore any \"directory should not contain '/'\" warning]"
 autoconf
 
 echo "Done: Now run './configure' and 'make install' to build $PROJECT."

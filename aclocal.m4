@@ -1757,18 +1757,31 @@ AC_ARG_ENABLE(warnings,
   esac],
   enable_warnings=yes)
 
-if test "x$enable_warnings" = "xyes"; then
-  if test "x$GXX" = "xyes" || test "x$GCC" = "xyes"; then
+if test x"$enable_warnings" = xyes; then
+  if test x"$GXX" = xyes || test x"$GCC" = xyes; then
     SIM_COMPILER_OPTION(-Wno-multichar, _warn_flags=-Wno-multichar)
     _warn_flags="-W -Wall -Wno-unused $_warn_flags"
 
     CFLAGS="$CFLAGS $_warn_flags"
     CXXFLAGS="$CXXFLAGS $_warn_flags"
+  else
+    case $host in
+    *-*-irix*) 
+      if test x"$CC" = xcc || test x"$CXX" = xCC; then
+        _warn_flags=
+        # Turn on all warnings.
+        SIM_COMPILER_OPTION(-fullwarn, _warn_flags="$_warn_flags -fullwarn")
+        # Turn off warnings on unused variables.
+        SIM_COMPILER_OPTION(-woff 3262, _warn_flags="$_warn_flags -woff 3262")
 
-    unset _warn_flags
+        CFLAGS="$CFLAGS $_warn_flags"
+        CXXFLAGS="$CXXFLAGS $_warn_flags"
+      fi
+    ;;
+    esac
   fi
 else
-  if test "x$GXX" != "xyes" && test "x$GCC" != "xyes"; then
+  if test x"$GXX" != xyes && test x"$GCC" != xyes; then
     AC_MSG_WARN(--enable-warnings only has effect when using GNU gcc or g++)
   fi
 fi

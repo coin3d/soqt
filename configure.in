@@ -173,6 +173,18 @@ AC_ARG_WITH(examples,
 
 AM_CONDITIONAL(BUILD_EXAMPLES, test x"$want_examples" = xyes)
 
+dnl *******************************************************************
+dnl * Configure common example programs for using SoQt
+dnl *******************************************************************
+
+GUI=Qt
+WIDGET="QWidget *"
+
+AC_SUBST(GUI)
+AC_SUBST(WIDGET)
+
+AM_CONDITIONAL(HAVE_RENDERAREA, true)
+AM_CONDITIONAL(HAVE_EXAMINERVIEWER, true)
 
 dnl *******************************************************************
 dnl * List all makefiles configure must automatically generate.
@@ -191,7 +203,9 @@ AC_OUTPUT([
 	src/Inventor/Qt/viewers/Makefile
 	src/Inventor/Qt/widgets/Makefile
 	examples/Makefile
-	examples/examinerviewer/Makefile
 	examples/widgets/Makefile
+	examples/components/Makefile
+	examples/components/renderarea.cpp
+	examples/components/examinerviewer.cpp
         ],
         [chmod a+x soqt-config])
