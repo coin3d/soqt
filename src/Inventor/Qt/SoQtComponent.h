@@ -22,12 +22,7 @@
 #ifndef SOQT_COMPONENT_H
 #define SOQT_COMPONENT_H
 
-#include <qobject.h>
-
 #include <Inventor/SbLinear.h>
-#include <Inventor/SbString.h>
-#include <Inventor/SoLists.h>
-
 #include <Inventor/Qt/SoQtObject.h>
 
 class QWidget;
@@ -100,18 +95,7 @@ private slots:
   void widgetClosed(void);
 
 private:
-  QWidget * parent;
-  QWidget * widget;
-  SbBool embedded, shelled;
-  QString classname, widgetname, captiontext, icontext;
-  SoQtComponentCB * closeCB;
-  void * closeCBdata;
-  SbPList * visibilitychangeCBs;
-  SbBool realized;
-
-  static SbPList * soqtcomplist;
-
-  SbVec2s storesize;
+  class SoQtComponentP * pimpl;
 
 }; // class SoQtComponent
 
