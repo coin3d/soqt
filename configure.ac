@@ -127,6 +127,11 @@ if $BUILD_WITH_MSVC; then
   ])
 fi
 
+case $host_os in
+darwin6.* ) sim_ac_macosx_10_2=true ;;
+* )         sim_ac_macosx_10_2=false ;;
+esac
+
 if test x"$sim_ac_macosx_10_2" = x"true"; then
   # Defines how undefined symbols are handled (used in libtool.m4)
   LD_TWOLEVEL_NAMESPACE=1
@@ -626,12 +631,6 @@ AC_SUBST([MAC_FRAMEWORK_VERSION], [$sim_ac_framework_version])
 AC_SUBST([nop], [])
 
 AM_CONDITIONAL([MAC_FRAMEWORK], [$sim_ac_framework])
-
-case $host_os in
-darwin6.* ) sim_ac_macosx_10_2=true ;;
-* )         sim_ac_macosx_10_2=false ;;
-esac
-
 AM_CONDITIONAL([MAC_FRAMEWORK], [$sim_ac_framework])
 AM_CONDITIONAL([MACOSX_10_2], [$sim_ac_macosx_10_2])
 
