@@ -3,7 +3,7 @@ include ../../src/Inventor/Qt/common/Makefile.common
 KEYMANPAGE = So@Gui@Object.3
 
 $(KEYMANPAGE): $(SoGuiBuiltFiles)
-	"@sim_ac_doxygen_exe@" $(top_builddir)/sogui.doxygen
+	@( cd $(top_builddir); "@sim_ac_doxygen_exe@" sogui.doxygen )
 
 filelist.txt: $(KEYMANPAGE)
 	ls *.3 >filelist.txt
