@@ -121,7 +121,7 @@ SoQtCurveWidgetP::setConstantValue()
   this->curveview->setConstantValue(value);
 }
 
-SoQtCurveWidget::SoQtCurveWidget(QWidget * parent, const char * name)
+SoQtCurveWidget::SoQtCurveWidget(int numcolors, QWidget * parent, const char * name)
 : QWidget(parent, name)
 {
   this->pimpl = new SoQtCurveWidgetP(this);
@@ -158,7 +158,7 @@ SoQtCurveWidget::SoQtCurveWidget(QWidget * parent, const char * name)
   PRIVATE(this)->constanttext->setText(" Set constant value: ");
   PRIVATE(this)->constantvalue = new QLineEdit(controlgroup);
   PRIVATE(this)->constantvalue->setMaxLength(3);
-  PRIVATE(this)->constantvalue->setValidator(new QIntValidator(0, 255, this));
+  PRIVATE(this)->constantvalue->setValidator(new QIntValidator(0, numcolors-1, this));
   controlgroup->addSpace(1);
 
   PRIVATE(this)->contupdate = FALSE;
@@ -168,31 +168,27 @@ SoQtCurveWidget::SoQtCurveWidget(QWidget * parent, const char * name)
   buttonlayout->setAlignment(Qt::AlignBottom);
 
   QWidget * curvewidget = new QWidget(this);
-  curvewidget->setFixedSize(QSize(300,300));
+  curvewidget->setFixedSize(QSize(numcolors+40,numcolors+40));
   QGridLayout * curvelayout = new QGridLayout(curvewidget, 2, 2, 0);
 
   PRIVATE(this)->vertgrad = new QLabel(curvewidget);
   PRIVATE(this)->horgrad = new QLabel(curvewidget);
-  PRIVATE(this)->vertgrad->setFixedSize(20, 256);
-  PRIVATE(this)->horgrad->setFixedSize(256, 20); 
+  PRIVATE(this)->vertgrad->setFixedSize(20, numcolors);
+  PRIVATE(this)->horgrad->setFixedSize(numcolors, 20); 
   PRIVATE(this)->vertgrad->setFrameStyle(QFrame::Panel | QFrame::Sunken);
   PRIVATE(this)->horgrad->setFrameStyle(QFrame::Panel | QFrame::Sunken);
 
   curvelayout->addWidget(PRIVATE(this)->vertgrad, 0, 0);
   curvelayout->addWidget(PRIVATE(this)->horgrad, 1, 1);
 
-  QCanvas * canvas = new QCanvas(256,256);
-  PRIVATE(this)->curveview = new CurveView(PRIVATE(this)->mode, canvas, curvewidget);
-  PRIVATE(this)->curveview->setVScrollBarMode(QScrollView::AlwaysOff);
-  PRIVATE(this)->curveview->setHScrollBarMode(QScrollView::AlwaysOff);
-  PRIVATE(this)->curveview->setFixedSize(258,258); // need to make room for the border
-
+  PRIVATE(this)->curveview = 
+    new CurveView(numcolors, PRIVATE(this)->mode, new QCanvas, curvewidget); 
   PRIVATE(this)->curveview->show();
 
   curvelayout->addWidget(PRIVATE(this)->curveview, 0, 1);
 
-  PRIVATE(this)->vertgrad->setPixmap(PRIVATE(this)->curveview->getGradient(20, 256));
-  PRIVATE(this)->horgrad->setPixmap(PRIVATE(this)->curveview->getPixmap(256, 20));
+  PRIVATE(this)->vertgrad->setPixmap(PRIVATE(this)->curveview->getGradient(20, numcolors));
+  PRIVATE(this)->horgrad->setPixmap(PRIVATE(this)->curveview->getPixmap(numcolors, 20));
 
   toplayout->addWidget(controlgroup, 0, 0);
   toplayout->addLayout(buttonlayout, 1, 1);

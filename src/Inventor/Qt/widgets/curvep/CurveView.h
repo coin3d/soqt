@@ -27,6 +27,7 @@
 #include <qcanvas.h>
 #include <qimage.h>
 #include <Inventor/SbBasic.h>
+#include <Inventor/Qt/common/SbGuiList.h>
 #include <Inventor/Qt/widgets/SoQtCurveWidget.h>
 
 class ColorCurve;
@@ -43,7 +44,8 @@ class CurveView : public QCanvasView
     Q_OBJECT // for signals and slots
 
 public:
-  CurveView(SoQtCurveWidget::Mode mode, 
+  CurveView(int numcolors,
+            SoQtCurveWidget::Mode mode, 
             QCanvas * canvas, 
             QWidget * parent = 0, 
             const char * name = 0, 
@@ -100,9 +102,11 @@ private:
   SoQtCurveWidget::Mode colormode;
   
   const int ptsize;
+  float maxval;
+  int size;
 
-  QValueList<QCanvasItemList> canvasctrlpts;
-  QValueList<ColorCurve*> colorcurves;
+  SbGuiList<QCanvasItemList> canvasctrlpts;
+  SbGuiList<ColorCurve*> colorcurves;
     
   QCanvasItemList curvesegments;
   QCanvasItemList grid;

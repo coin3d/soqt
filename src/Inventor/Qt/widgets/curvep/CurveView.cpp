@@ -29,7 +29,8 @@
 #include "ColorCurve.h"
 #include "CurveView.h"
 
-CurveView::CurveView(SoQtCurveWidget::Mode mode,
+CurveView::CurveView(int numcolors,
+                     SoQtCurveWidget::Mode mode,
                      QCanvas * canvas,
                      QWidget * parent,
                      const char * name,
@@ -39,6 +40,13 @@ CurveView::CurveView(SoQtCurveWidget::Mode mode,
 {
   this->colormode = mode;
   this->canvas = canvas;
+  this->canvas->resize(numcolors, numcolors);
+  this->setFixedSize(numcolors+2, numcolors+2);
+  this->setVScrollBarMode(QScrollView::AlwaysOff);
+  this->setHScrollBarMode(QScrollView::AlwaysOff);
+
+  this->size = numcolors;
+  this->maxval = this->size - 1.0f;
 
   this->initColorCurves();
   this->hideUnselected();
@@ -69,7 +77,7 @@ CurveView::initColorCurves()
       type = ColorCurve::CONSTANT;
     }
 
-    this->colorcurves.append(new ColorCurve(type));
+    this->colorcurves.append(new ColorCurve(type, this->size));
     this->canvasctrlpts.append(this->newCanvasCtrlPtList());
   }
   this->colorindex = 0;
@@ -80,9 +88,9 @@ CurveView::initCanvasCurve()
 {
   const uint8_t * curvepts = this->colorcurves[this->colorindex]->getColorMap();
 
-  for (int i = 2; i < this->colorcurves[this->colorindex]->getNumPoints(); i+=2) {
+  for (int i = 2; i < this->colorcurves[this->colorindex]->getNumColors(); i+=2) {
     QCanvasLine * line = new QCanvasLine(this->canvas);
-    line->setPoints(i-2, 255-curvepts[i-2], i, 255-curvepts[i]);
+    line->setPoints(i-2, this->maxval-curvepts[i-2], i, this->maxval-curvepts[i]);
     line->setZ(1); // to make the curve be drawn on top of the grid
     line->show();
     this->curvesegments.append(line);
@@ -91,20 +99,20 @@ CurveView::initCanvasCurve()
 
 void CurveView::initGrid()
 {
-  int step = 256/4;
+  int step = this->size/4;
   QPen pen(Qt::gray);
 
-  for (int i = step; i < 255; i+=step) {
+  for (int i = step; i < this->size; i+=step) {
     QCanvasLine * line = new QCanvasLine(this->canvas);
-    line->setPoints(i, 0, i, 255);
+    line->setPoints(i, 0, i, this->maxval);
     line->setPen(pen);
     line->show();
     this->grid.append(line);
   }
 
-  for (int j = step; j < 255; j+=step) {
+  for (int j = step; j < this->size; j+=step) {
     QCanvasLine * line = new QCanvasLine(this->canvas);
-    line->setPoints(0, j, 255, j);
+    line->setPoints(0, j, this->maxval, j);
     line->setPen(pen);
     line->show();
     this->grid.append(line);
@@ -174,8 +182,8 @@ CurveView::contentsMouseMoveEvent(QMouseEvent* e)
       int x = p.x();
       int y = p.y();
     
-      if (x > 255 - this->ptsize) x = 255 - this->ptsize;
-      if (y > 255 - this->ptsize) y = 255 - this->ptsize;
+      if (x > this->maxval - this->ptsize) x = this->maxval - this->ptsize;
+      if (y > this->maxval - this->ptsize) y = this->maxval - this->ptsize;
       if (x < this->ptsize) x = this->ptsize;
       if (y < this->ptsize) y = this->ptsize;
 
@@ -189,7 +197,7 @@ CurveView::contentsMouseMoveEvent(QMouseEvent* e)
       int lasty = lastpos.y();
       int currentx = p.x();
       int currenty = p.y();
-      if ((lastx >= 0) && (lastx <= 255) && (currentx >= 0) && (currentx <= 255)) {
+      if ((lastx >= 0) && (lastx <= this->maxval) && (currentx >= 0) && (currentx <= this->maxval)) {
 
         if (currentx < lastx) { // swap
           currentx ^= lastx ^= currentx ^= lastx;
@@ -207,9 +215,9 @@ CurveView::contentsMouseMoveEvent(QMouseEvent* e)
           float w0 = (x1 - float(i)) / dx;
           float w1 = (float(i) - x0) / dx;
           int y = int(w0 * y0 + w1 * y1 + 0.5f);
-          if (y > 255) y = 255;
+          if (y > this->maxval) y = this->maxval;
           if (y < 0) y = 0;
-          this->colorcurves[this->colorindex]->setColorMapping(i, 255-y);
+          this->colorcurves[this->colorindex]->setColorMapping(i, this->maxval-y);
         }
         this->lastpos = p;
         this->updateCurve();
@@ -263,7 +271,7 @@ CurveView::hideUnselected()
 void
 CurveView::resetActive() 
 {
-  this->colorcurves[this->colorindex]->resetCtrlPts();
+  this->colorcurves[this->colorindex]->resetCtrlPoints();
   // QCanvasItemList::clear() only removes the items from the list, 
   // but they need to be deleted also.
   QCanvasItemList::Iterator it = this->canvasctrlpts[this->colorindex].begin();
@@ -286,10 +294,10 @@ CurveView::newCanvasCtrlPtList()
 {
   QCanvasItemList list;
   int numpts = this->colorcurves[this->colorindex]->getNumCtrlPoints();
-  const SbVec3f * ctrlpts = this->colorcurves[this->colorindex]->getCtrlPoints();
+  const SbGuiList<SbVec3f> ctrlpts = this->colorcurves[this->colorindex]->getCtrlPoints();
 
   for (int i = 0; i < numpts; i++) {
-    list.append(this->newControlPoint(ctrlpts[i][0], 255.0f - ctrlpts[i][1]));
+    list.append(this->newControlPoint(ctrlpts[i][0] * this->maxval, this->maxval - ctrlpts[i][1] * this->maxval));
   }
   return list;
 }
@@ -324,23 +332,21 @@ CurveView::updateCurve()
       sortedlist.append(smallest);
       list.remove(smallest);
     }
-    
-    int numpts = sortedlist.size();
-    SbVec3f * ctrlpts = new SbVec3f[numpts];
-
+    SbGuiList<SbVec3f> ctrlpts;
     for (it =  sortedlist.begin(); it != sortedlist.end(); it++) {
-        ctrlpts[i++] = SbVec3f((*it)->x() + this->ptsize, 255.0f - (*it)->y() - this->ptsize, 0.0f);
+      float x = ((*it)->x() + float(this->ptsize)) / this->maxval;
+      float y = 1.0f - ((*it)->y() + float(this->ptsize)) / this->maxval;
+        ctrlpts.append(SbVec3f(x, y, 0.0f));
     }
-    this->colorcurves[this->colorindex]->setControlPoints(ctrlpts, numpts);
-    delete [] ctrlpts;
+    this->colorcurves[this->colorindex]->setCtrlPoints(ctrlpts);
   }
 
   i = 2;
-  const uint8_t * curvepts = this->colorcurves[this->colorindex]->getColorMap();
   it = this->curvesegments.begin();
+  const uint8_t * curvepts = this->colorcurves[this->colorindex]->getColorMap();
   for (; it != this->curvesegments.end(); it++) {
     QCanvasLine* line = (QCanvasLine*)(*it);
-    line->setPoints(i-2, 255-curvepts[i-2], i, 255-curvepts[i]);
+    line->setPoints(i-2, this->maxval-curvepts[i-2], i, this->maxval-curvepts[i]);
     i+=2;
   }    
   emit this->curveChanged();
@@ -372,8 +378,8 @@ CurveView::setMode(SoQtCurveWidget::Mode mode)
       delete *it;
     }
   }
-  this->colorcurves.clear();
-  this->canvasctrlpts.clear();
+  this->colorcurves.truncate(0);
+  this->canvasctrlpts.truncate(0);
 
   this->colormode = mode;
   this->initColorCurves();
@@ -410,7 +416,7 @@ CurveView::interpolateFromColors()
 {
   for (int i = 0; i < this->colormode; i++) {
     this->colorcurves[i]->interpolateColorMapping();
-    const SbVec3f * ctrlpts = this->colorcurves[i]->getCtrlPoints();
+    SbGuiList<SbVec3f> ctrlpts = this->colorcurves[i]->getCtrlPoints();
 
     QCanvasItemList::Iterator it = this->canvasctrlpts[i].begin();
     for (; it != this->canvasctrlpts[i].end(); it++) {
@@ -418,7 +424,9 @@ CurveView::interpolateFromColors()
     }
     this->canvasctrlpts[i].clear();
     for (int j = 0; j < this->colorcurves[i]->getNumCtrlPoints(); j++) {
-      this->canvasctrlpts[i].append(this->newControlPoint(ctrlpts[j][0], 255.0f-ctrlpts[j][1]));
+      this->canvasctrlpts[i].append(
+        this->newControlPoint(ctrlpts[j][0] * this->maxval, this->maxval - ctrlpts[j][1] * this->maxval)
+        );
     }
   }
 }
@@ -481,12 +489,12 @@ CurveView::makePixmap(int w, int h, const uint8_t * r, const uint8_t * g, const 
   // use an image since it is optimized for direct pixel access
   QImage img(w, h, 32);
   for (int i = 0; i < w; i++) {
-    int original = (int) ((float(i) / float(w)) * 255.0f);
+    int original = (int) ((float(i) / float(w)) * this->maxval);
+    // we'll split the image in half, making the bottom
+    // half show the default color mapping for comparison
     for (int j = 0; j < h/2; j++) {
       img.setPixel(i, j, qRgb(r[i], g[i], b[i]));
     }
-    // we'll split the image in half, making the bottom
-    // half show the original color mapping for comparison
     for (j = h/2; j < h; j++) {
       img.setPixel(i, j, qRgb(original, original, original));
     }
@@ -501,7 +509,7 @@ CurveView::getGradient(int width, int height) const
 
   for (int i = 0; i < height; i++) {
     for (int j = 0; j < width; j++) {
-      img.setPixel(j, i, qRgb(255-i, 255-i, 255-i));
+      img.setPixel(j, i, qRgb(this->maxval-i, this->maxval-i, this->maxval-i));
     }
   }
   return QPixmap(img);

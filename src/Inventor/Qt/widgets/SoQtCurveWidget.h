@@ -31,7 +31,10 @@
 class SoQtCurveWidget : public QWidget {
 
 public:
-  SoQtCurveWidget(QWidget * parent = 0, const char * name = 0);
+  SoQtCurveWidget(int numcolors = 256, 
+                  QWidget * parent = 0, 
+                  const char * name = 0);
+  
   ~SoQtCurveWidget(void);
 
   enum Mode {

@@ -25,30 +25,29 @@
 \**************************************************************************/
 
 #include <Inventor/SbLinear.h>
+#include <Inventor/Qt/common/SbGuiList.h>
 
 class SbCubicSpline;
 
 class ColorCurve {
 public:
   enum CurveType { LINEAR, CONSTANT };
-
-  ColorCurve(CurveType type = LINEAR);
+  ColorCurve(CurveType type = LINEAR, int numcolors = 256);
   ~ColorCurve();
-  
 
-  void getColors(uint8_t * colors, int num) const;
   void setColors(uint8_t * colors, int num);
+  void getColors(uint8_t * colors, int num) const;
 
-  int getNumPoints(void) const;
+  int getNumColors(void) const;
   int getNumCtrlPoints(void) const;
-  void setControlPoints(const SbVec3f * pts, int num);
-  const SbVec3f * getCtrlPoints(void) const;
-  void resetCtrlPts(void);
 
-  const uint8_t * getColorMap(void) const;
+  void setCtrlPoints(const SbGuiList<SbVec3f> & pts);
+  const SbGuiList<SbVec3f> & getCtrlPoints(void) const;
+  void resetCtrlPoints(void);
+
   void setColorMapping(int x, int y);
+  const uint8_t * getColorMap(void) const;
   void interpolateColorMapping(void);
-  void updateColorMap(void);
 
   typedef void ChangeCB(void * userdata);
   void setChangeCallBack(ColorCurve::ChangeCB * cb, void * userData);
@@ -57,22 +56,22 @@ public:
   void fill(int value);
   
 private:
+  void updateColorMap(void);
   void updateCurvePoints(void);
   int y(float x) const;
   
   CurveType type;
 
-  const int numpts;
-  const int maxctrlpts;
-
-  int numctrlpts;
   int prevx;
+  int numcolors;
+  const int numpts;
   SbBool needinterpol;
   
   SbVec2f curvepts[128];
-  uint8_t colormap[256];
-  SbVec3f * ctrlpts;
+  uint8_t * colormap;
+
   SbCubicSpline * curve;
+  SbGuiList<SbVec3f> ctrlpts;
   ColorCurve::ChangeCB * callBack;
   void * callbackdata;
 };
