@@ -125,7 +125,6 @@ public:
   SoText2 * textGreenValue;
   SoText2 * textBlueValue;
   SoTranslation * colorIndicatorPosition; // Current color indicator 'o'
-  SbVec3f * cubeVertices;              
   int32_t cubeVertexIndices[6*5];
 
   // Constants
@@ -139,7 +138,6 @@ public:
   void initRgbCube(void);
 
   void initCubeFacelist(SoTransformSeparator * root, 
-			SbVec3f * cubeVertices,
 			SoCoordinate3 * colorCubeCoords,
 			int32_t * cubeVertexIndices,
 			SoMaterial * cubeMaterial);
@@ -416,13 +414,13 @@ RGBCubeEditorKitP::updateCubeVertices(SoCoordinate3 * cubeCoords,
 
 void 
 RGBCubeEditorKitP::initCubeFacelist(SoTransformSeparator * root, 
-				SbVec3f * cubeVerts,
 				SoCoordinate3 * cubeCoords,
 				int32_t * cubeVertexIndices,
 				SoMaterial * cubeMaterial)
 {
+  SbVec3f cubeVerts[2*4];
   
-  // Back
+  // BACK
   cubeVerts[0].setValue(0, 0, 0);
   cubeVerts[1].setValue(CUBE_SIZE_X, 0, 0);
   cubeVerts[2].setValue(CUBE_SIZE_X, CUBE_SIZE_Y, 0);
@@ -796,12 +794,9 @@ RGBCubeEditorKitP::initRgbCube(void)
   this->colorIndicatorPosition = new SoTranslation;
 
   this->cubeMaterial = new SoMaterial;
-  // FIXME: memory leak. 20020625 mortene.
-  this->cubeVertices = new SbVec3f[4*2];
   this->colorCubeCoords = new SoCoordinate3;
   this->cubeRoot = new SoTransformSeparator;
   this->initCubeFacelist(this->cubeRoot,
-                         this->cubeVertices,
                          this->colorCubeCoords,
                          this->cubeVertexIndices,
                          this->cubeMaterial);
