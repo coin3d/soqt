@@ -40,50 +40,49 @@ class SOQT_DLL_API SoQtMaterialList : public SoQtComponent
   Q_OBJECT
 
 public:
-                        SoQtMaterialList(QWidget *parent = NULL,
-                                const char *name = NULL,
-                                SbBool buildInsideParent = TRUE,
-                                const char *dir = NULL);
-                        ~SoQtMaterialList();
+  SoQtMaterialList(QWidget *parent = NULL,
+                   const char *name = NULL,
+                   SbBool buildInsideParent = TRUE,
+                   const char *dir = NULL);
+  ~SoQtMaterialList();
 
 #if 0
-        void            addCallback(SoQtMaterialListCB *f,
-                                void *userData = NULL);
-        void            removeCallback(SoQtMaterialListCB *f,
-                                void *userData = NULL);
+  void addCallback(SoQtMaterialListCB *f,
+                   void *userData = NULL);
+  void removeCallback(SoQtMaterialListCB *f,
+                      void *userData = NULL);
 #endif
-    public slots:
-        void            setPalette();
-        void            setPalette(int);
-        void            setPalette(const char *);
-        void            setMaterial(const char *);
-    signals:
-        void            materialSelected(SoMaterial *);
-        void            closed();
+public slots:
+  void setPalette(void);
+  void setPalette(int);
+  void setPalette(const char *);
+  void setMaterial(const char *);
+signals:
+  void materialSelected(SoMaterial *);
+  void closed(void);
 
-    protected:
-                        SoQtMaterialList(QWidget *parent, const char *name,
-                                SbBool buildInsideParent,
-                                const char *dir, SbBool buildNow);
-        virtual const char *    getDefaultWidgetName() const;
-        virtual const char *    getDefaultTitle() const;
-        virtual const char *    getDefaultIconTitle() const;
-        virtual const char *    componentClassName() const;
+protected:
+  SoQtMaterialList(QWidget *parent, const char *name,
+                   SbBool buildInsideParent,
+                   const char *dir, SbBool buildNow);
+  virtual const char * getDefaultWidgetName(void) const;
+  virtual const char * getDefaultTitle(void) const;
+  virtual const char * getDefaultIconTitle(void) const;
+  virtual const char * componentClassName(void) const;
 
-        QWidget*        buildWidget(QWidget *parent);
-        QWidget*        buildPulldownMenu(QWidget *parent);
+  QWidget* buildPulldownMenu(QWidget *parent);
 
-    private:
-        QPopupMenu*     menu;
-        char*           materialDir;
-        char*           curPalettePath;
-        QListBox*       mtlList;
+private:
+  QPopupMenu* menu;
+  char* materialDir;
+  char* curPalettePath;
+  QListBox* mtlList;
 
-        QDir*           mtlPalettes;
-        QDir*           mtlDirectory;
-        SoMaterial*     material;
+  QDir* mtlPalettes;
+  QDir* mtlDirectory;
+  SoMaterial* material;
 
-        void            dir2List(const char *dir);
+  void dir2List(const char *dir);
 };
 
 #endif // ! SOQT_MATERIALLIST_H
