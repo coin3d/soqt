@@ -464,7 +464,7 @@ ac_includes_default="\
 # include <unistd.h>
 #endif"
 
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os target target_cpu target_vendor target_os BUILD_WITH_MSVC SOQT_MAJOR_VERSION SOQT_MINOR_VERSION SOQT_MICRO_VERSION SOQT_BETA_VERSION SOQT_VERSION LT_CURRENT LT_REVISION LT_AGE SOQT_SO_VERSION INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE am__leading_dot MAINTAINER_MODE_TRUE MAINTAINER_MODE_FALSE MAINT CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE CPP CXX CXXFLAGS ac_ct_CXX CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE CXXCPP SOGUI_MSVC_LIBC EGREP LN_S ECHO AR ac_ct_AR RANLIB ac_ct_RANLIB F77 FFLAGS ac_ct_F77 LIBTOOL SOGUI_EXTRA_CPPFLAGS SOGUI_EXTRA_CFLAGS SOGUI_EXTRA_CXXFLAGS SOGUI_EXTRA_LDFLAGS SOGUI_EXTRA_LIBS CONFIG SUFFIX BUILD_LIBRARY_TRUE BUILD_LIBRARY_FALSE htmldir SOGUI_DOC_HTML SOGUI_DOC_MAN sogui_build_dir sogui_src_dir sogui_html_dir sogui_man_dir BUILD_MANPAGES_TRUE BUILD_MANPAGES_FALSE BUILD_HTMLPAGES_TRUE BUILD_HTMLPAGES_FALSE sim_ac_doxygen_exe sim_ac_perl_exe path_tag BUILD_METAFILES_TRUE BUILD_METAFILES_FALSE meta_prefix X_CFLAGS X_PRE_LIBS X_LIBS X_EXTRA_LIBS sim_ac_coin_configcmd QTDIR sim_ac_qt_cygpath MOC HAVE_JOYSTICK_LINUX_TRUE HAVE_JOYSTICK_LINUX_FALSE DSUFFIX COIN_COMPILER ac_compiler_gnu ivframeworkdir frameworkdir ivincludedir soguiincludedir MAC_FRAMEWORK MAC_FRAMEWORK_NAME MAC_FRAMEWORK_PREFIX MAC_FRAMEWORK_VERSION nop MAC_FRAMEWORK_TRUE MAC_FRAMEWORK_FALSE MACOSX_10_2_TRUE MACOSX_10_2_FALSE UNIX2WINPATH Gui gui GUI WIDGET EVENT COMPONENTHEADER soqt_build_dir soqt_w32_build_dir soqt_src_dir soqt_w32_src_dir LIBFLAGS BUILD_WITH_MSVC_TRUE BUILD_WITH_MSVC_FALSE SOQT_DSP_LIBS SOQT_DSP_INCS SOQT_DSP_DEFS LIBOBJS LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os target target_cpu target_vendor target_os BUILD_WITH_MSVC SOQT_MAJOR_VERSION SOQT_MINOR_VERSION SOQT_MICRO_VERSION SOQT_BETA_VERSION SOQT_VERSION LT_CURRENT LT_REVISION LT_AGE SOQT_SO_VERSION INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE am__leading_dot MAINTAINER_MODE_TRUE MAINTAINER_MODE_FALSE MAINT CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE CPP CXX CXXFLAGS ac_ct_CXX CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE CXXCPP SOGUI_MSVC_LIBC EGREP LN_S ECHO AR ac_ct_AR RANLIB ac_ct_RANLIB F77 FFLAGS ac_ct_F77 LIBTOOL SOGUI_EXTRA_CPPFLAGS SOGUI_EXTRA_CFLAGS SOGUI_EXTRA_CXXFLAGS SOGUI_EXTRA_LDFLAGS SOGUI_EXTRA_LIBS CONFIG SUFFIX BUILD_LIBRARY_TRUE BUILD_LIBRARY_FALSE htmldir SOGUI_DOC_HTML SOGUI_DOC_MAN sogui_build_dir sogui_src_dir sogui_html_dir sogui_man_dir BUILD_MANPAGES_TRUE BUILD_MANPAGES_FALSE BUILD_HTMLPAGES_TRUE BUILD_HTMLPAGES_FALSE sim_ac_doxygen_exe sim_ac_perl_exe path_tag BUILD_METAFILES_TRUE BUILD_METAFILES_FALSE meta_prefix X_CFLAGS X_PRE_LIBS X_LIBS X_EXTRA_LIBS sim_ac_coin_configcmd sim_ac_qt_cygpath MOC HAVE_JOYSTICK_LINUX_TRUE HAVE_JOYSTICK_LINUX_FALSE DSUFFIX COIN_COMPILER ac_compiler_gnu ivframeworkdir frameworkdir ivincludedir soguiincludedir MAC_FRAMEWORK MAC_FRAMEWORK_NAME MAC_FRAMEWORK_PREFIX MAC_FRAMEWORK_VERSION nop MAC_FRAMEWORK_TRUE MAC_FRAMEWORK_FALSE MACOSX_10_2_TRUE MACOSX_10_2_FALSE UNIX2WINPATH Gui gui GUI WIDGET EVENT COMPONENTHEADER soqt_build_dir soqt_w32_build_dir soqt_src_dir soqt_w32_src_dir LIBFLAGS BUILD_WITH_MSVC_TRUE BUILD_WITH_MSVC_FALSE SOQT_DSP_LIBS SOQT_DSP_INCS SOQT_DSP_DEFS LIBOBJS LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -1092,7 +1092,9 @@ Optional Packages:
   --with-coin=DIR         give prefix location of Coin
   --with-iv-extensions=extensions
                           enable extra open inventor extensions
-  --with-qt=DIR           specify location of Qt library default=yes
+  --with-qt=true|false|DIR
+                          specify if Qt should be used, and optionally the
+                          location of the Qt library default=true
   --with-framework  Do Mac OS X-like framework installation
   --without-framework  Do regular installation on Mac OS X
   --with-framework-prefix=<path>  (default: "/Library/Frameworks")
@@ -4863,7 +4865,7 @@ ia64-*-hpux*)
   ;;
 *-*-irix6*)
   # Find out which ABI we are using.
-  echo '#line 4866 "configure"' > conftest.$ac_ext
+  echo '#line 4868 "configure"' > conftest.$ac_ext
   if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
@@ -5474,7 +5476,7 @@ fi
 
 
 # Provide some information about the compiler.
-echo "$as_me:5477:" \
+echo "$as_me:5479:" \
      "checking for Fortran 77 compiler version" >&5
 ac_compiler=`set X $ac_compile; echo $2`
 { (eval echo "$as_me:$LINENO: \"$ac_compiler --version </dev/null >&5\"") >&5
@@ -6485,11 +6487,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:6488: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:6490: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:6492: \$? = $ac_status" >&5
+   echo "$as_me:6494: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings
@@ -6717,11 +6719,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:6720: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:6722: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:6724: \$? = $ac_status" >&5
+   echo "$as_me:6726: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings
@@ -6784,11 +6786,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:6787: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:6789: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:6791: \$? = $ac_status" >&5
+   echo "$as_me:6793: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -8796,7 +8798,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 8799 "configure"
+#line 8801 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -8894,7 +8896,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 8897 "configure"
+#line 8899 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -11028,11 +11030,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:11031: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:11033: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:11035: \$? = $ac_status" >&5
+   echo "$as_me:11037: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings
@@ -11095,11 +11097,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:11098: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:11100: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:11102: \$? = $ac_status" >&5
+   echo "$as_me:11104: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -12338,7 +12340,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 12341 "configure"
+#line 12343 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -12436,7 +12438,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 12439 "configure"
+#line 12441 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -13258,11 +13260,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:13261: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:13263: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:13265: \$? = $ac_status" >&5
+   echo "$as_me:13267: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings
@@ -13325,11 +13327,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:13328: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:13330: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:13332: \$? = $ac_status" >&5
+   echo "$as_me:13334: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -15265,11 +15267,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:15268: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:15270: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:15272: \$? = $ac_status" >&5
+   echo "$as_me:15274: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings
@@ -15497,11 +15499,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:15500: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:15502: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:15504: \$? = $ac_status" >&5
+   echo "$as_me:15506: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings
@@ -15564,11 +15566,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:15567: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:15569: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:15571: \$? = $ac_status" >&5
+   echo "$as_me:15573: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -17576,7 +17578,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 17579 "configure"
+#line 17581 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -17674,7 +17676,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 17677 "configure"
+#line 17679 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -24425,43 +24427,28 @@ fi
   fi
 fi
 
-if $sim_ac_build_library; then
 
-
+sim_ac_qtdir=
 
 # Check whether --with-qt or --without-qt was given.
 if test "${with_qt+set}" = set; then
   withval="$with_qt"
-
-else
-  with_qt=yes
-fi;
-
-# Check whether --enable-qt-debug or --disable-qt-debug was given.
-if test "${enable_qt_debug+set}" = set; then
-  enableval="$enable_qt_debug"
-  case $enableval in
-  yes | true ) sim_ac_qt_debug=true ;;
-  *) sim_ac_qt_debug=false ;;
+  case $withval in
+  no | false ) sim_ac_with_qt=false ;;
+  yes | true ) sim_ac_with_qt=true ;;
+  *)
+    sim_ac_with_qt=true
+    sim_ac_qtdir=$withval
+    ;;
   esac
 else
-  sim_ac_qt_debug=false
+  sim_ac_with_qt=true
 fi;
 
-sim_ac_qt_avail=no
-
-if test x"$with_qt" != xno; then
-  sim_ac_path=$PATH
-
-  # Remember over config.status re-runs of configure.
-  # FIXME: this doesn't work unless QTDIR is part of the configure
-  # argument line. We should be able to grab it from the
-  # environment settings. 20011018 mortene.
-  QTDIR=$QTDIR
-
-
-  # The Cygwin environment needs to invoke moc with a POSIX-style path.
-  # Extract the first word of "cygpath", so it can be a program name with args.
+if $sim_ac_with_qt; then
+  if test -z "$sim_ac_qtdir"; then
+    # The Cygwin environment needs to invoke moc with a POSIX-style path.
+    # Extract the first word of "cygpath", so it can be a program name with args.
 set dummy cygpath; ac_word=$2
 echo "$as_me:$LINENO: checking for $ac_word" >&5
 echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
@@ -24501,49 +24488,42 @@ else
 echo "${ECHO_T}no" >&6
 fi
 
-  if test $sim_ac_qt_cygpath = "false"; then
-    sim_ac_qt_dir=$QTDIR
-  else
-    # Quote $QTDIR in case it's empty.
-    sim_ac_qt_dir=`$sim_ac_qt_cygpath -u "$QTDIR"`
-  fi
+    if test $sim_ac_qt_cygpath = "false"; then
+      sim_ac_qtdir=$QTDIR
+    else
+      # Quote $QTDIR in case it's empty.
+      sim_ac_qtdir=`$sim_ac_qt_cygpath -u "$QTDIR"`
+    fi
 
-  if test x"$with_qt" != xyes; then
-    sim_ac_qt_incflags="-I${with_qt}/include"
-    sim_ac_qt_ldflags="-L${with_qt}/lib"
-    sim_ac_path=${with_qt}/bin:$PATH
-  else
     echo "$as_me:$LINENO: checking value of the QTDIR environment variable" >&5
 echo $ECHO_N "checking value of the QTDIR environment variable... $ECHO_C" >&6
-    if test x"$sim_ac_qt_dir" = x""; then
+    if test x"$sim_ac_qtdir" = x""; then
       echo "$as_me:$LINENO: result: empty" >&5
 echo "${ECHO_T}empty" >&6
       { echo "$as_me:$LINENO: WARNING: QTDIR environment variable not set -- this might be an indication of a problem" >&5
 echo "$as_me: WARNING: QTDIR environment variable not set -- this might be an indication of a problem" >&2;}
     else
-      echo "$as_me:$LINENO: result: $sim_ac_qt_dir" >&5
-echo "${ECHO_T}$sim_ac_qt_dir" >&6
+      echo "$as_me:$LINENO: result: $sim_ac_qtdir" >&5
+echo "${ECHO_T}$sim_ac_qtdir" >&6
 
-      # list contents of what's in the qt dev environment into config.log...
+      # list contents of what's in the qt dev environment into config.log
       for i in "" bin lib; do
-        echo "Listing contents of $sim_ac_qt_dir/$i:" >&5
-        ls -l $sim_ac_qt_dir/$i >&5 2>&1
+        echo "Listing contents of $sim_ac_qtdir/$i:" >&5
+        ls -l $sim_ac_qtdir/$i >&5 2>&1
       done
-
-      sim_ac_qt_incflags="-I$sim_ac_qt_dir/include"
-      sim_ac_qt_ldflags="-L$sim_ac_qt_dir/lib"
-      sim_ac_path=$sim_ac_qt_dir/bin:$PATH
     fi
   fi
+fi
 
-  sim_ac_save_cppflags=$CPPFLAGS
-  sim_ac_save_ldflags=$LDFLAGS
-  sim_ac_save_libs=$LIBS
 
-  CPPFLAGS="$sim_ac_qt_incflags $CPPFLAGS"
-  LDFLAGS="$LDFLAGS $sim_ac_qt_ldflags"
 
-  sim_ac_qt_libs=UNRESOLVED
+
+if $sim_ac_with_qt; then
+
+  sim_ac_path=$PATH
+  if test -n "$sim_ac_qtdir"; then
+    sim_ac_path=$sim_ac_qtdir/bin:$PATH
+  fi
 
   # Extract the first word of "moc", so it can be a program name with args.
 set dummy moc; ac_word=$2
@@ -24585,11 +24565,78 @@ else
 echo "${ECHO_T}no" >&6
 fi
 
-
   if test x"$MOC" = x"false"; then
     { echo "$as_me:$LINENO: WARNING: the \`\`moc'' Qt pre-processor tool not found" >&5
 echo "$as_me: WARNING: the \`\`moc'' Qt pre-processor tool not found" >&2;}
+  fi
+else
+  MOC=false
+
+fi
+
+if test x"$MOC" = x"false"; then
+
+echo >&2 ""
+
+
+: ${sim_ac_message_file=$ac_aux_dir/errors.txt}
+if test -f $sim_ac_message_file; then
+  sim_ac_message="`sed -n -e '/^!no-moc$/,/^!/ { /^!/ d; p; }' <$sim_ac_message_file`"
+  if test x"$sim_ac_message" = x""; then
+    { { echo "$as_me:$LINENO: error: no message named 'no-moc' in '$sim_ac_message_file' - notify the $PACKAGE_NAME maintainer(s)" >&5
+echo "$as_me: error: no message named 'no-moc' in '$sim_ac_message_file' - notify the $PACKAGE_NAME maintainer(s)" >&2;}
+   { (exit 1); exit 1; }; }
   else
+    eval "echo >&2 \"$sim_ac_message\""
+  fi
+else
+  { { echo "$as_me:$LINENO: error: file '$sim_ac_message_file' not found - notify the $PACKAGE_NAME maintainer(s)" >&5
+echo "$as_me: error: file '$sim_ac_message_file' not found - notify the $PACKAGE_NAME maintainer(s)" >&2;}
+   { (exit 1); exit 1; }; }
+fi
+
+
+
+echo >&2 ""
+{ { echo "$as_me:$LINENO: error: aborting" >&5
+echo "$as_me: error: aborting" >&2;}
+   { (exit 1); exit 1; }; }
+
+fi
+
+if $sim_ac_build_library; then
+
+
+
+
+# Check whether --enable-qt-debug or --disable-qt-debug was given.
+if test "${enable_qt_debug+set}" = set; then
+  enableval="$enable_qt_debug"
+  case $enableval in
+  yes | true ) sim_ac_qt_debug=true ;;
+  *) sim_ac_qt_debug=false ;;
+  esac
+else
+  sim_ac_qt_debug=false
+fi;
+
+sim_ac_qt_avail=no
+
+if $sim_ac_with_qt; then
+
+  sim_ac_save_cppflags=$CPPFLAGS
+  sim_ac_save_ldflags=$LDFLAGS
+  sim_ac_save_libs=$LIBS
+
+  if test -n "$sim_ac_qtdir"; then
+    sim_ac_qt_incflags="-I$sim_ac_qtdir/include"
+    sim_ac_qt_ldflags="-L$sim_ac_qtdir/lib"
+  fi
+
+  CPPFLAGS="$sim_ac_qt_incflags $CPPFLAGS"
+  LDFLAGS="$LDFLAGS $sim_ac_qt_ldflags"
+
+  sim_ac_qt_libs=UNRESOLVED
 
   sim_ac_qglobal=false
 
@@ -24631,7 +24678,7 @@ if test $ac_cv_header_qglobal_h = yes; then
   sim_ac_qglobal=true
 else
   # Debian Linux and Darwin fink have the Qt-dev installation headers in
-    #a separate subdir.
+    # a separate subdir.
     sim_ac_debian_qtheaders=/usr/include/qt
      if test -d $sim_ac_debian_qtheaders; then
        sim_ac_qt_incflags="-I$sim_ac_debian_qtheaders $sim_ac_qt_incflags"
@@ -24732,33 +24779,33 @@ fi
 
   if $sim_ac_qglobal; then
 
-  # Find version of the Qt library (MSWindows .dll is named with the
-  # version number.)
-  echo "$as_me:$LINENO: checking version of Qt library" >&5
+    # Find version of the Qt library (MSWindows .dll is named with the
+    # version number.)
+    echo "$as_me:$LINENO: checking version of Qt library" >&5
 echo $ECHO_N "checking version of Qt library... $ECHO_C" >&6
-  cat > conftest.c << EOF
+    cat > conftest.c << EOF
 #include <qglobal.h>
 int VerQt = QT_VERSION;
 EOF
-  # The " *"-parts of the last sed-expression on the next line are necessary
-  # because at least the Solaris/CC preprocessor adds extra spaces before and
-  # after the trailing semicolon.
-  sim_ac_qt_version=`$CXXCPP $CPPFLAGS conftest.c 2>/dev/null | grep '^int VerQt' | sed 's%^int VerQt = %%' | sed 's% *; *$%%'`
+    # The " *"-parts of the last sed-expression on the next line are necessary
+    # because at least the Solaris/CC preprocessor adds extra spaces before and
+    # after the trailing semicolon.
+    sim_ac_qt_version=`$CXXCPP $CPPFLAGS conftest.c 2>/dev/null | grep '^int VerQt' | sed 's%^int VerQt = %%' | sed 's% *; *$%%'`
 
-  case $sim_ac_qt_version in
-  0x* )
-    sim_ac_qt_version=`echo $sim_ac_qt_version | sed -e 's/^0x.\(.\).\(.\).\(.\)/\1\2\3/;'`
-    ;;
-  * )
-    # nada
-    ;;
-  esac
+    case $sim_ac_qt_version in
+    0x* )
+      sim_ac_qt_version=`echo $sim_ac_qt_version | sed -e 's/^0x.\(.\).\(.\).\(.\)/\1\2\3/;'`
+      ;;
+    * )
+      # nada
+      ;;
+    esac
 
-  rm -f conftest.c
-  echo "$as_me:$LINENO: result: $sim_ac_qt_version" >&5
+    rm -f conftest.c
+    echo "$as_me:$LINENO: result: $sim_ac_qt_version" >&5
 echo "${ECHO_T}$sim_ac_qt_version" >&6
 
-  if test $sim_ac_qt_version -lt 200; then
+    if test $sim_ac_qt_version -lt 200; then
 
 echo >&2 ""
 
@@ -24786,14 +24833,14 @@ echo >&2 ""
 echo "$as_me: error: aborting" >&2;}
    { (exit 1); exit 1; }; }
 
-  fi
+    fi
 
-  # Too hard to feature-check for the Qt-on-Mac problems, as they involve
-  # obscure behavior of the QGLWidget -- so we just resort to do platform
-  # and version checking instead.
-  case $host_os in
-  darwin*)
-    if test $sim_ac_qt_version -lt 302; then
+    # Too hard to feature-check for the Qt-on-Mac problems, as they involve
+    # obscure behavior of the QGLWidget -- so we just resort to do platform
+    # and version checking instead.
+    case $host_os in
+    darwin*)
+      if test $sim_ac_qt_version -lt 302; then
 
 if test x"${sim_ac_configuration_warnings+set}" = x"set"; then
   sim_ac_configuration_warnings="$sim_ac_configuration_warnings|The version of Qt you are using is
@@ -24805,11 +24852,11 @@ known to contain some serious bugs on MacOS X. We strongly recommend you to
 upgrade. (See $srcdir/README.MAC for details.)"
 fi
 
-    fi
+      fi
 
-    if test x"$sim_ac_want_x11" = xno; then
-    # Qt/X11 needs X11, which you need to enable by --enable-x11
-    cat >conftest.$ac_ext <<_ACEOF
+      if test x"$sim_ac_want_x11" = xno; then
+      # Qt/X11 needs X11, which you need to enable by --enable-x11
+      cat >conftest.$ac_ext <<_ACEOF
 #line $LINENO "configure"
 /* confdefs.h.  */
 _ACEOF
@@ -24821,8 +24868,8 @@ int
 main ()
 {
 #if defined(__APPLE__) && defined(Q_WS_X11)
-                 #error blah!
-                 #endif
+                   #error blah!
+                   #endif
   ;
   return 0;
 }
@@ -24873,17 +24920,17 @@ echo "$as_me: error: aborting" >&2;}
 
 fi
 rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
-    fi
-    ;;
-  esac
+      fi
+      ;;
+    esac
 
-  # Known problems:
-  #
-  #   * Qt v3.0.1 has a bug where SHIFT-PRESS + CTRL-PRESS + CTRL-RELEASE
-  #     results in the last key-event coming out completely wrong under X11.
-  #     Known to be fixed in 3.0.3, unknown status in 3.0.2.  <mortene@sim.no>.
-  #
-  if test $sim_ac_qt_version -lt 303; then
+    # Known problems:
+    #
+    #   * Qt v3.0.1 has a bug where SHIFT-PRESS + CTRL-PRESS + CTRL-RELEASE
+    #     results in the last key-event coming out completely wrong under X11.
+    #     Known to be fixed in 3.0.3, unknown status in 3.0.2.  <mortene@sim.no>.
+    #
+    if test $sim_ac_qt_version -lt 303; then
 
 if test x"${sim_ac_configuration_warnings+set}" = x"set"; then
   sim_ac_configuration_warnings="$sim_ac_configuration_warnings|The version of Qt you are compiling against
@@ -24895,10 +24942,10 @@ is known to contain bugs which influences functionality in SoQt. We strongly
 recommend you to upgrade."
 fi
 
-  fi
+    fi
 
-  sim_ac_qt_cppflags=
-  if test x"$MOC" != xfalse; then
+    sim_ac_qt_cppflags=
+
     # Do not cache the result, as we might need to play tricks with
     # CPPFLAGS under MSWin.
 
@@ -25080,15 +25127,13 @@ rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
       echo "$as_me:$LINENO: result: $sim_ac_qt_cppflags $sim_ac_qt_libs" >&5
 echo "${ECHO_T}$sim_ac_qt_cppflags $sim_ac_qt_libs" >&6
     fi
-  fi
 
   else # sim_ac_qglobal = false
     { echo "$as_me:$LINENO: WARNING: header file qglobal.h not found, can not compile Qt code" >&5
 echo "$as_me: WARNING: header file qglobal.h not found, can not compile Qt code" >&2;}
   fi
-  fi # MOC = false
 
-  sim_ac_qt_install=`cd $sim_ac_qt_dir; pwd`/bin/install
+  sim_ac_qt_install=`cd $sim_ac_qtdir; pwd`/bin/install
 
   echo "$as_me:$LINENO: checking install sanity" >&5
 echo $ECHO_N "checking install sanity... $ECHO_C" >&6
@@ -25177,12 +25222,15 @@ fi
 
 
 
+
+
+
 sim_ac_qgl_avail=no
 sim_ac_qgl_cppflags=
 sim_ac_qgl_ldflags=
 sim_ac_qgl_libs=
 
-if test x"$with_qt" != xno; then
+if $sim_ac_with_qt; then
   # first check if we can link with the QGL widget already
   echo "$as_me:$LINENO: checking whether the QGL widget is part of main Qt library" >&5
 echo $ECHO_N "checking whether the QGL widget is part of main Qt library... $ECHO_C" >&6
@@ -25330,9 +25378,6 @@ echo "$as_me: error: aborting" >&2;}
     fi
   fi
 fi
-
-else # $sim_ac_build_library == false (we still need the 'moc' utility)
-  MOC=moc
 
 fi
 
@@ -26898,6 +26943,9 @@ export MAC_FRAMEWORK_NAME MAC_FRAMEWORK_PREFIX MAC_FRAMEWORK_VERSION
 
 # Qt's moc wants Windows-style paths, so if the inputfile is an
 # absolute Cygwin-style path it needs conversion.
+#
+# FIXME: code duplicated in SoGuiExamples's configure, should share code.
+# 20031017 mortene.
 # Extract the first word of "cygpath", so it can be a program name with args.
 set dummy cygpath; ac_word=$2
 echo "$as_me:$LINENO: checking for $ac_word" >&5
@@ -28300,7 +28348,6 @@ s,@X_PRE_LIBS@,$X_PRE_LIBS,;t t
 s,@X_LIBS@,$X_LIBS,;t t
 s,@X_EXTRA_LIBS@,$X_EXTRA_LIBS,;t t
 s,@sim_ac_coin_configcmd@,$sim_ac_coin_configcmd,;t t
-s,@QTDIR@,$QTDIR,;t t
 s,@sim_ac_qt_cygpath@,$sim_ac_qt_cygpath,;t t
 s,@MOC@,$MOC,;t t
 s,@HAVE_JOYSTICK_LINUX_TRUE@,$HAVE_JOYSTICK_LINUX_TRUE,;t t
