@@ -1,7 +1,7 @@
 /****************************************************************************
 ** SoQtSuperViewerP meta object code from reading C++ file 'SoQtSuperViewerP.h'
 **
-** Created: Thu May 30 10:28:47 2002
+** Created: Thu May 30 12:51:09 2002
 **      by: The Qt MOC ($Id$)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -97,8 +97,9 @@ QMetaObject* SoQtSuperViewerP::staticMetaObject()
     typedef void(SoQtSuperViewerP::*m1_t39)();
     typedef void(SoQtSuperViewerP::*m1_t40)(int);
     typedef void(SoQtSuperViewerP::*m1_t41)(int);
-    typedef void(SoQtSuperViewerP::*m1_t42)(int);
+    typedef void(SoQtSuperViewerP::*m1_t42)();
     typedef void(SoQtSuperViewerP::*m1_t43)(int);
+    typedef void(SoQtSuperViewerP::*m1_t44)(int);
     m1_t0 v1_0 = Q_AMPERSAND SoQtSuperViewerP::openModelSelected;
     m1_t1 v1_1 = Q_AMPERSAND SoQtSuperViewerP::closeModelSelected;
     m1_t2 v1_2 = Q_AMPERSAND SoQtSuperViewerP::closeAllSelected;
@@ -141,10 +142,11 @@ QMetaObject* SoQtSuperViewerP::staticMetaObject()
     m1_t39 v1_39 = Q_AMPERSAND SoQtSuperViewerP::flySelected;
     m1_t40 v1_40 = Q_AMPERSAND SoQtSuperViewerP::flymodeSelected;
     m1_t41 v1_41 = Q_AMPERSAND SoQtSuperViewerP::lightSelected;
-    m1_t42 v1_42 = Q_AMPERSAND SoQtSuperViewerP::setNumD10render;
-    m1_t43 v1_43 = Q_AMPERSAND SoQtSuperViewerP::setNumD10texture;
-    QMetaData *slot_tbl = QMetaObject::new_metadata(44);
-    QMetaData::Access *slot_tbl_access = QMetaObject::new_metaaccess(44);
+    m1_t42 v1_42 = Q_AMPERSAND SoQtSuperViewerP::aboutSelected;
+    m1_t43 v1_43 = Q_AMPERSAND SoQtSuperViewerP::setNumD10render;
+    m1_t44 v1_44 = Q_AMPERSAND SoQtSuperViewerP::setNumD10texture;
+    QMetaData *slot_tbl = QMetaObject::new_metadata(45);
+    QMetaData::Access *slot_tbl_access = QMetaObject::new_metaaccess(45);
     slot_tbl[0].name = "openModelSelected()";
     slot_tbl[0].ptr = *((QMember*)&v1_0);
     slot_tbl_access[0] = QMetaData::Public;
@@ -271,15 +273,18 @@ QMetaObject* SoQtSuperViewerP::staticMetaObject()
     slot_tbl[41].name = "lightSelected(int)";
     slot_tbl[41].ptr = *((QMember*)&v1_41);
     slot_tbl_access[41] = QMetaData::Public;
-    slot_tbl[42].name = "setNumD10render(int)";
+    slot_tbl[42].name = "aboutSelected()";
     slot_tbl[42].ptr = *((QMember*)&v1_42);
     slot_tbl_access[42] = QMetaData::Public;
-    slot_tbl[43].name = "setNumD10texture(int)";
+    slot_tbl[43].name = "setNumD10render(int)";
     slot_tbl[43].ptr = *((QMember*)&v1_43);
     slot_tbl_access[43] = QMetaData::Public;
+    slot_tbl[44].name = "setNumD10texture(int)";
+    slot_tbl[44].ptr = *((QMember*)&v1_44);
+    slot_tbl_access[44] = QMetaData::Public;
     metaObj = QMetaObject::new_metaobject(
 	"SoQtSuperViewerP", "QObject",
-	slot_tbl, 44,
+	slot_tbl, 45,
 	0, 0,
 #ifndef QT_NO_PROPERTIES
 	0, 0,

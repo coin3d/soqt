@@ -42,8 +42,9 @@ class SoQtSuperViewer : public SoQtViewer {
     SETTINGS_MENU    = 0x04,
     CAMERA_MENU      = 0x08,
     LIGHTS_MENU      = 0x10,
+    HELP_MENU        = 0x20,
     BUILD_ALL_MENUS = (FILE_MENU | VIEW_MENU | SETTINGS_MENU | 
-                        CAMERA_MENU | LIGHTS_MENU)
+                        CAMERA_MENU | LIGHTS_MENU | HELP_MENU)
   };
 
   enum FileMenu {

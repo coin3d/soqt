@@ -1,17 +1,16 @@
 SoQtSuperViewer, experimental
-2002-05-24 larsivi
+2002-05-30 larsivi
 
 The files in this directory together makes the SoQtSuperViewer,
 a reimplementation of the VRML-viewer using Coin. The viewer
 is not completed, but most of the functionality should be there.
 The viewer will be completed ASAP (not necessarily tomorrow).
 
-This viewer is currently only a Qt project and has only been
-tested on Windows (as far as larsivi knows).
+This viewer is currently only a Qt project.
 
 SuperViewer.cpp is included so it is possible to get an application
-up and running. It works quite nice on its own. It has not been
-tested for embedding yet.
+up and running. It works quite nice on its own. Embedding of the
+viewer has only went through minimal testing yet.
 
 The SuperViewer can be built using soqt-config
 

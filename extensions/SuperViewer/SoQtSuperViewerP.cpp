@@ -60,6 +60,7 @@
 #include <qcolor.h>
 #include <qlabel.h>
 #include <qslider.h>
+#include <qmessagebox.h>
 
 
   //static stash
@@ -248,7 +249,7 @@ SoQtSuperViewerP::actualInit(SbBool buildNow)
   if(!this->defaultoverride){
     
     this->bars = new menuItem[2];
-    this->menus = new menuItem[5];
+    this->menus = new menuItem[6];
     this->filemenuItems = new menuItem[11];
     this->viewmenuItems = new menuItem[14];
     this->settingsmenuItems = new menuItem[9];
@@ -262,6 +263,7 @@ SoQtSuperViewerP::actualInit(SbBool buildNow)
     this->menus[2].text = "Settings"; 
     this->menus[3].text = "Camera"; 
     this->menus[4].text = "Lights";
+    this->menus[5].text = "Help";
     
     this->filemenuItems[0].text = "Open model";
     this->filemenuItems[1].text = "Close model";
@@ -323,10 +325,10 @@ SoQtSuperViewerP::actualInit(SbBool buildNow)
  
     i = 0;
     //setup menus (5 elements)
-    for(;i < 5; i++){
+    for(;i < 6; i++){
       this->menus[i].index = i;
       this->menus[i].build = TRUE;
-      this->menus[i].enabled = i == 0 ? TRUE : FALSE;
+      this->menus[i].enabled = (i == 0 || i == 5) ? TRUE : FALSE;
       this->menus[i].checked = FALSE;
     }
 
@@ -421,10 +423,15 @@ SoQtSuperViewerP::buildMenus(SbBool build, SbBool enable)
     if(this->menus[4].build){
       this->buildLightsMenu(TRUE, TRUE, TRUE); 
       this->menus[4].index = idx;
+      idx++;
+    }
+    if(this->menus[5].build){
+      this->buildHelpMenu(TRUE, TRUE, TRUE); 
+      this->menus[5].index = idx;
     }
   }
   if(enable){
-    for(int i = 0; i < 5; i++){
+    for(int i = 0; i < 6; i++){
       if(this->menus[i].build)
         this->menubar->setItemEnabled(this->menubar->idAt(
                                       this->menus[i].index),
@@ -953,6 +960,23 @@ SoQtSuperViewerP::buildLightsMenu(SbBool /* build */,
   }
   else
     this->lightsmenu->clear();
+ 
+}
+
+void
+SoQtSuperViewerP::buildHelpMenu(SbBool build, 
+                                  SbBool enable,
+                                  SbBool check)
+{
+  if(this->helpmenu == NULL){
+    this->helpmenu = new QPopupMenu(this->menubar);
+    this->menubar->insertItem(this->menus[5].text.getString(), 
+                              this->helpmenu);
+    this->helpmenu->insertItem("About...", this,
+                               SLOT(aboutSelected()));
+  }
+  else
+    this->helpmenu->clear();
  
 }
 
@@ -2261,6 +2285,9 @@ SoQtSuperViewerP::moveCamera(const SbVec3f &vec, const SbBool dorotate)
 #define SV SoQtSuperViewer
 // *************************************************************************
 
+
+
+
 /*!
   \internal slot
 
@@ -3097,6 +3124,30 @@ SoQtSuperViewerP::cameraSelected(int id)
 } // cameraSelected()
 
 // *************************************************************************
+
+#undef SV
+
+void
+SoQtSuperViewerP::aboutSelected()
+{
+
+  QString text;
+  text+="<qt><p>";
+  text+="This viewer is built on top of Coin, trying to achieve everything<br>";
+  text+="VRMLview does and more.<p>";
+  text+="This betaversion should include most of the funtionality present in<br>";
+  text+="todays VRMLview.<p>";
+  text+="Please report any problems you might encounter.<br>";
+  text+="If you have ideas for new functionality, contact me at <a href=mailto:larsivi@sim.no>larsivi@sim.no</A>.<p>";
+  text+="Copyright (C) 2001-2002 by Systems in Motion (<a href=\"http://www.sim.no\">http://www.sim.no</a>)";
+  text+="</p><p>";
+  text+="All Rights Reserved.";
+  text+="</p><hr/>";
+
+  QMessageBox::about(NULL, QString("SuperViewer beta"), text);
+
+
+}
 
 /*!
   \internal slot

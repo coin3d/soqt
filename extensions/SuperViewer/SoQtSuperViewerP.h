@@ -62,7 +62,7 @@ class SoQtSuperViewerP : QObject{
   QWidget * viewerwidget, * canvas;
   QMenuBar * menubar;
   QPopupMenu * filemenu, * viewmenu, * cameramenu, * settingsmenu;
-  QPopupMenu * lightsmenu, * modelsubmenu;
+  QPopupMenu * lightsmenu, * helpmenu, * modelsubmenu;
   QPopupMenu * informationsubmenu, * linewidthsubmenu, * pointsizesubmenu;
   QPopupMenu * renderqualitysubmenu, * texturequalitysubmenu, * transparencysubmenu;
   QPopupMenu * rendervaluesubmenu, * viewmodesubmenu, * flymodesubmenu;
@@ -226,6 +226,7 @@ class SoQtSuperViewerP : QObject{
   void buildSettingsMenu(SbBool build, SbBool enable, SbBool check);
   void buildCameraMenu(SbBool build, SbBool enable, SbBool check);
   void buildLightsMenu(SbBool build, SbBool enable, SbBool check);
+  void buildHelpMenu(SbBool build, SbBool enable, SbBool check);
   void addModelEntry(SbString * const filename);
 
   void setupNodes();
@@ -346,6 +347,9 @@ class SoQtSuperViewerP : QObject{
 
   // lightsmenu
   void lightSelected( int );
+
+  //helpmenu
+  void aboutSelected();
 
   // intermediate slots
   void setNumD10render( int );

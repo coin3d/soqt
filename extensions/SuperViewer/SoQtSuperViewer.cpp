@@ -104,6 +104,7 @@ SoQtSuperViewer::SoQtSuperViewer(
   PRIVATE(this)->settingsmenu = NULL;
   PRIVATE(this)->cameramenu = NULL;
   PRIVATE(this)->lightsmenu = NULL;
+  PRIVATE(this)->helpmenu = NULL;
   PRIVATE(this)->modelsubmenu = NULL;
   PRIVATE(this)->informationsubmenu = NULL;
   PRIVATE(this)->linewidthsubmenu = NULL;
