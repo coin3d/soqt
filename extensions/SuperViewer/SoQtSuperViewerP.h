@@ -119,12 +119,12 @@ class SoQtSuperViewerP : QObject{
     int index;
   };
 
-  menuItem menus[6];
-  menuItem bars[2];
-  menuItem filemenuItems[11];
-  menuItem viewmenuItems[11];
-  menuItem settingsmenuItems[9];
-  menuItem cameramenuItems[7];
+  menuItem * menus;
+  menuItem * bars;
+  menuItem * filemenuItems;
+  menuItem * viewmenuItems;
+  menuItem * settingsmenuItems;
+  menuItem * cameramenuItems;
 
   SbBool sepfm, sepvm, sepcm;
 

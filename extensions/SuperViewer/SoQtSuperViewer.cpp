@@ -64,8 +64,6 @@
 #include <qmenubar.h>
 #include <qpopupmenu.h>
 #include <qstringlist.h>
-#include <qslider.h>
-#include <qlabel.h>
 #include "moc_SoQtSuperViewerP.icc"
 
 SOQT_OBJECT_SOURCE(SoQtSuperViewer);
@@ -251,8 +249,6 @@ SoQtSuperViewer::SoQtSuperViewer(
   if (! build) return;
 
   this->setClassName("SoQtSuperViewer");
-  QWidget * viewer = this->buildWidget(this->getParentWidget());
-  this->setBaseWidget(viewer);
 } // SoQtSuperViewer()
 
 // *************************************************************************
@@ -281,7 +277,20 @@ SoQtSuperViewer::~SoQtSuperViewer(
 void
 SoQtSuperViewer::init()
 {
+  PRIVATE(this)->viewerwidget = new QWidget(this->getParentWidget());
+  this->registerWidget(PRIVATE(this)->viewerwidget);
+
+  PRIVATE(this)->viewerwidget->move(0, 0);
+
+  // Build and layout the widget components of the viewer window on
+  // top of the manager widget.
+  PRIVATE(this)->canvas = inherited::buildWidget(PRIVATE(this)->viewerwidget);
+
   PRIVATE(this)->actualInit(TRUE);
+
+  PRIVATE(this)->canvas->move(0, 0);
+  PRIVATE(this)->canvas->resize(PRIVATE(this)->viewerwidget->size());
+  this->setBaseWidget(PRIVATE(this)->viewerwidget);
 } // init()
 
 // *************************************************************************
@@ -395,8 +404,14 @@ SoQtSuperViewer::setViewMenuItems(int buildFlag)
     buildFlag & SoQtSuperViewer::SEPARATOR_VIEW_2 ? TRUE : FALSE;
   PRIVATE(this)->viewmenuItems[10].build = 
     buildFlag & SoQtSuperViewer::WHILE_MOVING ? TRUE : FALSE;
+  PRIVATE(this)->viewmenuItems[11].build = 
+    buildFlag & SoQtSuperViewer::WHILE_MOVING ? TRUE : FALSE;
+  PRIVATE(this)->viewmenuItems[12].build = 
+    buildFlag & SoQtSuperViewer::WHILE_MOVING ? TRUE : FALSE;
+  PRIVATE(this)->viewmenuItems[13].build = 
+    buildFlag & SoQtSuperViewer::WHILE_MOVING ? TRUE : FALSE;
 
-  if(PRIVATE(this)->built) /*PRIVATE(this)->buildViewMenu()*/;
+  if(PRIVATE(this)->built) PRIVATE(this)->buildViewMenu();
   else PRIVATE(this)->actualInit(FALSE);
 
 } // setViewMenu()
@@ -429,7 +444,7 @@ SoQtSuperViewer::setSettingsMenuItems(int buildFlag)
   PRIVATE(this)->settingsmenuItems[8].build = 
     buildFlag & SoQtSuperViewer::TRANSPARENCY_TYPE ? TRUE : FALSE;
 
-  if(PRIVATE(this)->built) /*PRIVATE(this)->buildSettingsMenu()*/;
+  if(PRIVATE(this)->built) PRIVATE(this)->buildSettingsMenu();
   else PRIVATE(this)->actualInit(FALSE);
 
 } // setSettingsMenu()
@@ -458,7 +473,7 @@ SoQtSuperViewer::setCameraMenuItems(int buildFlag)
   PRIVATE(this)->cameramenuItems[6].build = 
     buildFlag & SoQtSuperViewer::CAMERAS ? TRUE : FALSE;
 
-  if(PRIVATE(this)->built) /*PRIVATE(this)->buildCameraMenu()*/;
+  if(PRIVATE(this)->built) PRIVATE(this)->buildCameraMenu();
   else PRIVATE(this)->actualInit(FALSE);
 
 } // setCameraMenuItems()
@@ -862,10 +877,6 @@ SoQtSuperViewer::isFilled() const
 void
 SoQtSuperViewer::toggleInformation()
 {
-  this->setBars(SoQtSuperViewer::BACKGROUND_COLOR);
-
-
-
   PRIVATE(this)->informationenabled ? 
     PRIVATE(this)->informationenabled = FALSE : 
     PRIVATE(this)->informationenabled = TRUE;
@@ -1499,120 +1510,9 @@ SoQtSuperViewer::eventFilter(QObject * obj, QEvent * e)
     PRIVATE(this)->prefwindow->hide();
     return TRUE;
   }
-  */
+*/  
   return FALSE;
 } // eventFilter()
-
-// *************************************************************************
-
-/*!
-  This will build the main view widgets, along with menubar if it is 
-  enabled.
-*/
-
-QWidget *
-SoQtSuperViewer::buildWidget(
-  QWidget * parent)
-{
-#if SOQT_DEBUG && 0
-  SoDebugError::postInfo("SoQtSuperViewer::buildWidget", "[invoked]");
-#endif // SOQT_DEBUG
-  PRIVATE(this)->viewerwidget = new QWidget(parent);
-  this->registerWidget(PRIVATE(this)->viewerwidget);
-
-  PRIVATE(this)->viewerwidget->move(0, 0);
-#if SOQT_DEBUG && 0
-  PRIVATE(this)->viewerwidget->setBackgroundColor(QColor(250, 0, 0));
-#endif // SOQT_DEBUG
-
-
-
-  // Build and layout the widget components of the viewer window on
-  // top of the manager widget.
-  PRIVATE(this)->canvas = inherited::buildWidget(PRIVATE(this)->viewerwidget);
-
-  if (PRIVATE(this)->menubarenabled) this->buildMenuBar();
-
-  PRIVATE(this)->canvas->move(0, 0);
-  PRIVATE(this)->canvas->resize(PRIVATE(this)->viewerwidget->size());
-
-  return PRIVATE(this)->viewerwidget;
-} // buildWidget()
-
-// *************************************************************************
-
-/*!
-  Builds the menubar with all enabled menus.
-*/
-
-void 
-SoQtSuperViewer::buildMenuBar(
-  void)
-{
-  PRIVATE(this)->menubar = new QMenuBar(PRIVATE(this)->viewerwidget);
-
-  if(this->isFileMenu()) buildFileMenu();
-  if(this->isViewMenu()) buildViewMenu();
-  if(this->isSettingsMenu()) buildSettingsMenu();
-  if(this->isCameraMenu()) buildCameraMenu();
-  if(this->isLightsMenu()) buildLightsMenu();
-
-} // buildMenuBar()
-
-// *************************************************************************
-
-/*!
-  Builds the filemenu which is a submenu in the menubar. All entries in the
-  menu that has no meaning while there are no open models, are disabled
-  at creation.
-*/
-
-void 
-SoQtSuperViewer::buildFileMenu(
-  void)
-{
-  PRIVATE(this)->filemenu = new QPopupMenu(PRIVATE(this)->menubar);
-
-  PRIVATE(this)->filemenu->insertItem( "Open model", 
-                                       PRIVATE(this), SLOT(openModelSelected()), 
-                                       CTRL+Key_O );
-  PRIVATE(this)->filemenu->insertItem( "Close model",
-                                       PRIVATE(this), SLOT(closeModelSelected()), 
-                                       CTRL+Key_K );
-  PRIVATE(this)->filemenu->setItemEnabled(
-                           PRIVATE(this)->filemenu->idAt(1), FALSE);
-  PRIVATE(this)->filemenu->insertItem( "Close all models",
-                                       PRIVATE(this), SLOT(closeAllSelected()));
-  PRIVATE(this)->filemenu->setItemEnabled(
-                           PRIVATE(this)->filemenu->idAt(2), FALSE);
-  PRIVATE(this)->filemenu->insertSeparator();
-  PRIVATE(this)->filemenu->insertItem( "Next model",
-                                       PRIVATE(this), SLOT(nextModelSelected()),
-                                       CTRL+Key_N );
-  PRIVATE(this)->filemenu->setItemEnabled(
-                           PRIVATE(this)->filemenu->idAt(4), FALSE);
-  PRIVATE(this)->filemenu->insertItem( "Previous model",
-                                       PRIVATE(this), SLOT(previousModelSelected()),
-                                       CTRL+Key_P );
-  PRIVATE(this)->filemenu->setItemEnabled(
-                           PRIVATE(this)->filemenu->idAt(5), FALSE);
-  PRIVATE(this)->filemenu->insertItem( "Refresh model",
-                                       PRIVATE(this), SLOT(refreshSelected()),
-                                       CTRL+Key_R );
-  PRIVATE(this)->filemenu->setItemEnabled(
-                           PRIVATE(this)->filemenu->idAt(6), FALSE);
-  PRIVATE(this)->filemenu->insertItem( "Snapshot",
-                                       PRIVATE(this), SLOT(snapshotSelected()),
-                                       CTRL+Key_S );
-  PRIVATE(this)->filemenu->setItemEnabled(
-                           PRIVATE(this)->filemenu->idAt(7), FALSE);
-  PRIVATE(this)->filemenu->insertSeparator();
-  PRIVATE(this)->filemenu->insertItem( "Exit",
-                                       PRIVATE(this), SLOT(quitSelected()),
-                                       Key_Q );
-  PRIVATE(this)->menubar->insertItem( "File", PRIVATE(this)->filemenu);
-
-} // buildFileMenu()
 
 // *************************************************************************
 
@@ -1669,252 +1569,7 @@ void
 SoQtSuperViewer::removeModelEntry()
 {
   PRIVATE(this)->modelsubmenu->removeItemAt(PRIVATE(this)->currentindex);
-}
-
-// *************************************************************************
-
-/*!
-  Build the viewmenu with all the belonging menuentries.
-*/
-
-void 
-SoQtSuperViewer::buildViewMenu(
-  void)
-{
-  PRIVATE(this)->viewmenu = new QPopupMenu(PRIVATE(this)->menubar);
-  PRIVATE(this)->viewmenu->insertItem("Information", 
-                                      PRIVATE(this), SLOT(informationSelected()));
-  PRIVATE(this)->viewmenu->insertItem("Flatshading", 
-                                      PRIVATE(this), SLOT(flatshadingSelected()));
-  PRIVATE(this)->viewmenu->insertSeparator();
-  PRIVATE(this)->viewmenu->insertItem("Filled", 
-                                      PRIVATE(this), SLOT(filledSelected()));
-  PRIVATE(this)->viewmenu->setItemChecked(
-                           PRIVATE(this)->viewmenu->idAt(3), TRUE);
-  PRIVATE(this)->viewmenu->insertItem("Boundingboxes", 
-                                      PRIVATE(this), SLOT(boundingboxesSelected()));
-  PRIVATE(this)->viewmenu->insertItem("Wireframe",
-                                      PRIVATE(this), SLOT(wireframeSelected()));
-  PRIVATE(this)->viewmenu->insertItem("Vertices", 
-                                      PRIVATE(this), SLOT(verticesSelected()));
-  PRIVATE(this)->viewmenu->insertItem("Hidden parts",
-                                      PRIVATE(this), SLOT(hiddenpartsSelected()));
-  PRIVATE(this)->viewmenu->setItemEnabled(
-                           PRIVATE(this)->viewmenu->idAt(7), FALSE);
-  PRIVATE(this)->viewmenu->insertItem("Textures",
-                                      PRIVATE(this), SLOT(texturesSelected()));
-  PRIVATE(this)->viewmenu->insertSeparator();
-  PRIVATE(this)->viewmenu->insertItem("One boundingbox while moving",
-                                      PRIVATE(this), SLOT(oneBBoxMovingSelected()));
-  PRIVATE(this)->viewmenu->insertItem("Boundingboxes while moving",
-                                      PRIVATE(this), SLOT(bBoxesMovingSelected()));
-  PRIVATE(this)->viewmenu->insertItem("Full model while moving",
-                                      PRIVATE(this), SLOT(fullMovingSelected()));
-  PRIVATE(this)->viewmenu->setItemChecked(
-                           PRIVATE(this)->viewmenu->idAt(12), TRUE);
-  PRIVATE(this)->viewmenu->insertItem("No textures while moving",
-                                      PRIVATE(this), SLOT(noTexturesMovingSelected()));
-
-  PRIVATE(this)->menubar->insertItem("View", PRIVATE(this)->viewmenu);
-  PRIVATE(this)->menubar->setItemEnabled(
-                                         PRIVATE(this)->menubar->idAt(1), FALSE);
-} // buildViewMenu()
-
-// *************************************************************************
-
-/*!
-  Builds the settingsmenu with all belonging menuentries.
-*/
-
-void
-SoQtSuperViewer::buildSettingsMenu(
-  void)
-{
-  PRIVATE(this)->settingsmenu = new QPopupMenu(PRIVATE(this)->menubar);
-
-  PRIVATE(this)->informationsubmenu = new QPopupMenu(PRIVATE(this)->settingsmenu);
-  PRIVATE(this)->linewidthsubmenu = new QPopupMenu(PRIVATE(this)->settingsmenu);
-  PRIVATE(this)->pointsizesubmenu = new QPopupMenu(PRIVATE(this)->settingsmenu);
-  PRIVATE(this)->renderqualitysubmenu = new QPopupMenu(PRIVATE(this)->settingsmenu);
-  PRIVATE(this)->texturequalitysubmenu = new QPopupMenu(PRIVATE(this)->settingsmenu);
-  PRIVATE(this)->transparencysubmenu = new QPopupMenu(PRIVATE(this)->settingsmenu);
-  PRIVATE(this)->rendervaluesubmenu = new QPopupMenu(PRIVATE(this)->renderqualitysubmenu);
-
-  PRIVATE(this)->settingsmenu->insertItem("Information settings",
-                                          PRIVATE(this)->informationsubmenu);
-  PRIVATE(this)->settingsmenu->setItemEnabled(
-                               PRIVATE(this)->settingsmenu->idAt(0), FALSE);
-  PRIVATE(this)->informationsubmenu->insertItem("Enable distance",
-                                                PRIVATE(this), SLOT(distanceSelected()));
-  PRIVATE(this)->settingsmenu->insertItem("Line width",
-                                          PRIVATE(this)->linewidthsubmenu);
-
-  SbVec2f range;
-  float gr;
-  this->getLineWidthLimits(range, gr);
-  range[0]+= 0.5;
-  QLabel * label = new QLabel(PRIVATE(this)->linewidthsubmenu);
-  label->setNum((int)range[0]);
-  label->setAlignment(AlignRight | AlignVCenter);
-  QSlider * slider = new QSlider(range[0], range[1], range[1], range[0], 
-                                 QSlider::Vertical, 
-                                 PRIVATE(this)->linewidthsubmenu);
-  QObject::connect(slider, SIGNAL(valueChanged(int)),
-                   label, SLOT(setNum(int)));
-  QObject::connect(slider, SIGNAL(sliderMoved(int)),
-                   PRIVATE(this), SLOT(linewidthSelected(int)));
-  PRIVATE(this)->linewidthsubmenu->insertItem(label);
-  PRIVATE(this)->linewidthsubmenu->insertItem(slider);
-
-  PRIVATE(this)->settingsmenu->insertItem("Point size",
-                                          PRIVATE(this)->pointsizesubmenu);
-  this->getPointSizeLimits(range, gr);
-  range[0]+= 0.5;
-  label = new QLabel(PRIVATE(this)->pointsizesubmenu);
-  // the start value is set to 2, since the smallest value tends be too small
-  label->setNum(2);
-  label->setAlignment(AlignRight | AlignVCenter);
-  slider = new QSlider(range[0], range[1], range[1], 2, 
-                                 QSlider::Vertical, 
-                                 PRIVATE(this)->pointsizesubmenu);
-  QObject::connect(slider, SIGNAL(valueChanged(int)),
-                   label, SLOT(setNum(int)));
-  QObject::connect(slider, SIGNAL(sliderMoved(int)),
-                   PRIVATE(this), SLOT(pointsizeSelected(int)));
-  PRIVATE(this)->pointsizesubmenu->insertItem(label);
-  PRIVATE(this)->pointsizesubmenu->insertItem(slider);
-
-  PRIVATE(this)->settingsmenu->insertItem("Line color",
-                                          PRIVATE(this), SLOT(linecolorSelected())); 
-  PRIVATE(this)->settingsmenu->insertItem("Point color",
-                                          PRIVATE(this), SLOT(pointcolorSelected()));
-  PRIVATE(this)->settingsmenu->insertItem("Background color",
-                                          PRIVATE(this), SLOT(backgroundcolorSelected()));
-  PRIVATE(this)->settingsmenu->insertItem("Render quality",
-                                          PRIVATE(this)->renderqualitysubmenu);
-  PRIVATE(this)->renderqualitysubmenu->insertItem("Object space", PRIVATE(this), 
-                                                  SLOT(objectspaceSelected()));
-  PRIVATE(this)->renderqualitysubmenu->setItemChecked(
-           PRIVATE(this)->renderqualitysubmenu->idAt(0), TRUE);
-  PRIVATE(this)->renderqualitysubmenu->insertItem("Screen space", PRIVATE(this),
-                                                  SLOT(screenspaceSelected()));
-  PRIVATE(this)->renderqualitysubmenu->insertItem("Value",
-                                                  PRIVATE(this)->rendervaluesubmenu);
-
-  PRIVATE(this)->rendervaluelabel = new QLabel(PRIVATE(this)->rendervaluesubmenu);
-  PRIVATE(this)->rendervaluelabel->setNum((double)1.0);
-  PRIVATE(this)->rendervaluelabel->setAlignment(AlignRight | AlignVCenter);
-  slider = new QSlider(0, 10, 10, 10, 
-                                 QSlider::Vertical, 
-                                 PRIVATE(this)->rendervaluesubmenu);
-  QObject::connect(slider, SIGNAL(valueChanged(int)),
-                   PRIVATE(this), SLOT(setNumD10render(int)));
-  QObject::connect(slider, SIGNAL(sliderMoved(int)),
-                   PRIVATE(this), SLOT(renderqualitySelected(int)));
-  PRIVATE(this)->rendervaluesubmenu->insertItem(PRIVATE(this)->rendervaluelabel);
-  PRIVATE(this)->rendervaluesubmenu->insertItem(slider);
-
-  PRIVATE(this)->settingsmenu->insertItem("Texture quality",
-                                          PRIVATE(this)->texturequalitysubmenu);
-
-  PRIVATE(this)->texturequalitylabel = new QLabel(PRIVATE(this)->texturequalitysubmenu);
-  PRIVATE(this)->texturequalitylabel->setNum((double)1.0);
-  PRIVATE(this)->texturequalitylabel->setAlignment(AlignRight | AlignVCenter);
-  slider = new QSlider(0, 10, 10, 10, 
-                                 QSlider::Vertical, 
-                                 PRIVATE(this)->texturequalitysubmenu);
-  QObject::connect(slider, SIGNAL(valueChanged(int)),
-                   PRIVATE(this), SLOT(setNumD10texture(int)));
-  QObject::connect(slider, SIGNAL(sliderMoved(int)),
-                   PRIVATE(this), SLOT(texturequalitySelected(int)));
-  PRIVATE(this)->texturequalitysubmenu->insertItem(PRIVATE(this)->texturequalitylabel);
-  PRIVATE(this)->texturequalitysubmenu->insertItem(slider);
-  PRIVATE(this)->settingsmenu->insertItem("Transparency type",
-                                          PRIVATE(this)->transparencysubmenu);
-  PRIVATE(this)->transparencysubmenu->insertItem("Screen door", 
-           PRIVATE(this), SLOT(transparencytypeSelected( int )));
-  PRIVATE(this)->transparencysubmenu->setItemChecked(
-           PRIVATE(this)->transparencysubmenu->idAt(0), TRUE);
-  PRIVATE(this)->transparencysubmenu->insertItem("Add", 
-           PRIVATE(this), SLOT(transparencytypeSelected( int )));
-  PRIVATE(this)->transparencysubmenu->insertItem("Delayed add", 
-           PRIVATE(this), SLOT(transparencytypeSelected( int )));
-  PRIVATE(this)->transparencysubmenu->insertItem("Sorted object add", 
-           PRIVATE(this), SLOT(transparencytypeSelected( int )));
-  PRIVATE(this)->transparencysubmenu->insertItem("Blend", 
-           PRIVATE(this), SLOT(transparencytypeSelected( int )));
-  PRIVATE(this)->transparencysubmenu->insertItem("Delayed blend", 
-           PRIVATE(this), SLOT(transparencytypeSelected( int )));
-  PRIVATE(this)->transparencysubmenu->insertItem("Sorted object blend", 
-           PRIVATE(this), SLOT(transparencytypeSelected( int )));
-  PRIVATE(this)->transparencysubmenu->insertItem("Sorted object, sorted triangle add", 
-           PRIVATE(this), SLOT(transparencytypeSelected( int )));
-  PRIVATE(this)->transparencysubmenu->insertItem("Sorted object, sorted triangle blend", 
-           PRIVATE(this), SLOT(transparencytypeSelected( int )));
-  PRIVATE(this)->menubar->insertItem("Settings", PRIVATE(this)->settingsmenu);
-  PRIVATE(this)->menubar->setItemEnabled(
-                          PRIVATE(this)->menubar->idAt(2), FALSE);
-
-} // buildSettingsMenu()
-
-// *************************************************************************
-
-void 
-SoQtSuperViewer::buildCameraMenu(
-  void)
-{
-  PRIVATE(this)->cameramenu = new QPopupMenu(PRIVATE(this)->menubar);
-
-  PRIVATE(this)->cameramenu->insertItem("View all", PRIVATE(this), 
-                                        SLOT(viewallSelected()));
-  PRIVATE(this)->cameramenu->insertItem("Reset view", PRIVATE(this),
-                                        SLOT(resetviewSelected()));
-  PRIVATE(this)->cameramenu->insertItem("Seek", PRIVATE(this),
-                                        SLOT(seekSelected()));
-  PRIVATE(this)->viewmodesubmenu = new QPopupMenu(PRIVATE(this)->cameramenu);
-  PRIVATE(this)->cameramenu->insertItem("View modes", 
-                                        PRIVATE(this)->viewmodesubmenu);
-  PRIVATE(this)->viewmodesubmenu->insertItem("Examine",
-                                             PRIVATE(this), SLOT(examineSelected()));
-  PRIVATE(this)->viewmodesubmenu->setItemChecked(
-                                  PRIVATE(this)->viewmodesubmenu->idAt(0), TRUE);
-  PRIVATE(this)->viewmodesubmenu->insertItem("Fly",
-                                             PRIVATE(this), SLOT(flySelected()));
-  PRIVATE(this)->flymodesubmenu = new QPopupMenu(PRIVATE(this)->cameramenu);
-  PRIVATE(this)->cameramenu->insertItem("Fly modes",
-                                        PRIVATE(this)->flymodesubmenu);
-  PRIVATE(this)->cameramenu->setItemEnabled(
-                             PRIVATE(this)->cameramenu->idAt(4), FALSE);
-  PRIVATE(this)->flymodesubmenu->insertItem("Fly mode", PRIVATE(this),
-                                            SLOT(flymodeSelected(int)));
-  PRIVATE(this)->flymodesubmenu->setItemChecked(
-                                 PRIVATE(this)->flymodesubmenu->idAt(0), TRUE);
-  PRIVATE(this)->flymodesubmenu->insertItem("Glide mode", PRIVATE(this),
-                                            SLOT(flymodeSelected(int)));
-  PRIVATE(this)->flymodesubmenu->insertItem("Locked mode", PRIVATE(this),
-                                            SLOT(flymodeSelected(int)));
-
-  PRIVATE(this)->cameramenu->insertSeparator();
-
-  PRIVATE(this)->menubar->insertItem("Camera",
-                                     PRIVATE(this)->cameramenu);
-  PRIVATE(this)->menubar->setItemEnabled(
-                          PRIVATE(this)->menubar->idAt(3), FALSE);
-} // buildCameraMenu()
-  
-// *************************************************************************
-
-void
-SoQtSuperViewer::buildLightsMenu(
-  void)
-{
-  PRIVATE(this)->lightsmenu = new QPopupMenu(PRIVATE(this)->menubar);
-
-  PRIVATE(this)->menubar->insertItem("Lights",
-                                     PRIVATE(this)->lightsmenu);
-  PRIVATE(this)->menubar->setItemEnabled(
-                          PRIVATE(this)->menubar->idAt(4), FALSE);
-} // buildLightsMenu()
+} // removeModelEntry()
 
 // *************************************************************************
 

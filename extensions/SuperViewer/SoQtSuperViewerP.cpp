@@ -244,8 +244,16 @@ SoQtSuperViewerP::~SoQtSuperViewerP()
 void
 SoQtSuperViewerP::actualInit(SbBool buildNow)
 {
+
   if(!this->defaultoverride){
     
+    this->bars = new menuItem[2];
+    this->menus = new menuItem[5];
+    this->filemenuItems = new menuItem[11];
+    this->viewmenuItems = new menuItem[14];
+    this->settingsmenuItems = new menuItem[9];
+    this->cameramenuItems = new menuItem[7];
+
     this->bars[0].text = "Toolbar";
     this->bars[1].text = "Menubar";
 
@@ -318,13 +326,14 @@ SoQtSuperViewerP::actualInit(SbBool buildNow)
     for(;i < 5; i++){
       this->menus[i].index = i;
       this->menus[i].build = TRUE;
+      this->menus[i].enabled = i == 0 ? TRUE : FALSE;
       this->menus[i].checked = FALSE;
     }
 
     i = 0;
     //setup filemenu (8 elements)
-    for(;i < 8; i++){
-      this->filemenuItems[i].index = i < 4 ? i : i - 1;
+    for(;i < 11; i++){
+      this->filemenuItems[i].index = i;
       this->filemenuItems[i].build = i == 3 ? FALSE : TRUE;
       this->filemenuItems[i].enabled = i == 0 || i > 9 ? TRUE : FALSE;
       this->filemenuItems[i].checked = FALSE;
@@ -332,11 +341,11 @@ SoQtSuperViewerP::actualInit(SbBool buildNow)
     
     i = 0;
     //setup viewmenu (12 elements)
-    for(;i < 12; i++){
+    for(;i < 11; i++){
       this->viewmenuItems[i].index = i;
       this->viewmenuItems[i].build = TRUE;
-      this->viewmenuItems[i].enabled = (i == 7) ? FALSE : TRUE;
-      this->viewmenuItems[i].checked = (i == 3 || i == 12) ? FALSE : TRUE;
+      this->viewmenuItems[i].enabled = (i == 7 || i == 8) ? FALSE : TRUE;
+      this->viewmenuItems[i].checked = (i == 3 || i == 12) ? TRUE : FALSE;
     }
 
     i = 0;
@@ -344,13 +353,13 @@ SoQtSuperViewerP::actualInit(SbBool buildNow)
     for(;i < 9; i++){
       this->settingsmenuItems[i].index = i;
       this->settingsmenuItems[i].build = TRUE;
-      this->settingsmenuItems[i].enabled = TRUE;
+      this->settingsmenuItems[i].enabled = i == 0 ? FALSE : TRUE;
       this->settingsmenuItems[i].checked = FALSE;
     }
 
     i = 0;
     //setup cameramenu (5 elements)
-    for(;i < 5; i++){
+    for(;i < 7; i++){
       this->cameramenuItems[i].index = i;
       this->cameramenuItems[i].build = TRUE;
       this->cameramenuItems[i].enabled = i == 4 ? FALSE : TRUE;
@@ -360,7 +369,7 @@ SoQtSuperViewerP::actualInit(SbBool buildNow)
 
   if(buildNow){
     this->built = TRUE;
-    /*buildBars()*/;
+    this->buildBars();
   }
 } // actualInit()
 
@@ -368,40 +377,37 @@ void
 SoQtSuperViewerP::buildBars()
 {
   //toolbar
-  if(this->bars[1].build){
+  if(this->bars[0].build){
 
   }
   //menubar
-  if(this->bars[0].build){
-    if(this->menubar = NULL)
+  if(this->bars[1].build){
+    if(this->menubar == NULL)
       this->menubar = new QMenuBar(this->viewerwidget);
+    this->buildMenus();
   }
 } // buildBars()
 
 void
 SoQtSuperViewerP::buildMenus()
 {
-
   int idx = 0;
   if(this->menus[0].build){
-    this->buildFileMenu(); this->menus[0].index = idx; idx++;
-    this->menus[0].enabled = TRUE;
+    this->buildFileMenu(); 
+    this->menus[0].index = idx; 
+    idx++;
   }
   if(this->menus[1].build){
-    //this->buildViewMenu(); this->menus[1].index = idx; idx++;
-    this->menus[1].enabled = menus[0].build ? FALSE : TRUE;
+    this->buildViewMenu(); this->menus[1].index = idx; idx++;
   }
   if(this->menus[2].build){
-    //this->buildSettingsMenu(); this->menus[2].index = idx; idx++;
-    this->menus[2].enabled = menus[0].build ? FALSE : TRUE;
+    this->buildSettingsMenu(); this->menus[2].index = idx; idx++;
   }
   if(this->menus[3].build){
-    //this->buildCameraMenu(); this->menus[3].index = idx; idx++;
-    this->menus[3].enabled = menus[0].build ? FALSE : TRUE;
+    this->buildCameraMenu(); this->menus[3].index = idx; idx++;
   }
   if(this->menus[4].build){
-    //this->buildLightsMenu(); this->menus[4].index = idx;
-    this->menus[4].enabled = menus[0].build ? FALSE : TRUE;
+    this->buildLightsMenu(); this->menus[4].index = idx;
   }
 }
 
@@ -452,11 +458,11 @@ SoQtSuperViewerP::buildFileMenu()
                                    filemenuItems[3].enabled);
     idx++;
   }
-
   if(this->filemenuItems[4].build){ 
-    this->filemenu->insertSeparator(); idx++;  
+    this->filemenuItems[4].index = idx;
+    this->filemenu->insertSeparator(); 
+    idx++;  
   }
-
   if(this->filemenuItems[5].build){
     this->filemenuItems[5].index = idx;
     this->filemenu->insertItem(filemenuItems[5].text.getString(), this,
@@ -480,7 +486,7 @@ SoQtSuperViewerP::buildFileMenu()
   if(this->filemenuItems[7].build){
     this->filemenuItems[7].index = idx;
     this->filemenu->insertItem(filemenuItems[7].text.getString(), this,
-                               SLOT(refreshModelSelected()), CTRL+Key_R);
+                               SLOT(refreshSelected()), CTRL+Key_R);
     this->filemenu->setItemEnabled(this->filemenu->idAt(filemenuItems[7].index),
                                    filemenuItems[7].enabled);
     this->filemenu->setItemChecked(this->filemenu->idAt(filemenuItems[7].index),
@@ -497,11 +503,11 @@ SoQtSuperViewerP::buildFileMenu()
                                    filemenuItems[8].checked);
     idx++;
   }
-
   if(this->filemenuItems[9].build){ 
-    this->filemenu->insertSeparator(); idx++;  
+    this->filemenuItems[9].index = idx;
+    this->filemenu->insertSeparator(); 
+    idx++;  
   }
-
   if(this->filemenuItems[10].build){
     this->filemenuItems[10].index = idx;
     this->filemenu->insertItem(filemenuItems[10].text.getString(), this,
@@ -511,11 +517,9 @@ SoQtSuperViewerP::buildFileMenu()
     this->filemenu->setItemChecked(this->filemenu->idAt(filemenuItems[10].index),
                                    filemenuItems[10].checked);
   }
-
   this->menubar->insertItem(menus[0].text.getString(), this->filemenu);
   this->menubar->setItemEnabled(this->menubar->idAt(menus[0].index),
-                                   menus[0].enabled);
-  
+                                menus[0].enabled);
 } // buildFileMenu()
 
 void
@@ -546,7 +550,9 @@ SoQtSuperViewerP::buildViewMenu()
     idx++;
   }
   if(this->viewmenuItems[2].build){ 
-    this->viewmenu->insertSeparator(); idx++;  
+    this->viewmenuItems[2].index = idx;
+    this->viewmenu->insertSeparator(); 
+    idx++;  
   }
   if(this->viewmenuItems[3].build){
     this->viewmenuItems[3].index = idx;
@@ -609,7 +615,9 @@ SoQtSuperViewerP::buildViewMenu()
     idx++;
   }
   if(this->viewmenuItems[9].build){ 
-    this->viewmenu->insertSeparator(); idx++;  
+    this->viewmenuItems[9].index = idx;
+    this->viewmenu->insertSeparator(); 
+    idx++;  
   }
 
   if(this->viewmenuItems[10].build){
@@ -798,16 +806,135 @@ SoQtSuperViewerP::buildSettingsMenu()
     this->texturequalitysubmenu->insertItem(this->texturequalitylabel);
     this->texturequalitysubmenu->insertItem(slider);
   }
+  if(this->settingsmenuItems[8].build){
+    this->settingsmenuItems[8].index = idx;
+    if(this->transparencysubmenu == NULL)
+      this->transparencysubmenu = new QPopupMenu(this->settingsmenu);
+    this->settingsmenu->insertItem(settingsmenuItems[8].text.getString(),
+                                   this->transparencysubmenu);
+    this->transparencysubmenu->insertItem("Screen door", 
+           this, SLOT(transparencytypeSelected( int )));
+    this->transparencysubmenu->setItemChecked(
+           this->transparencysubmenu->idAt(0), TRUE);
+    this->transparencysubmenu->insertItem("Add", 
+           this, SLOT(transparencytypeSelected( int )));
+    this->transparencysubmenu->insertItem("Delayed add", 
+           this, SLOT(transparencytypeSelected( int )));
+    this->transparencysubmenu->insertItem("Sorted object add", 
+           this, SLOT(transparencytypeSelected( int )));
+    this->transparencysubmenu->insertItem("Blend", 
+           this, SLOT(transparencytypeSelected( int )));
+    this->transparencysubmenu->insertItem("Delayed blend", 
+           this, SLOT(transparencytypeSelected( int )));
+    this->transparencysubmenu->insertItem("Sorted object blend", 
+           this, SLOT(transparencytypeSelected( int )));
+    this->transparencysubmenu->insertItem("Sorted object, sorted triangle add", 
+           this, SLOT(transparencytypeSelected( int )));
+    this->transparencysubmenu->insertItem("Sorted object, sorted triangle blend", 
+           this, SLOT(transparencytypeSelected( int )));
+  }
 
-  /*
+  this->menubar->insertItem(menus[2].text.getString(), this->settingsmenu);
+  this->menubar->setItemEnabled(this->menubar->idAt(menus[2].index),
+                                   menus[2].enabled);
+}
 
-  PRIVATE(this)->texturequalitysubmenu = new QPopupMenu(PRIVATE(this)->settingsmenu);
-  PRIVATE(this)->transparencysubmenu = new QPopupMenu(PRIVATE(this)->settingsmenu);
+void
+SoQtSuperViewerP::buildCameraMenu()
+{
+  if(this->cameramenu == NULL)
+    this->cameramenu = new QPopupMenu(this->menubar);
 
+  int idx = 0;
+  if(this->cameramenuItems[0].build){
+    this->cameramenuItems[0].index = idx;
+    this->cameramenu->insertItem(cameramenuItems[0].text.getString(), this,
+                                 SLOT(viewallSelected()));
+    this->cameramenu->setItemEnabled(this->cameramenu->idAt(cameramenuItems[0].index),
+                                     cameramenuItems[0].enabled);
+    this->cameramenu->setItemChecked(this->cameramenu->idAt(cameramenuItems[0].index),
+                                     cameramenuItems[0].checked);
+    idx++;
+  }
+  if(this->cameramenuItems[1].build){
+    this->cameramenuItems[1].index = idx;
+    this->cameramenu->insertItem(cameramenuItems[1].text.getString(), this,
+                                 SLOT(resetviewSelected()));
+    this->cameramenu->setItemEnabled(this->cameramenu->idAt(cameramenuItems[1].index),
+                                     cameramenuItems[1].enabled);
+    this->cameramenu->setItemChecked(this->cameramenu->idAt(cameramenuItems[1].index),
+                                     cameramenuItems[1].checked);
+    idx++;
+  } 
+  if(this->cameramenuItems[2].build){
+    this->cameramenuItems[2].index = idx;
+    this->cameramenu->insertItem(cameramenuItems[2].text.getString(), this,
+                                 SLOT(seekSelected()));
+    this->cameramenu->setItemEnabled(this->cameramenu->idAt(cameramenuItems[2].index),
+                                     cameramenuItems[2].enabled);
+    this->cameramenu->setItemChecked(this->cameramenu->idAt(cameramenuItems[2].index),
+                                     cameramenuItems[2].checked);
+    idx++;
+  }
+  if(this->cameramenuItems[3].build){
+    this->cameramenuItems[3].index = idx;
+    if(this->viewmodesubmenu == NULL)
+      this->viewmodesubmenu = new QPopupMenu(this->cameramenu);
+    this->cameramenu->insertItem(cameramenuItems[3].text.getString(), 
+                                 this->viewmodesubmenu);
+    this->viewmodesubmenu->insertItem("Examine",
+                                      this, SLOT(examineSelected()));
+    this->viewmodesubmenu->setItemChecked(
+                                  this->viewmodesubmenu->idAt(0), TRUE);
+    this->viewmodesubmenu->insertItem("Fly",
+                                      this, SLOT(flySelected()));
+    this->cameramenu->setItemEnabled(this->cameramenu->idAt(cameramenuItems[3].index),
+                                     cameramenuItems[3].enabled);
+    this->cameramenu->setItemChecked(this->cameramenu->idAt(cameramenuItems[3].index),
+                                     cameramenuItems[3].checked);
+    idx++;
+  }   
+  if(this->cameramenuItems[4].build){
+    this->cameramenuItems[4].index = idx;
+    if(this->flymodesubmenu == NULL)
+      this->flymodesubmenu = new QPopupMenu(this->cameramenu);
+    this->cameramenu->insertItem(cameramenuItems[4].text.getString(), 
+                                 this->flymodesubmenu);
 
-  void transparencytypeSelected( int );
-  void texturequalitySelected( int );
-  */
+    this->flymodesubmenu->insertItem("Fly mode", this,
+                                     SLOT(flymodeSelected(int)));
+    this->flymodesubmenu->setItemChecked(this->flymodesubmenu->idAt(0), TRUE);
+    this->flymodesubmenu->insertItem("Glide mode", this,
+                                     SLOT(flymodeSelected(int)));
+    this->flymodesubmenu->insertItem("Locked mode", this,
+                                     SLOT(flymodeSelected(int)));
+    this->cameramenu->setItemEnabled(this->cameramenu->idAt(cameramenuItems[4].index),
+                                     cameramenuItems[4].enabled);
+    this->cameramenu->setItemChecked(this->cameramenu->idAt(cameramenuItems[4].index),
+                                     cameramenuItems[4].checked);
+    idx++;
+  }   
+  if(this->cameramenuItems[5].build){
+    this->cameramenuItems[5].index = idx;
+    this->cameramenu->insertSeparator();
+    idx++;
+  }
+
+  this->menubar->insertItem(menus[3].text.getString(), this->cameramenu);
+  this->menubar->setItemEnabled(this->menubar->idAt(menus[3].index),
+                                   menus[3].enabled);
+
+}
+
+void
+SoQtSuperViewerP::buildLightsMenu()
+{
+  if(this->lightsmenu == NULL)
+    this->lightsmenu = new QPopupMenu(this->menubar);
+
+  this->menubar->insertItem(menus[4].text.getString(), this->lightsmenu);
+  this->menubar->setItemEnabled(this->menubar->idAt(menus[4].index),
+                                   menus[4].enabled);
 }
 
 
