@@ -619,8 +619,11 @@ void
 SoQtComponent::setIconTitle(const char * const title)
 {
   PRIVATE(this)->icontext = title;
-  if (this->getWidget())
-    SoQt::getShellWidget(this->getWidget())->setIconText(title);
+
+  QWidget * w = this->getWidget();
+  if (w && this->isTopLevelShell()) {
+    SoQt::getShellWidget(w)->setIconText(title);
+  }
 }
 
 // documented in common/SoGuiComponentCommon.cpp.in.
@@ -697,9 +700,10 @@ SoQtComponent::setSize(const SbVec2s size)
                          PRIVATE(this)->widget,
                          size[0], size[1]);
 #endif // debug
-  if (this->isTopLevelShell()) {
+  const SbBool yetbuilt = (this->getWidget() != NULL);
+  if (yetbuilt) {
     QWidget * shell = this->getShellWidget();
-    if (shell) shell->resize(size[0], size[1]);
+    if (shell) { shell->resize(size[0], size[1]); }
   }
   PRIVATE(this)->storesize = size;
   this->sizeChanged(size);

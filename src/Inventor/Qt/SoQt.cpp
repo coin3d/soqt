@@ -846,12 +846,7 @@ SoQt::getTopLevelWidget(void)
 QWidget *
 SoQt::getShellWidget(const QWidget * w)
 {
-  if (SOQT_DEBUG && !w) {
-    SoDebugError::postWarning("SoQt::getShellWidget",
-                              "Called with NULL pointer.");
-    return NULL;
-  }
-
+  assert(w != NULL && "called with NULL pointer");
   return w->topLevelWidget();
 }
 
