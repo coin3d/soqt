@@ -18,6 +18,7 @@ So@Gui@BuiltSources = \
 	src/Inventor/@Gui@/So@Gui@Cursors.cpp \
 	src/Inventor/@Gui@/So@Gui@Object.h \
 	src/Inventor/@Gui@/So@Gui@Object.cpp \
+	src/Inventor/@Gui@/So@Gui@.h \
 	src/Inventor/@Gui@/So@Gui@Component.h \
 	src/Inventor/@Gui@/So@Gui@GLWidget.h \
 	src/Inventor/@Gui@/So@Gui@RenderArea.h \
@@ -113,6 +114,7 @@ EXTRA_DIST = \
 	src/Inventor/@Gui@/common/SoGuiCursors.cpp.in \
 	src/Inventor/@Gui@/common/SoGuiObject.h.in \
 	src/Inventor/@Gui@/common/SoGuiObject.cpp.in \
+	src/Inventor/@Gui@/common/SoGui.h.in \
 	src/Inventor/@Gui@/common/SoGuiComponent.h.in \
 	src/Inventor/@Gui@/common/SoGuiGLWidget.h.in \
 	src/Inventor/@Gui@/common/SoGuiRenderArea.h.in \
@@ -207,6 +209,10 @@ src/Inventor/@Gui@/So@Gui@Cursors.h: \
 src/Inventor/@Gui@/So@Gui@Cursors.cpp: \
   $(srcdir)/src/Inventor/@Gui@/common/SoGuiCursors.cpp.in config.status
 	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/SoGuiCursors.cpp.in
+
+src/Inventor/@Gui@/So@Gui@.h: \
+  $(srcdir)/src/Inventor/@Gui@/common/SoGui.h.in config.status
+	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/SoGui.h.in
 
 src/Inventor/@Gui@/So@Gui@Component.h: \
   $(srcdir)/src/Inventor/@Gui@/common/SoGuiComponent.h.in config.status
@@ -311,8 +317,8 @@ src/Inventor/@Gui@/devices/spwinput_x11.cpp: \
 # **************************************************************************
 # auto-generated Qt moc files.
 
-src/Inventor/Qt/moc_SoQt.cpp: $(srcdir)/src/Inventor/Qt/SoQt.h
-	$(MOC) -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/SoQt.h`
+src/Inventor/Qt/moc_SoQt.cpp: $(top_builddir)/src/Inventor/Qt/SoQt.h
+	$(MOC) -o $@ $(top_builddir)/src/Inventor/Qt/SoQt.h
 
 src/Inventor/Qt/moc_SoQtObject.cpp: $(top_builddir)/src/Inventor/Qt/SoQtObject.h
 	$(MOC) -o $@ $(top_builddir)/src/Inventor/Qt/SoQtObject.h

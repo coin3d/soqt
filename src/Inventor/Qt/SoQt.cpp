@@ -87,6 +87,7 @@ main(int argc, char **argv)
 #include <qmessagebox.h>
 #include <qtimer.h>
 #include <qevent.h>
+#include <qapplication.h>
 
 #include <Inventor/SoDB.h>
 #include <Inventor/SoInteraction.h>
@@ -116,12 +117,30 @@ main(int argc, char **argv)
 
 // *************************************************************************
 
-QWidget * SoQt::mainWidget = NULL;
-QApplication * SoQt::appobject = NULL;
-QTimer * SoQt::idletimer = NULL;
-QTimer * SoQt::timerqueuetimer = NULL;
-QTimer * SoQt::delaytimeouttimer = NULL;
-SoQt * SoQt::slotobj = NULL;
+// The private data for the SoQt class.
+
+class SoQtP {
+public:
+  static void clean(void);
+
+  static QWidget * mainwidget;
+  static QApplication * appobject;
+  static QTimer * timerqueuetimer;
+  static QTimer * idletimer;
+  static QTimer * delaytimeouttimer;
+
+  static SoQt * soqt_instance(void);
+  static SoQt * slotobj;
+};
+
+// *************************************************************************
+
+QWidget * SoQtP::mainwidget = NULL;
+QApplication * SoQtP::appobject = NULL;
+QTimer * SoQtP::idletimer = NULL;
+QTimer * SoQtP::timerqueuetimer = NULL;
+QTimer * SoQtP::delaytimeouttimer = NULL;
+SoQt * SoQtP::slotobj = NULL;
 
 // *************************************************************************
 
@@ -173,17 +192,17 @@ SoQt::init(const char * const appName, const char * const className)
 // This is provided for convenience when debugging the library. Should
 // make it easier to find memory leaks.
 void
-SoQt::clean(void)
+SoQtP::clean(void)
 {
 #if SOQT_DEBUG && 0 // FIXME: disable this after looking over that it is correct. 20001103 mortene.
-  delete SoQt::mainWidget; SoQt::mainWidget = NULL;
-  delete SoQt::appobject; SoQt::appobject = NULL;
+  delete SoQtP::mainwidget; SoQtP::mainwidget = NULL;
+  delete SoQtP::appobject; SoQtP::appobject = NULL;
 
-  delete SoQt::timerqueuetimer; SoQt::timerqueuetimer = NULL;
-  delete SoQt::idletimer; SoQt::idletimer = NULL;
-  delete SoQt::delaytimeouttimer; SoQt::delaytimeouttimer = NULL;
+  delete SoQtP::timerqueuetimer; SoQtP::timerqueuetimer = NULL;
+  delete SoQtP::idletimer; SoQtP::idletimer = NULL;
+  delete SoQtP::delaytimeouttimer; SoQtP::delaytimeouttimer = NULL;
 
-  delete SoQt::slotobj; SoQt::slotobj = NULL;
+  delete SoQtP::slotobj; SoQtP::slotobj = NULL;
 #endif // SOQT_DEBUG // disabled
 }
 
@@ -201,7 +220,7 @@ SoQt::init(QWidget * const topLevelWidget)
   // common code here.
 
 #if SOQT_DEBUG
-  if (SoQt::mainWidget) {
+  if (SoQtP::mainwidget) {
     SoDebugError::postWarning("SoQt::init",
                               "This method should be called only once.");
     return;
@@ -214,10 +233,10 @@ SoQt::init(QWidget * const topLevelWidget)
   SoQtObject::init();
 
   SoDB::getSensorManager()->setChangedCallback(SoQt::sensorQueueChanged, NULL);
-  SoQt::mainWidget = topLevelWidget;
+  SoQtP::mainwidget = topLevelWidget;
 
 #if SOQT_DEBUG
-  int ret = atexit(SoQt::clean);
+  int ret = atexit(SoQtP::clean);
   assert(ret == 0 && "couldn't set exit hook!?");
 #endif // SOQT_DEBUG
 }
@@ -239,14 +258,14 @@ SoQt::init(int argc, char ** argv,
            const char * const className)
 {
 #if SOQT_DEBUG
-  if (SoQt::appobject || SoQt::mainWidget) {
+  if (SoQtP::appobject || SoQtP::mainwidget) {
     SoDebugError::postWarning("SoQt::init",
                               "This method should be called only once.");
-    return SoQt::mainWidget;
+    return SoQtP::mainwidget;
   }
 #endif // SOQT_DEBUG
 
-  SoQt::appobject = new SoQtApplication(argc, argv);
+  SoQtP::appobject = new SoQtApplication(argc, argv);
   QWidget * mainw = new QWidget(NULL, className);
   SoQt::init(mainw);
 
@@ -254,9 +273,9 @@ SoQt::init(int argc, char ** argv,
   SoDebugError::postInfo("SoQt::init", "setCaption('%s')", appName);
 #endif // debug
 
-  if (appName) SoQt::mainWidget->setCaption(appName);
-  SoQt::appobject->setMainWidget(SoQt::mainWidget);
-  return SoQt::mainWidget;
+  if (appName) SoQtP::mainwidget->setCaption(appName);
+  SoQtP::appobject->setMainWidget(SoQtP::mainwidget);
+  return SoQtP::mainwidget;
 }
 
 // documented in common/SoGuiObject.cpp.in
@@ -282,16 +301,16 @@ SoQt::sensorQueueChanged(void *)
 {
   // Allocate Qt timers on first call.
 
-  if (!SoQt::timerqueuetimer) {
-    SoQt::timerqueuetimer = new QTimer;
-    QObject::connect(SoQt::timerqueuetimer, SIGNAL(timeout()),
-                     SoQt::soqt_instance(), SLOT(slot_timedOutSensor()));
-    SoQt::idletimer = new QTimer;
-    QObject::connect(SoQt::idletimer, SIGNAL(timeout()),
-                     SoQt::soqt_instance(), SLOT(slot_idleSensor()));
-    SoQt::delaytimeouttimer = new QTimer;
-    QObject::connect(SoQt::delaytimeouttimer, SIGNAL(timeout()),
-                     SoQt::soqt_instance(), SLOT(slot_delaytimeoutSensor()));
+  if (!SoQtP::timerqueuetimer) {
+    SoQtP::timerqueuetimer = new QTimer;
+    QObject::connect(SoQtP::timerqueuetimer, SIGNAL(timeout()),
+                     SoQtP::soqt_instance(), SLOT(slot_timedOutSensor()));
+    SoQtP::idletimer = new QTimer;
+    QObject::connect(SoQtP::idletimer, SIGNAL(timeout()),
+                     SoQtP::soqt_instance(), SLOT(slot_idleSensor()));
+    SoQtP::delaytimeouttimer = new QTimer;
+    QObject::connect(SoQtP::delaytimeouttimer, SIGNAL(timeout()),
+                     SoQtP::soqt_instance(), SLOT(slot_delaytimeoutSensor()));
   }
 
   SoSensorManager * sm = SoDB::getSensorManager();
@@ -311,13 +330,13 @@ SoQt::sensorQueueChanged(void *)
                            interval.getValue());
 #endif // debug
 
-    if (!SoQt::timerqueuetimer->isActive())
-      SoQt::timerqueuetimer->start((int)interval.getMsecValue(), TRUE);
+    if (!SoQtP::timerqueuetimer->isActive())
+      SoQtP::timerqueuetimer->start((int)interval.getMsecValue(), TRUE);
     else
-      SoQt::timerqueuetimer->changeInterval((int)interval.getMsecValue());
+      SoQtP::timerqueuetimer->changeInterval((int)interval.getMsecValue());
   }
-  else if (SoQt::timerqueuetimer->isActive()) {
-    SoQt::timerqueuetimer->stop();
+  else if (SoQtP::timerqueuetimer->isActive()) {
+    SoQtP::timerqueuetimer->stop();
   }
 
 
@@ -329,16 +348,16 @@ SoQt::sensorQueueChanged(void *)
                            "delaysensor pending");
 #endif // debug
 
-    if (!SoQt::idletimer->isActive()) SoQt::idletimer->start(0, TRUE);
+    if (!SoQtP::idletimer->isActive()) SoQtP::idletimer->start(0, TRUE);
 
-    if (!SoQt::delaytimeouttimer->isActive()) {
+    if (!SoQtP::delaytimeouttimer->isActive()) {
       unsigned long timeout = SoDB::getDelaySensorTimeout().getMsecValue();
-      SoQt::delaytimeouttimer->start((int)timeout, TRUE);
+      SoQtP::delaytimeouttimer->start((int)timeout, TRUE);
     }
   }
   else {
-    if (SoQt::idletimer->isActive()) SoQt::idletimer->stop();
-    if (SoQt::delaytimeouttimer->isActive()) SoQt::delaytimeouttimer->stop();
+    if (SoQtP::idletimer->isActive()) SoQtP::idletimer->stop();
+    if (SoQtP::delaytimeouttimer->isActive()) SoQtP::delaytimeouttimer->stop();
   }
 }
 
@@ -348,14 +367,13 @@ SoQt::sensorQueueChanged(void *)
   is also done automatically by Qt whenever the user closes an application's
   main widget).
 */
-
 void
 SoQt::mainLoop(void)
 {
   // We need to process immediate sensors _before_ any events are
   // processed. This is done by installing an eventFilter on the
   // global QApplication object.
-  qApp->installEventFilter(SoQt::soqt_instance());
+  qApp->installEventFilter(SoQtP::soqt_instance());
   (void) qApp->exec();
 }
 
@@ -365,10 +383,8 @@ SoQt::mainLoop(void)
   NOTE: exitMainLoop() is not present in the original API for SGI's
   InventorXt library.
 */
-
 void
-SoQt::exitMainLoop(
-  void)
+SoQt::exitMainLoop(void)
 {
   qApp->exit(0);
 } // exitMainLoop()
@@ -378,10 +394,9 @@ SoQt::exitMainLoop(
   init().
  */
 QApplication *
-SoQt::getApplication(
-  void)
+SoQt::getApplication(void)
 {
-  return SoQt::appobject;
+  return SoQtP::appobject;
 }
 
 /*!
@@ -391,11 +406,10 @@ SoQt::getApplication(
 
   \sa getShellWidget()
 */
-
 QWidget *
 SoQt::getTopLevelWidget(void)
 {
-  return SoQt::mainWidget;
+  return SoQtP::mainwidget;
 }
 
 /*!
@@ -599,10 +613,10 @@ SoQt::createSimpleErrorDialog(QWidget * const widget,
   really a workaround for some silliness in the Qt design).
  */
 SoQt *
-SoQt::soqt_instance(void)
+SoQtP::soqt_instance(void)
 {
-  if (!SoQt::slotobj) SoQt::slotobj = new SoQt;
-  return SoQt::slotobj;
+  if (!SoQtP::slotobj) { SoQtP::slotobj = new SoQt; }
+  return SoQtP::slotobj;
 }
 
 /*!
@@ -636,7 +650,7 @@ SoQt::slot_timedOutSensor()
   SoDebugError::postInfo("SoQt::timedOutSensor",
     "processing timer queue");
   SoDebugError::postInfo("SoQt::timedOutSensor",
-    "is %s", SoQt::delaytimeouttimer->isActive() ? "active" : "inactive");
+    "is %s", SoQtP::delaytimeouttimer->isActive() ? "active" : "inactive");
 #endif // SOQT_DEBUG
   SoDB::getSensorManager()->processTimerQueue();
 
@@ -656,10 +670,9 @@ void
 SoQt::slot_idleSensor()
 {
 #if SOQT_DEBUG && 0
-  SoDebugError::postInfo("SoQt::idleSensor",
-    "processing delay queue");
-  SoDebugError::postInfo("SoQt::idleSensor",
-    "is %s", SoQt::idletimer->isActive() ? "active" : "inactive");
+  SoDebugError::postInfo("SoQt::idleSensor", "processing delay queue");
+  SoDebugError::postInfo("SoQt::idleSensor", "is %s",
+                         SoQtP::idletimer->isActive() ? "active" : "inactive");
 #endif // SOQT_DEBUG
 
   SoDB::getSensorManager()->processTimerQueue();
@@ -684,8 +697,8 @@ SoQt::slot_delaytimeoutSensor()
 #if SOQT_DEBUG && 0
   SoDebugError::postInfo("SoQt::delaytimeoutSensor",
                          "processing delay queue");
-  SoDebugError::postInfo("SoQt::delaytimeouttimer", "is %s",
-    SoQt::delaytimeouttimer->isActive() ? "active" : "inactive");
+  SoDebugError::postInfo("SoQtP::delaytimeouttimer", "is %s",
+                         SoQtP::delaytimeouttimer->isActive() ? "active" : "inactive");
 #endif // SOQT_DEBUG
 
   SoDB::getSensorManager()->processTimerQueue();
