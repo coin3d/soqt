@@ -4242,8 +4242,8 @@ AC_DEFUN([SIM_AC_MAC_CPP_ADJUSTMENTS],
 case $host_os in
 darwin*)
   if test x"$GCC" = x"yes"; then
-    SIM_AC_CC_COMPILER_OPTION([-no-cpp-precomp], [CFLAGS="$CFLAGS -no-cpp-precomp"])
-    SIM_AC_CXX_COMPILER_OPTION([-no-cpp-precomp], [CXXFLAGS="$CXXFLAGS -no-cpp-precomp"])
+    # FIXME: create a SIM_AC_CPP_OPTION macro
+    SIM_AC_CC_COMPILER_OPTION([-no-cpp-precomp], [CPPFLAGS="$CPPFLAGS -no-cpp-precomp"])
   fi
   ;;
 esac
