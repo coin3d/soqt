@@ -25,7 +25,7 @@ static const char rcsid[] =
 // events.
 
 #include <assert.h>
-
+#include <config.h>
 #include <Inventor/Qt/widgets/SoQtGLArea.h>
 
 #if SOQT_DEBUG
@@ -60,11 +60,13 @@ SoQtGLArea::SoQtGLArea(
   const char * const name )
 : inherited( parent, name, 0x0, WResizeNoErase )
 {
+#if HAVE_QGLWIDGET_SETAUTOBUFFERSWAP
   // We'll handle the OpenGL buffer swapping ourselves, to support the
   // different combinations of rendering options (doublebuffer with
   // the "DrawToFront" flag is for instance hard to do within the
   // QGLWidget model).
   this->setAutoBufferSwap( FALSE );
+#endif // HAVE_QGLWIDGET_SETAUTOBUFFERSWAP
 } // SoQtGLArea()
 
 SoQtGLArea::~SoQtGLArea(

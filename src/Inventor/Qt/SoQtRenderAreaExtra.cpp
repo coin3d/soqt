@@ -24,7 +24,9 @@ static const char rcsid[] =
 
 #include <qwidget.h>
 #include <qevent.h>
+#if QT_VERSION >= 200
 #include <q1xcompatibility.h>
+#endif // Qt >= 2.0.0
 
 #include <Inventor/SoSceneManager.h>
 #include <Inventor/sensors/SoNodeSensor.h>

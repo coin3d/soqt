@@ -160,8 +160,15 @@ SoQtPopupMenu::SetMenuTitle(
   }
   delete [] rec->title;
   rec->title = strcpy( new char [strlen(title)+1], title );
+#if QT_VERSION >= 200
   if ( rec->parent )
     rec->parent->changeItem( rec->menuid, QString( rec->title ) );
+#else // Qt version < 2.0.0
+  // This QMenuData::changeItem() method is being obsoleted from Qt
+  // from version 2.0.0 onwards.
+  if ( rec->parent )
+    rec->parent->changeItem( rec->title, rec->menuid );
+#endif // Qt version < 2.0.0
 } // SetMenuTitle()
 
 /*!
@@ -234,8 +241,15 @@ SoQtPopupMenu::SetMenuItemTitle(
     return;
   delete [] rec->title;
   rec->title = strcpy( new char [strlen(title)+1], title );
+#if QT_VERSION >= 200
   if ( rec->parent )
     rec->parent->changeItem( rec->itemid, QString( rec->title ) );
+#else // Qt version < 2.0.0
+  // This QMenuData::changeItem() method is being obsoleted from Qt
+  // from version 2.0.0 onwards.
+  if ( rec->parent )
+    rec->parent->changeItem( rec->title, rec->itemid );
+#endif // Qt version < 2.0.0
 } // SetMenuItemTitle()
 
 /*!
