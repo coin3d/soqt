@@ -87,9 +87,9 @@ static const char nullstring[] = "(null)";
 
 // *************************************************************************
 
-// lists that keep track of which widgets belong to which components
+// List of all SoQtComponent instances. Needed for the
+// SoQtComponent::getComponent() function.
 SbPList * SoQtComponent::soqtcomplist = NULL;
-SbPList * SoQtComponent::qtwidgetlist = NULL;
 
 // *************************************************************************
 
@@ -113,7 +113,8 @@ SoQtComponent::SoQtComponent(
 {
   // FIXME: deallocate on exit. 20000311 mortene.
   if (!SoQtComponent::soqtcomplist) SoQtComponent::soqtcomplist = new SbPList;
-  if (!SoQtComponent::qtwidgetlist) SoQtComponent::qtwidgetlist = new SbPList;
+
+  SoQtComponent::soqtcomplist->append(this);
 
   this->widget = NULL;
   this->parent = parent;
@@ -138,11 +139,8 @@ SoQtComponent::SoQtComponent(
 SoQtComponent::~SoQtComponent(
   void )
 {
-  // Link us out of the static QWidget<->SoQtComponent "correlation"
-  // lists.
-  int idx = SoQtComponent::qtwidgetlist->find(this->widget);
+  int idx = SoQtComponent::soqtcomplist->find(this);
   assert(idx != -1);
-  SoQtComponent::qtwidgetlist->remove(idx);
   SoQtComponent::soqtcomplist->remove(idx);
 
   delete this->visibilitychangeCBs;
@@ -822,11 +820,12 @@ SoQtComponent *
 SoQtComponent::getComponent(
   QWidget * const widget )
 {
-  int idx = SoQtComponent::qtwidgetlist->find( widget );
-  if ( idx != -1 )
-    return (SoQtComponent *)((*SoQtComponent::soqtcomplist)[idx]);
-  else
-    return NULL;
+  for (int i = 0; i < SoQtComponent::soqtcomplist->getLength(); i++) {
+    SoQtComponent * c = (SoQtComponent *)((*SoQtComponent::soqtcomplist)[i]);
+    if ( c->getWidget() == widget ) return c;
+  }
+
+  return NULL;
 } // getComponent()
 
 // *************************************************************************
