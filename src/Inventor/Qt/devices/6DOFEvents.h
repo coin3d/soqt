@@ -26,6 +26,10 @@
 
 // *************************************************************************
 
+#include <qevent.h>
+
+// *************************************************************************
+
 // temporary hacks for the spaceball/linux joystick support
 
 enum SoQtCustomEvents {
@@ -34,7 +38,7 @@ enum SoQtCustomEvents {
   soqt6dofDevicePressureEvent
 };
 
-class SOQT_DLL_API SoQt6dofDevicePressureEvent : public QCustomEvent {
+class SoQt6dofDevicePressureEvent : public QCustomEvent {
   typedef QCustomEvent inherited;
 
 public:
@@ -52,7 +56,7 @@ private:
 
 };
 
-class SOQT_DLL_API SoQt6dofDeviceButtonEvent : public QCustomEvent {
+class SoQt6dofDeviceButtonEvent : public QCustomEvent {
   typedef QCustomEvent inherited;
 
 public:
