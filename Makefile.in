@@ -238,7 +238,9 @@ SoGui_src_Inventor_Gui_nodes_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiClickCounter.h \
   $(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp \
   $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiSlider1.h \
-  $(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp
+  $(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiSlider2.h \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp
 
 
 SoGui_src_Inventor_Gui_viewers_BuiltFiles = \
@@ -414,6 +416,8 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/nodes/ClickCounter.cpp.in \
   src/Inventor/@Gui@/common/nodes/Slider1.h.in \
   src/Inventor/@Gui@/common/nodes/Slider1.cpp.in \
+  src/Inventor/@Gui@/common/nodes/Slider2.h.in \
+  src/Inventor/@Gui@/common/nodes/Slider2.cpp.in \
   src/Inventor/@Gui@/common/viewers/SoGuiConstrainedViewer.cpp.in \
   src/Inventor/@Gui@/common/viewers/SoGuiConstrainedViewer.h.in \
   src/Inventor/@Gui@/common/viewers/SoGuiFlyViewer.cpp.in \

@@ -238,7 +238,9 @@ SoGui_src_Inventor_Gui_nodes_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiClickCounter.h \
   $(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp \
   $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiSlider1.h \
-  $(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp
+  $(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiSlider2.h \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp
 
 
 SoGui_src_Inventor_Gui_viewers_BuiltFiles = \
@@ -414,6 +416,8 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/nodes/ClickCounter.cpp.in \
   src/Inventor/@Gui@/common/nodes/Slider1.h.in \
   src/Inventor/@Gui@/common/nodes/Slider1.cpp.in \
+  src/Inventor/@Gui@/common/nodes/Slider2.h.in \
+  src/Inventor/@Gui@/common/nodes/Slider2.cpp.in \
   src/Inventor/@Gui@/common/viewers/SoGuiConstrainedViewer.cpp.in \
   src/Inventor/@Gui@/common/viewers/SoGuiConstrainedViewer.h.in \
   src/Inventor/@Gui@/common/viewers/SoGuiFlyViewer.cpp.in \
@@ -488,14 +492,16 @@ nodes_lst_AR = $(AR) cru
 nodes_lst_LIBADD =
 nodist_nodes_lst_OBJECTS = Nodes.$(OBJEXT) ViewportFix.$(OBJEXT) \
 	Pane.$(OBJEXT) Position.$(OBJEXT) Translation.$(OBJEXT) \
-	Frame.$(OBJEXT) ClickCounter.$(OBJEXT) Slider1.$(OBJEXT)
+	Frame.$(OBJEXT) ClickCounter.$(OBJEXT) Slider1.$(OBJEXT) \
+	Slider2.$(OBJEXT)
 nodes_lst_OBJECTS = $(nodist_nodes_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
 libSoGuiNodes_la_LDFLAGS =
 libSoGuiNodes_la_LIBADD =
 nodist_libSoGuiNodes_la_OBJECTS = Nodes.lo ViewportFix.lo Pane.lo \
-	Position.lo Translation.lo Frame.lo ClickCounter.lo Slider1.lo
+	Position.lo Translation.lo Frame.lo ClickCounter.lo Slider1.lo \
+	Slider2.lo
 libSoGuiNodes_la_OBJECTS = $(nodist_libSoGuiNodes_la_OBJECTS)
 
 DEFS = @DEFS@
@@ -508,7 +514,8 @@ depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 @AMDEP_TRUE@	$(DEPDIR)/Nodes.Po $(DEPDIR)/Pane.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/Pane.Po $(DEPDIR)/Position.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/Position.Po $(DEPDIR)/Slider1.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/Slider1.Po $(DEPDIR)/Translation.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/Slider1.Po $(DEPDIR)/Slider2.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/Slider2.Po $(DEPDIR)/Translation.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/Translation.Po $(DEPDIR)/ViewportFix.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/ViewportFix.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
@@ -570,6 +577,7 @@ Frame.$(OBJEXT): $(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp
 ClickCounter.$(OBJEXT): \
 	$(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp
 Slider1.$(OBJEXT): $(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp
+Slider2.$(OBJEXT): $(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp
 
 clean-noinstLTLIBRARIES:
 	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
@@ -582,6 +590,7 @@ Frame.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp
 ClickCounter.lo: \
 	$(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp
 Slider1.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp
+Slider2.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp
 libSoGuiNodes.la: $(libSoGuiNodes_la_OBJECTS) $(libSoGuiNodes_la_DEPENDENCIES) 
 	$(CXXLINK)  $(libSoGuiNodes_la_LDFLAGS) $(libSoGuiNodes_la_OBJECTS) $(libSoGuiNodes_la_LIBADD) $(LIBS)
 
@@ -603,6 +612,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Position.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Slider1.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Slider1.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Slider2.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Slider2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Translation.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Translation.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/ViewportFix.Plo@am__quote@
@@ -772,6 +783,24 @@ Slider1.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp
 @AMDEP_TRUE@	depfile='$(DEPDIR)/Slider1.Plo' tmpdepfile='$(DEPDIR)/Slider1.TPlo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Slider1.lo `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp
+
+Slider2.o: $(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp' object='Slider2.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Slider2.Po' tmpdepfile='$(DEPDIR)/Slider2.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Slider2.o `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp
+
+Slider2.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp' object='Slider2.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Slider2.Po' tmpdepfile='$(DEPDIR)/Slider2.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Slider2.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp ) | xargs cygpath -w`
+
+Slider2.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp' object='Slider2.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Slider2.Plo' tmpdepfile='$(DEPDIR)/Slider2.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Slider2.lo `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp
 CXXDEPMODE = @CXXDEPMODE@
 uninstall-info-am:
 
