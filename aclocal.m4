@@ -6016,6 +6016,8 @@ eval "$1=\"`echo $2 | sed -e 's%\\/%\\\\\\\\\\\\\\\\%g'`\""
 # > $sim_ac_coin_desired     true | false (defaults to true)
 # < $sim_ac_coin_avail       true | false
 # < $sim_ac_coin_cppflags    (extra flags the preprocessor needs)
+# < $sim_ac_coin_cflags      (extra flags the C compiler needs)
+# < $sim_ac_coin_cxxflags    (extra flags the C++ compiler needs)
 # < $sim_ac_coin_ldflags     (extra flags the linker needs)
 # < $sim_ac_coin_libs        (link library flags the linker needs)
 # < $sim_ac_coin_datadir     (location of Coin data files)
@@ -6074,6 +6076,7 @@ if $sim_ac_coin_desired; then
       sim_ac_coin_configcmd="$sim_ac_coin_configcmd --alternate=$CONFIG"
     sim_ac_coin_version=`$sim_ac_coin_configcmd --version`
     sim_ac_coin_cppflags=`$sim_ac_coin_configcmd --cppflags`
+    sim_ac_coin_cflags=`$sim_ac_coin_configcmd --cflags 2>/dev/null`
     sim_ac_coin_cxxflags=`$sim_ac_coin_configcmd --cxxflags`
     sim_ac_coin_ldflags=`$sim_ac_coin_configcmd --ldflags`
     sim_ac_coin_libs=`$sim_ac_coin_configcmd --libs`
