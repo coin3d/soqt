@@ -506,6 +506,12 @@ SIM_AC_HAVE_INVENTOR_VRMLNODE(SoVRMLBackground)
 SIM_AC_HAVE_INVENTOR_VRMLNODE(SoVRMLFog)
 
 SIM_AC_HAVE_INVENTOR_FEATURE(
+  [for SoContextHandler class],
+  [#include <Inventor/misc/SoContextHandler.h>], [
+   SoContextHandler::destructingContext(0);],
+  [HAVE_SOCONTEXTHANDLER])
+
+SIM_AC_HAVE_INVENTOR_FEATURE(
   [for SoKeyboardEvent::DELETE enum],
   [#include <Inventor/events/SoKeyboardEvent.h>], [
    /* This is either DELETE or KEY_DELETE */

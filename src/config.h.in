@@ -76,6 +76,9 @@
 #undef HAVE_SOCAMERA_SETSTEREOMODE
 
 /* Define to enable use of Inventor feature */
+#undef HAVE_SOCONTEXTHANDLER
+
+/* Define to enable use of Inventor feature */
 #undef HAVE_SOKEYBOARDEVENT_DELETE
 
 /* Define to enable use of Inventor feature */
