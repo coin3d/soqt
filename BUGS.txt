@@ -613,3 +613,24 @@ main(int argc, char ** argv)
     20040921 mortene.
  
 =====================================================================
+
+031 Sensor handling incorrect
+
+    This SoGui library has its own delayqueue timeout timer.
+    This will cause delayqueue timeouts to trigger twice since Coin
+    handles this internally as well.
+
+    In addition, the code should be reviewed for bugs related to
+    assumptions on when the global field is updated in Coin
+    (the global field is updated after SoSceneManager::render(),
+    not after SoSceneManager::redraw() as was the case earlier.
+
+    I suspect further bugs to surface when the issues above are fixed,
+    so a thorough code review should be performed.
+
+    See the Sc21 source code for en example of how this should be done.
+
+    20040921 kintel.
+
+=====================================================================
+
