@@ -26,6 +26,8 @@ static const char rcsid[] =
   \ingroup soqtviewers
 */
 
+#include <assert.h>
+
 #include <qevent.h>
 #include <qpushbutton.h>
 #include <qpixmap.h>

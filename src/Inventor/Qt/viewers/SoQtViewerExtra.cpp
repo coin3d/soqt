@@ -20,6 +20,8 @@
 static const char rcsid[] =
   "$Id$";
 
+#include <assert.h>
+
 #include <qkeycode.h>
 #if QT_VERSION >= 200
 #include <q1xcompatibility.h>
