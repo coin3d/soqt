@@ -67,6 +67,7 @@ protected:
   QWidget * buildWidget( QWidget * parent );
 
   SoQtGLArea * getQtGLArea(void);
+  QWidget * getGLWidget(void);
 
   virtual void redraw(void) = 0;
 

@@ -428,7 +428,14 @@ SoQtGLArea *
 SoQtGLWidget::getQtGLArea(void)
 {
   return (SoQtGLArea *) this->glwidget;
-}
+} // getQtGLArea()
+
+QWidget *
+SoQtGLWidget::getGLWidget(void)
+{
+  return this->glwidget;
+} // getGLWidget()
+
 
 /*!
   FIXME: write function documentation
