@@ -34,22 +34,22 @@
   #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
   #include <Inventor/nodes/SoSeparator.h>
   #include "RadioGroupKit.h"
-  
+
   int
   main(int argc, char ** argv)
   {
     QWidget * mainwin = SoQt::init(argc, argv, argv[0]);
     RadioGroupKit::initClass();
-    
+
     SoSeparator * root = new SoSeparator;
     root->ref();
-  
+
     RadioGroupKit * radiogroup = new RadioGroupKit;
     radiogroup->labels.set1Value(0,"Item #1");
     radiogroup->labels.set1Value(1,"Item #2");
     radiogroup->labels.set1Value(2,"Item #3");
     root->addChild(radiogroup);
-    
+
     //
     // Here you can add a sensor callback to the 'selected' field in the RadioGroupKit
     // Ex:
@@ -61,13 +61,13 @@
     SoQtExaminerViewer * viewer = new SoQtExaminerViewer(mainwin);
     viewer->setSceneGraph(root);
     viewer->show();
-    
+
     SoQt::show(mainwin);
     SoQt::mainLoop();
-    
+
     delete viewer;
     root->unref();
-    
+
     return 0;
   }
   \endcode
@@ -75,28 +75,28 @@
 
 #include <Inventor/nodes/SoCone.h>
 #include <Inventor/nodes/SoCube.h>
-#include <Inventor/nodes/SoTranslation.h> 
-#include <Inventor/nodes/SoSeparator.h> 
-#include <Inventor/nodes/SoTransformSeparator.h> 
-#include <Inventor/nodes/SoMaterial.h> 
-#include <Inventor/nodes/SoText2.h> 
-#include <Inventor/nodes/SoBaseColor.h> 
-#include <Inventor/nodes/SoSphere.h> 
-#include <Inventor/nodes/SoSelection.h> 
-#include <Inventor/nodes/SoShapeHints.h> 
-#include <Inventor/nodes/SoSwitch.h> 
-#include <Inventor/nodes/SoFont.h> 
-#include <Inventor/nodes/SoEventCallback.h> 
-#include <Inventor/events/SoEvent.h> 
-#include <Inventor/events/SoMouseButtonEvent.h> 
-#include <Inventor/nodes/SoTransformation.h> 
-#include <Inventor/lists/SbPList.h> 
+#include <Inventor/nodes/SoTranslation.h>
+#include <Inventor/nodes/SoSeparator.h>
+#include <Inventor/nodes/SoTransformSeparator.h>
+#include <Inventor/nodes/SoMaterial.h>
+#include <Inventor/nodes/SoText2.h>
+#include <Inventor/nodes/SoBaseColor.h>
+#include <Inventor/nodes/SoSphere.h>
+#include <Inventor/nodes/SoSelection.h>
+#include <Inventor/nodes/SoShapeHints.h>
+#include <Inventor/nodes/SoSwitch.h>
+#include <Inventor/nodes/SoFont.h>
+#include <Inventor/nodes/SoEventCallback.h>
+#include <Inventor/events/SoEvent.h>
+#include <Inventor/events/SoMouseButtonEvent.h>
+#include <Inventor/nodes/SoTransformation.h>
+#include <Inventor/lists/SbPList.h>
 #include <Inventor/nodekits/SoShapeKit.h>
-#include <Inventor/nodes/SoMarkerSet.h> 
+#include <Inventor/nodes/SoMarkerSet.h>
 
-#include <Inventor/actions/SoGetBoundingBoxAction.h> 
-#include <Inventor/sensors/SoFieldSensor.h> 
-#include <Inventor/errors/SoDebugError.h> 
+#include <Inventor/actions/SoGetBoundingBoxAction.h>
+#include <Inventor/sensors/SoFieldSensor.h>
+#include <Inventor/errors/SoDebugError.h>
 
 #include "RadioGroupKit.h"
 
@@ -105,8 +105,8 @@ SO_KIT_SOURCE(RadioGroupKit);
 #define RADIO_BUTTON_SIZE .2
 
 typedef struct {
-  void *thisClass;
-  int button;
+  class RadioGroupKitP * thisClass;
+  SoSeparator * buttonroot;
 } paramPackage;
 
 static const char RADIOBULLET_radiobulletgeometry[] =
@@ -140,6 +140,7 @@ public:
   int buttonCounter;
   SbPList *buttonList;
   SoSeparator *root;
+  SoFieldSensor * labelSensor;
 
   void addRadioButton(SbString label);
   static void buttonClickedCallback(void *userData, SoPath *node);
@@ -147,14 +148,15 @@ public:
 
 };
 
-#undef THIS
-#define THIS this->pimpl
+#define PRIVATE(p) (p->pimpl)
+#define PUBLIC(p) (p->master)
+
 
 RadioGroupKit::RadioGroupKit(void)
 {
   SO_KIT_CONSTRUCTOR(RadioGroupKit);
-   
-  THIS = new RadioGroupKitP(this);
+
+  PRIVATE(this) = new RadioGroupKitP(this);
 
   if (SO_KIT_IS_FIRST_INSTANCE()) {
     SoInput input;
@@ -162,7 +164,7 @@ RadioGroupKit::RadioGroupKit(void)
     SoDB::readAll(&input);
   }
 
-  SO_KIT_ADD_CATALOG_ENTRY(radioGroupRoot,SoSeparator,FALSE,this, "",TRUE);  
+  SO_KIT_ADD_CATALOG_ENTRY(radioGroupRoot,SoSeparator,FALSE,this, "",TRUE);
   SO_KIT_ADD_CATALOG_ENTRY(RadioBulletActive, SoTransformSeparator, TRUE, radioGroupRoot, , TRUE);
   SO_KIT_ADD_CATALOG_ENTRY(RadioBullet, SoTransformSeparator, TRUE, radioGroupRoot, , TRUE);
   SO_KIT_ADD_CATALOG_ENTRY(BulletColorActive, SoBaseColor, TRUE, radioGroupRoot, , TRUE);
@@ -175,20 +177,22 @@ RadioGroupKit::RadioGroupKit(void)
   this->setPartAsDefault("BulletColor", "BulletColor");
   this->setPartAsDefault("BulletColorActive", "BulletColorActive");
 
-  THIS->buttonCounter = 0;
-  THIS->buttonList = new SbPList(1);
+  PRIVATE(this)->buttonCounter = 0;
+  PRIVATE(this)->buttonList = new SbPList(1);
 
-  THIS->root = new SoSeparator;
-  setPart("radioGroupRoot",THIS->root);
-  
-  SoFieldSensor * labelSensor = new SoFieldSensor(THIS->radioButtonAdded,THIS);
-  labelSensor->setPriority(0);
-  labelSensor->attach(&labels);
-  
+  PRIVATE(this)->labelSensor = new SoFieldSensor(PRIVATE(this)->radioButtonAdded,PRIVATE(this));
+  PRIVATE(this)->labelSensor->setPriority(0);
+  PRIVATE(this)->labelSensor->attach(&labels);
+
+  PRIVATE(this)->root = new SoSeparator;
+  this->setPart("radioGroupRoot", PRIVATE(this)->root);
 }
 
 RadioGroupKit::~RadioGroupKit()
 {
+  delete PRIVATE(this)->labelSensor;
+  delete PRIVATE(this)->buttonList;
+  delete PRIVATE(this);
 }
 
 void
@@ -197,51 +201,56 @@ RadioGroupKit::initClass(void)
   SO_KIT_INIT_CLASS(RadioGroupKit, SoInteractionKit, "InteractionKit");
 }
 
-SbBool 
+SbBool
 RadioGroupKit::affectsState() const
 {
   return(FALSE);
 }
 
-void 
+void
 RadioGroupKitP::buttonClickedCallback(void * userData, SoPath * node)
 {
+  paramPackage * pp = (paramPackage *) userData;
+  RadioGroupKitP * radioButtonsP = (RadioGroupKitP *)pp->thisClass;
+  int idx = radioButtonsP->root->findChild(pp->buttonroot);
+  assert(idx != -1);
+  idx /= 2; // there's a subgraph for Y-spacing inbetween each button root
 
-  paramPackage * pack = (paramPackage *) userData;
-  RadioGroupKitP * radioButtonsP = (RadioGroupKitP *) pack->thisClass;  
-
-  SoTransformSeparator * button = (SoTransformSeparator *) radioButtonsP->buttonList->get(pack->button);
+  SoTransformSeparator * button = (SoTransformSeparator *) radioButtonsP->buttonList->get(idx);
 
   for(int i=0;i<radioButtonsP->buttonList->getLength();++i){
     SoTransformSeparator *sep = (SoTransformSeparator *) radioButtonsP->buttonList->get(i);
     SoBaseColor *color = (SoBaseColor *) sep->getChild(0);
-    SoBaseColor *bulletColor =  (SoBaseColor*) SO_GET_PART(radioButtonsP->master, "BulletColor",SoBaseColor);
+    SoBaseColor *bulletColor =  (SoBaseColor*) SO_GET_PART(PUBLIC(radioButtonsP), "BulletColor",SoBaseColor);
     color->rgb = bulletColor->rgb;
   }
- 
+
   // Highlight selected button
   SoBaseColor * color = (SoBaseColor *) button->getChild(0);
-  SoBaseColor * bulletColor =  (SoBaseColor*) SO_GET_PART(radioButtonsP->master, "BulletColorActive",SoBaseColor);
+  SoBaseColor * bulletColor =  (SoBaseColor*) SO_GET_PART(PUBLIC(radioButtonsP), "BulletColorActive",SoBaseColor);
   color->rgb = bulletColor->rgb;
 
   // Update selected field
-  radioButtonsP->master->selected.setValue(pack->button);
-
+  PUBLIC(radioButtonsP)->selected.setValue(idx);
+#if 0 // debug
+  SoDebugError::postInfo("RadioGroupKitP::buttonClickedCallback",
+                         "selected %d", idx);
+#endif // debug
 }
 
-void 
+void
 RadioGroupKitP::radioButtonAdded(void * classObject, SoSensor * sensor)
 {
   RadioGroupKitP * pimpl = (RadioGroupKitP *) classObject;
-  SbString newlabel = pimpl->master->labels[pimpl->buttonCounter];
+  SbString newlabel = PUBLIC(pimpl)->labels[pimpl->buttonCounter];
   pimpl->addRadioButton(newlabel);
   pimpl->buttonCounter++;
 }
 
-void 
+void
 RadioGroupKitP::addRadioButton(SbString label)
 {
-  
+
   SoSeparator * buttonRoot = new SoSeparator;
   SoShapeHints * hints = new SoShapeHints;
   hints->vertexOrdering = SoShapeHints::COUNTERCLOCKWISE;
@@ -254,16 +263,16 @@ RadioGroupKitP::addRadioButton(SbString label)
   buttonRoot->addChild(hints);
   buttonRoot->addChild(font);
 
- 
+
   SoText2 * buttonLabel = new SoText2;
   buttonLabel->string = label;
- 
+
   SoSelection * selection = new SoSelection;
 
-  paramPackage * pack = new paramPackage;
-  pack->thisClass = this;
-  pack->button = buttonCounter;
-  selection->addSelectionCallback(&buttonClickedCallback, (void *)pack);
+  paramPackage * pp = new paramPackage;
+  pp->thisClass = this;
+  pp->buttonroot = buttonRoot;
+  selection->addSelectionCallback(&buttonClickedCallback, pp);
   SoTransformSeparator * sep;
 
   // Make first added button selected as default
@@ -284,7 +293,7 @@ RadioGroupKitP::addRadioButton(SbString label)
     bboxAction.apply(sep);
   else
     bboxAction.apply((SoTransformSeparator *) buttonList->get(buttonCounter-1)); // Previous radiobutton
-  
+
   SbBox3f bbox = bboxAction.getBoundingBox();
   SoTranslation *spacingX = new SoTranslation;
   SoTranslation *spacingY = new SoTranslation;
@@ -292,14 +301,12 @@ RadioGroupKitP::addRadioButton(SbString label)
   bbox.getSize(dx,dy,dz);
   spacingX->translation.setValue(dx,-dy/2,0);
   spacingY->translation.setValue(0,-dy*2,0);
-  
+
 
   selection->addChild(spacingX);
   selection->addChild(buttonLabel);
   buttonRoot->addChild(selection);
 
-  // Adding geometry to global classvariabel 'root'
-  root->addChild(buttonRoot); 
-  root->addChild(spacingY);
-
+  this->root->addChild(buttonRoot);
+  this->root->addChild(spacingY);
 }
