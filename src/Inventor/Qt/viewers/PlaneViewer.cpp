@@ -57,43 +57,6 @@
 
 // ************************************************************************
 
-// Documented in common/viewers/SoGuiPlaneViewer.cpp.in.
-SoQtPlaneViewer::SoQtPlaneViewer(QWidget * parent,
-                                 const char * const name,
-                                 SbBool embed,
-                                 SoQtFullViewer::BuildFlag flag,
-                                 SoQtViewer::Type type)
-  : inherited(parent, name, embed, flag, type, FALSE)
-{
-  PRIVATE(this) = new SoQtPlaneViewerP(this);
-  PRIVATE(this)->constructor(TRUE);
-}
-
-// ************************************************************************
-
-// Documented in common/viewers/SoGuiPlaneViewer.cpp.in.
-SoQtPlaneViewer::SoQtPlaneViewer(QWidget * parent,
-                                 const char * const name,
-                                 SbBool embed,
-                                 SoQtFullViewer::BuildFlag flag,
-                                 SoQtViewer::Type type,
-                                 SbBool build)
-  : inherited(parent, name, embed, flag, type, FALSE)
-{
-  PRIVATE(this) = new SoQtPlaneViewerP(this);
-  PRIVATE(this)->constructor(build);
-}
-
-// ************************************************************************
-
-// Documented in common/viewers/SoGuiPlaneViewer.cpp.in.
-SoQtPlaneViewer::~SoQtPlaneViewer()
-{
-  delete PRIVATE(this);
-}
-
-// ************************************************************************
-
 // Documented in superclass.
 void
 SoQtPlaneViewer::setCamera(SoCamera * camera)
