@@ -21,62 +21,27 @@
  *
 \**************************************************************************/
 
-// Most of the class documentation is found within the file
-// common/devices/SoGuiDevice.cpp.in.
-
-#if HAVE_CONFIG_H
-#include <config.h>
-#endif // HAVE_CONFIG_H
-
-#include <soqtdefs.h>
-#include <Inventor/Qt/devices/SoQtDevice.h>
-#include <Inventor/Qt/devices/SoQtDeviceP.h>
+#ifndef SOQT_DEVICEP_H
+#define SOQT_DEVICEP_H
 
 // *************************************************************************
 
-/*!
-  \typedef void SoQtEventHandler(QWidget *, void *, QEvent *, bool *)
-  FIXME: write doc
-*/
+#include <Inventor/Qt/devices/SoGuiDeviceP.h>
 
 // *************************************************************************
 
-SoQtDevice::SoQtDevice(void)
-{
-  PRIVATE(this) = new SoQtDeviceP(this);
-}
+class SoQtDeviceP : public SoGuiDeviceP {
 
-SoQtDevice::~SoQtDevice()
-{
-  delete PRIVATE(this);
-}
+public:
+  SoQtDeviceP(SoQtDevice * p) : SoGuiDeviceP(p) { }
+  virtual ~SoQtDeviceP() { }
 
-// *************************************************************************
-
-void
-SoQtDevice::invokeHandlers(QEvent * event)
-{
-  PRIVATE(this)->invokeHandlers(SoQtDeviceP::invokeHandlerCB, event);
-}
+  static SbBool invokeHandlerCB(SoQtEventHandler * handler,
+                                QWidget * widget,
+                                QEvent * event,
+                                void * handlerclosure);
+};
 
 // *************************************************************************
 
-#ifndef DOXYGEN_SKIP_THIS
-
-// Code and data for the internal, private hidden implementation
-// class.
-
-SbBool
-SoQtDeviceP::invokeHandlerCB(SoQtEventHandler * handler,
-                             QWidget * widget,
-                             QEvent * event,
-                             void * handlerclosure)
-{
-  bool dispatch = false;
-  handler(widget, handlerclosure, event, &dispatch);
-  return TRUE;
-}
-
-#endif // DOXYGEN_SKIP_THIS
-
-// *************************************************************************
+#endif // !SOQT_DEVICEP_H
