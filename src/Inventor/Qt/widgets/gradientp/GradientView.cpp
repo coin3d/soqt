@@ -169,18 +169,20 @@ GradientView::contentsMousePressEvent(QMouseEvent * e)
 
       this->currenttick = -1;
       this->segmentidx = -1;
-      SbBool hit = FALSE;
 
-      QValueList<TickMark *>::Iterator it = this->tickmarks.begin();
-      for (unsigned int idx = 0; idx < this->tickmarks.size(); idx++) {
-        if (this->tickmarks[idx]->hit(p)) {
-          hit = TRUE;
+      const unsigned int nrticks = this->tickmarks.size();
+      for (unsigned int idx = 0; idx < nrticks; idx++) {
+        // We don't want it to be possible to pick up the invisible
+        // first and last (left and right border) tickmarks.
+        if ((idx > 0) && (idx < nrticks - 1) && this->tickmarks[idx]->hit(p)) {
           this->moving_start = p;
           this->currenttick = idx;
           this->segmentidx = -1;
           this->tickmarks[idx]->setBrush(Qt::blue);
+          break; // only one tick mark should be selected (and blue) at a time
         }
-        if ((this->tickmarks[idx]->x() < p.x()) && !hit) { this->segmentidx++; }
+
+        if (this->tickmarks[idx]->x() < p.x()) { this->segmentidx++; }
       }
       emit this->viewChanged();
     }
@@ -234,7 +236,7 @@ GradientView::contentsMouseMoveEvent(QMouseEvent * e)
       const float t = current->getPos();
       this->grad.moveTick(this->currenttick, t);
 
-      int value = t * (this->max - this->min) + 0.5f;
+      const float value = t * (this->max - this->min) + 0.5f;
       QString s;
       s.sprintf("Color table index: %d", (int)(value + 0.5f));
       this->statusbar->message(s);
