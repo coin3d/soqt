@@ -776,6 +776,29 @@ SoQtExaminerViewer::setCursorRepresentation(const ViewerMode mode)
   if (!this->defaultcursor) {
     this->defaultcursor = new QCursor(w->cursor());
 
+    // For Qt on MSWin, it is necessary to mask the bitmaps "manually"
+    // before setting up the QBitmaps for the cursors. It doesn't seem
+    // to matter any way under X11. Sounds like a Qt bug to me, which
+    // seems strange -- as this issue has been present for at least a
+    // couple of years. 20000630 mortene.
+    {
+      unsigned char * bitmaps[] = {
+        so_qt_rotate_bitmap, so_qt_rotate_mask_bitmap,
+        so_qt_zoom_bitmap, so_qt_zoom_mask_bitmap,
+        so_qt_pan_bitmap, so_qt_pan_mask_bitmap
+      };
+      unsigned int bitmapsizes[] = {
+        (so_qt_rotate_width + 7) / 8 * so_qt_rotate_height,
+        (so_qt_zoom_width + 7) / 8 * so_qt_zoom_height,
+        (so_qt_pan_width + 7) / 8 * so_qt_pan_height,
+      };
+
+      for (int i = 0; i < sizeof(bitmapsizes) / sizeof(unsigned int); i++) {
+        for (int j = 0; j < bitmapsizes[i]; j++)
+          bitmaps[i*2][j] &= bitmaps[i*2+1][j];
+      }
+    }
+
     QBitmap zoomBtm(so_qt_zoom_width, so_qt_zoom_height,
                     (uchar*)so_qt_zoom_bitmap, FALSE);
     QBitmap zoomMask(so_qt_zoom_width, so_qt_zoom_height,
@@ -784,6 +807,7 @@ SoQtExaminerViewer::setCursorRepresentation(const ViewerMode mode)
                    (uchar*)so_qt_pan_bitmap, FALSE);
     QBitmap panMask(so_qt_pan_width, so_qt_pan_height,
                     (uchar*)so_qt_pan_mask_bitmap, FALSE);
+
     QBitmap rotateBtm(so_qt_rotate_width, so_qt_rotate_height,
                       (uchar*)so_qt_rotate_bitmap, FALSE);
     QBitmap rotateMask(so_qt_rotate_width, so_qt_rotate_height,
