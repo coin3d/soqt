@@ -1128,15 +1128,6 @@ SoQtFullViewer::sizeChanged(const SbVec2s & size)
 
 // *************************************************************************
 
-// Doc in superclass.
-void
-SoQtFullViewer::setCamera(SoCamera * newCamera)
-{
-  inherited::setCamera(newCamera);
-}
-
-// *************************************************************************
-
 // Qt slot.
 void
 SoQtFullViewerP::interactbuttonClicked(void)
