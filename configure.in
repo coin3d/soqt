@@ -654,15 +654,19 @@ SIM_AC_UNIQIFY_LIST(LIBS, $LIBS)
 # default value
 SOQT_STATIC=false
 
-case $enable_static in
-yes | true)  SOQT_STATIC=true;;
-*)           SOQT_STATIC=false;;
-esac
+if test x${enable_shared+set} = xset; then
+  case $enable_shared in
+  yes | true)  SOQT_STATIC=false ;;
+  *)           SOQT_STATIC=true ;;
+  esac
+fi
 
-case $enable_shared in
-yes | true)  SOQT_STATIC=false;;
-*)           SOQT_STATIC=true;;
-esac
+if test x${enable_static+set} = xset; then
+  case $enable_static in
+  yes | true)  SOQT_STATIC=true ;;
+  *)           SOQT_STATIC=false ;;
+  esac
+fi
 
 LIBFLAGS=
 AC_SUBST(LIBFLAGS)
