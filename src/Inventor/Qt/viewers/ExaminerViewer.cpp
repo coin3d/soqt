@@ -21,6 +21,10 @@
  *
 \**************************************************************************/
 
+// Class documentation in common/viewers/SoGuiExaminerViewer.cpp.in.
+
+// *************************************************************************
+
 #include <qpushbutton.h>
 #include <qkeycode.h>
 #include <qlabel.h>
@@ -52,25 +56,6 @@
 // Icon graphic for the camera button.
 #include <Inventor/Qt/common/pixmaps/ortho.xpm>
 #include <Inventor/Qt/common/pixmaps/perspective.xpm>
-
-/*!
-  \class SoQtExaminerViewer SoQtExaminerViewer.h Inventor/Qt/viewers/SoQtExaminerViewer.h
-  \brief The SoQtExaminerViewer class is a full-fledged model viewer
-  with functionality for rotation, pan, zoom, etc.
-  \ingroup soqtviewers
-
-  TODO: more doc
-  ...overview of what this class provides over parent class...
-  ...keyboard combinations...mousebutton combinations...explain pan,
-  rotate, zoom, dolly, seek...explain the fact that we're moving the
-  camera, not the scene...
-  ...viewer modes (examine vs interact) w/ explanation of what they are
-  useful for...
-  ...screenshot...
-  ...example code...
-
-  \sa SoQtWalkViewer, SoQtFlyViewer, SoQtPlaneViewer, SoQtCollisionViewer
-*/
 
 // *************************************************************************
 
@@ -181,22 +166,6 @@ SoQtExaminerViewer::~SoQtExaminerViewer()
 
 // *************************************************************************
 
-/*!
-  This method overloaded from parent class to make sure the mouse
-  pointer cursor is updated.
-*/
-
-void
-SoQtExaminerViewer::setViewing(SbBool enable)
-{
-  this->setMode(enable ?
-                SoQtExaminerViewer::EXAMINE :
-                SoQtExaminerViewer::INTERACT);
-  inherited::setViewing(enable);
-}
-
-// *************************************************************************
-
 // Documented in superclass.
 void
 SoQtExaminerViewer::setCamera(SoCamera * newCamera)
@@ -219,50 +188,6 @@ SoQtExaminerViewer::setCamera(SoCamera * newCamera)
   }
 
   inherited::setCamera(newCamera);
-}
-
-// *************************************************************************
-
-/*!
-  Overloaded to provide the examiner viewer functionality on the left
-  thumbwheel (x axis rotation).
-*/
-
-void
-SoQtExaminerViewer::leftWheelMotion(float value)
-{
-  if (this->isAnimating())
-    this->stopAnimating();
-
-  inherited::leftWheelMotion(
-    this->rotXWheelMotion(value, this->getLeftWheelValue()));
-}
-
-/*!
-  Overloaded to provide the examiner viewer functionality on the bottom
-  thumbwheel (y axis rotation).
-*/
-
-void
-SoQtExaminerViewer::bottomWheelMotion(float value)
-{
-  if (this->isAnimating())
-    this->stopAnimating();
-
-  inherited::bottomWheelMotion(
-    this->rotYWheelMotion(value, this->getBottomWheelValue()));
-}
-
-/*!
-  Overloaded to provide the examiner viewer functionality on the left
-  thumbwheel (dolly/zoom).
-*/
-
-void
-SoQtExaminerViewer::rightWheelMotion(float value)
-{
-  this->zoom(this->getRightWheelValue() - value);
-  inherited::rightWheelMotion(value);
 }
 
 // *************************************************************************
@@ -391,53 +316,6 @@ SoQtExaminerViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
 
 /*!
   \internal
-
-  Set cursor graphics according to mode.
-*/
-
-void
-SoQtExaminerViewer::setCursorRepresentation(int mode)
-{
-  // FIXME: with the new So@Gui@Cursor class, this has actually become
-  // a possibly generic method for all So* toolkits. Move to common
-  // code. 20011125 mortene.
-
-  if (!this->isCursorEnabled()) {
-    this->setComponentCursor(SoQtCursor::getBlankCursor());
-    return;
-  }
-
-  switch (mode) {
-  case SoQtExaminerViewer::INTERACT:
-    this->setComponentCursor(SoQtCursor(SoQtCursor::DEFAULT));
-    break;
-
-  case SoQtExaminerViewer::EXAMINE:
-  case SoQtExaminerViewer::DRAGGING:
-    this->setComponentCursor(SoQtCursor::getRotateCursor());
-    break;
-
-  case SoQtExaminerViewer::ZOOMING:
-    this->setComponentCursor(SoQtCursor::getZoomCursor());
-    break;
-
-  case SoQtExaminerViewer::WAITING_FOR_SEEK:
-    this->setComponentCursor(SoQtCursor(SoQtCursor::CROSSHAIR));
-    break;
-
-  case SoQtExaminerViewer::WAITING_FOR_PAN:
-  case SoQtExaminerViewer::PANNING:
-    this->setComponentCursor(SoQtCursor::getPanCursor());
-    break;
-
-  default: assert(0); break;
-  }
-}
-
-// *************************************************************************
-
-/*!
-  \internal
 */
 
 void
@@ -477,12 +355,7 @@ SoQtExaminerViewer::visibilityCB(void * data, SbBool visible)
 
 // *************************************************************************
 
-/*!
-  \internal
-
-  Pref sheet slot.
-*/
-
+//  Pref sheet slot.
 void
 SoQtExaminerViewer::spinAnimationToggled(bool flag)
 {
@@ -491,11 +364,7 @@ SoQtExaminerViewer::spinAnimationToggled(bool flag)
 
 // *************************************************************************
 
-/*!
-  \internal
-  Pref sheet slot.
-*/
-
+// Pref sheet slot.
 void
 SoQtExaminerViewer::feedbackVisibilityToggle(bool flag)
 {
@@ -505,12 +374,7 @@ SoQtExaminerViewer::feedbackVisibilityToggle(bool flag)
 
 // *************************************************************************
 
-/*!
-  \internal
-
-  Pref sheet slot.
-*/
-
+//  Pref sheet slot.
 void
 SoQtExaminerViewer::feedbackEditPressed()
 {
@@ -528,11 +392,7 @@ SoQtExaminerViewer::feedbackEditPressed()
 
 // *************************************************************************
 
-/*!
-  \internal
-  Pref sheet slot.
-*/
-
+// Pref sheet slot.
 void
 SoQtExaminerViewer::feedbackWheelPressed()
 {
@@ -541,11 +401,7 @@ SoQtExaminerViewer::feedbackWheelPressed()
 
 // *************************************************************************
 
-/*!
-  \internal
-  Pref sheet slot.
-*/
-
+// Pref sheet slot.
 void
 SoQtExaminerViewer::feedbackWheelReleased()
 {
@@ -554,11 +410,7 @@ SoQtExaminerViewer::feedbackWheelReleased()
 
 // *************************************************************************
 
-/*!
-  \internal
-  Pref sheet slot.
-*/
-
+// Pref sheet slot.
 void
 SoQtExaminerViewer::feedbackSizeChanged(float val)
 {
@@ -576,11 +428,7 @@ SoQtExaminerViewer::feedbackSizeChanged(float val)
 
 // *************************************************************************
 
-/*!
-  \internal
-  Pref sheet slot.
-*/
-
+// Pref sheet slot.
 void
 SoQtExaminerViewer::cameratoggleClicked()
 {
@@ -596,8 +444,8 @@ SoQtExaminerViewer::cameratoggleClicked()
 void
 SoQtExaminerViewer::setAnimationEnabled(const SbBool enable)
 {
+  // FIXME: update pref-sheet widget with the value. 20020603 mortene.
   this->setGenericAnimationEnabled(enable);
-  // FIXME: set spinanimtoggle state
 }
 
 
@@ -608,17 +456,8 @@ SoQtExaminerViewer::setAnimationEnabled(const SbBool enable)
 void
 SoQtExaminerViewer::setFeedbackSize(const int size)
 {
+  // FIXME: update pref-sheet widget with the value. 20020603 mortene.
   this->setGenericFeedbackSize(size);
-}
-
-// *************************************************************************
-
-// doc in super
-void
-SoQtExaminerViewer::afterRealizeHook(void)
-{
-  this->setCursorRepresentation(this->currentmode);
-  inherited::afterRealizeHook();
 }
 
 // *************************************************************************
