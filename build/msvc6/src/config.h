@@ -11,10 +11,10 @@
 #define COIN_IV_EXTENSIONS 
 
 /* The CPP compiler has a variable containing the current function name */
-/* #undef HAVE_CPP_COMPILER_FUNCTION_NAME_VAR */
+#define HAVE_CPP_COMPILER_FUNCTION_NAME_VAR __FUNCTION__
 
 /* The C compiler has a variable containing the current function name */
-/* #undef HAVE_C_COMPILER_FUNCTION_NAME_VAR */
+#define HAVE_C_COMPILER_FUNCTION_NAME_VAR __FUNCTION__
 
 /* Define to 1 if you have the <dlfcn.h> header file. */
 /* #undef HAVE_DLFCN_H */
