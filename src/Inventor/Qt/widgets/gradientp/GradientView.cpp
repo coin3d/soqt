@@ -46,7 +46,9 @@
 #include <qvaluelist.h>
 #include <qpopupmenu.h>
 #include <qcolordialog.h>
+#include <qlayout.h>
 #include <qlabel.h>
+#include <qstatusbar.h>
 
 #include <Inventor/Qt/widgets/Gradient.h>
 #include "GradientView.h"
@@ -71,14 +73,25 @@ GradientView::GradientView(QCanvas * c,
   this->currenttick = -1;
   this->menu = NULL;
   this->segmentidx = 0;
+  this->mousePressed = FALSE;
+  this->min = 0;
+  this->max = 255;
 
-  // FIXME: this looks bogus -- why not just use the default
-  // background color?  20031008 mortene.
-  this->canvas->setBackgroundColor(Qt::lightGray);
+  QVBoxLayout * topLayout = new QVBoxLayout(this);
+  topLayout->setAlignment(Qt::AlignBottom);
+  this->statusBar = new QStatusBar(this);
+  this->statusBar->setMaximumHeight(15);
+
+  this->selectionMarker = new ImageItem(this->canvas);
+  this->gradItem = new ImageItem(this->canvas);
+  this->gradItem->show();
+
+  topLayout->addWidget(this->statusBar);
 
   connect(this, SIGNAL(viewChanged()), this, SLOT(updateView()));
   connect(this, SIGNAL(ticksChanged()), this, SLOT(updateTicks()));
 
+  this->viewport()->setMouseTracking(TRUE);
   this->updateTicks();
   emit this->viewChanged();
 }
@@ -105,11 +118,13 @@ GradientView::updateView(void)
   const int width = this->canvas->width();
   const int height = this->canvas->height();
 
-  QImage gradImage = this->grad.getImage(width, height-10, 32);
-
-  if (this->gradItem) { delete this->gradItem; }
-  this->gradItem = new ImageItem(gradImage, this->canvas);
-  this->gradItem->show();
+  const QImage gradImage = this->grad.getImage(width, height-25, 32);
+  this->gradItem->setImage(gradImage);
+  // FIXME: tell the graditem to redraw all of itself
+  // not just those parts that have been touched by another item
+  // in a more elegant way. 20030910 frodo
+  this->gradItem->setVisible(FALSE);
+  this->gradItem->setVisible(TRUE);
 
   if (this->segmentidx != -1) {
     const int selectStart = (int) (this->tickMarks[this->segmentidx]->x());
@@ -117,11 +132,9 @@ GradientView::updateView(void)
   
     QImage selectedImage(selectEnd - selectStart, 10, 32);
     selectedImage.fill(QColor(100,100,245).rgb());
-
-    // FIXME: inefficient! *ugh*  20031008 mortene.
-    if (this->selectionMarker) { delete this->selectionMarker; }
-    this->selectionMarker = new ImageItem(selectedImage, this->canvas);
-    this->selectionMarker->moveBy(selectStart, height-10);
+    
+    this->selectionMarker->setImage(selectedImage);
+    this->selectionMarker->move(selectStart, height-25);
     this->selectionMarker->setZ(2);
     this->selectionMarker->show();
   }
@@ -135,6 +148,7 @@ GradientView::updateView(void)
 void
 GradientView::contentsMousePressEvent(QMouseEvent * e)
 {
+  this->mousePressed = TRUE;
   QPoint p = inverseWorldMatrix().map(e->pos());
  
   switch (e->button()) {
@@ -151,9 +165,7 @@ GradientView::contentsMousePressEvent(QMouseEvent * e)
           this->currenttick = idx;
           this->segmentidx = -1;
           this->tickMarks[idx]->setBrush(Qt::blue);
-          break;
         }
-
         if (this->tickMarks[idx]->x() < p.x()) { this->segmentidx++; }
       }
       emit this->viewChanged();
@@ -177,31 +189,51 @@ GradientView::contentsMousePressEvent(QMouseEvent * e)
 }
 
 void
+GradientView::contentsMouseReleaseEvent(QMouseEvent * e)
+{
+  this->mousePressed = FALSE;
+}
+
+void
 GradientView::contentsMouseMoveEvent(QMouseEvent * e)
 {
-  if (this->currenttick == -1) { return; }
+  if (this->mousePressed) {
+    if (this->currenttick == -1) { return; }
+    QPoint p = inverseWorldMatrix().map(e->pos());
+    int x = p.x();
 
-  QPoint p = inverseWorldMatrix().map(e->pos());
-  int x = p.x();
+    assert(this->currenttick > 0);
+    assert(this->currenttick < (int)(this->tickMarks.size() - 1));
 
-  assert(this->currenttick > 0);
-  assert(this->currenttick < (int)(this->tickMarks.size() - 1));
+    TickMark * left = this->tickMarks[this->currenttick - 1];
+    TickMark * current = this->tickMarks[this->currenttick];
+    TickMark * right = this->tickMarks[this->currenttick + 1];
 
-  TickMark * left = this->tickMarks[this->currenttick - 1];
-  TickMark * current = this->tickMarks[this->currenttick];
-  TickMark * right = this->tickMarks[this->currenttick + 1];
-
-  const int movex = x - this->moving_start.x();
-  const int newpos = (int) (current->x() + movex);
+    const int movex = x - this->moving_start.x();
+    const int newpos = (int) (current->x() + movex);
     
-  if ((newpos >= left->x()) && newpos <= right->x()) {
-    current->moveBy(movex, 0);
-    this->moving_start = QPoint(x, p.y());
+    if ((newpos >= left->x()) && newpos <= right->x()) {
+      current->moveBy(movex, 0);
       
-    const float t = current->getPos();
-    this->grad.moveTick(this->currenttick, t);
+      this->moving_start = QPoint(x, p.y());
       
-    emit this->viewChanged();
+      const float t = current->getPos();
+      this->grad.moveTick(this->currenttick, t);
+
+      float value = t * (this->max - this->min);
+      QString s;
+      s.sprintf("%f", value);
+      this->statusBar->message("Data Value: " + s);
+      
+      emit this->viewChanged();
+    }
+  } else {
+    QPoint p = inverseWorldMatrix().map(e->pos());
+    QRgb col = this->grad.eval((float)p.x() / (float)this->canvas->width());
+    QString s;
+    s.sprintf("0x%02x%02x%02x%02x", qRed(col), qGreen(col), qBlue(col), qAlpha(col));
+    this->statusBar->message(QString("RBGA: ") + s);
+
   }
 }
 
@@ -234,7 +266,6 @@ GradientView::unselectAll(void)
   this->currenttick = -1;
 }
 
-
 void
 GradientView::setGradient(const Gradient & grad)
 {
@@ -243,6 +274,13 @@ GradientView::setGradient(const Gradient & grad)
   this->segmentidx = -1;
   this->updateTicks();
   emit this->viewChanged();
+}
+
+void
+GradientView::setDataLimits(float min, float max)
+{
+  this->min = min;
+  this->max = max;
 }
 
 const Gradient &
@@ -272,7 +310,7 @@ GradientView::newTick(int x)
 {
   TickMark* i = new TickMark(this->canvas);
   i->setBrush(QColor(0,0,0));
-  i->move(0, this->canvas->height()-15);
+  i->move(0, this->canvas->height()-30);
   i->setZ(3);
   i->setX(x);
   i->show();
@@ -358,8 +396,8 @@ GradientView::deleteTick(void)
 
   this->grad.removeTick(this->currenttick);
   this->updateTicks();
-    
   this->segmentidx = -1;
+  this->mousePressed = FALSE;
   emit this->viewChanged();
 }
 

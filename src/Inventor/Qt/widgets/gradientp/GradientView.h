@@ -33,6 +33,7 @@ class QMouseEvent;
 class QResizeEvent;
 class ImageItem;
 class QPopupMenu;
+class QStatusBar;
 
 class GradientView : public QCanvasView
 {
@@ -52,6 +53,7 @@ public:
   void insertTick(float t);
   float getSelectedPos(void);
   void setChangeCallback(Gradient::ChangeCB * cb, void * userdata);
+  void setDataLimits(float min, float max);
 
 public slots:
   void updateTicks(void);
@@ -65,6 +67,7 @@ signals:
 
 protected:
   void contentsMousePressEvent(QMouseEvent *);
+  void contentsMouseReleaseEvent(QMouseEvent *);
   void contentsMouseMoveEvent(QMouseEvent *);
   void viewportResizeEvent(QResizeEvent *);
   void keyPressEvent(QKeyEvent * e);
@@ -96,11 +99,14 @@ private:
   ImageItem * selectionMarker;
   QPopupMenu * menu;
   QValueList<TickMark*> tickMarks;
+  QStatusBar * statusBar;
 
   int currenttick;
   int segmentidx;
+  float min, max;
 
   QPoint moving_start;
+  SbBool mousePressed;
 };
 
 #endif // ! GRADIENT_VIEW_H
