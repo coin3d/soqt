@@ -31,6 +31,7 @@ BUILT_SOURCES = \
 	src/Inventor/Qt/widgets/SoAnyPopupMenu.h \
 	src/Inventor/Qt/widgets/SoAnyPopupMenu.cpp \
 	src/Inventor/Qt/moc_SoQt.cpp \
+	src/Inventor/Qt/moc_SoQtObject.cpp \
 	src/Inventor/Qt/moc_SoQtComponent.cpp \
 	src/Inventor/Qt/moc_SoQtGLWidget.cpp \
 	src/Inventor/Qt/moc_SoQtLightSliderSet.cpp \
@@ -146,6 +147,9 @@ src/Inventor/Qt/widgets/SoAnyPopupMenu.cpp: \
 
 src/Inventor/Qt/moc_SoQt.cpp: $(srcdir)/src/Inventor/Qt/SoQt.h
 	$(MOC) -o $@ $(srcdir)/src/Inventor/Qt/SoQt.h
+
+src/Inventor/Qt/moc_SoQtObject.cpp: $(srcdir)/src/Inventor/Qt/SoQtObject.h
+	$(MOC) -o $@ $(srcdir)/src/Inventor/Qt/SoQtObject.h
 
 src/Inventor/Qt/moc_SoQtComponent.cpp: $(srcdir)/src/Inventor/Qt/SoQtComponent.h
 	$(MOC) -o $@ $(srcdir)/src/Inventor/Qt/SoQtComponent.h
