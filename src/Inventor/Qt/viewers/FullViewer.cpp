@@ -735,22 +735,30 @@ SoQtFullViewer::sizeChanged(const SbVec2s & size)
 // leave 15 pixels at the lower border of the window blank...
 #if defined Q_WS_MAC && ((QT_VERSION == 0x030100) || (QT_VERSION == 0x030101))
 
-  if (!PRIVATE(this)->decorations) { // GL context would fill whole window
-    newsize -= SbVec2s(0, 15);       // -> leave lowermost 15 px blank
+  // Environment variable to override Qt/Mac 3.1.x workarounds.
+  const char * forcenoresizeworkaround = 
+    SoAny::si()->getenv("FORCE_NO_QTMAC_31_RESIZE_WORKAROUND");
+  if (!forcenoresizeworkaround || (atoi(forcenoresizeworkaround) == 0)) {
 
-    // spit out a warning that this is a Qt/Mac bug, not an SoQt  problem
-    const char * env = SoAny::si()->getenv("SOQT_NO_QTMAC_BUG_WARNINGS");
-    if (!env || !atoi(env)) {        
-      SoDebugError::postWarning("SoQtFullViewer::sizeChanged", 
-                                "\nThis version of Qt/Mac contains a bug "
-                                "that makes it necessary to leave the\n"  
-                                "lowermost 15 pixels of the viewer window "
-                                "blank. Warnings about Qt/Mac bugs\n"
-                                "can be turned off permanently by setting the "
-                                "environment variable\n"
-                                "SOQT_NO_QTMAC_BUG_WARNINGS=1.");
+    if (!PRIVATE(this)->decorations) { // GL context would fill whole window
+       newsize -= SbVec2s(0, 15);       // -> leave lowermost 15 px blank
+
+      // spit out a warning that this is a Qt/Mac bug, not an SoQt problem
+      const char * env = SoAny::si()->getenv("SOQT_NO_QTMAC_BUG_WARNINGS");
+      if (!env || !atoi(env)) {        
+        SoDebugError::postWarning("SoQtFullViewer::sizeChanged", 
+                                  "\nThis version of Qt/Mac contains a bug "
+                                  "that makes it necessary to leave the\n"  
+                                  "lowermost 15 pixels of the viewer window "
+                                  "blank. Set the environment variable\n"
+                                  "FORCE_NO_QTMAC_31_RESIZE_WORKAROUND=1 to "
+                                  "override this workaround. \n"
+                                  "You can turn off warnings about Qt/Mac "
+                                  "bugs permanently by setting \n"
+                                  "SOQT_NO_QTMAC_BUG_WARNINGS=1.\n");
+      } 
     } 
-  } 
+  }
 
 #endif 
 
