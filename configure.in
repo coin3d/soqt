@@ -24,7 +24,7 @@ fi
 
 if test ! -f ${srcdir}/examples/ChangeLog; then
   echo ""
-  echo "  You appear to have an old setup of the SoQe source repository."
+  echo "  You appear to have an old setup of the SoQt source repository."
   echo "  Parts of it have changed structurally, and you need to do the"
   echo "  following in the SoQt source directory:"
   echo ""
@@ -251,11 +251,29 @@ AC_SUBST(WIDGET)
 AC_SUBST(EVENT)
 AC_SUBST(COMPONENTHEADER)
 
-AM_CONDITIONAL(HAVE_RENDERAREA, true)
-AM_CONDITIONAL(HAVE_EXAMINERVIEWER, true)
-AM_CONDITIONAL(HAVE_PLANEVIEWER, true)
-AM_CONDITIONAL(HAVE_WALKVIEWER, false)
-AM_CONDITIONAL(HAVE_FLYVIEWER, false)
+# Pass to examples/configure
+export GUI lGUI uGUI WIDGET EVENT COMPONENTHEADER
+
+# Pass to examples/configure
+HAVE_RENDERAREA=true
+HAVE_EXAMINERVIEWER=true
+HAVE_PLANEVIEWER=true
+HAVE_WALKVIEWER=false
+HAVE_FLYVIEWER=false
+export HAVE_RENDERAREA HAVE_EXAMINERVIEWER HAVE_PLANEVIEWER HAVE_WALKVIEWER HAVE_FLYVIEWER
+
+dnl *******************************************************************
+dnl * Configure the submodule with the examples.
+dnl *******************************************************************
+
+# Pass to examples/configure.in
+EXTRA_CPPFLAGS=$SOQT_EXTRA_CPPFLAGS
+EXTRA_LDFLAGS=$SOQT_EXTRA_LDFLAGS
+EXTRA_LIBS=$SOQT_EXTRA_LIBS
+export EXTRA_CPPFLAGS EXTRA_LDFLAGS EXTRA_LIBS
+
+AC_CONFIG_SUBDIRS(examples)
+
 
 dnl *******************************************************************
 dnl * List all makefiles configure must automatically generate.
@@ -278,9 +296,6 @@ AC_OUTPUT([
 	src/Inventor/Qt/widgets/Makefile
 	test-code/Makefile
 	test-code/widgets/Makefile
-	examples/Makefile
-	examples/components/Makefile
-	examples/nodes/Makefile
 ],[
 	chmod a+x soqt-config
 ])
