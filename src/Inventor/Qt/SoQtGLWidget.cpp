@@ -110,7 +110,7 @@ static const char rcsid[] =
 
 // Abstract the overlay handling methods on QGLFormat and QGLWidget,
 // because they may or may not be there depending on the version of
-// the QGL library installed on the users system.
+// the QGL library installed on the developer's system.
 //
 // (And we'd like to avoid scattering #ifdef's all over the code, so
 // we make some new functions.)
@@ -214,8 +214,8 @@ SoQtGLWidget::SoQtGLWidget(
   QGLFormat_setOverlay(THIS->glformat, enableoverlay);
 
 #if SOQT_DEBUG && 0
-  // people ask if this warning is a problem - it is harmless, so we don't
-  // display it anymore [2001-05-18 larsa]
+  // people ask if this warning is a problem - it is harmless, so we
+  // don't display it anymore [2001-05-18 larsa]
 
   // FIXME: this is *not* a good way to handle this case.  What should
   // be done is 1) default to set up a QGLWidget without overlay
@@ -238,7 +238,7 @@ SoQtGLWidget::SoQtGLWidget(
 
   if ( ! QGLFormat::hasOpenGL() ) {
     SoDebugError::post( "SoQtGLWidget::SoQtGLWidget",
-      "OpenGL not available!" );
+                        "OpenGL not available!" );
     return;
   }
 
@@ -347,7 +347,6 @@ SoQtGLWidget::buildGLWidget(void)
     // already interacting with the canvas (e.g. when starting a drag
     // in BUFFER_INTERACTIVE mode).
 #if 0 // Keep this code around so we don't accidentally reinsert it. :^}
-
     wascurrent->removeEventFilter( this );
     wascurrent->setMouseTracking( FALSE );
 #endif // Permanently disabled.
@@ -743,18 +742,24 @@ SoQtGLWidget::getNormalWidget(
 }
 
 /*!
-  At the moment this is just a stub prototype for OIV compatibility.
+  Returns widget associated with overlay planes, or \c NULL if no
+  overlay planes are available.
+
+  For the Qt toolkit, overlay planes is a feature of the QGLWidget,
+  and not seen at a separate widget entity. So this call will just
+  return the same widget reference as the SoQt::getGLWidget() call (if
+  overlay planes are supported).
 */
 
 QWidget *
 SoQtGLWidget::getOverlayWidget(
   void ) const
 {
-  if (((SoQtGLWidget*)this)->getOverlayContext()) {
-    // It's the same as the normal widget, as far as I know
-    return this->getGLWidget();
-  }
-  return NULL;
+  // Cast away this-pointer constness, as
+  // SoQtGLWidget::getOverlayContext() is not defined as const.
+  SoQtGLWidget * that = (SoQtGLWidget *)this;
+
+  return that->getOverlayContext() ? this->getGLWidget() : NULL;
 }
 
 // *************************************************************************
@@ -852,14 +857,19 @@ SoQtGLWidget::widgetChanged( // virtual
 }
 
 /*!
-  FIXME: write function documentation
-*/
+  Any events from the native window system that goes to the OpenGL
+  canvas gets piped through this method.
 
+  It is overloaded in the subclasses to catch user interaction with
+  the render canvas in the viewers, aswell as forwarding relevant
+  events to the scenegraph.
+*/
 void
-SoQtGLWidget::processEvent(QEvent * /* anyevent */)
+SoQtGLWidget::processEvent(QEvent * anyevent)
 {
-//  SoDebugError::postInfo( "processEvent", "called" );
-  // FIXME: anything to do here? 981029 mortene.
+  // Nothing is done here for the SoQtGLWidget, as realize, resize and
+  // expose events are caught by explicitly attaching signal callbacks
+  // to the widget.
 }
 
 // *************************************************************************
@@ -1085,6 +1095,8 @@ SoQtGLWidget::initGraphic(void)
 void 
 SoQtGLWidget::initOverlayGraphic(void)
 {
+  // FIXME: can't see this function called from anywhere within SoQt.
+  // That seems bogus. 20010831 mortene.
 }
 
 /*!
