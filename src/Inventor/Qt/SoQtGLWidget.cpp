@@ -58,8 +58,15 @@ static const char rcsid[] =
   non-abstract subclasses.
  */
 /*!
+  \var SbBool SoQtGLWidget::waitForExpose
+  If this is \c TRUE, rendering should not be done yet. Upon the first
+  expose event of a newly created OpenGL widget, this variable will
+  be set to \c FALSE.
+*/
+/*!
   \var SbBool SoQtGLWidget::drawToFrontBuffer
-  FIXME: write doc
+  If this is \c TRUE, rendering will happen in the front buffer even
+  if the current rendering mode is double buffered.
 */
 
 
@@ -71,7 +78,7 @@ static const int SO_BORDER_THICKNESS = 2;
 SoQtGLWidget::SoQtGLWidget(QWidget * const parent, const char * const /*name*/,
                            const SbBool buildInsideParent, const int glModes,
                            const SbBool buildNow)
-  : inherited(parent)
+  : inherited(parent), waitForExpose(TRUE), drawToFrontBuffer(FALSE)
 {
   this->glLockLevel = 0;
   this->glmodebits = glModes;
@@ -90,7 +97,6 @@ SoQtGLWidget::SoQtGLWidget(QWidget * const parent, const char * const /*name*/,
 
   this->properties.mouseinput = FALSE;
   this->properties.keyboardinput = FALSE;
-  this->properties.drawfrontbuff = TRUE;
 
   this->borderthickness = 0;
 }
@@ -134,10 +140,10 @@ SoQtGLWidget::buildWidget(QWidget * parent)
   }
 
 
-  QObject::connect( this->glwidget, SIGNAL(init()), this, SLOT(gl_init()));
-  QObject::connect( this->glwidget, SIGNAL(reshape(int, int)),
+  QObject::connect( this->glwidget, SIGNAL(init_sig()), this, SLOT(gl_init()));
+  QObject::connect( this->glwidget, SIGNAL(reshape_sig(int, int)),
                    this, SLOT(gl_reshape(int, int)));
-  QObject::connect( this->glwidget, SIGNAL(render()), this, SLOT(gl_render()));
+  QObject::connect( this->glwidget, SIGNAL(expose_sig()), this, SLOT(gl_exposed()));
 
   this->glwidget->setMouseTracking( TRUE );
 
@@ -243,14 +249,11 @@ SoQtGLWidget::eventFilter(QObject * obj, QEvent * e)
 //      int newwidth = r->size().width() - 2 * this->borderthickness;
 //      int newheight = r->size().height() - 2 * this->borderthickness;
 
-      ((QtGLArea *)this->glwidget)->doRender(FALSE);
 //      this->glwidget->setGeometry( this->borderthickness,
 //                                   this->borderthickness,
 //                                   newwidth, newheight );
       this->glwidget->setGeometry( this->borderwidget->contentsRect() );
   
-      ((QtGLArea *)this->glwidget)->doRender(TRUE);
-
       int newwidth = r->size().width();
       int newheight = r->size().height();
       this->sizeChanged( SbVec2s(newwidth, newheight) );
@@ -351,7 +354,7 @@ SoQtGLWidget::isDoubleBuffer(void) const
 void
 SoQtGLWidget::setDrawToFrontBufferEnable(const SbBool enable)
 {
-  this->properties.drawfrontbuff = enable;
+  this->drawToFrontBuffer = enable;
 }
 
 /*!
@@ -360,7 +363,7 @@ SoQtGLWidget::setDrawToFrontBufferEnable(const SbBool enable)
 SbBool
 SoQtGLWidget::isDrawToFrontBufferEnable(void) const
 {
-  return this->properties.drawfrontbuff;
+  return this->drawToFrontBuffer;
 }
 
 /*!
@@ -451,25 +454,6 @@ SoQtGLWidget::widgetChanged(void)
 }
 
 /*!
-  \internal
- */
-
-/*
-void
-SoQtGLWidget::repaint_slot(void)
-{
-  // Set up the flag which will affect whether or not we're going to
-  // render directly into the front buffer on expose-type events. This
-  // must be done each time this events occurs, as the
-  // drawToFrontBuffer flag is reset immediately to FALSE after a GL
-  // redraw. See PrivateGLWidget::swapBuffers().
-  this->drawToFrontBuffer = this->properties.drawfrontbuff;
-
-  this->redraw();
-}
-*/
-
-/*!
   FIXME: write function documentation
 */
 void
@@ -505,10 +489,13 @@ SoQtGLWidget::glSwapBuffers(
 {
   assert( this->glwidget != NULL );
   assert( this->glLockLevel > 0 );
-#if 0 // SOQT_DEBUG
-  SoDebugError::postInfo( "SoQtGLWidget::glSwapBuffer", "called" );
-#endif // 0 was SOQT_DEBUG
+#if SOQT_DEBUG && 0 // debug
+  SoDebugError::postInfo( "SoQtGLWidget::glSwapBuffers", "start" );
+#endif // debug
   ((QtGLArea *)this->glwidget)->swapBuffers();
+#if SOQT_DEBUG && 0 // debug
+  SoDebugError::postInfo( "SoQtGLWidget::glSwapBuffers", "done" );
+#endif // debug
 } // glSwapBuffers()
 
 void
@@ -526,7 +513,10 @@ SoQtGLWidget::glInit( // virtual
 #if 0 // SOQT_DEBUG
   SoDebugError::postInfo( "SoQtGLWidget::glInit", "called" );
 #endif // 0 was SOQT_DEBUG
+
   glLock();
+  // Need to set this explicitly when running on top of Open Inventor,
+  // as it seems to have been forgotten there.
   glEnable( GL_DEPTH_TEST );
   glUnlock();
 } // glInit()
@@ -546,7 +536,6 @@ SoQtGLWidget::glReshape( // virtual
 #if 0 // SOQT_DEBUG
   SoDebugError::postInfo( "SoQtGLWidget::glReshape", "called" );
 #endif // 0 was SOQT_DEBUG
-  this->sizeChanged( SbVec2s( width, height ) );
 } // glReshape()
 
 void
@@ -554,6 +543,7 @@ SoQtGLWidget::gl_reshape( // slot
   int width,
   int height )
 {
+  this->sizeChanged( SbVec2s( width, height ) );
   this->glReshape( width, height );
 } // gl_reshape()
 
@@ -569,10 +559,11 @@ SoQtGLWidget::glRender( // virtual
 } // glRender()
 
 void
-SoQtGLWidget::gl_render( // slot
+SoQtGLWidget::gl_exposed( // slot
   void )
 {
   this->glRender();
-} // gl_render()
+  this->waitForExpose = FALSE; // Gets flipped from TRUE on first expose.
+} // gl_exposed()
 
 // *************************************************************************

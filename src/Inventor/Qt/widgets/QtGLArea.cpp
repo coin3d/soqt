@@ -20,36 +20,51 @@
 static const char rcsid[] =
   "$Id$";
 
-/*!
-  \class QtGLArea QtGLArea.h
-  \brief The QtGLArea class is an internal class for managing an OpenGL canvas.
-  \internal
-
-  It's purpose was to maek a GL widget that was totally manageable through
-  signals and slots, that doesn't need to be overloaded.
-*/
-
-#include <assert.h>
+// This class' purpose is to overload the Qt OpenGL widget, so we can
+// do our own initialization and event handling on resizes and expose
+// events.
 
 #include <Inventor/Qt/widgets/QtGLArea.h>
+#include <assert.h>
+
+#if SOQT_DEBUG
+#include <Inventor/errors/SoDebugError.h>
+#endif // SOQT_DEBUG
 
 // *************************************************************************
 
-/*!
-  Constructor.
-*/
+#if SOQT_DEBUG && 0 // switch 0<->1 to toggle debugging info on/off
+
+#define QTGLAREA_DEBUG_INFO(_funcname_, _infostr_) \
+  do { \
+    SbString s("QtGLArea::"); \
+    s += SO__QUOTE(_funcname_); \
+    SoDebugError::postInfo(s.getString(), _infostr_); \
+  } while (0)
+
+#define QTGLAREA_DEBUG_START(_funcname_)  QTGLAREA_DEBUG_INFO(_funcname_, "start")
+#define QTGLAREA_DEBUG_DONE(_funcname_)  QTGLAREA_DEBUG_INFO(_funcname_, "done")
+
+#else // !debug
+
+#define QTGLAREA_DEBUG_START(_funcname_)
+#define QTGLAREA_DEBUG_DONE(_funcname_)
+
+#endif // !debug
+
+// *************************************************************************
 
 QtGLArea::QtGLArea(
   QWidget * const parent,
   const char * const name )
-: inherited( parent, name )
-, dorender( TRUE )
+: inherited( parent, name, 0x0, WResizeNoErase )
 {
+  // We'll handle the OpenGL buffer swapping ourselves, to support the
+  // different combinations of rendering options (doublebuffer with
+  // the "DrawToFront" flag is for instance hard to do within the
+  // QGLWidget model).
+  this->setAutoBufferSwap( FALSE );
 } // QtGLArea()
-
-/*!
-  The destructor.
-*/
 
 QtGLArea::~QtGLArea(
   void )
@@ -57,39 +72,21 @@ QtGLArea::~QtGLArea(
 } // ~QtGLArea()
 
 /*
-  Set/unset flag to actually do render the scene upon paintGL() events.
-  Useful for postponing render actions during resizes etc.
-*/
-
-void
-QtGLArea::doRender(
-  bool flag )
-{
-  this->dorender = flag;
-} // doRender()
-
-/*
-  Overloaded from QtGLWidget.
+  Overloaded from QGLWidget to emit a signal.
 */
 
 void
 QtGLArea::initializeGL(
   void )
 {
-  inherited::initializeGL();
-  this->setBackgroundMode(QWidget::NoBackground);
-  this->setBackgroundColor(QColor(0,0,0));
-  this->makeCurrent();
-
-  // Need to call this explicitly, as it seems to have been forgotten
-  // in Open Inventor.
-  glEnable(GL_DEPTH_TEST);
-
-  emit this->init();
+  QTGLAREA_DEBUG_START(initializeGL);
+  this->setBackgroundMode(QWidget::NoBackground); // Avoid unnecessary flicker.
+  emit this->init_sig();
+  QTGLAREA_DEBUG_DONE(initializeGL);
 } // initializeGL()
 
 /*
-  Overloaded from QtGLWidget.
+  Overloaded from QtGLWidget to emit a signal.
 */
 
 void
@@ -97,53 +94,22 @@ QtGLArea::resizeGL(
   int width,
   int height )
 {
-#if 0 // debug
-  SoDebugError::postInfo("PrivateGLWidget::resizeGL", "start");
-#endif // debug
-  inherited::resizeGL( width, height );
-  emit this->reshape( width, height );
-#if 0 // debug
-  SoDebugError::postInfo("PrivateGLWidget::resizeGL", "done");
-#endif // debug
+  QTGLAREA_DEBUG_START(resizeGL);
+  emit this->reshape_sig( width, height );
+  QTGLAREA_DEBUG_DONE(resizeGL);
 } // resizeGL()
 
 /*
-  Emit a signal whenever we need to repaint (usually (always?) because
-  of expose events).
+  Emit a signal whenever we need to repaint because of an expose event.
 */
 
 void
 QtGLArea::paintGL(
   void )
 {
-#if 0 // debug
-  SoDebugError::postInfo("PrivateGLWidget::paintGL", "%s",
-                         this->dorender ? "executing" : "ignoring");
-#endif //debug
-//  if (this->dorender) {
-    inherited::paintGL();
-    emit this->render();
-//  }
+  QTGLAREA_DEBUG_START(paintGL);
+  emit this->expose_sig();
+  QTGLAREA_DEBUG_DONE(paintGL);
 } // paintGL()
-
-/*
-  We need to overload QGLWidget::swapBuffers() like this to be able to
-  heed the *DrawToFrontBufferEnable() setting.
-*/
-
-void
-QtGLArea::swapBuffers(
-  void )
-{
-//  if (this->owner->drawToFrontBuffer) {
-    // FIXME: need some OpenGL trickery here to be able to draw to the
-    // front buffer of a double buffered GL widget. 990209 mortene.
-//    inherited::swapBuffers(); // tmp hack
-//  } else {
-    inherited::swapBuffers();
-//  }
-
-//  this->owner->drawToFrontBuffer = FALSE;
-} // swapBuffers()
 
 // *************************************************************************

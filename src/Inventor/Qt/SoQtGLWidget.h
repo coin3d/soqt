@@ -80,6 +80,7 @@ protected:
   float getGlxAspectRatio(void) const;
   float getGLAspectRatio(void) const;
 
+  SbBool waitForExpose;
   SbBool drawToFrontBuffer;
 
   virtual bool eventFilter( QObject * obj, QEvent * e );
@@ -97,7 +98,7 @@ protected:
 private slots:
   void gl_init(void);
   void gl_reshape(int, int);
-  void gl_render(void);
+  void gl_exposed(void);
 
 private:
   QtGLArea * glwidget;
@@ -108,7 +109,6 @@ private:
   struct {
     unsigned int mouseinput    : 1;
     unsigned int keyboardinput : 1;
-    unsigned int drawfrontbuff : 1;
   } properties;
 
 }; // class SoQtGLWidget

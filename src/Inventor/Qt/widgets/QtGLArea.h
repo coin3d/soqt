@@ -35,23 +35,15 @@ public:
   QtGLArea( QWidget * const parent, const char * const name = "QtGLArea" );
   ~QtGLArea(void);
 
-  virtual void swapBuffers(void);
-  void doRender( bool flag );
-
 signals:
-  void init(void);
-  void reshape(int, int);
-  void render(void);
-
-//  void do_repaint();
+  void init_sig(void);
+  void reshape_sig(int, int);
+  void expose_sig(void);
 
 protected:
   virtual void paintGL(void);
   virtual void resizeGL( int width, int height );
   virtual void initializeGL(void);
-
-private:
-  bool dorender;
 
 }; // class QtGLArea
 
