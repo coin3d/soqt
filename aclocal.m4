@@ -139,10 +139,10 @@ AC_SUBST([$1_DSP_DEFS])
 # SIM_AC_CONFIGURATION_SUMMARY macro.
 
 AC_DEFUN([SIM_AC_CONFIGURATION_SETTING],
-[if test x${sim_ac_configuration_settings+set} != xset; then
-  sim_ac_configuration_settings="$1:$2"
-else
+[if test x"${sim_ac_configuration_settings+set}" = x"set"; then
   sim_ac_configuration_settings="$sim_ac_configuration_settings|$1:$2"
+else
+  sim_ac_configuration_settings="$1:$2"
 fi
 ]) # SIM_AC_CONFIGURATION_SETTING
 
@@ -153,10 +153,10 @@ fi
 # SIM_AC_CONFIGURATION_SUMMARY macro.
 
 AC_DEFUN([SIM_AC_CONFIGURATION_WARNING],
-[if test x${sim_ac_configuration_warnings+set} != xset; then
-  sim_ac_configuration_warnings="$1"
-else
+[if test x"${sim_ac_configuration_warnings+set}" = x"set"; then
   sim_ac_configuration_warnings="$sim_ac_configuration_warnings|$1"
+else
+  sim_ac_configuration_warnings="$1"
 fi
 ]) # SIM_AC_CONFIGURATION_WARNING
 
@@ -166,7 +166,7 @@ fi
 # This macro dumps the settings and warnings summary.
 
 AC_DEFUN([SIM_AC_CONFIGURATION_SUMMARY],
-[sim_ac_settings=$sim_ac_configuration_settings
+[sim_ac_settings="$sim_ac_configuration_settings"
 sim_ac_num_settings=`echo "$sim_ac_settings" | tr -d -c "|" | wc -c`
 sim_ac_maxlength=0
 while test $sim_ac_num_settings -ge 0; do
@@ -222,34 +222,51 @@ fi
 
 # **************************************************************************
 
-AC_DEFUN([SIM_AC_SETUP_MSVC_IFELSE],
-[# **************************************************************************
+AC_DEFUN([SIM_AC_MSVC_DISABLE_OPTION], [
+AC_ARG_ENABLE([msvc],
+  [AC_HELP_STRING([--disable-msvc], [don't require MS Visual C++ on Cygwin])],
+  [case $enableval in
+  no | false) sim_ac_try_msvc=false ;;
+  *)          sim_ac_try_msvc=true ;;
+  esac],
+  [sim_ac_try_msvc=true])
+])
+
+# **************************************************************************
+# Note: the SIM_AC_SETUP_MSVC_IFELSE macro has been OBSOLETED and
+# replaced by the one below.
+#
 # If the Microsoft Visual C++ cl.exe compiler is available, set us up for
 # compiling with it and to generate an MSWindows .dll file.
 
-: ${BUILD_WITH_MSVC=false}
-sim_ac_wrapmsvc=`cd $srcdir; pwd`/cfg/m4/wrapmsvc.exe
-if test -z "$CC" -a -z "$CXX" && $sim_ac_wrapmsvc >/dev/null 2>&1; then
-  m4_ifdef([$0_VISITED],
-    [AC_FATAL([Macro $0 invoked multiple times])])
-  m4_define([$0_VISITED], 1)
-  CC=$sim_ac_wrapmsvc
-  CXX=$sim_ac_wrapmsvc
-  export CC CXX
-  BUILD_WITH_MSVC=true
+AC_DEFUN([SIM_AC_SETUP_MSVCPP_IFELSE],
+[
+AC_REQUIRE([SIM_AC_MSVC_DISABLE_OPTION])
+
+BUILD_WITH_MSVC=false
+if $sim_ac_try_msvc; then
+  sim_ac_wrapmsvc=`cd $srcdir; pwd`/cfg/m4/wrapmsvc.exe
+  if test -z "$CC" -a -z "$CXX" && $sim_ac_wrapmsvc >/dev/null 2>&1; then
+    m4_ifdef([$0_VISITED],
+      [AC_FATAL([Macro $0 invoked multiple times])])
+    m4_define([$0_VISITED], 1)
+    CC=$sim_ac_wrapmsvc
+    CXX=$sim_ac_wrapmsvc
+    export CC CXX
+    BUILD_WITH_MSVC=true
+  else
+    case $host in
+    *-cygwin) SIM_AC_ERROR([no-msvc++]) ;;
+    esac
+  fi
 fi
 AC_SUBST(BUILD_WITH_MSVC)
 
-case $CXX in
-*wrapmsvc.exe)
-  BUILD_WITH_MSVC=true
-  $1
-  ;;
-*)
-  BUILD_WITH_MSVC=false
-  $2
-  ;;
-esac
+if $BUILD_WITH_MSVC; then
+  ifelse([$1], , :, [$1])
+else
+  ifelse([$2], , :, [$2])
+fi
 ]) # SIM_AC_SETUP_MSVC_IFELSE
 
 # **************************************************************************
@@ -2447,8 +2464,9 @@ else
     rhapsody* | darwin1.[[012]])
       allow_undefined_flag='-undefined suppress'
       ;;
-    *) # Darwin 1.3 on
-      allow_undefined_flag='-flat_namespace -undefined suppress'
+    *) # On Mac OS 10.1 and above, two-level namespace libraries are the
+       # default, where undefined symbols are not allowed.
+      allow_undefined_flag=''
       ;;
     esac
     # FIXME: Relying on posixy $() will cause problems for
@@ -4705,7 +4723,8 @@ if test x"$with_dl" != xno; then
 
   AC_MSG_CHECKING([for the dl library])
   # At least under FreeBSD, dlopen() et al is part of the C library.
-  for sim_ac_dl_libcheck in "" "-ldl"; do
+  # On HP-UX, dlopen() might reside in a library "svld" instead of "dl".
+  for sim_ac_dl_libcheck in "" "-ldl" "-lsvld"; do
     if ! $sim_ac_dl_avail; then
       LIBS="$sim_ac_dl_libcheck $sim_ac_save_libs"
       AC_TRY_LINK([
@@ -4776,6 +4795,82 @@ if $sim_ac_win32_loadlibrary; then
                  [sim_cv_lib_loadlibrary_avail=no])])
 
   if test x"$sim_cv_lib_loadlibrary_avail" = xyes; then
+    ifelse([$1], , :, [$1])
+  else
+    ifelse([$2], , :, [$2])
+  fi
+fi
+])
+
+# SIM_AC_CHECK_DLD([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+# ----------------------------------------------------------
+#
+#  Try to find the dynamic link loader library available on HP-UX 10.
+#  If it is found, this shell variable is set:
+#
+#    $sim_ac_dld_libs     (link libraries the linker needs for dld lib)
+#
+#  The $LIBS var will also be modified accordingly.
+#
+# Author: Morten Eriksen, <mortene@sim.no>.
+
+AC_DEFUN([SIM_AC_CHECK_DLD], [
+  sim_ac_dld_libs="-ldld"
+
+  sim_ac_save_libs=$LIBS
+  LIBS="$sim_ac_dld_libs $LIBS"
+
+  AC_CACHE_CHECK([whether the DLD shared library loader is available],
+    sim_cv_lib_dld_avail,
+    [AC_TRY_LINK([#include <dl.h>],
+                 [(void)shl_load("allyourbase", 0, 0L); (void)shl_findsym(0L, "arebelongtous", 0, 0L); (void)shl_unload((shl_t)0);],
+                 [sim_cv_lib_dld_avail=yes],
+                 [sim_cv_lib_dld_avail=no])])
+
+  if test x"$sim_cv_lib_dld_avail" = xyes; then
+    ifelse([$1], , :, [$1])
+  else
+    LIBS=$sim_ac_save_libs
+    ifelse([$2], , :, [$2])
+  fi
+])
+
+
+# SIM_AC_CHECK_DYLD([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+# -------------------------------------------------------------------
+#
+#  Try to use the Mac OS X dynamik link editor method 
+#  NSLookupAndBindSymbol()
+#
+# Author: Karin Kosina, <kyrah@sim.no>
+
+AC_DEFUN([SIM_AC_CHECK_DYLD], [
+AC_ARG_ENABLE(
+  [dyld],
+  [AC_HELP_STRING([--disable-dyld], 
+                  [don't use run-time link bindings under Mac OS X])],
+  [case $enableval in
+  yes | true ) sim_ac_dyld=true ;;
+  *) sim_ac_dyld=false ;;
+  esac],
+  [sim_ac_dyld=true])
+
+if $sim_ac_dyld; then
+
+  AC_CHECK_HEADERS([mach-o/dyld.h])
+
+  AC_CACHE_CHECK([whether we can use Mach-O dyld],
+    sim_cv_dyld_avail,
+    [AC_TRY_LINK([
+#if HAVE_MACH_O_DYLD_H
+#include <mach-o/dyld.h>
+#endif /* HAVE_MACH_O_DYLD_H */
+],
+                 [(void)NSLookupAndBindSymbol("foo");],
+                 [sim_cv_dyld_avail=yes],
+                 [sim_cv_dyld_avail=no])])
+
+  if test x"$sim_cv_dyld_avail" = xyes; then
     ifelse([$1], , :, [$1])
   else
     ifelse([$2], , :, [$2])
