@@ -18910,8 +18910,7 @@ fi
 
 sim_ac_hhc_exe=
 case $host in
-  *-cygwin)
-    # Extract the first word of "hhc", so it can be a program name with args.
+  *-cygwin) # Extract the first word of "hhc", so it can be a program name with args.
 set dummy hhc; ac_word=$2
 echo "$as_me:$LINENO: checking for $ac_word" >&5
 echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
@@ -18949,8 +18948,8 @@ else
   echo "$as_me:$LINENO: result: no" >&5
 echo "${ECHO_T}no" >&6
 fi
-
-  ;;
+ ;;
+  *)         ;;
 esac
 
 if test x"$want_html_help" = x"yes"; then
