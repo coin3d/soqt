@@ -9,6 +9,10 @@ Qt GUI widgets for Coin. The components are also compatible with Open
 Inventor, and the API is loosely based on the API of the Xt/Motif
 toolkit which comes with Open Inventor.
 
+The library is released publicly under the Q Public License for
+developers of free software and is also available for commercial use
+under a "professional edition" license.
+
 STATUS
 In development.
 
