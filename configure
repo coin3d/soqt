@@ -1680,19 +1680,20 @@ fi;
 
 
 
-BUILD_WITH_MSVC=false
+: ${BUILD_WITH_MSVC=false}
 if $sim_ac_try_msvc; then
-  sim_ac_wrapmsvc=`cd $srcdir; pwd`/cfg/wrapmsvc.exe
-  if test -z "$CC" -a -z "$CXX" && $sim_ac_wrapmsvc >/dev/null 2>&1; then
+  sim_ac_wrapmsvc=`cd $ac_aux_dir; pwd`/wrapmsvc.exe
+  if test -z "$CC" -a -z "$CXX"; then
+    if $sim_ac_wrapmsvc >/dev/null 2>&1; then
 
 
-    CC=$sim_ac_wrapmsvc
-    CXX=$sim_ac_wrapmsvc
-    export CC CXX
-    BUILD_WITH_MSVC=true
-  else
-    case $host in
-    *-cygwin)
+      CC=$sim_ac_wrapmsvc
+      CXX=$sim_ac_wrapmsvc
+      export CC CXX
+      BUILD_WITH_MSVC=true
+    else
+      case $host in
+      *-cygwin)
 echo >&2 ""
 
 
@@ -1719,9 +1720,11 @@ echo >&2 ""
 echo "$as_me: error: aborting" >&2;}
    { (exit 1); exit 1; }; }
  ;;
-    esac
+      esac
+    fi
   fi
 fi
+export BUILD_WITH_MSVC
 
 
 if $BUILD_WITH_MSVC; then
@@ -4849,7 +4852,7 @@ ia64-*-hpux*)
   ;;
 *-*-irix6*)
   # Find out which ABI we are using.
-  echo '#line 4852 "configure"' > conftest.$ac_ext
+  echo '#line 4855 "configure"' > conftest.$ac_ext
   if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
@@ -5460,7 +5463,7 @@ fi
 
 
 # Provide some information about the compiler.
-echo "$as_me:5463:" \
+echo "$as_me:5466:" \
      "checking for Fortran 77 compiler version" >&5
 ac_compiler=`set X $ac_compile; echo $2`
 { (eval echo "$as_me:$LINENO: \"$ac_compiler --version </dev/null >&5\"") >&5
@@ -6465,11 +6468,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:6468: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:6471: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:6472: \$? = $ac_status" >&5
+   echo "$as_me:6475: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings
@@ -6697,11 +6700,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:6700: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:6703: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:6704: \$? = $ac_status" >&5
+   echo "$as_me:6707: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings
@@ -6764,11 +6767,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:6767: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:6770: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:6771: \$? = $ac_status" >&5
+   echo "$as_me:6774: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -8776,7 +8779,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 8779 "configure"
+#line 8782 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -8874,7 +8877,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 8877 "configure"
+#line 8880 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -11006,11 +11009,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:11009: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:11012: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:11013: \$? = $ac_status" >&5
+   echo "$as_me:11016: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings
@@ -11073,11 +11076,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:11076: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:11079: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:11080: \$? = $ac_status" >&5
+   echo "$as_me:11083: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -12316,7 +12319,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 12319 "configure"
+#line 12322 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -12414,7 +12417,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 12417 "configure"
+#line 12420 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -13236,11 +13239,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:13239: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:13242: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:13243: \$? = $ac_status" >&5
+   echo "$as_me:13246: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings
@@ -13303,11 +13306,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:13306: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:13309: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:13310: \$? = $ac_status" >&5
+   echo "$as_me:13313: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -15243,11 +15246,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:15246: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:15249: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:15250: \$? = $ac_status" >&5
+   echo "$as_me:15253: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings
@@ -15475,11 +15478,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:15478: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:15481: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:15482: \$? = $ac_status" >&5
+   echo "$as_me:15485: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings
@@ -15542,11 +15545,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:15545: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:15548: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:15549: \$? = $ac_status" >&5
+   echo "$as_me:15552: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -17554,7 +17557,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 17557 "configure"
+#line 17560 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -17652,7 +17655,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 17655 "configure"
+#line 17658 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -18704,7 +18707,7 @@ fi;
 
 
 # **************************************************************************
-# If you just want to generate docs, ignore all the build-related tests
+# If you just want to generate docs.
 
 sim_ac_build_library=true
 # Check whether --enable-build or --disable-build was given.
@@ -19019,8 +19022,6 @@ fi;
     sim_ac_want_x11=yes
     ;;
 esac
-
-if $sim_ac_build_library; then
 
 # **************************************************************************
 # Header files we might want.
@@ -22693,9 +22694,11 @@ else
   sim_ac_configuration_settings="Open Inventor brand:SGI/TGS Inventor"
 fi
 
+
 else
 
-  sim_ac_gl_header_avail=false
+  if $sim_ac_build_library; then
+    sim_ac_gl_header_avail=false
 echo "$as_me:$LINENO: checking how to include gl.h" >&5
 echo $ECHO_N "checking how to include gl.h... $ECHO_C" >&6
 if test x"$with_opengl" != x"no"; then
@@ -22827,8 +22830,8 @@ echo "${ECHO_T}#include <$sim_ac_gl_header>" >&6
 echo "${ECHO_T}$sim_ac_gl_cppflags, #include <$sim_ac_gl_header>" >&6
     fi
 
-    CPPFLAGS="$CPPFLAGS $sim_ac_gl_cppflags"
-    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_gl_cppflags"
+      CPPFLAGS="$CPPFLAGS $sim_ac_gl_cppflags"
+      SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_gl_cppflags"
 
   else
     echo "$as_me:$LINENO: result: not found" >&5
@@ -23021,12 +23024,12 @@ fi
 
 if $sim_ac_coin_avail; then
 
-    CPPFLAGS="$CPPFLAGS $sim_ac_coin_cppflags"
-    LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
-    LIBS="$sim_ac_coin_libs $LIBS"
-    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_coin_cppflags"
-    SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_coin_ldflags"
-    SOGUI_EXTRA_LIBS="$sim_ac_coin_libs $SOGUI_EXTRA_LIBS"
+      CPPFLAGS="$CPPFLAGS $sim_ac_coin_cppflags"
+      LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
+      LIBS="$sim_ac_coin_libs $LIBS"
+      SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_coin_cppflags"
+      SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_coin_ldflags"
+      SOGUI_EXTRA_LIBS="$sim_ac_coin_libs $SOGUI_EXTRA_LIBS"
 
 else
   { { echo "$as_me:$LINENO: error: couldn't compile and link against Coin" >&5
@@ -23034,9 +23037,10 @@ echo "$as_me: error: couldn't compile and link against Coin" >&2;}
    { (exit 1); exit 1; }; }
 fi
 
+  fi
 
-if test x"$sim_ac_want_x11" = xyes; then
-  echo "$as_me:$LINENO: checking if X11 linkage is ready" >&5
+  if test x"$sim_ac_want_x11" = xyes; then
+    echo "$as_me:$LINENO: checking if X11 linkage is ready" >&5
 echo $ECHO_N "checking if X11 linkage is ready... $ECHO_C" >&6
 if test "${sim_cv_x11_ready+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
@@ -23087,7 +23091,7 @@ else
 fi
 
 
-  if $sim_ac_x11_ready; then :; else
+    if $sim_ac_x11_ready; then :; else
 
 
 
@@ -23163,12 +23167,12 @@ echo "${ECHO_T}$sim_cv_lib_x11_avail" >&6
   if test x"$sim_cv_lib_x11_avail" = x"yes"; then
     sim_ac_x11_avail=yes
 
-        CPPFLAGS="$CPPFLAGS $sim_ac_x11_cppflags"
-        LDFLAGS="$LDFLAGS $sim_ac_x11_ldflags"
-        LIBS="$sim_ac_x11_libs $LIBS"
-        SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_x11_cppflags"
-        SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_x11_ldflags"
-        SOGUI_EXTRA_LIBS="$sim_ac_x11_libs $SOGUI_EXTRA_LIBS"
+          CPPFLAGS="$CPPFLAGS $sim_ac_x11_cppflags"
+          LDFLAGS="$LDFLAGS $sim_ac_x11_ldflags"
+          LIBS="$sim_ac_x11_libs $LIBS"
+          SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_x11_cppflags"
+          SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_x11_ldflags"
+          SOGUI_EXTRA_LIBS="$sim_ac_x11_libs $SOGUI_EXTRA_LIBS"
 
   else
     CPPFLAGS=$sim_ac_save_cppflags
@@ -23178,10 +23182,10 @@ echo "${ECHO_T}$sim_cv_lib_x11_avail" >&6
   fi
 fi
 
-    # FIXME: we just implicitly assume that -lXext and -lXmu is available
-    # if -lX11 is available from coin-config. Should really have macros
-    # SIM_AC_CHECK_[X11SHMEM|X11MU]_READY. 20001116 mortene.
-    if test x"$sim_ac_x11_avail" = xyes; then
+      # FIXME: we just implicitly assume that -lXext and -lXmu is available
+      # if -lX11 is available from coin-config. Should really have macros
+      # SIM_AC_CHECK_[X11SHMEM|X11MU]_READY. 20001116 mortene.
+      if test x"$sim_ac_x11_avail" = xyes; then
 
 
 sim_ac_x11shmem_avail=no
@@ -23238,8 +23242,8 @@ echo "${ECHO_T}$sim_cv_lib_x11shmem_avail" >&6
 if test x"$sim_cv_lib_x11shmem_avail" = xyes; then
   sim_ac_x11shmem_avail=yes
 
-        # LIBS="$sim_ac_x11shmem_libs $LIBS"
-        SOGUI_EXTRA_LIBS="$sim_ac_x11shmem_libs $SOGUI_EXTRA_LIBS"
+          # LIBS="$sim_ac_x11shmem_libs $LIBS"
+          SOGUI_EXTRA_LIBS="$sim_ac_x11shmem_libs $SOGUI_EXTRA_LIBS"
 
 else
   LIBS=$sim_ac_save_libs
@@ -23375,8 +23379,8 @@ fi
 if test x"$sim_ac_x11mu_avail" = xyes; then
   :
 
-        # LIBS="$sim_ac_x11mu_libs $LIBS"
-        SOGUI_EXTRA_LIBS="$sim_ac_x11mu_libs $SOGUI_EXTRA_LIBS"
+          # LIBS="$sim_ac_x11mu_libs $LIBS"
+          SOGUI_EXTRA_LIBS="$sim_ac_x11mu_libs $SOGUI_EXTRA_LIBS"
 
 else
   LIBS=$sim_ac_save_libs
@@ -23385,8 +23389,8 @@ else
 
 fi
 
+      fi
     fi
-  fi
 
 
 sim_ac_x11xid_avail=no
@@ -23442,14 +23446,14 @@ echo "${ECHO_T}$sim_cv_lib_x11xid_avail" >&6
 if test x"$sim_cv_lib_x11xid_avail" = x"yes"; then
   sim_ac_x11xid_avail=yes
 
-    SOGUI_EXTRA_LIBS="$sim_ac_x11xid_libs $SOGUI_EXTRA_LIBS"
+      SOGUI_EXTRA_LIBS="$sim_ac_x11xid_libs $SOGUI_EXTRA_LIBS"
 
 else
   LIBS=$sim_ac_save_libs
 
 fi
 
-fi
+  fi
 
 
 if test x"${sim_ac_configuration_settings+set}" = x"set"; then
@@ -23528,10 +23532,10 @@ else
 fi
 
 
-    ## We need this extra, final X11 check to set up the HAVE_X11_AVAILABLE
-    ## define -- the X_DISPLAY_MISSING define provided by the built-in
-    ## Autoconf X11 check is not strict enough.
-    echo "$as_me:$LINENO: checking if X11 linkage is ready" >&5
+  ## We need this extra, final X11 check to set up the HAVE_X11_AVAILABLE
+  ## define -- the X_DISPLAY_MISSING define provided by the built-in
+  ## Autoconf X11 check is not strict enough.
+  echo "$as_me:$LINENO: checking if X11 linkage is ready" >&5
 echo $ECHO_N "checking if X11 linkage is ready... $ECHO_C" >&6
 if test "${sim_cv_x11_ready+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
@@ -24184,6 +24188,7 @@ fi
   fi
 fi
 
+if $sim_ac_build_library; then
 
 
 
@@ -24851,9 +24856,9 @@ echo "$as_me: WARNING: header file qglobal.h not found, can not compile Qt code"
     CPPFLAGS="$sim_ac_qt_cppflags $sim_ac_save_cppflags"
     LIBS="$sim_ac_qt_libs $sim_ac_save_libs"
 
-  SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qt_cppflags"
-  SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qt_ldflags"
-  SOGUI_EXTRA_LIBS="$sim_ac_qt_libs $SOGUI_EXTRA_LIBS"
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qt_cppflags"
+    SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qt_ldflags"
+    SOGUI_EXTRA_LIBS="$sim_ac_qt_libs $SOGUI_EXTRA_LIBS"
 
   else
     CPPFLAGS=$sim_ac_save_cppflags
@@ -24948,9 +24953,9 @@ echo "${ECHO_T}$sim_cv_lib_qgl_integrated" >&6
   if test x"$sim_cv_lib_qgl_integrated" = xyes; then
     sim_ac_qgl_avail=yes
 
-  SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qgl_cppflags"
-  SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qgl_ldflags"
-  SOGUI_EXTRA_LIBS="$sim_ac_qgl_libs $SOGUI_EXTRA_LIBS"
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qgl_cppflags"
+    SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qgl_ldflags"
+    SOGUI_EXTRA_LIBS="$sim_ac_qgl_libs $SOGUI_EXTRA_LIBS"
 
   else
     sim_ac_save_LIBS=$LIBS
@@ -25006,9 +25011,9 @@ rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
 echo "${ECHO_T}$sim_ac_qgl_libs" >&6
       sim_ac_qgl_avail=yes
 
-  SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qgl_cppflags"
-  SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qgl_ldflags"
-  SOGUI_EXTRA_LIBS="$sim_ac_qgl_libs $SOGUI_EXTRA_LIBS"
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qgl_cppflags"
+    SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qgl_ldflags"
+    SOGUI_EXTRA_LIBS="$sim_ac_qgl_libs $SOGUI_EXTRA_LIBS"
 
     else
       echo "$as_me:$LINENO: result: unavailable" >&5
@@ -25047,6 +25052,10 @@ echo "$as_me: error: aborting" >&2;}
   fi
 fi
 
+else # $sim_ac_build_library == false (we still need the 'moc' utility)
+  MOC=moc
+
+fi
 
 # Check misc capabilities of the Qt and QGL libraries which depends
 # on the exact version available to us.
@@ -26473,11 +26482,6 @@ if $BUILD_WITH_MSVC; then
   COIN_COMPILER="wrapmsvc"
 fi
 
-else # $sim_ac_build_library == false
-  MOC=moc
-
-fi
-
 
 
 
@@ -26977,12 +26981,11 @@ fi
 
 # **************************************************************************
 
-if $sim_ac_build_library; then
-  if $BUILD_WITH_MSVC; then
-    rm -f vc60.pdb
-    ## Ensure that if we link with Coin, we use the same C library as Coin
-    if test x"$sim_ac_coin_msvcrt" != x"" &&
-       test x"$sim_ac_msvcrt" != x"$sim_ac_coin_msvcrt"; then
+if $BUILD_WITH_MSVC; then
+  rm -f vc60.pdb
+  ## Ensure that if we link with Coin, we use the same C library as Coin
+  if test x"$sim_ac_coin_msvcrt" != x"" &&
+     test x"$sim_ac_msvcrt" != x"$sim_ac_coin_msvcrt"; then
 
 if test x"${sim_ac_configuration_warnings+set}" = x"set"; then
   sim_ac_configuration_warnings="$sim_ac_configuration_warnings|You have built Coin with the $sim_ac_coin_msvcrt C library, while you try to build So$Gui with the $sim_ac_msvcrt C library.  This can cause mysterious crashes for you.  We recommend that you run So$Gui's configure script with the --with-msvcrt=$sim_ac_coin_msvcrt option."
@@ -26990,20 +26993,20 @@ else
   sim_ac_configuration_warnings="You have built Coin with the $sim_ac_coin_msvcrt C library, while you try to build So$Gui with the $sim_ac_msvcrt C library.  This can cause mysterious crashes for you.  We recommend that you run So$Gui's configure script with the --with-msvcrt=$sim_ac_coin_msvcrt option."
 fi
 
-    fi
-    LIBFLAGS="$LIBFLAGS $sim_ac_msvcrt_LIBLDFLAGS"
-    LIBS="$LIBS $sim_ac_msvcrt_LIBLIBS"
-    if $SOQT_STATIC; then
-      SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS -DSOQT_NOT_DLL"
-    else
-      CPPFLAGS="-DSOQT_MAKE_DLL $CPPFLAGS"
-      SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS -DSOQT_DLL"
-    fi
+  fi
+  LIBFLAGS="$LIBFLAGS $sim_ac_msvcrt_LIBLDFLAGS"
+  LIBS="$LIBS $sim_ac_msvcrt_LIBLIBS"
+  if $SOQT_STATIC; then
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS -DSOQT_NOT_DLL"
+  else
+    CPPFLAGS="-DSOQT_MAKE_DLL $CPPFLAGS"
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS -DSOQT_DLL"
+  fi
 
-    debugfile="`pwd`/src/Inventor/Qt/soqt${SOQT_MAJOR_VERSION}${SUFFIX}.pdb"
-    debugfile=`cygpath -w "$debugfile" | sed 's,\\\\,\\\\\\\\,g'`
-    if $SOQT_STATIC; then
-      if $sim_ac_make_dsp; then :; else
+  debugfile="`pwd`/src/Inventor/Qt/soqt${SOQT_MAJOR_VERSION}${SUFFIX}.pdb"
+  debugfile=`cygpath -w "$debugfile" | sed 's,\\\\,\\\\\\\\,g'`
+  if $SOQT_STATIC; then
+    if $sim_ac_make_dsp; then :; else
 
 if test x"${sim_ac_configuration_settings+set}" = x"set"; then
   sim_ac_configuration_settings="$sim_ac_configuration_settings|SoQt build type:static .lib"
@@ -27011,15 +27014,15 @@ else
   sim_ac_configuration_settings="SoQt build type:static .lib"
 fi
 
-      fi
-      LIBFLAGS="-LIB $LIBFLAGS"
-      LIBFLAGS="$LIBFLAGS /OUT:soqt$SOQT_MAJOR_VERSION$SUFFIX.lib"
-    else
-      LIBFLAGS="-DLL /INCREMENTAL:NO $LIBFLAGS"
-      case $enable_symbols in
-      no | false)
-        LIBFLAGS="$LIBFLAGS /RELEASE"
-        if $sim_ac_make_dsp; then :; else
+    fi
+    LIBFLAGS="-LIB $LIBFLAGS"
+    LIBFLAGS="$LIBFLAGS /OUT:soqt$SOQT_MAJOR_VERSION$SUFFIX.lib"
+  else
+    LIBFLAGS="-DLL /INCREMENTAL:NO $LIBFLAGS"
+    case $enable_symbols in
+    no | false)
+      LIBFLAGS="$LIBFLAGS /RELEASE"
+      if $sim_ac_make_dsp; then :; else
 
 if test x"${sim_ac_configuration_settings+set}" = x"set"; then
   sim_ac_configuration_settings="$sim_ac_configuration_settings|SoQt build type:dynamic .dll, no symbols"
@@ -27027,9 +27030,9 @@ else
   sim_ac_configuration_settings="SoQt build type:dynamic .dll, no symbols"
 fi
 
-        fi
-        ;;
-      *)
+      fi
+      ;;
+    *)
 
 if test x"${sim_ac_configuration_settings+set}" = x"set"; then
   sim_ac_configuration_settings="$sim_ac_configuration_settings|SoQt build type:dynamic .dll + .pdb"
@@ -27037,52 +27040,51 @@ else
   sim_ac_configuration_settings="SoQt build type:dynamic .dll + .pdb"
 fi
 
-        CPPFLAGS="/Fd$debugfile $CPPFLAGS"
-        LIBFLAGS="$LIBFLAGS /DEBUG /PDB:soqt$SOQT_MAJOR_VERSION$SUFFIX.pdb"
-        ;;
-      esac
-      LIBFLAGS="$LIBFLAGS /OUT:soqt$SOQT_MAJOR_VERSION$SUFFIX.dll"
-    fi
-
-    # We use a version suffix on the .dll-file, so several incompatible
-    # (major) versions can be installed on a system.
-    #
-    # BTW, when linking DLLs, the 3rd-party .lib files will be
-    # linked into the .dll file. I believe it is still advisable to
-    # list all libs used upon `soqt-config --libs`, as we can then
-    # also use them from "parent" code (remember that their interfaces
-    # is not exposed from the DLL) without any fuss.
-    SOGUI_EXTRA_LIBS="-lsoqt$SOQT_MAJOR_VERSION$SUFFIX $SOGUI_EXTRA_LIBS"
-  else
-    SOGUI_EXTRA_LIBS="-lSoQt$SUFFIX $SOGUI_EXTRA_LIBS"
-
-    if $sim_ac_framework; then
-      # setup for SoQt usage
-      SOGUI_EXTRA_CPPFLAGS=
-      SOGUI_EXTRA_CFLAGS=
-      SOGUI_EXTRA_CXXFLAGS=
-      SOGUI_EXTRA_LDFLAGS="-Wl,-multiply_defined,suppress -framework SoQt"
-      SOGUI_EXTRA_LIBS=
-      # adjust for Qt usage
-      SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qt_cppflags"
-      SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qt_ldflags"
-      SOGUI_EXTRA_LIBS="$sim_ac_qt_libs $SOGUI_EXTRA_LIBS"
-      # adjust for QGL usage
-      SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qgl_cppflags"
-      SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qgl_ldflags"
-      SOGUI_EXTRA_LIBS="$sim_ac_qgl_libs $SOGUI_EXTRA_LIBS"
-      # adjust for Coin usage
-      SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_coin_cppflags"
-      SOGUI_EXTRA_CFLAGS="$SOGUI_EXTRA_CFLAGS $sim_ac_coin_cflags"
-      SOGUI_EXTRA_CXXFLAGS="$SOGUI_EXTRA_CXXFLAGS $sim_ac_coin_cxxflags"
-      SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_coin_ldflags"
-      SOGUI_EXTRA_LIBS="$sim_ac_coin_libs $SOGUI_EXTRA_LIBS"
-      # adjust for Fink usage
-      SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_fink_cppflags"
-      SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_fink_ldflags"
-    fi
+      CPPFLAGS="/Fd$debugfile $CPPFLAGS"
+      LIBFLAGS="$LIBFLAGS /DEBUG /PDB:soqt$SOQT_MAJOR_VERSION$SUFFIX.pdb"
+      ;;
+    esac
+    LIBFLAGS="$LIBFLAGS /OUT:soqt$SOQT_MAJOR_VERSION$SUFFIX.dll"
   fi
-fi
+
+  # We use a version suffix on the .dll-file, so several incompatible
+  # (major) versions can be installed on a system.
+  #
+  # BTW, when linking DLLs, the 3rd-party .lib files will be
+  # linked into the .dll file. I believe it is still advisable to
+  # list all libs used upon `soqt-config --libs`, as we can then
+  # also use them from "parent" code (remember that their interfaces
+  # is not exposed from the DLL) without any fuss.
+  SOGUI_EXTRA_LIBS="-lsoqt$SOQT_MAJOR_VERSION$SUFFIX $SOGUI_EXTRA_LIBS"
+else # !BUILD_WITH_MSVC
+  SOGUI_EXTRA_LIBS="-lSoQt$SUFFIX $SOGUI_EXTRA_LIBS"
+
+  if $sim_ac_framework; then
+    # setup for SoQt usage
+    SOGUI_EXTRA_CPPFLAGS=
+    SOGUI_EXTRA_CFLAGS=
+    SOGUI_EXTRA_CXXFLAGS=
+    SOGUI_EXTRA_LDFLAGS="-Wl,-multiply_defined,suppress -framework SoQt"
+    SOGUI_EXTRA_LIBS=
+    # adjust for Qt usage
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qt_cppflags"
+    SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qt_ldflags"
+    SOGUI_EXTRA_LIBS="$sim_ac_qt_libs $SOGUI_EXTRA_LIBS"
+    # adjust for QGL usage
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qgl_cppflags"
+    SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qgl_ldflags"
+    SOGUI_EXTRA_LIBS="$sim_ac_qgl_libs $SOGUI_EXTRA_LIBS"
+    # adjust for Coin usage
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_coin_cppflags"
+    SOGUI_EXTRA_CFLAGS="$SOGUI_EXTRA_CFLAGS $sim_ac_coin_cflags"
+    SOGUI_EXTRA_CXXFLAGS="$SOGUI_EXTRA_CXXFLAGS $sim_ac_coin_cxxflags"
+    SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_coin_ldflags"
+    SOGUI_EXTRA_LIBS="$sim_ac_coin_libs $SOGUI_EXTRA_LIBS"
+    # adjust for Fink usage
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_fink_cppflags"
+    SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_fink_ldflags"
+  fi # sim_ac_framework
+fi # !BUILD_WITH_MSVC
 
 
 

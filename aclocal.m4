@@ -246,23 +246,26 @@ AC_DEFUN([SIM_AC_SETUP_MSVCPP_IFELSE],
 [
 AC_REQUIRE([SIM_AC_MSVC_DISABLE_OPTION])
 
-BUILD_WITH_MSVC=false
+: ${BUILD_WITH_MSVC=false}
 if $sim_ac_try_msvc; then
-  sim_ac_wrapmsvc=`cd $srcdir; pwd`/cfg/wrapmsvc.exe
-  if test -z "$CC" -a -z "$CXX" && $sim_ac_wrapmsvc >/dev/null 2>&1; then
-    m4_ifdef([$0_VISITED],
-      [AC_FATAL([Macro $0 invoked multiple times])])
-    m4_define([$0_VISITED], 1)
-    CC=$sim_ac_wrapmsvc
-    CXX=$sim_ac_wrapmsvc
-    export CC CXX
-    BUILD_WITH_MSVC=true
-  else
-    case $host in
-    *-cygwin) SIM_AC_ERROR([no-msvc++]) ;;
-    esac
+  sim_ac_wrapmsvc=`cd $ac_aux_dir; pwd`/wrapmsvc.exe
+  if test -z "$CC" -a -z "$CXX"; then
+    if $sim_ac_wrapmsvc >/dev/null 2>&1; then
+      m4_ifdef([$0_VISITED],
+        [AC_FATAL([Macro $0 invoked multiple times])])
+      m4_define([$0_VISITED], 1)
+      CC=$sim_ac_wrapmsvc
+      CXX=$sim_ac_wrapmsvc
+      export CC CXX
+      BUILD_WITH_MSVC=true
+    else
+      case $host in
+      *-cygwin) SIM_AC_ERROR([no-msvc++]) ;;
+      esac
+    fi
   fi
 fi
+export BUILD_WITH_MSVC
 AC_SUBST(BUILD_WITH_MSVC)
 
 if $BUILD_WITH_MSVC; then
