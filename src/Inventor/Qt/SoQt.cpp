@@ -202,12 +202,14 @@ SoQt::sensorQueueChanged(void *)
 
   SbTime t;
   if (sm->isTimerSensorPending(t)) {
-#if 0 // debug
+    SbTime interval = t - SbTime::getTimeOfDay();
+
+#if SOQT_DEBUG && 0 // debug
     SoDebugError::postInfo("SoQt::sensorQueueChanged",
-                           "timersensor pending");
+                           "timersensor pending, interval %f",
+                           interval.getValue());
 #endif // debug
 
-    SbTime interval = t - SbTime::getTimeOfDay();
     if (!SoQt::timerqueuetimer->isActive())
       SoQt::timerqueuetimer->start(interval.getMsecValue(), TRUE);
     else
