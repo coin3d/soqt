@@ -5620,6 +5620,31 @@ fi
 ])
 
 # **************************************************************************
+# SIM_AC_HAVE_GLXGETCURRENTDISPLAY_IFELSE( IF-FOUND, IF-NOT-FOUND )
+#
+# Check whether the OpenGL implementation includes the method
+# glXGetCurrentDisplay().
+
+AC_DEFUN([SIM_AC_HAVE_GLXGETCURRENTDISPLAY_IFELSE], [
+AC_CACHE_CHECK(
+  [whether glXGetCurrentDisplay() is available],
+  sim_cv_have_glxgetcurrentdisplay,
+  AC_TRY_LINK([
+#include <GL/gl.h>
+#include <GL/glx.h>
+],
+[(void)glXGetCurrentDisplay();],
+[sim_cv_have_glxgetcurrentdisplay=true],
+[sim_cv_have_glxgetcurrentdisplay=false]))
+
+if ${sim_cv_have_glxgetcurrentdisplay}; then
+  ifelse([$1], , :, [$1])
+else
+  ifelse([$2], , :, [$2])
+fi
+]) # SIM_AC_HAVE_GLXGETCURRENTDISPLAY_IFELSE()
+
+# **************************************************************************
 # SIM_AC_HAVE_GLX_IFELSE( IF-FOUND, IF-NOT-FOUND )
 #
 # Check whether GLX is on the system.
@@ -5713,6 +5738,36 @@ else
   ifelse([$2], , :, [$2])
 fi
 ]) # SIM_AC_HAVE_WGL_IFELSE()
+
+# **************************************************************************
+# SIM_AC_HAVE_AGL_IFELSE( IF-FOUND, IF-NOT-FOUND )
+#
+# Check whether WGL is on the system.
+
+AC_DEFUN([SIM_AC_HAVE_AGL_IFELSE], [
+sim_ac_save_ldflags=$LDFLAGS
+sim_ac_agl_ldflags="-Wl,-framework,ApplicationServices -Wl,-framework,AGL"
+
+LDFLAGS="$LDFLAGS $sim_ac_agl_ldflags"
+
+AC_CACHE_CHECK(
+  [whether AGL is on the system],
+  sim_cv_have_agl,
+  AC_TRY_LINK(
+    [#include <AGL/agl.h>
+#include <Carbon/Carbon.h>],
+    [aglGetCurrentContext();],
+    [sim_cv_have_agl=true],
+    [sim_cv_have_agl=false]))
+
+LDFLAGS=$sim_ac_save_ldflags
+if ${sim_cv_have_agl=false}; then
+  ifelse([$1], , :, [$1])
+else
+  ifelse([$2], , :, [$2])
+fi
+]) # SIM_AC_HAVE_AGL_IFELSE()
+
 
 # Usage:
 #  SIM_AC_CHECK_PTHREAD([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
@@ -6307,7 +6362,7 @@ if test x"$with_qt" != xno; then
 
   # Find version of the Qt library (MSWindows .dll is named with the
   # version number.)
-  AC_MSG_CHECKING([version of Qt library, if available])
+  AC_MSG_CHECKING([version of Qt library])
   cat > conftest.c << EOF
 #include <qglobal.h>
 int VerQt = QT_VERSION;
@@ -6320,6 +6375,9 @@ EOF
   rm -f conftest.c
   AC_MSG_RESULT($sim_ac_qt_version)
 
+  # Too hard to feature-check for the Qt-on-Mac problems, as they involve
+  # obscure behavior of the QGLWidget -- so we just resort to do platform
+  # and version checking instead.
   case $host_os in
   darwin*)
     if test $sim_ac_qt_version -lt 302; then
@@ -6413,7 +6471,7 @@ upgrade. (See $srcdir/README.MAC for details.)])
     AC_MSG_RESULT($sim_ac_qt_cppflags $sim_ac_qt_libs)
   fi
 
-  fi # sim_ac_sbbasic = TRUE
+  fi # sim_ac_qglobal = TRUE
   fi # MOC = false
 
   if test ! x"$sim_ac_qt_libs" = xUNRESOLVED; then

@@ -48,6 +48,8 @@ endif
 
 libSoQt@SUFFIX@_la_SOURCES = \
 	SoQt.cpp \
+	SoQtP.h \
+	SoQtInternal.h \
 	SoQtComponent.cpp \
 	SoQtGLWidget.cpp \
 	SoQtLightSliderSet.cpp \
@@ -62,9 +64,9 @@ libSoQt@SUFFIX@_la_SOURCES = \
 	SoQtTransformSliderSet.h \
 	SoQtMaterialList.cpp
 
+
 nodist_libSoQt@SUFFIX@_la_SOURCES = \
 	$(SoGui_src_Inventor_Gui_BuiltFiles)
-#	$(SoGui_src_Inventor_Gui_BuiltMetaFiles)
 
 libSoQt@SUFFIX@_la_LIBADD = \
 	devices/libSoQtDevices.la \
@@ -79,6 +81,8 @@ libSoQt@SUFFIX@_la_LDFLAGS = \
 
 soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
 	SoQt.cpp \
+	SoQtP.h \
+	SoQtInternal.h \
 	SoQtComponent.cpp \
 	SoQtGLWidget.cpp \
 	SoQtLightSliderSet.cpp \
@@ -95,7 +99,6 @@ soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
 
 nodist_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
 	$(SoGui_src_Inventor_Gui_BuiltFiles)
-#	$(SoGui_src_Inventor_Gui_BuiltMetaFiles)
 
 soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
 	devices/devices.lst \

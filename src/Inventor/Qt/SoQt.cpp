@@ -28,6 +28,9 @@
   can also be used on top of Open Inventor from SGI and TGS.  The API
   is based on the InventorXt API originally from SGI.
 
+  For a small and simple example on how it is used, see the example
+  code in the class documentation of the SoQt class.
+
   Qt is a C++ toolkit for primarily the GUI parts of application
   development. Qt is a multi-platform library, available for X11-based
   systems (UNIX, Linux and *BSDs, for instance), MSWindows, Mac OS X
@@ -60,7 +63,9 @@
 #include <qevent.h>
 #include <qapplication.h>
 #include <qmetaobject.h>
-#include <moc_SoQt.cpp>
+
+#include <moc_SoQtP.cpp>
+#include <SoQtP.h>
 
 #include <Inventor/SoDB.h>
 #include <Inventor/SoInteraction.h>
@@ -82,26 +87,12 @@
 
 #ifndef DOXYGEN_SKIP_THIS // Skip internal classes SoQtP and SoQtApplication.
 
-class SoQtP {
-public:
-  static void clean(void);
-
-  static QWidget * mainwidget;
-  static QApplication * appobject;
-  static QTimer * timerqueuetimer;
-  static QTimer * idletimer;
-  static QTimer * delaytimeouttimer;
-
-  static SoQt * soqt_instance(void);
-  static SoQt * slotobj;
-};
-
 QWidget * SoQtP::mainwidget = NULL;
 QApplication * SoQtP::appobject = NULL;
 QTimer * SoQtP::idletimer = NULL;
 QTimer * SoQtP::timerqueuetimer = NULL;
 QTimer * SoQtP::delaytimeouttimer = NULL;
-SoQt * SoQtP::slotobj = NULL;
+SoQtP * SoQtP::slotobj = NULL;
 
 // This is provided for convenience when debugging the library. Should
 // make it easier to find memory leaks.
@@ -116,6 +107,81 @@ SoQtP::clean(void)
   delete SoQtP::delaytimeouttimer; SoQtP::delaytimeouttimer = NULL;
 
   delete SoQtP::slotobj; SoQtP::slotobj = NULL;
+}
+
+// We're using the singleton pattern to create a single SoQtP object
+// instance (a dynamic object is needed for attaching slots to signals
+// -- this is really a workaround for some silliness in the Qt
+// design).
+SoQtP *
+SoQtP::soqt_instance(void)
+{
+  if (!SoQtP::slotobj) { SoQtP::slotobj = new SoQtP; }
+  return SoQtP::slotobj;
+}
+
+// A timer sensor is ready for triggering, so tell the sensor manager
+// object to process the queue.
+void
+SoQtP::slot_timedOutSensor()
+{
+  if (SOQT_DEBUG && 0) { // debug
+    SoDebugError::postInfo("SoQt::timedOutSensor",
+                           "processing timer queue");
+    SoDebugError::postInfo("SoQt::timedOutSensor",
+                           "is %s",
+                           SoQtP::delaytimeouttimer->isActive() ?
+                           "active" : "inactive");
+  }
+
+  SoDB::getSensorManager()->processTimerQueue();
+
+  // The change callback is _not_ called automatically from
+  // SoSensorManager after the process methods, so we need to
+  // explicitly trigger it ourselves here.
+  SoQt::sensorQueueChanged(NULL);
+}
+
+// The system is idle, so we're going to process the queue of delay
+// type sensors.
+void
+SoQtP::slot_idleSensor()
+{
+  if (SOQT_DEBUG && 0) { // debug
+    SoDebugError::postInfo("SoQt::idleSensor", "processing delay queue");
+    SoDebugError::postInfo("SoQt::idleSensor", "is %s",
+                           SoQtP::idletimer->isActive() ? "active" : "inactive");
+  }
+
+  SoDB::getSensorManager()->processTimerQueue();
+  SoDB::getSensorManager()->processDelayQueue(TRUE);
+
+  // The change callback is _not_ called automatically from
+  // SoSensorManager after the process methods, so we need to
+  // explicitly trigger it ourselves here.
+  SoQt::sensorQueueChanged(NULL);
+}
+
+// The delay sensor timeout point has been reached, so process the
+// delay queue even though the system is not idle.
+void
+SoQtP::slot_delaytimeoutSensor()
+{
+  if (SOQT_DEBUG && 0) { // debug
+    SoDebugError::postInfo("SoQt::delaytimeoutSensor",
+                           "processing delay queue");
+    SoDebugError::postInfo("SoQtP::delaytimeouttimer", "is %s",
+                           SoQtP::delaytimeouttimer->isActive() ?
+                           "active" : "inactive");
+  }
+
+  SoDB::getSensorManager()->processTimerQueue();
+  SoDB::getSensorManager()->processDelayQueue(FALSE);
+
+  // The change callback is _not_ called automatically from
+  // SoSensorManager after the process methods, so we need to
+  // explicitly trigger it ourselves here.
+  SoQt::sensorQueueChanged(NULL);
 }
 
 // *************************************************************************
@@ -512,114 +578,4 @@ SoQt::createSimpleErrorDialog(QWidget * widget,
   QMessageBox::warning(widget, t.getString(), errstr.getString());
 }
 
-
 // *************************************************************************
-
-/*!
-  \internal
-
-  We're using the singleton pattern to create a single SoQt object instance
-  (a dynamic object is needed for attaching slots to signals -- this is
-  really a workaround for some silliness in the Qt design).
- */
-SoQt *
-SoQtP::soqt_instance(void)
-{
-  if (!SoQtP::slotobj) { SoQtP::slotobj = new SoQt; }
-  return SoQtP::slotobj;
-}
-
-/*!
-  \internal
-
-  Uses an event filter on qApp to be able to process immediate delay
-  sensors before any system events.
-*/
-
-bool
-SoQt::eventFilter(QObject *, QEvent *)
-{
-#if 0
-  if (SoDB::getSensorManager()->isDelaySensorPending())
-    SoDB::getSensorManager()->processImmediateQueue();
-#endif
-
-  return FALSE;
-}
-
-/*!
-  \internal
-
-  A timer sensor is ready for triggering, so tell the sensor manager object
-  to process the queue.
-*/
-void
-SoQt::slot_timedOutSensor()
-{
-  if (SOQT_DEBUG && 0) { // debug
-  SoDebugError::postInfo("SoQt::timedOutSensor",
-                         "processing timer queue");
-  SoDebugError::postInfo("SoQt::timedOutSensor",
-                         "is %s",
-                         SoQtP::delaytimeouttimer->isActive() ?
-                         "active" : "inactive");
-  }
-
-  SoDB::getSensorManager()->processTimerQueue();
-
-  // The change callback is _not_ called automatically from
-  // SoSensorManager after the process methods, so we need to
-  // explicitly trigger it ourselves here.
-  SoQt::sensorQueueChanged(NULL);
-}
-
-/*!
-  \internal
-
-  The system is idle, so we're going to process the queue of delay type
-  sensors.
-*/
-void
-SoQt::slot_idleSensor()
-{
-  if (SOQT_DEBUG && 0) { // debug
-    SoDebugError::postInfo("SoQt::idleSensor", "processing delay queue");
-    SoDebugError::postInfo("SoQt::idleSensor", "is %s",
-                           SoQtP::idletimer->isActive() ? "active" : "inactive");
-  }
-
-  SoDB::getSensorManager()->processTimerQueue();
-  SoDB::getSensorManager()->processDelayQueue(TRUE);
-
-  // The change callback is _not_ called automatically from
-  // SoSensorManager after the process methods, so we need to
-  // explicitly trigger it ourselves here.
-  SoQt::sensorQueueChanged(NULL);
-}
-
-/*!
-  \internal
-
-  The delay sensor timeout point has been reached, so process the delay
-  queue even though the system is not idle.
-*/
-
-void
-SoQt::slot_delaytimeoutSensor()
-{
-  if (SOQT_DEBUG && 0) { // debug
-    SoDebugError::postInfo("SoQt::delaytimeoutSensor",
-                           "processing delay queue");
-    SoDebugError::postInfo("SoQtP::delaytimeouttimer", "is %s",
-                           SoQtP::delaytimeouttimer->isActive() ?
-                           "active" : "inactive");
-  }
-
-  SoDB::getSensorManager()->processTimerQueue();
-  SoDB::getSensorManager()->processDelayQueue(FALSE);
-
-  // The change callback is _not_ called automatically from
-  // SoSensorManager after the process methods, so we need to
-  // explicitly trigger it ourselves here.
-  SoQt::sensorQueueChanged(NULL);
-}

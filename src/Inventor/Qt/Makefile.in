@@ -247,7 +247,7 @@ SoGuiBuiltFiles = \
 @BUILD_METAFILES_TRUE@SoGui_src_Inventor_BuiltMetaFiles = 
 
 @BUILD_METAFILES_TRUE@SoGui_src_Inventor_Gui_BuiltMetaFiles = \
-@BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@.cpp \
+@BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@P.cpp \
 @BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@Object.cpp \
 @BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@Component.cpp \
 @BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@GLWidget.cpp \
@@ -428,6 +428,8 @@ DISTCLEANFILES = \
 # libtool setup
 libSoQt@SUFFIX@_la_SOURCES = \
 	SoQt.cpp \
+	SoQtP.h \
+	SoQtInternal.h \
 	SoQtComponent.cpp \
 	SoQtGLWidget.cpp \
 	SoQtLightSliderSet.cpp \
@@ -447,7 +449,6 @@ nodist_libSoQt@SUFFIX@_la_SOURCES = \
 	$(SoGui_src_Inventor_Gui_BuiltFiles)
 
 
-#	$(SoGui_src_Inventor_Gui_BuiltMetaFiles)
 libSoQt@SUFFIX@_la_LIBADD = \
 	devices/libSoQtDevices.la \
 	viewers/libSoQtViewers.la \
@@ -463,6 +464,8 @@ libSoQt@SUFFIX@_la_LDFLAGS = \
 # custom setup
 soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
 	SoQt.cpp \
+	SoQtP.h \
+	SoQtInternal.h \
 	SoQtComponent.cpp \
 	SoQtGLWidget.cpp \
 	SoQtLightSliderSet.cpp \
@@ -482,7 +485,6 @@ nodist_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
 	$(SoGui_src_Inventor_Gui_BuiltFiles)
 
 
-#	$(SoGui_src_Inventor_Gui_BuiltMetaFiles)
 soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
 	devices/devices.lst \
 	viewers/viewers.lst \
@@ -1323,10 +1325,10 @@ $(top_builddir)/man/man1/so@gui@-config.1: $(top_srcdir)/src/Inventor/@Gui@/comm
 # **************************************************************************
 # auto-generated Qt moc files.
 
-@BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@.cpp: $(top_builddir)/src/Inventor/@Gui@/So@Gui@.h $(top_builddir)/config.status
+@BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@P.cpp: $(top_srcdir)/src/Inventor/@Gui@/So@Gui@P.h $(top_builddir)/config.status
 @BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
-@BUILD_METAFILES_TRUE@	echo "$(MOC) -o src/Inventor/@Gui@/@meta_prefix@So@Gui@.cpp src/Inventor/@Gui@/So@Gui@.h"; \
-@BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/@meta_prefix@So@Gui@.cpp src/Inventor/@Gui@/So@Gui@.h )
+@BUILD_METAFILES_TRUE@	echo "$(MOC) -o src/Inventor/@Gui@/@meta_prefix@So@Gui@P.cpp $(top_srcdir)/src/Inventor/@Gui@/So@Gui@P.h"; \
+@BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/@meta_prefix@So@Gui@P.cpp $(top_srcdir)/src/Inventor/@Gui@/So@Gui@P.h )
 
 @BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@Object.cpp: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.h $(top_builddir)/config.status
 @BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
