@@ -368,14 +368,14 @@ SoQtGLWidget::isDrawToFrontBufferEnable(void) const
 */
 void
 SoQtGLWidget::setGlxSize(
-  SbVec2s size )
+  const SbVec2s size )
 {
   this->setGLSize( size );
 } // setGlxSize()
 
 void
 SoQtGLWidget::setGLSize(
-  SbVec2s size )
+  const SbVec2s size )
 {
   assert(this->borderwidget);
 //  this->borderwidget->resize( size[0] + this->borderthickness * 2,
