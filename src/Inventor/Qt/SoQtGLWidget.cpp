@@ -369,6 +369,28 @@ SoQtGLWidget::getStencilBuffer(void) const
   return (SbBool) (PRIVATE(this)->glformat->stencil());
 }
 
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
+void 
+SoQtGLWidget::setAlphaChannel(const SbBool enable)
+{
+  if ((enable && PRIVATE(this)->glformat->alpha()) ||
+      (!enable && !PRIVATE(this)->glformat->alpha()))
+    return;
+
+  PRIVATE(this)->glformat->setAlpha(enable);
+
+  // Rebuild if a GL widget has already been built.
+  if (PRIVATE(this)->currentglwidget) PRIVATE(this)->buildGLWidget();
+}
+
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
+SbBool 
+SoQtGLWidget::getAlphaChannel(void) const
+{
+  return (SbBool) (PRIVATE(this)->glformat->alpha());
+}
+
+
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
