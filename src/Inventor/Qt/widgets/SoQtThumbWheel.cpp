@@ -311,12 +311,17 @@ SoQtThumbWheel::initWheel(int diameter, int width)
 
   this->numPixmaps = this->wheel->getNumBitmaps();
   this->pixmaps = new QPixmap * [this->numPixmaps];
-  QImage image(pwidth, pheight, 32, 0);
+  QImage image(pwidth, pheight, 32);
   for (int i = 0; i < this->numPixmaps; i++) {
     this->wheel->drawBitmap(i, image.bits(), (this->orient == Vertical) ?
                             SoAnyThumbWheel::VERTICAL : SoAnyThumbWheel::HORIZONTAL);
     this->pixmaps[i] = new QPixmap(QSize(pwidth, pheight));
-    this->pixmaps[i]->convertFromImage(image);
+    bool s = this->pixmaps[i]->convertFromImage(image);
+    if (!s && SOQT_DEBUG) {
+      SoDebugError::post("SoQtThumbWheel::initWheel",
+                         "Could not convert QImage to QPixmap, "
+                         "for unknown reason.");
+    }
   }
 }
 
