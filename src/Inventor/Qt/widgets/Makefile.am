@@ -42,14 +42,14 @@ SOURCES = \
 	SoQtThumbWheel.h \
 	QtNativePopupMenu.cpp \
 	QtNativePopupMenu.h \
+	Gradient.cpp \
+	Gradient.h \
 	GradientDialog.cpp \
 	SoQtGradientDialog.h \
 	gradientp/GradientEditor.cpp \
 	gradientp/GradientEditor.h \
 	gradientp/GradientView.cpp \
 	gradientp/GradientView.h \
-	gradientp/Gradient.cpp \
-	gradientp/Gradient.h \
 	gradientp/ImageItem.cpp \
 	gradientp/ImageItem.h \
 	gradientp/TickMark.cpp \
@@ -88,7 +88,7 @@ else
 SoQtWidgetsincdir = $(includedir)/Inventor/@Gui@/widgets
 endif
 SoQtWidgetsinc_HEADERS = 
-nodist_SoQtWidgetsinc_HEADERS = SoQtPopupMenu.h SoQtThumbWheel.h SoQtGradientDialog.h
+nodist_SoQtWidgetsinc_HEADERS = SoQtPopupMenu.h SoQtThumbWheel.h SoQtGradientDialog.h Gradient.h
 
 install-SoQtWidgetsincHEADERS: $(SoQtWidgetsinc_HEADERS)
 	@$(NORMAL_INSTALL)
