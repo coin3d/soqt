@@ -89,7 +89,7 @@ SoQtGLWidget::SoQtGLWidget(
   const SbBool embed,
   const int glModes,
   const SbBool build )
-: inherited( parent, name )
+: inherited( parent, name, embed )
 , waitForExpose( TRUE )
 , drawToFrontBuffer( FALSE )
 {

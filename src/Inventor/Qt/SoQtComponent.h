@@ -101,7 +101,7 @@ private slots:
 private:
   QWidget * parent;
   QWidget * widget;
-  SbBool embedded;
+  SbBool embedded, shelled;
   QString classname, widgetname, captiontext, icontext;
   SoQtComponentCB * closeCB;
   void * closeCBdata;

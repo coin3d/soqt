@@ -57,6 +57,7 @@ static const char rcsid[] =
 #endif // SOQT_DEBUG
 
 #include <soqtdefs.h>
+#include <Inventor/Qt/SoQt.h>
 #include <Inventor/Qt/SoQtComponent.h>
 
 // debug
@@ -112,6 +113,7 @@ SoQtComponent::SoQtComponent(
 
   SoQtComponent::soqtcomplist->append(this);
 
+  this->shelled = FALSE;
   this->widget = NULL;
   this->parent = parent;
   this->closeCB = NULL;
@@ -129,6 +131,7 @@ SoQtComponent::SoQtComponent(
     this->parent = (QWidget *) new QMainWindow( parent, name );
     this->registerWidget( parent );
     this->embedded = FALSE;
+    this->shelled = TRUE;
   } else {
     this->parent = parent;
     this->embedded = TRUE;
@@ -143,9 +146,8 @@ SoQtComponent::SoQtComponent(
 SoQtComponent::~SoQtComponent(
   void )
 {
-  if ( ! this->embedded ) {
+  if ( ! this->embedded )
     this->unregisterWidget( this->parent );
-  }
 
   int idx = SoQtComponent::soqtcomplist->find(this);
   assert(idx != -1);
@@ -460,7 +462,10 @@ SoQtComponent::show(
                          this->storesize[0], this->storesize[1]);
 #endif // debug
 
-  this->widget->resize(this->storesize[0], this->storesize[1]);
+  if ( this->shelled )
+    this->parent->resize(this->storesize[0], this->storesize[1]);
+  else
+    this->widget->resize(this->storesize[0], this->storesize[1]);
 
 #if SOQTCOMP_RESIZE_DEBUG  // debug
   SoDebugError::postInfo("SoQtComponent::show-2",
@@ -470,7 +475,10 @@ SoQtComponent::show(
                          this->widget->size().height());
 #endif // debug
 
+  if ( this->shelled )
+    this->parent->show();
   this->widget->show();
+
 #if SOQTCOMP_RESIZE_DEBUG  // debug
   SoDebugError::postInfo("SoQtComponent::show-3",
                          "showed %p: (%d, %d)",
@@ -508,6 +516,8 @@ SoQtComponent::hide(
   }
 #endif // SOQT_DEBUG
 
+  if ( this->shelled )
+    this->parent->hide();
   this->widget->hide();
 } // hide()
 
@@ -592,14 +602,16 @@ QWidget *
 SoQtComponent::getShellWidget(
   void ) const
 {
+  return parent;
+  if ( this->widget )
+    return this->widget->topLevelWidget();
+  if ( this->parent )
+    return this->parent->topLevelWidget();
 #if SOQT_DEBUG
-  if ( ! this->widget ) {
-    SoDebugError::postWarning("SoQtComponent::getShellWidget",
-                              "Called while no QWidget has been set.");
-    return NULL;
-  }
+  SoDebugError::postWarning("SoQtComponent::getShellWidget",
+                            "No base widget or parent widget.");
 #endif // SOQT_DEBUG
-  return this->widget->topLevelWidget();
+  return NULL;
 } // getShellWidget()
 
 /*!
@@ -764,7 +776,8 @@ SoQtComponent::setSize(
                          size[0], size[1]);
 #endif // debug
   if ( this->isTopLevelShell() ) {
-    this->getShellWidget()->resize( size[0], size[1] );
+    QWidget * shell = this->getShellWidget();
+    if ( shell ) shell->resize( size[0], size[1] );
   }
   this->storesize = size;
   this->sizeChanged( size );
