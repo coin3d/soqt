@@ -733,7 +733,7 @@ SoQtFullViewer::sizeChanged(const SbVec2s & size)
 // If the OpenGL context overlaps with the QSizeGrip widget (generated
 // by default), resizing does not work any more. The workaround is to
 // leave 15 pixels at the lower border of the window blank...
-#if (defined Q_WS_MAC && (QT_VERSION == 0x030100) || (QT_VERSION == 0x030101))
+#if defined Q_WS_MAC && ((QT_VERSION == 0x030100) || (QT_VERSION == 0x030101))
 
   if (!PRIVATE(this)->decorations) { // GL context would fill whole window
     newsize -= SbVec2s(0, 15);       // -> leave lowermost 15 px blank
