@@ -22,6 +22,10 @@ static const char rcsid[] =
   "$Id$";
 #endif // SOQT_DEBUG
 
+#if HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <qpoint.h>
 #include <qevent.h>
 
@@ -35,10 +39,6 @@ static const char rcsid[] =
 #include <Inventor/Qt/devices/SoQtKeyboard.h>
 #include <Inventor/Qt/devices/SoQtMouse.h>
 #include <Inventor/Qt/devices/SoQtSpaceball.h>
-
-#if HAVE_CONFIG_H
-#include <config.h>
-#endif
 
 #ifdef HAVE_JOYSTICK_LINUX
 #include <Inventor/Qt/devices/SoQtLinuxJoystick.h>
