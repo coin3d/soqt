@@ -1,5 +1,11 @@
 /* src/config.h.in.  Generated from configure.ac by autoheader.  */
 
+
+#ifndef SOQT_INTERNAL
+#error this is a private header file
+#endif
+
+
 /* Open Inventor extensions */
 #undef COIN_IV_EXTENSIONS
 

@@ -33,6 +33,12 @@ AC_INIT([SoQt], [VERSION_STRING], [coin-support@coin3d.org])
 AC_CONFIG_AUX_DIR([cfg])
 AC_CONFIG_SRCDIR([src/Inventor/Qt/SoQt.cpp])
 
+AH_TOP([
+#ifndef SOQT_INTERNAL
+#error this is a private header file
+#endif
+])
+
 # **************************************************************************
 
 AC_CANONICAL_SYSTEM
