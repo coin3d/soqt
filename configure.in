@@ -349,6 +349,11 @@ AC_PATH_XTRA
 # be used here since the value is empty when it reaches this point
 # unless it has been explicitly set.
 
+AC_ARG_ENABLE(
+  [inventor-debug],
+  AC_HELP_STRING([--enable-inventor-debug],
+                 [use debug version of TGS inventor]))
+
 if test x"${with_inventor+set}" = x"set" &&
    test x"${with_inventor}" != x"no"; then
 
