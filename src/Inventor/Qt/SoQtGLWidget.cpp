@@ -363,8 +363,7 @@ SoQtGLWidget::buildGLWidget(void)
     delete wasprevious;
   }
 
-  // XXX
-  if (PRIVATE(this)->currentglwidget->isValid()) {
+  if (!PRIVATE(this)->currentglwidget->isValid()) {
     SbString s =
       "Can't set up a valid OpenGL canvas, "
       "something is seriously wrong with your system!";
