@@ -19,106 +19,87 @@
 
 //  $Id$
 
-#ifndef __SOQT_GLWIDGET_H__
-#define __SOQT_GLWIDGET_H__
+#ifndef SOQT_GLWIDGET_H
+#define SOQT_GLWIDGET_H
 
 #include <qgl.h>
-#include <Inventor/Qt/SoQtComponent.h>
+
 #include <Inventor/SbBasic.h>
 
-#define SO_GLX_RGB      0x01
-#define SO_GLX_DOUBLE   0x02
-#define SO_GLX_ZBUFFER  0x04
-#define SO_GLX_OVERLAY  0x08
-#define SO_GLX_STEREO   0x10
+#include <Inventor/Qt/SoQtComponent.h>
 
+class QtGLArea;
 
-// FIXME: should move PrivateGLWidget definition inside the .cpp-file?
-// (=> moc-trouble?)  990209 mortene.
-
-/* internal class start ****************************************************/
-
-class SoQtGLWidget;
-
-class PrivateGLWidget : public QGLWidget
-{
-  Q_OBJECT
-
-  typedef QGLWidget inherited;
-
-public:
-  PrivateGLWidget(SoQtGLWidget * owner,
-                  QWidget *parent, const char * const name);
-
-  virtual void swapBuffers(void);
-  void doRender(const SbBool flag);
-
-signals:
-  void do_repaint();
-
-protected:
-  virtual void paintGL(void);
-  virtual void resizeGL(int w, int h);
-  virtual void initializeGL(void);
-
-private:
-  SoQtGLWidget * owner;
-  SbBool dorender;
+enum GLModes {        // remove the GLX ones?
+  SO_GL_RGB      = 0x01, SO_GLX_RGB      = SO_GL_RGB,
+  SO_GL_DOUBLE   = 0x02, SO_GLX_DOUBLE   = SO_GL_DOUBLE,
+  SO_GL_ZBUFFER  = 0x04, SO_GLX_ZBUFFER  = SO_GL_ZBUFFER,
+  SO_GL_OVERLAY  = 0x08, SO_GLX_OVERLAY  = SO_GL_OVERLAY,
+  SO_GL_STEREO   = 0x10, SO_GLX_STEREO   = SO_GL_STEREO
 };
 
-/* internal class end ******************************************************/
-
-
-/***********************************************************************/
+// *************************************************************************
 
 class SoQtGLWidget : public SoQtComponent
 {
-  friend class PrivateGLWidget; // necessary because of protected drawToFrontBuffer
   typedef SoQtComponent inherited;
 
   Q_OBJECT
 
 public:
-  void setBorder(const SbBool enable);
+  void setBorder( const SbBool enable );
   SbBool isBorder(void) const;
 
-  virtual void setDoubleBuffer(const SbBool enable);
+  virtual void setDoubleBuffer( const SbBool enable );
   SbBool isDoubleBuffer(void) const;
 
-  void setDrawToFrontBufferEnable(const SbBool enable);
+  void setDrawToFrontBufferEnable( const SbBool enable );
   SbBool isDrawToFrontBufferEnable(void) const;
 
 protected:
-  SoQtGLWidget(QWidget * const parent = NULL,
-               const char * const name = NULL,
-               const SbBool buildInsideParent = TRUE,
-               const int glModes = SO_GLX_RGB,
-               const SbBool buildNow = TRUE);
+  SoQtGLWidget( QWidget * const parent = NULL, const char * const name = NULL,
+      const SbBool inParent = TRUE, const int glModes = SO_GLX_RGB,
+      const SbBool build = TRUE );
 
-  virtual void processEvent(QEvent * anyevent);
+  virtual void processEvent( QEvent * event );
 
-  QWidget * buildWidget(QWidget * parent);
+  QWidget * buildWidget( QWidget * parent );
 
-  QGLWidget * getQGLWidget(void);
+  QtGLArea * getQtGLArea(void);
 
   virtual void redraw(void) = 0;
 
-  virtual void sizeChanged(const SbVec2s & newSize);
+  virtual void sizeChanged( const SbVec2s size );
   virtual void widgetChanged(void);
 
-  void setGlxSize(SbVec2s newSize);
-  const SbVec2s getGlxSize(void) const;
+  void setGlxSize( const SbVec2s size );
+  void setGLSize( const SbVec2s size );
+  SbVec2s getGlxSize(void) const;
+  SbVec2s getGLSize(void) const;
   float getGlxAspectRatio(void) const;
+  float getGLAspectRatio(void) const;
 
   SbBool drawToFrontBuffer;
 
-  virtual bool eventFilter(QObject *obj, QEvent * e);
+  virtual bool eventFilter( QObject * obj, QEvent * e );
+
+  int glLockLevel;
+  void glLock(void);
+  void glUnlock(void);
+  void glSwapBuffers(void);
+  void glFlushBuffer(void);
+
+  virtual void glInit(void);
+  virtual void glReshape( int width, int height );
+  virtual void glRender(void);
 
 private slots:
-  void repaint_slot();
+  void gl_init(void);
+  void gl_reshape(int, int);
+  void gl_render(void);
 
 private:
-  QGLWidget * glwidget;
+  QtGLArea * glwidget;
   QWidget * glparent, * borderwidget;
   int borderthickness, glmodebits;
 
@@ -127,6 +108,9 @@ private:
     unsigned int keyboardinput : 1;
     unsigned int drawfrontbuff : 1;
   } properties;
-};
 
-#endif // ! __SOQT_GLWIDGET_H__
+}; // class SoQtGLWidget
+
+// *************************************************************************
+
+#endif // ! SOQT_GLWIDGET_H
