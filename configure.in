@@ -379,7 +379,7 @@ AC_OUTPUT([
         build/soqt.mak
         build/soqt_dll.dsp
         build/soqt_dll.mak
-	build/CoinSDK_SoQt.iwz.in
+	build/CoinSDK_SoQt.iwz
 ],[
 	chmod a+x soqt-config
 ])

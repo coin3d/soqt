@@ -5766,7 +5766,7 @@ config_files="\\
     src/Inventor/Qt/widgets/Makefile test-code/Makefile
     test-code/components/Makefile test-code/widgets/Makefile build/soqt.dsp
     build/soqt.mak build/soqt_dll.dsp build/soqt_dll.mak
-    build/CoinSDK_SoQt.iwz.in"
+    build/CoinSDK_SoQt.iwz"
 config_headers="\\
     config.h"
 
@@ -5823,7 +5823,7 @@ do
   'build/soqt.mak' ) CONFIG_FILES="\$CONFIG_FILES build/soqt.mak" ;;
   'build/soqt_dll.dsp' ) CONFIG_FILES="\$CONFIG_FILES build/soqt_dll.dsp" ;;
   'build/soqt_dll.mak' ) CONFIG_FILES="\$CONFIG_FILES build/soqt_dll.mak" ;;
-  'build/CoinSDK_SoQt.iwz.in' ) CONFIG_FILES="\$CONFIG_FILES build/CoinSDK_SoQt.iwz.in" ;;
+  'build/CoinSDK_SoQt.iwz' ) CONFIG_FILES="\$CONFIG_FILES build/CoinSDK_SoQt.iwz" ;;
   'config.h' ) CONFIG_HEADERS="\$CONFIG_HEADERS config.h" ;;
   # This is an error.
   *) echo "$CONFIG_STATUS: invalid argument: \$ac_option"; exit 1 ;;
