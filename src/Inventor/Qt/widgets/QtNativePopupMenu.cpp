@@ -24,17 +24,17 @@ static const char rcsid[] =
 
 #include <qpopupmenu.h>
 #include <qmetaobject.h>
-#include <moc_SoQtPopupMenu.cpp>
+#include <moc_QtNativePopupMenu.cpp>
 
 #include <Inventor/SoLists.h>
 #include <Inventor/errors/SoDebugError.h>
 
 #include <soqtdefs.h>
-#include <Inventor/Qt/widgets/SoQtPopupMenu.h>
+#include <Inventor/Qt/widgets/QtNativePopupMenu.h>
 
 /*!
-  \class SoQtPopupMenu Inventor/Qt/widgets/SoQtPopupMenu.h
-  \brief The SoQtPopupMenu class implements a common interface for popup
+  \class QtNativePopupMenu Inventor/Qt/widgets/QtNativePopupMenu.h
+  \brief The QtNativePopupMenu class implements a common interface for popup
   menu management for all the Coin GUI toolkit libraries.
 */
 
@@ -66,19 +66,18 @@ struct ItemRecord {
   The constructor.
 */
 
-SoQtPopupMenu::SoQtPopupMenu(
+QtNativePopupMenu::QtNativePopupMenu(
   void)
 {
   this->menus = new SbPList;
   this->items = new SbPList;
-} // SoQtPopupMenu()
+} // QtNativePopupMenu()
 
 /*!
   Destructor.
 */
 
-SoQtPopupMenu::~SoQtPopupMenu(
-  void)
+QtNativePopupMenu::~QtNativePopupMenu()
 {
   const int numMenus = this->menus->getLength();
   QPopupMenu * popup = NULL;
@@ -102,7 +101,7 @@ SoQtPopupMenu::~SoQtPopupMenu(
 
   // delete root popup menu
   delete popup;
-} // ~SoQtPopupMenu()
+} // ~QtNativePopupMenu()
 
 // *************************************************************************
 
@@ -110,7 +109,7 @@ SoQtPopupMenu::~SoQtPopupMenu(
 */
 
 int
-SoQtPopupMenu::newMenu(
+QtNativePopupMenu::newMenu(
   const char * name,
   int menuid)
 {
@@ -134,7 +133,7 @@ SoQtPopupMenu::newMenu(
 */
 
 int
-SoQtPopupMenu::getMenu(
+QtNativePopupMenu::getMenu(
   const char * name)
 {
   const int numMenus = this->menus->getLength();
@@ -151,7 +150,7 @@ SoQtPopupMenu::getMenu(
 */
 
 void
-SoQtPopupMenu::setMenuTitle(
+QtNativePopupMenu::setMenuTitle(
   int menuid,
   const char * title)
 {
@@ -174,7 +173,7 @@ SoQtPopupMenu::setMenuTitle(
 */
 
 const char *
-SoQtPopupMenu::getMenuTitle(
+QtNativePopupMenu::getMenuTitle(
   int menuid)
 {
   MenuRecord * rec = this->getMenuRecord(menuid);
@@ -188,7 +187,7 @@ SoQtPopupMenu::getMenuTitle(
 */
 
 int
-SoQtPopupMenu::newMenuItem(
+QtNativePopupMenu::newMenuItem(
   const char * name,
   int itemid)
 {
@@ -210,7 +209,7 @@ SoQtPopupMenu::newMenuItem(
 */
 
 int
-SoQtPopupMenu::getMenuItem(
+QtNativePopupMenu::getMenuItem(
   const char * name)
 {
   const int numItems = this->items->getLength();
@@ -227,7 +226,7 @@ SoQtPopupMenu::getMenuItem(
 */
 
 void
-SoQtPopupMenu::setMenuItemTitle(
+QtNativePopupMenu::setMenuItemTitle(
   int itemid,
   const char * title)
 {
@@ -250,7 +249,7 @@ SoQtPopupMenu::setMenuItemTitle(
 */
 
 const char *
-SoQtPopupMenu::getMenuItemTitle(
+QtNativePopupMenu::getMenuItemTitle(
   int itemid)
 {
   ItemRecord * rec = this->getItemRecord(itemid);
@@ -262,7 +261,7 @@ SoQtPopupMenu::getMenuItemTitle(
 */
 
 void
-SoQtPopupMenu::setMenuItemEnabled(
+QtNativePopupMenu::setMenuItemEnabled(
   int itemid,
   SbBool enabled)
 {
@@ -276,7 +275,7 @@ SoQtPopupMenu::setMenuItemEnabled(
 */
 
 SbBool
-SoQtPopupMenu::getMenuItemEnabled(
+QtNativePopupMenu::getMenuItemEnabled(
   int itemid)
 {
   ItemRecord * rec = this->getItemRecord(itemid);
@@ -288,7 +287,7 @@ SoQtPopupMenu::getMenuItemEnabled(
 */
 
 void
-SoQtPopupMenu::_setMenuItemMarked(
+QtNativePopupMenu::_setMenuItemMarked(
   int itemid,
   SbBool marked)
 {
@@ -307,7 +306,7 @@ SoQtPopupMenu::_setMenuItemMarked(
 */
 
 SbBool
-SoQtPopupMenu::getMenuItemMarked(
+QtNativePopupMenu::getMenuItemMarked(
   int itemid)
 {
   ItemRecord * rec = this->getItemRecord(itemid);
@@ -323,7 +322,7 @@ SoQtPopupMenu::getMenuItemMarked(
 */
 
 void
-SoQtPopupMenu::addMenu(
+QtNativePopupMenu::addMenu(
   int menuid,
   int submenuid,
   int pos)
@@ -344,7 +343,7 @@ SoQtPopupMenu::addMenu(
 */
 
 void
-SoQtPopupMenu::addMenuItem(
+QtNativePopupMenu::addMenuItem(
   int menuid,
   int itemid,
   int pos)
@@ -363,7 +362,7 @@ SoQtPopupMenu::addMenuItem(
 } // addMenuItem()
 
 void
-SoQtPopupMenu::addSeparator(
+QtNativePopupMenu::addSeparator(
   int menuid,
   int pos)
 {
@@ -384,7 +383,7 @@ SoQtPopupMenu::addSeparator(
 */
 
 void
-SoQtPopupMenu::removeMenu(
+QtNativePopupMenu::removeMenu(
   int menuid)
 {
   MenuRecord * rec = this->getMenuRecord(menuid);
@@ -392,13 +391,13 @@ SoQtPopupMenu::removeMenu(
 
   if (rec->menuid == 0) {
 #if SOQT_DEBUG
-    SoDebugError::postInfo("SoQtPopupMenu::RemoveMenu", "can't remove root");
+    SoDebugError::postInfo("QtNativePopupMenu::RemoveMenu", "can't remove root");
 #endif // SOQT_DEBUG
     return;
   }
   if (rec->parent == NULL) {
 #if SOQT_DEBUG
-    SoDebugError::postInfo("SoQtPopupMenu::RemoveMenu", "menu not attached");
+    SoDebugError::postInfo("QtNativePopupMenu::RemoveMenu", "menu not attached");
 #endif // SOQT_DEBUG
     return;
   }
@@ -414,7 +413,7 @@ SoQtPopupMenu::removeMenu(
 */
 
 void
-SoQtPopupMenu::removeMenuItem(
+QtNativePopupMenu::removeMenuItem(
   int itemid)
 {
   ItemRecord * rec = this->getItemRecord(itemid);
@@ -422,7 +421,7 @@ SoQtPopupMenu::removeMenuItem(
 
   if (rec->parent == NULL) {
 #if SOQT_DEBUG
-    SoDebugError::postInfo("SoQtPopupMenu::RemoveMenu", "item not attached");
+    SoDebugError::postInfo("QtNativePopupMenu::RemoveMenu", "item not attached");
 #endif // SOQT_DEBUG
     return;
   }
@@ -440,7 +439,7 @@ SoQtPopupMenu::removeMenuItem(
 */
 
 void
-SoQtPopupMenu::popUp(
+QtNativePopupMenu::popUp(
   QWidget * inside,
   int x,
   int y)
@@ -455,7 +454,7 @@ SoQtPopupMenu::popUp(
 */
 
 MenuRecord *
-SoQtPopupMenu::getMenuRecord(
+QtNativePopupMenu::getMenuRecord(
   int menuid)
 {
   const int numMenus = this->menus->getLength();
@@ -470,7 +469,7 @@ SoQtPopupMenu::getMenuRecord(
 */
 
 ItemRecord *
-SoQtPopupMenu::getItemRecord(
+QtNativePopupMenu::getItemRecord(
   int itemid)
 {
   const int numItems = this->items->getLength();
@@ -487,7 +486,7 @@ SoQtPopupMenu::getItemRecord(
 */
 
 MenuRecord *
-SoQtPopupMenu::createMenuRecord(
+QtNativePopupMenu::createMenuRecord(
   const char * name)
 {
   MenuRecord * rec = new MenuRecord;
@@ -505,7 +504,7 @@ SoQtPopupMenu::createMenuRecord(
 */
 
 ItemRecord *
-SoQtPopupMenu::createItemRecord(
+QtNativePopupMenu::createItemRecord(
   const char * name)
 {
   ItemRecord * rec = new ItemRecord;
@@ -520,7 +519,7 @@ SoQtPopupMenu::createItemRecord(
 // *************************************************************************
 
 void
-SoQtPopupMenu::itemActivation(// private slot
+QtNativePopupMenu::itemActivation(// private slot
   int itemid)
 {
   inherited::invokeMenuSelection(itemid);

@@ -19,8 +19,8 @@
 
 //  $Id$
 
-#ifndef SOQT_POPUPMENU_H
-#define SOQT_POPUPMENU_H
+#ifndef SOQT_QTNATIVEPOPUPMENU_H
+#define SOQT_QTNATIVEPOPUPMENU_H
 
 #include <Inventor/Qt/SoQtBasic.h>
 
@@ -31,14 +31,14 @@
 struct MenuRecord;
 struct ItemRecord;
 
-class SoQtPopupMenu : public QObject, public SoAnyPopupMenu
+class QtNativePopupMenu : public QObject, public SoAnyPopupMenu
 {
   typedef SoAnyPopupMenu inherited;
   Q_OBJECT
 
 public:
-  SoQtPopupMenu(void);
-  virtual ~SoQtPopupMenu(void);
+  QtNativePopupMenu(void);
+  virtual ~QtNativePopupMenu();
 
   virtual int newMenu(const char * name, int menuid = -1);
   virtual int getMenu(const char * name);
@@ -76,8 +76,8 @@ private:
   SbPList * menus;
   SbPList * items;
 
-};  // class SoQtPopupMenu
+};  // class QtNativePopupMenu
 
 // *************************************************************************
 
-#endif // ! SOQT_POPUPMENU_H
+#endif // ! SOQT_QTNATIVEPOPUPMENU_H

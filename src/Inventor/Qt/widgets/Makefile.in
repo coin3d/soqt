@@ -400,8 +400,8 @@ libSoQtWidgets_la_SOURCES = \
 	SoQtGLArea.h \
 	SoQtThumbWheel.cpp \
 	SoQtThumbWheel.h \
-	SoQtPopupMenu.cpp \
-	SoQtPopupMenu.h
+	QtNativePopupMenu.cpp \
+	QtNativePopupMenu.h
 
 
 nodist_libSoQtWidgets_la_SOURCES = \
@@ -417,8 +417,8 @@ widgets_lst_SOURCES = \
 	SoQtGLArea.h \
 	SoQtThumbWheel.cpp \
 	SoQtThumbWheel.h \
-	SoQtPopupMenu.cpp \
-	SoQtPopupMenu.h
+	QtNativePopupMenu.cpp \
+	QtNativePopupMenu.h
 
 
 nodist_widgets_lst_SOURCES = \
@@ -433,7 +433,7 @@ LIBRARIES = $(noinst_LIBRARIES)
 widgets_lst_AR = $(AR) cru
 widgets_lst_LIBADD =
 am_widgets_lst_OBJECTS = SoQtGLArea.$(OBJEXT) SoQtThumbWheel.$(OBJEXT) \
-	SoQtPopupMenu.$(OBJEXT)
+	QtNativePopupMenu.$(OBJEXT)
 nodist_widgets_lst_OBJECTS = SoAnyThumbWheel.$(OBJEXT) \
 	SoAnyPopupMenu.$(OBJEXT)
 widgets_lst_OBJECTS = $(am_widgets_lst_OBJECTS) \
@@ -443,7 +443,7 @@ LTLIBRARIES = $(noinst_LTLIBRARIES)
 libSoQtWidgets_la_LDFLAGS =
 libSoQtWidgets_la_LIBADD =
 am_libSoQtWidgets_la_OBJECTS = SoQtGLArea.lo SoQtThumbWheel.lo \
-	SoQtPopupMenu.lo
+	QtNativePopupMenu.lo
 nodist_libSoQtWidgets_la_OBJECTS = SoAnyThumbWheel.lo SoAnyPopupMenu.lo
 libSoQtWidgets_la_OBJECTS = $(am_libSoQtWidgets_la_OBJECTS) \
 	$(nodist_libSoQtWidgets_la_OBJECTS)
@@ -453,13 +453,13 @@ DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
-@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/SoAnyPopupMenu.Plo \
+@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/QtNativePopupMenu.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/QtNativePopupMenu.Po \
+@AMDEP_TRUE@	$(DEPDIR)/SoAnyPopupMenu.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/SoAnyPopupMenu.Po \
 @AMDEP_TRUE@	$(DEPDIR)/SoAnyThumbWheel.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/SoAnyThumbWheel.Po \
 @AMDEP_TRUE@	$(DEPDIR)/SoQtGLArea.Plo $(DEPDIR)/SoQtGLArea.Po \
-@AMDEP_TRUE@	$(DEPDIR)/SoQtPopupMenu.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/SoQtPopupMenu.Po \
 @AMDEP_TRUE@	$(DEPDIR)/SoQtThumbWheel.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/SoQtThumbWheel.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
@@ -529,14 +529,14 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/QtNativePopupMenu.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/QtNativePopupMenu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoAnyPopupMenu.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoAnyPopupMenu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoAnyThumbWheel.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoAnyThumbWheel.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtGLArea.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtGLArea.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtPopupMenu.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtPopupMenu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtThumbWheel.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtThumbWheel.Po@am__quote@
 

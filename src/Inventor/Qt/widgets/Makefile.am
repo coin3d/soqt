@@ -38,8 +38,8 @@ libSoQtWidgets_la_SOURCES = \
 	SoQtGLArea.h \
 	SoQtThumbWheel.cpp \
 	SoQtThumbWheel.h \
-	SoQtPopupMenu.cpp \
-	SoQtPopupMenu.h
+	QtNativePopupMenu.cpp \
+	QtNativePopupMenu.h
 
 nodist_libSoQtWidgets_la_SOURCES = \
 	$(SoGui_src_Inventor_Gui_widgets_BuiltFiles)
@@ -53,8 +53,8 @@ widgets_lst_SOURCES = \
 	SoQtGLArea.h \
 	SoQtThumbWheel.cpp \
 	SoQtThumbWheel.h \
-	SoQtPopupMenu.cpp \
-	SoQtPopupMenu.h
+	QtNativePopupMenu.cpp \
+	QtNativePopupMenu.h
 
 nodist_widgets_lst_SOURCES = \
 	$(SoGui_src_Inventor_Gui_widgets_BuiltFiles)
