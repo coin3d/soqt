@@ -28,8 +28,8 @@ else
   P
   D
 }'
-  if test x`echo hello | sed -e "$sedformat" 2>&1` != xhello; then
-    sedformat=";"
+  if test xhello != x"`echo hello | sed -e $sedformat 2>&1`"; then
+    sedformat="s/a/a/"
   fi
 fi
 
