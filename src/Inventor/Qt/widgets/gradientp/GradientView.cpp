@@ -339,7 +339,7 @@ GradientView::insertTick(void)
   // the += operator wasn't available until Qt 3.1.0. Just iterate
   // and use ++. pederb, 2003-09-22
   for (int j = 0; j < i; j++) { it++; }
-  this->tickmarks.insert(it, this->newTick(x));
+  this->tickmarks.insert(it, this->newTick((int) x));
 
   this->segmentidx = -1;
 

@@ -89,7 +89,7 @@ CurveView::initCanvasCurve()
   const uint8_t * curvepts = this->colorcurves[this->colorindex]->getColorMap();
   for (int i = 2; i < this->colorcurves[this->colorindex]->getNumColors(); i+=2) {
     QCanvasLine * line = new QCanvasLine(this->canvas);
-    line->setPoints(i-2, float(this->size - 1) - curvepts[i-2], i, float(this->size - 1) - curvepts[i]);
+    line->setPoints(i-2, int(this->size - 1) - curvepts[i-2], i, int(this->size - 1) - curvepts[i]);
     line->setZ(1); // to make the curve be drawn on top of the grid
     line->show();
     this->curvesegments.append(line);
@@ -301,7 +301,7 @@ CurveView::newCanvasCtrlPtList()
   const SbGuiList<SbVec3f> ctrlpts = this->colorcurves[this->colorindex]->getCtrlPoints();
 
   for (int i = 0; i < numpts; i++) {
-    list.append(this->newControlPoint(ctrlpts[i][0] * (this->size - 1), (this->size - 1) - ctrlpts[i][1] * (this->size - 1)));
+    list.append(this->newControlPoint(int(ctrlpts[i][0] * (this->size - 1)), int((this->size - 1) - ctrlpts[i][1] * (this->size - 1))));
   }
   return list;
 }
@@ -349,7 +349,7 @@ CurveView::updateCurve()
   const uint8_t * curvepts = this->colorcurves[this->colorindex]->getColorMap();
   for (; it != this->curvesegments.end(); it++) {
     QCanvasLine* line = (QCanvasLine*)(*it);
-    line->setPoints(i-2, float(this->size - 1)-curvepts[i-2], i, float(this->size - 1)-curvepts[i]);
+    line->setPoints(i-2, int(this->size - 1)-curvepts[i-2], i, int(this->size - 1)-curvepts[i]);
     i+=2;
   }    
   emit this->curveChanged();
@@ -427,7 +427,7 @@ CurveView::interpolateFromColors()
     this->canvasctrlpts[i].clear();
     for (int j = 0; j < this->colorcurves[i]->getNumCtrlPoints(); j++) {
       this->canvasctrlpts[i].append(
-        this->newControlPoint(ctrlpts[j][0] * (this->size - 1), (this->size - 1) - ctrlpts[j][1] * (this->size - 1)));
+        this->newControlPoint(int(ctrlpts[j][0] * (this->size - 1)), int((this->size - 1) - ctrlpts[j][1] * (this->size - 1))));
     }
   }
 }
