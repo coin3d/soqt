@@ -282,6 +282,7 @@ bool SoQtP::didcreatemainwidget = FALSE;
 int SoQtP::DEBUG_X11SYNC = ENVVAR_NOT_INITED;
 SoQtP_XErrorHandler * SoQtP::previous_handler = NULL;
 
+int SoQtP::DEBUG_LISTMODULES = ENVVAR_NOT_INITED;
 int SoQtP::BRIL_X11_SILENCER = ENVVAR_NOT_INITED;
 
 // We're using the singleton pattern to create a single SoQtP object
@@ -600,6 +601,14 @@ SoQt::init(QWidget * toplevelwidget)
   }
 #endif // Q_WS_X11
 
+  // This should prove helpful for debugging the pervasive problem
+  // under Win32 with loading multiple instances of the same library.
+  if (SoQtP::DEBUG_LISTMODULES == ENVVAR_NOT_INITED) {
+    const char * env = SoAny::si()->getenv("SOQT_DEBUG_LISTMODULES");
+    SoQtP::DEBUG_LISTMODULES = env ? atoi(env) : 0;
+    if (SoQtP::DEBUG_LISTMODULES) { SoAny::listWin32ProcessModules(); }
+  }
+  
 
   SoDB::init();
   SoNodeKit::init();
