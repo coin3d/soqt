@@ -308,8 +308,6 @@ SoGuiAllBuiltFiles = \
 
 
 SoGuiCommonDistFiles = \
-  LICENSE.GPL \
-  HACKING \
   BUGS.txt \
   src/Inventor/@Gui@/common/BUGS.txt \
   \
@@ -446,6 +444,7 @@ DISTCLEANFILES = \
 
 EXTRA_DIST = \
 	FAQ \
+	LICENSE.GPL \
 	README.DLL \
 	README.IRIX \
 	README.WIN32 \
@@ -1133,13 +1132,12 @@ all-local: built-sources
 #	esac
 @BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_FALSE@install-exec-local: built-sources $(srcdir)/cfg/m4/wrapmsvc.exe
 @BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_FALSE@	@$(NORMAL_INSTALL)
-@BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_FALSE@	$(mkinstalldirs) $(DESTDIR)$(bindir)
 @BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_FALSE@	@if @BUILD_WITH_MSVC@; then \
+@BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_FALSE@	  echo " $(mkinstalldirs) $(DESTDIR)$(bindir)"; \
+@BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_FALSE@	  $(mkinstalldirs) "$(DESTDIR)$(bindir)"; \
 @BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_FALSE@	  p=wrapmsvc.exe; \
-@BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_FALSE@	  if cmp -s "$(srcdir)/cfg/m4/$$p" "$(DESTDIR)$(bindir)/$$p"; then \
-@BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_FALSE@	    echo " $(INSTALL_PROGRAM) $(srcdir)/cfg/m4/$$p $(DESTDIR)$(bindir)/$$p"; \
-@BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_FALSE@	    $(INSTALL_PROGRAM) $(srcdir)/cfg/m4/$$p $(DESTDIR)$(bindir)/$$p; \
-@BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_FALSE@	  fi \
+@BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_FALSE@	  echo " $(INSTALL_PROGRAM) $(top_srcdir)/cfg/m4/$$p $(DESTDIR)$(bindir)/$$p"; \
+@BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_FALSE@	  $(INSTALL_PROGRAM) "$(top_srcdir)/cfg/m4/$$p" "$(DESTDIR)$(bindir)/$$p"; \
 @BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_FALSE@	fi
 
 install-data-local: built-sources
