@@ -60,7 +60,7 @@ Gradient & Gradient::operator = (const Gradient & grad)
   return *this;
 }
 
-bool Gradient::operator == (const Gradient & grad) const
+SbBool Gradient::operator == (const Gradient & grad) const
 {
   return (this->parameters == grad.parameters) &&
          (this->colors == grad.colors);
@@ -148,7 +148,7 @@ void Gradient::removeTick(int i)
   if (this->changeCB) this->changeCB();
 }
 
-bool Gradient::leftEqualsRight(int i) const
+SbBool Gradient::leftEqualsRight(int i) const
 {
   int maxIndex = this->colors.size() - 1;
   int colorIndex = i * 2 - 1;
@@ -163,7 +163,7 @@ void Gradient::swapLeftAndRight(int i)
   
 }
 
-void Gradient::setColor(int i, bool left, const QRgb color)
+void Gradient::setColor(int i, SbBool left, const QRgb color)
 {
   int colorIndex = i * 2 - 1;
 
@@ -179,7 +179,7 @@ void Gradient::setColor(int i, bool left, const QRgb color)
   if (this->changeCB) this->changeCB();
 }
 
-QRgb Gradient::getColor(int i, bool left) const
+QRgb Gradient::getColor(int i, SbBool left) const
 {
   int colorIndex = i * 2 - 1;
 

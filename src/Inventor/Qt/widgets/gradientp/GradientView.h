@@ -25,7 +25,7 @@
 \**************************************************************************/
 
 #include <qcanvas.h>
-#include "Gradient.h"
+#include <Inventor/Qt/widgets/Gradient.h>
 
 class TickMark;
 class QPainter;

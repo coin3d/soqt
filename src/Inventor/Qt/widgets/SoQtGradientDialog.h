@@ -26,7 +26,7 @@
 
 #include <qdialog.h>
 #include <Inventor/Qt/SoQtBasic.h>
-#include "gradientp/Gradient.h"
+#include <Inventor/Qt/widgets/Gradient.h>
 
 class SOQT_DLL_API SoQtGradientDialog : public QDialog
 {

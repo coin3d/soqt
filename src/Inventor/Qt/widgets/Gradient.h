@@ -26,9 +26,10 @@
 
 #include <qcolor.h>
 #include <qvaluelist.h>
+#include <Inventor/Qt/SoQtBasic.h>
+#include <Inventor/SbBasic.h>
  
-class Gradient
-{
+class SOQT_DLL_API Gradient {
 public:
   Gradient(const QColor& color0 = Qt::red, const QColor& color1 = Qt::blue);
   Gradient(const Gradient& grad);
@@ -36,27 +37,27 @@ public:
 
   ~Gradient();
 
-  int numTicks() const;
+  int numTicks(void) const;
   int insertTick(float t);
   float getParameter(int i) const;
-  bool leftEqualsRight(int i) const;
+  SbBool leftEqualsRight(int i) const;
   QRgb eval(float t) const;
-  QRgb getColor(int i, bool left) const;
+  QRgb getColor(int i, SbBool left) const;
 
   void moveTick(int i, float t);
   void removeTick(int i);
   void setChangeCallback(void (*changeCB)(void));
-  void setColor(int i, bool left, const QRgb color);
+  void setColor(int i, SbBool left, const QRgb color);
   void getColorArray(QRgb * colors, int num) const;
   void save(const QString& filename);
   void load(const QString& filename);
-  void handleChange() const;
+  void handleChange(void) const;
   void swapLeftAndRight(int i);
 
   QImage getImage(int w, int h, int d) const;
 
   Gradient & operator = (const Gradient & grad);
-  bool operator == (const Gradient & grad) const;
+  SbBool operator == (const Gradient & grad) const;
   
 private:
   QValueList<float> parameters;

@@ -29,7 +29,7 @@
 #include <qvaluelist.h>
 #include <qpopupmenu.h>
 #include <qcolordialog.h>
-#include "Gradient.h"
+#include <Inventor/Qt/widgets/Gradient.h>
 #include "GradientView.h"
 #include "TickMark.h"
 #include "ImageItem.h"
@@ -92,8 +92,8 @@ void GradientView::updateView()
   this->gradItem = new ImageItem(gradImage, this->canvas);
   this->gradItem->show();
 
-  int selectStart = this->tickMarks[this->startIndex]->x();
-  int selectEnd = this->tickMarks[this->endIndex]->x();
+  int selectStart = (int) (this->tickMarks[this->startIndex]->x());
+  int selectEnd = (int) (this->tickMarks[this->endIndex]->x());
 
   QImage selectedImage(selectEnd - selectStart, 10, 32);
   selectedImage.fill(QColor(100,100,245).rgb());

@@ -30,7 +30,7 @@
   
 #include "GradientEditor.h"
 #include "GradientView.h"
-#include "Gradient.h"
+#include <Inventor/Qt/widgets/Gradient.h>
 
 #include <Inventor/Qt/widgets/moc_GradientEditor.icc>
 

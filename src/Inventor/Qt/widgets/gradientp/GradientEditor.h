@@ -25,7 +25,7 @@
 \**************************************************************************/
 
 #include <qwidget.h>
-#include "Gradient.h"
+#include <Inventor/Qt/widgets/Gradient.h>
 
 class Gradient;
 class GradientView;

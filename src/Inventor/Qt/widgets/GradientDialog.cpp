@@ -163,3 +163,6 @@ void SoQtGradientDialog::setDataLimits(float min, float max)
   PRIVATE(this)->gradEdit->setMin(min);
   PRIVATE(this)->gradEdit->setMax(max);
 }
+
+#undef PRIVATE
+#undef PUBLIC
