@@ -206,18 +206,6 @@ SoQtPlaneViewer::processEvent(QEvent * event)
   FIXME: write doc
 */
 void
-SoQtPlaneViewer::actualRedraw(void)
-{
-  inherited::actualRedraw();
-//  this->drawRotateGraphics();
-}
-
-// ************************************************************************
-
-/*!
-  FIXME: write doc
-*/
-void
 SoQtPlaneViewer::createPrefSheet(void)
 {
   SOQT_STUB();
