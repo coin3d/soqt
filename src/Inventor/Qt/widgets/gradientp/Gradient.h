@@ -24,52 +24,47 @@
  *
 \**************************************************************************/
 
-#include <Inventor/SbColor4f.h>
-#include <Inventor/lists/SbList.h>
-#include <Inventor/system/inttypes.h>
-#include <Inventor/SbString.h>
-
-class SbColor4f;
+#include <qcolor.h>
+#include <qvaluelist.h>
 
 class Tick {
 public:
-  SbColor4f left;
-  SbColor4f right;
+  QRgb left;
+  QRgb right;
   float t;
 };
-
+ 
 class Gradient
 {
 public:
-  Gradient(SbColor4f * color0 = NULL, SbColor4f * color1 = NULL);
+  Gradient(const QColor& color0 = Qt::red, const QColor& color1 = Qt::blue);
   Gradient(const Gradient& grad);
-  Gradient(const SbString filename);
+  Gradient(const QString filename);
   ~Gradient();
 
   int numTicks() const;
   float getParameter(int i) const;
-  SbColor4f eval(float t) const;
+  QRgb eval(float t) const;
   
   void moveTick(int i, float t);
   void removeTick(int i);
   int insertTick(float t);
 
-  const SbList<Tick> & getTicks(void) const;
-
   void setChangeCallback(void (*changeCB)(void));
 
-  uint32_t getColor(int i, SbBool left) const;
-  void setColor(int i, SbBool left, const SbColor4f &);
+  QRgb getColor(int i, bool left) const;
+  void setColor(int i, bool left, const QRgb color);
 
-  void getColorArray(SbColor4f * colors, int num) const;
+  void getColorArray(QRgb * colors, int num) const;
 
-  void save(const SbString& filename);
-  void load(const SbString& filename);
+  void save(const QString& filename);
+  void load(const QString& filename);
 
   Gradient & operator = (const Gradient & grad);
+  void handleChange() const;
 
 private:
-  SbList<Tick> ticks;
+  QValueList<Tick> ticks;
   void (*changeCB)(void);
 };
 

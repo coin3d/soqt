@@ -25,10 +25,8 @@
 \**************************************************************************/
 
 #include <qcanvas.h>
-#include <Inventor/system/inttypes.h>
 
 class TickMark;
-class QSize;
 class QMouseEvent;
 class QPaintEvent;
 class QResizeEvent;
@@ -77,12 +75,10 @@ protected:
   void contentsMouseMoveEvent(QMouseEvent *);
   void keyPressEvent(QKeyEvent * e);
   void buildMenu();
-  TickMark * getTick(int x);
   void unselectAll(void);
 
 private:
-  uint32_t getQtColor(const unsigned int color); 
-
+  TickMark * getTick(int x);
   QCanvas * canvas;
   Gradient * grad;
   ImageItem * gradItem;
@@ -95,8 +91,8 @@ private:
   int startIndex;
   int endIndex;
   QPoint moving_start;
-  uint32_t leftcolor;
-  uint32_t rightcolor;
+  QRgb leftcolor;
+  QRgb rightcolor;
 };
 
 #endif // GRADIENT_EDITOR_H

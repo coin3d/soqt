@@ -28,10 +28,7 @@
 
 class Gradient;
 class GradientView;
-class QSlider;
 class QLabel;
-class QLineEdit;
-class QCheckBox;
 class QResizeEvent;
 
 class GradientEditor : public QWidget
@@ -41,8 +38,8 @@ public:
   GradientEditor(Gradient * grad = NULL, QWidget* parent=0, bool modal = FALSE, const char* name=0, WFlags f=0);
   ~GradientEditor();
 
-  Gradient * getGradient(void) const;
   void setGradient(Gradient * grad);
+  const Gradient& getGradient(void) const;
   void resizeEvent(QResizeEvent *);
 
 signals:
@@ -61,13 +58,10 @@ private:
   GradientView * gradView;
   QWidget * gradientWidget;
   Gradient * grad;
-  Gradient * originalGradient;
-  QSlider * slider;
   QLabel * paramValue;
   QLabel * dataValue;
   QLabel * colorLabel;
   float min, max;
-  float minTemp, maxTemp;
 };
 
 #endif

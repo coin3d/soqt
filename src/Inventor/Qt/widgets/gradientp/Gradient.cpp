@@ -22,29 +22,25 @@
 \**************************************************************************/
 
 #include <fstream.h>
-#include <qcolor.h>
+#include <assert.h>
 #include "Gradient.h"
 
-Gradient::Gradient(SbColor4f * color0, SbColor4f * color1)
+Gradient::Gradient(const QColor& color0, const QColor& color1)
 {
   Tick tick0;
   Tick tick1;
   tick0.t = 0.0f;
   tick1.t = 1.0f;
 
-  if (color0 != NULL && color1 != NULL) {
-    tick0.right = *color0;
-    tick0.left = *color1;
-    tick1.right = *color0;
-    tick1.left = *color1;
-
-  } else {
-    // default is black -> white
-    tick0.right = SbColor4f(1.0,0.0,0.0,1.0);
-    tick0.left = SbColor4f(0.0,0.0,1.0,1.0);
-    tick1.right = SbColor4f(1.0,0.0,0.0,1.0);
-    tick1.left = SbColor4f(0.0,0.0,1.0,1.0);
-  }
+  if (color0.isValid() && color1.isValid()) {
+    for (int i = 0; i < 4; i++) {
+      tick0.right = color0.rgb();
+      tick0.left = color1.rgb();
+      tick1.right = color0.rgb();
+      tick1.left = color1.rgb();
+    }
+  } 
+  
   this->ticks.append(tick0);
   this->ticks.append(tick1);
 
@@ -56,7 +52,7 @@ Gradient::Gradient(const Gradient & grad)
   this->operator=(grad);
 }
 
-Gradient::Gradient(const SbString filename)
+Gradient::Gradient(const QString filename)
 {
   this->load(filename);
   this->changeCB = NULL;
@@ -68,14 +64,13 @@ Gradient::~Gradient()
 
 Gradient & Gradient::operator = (const Gradient & grad)
 {
-  this->ticks = grad.getTicks();
-  if (this->changeCB)
-    this->changeCB();
+  this->ticks = grad.ticks;
+  this->changeCB = grad.changeCB;
   return *this;
 }
 
 // evaluates the gradient at a given parameter
-SbColor4f Gradient::eval(float t) const
+QRgb Gradient::eval(float t) const
 {
   assert(t >= 0.0f && t <= 1.0f && 
     "Gradient::eval(float t): t must be in the interval [0,1]");
@@ -92,20 +87,20 @@ SbColor4f Gradient::eval(float t) const
   float w0 = (t1 - t) / dt;
   float w1 = (t - t0) / dt;
 
-  SbColor4f left = this->ticks[i].left;
-  SbColor4f right = this->ticks[i-1].right;
+  QRgb left = this->ticks[i].left;
+  QRgb right = this->ticks[i-1].right;
 
-  SbColor4f result;
-  // to make sure the alpha values are interpolated aswell
-  for (i = 0; i < 4; i++) {
-    result[i] = w0 * right[i] + w1 * left[i];
-  }
-  return result;
+  int r = int ((w0 * float(qRed(right)) + w1 * float(qRed(left)) + 0.5f));
+  int g = int ((w0 * float(qGreen(right)) + w1 * float(qGreen(left)) + 0.5f));
+  int b = int ((w0 * float(qBlue(right)) + w1 * float(qBlue(left)) + 0.5f));
+  int a = int ((w0 * float(qAlpha(right)) + w1 * float(qAlpha(left)) + 0.5f));
+
+  return qRgba(r, g, b, a);
 }
 
 int Gradient::numTicks() const
 {
-  return ticks.getLength();
+  return ticks.size();
 }
 
 float Gradient::getParameter(int i) const
@@ -123,30 +118,33 @@ void Gradient::moveTick(int i, float t)
 
 int Gradient::insertTick(float t)
 {
-  SbColor4f color = this->eval(t);
   Tick tick;
   tick.t = t;
+  QRgb color = this->eval(t);
   tick.left = color;
   tick.right = color;
 
-  // find index to insert before
   int i = 0;
-  while (ticks[++i].t < t);
+  QValueList<Tick>::Iterator it = this->ticks.begin();
+  while ((*it).t < t) { it++; i++; }
 
-  this->ticks.insert(tick, i);
+  this->ticks.insert(it, tick);
 
   return i;
 }
 
 void Gradient::removeTick(int i)
 {
-  this->ticks.remove(i);
+  QValueList<Tick>::Iterator it = this->ticks.begin();
+  it += i;
+  this->ticks.remove(it);
+  
   if (this->changeCB) this->changeCB();
 }
 
-void Gradient::setColor(int i, SbBool left, const SbColor4f & color)
+void Gradient::setColor(int i, bool left, const QRgb color)
 {
-  int maxIndex = this->ticks.getLength() - 1;
+  int maxIndex = this->ticks.size() - 1;
 
   if (i == 0) {
     this->ticks[i].right = color;
@@ -166,18 +164,18 @@ void Gradient::setColor(int i, SbBool left, const SbColor4f & color)
   if (this->changeCB) this->changeCB();
 }
 
-unsigned int Gradient::getColor(int i, SbBool left) const
+QRgb Gradient::getColor(int i, bool left) const
 {
-  SbColor4f color;
+  QRgb color;
   
-  int maxIndex = this->ticks.getLength() - 1;
+  int maxIndex = this->ticks.size() - 1;
   if (i < 0) i = maxIndex;
   if (i > maxIndex) i = 0;
 
   if (left) color = this->ticks[i].left;
   else      color = this->ticks[i].right;
 
-  return color.getPackedValue();
+  return color;
 }
 
 void Gradient::setChangeCallback(void (*changeCB)(void))
@@ -185,35 +183,36 @@ void Gradient::setChangeCallback(void (*changeCB)(void))
   this->changeCB = changeCB;
 }
 
-void Gradient::getColorArray(SbColor4f * colors, int num) const
+void Gradient::handleChange() const
+{
+  if (this->changeCB)
+    this->changeCB();
+}
+
+void Gradient::getColorArray(QRgb * colors, int num) const
 {
   for (int i = 0; i < num; i++) {
-    float t = float(i) / float(num-1);
+    float t = float(i) / float(num - 1);
     colors[i] = this->eval(t);
   }
 }
 
-void Gradient::save(const SbString& filename)
+void Gradient::save(const QString& filename)
 {
-  fstream out(filename.getString(), ios::out);
-  out << this->ticks.getLength() << " ";
-  for (int i = 0; i < this->ticks.getLength(); i++) {
+  fstream out(filename.ascii(), ios::out);
+  out << this->ticks.size() << " ";
+  for (unsigned int i = 0; i < this->ticks.size(); i++) {
     out << this->ticks[i].t << " ";
-    int j;
-    for (j = 0; j < 4; j ++) {
-      out << this->ticks[i].left[j] << " ";
-    }
-    for (j = 0; j < 4; j++) {
-      out << this->ticks[i].right[j] << " ";
-    }
+    out << this->ticks[i].left << " ";
+    out << this->ticks[i].right << " ";
   }
   out.close();
 }
 
-void Gradient::load(const SbString& filename)
+void Gradient::load(const QString& filename)
 {
-  this->ticks.truncate(0);
-  fstream in(filename.getString(), ios::in);
+  this->ticks.clear();
+  fstream in(filename.ascii(), ios::in);
 
   int length;
   in >> length;
@@ -221,21 +220,11 @@ void Gradient::load(const SbString& filename)
   for (int i = 0; i < length; i++) {
     Tick tick;
     in >> tick.t;
-    
-    int j;
-    for (j = 0; j < 4; j++) {
-      in >> tick.left[j];
-    }
-    for (j = 0; j < 4; j++) {
-      in >> tick.right[j];
-    }
-  
+    in >> tick.left;
+    in >> tick.right;
     this->ticks.append(tick);
   }
   in.close();
 }
 
-const SbList<Tick> & Gradient::getTicks() const
-{
-  return this->ticks;
-}
+

@@ -22,13 +22,13 @@
 \**************************************************************************/
 
 #include <stdlib.h>
+#include <assert.h>
 #include <qimage.h>
 #include <qpixmap.h>
 #include <qpainter.h>
 #include <qvaluelist.h>
 #include <qpopupmenu.h>
 #include <qcolordialog.h>
-#include <Inventor/SbColor4f.h>
 #include "Gradient.h"
 #include "GradientView.h"
 #include "ImageItem.h"
@@ -92,19 +92,21 @@ void GradientView::updateView()
   // FIXME: this can be made more efficient, but i'll leave it
   // for now since the performance seems to be acceptable. 20030925 frodo.
 
-  SbColor4f * colors = new SbColor4f[width];
+  QRgb * colors = new QRgb[width];
   this->grad->getColorArray(colors, width);
   for (int i = 0; i < width; i ++) {
-    float alpha = colors[i][3];
+    float alpha = float(qAlpha(colors[i])) / 255.0f;
     for (int j = 0; j < height - 10; j++) {
       // produces a checkerboard pattern of black and white
-      SbColor4f background(0.0f,0.0f,0.0f);
+      QRgb background = 0;
       if (((i & 0x8) == 0) ^ ((j & 0x8) == 0)) {
-        background = SbColor4f(1.0f,1.0f,1.0f);
+        background = 255;
       }
-      SbColor4f blended = alpha * colors[i] + (1.0f - alpha) * background;
-      uint32_t c = blended.getPackedValue()>>8;
-      gradImage.setPixel(i, j, c);
+      int bg = int((1.0f - alpha) * float(background));
+      int r = alpha * float(qRed(colors[i]) + bg);
+      int g = alpha * float(qGreen(colors[i]) + bg);
+      int b = alpha * float(qBlue(colors[i]) + bg);
+      gradImage.setPixel(i, j, qRgb(r, g, b));
     }
   }
   delete [] colors;
@@ -180,7 +182,7 @@ void GradientView::contentsMousePressEvent(QMouseEvent * e)
 
 void GradientView::contentsMouseReleaseEvent(QMouseEvent * e)
 {
-  QValueList<TickMark *>::Iterator it = this->tickMarks.begin();
+  QValueList<TickMark*>::Iterator it = this->tickMarks.begin();
   for (; it != this->tickMarks.end(); ++it) {
     if((*it) != this->movingItem)
       (*it)->setZ(2);
@@ -296,7 +298,7 @@ void GradientView::insertTick()
              + selectStart);
 
   float t = x / (float)this->canvas->width();
-  unsigned int i = this->grad->insertTick(t);
+  int i = this->grad->insertTick(t);
 
   QValueList<TickMark *>::Iterator it = this->tickMarks.begin();
 #if QT_VERSION >= 310
@@ -357,32 +359,19 @@ void GradientView::deleteTick()
 
 void GradientView::setColorRight()
 {
-  SbColor4f color((float)qRed(this->rightcolor) / 255.0f,
-                  (float)qGreen(this->rightcolor) / 255.0f,
-                  (float)qBlue(this->rightcolor) / 255.0f,
-                  (float)qAlpha(this->rightcolor) / 255.0f);
-
-  this->grad->setColor(this->endIndex, TRUE, color);
+  this->grad->setColor(this->endIndex, TRUE, this->rightcolor);
   emit this->viewChanged();
 }
 
 void GradientView::setColorLeft()
 {
-  SbColor4f color((float)qRed(this->leftcolor) / 255.0f,
-                  (float)qGreen(this->leftcolor) / 255.0f,
-                  (float)qBlue(this->leftcolor) / 255.0f,
-                  (float)qAlpha(this->leftcolor) / 255.0f);
-
-  this->grad->setColor(this->startIndex, FALSE, color);
+  this->grad->setColor(this->startIndex, FALSE, this->leftcolor);
   emit this->viewChanged();
 }
 
 void GradientView::chooseColorLeft()
 {  
-  uint32_t currentLeft = grad->getColor(this->startIndex, FALSE);
-  this->leftcolor = this->getQtColor(currentLeft);
- 
-  QRgb initial = this->leftcolor;
+  QRgb initial = grad->getColor(this->startIndex, FALSE);
   this->leftcolor = QColorDialog::getRgba(initial);
   if (this->leftcolor != initial) {
     this->setColorLeft();
@@ -391,10 +380,7 @@ void GradientView::chooseColorLeft()
 
 void GradientView::chooseColorRight()
 {  
-  uint32_t currentRight = this->grad->getColor(this->endIndex, TRUE);
-  this->rightcolor = this->getQtColor(currentRight);
-
-  QRgb initial = this->rightcolor;
+  QRgb initial = this->grad->getColor(this->endIndex, TRUE);
   this->rightcolor = QColorDialog::getRgba(initial);
   if (this->rightcolor != initial) {
     this->setColorRight();
@@ -409,12 +395,11 @@ void GradientView::buildMenu()
     this->menu = new QPopupMenu(this);
 
   QPixmap left(16,16);
-  left.fill(this->grad->getColor(this->startIndex, FALSE)>>8);
+  left.fill(this->grad->getColor(this->startIndex, FALSE));
   menu->insertItem(left, "Left endpoints color", this, SLOT(chooseColorLeft()));
 
   QPixmap pmleft(16,16);
-  uint32_t currentLeft = grad->getColor(this->startIndex, TRUE);
-  this->leftcolor = this->getQtColor(currentLeft);
+  this->leftcolor = grad->getColor(this->startIndex, TRUE);
  
   pmleft.fill(this->leftcolor);
   menu->insertItem(pmleft, "Same as left neighbors right endpoint", this, SLOT(setColorLeft()));
@@ -422,13 +407,12 @@ void GradientView::buildMenu()
   menu->insertSeparator();
 
   QPixmap right(16,16);
-  right.fill(this->grad->getColor(this->endIndex, TRUE)>>8);
+  right.fill(this->grad->getColor(this->endIndex, TRUE));
   menu->insertItem(right, "Right endpoints color", this, SLOT(chooseColorRight()));
 
   QPixmap pmright(16,16);
-  uint32_t currentRight = this->grad->getColor(this->endIndex, FALSE);
-  this->rightcolor = this->getQtColor(currentRight);
- 
+  this->rightcolor = this->grad->getColor(this->endIndex, FALSE);
+
   pmright.fill(this->rightcolor);
   menu->insertItem(pmright, "Same as right neighbors left endpoint", this, SLOT(setColorRight()));
 
@@ -436,10 +420,4 @@ void GradientView::buildMenu()
   menu->insertItem("Insert tick", this, SLOT(insertTick()));
   menu->insertItem("Center tick", this, SLOT(centerTick()));
   menu->insertItem("Delete tick", this, SLOT(deleteTick()));
-}
-
-unsigned int GradientView::getQtColor(const unsigned int color)
-{
-  return qRgba(qAlpha(color), qRed(color),
-               qGreen(color), qBlue(color));
 }
