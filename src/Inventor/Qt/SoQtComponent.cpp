@@ -863,16 +863,12 @@ SoQtComponent::getSize(
   bottom, the size being adjusted to take into account extra
   decorations having been added at each level in the component class
   hierarchy.
-
-  This default implementation does nothing.
 */
-
 void
-SoQtComponent::sizeChanged(
-  const SbVec2s)
+SoQtComponent::sizeChanged(const & SbVec2s)
 {
-  // nada
-} // sizeChanged()
+  // The default implementation does nothing.
+}
 
 // *************************************************************************
 

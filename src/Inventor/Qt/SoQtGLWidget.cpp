@@ -1110,14 +1110,11 @@ SoQtGLWidget::initOverlayGraphic(void)
   // That seems bogus. 20010831 mortene.
 }
 
-/*!
-  Will be called every time the size of the GL widget changes.
-*/
+// doc in super
 void
-SoQtGLWidget::sizeChanged(
-  const SbVec2s size)
+SoQtGLWidget::sizeChanged(const SbVec2s & size)
 {
-} // sizeChanged()
+}
 
 /*!
   Will be called whenever scene graph needs to be redrawn().

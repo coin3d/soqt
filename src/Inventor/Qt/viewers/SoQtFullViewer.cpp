@@ -2556,17 +2556,13 @@ SoQtFullViewer::farclipEditPressed()
 
 // *************************************************************************
 
-/*!
-  This method is invoked when the component size has changed.
-*/
-
-void
-SoQtFullViewer::sizeChanged(// virtual
-  const SbVec2s size)
+// doc in super
+void          // virtual
+SoQtFullViewer::sizeChanged(const SbVec2s & size)
 {
 #if SOQT_DEBUG && 0
   SoDebugError::postInfo("SoQtFullViewer::sizeChanged", "[invoked (%d, %d)]",
-    size[0], size[1]);
+                         size[0], size[1]);
 #endif // SOQT_DEBUG
 
   if (PRIVATE(this)->decorations) {

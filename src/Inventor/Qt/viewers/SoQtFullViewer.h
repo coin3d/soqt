@@ -81,7 +81,7 @@ protected:
   ~SoQtFullViewer(void);
 
   virtual bool eventFilter(QObject * obj, QEvent * e);
-  virtual void sizeChanged(const SbVec2s size);
+  virtual void sizeChanged(const SbVec2s & size);
 
   virtual void afterRealizeHook(void);
 
