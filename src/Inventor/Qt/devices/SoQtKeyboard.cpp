@@ -507,7 +507,7 @@ SoQtKeyboard::translateEvent(
 
     // FIXME: check for Key_unknown. 19990212 mortene.
 
-#if 0 // FIXME: tmp disabled, breaks build when using Qt v2.0.0 at least.
+#if 0 // FIXME: tmp disabled, breaks build when using Qt v2.0.x and v2.1.x.
       // (Qt::Keypad is not defined). 20010323 mortene.
     SbBool keypad = (keyevent->state() & Qt::Keypad) != 0;
 #else // tmp enabled
