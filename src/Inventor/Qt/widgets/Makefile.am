@@ -21,10 +21,10 @@ LIBS =
 ## (necessary to get the signal-slot mechanisms of Qt working).
 
 BUILT_SOURCES = \
-	$(So@Gui@AllBuiltFiles)
+	$(SoGuiAllBuiltFiles)
 
 CLEANFILES = \
-	$(So@Gui@_src_Inventor_@Gui@_widgets_BuiltMetaFiles)
+	$(SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles)
 
 DISTCLEANFILES = \
 	$(SoGui_src_Inventor_Gui_widgets_BuiltFiles) \

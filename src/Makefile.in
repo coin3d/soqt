@@ -244,9 +244,9 @@ SoGuiBuiltFiles = \
 
 @BUILD_METAFILES_FALSE@SoGui_src_Inventor_Gui_viewers_BuiltMetaFiles = 
 
-@BUILD_METAFILES_TRUE@So@Gui@_src_Inventor_@Gui@_widgets_BuiltMetaFiles = \
+@BUILD_METAFILES_TRUE@SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles = \
 @BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@PopupMenu.cpp \
-@BUILD_METAFILES_TRUE@        $(top_builddir)/src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@GLArea.cpp \
+@BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@GLArea.cpp \
 @BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@ThumbWheel.cpp
 
 @BUILD_METAFILES_FALSE@SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles = 
