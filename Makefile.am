@@ -168,7 +168,7 @@ src/Inventor/Qt/widgets/moc_SoQtGradientDialogP.icc: $(srcdir)/src/Inventor/Qt/w
 src/Inventor/Qt/widgets/moc_GradientView.icc: $(srcdir)/src/Inventor/Qt/widgets/gradientp/GradientView.h
 	$(MOC) -i -o $@ $<
 
-src/Inventor/Qt/widgets/moc_SoQtColorTableEditorP.icc: $(srcdir)/src/Inventor/Qt/widgets/SoQtColorTableEditor.h
+src/Inventor/Qt/widgets/moc_SoQtColorTableEditorP.icc: $(srcdir)/src/Inventor/Qt/widgets/curvep/SoQtColorTableEditorP.h
 	$(MOC) -i -o $@ $<
 
 src/Inventor/Qt/widgets/moc_CurveView.icc: $(srcdir)/src/Inventor/Qt/widgets/curvep/CurveView.h
