@@ -27,6 +27,9 @@
 /* Define to enable use of Inventor feature */
 #undef HAVE_SOCAMERA_SETSTEREOMODE
 
+/* Define this if toolkit has the So{Gui}Component::goFullScreen() function */
+#undef HAVE_SOGUI_GOFULLSCREEN
+
 /* Define to enable use of Inventor feature */
 #undef HAVE_SOKEYBOARDEVENT_DELETE
 

@@ -1,13 +1,13 @@
 #! /bin/sh
 ############################################################################
 
-moduledir=${0%/[^/]*}
+# moduledir=${0%/[^/]*}
 module=SoQt
 GUI=Qt
-cvs2cl=$HOME/code/cvs/src/cvs2cl/cvs2cl.pl
+: ${cvs2cl-cvs2cl.pl}
 headerfile=/tmp/$module.header
 
-cd $moduledir
+# cd $moduledir
 
 ############################################################################
 cat > $headerfile <<ENDOFHEADER
@@ -41,7 +41,7 @@ cvs log | $cvs2cl --stdin --header $headerfile --separate-header --prune \
   --ignore "data" \
   --ignore "test-code"
 
-rm ChangeLog.bak $headerfile
+rm -f ChangeLog.bak $headerfile
 
 cvs commit -m "Automatic ChangeLog generation" ChangeLog
 

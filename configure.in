@@ -465,6 +465,9 @@ SIM_AC_HAVE_INVENTOR_FEATURE(
    c->setStereoMode(SoCamera::MONOSCOPIC);],
   [HAVE_SOCAMERA_SETSTEREOMODE])
 
+AC_DEFINE([HAVE_SOGUI_GOFULLSCREEN],,
+  [Define this if toolkit has the So{Gui}Component::goFullScreen() function])
+
 # **************************************************************************
 # Check that the Qt installation looks ok and include the
 # necessary paths and link libraries.
