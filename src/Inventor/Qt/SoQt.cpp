@@ -80,6 +80,8 @@
 
 // The private data for the SoQt class.
 
+#ifndef DOXYGEN_SKIP_THIS // Skip internal classes SoQtP and SoQtApplication.
+
 class SoQtP {
 public:
   static void clean(void);
@@ -94,14 +96,27 @@ public:
   static SoQt * slotobj;
 };
 
-// *************************************************************************
-
 QWidget * SoQtP::mainwidget = NULL;
 QApplication * SoQtP::appobject = NULL;
 QTimer * SoQtP::idletimer = NULL;
 QTimer * SoQtP::timerqueuetimer = NULL;
 QTimer * SoQtP::delaytimeouttimer = NULL;
 SoQt * SoQtP::slotobj = NULL;
+
+// This is provided for convenience when debugging the library. Should
+// make it easier to find memory leaks.
+void
+SoQtP::clean(void)
+{
+  delete SoQtP::mainwidget; SoQtP::mainwidget = NULL;
+  delete SoQtP::appobject; SoQtP::appobject = NULL;
+
+  delete SoQtP::timerqueuetimer; SoQtP::timerqueuetimer = NULL;
+  delete SoQtP::idletimer; SoQtP::idletimer = NULL;
+  delete SoQtP::delaytimeouttimer; SoQtP::delaytimeouttimer = NULL;
+
+  delete SoQtP::slotobj; SoQtP::slotobj = NULL;
+}
 
 // *************************************************************************
 
@@ -129,23 +144,7 @@ public:
 #endif // HAVE_X11_AVAILABLE
 };
 
-// This is provided for convenience when debugging the library. Should
-// make it easier to find memory leaks.
-void
-SoQtP::clean(void)
-{
-#if SOQT_DEBUG && 0 // FIXME: disable this after looking over that it is correct. 20001103 mortene.
-  delete SoQtP::mainwidget; SoQtP::mainwidget = NULL;
-  delete SoQtP::appobject; SoQtP::appobject = NULL;
-
-  delete SoQtP::timerqueuetimer; SoQtP::timerqueuetimer = NULL;
-  delete SoQtP::idletimer; SoQtP::idletimer = NULL;
-  delete SoQtP::delaytimeouttimer; SoQtP::delaytimeouttimer = NULL;
-
-  delete SoQtP::slotobj; SoQtP::slotobj = NULL;
-#endif // SOQT_DEBUG // disabled
-}
-
+#endif // DOXYGEN_SKIP_THIS
 
 /*!
   Calls \a SoDB::init(), \a SoNodeKit::init() and \a SoInteraction::init().
@@ -180,12 +179,12 @@ SoQt::internal_init(QWidget * toplevelwidget)
 }
 
 /*!
-  Initializes the SoQt component toolkit library, as well as the Open Inventor
-  library.
+  Initializes the SoQt component toolkit library, as well as the
+  Inventor API.
 
-  Calls \a SoDB::init(), \a SoNodeKit::init() and \a SoInteraction::init(), and
-  creates a QApplication and constructs and returns a  main widget for
-  you
+  Calls \a SoDB::init(), \a SoNodeKit::init() and \a
+  SoInteraction::init(), and creates a QApplication and constructs and
+  returns a main widget for you.
 
   \sa getApplication()
 */
@@ -209,15 +208,6 @@ SoQt::internal_init(int & argc, char ** argv,
   SoQtP::appobject->setMainWidget(SoQtP::mainwidget);
   return SoQtP::mainwidget;
 }
-
-// documented in common/SoGuiObject.cpp.in
-void
-SoQtObject::init(void)
-{
-  SoQtObject::initClass();
-  SoQtDevice::initClasses();
-  SoQtComponent::initClasses();
-} // init()
 
 /*!
   \internal
