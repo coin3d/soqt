@@ -224,7 +224,7 @@ build-static-debug/src/Inventor/Qt/$(project)@SOQT_MAJOR_VERSION@d.dll: $(Projec
 
 static-debug: build-static-debug/src/Inventor/Qt/$(project)@SOQT_MAJOR_VERSION@d.dll
 
-buildfiles: build-files/Inventor/Qt/$(project)@SOQT_MAJOR_VERSION@.dsp
+buildfiles: build-files/$(project)@SOQT_MAJOR_VERSION@.dsp
 
 build-files/$(project)@SOQT_MAJOR_VERSION@.dsp: $(Project)-$(VERSION)
 	@if test -d build-files; then :; else mkdir build-files; fi
