@@ -62,6 +62,10 @@ public:
   SbPList * visibilitychangeCBs;
   SbBool realized;
   SbVec2s storesize;
+#ifdef Q_WS_MAC 
+  // Workaround: Qt/Mac does not remember windowsize when going fullscreen
+  SbVec2s windowsize;
+#endif
   SbBool fullscreen;
 
   virtual bool eventFilter(QObject * obj, QEvent * e);

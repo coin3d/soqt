@@ -324,6 +324,9 @@ SoQtComponent::SoQtComponent(QWidget * const parent,
   PRIVATE(this)->classname = "SoQtComponent";
 
   PRIVATE(this)->storesize.setValue(-1, -1);
+#ifdef Q_WS_MAC 
+  PRIVATE(this)->windowsize.setValue(-1, -1);
+#endif
 
   SoAny::si()->addInternalFatalErrorHandler(SoQtComponentP::fatalerrorHandler,
                                             PRIVATE(this));
@@ -796,8 +799,29 @@ SoQtComponent::setFullScreen(const SbBool onoff)
   // prefer setWindowState() to showFullScreen() since
   // setWindowState() will preserve other window flags/states.
 #if HAVE_QWIDGET_SETWINDOWSTATE
-  if (onoff) w->setWindowState(w->windowState() | Qt::WindowFullScreen);
-  else w->setWindowState(w->windowState() & ~Qt::WindowFullScreen);
+  if (onoff) {
+#ifdef Q_WS_MAC 
+    // Qt/Mac does not remember the window size when going fullscreen,
+    // so when going back to windowed mode, the window will be 1x1 pixels
+    // small -> we have to store the window size ourselves...
+    // FIXME: We should really figure out why this happens, and fix the
+    // problem, but I guess having a workaround is better than just having
+    // the window "disappear"... kyrah 20041118
+    PRIVATE(this)->windowsize[0] = w->size().width();
+    PRIVATE(this)->windowsize[1] = w->size().height();
+#endif
+    w->setWindowState(w->windowState() | Qt::WindowFullScreen);
+#ifdef Q_WS_MAC 
+    // Explicit show needed for Mac OS X, otherwise the window "vanishes"
+    w->show();
+#endif
+  } else {
+    w->setWindowState(w->windowState() & ~Qt::WindowFullScreen);
+#ifdef Q_WS_MAC 
+    w->resize(QSize(PRIVATE(this)->windowsize[0], PRIVATE(this)->windowsize[1]));
+    w->show();
+#endif
+  }
 #elif HAVE_QWIDGET_SHOWFULLSCREEN
   if (onoff) w->showFullScreen();
   else w->showNormal();
