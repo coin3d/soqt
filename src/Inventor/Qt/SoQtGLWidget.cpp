@@ -1037,7 +1037,8 @@ SoQtGLWidget::setOverlayRender(
   }
 #endif
 
-  THIS->currentIsNormal = enable ? FALSE : TRUE;
+  THIS->currentIsNormal =
+    ( enable && QGLFormat_hasOverlay( THIS->glformat )) ? FALSE : TRUE;
 
 #if SOQT_DEBUG && 0
   SoDebugError::postInfo( "SoQtGLWidget::setOverlayRender",
