@@ -750,6 +750,57 @@ SoQtGLWidget::isQuadBufferStereo(void) const
 }
 
 /*!
+  Enables/disables the OpenGL accumulation buffer.
+*/
+void 
+SoQtGLWidget::setAccumulationBuffer(const SbBool enable)
+{
+  if ((enable && PRIVATE(this)->glformat->accum()) ||
+       (!enable && !PRIVATE(this)->glformat->accum()))
+    return;
+
+  PRIVATE(this)->glformat->setAccum(enable);
+
+  // Rebuild if a GL widget has already been built.
+  if (PRIVATE(this)->currentglwidget) this->buildGLWidget();
+}
+
+/*!
+  Returns whether the OpenGL accumulation buffer is enabled.
+*/
+SbBool 
+SoQtGLWidget::getAccumulationBuffer(void) const
+{
+  return (SbBool) (PRIVATE(this)->glformat->accum());
+}
+
+/*!
+  Enables/disables the OpenGL stencil buffer.
+*/
+void 
+SoQtGLWidget::setStencilBuffer(const SbBool enable)
+{
+  if ((enable && PRIVATE(this)->glformat->stencil()) ||
+       (!enable && !PRIVATE(this)->glformat->stencil()))
+    return;
+
+  PRIVATE(this)->glformat->setStencil(enable);
+
+  // Rebuild if a GL widget has already been built.
+  if (PRIVATE(this)->currentglwidget) this->buildGLWidget();
+}
+
+/*!
+  Returns whether the OpenGL stencil buffer is enabled.
+*/
+SbBool 
+SoQtGLWidget::getStencilBuffer(void) const
+{
+  return (SbBool) (PRIVATE(this)->glformat->stencil());
+}
+
+
+/*!
   If this is set to \c TRUE, rendering will happen in the front buffer
   even if the current rendering mode is double buffered.
 */
