@@ -43,7 +43,7 @@ QtGLArea::QtGLArea(
   QWidget * const parent,
   const char * const name )
 : inherited( parent, name )
-, dorender( true )
+, dorender( TRUE )
 {
 } // QtGLArea()
 
