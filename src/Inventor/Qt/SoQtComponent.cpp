@@ -587,7 +587,6 @@ SoQtComponent::show(void)
   }
 
   this->sizeChanged(PRIVATE(this)->storesize);
-//    if (SoQt::getApplication()) { SoQt::getApplication()->processEvents(); }
 }
 
 /*!
@@ -595,10 +594,8 @@ SoQtComponent::show(void)
 
   \sa show(), isVisible()
 */
-
 void
-SoQtComponent::hide(
-  void)
+SoQtComponent::hide(void)
 {
 #if SOQT_DEBUG
   if(!PRIVATE(this)->widget) {
@@ -608,11 +605,8 @@ SoQtComponent::hide(
   }
 #endif // SOQT_DEBUG
 
-  if (PRIVATE(this)->widget) 
-    PRIVATE(this)->widget->topLevelWidget()->hide();
-  if (SoQt::getApplication())
-    SoQt::getApplication()->processEvents();
-} // hide()
+  if (PRIVATE(this)->widget) { PRIVATE(this)->widget->topLevelWidget()->hide(); }
+}
 
 // *************************************************************************
 

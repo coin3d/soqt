@@ -331,16 +331,6 @@ SoQt::exitMainLoop(void)
 } // exitMainLoop()
 
 /*!
-  Returns a pointer to the Qt QApplication which was instantiated in
-  init().
- */
-QApplication *
-SoQt::getApplication(void)
-{
-  return SoQtP::appobject;
-}
-
-/*!
   Returns a pointer to the Qt QWidget which is the main widget for the
   application. When this widget gets closed, SoQt::mainLoop() will
   return (unless the close event is caught by the user).
