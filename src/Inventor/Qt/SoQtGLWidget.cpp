@@ -479,7 +479,7 @@ SoQtGLWidget::getOverlayWidget(void) const
   // SoQtGLWidget::getOverlayContext() is not defined as const.
   SoQtGLWidget * that = (SoQtGLWidget *)this;
 
-  return that->getOverlayContext() ? this->getGLWidget() : NULL;
+  return PRIVATE(that)->getOverlayContext() ? this->getGLWidget() : NULL;
 }
 
 // *************************************************************************
@@ -686,34 +686,12 @@ SoQtGLWidget::glUnlockOverlay(void)
 // *************************************************************************
 
 /*!
-  Returns the normal GL context.
-*/
-const QGLContext * 
-SoQtGLWidget::getNormalContext(void)
-{
-  QGLWidget * w = (QGLWidget*) this->getGLWidget();
-  if (w) return w->context();
-  return NULL;
-}
-
-/*!
-  Returns the overlay GL context.
-*/
-const QGLContext * 
-SoQtGLWidget::getOverlayContext(void)
-{
-  QGLWidget * w = (QGLWidget*) this->getGLWidget();
-  if (w) { return QGLWidget_overlayContext(w); }
-  return NULL;
-}
-
-/*!
   Returns the overlay transparent pixel.
 */
 unsigned long 
 SoQtGLWidget::getOverlayTransparentPixel(void)
 {
-  const QGLContext * ctx = this->getOverlayContext();
+  const QGLContext * ctx = PRIVATE(this)->getOverlayContext();
   if (ctx) {
     QColor color = QGLContext_overlayTransparentColor(ctx);
     return color.pixel();
@@ -1211,6 +1189,24 @@ SoQtGLWidgetP::buildGLWidget(void)
     this->currentglwidget->raise();
   }
   this->currentglwidget->setFocus();
+}
+
+// Returns the normal GL context.
+const QGLContext * 
+SoQtGLWidgetP::getNormalContext(void)
+{
+  QGLWidget * w = (QGLWidget*) PUBLIC(this)->getGLWidget();
+  if (w) return w->context();
+  return NULL;
+}
+
+// Returns the overlay GL context.
+const QGLContext * 
+SoQtGLWidgetP::getOverlayContext(void)
+{
+  QGLWidget * w = (QGLWidget*) PUBLIC(this)->getGLWidget();
+  if (w) { return QGLWidget_overlayContext(w); }
+  return NULL;
 }
 
 #endif // DOXYGEN_SKIP_THIS

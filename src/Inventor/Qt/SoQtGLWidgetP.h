@@ -46,6 +46,9 @@ public:
   virtual bool eventFilter(QObject * obj, QEvent * e);
   static void eventHandler(QWidget *, void *, QEvent *, bool *);
 
+  const class QGLContext * getNormalContext(void);
+  const class QGLContext * getOverlayContext(void);
+
   SbVec2s glSize;
   SbBool wasresized;
 
