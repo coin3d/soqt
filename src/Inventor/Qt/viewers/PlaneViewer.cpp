@@ -21,11 +21,6 @@
  *
 \**************************************************************************/
 
-#if SOQT_DEBUG
-static const char rcsid[] =
-  "$Id$";
-#endif
-
 #include <qevent.h>
 #include <qpushbutton.h>
 #include <qpixmap.h>
@@ -265,19 +260,6 @@ SoQtPlaneViewer::processEvent(// virtual
 
   inherited::processEvent(event);
 } // processEvent()
-
-// ************************************************************************
-
-/*!
-  FIXME: write doc
-*/
-
-void
-SoQtPlaneViewer::setSeekMode(// virtual
-  SbBool enable)
-{
-  inherited::setSeekMode(enable);
-} // setSeekMode()
 
 // ************************************************************************
 
@@ -562,7 +544,3 @@ SoQtPlaneViewer::setMode(
 } // setMode()
 
 // ************************************************************************
-
-#if SOQT_DEBUG
-static const char * getSoQtPlaneViewerRCSId(void) { return rcsid; }
-#endif
