@@ -661,6 +661,7 @@ SoQt::slot_idleSensor()
     "is %s", SoQt::idletimer->isActive() ? "active" : "inactive" );
 #endif // SOQT_DEBUG
 
+  SoDB::getSensorManager()->processTimerQueue();
   SoDB::getSensorManager()->processDelayQueue(TRUE);
 
   // The change callback is _not_ called automatically from
@@ -686,6 +687,7 @@ SoQt::slot_delaytimeoutSensor()
     SoQt::delaytimeouttimer->isActive() ? "active" : "inactive" );
 #endif // SOQT_DEBUG
 
+  SoDB::getSensorManager()->processTimerQueue();
   SoDB::getSensorManager()->processDelayQueue(FALSE);
 
   // The change callback is _not_ called automatically from
