@@ -21,15 +21,21 @@
  *
 \**************************************************************************/
 
+// ************************************************************************
+
+// Class is documented in common/viewers/SoGuiPlaneViewer.cpp.in.
+
+// ************************************************************************
+
 #include <qevent.h>
 #include <qpushbutton.h>
 #include <qpixmap.h>
 #include <qkeycode.h>
 #include <qmetaobject.h>
-#include <moc_SoQtPlaneViewer.cpp>
+#include <moc_SoQtPlaneViewerP.cpp>
+#include <SoQtPlaneViewerP.h>
 
 #include <Inventor/errors/SoDebugError.h>
-#include <Inventor/projectors/SbPlaneProjector.h>
 #include <Inventor/nodes/SoPerspectiveCamera.h>
 #include <Inventor/nodes/SoOrthographicCamera.h>
 
@@ -44,99 +50,119 @@
 #include <Inventor/Qt/common/pixmaps/y.xpm>
 #include <Inventor/Qt/common/pixmaps/z.xpm>
 
-/*!
-  \class SoQtPlaneViewer Inventor/Qt/viewers/SoQtPlaneViewer.h
-  \brief The SoQtPlaneViewer class is yet to be documented...
-  \ingroup soqtviewers
-*/
-
 // ************************************************************************
+
+// SoQtPlaneViewerP "private implementation" class.
+
+#define PUBLIC(ptr) (ptr->pub)
+#define PRIVATE(ptr) (ptr->pimpl)
+
+#define THIS (PRIVATE(this))
+
+SoQtPlaneViewerP::SoQtPlaneViewerP(SoQtPlaneViewer * publ)
+{
+  this->pub = publ;
+
+  this->pixmaps.orthogonal = new QPixmap((const char **) ortho_xpm);
+  this->pixmaps.perspective = new QPixmap((const char **) perspective_xpm);
+}
+
+SoQtPlaneViewerP::~SoQtPlaneViewerP()
+{
+  delete this->pixmaps.orthogonal;
+  delete this->pixmaps.perspective;
+}
+
+// Private constructor-code common for all public / protected
+// constructors.
+void
+SoQtPlaneViewerP::constructor(SbBool buildnow)
+{
+  PUBLIC(this)->commonConstructor(); // init generic stuff
+
+  PUBLIC(this)->setClassName("SoQtPlaneViewer");
+  PUBLIC(this)->setLeftWheelString("transY");
+  PUBLIC(this)->setBottomWheelString("transX");
+
+  if (!buildnow) return;
+
+  PUBLIC(this)->setSize(SbVec2s(550, 490)); // extra buttons -> more height
+  QWidget * viewer = PUBLIC(this)->buildWidget(PUBLIC(this)->getParentWidget());
+  PUBLIC(this)->setBaseWidget(viewer);
+}
+
+void
+SoQtPlaneViewerP::xClicked(void)
+{
+  PUBLIC(this)->viewPlaneX();
+}
+
+void
+SoQtPlaneViewerP::yClicked(void)
+{
+  PUBLIC(this)->viewPlaneY();
+}
+
+void
+SoQtPlaneViewerP::zClicked(void)
+{
+  PUBLIC(this)->viewPlaneZ();
+}
+
+void
+SoQtPlaneViewerP::cameraToggleClicked(void)
+{
+  PUBLIC(this)->toggleCameraType();
+}
+
+// *************************************************************************
 
 SOQT_OBJECT_SOURCE(SoQtPlaneViewer);
 
 // ************************************************************************
 
 /*!
-  The public constructor.
+  The public constructor, to be used by application programmers who
+  want to instantiate the plain, standard SoQtPlaneViewer.
 */
-
-SoQtPlaneViewer::SoQtPlaneViewer(
-  QWidget * parent,
-  const char * const name, 
-  SbBool embed,
-  SoQtFullViewer::BuildFlag flag, 
-  SoQtViewer::Type type)
-: inherited(parent, name, embed, flag, type, FALSE)
+SoQtPlaneViewer::SoQtPlaneViewer(QWidget * parent,
+                                 const char * const name,
+                                 SbBool embed,
+                                 SoQtFullViewer::BuildFlag flag,
+                                 SoQtViewer::Type type)
+  : inherited(parent, name, embed, flag, type, FALSE)
 {
-  this->constructor(TRUE);
-} // SoQtPlaneViewer()
+  PRIVATE(this) = new SoQtPlaneViewerP(this);
+  PRIVATE(this)->constructor(TRUE);
+}
 
 // ************************************************************************
 
 /*!
-  A protected constructor.
+  A protected constructor, to be used by application programmers who
+  want to extend the SoQtPlaneViewer.
 */
-
-SoQtPlaneViewer::SoQtPlaneViewer(
-  QWidget * parent,
-  const char * const name, 
-  SbBool embed, 
-  SoQtFullViewer::BuildFlag flag, 
-  SoQtViewer::Type type, 
-  SbBool build)
-: inherited(parent, name, embed, flag, type, FALSE)
+SoQtPlaneViewer::SoQtPlaneViewer(QWidget * parent,
+                                 const char * const name,
+                                 SbBool embed,
+                                 SoQtFullViewer::BuildFlag flag,
+                                 SoQtViewer::Type type,
+                                 SbBool build)
+  : inherited(parent, name, embed, flag, type, FALSE)
 {
-  this->constructor(build);
-} // SoQtPlaneViewer()
-
-// ************************************************************************
-
-/*!
-  FIXME: write doc
-*/
-
-void
-SoQtPlaneViewer::constructor(// private
-  SbBool build)
-{
-  this->commonConstructor(); // init generic stuff
-
-  this->mode = IDLE_MODE;
-
-  this->projector = new SbPlaneProjector;
-  SbViewVolume vv;
-  vv.ortho(-1, 1, -1, 1, -1, 1);
-  this->projector->setViewVolume(vv);
-
-  this->addVisibilityChangeCallback(SoQtPlaneViewer::visibilityCB, this);
-
-  this->setClassName("SoQtPlaneViewer");
-  this->setLeftWheelString("transY");
-  this->setBottomWheelString("transX");
-
-  this->pixmaps.orthogonal = new QPixmap((const char **) ortho_xpm);
-  this->pixmaps.perspective = new QPixmap((const char **) perspective_xpm);
-
-  if (! build) return;
-
-  this->setSize(SbVec2s(550, 490)); // extra buttons -> more height
-  QWidget * viewer = this->buildWidget(this->getParentWidget());
-  this->setBaseWidget(viewer);
-} // constructor()
+  PRIVATE(this) = new SoQtPlaneViewerP(this);
+  PRIVATE(this)->constructor(build);
+}
 
 // ************************************************************************
 
 /*!
   The destructor.
 */
-
-SoQtPlaneViewer::~SoQtPlaneViewer(
-  void)
+SoQtPlaneViewer::~SoQtPlaneViewer()
 {
-  delete this->pixmaps.orthogonal;
-  delete this->pixmaps.perspective;
-  delete this->projector;
-} // ~SoQtPlaneViewer()
+  delete PRIVATE(this);
+}
 
 // ************************************************************************
 
@@ -145,11 +171,10 @@ SoQtPlaneViewer::~SoQtPlaneViewer(
 */
 
 void
-SoQtPlaneViewer::setViewing(// virtual
-  SbBool enable)
+SoQtPlaneViewer::setViewing(SbBool enable)
 {
   inherited::setViewing(enable);
-} // setViewing()
+}
 
 // ************************************************************************
 
@@ -158,21 +183,20 @@ SoQtPlaneViewer::setViewing(// virtual
 */
 
 void
-SoQtPlaneViewer::setCamera(// virtual
-  SoCamera * camera)
+SoQtPlaneViewer::setCamera(SoCamera * camera)
 {
   if (camera) {
     SoType type = camera->getTypeId();
     SbBool orthogonal =
       type.isDerivedFrom(SoOrthographicCamera::getClassTypeId());
     this->setRightWheelString(orthogonal ? "Zoom" : "Dolly");
-    if (this->buttons.camera) {
-      this->buttons.camera->setPixmap(orthogonal ?
-        *(this->pixmaps.orthogonal) : *(this->pixmaps.perspective));
+    if (PRIVATE(this)->buttons.camera) {
+      PRIVATE(this)->buttons.camera->setPixmap(orthogonal ?
+        *(PRIVATE(this)->pixmaps.orthogonal) : *(PRIVATE(this)->pixmaps.perspective));
     }
   }
   inherited::setCamera(camera);
-} // setCamera()
+}
 
 // ************************************************************************
 
@@ -181,14 +205,13 @@ SoQtPlaneViewer::setCamera(// virtual
 */
 
 QWidget *
-SoQtPlaneViewer::buildWidget(
-  QWidget * parent)
+SoQtPlaneViewer::buildWidget(QWidget * parent)
 {
   QWidget * widget = inherited::buildWidget(parent);
   ((SoQtThumbWheel *)this->leftWheel)->setRangeBoundaryHandling(SoQtThumbWheel::ACCUMULATE);
   ((SoQtThumbWheel *)this->bottomWheel)->setRangeBoundaryHandling(SoQtThumbWheel::ACCUMULATE);
   return widget;
-} // buildWidget()
+}
 
 // ************************************************************************
 
@@ -197,47 +220,41 @@ SoQtPlaneViewer::buildWidget(
 */
 
 const char *
-SoQtPlaneViewer::getDefaultWidgetName(// virtual
-  void) const
+SoQtPlaneViewer::getDefaultWidgetName(void) const
 {
   static const char defaultWidgetName[] = "SoQtPlaneViewer";
   return defaultWidgetName;
-} // getDefaultWidgetName()
+}
 
 // ************************************************************************
 
 /*!
   FIXME: write doc
 */
-
 const char *
-SoQtPlaneViewer::getDefaultTitle(// virtual
-  void) const
+SoQtPlaneViewer::getDefaultTitle(void) const
 {
   static const char defaultTitle[] = "Plane Viewer";
   return defaultTitle;
-} // getDefaultTitle()
+}
 
 // ************************************************************************
 
 /*!
   FIXME: write doc
 */
-
 const char *
-SoQtPlaneViewer::getDefaultIconTitle(// virtual
-  void) const
+SoQtPlaneViewer::getDefaultIconTitle(void) const
 {
   static const char defaultIconTitle[] = "Plane Viewer";
   return defaultIconTitle;
-} // getDefaultIconTitle()
+}
 
 // ************************************************************************
 
 /*!
   FIXME: write doc
 */
-
 void
 SoQtPlaneViewer::processEvent(QEvent * event)
 {
@@ -252,204 +269,121 @@ SoQtPlaneViewer::processEvent(QEvent * event)
 /*!
   FIXME: write doc
 */
-
 void
-SoQtPlaneViewer::actualRedraw(// virtual
-  void)
+SoQtPlaneViewer::actualRedraw(void)
 {
   inherited::actualRedraw();
 //  this->drawRotateGraphics();
-} // actualRedraw()
+}
 
 // ************************************************************************
 
 /*!
   FIXME: write doc
 */
-
 void
-SoQtPlaneViewer::leftWheelMotion(// virtual
-  float value)
+SoQtPlaneViewer::leftWheelMotion(float value)
 {
   this->translateY(value - this->getLeftWheelValue());
   inherited::leftWheelMotion(value);
-} // leftWheelMotion()
+}
 
 /*!
   FIXME: write doc
 */
-
 void
-SoQtPlaneViewer::bottomWheelMotion(// virtual
-  float value)
+SoQtPlaneViewer::bottomWheelMotion(float value)
 {
   this->translateX(value - this->getBottomWheelValue());
   inherited::bottomWheelMotion(value);
-} // bottomWheelMotion()
+}
 
 /*!
   FIXME: write doc
 */
-
 void
-SoQtPlaneViewer::rightWheelMotion(// virtual
-  float value)
+SoQtPlaneViewer::rightWheelMotion(float value)
 {
   this->zoom(this->getRightWheelValue() - value);
   inherited::rightWheelMotion(value);
-} // rightWheelMotion()
+}
 
 // ************************************************************************
 
 /*!
   FIXME: write doc
 */
-
 void
-SoQtPlaneViewer::createPrefSheet(// virtual
-  void)
+SoQtPlaneViewer::createPrefSheet(void)
 {
-} // createPrefSheet()
+  SOQT_STUB();
+}
 
 // ************************************************************************
 
 /*!
   FIXME: write doc
 */
-
 void
-SoQtPlaneViewer::createViewerButtons(// virtual
-  QWidget * parent,
-  SbPList * buttons)
+SoQtPlaneViewer::createViewerButtons(QWidget * parent,
+                                     SbPList * buttons)
 {
   inherited::createViewerButtons(parent, buttons);
 
   // add X, Y, Z viewpoint buttons
-  this->buttons.x = new QPushButton(parent);
-  this->buttons.x->setFocusPolicy(QWidget::NoFocus);
-  this->buttons.x->setToggleButton(FALSE);
-  this->buttons.x->setPixmap(QPixmap((const char **) x_xpm));
-  QObject::connect(this->buttons.x, SIGNAL(clicked()),
-                    this, SLOT(xClicked()));
-  buttons->append(this->buttons.x);
-  this->buttons.y = new QPushButton(parent);
-  this->buttons.y->setFocusPolicy(QWidget::NoFocus);
-  this->buttons.y->setToggleButton(FALSE);
-  this->buttons.y->setPixmap(QPixmap((const char **) y_xpm));
-  QObject::connect(this->buttons.y, SIGNAL(clicked()),
-                    this, SLOT(yClicked()));
-  buttons->append(this->buttons.y);
-  this->buttons.z = new QPushButton(parent);
-  this->buttons.z->setFocusPolicy(QWidget::NoFocus);
-  this->buttons.z->setToggleButton(FALSE);
-  this->buttons.z->setPixmap(QPixmap((const char **) z_xpm));
-  QObject::connect(this->buttons.z, SIGNAL(clicked()),
-                    this, SLOT(zClicked()));
-  buttons->append(this->buttons.z);
+  PRIVATE(this)->buttons.x = new QPushButton(parent);
+  PRIVATE(this)->buttons.x->setFocusPolicy(QWidget::NoFocus);
+  PRIVATE(this)->buttons.x->setToggleButton(FALSE);
+  PRIVATE(this)->buttons.x->setPixmap(QPixmap((const char **) x_xpm));
+  QObject::connect(PRIVATE(this)->buttons.x, SIGNAL(clicked()),
+                   PRIVATE(this), SLOT(xClicked()));
+  buttons->append(PRIVATE(this)->buttons.x);
+  PRIVATE(this)->buttons.y = new QPushButton(parent);
+  PRIVATE(this)->buttons.y->setFocusPolicy(QWidget::NoFocus);
+  PRIVATE(this)->buttons.y->setToggleButton(FALSE);
+  PRIVATE(this)->buttons.y->setPixmap(QPixmap((const char **) y_xpm));
+  QObject::connect(PRIVATE(this)->buttons.y, SIGNAL(clicked()),
+                   PRIVATE(this), SLOT(yClicked()));
+  buttons->append(PRIVATE(this)->buttons.y);
+  PRIVATE(this)->buttons.z = new QPushButton(parent);
+  PRIVATE(this)->buttons.z->setFocusPolicy(QWidget::NoFocus);
+  PRIVATE(this)->buttons.z->setToggleButton(FALSE);
+  PRIVATE(this)->buttons.z->setPixmap(QPixmap((const char **) z_xpm));
+  QObject::connect(PRIVATE(this)->buttons.z, SIGNAL(clicked()),
+                   PRIVATE(this), SLOT(zClicked()));
+  buttons->append(PRIVATE(this)->buttons.z);
 
   // add camera toggle button
-  assert(this->pixmaps.perspective != NULL);
-  assert(this->pixmaps.orthogonal != NULL);
-  this->buttons.camera = new QPushButton(parent);
-  this->buttons.camera->setFocusPolicy(QWidget::NoFocus);
+  assert(PRIVATE(this)->pixmaps.perspective != NULL);
+  assert(PRIVATE(this)->pixmaps.orthogonal != NULL);
+  PRIVATE(this)->buttons.camera = new QPushButton(parent);
+  PRIVATE(this)->buttons.camera->setFocusPolicy(QWidget::NoFocus);
 
   QPixmap * pixmap = NULL;
   SoType t = this->getCameraType();
   if (t.isDerivedFrom(SoOrthographicCamera::getClassTypeId()))
-    pixmap = this->pixmaps.orthogonal;
+    pixmap = PRIVATE(this)->pixmaps.orthogonal;
   else if (t.isDerivedFrom(SoPerspectiveCamera::getClassTypeId()))
-    pixmap = this->pixmaps.perspective;
+    pixmap = PRIVATE(this)->pixmaps.perspective;
   else assert(0 && "unsupported cameratype");
 
-  this->buttons.camera->setPixmap(*pixmap);
-  buttons->append(this->buttons.camera);
+  PRIVATE(this)->buttons.camera->setPixmap(*pixmap);
+  buttons->append(PRIVATE(this)->buttons.camera);
 
-  QObject::connect(this->buttons.camera, SIGNAL(clicked()),
-                    this, SLOT(cameraToggleClicked()));
+  QObject::connect(PRIVATE(this)->buttons.camera, SIGNAL(clicked()),
+                   PRIVATE(this), SLOT(cameraToggleClicked()));
 
-} // createViewerButtons()
+}
 
 // ************************************************************************
 
 /*!
   FIXME: write doc
 */
-
 void
-SoQtPlaneViewer::openViewerHelpCard(// virtual
-  void)
+SoQtPlaneViewer::openViewerHelpCard(void)
 {
   this->openHelpCard("SoQtPlaneViewer.help");
-} // openViewerHelpCard()
-
-// ************************************************************************
-
-/*!
-  \internal
-*/
-
-void
-SoQtPlaneViewer::xClicked(
-  void)
-{
-  this->viewPlaneX();
-} // xClicked()
-
-/*!
-  \internal
-*/
-
-void
-SoQtPlaneViewer::yClicked(
-  void)
-{
-  this->viewPlaneY();
-} // yClicked()
-
-/*!
-  \internal
-*/
-
-void
-SoQtPlaneViewer::zClicked(
-  void)
-{
-  this->viewPlaneZ();
-} // zClicked()
-
-/*!
-  \internal
-*/
-
-void
-SoQtPlaneViewer::cameraToggleClicked(
-  void)
-{
-  this->toggleCameraType();
-} // cameraToggleClicked()
-
-// ************************************************************************
-
-/*!
-  \internal
-*/
-
-void
-SoQtPlaneViewer::visibilityCB(// static
-  void * data,
-  SbBool visible)
-{
-  SoQtPlaneViewer * thisp = (SoQtPlaneViewer *) data;
-
-/*
-  examiner viewer does this, we don't have to...
-  if (thisp->isAnimating()) {
-    if (visible)
-      thisp->timerTrigger->schedule();
-    else
-      thisp->timerTrigger->unschedule();
-  }
-*/
-} // visibilityCB()
+}
 
 // ************************************************************************
