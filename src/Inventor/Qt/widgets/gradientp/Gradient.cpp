@@ -136,7 +136,13 @@ int Gradient::insertTick(float t)
 void Gradient::removeTick(int i)
 {
   QValueList<Tick>::Iterator it = this->ticks.begin();
+#if QT_VERSION >= 310
   it += i;
+#else // Qt >= 3.1
+  for (int j = 0; j < i; j++) {
+    it++;
+  }
+#endif // Qt < 3.1
   this->ticks.remove(it);
   
   if (this->changeCB) this->changeCB();

@@ -103,9 +103,9 @@ void GradientView::updateView()
         background = 255;
       }
       int bg = int((1.0f - alpha) * float(background));
-      int r = alpha * float(qRed(colors[i]) + bg);
-      int g = alpha * float(qGreen(colors[i]) + bg);
-      int b = alpha * float(qBlue(colors[i]) + bg);
+      int r = (int) (alpha * float(qRed(colors[i]) + bg));
+      int g = (int) (alpha * float(qGreen(colors[i]) + bg));
+      int b = (int) (alpha * float(qBlue(colors[i]) + bg));
       gradImage.setPixel(i, j, qRgb(r, g, b));
     }
   }
@@ -305,7 +305,7 @@ void GradientView::insertTick()
   it += i;
 #else // QT_VERSION >= 3.1
   // the += operator wasn't available until Qt 3.1.0.
-  for (unsigned int j = 0; j < i; j++) {
+  for (int j = 0; j < i; j++) {
     it++;
   }
 #endif // QT_VERSION < 3.1
@@ -339,7 +339,7 @@ void GradientView::deleteTick()
   int i = (int) this->tickMarks.findIndex(this->selectedMark);
   this->selectedMark = NULL;
 
-  if ((i > 0) && (i < this->tickMarks.size() - 1)) {
+  if ((i > 0) && (i < (int) this->tickMarks.size() - 1)) {
     this->grad->removeTick(i);
     this->updateTicks();
     
