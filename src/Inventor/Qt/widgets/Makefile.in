@@ -107,18 +107,20 @@ noinst_LTLIBRARIES = libSoQtWidgets.la
 
 LIBS = 
 
-INCLUDES = -I$(top_srcdir)/src -I$(top_builddir)/src
+INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
 
 BUILT_SOURCES = \
 	moc_QtGLArea.cpp \
-	moc_QtThumbwheel.cpp
+	moc_SoQtThumbWheel.cpp
 
 
 libSoQtWidgets_la_SOURCES = \
 	QtGLArea.cpp \
 	QtGLArea.h \
-	QtThumbwheel.cpp \
-	QtThumbwheel.h \
+	$(top_srcdir)/src/Inventor/Qt/common/ThumbWheel.cpp \
+	$(top_srcdir)/src/Inventor/Qt/common/ThumbWheel.h \
+	SoQtThumbWheel.cpp \
+	SoQtThumbWheel.h \
 	$(BUILT_SOURCES)
 
 subdir = src/Inventor/Qt/widgets
@@ -137,8 +139,8 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libSoQtWidgets_la_LDFLAGS = 
 libSoQtWidgets_la_LIBADD = 
-am_libSoQtWidgets_la_OBJECTS =  QtGLArea.lo QtThumbwheel.lo \
-moc_QtGLArea.lo moc_QtThumbwheel.lo
+am_libSoQtWidgets_la_OBJECTS =  QtGLArea.lo ThumbWheel.lo \
+SoQtThumbWheel.lo moc_QtGLArea.lo moc_SoQtThumbWheel.lo
 libSoQtWidgets_la_OBJECTS =  $(am_libSoQtWidgets_la_OBJECTS)
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -158,8 +160,9 @@ DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
 GZIP_ENV = --best
 depcomp = $(SHELL) $(top_srcdir)/depcomp
-DEP_FILES =  @AMDEP@ $(DEPDIR)/QtGLArea.Plo $(DEPDIR)/QtThumbwheel.Plo \
-$(DEPDIR)/moc_QtGLArea.Plo $(DEPDIR)/moc_QtThumbwheel.Plo
+DEP_FILES =  @AMDEP@ $(DEPDIR)/QtGLArea.Plo $(DEPDIR)/SoQtThumbWheel.Plo \
+$(DEPDIR)/ThumbWheel.Plo $(DEPDIR)/moc_QtGLArea.Plo \
+$(DEPDIR)/moc_SoQtThumbWheel.Plo
 SOURCES = $(libSoQtWidgets_la_SOURCES)
 OBJECTS = $(am_libSoQtWidgets_la_OBJECTS)
 
@@ -202,6 +205,7 @@ clean-libtool:
 distclean-libtool:
 
 maintainer-clean-libtool:
+ThumbWheel.lo: $(top_srcdir)/src/Inventor/Qt/common/ThumbWheel.cpp
 
 libSoQtWidgets.la: $(libSoQtWidgets_la_OBJECTS) $(libSoQtWidgets_la_DEPENDENCIES)
 	$(CXXLINK)  $(libSoQtWidgets_la_LDFLAGS) $(libSoQtWidgets_la_OBJECTS) $(libSoQtWidgets_la_LIBADD) $(LIBS)
@@ -254,9 +258,10 @@ distdir: $(DISTFILES)
 	done
 
 @AMDEP@include $(DEPDIR)/QtGLArea.Plo
-@AMDEP@include $(DEPDIR)/QtThumbwheel.Plo
+@AMDEP@include $(DEPDIR)/SoQtThumbWheel.Plo
+@AMDEP@include $(DEPDIR)/ThumbWheel.Plo
 @AMDEP@include $(DEPDIR)/moc_QtGLArea.Plo
-@AMDEP@include $(DEPDIR)/moc_QtThumbwheel.Plo
+@AMDEP@include $(DEPDIR)/moc_SoQtThumbWheel.Plo
 
 mostlyclean-depend:
 
@@ -360,11 +365,19 @@ distclean-generic clean-generic maintainer-clean-generic clean \
 mostlyclean distclean maintainer-clean
 
 
-moc_QtThumbwheel.cpp: $(top_srcdir)/src/Inventor/Qt/widgets/QtThumbwheel.h
-	$(MOC) -o moc_QtThumbwheel.cpp $(top_srcdir)/src/Inventor/Qt/widgets/QtThumbwheel.h
+moc_SoQtThumbWheel.cpp: $(top_srcdir)/src/Inventor/Qt/widgets/SoQtThumbWheel.h
+	$(MOC) -o moc_SoQtThumbWheel.cpp $(top_srcdir)/src/Inventor/Qt/widgets/SoQtThumbWheel.h
 
 moc_QtGLArea.cpp: $(top_srcdir)/src/Inventor/Qt/widgets/QtGLArea.h
 	$(MOC) -o moc_QtGLArea.cpp $(top_srcdir)/src/Inventor/Qt/widgets/QtGLArea.h
+
+############################################################################
+
+ThumbWheel.lo: $(top_srcdir)/src/Inventor/Qt/common/ThumbWheel.cpp
+	source='$^' object='$@' libtool=yes \
+	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' \
+	$(CXXDEPMODE) $(depcomp) \
+	$(LTCXXCOMPILE) -c -o $@ $^
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

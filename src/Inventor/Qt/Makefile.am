@@ -1,6 +1,6 @@
 ############################################################################
 
-SUBDIRS = common devices viewers widgets
+SUBDIRS = devices viewers widgets
 
 ############################################################################
 
@@ -46,7 +46,6 @@ libSoQt_la_SOURCES = \
 	$(BUILT_SOURCES)
 
 libSoQt_la_LIBADD = \
-	common/libSoCommon.la \
 	devices/libSoQtDevices.la \
 	viewers/libSoQtViewers.la \
 	widgets/libSoQtWidgets.la
@@ -76,6 +75,8 @@ SoQtRenderArea.h: $(top_srcdir)/src/Inventor/Qt/common/SoAnyRenderArea.h.in
 
 SoQtRenderArea.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoAnyRenderArea.cpp.in
 	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/SoQtRenderArea.cpp )
+
+############################################################################
 
 moc_SoQt.cpp: $(top_srcdir)/src/Inventor/Qt/SoQt.h
 	$(MOC) -o moc_SoQt.cpp $(top_srcdir)/src/Inventor/Qt/SoQt.h
