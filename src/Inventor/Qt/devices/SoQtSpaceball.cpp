@@ -43,9 +43,11 @@ static const char rcsid[] =
 #endif // HAVE_CONFIG_H
 
 
-#ifndef X_DISPLAY_MISSING
+/* The setting of this define needs to be added manually to
+   configure.in for all relevant projects. */
+#ifdef HAVE_X11_AVAILABLE
 #include <Inventor/Qt/devices/spwinput.h>
-#endif // ! X_DISPLAY_MISSING
+#endif // HAVE_X11_AVAILABLE
 
 // *************************************************************************
 
@@ -139,11 +141,11 @@ SoQtSpaceball::enable(
   SoQtEventHandler *, // handler,
   void *) // closure)
 {
-#ifndef X_DISPLAY_MISSING
+#ifdef HAVE_X11_AVAILABLE
   if (SPW_CheckForSpaceballX11((void*) widget->x11Display(),
                                widget->winId(), "sbtestx") == TRUE) {
   }
-#endif // !X_DISPLAY_MISSING
+#endif // HAVE_X11_AVAILABLE
 } // enable()
 
 /*!
@@ -168,7 +170,7 @@ SoQtSpaceball::disable(
 const SoEvent *
 SoQtSpaceball::translateEvent(QEvent * event)
 {
-#ifndef X_DISPLAY_MISSING
+#ifdef HAVE_X11_AVAILABLE
   if (event->type() == (QEvent::Type) SoQt::SPACEBALL_EVENT) {
     SPW_InputEvent * sbEvent = (SPW_InputEvent*) ((QCustomEvent*)event)->data();
 
@@ -189,7 +191,7 @@ SoQtSpaceball::translateEvent(QEvent * event)
       return (SoEvent*) NULL;
     }
   }
-#endif // ! X_DISPLAY_MISSING
+#endif // HAVE_X11_AVAILABLE
   return (SoEvent *) NULL;
 } // translateEvent()
 
@@ -248,16 +250,14 @@ SoQtSpaceball::getTranslationScaleFactor(
   Note that a return value of \c TRUE does \e not signify that there
   is such a device active.
 */
-
 SbBool
-SoQtSpaceball::exists(
-  void)
+SoQtSpaceball::exists(void)
 {
-#ifdef X_DISPLAY_MISSING
-  return FALSE;
-#else // ! X_DISPLAY_MISSING
+#ifdef HAVE_X11_AVAILABLE
   return TRUE;
-#endif // X_DISPLAY_MISSING
+#else // ! HAVE_X11_AVAILABLE
+  return FALSE;
+#endif // ! HAVE_X11_AVAILABLE
 } // exists()
 
 // *************************************************************************

@@ -79,9 +79,11 @@ main(int argc, char **argv)
 
 #include <stdlib.h>
 
-#ifndef X_DISPLAY_MISSING
+/* The setting of this define needs to be added manually to
+   configure.in for all relevant projects. */
+#ifdef HAVE_X11_AVAILABLE
 #include <Inventor/Qt/devices/spwinput.h>
-#endif // ! X_DISPLAY_MISSING
+#endif // HAVE_X11_AVAILABLE
 
 #include <qmainwindow.h>
 #include <qmessagebox.h>
@@ -151,7 +153,7 @@ SoQt * SoQtP::slotobj = NULL;
 class SoQtApplication : public QApplication {
 public:
   SoQtApplication(int argc, char ** argv) : QApplication(argc, argv) { }
-#ifndef X_DISPLAY_MISSING
+#ifdef HAVE_X11_AVAILABLE
   virtual bool x11EventFilter(XEvent * e) {
     SPW_InputEvent sbEvent;
     QWidget * topw = SoQt::getTopLevelWidget();
@@ -165,7 +167,7 @@ public:
     }
     return QApplication::x11EventFilter(e);
   }
-#endif // ! X_DISPLAY_MISSING
+#endif // HAVE_X11_AVAILABLE
 };
 
 /*!
