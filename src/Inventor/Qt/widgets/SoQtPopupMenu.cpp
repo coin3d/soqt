@@ -79,7 +79,8 @@ SoQtPopupMenu::~SoQtPopupMenu(
 {
   const int numMenus = this->menus->getLength();
   QPopupMenu * popup = NULL;
-  for ( int i = 0; i < numMenus; i++ ) {
+  int i;
+  for ( i = 0; i < numMenus; i++ ) {
     MenuRecord * rec = (MenuRecord *) (*this->menus)[i];
     if ( rec->menuid == 0 ) popup = rec->menu;
     delete [] rec->name;
@@ -89,7 +90,7 @@ SoQtPopupMenu::~SoQtPopupMenu(
    }
 
   const int numItems = this->items->getLength();
-  for ( int i = 0; i < numItems; i++ ) {
+  for ( i = 0; i < numItems; i++ ) {
     ItemRecord * rec = (ItemRecord *) (*this->items)[i];
     delete [] rec->name;
     delete [] rec->title;
@@ -138,7 +139,8 @@ SoQtPopupMenu::GetMenu(
   char * name )
 {
   const int numMenus = this->menus->getLength();
-  for ( int i = 0; i < numMenus; i++ )
+  int i;
+  for ( i = 0; i < numMenus; i++ )
     if ( strcmp( ((MenuRecord *) (*this->menus)[i])->name, name ) == 0 )
       return ((MenuRecord *) (*this->menus)[i])->menuid;
   return -1;
@@ -214,7 +216,8 @@ SoQtPopupMenu::GetMenuItem(
   char * name )
 {
   const int numItems = this->items->getLength();
-  for ( int i = 0; i < numItems; i++ )
+  int i;
+  for ( i = 0; i < numItems; i++ )
     if ( strcmp( ((ItemRecord *) (*this->items)[i])->name, name ) == 0 )
       return ((ItemRecord *) (*this->items)[i])->itemid;
   return -1;
@@ -474,7 +477,8 @@ SoQtPopupMenu::getMenuRecord(
   int menuid )
 {
   const int numMenus = this->menus->getLength();
-  for ( int i = 0; i < numMenus; i++ )
+  int i;
+  for ( i = 0; i < numMenus; i++ )
     if ( ((MenuRecord *) (*this->menus)[i])->menuid == menuid )
       return (MenuRecord *) (*this->menus)[i];
   return (MenuRecord *) NULL;
@@ -488,7 +492,8 @@ SoQtPopupMenu::getItemRecord(
   int itemid )
 {
   const int numItems = this->items->getLength();
-  for ( int i = 0; i < numItems; i++ )
+  int i;
+  for ( i = 0; i < numItems; i++ )
     if ( ((ItemRecord *) (*this->items)[i])->itemid == itemid )
       return (ItemRecord *) (*this->items)[i];
   return (ItemRecord *) NULL;
