@@ -82,6 +82,7 @@ nodist_SoQtViewersinc_HEADERS = \
 	SoQtExaminerViewer.h \
 	SoQtFlyViewer.h \
 	SoQtPlaneViewer.h \
+	SoGuiPlaneViewerP.h \
 	SoQtWalkViewer.h
 
 install-SoQtViewersincHEADERS: $(SoQtViewersinc_HEADERS)
