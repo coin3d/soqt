@@ -189,6 +189,8 @@ SoQtExaminerViewer::~SoQtExaminerViewer(
 
   // Variables used in the spin animation code.
   delete this->spindetecttimer;
+
+  delete this->common;
 } // ~SoQtExaminerViewer()
 
 // *************************************************************************
