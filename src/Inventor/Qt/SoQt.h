@@ -25,6 +25,7 @@
 #include <math.h>
 
 #include <qapplication.h>
+#include <qevent.h>
 
 #include <Inventor/SbBasic.h>
 #include <Inventor/SbLinear.h>
@@ -41,6 +42,10 @@ class SOQT_DLL_EXPORT SoQt : public QObject {
   Q_OBJECT
 
 public:
+  enum CustomEventId {
+    SPACEBALL_EVENT = QEvent::User
+  };
+  
   static QWidget * init(const char * const appName,
                         const char * const className = "SoQt");
 

@@ -73,9 +73,18 @@ main(int argc, char **argv)
 
 // *************************************************************************
 
+#if HAVE_CONFIG_H
+#include <config.h>
+#endif // HAVE_CONFIG_H
+
+#if ! X_DISPLAY_MISSING
+#include <Inventor/Qt/devices/spwinput.h>
+#endif // ! X_DISPLAY_MISSING
+
 #include <qmainwindow.h>
 #include <qmessagebox.h>
 #include <qtimer.h>
+#include <qevent.h>
 
 #include <Inventor/SoDB.h>
 #include <Inventor/SoInteraction.h>
@@ -100,12 +109,35 @@ SoQt * SoQt::slotobj = NULL;
 
 // *************************************************************************
 
+// We overload the QApplication class to be able to get hold of the
+// X11 events directly. (This is necessary to handle Spacetec
+// spaceball devices.)
+class SoQtApplication : public QApplication {
+public:
+  SoQtApplication(int argc, char ** argv) : QApplication(argc, argv) { }
+#if ! X_DISPLAY_MISSING
+  virtual bool x11EventFilter(XEvent * e) {
+    SPW_InputEvent sbEvent;
+    QWidget * topw = SoQt::getTopLevelWidget();
+    if (topw && SPW_TranslateEventX11(topw->x11Display(), 
+                                      e, &sbEvent) == TRUE) {
+      QWidget * focus = this->focusWidget();
+      if (!focus) focus = this->activeWindow();
+      if (focus) {
+        QCustomEvent qevent((QEvent::Type)SoQt::SPACEBALL_EVENT, (void*) &sbEvent);
+        QApplication::sendEvent(focus, &qevent);
+      }
+    }
+    return QApplication::x11EventFilter(e);
+  }
+#endif // ! X_DISPLAY_MISSING
+};
+
 /*!
   This method is provided for easier porting/compatibility with the
   Open Inventor SoXt component classes. It just adds dummy \a argc and
   \a argv arguments and calls the SoQt::init() method below.
 */
-
 QWidget *
 SoQt::init(const char * const appName, const char * const className)
 {
@@ -199,7 +231,7 @@ SoQt::init(int argc, char ** argv,
   }
 #endif // SOQT_DEBUG
 
-  SoQt::appobject = new QApplication(argc, argv);
+  SoQt::appobject = new SoQtApplication(argc, argv);
   QWidget * mainw = new QWidget(NULL, className);
   SoQt::init(mainw);
 
@@ -299,7 +331,6 @@ SoQt::mainLoop(void)
   // processed. This is done by installing an eventFilter on the
   // global QApplication object.
   qApp->installEventFilter(SoQt::soqt_instance());
-
   (void) qApp->exec();
 }
 

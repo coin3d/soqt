@@ -23,8 +23,21 @@ static const char rcsid[] =
 #endif // SOQT_DEBUG
 
 #include <soqtdefs.h>
+#include <Inventor/Qt/SoQt.h>
 #include <Inventor/Qt/SoQtBasic.h>
 #include <Inventor/Qt/devices/SoQtSpaceball.h>
+#include <Inventor/events/SoMotion3Event.h>
+#include <Inventor/events/SoSpaceballButtonEvent.h>
+#include <qwidget.h>
+
+#if HAVE_CONFIG_H
+#include <config.h>
+#endif // HAVE_CONFIG_H
+
+
+#if ! X_DISPLAY_MISSING
+#include <Inventor/Qt/devices/spwinput.h>
+#endif // ! X_DISPLAY_MISSING
 
 /*!
   \class SoQtSpaceball SoQtSpaceball.h Inventor/Qt/devices/SoQtSpaceball.h
@@ -74,6 +87,8 @@ SoQtSpaceball::SoQtSpaceball(
   this->rotationscale = .006f;
   this->translationscale = .006f;
   this->focustowindow = FALSE;
+  this->motion3Event = new SoMotion3Event;
+  this->buttonEvent = new SoSpaceballButtonEvent; 
 } // SoQtSpaceball()
 
 /*!
@@ -83,6 +98,8 @@ SoQtSpaceball::SoQtSpaceball(
 SoQtSpaceball::~SoQtSpaceball(
   void )
 {
+  delete this->motion3Event;
+  delete this->buttonEvent;
 } // ~SoQtSpaceball()
 
 // *************************************************************************
@@ -93,11 +110,15 @@ SoQtSpaceball::~SoQtSpaceball(
 
 void
 SoQtSpaceball::enable(
-  QWidget *, // widget,
+  QWidget * widget,
   SoQtEventHandler *, // handler,
   void * ) // closure )
 {
-  SOQT_STUB();
+#if !X_DISPLAY_MISSING
+  if (SPW_CheckForSpaceballX11((void*) widget->x11Display(), 
+                               widget->winId(), "sbtestx") == TRUE) {
+  }
+#endif // !X_DISPLAY_MISSING
 } // enable()
 
 /*!
@@ -120,9 +141,30 @@ SoQtSpaceball::disable(
 */
 
 const SoEvent *
-SoQtSpaceball::translateEvent(QEvent * /*event*/)
+SoQtSpaceball::translateEvent(QEvent * event)
 {
-  SOQT_STUB();
+#if ! X_DISPLAY_MISSING
+  if (event->type() == (QEvent::Type) SoQt::SPACEBALL_EVENT) {
+    SPW_InputEvent * sbEvent = (SPW_InputEvent*) ((QCustomEvent*)event)->data();
+    
+    switch (sbEvent->type) {
+    case SPW_InputMotionEvent:
+      this->motion3Event->setTranslation(this->makeTranslation(sbEvent->sData[0],
+                                                               sbEvent->sData[1],
+                                                               sbEvent->sData[2]));
+      this->motion3Event->setRotation(this->makeRotation(sbEvent->sData[3],
+                                                         sbEvent->sData[4],
+                                                         sbEvent->sData[5]));
+      return this->motion3Event;
+    case SPW_InputButtonPressEvent:
+      return (SoEvent*) NULL;
+    case SPW_InputButtonReleaseEvent:
+      return (SoEvent*) NULL;
+    default:
+      return (SoEvent*) NULL;
+    }
+  }
+#endif // ! X_DISPLAY_MISSING
   return (SoEvent *) NULL;
 } // translateEvent()
 
@@ -175,15 +217,22 @@ SoQtSpaceball::getTranslationScaleFactor(
 // *************************************************************************
 
 /*!
-  FIXME: write function documentation
+  Returns \c TRUE iff there could be a device of this type available
+  on the system.
+
+  Note that a return value of \c TRUE does \e not signify that there
+  is such a device active.
 */
 
 SbBool
 SoQtSpaceball::exists(
   void )
 {
-//  SOQT_STUB();
+#if X_DISPLAY_MISSING
   return FALSE;
+#else // ! X_DISPLAY_MISSING
+  return TRUE;
+#endif // X_DISPLAY_MISSING 
 } // exists()
 
 // *************************************************************************
@@ -209,6 +258,24 @@ SoQtSpaceball::isFocusToWindow(
 {
   return this->focustowindow;
 } // isFocusToWindow()
+
+SbRotation 
+SoQtSpaceball::makeRotation(const float rx, const float ry, const float rz) const
+{
+  SbRotation xrot(SbVec3f( 1, 0, 0 ), rx * this->rotationscale);
+  SbRotation yrot(SbVec3f( 0, 1, 0 ), ry * this->rotationscale);
+  SbRotation zrot(SbVec3f( 0, 0, 1 ), - rz * this->rotationscale);
+  return xrot * yrot * zrot;
+}
+
+SbVec3f 
+SoQtSpaceball::makeTranslation(const float tx, const float ty, const float tz) const
+{
+  return SbVec3f(tx*this->translationscale,
+                 ty*this->translationscale,
+                 - tz*this->translationscale);
+}
+
 
 // *************************************************************************
 

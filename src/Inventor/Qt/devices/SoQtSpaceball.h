@@ -23,6 +23,8 @@
 #define SOQT_SPACEBALL_H
 
 #include <Inventor/Qt/devices/SoQtDevice.h>
+#include <Inventor/SbRotation.h>
+#include <Inventor/SbVec3f.h>
 
 // *************************************************************************
 
@@ -59,10 +61,15 @@ public:
   SbBool isFocusToWindow(void) const;
 
 private:
+
+  SbRotation makeRotation(const float rx, const float ry, const float rz) const;
+  SbVec3f makeTranslation(const float tx, const float ty, const float tz) const;
   int eventmask;
   float rotationscale, translationscale;
   SbBool focustowindow;
-
+  
+  class SoMotion3Event * motion3Event;
+  class SoSpaceballButtonEvent * buttonEvent;
 }; // class SoQtSpaceball
 
 // *************************************************************************
