@@ -219,6 +219,15 @@ SoQtComponentP::eventFilter(QObject * obj, QEvent * e)
                          obj, eventnaming[e->type()]);
 #endif // debug
 
+  // The parent widget could receive resize events while we have still
+  // not completed the set up of our own widget, so we need to check
+  // for a NULL pointer.
+  //
+  // (One way to reproduce such a case: set up two SoQtExaminerViewer
+  // instances in an MDI workspace, first one, which is then
+  // maximized, then the second one instantiated will cause a crash.)
+  if (this->widget == NULL) { return FALSE; }
+
   if (e->type() == QEvent::Resize) {
     QResizeEvent * r = (QResizeEvent *)e;
 
