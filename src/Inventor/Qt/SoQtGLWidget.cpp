@@ -172,6 +172,10 @@ SoQtGLWidgetP::SoQtGLWidgetP(SoQtGLWidget * o)
   this->borderthickness = 0;
 }
 
+SoQtGLWidgetP::~SoQtGLWidgetP()
+{
+}
+
 // Gets called by the SoQtGLArea instance upon keyboard presses. These
 // are then forwarded to subclasses for handling.
 void
