@@ -1732,6 +1732,29 @@ else
 fi
 ])
 
+# **************************************************************************
+# SIM_AC_HAVE_GLX_IFELSE( IF-FOUND, IF-NOT-FOUND )
+#
+# Check whether GLX is on the system.
+
+AC_DEFUN([SIM_AC_HAVE_GLX_IFELSE], [
+AC_CACHE_CHECK(
+  [whether GLX is on the system],
+  sim_cv_have_glx,
+  AC_TRY_LINK(
+    [#include <GL/glx.h>],
+    [(void)glXChooseVisual(0L, 0, 0L);],
+    [sim_cv_have_glx=true],
+    [sim_cv_have_glx=false]))
+
+if ${sim_cv_have_glx=false}; then
+  ifelse([$1], , :, [$1])
+else
+  ifelse([$2], , :, [$2])
+fi
+]) # SIM_AC_HAVE_GLX_IFELSE()
+
+
 # Usage:
 #  SIM_AC_CHECK_PTHREAD([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 #
@@ -2292,13 +2315,19 @@ EOF
   rm -f conftest.c
 
   if test x"$MOC" != xfalse; then
-    # We need the QT_DLL define to get at all the symbols.
-    CPPFLAGS="$CPPFLAGS -DQT_DLL"
-
     AC_CACHE_CHECK([whether the Qt library is available],
       sim_cv_qtlibs,
       [sim_cv_qtlibs=UNRESOLVED
-       for sim_ac_qt_libcheck in "-lqt" "-lqt$soqt_qt_version -lqtmain -lgdi32"; do
+       #
+       # Test all known possible combinations of linking against the
+       # Troll Tech Qt library:
+       #
+       # * "-lqt" should work for all UNIX(-derived) platforms.
+       #
+       # * "-lqt{version} -lqtmain -lgdi32" w/QT_DLL defined should
+       #   cover with dynamic linking on Win32 platforms
+       #
+       for sim_ac_qt_libcheck in "-lqt" "-DQT_DLL -lqt$soqt_qt_version -lqtmain -lgdi32"; do
          if test "x$sim_cv_qtlibs" = "xUNRESOLVED"; then
            LIBS="$sim_ac_qt_libcheck $sim_ac_save_libs"
            AC_TRY_LINK([#include <qapplication.h>],
