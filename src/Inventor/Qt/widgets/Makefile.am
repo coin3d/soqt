@@ -13,14 +13,24 @@ VPATH = .:@srcdir@:@top_srcdir@/src/Inventor/Qt/common
 ## signal-slot mechanisms of Qt working).
 
 BUILT_SOURCES = \
+	SoAnyPopupMenu.h \
+	SoAnyPopupMenu.cpp \
 	moc_QtGLArea.cpp \
 	moc_SoQtThumbWheel.cpp
+
+############################################################################
 
 moc_SoQtThumbWheel.cpp: $(top_srcdir)/src/Inventor/Qt/widgets/SoQtThumbWheel.h
 	$(MOC) -o moc_SoQtThumbWheel.cpp $(top_srcdir)/src/Inventor/Qt/widgets/SoQtThumbWheel.h
 
 moc_QtGLArea.cpp: $(top_srcdir)/src/Inventor/Qt/widgets/QtGLArea.h
 	$(MOC) -o moc_QtGLArea.cpp $(top_srcdir)/src/Inventor/Qt/widgets/QtGLArea.h
+
+SoAnyPopupMenu.h: $(top_srcdir)/src/Inventor/Qt/common/SoAnyPopupMenu.h.in
+	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/widgets/SoAnyPopupMenu.h )
+
+SoAnyPopupMenu.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoAnyPopupMenu.cpp.in
+	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/widgets/SoAnyPopupMenu.cpp )
 
 ############################################################################
 
@@ -54,5 +64,7 @@ libSoQtWidgets_la_SOURCES = \
 	ThumbWheel.h \
 	SoQtThumbWheel.cpp \
 	SoQtThumbWheel.h \
+	SoQtPopupMenu.cpp \
+	SoQtPopupMenu.h \
 	$(BUILT_SOURCES)
 
