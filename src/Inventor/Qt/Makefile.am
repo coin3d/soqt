@@ -194,8 +194,8 @@ uninstall-local: uninstall-SoQtincHEADERS uninstall-nodist_SoQtincHEADERS
 	  "$(DESTDIR)$(bindir)/$$basename.pdb" \
 	  "$(DESTDIR)$(libdir)/$$basename.lib"; do \
 	  if test -f "$$file"; then \
-	    echo " rm -f" "$$file"; \
-	    echo rm -f "$$file"; \
+	    echo "rm -f" "$$file"; \
+	    rm -f "$$file"; \
 	  fi \
 	done; \
 	baseincdir="$(DESTDIR)$(includedir)/Inventor/Qt"; \
