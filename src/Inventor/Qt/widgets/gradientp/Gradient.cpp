@@ -147,6 +147,11 @@ void Gradient::removeTick(int i)
   if (this->changeCB) this->changeCB();
 }
 
+bool Gradient::leftEqualsRight(int i) const
+{
+  return (this->ticks[i].left == this->ticks[i].right);
+}
+
 void Gradient::setColor(int i, bool left, const QRgb color)
 {
   int maxIndex = this->ticks.size() - 1;

@@ -45,7 +45,8 @@ public:
   int numTicks() const;
   float getParameter(int i) const;
   QRgb eval(float t) const;
-  
+  bool leftEqualsRight(int i) const;
+
   void moveTick(int i, float t);
   void removeTick(int i);
   int insertTick(float t);
