@@ -444,6 +444,19 @@ if test -n "$SUFFIX"; then
 fi
 
 # **************************************************************************
+
+AC_SUBST([COIN_COMPILER], ["$CXX"])
+if $BUILD_WITH_MSVC; then
+  # don't use wrapmsvc from source hierarchy when later using soqt-config.
+  COIN_COMPILER="wrapmsvc"
+fi
+
+else # $sim_ac_build_library == false
+  AC_SUBST([MOC], [moc])
+fi
+
+
+# **************************************************************************
 # To test the Mac OS X framework setup on non-Mac systems, run configure
 # with the --with-framework option.  20011029 larsa
 
@@ -528,16 +541,6 @@ export sim_ac_framework
 export MAC_FRAMEWORK_NAME MAC_FRAMEWORK_PREFIX MAC_FRAMEWORK_VERSION
 
 # **************************************************************************
-
-AC_SUBST([COIN_COMPILER], ["$CXX"])
-if $BUILD_WITH_MSVC; then
-  # don't use wrapmsvc from source hierarchy when later using soqt-config.
-  COIN_COMPILER="wrapmsvc"
-fi
-
-else # $sim_ac_build_library == false
-  AC_SUBST([MOC], [moc])
-fi
 
 # Qt's moc wants Windows-style paths, so if the inputfile is an
 # absolute Cygwin-style path it needs conversion.
