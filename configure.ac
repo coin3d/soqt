@@ -289,36 +289,42 @@ else
     SOGUI_EXTRA_LIBS="$sim_ac_coin_libs $SOGUI_EXTRA_LIBS"
   ], [AC_MSG_ERROR([couldn't compile and link against Coin])])
 
-  SIM_AC_CHECK_X11_READY(
-    [sim_ac_x11_ready=true],
-    [sim_ac_x11_ready=false])
+  case $host_os in
+  darwin*)
+    ;;
+  *)
+    SIM_AC_CHECK_X11_READY(
+      [sim_ac_x11_ready=true],
+      [sim_ac_x11_ready=false])
 
-  if ! $sim_ac_x11_ready; then
-    SIM_AC_CHECK_X11([
-      CPPFLAGS="$CPPFLAGS $sim_ac_x11_cppflags"
-      LDFLAGS="$LDFLAGS $sim_ac_x11_ldflags"
-      LIBS="$sim_ac_x11_libs $LIBS"
-      SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_x11_cppflags"
-      SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_x11_ldflags"
-      SOGUI_EXTRA_LIBS="$sim_ac_x11_libs $SOGUI_EXTRA_LIBS"
-    ])
-    # FIXME: we just implicitly assume that -lXext and -lXmu is available
-    # if -lX11 is available from coin-config. Should really have macros
-    # SIM_AC_CHECK_[X11SHMEM|X11MU]_READY. 20001116 mortene.
-    if test x"$sim_ac_x11_avail" = xyes; then
-      SIM_AC_CHECK_X11SHMEM([
-        # LIBS="$sim_ac_x11shmem_libs $LIBS"
-        SOGUI_EXTRA_LIBS="$sim_ac_x11shmem_libs $SOGUI_EXTRA_LIBS"
+    if $sim_ac_x11_ready; then :; else
+      SIM_AC_CHECK_X11([
+        CPPFLAGS="$CPPFLAGS $sim_ac_x11_cppflags"
+        LDFLAGS="$LDFLAGS $sim_ac_x11_ldflags"
+        LIBS="$sim_ac_x11_libs $LIBS"
+        SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_x11_cppflags"
+        SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_x11_ldflags"
+        SOGUI_EXTRA_LIBS="$sim_ac_x11_libs $SOGUI_EXTRA_LIBS"
       ])
-      SIM_AC_CHECK_X11MU([
-        # LIBS="$sim_ac_x11mu_libs $LIBS"
-        SOGUI_EXTRA_LIBS="$sim_ac_x11mu_libs $SOGUI_EXTRA_LIBS"
-      ])
+      # FIXME: we just implicitly assume that -lXext and -lXmu is available
+      # if -lX11 is available from coin-config. Should really have macros
+      # SIM_AC_CHECK_[X11SHMEM|X11MU]_READY. 20001116 mortene.
+      if test x"$sim_ac_x11_avail" = xyes; then
+        SIM_AC_CHECK_X11SHMEM([
+          # LIBS="$sim_ac_x11shmem_libs $LIBS"
+          SOGUI_EXTRA_LIBS="$sim_ac_x11shmem_libs $SOGUI_EXTRA_LIBS"
+        ])
+        SIM_AC_CHECK_X11MU([
+          # LIBS="$sim_ac_x11mu_libs $LIBS"
+          SOGUI_EXTRA_LIBS="$sim_ac_x11mu_libs $SOGUI_EXTRA_LIBS"
+        ])
+      fi
     fi
-  fi
-  SIM_AC_CHECK_X11XID([
-	SOGUI_EXTRA_LIBS="$sim_ac_x11xid_libs $SOGUI_EXTRA_LIBS"
-  ])
+    SIM_AC_CHECK_X11XID([
+  	SOGUI_EXTRA_LIBS="$sim_ac_x11xid_libs $SOGUI_EXTRA_LIBS"
+    ])
+    ;;
+  esac
   SIM_AC_CONFIGURATION_SETTING([Open Inventor brand], [Coin])
 fi
 
