@@ -267,6 +267,10 @@ void SoQtGradientDialog::addGradient(const Gradient & grad, QString description)
   PRIVATE(this)->gradientlist->setCurrentItem(PRIVATE(this)->old_index);
   PRIVATE(this)->gradview->setGradient(PRIVATE(this)->gradientcopy);
   PRIVATE(this)->gradientlist->show();
+
+  if (PRIVATE(this)->changeCallBack) {
+    PRIVATE(this)->gradientCallBack(PRIVATE(this)->gradientcopy, PRIVATE(this));
+  }
 }
 
 const Gradient & SoQtGradientDialog::getGradient() const
