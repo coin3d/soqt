@@ -72,7 +72,7 @@ dnl  Turn off default maintainer make-rules -- use ./autogen.sh instead.
 AM_MAINTAINER_MODE
 
 dnl  Initialize libtool
-AM_PROG_LIBTOOL
+AC_PROG_LIBTOOL
 
 
 dnl *** locate X library before we check for Qt installation or OIV ***

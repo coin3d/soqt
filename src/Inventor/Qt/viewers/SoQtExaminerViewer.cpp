@@ -1357,9 +1357,11 @@ SoQtExaminerViewer::feedbackSizeChanged(float val)
 /*!
   \internal
   Pref sheet slot.
- */
+*/
+
 void
 SoQtExaminerViewer::cameratoggleClicked()
 {
   this->toggleCameraType();
 }
+

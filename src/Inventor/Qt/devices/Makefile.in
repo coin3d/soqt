@@ -10,7 +10,6 @@
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 
-
 SHELL = @SHELL@
 
 srcdir = @srcdir@
@@ -58,13 +57,20 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
+
+@SET_MAKE@
 host_alias = @host_alias@
 host_triplet = @host@
+AMDEP = @AMDEP@
+AMTAR = @AMTAR@
 AS = @AS@
+AWK = @AWK@
 CC = @CC@
+CPP = @CPP@
 CXX = @CXX@
+CXXCPP = @CXXCPP@
+DEPDIR = @DEPDIR@
 DLLTOOL = @DLLTOOL@
-LD = @LD@
 LIBTOOL = @LIBTOOL@
 LN_S = @LN_S@
 LT_AGE = @LT_AGE@
@@ -74,7 +80,6 @@ LT_REVISION = @LT_REVISION@
 MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
 MOC = @MOC@
-NM = @NM@
 OBJDUMP = @OBJDUMP@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
@@ -85,6 +90,8 @@ SOQT_MICRO_VERSION = @SOQT_MICRO_VERSION@
 SOQT_MINOR_VERSION = @SOQT_MINOR_VERSION@
 SOQT_VERSION = @SOQT_VERSION@
 VERSION = @VERSION@
+install_sh = @install_sh@
+
 
 noinst_LTLIBRARIES = libSoQtdevices.la
 
@@ -92,13 +99,29 @@ LIBS =
 
 INCLUDES = -I$(top_srcdir)/src
 
-libSoQtdevices_la_SOURCES =  	SoQtDevice.cpp 	SoQtDevice.h 	SoQtInputFocus.cpp 	SoQtInputFocus.h 	SoQtKeyboard.cpp 	SoQtKeyboard.h 	SoQtMouse.cpp 	SoQtMouse.h 	SoQtSpaceball.cpp 	SoQtSpaceball.h
+libSoQtdevices_la_SOURCES = \
+	SoQtDevice.cpp \
+	SoQtDevice.h \
+	SoQtInputFocus.cpp \
+	SoQtInputFocus.h \
+	SoQtKeyboard.cpp \
+	SoQtKeyboard.h \
+	SoQtMouse.cpp \
+	SoQtMouse.h \
+	SoQtSpaceball.cpp \
+	SoQtSpaceball.h
 
 
 libSoQtdevicesincdir = $(includedir)/Inventor/Qt/devices
 
-libSoQtdevicesinc_HEADERS =  	$(top_srcdir)/src/Inventor/Qt/devices/SoQtDevice.h 	$(top_srcdir)/src/Inventor/Qt/devices/SoQtInputFocus.h 	$(top_srcdir)/src/Inventor/Qt/devices/SoQtKeyboard.h 	$(top_srcdir)/src/Inventor/Qt/devices/SoQtMouse.h 	$(top_srcdir)/src/Inventor/Qt/devices/SoQtSpaceball.h
+libSoQtdevicesinc_HEADERS = \
+	$(top_srcdir)/src/Inventor/Qt/devices/SoQtDevice.h \
+	$(top_srcdir)/src/Inventor/Qt/devices/SoQtInputFocus.h \
+	$(top_srcdir)/src/Inventor/Qt/devices/SoQtKeyboard.h \
+	$(top_srcdir)/src/Inventor/Qt/devices/SoQtMouse.h \
+	$(top_srcdir)/src/Inventor/Qt/devices/SoQtSpaceball.h
 
+subdir = src/Inventor/Qt/devices
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../../config.h
 CONFIG_CLEAN_FILES = 
@@ -114,35 +137,38 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libSoQtdevices_la_LDFLAGS = 
 libSoQtdevices_la_LIBADD = 
-libSoQtdevices_la_OBJECTS =  SoQtDevice.lo SoQtInputFocus.lo \
+am_libSoQtdevices_la_OBJECTS =  SoQtDevice.lo SoQtInputFocus.lo \
 SoQtKeyboard.lo SoQtMouse.lo SoQtSpaceball.lo
-CXXFLAGS = @CXXFLAGS@
+libSoQtdevices_la_OBJECTS =  $(am_libSoQtdevices_la_OBJECTS)
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+CXXFLAGS = @CXXFLAGS@
 CXXLD = $(CXX)
-CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $@
+CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
-LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
+LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+DIST_SOURCES =  $(libSoQtdevices_la_SOURCES)
 HEADERS =  $(libSoQtdevicesinc_HEADERS)
 
-DIST_COMMON =  Makefile.am Makefile.in
+DIST_COMMON =  $(libSoQtdevicesinc_HEADERS) Makefile.am Makefile.in
 
 
-DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
+DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = gtar
 GZIP_ENV = --best
-DEP_FILES =  .deps/SoQtDevice.P .deps/SoQtInputFocus.P \
-.deps/SoQtKeyboard.P .deps/SoQtMouse.P .deps/SoQtSpaceball.P
+depcomp = $(SHELL) $(top_srcdir)/depcomp
+DEP_FILES =  @AMDEP@ $(DEPDIR)/SoQtDevice.Plo \
+$(DEPDIR)/SoQtInputFocus.Plo $(DEPDIR)/SoQtKeyboard.Plo \
+$(DEPDIR)/SoQtMouse.Plo $(DEPDIR)/SoQtSpaceball.Plo
 SOURCES = $(libSoQtdevices_la_SOURCES)
-OBJECTS = $(libSoQtdevices_la_OBJECTS)
+OBJECTS = $(am_libSoQtdevices_la_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
-.SUFFIXES: .S .c .cpp .lo .o .s
+.SUFFIXES: .c .cpp .h .lo .o
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
 	cd $(top_srcdir) && $(AUTOMAKE) --gnu src/Inventor/Qt/devices/Makefile
 
@@ -160,12 +186,6 @@ distclean-noinstLTLIBRARIES:
 
 maintainer-clean-noinstLTLIBRARIES:
 
-.s.o:
-	$(COMPILE) -c $<
-
-.S.o:
-	$(COMPILE) -c $<
-
 mostlyclean-compile:
 	-rm -f *.o core *.core
 
@@ -175,12 +195,6 @@ distclean-compile:
 	-rm -f *.tab.c
 
 maintainer-clean-compile:
-
-.s.lo:
-	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
-
-.S.lo:
-	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -194,30 +208,30 @@ maintainer-clean-libtool:
 
 libSoQtdevices.la: $(libSoQtdevices_la_OBJECTS) $(libSoQtdevices_la_DEPENDENCIES)
 	$(CXXLINK)  $(libSoQtdevices_la_LDFLAGS) $(libSoQtdevices_la_OBJECTS) $(libSoQtdevices_la_LIBADD) $(LIBS)
-.cpp.o:
-	$(CXXCOMPILE) -c $<
-.cpp.lo:
-	$(LTCXXCOMPILE) -c $<
 
 tags: TAGS
 
-ID: $(HEADERS) $(SOURCES) $(LISP)
-	list='$(SOURCES) $(HEADERS)'; \
-	unique=`for i in $$list; do echo $$i; done | \
-	  awk '    { files[$$0] = 1; } \
+ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
+	list='$(SOURCES) $(HEADERS) $(TAGS_FILES)'; \
+	unique=`for i in $$list; do \
+	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
+	  done | \
+	  $(AWK) '    { files[$$0] = 1; } \
 	       END { for (i in files) print i; }'`; \
-	here=`pwd` && cd $(srcdir) \
-	  && mkid -f$$here/ID $$unique $(LISP)
+	mkid -f$$here/ID $$unique $(LISP)
 
-TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) $(LISP)
+TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
+		$(TAGS_FILES) $(LISP)
 	tags=; \
 	here=`pwd`; \
-	list='$(SOURCES) $(HEADERS)'; \
-	unique=`for i in $$list; do echo $$i; done | \
-	  awk '    { files[$$0] = 1; } \
+	list='$(SOURCES) $(HEADERS) $(TAGS_FILES)'; \
+	unique=`for i in $$list; do \
+	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
+	  done | \
+	  $(AWK) '    { files[$$0] = 1; } \
 	       END { for (i in files) print i; }'`; \
 	test -z "$(ETAGS_ARGS)$$unique$(LISP)$$tags" \
-	  || (cd $(srcdir) && etags $(ETAGS_ARGS) $$tags  $$unique $(LISP) -o $$here/TAGS)
+	  || etags $(ETAGS_ARGS) $$tags  $$unique $(LISP)
 
 mostlyclean-tags:
 
@@ -230,18 +244,12 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = src/Inventor/Qt/devices
-
 distdir: $(DISTFILES)
-	here=`cd $(top_builddir) && pwd`; \
-	top_distdir=`cd $(top_distdir) && pwd`; \
-	distdir=`cd $(distdir) && pwd`; \
-	cd $(top_srcdir) \
-	  && $(AUTOMAKE) --include-deps --build-dir=$$here --srcdir-name=$(top_srcdir) --output-dir=$$top_distdir --gnu src/Inventor/Qt/devices/Makefile
+	$(mkinstalldirs) $(distdir)/$(top_srcdir)/src/Inventor/Qt/devices
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
-	    cp -pr $$d/$$file $(distdir)/$$file; \
+	    cp -pR $$d/$$file $(distdir); \
 	  else \
 	    test -f $(distdir)/$$file \
 	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
@@ -249,56 +257,35 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 
-DEPS_MAGIC := $(shell mkdir .deps > /dev/null 2>&1 || :)
-
--include $(DEP_FILES)
+@AMDEP@include $(DEPDIR)/SoQtDevice.Plo
+@AMDEP@include $(DEPDIR)/SoQtInputFocus.Plo
+@AMDEP@include $(DEPDIR)/SoQtKeyboard.Plo
+@AMDEP@include $(DEPDIR)/SoQtMouse.Plo
+@AMDEP@include $(DEPDIR)/SoQtSpaceball.Plo
 
 mostlyclean-depend:
 
 clean-depend:
 
 distclean-depend:
-	-rm -rf .deps
+	-rm -rf $(DEPDIR)
 
 maintainer-clean-depend:
 
-%.o: %.c
-	@echo '$(COMPILE) -c $<'; \
-	$(COMPILE) -Wp,-MD,.deps/$(*F).pp -c $<
-	@-cp .deps/$(*F).pp .deps/$(*F).P; \
-	tr ' ' '\012' < .deps/$(*F).pp \
-	  | sed -e 's/^\\$$//' -e '/^$$/ d' -e '/:$$/ d' -e 's/$$/ :/' \
-	    >> .deps/$(*F).P; \
-	rm .deps/$(*F).pp
+@AMDEP@CXXDEPMODE = @CXXDEPMODE@
 
-%.lo: %.c
-	@echo '$(LTCOMPILE) -c $<'; \
-	$(LTCOMPILE) -Wp,-MD,.deps/$(*F).pp -c $<
-	@-sed -e 's/^\([^:]*\)\.o[ 	]*:/\1.lo \1.o :/' \
-	  < .deps/$(*F).pp > .deps/$(*F).P; \
-	tr ' ' '\012' < .deps/$(*F).pp \
-	  | sed -e 's/^\\$$//' -e '/^$$/ d' -e '/:$$/ d' -e 's/$$/ :/' \
-	    >> .deps/$(*F).P; \
-	rm -f .deps/$(*F).pp
+.cpp.o:
+@AMDEP@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
+@AMDEP@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXXCOMPILE) -c -o $@ $<
 
-%.o: %.cpp
-	@echo '$(CXXCOMPILE) -c $<'; \
-	$(CXXCOMPILE) -Wp,-MD,.deps/$(*F).pp -c $<
-	@-cp .deps/$(*F).pp .deps/$(*F).P; \
-	tr ' ' '\012' < .deps/$(*F).pp \
-	  | sed -e 's/^\\$$//' -e '/^$$/ d' -e '/:$$/ d' -e 's/$$/ :/' \
-	    >> .deps/$(*F).P; \
-	rm .deps/$(*F).pp
+.cpp.lo:
+@AMDEP@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
+@AMDEP@	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' @AMDEPBACKSLASH@
+@AMDEP@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LTCXXCOMPILE) -c -o $@ $<
 
-%.lo: %.cpp
-	@echo '$(LTCXXCOMPILE) -c $<'; \
-	$(LTCXXCOMPILE) -Wp,-MD,.deps/$(*F).pp -c $<
-	@-sed -e 's/^\([^:]*\)\.o[ 	]*:/\1.lo \1.o :/' \
-	  < .deps/$(*F).pp > .deps/$(*F).P; \
-	tr ' ' '\012' < .deps/$(*F).pp \
-	  | sed -e 's/^\\$$//' -e '/^$$/ d' -e '/:$$/ d' -e 's/$$/ :/' \
-	    >> .deps/$(*F).P; \
-	rm -f .deps/$(*F).pp
 info-am:
 info: info-am
 dvi-am:
@@ -335,6 +322,7 @@ distclean-generic:
 	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
 
 maintainer-clean-generic:
+	-rm -f Makefile.in
 mostlyclean-am:  mostlyclean-noinstLTLIBRARIES mostlyclean-compile \
 		mostlyclean-libtool mostlyclean-tags mostlyclean-depend \
 		mostlyclean-generic
@@ -373,7 +361,7 @@ distdir mostlyclean-depend distclean-depend clean-depend \
 maintainer-clean-depend info-am info dvi-am dvi check check-am \
 installcheck-am installcheck install-exec-am install-exec \
 install-data-am install-data install-am install uninstall-am uninstall \
-all-redirect all-am all installdirs mostlyclean-generic \
+all-redirect all-am all install-strip installdirs mostlyclean-generic \
 distclean-generic clean-generic maintainer-clean-generic clean \
 mostlyclean distclean maintainer-clean
 

@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# Regenerate all files which are constructed by the autoconf, automake
+# and libtool tool-chain. Note: only developers should need to use
+# this script.
+
 # Author: Morten Eriksen, <mortene@sim.no>. Loosely based on Ralph
 # Levien's script for Gnome.
 
@@ -11,32 +15,37 @@ SUBPROJECTS="$MACRODIR src/Inventor/Qt/common"
 
 echo "Checking the installed configuration tools..."
 
-# FIXME: check for minimum version number? 19990822 mortene.
-(autoconf --version) < /dev/null > /dev/null 2>&1 || {
-        echo
-        echo "You must have autoconf installed to generate"
-	echo "configure information and Makefiles for $PROJECT."
-        echo "Get ftp://ftp.gnu.org/pub/gnu/autoconf-*.tar.gz"
-        DIE=1
-}
+AUTOCONF_VER=2.14.1  # Autoconf from CVS.
+if test -z "`autoconf --version | grep \" $AUTOCONF_VER\" 2> /dev/null`"; then
+    echo
+    echo "You must have autoconf version $AUTOCONF_VER installed to"
+    echo "generate configure information and Makefiles for $PROJECT." 
+#    echo "Get ftp://ftp.gnu.org/pub/gnu/autoconf-*.tar.gz"
+    echo "Get autoconf from CVS: "
+    echo "  cvs -d :pserver:anoncvs@anoncvs.cygnus.com:/cvs/autoconf co autoconf"
+    DIE=1
+fi
 
-# FIXME: check for minimum version number? 19990822 mortene.
-(libtool --version) < /dev/null > /dev/null 2>&1 || {
-        echo
-        echo "You must have libtool installed to generate"
-	echo "configure information and Makefiles for $PROJECT."
-        echo "Get ftp://ftp.gnu.org/pub/gnu/libtool-*.tar.gz"
-        DIE=1
-}
+LIBTOOL_VER=1.3.4  # Latest release of libtool
+if test -z "`libtool --version | grep \" $LIBTOOL_VER \" 2> /dev/null`"; then
+    echo
+    echo "You must have libtool version $LIBTOOL_VER installed to"
+    echo "generate configure information and Makefiles for $PROJECT." 
+    echo "Get ftp://ftp.gnu.org/pub/gnu/libtool-*.tar.gz"
+    DIE=1
+fi
 
-# FIXME: check for minimum version number? 19990822 mortene.
-(automake --version) < /dev/null > /dev/null 2>&1 || {
-        echo
-        echo "You must have automake installed to generate"
-	echo "configure information and Makefiles for $PROJECT."
-        echo "Get ftp://ftp.gnu.org/pub/gnu/automake-*.tar.gz"
-        DIE=1
-}
+AUTOMAKE_VER=1.4a  # Automake from CVS.
+if test -z "`automake --version | grep \" $AUTOMAKE_VER\" 2> /dev/null`"; then
+    echo
+    echo "You must have automake version $AUTOMAKE_VER installed to"
+    echo "generate configure information and Makefiles for $PROJECT." 
+#    echo "Get ftp://ftp.gnu.org/pub/gnu/automake-*.tar.gz"
+    echo "Get automake from CVS: "
+    echo "  cvs -d :pserver:anoncvs@anoncvs.cygnus.com:/cvs/automake co automake"
+    DIE=1
+fi
+
 
 for project in $SUBPROJECTS; do
   test -d $project || {
@@ -62,9 +71,6 @@ echo "Running autoheader (generating config.h.in)..."
 autoheader
 
 echo "Running automake (generating the Makefile.in files)..."
-echo "(NB: if you're compiling without g++, you probably need to"
-echo "manually run automake with the --include-deps argument to"
-echo "avoid setting up dependency tracking. 19991006 mortene.)"
 automake
 
 echo "Running autoconf (generating ./configure and the Makefile files)..."
@@ -72,4 +78,3 @@ echo "[ignore the \"directory should not contain '/'\" warning]"
 autoconf
 
 echo "Done: Now run './configure' and 'make install' to build $PROJECT."
-

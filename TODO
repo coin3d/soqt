@@ -7,6 +7,16 @@ ToDo
 
 *** BUILD ITEMS ***
 
+* [larsa:20000113] snatch compilation-rules from Coin (adapt for moc) to
+  avoid the excessively verbose libtool-output during compilation.
+
+* [mortene:20000112] replace SIM_CHECK_MATHLIB with the one
+  which comes with libtool (AC_CHECK_LIBM).
+
+* [mortene:20000112] construct an m4 macro for autoconf which detects
+  the presence of libSoQt and adds the propriate flags and stuff for
+  application programmers, and install it in $prefix/share/aclocal/.
+
 * [mortene:19991218] set up -Wno-* options to GCC to avoid all the
   warnings seeping out when compiling on top of Open Inventor (because
   of problems in the OI include files).
