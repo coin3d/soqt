@@ -180,10 +180,12 @@ SoQt::init(const char * const appName, const char * const className)
     (void)strncpy(buf, appName, 1024);
     char * array[1] = { buf };
     // fake argc, argv for QApplication
-    return SoQt::init(1, array, appName, className);
+    int argc = 1;
+    return SoQt::init(argc, array, appName, className);
   }
   else {
-    return SoQt::init(0, NULL, NULL, className);
+    int argc = 0;
+    return SoQt::init(argc, NULL, NULL, className);
   }
 }
 
@@ -253,7 +255,7 @@ SoQt::init(QWidget * const topLevelWidget)
 */
 
 QWidget *
-SoQt::init(int argc, char ** argv,
+SoQt::init(int & argc, char ** argv,
            const char * const appName,
            const char * const className)
 {
@@ -423,7 +425,7 @@ SoQt::getTopLevelWidget(void)
 */
 
 QWidget *
-SoQt::getShellWidget(const QWidget * const w)
+SoQt::getShellWidget(const QWidget * w)
 {
 #if SOQT_DEBUG
   if (w == NULL) {
@@ -547,7 +549,7 @@ SoQt::setWidgetSize(QWidget * const w, const SbVec2s size)
 */
 
 SbVec2s
-SoQt::getWidgetSize(const QWidget * const w)
+SoQt::getWidgetSize(const QWidget * w)
 {
 #if SOQT_DEBUG
   if (w == NULL) {
@@ -575,10 +577,10 @@ SoQt::getWidgetSize(const QWidget * const w)
   There will only be a single "Ok" button for the user to press.
  */
 void
-SoQt::createSimpleErrorDialog(QWidget * const widget,
-                              const char * const dialogTitle,
-                              const char * const errorStr1,
-                              const char * const errorStr2)
+SoQt::createSimpleErrorDialog(QWidget * widget,
+                              const char * dialogTitle,
+                              const char * errorStr1,
+                              const char * errorStr2)
 {
 #if SOQT_DEBUG
   if (dialogTitle == NULL) {
