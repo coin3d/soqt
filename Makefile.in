@@ -1146,6 +1146,20 @@ all-local: built-sources
 
 install-data-local: built-sources
 
+# **************************************************************************
+# misc rules for automatic Microsoft Windows packaging.
+# main: `windows-packages'
+
+windows-files:
+	@if test -d windows; then :; else mkdir windows; fi
+	@for file in $(top_srcdir)/packaging/windows/*.in; do \
+	  basename=`echo $$file | sed 's/^.*\///g; s/\.in$$//'`; \
+	  ./config.status --file=windows/$$basename:$$file; \
+	done
+
+windows-packages: windows-files
+	@( cd windows; $(MAKE) VERSION=$(VERSION) )
+
 # EOF ######################################################################
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

@@ -119,4 +119,18 @@ endif
 
 install-data-local: built-sources
 
+# **************************************************************************
+# misc rules for automatic Microsoft Windows packaging.
+# main: `windows-packages'
+
+windows-files:
+	@if test -d windows; then :; else mkdir windows; fi
+	@for file in $(top_srcdir)/packaging/windows/*.in; do \
+	  basename=`echo $$file | sed 's/^.*\///g; s/\.in$$//'`; \
+	  ./config.status --file=windows/$$basename:$$file; \
+	done
+
+windows-packages: windows-files
+	@( cd windows; $(MAKE) VERSION=$(VERSION) )
+
 # EOF ######################################################################
