@@ -78,6 +78,18 @@ static const char rcsid[] =
   if the current rendering mode is double buffered.
 */
 
+/*!
+  \fn void SoQtGLWidget::setStereoBuffer(SbBool flag)
+  
+  Sets whether OpenGL stereo buffers (quad buffer stereo) should be used.
+*/
+
+/*!
+  \fn SbBool SoQtGLWidget::isStereoBuffer(void) const
+
+  Returns whether OpenGL stereo buffers are being used.
+*/
+
 // *************************************************************************
 
 // FIXME: get rid of this before 1.0 release by converting everything
@@ -859,6 +871,9 @@ SoQtGLWidget::glSwapBuffers(
   ((SoQtGLArea *)THIS->currentglwidget)->swapBuffers();
 } // glSwapBuffers()
 
+/*!
+  Flush the current GL buffer. Simply calls glFlush().
+*/
 void 
 SoQtGLWidget::glFlushBuffer(void)
 {
@@ -961,6 +976,9 @@ SoQtGLWidget::eventHandler(
   component->processEvent( event );
 } // eventHandler()
 
+/*!
+  Returns the normal GL context.
+*/
 QGLContext * 
 SoQtGLWidget::getNormalContext(void)
 {
@@ -969,6 +987,9 @@ SoQtGLWidget::getNormalContext(void)
   return NULL;
 }
 
+/*!
+  Returns the overlay GL context.
+*/
 QGLContext * 
 SoQtGLWidget::getOverlayContext(void)
 {
@@ -991,12 +1012,20 @@ SoQtGLWidget::getOverlayTransparentPixel(void)
   return 0;
 }
 
+/*!
+  Returns TRUE if the normal GL context is in RGBA mode.
+  Return FALSE if color index mode is used.
+*/
 SbBool 
 SoQtGLWidget::isRGBMode(void)
 {
   return (SbBool) THIS->glformat->rgba();
 }
 
+/*!
+  Renders the overlay scene graph. Default method is empty. Subclasses
+  should overload this method.
+*/
 void 
 SoQtGLWidget::redrawOverlay(void)
 {
