@@ -200,6 +200,11 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     FlyViewer since. Summers has been contacted to get an exact
     description of how the problem can be reproduced.
 
+    UPDATE 20021016 rolvs: Here is what Ron Summers say about it:
+    "Moving the cursor to the left or right causes a large velocity
+    change in the corresponding direction. Moving the cursor up or
+    down causes a very small velocity change."
+
 =====================================================================
 
 009 Michael Wimmer reported that using SoQt on top of SGI Inventor
@@ -244,6 +249,10 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
       deceleration, but a delayed instant stop. It feels awkward).
 
     20021014 rolvs.
+    
+    UPDATE 20021016 rolvs: The 'hanging behind' behaviour is now
+    fixed. But the way which speeds and rotations is calculated is
+    still fishy (work-in-progress).
 
 =====================================================================
 
