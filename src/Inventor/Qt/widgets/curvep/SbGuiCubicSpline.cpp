@@ -21,6 +21,8 @@
  *
 \**************************************************************************/
 
+#include <Inventor/Qt/SoQtBasic.h>
+
 #include "SbGuiCubicSpline.h"
 
 SbGuiCubicSpline::SbGuiCubicSpline(const int approxcount)
@@ -144,7 +146,7 @@ SbGuiCubicSpline::getSegdata(const float t, float & segt)
     segt = float(fmod((double)t, 1.0)) - this->segstarttimes[seg];
   }
   else {
-    segt = SbClamp(t, 0.0f, 1.0f) - this->segstarttimes[seg];
+    segt = SoQtClamp(t, 0.0f, 1.0f) - this->segstarttimes[seg];
   }
   segt /= this->segdurations[seg];
   return seg;

@@ -25,9 +25,7 @@
 \**************************************************************************/
 
 #include <Inventor/Qt/common/SbGuiList.h>
-#include <Inventor/SbMatrix.h>
-#include <Inventor/SbVec3f.h>
-#include <Inventor/SbVec4f.h>
+#include <Inventor/SbLinear.h>
 
 class SbGuiCubicSpline {
 public:
