@@ -240,7 +240,7 @@ install-exec-local:
 	  done; \
 	else :; fi
 
-install-data-local: uninstall-SoQtincHEADERS uninstall-nodist_SoQtincHEADERS
+install-data-local:
 	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
 	if @BUILD_WITH_MSVC@; then \
 	  for ext in lib; do \
@@ -253,7 +253,7 @@ install-data-local: uninstall-SoQtincHEADERS uninstall-nodist_SoQtincHEADERS
 	  done; \
 	else :; fi
 
-uninstall-local:
+uninstall-local: uninstall-SoQtincHEADERS uninstall-nodist_SoQtincHEADERS
 	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
 	for file in \
 	  "$(DESTDIR)$(bindir)/$$basename.dll" \
