@@ -241,16 +241,6 @@ AC_LANG(C++)
 AC_OBJEXT
 AC_EXEEXT
 
-if $BUILD_WITH_MSVC; then
-  RANLIB=true
-  export RANLIB
-fi
-
-if $BUILD_WITH_MSVC; then
-  RANLIB=true
-  export RANLIB
-fi
-
 # Initialize libtool
 if $BUILD_WITH_MSVC; then
   RANLIB=:
@@ -288,6 +278,13 @@ AC_SUBST(SOQT_EXTRA_LDFLAGS)
 AC_SUBST(SOQT_EXTRA_LIBS)
 
 # SIM_EXPAND_DIR_VARS
+
+case $host in
+*-cygwin) path_tag="<PATH>" ;;
+*)        path_tag= ;;
+esac
+
+AC_SUBST(path_tag)
 
 # **************************************************************************
 
