@@ -96,6 +96,8 @@ F77 = @F77@
 FFLAGS = @FFLAGS@
 GUI = @GUI@
 Gui = @Gui@
+HACKING_COMPACT_BUILD_FALSE = @HACKING_COMPACT_BUILD_FALSE@
+HACKING_COMPACT_BUILD_TRUE = @HACKING_COMPACT_BUILD_TRUE@
 HAVE_JOYSTICK_LINUX_FALSE = @HAVE_JOYSTICK_LINUX_FALSE@
 HAVE_JOYSTICK_LINUX_TRUE = @HAVE_JOYSTICK_LINUX_TRUE@
 INSTALL_DATA = @INSTALL_DATA@
@@ -605,10 +607,6 @@ DEFAULT_INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
 #	$(SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles)
 BUILT_SOURCES = \
 	$(SoGui_src_Inventor_Gui_widgets_BuiltFiles) \
-	moc_SoQtGradientDialogP.icc \
-	moc_GradientView.icc \
-	moc_SoQtColorTableEditorP.icc \
-	moc_CurveView.icc \
 	moc_QtNativePopupMenu.icc \
 	moc_SoQtThumbWheel.icc \
 	moc_SoQtGLArea.icc
@@ -625,42 +623,47 @@ DISTCLEANFILES = \
 
 
 ############################################################################
-SoQtWidgetsSources = \
+RegularSources = \
 	SoQtGLArea.cpp SoQtGLArea.h \
 	SoQtThumbWheel.cpp SoQtThumbWheel.h \
-	\
-	QtNativePopupMenu.cpp QtNativePopupMenu.h \
-	Gradient.cpp Gradient.h \
-	GradientDialog.cpp SoQtGradientDialog.h \
-	gradientp/GradientView.cpp gradientp/GradientView.h \
-	gradientp/ImageItem.cpp gradientp/ImageItem.h \
-	gradientp/TickMark.cpp gradientp/TickMark.h \
-	gradientp/SoQtGradientDialogP.h \
-	\
-	curvep/ColorTableEditor.cpp SoQtColorTableEditor.h curvep/SoQtColorTableEditorP.h \
-	curvep/ColorCurve.cpp curvep/ColorCurve.h \
-	curvep/CurveView.cpp curvep/CurveView.h \
-	curvep/SbGuiCubicSpline.cpp curvep/SbGuiCubicSpline.h
+	QtNativePopupMenu.cpp QtNativePopupMenu.h
 
+
+BuiltSources = \
+	$(SoGui_src_Inventor_Gui_widgets_BuiltFiles)
+
+
+LinkHackSources = \
+	all-widgets-cpp.cpp
+
+@HACKING_COMPACT_BUILD_FALSE@BuildSources = $(RegularSources)
+
+@HACKING_COMPACT_BUILD_TRUE@BuildSources = $(LinkHackSources)
+@HACKING_COMPACT_BUILD_FALSE@NoDistSources = $(BuiltSources)
+@HACKING_COMPACT_BUILD_TRUE@NoDistSources = 
+@HACKING_COMPACT_BUILD_FALSE@ExtraSources = $(LinkHackSources)
+@HACKING_COMPACT_BUILD_TRUE@ExtraSources = $(RegularSources)
 
 
 ############################################################################
 # libtool setup
-libSoQtWidgets_la_SOURCES = $(SoQtWidgetsSources)
+libSoQtWidgets_la_SOURCES = \
+	$(BuildSources)
+
 
 nodist_libSoQtWidgets_la_SOURCES = \
-	$(BUILT_SOURCES)
+	$(NoDistSources)
 
 
-
-#	$(SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles)
 
 ############################################################################
 # custom setup for Microsoft Visual C++ build
-widgets_lst_SOURCES = $(SoQtWidgetsSources)
+widgets_lst_SOURCES = \
+	$(BuildSources)
+
 
 nodist_widgets_lst_SOURCES = \
-	$(BUILT_SOURCES)
+	$(NoDistSources)
 
 
 
@@ -669,8 +672,7 @@ nodist_widgets_lst_SOURCES = \
 @MAC_FRAMEWORK_TRUE@SoQtWidgetsincdir = $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$(MAC_FRAMEWORK_VERSION)/Headers/widgets
 @MAC_FRAMEWORK_FALSE@SoQtWidgetsincdir = $(includedir)/Inventor/@Gui@/widgets
 SoQtWidgetsinc_HEADERS = \
-	SoQtThumbWheel.h SoQtGradientDialog.h Gradient.h \
-	SoQtColorTableEditor.h
+	SoQtThumbWheel.h
 
 
 nodist_SoQtWidgetsinc_HEADERS = \
@@ -685,49 +687,45 @@ LIBRARIES = $(noinst_LIBRARIES)
 
 widgets_lst_AR = $(AR) cru
 widgets_lst_LIBADD =
-am__objects_1 = SoQtGLArea.$(OBJEXT) SoQtThumbWheel.$(OBJEXT) \
-	QtNativePopupMenu.$(OBJEXT) Gradient.$(OBJEXT) \
-	GradientDialog.$(OBJEXT) GradientView.$(OBJEXT) \
-	ImageItem.$(OBJEXT) TickMark.$(OBJEXT) \
-	ColorTableEditor.$(OBJEXT) ColorCurve.$(OBJEXT) \
-	CurveView.$(OBJEXT) SbGuiCubicSpline.$(OBJEXT)
-am_widgets_lst_OBJECTS = $(am__objects_1)
-am__objects_2 = SoAnyThumbWheel.$(OBJEXT) So@Gui@PopupMenu.$(OBJEXT)
-am__objects_3 = $(am__objects_2)
-nodist_widgets_lst_OBJECTS = $(am__objects_3)
+am__widgets_lst_SOURCES_DIST = SoQtGLArea.cpp SoQtGLArea.h \
+	SoQtThumbWheel.cpp SoQtThumbWheel.h QtNativePopupMenu.cpp \
+	QtNativePopupMenu.h all-widgets-cpp.cpp
+am__objects_1 = all-widgets-cpp.$(OBJEXT)
+am__objects_2 = SoQtGLArea.$(OBJEXT) SoQtThumbWheel.$(OBJEXT) \
+	QtNativePopupMenu.$(OBJEXT)
+@HACKING_COMPACT_BUILD_TRUE@am__objects_3 = $(am__objects_1)
+@HACKING_COMPACT_BUILD_FALSE@am__objects_3 = $(am__objects_2)
+am_widgets_lst_OBJECTS = $(am__objects_3)
+am__objects_4 = SoAnyThumbWheel.$(OBJEXT) So@Gui@PopupMenu.$(OBJEXT)
+am__objects_5 = $(am__objects_4)
+@HACKING_COMPACT_BUILD_TRUE@am__objects_6 =
+@HACKING_COMPACT_BUILD_FALSE@am__objects_6 = $(am__objects_5)
+nodist_widgets_lst_OBJECTS = $(am__objects_6)
 widgets_lst_OBJECTS = $(am_widgets_lst_OBJECTS) \
 	$(nodist_widgets_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
 libSoQtWidgets_la_LDFLAGS =
 libSoQtWidgets_la_LIBADD =
-am__objects_4 = SoQtGLArea.lo SoQtThumbWheel.lo QtNativePopupMenu.lo \
-	Gradient.lo GradientDialog.lo GradientView.lo ImageItem.lo \
-	TickMark.lo ColorTableEditor.lo ColorCurve.lo CurveView.lo \
-	SbGuiCubicSpline.lo
-am_libSoQtWidgets_la_OBJECTS = $(am__objects_4)
-am__objects_5 = SoAnyThumbWheel.lo So@Gui@PopupMenu.lo
-am__objects_6 = $(am__objects_5)
-nodist_libSoQtWidgets_la_OBJECTS = $(am__objects_6)
+am__libSoQtWidgets_la_SOURCES_DIST = SoQtGLArea.cpp SoQtGLArea.h \
+	SoQtThumbWheel.cpp SoQtThumbWheel.h QtNativePopupMenu.cpp \
+	QtNativePopupMenu.h all-widgets-cpp.cpp
+am__objects_7 = all-widgets-cpp.lo
+am__objects_8 = SoQtGLArea.lo SoQtThumbWheel.lo QtNativePopupMenu.lo
+@HACKING_COMPACT_BUILD_TRUE@am__objects_9 = $(am__objects_7)
+@HACKING_COMPACT_BUILD_FALSE@am__objects_9 = $(am__objects_8)
+am_libSoQtWidgets_la_OBJECTS = $(am__objects_9)
+am__objects_10 = SoAnyThumbWheel.lo So@Gui@PopupMenu.lo
+am__objects_11 = $(am__objects_10)
+@HACKING_COMPACT_BUILD_TRUE@am__objects_12 =
+@HACKING_COMPACT_BUILD_FALSE@am__objects_12 = $(am__objects_11)
+nodist_libSoQtWidgets_la_OBJECTS = $(am__objects_12)
 libSoQtWidgets_la_OBJECTS = $(am_libSoQtWidgets_la_OBJECTS) \
 	$(nodist_libSoQtWidgets_la_OBJECTS)
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/ColorCurve.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/ColorCurve.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/ColorTableEditor.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/ColorTableEditor.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/CurveView.Plo ./$(DEPDIR)/CurveView.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/Gradient.Plo ./$(DEPDIR)/Gradient.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/GradientDialog.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/GradientDialog.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/GradientView.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/GradientView.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/ImageItem.Plo ./$(DEPDIR)/ImageItem.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/QtNativePopupMenu.Plo \
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/QtNativePopupMenu.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/QtNativePopupMenu.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/SbGuiCubicSpline.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/SbGuiCubicSpline.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/So@Gui@PopupMenu.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/So@Gui@PopupMenu.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/SoAnyThumbWheel.Plo \
@@ -736,7 +734,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/SoQtGLArea.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/SoQtThumbWheel.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SoQtThumbWheel.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/TickMark.Plo ./$(DEPDIR)/TickMark.Po
+@AMDEP_TRUE@	./$(DEPDIR)/all-widgets-cpp.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/all-widgets-cpp.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -752,7 +751,8 @@ LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) \
 CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES = $(widgets_lst_SOURCES) $(libSoQtWidgets_la_SOURCES)
+DIST_SOURCES = $(am__widgets_lst_SOURCES_DIST) \
+	$(am__libSoQtWidgets_la_SOURCES_DIST)
 HEADERS = $(SoQtWidgetsinc_HEADERS) $(nodist_SoQtWidgetsinc_HEADERS)
 
 DIST_COMMON = $(SoQtWidgetsinc_HEADERS) \
@@ -790,24 +790,8 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ColorCurve.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ColorCurve.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ColorTableEditor.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ColorTableEditor.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CurveView.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CurveView.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Gradient.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Gradient.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GradientDialog.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GradientDialog.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GradientView.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GradientView.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ImageItem.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ImageItem.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/QtNativePopupMenu.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/QtNativePopupMenu.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SbGuiCubicSpline.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SbGuiCubicSpline.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@PopupMenu.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@PopupMenu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoAnyThumbWheel.Plo@am__quote@
@@ -816,8 +800,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQtGLArea.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQtThumbWheel.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQtThumbWheel.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/TickMark.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/TickMark.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/all-widgets-cpp.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/all-widgets-cpp.Po@am__quote@
 
 distclean-depend:
 	-rm -rf ./$(DEPDIR)
@@ -854,237 +838,6 @@ distclean-depend:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(LTCXXCOMPILE) -c -o $@ `test -f '$<' || echo '$(srcdir)/'`$<
-
-GradientView.o: gradientp/GradientView.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT GradientView.o -MD -MP -MF "$(DEPDIR)/GradientView.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o GradientView.o `test -f 'gradientp/GradientView.cpp' || echo '$(srcdir)/'`gradientp/GradientView.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/GradientView.Tpo" "$(DEPDIR)/GradientView.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/GradientView.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='gradientp/GradientView.cpp' object='GradientView.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/GradientView.Po' tmpdepfile='$(DEPDIR)/GradientView.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o GradientView.o `test -f 'gradientp/GradientView.cpp' || echo '$(srcdir)/'`gradientp/GradientView.cpp
-
-GradientView.obj: gradientp/GradientView.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT GradientView.obj -MD -MP -MF "$(DEPDIR)/GradientView.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o GradientView.obj `if test -f 'gradientp/GradientView.cpp'; then $(CYGPATH_W) 'gradientp/GradientView.cpp'; else $(CYGPATH_W) '$(srcdir)/gradientp/GradientView.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/GradientView.Tpo" "$(DEPDIR)/GradientView.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/GradientView.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='gradientp/GradientView.cpp' object='GradientView.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/GradientView.Po' tmpdepfile='$(DEPDIR)/GradientView.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o GradientView.obj `if test -f 'gradientp/GradientView.cpp'; then $(CYGPATH_W) 'gradientp/GradientView.cpp'; else $(CYGPATH_W) '$(srcdir)/gradientp/GradientView.cpp'; fi`
-
-GradientView.lo: gradientp/GradientView.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT GradientView.lo -MD -MP -MF "$(DEPDIR)/GradientView.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o GradientView.lo `test -f 'gradientp/GradientView.cpp' || echo '$(srcdir)/'`gradientp/GradientView.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/GradientView.Tpo" "$(DEPDIR)/GradientView.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/GradientView.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='gradientp/GradientView.cpp' object='GradientView.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/GradientView.Plo' tmpdepfile='$(DEPDIR)/GradientView.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o GradientView.lo `test -f 'gradientp/GradientView.cpp' || echo '$(srcdir)/'`gradientp/GradientView.cpp
-
-ImageItem.o: gradientp/ImageItem.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ImageItem.o -MD -MP -MF "$(DEPDIR)/ImageItem.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o ImageItem.o `test -f 'gradientp/ImageItem.cpp' || echo '$(srcdir)/'`gradientp/ImageItem.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ImageItem.Tpo" "$(DEPDIR)/ImageItem.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ImageItem.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='gradientp/ImageItem.cpp' object='ImageItem.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ImageItem.Po' tmpdepfile='$(DEPDIR)/ImageItem.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ImageItem.o `test -f 'gradientp/ImageItem.cpp' || echo '$(srcdir)/'`gradientp/ImageItem.cpp
-
-ImageItem.obj: gradientp/ImageItem.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ImageItem.obj -MD -MP -MF "$(DEPDIR)/ImageItem.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o ImageItem.obj `if test -f 'gradientp/ImageItem.cpp'; then $(CYGPATH_W) 'gradientp/ImageItem.cpp'; else $(CYGPATH_W) '$(srcdir)/gradientp/ImageItem.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ImageItem.Tpo" "$(DEPDIR)/ImageItem.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ImageItem.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='gradientp/ImageItem.cpp' object='ImageItem.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ImageItem.Po' tmpdepfile='$(DEPDIR)/ImageItem.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ImageItem.obj `if test -f 'gradientp/ImageItem.cpp'; then $(CYGPATH_W) 'gradientp/ImageItem.cpp'; else $(CYGPATH_W) '$(srcdir)/gradientp/ImageItem.cpp'; fi`
-
-ImageItem.lo: gradientp/ImageItem.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ImageItem.lo -MD -MP -MF "$(DEPDIR)/ImageItem.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o ImageItem.lo `test -f 'gradientp/ImageItem.cpp' || echo '$(srcdir)/'`gradientp/ImageItem.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ImageItem.Tpo" "$(DEPDIR)/ImageItem.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ImageItem.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='gradientp/ImageItem.cpp' object='ImageItem.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ImageItem.Plo' tmpdepfile='$(DEPDIR)/ImageItem.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ImageItem.lo `test -f 'gradientp/ImageItem.cpp' || echo '$(srcdir)/'`gradientp/ImageItem.cpp
-
-TickMark.o: gradientp/TickMark.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT TickMark.o -MD -MP -MF "$(DEPDIR)/TickMark.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o TickMark.o `test -f 'gradientp/TickMark.cpp' || echo '$(srcdir)/'`gradientp/TickMark.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/TickMark.Tpo" "$(DEPDIR)/TickMark.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/TickMark.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='gradientp/TickMark.cpp' object='TickMark.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/TickMark.Po' tmpdepfile='$(DEPDIR)/TickMark.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o TickMark.o `test -f 'gradientp/TickMark.cpp' || echo '$(srcdir)/'`gradientp/TickMark.cpp
-
-TickMark.obj: gradientp/TickMark.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT TickMark.obj -MD -MP -MF "$(DEPDIR)/TickMark.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o TickMark.obj `if test -f 'gradientp/TickMark.cpp'; then $(CYGPATH_W) 'gradientp/TickMark.cpp'; else $(CYGPATH_W) '$(srcdir)/gradientp/TickMark.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/TickMark.Tpo" "$(DEPDIR)/TickMark.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/TickMark.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='gradientp/TickMark.cpp' object='TickMark.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/TickMark.Po' tmpdepfile='$(DEPDIR)/TickMark.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o TickMark.obj `if test -f 'gradientp/TickMark.cpp'; then $(CYGPATH_W) 'gradientp/TickMark.cpp'; else $(CYGPATH_W) '$(srcdir)/gradientp/TickMark.cpp'; fi`
-
-TickMark.lo: gradientp/TickMark.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT TickMark.lo -MD -MP -MF "$(DEPDIR)/TickMark.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o TickMark.lo `test -f 'gradientp/TickMark.cpp' || echo '$(srcdir)/'`gradientp/TickMark.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/TickMark.Tpo" "$(DEPDIR)/TickMark.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/TickMark.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='gradientp/TickMark.cpp' object='TickMark.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/TickMark.Plo' tmpdepfile='$(DEPDIR)/TickMark.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o TickMark.lo `test -f 'gradientp/TickMark.cpp' || echo '$(srcdir)/'`gradientp/TickMark.cpp
-
-ColorTableEditor.o: curvep/ColorTableEditor.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ColorTableEditor.o -MD -MP -MF "$(DEPDIR)/ColorTableEditor.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o ColorTableEditor.o `test -f 'curvep/ColorTableEditor.cpp' || echo '$(srcdir)/'`curvep/ColorTableEditor.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ColorTableEditor.Tpo" "$(DEPDIR)/ColorTableEditor.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ColorTableEditor.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='curvep/ColorTableEditor.cpp' object='ColorTableEditor.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ColorTableEditor.Po' tmpdepfile='$(DEPDIR)/ColorTableEditor.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ColorTableEditor.o `test -f 'curvep/ColorTableEditor.cpp' || echo '$(srcdir)/'`curvep/ColorTableEditor.cpp
-
-ColorTableEditor.obj: curvep/ColorTableEditor.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ColorTableEditor.obj -MD -MP -MF "$(DEPDIR)/ColorTableEditor.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o ColorTableEditor.obj `if test -f 'curvep/ColorTableEditor.cpp'; then $(CYGPATH_W) 'curvep/ColorTableEditor.cpp'; else $(CYGPATH_W) '$(srcdir)/curvep/ColorTableEditor.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ColorTableEditor.Tpo" "$(DEPDIR)/ColorTableEditor.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ColorTableEditor.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='curvep/ColorTableEditor.cpp' object='ColorTableEditor.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ColorTableEditor.Po' tmpdepfile='$(DEPDIR)/ColorTableEditor.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ColorTableEditor.obj `if test -f 'curvep/ColorTableEditor.cpp'; then $(CYGPATH_W) 'curvep/ColorTableEditor.cpp'; else $(CYGPATH_W) '$(srcdir)/curvep/ColorTableEditor.cpp'; fi`
-
-ColorTableEditor.lo: curvep/ColorTableEditor.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ColorTableEditor.lo -MD -MP -MF "$(DEPDIR)/ColorTableEditor.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o ColorTableEditor.lo `test -f 'curvep/ColorTableEditor.cpp' || echo '$(srcdir)/'`curvep/ColorTableEditor.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ColorTableEditor.Tpo" "$(DEPDIR)/ColorTableEditor.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ColorTableEditor.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='curvep/ColorTableEditor.cpp' object='ColorTableEditor.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ColorTableEditor.Plo' tmpdepfile='$(DEPDIR)/ColorTableEditor.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ColorTableEditor.lo `test -f 'curvep/ColorTableEditor.cpp' || echo '$(srcdir)/'`curvep/ColorTableEditor.cpp
-
-ColorCurve.o: curvep/ColorCurve.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ColorCurve.o -MD -MP -MF "$(DEPDIR)/ColorCurve.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o ColorCurve.o `test -f 'curvep/ColorCurve.cpp' || echo '$(srcdir)/'`curvep/ColorCurve.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ColorCurve.Tpo" "$(DEPDIR)/ColorCurve.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ColorCurve.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='curvep/ColorCurve.cpp' object='ColorCurve.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ColorCurve.Po' tmpdepfile='$(DEPDIR)/ColorCurve.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ColorCurve.o `test -f 'curvep/ColorCurve.cpp' || echo '$(srcdir)/'`curvep/ColorCurve.cpp
-
-ColorCurve.obj: curvep/ColorCurve.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ColorCurve.obj -MD -MP -MF "$(DEPDIR)/ColorCurve.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o ColorCurve.obj `if test -f 'curvep/ColorCurve.cpp'; then $(CYGPATH_W) 'curvep/ColorCurve.cpp'; else $(CYGPATH_W) '$(srcdir)/curvep/ColorCurve.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ColorCurve.Tpo" "$(DEPDIR)/ColorCurve.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ColorCurve.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='curvep/ColorCurve.cpp' object='ColorCurve.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ColorCurve.Po' tmpdepfile='$(DEPDIR)/ColorCurve.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ColorCurve.obj `if test -f 'curvep/ColorCurve.cpp'; then $(CYGPATH_W) 'curvep/ColorCurve.cpp'; else $(CYGPATH_W) '$(srcdir)/curvep/ColorCurve.cpp'; fi`
-
-ColorCurve.lo: curvep/ColorCurve.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ColorCurve.lo -MD -MP -MF "$(DEPDIR)/ColorCurve.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o ColorCurve.lo `test -f 'curvep/ColorCurve.cpp' || echo '$(srcdir)/'`curvep/ColorCurve.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ColorCurve.Tpo" "$(DEPDIR)/ColorCurve.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ColorCurve.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='curvep/ColorCurve.cpp' object='ColorCurve.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ColorCurve.Plo' tmpdepfile='$(DEPDIR)/ColorCurve.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ColorCurve.lo `test -f 'curvep/ColorCurve.cpp' || echo '$(srcdir)/'`curvep/ColorCurve.cpp
-
-CurveView.o: curvep/CurveView.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT CurveView.o -MD -MP -MF "$(DEPDIR)/CurveView.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o CurveView.o `test -f 'curvep/CurveView.cpp' || echo '$(srcdir)/'`curvep/CurveView.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/CurveView.Tpo" "$(DEPDIR)/CurveView.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/CurveView.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='curvep/CurveView.cpp' object='CurveView.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/CurveView.Po' tmpdepfile='$(DEPDIR)/CurveView.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o CurveView.o `test -f 'curvep/CurveView.cpp' || echo '$(srcdir)/'`curvep/CurveView.cpp
-
-CurveView.obj: curvep/CurveView.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT CurveView.obj -MD -MP -MF "$(DEPDIR)/CurveView.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o CurveView.obj `if test -f 'curvep/CurveView.cpp'; then $(CYGPATH_W) 'curvep/CurveView.cpp'; else $(CYGPATH_W) '$(srcdir)/curvep/CurveView.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/CurveView.Tpo" "$(DEPDIR)/CurveView.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/CurveView.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='curvep/CurveView.cpp' object='CurveView.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/CurveView.Po' tmpdepfile='$(DEPDIR)/CurveView.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o CurveView.obj `if test -f 'curvep/CurveView.cpp'; then $(CYGPATH_W) 'curvep/CurveView.cpp'; else $(CYGPATH_W) '$(srcdir)/curvep/CurveView.cpp'; fi`
-
-CurveView.lo: curvep/CurveView.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT CurveView.lo -MD -MP -MF "$(DEPDIR)/CurveView.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o CurveView.lo `test -f 'curvep/CurveView.cpp' || echo '$(srcdir)/'`curvep/CurveView.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/CurveView.Tpo" "$(DEPDIR)/CurveView.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/CurveView.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='curvep/CurveView.cpp' object='CurveView.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/CurveView.Plo' tmpdepfile='$(DEPDIR)/CurveView.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o CurveView.lo `test -f 'curvep/CurveView.cpp' || echo '$(srcdir)/'`curvep/CurveView.cpp
-
-SbGuiCubicSpline.o: curvep/SbGuiCubicSpline.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT SbGuiCubicSpline.o -MD -MP -MF "$(DEPDIR)/SbGuiCubicSpline.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o SbGuiCubicSpline.o `test -f 'curvep/SbGuiCubicSpline.cpp' || echo '$(srcdir)/'`curvep/SbGuiCubicSpline.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/SbGuiCubicSpline.Tpo" "$(DEPDIR)/SbGuiCubicSpline.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/SbGuiCubicSpline.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='curvep/SbGuiCubicSpline.cpp' object='SbGuiCubicSpline.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/SbGuiCubicSpline.Po' tmpdepfile='$(DEPDIR)/SbGuiCubicSpline.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o SbGuiCubicSpline.o `test -f 'curvep/SbGuiCubicSpline.cpp' || echo '$(srcdir)/'`curvep/SbGuiCubicSpline.cpp
-
-SbGuiCubicSpline.obj: curvep/SbGuiCubicSpline.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT SbGuiCubicSpline.obj -MD -MP -MF "$(DEPDIR)/SbGuiCubicSpline.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o SbGuiCubicSpline.obj `if test -f 'curvep/SbGuiCubicSpline.cpp'; then $(CYGPATH_W) 'curvep/SbGuiCubicSpline.cpp'; else $(CYGPATH_W) '$(srcdir)/curvep/SbGuiCubicSpline.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/SbGuiCubicSpline.Tpo" "$(DEPDIR)/SbGuiCubicSpline.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/SbGuiCubicSpline.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='curvep/SbGuiCubicSpline.cpp' object='SbGuiCubicSpline.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/SbGuiCubicSpline.Po' tmpdepfile='$(DEPDIR)/SbGuiCubicSpline.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o SbGuiCubicSpline.obj `if test -f 'curvep/SbGuiCubicSpline.cpp'; then $(CYGPATH_W) 'curvep/SbGuiCubicSpline.cpp'; else $(CYGPATH_W) '$(srcdir)/curvep/SbGuiCubicSpline.cpp'; fi`
-
-SbGuiCubicSpline.lo: curvep/SbGuiCubicSpline.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT SbGuiCubicSpline.lo -MD -MP -MF "$(DEPDIR)/SbGuiCubicSpline.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o SbGuiCubicSpline.lo `test -f 'curvep/SbGuiCubicSpline.cpp' || echo '$(srcdir)/'`curvep/SbGuiCubicSpline.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/SbGuiCubicSpline.Tpo" "$(DEPDIR)/SbGuiCubicSpline.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/SbGuiCubicSpline.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='curvep/SbGuiCubicSpline.cpp' object='SbGuiCubicSpline.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/SbGuiCubicSpline.Plo' tmpdepfile='$(DEPDIR)/SbGuiCubicSpline.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o SbGuiCubicSpline.lo `test -f 'curvep/SbGuiCubicSpline.cpp' || echo '$(srcdir)/'`curvep/SbGuiCubicSpline.cpp
 
 SoAnyThumbWheel.o: $(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp
 @am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT SoAnyThumbWheel.o -MD -MP -MF "$(DEPDIR)/SoAnyThumbWheel.Tpo" \
@@ -1759,8 +1512,6 @@ $(top_builddir)/man/man1/so@gui@-config.1: $(top_srcdir)/src/Inventor/@Gui@/comm
 
 ############################################################################
 
-#	$(SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles)
-
 widgets.lst: Makefile $(widgets_lst_OBJECTS)
 	@echo "Linking $@..."; \
 	rm -f $@; \
@@ -1795,21 +1546,21 @@ install-nodist_SoQtWidgetsincHEADERS: $(nodist_SoQtWidgetsinc_HEADERS)
 # **************************************************************************
 # auto-generated Qt moc files.
 
-moc_SoQtGradientDialogP.icc: $(srcdir)/gradientp/SoQtGradientDialogP.h
-	( cd $(top_builddir); \
-	   $(MAKE) src/Inventor/Qt/widgets/$@ )
-
-moc_SoQtColorTableEditorP.icc: $(srcdir)/curvep/SoQtColorTableEditorP.h
-	( cd $(top_builddir); \
-	   $(MAKE) src/Inventor/Qt/widgets/$@ )
-
-moc_GradientView.icc: $(srcdir)/gradientp/GradientView.h
-	( cd $(top_builddir); \
-	   $(MAKE) src/Inventor/Qt/widgets/$@ )
-
-moc_CurveView.icc: $(srcdir)/curvep/CurveView.h
-	( cd $(top_builddir); \
-	   $(MAKE) src/Inventor/Qt/widgets/$@ )
+# moc_SoQtGradientDialogP.icc: $(srcdir)/gradientp/SoQtGradientDialogP.h
+# 	( cd $(top_builddir); \
+# 	   $(MAKE) src/Inventor/Qt/widgets/$@ )
+# 
+# moc_SoQtColorTableEditorP.icc: $(srcdir)/curvep/SoQtColorTableEditorP.h
+# 	( cd $(top_builddir); \
+# 	   $(MAKE) src/Inventor/Qt/widgets/$@ )
+# 
+# moc_GradientView.icc: $(srcdir)/gradientp/GradientView.h
+# 	( cd $(top_builddir); \
+# 	   $(MAKE) src/Inventor/Qt/widgets/$@ )
+# 
+# moc_CurveView.icc: $(srcdir)/curvep/CurveView.h
+# 	( cd $(top_builddir); \
+# 	   $(MAKE) src/Inventor/Qt/widgets/$@ )
 
 moc_QtNativePopupMenu.icc: $(srcdir)/QtNativePopupMenu.h
 	( cd $(top_builddir); \

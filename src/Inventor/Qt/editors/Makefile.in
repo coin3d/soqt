@@ -96,6 +96,8 @@ F77 = @F77@
 FFLAGS = @FFLAGS@
 GUI = @GUI@
 Gui = @Gui@
+HACKING_COMPACT_BUILD_FALSE = @HACKING_COMPACT_BUILD_FALSE@
+HACKING_COMPACT_BUILD_TRUE = @HACKING_COMPACT_BUILD_TRUE@
 HAVE_JOYSTICK_LINUX_FALSE = @HAVE_JOYSTICK_LINUX_FALSE@
 HAVE_JOYSTICK_LINUX_TRUE = @HAVE_JOYSTICK_LINUX_TRUE@
 INSTALL_DATA = @INSTALL_DATA@
@@ -615,18 +617,40 @@ DISTCLEANFILES = \
 
 
 ############################################################################
+RegularSources = 
 
-# libSoQtEditors_la_SOURCES =
-nodist_libSoQtEditors_la_SOURCES = \
+BuiltSources = \
 	$(SoGui_src_Inventor_Gui_editors_BuiltFiles) \
 	$(SoGui_src_Inventor_Gui_editors_BuiltMetaFiles)
+
+
+LinkHackSources = \
+	all-editors-cpp.cpp
+
+@HACKING_COMPACT_BUILD_FALSE@BuildSources = $(RegularSources)
+
+@HACKING_COMPACT_BUILD_TRUE@BuildSources = $(LinkHackSources)
+@HACKING_COMPACT_BUILD_FALSE@NoDistSources = $(BuiltSources)
+@HACKING_COMPACT_BUILD_TRUE@NoDistSources = 
+@HACKING_COMPACT_BUILD_FALSE@ExtraSources = $(LinkHackSources)
+@HACKING_COMPACT_BUILD_TRUE@ExtraSources = $(RegularSources)
+
+libSoQtEditors_la_SOURCES = \
+	$(BuildSources)
+
+
+nodist_libSoQtEditors_la_SOURCES = \
+	$(NoDistSources)
 
 
 
 ############################################################################
+editors_lst_SOURCES = \
+	$(BuildSources)
+
+
 nodist_editors_lst_SOURCES = \
-	$(SoGui_src_Inventor_Gui_editors_BuiltFiles) \
-	$(SoGui_src_Inventor_Gui_editors_BuiltMetaFiles)
+	$(NoDistSources)
 
 
 
@@ -649,23 +673,44 @@ LIBRARIES = $(noinst_LIBRARIES)
 
 editors_lst_AR = $(AR) cru
 editors_lst_LIBADD =
-am__objects_1 = So@Gui@ColorEditor.$(OBJEXT) \
+am__editors_lst_SOURCES_DIST = all-editors-cpp.cpp
+am__objects_1 = all-editors-cpp.$(OBJEXT)
+am__objects_2 =
+@HACKING_COMPACT_BUILD_TRUE@am__objects_3 = $(am__objects_1)
+@HACKING_COMPACT_BUILD_FALSE@am__objects_3 = $(am__objects_2)
+am_editors_lst_OBJECTS = $(am__objects_3)
+am__objects_4 = So@Gui@ColorEditor.$(OBJEXT) \
 	So@Gui@MaterialEditor.$(OBJEXT)
-nodist_editors_lst_OBJECTS = $(am__objects_1) $(am__objects_2)
-editors_lst_OBJECTS = $(nodist_editors_lst_OBJECTS)
+am__objects_6 = $(am__objects_4) $(am__objects_5)
+@HACKING_COMPACT_BUILD_TRUE@am__objects_7 =
+@HACKING_COMPACT_BUILD_FALSE@am__objects_7 = $(am__objects_6)
+nodist_editors_lst_OBJECTS = $(am__objects_7)
+editors_lst_OBJECTS = $(am_editors_lst_OBJECTS) \
+	$(nodist_editors_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
 libSoQtEditors_la_LDFLAGS =
 libSoQtEditors_la_LIBADD =
-am__objects_3 = So@Gui@ColorEditor.lo So@Gui@MaterialEditor.lo
-nodist_libSoQtEditors_la_OBJECTS = $(am__objects_3) $(am__objects_2)
-libSoQtEditors_la_OBJECTS = $(nodist_libSoQtEditors_la_OBJECTS)
+am__libSoQtEditors_la_SOURCES_DIST = all-editors-cpp.cpp
+am__objects_8 = all-editors-cpp.lo
+@HACKING_COMPACT_BUILD_TRUE@am__objects_9 = $(am__objects_8)
+@HACKING_COMPACT_BUILD_FALSE@am__objects_9 = $(am__objects_2)
+am_libSoQtEditors_la_OBJECTS = $(am__objects_9)
+am__objects_10 = So@Gui@ColorEditor.lo So@Gui@MaterialEditor.lo
+am__objects_11 = $(am__objects_10) $(am__objects_5)
+@HACKING_COMPACT_BUILD_TRUE@am__objects_12 =
+@HACKING_COMPACT_BUILD_FALSE@am__objects_12 = $(am__objects_11)
+nodist_libSoQtEditors_la_OBJECTS = $(am__objects_12)
+libSoQtEditors_la_OBJECTS = $(am_libSoQtEditors_la_OBJECTS) \
+	$(nodist_libSoQtEditors_la_OBJECTS)
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/So@Gui@ColorEditor.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/So@Gui@ColorEditor.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/So@Gui@MaterialEditor.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/So@Gui@MaterialEditor.Po
+@AMDEP_TRUE@	./$(DEPDIR)/So@Gui@MaterialEditor.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/all-editors-cpp.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/all-editors-cpp.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -681,12 +726,13 @@ LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) \
 CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES =
+DIST_SOURCES = $(am__editors_lst_SOURCES_DIST) \
+	$(am__libSoQtEditors_la_SOURCES_DIST)
 HEADERS = $(SoQtEditorsinc_HEADERS) $(nodist_SoQtEditorsinc_HEADERS)
 
 DIST_COMMON = $(SoQtEditorsinc_HEADERS) \
 	$(srcdir)/../common/Makefile.common Makefile.am Makefile.in
-SOURCES = $(nodist_editors_lst_SOURCES) $(nodist_libSoQtEditors_la_SOURCES)
+SOURCES = $(editors_lst_SOURCES) $(nodist_editors_lst_SOURCES) $(libSoQtEditors_la_SOURCES) $(nodist_libSoQtEditors_la_SOURCES)
 
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-am
@@ -723,6 +769,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@ColorEditor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@MaterialEditor.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@MaterialEditor.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/all-editors-cpp.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/all-editors-cpp.Po@am__quote@
 
 distclean-depend:
 	-rm -rf ./$(DEPDIR)

@@ -96,6 +96,8 @@ F77 = @F77@
 FFLAGS = @FFLAGS@
 GUI = @GUI@
 Gui = @Gui@
+HACKING_COMPACT_BUILD_FALSE = @HACKING_COMPACT_BUILD_FALSE@
+HACKING_COMPACT_BUILD_TRUE = @HACKING_COMPACT_BUILD_TRUE@
 HAVE_JOYSTICK_LINUX_FALSE = @HAVE_JOYSTICK_LINUX_FALSE@
 HAVE_JOYSTICK_LINUX_TRUE = @HAVE_JOYSTICK_LINUX_TRUE@
 INSTALL_DATA = @INSTALL_DATA@
@@ -617,12 +619,35 @@ DISTCLEANFILES = \
 ############################################################################
 
 # libSoGuiNodes_la_SOURCES =
-nodist_libSoGuiNodes_la_SOURCES = \
+RegularSources = 
+BuiltSources = \
 	$(SoGui_src_Inventor_Gui_nodes_BuiltFiles)
+
+LinkHackSources = \
+	all-nodes-cpp.cpp
+
+@HACKING_COMPACT_BUILD_FALSE@BuildSources = $(RegularSources)
+
+@HACKING_COMPACT_BUILD_TRUE@BuildSources = $(LinkHackSources)
+@HACKING_COMPACT_BUILD_FALSE@NoDistSources = $(BuiltSources)
+@HACKING_COMPACT_BUILD_TRUE@NoDistSources = 
+@HACKING_COMPACT_BUILD_FALSE@ExtraSources = $(LinkHackSources)
+@HACKING_COMPACT_BUILD_TRUE@ExtraSources = $(RegularSources)
+
+libSoGuiNodes_la_SOURCES = \
+	$(BuildSources)
+
+
+nodist_libSoGuiNodes_la_SOURCES = \
+	$(NoDistSources)
+
+
+nodes_lst_SOURCES = \
+	$(BuildSources)
 
 
 nodist_nodes_lst_SOURCES = \
-	$(SoGui_src_Inventor_Gui_nodes_BuiltFiles)
+	$(NoDistSources)
 
 
 
@@ -643,26 +668,44 @@ LIBRARIES = $(noinst_LIBRARIES)
 
 nodes_lst_AR = $(AR) cru
 nodes_lst_LIBADD =
-am__objects_1 = Nodes.$(OBJEXT) SceneTexture2.$(OBJEXT) \
+am__nodes_lst_SOURCES_DIST = all-nodes-cpp.cpp
+am__objects_1 = all-nodes-cpp.$(OBJEXT)
+am__objects_2 =
+@HACKING_COMPACT_BUILD_TRUE@am__objects_3 = $(am__objects_1)
+@HACKING_COMPACT_BUILD_FALSE@am__objects_3 = $(am__objects_2)
+am_nodes_lst_OBJECTS = $(am__objects_3)
+am__objects_4 = Nodes.$(OBJEXT) SceneTexture2.$(OBJEXT) \
 	ViewportFix.$(OBJEXT) ViewpointWrapper.$(OBJEXT) Pane.$(OBJEXT) \
 	Position.$(OBJEXT) Translation.$(OBJEXT) Frame.$(OBJEXT) \
 	Image.$(OBJEXT) Label.$(OBJEXT) ToggleButton.$(OBJEXT) \
 	RadioButton.$(OBJEXT) ClickCounter.$(OBJEXT) Slider1.$(OBJEXT) \
 	Slider2.$(OBJEXT) ColorEditor.$(OBJEXT) \
 	MaterialEditor.$(OBJEXT)
-nodist_nodes_lst_OBJECTS = $(am__objects_1)
-nodes_lst_OBJECTS = $(nodist_nodes_lst_OBJECTS)
+am__objects_5 = $(am__objects_4)
+@HACKING_COMPACT_BUILD_TRUE@am__objects_6 =
+@HACKING_COMPACT_BUILD_FALSE@am__objects_6 = $(am__objects_5)
+nodist_nodes_lst_OBJECTS = $(am__objects_6)
+nodes_lst_OBJECTS = $(am_nodes_lst_OBJECTS) $(nodist_nodes_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
 libSoGuiNodes_la_LDFLAGS =
 libSoGuiNodes_la_LIBADD =
-am__objects_2 = Nodes.lo SceneTexture2.lo ViewportFix.lo \
+am__libSoGuiNodes_la_SOURCES_DIST = all-nodes-cpp.cpp
+am__objects_7 = all-nodes-cpp.lo
+@HACKING_COMPACT_BUILD_TRUE@am__objects_8 = $(am__objects_7)
+@HACKING_COMPACT_BUILD_FALSE@am__objects_8 = $(am__objects_2)
+am_libSoGuiNodes_la_OBJECTS = $(am__objects_8)
+am__objects_9 = Nodes.lo SceneTexture2.lo ViewportFix.lo \
 	ViewpointWrapper.lo Pane.lo Position.lo Translation.lo Frame.lo \
 	Image.lo Label.lo ToggleButton.lo RadioButton.lo \
 	ClickCounter.lo Slider1.lo Slider2.lo ColorEditor.lo \
 	MaterialEditor.lo
-nodist_libSoGuiNodes_la_OBJECTS = $(am__objects_2)
-libSoGuiNodes_la_OBJECTS = $(nodist_libSoGuiNodes_la_OBJECTS)
+am__objects_10 = $(am__objects_9)
+@HACKING_COMPACT_BUILD_TRUE@am__objects_11 =
+@HACKING_COMPACT_BUILD_FALSE@am__objects_11 = $(am__objects_10)
+nodist_libSoGuiNodes_la_OBJECTS = $(am__objects_11)
+libSoGuiNodes_la_OBJECTS = $(am_libSoGuiNodes_la_OBJECTS) \
+	$(nodist_libSoGuiNodes_la_OBJECTS)
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/ClickCounter.Plo \
@@ -688,7 +731,9 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/ViewpointWrapper.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/ViewpointWrapper.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/ViewportFix.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/ViewportFix.Po
+@AMDEP_TRUE@	./$(DEPDIR)/ViewportFix.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/all-nodes-cpp.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/all-nodes-cpp.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -704,12 +749,13 @@ LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) \
 CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES =
+DIST_SOURCES = $(am__nodes_lst_SOURCES_DIST) \
+	$(am__libSoGuiNodes_la_SOURCES_DIST)
 HEADERS = $(SoGuiNodesinc_HEADERS) $(nodist_SoGuiNodesinc_HEADERS)
 
 DIST_COMMON = $(SoGuiNodesinc_HEADERS) \
 	$(srcdir)/../common/Makefile.common Makefile.am Makefile.in
-SOURCES = $(nodist_nodes_lst_SOURCES) $(nodist_libSoGuiNodes_la_SOURCES)
+SOURCES = $(nodes_lst_SOURCES) $(nodist_nodes_lst_SOURCES) $(libSoGuiNodes_la_SOURCES) $(nodist_libSoGuiNodes_la_SOURCES)
 
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-am
@@ -776,6 +822,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ViewpointWrapper.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ViewportFix.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ViewportFix.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/all-nodes-cpp.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/all-nodes-cpp.Po@am__quote@
 
 distclean-depend:
 	-rm -rf ./$(DEPDIR)

@@ -96,6 +96,8 @@ F77 = @F77@
 FFLAGS = @FFLAGS@
 GUI = @GUI@
 Gui = @Gui@
+HACKING_COMPACT_BUILD_FALSE = @HACKING_COMPACT_BUILD_FALSE@
+HACKING_COMPACT_BUILD_TRUE = @HACKING_COMPACT_BUILD_TRUE@
 HAVE_JOYSTICK_LINUX_FALSE = @HAVE_JOYSTICK_LINUX_FALSE@
 HAVE_JOYSTICK_LINUX_TRUE = @HAVE_JOYSTICK_LINUX_TRUE@
 INSTALL_DATA = @INSTALL_DATA@
@@ -619,34 +621,46 @@ DISTCLEANFILES = \
 
 ############################################################################
 # libtool setup
-libSoQtViewers_la_SOURCES = \
+RegularSources = \
 	FullViewer.cpp \
-	SoQtFullViewerP.h \
+	So@Gui@FullViewerP.h \
 	ExaminerViewer.cpp \
-	SoQtExaminerViewerP.h \
+	So@Gui@ExaminerViewerP.h \
 	PlaneViewer.cpp \
-	SoQtPlaneViewerP.h
+	So@Gui@PlaneViewerP.h
 
-
-nodist_libSoQtViewers_la_SOURCES = \
+BuiltSources = \
 	$(SoGui_src_Inventor_Gui_viewers_BuiltFiles)
 
 
-#	$(SoGui_src_Inventor_Gui_viewers_BuiltMetaFiles)
+LinkHackSources = \
+	all-viewers-cpp.cpp
+
+@HACKING_COMPACT_BUILD_FALSE@BuildSources = $(RegularSources)
+
+@HACKING_COMPACT_BUILD_TRUE@BuildSources = $(LinkHackSources)
+@HACKING_COMPACT_BUILD_FALSE@NoDistSources = $(BuiltSources)
+@HACKING_COMPACT_BUILD_TRUE@NoDistSources = 
+@HACKING_COMPACT_BUILD_FALSE@ExtraSources = $(LinkHackSources)
+@HACKING_COMPACT_BUILD_TRUE@ExtraSources = $(RegularSources)
+
+libSoQtViewers_la_SOURCES = \
+	$(BuildSources)
+
+
+nodist_libSoQtViewers_la_SOURCES = \
+	$(NoDistSources)
+
+
 
 ############################################################################
 # custom setup
 viewers_lst_SOURCES = \
-	FullViewer.cpp \
-	SoQtFullViewerP.h \
-	ExaminerViewer.cpp \
-	SoQtExaminerViewerP.h \
-	PlaneViewer.cpp \
-	SoQtPlaneViewerP.h
+	$(BuildSources)
 
 
 nodist_viewers_lst_SOURCES = \
-	$(SoGui_src_Inventor_Gui_viewers_BuiltFiles)
+	$(NoDistSources)
 
 
 
@@ -673,25 +687,44 @@ LIBRARIES = $(noinst_LIBRARIES)
 
 viewers_lst_AR = $(AR) cru
 viewers_lst_LIBADD =
-am_viewers_lst_OBJECTS = FullViewer.$(OBJEXT) ExaminerViewer.$(OBJEXT) \
+am__viewers_lst_SOURCES_DIST = FullViewer.cpp So@Gui@FullViewerP.h \
+	ExaminerViewer.cpp So@Gui@ExaminerViewerP.h PlaneViewer.cpp \
+	So@Gui@PlaneViewerP.h all-viewers-cpp.cpp
+am__objects_1 = all-viewers-cpp.$(OBJEXT)
+am__objects_2 = FullViewer.$(OBJEXT) ExaminerViewer.$(OBJEXT) \
 	PlaneViewer.$(OBJEXT)
-am__objects_1 = So@Gui@Viewer.$(OBJEXT) \
+@HACKING_COMPACT_BUILD_TRUE@am__objects_3 = $(am__objects_1)
+@HACKING_COMPACT_BUILD_FALSE@am__objects_3 = $(am__objects_2)
+am_viewers_lst_OBJECTS = $(am__objects_3)
+am__objects_4 = So@Gui@Viewer.$(OBJEXT) \
 	So@Gui@ConstrainedViewer.$(OBJEXT) So@Gui@FlyViewer.$(OBJEXT) \
 	So@Gui@FullViewer.$(OBJEXT) So@Gui@ExaminerViewer.$(OBJEXT) \
 	So@Gui@PlaneViewer.$(OBJEXT)
-nodist_viewers_lst_OBJECTS = $(am__objects_1)
+am__objects_5 = $(am__objects_4)
+@HACKING_COMPACT_BUILD_TRUE@am__objects_6 =
+@HACKING_COMPACT_BUILD_FALSE@am__objects_6 = $(am__objects_5)
+nodist_viewers_lst_OBJECTS = $(am__objects_6)
 viewers_lst_OBJECTS = $(am_viewers_lst_OBJECTS) \
 	$(nodist_viewers_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
 libSoQtViewers_la_LDFLAGS =
 libSoQtViewers_la_LIBADD =
-am_libSoQtViewers_la_OBJECTS = FullViewer.lo ExaminerViewer.lo \
-	PlaneViewer.lo
-am__objects_2 = So@Gui@Viewer.lo So@Gui@ConstrainedViewer.lo \
+am__libSoQtViewers_la_SOURCES_DIST = FullViewer.cpp So@Gui@FullViewerP.h \
+	ExaminerViewer.cpp So@Gui@ExaminerViewerP.h PlaneViewer.cpp \
+	So@Gui@PlaneViewerP.h all-viewers-cpp.cpp
+am__objects_7 = all-viewers-cpp.lo
+am__objects_8 = FullViewer.lo ExaminerViewer.lo PlaneViewer.lo
+@HACKING_COMPACT_BUILD_TRUE@am__objects_9 = $(am__objects_7)
+@HACKING_COMPACT_BUILD_FALSE@am__objects_9 = $(am__objects_8)
+am_libSoQtViewers_la_OBJECTS = $(am__objects_9)
+am__objects_10 = So@Gui@Viewer.lo So@Gui@ConstrainedViewer.lo \
 	So@Gui@FlyViewer.lo So@Gui@FullViewer.lo \
 	So@Gui@ExaminerViewer.lo So@Gui@PlaneViewer.lo
-nodist_libSoQtViewers_la_OBJECTS = $(am__objects_2)
+am__objects_11 = $(am__objects_10)
+@HACKING_COMPACT_BUILD_TRUE@am__objects_12 =
+@HACKING_COMPACT_BUILD_FALSE@am__objects_12 = $(am__objects_11)
+nodist_libSoQtViewers_la_OBJECTS = $(am__objects_12)
 libSoQtViewers_la_OBJECTS = $(am_libSoQtViewers_la_OBJECTS) \
 	$(nodist_libSoQtViewers_la_OBJECTS)
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
@@ -713,7 +746,9 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/So@Gui@PlaneViewer.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/So@Gui@PlaneViewer.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/So@Gui@Viewer.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/So@Gui@Viewer.Po
+@AMDEP_TRUE@	./$(DEPDIR)/So@Gui@Viewer.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/all-viewers-cpp.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/all-viewers-cpp.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -729,7 +764,8 @@ LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) \
 CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES = $(viewers_lst_SOURCES) $(libSoQtViewers_la_SOURCES)
+DIST_SOURCES = $(am__viewers_lst_SOURCES_DIST) \
+	$(am__libSoQtViewers_la_SOURCES_DIST)
 HEADERS = $(SoQtViewersinc_HEADERS) $(nodist_SoQtViewersinc_HEADERS)
 
 DIST_COMMON = $(SoQtViewersinc_HEADERS) \
@@ -785,6 +821,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@PlaneViewer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@Viewer.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@Viewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/all-viewers-cpp.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/all-viewers-cpp.Po@am__quote@
 
 distclean-depend:
 	-rm -rf ./$(DEPDIR)
@@ -1626,7 +1664,6 @@ $(top_builddir)/man/man1/so@gui@-config.1: $(top_srcdir)/src/Inventor/@Gui@/comm
 # 	$(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@@Gui@NativePopupMenu.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/@Gui@NativePopupMenu.h` )
 
 ############################################################################
-#	$(SoGui_src_Inventor_Gui_viewers_BuiltMetaFiles)
 
 viewers.lst: Makefile $(viewers_lst_OBJECTS)
 	@echo "Linking $@..."; \

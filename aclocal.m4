@@ -10249,6 +10249,28 @@ fi
 ]) # SIM_AC_QWIDGET_HASSETWINDOWSTATE
 
 
+
+# SIM_AC_QLINEEDIT_HASSETINPUTMASK
+# --------------------------------
+# QLineEdit->setInputMask() was added around Qt 3.3
+
+AC_DEFUN([SIM_AC_QLINEEDIT_HASSETINPUTMASK], [
+AC_CACHE_CHECK(
+  [whether QLineEdit::setInputMask() exists],
+  sim_cv_exists_qlineedit_setinputmask,
+
+  [AC_TRY_LINK([#include <qlineedit.h>],
+               [QLineEdit * le = NULL; le->setInputMask(0);],
+               [sim_cv_exists_qlineedit_setinputmask=true],
+               [sim_cv_exists_qlineedit_setinputmask=false])])
+
+if $sim_cv_exists_qlineedit_setinputmask; then
+  AC_DEFINE([HAVE_QLINEEDIT_SETINPUTMASK], 1,
+            [Define this if QLineEdit::setInputMask() is available])
+fi
+]) # SIM_AC_QLINEEDIT_HASSETINPUTMASK
+
+
 # Usage:
 #   SIM_AC_COMPILE_DEBUG([ACTION-IF-DEBUG[, ACTION-IF-NOT-DEBUG]])
 #

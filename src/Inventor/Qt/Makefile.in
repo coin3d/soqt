@@ -96,6 +96,8 @@ F77 = @F77@
 FFLAGS = @FFLAGS@
 GUI = @GUI@
 Gui = @Gui@
+HACKING_COMPACT_BUILD_FALSE = @HACKING_COMPACT_BUILD_FALSE@
+HACKING_COMPACT_BUILD_TRUE = @HACKING_COMPACT_BUILD_TRUE@
 HAVE_JOYSTICK_LINUX_FALSE = @HAVE_JOYSTICK_LINUX_FALSE@
 HAVE_JOYSTICK_LINUX_TRUE = @HAVE_JOYSTICK_LINUX_TRUE@
 INSTALL_DATA = @INSTALL_DATA@
@@ -639,8 +641,7 @@ DISTCLEANFILES = \
 
 
 ############################################################################
-# libtool setup
-libSoQt@SUFFIX@_la_SOURCES = \
+RegularSources = \
 	SoQt.cpp \
 	SoQtP.h \
 	SoQtInternal.h \
@@ -650,8 +651,31 @@ libSoQt@SUFFIX@_la_SOURCES = \
 	SoQtGLWidgetP.h
 
 
-nodist_libSoQt@SUFFIX@_la_SOURCES = \
+BuiltSources = \
 	$(SoGui_src_Inventor_Gui_BuiltFiles)
+
+
+LinkHackSources = \
+	all-soqt-cpp.cpp \
+	all-soqt2-cpp.cpp
+
+@HACKING_COMPACT_BUILD_FALSE@BuildSources = $(RegularSources)
+
+@HACKING_COMPACT_BUILD_TRUE@BuildSources = $(LinkHackSources)
+@HACKING_COMPACT_BUILD_FALSE@NoDistSources = $(BuiltSources)
+@HACKING_COMPACT_BUILD_TRUE@NoDistSources = 
+@HACKING_COMPACT_BUILD_FALSE@ExtraSources = $(LinkHackSources)
+@HACKING_COMPACT_BUILD_TRUE@ExtraSources = $(RegularSources)
+
+
+############################################################################
+# libtool setup
+libSoQt@SUFFIX@_la_SOURCES = \
+	$(BuildSources)
+
+
+nodist_libSoQt@SUFFIX@_la_SOURCES = \
+	$(NoDistSources)
 
 
 libSoQt@SUFFIX@_la_LIBADD = \
@@ -672,17 +696,11 @@ libSoQt@SUFFIX@_la_LDFLAGS = \
 ############################################################################
 # custom setup
 soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
-	SoQt.cpp \
-	SoQtP.h \
-	SoQtInternal.h \
-	SoQtComponent.cpp \
-	SoQtComponentP.h \
-	SoQtGLWidget.cpp \
-	SoQtGLWidgetP.h
+	$(BuildSources)
 
 
 nodist_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
-	$(SoGui_src_Inventor_Gui_BuiltFiles)
+	$(NoDistSources)
 
 
 soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
@@ -722,15 +740,26 @@ soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_AR = $(AR) cru
 soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_DEPENDENCIES = devices/devices.lst \
 	editors/editors.lst engines/engines.lst nodes/nodes.lst \
 	viewers/viewers.lst widgets/widgets.lst
-am_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS = SoQt.$(OBJEXT) \
-	SoQtComponent.$(OBJEXT) SoQtGLWidget.$(OBJEXT)
-am__objects_1 =
-am__objects_2 = SoAny.$(OBJEXT) So@Gui@Cursor.$(OBJEXT) \
+am__soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES_DIST = SoQt.cpp SoQtP.h \
+	SoQtInternal.h SoQtComponent.cpp SoQtComponentP.h \
+	SoQtGLWidget.cpp SoQtGLWidgetP.h all-soqt-cpp.cpp \
+	all-soqt2-cpp.cpp
+am__objects_1 = all-soqt-cpp.$(OBJEXT) all-soqt2-cpp.$(OBJEXT)
+am__objects_2 = SoQt.$(OBJEXT) SoQtComponent.$(OBJEXT) \
+	SoQtGLWidget.$(OBJEXT)
+@HACKING_COMPACT_BUILD_TRUE@am__objects_3 = $(am__objects_1)
+@HACKING_COMPACT_BUILD_FALSE@am__objects_3 = $(am__objects_2)
+am_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS = $(am__objects_3)
+am__objects_4 =
+am__objects_5 = SoAny.$(OBJEXT) So@Gui@Cursor.$(OBJEXT) \
 	So@Gui@Object.$(OBJEXT) So@Gui@Common.$(OBJEXT) \
 	So@Gui@ComponentCommon.$(OBJEXT) \
 	So@Gui@GLWidgetCommon.$(OBJEXT) So@Gui@RenderArea.$(OBJEXT) \
-	$(am__objects_1)
-nodist_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS = $(am__objects_2)
+	$(am__objects_4)
+am__objects_6 = $(am__objects_5)
+@HACKING_COMPACT_BUILD_TRUE@am__objects_7 =
+@HACKING_COMPACT_BUILD_FALSE@am__objects_7 = $(am__objects_6)
+nodist_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS = $(am__objects_7)
 soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS = \
 	$(am_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) \
 	$(nodist_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS)
@@ -740,11 +769,21 @@ libSoQt@SUFFIX@_la_DEPENDENCIES = devices/libSoQtDevices.la \
 	editors/libSoQtEditors.la engines/libSoGuiEngines.la \
 	nodes/libSoGuiNodes.la viewers/libSoQtViewers.la \
 	widgets/libSoQtWidgets.la
-am_libSoQt@SUFFIX@_la_OBJECTS = SoQt.lo SoQtComponent.lo SoQtGLWidget.lo
-am__objects_3 = SoAny.lo So@Gui@Cursor.lo So@Gui@Object.lo \
+am__libSoQt@SUFFIX@_la_SOURCES_DIST = SoQt.cpp SoQtP.h SoQtInternal.h \
+	SoQtComponent.cpp SoQtComponentP.h SoQtGLWidget.cpp \
+	SoQtGLWidgetP.h all-soqt-cpp.cpp all-soqt2-cpp.cpp
+am__objects_8 = all-soqt-cpp.lo all-soqt2-cpp.lo
+am__objects_9 = SoQt.lo SoQtComponent.lo SoQtGLWidget.lo
+@HACKING_COMPACT_BUILD_TRUE@am__objects_10 = $(am__objects_8)
+@HACKING_COMPACT_BUILD_FALSE@am__objects_10 = $(am__objects_9)
+am_libSoQt@SUFFIX@_la_OBJECTS = $(am__objects_10)
+am__objects_11 = SoAny.lo So@Gui@Cursor.lo So@Gui@Object.lo \
 	So@Gui@Common.lo So@Gui@ComponentCommon.lo \
-	So@Gui@GLWidgetCommon.lo So@Gui@RenderArea.lo $(am__objects_1)
-nodist_libSoQt@SUFFIX@_la_OBJECTS = $(am__objects_3)
+	So@Gui@GLWidgetCommon.lo So@Gui@RenderArea.lo $(am__objects_4)
+am__objects_12 = $(am__objects_11)
+@HACKING_COMPACT_BUILD_TRUE@am__objects_13 =
+@HACKING_COMPACT_BUILD_FALSE@am__objects_13 = $(am__objects_12)
+nodist_libSoQt@SUFFIX@_la_OBJECTS = $(am__objects_13)
 libSoQt@SUFFIX@_la_OBJECTS = $(am_libSoQt@SUFFIX@_la_OBJECTS) \
 	$(nodist_libSoQt@SUFFIX@_la_OBJECTS)
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
@@ -766,7 +805,11 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/SoQtComponent.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SoQtComponent.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/SoQtGLWidget.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/SoQtGLWidget.Po
+@AMDEP_TRUE@	./$(DEPDIR)/SoQtGLWidget.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/all-soqt-cpp.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/all-soqt-cpp.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/all-soqt2-cpp.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/all-soqt2-cpp.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -782,8 +825,8 @@ LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) \
 CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES = $(soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES) \
-	$(libSoQt@SUFFIX@_la_SOURCES)
+DIST_SOURCES = $(am__soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES_DIST) \
+	$(am__libSoQt@SUFFIX@_la_SOURCES_DIST)
 HEADERS = $(SoQtinc_HEADERS) $(nodist_SoQtinc_HEADERS)
 
 
@@ -894,6 +937,10 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQtComponent.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQtGLWidget.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQtGLWidget.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/all-soqt-cpp.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/all-soqt-cpp.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/all-soqt2-cpp.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/all-soqt2-cpp.Po@am__quote@
 
 distclean-depend:
 	-rm -rf ./$(DEPDIR)
