@@ -1,39 +1,37 @@
 # **************************************************************************
 # SoQt/configure.ac
 
-m4_define([MAJOR_VERSION], [0])
-m4_define([MINOR_VERSION], [10])
-m4_define([MICRO_VERSION], [0])
-m4_define([VERSION_STRING], [MAJOR_VERSION.MINOR_VERSION.MICRO_VERSION])
+m4_define([SOQT_MAJOR], [0])
+m4_define([SOQT_MINOR], [10])
+m4_define([SOQT_MICRO], [0])
+m4_define([SOQT_BETA], [])
+
+m4_define([VERSION_STRING], [SOQT_MAJOR.SOQT_MINOR.SOQT_MICRO[]SOQT_BETA])
+
+m4_define([SOQT_ABI_CURRENT], [m4_eval((SOQT_MAJOR*20)+SOQT_MINOR)])
+m4_define([SOQT_ABI_REVISION], [SOQT_MICRO])
+m4_define([SOQT_ABI_AGE], [SOQT_MINOR])
+
+# only used for Debian Linux (and not even there yet)
+m4_define([SO_NUMBER], [m4_eval(SOQT_MAJOR*20)])
+
+m4_define([MAC_FRAMEWORK_NAME_DEFAULT], [SoQt])
+m4_define([MAC_FRAMEWORK_PREFIX_DEFAULT], [/Library/Frameworks])
+m4_define([MAC_FRAMEWORK_VERSION_DEFAULT], [A])
+
+# **************************************************************************
+
+# TODO:
+# configure tests for: dpkg-buildpackage, makensis
+
+# **************************************************************************
 
 AC_PREREQ(2.50)
 
-AC_INIT([SoQt], [VERSION_STRING])
+AC_INIT([SoQt], [VERSION_STRING], [coin-support@coin3d.org])
 
-AC_CONFIG_AUX_DIR(cfg)
-AC_CONFIG_SRCDIR(src/Inventor/Qt/SoQt.cpp)
-
-# **************************************************************************
-# Make sure the given source repository is in sync with the master source
-# repository.
-
-SIM_AC_CVS_CHANGES([
-  # the addition of the "data" module
-  SIM_AC_CVS_CHANGE([
-    cvs co SoQtData
-  ], [test -d data/CVS])
-
-  # the removal of the examples directory (now a separate SoGuiExamples module)
-  SIM_AC_CVS_CHANGE([
-    rm -rf examples
-  ], [test ! -d examples])
-
-  # the moving of "conf-macros" to "cfg/m4"
-  SIM_AC_CVS_CHANGE([
-    rm -rf conf-macros
-    cvs co SoQtMacros
-  ], [test ! -d conf-macros], [test -d cfg/m4/CVS])
-])
+AC_CONFIG_AUX_DIR([cfg])
+AC_CONFIG_SRCDIR([src/Inventor/Qt/SoQt.cpp])
 
 # **************************************************************************
 
@@ -53,60 +51,40 @@ if $sim_ac_try_msvc; then
     *-cygwin) SIM_AC_ERROR([no-msvc++]) ;;
     esac
   ])
-  if $BUILD_WITH_MSVC; then
-    SIM_AC_SETUP_MSVCRT([
-      CPPFLAGS="$CPPFLAGS $sim_ac_msvcrt_CPPFLAGS"
-      CFLAGS="$CFLAGS $sim_ac_msvcrt_CFLAGS"
-      CXXFLAGS="$CXXFLAGS $sim_ac_msvcrt_CXXFLAGS"
-      LDFLAGS="$LDFLAGS $sim_ac_msvcrt_LDFLAGS"
-      LIBS="$LIBS $sim_ac_msvcrt_LIBS"
-      # sim_ac_msvcrt_LIBLIBS is set up at the end
-      # sim_ac_msvcrt_LIBLDFLAGS is set up at the end
-      LDFLAGS="$LDFLAGS $sim_ac_msvcrt_LIBLDFLAGS"
-      LIBS="$LIBS $sim_ac_msvcrt_LIBLIBS"
-      AC_SUBST([SOGUI_MSVC_LIBC], [$sim_ac_msvcrt])
-    ])
-  fi
 fi
 
 # **************************************************************************
 # Library versioning. For information about our versioning strategy, see the
 # document ``HACKING'' in the Coin CVS module.
 
-SOQT_MAJOR_VERSION=MAJOR_VERSION
-SOQT_MINOR_VERSION=MINOR_VERSION
-SOQT_MICRO_VERSION=MICRO_VERSION
-SOQT_VERSION=$SOQT_MAJOR_VERSION.$SOQT_MINOR_VERSION.$SOQT_MICRO_VERSION
+AC_SUBST([SOQT_MAJOR_VERSION], [SOQT_MAJOR])
+AC_SUBST([SOQT_MINOR_VERSION], [SOQT_MINOR])
+AC_SUBST([SOQT_MICRO_VERSION], [SOQT_MICRO])
+AC_SUBST([SOQT_BETA_VERSION], [SOQT_BETA])
+AC_SUBST([SOQT_VERSION], [$SOQT_MAJOR_VERSION.$SOQT_MINOR_VERSION.$SOQT_MICRO_VERSION$SOQT_BETA_VERSION])
+
 VERSION=$SOQT_VERSION
 
-AC_SUBST(SOQT_MAJOR_VERSION)
-AC_SUBST(SOQT_MINOR_VERSION)
-AC_SUBST(SOQT_MICRO_VERSION)
-AC_SUBST(SOQT_VERSION)
-
 # Libtool versioning
-LT_CURRENT=`expr $SOQT_MAJOR_VERSION \* 20 + $SOQT_MINOR_VERSION`
-LT_AGE=$SOQT_MINOR_VERSION
-LT_REVISION=$SOQT_MICRO_VERSION
+AC_SUBST([LT_CURRENT], [SOQT_ABI_CURRENT])
+AC_SUBST([LT_REVISION], [SOQT_ABI_REVISION])
+AC_SUBST([LT_AGE], [SOQT_ABI_AGE])
 
-AC_SUBST(LT_CURRENT)
-AC_SUBST(LT_REVISION)
-AC_SUBST(LT_AGE)
+AC_SUBST([SOQT_SO_VERSION], [SO_NUMBER])
 
-
-AC_DEFINE_UNQUOTED(SOQT_MAJOR_VERSION, $SOQT_MAJOR_VERSION,
+AC_DEFINE_UNQUOTED([SOQT_MAJOR_VERSION], [$SOQT_MAJOR_VERSION],
   [Define to the major version of SoQt])
-AC_DEFINE_UNQUOTED(SOQT_MINOR_VERSION, $SOQT_MINOR_VERSION,
+AC_DEFINE_UNQUOTED([SOQT_MINOR_VERSION], [$SOQT_MINOR_VERSION],
   [Define to the minor version of SoQt])
-AC_DEFINE_UNQUOTED(SOQT_MICRO_VERSION, $SOQT_MICRO_VERSION,
+AC_DEFINE_UNQUOTED([SOQT_MICRO_VERSION], [$SOQT_MICRO_VERSION],
   [Define to the micro version of SoQt])
-AC_DEFINE_UNQUOTED(SOQT_VERSION, "$SOQT_VERSION",
+AC_DEFINE_UNQUOTED([SOQT_VERSION], ["$SOQT_VERSION"],
   [Version string for SoQt])
 
 # **************************************************************************
 # Miscellaneous options and initializations.
 
-AM_INIT_AUTOMAKE(SoQt, $VERSION)
+AM_INIT_AUTOMAKE([SoQt], [$VERSION])
 
 # File to cram results from the configure tests into.
 # we pit this in src/ to avoid having to add extra INCLUDES directives in
@@ -124,10 +102,27 @@ AM_MAINTAINER_MODE
 AC_PROG_CC
 AC_PROG_CPP
 AC_PROG_CXX
+AC_PROG_CXXCPP
 AC_LANG(C++)
 
 AC_OBJEXT
 AC_EXEEXT
+
+# moved below AC_PROG_CC so -g is preserved in $C[XX]FLAGS - 20020110 larsa
+if $BUILD_WITH_MSVC; then
+  SIM_AC_SETUP_MSVCRT([
+    CPPFLAGS="$CPPFLAGS $sim_ac_msvcrt_CPPFLAGS"
+    CFLAGS="$CFLAGS $sim_ac_msvcrt_CFLAGS"
+    CXXFLAGS="$CXXFLAGS $sim_ac_msvcrt_CXXFLAGS"
+    LDFLAGS="$LDFLAGS $sim_ac_msvcrt_LDFLAGS"
+    LIBS="$LIBS $sim_ac_msvcrt_LIBS"
+    # sim_ac_msvcrt_LIBLIBS is set up at the end
+    # sim_ac_msvcrt_LIBLDFLAGS is set up at the end
+    LDFLAGS="$LDFLAGS $sim_ac_msvcrt_LIBLDFLAGS"
+    LIBS="$LIBS $sim_ac_msvcrt_LIBLIBS"
+    AC_SUBST([SOGUI_MSVC_LIBC], [$sim_ac_msvcrt])
+  ])
+fi
 
 # Initialize libtool
 if $BUILD_WITH_MSVC; then
@@ -139,61 +134,17 @@ SIM_AC_MAC_CPP_ADJUSTMENTS
 
 AC_PROG_LIBTOOL
 
-# used with libtool 1.3.5
-# case "$host_os" in
-# irix*)
-#   # should really test if $CC = CC
-#   if test x"${AR+set}" != x"set"; then
-#     if test x"$CXX" = xCC; then
-#       echo "modifying libtool"
-#       mv libtool libtool.orig
-#       sed -e 's/\\\$AR cru/CC -ar -o/' <libtool.orig >libtool
-#       chmod 755 libtool
-#       rm -f libtool.orig
-#     fi
-#   fi
-#   ;;
-# esac
-
-# fix some mess created by AC_PROG_LIBTOOL
-# AC_LANG(C)
-# AC_LANG(C++)
-
 # **************************************************************************
-# To test the Mac OS X framework setup on non-Mac systems, run configure
-# with the --enable-framework option.  20011029 larsa
-
-AC_ARG_ENABLE([framework],
-  [AC_HELP_STRING([--disable-framework],
-                  [don't try to set up a framework on Mac OS X])],
-  [case $enableval in
-  yes | true ) sim_ac_prefer_framework=true ;;
-  no | false ) sim_ac_prefer_framework=false ;;
-  * ) AC_MSG_ERROR([unknown use of --disable-framework option]) ;;
-  esac], [])
-
-AC_SUBST([MAC_FRAMEWORK_NAME], [SoQt])
-AC_SUBST([MAC_FRAMEWORK_VER], [A])
-
-SIM_AC_MAC_FRAMEWORK([
-  if test x"$prefix" = x"NONE"; then
-    prefix=/Library/Frameworks/${MAC_FRAMEWORK_NAME}.framework
-    includedir="\${prefix}/Versions/${MAC_FRAMEWORK_VER}/Headers"
-    datadir="\${prefix}/Versions/${MAC_FRAMEWORK_VER}/Resources"
-    libdir="\${prefix}/Versions/${MAC_FRAMEWORK_VER}/Libraries"
-  fi
-])
-
 if test x"$prefix" = x"NONE"; then
   prefix=/usr/local
 fi
 
 # These are used for constructing the soqt-config file.
-AC_SUBST(SOGUI_EXTRA_CPPFLAGS, $CPPFLAGS)
-AC_SUBST(SOGUI_EXTRA_CFLAGS, $CFLAGS)
-AC_SUBST(SOGUI_EXTRA_CXXFLAGS, $CXXFLAGS)
-AC_SUBST(SOGUI_EXTRA_LDFLAGS, $LDFLAGS)
-AC_SUBST(SOGUI_EXTRA_LIBS, $LIBS)
+AC_SUBST([SOGUI_EXTRA_CPPFLAGS], [$CPPFLAGS])
+AC_SUBST([SOGUI_EXTRA_CFLAGS], [$CFLAGS])
+AC_SUBST([SOGUI_EXTRA_CXXFLAGS], [$CXXFLAGS])
+AC_SUBST([SOGUI_EXTRA_LDFLAGS], [$LDFLAGS])
+AC_SUBST([SOGUI_EXTRA_LIBS], [$LIBS])
 
 # SIM_EXPAND_DIR_VARS
 
@@ -246,8 +197,6 @@ AC_ARG_ENABLE(html,
   esac],
   [want_html=no])
 
-soqt_html_dir=`pwd`/html
-
 case $htmldir in
 "")
   htmldir="$datadir/SoQt/html"
@@ -270,15 +219,11 @@ AC_ARG_ENABLE(man,
   esac],
   [want_man=no])
 
-soqt_man_dir=`pwd`/man
-
 # Used in the Doxygen parameter file.
-SOQT_DOC_HTML=`echo $want_html | tr '[a-z]' '[A-Z]'`
-SOQT_DOC_MAN=`echo $want_man | tr '[a-z]' '[A-Z]'`
-AC_SUBST(SOQT_DOC_HTML)
-AC_SUBST(soqt_html_dir)
-AC_SUBST(SOQT_DOC_MAN)
-AC_SUBST(soqt_man_dir)
+AC_SUBST([SOQT_DOC_HTML], [`echo $want_html | tr '[a-z]' '[A-Z]'`])
+AC_SUBST([soqt_html_dir], [`pwd`/html])
+AC_SUBST([SOQT_DOC_MAN], [`echo $want_man | tr '[a-z]' '[A-Z]'`])
+AC_SUBST([soqt_man_dir], [`pwd`/man])
 
 soqt_build_dir=`pwd`
 soqt_src_dir=`cd $srcdir; pwd`
@@ -433,8 +378,6 @@ else
     SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_coin_cppflags"
     SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_coin_ldflags"
     SOGUI_EXTRA_LIBS="$sim_ac_coin_libs $SOGUI_EXTRA_LIBS"
-    ivincludedir="$sim_ac_coin_includedir"
-    AC_SUBST([ivincludedir])
   ], [AC_MSG_ERROR([couldn't compile and link against Coin])])
 
   SIM_AC_CHECK_X11_READY(
@@ -506,7 +449,8 @@ SIM_AC_HAVE_INVENTOR_FEATURE(
 # Check that the Qt installation looks ok and include the
 # necessary paths and link libraries.
 
-AC_PROG_CPP
+# FIXME: why is this here? - it's duplicate from below AC_PROG_CC  20020110 larsa
+# AC_PROG_CPP
 
 if test x"$sim_ac_x11mu_avail" != xyes; then
   ## It's really QGL that depends on Xmu, not Qt. But we need to do this
@@ -591,13 +535,81 @@ if test -n "$SUFFIX"; then
 fi
 
 # **************************************************************************
+# To test the Mac OS X framework setup on non-Mac systems, run configure
+# with the --with-framework option.  20011029 larsa
 
-COIN_COMPILER="$CXX"
+AC_ARG_WITH([framework],
+  [  --with-framework  Do Mac OS X-like framework installation
+  --without-framework  Do regular installation on Mac OS X],
+  [sim_ac_framework_name="MAC_FRAMEWORK_NAME_DEFAULT"
+  case $withval in
+  yes ) sim_ac_framework=true ;;
+  no ) sim_ac_framework=false ;;
+  * ) sim_ac_framework=true; sim_ac_framework_name="$withval" ;;
+  esac],
+  [sim_ac_framework_name="MAC_FRAMEWORK_NAME_DEFAULT"
+  case $host_os in
+  darwin* ) sim_ac_framework=true ;;
+  * ) sim_ac_framework=false ;;
+  esac])
+
+# don't allow name to be overrided - just toggled on/off
+sim_ac_framework_name="MAC_FRAMEWORK_NAME_DEFAULT"
+
+AC_ARG_WITH([framework-prefix],
+  [  --with-framework-prefix=<path>  (default: "MAC_FRAMEWORK_PREFIX_DEFAULT")],
+  [sim_ac_framework_prefix="$withval"],
+  [sim_ac_framework_prefix="MAC_FRAMEWORK_PREFIX_DEFAULT"])
+
+# don't allow version to be overrided
+# AC_ARG_WITH([framework-version],
+#   [  --with-framework-version=<version>  (default: "MAC_FRAMEWORK_VERSION_DEFAULT")],
+#   [sim_ac_framework_version="$withval"],
+#   [sim_ac_framework_version="MAC_FRAMEWORK_VERSION_DEFAULT"])
+sim_ac_framework_version="MAC_FRAMEWORK_VERSION_DEFAULT"
+
+ivframeworkdir=
+# we don't allow SoQt as framework if Coin isn't instralled as a framework
+if $sim_ac_coin_desired && $sim_ac_coin_avail; then
+  if test x"$CONFIG" != x"set"; then
+    sim_ac_coin_frameworkdir=`$sim_ac_coin_configcmd --alternate=$CONFIG --frameworkdir 2>/dev/null`
+  fi
+  # FIXME: if the Coin detection/setup macro triggers on --alternate=$CONFIG,
+  # we shouldn't fallback here :(  20020110 larsa
+  if test x"$sim_ac_coin_frameworkdir" = x""; then
+    sim_ac_coin_frameworkdir=`$sim_ac_coin_configcmd --frameworkdir 2>/dev/null`
+  fi
+  if test x"$sim_ac_coin_frameworkdir" = x""; then
+    :
+  #  sim_ac_framework=false
+  fi
+  ivframeworkdir=$sim_ac_coin_frameworkdir
+else
+  sim_ac_framework=false
+fi
+
+AC_SUBST([ivframeworkdir])
+
+AC_SUBST([MAC_FRAMEWORK], [$sim_ac_framework])
+AC_SUBST([MAC_FRAMEWORK_NAME], [$sim_ac_framework_name])
+AC_SUBST([MAC_FRAMEWORK_PREFIX], [$sim_ac_framework_prefix])
+AC_SUBST([MAC_FRAMEWORK_VERSION], [$sim_ac_framework_version])
+
+AC_SUBST([nop], [])
+
+AM_CONDITIONAL([MAC_FRAMEWORK], [$sim_ac_framework])
+
+# for sub-configure in data/
+export sim_ac_framework
+export MAC_FRAMEWORK_NAME MAC_FRAMEWORK_PREFIX MAC_FRAMEWORK_VERSION
+
+# **************************************************************************
+
+AC_SUBST([COIN_COMPILER], ["$CXX"])
 if $BUILD_WITH_MSVC; then
   # don't use wrapmsvc from source hierarchy when later using soqt-config.
   COIN_COMPILER="wrapmsvc"
 fi
-AC_SUBST([COIN_COMPILER])
 
 else # $sim_ac_build_library == false
   AC_SUBST([MOC], [moc])
@@ -779,6 +791,9 @@ AC_OUTPUT([
 ])
 
 SIM_AC_CONFIGURATION_SETTING([Installation Prefix], [$prefix])
+if $sim_ac_framework; then
+  SIM_AC_CONFIGURATION_SETTING([Framework Installation Prefix], [$sim_ac_framework_prefix])
+fi
 
 SIM_AC_CONFIGURATION_SUMMARY
 

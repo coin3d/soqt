@@ -71,7 +71,7 @@ viewers.lst: Makefile $(viewers_lst_OBJECTS)
 # header installation
 
 if MAC_FRAMEWORK
-SoQtViewersincdir = $(includedir)/viewers
+SoQtViewersincdir = $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$(MAC_FRAMEWORK_VERSION)/Headers/viewers
 else
 SoQtViewersincdir = $(includedir)/Inventor/Qt/viewers
 endif

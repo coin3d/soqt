@@ -38,6 +38,11 @@ else
 lib_LTLIBRARIES = libSoQt@SUFFIX@.la
 endif
 
+if MAC_FRAMEWORK
+# hack to change libdir value when installing Mac OS X compiler framework
+lib@nop@dir = $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$(MAC_FRAMEWORK_VERSION)/Libraries
+endif
+
 ############################################################################
 # libtool setup
 
@@ -101,7 +106,7 @@ soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
 # header installation
 
 if MAC_FRAMEWORK
-SoQtincdir = $(includedir)
+SoQtincdir = $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$(MAC_FRAMEWORK_VERSION)/Headers
 else
 SoQtincdir = $(includedir)/Inventor/Qt
 endif
@@ -166,10 +171,25 @@ soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib: Makefile \
 ############################################################################
 
 if MAC_FRAMEWORK
-install-exec-local:
-	@echo " ln -sf Versions/Current/Libraries/libSoQt.dylib $(DESTDIR)$(prefix)/$(MAC_FRAMEWORK_NAME)"; \
-	ln -sf Versions/Current/Libraries/libSoQt.dylib $(DESTDIR)$(prefix)/$(MAC_FRAMEWORK_NAME);
+install-data-local:
+	@echo " ln -sf Versions/Current/Libraries/libSoQt.dylib $(DESTDIR)$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/$(MAC_FRAMEWORK_NAME)"; \
+	ln -sf Versions/Current/Libraries/libSoQt.dylib $(DESTDIR)$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/$(MAC_FRAMEWORK_NAME);
 else
+install-data-local:
+	@$(NORMAL_INSTALL)
+	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
+	if @BUILD_WITH_MSVC@; then \
+	  for ext in lib; do \
+	    file="$$basename.$$ext"; \
+	    if test -f "$$file"; then \
+	      $(mkinstalldirs) "$(DESTDIR)$(libdir)"; \
+	      echo " $(INSTALL_DATA)" "$$file" "$(DESTDIR)$(libdir)/$$file"; \
+	      $(INSTALL_DATA) "$$file" "$(DESTDIR)$(libdir)/$$file"; \
+	    fi \
+	  done; \
+	else :; fi
+endif
+
 install-exec-local:
 	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
 	if @BUILD_WITH_MSVC@; then \
@@ -182,36 +202,24 @@ install-exec-local:
 	    fi \
 	  done; \
 	else :; fi
-endif
-
-install-data-local:
-	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
-	if @BUILD_WITH_MSVC@; then \
-	  for ext in lib; do \
-	    file="$$basename.$$ext"; \
-	    if test -f "$$file"; then \
-	      $(mkinstalldirs) "$(DESTDIR)$(libdir)"; \
-	      echo " $(INSTALL_DATA)" "$$file" "$(DESTDIR)$(libdir)/$$file"; \
-	      $(INSTALL_DATA) "$$file" "$(DESTDIR)$(libdir)/$$file"; \
-	    fi \
-	  done; \
-	else :; fi
 
 uninstall-local: uninstall-SoQtincHEADERS uninstall-nodist_SoQtincHEADERS
 	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
 	for file in \
 	  "$(DESTDIR)$(bindir)/$$basename.dll" \
 	  "$(DESTDIR)$(bindir)/$$basename.pdb" \
-	  "$(DESTDIR)$(libdir)/$$basename.lib"; do \
+	  "$(DESTDIR)$(libdir)/$$basename.lib" \
+	  "$(DESTDIR)$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/$(MAKE_FRAMEWORK_NAME)"; do \
 	  if test -f "$$file"; then \
 	    echo "rm -f" "$$file"; \
 	    rm -f "$$file"; \
 	  fi \
 	done; \
-	baseincdir="$(DESTDIR)$(includedir)/Inventor/Qt"; \
+	baseincdir="$(DESTDIR)$(SoQtincdir)"; \
 	for dir in \
 	  "$$baseincdir/devices" \
 	  "$$baseincdir/viewers" \
+	  "$$baseincdir/widgets" \
 	  "$$baseincdir"; do \
 	  if test -d "$$dir"; then \
 	    echo " rmdir" "$$dir"; \

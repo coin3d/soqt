@@ -7,7 +7,9 @@ include src/Inventor/Qt/common/Makefile.common
 ##
 
 ACLOCAL_AMFLAGS = -I cfg/m4
-SUFFIXES = .cpp .h .m4 .in .o .lo .Plo .TPlo
+
+# FIXME: if things still work after I commented this line, remove it  20020110 larsa
+# SUFFIXES = .cpp .h .m4 .in .o .lo .Plo .TPlo
 
 ############################################################################
 ## 
@@ -41,15 +43,10 @@ DISTCLEANFILES = \
 
 if BUILD_LIBRARY
 
-if MAC_FRAMEWORK
-dynbindir = /usr/local/bin
-else
-dynbindir = $(bindir)
-endif
-
-dynbin_SCRIPTS = so@gui@-config
+bin_SCRIPTS = so@gui@-config
 
 m4datadir = $(datadir)/aclocal
+
 # Don't replace "qt" with "@gui@" here, is it will pøkk up
 # for ``make dist''.
 dist_m4data_DATA = cfg/m4/soqt.m4
@@ -89,17 +86,16 @@ if MAC_FRAMEWORK
 install-exec-local:
 	@$(NORMAL_INSTALL)
 	@echo "Setting up Mac OS X framework"
-	@$(mkinstalldirs) $(DESTDIR)$(prefix)/Versions/$(MAC_FRAMEWORK_VER)
-	@ln -sf $(MAC_FRAMEWORK_VER) $(DESTDIR)$(prefix)/Versions/Current
-	@ln -sf Versions/Current/Headers $(DESTDIR)$(prefix)/Headers
-	@ln -sf Versions/Current/Resources $(DESTDIR)$(prefix)/Resources
-#	@ln -sf Versions/Current/Libraries $(DESTDIR)$(prefix)/Libraries
-	@case "$(ivincludedir)" in \
-	/Library/Frameworks/Inventor.framework/* ) \
-	  echo " ln -sf $(prefix)/Headers $(ivincludedir)/Qt"; \
-	  ln -sf $(prefix)/Headers $(ivincludedir)/Qt; \
-	  ;; \
-	esac
+	@$(mkinstalldirs) $(DESTDIR)$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$(MAC_FRAMEWORK_VERSION)
+	@ln -sf $(MAC_FRAMEWORK_VERSION) $(DESTDIR)$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/Current
+	@ln -sf Versions/Current/Headers $(DESTDIR)$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Headers
+	@ln -sf Versions/Current/Resources $(DESTDIR)$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Resources
+#	@case "@ivincludedir@" in \
+#	/Library/Frameworks/Inventor.framework/* ) \
+#	  echo " ln -sf $(prefix)/Headers $(ivincludedir)/Qt"; \
+#	  ln -sf $(prefix)/Headers $(ivincludedir)/Qt; \
+#	  ;; \
+#	esac
 else
 install-exec-local: built-sources $(srcdir)/cfg/m4/wrapmsvc.exe
 	@$(NORMAL_INSTALL)

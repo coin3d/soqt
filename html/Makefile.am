@@ -32,6 +32,30 @@ install-data-local: install-html
 
 uninstall-local: uninstall-html
 
+if MAC_FRAMEWORK
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) "$(DESTDIR)$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$(MAC_FRAMEWORK_VERSION)/Documentation"
+	@echo " ln -sf Versions/Current/Documentation $(DESTDIR)$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Documentation"; \
+	ln -sf Versions/Current/Documentation "$(DESTDIR)$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Documentation"
+	@destdir="$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$(MAC_FRAMEWORK_VERSION)/Documentation"; \
+	list="`cat filelist.txt`"; \
+	for file in $$list; do \
+	  echo " $(INSTALL_DATA) $$file $(DESTDIR)$$destdir/$$file"; \
+	  $(INSTALL_DATA) $$file "$(DESTDIR)$$destdir/$$file"; \
+	done
+
+uninstall-html: filelist.txt
+	@$(NORMAL_UNINSTALL)
+	@destdir="$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$(MAC_FRAMEWORK_VERSION)/Documentation"; \
+	list="`cat filelist.txt`"; \
+	for file in $$list; do \
+	  echo " rm -f $(DESTDIR)$(destdir)/$$file"; \
+	  rm -f "$(DESTDIR)$(destdir)/$$file"; \
+	done
+	@echo " rmdir $(DESTDIR)$(destdir)"; \
+	rmdir $(DESTDIR)$(destdir) 2>/dev/null; \
+	:
+else
 install-html: filelist.txt
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(htmldir)
@@ -51,6 +75,7 @@ uninstall-html: filelist.txt
 	@echo " rmdir $(DESTDIR)$(htmldir)"; \
 	rmdir $(DESTDIR)$(htmldir) 2>/dev/null; \
 	:
+endif
 
 endif
 

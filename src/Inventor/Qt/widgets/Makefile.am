@@ -69,7 +69,7 @@ widgets.lst: Makefile $(widgets_lst_OBJECTS)
 # header installation
 
 if MAC_FRAMEWORK
-SoQtWidgetsincdir = $(includedir)/widgets
+SoQtWidgetsincdir = $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$(MAC_FRAMEWORK_VERSION)/Headers/widgets
 else
 SoQtWidgetsincdir = $(includedir)/Inventor/Qt/widgets
 endif
