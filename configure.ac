@@ -585,11 +585,16 @@ if $sim_ac_coin_desired && $sim_ac_coin_avail; then
   #  sim_ac_framework=false
   fi
   ivframeworkdir=$sim_ac_coin_frameworkdir
+  ivincludedir=
+  if test x"$ivframeworkdir" != x""; then
+    ivincludedir=$ivframeworkdir/Headers
+  fi
   frameworkdir=${sim_ac_framework_prefix}/${sim_ac_framework_name}.framework
   soqtincludedir=${sim_ac_framework_prefix}/${sim_ac_framework_name}.framework/Headers
 else
   sim_ac_framework=false
   soqtincludedir=${includedir}/Inventor/Qt
+  ivincludedir=
 fi
 
 AC_SUBST([ivframeworkdir])
