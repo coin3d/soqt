@@ -528,19 +528,3 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     20040708 mortene
 
 =====================================================================
-
-028 Frame rate drops drastically with later Qt versions.
-
-    With Qt 3.0.5 we have a frame rate of 800fps for a dead simple
-    scene, without syncing to the vblank (obviously). On the same
-    machine, with all other settings the same, when switching to Qt
-    3.3.1 the frame rate drops to ~40 fps.
-
-    Probably related to the swapping of GL buffers, or possibly event
-    queue processing.
-
-    This is a high priority item.
-
-    20040720 mortene
-
-=====================================================================
