@@ -263,7 +263,7 @@
 #include <Inventor/Qt/SoQtInternal.h>
 
 #include <Inventor/Qt/nodes/SoGuiNodes.h>
-#include <Inventor/Qt/nodes/SoGuiEngines.h>
+#include <Inventor/Qt/engines/SoGuiEngines.h>
 
 #include <soqtdefs.h>
 
