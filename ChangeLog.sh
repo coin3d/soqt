@@ -20,6 +20,7 @@ also out the following ChangeLog files:
 
   ./conf-macros/ChangeLog
   ./src/Inventor/$GUI/common/ChangeLog
+  ./examples/components/ChangeLog
 
 See http://www.red-bean.com/~kfogel/cvs2cl.shtml for information about the
 cvs2cl script used to generate this file.
@@ -36,6 +37,7 @@ cvs log | $cvs2cl --stdin --header $headerfile --separate-header --prune \
   --ignore '(Makefile\.in|configure|aclocal\.m4|config\.sub|config\.guess)$' \
   --ignore '(ltconfig|ltmain\.sh|missing|mkinstalldirs|stamp-h.*|install-sh)$' \
   --ignore 'config\.h\.in$' \
+  --ignore 'conf-macros' \
   --ignore 'examples/components' 
 
 rm ChangeLog.bak $headerfile
