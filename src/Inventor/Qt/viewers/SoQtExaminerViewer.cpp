@@ -46,7 +46,7 @@ static const char rcsid[] =
 
 #include <soqtdefs.h>
 #include <Inventor/Qt/widgets/SoQtThumbWheel.h>
-#include <Inventor/Qt/SoQtCursors.h>
+#include <Inventor/Qt/SoQtCursor.h>
 
 #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
 #include <Inventor/Qt/viewers/SoAnyExaminerViewer.h>
@@ -141,8 +141,7 @@ SoQtExaminerViewer::SoQtExaminerViewer(
 */
 
 void
-SoQtExaminerViewer::constructor(
-  SbBool build)
+SoQtExaminerViewer::constructor(SbBool build)
 {
   this->feedbacklabel1 = NULL;
   this->feedbacklabel2 = NULL;
@@ -150,9 +149,6 @@ SoQtExaminerViewer::constructor(
   this->feedbackedit = NULL;
   this->cameratogglebutton = NULL;
   this->defaultcursor = NULL;
-  this->rotatecursor = NULL;
-  this->pancursor = NULL;
-  this->zoomcursor = NULL;
 
   this->orthopixmap = new QPixmap((const char **)ortho_xpm);
   this->perspectivepixmap = new QPixmap((const char **)perspective_xpm);
@@ -180,13 +176,9 @@ SoQtExaminerViewer::constructor(
   Destructor.
 */
 
-SoQtExaminerViewer::~SoQtExaminerViewer(
-  void)
+SoQtExaminerViewer::~SoQtExaminerViewer()
 {
   // Cursors.
-  delete this->zoomcursor;
-  delete this->pancursor;
-  delete this->rotatecursor;
   delete this->defaultcursor;
 
   // Button pixmaps.
@@ -596,57 +588,11 @@ SoQtExaminerViewer::setCursorRepresentation(int mode)
 
   if (!this->defaultcursor) {
     this->defaultcursor = new QCursor(w->cursor());
-
-    // For Qt on MSWin, it is necessary to mask the bitmaps "manually"
-    // before setting up the QBitmaps for the cursors. It doesn't seem
-    // to matter any way under X11. Sounds like a Qt bug to me, which
-    // seems strange -- as this issue has been present for at least a
-    // couple of years. 20000630 mortene.
-    {
-      unsigned char * bitmaps[] = {
-        so_qt_rotate_bitmap, so_qt_rotate_mask_bitmap,
-        so_qt_zoom_bitmap, so_qt_zoom_mask_bitmap,
-        so_qt_pan_bitmap, so_qt_pan_mask_bitmap
-      };
-      unsigned int bitmapsizes[] = {
-        (so_qt_rotate_width + 7) / 8 * so_qt_rotate_height,
-        (so_qt_zoom_width + 7) / 8 * so_qt_zoom_height,
-        (so_qt_pan_width + 7) / 8 * so_qt_pan_height,
-      };
-
-      for (unsigned int i = 0;
-            i < (sizeof(bitmapsizes) / sizeof(unsigned int)); i++) {
-        for (unsigned int j = 0; j < bitmapsizes[i]; j++)
-          bitmaps[i*2][j] &= bitmaps[i*2+1][j];
-      }
-    }
-
-    QBitmap zoomBtm(so_qt_zoom_width, so_qt_zoom_height,
-                    (uchar*)so_qt_zoom_bitmap, TRUE);
-    QBitmap zoomMask(so_qt_zoom_width, so_qt_zoom_height,
-                     (uchar*)so_qt_zoom_mask_bitmap, TRUE);
-    QBitmap panBtm(so_qt_pan_width, so_qt_pan_height,
-                   (uchar*)so_qt_pan_bitmap, TRUE);
-    QBitmap panMask(so_qt_pan_width, so_qt_pan_height,
-                    (uchar*)so_qt_pan_mask_bitmap, TRUE);
-
-    QBitmap rotateBtm(so_qt_rotate_width, so_qt_rotate_height,
-                      (uchar*)so_qt_rotate_bitmap, TRUE);
-    QBitmap rotateMask(so_qt_rotate_width, so_qt_rotate_height,
-                       (uchar*)so_qt_rotate_mask_bitmap, TRUE);
-
-    this->zoomcursor = new QCursor(zoomBtm, zoomMask,
-                                   so_qt_zoom_x_hot, so_qt_zoom_y_hot);
-    this->pancursor = new QCursor(panBtm, panMask,
-                                  so_qt_pan_x_hot, so_qt_pan_y_hot);
-    this->rotatecursor = new QCursor(rotateBtm, rotateMask,
-                                     so_qt_rotate_x_hot, so_qt_rotate_y_hot);
   }
 
 
-
   if (!this->isCursorEnabled()) {
-    w->setCursor(blankCursor);
+    this->setComponentCursor(SoQtCursor(SoQtCursor::BLANK));
     return;
   }
 
@@ -657,11 +603,11 @@ SoQtExaminerViewer::setCursorRepresentation(int mode)
 
   case SoAnyExaminerViewer::EXAMINE:
   case SoAnyExaminerViewer::DRAGGING:
-    w->setCursor(* this->rotatecursor);
+    this->setComponentCursor(SoQtCursor::getRotateCursor());
     break;
 
   case SoAnyExaminerViewer::ZOOMING:
-    w->setCursor(* this->zoomcursor);
+    this->setComponentCursor(SoQtCursor::getZoomCursor());
     break;
 
   case SoAnyExaminerViewer::WAITING_FOR_SEEK:
@@ -670,7 +616,7 @@ SoQtExaminerViewer::setCursorRepresentation(int mode)
 
   case SoAnyExaminerViewer::WAITING_FOR_PAN:
   case SoAnyExaminerViewer::PANNING:
-    w->setCursor(* this->pancursor);
+    this->setComponentCursor(SoQtCursor::getPanCursor());
     break;
 
   default: assert(0); break;

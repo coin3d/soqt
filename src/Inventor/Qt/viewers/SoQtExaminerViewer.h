@@ -114,8 +114,7 @@ private:
   QTimer * spindetecttimer;
 
   void setCursorRepresentation(int mode);
-  QCursor * pancursor, * rotatecursor;
-  QCursor * defaultcursor, * zoomcursor;
+  QCursor * defaultcursor;
 
   QPushButton * cameratogglebutton;
   QLabel * feedbacklabel1, * feedbacklabel2;
