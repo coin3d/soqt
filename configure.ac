@@ -253,7 +253,9 @@ esac
 # **************************************************************************
 # Header files we might want.
 
-AC_CHECK_HEADERS([windows.h tlhelp32.h unistd.h sys/types.h sys/time.h netinet/in.h])
+AC_CHECK_HEADERS([windows.h unistd.h sys/types.h sys/time.h netinet/in.h])
+
+SIM_AC_CHECK_HEADER_TLHELP32_H
 
 if test x"$sim_ac_want_x11" = xyes; then 
   AC_CHECK_HEADERS([X11/extensions/SGIMisc.h X11/Xproto.h X11/extensions/XInput.h])
