@@ -241,7 +241,7 @@
 #include <qapplication.h>
 #include <qmetaobject.h>
 
-#include <Inventor/Qt/moc_SoQtP.cpp>
+#include <Inventor/Qt/moc_SoQtP.icc>
 #include <Inventor/Qt/SoQtP.h>
 
 #include <Inventor/SoDB.h>

@@ -39,7 +39,7 @@ endif
 # 
 # libSoQtDevicesLinuxJoystickSources = \
 #         SoQtLinuxJoystick.cpp \
-# 	moc_SoQtLinuxJoystick.cpp \
+# 	moc_SoQtLinuxJoystick.icc \
 #         $(libSoQtDevicesLinuxJoystickHeaders)
 # else
 libSoQtDevicesLinuxJoystickHeaders =

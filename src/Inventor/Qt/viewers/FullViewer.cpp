@@ -58,7 +58,7 @@
 #include <qstylefactory.h>
 #endif // HAVE_QSTYLEFACTORY_H
 
-#include <Inventor/Qt/viewers/moc_SoQtFullViewerP.cpp>
+#include <Inventor/Qt/viewers/moc_SoQtFullViewerP.icc>
 #include <Inventor/Qt/viewers/SoQtFullViewerP.h>
 
 #include <Inventor/nodes/SoPerspectiveCamera.h>

@@ -41,7 +41,7 @@
 #include <qstylefactory.h>
 #endif // HAVE_QSTYLEFACTORY_H
 
-#include <Inventor/Qt/viewers/moc_SoQtPlaneViewerP.cpp>
+#include <Inventor/Qt/viewers/moc_SoQtPlaneViewerP.icc>
 #include <Inventor/Qt/viewers/SoQtPlaneViewerP.h>
 
 #include <Inventor/errors/SoDebugError.h>

@@ -57,7 +57,7 @@
 #include <Inventor/Qt/devices/SoQtLinuxJoystick.h>
 #include <Inventor/Qt/devices/SoQtLinuxJoystickP.h>
 #include <qmetaobject.h>
-#include <Inventor/Qt/devices/moc_SoQtLinuxJoystickP.h>
+#include <Inventor/Qt/devices/moc_SoQtLinuxJoystickP.icc>
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
