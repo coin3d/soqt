@@ -41,12 +41,6 @@ TickMark::~TickMark()
 {
 } 
 
-int
-TickMark::rtti() const
-{
-  return TickMark::RTTI;
-}
-
 float TickMark::getPos() const
 {
   return float(this->x()) / ((float)canvas()->width() + 0.5f);

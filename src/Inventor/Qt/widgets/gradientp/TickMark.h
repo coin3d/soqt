@@ -30,12 +30,9 @@
 class TickMark : public QCanvasPolygon
 {
 public:
-  enum { RTTI = 3141598 };
-
   TickMark(QCanvas * canvas);
   ~TickMark();
 
-  int rtti() const;
   float getPos() const;
 
   SbBool isStart;

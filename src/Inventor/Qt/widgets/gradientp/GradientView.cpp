@@ -139,7 +139,7 @@ void GradientView::contentsMousePressEvent(QMouseEvent * e)
     QCanvasItemList list = this->canvas->collisions(p);
     QCanvasItemList::Iterator it=list.begin();
     for (; it != list.end(); ++it) {
-      if ((*it)->rtti() == TickMark::RTTI) {
+      if ((*it)->rtti() == QCanvasPolygon::RTTI) {
         this->movingItem = (TickMark *)(*it);
         this->moving_start = p;
         SbBool selected = this->movingItem->isSelected();
@@ -179,7 +179,7 @@ void GradientView::contentsMouseReleaseEvent(QMouseEvent * e)
 {
   QCanvasItemList list = this->canvas->allItems();
   for (QCanvasItemList::Iterator it = list.begin(); it != list.end(); ++it) {
-    if ((*it)->rtti() == TickMark::RTTI) {
+    if ((*it)->rtti() == QCanvasPolygon::RTTI) {
       if((*it) != this->movingItem)
         (*it)->setZ(2);
     }
@@ -244,7 +244,7 @@ void GradientView::unselectAll()
 {
   QCanvasItemList list = this->canvas->allItems();
   for (QCanvasItemList::Iterator it = list.begin(); it != list.end(); ++it) {
-    if ((*it)->rtti() == TickMark::RTTI) {
+    if ((*it)->rtti() == QCanvasPolygon::RTTI) {
       TickMark * item = (TickMark *)(*it);
       item->setSelected(FALSE);
       item->setBrush(QColor(0,0,0));
@@ -311,7 +311,7 @@ void GradientView::updateTicks()
 {
   QCanvasItemList list = this->canvas->allItems();
   for (QCanvasItemList::Iterator it = list.begin(); it != list.end(); ++it) {
-    if ((*it)->rtti() == TickMark::RTTI)
+    if ((*it)->rtti() == QCanvasPolygon::RTTI)
       delete (*it);
   }
 
