@@ -1,4 +1,5 @@
 prefix="@prefix@"
+exec_prefix="@exec_prefix@"
 version="@SOQT_VERSION@"
 cppflags="@SOQT_EXTRA_CPPFLAGS@"
 cxxflags="@SOQT_EXTRA_CXXFLAGS@"
