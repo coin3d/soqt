@@ -52,7 +52,8 @@ endif
 SoQtEditorsinc_HEADERS =
 
 nodist_SoQtEditorsinc_HEADERS = \
-	So@Gui@ColorEditor.h
+	So@Gui@ColorEditor.h \
+	So@Gui@MaterialEditor.h
 
 install-SoQtEditorsincHEADERS: $(SoQtEditorsinc_HEADERS)
 	@$(NORMAL_INSTALL)
