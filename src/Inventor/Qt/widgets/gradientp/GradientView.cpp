@@ -463,11 +463,6 @@ GradientView::buildMenu(void)
     id = menu->insertItem("Insert new tick", this, SLOT(insertTick()));
   }
   else if (this->currenttick != -1) {
-    QLabel * title = new QLabel(" Tick menu", this->menu);
-    (void)menu->insertItem(title);
-
-    menu->insertSeparator();
-
     QPixmap pm(16,16);
     pm.fill(this->grad.getColor(this->currenttick, Gradient::LEFT));
     (void)menu->insertItem(pm, "Change left color", this, SLOT(chooseTickColorLeft()));
