@@ -3602,7 +3602,7 @@ echo "$ac_t""$sim_cv_lib_qt_avail" 1>&6
 fi
 
 
-if ! test x"$sim_ac_x11mu_avail" = xyes; then
+if test x"$sim_ac_x11mu_avail" != xyes; then
   
 
 

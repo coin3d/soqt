@@ -139,7 +139,7 @@ SIM_CHECK_QT([
   SOQT_EXTRA_LIBS="$sim_ac_qt_libs $SOQT_EXTRA_LIBS"
 ], AC_MSG_ERROR(can't compile and link against Qt development kit))
 
-if ! test x"$sim_ac_x11mu_avail" = xyes; then
+if test x"$sim_ac_x11mu_avail" != xyes; then
   SIM_CHECK_X11MU(SOQT_EXTRA_LIBS="$sim_ac_x11mu_libs $SOQT_EXTRA_LIBS")
 fi
 
