@@ -32,6 +32,7 @@ ENDOFHEADER
 cvs update -dP
 
 cvs log | $cvs2cl --stdin --header $headerfile --separate-header --prune \
+  --ignore "cfg/m4" \
   --ignore 'ChangeLog$' \
   --ignore '(Makefile\.in|configure|aclocal\.m4|config\.sub|config\.guess)$' \
   --ignore '(ltconfig|ltmain\.sh|missing|mkinstalldirs|stamp-h.*|install-sh)$' \
