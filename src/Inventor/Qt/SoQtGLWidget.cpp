@@ -216,6 +216,14 @@ SoQtGLWidget::SoQtGLWidget(
 #if SOQT_DEBUG && 0
   // people ask if this warning is a problem - it is harmless, so we don't
   // display it anymore [2001-05-18 larsa]
+
+  // FIXME: this is *not* a good way to handle this case.  What should
+  // be done is 1) default to set up a QGLWidget without overlay
+  // planes, 2) when an overlay scenegraph is attempted registered
+  // with the SoQtRenderArea -- *then* try to make a QGLWidget with
+  // overlay planes, and if that's not possible, display this
+  // warning. 20010805 mortene.
+
   if (enableoverlay && !QGLFormat_hasOverlay(THIS->glformat)) {
     SoDebugError::postWarning( "SoQtGLWidget::SoQtGLWidget",
                                "your Qt/QGL library has no support "
