@@ -684,7 +684,9 @@ if $sim_ac_build_library; then
     debugfile="`pwd`/src/Inventor/Qt/soqt${SOQT_MAJOR_VERSION}${SUFFIX}.pdb"
     debugfile=`cygpath -w "$debugfile" | sed 's,\\\\,\\\\\\\\,g'`
     if $SOQT_STATIC; then
-      SIM_AC_CONFIGURATION_SETTING([SoQt build type], [static .lib])
+      if $sim_ac_make_dsp; then :; else
+        SIM_AC_CONFIGURATION_SETTING([SoQt build type], [static .lib])
+      fi
       LIBFLAGS="-LIB $LIBFLAGS"
       LIBFLAGS="$LIBFLAGS /OUT:soqt$SOQT_MAJOR_VERSION$SUFFIX.lib"
     else
@@ -692,8 +694,10 @@ if $sim_ac_build_library; then
       case $enable_symbols in
       no | false)
         LIBFLAGS="$LIBFLAGS /RELEASE"
-        SIM_AC_CONFIGURATION_SETTING([SoQt build type],
-                                     [dynamic .dll, no symbols])
+        if $sim_ac_make_dsp; then :; else
+          SIM_AC_CONFIGURATION_SETTING([SoQt build type],
+                                       [dynamic .dll, no symbols])
+        fi
         ;;
       *)
         SIM_AC_CONFIGURATION_SETTING([SoQt build type], [dynamic .dll + .pdb])
@@ -744,6 +748,7 @@ fi
 # **************************************************************************
 # Microsoft Developer Studio Project files section
 
+SOQT_DSP_LIBDIRS=
 SOQT_DSP_LIBS=
 SOQT_DSP_DEFS=
 SOQT_DSP_INCS=
@@ -756,14 +761,18 @@ if $sim_ac_make_dsp; then
   for arg in -DHAVE_CONFIG_H -I$soqt_build_dir/src -I$soqt_src_dir/src -I$soqt_src_dir/data $CPPFLAGS $LDFLAGS $LIBS; do
     case $arg in
     -L* )
-      # libdir=`echo $arg | cut -c3-`
-      # libdir=`cygpath -w "$libdir" 2>/dev/null || echo "$libdir"`
-      # SOQT_DSP_LIBDIRS="$SOQT_DSP_LIBDIRS /? \"$libdir\""
-      # FIXME: there is no /L-option to feed to the linker - $LIB is used
-      # at linktime, so the libs must be in such a location already...
+      libdir=`echo $arg | cut -c3-`
+      SOQT_DSP_LIBDIRS="$SOQT_DSP_LIBDIRS $libdir"
       ;;
     -l* )
       libname=`echo $arg | cut -c3-`
+      for libdir in $SOQT_DSP_LIBDIRS; do
+        if test -f $libdir/$libname.lib; then
+          # lib is not in any standard location - use full path
+          libname=`cygpath -w "$libdir/$libname" 2>/dev/null || echo "$libdir/$libname"`
+          break
+        fi
+      done
       if test x"$SOQT_DSP_LIBS" = x""; then
         SOQT_DSP_LIBS="$libname.lib"
       else
