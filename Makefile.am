@@ -150,7 +150,10 @@ EXTRA_DIST = \
 	src/Inventor/Qt/common/pixmaps/view_all.xpm \
 	src/Inventor/Qt/common/pixmaps/x.xpm \
 	src/Inventor/Qt/common/pixmaps/y.xpm \
-	src/Inventor/Qt/common/pixmaps/z.xpm
+	src/Inventor/Qt/common/pixmaps/z.xpm \
+	test-code/README \
+	test-code/components/scrollview.cpp \
+	test-code/components/tripleview.cpp
 
 # This is necessary to set up a hook somewhere in the generated Makefile
 # so the sources are actually built.
@@ -394,7 +397,7 @@ doxygen-doc: built-sources
 doxygen-docs: built-sources
 	@( cd build; @sim_ac_doxygen_exe@ soqt.doxygen )
 
-install-exec-local: $(srcdir)/cfg/m4/wrapmsvc.exe
+install-exec-local: built-sources $(srcdir)/cfg/m4/wrapmsvc.exe
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(bindir)
 	@if @BUILD_WITH_MSVC@; then \
@@ -402,5 +405,7 @@ install-exec-local: $(srcdir)/cfg/m4/wrapmsvc.exe
 	  echo " $(INSTALL_PROGRAM) $(srcdir)/cfg/m4/$$p $(DESTDIR)$(bindir)/$$p"; \
 	  $(INSTALL_PROGRAM) $(srcdir)/cfg/m4/$$p $(DESTDIR)$(bindir)/$$p; \
 	fi
+
+install-data-local: built-sources
 
 # EOF ######################################################################

@@ -277,7 +277,10 @@ EXTRA_DIST = \
 	src/Inventor/Qt/common/pixmaps/view_all.xpm \
 	src/Inventor/Qt/common/pixmaps/x.xpm \
 	src/Inventor/Qt/common/pixmaps/y.xpm \
-	src/Inventor/Qt/common/pixmaps/z.xpm
+	src/Inventor/Qt/common/pixmaps/z.xpm \
+	test-code/README \
+	test-code/components/scrollview.cpp \
+	test-code/components/tripleview.cpp
 
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -493,7 +496,7 @@ GZIP_ENV = --best
 distdir: $(DISTFILES)
 	-chmod -R a+w $(distdir) >/dev/null 2>&1; rm -rf $(distdir)
 	mkdir $(distdir)
-	$(mkinstalldirs) $(distdir)/build $(distdir)/cfg $(distdir)/cfg/m4 $(distdir)/models $(distdir)/src/Inventor/Qt/common $(distdir)/src/Inventor/Qt/common/pixmaps
+	$(mkinstalldirs) $(distdir)/build $(distdir)/cfg $(distdir)/cfg/m4 $(distdir)/models $(distdir)/src/Inventor/Qt/common $(distdir)/src/Inventor/Qt/common/pixmaps $(distdir)/test-code $(distdir)/test-code/components
 	@for file in $(DISTFILES); do \
 	  if test -f $$file; then d=.; else d=$(srcdir); fi; \
 	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
@@ -614,8 +617,8 @@ info: info-recursive
 
 info-am:
 
-install-data-am: install-cfgdataDATA install-dist_binSCRIPTS \
-	install-dist_m4dataDATA
+install-data-am: install-cfgdataDATA install-data-local \
+	install-dist_binSCRIPTS install-dist_m4dataDATA
 
 install-exec-am: install-exec-local
 
@@ -644,10 +647,10 @@ uninstall-info: uninstall-info-recursive
 	distclean-recursive distclean-tags distdir dvi dvi-am \
 	dvi-recursive info info-am info-recursive install install-am \
 	install-cfgdataDATA install-data install-data-am \
-	install-data-recursive install-dist_binSCRIPTS \
-	install-dist_m4dataDATA install-exec install-exec-am \
-	install-exec-local install-exec-recursive install-info \
-	install-info-am install-info-recursive install-man \
+	install-data-local install-data-recursive \
+	install-dist_binSCRIPTS install-dist_m4dataDATA install-exec \
+	install-exec-am install-exec-local install-exec-recursive \
+	install-info install-info-am install-info-recursive install-man \
 	install-recursive install-strip installcheck installcheck-am \
 	installdirs installdirs-am installdirs-recursive \
 	maintainer-clean maintainer-clean-generic \
@@ -903,7 +906,7 @@ doxygen-doc: built-sources
 doxygen-docs: built-sources
 	@( cd build; @sim_ac_doxygen_exe@ soqt.doxygen )
 
-install-exec-local: $(srcdir)/cfg/m4/wrapmsvc.exe
+install-exec-local: built-sources $(srcdir)/cfg/m4/wrapmsvc.exe
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(bindir)
 	@if @BUILD_WITH_MSVC@; then \
@@ -911,6 +914,8 @@ install-exec-local: $(srcdir)/cfg/m4/wrapmsvc.exe
 	  echo " $(INSTALL_PROGRAM) $(srcdir)/cfg/m4/$$p $(DESTDIR)$(bindir)/$$p"; \
 	  $(INSTALL_PROGRAM) $(srcdir)/cfg/m4/$$p $(DESTDIR)$(bindir)/$$p; \
 	fi
+
+install-data-local: built-sources
 
 # EOF ######################################################################
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

@@ -3,6 +3,9 @@
 /* Define if you have the <dlfcn.h> header file. */
 #undef HAVE_DLFCN_H
 
+/* Define if you have the <GL/glu.h> header file. */
+#undef HAVE_GL_GLU_H
+
 /* Define if you have the <GL/gl.h> header file. */
 #undef HAVE_GL_GL_H
 
@@ -11,6 +14,9 @@
 
 /* Define if you have the <netinet/in.h> header file. */
 #undef HAVE_NETINET_IN_H
+
+/* Define if you have the <OpenGL/glu.h> header file. */
+#undef HAVE_OPENGL_GLU_H
 
 /* Define if you have the <OpenGL/gl.h> header file. */
 #undef HAVE_OPENGL_GL_H

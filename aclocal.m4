@@ -5005,6 +5005,50 @@ fi
 ])
 
 
+# **************************************************************************
+# SIM_AC_GLU_READY_IFELSE( [ACTION-IF-TRUE], [ACTION-IF-FALSE] )
+
+AC_DEFUN([SIM_AC_GLU_READY_IFELSE], [
+AC_CHECK_HEADERS([GL/glu.h OpenGL/glu.h])
+AC_CACHE_CHECK(
+  [if GLU is available as part of GL library],
+  [sim_cv_glu_ready],
+  [AC_TRY_LINK(
+    [
+#ifdef HAVE_WINDOWS_H
+#include <windows.h>
+#endif /* HAVE_WINDOWS_H */
+#ifdef HAVE_GL_GL_H
+#include <GL/gl.h>
+#else
+#ifdef HAVE_OPENGL_GL_H
+#include <OpenGL/gl.h>
+#endif
+#endif
+#ifdef HAVE_GL_GLU_H
+#include <GL/glu.h>
+#else
+#ifdef HAVE_OPENGL_GLU_H
+#include <OpenGL/glu.h>
+#endif
+#endif
+],
+    [
+gluSphere(0L, 1.0, 1, 1);
+/* Defect JAGad01283 of HP's aCC compiler causes a link failure unless
+   there is at least one "pure" OpenGL call along with GLU calls. */
+glEnd();
+],
+    [sim_cv_glu_ready=true],
+    [sim_cv_glu_ready=false])])
+if ${sim_cv_glu_ready}; then
+  ifelse([$1], , :, [$1])
+else
+  ifelse([$2], , :, [$2])
+fi
+]) # SIM_AC_GLU_READY_IFELSE()
+
+
 # Usage:
 #  SIM_AC_CHECK_GLU([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 #
@@ -5022,7 +5066,8 @@ fi
 #
 # Author: Morten Eriksen, <mortene@sim.no>.
 
-AC_DEFUN(SIM_AC_CHECK_GLU, [
+AC_DEFUN([SIM_AC_CHECK_GLU], [
+AC_CHECK_HEADERS([GL/glu.h OpenGL/glu.h])
 
 unset sim_ac_glu_cppflags
 unset sim_ac_glu_ldflags
@@ -5083,9 +5128,13 @@ if test x"$with_glu" != xno; then
 #include <OpenGL/gl.h>
 #endif
 #endif
-/* FIXME: is this correct for Mac OS X?  Seems unlikely, should
-   probably be OpenGL/glu.h? 20010915 mortene. */
+#ifdef HAVE_GL_GLU_H
 #include <GL/glu.h>
+#else
+#ifdef HAVE_OPENGL_GLU_H
+#include <OpenGL/glu.h>
+#endif
+#endif
 ],
                     [
 gluSphere(0L, 1.0, 1, 1);
@@ -5113,43 +5162,6 @@ glEnd();
   fi
 fi
 ])
-
-
-# **************************************************************************
-# SIM_AC_GLU_READY_IFELSE( [ACTION-IF-TRUE], [ACTION-IF-FALSE] )
-
-AC_DEFUN([SIM_AC_GLU_READY_IFELSE],
-[AC_CACHE_CHECK(
-  [if GLU is available as part of GL library],
-  [sim_cv_glu_ready],
-  [AC_TRY_LINK(
-    [
-#ifdef HAVE_WINDOWS_H
-#include <windows.h>
-#endif /* HAVE_WINDOWS_H */
-#ifdef HAVE_GL_GL_H
-#include <GL/gl.h>
-#else
-#ifdef HAVE_OPENGL_GL_H
-#include <OpenGL/gl.h>
-#endif
-#endif
-#include <GL/glu.h>
-],
-    [
-gluSphere(0L, 1.0, 1, 1);
-/* Defect JAGad01283 of HP's aCC compiler causes a link failure unless
-   there is at least one "pure" OpenGL call along with GLU calls. */
-glEnd();
-],
-    [sim_cv_glu_ready=true],
-    [sim_cv_glu_ready=false])])
-if ${sim_cv_glu_ready}; then
-  ifelse([$1], , :, [$1])
-else
-  ifelse([$2], , :, [$2])
-fi
-]) # SIM_AC_GLU_READY_IFELSE()
 
 
 # Usage:
@@ -5183,7 +5195,14 @@ AC_CACHE_CHECK(
 #include <OpenGL/gl.h>
 #endif
 #endif
-#include <GL/glu.h>],
+#ifdef HAVE_GL_GLU_H
+#include <GL/glu.h>
+#else
+#ifdef HAVE_OPENGL_GLU_H
+#include <OpenGL/glu.h>
+#endif
+#endif
+],
                   [
 $sim_ac_glu_structname * hepp = gluNewNurbsRenderer();
 gluDeleteNurbsRenderer(hepp);
