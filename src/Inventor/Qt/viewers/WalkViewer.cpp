@@ -224,3 +224,7 @@ SoQtWalkViewer::buildLeftTrim(QWidget * parent)
 }
 
 // ************************************************************************
+
+#undef PRIVATE
+#undef PUBLIC
+

@@ -1003,3 +1003,7 @@ void SoQtFullViewerP::rightWheelReleased(void) { PUBLIC(this)->rightWheelFinish(
 // *************************************************************************
 
 #endif // DOXYGEN_SKIP_THIS
+
+#undef PUBLIC
+#undef PRIVATE
+

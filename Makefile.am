@@ -32,12 +32,8 @@ DOCDIRS = man $(HTMLDIR) $(HTMLHELPDIR)
 SUBDIRS = . $(LIBDIR) $(DOCDIRS)
 
 SoQtBuiltFiles = \
-	src/Inventor/Qt/widgets/moc_CurveView.icc \
-	src/Inventor/Qt/widgets/moc_GradientView.icc \
 	src/Inventor/Qt/widgets/moc_QtNativePopupMenu.icc \
-	src/Inventor/Qt/widgets/moc_SoQtColorTableEditorP.icc \
 	src/Inventor/Qt/widgets/moc_SoQtGLArea.icc \
-	src/Inventor/Qt/widgets/moc_SoQtGradientDialogP.icc \
 	src/Inventor/Qt/widgets/moc_SoQtThumbWheel.icc
 
 
@@ -162,18 +158,18 @@ windows-files:
 windows-packages: windows-files
 	@( cd windows; $(MAKE) VERSION=$(VERSION) )
 
-src/Inventor/Qt/widgets/moc_SoQtGradientDialogP.icc: $(srcdir)/src/Inventor/Qt/widgets/gradientp/SoQtGradientDialogP.h
-	$(MOC) -i -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/widgets/gradientp/SoQtGradientDialogP.h`
-
-src/Inventor/Qt/widgets/moc_GradientView.icc: $(srcdir)/src/Inventor/Qt/widgets/gradientp/GradientView.h
-	$(MOC) -i -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/widgets/gradientp/GradientView.h`
-
-src/Inventor/Qt/widgets/moc_SoQtColorTableEditorP.icc: $(srcdir)/src/Inventor/Qt/widgets/curvep/SoQtColorTableEditorP.h
-	$(MOC) -i -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/widgets/curvep/SoQtColorTableEditorP.h`
-
-src/Inventor/Qt/widgets/moc_CurveView.icc: $(srcdir)/src/Inventor/Qt/widgets/curvep/CurveView.h
-	$(MOC) -i -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/widgets/curvep/CurveView.h`
-
+# src/Inventor/Qt/widgets/moc_SoQtGradientDialogP.icc: $(srcdir)/src/Inventor/Qt/widgets/gradientp/SoQtGradientDialogP.h
+# 	$(MOC) -i -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/widgets/gradientp/SoQtGradientDialogP.h`
+# 
+# src/Inventor/Qt/widgets/moc_GradientView.icc: $(srcdir)/src/Inventor/Qt/widgets/gradientp/GradientView.h
+# 	$(MOC) -i -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/widgets/gradientp/GradientView.h`
+# 
+# src/Inventor/Qt/widgets/moc_SoQtColorTableEditorP.icc: $(srcdir)/src/Inventor/Qt/widgets/curvep/SoQtColorTableEditorP.h
+# 	$(MOC) -i -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/widgets/curvep/SoQtColorTableEditorP.h`
+# 
+# src/Inventor/Qt/widgets/moc_CurveView.icc: $(srcdir)/src/Inventor/Qt/widgets/curvep/CurveView.h
+# 	$(MOC) -i -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/widgets/curvep/CurveView.h`
+# 
 src/Inventor/Qt/widgets/moc_QtNativePopupMenu.icc: $(srcdir)/src/Inventor/Qt/widgets/QtNativePopupMenu.h
 	$(MOC) -i -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/widgets/QtNativePopupMenu.h`
 

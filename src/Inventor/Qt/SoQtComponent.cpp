@@ -25,7 +25,7 @@
 
 // *************************************************************************
 
-#if HAVE_CONFIG_H
+#ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif // HAVE_CONFIG_H
 
@@ -59,6 +59,9 @@
 #define SOQTCOMP_RESIZE_DEBUG 0
 
 static const char nullstring[] = "(null)";
+
+#define PRIVATE(obj) ((obj)->pimpl)
+#define PUBLIC(obj) ((obj)->pub)
 
 // *************************************************************************
 
@@ -909,3 +912,7 @@ SoQtComponent::setWidgetCursor(QWidget * w, const SoQtCursor & cursor)
 }
 
 // *************************************************************************
+
+#undef PRIVATE
+#undef PUBLIC
+

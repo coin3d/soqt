@@ -55,7 +55,7 @@ libSoQtDevicesConditionalSources = \
 ############################################################################
 # libtool setup
 
-libSoQtDevices_la_SOURCES = \
+RegularSources = \
 	SoQtDevice.cpp \
 	SoQtDeviceP.h \
 	SoQtInputFocus.cpp \
@@ -67,34 +67,41 @@ libSoQtDevices_la_SOURCES = \
 	6DOFEvents.h \
 	$(libSoQtDevicesConditionalSources)
 
-nodist_libSoQtDevices_la_SOURCES = \
+BuiltSources = \
 	$(SoGui_src_Inventor_Gui_devices_BuiltFiles)
-#	$(SoGui_src_Inventor_Gui_devices_BuiltMetaFiles)
 
-# all the sources that are conditional
+LinkHackSources = \
+	all-devices-cpp.cpp \
+	all-devices2-cpp.cpp
+
+if HACKING_COMPACT_BUILD
+BuildSources = $(LinkHackSources)
+NoDistSources =
+ExtraSources = $(RegularSources)
+else
+BuildSources = $(RegularSources)
+NoDistSources = $(BuiltSources)
+ExtraSources = $(LinkHackSources)
+endif
+
+libSoQtDevices_la_SOURCES = \
+	$(BuildSources)
+
+nodist_libSoQtDevices_la_SOURCES = \
+	$(NoDistSources)
+
+# all the sources that are conditionally not built
 EXTRA_libSoQtDevices_la_SOURCES = \
-	SoQtLinuxJoystick.h \
-	SoQtLinuxJoystickP.h \
-	SoQtLinuxJoystick.cpp
+	$(ExtraSources)
 
 ############################################################################
 # custom setup
 
 devices_lst_SOURCES = \
-	SoQtDevice.cpp \
-	SoQtDeviceP.h \
-	SoQtInputFocus.cpp \
-	SoQtKeyboard.cpp \
-	SoQtMouse.cpp \
-	SoQtSpaceball.cpp \
-	SoQtSpaceballP.h \
-	6DOFEvents.cpp \
-	6DOFEvents.h \
-	$(libSoQtDevicesConditionalSources)
+	$(BuildSources)
 
 nodist_devices_lst_SOURCES = \
-	$(SoGui_src_Inventor_Gui_devices_BuiltFiles)
-#	$(SoGui_src_Inventor_Gui_devices_BuiltMetaFiles)
+	$(NoDistSources)
 
 devices.lst: Makefile $(devices_lst_OBJECTS)
 	@echo "Linking $@..."; \

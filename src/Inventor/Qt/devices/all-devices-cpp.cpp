@@ -21,26 +21,14 @@
  *
 \**************************************************************************/
 
-#include <qpainter.h>
-#include "ImageItem.h"
+#include <Inventor/Qt/devices/SoQtDevice.cpp>
+#include <Inventor/Qt/devices/SoQtDeviceCommon.cpp>
+#include <Inventor/Qt/devices/SoQtInputFocus.cpp>
+#include <Inventor/Qt/devices/SoQtInputFocusCommon.cpp>
+#include <Inventor/Qt/devices/SoQtKeyboard.cpp>
+#include <Inventor/Qt/devices/SoQtKeyboardCommon.cpp>
+#include <Inventor/Qt/devices/SoQtMouse.cpp>
+#include <Inventor/Qt/devices/SoQtMouseCommon.cpp>
+#include <Inventor/Qt/devices/SoQtSpaceball.cpp>
+#include <Inventor/Qt/devices/SoQtSpaceballCommon.cpp>
 
-ImageItem::ImageItem(QCanvas *canvas)
-: QCanvasRectangle(canvas)
-{
-  this->setSize(canvas->width(), canvas->height());
-}
-
-void 
-ImageItem::setImage(QImage image)
-{
-  if (!image.isNull()) {
-    this->setSize(image.width(), image.height());
-    this->pixmap.convertFromImage(image, Qt::OrderedAlphaDither);
-  }
-}
-
-void 
-ImageItem::drawShape(QPainter &p)
-{
-  p.drawPixmap(int(this->x()), int(this->y()), this->pixmap);
-}

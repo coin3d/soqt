@@ -26,11 +26,35 @@ DISTCLEANFILES = \
 
 # libSoGuiEngines_la_SOURCES =
 
-nodist_libSoGuiEngines_la_SOURCES = \
+RegularSources =
+
+BuiltSources = \
 	$(SoGui_src_Inventor_Gui_engines_BuiltFiles)
+LinkHackSources = \
+	all-engines-cpp.cpp
+
+
+if HACKING_COMPACT_BUILD
+BuildSources = $(LinkHackSources)
+NoDistSources =
+ExtraSources = $(RegularSources)
+else
+BuildSources = $(RegularSources)
+NoDistSources = $(BuiltSources)
+ExtraSources = $(LinkHackSources)
+endif
+
+libSoGuiEngines_la_SOURCES = \
+	$(BuildSources)
+
+nodist_libSoGuiEngines_la_SOURCES = \
+	$(NoDistSources)
+
+engines_lst_SOURCES = \
+	$(BuildSources)
 
 nodist_engines_lst_SOURCES = \
-	$(SoGui_src_Inventor_Gui_engines_BuiltFiles)
+	$(NoDistSources)
 
 engines.lst: Makefile $(engines_lst_OBJECTS)
 	@echo "Linking $@..."; \

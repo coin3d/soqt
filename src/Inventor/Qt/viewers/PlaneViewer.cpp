@@ -230,3 +230,7 @@ SoQtPlaneViewerP::cameraToggleClicked(void)
 // ************************************************************************
 
 #endif // DOXYGEN_SKIP_THIS
+
+#undef PUBLIC
+#undef PRIVATE
+

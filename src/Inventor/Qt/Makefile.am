@@ -59,9 +59,8 @@ lib@nop@dir = $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$
 endif
 
 ############################################################################
-# libtool setup
 
-libSoQt@SUFFIX@_la_SOURCES = \
+RegularSources = \
 	SoQt.cpp \
 	SoQtP.h \
 	SoQtInternal.h \
@@ -70,9 +69,31 @@ libSoQt@SUFFIX@_la_SOURCES = \
 	SoQtGLWidget.cpp \
 	SoQtGLWidgetP.h
 
+BuiltSources = \
+	$(SoGui_src_Inventor_Gui_BuiltFiles)
+
+LinkHackSources = \
+	all-soqt-cpp.cpp \
+	all-soqt2-cpp.cpp
+
+if HACKING_COMPACT_BUILD
+BuildSources = $(LinkHackSources)
+NoDistSources =
+ExtraSources = $(RegularSources)
+else
+BuildSources = $(RegularSources)
+NoDistSources = $(BuiltSources)
+ExtraSources = $(LinkHackSources)
+endif
+
+############################################################################
+# libtool setup
+
+libSoQt@SUFFIX@_la_SOURCES = \
+	$(BuildSources)
 
 nodist_libSoQt@SUFFIX@_la_SOURCES = \
-	$(SoGui_src_Inventor_Gui_BuiltFiles)
+	$(NoDistSources)
 
 libSoQt@SUFFIX@_la_LIBADD = \
 	devices/libSoQtDevices.la \
@@ -90,16 +111,10 @@ libSoQt@SUFFIX@_la_LDFLAGS = \
 # custom setup
 
 soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
-	SoQt.cpp \
-	SoQtP.h \
-	SoQtInternal.h \
-	SoQtComponent.cpp \
-	SoQtComponentP.h \
-	SoQtGLWidget.cpp \
-	SoQtGLWidgetP.h
+	$(BuildSources)
 
 nodist_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
-	$(SoGui_src_Inventor_Gui_BuiltFiles)
+	$(NoDistSources)
 
 soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
 	devices/devices.lst \

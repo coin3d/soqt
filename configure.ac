@@ -180,8 +180,24 @@ AC_SUBST([SOGUI_EXTRA_LIBS], [$LIBS])
 
 # SIM_EXPAND_DIR_VARS
 
-# **************************************************************************
+# *******************************************************************
+# * Provide this nasty hack to help building SoXt on platforms
+# * where one can bump into the "Arg list too long" problem
+# * (IBM AIX, SGI IRIX 6.2 and IRIX 6.5 with standard settings are
+# * known to fail), or where the build process is unbearably slow.
 
+AC_ARG_ENABLE(compact,
+  AC_HELP_STRING([--enable-compact], [enable hack for compact compilation [[default=no]]]),
+  [case "${enableval}" in
+  yes | true)  enable_compact=yes ;;
+  no | false)  enable_compact=no ;;
+  *) SIM_AC_ENABLE_ERROR([--enable-compact]) ;;
+  esac],
+  enable_compact=no)
+
+AM_CONDITIONAL(HACKING_COMPACT_BUILD, test x"$enable_compact" = x"yes")
+
+# **************************************************************************
 
 AC_ARG_WITH(
   [alternate],

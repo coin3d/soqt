@@ -35,32 +35,44 @@ DISTCLEANFILES = \
 ############################################################################
 # libtool setup
 
-libSoQtViewers_la_SOURCES = \
+RegularSources = \
 	FullViewer.cpp \
-	SoQtFullViewerP.h \
+	So@Gui@FullViewerP.h \
 	ExaminerViewer.cpp \
-	SoQtExaminerViewerP.h \
+	So@Gui@ExaminerViewerP.h \
 	PlaneViewer.cpp \
-	SoQtPlaneViewerP.h
+	So@Gui@PlaneViewerP.h
+BuiltSources = \
+	$(SoGui_src_Inventor_Gui_viewers_BuiltFiles)
+
+LinkHackSources = \
+	all-viewers-cpp.cpp
+
+
+if HACKING_COMPACT_BUILD
+BuildSources = $(LinkHackSources)
+NoDistSources =
+ExtraSources = $(RegularSources)
+else
+BuildSources = $(RegularSources)
+NoDistSources = $(BuiltSources)
+ExtraSources = $(LinkHackSources)
+endif
+
+libSoQtViewers_la_SOURCES = \
+	$(BuildSources)
 
 nodist_libSoQtViewers_la_SOURCES = \
-	$(SoGui_src_Inventor_Gui_viewers_BuiltFiles)
-#	$(SoGui_src_Inventor_Gui_viewers_BuiltMetaFiles)
+	$(NoDistSources)
 
 ############################################################################
 # custom setup
 
 viewers_lst_SOURCES = \
-	FullViewer.cpp \
-	SoQtFullViewerP.h \
-	ExaminerViewer.cpp \
-	SoQtExaminerViewerP.h \
-	PlaneViewer.cpp \
-	SoQtPlaneViewerP.h
+	$(BuildSources)
 
 nodist_viewers_lst_SOURCES = \
-	$(SoGui_src_Inventor_Gui_viewers_BuiltFiles)
-#	$(SoGui_src_Inventor_Gui_viewers_BuiltMetaFiles)
+	$(NoDistSources)
 
 viewers.lst: Makefile $(viewers_lst_OBJECTS)
 	@echo "Linking $@..."; \

@@ -24,10 +24,6 @@ LIBS =
 #	$(SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles)
 BUILT_SOURCES = \
 	$(SoGui_src_Inventor_Gui_widgets_BuiltFiles) \
-	moc_SoQtGradientDialogP.icc \
-	moc_GradientView.icc \
-	moc_SoQtColorTableEditorP.icc \
-	moc_CurveView.icc \
 	moc_QtNativePopupMenu.icc \
 	moc_SoQtThumbWheel.icc \
 	moc_SoQtGLArea.icc
@@ -41,42 +37,44 @@ DISTCLEANFILES = \
 
 ############################################################################
 
-SoQtWidgetsSources = \
+RegularSources = \
 	SoQtGLArea.cpp SoQtGLArea.h \
 	SoQtThumbWheel.cpp SoQtThumbWheel.h \
-	\
-	QtNativePopupMenu.cpp QtNativePopupMenu.h \
-	Gradient.cpp Gradient.h \
-	GradientDialog.cpp SoQtGradientDialog.h \
-	gradientp/GradientView.cpp gradientp/GradientView.h \
-	gradientp/ImageItem.cpp gradientp/ImageItem.h \
-	gradientp/TickMark.cpp gradientp/TickMark.h \
-	gradientp/SoQtGradientDialogP.h \
-	\
-	curvep/ColorTableEditor.cpp SoQtColorTableEditor.h curvep/SoQtColorTableEditorP.h \
-	curvep/ColorCurve.cpp curvep/ColorCurve.h \
-	curvep/CurveView.cpp curvep/CurveView.h \
-	curvep/SbGuiCubicSpline.cpp curvep/SbGuiCubicSpline.h
+	QtNativePopupMenu.cpp QtNativePopupMenu.h
+
+BuiltSources = \
+	$(SoGui_src_Inventor_Gui_widgets_BuiltFiles)
+
+LinkHackSources = \
+	all-widgets-cpp.cpp
+
+if HACKING_COMPACT_BUILD
+BuildSources = $(LinkHackSources)
+NoDistSources =
+ExtraSources = $(RegularSources)
+else
+BuildSources = $(RegularSources)
+NoDistSources = $(BuiltSources)
+ExtraSources = $(LinkHackSources)
+endif
 
 ############################################################################
 # libtool setup
 
-libSoQtWidgets_la_SOURCES = $(SoQtWidgetsSources)
+libSoQtWidgets_la_SOURCES = \
+	$(BuildSources)
 
 nodist_libSoQtWidgets_la_SOURCES = \
-	$(BUILT_SOURCES)
-
-#	$(SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles)
+	$(NoDistSources)
 
 ############################################################################
 # custom setup for Microsoft Visual C++ build
 
-widgets_lst_SOURCES = $(SoQtWidgetsSources)
+widgets_lst_SOURCES = \
+	$(BuildSources)
 
 nodist_widgets_lst_SOURCES = \
-	$(BUILT_SOURCES)
-
-#	$(SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles)
+	$(NoDistSources)
 
 widgets.lst: Makefile $(widgets_lst_OBJECTS)
 	@echo "Linking $@..."; \
@@ -92,8 +90,7 @@ else
 SoQtWidgetsincdir = $(includedir)/Inventor/@Gui@/widgets
 endif
 SoQtWidgetsinc_HEADERS = \
-	SoQtThumbWheel.h SoQtGradientDialog.h Gradient.h \
-	SoQtColorTableEditor.h
+	SoQtThumbWheel.h
 
 nodist_SoQtWidgetsinc_HEADERS = \
 	SoQtPopupMenu.h
@@ -127,21 +124,21 @@ install-nodist_SoQtWidgetsincHEADERS: $(nodist_SoQtWidgetsinc_HEADERS)
 # **************************************************************************
 # auto-generated Qt moc files.
 
-moc_SoQtGradientDialogP.icc: $(srcdir)/gradientp/SoQtGradientDialogP.h
-	( cd $(top_builddir); \
-	   $(MAKE) src/Inventor/Qt/widgets/$@ )
-
-moc_SoQtColorTableEditorP.icc: $(srcdir)/curvep/SoQtColorTableEditorP.h
-	( cd $(top_builddir); \
-	   $(MAKE) src/Inventor/Qt/widgets/$@ )
-
-moc_GradientView.icc: $(srcdir)/gradientp/GradientView.h
-	( cd $(top_builddir); \
-	   $(MAKE) src/Inventor/Qt/widgets/$@ )
-
-moc_CurveView.icc: $(srcdir)/curvep/CurveView.h
-	( cd $(top_builddir); \
-	   $(MAKE) src/Inventor/Qt/widgets/$@ )
+# moc_SoQtGradientDialogP.icc: $(srcdir)/gradientp/SoQtGradientDialogP.h
+# 	( cd $(top_builddir); \
+# 	   $(MAKE) src/Inventor/Qt/widgets/$@ )
+# 
+# moc_SoQtColorTableEditorP.icc: $(srcdir)/curvep/SoQtColorTableEditorP.h
+# 	( cd $(top_builddir); \
+# 	   $(MAKE) src/Inventor/Qt/widgets/$@ )
+# 
+# moc_GradientView.icc: $(srcdir)/gradientp/GradientView.h
+# 	( cd $(top_builddir); \
+# 	   $(MAKE) src/Inventor/Qt/widgets/$@ )
+# 
+# moc_CurveView.icc: $(srcdir)/curvep/CurveView.h
+# 	( cd $(top_builddir); \
+# 	   $(MAKE) src/Inventor/Qt/widgets/$@ )
 
 moc_QtNativePopupMenu.icc: $(srcdir)/QtNativePopupMenu.h
 	( cd $(top_builddir); \

@@ -55,7 +55,7 @@
 // file. 20021021 mortene.
 
 
-#if HAVE_CONFIG_H
+#ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif // HAVE_CONFIG_H
 
@@ -79,6 +79,9 @@
 #include <Inventor/Qt/SoQtGLWidget.h>
 #include <Inventor/Qt/widgets/SoQtGLArea.h>
 #include <soqtdefs.h>
+
+#define PRIVATE(obj) ((obj)->pimpl)
+#define PUBLIC(obj) ((obj)->pub)
 
 // Abstract the overlay handling methods on QGLFormat and QGLWidget,
 // because they may or may not be there depending on the version of
@@ -824,12 +827,13 @@ SoQtGLWidgetP::eventFilter(QObject * obj, QEvent * e)
                            eventnaming[e->type()], e->type());
   }
 
+  QEvent::Type etype = e->type();
 #if QT_VERSION >= 200
   // Qt 2 introduced "accelerator" type keyboard events, which should
   // simply be ignored (all keyboard events are first attempted passed
   // by the Qt event engine as accelerator events, before they are
   // re-sent as "ordinary" keyboard events).
-  if (e->type() == QEvent::Accel || e->type() == QEvent::AccelAvailable) {
+  if (etype == QEvent::Accel || etype == QEvent::AccelAvailable) {
     ((QKeyEvent *)e)->ignore();
     // It might not matter whether we return TRUE or FALSE here, but
     // it seems more natural to return FALSE according to the
@@ -843,15 +847,20 @@ SoQtGLWidgetP::eventFilter(QObject * obj, QEvent * e)
   // mouse events were routed to the gl widget, even if it was
   // supposed to go somewhere else. I'm not sure if this is the
   // correct fix though. pederb, 2001-10-16
-  if ((e->type() == QEvent::MouseButtonPress ||
-       e->type() == QEvent::MouseButtonRelease ||
-       e->type() == QEvent::MouseButtonDblClick ||
-       e->type() == QEvent::MouseMove) &&
-      (obj != this->currentglwidget)) return FALSE;
 
-  SbBool keyboardevent =
-    (e->type() == QEvent::KeyPress) || (e->type() == QEvent::KeyRelease);
-  if (keyboardevent) {
+  if ((etype == QEvent::MouseButtonPress ||
+       etype == QEvent::MouseButtonRelease ||
+       etype == QEvent::MouseButtonDblClick ||
+       etype == QEvent::MouseMove) &&
+      (obj != this->currentglwidget)) {
+    return FALSE;
+  }
+
+  int kbdevent = FALSE;
+  if ( QEvent::KeyPress == etype ) kbdevent = TRUE;
+  if ( QEvent::KeyRelease == etype ) kbdevent = TRUE;
+
+  if (kbdevent) {
     // Ignore keyboard-events, as they are caught directly by the
     // SoQtGLArea widget and forwarded through the
     // SoQtGLWidgetP::GLAreaKeyEvent() callback.
@@ -1208,3 +1217,7 @@ SoQtGLWidgetP::isDirectRendering(void)
 #endif // DOXYGEN_SKIP_THIS
 
 // *************************************************************************
+
+#undef PRIVATE
+#undef PUBLIC
+

@@ -24,17 +24,38 @@ DISTCLEANFILES = \
 
 ############################################################################
 
-# libSoQtEditors_la_SOURCES =
+RegularSources =
 
-nodist_libSoQtEditors_la_SOURCES = \
+BuiltSources = \
 	$(SoGui_src_Inventor_Gui_editors_BuiltFiles) \
 	$(SoGui_src_Inventor_Gui_editors_BuiltMetaFiles)
+
+LinkHackSources = \
+	all-editors-cpp.cpp
+
+if HACKING_COMPACT_BUILD
+BuildSources = $(LinkHackSources)
+NoDistSources =
+ExtraSources = $(RegularSources)
+else
+BuildSources = $(RegularSources)
+NoDistSources = $(BuiltSources)
+ExtraSources = $(LinkHackSources)
+endif
+
+libSoQtEditors_la_SOURCES = \
+	$(BuildSources)
+
+nodist_libSoQtEditors_la_SOURCES = \
+	$(NoDistSources)
 
 ############################################################################
 
+editors_lst_SOURCES = \
+	$(BuildSources)
+
 nodist_editors_lst_SOURCES = \
-	$(SoGui_src_Inventor_Gui_editors_BuiltFiles) \
-	$(SoGui_src_Inventor_Gui_editors_BuiltMetaFiles)
+	$(NoDistSources)
 
 editors.lst: Makefile $(editors_lst_OBJECTS)
 	@echo "Linking $@..."; \

@@ -1,6 +1,3 @@
-#ifndef TICKMARK_H
-#define TICKMARK_H
-
 /**************************************************************************\
  *
  *  This file is part of the Coin 3D visualization library.
@@ -24,17 +21,9 @@
  *
 \**************************************************************************/
 
-#include <qcanvas.h>
-#include <Inventor/SbBasic.h>
+// These files have conflicts with the Qt headers so they can't be compiled
+// together with the rest of the sources...
 
-class TickMark : public QCanvasPolygon
-{
-public:
-  TickMark(QCanvas * canvas);
-  ~TickMark();
+#include <Inventor/Qt/devices/spwinput_x11.cpp>
+#include <Inventor/Qt/devices/spwinput_win32.c>
 
-  float getPos(void) const;
-  bool hit(QPoint p) const;
-};
-
-#endif // ! TICKMARK_H
