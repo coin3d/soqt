@@ -781,7 +781,7 @@ else # !BUILD_WITH_MSVC
     SOGUI_EXTRA_CPPFLAGS=
     SOGUI_EXTRA_CFLAGS=
     SOGUI_EXTRA_CXXFLAGS=
-    SOGUI_EXTRA_LDFLAGS="-Wl,-multiply_defined,suppress -framework SoQt"
+    SOGUI_EXTRA_LDFLAGS="-Wl,-multiply_defined,suppress -Wl,-framework,SoQt"
     SOGUI_EXTRA_LIBS=
     # adjust for Qt usage
     SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qt_cppflags"
