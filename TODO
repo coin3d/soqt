@@ -104,6 +104,7 @@ ToDo
 
    d) if we resize the window to be smaller, there's sometimes no
       paint event. This happens both with and without decorations.
+      [fixed by mortene:20000318]
 
    e) the geometry sometimes seems misaligned after resize
       operations. Might be related to the problem in d).
@@ -111,17 +112,8 @@ ToDo
    f) key presses are not redirected to the GL canvas widget.
       [fixed by mortene:20000129]
 
-* [mortene:19991218] we get too many redraw events on resizing the
-  window, but only when it has decorations -- and _not_ if you remove
-  decorations and then reinsert them again. Weird.
-
 * [mortene:1999????] resize so height > width -> aspectratio is not
   updated accordingly.
-
-* [mortene:1999????] start the SoQt/examples/examinerviewer example
-  without any modelfile as argument (to get one of the random shapes),
-  drag the left rotate wheel a bit up or down -- leads to major
-  rendering fuckups. [seems to be gone - larsa:20000112]
 
 * [mortene:1999????] pick/view togglebuttons doesn't work correctly:
   clicking on a button already pressed down shouldn't have any effect.
