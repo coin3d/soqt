@@ -623,6 +623,10 @@ AC_SUBST([HTML_DOC_DIR])
 # script -- not just from the Makefile -- as the data/configure script
 # depends on it.
 
+# data/configure has a dependency to soqt-$CONFIG.cfg, so it must be created
+# in AC_OUTPUT.  Not really needed as data/configure is currently disabled,
+# but for the future...
+
 AC_OUTPUT([
 	soqt-$CONFIG.cfg:src/Inventor/Qt/common/sogui.cfg.in
 	Makefile

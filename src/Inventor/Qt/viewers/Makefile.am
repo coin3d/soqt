@@ -172,15 +172,15 @@ viewers.lst: Makefile $(viewers_lst_OBJECTS)
 
 SoQtViewersincdir = $(includedir)/Inventor/Qt/viewers
 SoQtViewersinc_HEADERS = \
-	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtFullViewer.h \
-	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtExaminerViewer.h \
-	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtPlaneViewer.h \
-	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtWalkViewer.h
+	SoQtFullViewer.h \
+	SoQtExaminerViewer.h \
+	SoQtPlaneViewer.h \
+	SoQtWalkViewer.h
 
 nodist_SoQtViewersinc_HEADERS = \
-	$(top_builddir)/src/Inventor/Qt/viewers/SoQtViewer.h \
-	$(top_builddir)/src/Inventor/Qt/viewers/SoQtConstrainedViewer.h \
-	$(top_builddir)/src/Inventor/Qt/viewers/SoQtFlyViewer.h
+	SoQtViewer.h \
+	SoQtConstrainedViewer.h \
+	SoQtFlyViewer.h
 
 install-SoQtViewersincHEADERS: $(SoQtViewersinc_HEADERS)
 	@$(NORMAL_INSTALL)

@@ -7,9 +7,6 @@ BUILT_SOURCES = \
 DISTCLEANFILES = \
 	$(BUILT_SOURCES)
 
-EXTRA_DIST = \
-	soqtdefs.h.in
-
 soqtdefs.h: $(srcdir)/Inventor/Qt/common/soguidefs.h.in
 	@( cd ..; $(MAKE) built-sources )
 

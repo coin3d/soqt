@@ -204,16 +204,16 @@ nodist_viewers_lst_SOURCES = \
 # header installation
 SoQtViewersincdir = $(includedir)/Inventor/Qt/viewers
 SoQtViewersinc_HEADERS = \
-	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtFullViewer.h \
-	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtExaminerViewer.h \
-	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtPlaneViewer.h \
-	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtWalkViewer.h
+	SoQtFullViewer.h \
+	SoQtExaminerViewer.h \
+	SoQtPlaneViewer.h \
+	SoQtWalkViewer.h
 
 
 nodist_SoQtViewersinc_HEADERS = \
-	$(top_builddir)/src/Inventor/Qt/viewers/SoQtViewer.h \
-	$(top_builddir)/src/Inventor/Qt/viewers/SoQtConstrainedViewer.h \
-	$(top_builddir)/src/Inventor/Qt/viewers/SoQtFlyViewer.h
+	SoQtViewer.h \
+	SoQtConstrainedViewer.h \
+	SoQtFlyViewer.h
 
 subdir = src/Inventor/Qt/viewers
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
@@ -462,7 +462,6 @@ top_distdir = ../../../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
-	$(mkinstalldirs) $(distdir)/$(top_srcdir)/src/Inventor/Qt/viewers
 	@for file in $(DISTFILES); do \
 	  if test -f $$file; then d=.; else d=$(srcdir); fi; \
 	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \

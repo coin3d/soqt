@@ -102,20 +102,20 @@ soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
 
 SoQtincdir = $(includedir)/Inventor/Qt
 SoQtinc_HEADERS = \
-	$(top_srcdir)/src/Inventor/Qt/SoQt.h \
-	$(top_srcdir)/src/Inventor/Qt/SoQtComponent.h \
-	$(top_srcdir)/src/Inventor/Qt/SoQtGLWidget.h \
-	$(top_srcdir)/src/Inventor/Qt/SoQtLightSliderSet.h \
-	$(top_srcdir)/src/Inventor/Qt/SoQtMaterialSliderSet.h \
-	$(top_srcdir)/src/Inventor/Qt/SoQtSliderSet.h \
-	$(top_srcdir)/src/Inventor/Qt/SoQtSliderSetBase.h \
-	$(top_srcdir)/src/Inventor/Qt/SoQtTransformSliderSet.h
+	SoQt.h \
+	SoQtComponent.h \
+	SoQtGLWidget.h \
+	SoQtLightSliderSet.h \
+	SoQtMaterialSliderSet.h \
+	SoQtSliderSet.h \
+	SoQtSliderSetBase.h \
+	SoQtTransformSliderSet.h
 
 nodist_SoQtinc_HEADERS = \
-	$(top_builddir)/src/Inventor/Qt/SoQtBasic.h \
-	$(top_builddir)/src/Inventor/Qt/SoQtObject.h \
-	$(top_builddir)/src/Inventor/Qt/SoQtCursors.h \
-	$(top_builddir)/src/Inventor/Qt/SoQtRenderArea.h
+	SoQtBasic.h \
+	SoQtObject.h \
+	SoQtCursors.h \
+	SoQtRenderArea.h
 
 install-SoQtincHEADERS: $(SoQtinc_HEADERS)
 	@$(NORMAL_INSTALL)
@@ -240,7 +240,7 @@ install-exec-local:
 	  done; \
 	else :; fi
 
-install-data-local:
+install-data-local: uninstall-SoQtincHEADERS uninstall-nodist_SoQtincHEADERS
 	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
 	if @BUILD_WITH_MSVC@; then \
 	  for ext in lib; do \
@@ -273,6 +273,7 @@ uninstall-local:
 	    echo " rmdir" "$$dir"; \
 	    rmdir "$$dir"; \
 	  fi \
-	done;
+	done; \
+	:
 
 # EOF **********************************************************************

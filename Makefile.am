@@ -75,9 +75,11 @@ BUILT_SOURCES = \
 DISTCLEANFILES = \
 	libtool \
 	build/so@gui@.doxygen \
-	so@gui@-*.cfg
+	so@gui@-*.cfg \
+	so@gui@-config \
+	$(BUILT_SOURCES)
 
-dist_bin_SCRIPTS = so@gui@-config
+bin_SCRIPTS = so@gui@-config
 
 m4datadir = $(datadir)/aclocal
 dist_m4data_DATA = cfg/m4/so@gui@.m4
@@ -85,22 +87,23 @@ dist_m4data_DATA = cfg/m4/so@gui@.m4
 cfgdatadir = $(datadir)/Coin/conf
 cfgdata_DATA = so@gui@-@CONFIG@.cfg
 
-so@gui@-@CONFIG@.cfg: Makefile config.status $(srcdir)/src/Inventor/@Gui@/common/sogui.cfg.in
-	@$(SHELL) config.status --file=$@:$(srcdir)/src/Inventor/@Gui@/common/sogui.cfg.in
+# now generated in configure because of data/configure dependency
+# so@gui@-@CONFIG@.cfg: Makefile config.status $(srcdir)/src/Inventor/@Gui@/common/sogui.cfg.in
+#	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/sogui.cfg.in
 
 so@gui@-config: Makefile config.status $(srcdir)/src/Inventor/@Gui@/common/sogui-config.in
-	@$(SHELL) config.status --file=$@:$(srcdir)/src/Inventor/@Gui@/common/sogui-config.in
+	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/sogui-config.in
 
 EXTRA_DIST = \
 	LICENSE.LGPL \
+	HACKING \
 	README.DLL \
 	README.IRIX \
 	README.WIN32 \
-	$(srcdir)/src/Inventor/@Gui@/common/sogui.cfg.in \
-	$(srcdir)/src/Inventor/@Gui@/common/sogui-config.in \
+	src/Inventor/@Gui@/common/sogui.cfg.in \
+	src/Inventor/@Gui@/common/sogui-config.in \
 	build/so@gui@.doxygen.in \
 	build/so@gui@.spec.in \
-	cfg/ltconfig \
 	cfg/doxy4win.pl \
 	cfg/m4/wrapmsvc.cpp \
 	cfg/m4/wrapmsvc.exe \

@@ -133,10 +133,6 @@ BUILT_SOURCES = \
 DISTCLEANFILES = \
 	$(BUILT_SOURCES)
 
-
-EXTRA_DIST = \
-	soqtdefs.h.in
-
 subdir = src
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = config.h

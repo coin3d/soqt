@@ -108,11 +108,11 @@ devices.lst: Makefile $(devices_lst_OBJECTS)
 
 libSoQtDevicesincdir = $(includedir)/Inventor/Qt/devices
 libSoQtDevicesinc_HEADERS = \
-	$(srcdir)/SoQtDevice.h \
-	$(srcdir)/SoQtInputFocus.h \
-	$(srcdir)/SoQtKeyboard.h \
-	$(srcdir)/SoQtMouse.h \
-	$(srcdir)/SoQtSpaceball.h
+	SoQtDevice.h \
+	SoQtInputFocus.h \
+	SoQtKeyboard.h \
+	SoQtMouse.h \
+	SoQtSpaceball.h
 # FIXME: this is bad practice...
 #	$(libSoQtDevicesConditionalHeaders)
 

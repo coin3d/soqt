@@ -232,11 +232,11 @@ nodist_devices_lst_SOURCES = \
 ############################################################################
 libSoQtDevicesincdir = $(includedir)/Inventor/Qt/devices
 libSoQtDevicesinc_HEADERS = \
-	$(srcdir)/SoQtDevice.h \
-	$(srcdir)/SoQtInputFocus.h \
-	$(srcdir)/SoQtKeyboard.h \
-	$(srcdir)/SoQtMouse.h \
-	$(srcdir)/SoQtSpaceball.h
+	SoQtDevice.h \
+	SoQtInputFocus.h \
+	SoQtKeyboard.h \
+	SoQtMouse.h \
+	SoQtSpaceball.h
 
 subdir = src/Inventor/Qt/devices
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
@@ -448,7 +448,6 @@ top_distdir = ../../../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
-	$(mkinstalldirs) $(distdir)/$(srcdir)
 	@for file in $(DISTFILES); do \
 	  if test -f $$file; then d=.; else d=$(srcdir); fi; \
 	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
