@@ -291,6 +291,8 @@ SoQtSuperViewer::init()
   PRIVATE(this)->canvas->move(0, 0);
   PRIVATE(this)->canvas->resize(PRIVATE(this)->viewerwidget->size());
   this->setBaseWidget(PRIVATE(this)->viewerwidget);
+  PRIVATE(this)->setupNodes();
+
 } // init()
 
 // *************************************************************************
@@ -362,7 +364,9 @@ SoQtSuperViewer::setMenus(int buildFlag, int enabled)
 */
 
 void
-SoQtSuperViewer::setFileMenuItems(int buildFlag, int enabled)
+SoQtSuperViewer::setFileMenuItems(int buildFlag, 
+                                  int enabled, 
+                                  int checked)
 {
   if(buildFlag > NO_CHANGE){
     PRIVATE(this)->filemenuItems[0].build = 
@@ -412,10 +416,35 @@ SoQtSuperViewer::setFileMenuItems(int buildFlag, int enabled)
     PRIVATE(this)->filemenuItems[10].enabled = 
       enabled & SoQtSuperViewer::EXIT ? TRUE : FALSE;
   }
+  if(checked > NO_CHANGE){
+    PRIVATE(this)->filemenuItems[0].checked = 
+      checked & SoQtSuperViewer::OPEN_MODEL ? TRUE : FALSE;
+    PRIVATE(this)->filemenuItems[1].checked = 
+      checked & SoQtSuperViewer::CLOSE_MODEL ? TRUE : FALSE;
+    PRIVATE(this)->filemenuItems[2].checked = 
+      checked & SoQtSuperViewer::CLOSE_ALL ? TRUE : FALSE;
+    PRIVATE(this)->filemenuItems[3].checked = 
+      checked & SoQtSuperViewer::MODELS ? TRUE : FALSE;
+    PRIVATE(this)->filemenuItems[4].checked = 
+      checked & SoQtSuperViewer::SEPARATOR_FILE_1 ? TRUE : FALSE;
+    PRIVATE(this)->filemenuItems[5].checked = 
+      checked & SoQtSuperViewer::NEXT_MODEL ? TRUE : FALSE;
+    PRIVATE(this)->filemenuItems[6].checked = 
+      checked & SoQtSuperViewer::PREVIOUS_MODEL ? TRUE : FALSE;
+    PRIVATE(this)->filemenuItems[7].checked = 
+      checked & SoQtSuperViewer::REFRESH_MODEL ? TRUE : FALSE;
+    PRIVATE(this)->filemenuItems[8].checked = 
+      checked & SoQtSuperViewer::SNAPSHOT ? TRUE : FALSE;
+    PRIVATE(this)->filemenuItems[9].checked = 
+      checked & SoQtSuperViewer::SEPARATOR_FILE_2 ? TRUE : FALSE;
+    PRIVATE(this)->filemenuItems[10].checked = 
+      checked & SoQtSuperViewer::EXIT ? TRUE : FALSE;
+  }
 
   if(PRIVATE(this)->built) 
     PRIVATE(this)->buildFileMenu(buildFlag > NO_CHANGE,
-                                 enabled > NO_CHANGE);
+                                 enabled > NO_CHANGE,
+                                 checked > NO_CHANGE);
   else 
     PRIVATE(this)->actualInit(FALSE);
 
@@ -428,7 +457,9 @@ SoQtSuperViewer::setFileMenuItems(int buildFlag, int enabled)
 */
 
 void
-SoQtSuperViewer::setViewMenuItems(int buildFlag, int enabled)
+SoQtSuperViewer::setViewMenuItems(int buildFlag, 
+                                  int enabled,
+                                  int checked)
 {
   if(buildFlag > NO_CHANGE){
     PRIVATE(this)->viewmenuItems[0].build = 
@@ -490,9 +521,44 @@ SoQtSuperViewer::setViewMenuItems(int buildFlag, int enabled)
     PRIVATE(this)->viewmenuItems[13].enabled = 
       enabled & SoQtSuperViewer::WHILE_MOVING ? TRUE : FALSE;
   }
+  if(checked > NO_CHANGE){
+    PRIVATE(this)->viewmenuItems[0].checked = 
+      checked & SoQtSuperViewer::INFORMATION ? TRUE : FALSE;
+    PRIVATE(this)->viewmenuItems[1].checked = 
+      checked & SoQtSuperViewer::FLATSHADING ? TRUE : FALSE;
+    PRIVATE(this)->viewmenuItems[2].checked = 
+      checked & SoQtSuperViewer::SEPARATOR_VIEW_1 ? TRUE : FALSE;
+    PRIVATE(this)->viewmenuItems[3].checked = 
+      checked & SoQtSuperViewer::FILLED ? TRUE : FALSE;
+    PRIVATE(this)->viewmenuItems[4].checked = 
+      checked & SoQtSuperViewer::BOUNDINGBOXES ? TRUE : FALSE;
+    PRIVATE(this)->viewmenuItems[5].checked =
+      checked & SoQtSuperViewer::WIREFRAME ? TRUE : FALSE;
+    PRIVATE(this)->viewmenuItems[6].checked = 
+      checked & SoQtSuperViewer::VERTICES ? TRUE : FALSE;
+    PRIVATE(this)->viewmenuItems[7].checked = 
+      checked & SoQtSuperViewer::HIDDEN_PARTS ? TRUE : FALSE;
+    PRIVATE(this)->viewmenuItems[8].checked = 
+      checked & SoQtSuperViewer::TEXTURES ? TRUE : FALSE;
+    PRIVATE(this)->viewmenuItems[9].checked = 
+      checked & SoQtSuperViewer::SEPARATOR_VIEW_2 ? TRUE : FALSE;
+    PRIVATE(this)->viewmenuItems[10].checked = 
+      checked & SoQtSuperViewer::WHILE_MOVING && 
+      10 == PRIVATE(this)->movingitemchk ? TRUE : FALSE;
+    PRIVATE(this)->viewmenuItems[11].checked = 
+      checked & SoQtSuperViewer::WHILE_MOVING &&
+      11 == PRIVATE(this)->movingitemchk ? TRUE : FALSE;
+    PRIVATE(this)->viewmenuItems[12].checked = 
+      checked & SoQtSuperViewer::WHILE_MOVING && 
+      12 == PRIVATE(this)->movingitemchk ? TRUE : FALSE;
+    PRIVATE(this)->viewmenuItems[13].checked = 
+      checked & SoQtSuperViewer::WHILE_MOVING &&
+      13 == PRIVATE(this)->movingitemchk ? TRUE : FALSE;
+  }
   if(PRIVATE(this)->built) 
     PRIVATE(this)->buildViewMenu(buildFlag > NO_CHANGE,
-                                 enabled > NO_CHANGE);
+                                 enabled > NO_CHANGE,
+                                 checked > NO_CHANGE);
   else 
     PRIVATE(this)->actualInit(FALSE);
 
@@ -505,7 +571,9 @@ SoQtSuperViewer::setViewMenuItems(int buildFlag, int enabled)
 */
 
 void
-SoQtSuperViewer::setSettingsMenuItems(int buildFlag, int enabled)
+SoQtSuperViewer::setSettingsMenuItems(int buildFlag, 
+                                      int enabled, 
+                                      int checked)
 {
   if(buildFlag > NO_CHANGE){
     PRIVATE(this)->settingsmenuItems[0].build = 
@@ -547,10 +615,31 @@ SoQtSuperViewer::setSettingsMenuItems(int buildFlag, int enabled)
     PRIVATE(this)->settingsmenuItems[8].enabled = 
       enabled & SoQtSuperViewer::TRANSPARENCY_TYPE ? TRUE : FALSE;
   }
+  if(checked > NO_CHANGE){
+    PRIVATE(this)->settingsmenuItems[0].checked = 
+      checked & SoQtSuperViewer::INFORMATION_SETTING ? TRUE : FALSE;
+    PRIVATE(this)->settingsmenuItems[1].checked = 
+      checked & SoQtSuperViewer::LINE_WIDTH ? TRUE : FALSE;
+    PRIVATE(this)->settingsmenuItems[2].checked = 
+      checked & SoQtSuperViewer::POINT_SIZE ? TRUE : FALSE;
+    PRIVATE(this)->settingsmenuItems[3].checked = 
+      checked & SoQtSuperViewer::LINE_COLOR ? TRUE : FALSE;
+    PRIVATE(this)->settingsmenuItems[4].checked = 
+      checked & SoQtSuperViewer::POINT_COLOR ? TRUE : FALSE;
+    PRIVATE(this)->settingsmenuItems[5].checked = 
+      checked & SoQtSuperViewer::BACKGROUND_COLOR ? TRUE : FALSE;
+    PRIVATE(this)->settingsmenuItems[6].checked = 
+      checked & SoQtSuperViewer::RENDER_QUALITY ? TRUE : FALSE;
+    PRIVATE(this)->settingsmenuItems[7].checked = 
+      checked & SoQtSuperViewer::TEXTURE_QUALITY ? TRUE : FALSE;
+    PRIVATE(this)->settingsmenuItems[8].checked = 
+      checked & SoQtSuperViewer::TRANSPARENCY_TYPE ? TRUE : FALSE;
+  }
 
   if(PRIVATE(this)->built) 
     PRIVATE(this)->buildSettingsMenu(buildFlag > NO_CHANGE,
-                                     enabled > NO_CHANGE);
+                                     enabled > NO_CHANGE,
+                                     checked > NO_CHANGE);
   else 
     PRIVATE(this)->actualInit(FALSE);
 
@@ -563,7 +652,9 @@ SoQtSuperViewer::setSettingsMenuItems(int buildFlag, int enabled)
 */
 
 void
-SoQtSuperViewer::setCameraMenuItems(int buildFlag, int enabled)
+SoQtSuperViewer::setCameraMenuItems(int buildFlag, 
+                                    int enabled,
+                                    int checked)
 {
   if(buildFlag > NO_CHANGE){
     PRIVATE(this)->cameramenuItems[0].build = 
@@ -597,16 +688,181 @@ SoQtSuperViewer::setCameraMenuItems(int buildFlag, int enabled)
     PRIVATE(this)->cameramenuItems[6].enabled = 
       enabled & SoQtSuperViewer::CAMERAS ? TRUE : FALSE;
   }
+  if(checked > NO_CHANGE){
+    PRIVATE(this)->cameramenuItems[0].checked = 
+      checked & SoQtSuperViewer::VIEW_ALL ? TRUE : FALSE;
+    PRIVATE(this)->cameramenuItems[1].checked = 
+      checked & SoQtSuperViewer::RESET_VIEW ? TRUE : FALSE;
+    PRIVATE(this)->cameramenuItems[2].checked = 
+      checked & SoQtSuperViewer::SEEK ? TRUE : FALSE;
+    PRIVATE(this)->cameramenuItems[3].checked = 
+      checked & SoQtSuperViewer::VIEW_MODES ? TRUE : FALSE;
+    PRIVATE(this)->cameramenuItems[4].checked = 
+      checked & SoQtSuperViewer::FLY_MODES ? TRUE : FALSE;
+    PRIVATE(this)->cameramenuItems[5].checked = 
+      checked & SoQtSuperViewer::SEPARATOR_CAMERA_1 ? TRUE : FALSE;
+    PRIVATE(this)->cameramenuItems[6].checked = 
+      checked & SoQtSuperViewer::CAMERAS ? TRUE : FALSE;
+  }
 
   if(PRIVATE(this)->built) 
     PRIVATE(this)->buildCameraMenu(buildFlag > NO_CHANGE,
-                                   enabled > NO_CHANGE);
+                                   enabled > NO_CHANGE,
+                                   checked > NO_CHANGE);
   else 
     PRIVATE(this)->actualInit(FALSE);
 
 } // setCameraMenuItems()
 
 #undef NO_CHANGE
+
+
+// *************************************************************************
+
+/*!
+  
+ */
+
+const int
+SoQtSuperViewer::getBuiltItems(const SoQtSuperViewer::Menus menu)
+{
+  int items, power, i;
+  items = i = 0;
+  power = 1;
+  switch(menu){
+  case SoQtSuperViewer::FILE_MENU:
+    for(; i < 11; i++){
+      if(PRIVATE(this)->filemenuItems[i].build)
+        items += power;
+      power *= 2;
+    }
+    break;
+  case SoQtSuperViewer::VIEW_MENU:
+    for(; i < 11; i++){
+      if(PRIVATE(this)->viewmenuItems[i].build)
+        items += power;
+      power *= 2;
+    }
+    break;
+ case SoQtSuperViewer::SETTINGS_MENU:
+    for(; i < 9; i++){
+      if(PRIVATE(this)->settingsmenuItems[i].build)
+        items += power;
+      power *= 2;
+    }
+    break;
+  case SoQtSuperViewer::CAMERA_MENU:
+    for(; i < 7; i++){
+      if(PRIVATE(this)->cameramenuItems[i].build)
+        items += power;
+      power *= 2;
+    }
+    break;
+  case SoQtSuperViewer::LIGHTS_MENU:
+    if(PRIVATE(this)->menus[4].build)
+      items = 1;
+    break;
+  }
+  return items;
+} // getBuiltItems()
+
+// *************************************************************************
+
+/*!
+  
+ */
+
+const int
+SoQtSuperViewer::getEnabledItems(const SoQtSuperViewer::Menus menu)
+{
+  int items, power, i;
+  items = i = 0;
+  power = 1;
+  switch(menu){
+  case SoQtSuperViewer::FILE_MENU:
+    for(; i < 11; i++){
+      if(PRIVATE(this)->filemenuItems[i].enabled)
+        items += power;
+      power *= 2;
+    }
+    break;
+  case SoQtSuperViewer::VIEW_MENU:
+    for(; i < 11; i++){
+      if(PRIVATE(this)->viewmenuItems[i].enabled)
+        items += power;
+      power *= 2;
+    }
+    break;
+ case SoQtSuperViewer::SETTINGS_MENU:
+    for(; i < 9; i++){
+      if(PRIVATE(this)->settingsmenuItems[i].enabled)
+        items += power;
+      power *= 2;
+    }
+    break;
+  case SoQtSuperViewer::CAMERA_MENU:
+    for(; i < 7; i++){
+      if(PRIVATE(this)->cameramenuItems[i].enabled)
+        items += power;
+      power *= 2;
+    }
+    break;
+  case SoQtSuperViewer::LIGHTS_MENU:
+    if(PRIVATE(this)->menus[4].enabled)
+      items = 1;
+    break;
+  }
+  return items;
+} // getEnabledItems()
+
+// *************************************************************************
+
+/*!
+  
+ */
+
+const int
+SoQtSuperViewer::getCheckedItems(const SoQtSuperViewer::Menus menu)
+{
+  int items, power, i;
+  items = i = 0;
+  power = 1;
+  switch(menu){
+  case SoQtSuperViewer::FILE_MENU:
+    for(; i < 11; i++){
+      if(PRIVATE(this)->filemenuItems[i].checked)
+        items += power;
+      power *= 2;
+    }
+    break;
+  case SoQtSuperViewer::VIEW_MENU:
+    for(; i < 10; i++){
+      if(PRIVATE(this)->viewmenuItems[i].checked)
+        items += power;
+      power *= 2;
+    }
+    items += SoQtSuperViewer::WHILE_MOVING;
+    break;
+ case SoQtSuperViewer::SETTINGS_MENU:
+    for(; i < 9; i++){
+      if(PRIVATE(this)->settingsmenuItems[i].checked)
+        items += power;
+      power *= 2;
+    }
+    break;
+  case SoQtSuperViewer::CAMERA_MENU:
+    for(; i < 7; i++){
+      if(PRIVATE(this)->cameramenuItems[i].checked)
+        items += power;
+      power *= 2;
+    }
+    break;
+  case SoQtSuperViewer::LIGHTS_MENU:
+    break;
+  }
+  return items;
+} // getCheckedItems()
+
 
 // *************************************************************************
 

@@ -25,6 +25,7 @@
 
 //*************************************************************************
 
+
 class SoQtSuperViewer : public SoQtViewer {
   SOQT_OBJECT_HEADER(SoQtSuperViewer, SoQtViewer);
 
@@ -35,7 +36,7 @@ class SoQtSuperViewer : public SoQtViewer {
     BUILD_ALL        = (BUILD_MENUBAR | BUILD_TOOLBAR)
   };
 
-  enum BuildMenus {
+  enum Menus {
     FILE_MENU        = 0x01,
     VIEW_MENU        = 0x02,
     SETTINGS_MENU    = 0x04,
@@ -45,43 +46,43 @@ class SoQtSuperViewer : public SoQtViewer {
                         CAMERA_MENU | LIGHTS_MENU)
   };
 
-  enum BuildFileMenu {
+  enum FileMenu {
     OPEN_MODEL        = 0x01,
     CLOSE_MODEL       = 0x02,
     CLOSE_ALL         = 0x04,
     MODELS            = 0x08,
-    NEXT_MODEL        = 0x10,
-    PREVIOUS_MODEL    = 0x20,
-    REFRESH_MODEL     = 0x40,
-    SNAPSHOT          = 0x80,
-    EXIT              = 0x100,
-    SEPARATOR_FILE_1 = 0x200,
-    SEPARATOR_FILE_2 = 0x400,
+    SEPARATOR_FILE_1  = 0x10,
+    NEXT_MODEL        = 0x20,
+    PREVIOUS_MODEL    = 0x40,
+    REFRESH_MODEL     = 0x80,
+    SNAPSHOT          = 0x100,
+    SEPARATOR_FILE_2  = 0x200,
+    EXIT              = 0x400,
     BUILD_FILE_MENU   = (OPEN_MODEL | CLOSE_MODEL | CLOSE_ALL | MODELS |
                          NEXT_MODEL | PREVIOUS_MODEL | REFRESH_MODEL |
                          SNAPSHOT | EXIT | SEPARATOR_FILE_1 | 
                          SEPARATOR_FILE_2)
   };
 
-  enum BuildViewMenu {
+  enum ViewMenu {
     INFORMATION      = 0x01,
     FLATSHADING      = 0x02,
-    FILLED           = 0x04,
-    BOUNDINGBOXES    = 0x08,
-    WIREFRAME        = 0x10,
-    VERTICES         = 0x20,
-    HIDDEN_PARTS     = 0x40,
-    TEXTURES         = 0x80,
-    WHILE_MOVING     = 0x100,
-    SEPARATOR_VIEW_1  = 0x200,
-    SEPARATOR_VIEW_2  = 0x400,
+    SEPARATOR_VIEW_1 = 0x04,
+    FILLED           = 0x08,
+    BOUNDINGBOXES    = 0x10,
+    WIREFRAME        = 0x20,
+    VERTICES         = 0x40,
+    HIDDEN_PARTS     = 0x80,
+    TEXTURES         = 0x100,
+    SEPARATOR_VIEW_2 = 0x200,
+    WHILE_MOVING     = 0x400,
     BUILD_VIEW_MENU  = (INFORMATION | FLATSHADING | FILLED |
                         BOUNDINGBOXES | WIREFRAME | VERTICES |
                         HIDDEN_PARTS | TEXTURES | WHILE_MOVING |
                         SEPARATOR_VIEW_1 | SEPARATOR_VIEW_2)
   };
 
-  enum BuildSettingsMenu {
+  enum SettingsMenu {
     INFORMATION_SETTING = 0x01,
     LINE_WIDTH          = 0x02,
     POINT_SIZE          = 0x04,
@@ -98,14 +99,14 @@ class SoQtSuperViewer : public SoQtViewer {
                            TRANSPARENCY_TYPE)
   };
 
-  enum BuildCameraMenu {
+  enum CameraMenu {
     VIEW_ALL           = 0x01,
     RESET_VIEW         = 0x02,
     SEEK               = 0x04,
     VIEW_MODES         = 0x08,
     FLY_MODES          = 0x10,
-    CAMERAS            = 0x20,
-    SEPARATOR_CAMERA_1 = 0x40,
+    SEPARATOR_CAMERA_1 = 0x20,
+    CAMERAS            = 0x40,
     BUILD_CAMERA_MENU  = (VIEW_ALL | RESET_VIEW | SEEK |
                           VIEW_MODES | FLY_MODES | CAMERAS |
                           SEPARATOR_CAMERA_1)
@@ -124,11 +125,24 @@ class SoQtSuperViewer : public SoQtViewer {
   void init(void);
 
   void setBars(const int buildFlag);
-  void setMenus(const int buildFlag = 0, const int enabled = 0);
-  void setFileMenuItems(const int buildFlag = 0, const int enabled = 0);
-  void setViewMenuItems(const int buildFlag = 0, const int enabled = 0);
-  void setSettingsMenuItems(const int buildFlag = 0, const int enabled = 0);
-  void setCameraMenuItems(const int buildFlag = 0, const int enabled = 0);
+  void setMenus(const int buildFlag = 0, 
+                const int enabled = 0);
+  void setFileMenuItems(const int buildFlag = 0, 
+                        const int enabled = 0,
+                        const int checked = 0);
+  void setViewMenuItems(const int buildFlag = 0, 
+                        const int enabled = 0,
+                        const int checked = 0);
+  void setSettingsMenuItems(const int buildFlag = 0, 
+                            const int enabled = 0,
+                            const int checked = 0);
+  void setCameraMenuItems(const int buildFlag = 0, 
+                          const int enabled = 0,
+                          const int checked = 0);
+
+  const int getBuiltItems(const Menus menu);
+  const int getEnabledItems(const Menus menu);
+  const int getCheckedItems(const Menus menu);
 
   void setMenuBar(const SbBool on);
   SbBool isMenuBar(void) const;
