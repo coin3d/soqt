@@ -595,6 +595,7 @@ SoQt::init(QWidget * toplevelwidget)
     const char * env = SoAny::si()->getenv("SOQT_XSYNC");
     SoQtP::DEBUG_X11SYNC = env ? atoi(env) : 0;
     if (SoQtP::DEBUG_X11SYNC) {
+      // FIXME: SoDebugError::initClass() not yet invoked! 20021021 mortene.
       SoDebugError::postInfo("SoQt::init", "Turning on X synchronization.");
       XSynchronize(qt_xdisplay(), True);
     }

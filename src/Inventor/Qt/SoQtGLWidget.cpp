@@ -50,9 +50,10 @@
 //
 // The problem was reported to happen for Solaris by Bert Bril.
 //
-// (The "bug" is really in either the <X11/Xmd.h> header or the
-// <qglobal.h> header, but we need to use this work-around so SoQt can
-// still compile without any hassle.)
+// FIXME: the QT_CLEAN_NAMESPACE define should probably be used
+// throughout the compilation of the SoQt library, not just for this
+// file. 20021021 mortene.
+
 #define QT_CLEAN_NAMESPACE 1
 
 #include <qevent.h>
