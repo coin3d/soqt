@@ -1092,7 +1092,7 @@ SoQtGLWidgetP::buildGLWidget(void)
     this->currentglwidget =
       new SoQtGLArea(this->glformat, this->borderwidget,
                      sharewidget ? (const QGLWidget*) sharewidget->getGLWidget() : NULL);
-    this->currentglwidget->registerQKeyEventHandler(SoQtGLWidgetP::GLAreaKeyEvent, this);
+    this->currentglwidget->registerQKeyEventHandler(SoQtGLWidgetP::GLAreaKeyEvent, PUBLIC(this));
     SoAny::si()->registerGLContext((void *)PUBLIC(this), display, screen);
     // Send this one to the final hunting grounds.    
     delete wasprevious;
