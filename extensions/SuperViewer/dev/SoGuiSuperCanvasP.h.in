@@ -1,0 +1,229 @@
+/**************************************************************************
+ *
+ *  This file is part of the Coin SoQt GUI binding library.
+ *  Copyright (C) 1998-2002 by Systems in Motion.  All rights reserved.
+ *
+ *  This library is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU Lesser General Public License version
+ *  2.1 as published by the Free Software Foundation.  See the file
+ *  LICENSE.LGPL at the root directory of the distribution for all the
+ *  details.
+ *
+ *  If you want to use Coin SoQt for applications not compatible with the
+ *  LGPL, please contact SIM to acquire a Professional Edition License.
+ *
+ *  Systems in Motion, Prof Brochs gate 6, N-7030 Trondheim, NORWAY
+ *  http://www.sim.no/ support@sim.no Voice: +47 22114160 Fax: +47 22207097
+ *
+ **************************************************************************/
+
+#ifndef SOQT_SUPER_CANVASP_H
+#define SOQT_SUPER_CANVASP_H
+
+#include <Inventor/@Gui@/viewers/So@Gui@Viewer.h>
+#include "So@Gui@SuperCanvas.h"
+
+class SoSwitch;
+class SoShapeHints;
+class SoNormal;
+class SoNormalBinding;
+class SoDrawStyle;
+class SoComplexity;
+class SoLightModel;
+class SoBaseColor;
+class SoFieldSensor;
+class SoTimerSensor;
+class SoIndexedLineSet;
+class SoVertexProperty;
+class SoLight;
+
+//*************************************************************************
+
+class So@Gui@SuperCanvasP {
+ 
+ public:
+  So@Gui@SuperCanvasP(So@Gui@SuperCanvas * o);
+  ~So@Gui@SuperCanvasP(void);
+
+  @WIDGET@ viewerwidget;
+  @WIDGET@ canvas;
+
+  // Variables used for the models viewed with the viewer
+  SoSeparator * currentroot, * supersg;
+  SoSwitch * cameraswitch;
+  SbList<SoCamera *> cameras;
+  SbList<SoLight *> lights;
+
+  SoComplexity * complexity;
+  SoDrawStyle * drawstyle;
+  SoLightModel * lightmodel;
+  SoBaseColor * basecolor;
+  SoMaterialBinding * materialbinding;
+  SoSwitch * drawstyleroot, * hiddenlineroot, * polygonoffsetparent, * graphswitch;
+  SoPolygonOffset * polygonoffset;
+  SoIndexedLineSet * bbox;
+  SoVertexProperty * bboxvertices;
+  SoShapeHints * shapehints;
+  SoNormal * emptynormal;
+  SoNormalBinding * emptynormalbinding;
+  SoSearchAction * searchaction;
+  SoGetPrimitiveCountAction * countaction;
+  SoGetBoundingBoxAction * bboxaction;
+  int cones, cubes, cylinders, spheres; 
+  int polygonoffsetindex ;
+  int complexityindex, lightmodelindex;
+  float texturequality;
+
+  SbColor linecolor, pointcolor;
+
+  SbBool filled;
+  SbBool informationenabled;
+  SbBool boundingboxesenabled;
+  SbBool wireframeenabled;
+  SbBool verticesenabled;
+  SbBool hiddenpartsenabled;
+  SbBool texturesenabled;
+  SbBool notmovingfull;
+
+  SbBool mf, mt, mv, mw, mb;
+
+  SbBool flatshadingenabled;
+  SbBool distanceenabled;
+  SbBool spinanimatingallowed;
+  SbBool spinanimating;
+  SbBool flying;
+
+  So@Gui@SuperCanvas::ViewMode viewmode;
+  int drawstyles;
+  int drawstyledirty;
+  SbBool movingdirty;
+
+  SbBool frontcamera;
+
+  //variables used for model movement
+  struct { // tracking mouse movement in a log
+    short size;
+    short historysize;
+    SbVec2s * position;
+    SbTime * time;
+  } log;
+
+  So@Gui@SuperCanvas::WhileMoving howtomove;
+
+  SbTime prevRedrawTime;
+  SbRotation spinRotation;
+  SbVec2f lastmouseposition;
+  SbPlane panningplane;
+
+//    SbVec2f lastspinposition;
+  int spinsamplecounter;
+  SbRotation spinincrement;
+  class SbSphereSheetProjector * spinprojector;
+
+  SbVec2s canvasvec;
+
+  // Flags used by processSoEvent()
+  SbBool button1down;
+  SbBool button2down;
+  SbBool button3down;
+  SbBool controldown;
+  SbBool motion3oncamera;
+
+//    // Variables used by the fly mode
+  SbVec2s mousedownpos;
+  SbVec2s mousepos;
+  SbBool shouldscheduleredraw;
+  SbBool pause;
+  SbBool busy;
+  int flydirection;
+  SoTimerSensor * timersensor;
+  float glidespeed;
+  float flyspeed;
+  float relspeedglide;
+  float relspeedfly;
+  SbMatrix camerarot;
+  SbBool doresetroll;
+  SbVec3f viewupaxis;
+  SoFieldSensor * camerapossensor;
+  SoFieldSensor * cameraorientsensor;
+  SoCamera * currcam;
+  float elevation;
+  double movedist;
+
+ public:
+  
+  void setupNodes();
+  void drawInformation();
+  void resetCountAction();
+  void resetBBox();
+  void drawstyleRedraw(SbBool on);
+  void movingRedraw(SbBool on);
+  SoGroup * getParentOfNode(SoNode * root, SoNode * node, int & index);
+
+//    SoSeparator * loadModelFromFile(SbString * const filename);
+  void reorientCamera(const SbRotation & rotation);
+  void spin (const SbVec2f & pointerpos);
+  void pan(const SbVec2f & mousepos, const SbVec2f & prevpos);
+  void zoom(const float diffvalue);
+  void zoomByCursor(const SbVec2f & mousepos, const SbVec2f & prevpos);
+
+  void clearLog(void);
+  void addToLog(const SbVec2s pos, const SbTime time);
+
+  SbBool processFlyEvent(const SoEvent * const event);
+  void glidePulse(SbBool joystick = FALSE);
+  void flyPulse(SbBool joystick = FALSE);
+  void lockedPulse(SbBool Joystick = FALSE);
+  void pulse(void);
+
+  enum HelpMode {
+    IDLE,
+    DRAGGING,
+    WAITING_FOR_SEEK,
+    ZOOMING,
+    WAITING_FOR_PAN,
+    PANNING,
+    WAIT_RB_RELEASE,
+    WAITING_FOR_FLY,
+    INTERACT,
+    EXAMINE,
+    FLYMODE,
+    GLIDEMODE,
+    LOCKEDMODE
+  };
+
+  HelpMode currentmode;
+  HelpMode flymode;
+
+  void setMode(const HelpMode mode);
+  void setCursorRepresentation(int mode);
+  void findCameras();
+  void findLights();
+
+  static void timercb(void *data, SoSensor * sensor);
+  static void camera_pos_cb(void * data, SoSensor *);
+  static void camera_orient_cb(void * data, SoSensor *);
+
+  void moveCamera(const SbVec3f &vec, const SbBool dorotate = FALSE);
+  void yawCamera(const float rad);
+  void rollCamera(const float rad);
+  void pitchCamera(const float rad);
+  void resetRoll(void);
+  void normalizeCamera(void);
+  void flyCameraSetup();
+
+//**********************************************************************
+ private:
+
+  class So@Gui@SuperCanvas * owner;
+  friend class So@Gui@SuperCanvas;
+
+};
+
+#endif //! SOQT_SUPER_CANVASP_H
+
+
+
+
+
+

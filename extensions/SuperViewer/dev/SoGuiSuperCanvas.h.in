@@ -1,0 +1,152 @@
+/**************************************************************************\
+ *
+ *  This file is part of the Coin GUI toolkit libraries.
+ *  Copyright (C) 1998-2002 by Systems in Motion.  All rights reserved.
+ *
+ *  This library is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU Lesser General Public License
+ *  version 2.1 as published by the Free Software Foundation.  See the
+ *  file LICENSE.LGPL at the root directory of this source distribution
+ *  for more details.
+ *
+ *  If you want to use this library with software that is incompatible
+ *  licensewise with the LGPL, and / or you would like to take
+ *  advantage of the additional benefits with regard to our support
+ *  services, please contact Systems in Motion about acquiring a Coin
+ *  Professional Edition License.  See <URL:http://www.coin3d.org> for
+ *  more information.
+ *
+ *  Systems in Motion, Prof Brochs gate 6, 7030 Trondheim, NORWAY
+ *  <URL:http://www.sim.no>, <mailto:support@sim.no>
+ *
+\**************************************************************************/
+
+#ifndef SO@GUI@_SUPER_CANVAS_H
+#define SO@GUI@_SUPER_CANVAS_H
+
+#include <Inventor/@Gui@/viewers/So@Gui@Viewer.h>
+#include <Inventor/nodes/SoComplexity.h>
+
+class SoLight;
+
+// *************************************************************************
+
+class So@Gui@SuperCanvas : public So@Gui@Viewer {
+  //  SO@GUI@_OBJECT_HEADER(So@Gui@SuperCanvas, So@Gui@Viewer);
+  //@COMPONENTHEADER@
+
+public:
+
+  enum ViewMode {
+    INTERACT,
+    EXAMINE,
+    FLYMODE_NORMAL,
+    FLYMODE_GLIDE,
+    FLYMODE_LOCKED
+  };
+
+  enum DrawStyle {
+    FILLED = 1,
+    BOUNDINGBOXES,
+    WIREFRAME,
+    VERTICES,
+    TEXTURES,
+    HIDDEN_PARTS
+  };
+
+  enum WhileMoving {
+    FULL_MODEL_WM,
+    BOUNDINGBOXES_WM,
+    ONE_BOUNDINGBOX_WM,
+    NO_TEXTURES_WM
+  };
+
+public:
+
+  So@Gui@SuperCanvas(@WIDGET@ parent,
+                const char * name = NULL,
+                SbBool embed = TRUE,
+                Type type = BROWSER,
+                SbBool build = TRUE);
+  ~So@Gui@SuperCanvas();
+
+  void setDrawStyle(DrawStyle drawstyle, SbBool enable);
+  SbBool isDrawStyle(DrawStyle drawstyle) const;
+
+  void setWhileMoving(WhileMoving how);
+  SbBool isWhileMoving(WhileMoving how) const;
+
+  void setInformation(SbBool enable);
+  SbBool isInformation(void) const;
+
+  void setDistance(SbBool enable);
+  SbBool isDistance(void) const;
+
+  void setFlatshading(SbBool enable);
+  SbBool isFlatshading(void) const;
+
+  void setAnimationEnabled(const SbBool enable);
+  SbBool isAnimationEnabled(void) const;
+
+  void setAnimating(SbBool enable);
+  SbBool isAnimating(void) const;
+  void stopAnimating(void);
+  void setLineWidth(int value);
+  int getLineWidth(void) const;
+
+  void setPointSize(int value);
+  int getPointSize(void) const;
+
+  void setPointColor(const SbColor & color);
+  SbColor & getPointColor(void) const;
+
+  void setLineColor(const SbColor & color);
+  SbColor & getLineColor(void) const;
+
+  void setRenderType(SoComplexity::Type type);
+  SbName & getRenderType(void) const;
+
+  void setRenderQuality(float value);
+  float getRenderQuality(void) const;
+
+  void setTextureQuality(float value);
+  float getTextureQuality(void) const;
+
+  void setCamera(int index);
+  int getNumCameras(void) const;
+
+  void setLight(int index, SbBool on);
+  int getNumLights(void) const;
+  SoLight * getLight(int index);
+
+  void enableMouse(SbBool enable);
+  SbBool isMouseEnabled(void) const;
+
+  virtual void setViewMode(ViewMode mode);
+  virtual ViewMode getViewMode(void) const;
+  virtual SbBool isViewMode(ViewMode mode) const;
+
+  virtual void setSceneGraph(SoNode * scene);
+
+  @WIDGET@ getRenderAreaWidget(void) const;
+
+protected:
+
+  virtual const char * getDefaultWidgetName(void) const;
+  const char * getDefaultTitle(void) const;
+  const char * getDefaultIconTitle(void) const;
+
+  @WIDGET@ buildWidget(@WIDGET@ parent);
+
+  virtual void actualRedraw(void);
+  virtual SbBool processSoEvent(const SoEvent * const event);
+
+private:
+  class So@Gui@SuperCanvasP * pimpl;
+  friend class So@Gui@SuperCanvasP;
+
+};
+
+// *************************************************************************
+
+#endif // ! SO@GUI@_SUPER_CANVAS_H

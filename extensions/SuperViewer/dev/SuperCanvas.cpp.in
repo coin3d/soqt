@@ -1,0 +1,139 @@
+/**************************************************************************\
+ *
+ *  This file is part of the Coin GUI toolkit libraries.
+ *  Copyright (C) 1998-2002 by Systems in Motion.  All rights reserved.
+ *
+ *  This library is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU Lesser General Public License
+ *  version 2.1 as published by the Free Software Foundation.  See the
+ *  file LICENSE.LGPL at the root directory of this source distribution
+ *  for more details.
+ *
+ *  If you want to use this library with software that is incompatible
+ *  licensewise with the LGPL, and / or you would like to take
+ *  advantage of the additional benefits with regard to our support
+ *  services, please contact Systems in Motion about acquiring a Coin
+ *  Professional Edition License.  See <URL:http://www.coin3d.org> for
+ *  more information.
+ *
+ *  Systems in Motion, Prof Brochs gate 6, 7030 Trondheim, NORWAY
+ *  <URL:http://www.sim.no>, <mailto:support@sim.no>
+ *
+\**************************************************************************/
+
+#include <Inventor/@Gui@/So@Gui@.h>
+#include "So@Gui@SuperCanvas.h"
+#include <Inventor/nodes/SoCone.h>
+#include <Inventor/nodes/SoDirectionalLight.h>
+#include <Inventor/nodes/SoMaterial.h>
+#include <Inventor/nodes/SoPerspectiveCamera.h>
+#include <Inventor/nodes/SoSeparator.h>
+#include <Inventor/nodes/SoEventCallback.h>
+#include <Inventor/events/SoKeyboardEvent.h>
+
+So@Gui@SuperCanvas * mycanvas;
+
+void
+event_cb(void *userdata, SoEventCallback *node)
+{
+
+  const SoEvent *event = node->getEvent();
+
+  if (SO_KEY_PRESS_EVENT(event, RIGHT_ARROW)) {
+    mycanvas->setWhileMoving(So@Gui@SuperCanvas::FULL_MODEL_WM);
+  }
+
+  else if (SO_KEY_PRESS_EVENT(event, UP_ARROW)) {
+    mycanvas->setWhileMoving(So@Gui@SuperCanvas::BOUNDINGBOXES_WM);
+  }
+
+  else if (SO_KEY_PRESS_EVENT(event, DOWN_ARROW)) {
+    mycanvas->setWhileMoving(So@Gui@SuperCanvas::ONE_BOUNDINGBOX_WM);
+  }
+
+  else if (SO_KEY_PRESS_EVENT(event,  LEFT_ARROW)) {
+    mycanvas->setWhileMoving(So@Gui@SuperCanvas::NO_TEXTURES_WM);
+  }
+
+  else if (SO_KEY_PRESS_EVENT(event, W)) {
+    if(!mycanvas->isDrawStyle(So@Gui@SuperCanvas::WIREFRAME))
+      mycanvas->setDrawStyle(So@Gui@SuperCanvas::WIREFRAME, TRUE);
+    else
+      mycanvas->setDrawStyle(So@Gui@SuperCanvas::WIREFRAME, FALSE);
+  }
+
+  else if (SO_KEY_PRESS_EVENT(event, B)) {
+    if(!mycanvas->isDrawStyle(So@Gui@SuperCanvas::BOUNDINGBOXES))
+      mycanvas->setDrawStyle(So@Gui@SuperCanvas::BOUNDINGBOXES, TRUE);
+    else
+      mycanvas->setDrawStyle(So@Gui@SuperCanvas::BOUNDINGBOXES, FALSE);
+  }
+
+  else if (SO_KEY_PRESS_EVENT(event, V)) {
+    if(!mycanvas->isDrawStyle(So@Gui@SuperCanvas::VERTICES))
+      mycanvas->setDrawStyle(So@Gui@SuperCanvas::VERTICES, TRUE);
+    else
+      mycanvas->setDrawStyle(So@Gui@SuperCanvas::VERTICES, FALSE);
+  }
+
+  else if (SO_KEY_PRESS_EVENT(event, F)) {
+    if(!mycanvas->isDrawStyle(So@Gui@SuperCanvas::FILLED))
+      mycanvas->setDrawStyle(So@Gui@SuperCanvas::FILLED, TRUE);
+    else
+      mycanvas->setDrawStyle(So@Gui@SuperCanvas::FILLED, FALSE);
+  }
+
+  else if (SO_KEY_PRESS_EVENT(event, H)) {
+    if(!mycanvas->isDrawStyle(So@Gui@SuperCanvas::HIDDEN_PARTS))
+      mycanvas->setDrawStyle(So@Gui@SuperCanvas::HIDDEN_PARTS, TRUE);
+    else
+      mycanvas->setDrawStyle(So@Gui@SuperCanvas::HIDDEN_PARTS, FALSE);
+  }
+
+  else if (SO_KEY_PRESS_EVENT(event, I)) {
+    if(!mycanvas->isInformation())
+      mycanvas->setInformation(TRUE);
+    else
+      mycanvas->setInformation(FALSE);
+  }
+  else if (SO_KEY_PRESS_EVENT(event, D)) {
+    if(!mycanvas->isDistance())
+      mycanvas->setDistance(TRUE);
+    else
+      mycanvas->setDistance(FALSE);
+
+  }
+
+}
+
+int
+main(int , char **argv)
+{
+  @WIDGET@ mywindow = So@Gui@::init(argv[0]);
+  if(mywindow == NULL) exit(1);
+
+  SoSeparator * root = new SoSeparator;
+
+  SoEventCallback *cb = new SoEventCallback;
+  cb->addEventCallback(SoKeyboardEvent::getClassTypeId(), event_cb, NULL);
+  SoPerspectiveCamera *mycamera = new SoPerspectiveCamera;
+  SoMaterial *mymaterial = new SoMaterial;
+  root->ref();
+  root->addChild(cb);
+  root->addChild(mycamera);
+  root->addChild(new SoDirectionalLight);
+  mymaterial->diffuseColor.setValue(0.0,1.0,0.0);
+  root->addChild(mymaterial);
+  root->addChild(new SoCone);
+
+  mycanvas = new So@Gui@SuperCanvas(mywindow);
+  mycanvas->setSceneGraph(root);
+  mycanvas->setTitle("cone");
+  mycanvas->viewAll();
+  mycanvas->show();
+
+  So@Gui@::show(mywindow);
+  So@Gui@::mainLoop();
+
+  return 0;
+}

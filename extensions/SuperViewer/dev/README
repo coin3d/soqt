@@ -1,0 +1,30 @@
+SuperViewer/dev
+larsivi 20020606
+
+This directory holds the next generation SuperViewer. Though the original
+works fine, the internal organization wasn't good enough.
+
+This is an effort to split GUI from functionality, and the first part of
+this is the SuperCanvas that has all of the functional API, but none visual 
+GUI stuff. The SuperCanvas is almost totally GUI-generic and can be built to 
+use all of the So*-libraries given that buildWidget is implemented for all
+of them.
+
+As it is now, there is much that is not tested.
+As an alternative to RenderArea, the SuperCanvas can offer mousecontrolled
+interactions with the scenegraph (rotation, panning, zooming++). The untested
+functionality adds more flexibility.
+
+Known bugs:
+ 
+  * ONE_BBOX_WM doesn't work.
+
+The files:
+
+  * README - this file
+  * SoGuiSuperCanvas.h.in - The main header file
+  * SoGuiSuperCanvas.cpp.in - The main implementation
+  * SoGuiSuperCanvasP.h.in - The private data header file
+  * SoGuiSuperCanvasP.cpp.in - The private data implementation
+  * QtSuperCanvas.cpp - Qt-spesific implementation of buildWidget.
+  * SuperCanvas.cpp.in - A small test application
