@@ -19,8 +19,8 @@
 
 //  $Id$
 
-#ifndef __QCOLORSELECTION_H__
-#define __QCOLORSELECTION_H__
+#ifndef SOQT_QCOLORSELECTION_H
+#define SOQT_QCOLORSELECTION_H
 
 // FIXME: not in use yet. 19990620 mortene.
 
@@ -56,4 +56,4 @@ private:
   char titleString[MAX_TITLE + 1];
 };
 
-#endif // !__QCOLORSELECTION_H__
+#endif // !SOQT_QCOLORSELECTION_H
