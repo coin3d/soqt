@@ -30,34 +30,6 @@
 #include <Inventor/fields/SoMFString.h>
 
 
-#define RADIO_BUTTON_SIZE .2
-
-typedef struct {
-  void *thisClass;
-  int button;
-} paramPackage;
-
-static const char RADIOBULLET_radiobulletgeometry[] =
-"#Inventor V2.1 ascii\n"
-"\n"
-"DEF RadioButtons Separator {\n"
-"\n"
-" DEF BulletColorActive BaseColor { rgb 0 1 1 }\n"
-" DEF BulletColor BaseColor { rgb 1 1 1 }\n"
-"\n"
-" DEF RadioBulletActive TransformSeparator {\n"
-"   USE BulletColorActive\n"
-"   Cube { width 0.2 height 0.2 depth 0.2 }\n"
-" }\n"
-" \n"
-" DEF RadioBullet TransformSeparator {\n"
-"   USE BulletColor\n"
-"   Cube { width 0.2 height 0.2 depth 0.2 }\n"
-" }\n"
-"}\n"
-"\n";
-
-
 class RadioGroupKit : public SoInteractionKit {
   typedef SoBaseKit inherited;
 
@@ -74,20 +46,13 @@ class RadioGroupKit : public SoInteractionKit {
 
 public:
 
-  // Vars
   SoSFInt32 selected;
-  SoMFString *labels;
-  SoTranslation *buttonSpacingX;
-  SoTranslation *buttonSpacingY;
+  SoMFString labels;
 
-  // Methods
-  void addRadioButton(SbString label);
   
-  // Nodekit functions
   static void initClass();
   virtual SbBool affectsState() const;
 
-  // Constructor
   RadioGroupKit(void);  
 
 

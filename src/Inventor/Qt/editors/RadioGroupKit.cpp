@@ -45,11 +45,19 @@
     root->ref();
   
     RadioGroupKit * radiogroup = new RadioGroupKit;
-    radiogroup->addRadioButton("Morten");
-    radiogroup->addRadioButton("Tjo");
-    radiogroup->addRadioButton("Bing");
+    radiogroup->labels.set1Value(0,"Item #1");
+    radiogroup->labels.set1Value(1,"Item #2");
+    radiogroup->labels.set1Value(2,"Item #3");
     root->addChild(radiogroup);
     
+    //
+    // Here you can add a sensor callback to the 'selected' field in the RadioGroupKit
+    // Ex:
+    //
+    //   SoFieldSensor * radioGroupSensor = new SoFieldSensor(myRadioButtonCallback,this);
+    //   radioGroupSensor->attach(&radiogroup->selected);
+    //
+
     SoQtExaminerViewer * viewer = new SoQtExaminerViewer(mainwin);
     viewer->setSceneGraph(root);
     viewer->show();
@@ -86,11 +94,41 @@
 #include <Inventor/nodekits/SoShapeKit.h>
 #include <Inventor/nodes/SoMarkerSet.h> 
 
-
+#include <Inventor/actions/SoGetBoundingBoxAction.h> 
+#include <Inventor/sensors/SoFieldSensor.h> 
+#include <Inventor/errors/SoDebugError.h> 
 
 #include "RadioGroupKit.h"
 
 SO_KIT_SOURCE(RadioGroupKit);
+
+#define RADIO_BUTTON_SIZE .2
+
+typedef struct {
+  void *thisClass;
+  int button;
+} paramPackage;
+
+static const char RADIOBULLET_radiobulletgeometry[] =
+"#Inventor V2.1 ascii\n"
+"\n"
+"DEF RadioButtons Separator {\n"
+"\n"
+" DEF BulletColorActive BaseColor { rgb 0 1 1 }\n"
+" DEF BulletColor BaseColor { rgb 1 1 1 }\n"
+"\n"
+" DEF RadioBulletActive TransformSeparator {\n"
+"   USE BulletColorActive\n"
+"   Cube { width 0.2 height 0.2 depth 0.2 }\n"
+" }\n"
+" \n"
+" DEF RadioBullet TransformSeparator {\n"
+"   USE BulletColor\n"
+"   Cube { width 0.2 height 0.2 depth 0.2 }\n"
+" }\n"
+"}\n"
+"\n";
+
 
 class RadioGroupKitP {
 public:
@@ -103,7 +141,9 @@ public:
   SbPList *buttonList;
   SoSeparator *root;
 
+  void addRadioButton(SbString label);
   static void buttonClickedCallback(void *userData, SoPath *node);
+  static void radioButtonAdded(void *classObject, SoSensor *sensor);
 
 };
 
@@ -122,38 +162,28 @@ RadioGroupKit::RadioGroupKit(void)
     SoDB::readAll(&input);
   }
 
-  SO_KIT_ADD_CATALOG_ENTRY(radioGroupRoot,SoSeparator,TRUE,this, "",TRUE);
-
+  SO_KIT_ADD_CATALOG_ENTRY(radioGroupRoot,SoSeparator,FALSE,this, "",TRUE);  
   SO_KIT_ADD_CATALOG_ENTRY(RadioBulletActive, SoTransformSeparator, TRUE, radioGroupRoot, , TRUE);
   SO_KIT_ADD_CATALOG_ENTRY(RadioBullet, SoTransformSeparator, TRUE, radioGroupRoot, , TRUE);
   SO_KIT_ADD_CATALOG_ENTRY(BulletColorActive, SoBaseColor, TRUE, radioGroupRoot, , TRUE);
   SO_KIT_ADD_CATALOG_ENTRY(BulletColor, SoBaseColor, TRUE, radioGroupRoot, , TRUE);
 
-  // FIXME: Are these needed? (handegar)
-  //SO_KIT_ADD_FIELD(selected, -1);
-  //SO_KIT_ADD_FIELD(labels, "");
-
   SO_KIT_INIT_INSTANCE();
 
-  // initialize default parts
   this->setPartAsDefault("RadioBullet", "RadioBullet");
   this->setPartAsDefault("RadioBulletActive", "RadioBulletActive");
   this->setPartAsDefault("BulletColor", "BulletColor");
   this->setPartAsDefault("BulletColorActive", "BulletColorActive");
 
   THIS->buttonCounter = 0;
-  labels = new SoMFString;
   THIS->buttonList = new SbPList(1);
-
-
-  // Default Spacing between buttons
-  buttonSpacingX = new SoTranslation;
-  buttonSpacingX->translation.setValue(RADIO_BUTTON_SIZE*1.5,-RADIO_BUTTON_SIZE/2,0);
-  buttonSpacingY = new SoTranslation;
-  buttonSpacingY->translation.setValue(0,-RADIO_BUTTON_SIZE*2.5,0);
 
   THIS->root = new SoSeparator;
   setPart("radioGroupRoot",THIS->root);
+  
+  SoFieldSensor * labelSensor = new SoFieldSensor(THIS->radioButtonAdded,THIS);
+  labelSensor->setPriority(0);
+  labelSensor->attach(&labels);
   
 }
 
@@ -182,7 +212,6 @@ RadioGroupKitP::buttonClickedCallback(void * userData, SoPath * node)
 
   SoTransformSeparator * button = (SoTransformSeparator *) radioButtonsP->buttonList->get(pack->button);
 
-  // Make all buttons unselected first
   for(int i=0;i<radioButtonsP->buttonList->getLength();++i){
     SoTransformSeparator *sep = (SoTransformSeparator *) radioButtonsP->buttonList->get(i);
     SoBaseColor *color = (SoBaseColor *) sep->getChild(0);
@@ -201,12 +230,18 @@ RadioGroupKitP::buttonClickedCallback(void * userData, SoPath * node)
 }
 
 void 
-RadioGroupKit::addRadioButton(SbString label)
+RadioGroupKitP::radioButtonAdded(void * classObject, SoSensor * sensor)
 {
+  RadioGroupKitP * pimpl = (RadioGroupKitP *) classObject;
+  SbString newlabel = pimpl->master->labels[pimpl->buttonCounter];
+  pimpl->addRadioButton(newlabel);
+  pimpl->buttonCounter++;
+}
 
-  // Expand label-array.
-  labels->set1Value(THIS->buttonCounter,label);
-
+void 
+RadioGroupKitP::addRadioButton(SbString label)
+{
+  
   SoSeparator * buttonRoot = new SoSeparator;
   SoShapeHints * hints = new SoShapeHints;
   hints->vertexOrdering = SoShapeHints::COUNTERCLOCKWISE;
@@ -226,29 +261,45 @@ RadioGroupKit::addRadioButton(SbString label)
   SoSelection * selection = new SoSelection;
 
   paramPackage * pack = new paramPackage;
-  pack->thisClass = THIS;
-  pack->button = THIS->buttonCounter;
-  selection->addSelectionCallback(&THIS->buttonClickedCallback, (void *)pack);
+  pack->thisClass = this;
+  pack->button = buttonCounter;
+  selection->addSelectionCallback(&buttonClickedCallback, (void *)pack);
   SoTransformSeparator * sep;
 
   // Make first added button selected as default
-  if(THIS->buttonCounter == 0){
-    sep = (SoTransformSeparator*) SO_GET_PART(this, "RadioBulletActive",SoTransformSeparator)->copy();
-    selected.setValue(0);
+  if(buttonCounter == 0){
+    sep = (SoTransformSeparator*) SO_GET_PART(master, "RadioBulletActive",SoTransformSeparator)->copy();
+    master->selected.setValue(0);
   } else {
-    sep = (SoTransformSeparator*) SO_GET_PART(this, "RadioBullet",SoTransformSeparator)->copy();
+    sep = (SoTransformSeparator*) SO_GET_PART(master, "RadioBullet",SoTransformSeparator)->copy();
   }
 
-  THIS->buttonList->set(THIS->buttonCounter,sep);    // Save the separator node for later changes
-
+  buttonList->set(buttonCounter,sep);    // Save the separator node for later changes @ callback
   selection->addChild(sep);
-  selection->addChild(buttonSpacingX);
+
+  // Fetch bullet boundingbox
+  SbViewportRegion dummyViewport(100,100);
+  SoGetBoundingBoxAction bboxAction(dummyViewport);
+  if(buttonCounter == 0)
+    bboxAction.apply(sep);
+  else
+    bboxAction.apply((SoTransformSeparator *) buttonList->get(buttonCounter-1)); // Previous radiobutton
+  
+  SbBox3f bbox = bboxAction.getBoundingBox();
+  SoTranslation *spacingX = new SoTranslation;
+  SoTranslation *spacingY = new SoTranslation;
+  float dx,dy,dz;
+  bbox.getSize(dx,dy,dz);
+  spacingX->translation.setValue(dx,-dy/2,0);
+  spacingY->translation.setValue(0,-dy*2,0);
+  
+
+  selection->addChild(spacingX);
   selection->addChild(buttonLabel);
   buttonRoot->addChild(selection);
 
-  THIS->root->addChild(buttonRoot); 
-  THIS->root->addChild(buttonSpacingY);
-
-  ++THIS->buttonCounter; // Increase class-global counter
+  // Adding geometry to global classvariabel 'root'
+  root->addChild(buttonRoot); 
+  root->addChild(spacingY);
 
 }
