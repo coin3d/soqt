@@ -2313,7 +2313,7 @@ EOF
 
   if test ! x"$sim_cv_qtlibs" = xUNRESOLVED; then
     sim_ac_qt_avail=yes
-    sim_ac_qt_libs="$sim_ac_qt_libcheck"
+    sim_ac_qt_libs="$sim_cv_qtlibs"
     LIBS="$sim_ac_qt_libs $sim_ac_save_libs"
     $1
   else

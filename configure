@@ -6342,7 +6342,7 @@ echo "${ECHO_T}$sim_cv_qtlibs" >&6
 
   if test ! x"$sim_cv_qtlibs" = xUNRESOLVED; then
     sim_ac_qt_avail=yes
-    sim_ac_qt_libs="$sim_ac_qt_libcheck"
+    sim_ac_qt_libs="$sim_cv_qtlibs"
     LIBS="$sim_ac_qt_libs $sim_ac_save_libs"
 
   SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS $sim_ac_qt_cppflags -DQT_DLL"
