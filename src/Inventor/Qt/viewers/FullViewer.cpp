@@ -21,11 +21,6 @@
  *
 \**************************************************************************/
 
-#if SOQT_DEBUG
-static const char rcsid[] =
-  "$Id$";
-#endif
-
 /*!
   \class SoQtFullViewer SoQtFullViewer.h Inventor/Qt/viewers/SoQtFullViewer.h
   \brief The SoQtFullViewer class adds decorations to the simple viewer of the parent.
@@ -291,14 +286,13 @@ private:
   canvas after other setup tasks has been performed.
 */
 
-SoQtFullViewer::SoQtFullViewer(
-  QWidget * parent,
-  const char * name,
-  SbBool embed,
-  SoQtFullViewer::BuildFlag buildFlag,
-  SoQtViewer::Type type,
-  SbBool build)
-: inherited(parent, name, embed, type, FALSE)
+SoQtFullViewer::SoQtFullViewer(QWidget * parent,
+                               const char * name,
+                               SbBool embed,
+                               SoQtFullViewer::BuildFlag buildFlag,
+                               SoQtViewer::Type type,
+                               SbBool build)
+  : inherited(parent, name, embed, type, FALSE)
 {
   PRIVATE(this) = new SoQtFullViewerP(this);
 
@@ -358,7 +352,7 @@ SoQtFullViewer::SoQtFullViewer(
   this->setClassName("SoQtFullViewer");
   QWidget * viewer = this->buildWidget(this->getParentWidget());
   this->setBaseWidget(viewer);
-} // SoQtFullViewer()
+}
 
 // *************************************************************************
 
@@ -366,8 +360,7 @@ SoQtFullViewer::SoQtFullViewer(
   Destructor.
 */
 
-SoQtFullViewer::~SoQtFullViewer(
-  void)
+SoQtFullViewer::~SoQtFullViewer()
 {
   delete PRIVATE(this)->viewerbuttons;
   delete PRIVATE(this)->appbuttonlist;
@@ -377,7 +370,7 @@ SoQtFullViewer::~SoQtFullViewer(
   delete [] this->bottomWheelStr;
 
   delete PRIVATE(this);
-} // ~SoQtFullViewer()
+}
 
 // *************************************************************************
 
@@ -388,8 +381,7 @@ SoQtFullViewer::~SoQtFullViewer(
 */
 
 void
-SoQtFullViewer::setDecoration(
-  const SbBool enable)
+SoQtFullViewer::setDecoration(const SbBool enable)
 {
 #if SOQT_DEBUG
   if ((enable  && this->isDecoration()) ||
@@ -404,7 +396,7 @@ SoQtFullViewer::setDecoration(
   PRIVATE(this)->decorations = enable;
   if (PRIVATE(this)->viewerwidget)
     this->showDecorationWidgets(enable);
-} // setDecoration()
+}
 
 // *************************************************************************
 
@@ -415,11 +407,10 @@ SoQtFullViewer::setDecoration(
 */
 
 SbBool
-SoQtFullViewer::isDecoration(
-  void) const
+SoQtFullViewer::isDecoration(void) const
 {
   return PRIVATE(this)->decorations;
-} // isDecoration()
+}
 
 // *************************************************************************
 
@@ -432,8 +423,7 @@ SoQtFullViewer::isDecoration(
 */
 
 void
-SoQtFullViewer::setPopupMenuEnabled(
-  const SbBool enable)
+SoQtFullViewer::setPopupMenuEnabled(const SbBool enable)
 {
 #if SOQT_DEBUG
   if ((enable && this->isPopupMenuEnabled()) ||
@@ -445,7 +435,7 @@ SoQtFullViewer::setPopupMenuEnabled(
   }
 #endif // SOQT_DEBUG
   PRIVATE(this)->menuenabled = enable;
-} // setPopupMenuEnabled()
+}
 
 // *************************************************************************
 
@@ -457,11 +447,10 @@ SoQtFullViewer::setPopupMenuEnabled(
 */
 
 SbBool
-SoQtFullViewer::isPopupMenuEnabled(
-  void) const
+SoQtFullViewer::isPopupMenuEnabled(void) const
 {
   return PRIVATE(this)->menuenabled;
-} // isPopupMenuEnabled()
+}
 
 // *************************************************************************
 
@@ -477,7 +466,7 @@ QWidget *
 SoQtFullViewer::getAppPushButtonParent(void) const
 {
   return PRIVATE(this)->appbuttonform;
-} // getAppPushButtonParent()
+}
 
 // *************************************************************************
 
@@ -496,7 +485,7 @@ SoQtFullViewer::addAppPushButton(QWidget * newButton)
 {
   PRIVATE(this)->appbuttonlist->append(newButton);
   this->layoutAppButtons(this->getAppPushButtonParent());
-} // addAppPushButton()
+}
 
 // *************************************************************************
 
@@ -519,7 +508,7 @@ SoQtFullViewer::insertAppPushButton(QWidget * newButton, int index)
 #endif // SOQT_DEBUG
   PRIVATE(this)->appbuttonlist->insert(newButton, index);
   this->layoutAppButtons(this->getAppPushButtonParent());
-} // insertAppPushButton()
+}
 
 // *************************************************************************
 
@@ -544,7 +533,7 @@ SoQtFullViewer::removeAppPushButton(QWidget * oldButton)
 
   PRIVATE(this)->appbuttonlist->remove(idx);
   this->layoutAppButtons(this->getAppPushButtonParent());
-} // removeAppPushButton()
+}
 
 // *************************************************************************
 
@@ -559,7 +548,7 @@ int
 SoQtFullViewer::findAppPushButton(QWidget * oldButton) const
 {
   return PRIVATE(this)->appbuttonlist->find(oldButton);
-} // findAppPushButton()
+}
 
 // *************************************************************************
 
@@ -573,7 +562,7 @@ int
 SoQtFullViewer::lengthAppPushButton(void) const
 {
   return PRIVATE(this)->appbuttonlist->getLength();
-} // lengthAppPushButton()
+}
 
 // *************************************************************************
 
@@ -585,7 +574,7 @@ QWidget *
 SoQtFullViewer::getRenderAreaWidget(void) const
 {
   return PRIVATE(this)->canvas;
-} // getRenderAreaWidget()
+}
 
 // *************************************************************************
 
@@ -623,7 +612,7 @@ SoQtFullViewer::setViewing(SbBool enable)
     PRIVATE(this)->getViewerbutton(INTERACT_BUTTON)->setOn(enable ? FALSE : TRUE);
     PRIVATE(this)->getViewerbutton(SEEK_BUTTON)->setEnabled(enable);
   }
-} // setViewing()
+}
 
 // *************************************************************************
 
@@ -647,7 +636,7 @@ SoQtFullViewer::setCamera(SoCamera * newCamera)
     PRIVATE(this)->zoomrangefrom->setEnabled(on);
     PRIVATE(this)->zoomrangeto->setEnabled(on);
   }
-} // setCamera()
+}
 
 // *************************************************************************
 
@@ -661,7 +650,7 @@ SoQtFullViewer::hide(void)
 {
   inherited::hide();
   if (PRIVATE(this)->prefwindow) PRIVATE(this)->prefwindow->hide();
-} // hide()
+}
 
 // *************************************************************************
 
@@ -686,18 +675,13 @@ SoQtFullViewer::eventFilter(QObject * obj, QEvent * e)
   }
 
   return FALSE;
-} // eventFilter()
+}
 
 // *************************************************************************
 
-/*!
-  This will build the main view widgets, along with the decorations
-  widgets and popup menu if they are enabled.
-*/
-
+// Documented in superclass.
 QWidget *
-SoQtFullViewer::buildWidget(
-  QWidget * parent)
+SoQtFullViewer::buildWidget(QWidget * parent)
 {
 #if SOQT_DEBUG && 0
   SoDebugError::postInfo("SoQtFullViewer::buildWidget", "[invoked]");
@@ -737,7 +721,7 @@ SoQtFullViewer::buildWidget(
     this->buildPopupMenu();
 
   return PRIVATE(this)->viewerwidget;
-} // buildWidget()
+}
 
 // *************************************************************************
 
@@ -746,13 +730,12 @@ SoQtFullViewer::buildWidget(
 */
 
 void
-SoQtFullViewer::buildDecoration(
-  QWidget * parent)
+SoQtFullViewer::buildDecoration(QWidget * parent)
 {
   this->leftDecoration = this->buildLeftTrim(parent);
   this->bottomDecoration = this->buildBottomTrim(parent);
   this->rightDecoration = this->buildRightTrim(parent);
-} // buildDecoration()
+}
 
 // *************************************************************************
 
@@ -765,8 +748,7 @@ SoQtFullViewer::buildDecoration(
 */
 
 QWidget *
-SoQtFullViewer::buildLeftTrim(
-  QWidget * parent)
+SoQtFullViewer::buildLeftTrim(QWidget * parent)
 {
   QWidget * w = new QWidget(parent);
   w->setFixedWidth(30);
@@ -787,7 +769,7 @@ SoQtFullViewer::buildLeftTrim(
   gl->activate();
 
   return w;
-} // buildLeftTrim()
+}
 
 // *************************************************************************
 
@@ -797,8 +779,7 @@ SoQtFullViewer::buildLeftTrim(
 */
 
 QWidget *
-SoQtFullViewer::buildBottomTrim(
-  QWidget * parent)
+SoQtFullViewer::buildBottomTrim(QWidget * parent)
 {
   QWidget * w = new QWidget(parent);
   w->setFixedHeight(30);
@@ -849,7 +830,7 @@ SoQtFullViewer::buildBottomTrim(
   gl->activate();
 
   return w;
-} // buildBottomTrim()
+}
 
 // *************************************************************************
 
@@ -859,8 +840,7 @@ SoQtFullViewer::buildBottomTrim(
 */
 
 QWidget *
-SoQtFullViewer::buildRightTrim(
-  QWidget * parent)
+SoQtFullViewer::buildRightTrim(QWidget * parent)
 {
   QWidget * w = new QWidget(parent);
   // FIXME: should be set according to width of viewer
@@ -887,7 +867,7 @@ SoQtFullViewer::buildRightTrim(
   l->activate();
 
   return w;
-} // buildRightTrim()
+}
 
 // *************************************************************************
 
@@ -905,7 +885,7 @@ SoQtFullViewer::buildAppButtons(QWidget * parent)
     this->layoutAppButtons(PRIVATE(this)->appbuttonform);
 
   return PRIVATE(this)->appbuttonform;
-} // buildAppButtons()
+}
 
 // *************************************************************************
 
@@ -936,7 +916,7 @@ SoQtFullViewer::buildViewerButtons(QWidget * parent)
 
   l->activate();
   return w;
-} // buildViewerButtons()
+}
 
 // *************************************************************************
 
@@ -1006,7 +986,7 @@ SoQtFullViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
     p->adjustSize();
     buttonlist->append(p);
   }
-} // createViewerButtons()
+}
 
 // *************************************************************************
 
@@ -1015,11 +995,10 @@ SoQtFullViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
 */
 
 void
-SoQtFullViewer::buildPopupMenu(
-  void)
+SoQtFullViewer::buildPopupMenu(void)
 {
   this->prefmenu = this->setupStandardPopupMenu();
-} // buildPopupMenu()
+}
 
 // *************************************************************************
 
@@ -1028,8 +1007,7 @@ SoQtFullViewer::buildPopupMenu(
 */
 
 void
-SoQtFullViewer::openPopupMenu(// protected
-  const SbVec2s position)
+SoQtFullViewer::openPopupMenu(const SbVec2s position)
 {
   if (! this->isPopupMenuEnabled()) return;
   if (this->prefmenu == NULL)
@@ -1039,7 +1017,7 @@ SoQtFullViewer::openPopupMenu(// protected
 
   this->prepareMenu(this->prefmenu);
   this->prefmenu->popUp(this->getGLWidget(), x, y);
-} // openPopupMenu()
+}
 
 // *************************************************************************
 
@@ -1052,7 +1030,7 @@ QWidget *
 SoQtFullViewer::makeSubPreferences(QWidget * parent)
 {
   return NULL;
-} // makeSubPreferences()
+}
 
 // *************************************************************************
 
@@ -1066,7 +1044,7 @@ SoQtFullViewer::setPrefSheetString(const char * title)
   PRIVATE(this)->prefwindowtitle = title ? title : "";
   if (PRIVATE(this)->prefwindow)
     PRIVATE(this)->prefwindow->setCaption(PRIVATE(this)->prefwindowtitle.getString());
-} // setPrefSheetString()
+}
 
 // *************************************************************************
 
@@ -1083,7 +1061,7 @@ void
 SoQtFullViewer::leftWheelStart(void)
 {
   this->interactiveCountInc();
-} // leftWheelStart()
+}
 
 /*!
   Called repeatedly as the user drags the thumbwheel in the left frame.
@@ -1095,11 +1073,10 @@ SoQtFullViewer::leftWheelStart(void)
 */
 
 void
-SoQtFullViewer::leftWheelMotion(
-  float value)
+SoQtFullViewer::leftWheelMotion(float value)
 {
   this->leftWheelVal = value;
-} // leftWheelMotion()
+}
 
 /*!
   Called as the user let go of the thumbwheel in the left frame after
@@ -1114,7 +1091,7 @@ void
 SoQtFullViewer::leftWheelFinish(void)
 {
   this->interactiveCountDec();
-} // leftWheelFinish()
+}
 
 /*!
   Get current value of the left thumbwheel.
@@ -1123,23 +1100,21 @@ SoQtFullViewer::leftWheelFinish(void)
 */
 
 float
-SoQtFullViewer::getLeftWheelValue(
-  void) const
+SoQtFullViewer::getLeftWheelValue(void) const
 {
   return this->leftWheelVal;
-} // getLeftWheelValue()
+}
 
 /*!
   FIXME: write doc
 */
 
 void
-SoQtFullViewer::setLeftWheelValue(
-  const float value)
+SoQtFullViewer::setLeftWheelValue(const float value)
 {
   this->leftWheelVal = value;
   ((SoQtThumbWheel *) this->leftWheel)->setValue(value);
-} // setLeftWheelValue()
+}
 
 // *************************************************************************
 
@@ -1156,7 +1131,7 @@ void
 SoQtFullViewer::bottomWheelStart(void)
 {
   this->interactiveCountInc();
-} // bottomWheelStart()
+}
 
 /*!
   Called repeatedly as the user drags the thumbwheel in the bottom frame.
@@ -1168,11 +1143,10 @@ SoQtFullViewer::bottomWheelStart(void)
 */
 
 void
-SoQtFullViewer::bottomWheelMotion(
-  float value)
+SoQtFullViewer::bottomWheelMotion(float value)
 {
   this->bottomWheelVal = value;
-} // bottomWheelMotion()
+}
 
 /*!
   Called as the user let go of the thumbwheel in the bottom frame after
@@ -1187,7 +1161,7 @@ void
 SoQtFullViewer::bottomWheelFinish(void)
 {
   this->interactiveCountDec();
-} // bottomWheelFinish()
+}
 
 /*!
   Get current value of the bottom thumbwheel.
@@ -1196,23 +1170,21 @@ SoQtFullViewer::bottomWheelFinish(void)
 */
 
 float
-SoQtFullViewer::getBottomWheelValue(
-  void) const
+SoQtFullViewer::getBottomWheelValue(void) const
 {
   return this->bottomWheelVal;
-} // getBottomWheelValue()
+}
 
 /*!
   FIXME: write doc
 */
 
 void
-SoQtFullViewer::setBottomWheelValue(
-  const float value)
+SoQtFullViewer::setBottomWheelValue(const float value)
 {
   this->bottomWheelVal = value;
   ((SoQtThumbWheel *) this->bottomWheel)->setValue(value);
-} // setBottomWheelValue()
+}
 
 // *************************************************************************
 
@@ -1229,7 +1201,7 @@ void
 SoQtFullViewer::rightWheelStart(void)
 {
   this->interactiveCountInc();
-} // rightWheelStart()
+}
 
 /*!
   Called repeatedly as the user drags the thumbwheel in the right frame.
@@ -1241,11 +1213,10 @@ SoQtFullViewer::rightWheelStart(void)
 */
 
 void
-SoQtFullViewer::rightWheelMotion(
-  float value)
+SoQtFullViewer::rightWheelMotion(float value)
 {
   this->rightWheelVal = value;
-} // rightWheelMotion()
+}
 
 /*!
   Called as the user let go of the thumbwheel in the right frame after
@@ -1260,7 +1231,7 @@ void
 SoQtFullViewer::rightWheelFinish(void)
 {
   this->interactiveCountDec();
-} // rightWheelFinish()
+}
 
 /*!
   Get current value of the right thumbwheel.
@@ -1269,23 +1240,21 @@ SoQtFullViewer::rightWheelFinish(void)
 */
 
 float
-SoQtFullViewer::getRightWheelValue(
-  void) const
+SoQtFullViewer::getRightWheelValue(void) const
 {
   return this->rightWheelVal;
-} // getRightWheelValue()
+}
 
 /*!
   FIXME: write doc
 */
 
 void
-SoQtFullViewer::setRightWheelValue(
-  const float value)
+SoQtFullViewer::setRightWheelValue(const float value)
 {
   this->rightWheelVal = value;
   ((SoQtThumbWheel *) this->rightWheel)->setValue(value);
-} // setRightWheelValue()
+}
 
 // *************************************************************************
 
@@ -1307,8 +1276,7 @@ void SoQtFullViewer::rightWheelReleased(void) { this->rightWheelFinish(); }
 */
 
 void
-SoQtFullViewer::setLeftWheelString(
-  const char * const string)
+SoQtFullViewer::setLeftWheelString(const char * const string)
 {
   delete [] this->leftWheelStr;
   this->leftWheelStr = NULL;
@@ -1317,7 +1285,7 @@ SoQtFullViewer::setLeftWheelString(
     this->leftWheelStr = strcpy(new char [strlen(string)+1], string);
   if (this->leftWheelLabel)
     ((QLabel *)this->leftWheelLabel)->setText(string ? string : "");
-} // setLeftWheelString()
+}
 
 // *************************************************************************
 
@@ -1326,8 +1294,7 @@ SoQtFullViewer::setLeftWheelString(
 */
 
 void
-SoQtFullViewer::setBottomWheelString(
-  const char * const string)
+SoQtFullViewer::setBottomWheelString(const char * const string)
 {
   delete [] this->bottomWheelStr;
   this->bottomWheelStr = NULL;
@@ -1336,7 +1303,7 @@ SoQtFullViewer::setBottomWheelString(
     this->bottomWheelStr = strcpy(new char [strlen(string)+1], string);
   if (this->bottomWheelLabel)
     ((QLabel *)this->bottomWheelLabel)->setText(string ? string : "");
-} // setBottomWheelString()
+}
 
 // *************************************************************************
 
@@ -1345,8 +1312,7 @@ SoQtFullViewer::setBottomWheelString(
 */
 
 void
-SoQtFullViewer::setRightWheelString(
-  const char * const string)
+SoQtFullViewer::setRightWheelString(const char * const string)
 {
   delete [] this->rightWheelStr;
   this->rightWheelStr = NULL;
@@ -1355,7 +1321,7 @@ SoQtFullViewer::setRightWheelString(
     this->rightWheelStr = strcpy(new char [strlen(string)+1], string);
   if (this->rightWheelLabel)
     ((QLabel *)this->rightWheelLabel)->setText(string ? string : "");
-} // setRightWheelString()
+}
 
 // *************************************************************************
 
@@ -1367,7 +1333,7 @@ SoQtFullViewer::setRightWheelString(
 void
 SoQtFullViewer::openViewerHelpCard(void)
 {
-} // openViewerHelpCard()
+}
 
 // *************************************************************************
 
@@ -1379,8 +1345,7 @@ SoQtFullViewer::openViewerHelpCard(void)
 */
 
 void
-SoQtFullViewer::showDecorationWidgets(
-  SbBool onOff)
+SoQtFullViewer::showDecorationWidgets(SbBool onOff)
 {
 #if SOQT_DEBUG && 0
   SoDebugError::postInfo("SoQtFullViewer::showDecorationWidgets", "[invoked]");
@@ -1426,7 +1391,7 @@ SoQtFullViewer::showDecorationWidgets(
   QSize size = PRIVATE(this)->viewerwidget->size();
   SbVec2s rasize = SbVec2s(size.width(), size.height());
   SoQtFullViewer::sizeChanged(rasize);
-} // showDecorationWidgets()
+}
 
 // *************************************************************************
 
@@ -1451,7 +1416,7 @@ SoQtFullViewer::layoutAppButtons(QWidget * form)
   }
 
   PRIVATE(this)->appbuttonlayout->activate();
-} // layoutAppButtons()
+}
 
 // *************************************************************************
 
@@ -1484,7 +1449,7 @@ SoQtFullViewer::makePreferencesWindow(void)
   layout->activate();
   top->adjustSize();
   return top;
-} // makePreferencesWindow()
+}
 
 // *************************************************************************
 
@@ -1585,7 +1550,7 @@ SoQtFullViewer::makeSeekPreferences(QWidget * parent)
   w->resize(totalsize);
   toplayout->activate();
   return w;
-} // makeSeekPreferences()
+}
 
 // *************************************************************************
 
@@ -1673,7 +1638,7 @@ SoQtFullViewer::makeSeekDistancePreferences(QWidget * parent)
   toplayout->activate();
 
   return w;
-} // makeSeekDistancePreferences()
+}
 
 // *************************************************************************
 
@@ -1785,7 +1750,7 @@ SoQtFullViewer::makeZoomPreferences(QWidget * parent)
   toplayout->activate();
 
   return w;
-} // makeZoomPreferences()
+}
 
 // *************************************************************************
 
@@ -1815,7 +1780,7 @@ SoQtFullViewer::setEnabledClippingWidgets(SbBool flag)
   PRIVATE(this)->nearclippingedit->setText(s);
   s.setNum(cam->farDistance.getValue(), 'f', 3);
   PRIVATE(this)->farclippingedit->setText(s);
-} // setEnabledClippingWidgets()
+}
 
 // *************************************************************************
 
@@ -1931,7 +1896,7 @@ SoQtFullViewer::makeAutoclipPreferences(QWidget * dialog)
   toplayout->activate();
 
   return w;
-} // makeAutoclipPreferences()
+}
 
 // *************************************************************************
 
@@ -1954,7 +1919,7 @@ SoQtFullViewer::setCameraZoom(const float val)
 #if SOQT_DEBUG
   else assert(0);
 #endif // SOQT_DEBUG
-} // setCameraZoom()
+}
 
 // *************************************************************************
 
@@ -1980,7 +1945,7 @@ SoQtFullViewer::getCameraZoom(void)
   assert(0);
 #endif // SOQT_DEBUG
   return 0.0f;
-} // getCameraZoom()
+}
 
 // *************************************************************************
 
@@ -1998,7 +1963,7 @@ SoQtFullViewer::setZoomSliderPosition(float zoom)
   f = SoQtClamp(f, 0.0f, 1.0f) * ZOOMSLIDERRESOLUTION;
 
   PRIVATE(this)->zoomslider->setValue(f);
-} // setZoomSliderPosition()
+}
 
 // *************************************************************************
 
@@ -2014,7 +1979,7 @@ SoQtFullViewer::setZoomFieldString(float zoom)
   QString s;
   s.setNum(zoom, 'f', 1);
   PRIVATE(this)->zoomfield->setText(s);
-} // setZoomFieldString()
+}
 
 // *************************************************************************
 
@@ -2024,8 +1989,7 @@ SoQtFullViewer::setZoomFieldString(float zoom)
 */
 
 void
-SoQtFullViewer::interactbuttonClicked(
-  void)
+SoQtFullViewer::interactbuttonClicked(void)
 {
   if (PRIVATE(this)->interactbutton)
     ((QPushButton *)PRIVATE(this)->interactbutton)->setOn(TRUE);
@@ -2033,7 +1997,7 @@ SoQtFullViewer::interactbuttonClicked(
     ((QPushButton *)PRIVATE(this)->viewbutton)->setOn(FALSE);
   if (this->isViewing())
     this->setViewing(FALSE);
-} // interactbuttonToggled()
+}
 
 // *************************************************************************
 
@@ -2043,8 +2007,7 @@ SoQtFullViewer::interactbuttonClicked(
 */
 
 void
-SoQtFullViewer::viewbuttonClicked(
-  void)
+SoQtFullViewer::viewbuttonClicked(void)
 {
   if (PRIVATE(this)->interactbutton)
     ((QPushButton *)PRIVATE(this)->interactbutton)->setOn(FALSE);
@@ -2052,7 +2015,7 @@ SoQtFullViewer::viewbuttonClicked(
     ((QPushButton *)PRIVATE(this)->viewbutton)->setOn(TRUE);
   if (! this->isViewing())
     this->setViewing(TRUE);
-} // viewbuttonToggled()
+}
 
 // *************************************************************************
 
@@ -2065,7 +2028,7 @@ void
 SoQtFullViewer::helpbuttonClicked()
 {
   this->openViewerHelpCard();
-} // helpbuttonClicked()
+}
 
 // *************************************************************************
 
@@ -2078,7 +2041,7 @@ void
 SoQtFullViewer::homebuttonClicked()
 {
   this->resetToHomePosition();
-} // homebuttonClicked()
+}
 
 // *************************************************************************
 
@@ -2091,7 +2054,7 @@ void
 SoQtFullViewer::sethomebuttonClicked()
 {
   this->saveHomePosition();
-} // sethomebuttonClicked()
+}
 
 // *************************************************************************
 
@@ -2104,7 +2067,7 @@ void
 SoQtFullViewer::viewallbuttonClicked()
 {
   this->viewAll();
-} // viewallbuttonClicked()
+}
 
 // *************************************************************************
 
@@ -2117,7 +2080,7 @@ void
 SoQtFullViewer::seekbuttonClicked()
 {
   this->setSeekMode(this->isSeekMode() ? FALSE : TRUE);
-} // seekbuttonClicked()
+}
 
 // *************************************************************************
 
@@ -2130,7 +2093,7 @@ void
 SoQtFullViewer::selectedViewing()
 {
   this->setViewing(this->isViewing() ? FALSE : TRUE);
-} // selectedViewing()
+}
 
 // *************************************************************************
 
@@ -2143,7 +2106,7 @@ void
 SoQtFullViewer::selectedDecoration()
 {
   this->setDecoration(this->isDecoration() ? FALSE : TRUE);
-} // selectedDecoration()
+}
 
 // *************************************************************************
 
@@ -2156,7 +2119,7 @@ void
 SoQtFullViewer::selectedHeadlight()
 {
   this->setHeadlight(this->isHeadlight() ? FALSE : TRUE);
-} // selectedHeadlight()
+}
 
 // *************************************************************************
 
@@ -2169,7 +2132,7 @@ void
 SoQtFullViewer::copyviewSelected()
 {
   this->copyView(SbTime::getTimeOfDay());
-} // copyviewSelected()
+}
 
 // *************************************************************************
 
@@ -2182,7 +2145,7 @@ void
 SoQtFullViewer::pasteviewSelected()
 {
   this->pasteView(SbTime::getTimeOfDay());
-} // pasteviewSelected()
+}
 
 // *************************************************************************
 
@@ -2197,7 +2160,7 @@ SoQtFullViewer::selectedPrefs(void)
   if (!PRIVATE(this)->prefwindow) PRIVATE(this)->prefwindow = this->makePreferencesWindow();
   PRIVATE(this)->prefwindow->show();
   PRIVATE(this)->prefwindow->raise();
-} // selectedPrefs()
+}
 
 // *************************************************************************
 
@@ -2211,7 +2174,7 @@ SoQtFullViewer::seekAnimationTimeChanged(const char * s)
 {
   float val;
   if ((sscanf(s, "%f", &val) == 1) && (val >= 0.0f)) this->setSeekTime(val);
-} // seekAnimationTimeChanged()
+}
 
 // *************************************************************************
 
@@ -2226,7 +2189,7 @@ SoQtFullViewer::seekAnimationTimeChanged(const QString & s)
   bool ok;
   float val = s.toFloat(&ok);
   if (ok && (val >= 0.0f)) this->setSeekTime(val);
-} // seekAnimationTimeChanged()
+}
 
 // *************************************************************************
 
@@ -2241,7 +2204,7 @@ SoQtFullViewer::seekDetailToggled(int id)
   if (id == 0) this->setDetailSeek(TRUE);
   else if (id == 1) this->setDetailSeek(FALSE);
   else assert(0);
-} // seekDetailToggled()
+}
 
 // *************************************************************************
 
@@ -2263,7 +2226,7 @@ SoQtFullViewer::seekDistanceWheelChanged(float val)
   QString s;
   s.setNum(this->getSeekDistance(), 'f', 2);
   PRIVATE(this)->seekdistancefield->setText(s);
-} // seekDistanceWheelChanged()
+}
 
 // *************************************************************************
 
@@ -2286,7 +2249,7 @@ SoQtFullViewer::seekDistanceEdit()
     s.setNum(this->getSeekDistance(), 'f', 2);
     PRIVATE(this)->seekdistancefield->setText(s);
   }
-} // seekDistanceEdit()
+}
 
 // *************************************************************************
 
@@ -2299,7 +2262,7 @@ void
 SoQtFullViewer::seekDistanceTypeToggle(int id)
 {
   this->setSeekValueAsPercentage(id == 0 ? TRUE : FALSE);
-} // seekDistanceTypeToggle()
+}
 
 // *************************************************************************
 
@@ -2316,7 +2279,7 @@ SoQtFullViewer::zoomSliderMoved(int val)
 
   this->setCameraZoom(f);
   this->setZoomFieldString(f);
-} // zoomSliderMoved()
+}
 
 // *************************************************************************
 
@@ -2339,7 +2302,7 @@ SoQtFullViewer::zoomFieldChanged()
     s.setNum(this->getCameraZoom(), 'f', 1);
     PRIVATE(this)->zoomfield->setText(s);
   }
-} // zoomFieldChanged()
+}
 
 // *************************************************************************
 
@@ -2363,7 +2326,7 @@ SoQtFullViewer::zoomRangeChanged1()
     s.setNum(PRIVATE(this)->zoomrange[0], 'f', 1);
     PRIVATE(this)->zoomrangefrom->setText(s);
   }
-} // zoomRangeChanged1()
+}
 
 // *************************************************************************
 
@@ -2387,7 +2350,7 @@ SoQtFullViewer::zoomRangeChanged2()
     s.setNum(PRIVATE(this)->zoomrange[1], 'f', 1);
     PRIVATE(this)->zoomrangeto->setText(s);
   }
-} // zoomRangeChanged2()
+}
 
 // *************************************************************************
 
@@ -2401,7 +2364,7 @@ SoQtFullViewer::clippingToggled(bool flag)
 {
   this->setAutoClipping(flag);
   this->setEnabledClippingWidgets(!flag);
-} // clippingToggled()
+}
 
 // *************************************************************************
 
@@ -2414,7 +2377,7 @@ void
 SoQtFullViewer::increaseInteractiveCount()
 {
   this->interactiveCountInc();
-} // increaseInteractiveCount()
+}
 
 // *************************************************************************
 
@@ -2427,7 +2390,7 @@ void
 SoQtFullViewer::decreaseInteractiveCount()
 {
   this->interactiveCountDec();
-} // decreaseInteractiveCount()
+}
 
 // *************************************************************************
 
@@ -2460,7 +2423,7 @@ SoQtFullViewer::nearclippingwheelMoved(float val)
   QString s;
   s.setNum(cam->nearDistance.getValue(), 'f', 3);
   PRIVATE(this)->nearclippingedit->setText(s);
-} // nearclippingwheelMoved()
+}
 
 // *************************************************************************
 
@@ -2490,7 +2453,7 @@ SoQtFullViewer::farclippingwheelMoved(float val)
   QString s;
   s.setNum(cam->farDistance.getValue(), 'f', 3);
   PRIVATE(this)->farclippingedit->setText(s);
-} // farclippingwheelMoved()
+}
 
 // *************************************************************************
 
@@ -2516,7 +2479,7 @@ SoQtFullViewer::nearclipEditPressed()
     s.setNum(cam->nearDistance.getValue(), 'f', 3);
     PRIVATE(this)->nearclippingedit->setText(s);
   }
-} // nearclipEditPressed()
+}
 
 // *************************************************************************
 
@@ -2542,7 +2505,7 @@ SoQtFullViewer::farclipEditPressed()
     s.setNum(cam->farDistance.getValue(), 'f', 3);
     PRIVATE(this)->farclippingedit->setText(s);
   }
-} // farclipEditPressed()
+}
 
 // *************************************************************************
 
@@ -2576,21 +2539,15 @@ SoQtFullViewer::sizeChanged(const SbVec2s & size)
     }
     inherited::sizeChanged(size);
   }
-} // sizeChanged()
+}
 
 // *************************************************************************
 
 void
-SoQtFullViewer::afterRealizeHook(// virtual
-  void)
+SoQtFullViewer::afterRealizeHook(void)
 {
   this->sizeChanged(this->getSize());
   inherited::afterRealizeHook();
-} // afterRealizeHook()
+}
 
 // *************************************************************************
-
-#if SOQT_DEBUG
-static const char * getSoQtFullViewerRCSId(void) { return rcsid; }
-#endif // SOQT_DEBUG
-
