@@ -26,9 +26,6 @@ static const char rcsid[] =
 #include <qpushbutton.h>
 #include <qpixmap.h>
 #include <qkeycode.h>
-#if QT_VERSION >= 200
-#include <q1xcompatibility.h>
-#endif // Qt >= 2.0.0
 
 #include <Inventor/errors/SoDebugError.h>
 #include <Inventor/projectors/SbPlaneProjector.h>
