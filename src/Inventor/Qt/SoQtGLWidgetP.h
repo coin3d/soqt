@@ -42,6 +42,9 @@ public:
   ~SoQtGLWidgetP();
 
   static void GLAreaKeyEvent(QKeyEvent * e, void * userdata);
+  void buildGLWidget(void);
+  virtual bool eventFilter(QObject * obj, QEvent * e);
+  static void eventHandler(QWidget *, void *, QEvent *, bool *);
 
   SbVec2s glSize;
   SbBool wasresized;
@@ -52,9 +55,6 @@ public:
   class QFrame * borderwidget;
   int borderthickness;
   class QGLFormat * glformat;
-
-  virtual bool eventFilter(QObject * obj, QEvent * e);
-  static void eventHandler(QWidget *, void *, QEvent *, bool *);
 
 public slots:
   void gl_init(void);

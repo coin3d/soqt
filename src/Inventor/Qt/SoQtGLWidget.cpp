@@ -245,172 +245,9 @@ SoQtGLWidget::buildWidget(QWidget * parent)
   // eventFilter().
   PRIVATE(this)->glparent = parent;
 
-  this->buildGLWidget();
+  PRIVATE(this)->buildGLWidget();
 
   return PRIVATE(this)->borderwidget;
-}
-
-
-// The GL widget rebuilding has been written to remember the previous
-// GL widget, which might be swapped back in if it fits the wanted
-// format.
-//
-// There are two reasons for keeping track of both the current and the
-// previous widget:
-//
-//  1) efficiency; often one swaps back and forth between only two
-//  different visuals -- like single and double buffering, or stereo
-//  mode on and off
-//
-//  2) robustness; killing off the previous widget in the build-method
-//  below has nasty sideeffects (like "random" coredumps), since the
-//  Qt event loop might be using it
-void
-SoQtGLWidget::buildGLWidget(void)
-{
-  // FIXME: use SoQtComponent registerWidget() and unregisterWidget()
-  // as appropriate when setting up new or deleting old
-  // GL-widgets. 20020612 mortene.
-
-  if (SOQT_DEBUG && 0) { // debug
-    SoDebugError::postInfo("SoQtGLWidget::buildGLWidget",
-                           "%s, %s, %s, %s, %s",
-                           PRIVATE(this)->glformat->doubleBuffer() ? "double" : "single",
-                           PRIVATE(this)->glformat->depth() ? "z-buffer" : "no z-buffer",
-                           PRIVATE(this)->glformat->rgba() ? "RGBA" : "colorindex",
-                           PRIVATE(this)->glformat->stereo() ? "stereo" : "mono",
-                           QGLFormat_hasOverlay(PRIVATE(this)->glformat) ? "overlay" : "no overlay");
-  }
-
-  SoQtGLArea * wascurrent = PRIVATE(this)->currentglwidget;
-  SoQtGLArea * wasprevious = PRIVATE(this)->previousglwidget;
-
-  void * display = NULL;
-  void * screen = NULL;
-
-#if defined(_WS_X11_) // Qt defines this under X11
-  // FIXME: should make context sharing work for other Qt
-  // base-platforms (MSWin, MacOS X) aswell. 20020118 mortene.
-
-  // the following Qt methods are only available under X11
-  display = (void*) QPaintDevice::x11AppDisplay();
-  screen = (void*) ((unsigned int) QPaintDevice::x11AppScreen());
-#endif // _WS_X11_
-
-  if (wascurrent) {
-    // Do _not_ turn off mousetracking or remove the eventfilter, as
-    // we'd loose events after the switch has happened if the user is
-    // already interacting with the canvas (e.g. when starting a drag
-    // in BUFFER_INTERACTIVE mode).
-#if 0 // Keep this code around so we don't accidentally reinsert it. :^}
-    wascurrent->removeEventFilter(PRIVATE(this));
-    wascurrent->setMouseTracking(FALSE);
-#endif // Permanently disabled.
-    QObject::disconnect(wascurrent, SIGNAL(expose_sig()), PRIVATE(this), SLOT(gl_exposed()));
-    QObject::disconnect(wascurrent, SIGNAL(init_sig()), PRIVATE(this), SLOT(gl_init()));
-    //    QObject::disconnect(wascurrent, SIGNAL(reshape_sig()), PRIVATE(this), SLOT(gl_reshape()));
-    PRIVATE(this)->previousglwidget = wascurrent;
-  }
-
-  if (wasprevious && QGLFormat_eq(*PRIVATE(this)->glformat, wasprevious->format())) {
-    // Reenable the previous widget.
-    if (PRIVATE(this)->currentglwidget) SoAny::si()->unregisterGLContext((void*) this);
-    PRIVATE(this)->currentglwidget = wasprevious;
-    SoAny::si()->registerGLContext((void*) this, display, screen);
-    if (SOQT_DEBUG && 0) { // debug
-      SoDebugError::postInfo("SoQtGLWidget::buildGLWidget",
-                             "reused previously used GL widget");
-    }
-  }
-  else {
-    // Couldn't use the previous widget, make a new one.
-    SoQtGLWidget * sharewidget = (SoQtGLWidget*) SoAny::si()->getSharedGLContext(display, screen);
-    if (PRIVATE(this)->currentglwidget) SoAny::si()->unregisterGLContext((void*) this);
-    PRIVATE(this)->currentglwidget =
-      new SoQtGLArea(PRIVATE(this)->glformat,
-                     PRIVATE(this)->borderwidget,
-                     sharewidget ? (const QGLWidget*) sharewidget->getGLWidget() : NULL);
-    PRIVATE(this)->currentglwidget->registerQKeyEventHandler(SoQtGLWidgetP::GLAreaKeyEvent,
-                                                             this);
-    SoAny::si()->registerGLContext((void *)this, display, screen);
-    // Send this one to the final hunting grounds.    
-    delete wasprevious;
-  }
-
-  if (!PRIVATE(this)->currentglwidget->isValid()) {
-    SbString s =
-      "Can't set up a valid OpenGL canvas, "
-      "something is seriously wrong with your system!";
-    SbBool handled =
-      SoAny::si()->invokeFatalErrorHandler(s, SoQt::NO_OPENGL_CANVAS);
-    if (handled) { return; }
-    exit(1);
-  }
-
-  if (SOQT_DEBUG) { // Warn about requested features that we didn't get.
-    QGLFormat * w = PRIVATE(this)->glformat; // w(anted)
-    QGLFormat g = PRIVATE(this)->currentglwidget->format(); // g(ot)
-
-#define GLWIDGET_FEATURECMP(_glformatfunc_, _truestr_, _falsestr_) \
-  do { \
-    if (w->_glformatfunc_() != g._glformatfunc_()) { \
-      SoDebugError::postWarning("SoQtGLWidget::buildGLWidget", \
-                                "wanted %s, but that is not supported " \
-                                "by the OpenGL driver", \
-                                w->_glformatfunc_() ? _truestr_ : _falsestr_); \
-    } \
-  } while (0)
-
-    GLWIDGET_FEATURECMP(doubleBuffer, "doublebuffer visual", "singlebuffer visual");
-    GLWIDGET_FEATURECMP(depth, "visual with depthbuffer", "visual without depthbuffer");
-    GLWIDGET_FEATURECMP(rgba, "RGBA buffer", "colorindex buffer");
-    GLWIDGET_FEATURECMP(stereo, "stereo buffers", "mono buffer");
-
-    if (QGLFormat_hasOverlay(w) != QGLFormat_hasOverlay(&g)) {
-      SoDebugError::postWarning("SoQtGLWidget::buildGLWidget",
-                                "wanted %s, but that is not supported "
-                                "by the OpenGL driver",
-                                QGLFormat_hasOverlay(w) ?
-                                "overlay plane(s)" :
-                                "visual without overlay plane(s)");
-    }
-  }
-#undef GLWIDGET_FEATURECMP
-
-  *PRIVATE(this)->glformat = PRIVATE(this)->currentglwidget->format();
-
-  int frame = this->isBorder() ? PRIVATE(this)->borderthickness : 0;
-  PRIVATE(this)->currentglwidget->setGeometry(frame, frame,
-                                              PRIVATE(this)->glSize[0] - 2*frame,
-                                              PRIVATE(this)->glSize[1] - 2*frame);
-
-  QObject::connect(PRIVATE(this)->currentglwidget, SIGNAL(init_sig()),
-                   PRIVATE(this), SLOT(gl_init()));
-  //  QObject::connect(PRIVATE(this)->currentglwidget, SIGNAL(reshape_sig(int, int)),
-  //                    PRIVATE(this), SLOT(gl_reshape(int, int)));
-  QObject::connect(PRIVATE(this)->currentglwidget, SIGNAL(expose_sig()),
-                   PRIVATE(this), SLOT(gl_exposed()));
-
-  PRIVATE(this)->currentglwidget->setMouseTracking(TRUE);
-  PRIVATE(this)->currentglwidget->installEventFilter(PRIVATE(this));
-
-  // Reset to avoid unnecessary scenegraph redraws.
-  this->waitForExpose = TRUE;
-
-  // We've changed to a new widget, so notify subclasses through this
-  // virtual method.
-  this->widgetChanged(PRIVATE(this)->currentglwidget);
-
-  if (wascurrent) {
-    // If we are rebuilding, we need to explicitly call show() here,
-    // as no message to show will be given from an already visible
-    // parent. (If the glwidget was built but not shown before the
-    // rebuild, the call below doesn't do any harm, as the glwidget
-    // still won't become visible until all parents are visible.)
-    PRIVATE(this)->currentglwidget->show();
-    PRIVATE(this)->currentglwidget->raise();
-  }
-  PRIVATE(this)->currentglwidget->setFocus();
 }
 
 // *************************************************************************
@@ -474,7 +311,7 @@ SoQtGLWidget::setOverlayRender(const SbBool onoff)
   }
 
   // Rebuild if a GL widget has already been built.
-  if (PRIVATE(this)->currentglwidget) this->buildGLWidget();
+  if (PRIVATE(this)->currentglwidget) PRIVATE(this)->buildGLWidget();
 }
 
 /*!
@@ -504,7 +341,7 @@ SoQtGLWidget::setDoubleBuffer(const SbBool enable)
 
   PRIVATE(this)->glformat->setDoubleBuffer(enable);
   // Rebuild if a GL widget has already been built.
-  if (PRIVATE(this)->currentglwidget) this->buildGLWidget();
+  if (PRIVATE(this)->currentglwidget) PRIVATE(this)->buildGLWidget();
 }
 
 /*!
@@ -531,7 +368,7 @@ SoQtGLWidget::setQuadBufferStereo(const SbBool enable)
   PRIVATE(this)->glformat->setStereo(enable);
 
   // Rebuild if a GL widget has already been built.
-  if (PRIVATE(this)->currentglwidget) this->buildGLWidget();
+  if (PRIVATE(this)->currentglwidget) PRIVATE(this)->buildGLWidget();
 }
 
 /*!
@@ -557,7 +394,7 @@ SoQtGLWidget::setAccumulationBuffer(const SbBool enable)
   PRIVATE(this)->glformat->setAccum(enable);
 
   // Rebuild if a GL widget has already been built.
-  if (PRIVATE(this)->currentglwidget) this->buildGLWidget();
+  if (PRIVATE(this)->currentglwidget) PRIVATE(this)->buildGLWidget();
 }
 
 /*!
@@ -582,7 +419,7 @@ SoQtGLWidget::setStencilBuffer(const SbBool enable)
   PRIVATE(this)->glformat->setStencil(enable);
 
   // Rebuild if a GL widget has already been built.
-  if (PRIVATE(this)->currentglwidget) this->buildGLWidget();
+  if (PRIVATE(this)->currentglwidget) PRIVATE(this)->buildGLWidget();
 }
 
 /*!
@@ -1213,6 +1050,167 @@ SoQtGLWidgetP::eventHandler(QWidget * widget, void * closure, QEvent * event,
   assert(closure != NULL);
   SoQtGLWidget * component = (SoQtGLWidget *) closure;
   component->processEvent(event);
+}
+
+// The GL widget rebuilding has been written to remember the previous
+// GL widget, which might be swapped back in if it fits the wanted
+// format.
+//
+// There are two reasons for keeping track of both the current and the
+// previous widget:
+//
+//  1) efficiency; often one swaps back and forth between only two
+//  different visuals -- like single and double buffering, or stereo
+//  mode on and off
+//
+//  2) robustness; killing off the previous widget in the build-method
+//  below has nasty sideeffects (like "random" coredumps), since the
+//  Qt event loop might be using it
+void
+SoQtGLWidgetP::buildGLWidget(void)
+{
+  // FIXME: use SoQtComponent registerWidget() and unregisterWidget()
+  // as appropriate when setting up new or deleting old
+  // GL-widgets. 20020612 mortene.
+
+  if (SOQT_DEBUG && 0) { // debug
+    SoDebugError::postInfo("SoQtGLWidgetP::buildGLWidget",
+                           "%s, %s, %s, %s, %s",
+                           this->glformat->doubleBuffer() ? "double" : "single",
+                           this->glformat->depth() ? "z-buffer" : "no z-buffer",
+                           this->glformat->rgba() ? "RGBA" : "colorindex",
+                           this->glformat->stereo() ? "stereo" : "mono",
+                           QGLFormat_hasOverlay(this->glformat) ? "overlay" : "no overlay");
+  }
+
+  SoQtGLArea * wascurrent = this->currentglwidget;
+  SoQtGLArea * wasprevious = this->previousglwidget;
+
+  void * display = NULL;
+  void * screen = NULL;
+
+#if defined(_WS_X11_) // Qt defines this under X11
+  // FIXME: should make context sharing work for other Qt
+  // base-platforms (MSWin, MacOS X) aswell. 20020118 mortene.
+
+  // the following Qt methods are only available under X11
+  display = (void*) QPaintDevice::x11AppDisplay();
+  screen = (void*) ((unsigned int) QPaintDevice::x11AppScreen());
+#endif // _WS_X11_
+
+  if (wascurrent) {
+    // Do _not_ turn off mousetracking or remove the eventfilter, as
+    // we'd loose events after the switch has happened if the user is
+    // already interacting with the canvas (e.g. when starting a drag
+    // in BUFFER_INTERACTIVE mode).
+#if 0 // Keep this code around so we don't accidentally reinsert it. :^}
+    wascurrent->removeEventFilter(this);
+    wascurrent->setMouseTracking(FALSE);
+#endif // Permanently disabled.
+    QObject::disconnect(wascurrent, SIGNAL(expose_sig()), this, SLOT(gl_exposed()));
+    QObject::disconnect(wascurrent, SIGNAL(init_sig()), this, SLOT(gl_init()));
+    //    QObject::disconnect(wascurrent, SIGNAL(reshape_sig()), this, SLOT(gl_reshape()));
+    this->previousglwidget = wascurrent;
+  }
+
+  if (wasprevious && QGLFormat_eq(*this->glformat, wasprevious->format())) {
+    // Reenable the previous widget.
+    if (this->currentglwidget) SoAny::si()->unregisterGLContext((void*) this);
+    this->currentglwidget = wasprevious;
+    SoAny::si()->registerGLContext((void*) this, display, screen);
+    if (SOQT_DEBUG && 0) { // debug
+      SoDebugError::postInfo("SoQtGLWidgetP::buildGLWidget",
+                             "reused previously used GL widget");
+    }
+  }
+  else {
+    // Couldn't use the previous widget, make a new one.
+    SoQtGLWidget * sharewidget = (SoQtGLWidget*) SoAny::si()->getSharedGLContext(display, screen);
+    if (this->currentglwidget) SoAny::si()->unregisterGLContext((void*) this);
+    this->currentglwidget =
+      new SoQtGLArea(this->glformat, this->borderwidget,
+                     sharewidget ? (const QGLWidget*) sharewidget->getGLWidget() : NULL);
+    this->currentglwidget->registerQKeyEventHandler(SoQtGLWidgetP::GLAreaKeyEvent,
+                                                             this);
+    SoAny::si()->registerGLContext((void *)this, display, screen);
+    // Send this one to the final hunting grounds.    
+    delete wasprevious;
+  }
+
+  if (!this->currentglwidget->isValid()) {
+    SbString s =
+      "Can't set up a valid OpenGL canvas, "
+      "something is seriously wrong with your system!";
+    SbBool handled =
+      SoAny::si()->invokeFatalErrorHandler(s, SoQt::NO_OPENGL_CANVAS);
+    if (handled) { return; }
+    exit(1);
+  }
+
+  if (SOQT_DEBUG) { // Warn about requested features that we didn't get.
+    QGLFormat * w = this->glformat; // w(anted)
+    QGLFormat g = this->currentglwidget->format(); // g(ot)
+
+#define GLWIDGET_FEATURECMP(_glformatfunc_, _truestr_, _falsestr_) \
+  do { \
+    if (w->_glformatfunc_() != g._glformatfunc_()) { \
+      SoDebugError::postWarning("SoQtGLWidgetP::buildGLWidget", \
+                                "wanted %s, but that is not supported " \
+                                "by the OpenGL driver", \
+                                w->_glformatfunc_() ? _truestr_ : _falsestr_); \
+    } \
+  } while (0)
+
+    GLWIDGET_FEATURECMP(doubleBuffer, "doublebuffer visual", "singlebuffer visual");
+    GLWIDGET_FEATURECMP(depth, "visual with depthbuffer", "visual without depthbuffer");
+    GLWIDGET_FEATURECMP(rgba, "RGBA buffer", "colorindex buffer");
+    GLWIDGET_FEATURECMP(stereo, "stereo buffers", "mono buffer");
+
+    if (QGLFormat_hasOverlay(w) != QGLFormat_hasOverlay(&g)) {
+      SoDebugError::postWarning("SoQtGLWidgetP::buildGLWidget",
+                                "wanted %s, but that is not supported "
+                                "by the OpenGL driver",
+                                QGLFormat_hasOverlay(w) ?
+                                "overlay plane(s)" :
+                                "visual without overlay plane(s)");
+    }
+  }
+#undef GLWIDGET_FEATURECMP
+
+  *this->glformat = this->currentglwidget->format();
+
+  int frame = PUBLIC(this)->isBorder() ? this->borderthickness : 0;
+  this->currentglwidget->setGeometry(frame, frame,
+                                     this->glSize[0] - 2*frame,
+                                     this->glSize[1] - 2*frame);
+
+  QObject::connect(this->currentglwidget, SIGNAL(init_sig()),
+                   this, SLOT(gl_init()));
+  //  QObject::connect(this->currentglwidget, SIGNAL(reshape_sig(int, int)),
+  //                    this, SLOT(gl_reshape(int, int)));
+  QObject::connect(this->currentglwidget, SIGNAL(expose_sig()),
+                   this, SLOT(gl_exposed()));
+
+  this->currentglwidget->setMouseTracking(TRUE);
+  this->currentglwidget->installEventFilter(this);
+
+  // Reset to avoid unnecessary scenegraph redraws.
+  PUBLIC(this)->waitForExpose = TRUE;
+
+  // We've changed to a new widget, so notify subclasses through this
+  // virtual method.
+  PUBLIC(this)->widgetChanged(this->currentglwidget);
+
+  if (wascurrent) {
+    // If we are rebuilding, we need to explicitly call show() here,
+    // as no message to show will be given from an already visible
+    // parent. (If the glwidget was built but not shown before the
+    // rebuild, the call below doesn't do any harm, as the glwidget
+    // still won't become visible until all parents are visible.)
+    this->currentglwidget->show();
+    this->currentglwidget->raise();
+  }
+  this->currentglwidget->setFocus();
 }
 
 #endif // DOXYGEN_SKIP_THIS
