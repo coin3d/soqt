@@ -127,6 +127,12 @@ if $BUILD_WITH_MSVC; then
   ])
 fi
 
+if test x"$sim_ac_macosx_10_2" = x"true"; then
+  # Defines how undefined symbols are handled (used in libtool.m4)
+  LD_TWOLEVEL_NAMESPACE=1
+fi
+
+
 # Initialize libtool
 if $BUILD_WITH_MSVC; then
   RANLIB=:
