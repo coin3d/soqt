@@ -4,14 +4,6 @@
 include src/Inventor/Qt/common/Makefile.common
 
 ############################################################################
-##
-
-ACLOCAL_AMFLAGS = -I cfg/m4
-
-# FIXME: if things still work after I commented this line, remove it  20020110 larsa
-# SUFFIXES = .cpp .h .m4 .in .o .lo .Plo .TPlo
-
-############################################################################
 ## 
 
 if BUILD_HTMLPAGES
