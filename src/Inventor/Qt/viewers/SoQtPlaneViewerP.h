@@ -26,6 +26,7 @@
 
 #include <qobject.h>
 #include <Inventor/SbBasic.h>
+#include <SoGuiPlaneViewerP.h>
 
 class SoQtPlaneViewer;
 
@@ -34,7 +35,7 @@ class SoQtPlaneViewer;
 // This class contains private data and methods used within the
 // SoQtPlaneViewer class.
 
-class SoQtPlaneViewerP : public QObject
+class SoQtPlaneViewerP : public QObject, public SoGuiPlaneViewerP
 {
   Q_OBJECT
 
@@ -58,9 +59,6 @@ public slots:
   void yClicked(void);
   void zClicked(void);
   void cameraToggleClicked(void);
-
-private:
-  SoQtPlaneViewer * pub;
 };
 
 // ************************************************************************

@@ -60,9 +60,8 @@
 #define THIS (PRIVATE(this))
 
 SoQtPlaneViewerP::SoQtPlaneViewerP(SoQtPlaneViewer * publ)
+  : SoGuiPlaneViewerP(publ)
 {
-  this->pub = publ;
-
   this->pixmaps.orthogonal = new QPixmap((const char **) ortho_xpm);
   this->pixmaps.perspective = new QPixmap((const char **) perspective_xpm);
 }
