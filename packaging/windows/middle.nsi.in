@@ -43,7 +43,7 @@ SetOverwrite on
 
 SetOutPath $INSTDIR\html\SoQt
 File @win_prefix@\html\SoQt\*.html
-File @win_prefix@\html\SoQt\*.gif
+File @win_prefix@\html\SoQt\*.png
 File @win_prefix@\html\SoQt\*.css
 
 SectionEnd
