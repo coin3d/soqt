@@ -346,10 +346,11 @@ AC_OUTPUT([
 ])
 
 for fil in build/soqt.dsp build/soqt.mak; do
-  mv $fil $fil.bak
   echo "(Win)DOS-ifying $fil"
+  mv $fil $fil.bak
   sed -e 's/$/
 /' < $fil.bak > $fil
+  rm $fil.bak
 done
 
 echo ""
