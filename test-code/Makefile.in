@@ -103,7 +103,7 @@ sim_ac_conf_cmd = @sim_ac_conf_cmd@
 uGUI = @uGUI@
 
 
-SUBDIRS = widgets
+SUBDIRS = components widgets
 subdir = test-code
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../config.h

@@ -294,6 +294,7 @@ AC_OUTPUT([
 	src/Inventor/Qt/viewers/Makefile
 	src/Inventor/Qt/widgets/Makefile
 	test-code/Makefile
+	test-code/components/Makefile
 	test-code/widgets/Makefile
 ],[
 	chmod a+x soqt-config
