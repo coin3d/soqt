@@ -189,9 +189,9 @@ SoQtMouse::translateEvent(QEvent * event)
     }
 
     // Press or release?
-    if (mouseevent->button() & mouseevent->state())
+    if (mouseevent->type() == QEvent::MouseButtonRelease)
       PRIVATE(this)->buttonevent->setState(SoButtonEvent::UP);
-    else
+    else // QEvent::MouseButtonPress
       PRIVATE(this)->buttonevent->setState(SoButtonEvent::DOWN);
 
     conv = PRIVATE(this)->buttonevent;
