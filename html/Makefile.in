@@ -139,6 +139,7 @@ gui = @gui@
 htmldir = @htmldir@
 install_sh = @install_sh@
 ivframeworkdir = @ivframeworkdir@
+ivincludedir = @ivincludedir@
 meta_prefix = @meta_prefix@
 nop = @nop@
 path_tag = @path_tag@
