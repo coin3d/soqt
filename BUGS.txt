@@ -209,6 +209,8 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     change in the corresponding direction. Moving the cursor up or
     down causes a very small velocity change."
 
+    UPDATE 20021017 rolvs: This should be fixed now, please verify.
+
 =====================================================================
 
 009 Michael Wimmer reported that using SoQt on top of SGI Inventor
