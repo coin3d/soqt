@@ -2442,7 +2442,7 @@ fi
 
 AC_DEFUN([SIM_AC_QGLWIDGET_SETAUTOBUFFERSWAP], [
 AC_CACHE_CHECK(
-  [whether the QGLWidget method setAutoBufferSwap() is available],
+  [whether the QGLWidget::setAutoBufferSwap() is available],
   sim_cv_func_qglwidget_setautobufferswap,
   [AC_TRY_LINK([#include <qgl.h>
 class MyGLWidget : public QGLWidget {
@@ -2471,7 +2471,7 @@ fi
 
 AC_DEFUN([SIM_AC_QGLFORMAT_SETOVERLAY], [
 AC_CACHE_CHECK(
-  [whether the QGLFormat method setOverlay() is available],
+  [whether QGLFormat::setOverlay() is available],
   sim_cv_func_qglformat_setoverlay,
   [AC_TRY_LINK([#include <qgl.h>],
                [QGLFormat f; f.setOverlay(TRUE);],
@@ -2481,6 +2481,35 @@ AC_CACHE_CHECK(
 if test x"$sim_cv_func_qglformat_setoverlay" = xyes; then
   AC_DEFINE([HAVE_QGLFORMAT_SETOVERLAY], 1,
     [Define this to 1 if QGLFormat::setOverlay() is available])
+fi
+])
+
+
+# Usage:
+#  SIM_AC_QGLFORMAT_EQ_OP
+#
+# Use the macro for its side-effect: it defines
+#
+#       HAVE_QGLFORMAT_EQ_OP
+#
+# to 1 in config.h if operator==(QGLFormat&, QGLFormat&) is available.
+# (For Qt v2.2.2 at least, Troll Tech forgot to include this method
+# in the publicly exported API for MSWindows DLLs.)
+#
+# Author: Morten Eriksen, <mortene@sim.no>.
+
+AC_DEFUN([SIM_AC_QGLFORMAT_EQ_OP], [
+AC_CACHE_CHECK(
+  [whether operator==(QGLFormat&,QGLFormat&) is available],
+  sim_cv_func_qglformat_eq_op,
+  [AC_TRY_LINK([#include <qgl.h>],
+               [QGLFormat f; if (f == f) f.setDepth(true);],
+               [sim_cv_func_qglformat_eq_op=true],
+               [sim_cv_func_qglformat_eq_op=false])])
+
+if $sim_cv_func_qglformat_eq_op; then
+  AC_DEFINE([HAVE_QGLFORMAT_EQ_OP], 1,
+    [Define this to 1 if operator==(QGLFormat&, QGLFormat&) is available])
 fi
 ])
 

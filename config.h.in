@@ -6,6 +6,9 @@
 /* Define if you have the <netinet/in.h> header file. */
 #undef HAVE_NETINET_IN_H
 
+/* Define this to 1 if operator==(QGLFormat&, QGLFormat&) is available */
+#undef HAVE_QGLFORMAT_EQ_OP
+
 /* Define this to 1 if QGLFormat::setOverlay() is available */
 #undef HAVE_QGLFORMAT_SETOVERLAY
 

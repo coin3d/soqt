@@ -22,26 +22,6 @@ static const char rcsid[] =
   "$Id$";
 #endif // SOQT_DEBUG
 
-// FIXME: get rid of this before 1.0 release by converting everything
-// to Qt version 2.x API? 19990630 mortene.
-#include <qevent.h>
-#include <qframe.h>
-#if QT_VERSION >= 200
-#include <q1xcompatibility.h>
-#endif // Qt v2.x
-
-#include <Inventor/errors/SoDebugError.h>
-#include <Inventor/misc/SoBasic.h>
-
-#include <soqtdefs.h>
-#include <Inventor/Qt/SoQtBasic.h>
-#include <Inventor/Qt/widgets/SoQtGLArea.h>
-#include <Inventor/Qt/SoQtGLWidget.h>
-
-#if HAVE_CONFIG_H
-#include <config.h>
-#endif // HAVE_CONFIG_H
-
 // *************************************************************************
 
 /*!
@@ -78,6 +58,48 @@ static const char rcsid[] =
 //    - there's a heap of methods missing from SoXtGLWidget, none (or few)
 //      of which seems relevant for the Qt implementation -- check the truth of
 //      this statement
+
+// *************************************************************************
+
+// FIXME: get rid of this before 1.0 release by converting everything
+// to Qt version 2.x API? 19990630 mortene.
+#include <qevent.h>
+#include <qframe.h>
+#if QT_VERSION >= 200
+#include <q1xcompatibility.h>
+#endif // Qt v2.x
+
+#include <Inventor/errors/SoDebugError.h>
+#include <Inventor/misc/SoBasic.h>
+
+#include <soqtdefs.h>
+#include <Inventor/Qt/SoQtBasic.h>
+#include <Inventor/Qt/widgets/SoQtGLArea.h>
+#include <Inventor/Qt/SoQtGLWidget.h>
+
+#if HAVE_CONFIG_H
+#include <config.h>
+#endif // HAVE_CONFIG_H
+
+static inline bool
+QGLFormat_eq(const QGLFormat & a, const QGLFormat & b)
+{
+  // For Qt v2.2.2 at least, Troll Tech forgot to include
+  // operator==(QGLFormat&,QGLFormat&) in the publicly exported API
+  // for MSWindows DLLs.
+#ifndef HAVE_QGLFORMAT_EQ_OP
+  if (a.doubleBuffer() != b.doubleBuffer()) return false;
+  if (a.depth() != b.depth()) return false;
+  if (a.rgba() != b.rgba()) return false;
+  if (a.stereo() != b.stereo()) return false;
+#if HAVE_QGLFORMAT_SETOVERLAY
+  if (a.hasOverlay() != b.hasOverlay()) return false;
+#endif // HAVE_QGLFORMAT_SETOVERLAY
+  return true;
+#else // HAVE_QGLFORMAT_EQ_OP
+  return (a == b);
+#endif // HAVE_QGLFORMAT_EQ_OP
+}
 
 // *************************************************************************
 
@@ -254,7 +276,7 @@ SoQtGLWidget::buildGLWidget(void)
     this->previousglwidget = wascurrent;
   }
 
-  if ( wasprevious && ( *this->glformat == wasprevious->format() ) ) {
+  if ( wasprevious && QGLFormat_eq(*this->glformat, wasprevious->format() ) ) {
     // Reenable the previous widget.
     this->currentglwidget = wasprevious;
 #if SOQT_DEBUG && 0 // debug
