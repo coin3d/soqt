@@ -7,9 +7,9 @@ SUFFIXES = .cpp .h .m4 .in .o .lo .Plo .TPlo
 
 ############################################################################
 
-SUBDIRS = . src/Inventor/Qt
+SUBDIRS = src/Inventor/Qt
 
-SoQtTemplateFiles = \
+SoQtBuiltSources = \
 	soqt-config \
 	soqtdefs.h \
 	src/Inventor/Qt/SoQtBasic.h \
@@ -34,7 +34,7 @@ SoQtTemplateFiles = \
 	src/Inventor/Qt/widgets/SoAnyPopupMenu.h \
 	src/Inventor/Qt/widgets/SoAnyPopupMenu.cpp
 
-SoQtMocFiles = \
+SoQtMocSources = \
 	src/Inventor/Qt/moc_SoQt.cpp \
 	src/Inventor/Qt/moc_SoQtObject.cpp \
 	src/Inventor/Qt/moc_SoQtComponent.cpp \
@@ -63,8 +63,8 @@ SoQtMocFiles = \
 	src/Inventor/Qt/widgets/moc_SoQtThumbWheel.cpp
 
 BUILT_SOURCES = \
-	$(SoQtTemplateFiles) \
-	$(SoQtMocFiles)
+	$(SoQtBuiltSources) \
+	$(SoQtMocSources)
 
 bin_SCRIPTS = soqt-config
 
@@ -78,12 +78,13 @@ m4data_DATA = cfg/m4/soqt.m4
 # This is necessary to set up a hook somewhere in the generated Makefile
 # so the sources are actually built.
 
-Makefile: $(BUILT_SOURCES)
+Makefile: $(SoQtBuiltSources)
 
 ############################################################################
 
 # Target which is present to make it simple to only generate all the source
 # files from the common sources.
+
 built-sources: $(BUILT_SOURCES)
 
 soqtdefs.h: $(srcdir)/soqtdefs.h.in
