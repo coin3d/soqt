@@ -285,10 +285,13 @@ bool SoQtP::didcreatemainwidget = FALSE;
 #define ENVVAR_NOT_INITED INT_MAX
 
 int SoQtP::DEBUG_X11SYNC = ENVVAR_NOT_INITED;
+const char * SoQtP::SOQT_XSYNC = "SOQT_XSYNC";
+int SoQtP::BRIL_X11_SILENCER = ENVVAR_NOT_INITED;
+int SoQtP::NO_X11_ERRORHANDLER = ENVVAR_NOT_INITED;
+const char * SoQtP::SOQT_NO_X11_ERRORHANDLER = "SOQT_NO_X11_ERRORHANDLER";
 SoQtP_XErrorHandler * SoQtP::previous_handler = NULL;
 
 int SoQtP::DEBUG_LISTMODULES = ENVVAR_NOT_INITED;
-int SoQtP::BRIL_X11_SILENCER = ENVVAR_NOT_INITED;
 
 // We're using the singleton pattern to create a single SoQtP object
 // instance (a dynamic object is needed for attaching slots to signals
@@ -335,20 +338,26 @@ SoQtP::X11Errorhandler(void * d, void * ee)
 
   // Then the instructions:
 
-  SoDebugError::post("SoQtP::X11Errorhandler",
-                     "Detected probable Qt bug (or internal SoQt bug). %s %s",
-
-                     SoQtP::DEBUG_X11SYNC == 1 ? "" :
-                     "Set environment variable SOQT_XSYNC to \"1\" and "
-                     "re-run the application in a debugger with a breakpoint "
-                     "set on SoQtP::X11Errorhandler() to get a valid "
-                     "backtrace. "
-
+  SbString instructions = "";
+  if (! SoQtP::DEBUG_X11SYNC) {
+    instructions.sprintf("Set environment variable %s to \"1\" and "
+                         "re-run the application in a debugger with a "
+                         "breakpoint set on SoQtP::X11Errorhandler() to get a "
+                         "valid backtrace. "
                      "Then please forward the following information in an "
                      "e-mail to <coin-bugs@coin3d.org> along with the "
                      "backtrace. ",
+                         SoQtP::SOQT_XSYNC);
+  }
 
-                     depthsstr.getString());
+  SoDebugError::post("SoQtP::X11Errorhandler",
+                     "Detected probable Qt bug (or internal SoQt bug). %s %s",
+                     instructions.getString(), depthsstr.getString());
+
+  SoDebugError::post("SoQtP::X11Errorhandler",
+                     "If you don't want SoQt to catch X11 errors, set the %s "
+                     "environment variable to \"1\".",
+                     SoQtP::SOQT_NO_X11_ERRORHANDLER);
 
   SoQtP::previous_handler(d, ee);
 #endif // Q_WS_X11
@@ -609,16 +618,23 @@ SoQt::init(QWidget * toplevelwidget)
   // breakpoint set at SoQtP::X11Errorhandler(). Now you can backtrace
   // to the exact source location of the failing X request.
 #ifdef Q_WS_X11
+  if (SoQtP::NO_X11_ERRORHANDLER == ENVVAR_NOT_INITED) {
+    const char * env = SoAny::si()->getenv(SoQtP::SOQT_NO_X11_ERRORHANDLER);
+    SoQtP::NO_X11_ERRORHANDLER = env ? atoi(env) : 0;
+  }
+      
+  if (! SoQtP::NO_X11_ERRORHANDLER) {
   // Intervene upon X11 errors.
   SoQtP::previous_handler = (SoQtP_XErrorHandler*)XSetErrorHandler((XErrorHandler)SoQtP::X11Errorhandler);
 
   if (SoQtP::DEBUG_X11SYNC == ENVVAR_NOT_INITED) {
-    const char * env = SoAny::si()->getenv("SOQT_XSYNC");
+      const char * env = SoAny::si()->getenv(SoQtP::SOQT_XSYNC);
     SoQtP::DEBUG_X11SYNC = env ? atoi(env) : 0;
     if (SoQtP::DEBUG_X11SYNC) {
       // FIXME: SoDebugError::initClass() not yet invoked! 20021021 mortene.
       SoDebugError::postInfo("SoQt::init", "Turning on X synchronization.");
       XSynchronize(qt_xdisplay(), True);
+      }
     }
   }
 #endif // Q_WS_X11
