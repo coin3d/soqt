@@ -7,6 +7,8 @@ ToDo
 
 *** BUILD ITEMS ***
 
+* [larsa:20000201] change #ifndef/#define/#endif header-wrapper namespace
+
 * [larsa:20000130] wrap SoQt-internal #include directives with #ifndef wrappers
 
 * [larsa:20000113] tune the compilation process to avoid the excessively
