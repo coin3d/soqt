@@ -4,7 +4,7 @@ SoQt 1.2.0 Released
 SoQt 1.2.0 is a minor release.  It was made because it was about time to
 get SoQt into a release cycle again.  The release contains bugfixes,
 optimizations, documentation improvements, and configure and build setup
-fixes.  It also contains some minot API extensions beyond the previous
+fixes.  It also contains some minor API extensions beyond the previous
 release.
 
 
