@@ -110,7 +110,7 @@ SoQt::init(const char * const appName, const char * const className)
 }
 
 /*!
-  Calls \a SoDB::init() and \a SoInteraction::init().
+  Calls \a SoDB::init(), \a SoNodeKit::init() and \a SoInteraction::init().
   Assumes you are creating your own QApplication and main widget.
   \a topLevelWidget should be your application's main widget.
 */
@@ -126,6 +126,7 @@ SoQt::init(QWidget * const topLevelWidget)
 #endif // SOQT_DEBUG
 
   SoDB::init();
+  SoNodeKit::init();
   SoInteraction::init();
 
   SoDB::getSensorManager()->setChangedCallback(SoQt::sensorQueueChanged, NULL);
@@ -136,7 +137,7 @@ SoQt::init(QWidget * const topLevelWidget)
   Initializes the SoQt component toolkit library, as well as the Open Inventor
   library.
 
-  Calls \a SoDB::init() and \a SoInteraction::init(), and
+  Calls \a SoDB::init(), \a SoNodeKit::init() and \a SoInteraction::init(), and
   creates a QApplication and constructs and returns a  main widget for
   you
   
