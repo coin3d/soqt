@@ -29,6 +29,12 @@
 #include <Inventor/Qt/SoQtBasic.h>
 #include <Inventor/SbBasic.h>
 
+#ifndef SOQT_BETA_VERSION
+#error This class should not be part of the public API. Move it to somewhere else, like e.g. a new repository with our Qt extension classes.
+#endif // SOQT_BETA_VERSION
+
+// *************************************************************************
+
 class SOQT_DLL_API Gradient {
 
 public:

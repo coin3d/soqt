@@ -74,6 +74,10 @@ AC_DEFINE_UNQUOTED([SOQT_MINOR_VERSION], [$SOQT_MINOR_VERSION],
   [Define to the minor version of SoQt])
 AC_DEFINE_UNQUOTED([SOQT_MICRO_VERSION], [$SOQT_MICRO_VERSION],
   [Define to the micro version of SoQt])
+if test x"$SOQT_BETA_VERSION" = x""; then :; else
+  AC_DEFINE_UNQUOTED([SOQT_BETA_VERSION], [$SOQT_BETA_VERSION],
+    [define this to the SoQt beta version letter])
+fi
 AC_DEFINE_UNQUOTED([SOQT_VERSION], ["$SOQT_VERSION"],
   [Version string for SoQt])
 
