@@ -1,4 +1,6 @@
 =====================================================================
+Note: see also src/Inventor/Qt/common/BUGS.txt.
+=====================================================================
 
 000 Adding an app-specific pushbutton to the SoQtExaminerViewer will
     make the left border too thin. Reproduce with this code:

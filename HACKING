@@ -5,5 +5,4 @@ Be sure to check Coin/HACKING for Coin-specific tricks and more
 generic information, plus the src/Inventor/Qt/common/HACKING file for
 some hints common to all GUI interface toolkits.
 
-[This file is a work in progress, and was just started. There is no
-specific information for SoQt available yet.]
+[There is no specific information for SoQt available yet.]
