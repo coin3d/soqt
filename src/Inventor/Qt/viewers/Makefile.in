@@ -67,7 +67,6 @@ AS = @AS@
 AWK = @AWK@
 CC = @CC@
 COMPONENTHEADER = @COMPONENTHEADER@
-COMPONENTLIBS = @COMPONENTLIBS@
 CPP = @CPP@
 CXX = @CXX@
 CXXCPP = @CXXCPP@
@@ -108,7 +107,7 @@ noinst_LTLIBRARIES = libSoQtViewers.la
 
 LIBS = 
 
-INCLUDES = -I$(top_srcdir)/src -I$(top_builddir)/src
+INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
 
 BUILT_SOURCES = \
 	moc_SoQtViewer.cpp \
@@ -153,7 +152,7 @@ libSoQtViewersinc_HEADERS = \
 subdir = src/Inventor/Qt/viewers
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../../config.h
-CONFIG_CLEAN_FILES =  SoQtViewer.h SoQtViewer.cpp
+CONFIG_CLEAN_FILES = 
 LTLIBRARIES =  $(noinst_LTLIBRARIES)
 
 
@@ -186,9 +185,7 @@ LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDF
 DIST_SOURCES =  $(libSoQtViewers_la_SOURCES)
 HEADERS =  $(libSoQtViewersinc_HEADERS)
 
-DIST_COMMON =  $(libSoQtViewersinc_HEADERS) Makefile.am Makefile.in \
-$(top_srcdir)/src/Inventor/Qt/common/SoAnyViewer.cpp.in \
-$(top_srcdir)/src/Inventor/Qt/common/SoAnyViewer.h.in
+DIST_COMMON =  $(libSoQtViewersinc_HEADERS) Makefile.am Makefile.in
 
 
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -216,10 +213,6 @@ Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
 	cd $(top_builddir) \
 	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
-SoQtViewer.h: $(top_builddir)/config.status $(top_srcdir)/src/Inventor/Qt/common/SoAnyViewer.h.in
-	cd $(top_builddir) && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
-SoQtViewer.cpp: $(top_builddir)/config.status  $(top_srcdir)/src/Inventor/Qt/common/SoAnyViewer.cpp.in
-	cd $(top_builddir) && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
 mostlyclean-noinstLTLIBRARIES:
 
@@ -425,6 +418,12 @@ mostlyclean distclean maintainer-clean
 
 ############################################################################
 
+SoQtViewer.h: $(top_srcdir)/src/Inventor/Qt/common/SoAnyViewer.h.in
+	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/viewers/SoQtViewer.h )
+
+SoQtViewer.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoAnyViewer.cpp.in
+	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/viewers/SoQtViewer.cpp )
+
 moc_SoQtViewer.cpp: $(top_builddir)/src/Inventor/Qt/viewers/SoQtViewer.h
 	$(MOC) -o moc_SoQtViewer.cpp $(top_builddir)/src/Inventor/Qt/viewers/SoQtViewer.h
 
@@ -445,6 +444,8 @@ moc_SoQtWalkViewer.cpp: $(top_srcdir)/src/Inventor/Qt/viewers/SoQtWalkViewer.h
 
 moc_SoQtFlyViewer.cpp: $(top_srcdir)/src/Inventor/Qt/viewers/SoQtFlyViewer.h
 	$(MOC) -o moc_SoQtFlyViewer.cpp $(top_srcdir)/src/Inventor/Qt/viewers/SoQtFlyViewer.h
+
+############################################################################
 
 install-libSoQtViewersincHEADERS: $(libSoQtViewersinc_HEADERS)
 	@$(NORMAL_INSTALL)

@@ -1443,14 +1443,25 @@ dnl TODO:
 dnl * [larsa:20000222] more warnings on potential problems
 dnl
 
+define([m4_noquote],
+[changequote(,)$1changequote([,])])
+
+define([LF],
+[
+])
+
+define([TAB],
+[	])
+
 AC_DEFUN([SIM_AC_PML_WARNING],
 [errprint([SIM_PARSE_MODIFIER_LIST: $1
   (file "]__file__[", line ]__line__[)
 ])])
 
+dnl * this is an unquoted string compaction - words in string must expand to
+dnl * nothing before compaction starts...
 AC_DEFUN([SIM_AC_PML_STRING_COMPACT],
-[patsubst(patsubst([[$1]],[[
-	 ]+],[ ]),[^ \| $],[])])
+[patsubst(patsubst([$1],m4_noquote([[TAB LF]+]),[ ]),[^ \| $],[])])
 
 AC_DEFUN([SIM_AC_PML_STRING_WORDCOUNT_COMPACT],
 [m4_eval((1+len(patsubst([[$1]],[[^ ]+],[_])))/2)])
@@ -1504,8 +1515,8 @@ AC_DEFUN([SIM_AC_PML_PARSE_MODIFIER_LIST],
 [popdef([wordcount])]dnl
 [SIM_AC_PML_PUSHDEF_MODIFIERS([$3])]dnl
 [ifelse(SIM_AC_PML_STRING_COMPACT([$1]), [],
-        [ifelse([$4], , [], [$4])],
-        [ifelse([$5], ,
+        [ifelse([$4], [], [], [$4])],
+        [ifelse([$5], [],
                 [SIM_AC_PML_WARNING([modifier(s) parse error: "]SIM_AC_PML_STRING_COMPACT([$1])")],
                 [$5])])]dnl
 [SIM_AC_PML_POPDEF_MODIFIERS([$3])])

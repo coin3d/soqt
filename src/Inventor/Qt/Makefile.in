@@ -67,7 +67,6 @@ AS = @AS@
 AWK = @AWK@
 CC = @CC@
 COMPONENTHEADER = @COMPONENTHEADER@
-COMPONENTLIBS = @COMPONENTLIBS@
 CPP = @CPP@
 CXX = @CXX@
 CXXCPP = @CXXCPP@
@@ -110,7 +109,7 @@ SUBDIRS = common devices viewers widgets
 
 ############################################################################
 
-INCLUDES = -I$(top_srcdir)/src -I$(top_builddir)/src
+INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
 
 lib_LTLIBRARIES = libSoQt.la
 
@@ -182,7 +181,7 @@ libSoQtinc_HEADERS = \
 subdir = src/Inventor/Qt
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../config.h
-CONFIG_CLEAN_FILES =  SoQtRenderArea.h SoQtRenderArea.cpp
+CONFIG_CLEAN_FILES = 
 LTLIBRARIES =  $(lib_LTLIBRARIES)
 
 
@@ -218,9 +217,7 @@ LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDF
 DIST_SOURCES =  $(libSoQt_la_SOURCES)
 HEADERS =  $(libSoQtinc_HEADERS)
 
-DIST_COMMON =  $(libSoQtinc_HEADERS) Makefile.am Makefile.in \
-$(top_srcdir)/src/Inventor/Qt/common/SoAnyRenderArea.cpp.in \
-$(top_srcdir)/src/Inventor/Qt/common/SoAnyRenderArea.h.in
+DIST_COMMON =  $(libSoQtinc_HEADERS) Makefile.am Makefile.in
 
 
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -252,10 +249,6 @@ Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
 	cd $(top_builddir) \
 	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
-SoQtRenderArea.h: $(top_builddir)/config.status $(top_srcdir)/src/Inventor/Qt/common/SoAnyRenderArea.h.in
-	cd $(top_builddir) && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
-SoQtRenderArea.cpp: $(top_builddir)/config.status $(top_srcdir)/src/Inventor/Qt/common/SoAnyRenderArea.cpp.in
-	cd $(top_builddir) && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
 mostlyclean-libLTLIBRARIES:
 
@@ -556,6 +549,12 @@ maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
 
 ############################################################################
+
+SoQtRenderArea.h: $(top_srcdir)/src/Inventor/Qt/common/SoAnyRenderArea.h.in
+	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/SoQtRenderArea.h )
+
+SoQtRenderArea.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoAnyRenderArea.cpp.in
+	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/SoQtRenderArea.cpp )
 
 moc_SoQt.cpp: $(top_srcdir)/src/Inventor/Qt/SoQt.h
 	$(MOC) -o moc_SoQt.cpp $(top_srcdir)/src/Inventor/Qt/SoQt.h

@@ -4,7 +4,7 @@ SUBDIRS = common devices viewers widgets
 
 ############################################################################
 
-INCLUDES = -I$(top_srcdir)/src -I$(top_builddir)/src
+INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
 
 lib_LTLIBRARIES = libSoQt.la
 
@@ -70,6 +70,12 @@ libSoQtinc_HEADERS = \
 	$(top_srcdir)/src/Inventor/Qt/SoQtTransformSliderSet.h
 
 ############################################################################
+
+SoQtRenderArea.h: $(top_srcdir)/src/Inventor/Qt/common/SoAnyRenderArea.h.in
+	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/SoQtRenderArea.h )
+
+SoQtRenderArea.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoAnyRenderArea.cpp.in
+	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/SoQtRenderArea.cpp )
 
 moc_SoQt.cpp: $(top_srcdir)/src/Inventor/Qt/SoQt.h
 	$(MOC) -o moc_SoQt.cpp $(top_srcdir)/src/Inventor/Qt/SoQt.h
