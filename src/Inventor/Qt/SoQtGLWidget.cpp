@@ -713,7 +713,7 @@ SoQtGLWidget::glFlushBuffer(
   void )
 {
   assert( this->glLockLevel > 0 );
-  SOQT_STUB();
+  glFlush();
 } // glFlushBuffer()
 
 void
