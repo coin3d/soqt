@@ -97,8 +97,10 @@ main(int argc, char **argv)
 #endif // SOQT_DEBUG
 
 #include <soqtdefs.h>
-#include <Inventor/Qt/SoQtObject.h>
 #include <Inventor/Qt/SoQt.h>
+#include <Inventor/Qt/SoQtObject.h>
+#include <Inventor/Qt/devices/SoQtDevice.h>
+#include <Inventor/Qt/SoQtComponent.h>
 
 // *************************************************************************
 
@@ -256,6 +258,16 @@ SoQt::init(int argc, char ** argv,
   SoQt::appobject->setMainWidget(SoQt::mainWidget);
   return SoQt::mainWidget;
 }
+
+// documented in common/SoGuiObject.cpp.in
+void
+SoQtObject::init( // static
+  void )
+{
+  SoQtObject::initClass();
+  SoQtDevice::initClasses();
+  SoQtComponent::initClasses();
+} // init()
 
 /*!
   \internal
