@@ -125,7 +125,9 @@ else
     SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS $sim_ac_coin_cppflags"
     SOQT_EXTRA_LDFLAGS="$SOQT_EXTRA_LDFLAGS $sim_ac_coin_ldflags"
     SOQT_EXTRA_LIBS="$sim_ac_coin_libs $SOQT_EXTRA_LIBS"
-  ], AC_MSG_ERROR(couldn't compile and link against Coin))
+  ],
+  AC_MSG_ERROR(couldn't compile and link against Coin),
+  [default searchprefix])
 fi
 
 dnl *******************************************************************

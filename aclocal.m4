@@ -1035,6 +1035,47 @@ fi
 ])
 
 
+
+dnl Usage:
+dnl  SIM_CHECK_X_INTRINSIC([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+dnl
+dnl  Try to find the Xt intrinsic library. Sets this shell variable:
+dnl
+dnl    $sim_ac_xt_libs   (link library the linker needs for X Intrinsic)
+dnl
+dnl  The LIBS flag will also be modified accordingly. In addition, the
+dnl  variable $sim_ac_xt_avail is set to "yes" if the X11 Intrinsic
+dnl  library is found.
+dnl
+dnl
+dnl Author: Morten Eriksen, <mortene@sim.no>.
+dnl
+
+AC_DEFUN(SIM_CHECK_X_INTRINSIC,[
+dnl Autoconf is a developer tool, so don't bother to support older versions.
+AC_PREREQ([2.14.1])
+
+sim_ac_xt_avail=no
+sim_ac_xt_libs="-lXt"
+sim_ac_save_libs=$LIBS
+LIBS="$sim_ac_xt_libs $LIBS"
+
+AC_CACHE_CHECK([whether the X11 Intrinsic library is available],
+  sim_cv_lib_xt_avail,
+  [AC_TRY_LINK([#include <X11/Intrinsic.h>],
+               [(void)XtVaCreateWidget("", 0L, 0L);],
+               sim_cv_lib_xt_avail=yes,
+               sim_cv_lib_xt_avail=no)])
+
+if test x"$sim_cv_lib_xt_avail" = xyes; then
+  sim_ac_xt_avail=yes
+  ifelse($1, , :, $1)
+else
+  LIBS=$sim_ac_save_libs
+  ifelse($2, , :, $2)
+fi
+])
+
 dnl Usage:
 dnl  SIM_CHECK_OPENGL([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 dnl
@@ -1089,50 +1130,38 @@ if test x"$with_opengl" != xno; then
   LDFLAGS="$LDFLAGS $sim_ac_gl_ldflags"
 
   sim_ac_save_libs=$LIBS
-  sim_ac_gl_libs="-lMesaGLU -lMesaGL"
-  LIBS="$sim_ac_gl_libs $LIBS"
 
-  AC_CACHE_CHECK([whether OpenGL libraries with the Mesa prefix are available],
-    sim_cv_lib_mesa_avail,
-    [AC_TRY_LINK([#include <GL/gl.h>
-                  #include <GL/glu.h>],
-                 [glPointSize(1.0f); gluSphere(0L, 1.0, 1, 1);],
-                 sim_cv_lib_mesa_avail=yes,
-                 sim_cv_lib_mesa_avail=no)])
-
-  if test x"$sim_cv_lib_mesa_avail" = xyes; then
-    sim_ac_gl_is_mesa=yes
-    sim_ac_gl_avail=yes
-  else
-    sim_ac_gl_libs="-lGLU -lGL"
-    LIBS="$sim_ac_gl_libs $sim_ac_save_libs"
-
-    AC_CACHE_CHECK([whether OpenGL libraries are available],
-      sim_cv_lib_gl_avail,
-      [AC_TRY_LINK([#include <GL/gl.h>
-                    #include <GL/glu.h>],
-                   [glPointSize(1.0f); gluSphere(0L, 1.0, 1, 1);],
-                   sim_cv_lib_gl_avail=yes,
-                   sim_cv_lib_gl_avail=no)])
-
-    if test x"$sim_cv_lib_gl_avail" = xyes; then
-      sim_ac_gl_avail=yes
-      AC_CACHE_CHECK([whether OpenGL libraries actually are the Mesa libraries],
-        sim_cv_lib_gl_ismesa,
-        [AC_TRY_LINK([#include <GL/gl.h>
-                      #include <GL/glu.h>],
-                     [#ifndef MESA
-                      #error not mesa
-                      #endif],
-                     sim_cv_lib_gl_ismesa=yes,
-                     sim_cv_lib_gl_ismesa=no)])
-      if test x"$sim_cv_lib_gl_ismesa" = xyes; then
-        sim_ac_gl_is_mesa=yes
+  AC_CACHE_CHECK([whether OpenGL libraries are available], sim_cv_lib_gl, [
+    sim_cv_lib_gl=UNRESOLVED
+    # Some platforms (like BeOS) have the GLU functionality in the GL library.
+    for i in -lMesaGL -lGL "-lMesaGLU -lMesaGL" "-lGLU -lGL"; do
+      if test "x$sim_cv_lib_gl" = "xUNRESOLVED"; then
+        LIBS="$i $sim_ac_save_libs"
+        AC_TRY_LINK([#include <GL/gl.h>
+                     #include <GL/glu.h>],
+                    [glPointSize(1.0f); gluSphere(0L, 1.0, 1, 1);],
+                    sim_cv_lib_gl="$i")
       fi
-    fi
-  fi
+    done
+  ])
 
-  if test x"$sim_ac_gl_avail" = xyes; then
+
+  if test "x$sim_cv_lib_gl" != "xUNRESOLVED"; then
+    sim_ac_gl_libs="$sim_cv_lib_gl"
+    LIBS="$sim_ac_gl_libs $sim_ac_save_libs"
+    sim_ac_gl_avail=yes
+    AC_CACHE_CHECK([whether OpenGL libraries are the Mesa libraries],
+      sim_cv_lib_gl_ismesa,
+      [AC_TRY_LINK([#include <GL/gl.h>],
+                   [#ifndef MESA
+                    #error not mesa
+                    #endif],
+                   sim_cv_lib_gl_ismesa=yes,
+                   sim_cv_lib_gl_ismesa=no)])
+    if test x"$sim_cv_lib_gl_ismesa" = xyes; then
+      sim_ac_gl_is_mesa=yes
+    fi
+
     ifelse($1, , :, $1)
   else
     CPPFLAGS=$sim_ac_save_cppflags
@@ -1261,84 +1290,229 @@ else
 fi
 ])
 
+dnl ************************************************************************
 dnl Usage:
-dnl  SIM_CHECK_COIN([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+dnl   SIM_CHECK_COIN( ACTION-IF-FOUND, ACTION-IF-NOT-FOUND, ATTRIBUTE-LIST )
 dnl
-dnl  Try to find the Coin library development system. If it is found,
-dnl  these shell variables are set:
+dnl Description:
+dnl   This macro locates the Coin development system.  If it is found, the
+dnl   set of variables listed below are set up as described and made available
+dnl   to the configure script.
 dnl
-dnl    $sim_ac_coin_cppflags (extra flags the compiler needs for Coin)
-dnl    $sim_ac_coin_ldflags  (extra flags the linker needs for Coin)
-dnl    $sim_ac_coin_libs     (link libraries the linker needs for Coin)
+dnl ATTRIBUTE-LIST Options:
+dnl   [no]default              whether --with-coin is default or not
+dnl                            (default on)
+dnl   [no]searchprefix         whether to look for Coin where --prefix is set
+dnl                            (default off)
 dnl
-dnl  The CPPFLAGS, LDFLAGS and LIBS flags will also be modified accordingly.
-dnl  In addition, the variable $sim_ac_coin_avail is set to "yes"
-dnl  if the Coin development system is found.
+dnl Autoconf Variables:
+dnl   $sim_ac_coin_avail       yes | no
+dnl   $sim_ac_coin_cppflags    (extra flags the compiler needs for Coin)
+dnl   $sim_ac_coin_ldflags     (extra flags the linker needs for Coin)
+dnl   $sim_ac_coin_libs        (link libraries the linker needs for Coin)
+dnl   $CPPFLAGS                $CPPFLAGS $sim_ac_coin_cppflags
+dnl   $LDFLAGS                 $LDFLAGS $sim_ac_coin_ldflags
+dnl   $LIBS                    $sim_ac_coin_libs $LIBS
 dnl
-dnl
-dnl Author: Morten Eriksen, <mortene@sim.no>.
+dnl Authors:
+dnl   Morten Eriksen, <mortene@sim.no>
+dnl   Lars J. Aas, <larsa@sim.no>
 dnl
 dnl TODO:
-dnl    * [mortene:20000123] make sure this work on MSWin (with Cygwin
-dnl      installation)
-dnl
-dnl CHANGES:
-dnl    * [larsa:20000210] added search for coin-config in $exec_prefix/bin
-dnl      and a warning message for when coin-config isn't found.  Submitted
-dnl      by Loring Holden <lsh@cs.brown.edu>.
+dnl * [mortene:20000123] make sure this work on MSWin (with Cygwin)
+dnl * [larsa:20000216] find a less strict AC_PREREQ (investigate used features)
 dnl
 
 AC_DEFUN(SIM_CHECK_COIN,[
 dnl Autoconf is a developer tool, so don't bother to support older versions.
 AC_PREREQ([2.14.1])
 
-AC_ARG_WITH(coin, AC_HELP_STRING([--with-coin=DIR], [set the prefix directory where Coin resides]), , [with_coin=yes])
+SIM_PARSE_MODIFIER_LIST([$3],[
+  sim4_coin_with          yes
+  sim4_coin_searchprefix  no
+],[
+  default                 sim4_coin_with  yes
+  nodefault               sim4_coin_with  no
+  searchprefix            sim4_coin_searchprefix  yes
+  nosearchprefix          sim4_coin_searchprefix  no
+])
+
+AC_ARG_WITH(coin, AC_HELP_STRING([--with-coin=DIR], changequote({,}){set the prefix directory where Coin resides [default=}sim4_coin_with{]}changequote([,])), , [with_coin=sim4_coin_with])
 
 sim_ac_coin_avail=no
 
-if test x"$with_coin" != xno; then
+if test "x$with_coin" != "xno"; then
   sim_ac_path=$PATH
-  if test x"$with_coin" != xyes; then
+  if test "x$with_coin" != "xyes"; then
     sim_ac_path=${with_coin}/bin:$PATH
-    if test x"$exec_prefix" != xNONE; then
+    ifelse(sim4_coin_searchprefix, yes,
+    [if test "x$exec_prefix" != "xNONE"; then
       sim_ac_path=$sim_ac_path:$exec_prefix/bin
-    fi
+    fi], :)
   fi
 
-  AC_PATH_PROG(sim_ac_conf_cmd, coin-config, true, $sim_ac_path)
-  if test x"$sim_ac_conf_cmd" = xtrue; then
-    AC_MSG_WARN("Could not find 'coin-config' in $sim_ac_path")
+  AC_PATH_PROG(sim_ac_conf_cmd, coin-config, false, $sim_ac_path)
+  if test "x$sim_ac_conf_cmd" = "xfalse"; then
+    AC_MSG_WARN(could not find 'coin-config' in $sim_ac_path)
   fi
 
   sim_ac_coin_cppflags=`$sim_ac_conf_cmd --cppflags`
   sim_ac_coin_ldflags=`$sim_ac_conf_cmd --ldflags`
   sim_ac_coin_libs=`$sim_ac_conf_cmd --libs`
 
-  sim_ac_save_cppflags=$CPPFLAGS
-  sim_ac_save_ldflags=$LDFLAGS
-  sim_ac_save_libs=$LIBS
-
-  CPPFLAGS="$CPPFLAGS $sim_ac_coin_cppflags"
-  LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
-  LIBS="$sim_ac_coin_libs $LIBS"
-
   AC_CACHE_CHECK([whether the Coin library is available],
-    sim_cv_lib_coin_avail,
-    [AC_TRY_LINK([#include <Inventor/SoDB.h>],
+    sim_cv_lib_coin_avail, [
+    sim_ac_save_cppflags=$CPPFLAGS
+    sim_ac_save_ldflags=$LDFLAGS
+    sim_ac_save_libs=$LIBS
+    CPPFLAGS="$CPPFLAGS $sim_ac_coin_cppflags"
+    LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
+    LIBS="$sim_ac_coin_libs $LIBS"
+    AC_TRY_LINK([#include <Inventor/SoDB.h>],
                  [SoDB::init();],
                  sim_cv_lib_coin_avail=yes,
-                 sim_cv_lib_coin_avail=no)])
-
-  if test x"$sim_cv_lib_coin_avail" = xyes; then
-    sim_ac_coin_avail=yes
-    ifelse($1, , :, $1)
-  else
+                 sim_cv_lib_coin_avail=no)
     CPPFLAGS=$sim_ac_save_cppflags
     LDFLAGS=$sim_ac_save_ldflags
     LIBS=$sim_ac_save_libs
+  ])
+
+  if test "x$sim_cv_lib_coin_avail" = "xyes"; then
+    sim_ac_coin_avail=yes
+    CPPFLAGS="$CPPFLAGS $sim_ac_coin_cppflags"
+    LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
+    LIBS="$sim_ac_coin_libs $LIBS"
+    ifelse($1, , :, $1)
+  else
     ifelse($2, , :, $2)
   fi
+else
+  ifelse($2, , :, $2)
 fi
+])
+
+
+dnl ************************************************************************
+dnl Usage:
+dnl   SIM_PARSE_MODIFIER_LIST( MODIFIER-LIST-STRING, MODIFIER-VARIABLES, 
+dnl       MODIFIER-LIST, opt ACTION-ON-SUCCESS, opt ACTION-ON-FAILURE )
+dnl
+dnl Description:
+dnl   This macro makes it easy to let macros have a MODIFIER-LIST argument
+dnl   which makes the macro more flexible and lets the macro caller configure
+dnl   some of the macro beaviour from the calling place.
+dnl
+dnl   Everything is done on the m4-level, which means things are handled at
+dnl   autoconf-run-time, not configure-run-time.  This lets you discover
+dnl   problems at an earlier stage, which is nice.  It also lets you insert
+dnl   the modifier values into e.g. the help strings, something you can't
+dnl   do with a shell variable.
+dnl
+dnl   MODIFIER-LIST-STRING is the string of modifiers used in the
+dnl   macro invocation.
+dnl
+dnl   MODIFIER-VARIABLES is a list of variables and their default values.
+dnl   The variables and values are recognized as words matching [[^\s-]*]
+dnl   separated by whitespace, and they must of course come in pairs.
+dnl
+dnl   MODIFIER-LIST is a description-list of all the valid modifiers that
+dnl   can be used in the MODIFIER-LIST-STRING argument.  They must come in
+dnl   tuples of three and three words (same word-definition as above) where
+dnl   the first word is the modifier, the second word is the variable that
+dnl   is to be set by the modifier, and last the value the modifier variable
+dnl   should be set to.
+dnl
+dnl   ACTION-ON-SUCCESS is the expansion of the macro if all the modifiers
+dnl   in MODIFIER-LIST-STRING pass through without problem.  The default
+dnl   expansion is nothing.
+dnl
+dnl   ACTION-ON-FAILURE is the expansion of the macro if some of the modifiers
+dnl   in MODIFIER-LIST-STRING doesn't pass through.  The default expansion is
+dnl   nothing, but warnings are printed to stderr on the modifiers causing
+dnl   the problem.
+dnl
+dnl Example of Usage:
+dnl   [to come later]
+dnl
+dnl Authors:
+dnl   Lars J. Aas <larsa:sim.no>
+dnl
+dnl TODO:
+dnl * [larsa:20000222] warn on creating modifiers for unknown variables
+dnl
+
+define([$IM_STRING_COMPACT],[dnl
+patsubst(patsubst(translit([$1],[
+	], [  ]), [\b +\b], [ ]), [^ \| $], [])])dnl
+
+define([$IM_STRING_WORDCOUNT_COMPACT],[dnl
+builtin([eval],(1+len(patsubst([$1],[[^ ]+],[_])))/2)])dnl
+
+define([$IM_STRING_WORDCOUNT],[dnl
+indir([$IM_STRING_WORDCOUNT_COMPACT],[indir([$IM_STRING_COMPACT],[$1])])])dnl
+
+define([$IM_DEFINE_VARIABLES],[dnl
+ifelse( indir([$IM_STRING_WORDCOUNT_COMPACT],[$1]),
+        2,
+        [patsubst([$1],[^\([^ ]+\) \([^ ]+\)\b],[define([\1],[\2])])],
+        [patsubst([$1],[^\([^ ]+\) \([^ ]+\) \(.*\)$],
+                  [define([\1],[\2])indir([$IM_DEFINE_VARIABLES],\3)])])dnl
+])dnl
+
+define([$IM_PUSHDEF_MODIFIERS],[dnl
+ifelse( indir([$IM_STRING_WORDCOUNT_COMPACT],[$1]),
+        3,
+        [patsubst([$1],[^\([^ ]+\) \([^ ]+\) \([^ ]+\)\b],
+                  [pushdef([\1],[define([\2],[\3])])])],
+        [patsubst([$1],[^\([^ ]+\) \([^ ]+\) \([^ ]+\) \(.*\)$],
+                  [pushdef([\1],[define([\2],[\3])])indir([$IM_PUSHDEF_MODIFIERS],[\4])])])dnl
+])dnl
+
+define([$IM_POPDEF_MODIFIERS],[dnl
+ifelse( indir([$IM_STRING_WORDCOUNT_COMPACT],[$1]),
+        3,
+        [patsubst([$1],[^\([^ ]+\) \([^ ]+\) \([^ ]+\)\b],
+                  [popdef([\1])])],
+        [patsubst([$1],[^\([^ ]+\) \([^ ]+\) \([^ ]+\) \(.*\)$],
+                  [popdef([\1])indir([$IM_POPDEF_MODIFIERS],[\4])])])dnl
+])dnl
+
+dnl && (indir([$IM_STRING_WORDCOUNT],[$2]) > 0) != 0)],
+
+define([$IM_PARSE_MODIFIER_LIST],[dnl
+pushdef([wordcount],[builtin([eval],(indir([$IM_STRING_WORDCOUNT],[$2])))])dnl
+ifelse( builtin([eval], (wordcount % 2) == 0 && wordcount > 0),
+        1,
+	[],
+        [errprint([[SIM_PARSE_MODIFIER_LIST]: invalid word count (arg 2): "]indir([$IM_STRING_COMPACT],[$2])["
+])])dnl
+popdef([wordcount])dnl
+indir([$IM_DEFINE_VARIABLES],[$2])dnl
+pushdef([wordcount],[builtin([eval],(indir([$IM_STRING_WORDCOUNT],[$3])))])dnl
+ifelse( builtin([eval], (wordcount % 3) == 0 && wordcount > 0),
+        1,
+        [],
+        [errprint([SIM_PARSE_MODIFIER_LIST: invalid word count (arg 3): "$3"
+])])dnl
+popdef([wordcount])dnl
+indir([$IM_PUSHDEF_MODIFIERS],[$3])dnl
+pushdef([string],[indir([$IM_STRING_COMPACT],[$1])])dnl
+ifelse(string,
+       [],
+       [ifelse($4, , , $4)],
+       [ifelse($5, , [errprint([SIM_PARSE_MODIFIER_LIST parse error on modifier(s): ]"string"[
+])], $5)])dnl
+popdef([string])
+indir([$IM_POPDEF_MODIFIERS],[$3])dnl
+])
+
+AC_DEFUN([SIM_PARSE_MODIFIER_LIST],[dnl
+indir($IM_PARSE_MODIFIER_LIST,
+      indir([$IM_STRING_COMPACT],[$1]),
+      indir([$IM_STRING_COMPACT],[$2]),
+      indir([$IM_STRING_COMPACT],[$3]),
+      [$4],
+      [$5])dnl
 ])
 
 
@@ -1477,25 +1651,39 @@ if test x"$with_qt" != xno; then
 fi
 ])
 
-dnl  Let the user decide if compilation should be done in "debug mode".
-dnl  If compilation is not done in debug mode, all assert()'s in the code
-dnl  will be disabled.
+dnl ************************************************************************
+dnl Usage:
+dnl   SIM_COMPILE_DEBUG( ACTION-IF-DEBUG, ACTION-IF-NOT-DEBUG )
 dnl
-dnl  Also sets enable_debug variable to either "yes" or "no", so the
-dnl  configure.in writer can add package-specific actions. Default is "yes".
+dnl Description:
+dnl   Let the user decide if compilation should be done in "debug mode".
+dnl   If compilation is not done in debug mode, all assert()'s in the code
+dnl   will be disabled.
 dnl
-dnl  Note: this macro must be placed after either AC_PROG_CC or AC_PROG_CXX
-dnl  in the configure.in script.
+dnl   Also sets enable_debug variable to either "yes" or "no", so the
+dnl   configure.in writer can add package-specific actions. Default is "yes".
+dnl   This was also extended to enable the developer to set up the two first
+dnl   macro arguments following the well-known ACTION-IF / ACTION-IF-NOT
+dnl   concept.
 dnl
-dnl  Author: Morten Eriksen, <mortene@sim.no>.
+dnl   Note: this macro must be placed after either AC_PROG_CC or AC_PROG_CXX
+dnl   in the configure.in script.
+dnl
+dnl Authors:
+dnl   Morten Eriksen, <mortene@sim.no>
+dnl   Lars J. Aas, <larsa@sim.no>
+dnl
+dnl TODO:
+dnl * [larsa:20000220] Set up ATTRIBUTE-LIST for developer-configurable
+dnl   default-value.
 dnl
 
-AC_DEFUN(SIM_COMPILE_DEBUG,
-[
+AC_DEFUN(SIM_COMPILE_DEBUG,[
 dnl Autoconf is a developer tool, so don't bother to support older versions.
 AC_PREREQ([2.13])
+
 AC_ARG_ENABLE(debug,
-  [  --enable-debug          compile in debug mode [default=yes]],
+  AC_HELP_STRING([--enable-debug], [compile in debug mode [default=yes]]),
   [case "${enableval}" in
     yes) enable_debug=yes ;;
     no)  enable_debug=no ;;
@@ -1503,11 +1691,15 @@ AC_ARG_ENABLE(debug,
   esac],
   enable_debug=yes)
 
-if test "x$enable_debug" = "xno"; then
+if test "x$enable_debug" = "xyes"; then
+  ifelse($1, , :, $1)
+else
   CFLAGS="$CFLAGS -DNDEBUG"
   CXXFLAGS="$CXXFLAGS -DNDEBUG"
+  ifelse($2, , :, $2)
 fi
 ])
+
 
 dnl  Let the user decide if debug symbol information should be compiled
 dnl  in. The compiled libraries/executables will use a lot less space
