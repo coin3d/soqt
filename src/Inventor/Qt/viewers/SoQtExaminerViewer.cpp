@@ -146,7 +146,6 @@ void
 SoQtExaminerViewer::constructor(
   SbBool build )
 {
-  this->currentmode = EXAMINE;
   this->defaultcursor = NULL;
   this->rotatecursor = NULL;
   this->pancursor = NULL;
@@ -208,7 +207,9 @@ void
 SoQtExaminerViewer::setViewing( // virtual
   SbBool enable )
 {
-  this->setMode( enable ? EXAMINE : INTERACT );
+  this->common->setMode( enable ?
+                         SoAnyExaminerViewer::EXAMINE :
+                         SoAnyExaminerViewer::INTERACT );
   inherited::setViewing( enable );
 } // setViewing()
 
@@ -251,7 +252,7 @@ SoQtExaminerViewer::setCursorEnabled( // virtual, protected
   SbBool enable )
 {
   inherited::setCursorEnabled( enable );
-  this->setCursorRepresentation( this->currentmode );
+  this->setCursorRepresentation( this->common->currentmode );
 } // setcursorEnabled()
 
 /*!
@@ -524,11 +525,6 @@ void
 SoQtExaminerViewer::processEvent(QEvent * event)
 {
   inherited::processEvent( event );
-
-  // Upon first event detected, make sure the cursor is set correctly.
-  if (! this->defaultcursor )
-    this->setCursorRepresentation( this->currentmode );
-
   return;
 } // processEvents()
 
@@ -709,7 +705,9 @@ SoQtExaminerViewer::setSeekMode(SbBool on)
 
   if (common->isAnimating()) common->stopAnimating();
   inherited::setSeekMode(on);
-  this->setMode(on ? WAITING_FOR_SEEK : EXAMINE);
+  this->common->setMode(on ?
+                        SoAnyExaminerViewer::WAITING_FOR_SEEK :
+                        SoAnyExaminerViewer::EXAMINE);
 } // setSeekMode()
 
 // *************************************************************************
@@ -741,82 +739,39 @@ SoQtExaminerViewer::actualRedraw(void)
 void
 SoQtExaminerViewer::setModeFromState(const unsigned int state)
 {
-  ViewerMode mode;
+  SoAnyExaminerViewer::ViewerMode mode;
   const unsigned int maskedstate =
     state & (LeftButton|MidButton|ControlButton);
 
   switch (maskedstate) {
   case 0:
-    mode = EXAMINE;
+    mode = SoAnyExaminerViewer::EXAMINE;
     break;
 
   case LeftButton:
-    mode = DRAGGING;
+    mode = SoAnyExaminerViewer::DRAGGING;
     break;
 
   case MidButton:
   case (LeftButton|ControlButton):
-    mode = PANNING;
+    mode = SoAnyExaminerViewer::PANNING;
     break;
 
   case ControlButton:
-    mode = WAITING_FOR_PAN;
+    mode = SoAnyExaminerViewer::WAITING_FOR_PAN;
     break;
 
   case (MidButton|ControlButton):
   case (LeftButton|MidButton):
   case (LeftButton|MidButton|ControlButton):
-    mode = ZOOMING;
+    mode = SoAnyExaminerViewer::ZOOMING;
     break;
 
   default: assert(0); break;
   }
 
-  this->setMode(mode);
+  this->common->setMode(mode);
 } // setModeFromState()
-
-// *************************************************************************
-
-/*!
-  \internal
-
-  The viewer is a state machine, and all changes to the current state
-  are made through this call.
-*/
-
-void
-SoQtExaminerViewer::setMode(const ViewerMode mode)
-{
-  this->setCursorRepresentation(mode);
-
-  switch (mode) {
-  case INTERACT:
-    if (common->isAnimating()) common->stopAnimating();
-    while (this->getInteractiveCount()) this->interactiveCountDec();
-    break;
-
-  case DRAGGING:
-    // what's this?  move to SoAny*
-    common->spinprojector->project( common->lastmouseposition );
-    break;
-
-  case PANNING:
-    {
-      // The plane we're projecting the mouse coordinates to get 3D
-      // coordinates should stay the same during the whole pan
-      // operation, so we should calculate this value here.
-      SoCamera * cam = this->getCamera();
-      SbViewVolume vv = cam->getViewVolume(this->getGLAspectRatio());
-      common->panningplane = vv.getPlane(cam->focalDistance.getValue());
-    }
-    break;
-
-  default: // include default to avoid compiler warnings.
-    break;
-  }
-
-  this->currentmode = mode;
-} // setMode()
 
 // *************************************************************************
 
@@ -827,7 +782,7 @@ SoQtExaminerViewer::setMode(const ViewerMode mode)
 */
 
 void
-SoQtExaminerViewer::setCursorRepresentation(const ViewerMode mode)
+SoQtExaminerViewer::setCursorRepresentation( int mode )
 {
   QWidget * w = this->getRenderAreaWidget();
   assert(w);
@@ -889,25 +844,25 @@ SoQtExaminerViewer::setCursorRepresentation(const ViewerMode mode)
   }
 
   switch (mode) {
-  case INTERACT:
+  case SoAnyExaminerViewer::INTERACT:
     w->setCursor(arrowCursor);
     break;
 
-  case EXAMINE:
-  case DRAGGING:
+  case SoAnyExaminerViewer::EXAMINE:
+  case SoAnyExaminerViewer::DRAGGING:
     w->setCursor(* this->rotatecursor);
     break;
 
-  case ZOOMING:
+  case SoAnyExaminerViewer::ZOOMING:
     w->setCursor(* this->zoomcursor);
     break;
 
-  case WAITING_FOR_SEEK:
+  case SoAnyExaminerViewer::WAITING_FOR_SEEK:
     w->setCursor(crossCursor);
     break;
 
-  case WAITING_FOR_PAN:
-  case PANNING:
+  case SoAnyExaminerViewer::WAITING_FOR_PAN:
+  case SoAnyExaminerViewer::PANNING:
     w->setCursor(* this->pancursor);
     break;
 

@@ -103,17 +103,6 @@ protected:
   virtual void actualRedraw(void);
 
 private:
-  enum ViewerMode {
-    INTERACT,
-    EXAMINE, DRAGGING,
-    WAITING_FOR_SEEK,
-    ZOOMING,
-    WAITING_FOR_PAN, PANNING
-  };
-
-  ViewerMode currentmode;
-
-  void setMode(const ViewerMode mode);
   void setModeFromState(const unsigned int state);
 
   QPixmap * orthopixmap, * perspectivepixmap;
@@ -124,7 +113,7 @@ private:
 
   QTimer * spindetecttimer;
 
-  void setCursorRepresentation(const ViewerMode mode);
+  void setCursorRepresentation( int mode );
   QCursor * pancursor, * rotatecursor;
   QCursor * defaultcursor, * zoomcursor;
 
