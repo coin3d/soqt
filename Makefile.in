@@ -117,9 +117,6 @@ SOGUI_EXTRA_LDFLAGS = @SOGUI_EXTRA_LDFLAGS@
 SOGUI_EXTRA_LIBS = @SOGUI_EXTRA_LIBS@
 SOGUI_MSVC_LIBC = @SOGUI_MSVC_LIBC@
 SOQT_BETA_VERSION = @SOQT_BETA_VERSION@
-SOQT_DSP_DEFS = @SOQT_DSP_DEFS@
-SOQT_DSP_INCS = @SOQT_DSP_INCS@
-SOQT_DSP_LIBS = @SOQT_DSP_LIBS@
 SOQT_MAJOR_VERSION = @SOQT_MAJOR_VERSION@
 SOQT_MICRO_VERSION = @SOQT_MICRO_VERSION@
 SOQT_MINOR_VERSION = @SOQT_MINOR_VERSION@
@@ -313,7 +310,7 @@ SoGuiCommonDistFiles = \
   LICENSE.GPL \
   HACKING \
   BUGS.txt \
-  src/Inventor/@Gui@/BUGS.txt \
+  src/Inventor/@Gui@/common/BUGS.txt \
   \
   cfg/m4/errors.txt \
   cfg/m4/doxy4win.pl \
@@ -692,7 +689,7 @@ GZIP_ENV = --best
 distdir: $(DISTFILES)
 	-chmod -R a+w $(distdir) >/dev/null 2>&1; rm -rf $(distdir)
 	mkdir $(distdir)
-	$(mkinstalldirs) $(distdir)/cfg $(distdir)/cfg/m4 $(distdir)/models $(distdir)/packaging/windows $(distdir)/src/Inventor/@Gui@ $(distdir)/src/Inventor/@Gui@/common $(distdir)/src/Inventor/@Gui@/common/devices $(distdir)/src/Inventor/@Gui@/common/pixmaps $(distdir)/src/Inventor/@Gui@/common/viewers $(distdir)/src/Inventor/@Gui@/common/widgets $(distdir)/src/Inventor/Qt/common $(distdir)/test-code $(distdir)/test-code/components
+	$(mkinstalldirs) $(distdir)/cfg $(distdir)/cfg/m4 $(distdir)/models $(distdir)/packaging/windows $(distdir)/src/Inventor/@Gui@/common $(distdir)/src/Inventor/@Gui@/common/devices $(distdir)/src/Inventor/@Gui@/common/pixmaps $(distdir)/src/Inventor/@Gui@/common/viewers $(distdir)/src/Inventor/@Gui@/common/widgets $(distdir)/src/Inventor/Qt/common $(distdir)/test-code $(distdir)/test-code/components
 	@for file in $(DISTFILES); do \
 	  if test -f $$file; then d=.; else d=$(srcdir); fi; \
 	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
@@ -1147,10 +1144,14 @@ install-data-local: built-sources
 # main: `windows-packages'
 
 windows-files:
-	@if test -d windows; then :; else mkdir windows; fi
+	@if test -d windows; then :; else \
+	  echo " mkdir windows"; \
+	  mkdir windows; \
+	fi
 	@for file in $(top_srcdir)/packaging/windows/*.in; do \
-	  basename=`echo $$file | sed 's/^.*\///g; s/\.in$$//'`; \
-	  ./config.status --file=windows/$$basename:$$file; \
+	  basename=`echo $$file | sed 's%^.*/%%g; s%\.in$$%%'`; \
+	  echo " config.status: generating windows/$$basename"; \
+	  ./config.status --file=-:- >"windows/$$basename" <"$$file"; \
 	done
 
 windows-packages: windows-files
