@@ -3,7 +3,6 @@
 #undef SOQT_MINOR_VERSION
 #undef SOQT_MICRO_VERSION
 #undef SOQT_VERSION
-#undef HAVE_SOPOLYGONOFFSET
 
 /* Define to enable Linux Joystick driver support */
 #undef HAVE_JOYSTICK_LINUX
@@ -40,6 +39,9 @@
 
 /* Define to enable use of SoMouseButtonEvent::BUTTON5 */
 #undef HAVE_SOMOUSEBUTTONEVENT_BUTTONS
+
+/* Define to enable use of the SoPolygonOffset node */
+#undef HAVE_SOPOLYGONOFFSET
 
 /* Define this to true if the __FUNCTION__ variable contains the current
    function name */

@@ -14,8 +14,7 @@ if ! test -f ./autogen.sh; then
   exit 1
 fi
 
-# Autoconf from ftp://alpha.gnu.org/gnu/autoconf/autoconf-2.49a.tar.gz
-AUTOCONF_VER=2.49a
+AUTOCONF_VER=2.49b   # Autoconf from CVS
 AUTOMAKE_VER=1.4a    # Automake from CVS
 LIBTOOL_VER=1.3.5
 
