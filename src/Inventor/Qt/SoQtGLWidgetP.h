@@ -24,15 +24,19 @@
 #ifndef SOQTGLWIDGETP_H
 #define SOQTGLWIDGETP_H
 
+#include <qobject.h>
 #include <Inventor/Qt/SoGuiGLWidgetP.h>
+#include <Inventor/SbLinear.h>
 
 // ************************************************************************
 
 // This class contains private data and methods used within the
 // SoQtGLWidget class.
 
-class SoQtGLWidgetP : public SoGuiGLWidgetP
+class SoQtGLWidgetP : public QObject, public SoGuiGLWidgetP
 {
+  Q_OBJECT
+
 public:
   SoQtGLWidgetP(SoQtGLWidget * publ);
   ~SoQtGLWidgetP();
@@ -47,7 +51,15 @@ public:
   QWidget * glparent;
   class QFrame * borderwidget;
   int borderthickness;
-  QGLFormat * glformat;
+  class QGLFormat * glformat;
+
+  virtual bool eventFilter(QObject * obj, QEvent * e);
+  static void eventHandler(QWidget *, void *, QEvent *, bool *);
+
+public slots:
+  void gl_init(void);
+  void gl_reshape(int, int);
+  void gl_exposed(void);
 };
 
 // ************************************************************************

@@ -79,8 +79,9 @@
 
 #include <qevent.h>
 #include <qframe.h>
+
 #include <qmetaobject.h>
-#include <moc_SoQtGLWidget.cpp>
+#include <moc_SoQtGLWidgetP.cpp>
 
 #include <Inventor/Qt/SoAny.h>
 #include <Inventor/Qt/SoQtBasic.h>
@@ -147,37 +148,6 @@ QGLFormat_eq(const QGLFormat & a, const QGLFormat & b)
   return true;
 }
 #endif // !HAVE_QGLFORMAT_EQ_OP
-
-// *************************************************************************
-
-#ifndef DOXYGEN_SKIP_THIS
-
-// The private data and code for the SoQtGLWidget.
-
-SoQtGLWidgetP::SoQtGLWidgetP(SoQtGLWidget * o)
-  : SoGuiGLWidgetP(o)
-{
-  this->borderthickness = 0;
-}
-
-SoQtGLWidgetP::~SoQtGLWidgetP()
-{
-}
-
-// Gets called by the SoQtGLArea instance upon keyboard presses. These
-// are then forwarded to subclasses for handling.
-void
-SoQtGLWidgetP::GLAreaKeyEvent(QKeyEvent * e, void * userdata)
-{
-  SoQtGLWidget * that = (SoQtGLWidget *)userdata;
-  that->processEvent(e);
-}
-
-#endif // DOXYGEN_SKIP_THIS
-
-// *************************************************************************
-
-#define PRIVATE(o) (o->pimpl)
 
 // *************************************************************************
 
@@ -260,7 +230,7 @@ QWidget *
 SoQtGLWidget::buildWidget(QWidget * parent)
 {
   if (parent != NULL && this->isTopLevelShell()) {
-    parent->installEventFilter(this);
+    parent->installEventFilter(PRIVATE(this));
   }
 
   PRIVATE(this)->borderwidget = new QFrame(parent);
@@ -333,12 +303,12 @@ SoQtGLWidget::buildGLWidget(void)
     // already interacting with the canvas (e.g. when starting a drag
     // in BUFFER_INTERACTIVE mode).
 #if 0 // Keep this code around so we don't accidentally reinsert it. :^}
-    wascurrent->removeEventFilter(this);
+    wascurrent->removeEventFilter(PRIVATE(this));
     wascurrent->setMouseTracking(FALSE);
 #endif // Permanently disabled.
-    QObject::disconnect(wascurrent, SIGNAL(expose_sig()), this, SLOT(gl_exposed()));
-    QObject::disconnect(wascurrent, SIGNAL(init_sig()), this, SLOT(gl_init()));
-    //    QObject::disconnect(wascurrent, SIGNAL(reshape_sig()), this, SLOT(gl_reshape()));
+    QObject::disconnect(wascurrent, SIGNAL(expose_sig()), PRIVATE(this), SLOT(gl_exposed()));
+    QObject::disconnect(wascurrent, SIGNAL(init_sig()), PRIVATE(this), SLOT(gl_init()));
+    //    QObject::disconnect(wascurrent, SIGNAL(reshape_sig()), PRIVATE(this), SLOT(gl_reshape()));
     PRIVATE(this)->previousglwidget = wascurrent;
   }
 
@@ -415,14 +385,14 @@ SoQtGLWidget::buildGLWidget(void)
                                               PRIVATE(this)->glSize[1] - 2*frame);
 
   QObject::connect(PRIVATE(this)->currentglwidget, SIGNAL(init_sig()),
-                   this, SLOT(gl_init()));
+                   PRIVATE(this), SLOT(gl_init()));
   //  QObject::connect(PRIVATE(this)->currentglwidget, SIGNAL(reshape_sig(int, int)),
-  //                    this, SLOT(gl_reshape(int, int)));
+  //                    PRIVATE(this), SLOT(gl_reshape(int, int)));
   QObject::connect(PRIVATE(this)->currentglwidget, SIGNAL(expose_sig()),
-                   this, SLOT(gl_exposed()));
+                   PRIVATE(this), SLOT(gl_exposed()));
 
   PRIVATE(this)->currentglwidget->setMouseTracking(TRUE);
-  PRIVATE(this)->currentglwidget->installEventFilter(this);
+  PRIVATE(this)->currentglwidget->installEventFilter(PRIVATE(this));
 
   // Reset to avoid unnecessary scenegraph redraws.
   this->waitForExpose = TRUE;
@@ -441,165 +411,6 @@ SoQtGLWidget::buildGLWidget(void)
     PRIVATE(this)->currentglwidget->raise();
   }
   PRIVATE(this)->currentglwidget->setFocus();
-}
-
-// *************************************************************************
-
-static const char eventnaming[][50] = {
-  "None", // 0
-  "Timer",
-  "MouseButtonPress",
-  "MouseButtonRelease",
-  "MouseButtonDblClick",
-  "MouseMove",
-  "KeyPress",
-  "KeyRelease",
-  "FocusIn",
-  "FocusOut",
-  "Enter",
-  "Leave",
-  "Paint",
-  "Move",
-  "Resize",
-  "Create",
-  "Destroy",
-  "Show",
-  "Hide",
-  "Close",
-  "Quit", // 20
-  "*unknown*", "*unknown*", "*unknown*", "*unknown*", "*unknown*",
-  "*unknown*", "*unknown*", "*unknown*", "*unknown*",
-  "Accel", // 30
-  "Wheel",
-  "AccelAvailable", // 32
-  "CaptionChange",
-  "*unknown*", "*unknown*", "*unknown*", "*unknown*", "*unknown*", "*unknown*",
-  "Clipboard", // 40
-  "*unknown*", "*unknown*", "*unknown*", "*unknown*", "*unknown*",
-  "*unknown*", "*unknown*", "*unknown*", "*unknown*",
-  "SockAct", // 50
-  "AccelOverride", "*unknown*", "*unknown*", "*unknown*", "*unknown*",
-  "*unknown*", "*unknown*", "*unknown*", "*unknown*",
-  "DragEnter", // 60
-  "DragMove",
-  "DragLeave",
-  "Drop",
-  "DragResponse", // 64
-  "*unknown*", "*unknown*", "*unknown*", "*unknown*", "*unknown*",
-  "ChildInserted", // 70
-  "ChildRemoved",
-  "LayoutHint", // 72
-  "*unknown*", "*unknown*", "*unknown*", "*unknown*", "*unknown*",
-  "*unknown*", "*unknown*",
-  "ActivateControl", // 80
-  "DeactivateControl"
-};
-
-/*!
-  FIXME: write function documentation
-*/
-bool
-SoQtGLWidget::eventFilter(QObject * obj, QEvent * e)
-{
-  if (SOQT_DEBUG && 0) { // debug
-    SbString w = obj->name();
-    SbBool istoplevel = obj == PRIVATE(this)->currentglwidget->topLevelWidget();
-
-    if (obj == PRIVATE(this)->glparent) { w = "glparent"; }
-    else if (obj == PRIVATE(this)->currentglwidget) { w = "currentglwidget"; }
-    else if (obj == PRIVATE(this)->borderwidget) { w = "borderwidget"; }
-    else if (istoplevel) { w = "top-level"; }
-
-    SoDebugError::postInfo("SoQtGLWidget::eventFilter",
-                           "[invoked] QEvent==%p obj==%p==\"%s\"==%s (%s) %s (typecode==%d)",
-                           e, obj, w.getString(), obj->className(),
-                           istoplevel ? "TOPLEVEL" : "",
-                           eventnaming[e->type()], e->type());
-  }
-
-#if QT_VERSION >= 200
-  // Qt 2 introduced "accelerator" type keyboard events, which should
-  // simply be ignored (all keyboard events are first attempted passed
-  // by the Qt event engine as accelerator events, before they are
-  // re-sent as "ordinary" keyboard events).
-  if (e->type() == QEvent::Accel || e->type() == QEvent::AccelAvailable) {
-    ((QKeyEvent *)e)->ignore();
-    // It might not matter whether we return TRUE or FALSE here, but
-    // it seems more natural to return FALSE according to the
-    // semantics of the eventFilter() method (FALSE means Qt should
-    // re-dispatch "normally").
-    return FALSE;
-  }
-#endif // Qt v2.0
-
-  // FIXME: Under Qt 3.0.0 we got buggy mouse event handling, since
-  // mouse events were routed to the gl widget, even if it was
-  // supposed to go somewhere else. I'm not sure if this is the
-  // correct fix though. pederb, 2001-10-16
-  if ((e->type() == QEvent::MouseButtonPress ||
-       e->type() == QEvent::MouseButtonRelease ||
-       e->type() == QEvent::MouseButtonDblClick ||
-       e->type() == QEvent::MouseMove) &&
-      (obj != PRIVATE(this)->currentglwidget)) return FALSE;
-
-  SbBool keyboardevent =
-    (e->type() == QEvent::KeyPress) || (e->type() == QEvent::KeyRelease);
-  if (keyboardevent) {
-    // Ignore keyboard-events, as they are caught directly by the
-    // SoQtGLArea widget and forwarded through the
-    // SoQtGLWidgetP::GLAreaKeyEvent() callback.
-    return FALSE;
-  }
-
-  if (obj == (QObject *) PRIVATE(this)->glparent) {
-    // If this hits, the PRIVATE(this)->glparent QWidget is a toplevelshell, so
-    // we resize the GL widget along with it.
-    if (e->type() == QEvent::Resize) {
-      QResizeEvent * r = (QResizeEvent *)e;
-      if (SOQT_DEBUG && 0) {  // debug
-        SoDebugError::postInfo("SoQtGLWidget::eventFilter",
-                               "resize parent %p: (%d, %d)",
-                               PRIVATE(this)->glparent,
-                               r->size().width(), r->size().height());
-      }
-
-      PRIVATE(this)->borderwidget->resize(r->size());
-//      int newwidth = r->size().width() - 2 * PRIVATE(this)->borderthickness;
-//      int newheight = r->size().height() - 2 * PRIVATE(this)->borderthickness;
-
-//      this->glwidget->setGeometry(PRIVATE(this)->borderthickness,
-//                                   PRIVATE(this)->borderthickness,
-//                                   newwidth - 1, newheight -1);
-//      QRect glarea = PRIVATE(this)->borderwidget->contentsRect();
-//      glarea =
-//      this->glwidget->setGeometry(PRIVATE(this)->borderwidget->contentsRect());
-
-/*
-      int newwidth = r->size().width();
-      int newheight = r->size().height();
-      this->sizeChanged(SbVec2s(newwidth - 1, newheight - 1));
-*/
-#if 0 // debug
-      SoDebugError::postInfo("SoQtGLWidget::eventFilter", "resize done");
-#endif // debug
-    }
-  }
-  else if (obj == (QObject *) PRIVATE(this)->currentglwidget) {
-    // We used to return ``true'' here if the event was a
-    // QResizeEvent. The reason why we'd want to stop resize events
-    // being passed on to the native Qt handler was not commented, and
-    // I can't see why this should be necessary. Also, kyrah found out
-    // that it causes a nasty problem with Qt/Mac, so it has been
-    // removed.  <mortene@sim.no>.
-  }
-  else {
-    // Handle in superclass.
-    bool stop = inherited::eventFilter(obj, e);
-    if (stop) { return TRUE; }
-  }
-
-  this->processEvent(e);
-  return FALSE;
 }
 
 // *************************************************************************
@@ -1035,73 +846,7 @@ SoQtGLWidget::glUnlockOverlay(void)
   // does nothing under Qt. Under BeOS the buffer needs to be unlocked  
 }
 
-// slot invoked upon QGLWidget initialization
-void
-SoQtGLWidget::gl_init(void)
-{
-  if (SOQT_DEBUG && 0) { // debug
-    SoDebugError::postInfo("gl_init", "invoked");
-  }
-
-  this->initGraphic();
-}
-
-// slot invoked upon QGLWidget resizes
-void
-SoQtGLWidget::gl_reshape(int width, int height)
-{
-  if (SOQT_DEBUG && 0) { // debug
-    SoDebugError::postInfo("gl_reshape", "<%d, %d>", width, height);
-  }
-
-  PRIVATE(this)->glSize = SbVec2s((short) width, (short) height);
-  PRIVATE(this)->wasresized = TRUE;
-}
-
-// slot invoked upon QGLWidget expose events
-void
-SoQtGLWidget::gl_exposed(void)
-{
-  if (SOQT_DEBUG && 0) { // debug
-    SoDebugError::postInfo("gl_exposed", "%f", SbTime::getTimeOfDay().getValue());
-  }
-
-  if (this->waitForExpose) {
-    this->waitForExpose = FALSE; // Gets flipped from TRUE on first expose.
-#if 0 // tmp disabled
-    // The Qt library uses QApplication::sendPostedEvents() for
-    // passing out various delayed events upon show(), among them a
-    // bunch of bl**dy resize events which will overload any size
-    // settings done before we show the SoQt component widgets.
-
-    // FIXME: should probably be an afterRealizeHook() fix. 20001125 mortene.
-
-    this->setSize(this->getSize());
-#endif // tmp disabled
-  }
-  if (PRIVATE(this)->wasresized) {
-    this->sizeChanged(PRIVATE(this)->glSize);
-    PRIVATE(this)->wasresized = FALSE;
-  }
-
-  if (!this->glScheduleRedraw()) {
-    this->redraw();
-  }
-}
-
 // *************************************************************************
-
-/*!
-  FIXME: write doc
-*/
-void
-SoQtGLWidget::eventHandler(QWidget * widget, void * closure, QEvent * event,
-                           bool *) // ?)
-{
-  assert(closure != NULL);
-  SoQtGLWidget * component = (SoQtGLWidget *) closure;
-  component->processEvent(event);
-}
 
 /*!
   Returns the normal GL context.
@@ -1224,5 +969,252 @@ SoQtGLWidget::hasNormalGLArea(void) const
 {
   return this->getNormalWidget() != NULL;
 }
+
+// *************************************************************************
+
+#ifndef DOXYGEN_SKIP_THIS
+
+// The private data and code for the SoQtGLWidget.
+
+SoQtGLWidgetP::SoQtGLWidgetP(SoQtGLWidget * o)
+  : SoGuiGLWidgetP(o)
+{
+  this->borderthickness = 0;
+}
+
+SoQtGLWidgetP::~SoQtGLWidgetP()
+{
+}
+
+// Gets called by the SoQtGLArea instance upon keyboard presses. These
+// are then forwarded to subclasses for handling.
+void
+SoQtGLWidgetP::GLAreaKeyEvent(QKeyEvent * e, void * userdata)
+{
+  SoQtGLWidget * that = (SoQtGLWidget *)userdata;
+  that->processEvent(e);
+}
+
+// slot invoked upon QGLWidget initialization
+void
+SoQtGLWidgetP::gl_init(void)
+{
+  if (SOQT_DEBUG && 0) { // debug
+    SoDebugError::postInfo("gl_init", "invoked");
+  }
+
+  PUBLIC(this)->initGraphic();
+}
+
+// slot invoked upon QGLWidget resizes
+void
+SoQtGLWidgetP::gl_reshape(int width, int height)
+{
+  if (SOQT_DEBUG && 0) { // debug
+    SoDebugError::postInfo("gl_reshape", "<%d, %d>", width, height);
+  }
+
+  this->glSize = SbVec2s((short) width, (short) height);
+  this->wasresized = TRUE;
+}
+
+// slot invoked upon QGLWidget expose events
+void
+SoQtGLWidgetP::gl_exposed(void)
+{
+  if (SOQT_DEBUG && 0) { // debug
+    SoDebugError::postInfo("gl_exposed", "%f", SbTime::getTimeOfDay().getValue());
+  }
+
+  if (PUBLIC(this)->waitForExpose) {
+    PUBLIC(this)->waitForExpose = FALSE; // Gets flipped from TRUE on first expose.
+#if 0 // tmp disabled
+    // The Qt library uses QApplication::sendPostedEvents() for
+    // passing out various delayed events upon show(), among them a
+    // bunch of bl**dy resize events which will overload any size
+    // settings done before we show the SoQt component widgets.
+
+    // FIXME: should probably be an afterRealizeHook() fix. 20001125 mortene.
+
+    PUBLIC(this)->setSize(PUBLIC(this)->getSize());
+#endif // tmp disabled
+  }
+  if (this->wasresized) {
+    PUBLIC(this)->sizeChanged(this->glSize);
+    this->wasresized = FALSE;
+  }
+
+  if (!PUBLIC(this)->glScheduleRedraw()) {
+    PUBLIC(this)->redraw();
+  }
+}
+
+
+static const char eventnaming[][50] = {
+  "None", // 0
+  "Timer",
+  "MouseButtonPress",
+  "MouseButtonRelease",
+  "MouseButtonDblClick",
+  "MouseMove",
+  "KeyPress",
+  "KeyRelease",
+  "FocusIn",
+  "FocusOut",
+  "Enter",
+  "Leave",
+  "Paint",
+  "Move",
+  "Resize",
+  "Create",
+  "Destroy",
+  "Show",
+  "Hide",
+  "Close",
+  "Quit", // 20
+  "*unknown*", "*unknown*", "*unknown*", "*unknown*", "*unknown*",
+  "*unknown*", "*unknown*", "*unknown*", "*unknown*",
+  "Accel", // 30
+  "Wheel",
+  "AccelAvailable", // 32
+  "CaptionChange",
+  "*unknown*", "*unknown*", "*unknown*", "*unknown*", "*unknown*", "*unknown*",
+  "Clipboard", // 40
+  "*unknown*", "*unknown*", "*unknown*", "*unknown*", "*unknown*",
+  "*unknown*", "*unknown*", "*unknown*", "*unknown*",
+  "SockAct", // 50
+  "AccelOverride", "*unknown*", "*unknown*", "*unknown*", "*unknown*",
+  "*unknown*", "*unknown*", "*unknown*", "*unknown*",
+  "DragEnter", // 60
+  "DragMove",
+  "DragLeave",
+  "Drop",
+  "DragResponse", // 64
+  "*unknown*", "*unknown*", "*unknown*", "*unknown*", "*unknown*",
+  "ChildInserted", // 70
+  "ChildRemoved",
+  "LayoutHint", // 72
+  "*unknown*", "*unknown*", "*unknown*", "*unknown*", "*unknown*",
+  "*unknown*", "*unknown*",
+  "ActivateControl", // 80
+  "DeactivateControl"
+};
+
+bool
+SoQtGLWidgetP::eventFilter(QObject * obj, QEvent * e)
+{
+  if (SOQT_DEBUG && 0) { // debug
+    SbString w = obj->name();
+    SbBool istoplevel = obj == this->currentglwidget->topLevelWidget();
+
+    if (obj == this->glparent) { w = "glparent"; }
+    else if (obj == this->currentglwidget) { w = "currentglwidget"; }
+    else if (obj == this->borderwidget) { w = "borderwidget"; }
+    else if (istoplevel) { w = "top-level"; }
+
+    SoDebugError::postInfo("SoQtGLWidgetP::eventFilter",
+                           "[invoked] QEvent==%p obj==%p==\"%s\"==%s (%s) %s (typecode==%d)",
+                           e, obj, w.getString(), obj->className(),
+                           istoplevel ? "TOPLEVEL" : "",
+                           eventnaming[e->type()], e->type());
+  }
+
+#if QT_VERSION >= 200
+  // Qt 2 introduced "accelerator" type keyboard events, which should
+  // simply be ignored (all keyboard events are first attempted passed
+  // by the Qt event engine as accelerator events, before they are
+  // re-sent as "ordinary" keyboard events).
+  if (e->type() == QEvent::Accel || e->type() == QEvent::AccelAvailable) {
+    ((QKeyEvent *)e)->ignore();
+    // It might not matter whether we return TRUE or FALSE here, but
+    // it seems more natural to return FALSE according to the
+    // semantics of the eventFilter() method (FALSE means Qt should
+    // re-dispatch "normally").
+    return FALSE;
+  }
+#endif // Qt v2.0
+
+  // FIXME: Under Qt 3.0.0 we got buggy mouse event handling, since
+  // mouse events were routed to the gl widget, even if it was
+  // supposed to go somewhere else. I'm not sure if this is the
+  // correct fix though. pederb, 2001-10-16
+  if ((e->type() == QEvent::MouseButtonPress ||
+       e->type() == QEvent::MouseButtonRelease ||
+       e->type() == QEvent::MouseButtonDblClick ||
+       e->type() == QEvent::MouseMove) &&
+      (obj != this->currentglwidget)) return FALSE;
+
+  SbBool keyboardevent =
+    (e->type() == QEvent::KeyPress) || (e->type() == QEvent::KeyRelease);
+  if (keyboardevent) {
+    // Ignore keyboard-events, as they are caught directly by the
+    // SoQtGLArea widget and forwarded through the
+    // SoQtGLWidgetP::GLAreaKeyEvent() callback.
+    return FALSE;
+  }
+
+  if (obj == (QObject *) this->glparent) {
+    // If this hits, the this->glparent QWidget is a toplevelshell, so
+    // we resize the GL widget along with it.
+    if (e->type() == QEvent::Resize) {
+      QResizeEvent * r = (QResizeEvent *)e;
+      if (SOQT_DEBUG && 0) {  // debug
+        SoDebugError::postInfo("SoQtGLWidgetP::eventFilter",
+                               "resize parent %p: (%d, %d)",
+                               this->glparent,
+                               r->size().width(), r->size().height());
+      }
+
+      this->borderwidget->resize(r->size());
+//      int newwidth = r->size().width() - 2 * this->borderthickness;
+//      int newheight = r->size().height() - 2 * this->borderthickness;
+
+//      PUBLIC(this)->glwidget->setGeometry(this->borderthickness,
+//                                   this->borderthickness,
+//                                   newwidth - 1, newheight -1);
+//      QRect glarea = this->borderwidget->contentsRect();
+//      glarea =
+//      PUBLIC(this)->glwidget->setGeometry(this->borderwidget->contentsRect());
+
+/*
+      int newwidth = r->size().width();
+      int newheight = r->size().height();
+      PUBLIC(this)->sizeChanged(SbVec2s(newwidth - 1, newheight - 1));
+*/
+#if 0 // debug
+      SoDebugError::postInfo("SoQtGLWidgetP::eventFilter", "resize done");
+#endif // debug
+    }
+  }
+  else if (obj == (QObject *) this->currentglwidget) {
+    // We used to return ``true'' here if the event was a
+    // QResizeEvent. The reason why we'd want to stop resize events
+    // being passed on to the native Qt handler was not commented, and
+    // I can't see why this should be necessary. Also, kyrah found out
+    // that it causes a nasty problem with Qt/Mac, so it has been
+    // removed.  <mortene@sim.no>.
+  }
+  else {
+    // Handle in superclass.
+    bool stop = PUBLIC(this)->eventFilter(obj, e);
+    if (stop) { return TRUE; }
+  }
+
+  PUBLIC(this)->processEvent(e);
+  return FALSE;
+}
+
+// Registered callback on device events, set up by the
+// So@Gui@RenderArea.
+void
+SoQtGLWidgetP::eventHandler(QWidget * widget, void * closure, QEvent * event,
+                            bool *)
+{
+  assert(closure != NULL);
+  SoQtGLWidget * component = (SoQtGLWidget *) closure;
+  component->processEvent(event);
+}
+
+#endif // DOXYGEN_SKIP_THIS
 
 // *************************************************************************
