@@ -248,26 +248,25 @@ AC_EXEEXT
 # Initialize libtool
 if $BUILD_WITH_MSVC; then
   RANLIB=:
-else
-  AC_PROG_LIBTOOL
 fi
 
-# #   case "$host_os" in
-#   irix*)
-#     # should really test if $CC = CC
-#     if test x"${AR+set}" != x"set"; then
-#       if test x"$CXX" = xCC; then
-#         echo "modifying libtool"
-#         mv libtool libtool.orig
-#         sed -e 's/\\\$AR cru/CC -ar -o/' <libtool.orig >libtool
-#         chmod 755 libtool
-#         rm -f libtool.orig
-#       fi
+AC_PROG_LIBTOOL
+
+# used with libtool 1.3.5
+# case "$host_os" in
+# irix*)
+#   # should really test if $CC = CC
+#   if test x"${AR+set}" != x"set"; then
+#     if test x"$CXX" = xCC; then
+#       echo "modifying libtool"
+#       mv libtool libtool.orig
+#       sed -e 's/\\\$AR cru/CC -ar -o/' <libtool.orig >libtool
+#       chmod 755 libtool
+#       rm -f libtool.orig
 #     fi
-#     ;;
-#   esac
-# fi
-# 
+#   fi
+#   ;;
+# esac
 
 # fix some mess created by AC_PROG_LIBTOOL
 AC_LANG(C)
