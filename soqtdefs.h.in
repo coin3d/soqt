@@ -51,6 +51,8 @@
   information. Used where there is functionality missing.
 */
 
+#if SO@GUI@_DEBUG
+
 #include <stdio.h> // fprintf()
 
 /*
@@ -89,6 +91,13 @@ inline int _not_null( const void * arg ) { return (arg != NULL) ? 1 : 0; }
       (void)fprintf(stderr, "\n"); \
     } \
   } while (0)
+
+#else /* !SO@GUI@_DEBUG */
+
+#define SO@GUI@_STUB() do { } while (0)
+#define SO@GUI@_STUB_ONCE() do { } while (0)
+
+#endif /* !SO@GUI@_DEBUG */
 
 /*
   GETTEXT support
