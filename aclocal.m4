@@ -6437,8 +6437,8 @@ EOF
   sim_ac_qt_version=`$CXXCPP $CPPFLAGS conftest.c | grep '^int VerQt' | sed 's%^int VerQt = %%' | sed 's% *; *$%%'`
 
   case $sim_ac_qt_version in
-  0x[0-9][0-9][0-9][0-9][0-9][0-9] )
-    sim_ac_qt_version=`echo $sim_ac_qt_version | sed -e 's/^...\(.\).\(.\).\(.\)/\1\2\3/;'`
+  0x* )
+    sim_ac_qt_version=`echo $sim_ac_qt_version | sed -e 's/^0x.\(.\).\(.\).\(.\)/\1\2\3/;'`
     ;;
   * )
     # nada
