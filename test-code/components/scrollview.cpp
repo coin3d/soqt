@@ -18,13 +18,13 @@ class MyScrollView : public QScrollView {
 public:
   MyScrollView(QWidget * parent) : QScrollView(parent)
     {
-      this->resizeContents(1000, 1000);
+      this->resizeContents(10000, 10000);
       this->enableClipper(TRUE);
 
       // Container widget for the SoQtRenderArea.
 
       QWidget * container = new QWidget(this);
-      container->resize(200, 200);
+      container->resize(1000, 1000);
 
       // Construct a simple scenegraph.
 
@@ -47,7 +47,7 @@ public:
       renderarea->setSceneGraph(root);
       camera->viewAll(root, renderarea->getViewportRegion());
 
-      this->addChild(container, 200, 200);
+      this->addChild(container, 100, 100);
       this->showChild(container);
     }
 
@@ -55,6 +55,7 @@ protected:
   void drawContents(QPainter * p, int cx, int cy, int cw, int ch)
     {
       p->fillRect(cx, cy, cw, ch, QColor(40, 80, 0));
+      // FIXME: should redraw only when necessary. 20001127 mortene.
       renderarea->scheduleRedraw();
     }
 
