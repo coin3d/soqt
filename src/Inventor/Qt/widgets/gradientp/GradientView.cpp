@@ -25,6 +25,7 @@
 #include <qimage.h>
 #include <qpixmap.h>
 #include <qpainter.h>
+#include <qvaluelist.h>
 #include <qpopupmenu.h>
 #include <qcolordialog.h>
 #include <Inventor/SbColor4f.h>
@@ -136,18 +137,17 @@ void GradientView::contentsMousePressEvent(QMouseEvent * e)
  
   switch (e->button()) {
   case Qt::LeftButton: {
-    QCanvasItemList list = this->canvas->collisions(p);
-    QCanvasItemList::Iterator it=list.begin();
-    for (; it != list.end(); ++it) {
-      if ((*it)->rtti() == QCanvasPolygon::RTTI) {
-        this->movingItem = (TickMark *)(*it);
+    QValueList<TickMark *>::Iterator it = this->tickMarks.begin();
+    for (; it != this->tickMarks.end(); ++it) {
+      if ((*it)->hit(p)) {
+        this->movingItem = (*it);
         this->moving_start = p;
         SbBool selected = this->movingItem->isSelected();
         this->unselectAll();
+        this->movingItem->setZ(3);
         this->selectedMark = this->movingItem;
         this->selectedMark->setSelected(selected ? FALSE : TRUE);
-            
-        this->movingItem->setBrush(QColor(0,0,255));
+        this->selectedMark->setBrush(QColor(0,0,255));
         this->canvas->update();
         return;
       } else {
@@ -177,12 +177,10 @@ void GradientView::contentsMousePressEvent(QMouseEvent * e)
 
 void GradientView::contentsMouseReleaseEvent(QMouseEvent * e)
 {
-  QCanvasItemList list = this->canvas->allItems();
-  for (QCanvasItemList::Iterator it = list.begin(); it != list.end(); ++it) {
-    if ((*it)->rtti() == QCanvasPolygon::RTTI) {
-      if((*it) != this->movingItem)
-        (*it)->setZ(2);
-    }
+  QValueList<TickMark *>::Iterator it = this->tickMarks.begin();
+  for (; it != this->tickMarks.end(); ++it) {
+    if((*it) != this->movingItem)
+      (*it)->setZ(2);
     else (*it)->setZ(1);
   }
 }
@@ -194,28 +192,27 @@ void GradientView::contentsMouseMoveEvent(QMouseEvent * e)
 
   if (this->movingItem && 
       (this->movingItem != this->tickMarks[0]) &&  
-      (this->movingItem != this->tickMarks[this->tickMarks.getLength()-1]))
+      (this->movingItem != this->tickMarks[this->tickMarks.size()-1]))
     {   
-      int index = this->tickMarks.find(this->movingItem);
-      assert((index < this->tickMarks.getLength() - 1) && (index >= 1));
+      int index = this->tickMarks.findIndex(this->movingItem);
+      if (index > 0) {
+        assert((index < (int)this->tickMarks.size() - 1) && (index >= 1));
 
-      TickMark * left = this->tickMarks[index - 1];
-      TickMark * right = this->tickMarks[index + 1];
+        TickMark * left = this->tickMarks[index - 1];
+        TickMark * right = this->tickMarks[index + 1];
 
-      int movex = x - this->moving_start.x();
-      int newpos = this->movingItem->x() + movex;
+        int movex = x - this->moving_start.x();
+        int newpos = this->movingItem->x() + movex;
 
-      if ((newpos >= left->x()) && newpos <= right->x()) {
-        this->movingItem->moveBy(movex, 0);
-        this->moving_start = QPoint(x, p.y());
+        if ((newpos >= left->x()) && newpos <= right->x()) {
+          this->movingItem->moveBy(movex, 0);
+          this->moving_start = QPoint(x, p.y());
 
-        this->movingItem->setZ(3);
-
-        int i = this->tickMarks.find(this->movingItem);
-        float t = movingItem->getPos();
-        this->grad->moveTick(i, t);
+          float t = this->movingItem->getPos();
+          this->grad->moveTick(index, t);
       
-        emit this->viewChanged();
+          emit this->viewChanged();
+        }
       }
     }
 }
@@ -234,23 +231,21 @@ void GradientView::keyPressEvent(QKeyEvent * e)
 float GradientView::getSelectedPos()
 {
   if (this->selectedMark) {
-    int i = this->tickMarks.find(this->selectedMark);
-    return this->grad->getParameter(i);
+    int i = this->tickMarks.findIndex(this->selectedMark);
+    if (i > 0)
+      return this->grad->getParameter(i);
   }
-  else return 0;
+  return 0;
 }
 
 void GradientView::unselectAll()
 {
-  QCanvasItemList list = this->canvas->allItems();
-  for (QCanvasItemList::Iterator it = list.begin(); it != list.end(); ++it) {
-    if ((*it)->rtti() == QCanvasPolygon::RTTI) {
-      TickMark * item = (TickMark *)(*it);
-      item->setSelected(FALSE);
-      item->setBrush(QColor(0,0,0));
-      item->setZ(2);
-      this->selectedMark = NULL;
-    }
+  QValueList<TickMark*>::Iterator it = this->tickMarks.begin();
+  for (; it != tickMarks.end(); ++it) {
+    (*it)->setSelected(FALSE);
+    (*it)->setBrush(QColor(0,0,0));
+    (*it)->setZ(2);
+    this->selectedMark = NULL;
   }
 }
 
@@ -262,9 +257,9 @@ void GradientView::setGradient(Gradient * grad)
 
 void GradientView::centerTick()
 {
-  int i = this->tickMarks.find(this->selectedMark);
+  unsigned int i = this->tickMarks.findIndex(this->selectedMark);
   
-  if ((i > 0) && (i < this->tickMarks.getLength() - 1)) {
+  if ((i > 0) && (i < this->tickMarks.size() - 1)) {
 
     float left = (float)this->tickMarks[i-1]->x();
     float right = (float)this->tickMarks[i+1]->x();
@@ -298,8 +293,11 @@ void GradientView::insertTick()
              + selectStart);
 
   float t = x / (float)this->canvas->width();
-  int i = this->grad->insertTick(t);
-  this->tickMarks.insert(this->getTick(x), i);
+  unsigned int i = this->grad->insertTick(t);
+
+  QValueList<TickMark *>::Iterator it = this->tickMarks.begin();
+  it += i;
+  this->tickMarks.insert(it, this->getTick(x));
 
   this->endIndex = i;
 
@@ -309,13 +307,12 @@ void GradientView::insertTick()
 
 void GradientView::updateTicks()
 {
-  QCanvasItemList list = this->canvas->allItems();
-  for (QCanvasItemList::Iterator it = list.begin(); it != list.end(); ++it) {
-    if ((*it)->rtti() == QCanvasPolygon::RTTI)
+  QValueList<TickMark*>::Iterator it = this->tickMarks.begin();
+  for (; it != tickMarks.end(); ++it) {
       delete (*it);
   }
 
-  this->tickMarks.truncate(0);
+  this->tickMarks.clear();
 
   for (int i = 0; i < this->grad->numTicks(); i++) {
     float t = this->grad->getParameter(i);
@@ -327,10 +324,10 @@ void GradientView::updateTicks()
 
 void GradientView::deleteTick()
 {
-  int i = this->tickMarks.find(this->selectedMark);
+  unsigned int i = this->tickMarks.findIndex(this->selectedMark);
   this->selectedMark = NULL;
 
-  if ((i > 0) && (i < this->tickMarks.getLength() - 1)) {
+  if ((i > 0) && (i < this->tickMarks.size() - 1)) {
     this->grad->removeTick(i);
     this->updateTicks();
     

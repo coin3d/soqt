@@ -25,7 +25,6 @@
 \**************************************************************************/
 
 #include <qcanvas.h>
-#include <Inventor/lists/SbList.h>
 #include <Inventor/system/inttypes.h>
 
 class TickMark;
@@ -91,9 +90,10 @@ private:
   QPopupMenu * menu;
   TickMark * movingItem;
   TickMark * selectedMark;
-  SbList<TickMark *> tickMarks;
-  int startIndex;
-  int endIndex;
+  QValueList<TickMark*> tickMarks;
+
+  unsigned int startIndex;
+  unsigned int endIndex;
   QPoint moving_start;
   uint32_t leftcolor;
   uint32_t rightcolor;
