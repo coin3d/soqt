@@ -799,19 +799,26 @@ SoQtComponent::setWidgetCursor(QWidget * w, const SoQtCursor & cursor)
     // Custom cursors do not work correctly in Qt/Mac versions 3.1.0
     // and 3.1.1 - the displayed graphics look totally wrong.
     //
-    // The bug has been confirmed fixed in Qt 3.1.2.
-#if defined Q_WS_MAC && ((QT_VERSION == 0x030100) || (QT_VERSION == 0x030101))
+    // The bug has been confirmed fixed in Qt 3.1.2, but instead they
+    // introduced another bug: when you click on the widget, the
+    // cursor disappears. The Trolls have acknowledged that this is a
+    // bug, and that it will be fixed in 3.1.3.
+#if defined Q_WS_MAC && ((QT_VERSION == 0x030100) || (QT_VERSION == 0x030101) || (QT_VERSION == 0x030102))
     w->setCursor(QCursor(Qt::arrowCursor));
     // spit out a warning that this is a Qt/Mac bug, not an SoQt problem
-    const char * env = SoAny::si()->getenv("SOQT_NO_QTMAC_BUG_WARNINGS");
-    if (!env || !atoi(env))
-      SoDebugError::postWarning("SoQtComponent::setWidgetCursor",
-                                "\nThis version of Qt/Mac contains a bug "
-                                "that makes it impossible to use custom\n"
-                                "cursors. Warnings about Qt/Mac bugs "
-                                "can be turned off permanently by setting\n"
-                                "the environment variable "
-                                "SOQT_NO_QTMAC_BUG_WARNINGS=1.\n");
+    static SbBool warningdisplayed = FALSE;
+    if (!warningdisplayed) {
+      const char * env = SoAny::si()->getenv("SOQT_NO_QTMAC_BUG_WARNINGS");
+      if (!env || !atoi(env))
+        SoDebugError::postWarning("SoQtComponent::setWidgetCursor",
+                                  "\nThis version of Qt/Mac contains a bug "
+                                  "that makes it impossible to use custom\n"
+                                  "cursors. Warnings about Qt/Mac bugs "
+                                  "can be turned off permanently by setting\n"
+                                  "the environment variable "
+                                  "SOQT_NO_QTMAC_BUG_WARNINGS=1.\n");
+      warningdisplayed = TRUE;
+    }
 #else 
     const SoQtCursor::CustomCursor * cc = &cursor.getCustomCursor();
     w->setCursor(*SoQtComponentP::getNativeCursor(cc));
