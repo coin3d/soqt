@@ -568,6 +568,7 @@ AC_ARG_WITH([framework-prefix],
 #   [sim_ac_framework_version="MAC_FRAMEWORK_VERSION_DEFAULT"])
 sim_ac_framework_version="MAC_FRAMEWORK_VERSION_DEFAULT"
 
+frameworkdir=
 ivframeworkdir=
 # we don't allow SoQt as framework if Coin isn't instralled as a framework
 if $sim_ac_coin_desired && $sim_ac_coin_avail; then
@@ -584,11 +585,16 @@ if $sim_ac_coin_desired && $sim_ac_coin_avail; then
   #  sim_ac_framework=false
   fi
   ivframeworkdir=$sim_ac_coin_frameworkdir
+  frameworkdir=${sim_ac_framework_prefix}/${sim_ac_framework_name}.framework
+  soqtincludedir=${sim_ac_framework_prefix}/${sim_ac_framework_name}.framework/Headers
 else
   sim_ac_framework=false
+  soqtincludedir=${includedir}/Inventor/Qt
 fi
 
 AC_SUBST([ivframeworkdir])
+AC_SUBST([frameworkdir])
+AC_SUBST([soqtincludedir])
 
 AC_SUBST([MAC_FRAMEWORK], [$sim_ac_framework])
 AC_SUBST([MAC_FRAMEWORK_NAME], [$sim_ac_framework_name])
