@@ -162,7 +162,7 @@ SoQtGLWidget::SoQtGLWidget(
   Protected destructor.
 */
 
-SoQtGLWidget::~SoQtGLWidget()
+SoQtGLWidget::~SoQtGLWidget(void)
 {
   delete this->glwidget;
   delete this->glformat;

@@ -63,7 +63,7 @@ protected:
   SoQtGLWidget( QWidget * const parent = NULL, const char * const name = NULL,
       const SbBool embed = TRUE, const int glmodes = SO_GLX_RGB,
       const SbBool build = TRUE );
-  SoQtGLWidget::~SoQtGLWidget();
+  ~SoQtGLWidget(void);
 
   virtual void processEvent( QEvent * event );
 
