@@ -17,6 +17,7 @@
 # < $sim_ac_soqt_ldflags     (extra flags the linker needs)
 # < $sim_ac_soqt_libs        (link library flags the linker needs)
 # < $sim_ac_soqt_datadir     (location of SoQt data files)
+# < $sim_ac_soqt_includedir  (location of SoQt headers)
 # < $sim_ac_soqt_version     (the libSoQt version)
 #
 # Authors:
@@ -35,6 +36,7 @@ sim_ac_soqt_cppflags=
 sim_ac_soqt_ldflags=
 sim_ac_soqt_libs=
 sim_ac_soqt_datadir=
+sim_ac_soqt_includedir=
 sim_ac_soqt_version=
 
 # internal variables
@@ -66,6 +68,7 @@ if $sim_ac_soqt_desired; then
     sim_ac_soqt_ldflags=`$sim_ac_soqt_configcmd --ldflags`
     sim_ac_soqt_libs=`$sim_ac_soqt_configcmd --libs`
     sim_ac_soqt_datadir=`$sim_ac_soqt_configcmd --datadir`
+    sim_ac_soqt_includedir=`$sim_ac_soqt_configcmd --includedir`
     sim_ac_soqt_version=`$sim_ac_soqt_configcmd --version`
     AC_CACHE_CHECK(
       [whether libSoQt is available],
