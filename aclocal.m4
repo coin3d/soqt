@@ -4878,6 +4878,51 @@ if $sim_ac_dyld; then
 fi
 ])
 
+# **************************************************************************
+# Usage:
+#   SIM_AC_CHECK_FINK ([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+#
+# Description:
+#   This macro checks for the availability of the Fink system. Fink is 
+#   dpkg-based distribution of UNIX tools for Mac OS X that installs
+#   libraries and headers into /sw.
+#
+# Autoconf Variables:
+#     $sim_ac_fink_avail       true | false
+#     $sim_ac_fink_cppflags    (extra flags the preprocessor needs)
+#     $sim_ac_fink_ldflags     (extra flags the linker needs)
+#
+# CPPFLAGS and LDFLAGS will also be set accordingly.
+#
+# Authors:
+#   Karin Kosina <kyrah@sim.no>
+#
+
+AC_DEFUN([SIM_AC_CHECK_FINK], [
+sim_ac_have_fink=false
+AC_MSG_CHECKING([if fink is available])
+if test -d /sw/include && test -d /sw/lib; then
+  AC_MSG_RESULT([yes])
+  sim_ac_have_fink=true
+  sim_ac_fink_cppflags="-I/sw/include"
+  sim_ac_fink_ldflags="-L/sw/lib"
+  CPPFLAGS="$CPPFLAGS $sim_ac_fink_cppflags"
+  LDFLAGS="$LDFLAGS $sim_ac_fink_ldflags"
+else 
+  AC_MSG_RESULT([no])
+  sim_ac_fink_cppflags=
+  sim_ac_fink_ldflags=
+fi
+
+if $sim_ac_have_fink; then
+  ifelse([$1], , :, [$1])
+else
+  ifelse([$2], , :, [$2])
+fi
+
+]) # SIM_AC_CHECK_FINK
+
+
 # Usage:
 #  SIM_AC_CHECK_X11([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 #
@@ -4998,36 +5043,65 @@ fi
 #  The LIBS flag will also be modified accordingly. In addition, the
 #  variable $sim_ac_x11mu_avail is set to "yes" if the X11 miscellaneous
 #  utilities extension is found.
+#  CPPFLAGS and LDFLAGS might also be modified, if library is found in a
+#  non-standard location.
 #
 # Author: Morten Eriksen, <mortene@sim.no>.
 #
 # TODO:
 #    * [mortene:20000122] make sure this work on MSWin (with
 #      Cygwin installation)
-#
 
 AC_DEFUN([SIM_AC_CHECK_X11MU], [
 
 sim_ac_x11mu_avail=no
 sim_ac_x11mu_libs="-lXmu"
+
 sim_ac_save_libs=$LIBS
+sim_ac_save_cppflags=$CPPFLAGS
+sim_ac_save_ldflags=$LDFLAGS
+
 LIBS="$sim_ac_x11mu_libs $LIBS"
 
 AC_CACHE_CHECK(
-  [whether the X11 miscellaneous utilities is available],
+  [whether the X11 miscellaneous utilities library is available],
   sim_cv_lib_x11mu_avail,
   [AC_TRY_LINK([#include <X11/Xlib.h>
                 #include <X11/Xmu/Xmu.h>
                 #include <X11/Xmu/StdCmap.h>],
                [(void)XmuAllStandardColormaps(0L);],
                [sim_cv_lib_x11mu_avail=yes],
-               [sim_cv_lib_x11mu_avail=no])])
+               [sim_cv_lib_x11mu_avail=maybe])])
 
 if test x"$sim_cv_lib_x11mu_avail" = xyes; then
   sim_ac_x11mu_avail=yes
+else
+  # On HP-UX, Xmu might be located under /usr/contrib/X11R6/
+  if test -d /usr/contrib/X11R6; then
+    CPPFLAGS="-I/usr/contrib/X11R6/include $CPPFLAGS"
+    LDFLAGS="-L/usr/contrib/X11R6/lib $LDFLAGS"
+    AC_CACHE_CHECK(
+      [once more whether the X11 miscellaneous utilities library is available],
+      sim_cv_lib_x11mu_contrib_avail,
+      [AC_TRY_LINK([#include <X11/Xlib.h>
+                    #include <X11/Xmu/Xmu.h>
+                    #include <X11/Xmu/StdCmap.h>],
+                   [(void)XmuAllStandardColormaps(0L);],
+                   [sim_cv_lib_x11mu_contrib_avail=yes],
+                   [sim_cv_lib_x11mu_contrib_avail=no])])
+    if test x"$sim_cv_lib_x11mu_contrib_avail" = xyes; then
+      sim_ac_x11mu_avail=yes
+    fi
+  fi
+fi
+
+if test x"$sim_ac_x11mu_avail" = xyes; then
+  :
   $1
 else
   LIBS=$sim_ac_save_libs
+  CPPFLAGS=$sim_ac_save_cppflags
+  LDFLAGS=$sim_ac_save_ldflags
   $2
 fi
 ])
@@ -6742,12 +6816,20 @@ if test x"$with_qt" != xno; then
   sim_ac_qglobal=false
   SIM_AC_CHECK_HEADER_SILENT([qglobal.h],
     [sim_ac_qglobal=true],
-    # Debian Linux has the Qt-dev installation headers in a separate subdir.
+    # Debian Linux and Darwin fink have the Qt-dev installation headers in 
+    #a separate subdir.
     [sim_ac_debian_qtheaders=/usr/include/qt
      if test -d $sim_ac_debian_qtheaders; then
        sim_ac_qt_incflags="-I$sim_ac_debian_qtheaders $sim_ac_qt_incflags"
        CPPFLAGS="-I$sim_ac_debian_qtheaders $CPPFLAGS"
        SIM_AC_CHECK_HEADER_SILENT([qglobal.h], [sim_ac_qglobal=true])
+     else
+     sim_ac_fink_qtheaders=/sw/include/qt
+     if test -d $sim_ac_fink_qtheaders; then
+       sim_ac_qt_incflags="-I$sim_ac_fink_qtheaders $sim_ac_qt_incflags"
+       CPPFLAGS="-I$sim_ac_fink_qtheaders $CPPFLAGS"
+       SIM_AC_CHECK_HEADER_SILENT([qglobal.h], [sim_ac_qglobal=true])
+     fi
      fi])
 
   if $sim_ac_qglobal; then
@@ -6791,12 +6873,14 @@ known to contain some serious bugs on MacOS X. We strongly recommend you to
 upgrade. (See $srcdir/README.MAC for details.)])
     fi
 
-  # Qt/X11 is currently not supported on Mac OS X.
+    if test x"$sim_ac_want_x11" = xno; then   
+    # Qt/X11 needs X11, which you need to enable by --enable-x11
     AC_TRY_LINK([#include <qapplication.h>],
                 [#if defined(__APPLE__) && defined(Q_WS_X11)
                  #error blah!
                  #endif],[],
                 [SIM_AC_ERROR([x11-qt-on-mac])])
+    fi
     ;;
   esac
 
@@ -7501,12 +7585,18 @@ if test x"$enable_warnings" = x"yes"; then
   case $host in
   *-*-irix*) 
     ### Turn on all warnings ######################################
-    if test x"$CC" = xcc || test x"$CC" = xCC; then
+    # we try to catch settings like CC="CC -n32" too, even though the
+    # -n32 option belongs to C[XX]FLAGS
+    case $CC in
+    cc | "cc "* | CC | "CC "* )
       SIM_AC_CC_COMPILER_OPTION([-fullwarn], [CFLAGS="$CFLAGS -fullwarn"])
-    fi
-    if test x"$CXX" = xCC; then
+      ;;
+    esac
+    case $CXX in
+    CC | "CC "* )
       SIM_AC_CXX_COMPILER_OPTION([-fullwarn], [CXXFLAGS="$CXXFLAGS -fullwarn"])
-    fi
+      ;;
+    esac
 
     ### Turn off specific (bogus) warnings ########################
 
@@ -7535,14 +7625,17 @@ if test x"$enable_warnings" = x"yes"; then
 
     sim_ac_bogus_warnings="-woff 3115,3262,1174,1209,1355,1375,3201,1110,1506,1169"
 
-    if test x"$CC" = xcc || test x"$CC" = xCC; then
+    case $CC in
+    cc | "cc "* | CC | "CC "* )
       SIM_AC_CC_COMPILER_OPTION([$sim_ac_bogus_warnings],
                                 [CFLAGS="$CFLAGS $sim_ac_bogus_warnings"])
-    fi
-    if test x"$CXX" = xCC; then
+    esac
+    case $CXX in
+    CC | "CC "* )
       SIM_AC_CXX_COMPILER_OPTION([$sim_ac_bogus_warnings],
                                  [CXXFLAGS="$CXXFLAGS $sim_ac_bogus_warnings"])
-    fi
+      ;;
+    esac
   ;;
   esac
 fi
