@@ -51,6 +51,7 @@ static const char rcsid[] =
 #include <qwidget.h>
 #include <qmainwindow.h>
 #include <qmessagebox.h>
+#include <qapplication.h>
 
 #include <Inventor/errors/SoDebugError.h>
 
@@ -536,10 +537,8 @@ SoQtComponent::show(
                          THIS->widget->size().height());
 #endif // debug
 
-  if ( THIS->shelled )
-    THIS->parent->show();
-  THIS->widget->show();
-
+  if (THIS->widget) 
+    THIS->widget->topLevelWidget()->show();
 #if SOQTCOMP_RESIZE_DEBUG  // debug
   SoDebugError::postInfo("SoQtComponent::show-3",
                          "showed %p: (%d, %d)",
@@ -557,6 +556,8 @@ SoQtComponent::show(
                          THIS->widget->size().height());
 #endif // debug
   this->sizeChanged( THIS->storesize );
+  if (SoQt::getApplication())
+    SoQt::getApplication()->processEvents();
 } // show()
 
 /*!
@@ -577,9 +578,10 @@ SoQtComponent::hide(
   }
 #endif // SOQT_DEBUG
 
-  if ( THIS->shelled )
-    THIS->parent->hide();
-  THIS->widget->hide();
+  if (THIS->widget) 
+    THIS->widget->topLevelWidget()->hide();
+  if (SoQt::getApplication())
+    SoQt::getApplication()->processEvents();
 } // hide()
 
 // *************************************************************************
