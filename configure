@@ -626,7 +626,7 @@ if test ! -f ${srcdir}/examples/ChangeLog; then
   echo "  Parts of it have changed structurally, and you need to do the"
   echo "  following in the SoQt source directory:"
   echo ""
-  echo "    \$ grep -V "^D/examples/" CVS/Entries > /tmp/SoQt-CVS-Entries"
+  echo "    \$ grep -v "^D/examples/" CVS/Entries > /tmp/SoQt-CVS-Entries"
   echo "    \$ cp /tmp/SoQt-CVS-Entries CVS/Entries"
   echo "    \$ rm /tmp/SoQt-CVS-Entries"
   echo "    \$ rm -rf examples"
