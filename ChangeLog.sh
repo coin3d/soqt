@@ -38,6 +38,7 @@ cvs log | $cvs2cl --stdin --header $headerfile --separate-header --prune \
   --ignore '(ltconfig|ltmain\.sh|missing|mkinstalldirs|stamp-h.*|install-sh)$' \
   --ignore 'config\.h\.in$' \
   --ignore "src/Inventor/$GUI/common" \
+  --ignore "data" \
   --ignore "test-code"
 
 rm ChangeLog.bak $headerfile
