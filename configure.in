@@ -136,11 +136,9 @@ AC_PROG_LIBTOOL
 
 # These are used for constructing the soqt-config file.
 SOGUI_EXTRA_CPPFLAGS=$CPPFLAGS
-SOGUI_EXTRA_CXXFLAGS=$CXXFLAGS
 SOGUI_EXTRA_LDFLAGS=$LDFLAGS
 SOGUI_EXTRA_LIBS=$LIBS
 AC_SUBST(SOGUI_EXTRA_CPPFLAGS)
-AC_SUBST(SOGUI_EXTRA_CXXFLAGS)
 AC_SUBST(SOGUI_EXTRA_LDFLAGS)
 AC_SUBST(SOGUI_EXTRA_LIBS)
 
@@ -241,13 +239,9 @@ if test x"${with_inventor+set}" = x"set" &&
 
   SIM_AC_CHECK_OPENGL([
     SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_gl_cppflags"
-    SOGUI_EXTRA_CFLAGS="$SOGUI_EXTRA_CFLAGS $sim_ac_gl_cflags"
-    SOGUI_EXTRA_CXXFLAGS="$SOGUI_EXTRA_CXXFLAGS $sim_ac_gl_cxxflags"
     SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_gl_ldflags"
     SOGUI_EXTRA_LIBS="$sim_ac_gl_libs $SOGUI_EXTRA_LIBS"
     CPPFLAGS="$CPPFLAGS $sim_ac_gl_cppflags"
-    CFLAGS="$CFLAGS $sim_ac_gl_cflags"
-    CXXFLAGS="$CXXFLAGS $sim_ac_gl_cxxflags"
     LDFLAGS="$LDFLAGS $sim_ac_gl_ldflags"
     LIBS="$sim_ac_gl_libs $LIBS"
   ], AC_MSG_ERROR([needs an OpenGL-compatible development system installation]))
@@ -270,8 +264,10 @@ if test x"${with_inventor+set}" = x"set" &&
   SIM_AC_CONFIGURATION_SETTING([Open Inventor brand], [SGI/TGS Inventor])
 else
 
-  SIM_AC_CHECK_HEADER_GL([CPPFLAGS="$CPPFLAGS $sim_ac_gl_cppflags"])
-  SIM_AC_CHECK_HEADER_GLU([CPPFLAGS="$CPPFLAGS $sim_ac_glu_cppflags"])
+  SIM_AC_CHECK_HEADER_GL([
+    CPPFLAGS="$CPPFLAGS $sim_ac_gl_cppflags"
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_gl_cppflags"
+  ], [AC_MSG_ERROR([could not detect a gl.h header file])])
 
   SIM_AC_HAVE_COIN_IFELSE([
     CPPFLAGS="$CPPFLAGS $sim_ac_coin_cppflags"
