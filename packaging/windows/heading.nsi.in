@@ -6,7 +6,7 @@
 #   Lars J. Aas <larsa@sim.no>
 
 Name "SoQt @sdk_version@"
-OutFile "soqt-@sdk_version@-install.exe"
+OutFile "soqt-v@sdk_version@-install.exe"
 SilentInstall "normal"
 CRCCheck "on"
 
