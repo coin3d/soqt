@@ -177,6 +177,7 @@ SoGui_src_Inventor_Gui_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@.h \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@Component.h \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidget.h \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp \
@@ -331,6 +332,7 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/SoGuiObject.cpp.in \
   src/Inventor/@Gui@/common/SoGui.h.in \
   src/Inventor/@Gui@/common/SoGuiCommon.cpp.in \
+  src/Inventor/@Gui@/common/SoGuiComponentCommon.cpp.in \
   src/Inventor/@Gui@/common/SoGuiComponent.h.in \
   src/Inventor/@Gui@/common/SoGuiGLWidget.h.in \
   src/Inventor/@Gui@/common/SoGuiGLWidgetCommon.cpp.in \
@@ -530,9 +532,9 @@ am_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS = SoQt.$(OBJEXT) \
 	SoQtTransformSliderSet.$(OBJEXT) SoQtMaterialList.$(OBJEXT)
 nodist_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS = SoAny.$(OBJEXT) \
 	So@Gui@Cursor.$(OBJEXT) So@Gui@Object.$(OBJEXT) \
-	So@Gui@Common.$(OBJEXT) So@Gui@GLWidgetCommon.$(OBJEXT) \
-	So@Gui@RenderArea.$(OBJEXT) SoAnyMaterialList.$(OBJEXT) \
-	SoAnyMaterialListBuiltins.$(OBJEXT)
+	So@Gui@Common.$(OBJEXT) So@Gui@ComponentCommon.$(OBJEXT) \
+	So@Gui@GLWidgetCommon.$(OBJEXT) So@Gui@RenderArea.$(OBJEXT) \
+	SoAnyMaterialList.$(OBJEXT) SoAnyMaterialListBuiltins.$(OBJEXT)
 soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS = \
 	$(am_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) \
 	$(nodist_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS)
@@ -545,9 +547,9 @@ am_libSoQt@SUFFIX@_la_OBJECTS = SoQt.lo SoQtComponent.lo SoQtGLWidget.lo \
 	SoQtSliderSetBase.lo SoQtTransformSliderSet.lo \
 	SoQtMaterialList.lo
 nodist_libSoQt@SUFFIX@_la_OBJECTS = SoAny.lo So@Gui@Cursor.lo \
-	So@Gui@Object.lo So@Gui@Common.lo So@Gui@GLWidgetCommon.lo \
-	So@Gui@RenderArea.lo SoAnyMaterialList.lo \
-	SoAnyMaterialListBuiltins.lo
+	So@Gui@Object.lo So@Gui@Common.lo So@Gui@ComponentCommon.lo \
+	So@Gui@GLWidgetCommon.lo So@Gui@RenderArea.lo \
+	SoAnyMaterialList.lo SoAnyMaterialListBuiltins.lo
 libSoQt@SUFFIX@_la_OBJECTS = $(am_libSoQt@SUFFIX@_la_OBJECTS) \
 	$(nodist_libSoQt@SUFFIX@_la_OBJECTS)
 
@@ -559,6 +561,8 @@ LIBS = @LIBS@
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 @AMDEP_TRUE@DEP_FILES = $(DEPDIR)/So@Gui@Common.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/So@Gui@Common.Po \
+@AMDEP_TRUE@	$(DEPDIR)/So@Gui@ComponentCommon.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/So@Gui@ComponentCommon.Po \
 @AMDEP_TRUE@	$(DEPDIR)/So@Gui@Cursor.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/So@Gui@Cursor.Po \
 @AMDEP_TRUE@	$(DEPDIR)/So@Gui@GLWidgetCommon.Plo \
@@ -674,6 +678,8 @@ So@Gui@Object.$(OBJEXT): \
 	$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp
 So@Gui@Common.$(OBJEXT): \
 	$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp
+So@Gui@ComponentCommon.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp
 So@Gui@GLWidgetCommon.$(OBJEXT): \
 	$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp
 So@Gui@RenderArea.$(OBJEXT): \
@@ -705,6 +711,8 @@ SoAny.lo: $(top_builddir)/src/Inventor/@Gui@/SoAny.cpp
 So@Gui@Cursor.lo: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp
 So@Gui@Object.lo: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp
 So@Gui@Common.lo: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp
+So@Gui@ComponentCommon.lo: \
+	$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp
 So@Gui@GLWidgetCommon.lo: \
 	$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp
 So@Gui@RenderArea.lo: \
@@ -724,6 +732,8 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@Common.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@Common.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@ComponentCommon.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@ComponentCommon.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@Cursor.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@Cursor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@GLWidgetCommon.Plo@am__quote@
@@ -849,6 +859,24 @@ So@Gui@Common.lo: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp
 @AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@Common.Plo' tmpdepfile='$(DEPDIR)/So@Gui@Common.TPlo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@Common.lo `test -f $(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp
+
+So@Gui@ComponentCommon.o: $(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp' object='So@Gui@ComponentCommon.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@ComponentCommon.Po' tmpdepfile='$(DEPDIR)/So@Gui@ComponentCommon.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@ComponentCommon.o `test -f $(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp
+
+So@Gui@ComponentCommon.obj: $(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp' object='So@Gui@ComponentCommon.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@ComponentCommon.Po' tmpdepfile='$(DEPDIR)/So@Gui@ComponentCommon.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@ComponentCommon.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp`
+
+So@Gui@ComponentCommon.lo: $(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp' object='So@Gui@ComponentCommon.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@ComponentCommon.Plo' tmpdepfile='$(DEPDIR)/So@Gui@ComponentCommon.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@ComponentCommon.lo `test -f $(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp
 
 So@Gui@GLWidgetCommon.o: $(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp' object='So@Gui@GLWidgetCommon.o' libtool=no @AMDEPBACKSLASH@
@@ -1220,6 +1248,9 @@ $(top_builddir)/src/Inventor/@Gui@/So@Gui@.h: $(top_srcdir)/src/Inventor/@Gui@/c
 
 $(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/SoGuiCommon.cpp.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/So@Gui@Common.cpp:src/Inventor/@Gui@/common/SoGuiCommon.cpp.in )
+
+$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/SoGuiComponentCommon.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp:src/Inventor/@Gui@/common/SoGuiComponentCommon.cpp.in )
 
 $(top_builddir)/src/Inventor/@Gui@/So@Gui@Component.h: $(top_srcdir)/src/Inventor/@Gui@/common/SoGuiComponent.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/So@Gui@Component.h:src/Inventor/@Gui@/common/SoGuiComponent.h.in )
