@@ -188,6 +188,8 @@ SoQtExaminerViewer::constructor(
   this->axiscrossOn = FALSE;
   this->axiscrossSize = 25;
 
+  this->spinsaveposition = SbVec2f( -1, -1 );
+
   if ( buildNow )
     this->setBaseWidget( this->buildWidget( this->getParentWidget() ) );
 } // constructor()
@@ -664,6 +666,14 @@ SoQtExaminerViewer::processEvent(QEvent * event)
   mousepos[1] = canvassize[1] - mousepos[1];
   SbVec2f norm_mousepos(mousepos[0]/float(canvassize[0]),
                         mousepos[1]/float(canvassize[1]));
+#if SOQT_DEBUG && 0
+  static int _pressed = 0;
+  if ( _pressed ) {
+    SoDebugError::postInfo( "event",
+      "mousepos( %d, %d ) - norm_mousepos( %f, %f )",
+       mousepos[0], mousepos[1], norm_mousepos[0], norm_mousepos[1] );
+  }
+#endif
 
   // Convert dblclick events to press events to get the "correct"
   // sequence of two press+release pairs under Qt 1.xx and Qt 2.00 at
@@ -680,6 +690,10 @@ SoQtExaminerViewer::processEvent(QEvent * event)
   switch (eventtype) {
   case Event_MouseButtonPress:
     {
+#if SOQT_DEBUG && 0
+      SoDebugError::postInfo( "press", "" );
+      _pressed = 1;
+#endif
       QMouseEvent * be = (QMouseEvent *)event;
       if (be->button() != LeftButton && be->button() != MidButton) break;
 
@@ -703,6 +717,10 @@ SoQtExaminerViewer::processEvent(QEvent * event)
 
   case Event_MouseButtonRelease:
     {
+#if SOQT_DEBUG && 0
+      SoDebugError::postInfo( "release", "" );
+      _pressed = 0;
+#endif
       QMouseEvent * be = (QMouseEvent *)event;
       if (be->button() != LeftButton && be->button() != MidButton) break;
 
@@ -1255,6 +1273,10 @@ SoQtExaminerViewer::pan(const SbVec2f & mousepos)
 void
 SoQtExaminerViewer::spin(const SbVec2f & mousepos)
 {
+  if ( mousepos == spinsaveposition ) // ignore extra event
+    return;
+  spinsaveposition = mousepos;
+
   assert(this->projector);
 
   SbRotation r;

@@ -141,6 +141,7 @@ private:
   SbVec2f lastmouseposition;
   SbPlane panningplane;
 
+  SbVec2f spinsaveposition;
   SbRotation spinincrement;
   int spinsamplecounter;
 
