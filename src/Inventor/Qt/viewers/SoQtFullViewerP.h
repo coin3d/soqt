@@ -24,9 +24,8 @@
 #ifndef SOQTFULLVIEWERP_H
 #define SOQTFULLVIEWERP_H
 
-#include <qobject.h>
-#include <Inventor/SbBasic.h>
 #include <SoGuiFullViewerP.h>
+#include <qobject.h>
 
 class QLabel;
 class QLayout;
@@ -49,6 +48,77 @@ class SoQtFullViewerP : public QObject, public SoGuiFullViewerP
 public:
   SoQtFullViewerP(SoQtFullViewer * publ);
   ~SoQtFullViewerP();
+
+public slots:
+  // Thumbwheels.
+  void leftWheelPressed(void);
+  void leftWheelChanged(float value);
+  void leftWheelReleased(void);
+  void rightWheelPressed(void);
+  void rightWheelChanged(float value);
+  void rightWheelReleased(void);
+  void bottomWheelPressed(void);
+  void bottomWheelChanged(float value);
+  void bottomWheelReleased(void);
+
+  // Button row.
+  void interactbuttonClicked();
+  void viewbuttonClicked();
+  void helpbuttonClicked();
+  void homebuttonClicked();
+  void sethomebuttonClicked();
+  void viewallbuttonClicked();
+  void seekbuttonClicked();
+
+  // Menu items.
+  void selectedViewing();
+  void selectedDecoration();
+  void selectedHeadlight();
+  void copyviewSelected();
+  void pasteviewSelected();
+  void selectedPrefs();
+
+  // Pref sheet.
+  //  seek settings
+  void seekAnimationTimeChanged(const char *);
+  void seekAnimationTimeChanged(const QString &);
+  void seekDetailToggled(int id);
+  void seekDistanceWheelChanged(float);
+  void seekDistanceEdit();
+  void seekDistanceTypeToggle(int id);
+  //  zoom settings
+  void zoomSliderMoved(int val);
+  void zoomFieldChanged();
+  void zoomRangeChanged1();
+  void zoomRangeChanged2();
+  //  clipping settings
+  void clippingToggled(bool flag);
+  void nearclippingwheelMoved(float val);
+  void farclippingwheelMoved(float val);
+  void nearclipEditPressed();
+  void farclipEditPressed();
+
+  // Generic slots.
+  void increaseInteractiveCount();
+  void decreaseInteractiveCount();
+
+public:
+  QWidget * makePreferencesWindow(void);
+  QWidget * makeSeekPreferences(QWidget * parent);
+  QWidget * makeSeekDistancePreferences(QWidget * parent);
+  QWidget * makeZoomPreferences(QWidget * parent);
+  QWidget * makeAutoclipPreferences(QWidget * parent);
+
+  void showDecorationWidgets(SbBool onOff);
+
+  void layoutAppButtons(QWidget * form);
+
+  void setCameraZoom(const float zoom);
+  float getCameraZoom(void);
+  void setZoomSliderPosition(float zoom);
+  void setZoomFieldString(float zoom);
+
+  void setEnabledClippingWidgets(SbBool flag);
 
   // Return pointer to pushbutton in right-side decoration bar.
   QPushButton * getViewerbutton(const int idx)
