@@ -29,7 +29,7 @@
 
 #define SO_QT_ALL_FOCUS_EVENTS (soqtEnterWindowMask | soqtLeaveWindowMask)
 
-class SoQtInputFocus : public SoQtDevice
+class SOQT_DLL_EXPORT SoQtInputFocus : public SoQtDevice
 {
 public:
   SoQtInputFocus(soqtEventMask mask = SO_QT_ALL_FOCUS_EVENTS);

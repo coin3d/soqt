@@ -28,6 +28,7 @@ static const char rcsid[] =
   FIXME: write class doc
 */
 
+#include <soqtdefs.h>
 #include <Inventor/Qt/SoQtBasic.h>
 #include <Inventor/Qt/devices/SoQtInputFocus.h>
 

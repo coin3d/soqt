@@ -24,7 +24,7 @@
 
 #include <Inventor/Qt/devices/SoQtDevice.h>
 
-class SoQtSpaceball : public SoQtDevice
+class SOQT_DLL_EXPORT SoQtSpaceball : public SoQtDevice
 {
 public:
   enum Mask {

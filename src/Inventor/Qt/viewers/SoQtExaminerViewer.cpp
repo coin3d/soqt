@@ -69,6 +69,7 @@ static const char rcsid[] =
 #include <Inventor/errors/SoDebugError.h>
 #endif // SOQT_DEBUG
 
+#include <soqtdefs.h>
 #include <Inventor/Qt/widgets/SoQtThumbWheel.h>
 #include <Inventor/Qt/SoQtCursors.h>
 

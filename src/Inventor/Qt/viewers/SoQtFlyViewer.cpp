@@ -26,6 +26,7 @@ static const char rcsid[] =
   \ingroup soqtviewers
 */
 
+#include <soqtdefs.h>
 #include <Inventor/Qt/viewers/SoQtFlyViewer.h>
 
 // ************************************************************************

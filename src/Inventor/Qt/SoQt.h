@@ -29,12 +29,14 @@
 #include <Inventor/SbBasic.h>
 #include <Inventor/SbLinear.h>
 
+#include <Inventor/Qt/SoQtBasic.h>
+
 class QTimer;
 class SoSensor;
 
 // *************************************************************************
 
-class SoQt : public QObject
+class SOQT_DLL_EXPORT SoQt : public QObject
 {
   typedef QObject inherited;
 

@@ -25,6 +25,7 @@ static const char rcsid[] =
 #include <Inventor/SoLists.h>
 #include <Inventor/errors/SoDebugError.h>
 
+#include <soqtdefs.h>
 #include <Inventor/Qt/widgets/SoQtPopupMenu.h>
 
 /*!

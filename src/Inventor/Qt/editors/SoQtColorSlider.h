@@ -24,7 +24,7 @@
 
 // FIXME: not in use yet. 19990620 mortene.
 
-# include <qwidget.h>
+#include <qwidget.h>
 
 class QLabel;
 class QSlider;
@@ -33,8 +33,10 @@ class QBoxLayout;
 class QSize;
 class QColor;
 
-class _SoQtColorSlider : public QWidget {
+class SOQT_DLL_EXPORT _SoQtColorSlider : public QWidget
+{
   Q_OBJECT
+
 public:
   _SoQtColorSlider(int minValue, int maxValue, QWidget * parent = 0, const char * label = NULL);
 
@@ -56,9 +58,13 @@ private:
   QLineEdit * edit;
 };
 
-class _SoQtColorEditor : public QWidget {
+class SOQT_DLL_EXPORT _SoQtColorEditor : public QWidget
+{
+  Q_OBJECT
+
 public:
   _SoQtColorEditor(QWidget * parent = NULL, const char * name = NULL);
+
 };
 
 #endif // !__SOQTCOLORSLIDER_H__

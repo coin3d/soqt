@@ -26,7 +26,7 @@
 
 // ************************************************************************
 
-class SoQtConstrainedViewer : public SoQtFullViewer {
+class SOQT_DLL_EXPORT SoQtConstrainedViewer : public SoQtFullViewer {
   typedef SoQtFullViewer inherited;
 
   Q_OBJECT

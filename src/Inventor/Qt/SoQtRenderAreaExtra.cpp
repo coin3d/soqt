@@ -34,6 +34,7 @@ static const char rcsid[] =
 #include <Inventor/errors/SoDebugError.h>
 #endif // SOQT_DEBUG
 
+#include <soqtdefs.h>
 #include <Inventor/Qt/devices/SoQtMouse.h>
 #include <Inventor/Qt/devices/SoQtKeyboard.h>
 #include <Inventor/Qt/widgets/SoQtGLArea.h>

@@ -27,7 +27,7 @@
 class SoMouseButtonEvent;
 class SoLocation2Event;
 
-class SoQtMouse : public SoQtDevice {
+class SOQT_DLL_EXPORT  SoQtMouse : public SoQtDevice {
   typedef SoQtDevice inherited;
 
 public:

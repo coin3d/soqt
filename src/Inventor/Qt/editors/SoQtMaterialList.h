@@ -20,20 +20,22 @@
 //  $Id$
 
 #ifndef _SO_QT_MATERIALLIST_H_
-# define _SO_QT_MATERIALLIST_H_
+#define _SO_QT_MATERIALLIST_H_
 
-# include <Inventor/Qt/SoQtComponent.h>
+#include <Inventor/Qt/SoQtComponent.h>
 
   class SoMaterial;
   class QDir;
   class QListBox;
   class QPopupMenu;
 
-  typedef void SoQtMaterialListCB(void *userData, const SoMaterial *mtl);
+typedef void SoQtMaterialListCB(void *userData, const SoMaterial *mtl);
 
-  class SoQtMaterialList : public SoQtComponent {
-    Q_OBJECT;
-    public:
+class SOQT_DLL_EXPORT SoQtMaterialList : public SoQtComponent
+{
+  Q_OBJECT
+
+public:
                         SoQtMaterialList(QWidget *parent = NULL,
                                 const char *name = NULL,
                                 SbBool buildInsideParent = TRUE,
@@ -78,6 +80,6 @@
         SoMaterial*     material;
 
         void            dir2List(const char *dir);
-  };
+};
 
 #endif

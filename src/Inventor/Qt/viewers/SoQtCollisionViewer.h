@@ -24,19 +24,21 @@
 
 #include <Inventor/SbBasic.h>
 
+#include <Inventor/Qt/SoQtBasic.h>
+
 class SoQtViewer;
 class SoQtCollisionViewer;
 
 // NULL is not defined under msvc++ unless you include 'windows.h'
 #ifndef NULL
-#define NULL 0L
+#define NULL ((void *) 0L)
 #endif
 
 typedef void SoQtCollisionViewerCB( void * userData, SoQtCollisionViewer * collisionViewer );
 
 // ************************************************************************
 
-class SoQtCollisionViewer {
+class SOQT_DLL_EXPORT  SoQtCollisionViewer {
 public:
   SoQtCollisionViewer( SoQtViewer * viewer );
   ~SoQtCollisionViewer(void);

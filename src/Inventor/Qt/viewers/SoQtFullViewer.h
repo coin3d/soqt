@@ -36,7 +36,7 @@ class SoAnyFullViewer;
 
 // *************************************************************************
 
-class SoQtFullViewer : public SoQtViewer {
+class SOQT_DLL_EXPORT SoQtFullViewer : public SoQtViewer {
   typedef SoQtViewer inherited;
   friend class SoAnyFullViewer;
 

@@ -27,6 +27,7 @@ static const char rcsid[] =
   TODO: doc
  */
 
+#include <soqtdefs.h>
 #include <Inventor/Qt/SoQtMaterialSliderSet.h>
 
 /*!

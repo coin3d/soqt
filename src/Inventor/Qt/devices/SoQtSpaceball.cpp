@@ -36,6 +36,7 @@ static const char rcsid[] =
   PC equipment? wheel mice, joysticks, ....
 */
 
+#include <soqtdefs.h>
 #include <Inventor/Qt/SoQtBasic.h>
 #include <Inventor/Qt/devices/SoQtSpaceball.h>
 

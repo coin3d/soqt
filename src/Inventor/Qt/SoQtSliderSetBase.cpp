@@ -29,6 +29,7 @@ static const char rcsid[] =
 
 #include <Inventor/nodes/SoNode.h>
 
+#include <soqtdefs.h>
 #include <Inventor/Qt/SoQtSliderSetBase.h>
 
 

@@ -28,6 +28,7 @@ static const char rcsid[] =
 
 #include <Inventor/errors/SoDebugError.h>
 
+#include <soqtdefs.h>
 #include <Inventor/Qt/viewers/SoQtConstrainedViewer.h>
 
 // ************************************************************************

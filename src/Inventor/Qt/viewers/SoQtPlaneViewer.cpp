@@ -41,6 +41,7 @@ static const char rcsid[] =
 #include <Inventor/nodes/SoPerspectiveCamera.h>
 #include <Inventor/nodes/SoOrthographicCamera.h>
 
+#include <soqtdefs.h>
 #include <Inventor/Qt/widgets/SoQtThumbWheel.h>
 
 #include <Inventor/Qt/viewers/SoAnyPlaneViewer.h>

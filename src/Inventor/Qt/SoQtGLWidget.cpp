@@ -45,6 +45,7 @@ static const char rcsid[] =
 #include <Inventor/errors/SoDebugError.h>
 #include <Inventor/misc/SoBasic.h>
 
+#include <soqtdefs.h>
 #include <Inventor/Qt/SoQtBasic.h>
 #include <Inventor/Qt/widgets/SoQtGLArea.h>
 #include <Inventor/Qt/SoQtGLWidget.h>

@@ -27,6 +27,7 @@ static const char rcsid[] =
 #include <q1xcompatibility.h>
 #endif // Qt v2.x
 
+#include <soqtdefs.h>
 #include <Inventor/Qt/viewers/SoQtViewer.h>
 
 // *************************************************************************

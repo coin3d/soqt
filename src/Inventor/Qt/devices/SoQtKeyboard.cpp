@@ -40,6 +40,7 @@ static const char rcsid[] =
 #endif // SOGUI_DEBUG
 #include <Inventor/events/SoKeyboardEvent.h>
 
+#include <soqtdefs.h>
 #include <Inventor/Qt/SoQtBasic.h>
 #include <Inventor/Qt/devices/SoQtKeyboard.h>
 

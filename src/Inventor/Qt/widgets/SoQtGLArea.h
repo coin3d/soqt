@@ -24,11 +24,12 @@
 
 #include <qgl.h>
 
+#include <Inventor/Qt/SoQtBasic.h>
+
 // *************************************************************************
 
-class SoQtGLArea : public QGLWidget {
+class SOQT_DLL_EXPORT SoQtGLArea : public QGLWidget {
   typedef QGLWidget inherited;
-
   Q_OBJECT
 
 public:

@@ -169,6 +169,7 @@ libSoQtincdir = $(includedir)/Inventor/Qt
 
 libSoQtinc_HEADERS = \
 	$(top_srcdir)/src/Inventor/Qt/SoQt.h \
+	$(top_builddir)/src/Inventor/Qt/SoQtBasic.h \
 	$(top_srcdir)/src/Inventor/Qt/SoQtComponent.h \
 	$(top_srcdir)/src/Inventor/Qt/SoQtCursors.h \
 	$(top_srcdir)/src/Inventor/Qt/SoQtGLWidget.h \

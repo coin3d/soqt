@@ -26,7 +26,7 @@
 
 // ************************************************************************
 
-class SoQtFlyViewer : public SoQtConstrainedViewer {
+class SOQT_DLL_EXPORT SoQtFlyViewer : public SoQtConstrainedViewer {
   typedef SoQtConstrainedViewer inherited;
 
   Q_OBJECT

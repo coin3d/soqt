@@ -26,6 +26,7 @@
 
 #include <Inventor/SbBasic.h>
 
+#include <Inventor/Qt/SoQtBasic.h>
 #include <Inventor/Qt/SoQtComponent.h>
 
 class SoQtGLArea;
@@ -41,7 +42,7 @@ enum GLModes {        // remove the GLX ones?
 
 // *************************************************************************
 
-class SoQtGLWidget : public SoQtComponent
+class SOQT_DLL_EXPORT SoQtGLWidget : public SoQtComponent
 {
   typedef SoQtComponent inherited;
 

@@ -30,6 +30,7 @@ static const char rcsid[] =
 
 #include <Inventor/events/SoEvent.h>
 
+#include <soqtdefs.h>
 #include <Inventor/Qt/devices/SoQtDevice.h>
 
 

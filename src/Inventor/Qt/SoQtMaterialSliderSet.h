@@ -24,7 +24,7 @@
 
 #include <Inventor/Qt/SoQtSliderSet.h>
 
-class SoQtMaterialSliderSet : public SoQtSliderSet
+class SOQT_DLL_EXPORT SoQtMaterialSliderSet : public SoQtSliderSet
 {
   typedef SoQtSliderSet inherited;
 

@@ -42,7 +42,7 @@ class SoQtExaminerViewer;
 
 // *************************************************************************
 
-class SoQtExaminerViewer : public SoQtFullViewer {
+class SOQT_DLL_EXPORT SoQtExaminerViewer : public SoQtFullViewer {
   typedef SoQtFullViewer inherited;
   friend class SoAnyExaminerViewer;
 

@@ -26,11 +26,13 @@ static const char rcsid[] =
 
 #include <assert.h>
 #include <config.h>
-#include <Inventor/Qt/widgets/SoQtGLArea.h>
 
 #if SOQT_DEBUG
 #include <Inventor/errors/SoDebugError.h>
 #endif // SOQT_DEBUG
+
+#include <soqtdefs.h>
+#include <Inventor/Qt/widgets/SoQtGLArea.h>
 
 // *************************************************************************
 

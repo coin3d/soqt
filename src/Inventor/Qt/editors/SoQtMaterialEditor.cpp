@@ -35,6 +35,7 @@ static const char rcsid[] =
 #include <Inventor/fields/SoField.h>
 #include <Inventor/fields/SoMFColor.h>
 
+#include <soqtdefs.h>
 #include <Inventor/Qt/SoQtColorSlider.h>
 #include <Inventor/Qt/SoGLMaterialSphere.h>
 #include <Inventor/Qt/QColorSelection.h>

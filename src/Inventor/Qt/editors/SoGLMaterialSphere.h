@@ -29,8 +29,10 @@
 
 class SoMaterial;
 
-class SoGLMaterialSphere : public QGLWidget {
+class SOQT_DLL_EXPORT SoGLMaterialSphere : public QGLWidget
+{
   Q_OBJECT
+
 public:
   SoGLMaterialSphere(QWidget * parent = NULL, const char * name = NULL);
 

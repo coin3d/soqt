@@ -27,7 +27,7 @@
 class SoNode;
 
 
-class SoQtSliderSetBase : public SoQtComponent
+class SOQT_DLL_EXPORT SoQtSliderSetBase : public SoQtComponent
 {
   typedef SoQtComponent inherited;
 

@@ -30,6 +30,8 @@
 
 #include <Inventor/SbLinear.h>
 
+#include <Inventor/Qt/SoQtBasic.h>
+
 class QWidget;
 class QEvent;
 class SoEvent;
@@ -38,7 +40,7 @@ typedef int soqtEventMask;
 
 // *************************************************************************
 
-class SoQtDevice {
+class SOQT_DLL_EXPORT SoQtDevice {
 public:
   typedef void (*SoQtEventHandler)( QWidget *, void *, QEvent *, bool * );
 

@@ -25,14 +25,17 @@
 #include <qwidget.h>
 #include <qrangecontrol.h>
 
+#include <Inventor/Qt/SoQtBasic.h>
+
 class QPixmap;
 class SoAnyThumbWheel;
 
 // *************************************************************************
 
-class SoQtThumbWheel : public QWidget, public QRangeControl
+class SOQT_DLL_EXPORT SoQtThumbWheel : public QWidget, public QRangeControl
 {
   Q_OBJECT
+
 public:
   enum Orientation { Horizontal, Vertical };
 

@@ -20,6 +20,7 @@
 static const char rcsid[] =
   "$Id$";
 
+#include <soqtdefs.h>
 #include <Inventor/Qt/SoQtCursors.h>
 
 // Graphic data for the mouse pointer bitmaps.

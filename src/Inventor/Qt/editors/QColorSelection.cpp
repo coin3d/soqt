@@ -29,6 +29,7 @@ static const char rcsid[] =
 #include <qlabel.h>
 #include <qframe.h>
 
+#include <soqtdefs.h>
 #include <Inventor/Qt/QColorSelection.h>
 
 

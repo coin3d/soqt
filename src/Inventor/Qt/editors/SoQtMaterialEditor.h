@@ -20,10 +20,10 @@
 //  $Id$
 
 #ifndef _SO_QT_MATERIAL_EDITOR_
-# define _SO_QT_MATERIAL_EDITOR_
+#define _SO_QT_MATERIAL_EDITOR_
 
-# include <Inventor/Qt/SoQtComponent.h>
-# include <qwidget.h>
+#include <Inventor/Qt/SoQtComponent.h>
+#include <qwidget.h>
 
   class _SoQtColorSlider;
   class _SoQtColorEditor;
@@ -38,11 +38,12 @@
   class SoMFColor;
 
 
-  typedef void SoQtMaterialEditorCB(void *userData, const SoMaterial *mtl);
+typedef void SoQtMaterialEditorCB(void *userData, const SoMaterial *mtl);
 
-  class SoQtMaterialEditor : public SoQtComponent {
-    Q_OBJECT
-    public:
+class SOQT_DLL_EXPORT SoQtMaterialEditor : public SoQtComponent
+{
+  Q_OBJECT
+public:
 
         enum UpdateFrequency {
                 CONTINUOUS,
@@ -71,7 +72,7 @@
         const SoMaterial&       getMaterial() const;
 
 
-    public slots:
+public slots:
         void            material_list();
         void            continuous();
         void            manual();
@@ -83,13 +84,13 @@
         void            setMaterial(SoMaterial *);
         void            clearAllButtons();
 
-    signals:
+signals:
         void            materialChanged();
 
-    protected:
+protected:
         const char*     componentClassName() const;
 
-    private:
+private:
         SoMaterial*     material;
         SoMFColor*      colors[4];
         int             index;
@@ -117,4 +118,5 @@
 
         void            connectUpdaters(bool connect = true);
 };
+
 #endif

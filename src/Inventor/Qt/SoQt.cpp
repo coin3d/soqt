@@ -30,12 +30,12 @@ static const char rcsid[] =
   is as follows (complete application code):
 
   \code
-#include <Inventor/Qt/SoQt.h>
-#include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
+#include <qwidget.h>
 
 #include <Inventor/nodes/SoCube.h>
 
-#include <qwidget.h>
+#include <Inventor/Qt/SoQt.h>
+#include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
 
 int
 main(int argc, char **argv)
@@ -78,6 +78,7 @@ main(int argc, char **argv)
 #include <Inventor/errors/SoDebugError.h>
 #endif // SOQT_DEBUG
 
+#include <soqtdefs.h>
 #include <Inventor/Qt/SoQt.h>
 
 // *************************************************************************

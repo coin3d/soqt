@@ -33,6 +33,7 @@ static const char rcsid[] =
 #include <Inventor/nodes/SoMaterial.h>
 #include <Inventor/fields/SoMFColor.h>
 
+#include <soqtdefs.h>
 #include <Inventor/Qt/editors/SoGLMaterialSphere.h>
 
 

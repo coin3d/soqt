@@ -28,6 +28,8 @@
 #include <Inventor/SbString.h>
 #include <Inventor/SoLists.h>
 
+#include <Inventor/Qt/SoQtBasic.h>
+
 class QWidget;
 class SoQtComponent;
 
@@ -36,7 +38,7 @@ typedef void SoQtComponentVisibilityCB( void * user, SbBool visible );
 
 // *************************************************************************
 
-class SoQtComponent : public QObject
+class SOQT_DLL_EXPORT SoQtComponent : public QObject
 {
   typedef QObject inherited;
 

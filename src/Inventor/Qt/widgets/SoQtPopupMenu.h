@@ -22,6 +22,8 @@
 #ifndef SOQT_POPUPMENU_H
 #define SOQT_POPUPMENU_H
 
+#include <Inventor/Qt/SoQtBasic.h>
+
 #include <Inventor/Qt/widgets/SoAnyPopupMenu.h>
 
 // *************************************************************************
@@ -29,10 +31,10 @@
 struct MenuRecord;
 struct ItemRecord;
 
-class SoQtPopupMenu : public QObject, public SoAnyPopupMenu {
-  Q_OBJECT
-
+class SOQT_DLL_EXPORT SoQtPopupMenu : public QObject, public SoAnyPopupMenu
+{
   typedef SoAnyPopupMenu inherited;
+  Q_OBJECT
 
 public:
   SoQtPopupMenu(void);

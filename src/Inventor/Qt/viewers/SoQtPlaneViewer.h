@@ -31,7 +31,7 @@ class SoAnyPlaneViewer;
 
 // ************************************************************************
 
-class SoQtPlaneViewer : public SoQtFullViewer {
+class SOQT_DLL_EXPORT SoQtPlaneViewer : public SoQtFullViewer {
   typedef SoQtFullViewer inherited;
   friend class SoAnyPlaneViewer;
 
