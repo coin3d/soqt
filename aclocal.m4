@@ -7351,7 +7351,7 @@ fi
 sim_ac_hhc_exe=
 case $host in
   *-cygwin) AC_PATH_PROG([sim_ac_hhc_exe], [hhc]) ;;
-  *)        AC_SUBST(sim_ac_hhc_exe) ;;
+  *)        AC_SUBST([sim_ac_hhc_exe]) ;;
 esac
 
 if test x"$want_html_help" = x"yes"; then
@@ -10055,6 +10055,31 @@ if $sim_cv_def_qwidget_showfullscreen; then
             [Define this if QWidget::showFullScreen() is available])
 fi
 ]) # SIM_AC_QWIDGET_SHOWFULLSCREEN
+
+# SIM_AC_QAPPLICATION_HASPENDINGEVENTS
+# -----------------------------
+#
+# Use the macro for its side-effect: it defines 
+# HAVE_QAPPLICATION_HASPENDINGEVENTS to 1 in config.h if 
+# QApplication::hasPendingEvents() is available (that
+# function wasn't introduced in Qt until version 3.0).
+#
+# Author: Peder Blekken <pederb@sim.no>.
+
+AC_DEFUN([SIM_AC_QAPPLICATION_HASPENDINGEVENTS], [
+AC_CACHE_CHECK(
+  [whether QApplication::hasPendingEvents() is available],
+  sim_cv_def_qapplication_haspendingevents,
+  [AC_TRY_LINK([#include <qapplication.h>],
+               [int argc; char ** argv; QApplication app(argc, argv); (void) app.hasPendingEvents();],
+               [sim_cv_def_qapplication_haspendingevents=true],
+               [sim_cv_def_qapplication_haspendingevents=false])])
+
+if $sim_cv_def_qapplication_haspendingevents; then
+  AC_DEFINE([HAVE_QAPPLICATION_HASPENDINGEVENTS], 1,
+            [Define this if QApplication::hasPendingEvents() is available])
+fi
+]) # SIM_AC_QAPPLICATION_HASPENDINGEVENTS
 
 
 # SIM_AC_QT_KEYPAD_DEFINE

@@ -42,6 +42,9 @@
 /* define if pthread's struct timespec uses nsecs and not usecs */
 #undef HAVE_PTHREAD_TIMESPEC_NSEC
 
+/* Define this if QApplication::hasPendingEvents() is available */
+#undef HAVE_QAPPLICATION_HASPENDINGEVENTS
+
 /* Define this to 1 if operator==(QGLFormat&, QGLFormat&) is available */
 #undef HAVE_QGLFORMAT_EQ_OP
 
