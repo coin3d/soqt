@@ -110,7 +110,6 @@ moc_SoQtFlyViewer.cpp: $(top_srcdir)/src/Inventor/Qt/viewers/SoQtFlyViewer.h
 
 libSoQtViewers_la_SOURCES = \
 	$(BUILT_SOURCES) \
-	SoQtViewerExtra.cpp \
 	SoQtFullViewer.cpp \
 	SoQtFullViewer.h \
 	SoQtExaminerViewer.cpp \

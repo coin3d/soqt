@@ -37,7 +37,6 @@ libSoQt_la_SOURCES = \
 	SoQtLightSliderSet.h \
 	SoQtMaterialSliderSet.cpp \
 	SoQtMaterialSliderSet.h \
-	SoQtRenderAreaExtra.cpp \
 	SoQtSliderSet.cpp \
 	SoQtSliderSet.h \
 	SoQtSliderSetBase.cpp \
