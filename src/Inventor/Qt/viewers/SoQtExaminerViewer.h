@@ -25,7 +25,6 @@
 #include <Inventor/SbLinear.h>
 
 #include <Inventor/Qt/viewers/SoQtFullViewer.h>
-#include <Inventor/Qt/viewers/SoAnyExaminerViewer.h>
 
 class SoSeparator;
 class SoSwitch;
@@ -39,6 +38,7 @@ class QPixmap;
 class QTimer;
 
 class SoQtThumbWheel;
+class SoQtExaminerViewer;
 
 // *************************************************************************
 
