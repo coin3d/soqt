@@ -59,6 +59,7 @@
 #include <qcolordialog.h>
 #include <qcolor.h>
 #include <qlabel.h>
+#include <qslider.h>
 
 
   //static stash
@@ -257,24 +258,29 @@ SoQtSuperViewerP::actualInit(SbBool buildNow)
     this->filemenuItems[0].text = "Open model";
     this->filemenuItems[1].text = "Close model";
     this->filemenuItems[2].text = "Close all models";
-    this->filemenuItems[3].text = "Next model";
-    this->filemenuItems[4].text = "Previous model";
-    this->filemenuItems[5].text = "Refresh model";
-    this->filemenuItems[6].text = "Snapshot";
-    this->filemenuItems[7].text = "Exit";
+    this->filemenuItems[3].text = "Models";
+    this->filemenuItems[4].text = "Separator";
+    this->filemenuItems[5].text = "Next model";
+    this->filemenuItems[6].text = "Previous model";
+    this->filemenuItems[7].text = "Refresh model";
+    this->filemenuItems[8].text = "Snapshot";
+    this->filemenuItems[9].text = "Separator";
+    this->filemenuItems[10].text = "Exit";
     
     this->viewmenuItems[0].text = "Information";
     this->viewmenuItems[1].text = "Flatshading";
-    this->viewmenuItems[2].text = "Filled";
-    this->viewmenuItems[3].text = "Boundingboxes";
-    this->viewmenuItems[4].text = "Wireframe";
-    this->viewmenuItems[5].text = "Vertices";
-    this->viewmenuItems[6].text = "Hidden parts";
-    this->viewmenuItems[7].text = "Textures";
-    this->viewmenuItems[8].text = "One boundingbox while moving";
-    this->viewmenuItems[9].text = "Boundingboxes while moving";
-    this->viewmenuItems[10].text = "Full model while moving";
-    this->viewmenuItems[11].text = "No textures while moving";
+    this->viewmenuItems[2].text = "Separator";
+    this->viewmenuItems[3].text = "Filled";
+    this->viewmenuItems[4].text = "Boundingboxes";
+    this->viewmenuItems[5].text = "Wireframe";
+    this->viewmenuItems[6].text = "Vertices";
+    this->viewmenuItems[7].text = "Hidden parts";
+    this->viewmenuItems[8].text = "Textures";
+    this->viewmenuItems[9].text = "Separator";
+    this->viewmenuItems[10].text = "One boundingbox while moving";
+    this->viewmenuItems[11].text = "Boundingboxes while moving";
+    this->viewmenuItems[12].text = "Full model while moving";
+    this->viewmenuItems[13].text = "No textures while moving";
     
     this->settingsmenuItems[0].text = "Information settings";
     this->settingsmenuItems[1].text = "Line width";
@@ -291,7 +297,8 @@ SoQtSuperViewerP::actualInit(SbBool buildNow)
     this->cameramenuItems[2].text = "Seek";
     this->cameramenuItems[3].text = "View modes";
     this->cameramenuItems[4].text = "Fly modes";
-    this->cameramenuItems[5].text = "Front camera";
+    this->cameramenuItems[5].text = "Separator";
+    this->cameramenuItems[6].text = "Front camera";
 
     int i = 0;
     //setup menubar and toolbars (2 elements)
@@ -317,23 +324,19 @@ SoQtSuperViewerP::actualInit(SbBool buildNow)
     i = 0;
     //setup filemenu (8 elements)
     for(;i < 8; i++){
-      if(i < 3) this->filemenuItems[i].index = i;
-      else if(i < 7) this->filemenuItems[i].index = i + 1;
-      else this->filemenuItems[i].index = i + 2;
-      this->filemenuItems[i].build = TRUE;
-      this->filemenuItems[i].enabled = i < 1 || i > 6 ? TRUE : FALSE;
+      this->filemenuItems[i].index = i < 4 ? i : i - 1;
+      this->filemenuItems[i].build = i == 3 ? FALSE : TRUE;
+      this->filemenuItems[i].enabled = i == 0 || i > 9 ? TRUE : FALSE;
       this->filemenuItems[i].checked = FALSE;
     }
     
     i = 0;
     //setup viewmenu (12 elements)
     for(;i < 12; i++){
-      if(i < 2) this->viewmenuItems[i].index = i;
-      else if(i < 8) this->viewmenuItems[i].index = i + 1;
-      else this->viewmenuItems[i].index = i + 2;
+      this->viewmenuItems[i].index = i;
       this->viewmenuItems[i].build = TRUE;
-      this->viewmenuItems[i].enabled = (i == 6) ? FALSE : TRUE;
-      this->viewmenuItems[i].checked = (i == 2 || i == 10) ? FALSE : TRUE;
+      this->viewmenuItems[i].enabled = (i == 7) ? FALSE : TRUE;
+      this->viewmenuItems[i].checked = (i == 3 || i == 12) ? FALSE : TRUE;
     }
 
     i = 0;
@@ -439,33 +442,25 @@ SoQtSuperViewerP::buildFileMenu()
                                    filemenuItems[2].checked);
     idx++;
   }
-
-  if(this->sepfm){ this->filemenu->insertSeparator(); idx++;  }
-
   if(this->filemenuItems[3].build){
     this->filemenuItems[3].index = idx;
-    this->filemenu->insertItem(filemenuItems[3].text.getString(), this,
-                               SLOT(nextModelSelected()), CTRL+Key_N);
+    if(this->modelsubmenu == NULL)
+      this->modelsubmenu = new QPopupMenu(this->filemenu);
+    this->filemenu->insertItem(filemenuItems[3].text.getString(), 
+                                this->modelsubmenu, 0, filemenuItems[3].index);
     this->filemenu->setItemEnabled(this->filemenu->idAt(filemenuItems[3].index),
                                    filemenuItems[3].enabled);
-    this->filemenu->setItemChecked(this->filemenu->idAt(filemenuItems[3].index),
-                                   filemenuItems[3].checked);
     idx++;
   }
-  if(this->filemenuItems[4].build){
-    this->filemenuItems[4].index = idx;
-    this->filemenu->insertItem(filemenuItems[4].text.getString(), this,
-                               SLOT(previousModelSelected()), CTRL+Key_P);
-    this->filemenu->setItemEnabled(this->filemenu->idAt(filemenuItems[4].index),
-                                   filemenuItems[4].enabled);
-    this->filemenu->setItemChecked(this->filemenu->idAt(filemenuItems[4].index),
-                                   filemenuItems[4].checked);
-    idx++;
+
+  if(this->filemenuItems[4].build){ 
+    this->filemenu->insertSeparator(); idx++;  
   }
+
   if(this->filemenuItems[5].build){
     this->filemenuItems[5].index = idx;
     this->filemenu->insertItem(filemenuItems[5].text.getString(), this,
-                               SLOT(refreshModelSelected()), CTRL+Key_R);
+                               SLOT(nextModelSelected()), CTRL+Key_N);
     this->filemenu->setItemEnabled(this->filemenu->idAt(filemenuItems[5].index),
                                    filemenuItems[5].enabled);
     this->filemenu->setItemChecked(this->filemenu->idAt(filemenuItems[5].index),
@@ -475,48 +470,345 @@ SoQtSuperViewerP::buildFileMenu()
   if(this->filemenuItems[6].build){
     this->filemenuItems[6].index = idx;
     this->filemenu->insertItem(filemenuItems[6].text.getString(), this,
-                               SLOT(snapshotSelected()), CTRL+Key_S);
+                               SLOT(previousModelSelected()), CTRL+Key_P);
     this->filemenu->setItemEnabled(this->filemenu->idAt(filemenuItems[6].index),
                                    filemenuItems[6].enabled);
     this->filemenu->setItemChecked(this->filemenu->idAt(filemenuItems[6].index),
                                    filemenuItems[6].checked);
     idx++;
   }
-
-  //exit with separator left to do here
-
-  /*
-  PRIVATE(this)->filemenu->insertSeparator();
-  PRIVATE(this)->filemenu->insertItem( "Next model",
-                                       PRIVATE(this), SLOT(nextModelSelected()),
-                                       CTRL+Key_N );
-  PRIVATE(this)->filemenu->setItemEnabled(
-                           PRIVATE(this)->filemenu->idAt(4), FALSE);
-  PRIVATE(this)->filemenu->insertItem( "Previous model",
-                                       PRIVATE(this), SLOT(previousModelSelected()),
-                                       CTRL+Key_P );
-  PRIVATE(this)->filemenu->setItemEnabled(
-                           PRIVATE(this)->filemenu->idAt(5), FALSE);
-  PRIVATE(this)->filemenu->insertItem( "Refresh model",
-                                       PRIVATE(this), SLOT(refreshSelected()),
-                                       CTRL+Key_R );
-  PRIVATE(this)->filemenu->setItemEnabled(
-                           PRIVATE(this)->filemenu->idAt(6), FALSE);
-  PRIVATE(this)->filemenu->insertItem( "Snapshot",
-                                       PRIVATE(this), SLOT(snapshotSelected()),
-                                       CTRL+Key_S );
-  PRIVATE(this)->filemenu->setItemEnabled(
-                           PRIVATE(this)->filemenu->idAt(7), FALSE);
-  PRIVATE(this)->filemenu->insertSeparator();
-  PRIVATE(this)->filemenu->insertItem( "Exit",
-                                       PRIVATE(this), SLOT(quitSelected()),
-                                       Key_Q );
-  PRIVATE(this)->menubar->insertItem( "File", PRIVATE(this)->filemenu);
-*/
+  if(this->filemenuItems[7].build){
+    this->filemenuItems[7].index = idx;
+    this->filemenu->insertItem(filemenuItems[7].text.getString(), this,
+                               SLOT(refreshModelSelected()), CTRL+Key_R);
+    this->filemenu->setItemEnabled(this->filemenu->idAt(filemenuItems[7].index),
+                                   filemenuItems[7].enabled);
+    this->filemenu->setItemChecked(this->filemenu->idAt(filemenuItems[7].index),
+                                   filemenuItems[7].checked);
     idx++;
-    
+  }
+  if(this->filemenuItems[8].build){
+    this->filemenuItems[8].index = idx;
+    this->filemenu->insertItem(filemenuItems[8].text.getString(), this,
+                               SLOT(snapshotSelected()), CTRL+Key_S);
+    this->filemenu->setItemEnabled(this->filemenu->idAt(filemenuItems[8].index),
+                                   filemenuItems[8].enabled);
+    this->filemenu->setItemChecked(this->filemenu->idAt(filemenuItems[8].index),
+                                   filemenuItems[8].checked);
+    idx++;
+  }
+
+  if(this->filemenuItems[9].build){ 
+    this->filemenu->insertSeparator(); idx++;  
+  }
+
+  if(this->filemenuItems[10].build){
+    this->filemenuItems[10].index = idx;
+    this->filemenu->insertItem(filemenuItems[10].text.getString(), this,
+                               SLOT(quitSelected()), CTRL+Key_Q);
+    this->filemenu->setItemEnabled(this->filemenu->idAt(filemenuItems[10].index),
+                                   filemenuItems[10].enabled);
+    this->filemenu->setItemChecked(this->filemenu->idAt(filemenuItems[10].index),
+                                   filemenuItems[10].checked);
+  }
+
+  this->menubar->insertItem(menus[0].text.getString(), this->filemenu);
+  this->menubar->setItemEnabled(this->menubar->idAt(menus[0].index),
+                                   menus[0].enabled);
   
 } // buildFileMenu()
+
+void
+SoQtSuperViewerP::buildViewMenu()
+{
+  if(this->viewmenu == NULL)
+    this->viewmenu = new QPopupMenu(this->menubar);
+
+  int idx = 0;
+  if(this->viewmenuItems[0].build){
+    this->viewmenuItems[0].index = idx;
+    this->viewmenu->insertItem(viewmenuItems[0].text.getString(), this,
+                               SLOT(informationSelected()));
+    this->viewmenu->setItemEnabled(this->viewmenu->idAt(viewmenuItems[0].index),
+                                   viewmenuItems[0].enabled);
+    this->viewmenu->setItemChecked(this->viewmenu->idAt(viewmenuItems[0].index),
+                                   viewmenuItems[0].checked);
+    idx++;
+  }
+  if(this->viewmenuItems[1].build){
+    this->viewmenuItems[1].index = idx;
+    this->viewmenu->insertItem(viewmenuItems[1].text.getString(), this,
+                               SLOT(flatshadingSelected()));
+    this->viewmenu->setItemEnabled(this->viewmenu->idAt(viewmenuItems[1].index),
+                                   viewmenuItems[1].enabled);
+    this->viewmenu->setItemChecked(this->viewmenu->idAt(viewmenuItems[1].index),
+                                   viewmenuItems[1].checked);
+    idx++;
+  }
+  if(this->viewmenuItems[2].build){ 
+    this->viewmenu->insertSeparator(); idx++;  
+  }
+  if(this->viewmenuItems[3].build){
+    this->viewmenuItems[3].index = idx;
+    this->viewmenu->insertItem(viewmenuItems[3].text.getString(), this,
+                               SLOT(filledSelected()));
+    this->viewmenu->setItemEnabled(this->viewmenu->idAt(viewmenuItems[3].index),
+                                   viewmenuItems[3].enabled);
+    this->viewmenu->setItemChecked(this->viewmenu->idAt(viewmenuItems[3].index),
+                                   viewmenuItems[3].checked);
+    idx++;
+  }
+  if(this->viewmenuItems[4].build){
+    this->viewmenuItems[4].index = idx;
+    this->viewmenu->insertItem(viewmenuItems[4].text.getString(), this,
+                               SLOT(boundingboxesSelected()));
+    this->viewmenu->setItemEnabled(this->viewmenu->idAt(viewmenuItems[4].index),
+                                   viewmenuItems[4].enabled);
+    this->viewmenu->setItemChecked(this->viewmenu->idAt(viewmenuItems[4].index),
+                                   viewmenuItems[4].checked);
+    idx++;
+  }
+  if(this->viewmenuItems[5].build){
+    this->viewmenuItems[5].index = idx;
+    this->viewmenu->insertItem(viewmenuItems[5].text.getString(), this,
+                               SLOT(wireframeSelected()));
+    this->viewmenu->setItemEnabled(this->viewmenu->idAt(viewmenuItems[5].index),
+                                   viewmenuItems[5].enabled);
+    this->viewmenu->setItemChecked(this->viewmenu->idAt(viewmenuItems[5].index),
+                                   viewmenuItems[5].checked);
+    idx++;
+  }  
+  if(this->viewmenuItems[6].build){
+    this->viewmenuItems[6].index = idx;
+    this->viewmenu->insertItem(viewmenuItems[6].text.getString(), this,
+                               SLOT(verticesSelected()));
+    this->viewmenu->setItemEnabled(this->viewmenu->idAt(viewmenuItems[6].index),
+                                   viewmenuItems[6].enabled);
+    this->viewmenu->setItemChecked(this->viewmenu->idAt(viewmenuItems[6].index),
+                                   viewmenuItems[6].checked);
+    idx++;
+  }
+  if(this->viewmenuItems[7].build){
+    this->viewmenuItems[7].index = idx;
+    this->viewmenu->insertItem(viewmenuItems[7].text.getString(), this,
+                               SLOT(hiddenpartsSelected()));
+    this->viewmenu->setItemEnabled(this->viewmenu->idAt(viewmenuItems[7].index),
+                                   viewmenuItems[7].enabled);
+    this->viewmenu->setItemChecked(this->viewmenu->idAt(viewmenuItems[7].index),
+                                   viewmenuItems[7].checked);
+    idx++;
+  }
+  if(this->viewmenuItems[8].build){
+    this->viewmenuItems[8].index = idx;
+    this->viewmenu->insertItem(viewmenuItems[8].text.getString(), this,
+                               SLOT(texturesSelected()));
+    this->viewmenu->setItemEnabled(this->viewmenu->idAt(viewmenuItems[8].index),
+                                   viewmenuItems[8].enabled);
+    this->viewmenu->setItemChecked(this->viewmenu->idAt(viewmenuItems[8].index),
+                                   viewmenuItems[8].checked);
+    idx++;
+  }
+  if(this->viewmenuItems[9].build){ 
+    this->viewmenu->insertSeparator(); idx++;  
+  }
+
+  if(this->viewmenuItems[10].build){
+    this->viewmenuItems[10].index = idx;
+    this->viewmenu->insertItem("One boundingbox while moving", this,
+                               SLOT(oneBBoxMovingSelected()));
+    this->viewmenu->insertItem("Boundingboxes while moving", this,
+                               SLOT(bBoxesMovingSelected()));
+    this->viewmenu->insertItem("Full model while moving", this,
+                               SLOT(fullMovingSelected()));
+    this->viewmenu->insertItem("No textures while moving", this,
+                               SLOT(noTexturesMovingSelected()));
+    this->viewmenu->setItemEnabled(this->viewmenu->idAt(viewmenuItems[10].index),
+                                   viewmenuItems[10].enabled);
+    this->viewmenu->setItemEnabled(this->viewmenu->idAt(viewmenuItems[10].index + 1),
+                                   viewmenuItems[10].enabled);
+    this->viewmenu->setItemEnabled(this->viewmenu->idAt(viewmenuItems[10].index + 2),
+                                   viewmenuItems[10].enabled);
+    this->viewmenu->setItemEnabled(this->viewmenu->idAt(viewmenuItems[10].index + 3),
+                                   viewmenuItems[10].enabled);
+    this->viewmenu->setItemChecked(this->viewmenu->idAt(viewmenuItems[10].index + 2),
+                                   TRUE);
+    this->movingitemchk = this->viewmenu->idAt(viewmenuItems[10].index  + 2);
+  }
+
+  this->menubar->insertItem(menus[1].text.getString(), this->viewmenu);
+  this->menubar->setItemEnabled(this->menubar->idAt(menus[1].index),
+                                   menus[1].enabled);
+
+} // buildViewMenu()
+
+void
+SoQtSuperViewerP::buildSettingsMenu()
+{
+  if(this->settingsmenu == NULL)
+    this->settingsmenu = new QPopupMenu(this->menubar);
+
+  int idx = 0;
+  if(this->settingsmenuItems[0].build){
+    this->settingsmenuItems[0].index = idx;
+    if(this->informationsubmenu == NULL)
+      this->informationsubmenu = new QPopupMenu(this->settingsmenu);
+    this->settingsmenu->insertItem(settingsmenuItems[0].text.getString(), 
+                                   this->informationsubmenu);
+    this->settingsmenu->setItemEnabled(this->settingsmenu->idAt(settingsmenuItems[0].index),
+                                   settingsmenuItems[0].enabled);
+    this->informationsubmenu->insertItem("Enable distance",
+                                         this, SLOT(distanceSelected()));
+    idx++;
+  }
+  if(this->settingsmenuItems[1].build){
+    this->settingsmenuItems[1].index = idx;
+    if(this->linewidthsubmenu == NULL)
+      this->linewidthsubmenu = new QPopupMenu(this->settingsmenu);
+    this->settingsmenu->insertItem(settingsmenuItems[1].text.getString(), 
+                                   this->linewidthsubmenu);
+    this->settingsmenu->setItemEnabled(this->settingsmenu->idAt(settingsmenuItems[1].index),
+                                   settingsmenuItems[1].enabled);
+    
+    SbVec2f range;
+    float gr;
+    owner->getLineWidthLimits(range, gr);
+    range[0]+= 0.5;
+    QLabel * label = new QLabel(this->linewidthsubmenu);
+    label->setNum((int)range[0]);
+    label->setAlignment(AlignRight | AlignVCenter);
+    QSlider * slider = new QSlider(range[0], range[1], range[1], range[0], 
+                                   QSlider::Vertical, 
+                                   this->linewidthsubmenu);
+    QObject::connect(slider, SIGNAL(valueChanged(int)),
+                     label, SLOT(setNum(int)));
+    QObject::connect(slider, SIGNAL(sliderMoved(int)),
+                     this, SLOT(linewidthSelected(int)));
+    this->linewidthsubmenu->insertItem(label);
+    this->linewidthsubmenu->insertItem(slider);
+    idx++;
+  }
+  if(this->settingsmenuItems[2].build){
+    this->settingsmenuItems[2].index = idx;
+    if(this->pointsizesubmenu == NULL)
+      this->pointsizesubmenu = new QPopupMenu(this->settingsmenu);
+    this->settingsmenu->insertItem(settingsmenuItems[2].text.getString(), 
+                                   this->pointsizesubmenu);
+    this->settingsmenu->setItemEnabled(this->settingsmenu->idAt(settingsmenuItems[2].index),
+                                   settingsmenuItems[2].enabled);
+
+    SbVec2f range;
+    float gr;
+    owner->getPointSizeLimits(range, gr);
+    range[0]+= 0.5;
+    QLabel * label = new QLabel(this->pointsizesubmenu);
+    // the start value is set to 2, since the smallest value tends be too small
+    label->setNum(2);
+    label->setAlignment(AlignRight | AlignVCenter);
+    QSlider * slider = new QSlider(range[0], range[1], range[1], 2, 
+                                   QSlider::Vertical, 
+                                   this->pointsizesubmenu);
+    QObject::connect(slider, SIGNAL(valueChanged(int)),
+                     label, SLOT(setNum(int)));
+    QObject::connect(slider, SIGNAL(sliderMoved(int)),
+                     this, SLOT(pointsizeSelected(int)));
+    this->pointsizesubmenu->insertItem(label);
+    this->pointsizesubmenu->insertItem(slider);
+
+    idx++;
+  }
+  if(this->settingsmenuItems[3].build){
+    this->settingsmenuItems[3].index = idx;
+    this->settingsmenu->insertItem(settingsmenuItems[3].text.getString(), this,
+                                   SLOT(linecolorSelected()));
+    this->settingsmenu->setItemEnabled(this->settingsmenu->idAt(settingsmenuItems[3].index),
+                                   settingsmenuItems[3].enabled);
+    this->settingsmenu->setItemChecked(this->settingsmenu->idAt(settingsmenuItems[3].index),
+                                   settingsmenuItems[3].checked);
+    idx++;
+  }
+  if(this->settingsmenuItems[4].build){
+    this->settingsmenuItems[4].index = idx;
+    this->settingsmenu->insertItem(settingsmenuItems[4].text.getString(), this,
+                                   SLOT(pointcolorSelected()));
+    this->settingsmenu->setItemEnabled(this->settingsmenu->idAt(settingsmenuItems[4].index),
+                                   settingsmenuItems[4].enabled);
+    this->settingsmenu->setItemChecked(this->settingsmenu->idAt(settingsmenuItems[4].index),
+                                   settingsmenuItems[4].checked);
+    idx++;
+  }
+  if(this->settingsmenuItems[5].build){
+    this->settingsmenuItems[5].index = idx;
+    this->settingsmenu->insertItem(settingsmenuItems[5].text.getString(), this,
+                                   SLOT(backgroundcolorSelected()));
+    this->settingsmenu->setItemEnabled(this->settingsmenu->idAt(settingsmenuItems[5].index),
+                                   settingsmenuItems[5].enabled);
+    this->settingsmenu->setItemChecked(this->settingsmenu->idAt(settingsmenuItems[5].index),
+                                   settingsmenuItems[5].checked);
+    idx++;
+  }
+  if(this->settingsmenuItems[6].build){
+    this->settingsmenuItems[6].index = idx;
+    if(this->renderqualitysubmenu == NULL)
+      this->renderqualitysubmenu = new QPopupMenu(this->settingsmenu);
+    this->settingsmenu->insertItem(settingsmenuItems[6].text.getString(),
+                                          this->renderqualitysubmenu);
+    this->renderqualitysubmenu->insertItem("Object space", this, 
+                                           SLOT(objectspaceSelected()));
+    this->renderqualitysubmenu->setItemChecked(
+          this->renderqualitysubmenu->idAt(0), TRUE);
+    this->renderqualitysubmenu->insertItem("Screen space", this,
+                                           SLOT(screenspaceSelected()));
+    if(this->rendervaluesubmenu == NULL)
+      this->rendervaluesubmenu = new QPopupMenu(this->renderqualitysubmenu);
+    this->renderqualitysubmenu->insertItem("Value",
+                                           this->rendervaluesubmenu);
+
+    if(this->rendervaluelabel == NULL)
+      this->rendervaluelabel = new QLabel(this->rendervaluesubmenu);
+    this->rendervaluelabel->setNum((double)1.0);
+    this->rendervaluelabel->setAlignment(AlignRight | AlignVCenter);
+    QSlider * slider = new QSlider(0, 10, 10, 10, 
+                                   QSlider::Vertical, 
+                                   this->rendervaluesubmenu);
+    QObject::connect(slider, SIGNAL(valueChanged(int)),
+                     this, SLOT(setNumD10render(int)));
+    QObject::connect(slider, SIGNAL(sliderMoved(int)),
+                     this, SLOT(renderqualitySelected(int)));
+    this->rendervaluesubmenu->insertItem(this->rendervaluelabel);
+    this->rendervaluesubmenu->insertItem(slider);
+    idx++;
+  }
+  if(this->settingsmenuItems[7].build){
+    this->settingsmenuItems[7].index = idx;
+    if(this->texturequalitysubmenu == NULL)
+      this->texturequalitysubmenu = new QPopupMenu(this->settingsmenu);
+    this->settingsmenu->insertItem(settingsmenuItems[7].text.getString(),
+                                            this->texturequalitysubmenu);
+
+    this->texturequalitylabel = new QLabel(this->texturequalitysubmenu);
+    this->texturequalitylabel->setNum((double)1.0);
+    this->texturequalitylabel->setAlignment(AlignRight | AlignVCenter);
+    QSlider * slider = new QSlider(0, 10, 10, 10, 
+                                   QSlider::Vertical, 
+                                   this->texturequalitysubmenu);
+    QObject::connect(slider, SIGNAL(valueChanged(int)),
+                     this, SLOT(setNumD10texture(int)));
+    QObject::connect(slider, SIGNAL(sliderMoved(int)),
+                     this, SLOT(texturequalitySelected(int)));
+    this->texturequalitysubmenu->insertItem(this->texturequalitylabel);
+    this->texturequalitysubmenu->insertItem(slider);
+  }
+
+  /*
+
+  PRIVATE(this)->texturequalitysubmenu = new QPopupMenu(PRIVATE(this)->settingsmenu);
+  PRIVATE(this)->transparencysubmenu = new QPopupMenu(PRIVATE(this)->settingsmenu);
+
+
+  void transparencytypeSelected( int );
+  void texturequalitySelected( int );
+  */
+}
 
 
 void

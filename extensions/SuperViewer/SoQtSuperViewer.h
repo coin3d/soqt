@@ -46,18 +46,21 @@ class SoQtSuperViewer : public SoQtViewer {
   };
 
   enum BuildFileMenu {
-    OPEN_MODEL       = 0x01,
-    CLOSE_MODEL      = 0x02,
-    CLOSE_ALL        = 0x04,
-    NEXT_MODEL       = 0x08,
-    PREVIOUS_MODEL   = 0x10,
-    REFRESH_MODEL    = 0x20,
-    SNAPSHOT         = 0x40,
-    EXIT             = 0x80,
-    SEPARATORS_FILE  = 0x100,
-    BUILD_FILE_MENU  = (OPEN_MODEL | CLOSE_MODEL | CLOSE_ALL |
-                        NEXT_MODEL | PREVIOUS_MODEL | REFRESH_MODEL |
-                        SNAPSHOT | EXIT | SEPARATORS_FILE)
+    OPEN_MODEL        = 0x01,
+    CLOSE_MODEL       = 0x02,
+    CLOSE_ALL         = 0x04,
+    MODELS            = 0x08,
+    NEXT_MODEL        = 0x10,
+    PREVIOUS_MODEL    = 0x20,
+    REFRESH_MODEL     = 0x40,
+    SNAPSHOT          = 0x80,
+    EXIT              = 0x100,
+    SEPARATOR_FILE_1 = 0x200,
+    SEPARATOR_FILE_2 = 0x400,
+    BUILD_FILE_MENU   = (OPEN_MODEL | CLOSE_MODEL | CLOSE_ALL | MODELS |
+                         NEXT_MODEL | PREVIOUS_MODEL | REFRESH_MODEL |
+                         SNAPSHOT | EXIT | SEPARATOR_FILE_1 | 
+                         SEPARATOR_FILE_2)
   };
 
   enum BuildViewMenu {
@@ -70,11 +73,12 @@ class SoQtSuperViewer : public SoQtViewer {
     HIDDEN_PARTS     = 0x40,
     TEXTURES         = 0x80,
     WHILE_MOVING     = 0x100,
-    SEPARATORS_VIEW  = 0x200,
+    SEPARATOR_VIEW_1  = 0x200,
+    SEPARATOR_VIEW_2  = 0x400,
     BUILD_VIEW_MENU  = (INFORMATION | FLATSHADING | FILLED |
                         BOUNDINGBOXES | WIREFRAME | VERTICES |
                         HIDDEN_PARTS | TEXTURES | WHILE_MOVING |
-                        SEPARATORS_VIEW)
+                        SEPARATOR_VIEW_1 | SEPARATOR_VIEW_2)
   };
 
   enum BuildSettingsMenu {
@@ -95,16 +99,16 @@ class SoQtSuperViewer : public SoQtViewer {
   };
 
   enum BuildCameraMenu {
-    VIEW_ALL          = 0x01,
-    RESET_VIEW        = 0x02,
-    SEEK              = 0x04,
-    VIEW_MODES        = 0x08,
-    FLY_MODES         = 0x10,
-    CAMERAS           = 0x20,
-    SEPARATORS_CAMERA = 0x40,
-    BUILD_CAMERA_MENU = (VIEW_ALL | RESET_VIEW | SEEK |
-                         VIEW_MODES | FLY_MODES | CAMERAS |
-                         SEPARATORS_CAMERA)
+    VIEW_ALL           = 0x01,
+    RESET_VIEW         = 0x02,
+    SEEK               = 0x04,
+    VIEW_MODES         = 0x08,
+    FLY_MODES          = 0x10,
+    CAMERAS            = 0x20,
+    SEPARATOR_CAMERA_1 = 0x40,
+    BUILD_CAMERA_MENU  = (VIEW_ALL | RESET_VIEW | SEEK |
+                          VIEW_MODES | FLY_MODES | CAMERAS |
+                          SEPARATOR_CAMERA_1)
   };
 
  public:

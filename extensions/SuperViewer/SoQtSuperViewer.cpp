@@ -343,14 +343,20 @@ SoQtSuperViewer::setFileMenuItems(int buildFlag)
   PRIVATE(this)->filemenuItems[2].build = 
     buildFlag & SoQtSuperViewer::CLOSE_ALL ? TRUE : FALSE;
   PRIVATE(this)->filemenuItems[3].build = 
-    buildFlag & SoQtSuperViewer::NEXT_MODEL ? TRUE : FALSE;
+   buildFlag & SoQtSuperViewer::MODELS ? TRUE : FALSE;
   PRIVATE(this)->filemenuItems[4].build = 
-    buildFlag & SoQtSuperViewer::PREVIOUS_MODEL ? TRUE : FALSE;
+    buildFlag & SoQtSuperViewer::SEPARATOR_FILE_1 ? TRUE : FALSE;
   PRIVATE(this)->filemenuItems[5].build = 
-    buildFlag & SoQtSuperViewer::REFRESH_MODEL ? TRUE : FALSE;
+    buildFlag & SoQtSuperViewer::NEXT_MODEL ? TRUE : FALSE;
   PRIVATE(this)->filemenuItems[6].build = 
-    buildFlag & SoQtSuperViewer::SNAPSHOT ? TRUE : FALSE;
+    buildFlag & SoQtSuperViewer::PREVIOUS_MODEL ? TRUE : FALSE;
   PRIVATE(this)->filemenuItems[7].build = 
+    buildFlag & SoQtSuperViewer::REFRESH_MODEL ? TRUE : FALSE;
+  PRIVATE(this)->filemenuItems[8].build = 
+    buildFlag & SoQtSuperViewer::SNAPSHOT ? TRUE : FALSE;
+  PRIVATE(this)->filemenuItems[9].build = 
+    buildFlag & SoQtSuperViewer::SEPARATOR_FILE_2 ? TRUE : FALSE;
+  PRIVATE(this)->filemenuItems[10].build = 
     buildFlag & SoQtSuperViewer::EXIT ? TRUE : FALSE;
 
   if(PRIVATE(this)->built) PRIVATE(this)->buildFileMenu();
@@ -372,18 +378,22 @@ SoQtSuperViewer::setViewMenuItems(int buildFlag)
   PRIVATE(this)->viewmenuItems[1].build = 
     buildFlag & SoQtSuperViewer::FLATSHADING ? TRUE : FALSE;
   PRIVATE(this)->viewmenuItems[2].build = 
-    buildFlag & SoQtSuperViewer::FILLED ? TRUE : FALSE;
+    buildFlag & SoQtSuperViewer::SEPARATOR_VIEW_1 ? TRUE : FALSE;
   PRIVATE(this)->viewmenuItems[3].build = 
+    buildFlag & SoQtSuperViewer::FILLED ? TRUE : FALSE;
+  PRIVATE(this)->viewmenuItems[4].build = 
     buildFlag & SoQtSuperViewer::BOUNDINGBOXES ? TRUE : FALSE;
-  PRIVATE(this)->viewmenuItems[4].build =
+  PRIVATE(this)->viewmenuItems[5].build =
     buildFlag & SoQtSuperViewer::WIREFRAME ? TRUE : FALSE;
-  PRIVATE(this)->viewmenuItems[5].build = 
-    buildFlag & SoQtSuperViewer::VERTICES ? TRUE : FALSE;
   PRIVATE(this)->viewmenuItems[6].build = 
-    buildFlag & SoQtSuperViewer::HIDDEN_PARTS ? TRUE : FALSE;
+    buildFlag & SoQtSuperViewer::VERTICES ? TRUE : FALSE;
   PRIVATE(this)->viewmenuItems[7].build = 
-    buildFlag & SoQtSuperViewer::TEXTURES ? TRUE : FALSE;
+    buildFlag & SoQtSuperViewer::HIDDEN_PARTS ? TRUE : FALSE;
   PRIVATE(this)->viewmenuItems[8].build = 
+    buildFlag & SoQtSuperViewer::TEXTURES ? TRUE : FALSE;
+  PRIVATE(this)->viewmenuItems[9].build = 
+    buildFlag & SoQtSuperViewer::SEPARATOR_VIEW_2 ? TRUE : FALSE;
+  PRIVATE(this)->viewmenuItems[10].build = 
     buildFlag & SoQtSuperViewer::WHILE_MOVING ? TRUE : FALSE;
 
   if(PRIVATE(this)->built) /*PRIVATE(this)->buildViewMenu()*/;
@@ -444,6 +454,8 @@ SoQtSuperViewer::setCameraMenuItems(int buildFlag)
   PRIVATE(this)->cameramenuItems[4].build = 
     buildFlag & SoQtSuperViewer::FLY_MODES ? TRUE : FALSE;
   PRIVATE(this)->cameramenuItems[5].build = 
+    buildFlag & SoQtSuperViewer::SEPARATOR_CAMERA_1 ? TRUE : FALSE;
+  PRIVATE(this)->cameramenuItems[6].build = 
     buildFlag & SoQtSuperViewer::CAMERAS ? TRUE : FALSE;
 
   if(PRIVATE(this)->built) /*PRIVATE(this)->buildCameraMenu()*/;
