@@ -18,6 +18,7 @@ So@Gui@BuiltSources = \
 	src/Inventor/@Gui@/So@Gui@Cursors.cpp \
 	src/Inventor/@Gui@/So@Gui@Object.h \
 	src/Inventor/@Gui@/So@Gui@Object.cpp \
+	src/Inventor/@Gui@/So@Gui@GLWidget.h \
 	src/Inventor/@Gui@/So@Gui@RenderArea.h \
 	src/Inventor/@Gui@/So@Gui@RenderArea.cpp \
 	src/Inventor/@Gui@/common/gl.h \
@@ -111,6 +112,7 @@ EXTRA_DIST = \
 	src/Inventor/@Gui@/common/SoGuiCursors.cpp.in \
 	src/Inventor/@Gui@/common/SoGuiObject.h.in \
 	src/Inventor/@Gui@/common/SoGuiObject.cpp.in \
+	src/Inventor/@Gui@/common/SoGuiGLWidget.h.in \
 	src/Inventor/@Gui@/common/SoGuiRenderArea.h.in \
 	src/Inventor/@Gui@/common/SoGuiRenderArea.cpp.in \
 	src/Inventor/@Gui@/common/SoGuiViewer.h.in \
@@ -203,6 +205,10 @@ src/Inventor/@Gui@/So@Gui@Cursors.h: \
 src/Inventor/@Gui@/So@Gui@Cursors.cpp: \
   $(srcdir)/src/Inventor/@Gui@/common/SoGuiCursors.cpp.in config.status
 	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/SoGuiCursors.cpp.in
+
+src/Inventor/@Gui@/So@Gui@GLWidget.h: \
+  $(srcdir)/src/Inventor/@Gui@/common/SoGuiGLWidget.h.in config.status
+	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/SoGuiGLWidget.h.in
 
 src/Inventor/@Gui@/So@Gui@RenderArea.h: \
   $(srcdir)/src/Inventor/@Gui@/common/SoGuiRenderArea.h.in config.status
@@ -309,8 +315,12 @@ src/Inventor/Qt/moc_SoQtComponent.cpp: $(srcdir)/src/Inventor/Qt/SoQtComponent.h
 	$(MOC) -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/SoQtComponent.h`
 
 src/Inventor/Qt/moc_SoQtGLWidget.cpp: \
-  $(srcdir)/src/Inventor/Qt/SoQtGLWidget.h
-	$(MOC) -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/SoQtGLWidget.h`
+  $(top_builddir)/src/Inventor/Qt/SoQtGLWidget.h
+	$(MOC) -o $@ $(top_builddir)/src/Inventor/Qt/SoQtGLWidget.h
+
+src/Inventor/Qt/moc_SoQtRenderArea.cpp: \
+  $(top_builddir)/src/Inventor/Qt/SoQtRenderArea.h
+	$(MOC) -o $@ $(top_builddir)/src/Inventor/Qt/SoQtRenderArea.h
 
 src/Inventor/Qt/moc_SoQtLightSliderSet.cpp: \
   $(srcdir)/src/Inventor/Qt/SoQtLightSliderSet.h
@@ -319,10 +329,6 @@ src/Inventor/Qt/moc_SoQtLightSliderSet.cpp: \
 src/Inventor/Qt/moc_SoQtMaterialSliderSet.cpp: \
   $(srcdir)/src/Inventor/Qt/SoQtMaterialSliderSet.h
 	$(MOC) -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/SoQtMaterialSliderSet.h`
-
-src/Inventor/Qt/moc_SoQtRenderArea.cpp: \
-  $(top_builddir)/src/Inventor/Qt/SoQtRenderArea.h
-	$(MOC) -o $@ $(top_builddir)/src/Inventor/Qt/SoQtRenderArea.h
 
 src/Inventor/Qt/moc_SoQtSliderSet.cpp: \
   $(srcdir)/src/Inventor/Qt/SoQtSliderSet.h

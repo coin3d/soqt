@@ -20,6 +20,7 @@ BUILT_SOURCES = \
 	SoQtObject.h \
 	SoQtCursors.h \
 	SoQtCursors.cpp \
+	SoQtGLWidget.h \
 	SoQtRenderArea.h \
 	SoQtRenderArea.cpp \
 	moc_SoQt.cpp \
@@ -45,7 +46,6 @@ libSoQt@SUFFIX@_la_SOURCES = \
 	SoQtComponent.cpp \
 	SoQtComponent.h \
 	SoQtGLWidget.cpp \
-	SoQtGLWidget.h \
 	SoQtLightSliderSet.cpp \
 	SoQtLightSliderSet.h \
 	SoQtMaterialSliderSet.cpp \
@@ -77,7 +77,6 @@ soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
 	SoQtComponent.cpp \
 	SoQtComponent.h \
 	SoQtGLWidget.cpp \
-	SoQtGLWidget.h \
 	SoQtLightSliderSet.cpp \
 	SoQtLightSliderSet.h \
 	SoQtMaterialSliderSet.cpp \
@@ -104,7 +103,6 @@ SoQtincdir = $(includedir)/Inventor/Qt
 SoQtinc_HEADERS = \
 	SoQt.h \
 	SoQtComponent.h \
-	SoQtGLWidget.h \
 	SoQtLightSliderSet.h \
 	SoQtMaterialSliderSet.h \
 	SoQtSliderSet.h \
@@ -115,6 +113,7 @@ nodist_SoQtinc_HEADERS = \
 	SoQtBasic.h \
 	SoQtObject.h \
 	SoQtCursors.h \
+	SoQtGLWidget.h \
 	SoQtRenderArea.h
 
 install-SoQtincHEADERS: $(SoQtinc_HEADERS)
@@ -166,6 +165,9 @@ SoQtObject.h: $(top_srcdir)/src/Inventor/Qt/common/SoGuiObject.h.in
 SoQtObject.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoGuiObject.cpp.in
 	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/SoQtObject.cpp )
 
+SoQtGLWidget.h: $(top_srcdir)/src/Inventor/Qt/common/SoGuiGLWidget.h.in
+	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/SoQtGLWidget.h )
+
 SoQtRenderArea.h: $(top_srcdir)/src/Inventor/Qt/common/SoGuiRenderArea.h.in
 	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/SoQtRenderArea.h )
 
@@ -183,7 +185,7 @@ moc_SoQtObject.cpp: $(top_builddir)/src/Inventor/Qt/SoQtObject.h
 moc_SoQtComponent.cpp: $(top_srcdir)/src/Inventor/Qt/SoQtComponent.h
 	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/moc_SoQtComponent.cpp )
 
-moc_SoQtGLWidget.cpp: $(top_srcdir)/src/Inventor/Qt/SoQtGLWidget.h
+moc_SoQtGLWidget.cpp: $(top_builddir)/src/Inventor/Qt/SoQtGLWidget.h
 	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/moc_SoQtGLWidget.cpp )
 
 moc_SoQtLightSliderSet.cpp: $(top_srcdir)/src/Inventor/Qt/SoQtLightSliderSet.h
