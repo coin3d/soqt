@@ -1847,94 +1847,6 @@ fi
 
 
 # Usage:
-#  SIM_CHECK_INVENTOR([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
-#
-#  Try to find the Open Inventor development system. If it is found, these
-#  shell variables are set:
-#
-#    $sim_ac_oiv_cppflags (extra flags the compiler needs for Inventor)
-#    $sim_ac_oiv_ldflags  (extra flags the linker needs for Inventor)
-#    $sim_ac_oiv_libs     (link libraries the linker needs for Inventor)
-#
-#  The CPPFLAGS, LDFLAGS and LIBS flags will also be modified accordingly.
-#  In addition, the variable $sim_ac_oiv_avail is set to "yes" if
-#  the Open Inventor development system is found.
-#
-# Author: Morten Eriksen, <mortene@sim.no>.
-#
-
-AC_DEFUN([SIM_CHECK_INVENTOR], [
-AC_ARG_WITH([inventor],
-  AC_HELP_STRING([--with-inventor], [use another Inventor than Coin [default=no]])
-AC_HELP_STRING([--with-inventor=PATH], [specify where the Inventor implementation resides]),
-  [],
-  [with_inventor=yes])
-
-sim_ac_oiv_avail=no
-
-if test x"$with_inventor" != xno; then
-  if test x"$with_inventor" != xyes; then
-    sim_ac_oiv_cppflags="-I${with_inventor}/include"
-    sim_ac_oiv_ldflags="-L${with_inventor}/lib"
-  else
-    AC_MSG_CHECKING(value of the OIVHOME environment variable)
-    if test x"$OIVHOME" = x; then
-      AC_MSG_RESULT([empty])
-      AC_MSG_WARN([OIVHOME environment variable not set -- this might be an indication of a problem])
-    else
-      AC_MSG_RESULT([$OIVHOME])
-      sim_ac_oiv_cppflags="-I$OIVHOME/include"
-      sim_ac_oiv_ldflags="-L$OIVHOME/lib"
-    fi
-  fi
-
-  if test x"$sim_ac_linking_style" = xmswin; then
-    cat <<EOF > conftest.c
-#include <Inventor/SbBasic.h>
-PeekInventorVersion: TGS_VERSION
-EOF
-    iv_version=`$CXX -E conftest.c 2>/dev/null | grep "^PeekInventorVersion" | sed 's/.* //g'`
-    if test x"$iv_version" = xTGS_VERSION; then
-      AC_MSG_ERROR([SbBasic.h does not define TGS_VERSION.  Maybe it's a Coin file?])
-    fi
-    iv_version=`echo $iv_version | sed 's/.$//'`
-    rm -f conftest.c
-    sim_ac_oiv_libs="inv${iv_version}.lib"
-    sim_ac_oiv_enter="#include <SoWinEnterScope.h>"
-    sim_ac_oiv_leave="#include <SoWinLeaveScope.h>"
-  else
-    sim_ac_oiv_libs="-lInventor"
-  fi
-
-  sim_ac_save_cppflags=$CPPFLAGS
-  sim_ac_save_ldflags=$LDFLAGS
-  sim_ac_save_libs=$LIBS
-
-  CPPFLAGS="$sim_ac_oiv_cppflags $CPPFLAGS"
-  LDFLAGS="$sim_ac_oiv_ldflags $LDFLAGS"
-  LIBS="$sim_ac_oiv_libs $LIBS"
-
-  AC_CACHE_CHECK([for Open Inventor developer kit],
-    sim_cv_lib_oiv_avail,
-    [AC_TRY_LINK([$sim_ac_oiv_enter
-                  #include <Inventor/SoDB.h>],
-                 [SoDB::init();],
-                 [sim_cv_lib_oiv_avail=yes],
-                 [sim_cv_lib_oiv_avail=no])])
-
-  if test x"$sim_cv_lib_oiv_avail" = xyes; then
-    sim_ac_oiv_avail=yes
-    $1
-  else
-    CPPFLAGS=$sim_ac_save_cppflags
-    LDFLAGS=$sim_ac_save_ldflags
-    LIBS=$sim_ac_save_libs
-    $2
-  fi
-fi
-])
-
-# Usage:
 #  SIM_CHECK_OIV_XT([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 #
 #  Try to compile and link against the Xt GUI glue library for
@@ -2086,7 +1998,7 @@ EOF
         LIBS="$sim_ac_iv_libcheck $sim_ac_inventor_image_libs $sim_ac_save_LIBS"
         AC_TRY_LINK([#include <Inventor/SoDB.h>],
                     [SoDB::init();],
-                    [sim_ac_inventor_libs="$sim_ac_iv_libcheck"
+                    [sim_ac_inventor_libs="$sim_ac_iv_libcheck $sim_ac_inventor_image_libs"
                      sim_ac_inventor_cppflags="$sim_ac_iv_cppflags_loop $sim_ac_inventor_cppflags"])
       fi
     done
