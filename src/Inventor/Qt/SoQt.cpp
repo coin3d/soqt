@@ -717,7 +717,7 @@ SoQt::slot_delaytimeoutSensor()
 // typedef and the enums.
 //
 // FIXME: find a way to collect the documentation of the public API
-// for all common So[Win|Qt|Gtk|Xt|Mac] classes.
+// for all common So[Win|Qt|Gtk|Xt|Mac] classes. 20011014 mortene.
 SoQt::FatalErrorCB *
 SoQt::setFatalErrorHandler(SoQt::FatalErrorCB * cb, void * userdata)
 {
