@@ -80,14 +80,15 @@ QtNativePopupMenu::QtNativePopupMenu(
 QtNativePopupMenu::~QtNativePopupMenu()
 {
   const int numMenus = this->menus->getLength();
-  QPopupMenu * popup = NULL;
+
   int i;
   for (i = 0; i < numMenus; i++) {
     MenuRecord * rec = (MenuRecord *) (*this->menus)[i];
-    if (rec->menuid == 0) popup = rec->menu;
     delete [] rec->name;
     delete [] rec->title;
-    if (rec->parent == NULL) delete rec->menu; // menu not attached
+    // If top-level QPopupMenu is not attached to any parent instance,
+    // we dealloc it ourselves.
+    if (rec->parent == NULL) delete rec->menu;
     delete rec;
   }
 
@@ -98,9 +99,6 @@ QtNativePopupMenu::~QtNativePopupMenu()
     delete [] rec->title;
     delete rec;
   }
-
-  // delete root popup menu
-  delete popup;
 } // ~QtNativePopupMenu()
 
 // *************************************************************************
