@@ -28,7 +28,11 @@ else
   P
   D
 }'
+  if test x`echo hello | sed -e "$sedformat" 2>&1` != xhello; then
+    sedformat=";"
+  fi
 fi
+
 
 usage="\
 Usage: $me [OPTIONS]
