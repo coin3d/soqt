@@ -35,13 +35,12 @@ class SoEvent;
 
 // *************************************************************************
 
+typedef void SoQtEventHandler(QWidget *, void *, QEvent *, bool *);
+
 class SOQT_DLL_API SoQtDevice : public SoQtObject {
   SOQT_OBJECT_ABSTRACT_HEADER(SoQtDevice, SoQtObject);
 
 public:
-  typedef void SoQtEventHandler(QWidget *, void *, QEvent *, bool *);
-
-  SoQtDevice(void);
   virtual ~SoQtDevice();
 
   virtual void enable(QWidget * w, SoQtEventHandler * handler, void * closure) = 0;
@@ -55,6 +54,8 @@ public:
   static void initClasses(void);
 
 protected:
+  SoQtDevice(void);
+
   void setEventPosition(SoEvent * event, int x, int y) const;
   static SbVec2s getLastEventPosition(void);
 

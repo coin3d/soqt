@@ -54,7 +54,7 @@
 
 struct SoQtDeviceHandlerInfo {
   QWidget * widget;
-  SoQtDevice::SoQtEventHandler * handler;
+  SoQtEventHandler * handler;
   void * closure;
 };
 
