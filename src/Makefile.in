@@ -161,7 +161,7 @@ SoGui_src_Inventor_Gui_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidget.h \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.h \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp \
-  $(So@Gui@_src_Inventor_@Gui@_common_BuiltFiles)
+  $(SoGui_src_Inventor_Gui_common_BuiltFiles)
 
 
 SoGui_src_Inventor_Gui_common_BuiltFiles = \
