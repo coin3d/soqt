@@ -278,7 +278,8 @@ SoQtP * SoQtP::slotobj = NULL;
 bool SoQtP::didcreatemainwidget = FALSE;
 
 #define ENVVAR_NOT_INITED INT_MAX
-int SoQtP::SOQT_XSYNC = ENVVAR_NOT_INITED;
+int SoQtP::DEBUG_X11SYNC = ENVVAR_NOT_INITED;
+int SoQtP::DEBUG_LISTMODULES = ENVVAR_NOT_INITED;
 SoQtP_XErrorHandler * SoQtP::previous_handler = NULL;
 
 // We're using the singleton pattern to create a single SoQtP object
@@ -317,9 +318,9 @@ SoQtP::X11Errorhandler(void * d, void * ee)
   // Then the instructions:
 
   SoDebugError::post("SoQtP::X11Errorhandler",
-                     "Detected possibly internal SoQt bug. %s %s",
+                     "Detected probable Qt bug (or internal SoQt bug). %s %s",
 
-                     SoQtP::SOQT_XSYNC == 1 ? "" :
+                     SoQtP::DEBUG_X11SYNC == 1 ? "" :
                      "Set environment variable SOQT_XSYNC to \"1\" and "
                      "re-run the application in a debugger with a breakpoint "
                      "set on SoQtP::X11Errorhandler() to get a valid "
@@ -575,15 +576,24 @@ SoQt::init(QWidget * toplevelwidget)
   // Intervene upon X11 errors.
   SoQtP::previous_handler = (SoQtP_XErrorHandler*)XSetErrorHandler((XErrorHandler)SoQtP::X11Errorhandler);
 
-  if (SoQtP::SOQT_XSYNC == ENVVAR_NOT_INITED) {
+  if (SoQtP::DEBUG_X11SYNC == ENVVAR_NOT_INITED) {
     const char * env = SoAny::si()->getenv("SOQT_XSYNC");
-    SoQtP::SOQT_XSYNC = env ? atoi(env) : 0;
-    if (SoQtP::SOQT_XSYNC) {
+    SoQtP::DEBUG_X11SYNC = env ? atoi(env) : 0;
+    if (SoQtP::DEBUG_X11SYNC) {
       SoDebugError::postInfo("SoQt::init", "Turning on X synchronization.");
       XSynchronize(qt_xdisplay(), True);
     }
   }
 #endif // Q_WS_X11
+
+  // This should prove helpful for debugging the pervasive problem
+  // under Win32 with loading multiple instances of the same library.
+  if (SoQtP::DEBUG_LISTMODULES == ENVVAR_NOT_INITED) {
+    const char * env = SoAny::si()->getenv("SOQT_DEBUG_LISTMODULES");
+    SoQtP::DEBUG_LISTMODULES = env ? atoi(env) : 0;
+    if (SoQtP::DEBUG_LISTMODULES) { SoAny::listWin32ProcessModules(); }
+  }
+  
 
   SoDB::init();
   SoNodeKit::init();
