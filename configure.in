@@ -5,40 +5,29 @@ AC_INIT(src/Inventor/Qt/SoQt.h)
 AC_CONFIG_AUX_DIR(cfg)
 
 # **************************************************************************
-sim_ac_cvs_syncproblem=false;
+# Make sure the given source repository is in sync with the master source
+# repository.
 
-if test -d $srcdir/cfg/m4; then
-  :
-else
-  cat <<EOT
+SIM_AC_CVS_CHANGES([
+  # the addition of the "data" module
+  SIM_AC_CVS_CHANGE([
+    cvs co SoQtData
+  ], [test -d data/CVS])
 
-There has been changes in the SoQt CVS repository structure, and your
-source repository is out of sync.  Do the following in the source directory:
+  # the removal of the examples directory (now a separate SoGuiExamples module)
+  SIM_AC_CVS_CHANGE([
+    rm -rf examples
+  ], [test ! -d examples])
 
-  rm -rf conf-macros  (if exists)
-  cvs co SoQtMacros
-
-EOT
-  sim_ac_cvs_syncproblem=true;
-fi
-
-$sim_ac_cvs_syncproblem && echo "" && exit
-
-# **************************************************************************
-# Use C++ compiler for configure tests.
-AC_PROG_CXX
-AC_LANG_CPLUSPLUS
+  # the moving of "conf-macros" to "cfg/m4"
+  SIM_AC_CVS_CHANGE([
+    rm -rf conf-macros
+    cvs co SoQtMacros
+  ], [test ! -d conf-macros], [test -d cfg/m4/CVS])
+])
 
 # **************************************************************************
-# Library version control.
-
-#  Making releases:
-#    SOQT_MICRO_VERSION += 1;
-#    SOQT_INTERFACE_AGE += 1;
-#    SOQT_BINARY_AGE += 1;
-#  if any functions have been added, set SOQT_INTERFACE_AGE to 0.
-#  if backwards compatibility has been broken,
-#  set SOQT_BINARY_AGE _and_ SOQT_INTERFACE_AGE to 0.
+# Library versioning
 
 SOQT_MAJOR_VERSION=0
 SOQT_MINOR_VERSION=8
@@ -76,6 +65,12 @@ AC_DEFINE_UNQUOTED(SOQT_VERSION, "$SOQT_VERSION",
   [Version string for SoQt])
 
 # **************************************************************************
+# Use C++ compiler for configure tests.
+
+AC_PROG_CXX
+AC_LANG_CPLUSPLUS
+
+# **************************************************************************
 # Miscellaneous options and initializations.
 
 AC_CANONICAL_SYSTEM
@@ -101,7 +96,6 @@ SOQT_EXTRA_LIBS=$LIBS
 AC_SUBST(SOQT_EXTRA_CPPFLAGS)
 AC_SUBST(SOQT_EXTRA_LDFLAGS)
 AC_SUBST(SOQT_EXTRA_LIBS)
-
 
 # Check if linking should be done MSWin-style ("libname.lib") or
 # Unix-style ("-llibname").
@@ -320,6 +314,8 @@ fi
 AM_CONDITIONAL(BUILD_EXAMPLES, test x"$want_examples" = xyes)
 AM_CONDITIONAL(BUILD_IV_EXAMPLES, test x"$sim_ac_ivexamples_available" = xyes)
 
+SIM_AC_SOGUI_STATIC_DEFAULTS
+
 # **************************************************************************
 # Variable substitutions for using libSoQt in the generic code.
 
@@ -401,13 +397,6 @@ imitri/doxygen/))
 fi
 
 # **************************************************************************
-# Configure the submodule with the examples.
-
-# if test x"$sim_ac_ivexamples_available" = xyes; then
-#   AC_CONFIG_SUBDIRS(ivexamples)
-# fi
-
-# **************************************************************************
 # Misc set-up.
 
 SIM_EXPAND_DIR_VARS
@@ -437,6 +426,7 @@ AC_SUBST(soqt_configure_date)
 # Remove redundant options from certain option lists.
 # We add the first argument ourselves to shift it off because it's added
 # again inside soqt-config.in
+# FIXME: avoid the unnecessary shifting
 
 SIM_AC_UNIQIFY_LIST(SOQT_EXTRA_CPPFLAGS, -I$includedir $SOQT_EXTRA_CPPFLAGS)
 set : $SOQT_EXTRA_CPPFLAGS
@@ -462,6 +452,11 @@ SIM_AC_UNIQIFY_LIST(LDFLAGS, $LDFLAGS)
 SIM_AC_UNIQIFY_LIST(LIBS, $LIBS)
 
 # **************************************************************************
+# Submodules that needs to be configured...
+
+AC_CONFIG_SUBDIRS(data)
+
+# **************************************************************************
 # List all files configure shall automatically generate.
 
 AC_OUTPUT([
@@ -485,7 +480,7 @@ AC_OUTPUT([
 ])
 
 # **************************************************************************
-# do some extra stuff for Windows system
+# Do some extra stuff for Windows system
 
 if test x"$sim_ac_linking_style" = xmswin; then
   # Set so_build_dir so we can change SoCoinSDK.iwz
