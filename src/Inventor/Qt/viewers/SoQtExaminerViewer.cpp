@@ -73,6 +73,7 @@ static const char rcsid[] =
 #include <Inventor/Qt/SoQtCursors.h>
 
 #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
+#include <Inventor/Qt/viewers/SoAnyExaminerViewer.h>
 
 // Icon graphic for the camera button.
 #include "icons/ortho.xpm"
