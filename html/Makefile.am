@@ -13,7 +13,7 @@ $(KEYHTMLPAGE): $(SoGuiBuiltFiles)
 	@sim_ac_doxygen_exe@ $(top_builddir)/sogui.doxygen
 
 filelist.txt: $(KEYHTMLPAGE)
-	@ls -1 | egrep '(\.html|\.gif|\.css)$$' >filelist.txt
+	@ls -1 | egrep '(\.html|\.gif|\.png|\.css)$$' >filelist.txt
 
 all-local: filelist.txt
 
