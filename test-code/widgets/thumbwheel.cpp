@@ -19,21 +19,21 @@
 
 /*
   This is just a simple test application to try out the functionality
-  of the QtThumbwheel widget.
+  of the SoQtThumbWheel widget.
 */
 
 #include <qapplication.h>
-#include <Inventor/Qt/widgets/QtThumbwheel.h>
+#include <Inventor/Qt/widgets/SoQtThumbWheel.h>
 
 int
 main( int argc, char **argv )
 {
   QApplication a(argc,argv);
 
-  QtThumbwheel wheel_h(QtThumbwheel::Horizontal);
+  SoQtThumbWheel wheel_h(SoQtThumbWheel::Horizontal);
   wheel_h.resize(200, 30);
 
-  QtThumbwheel wheel_v(QtThumbwheel::Vertical);
+  SoQtThumbWheel wheel_v(SoQtThumbWheel::Vertical);
   wheel_v.resize(30, 200);
 
   a.setMainWidget(&wheel_h);
