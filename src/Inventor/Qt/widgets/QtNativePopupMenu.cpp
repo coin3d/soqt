@@ -267,8 +267,10 @@ QtNativePopupMenu::setMenuItemEnabled(int itemid,
                                       SbBool enabled)
 {
   ItemRecord * rec = this->getItemRecord(itemid);
-  if (rec) rec->parent->setItemEnabled(rec->itemid, enabled ? true : false);
-  
+  if (rec) {
+    rec->parent->setItemEnabled(rec->itemid, enabled ? true : false);
+    return;
+  }
   MenuRecord * mrec = this->getMenuRecord(itemid);
   assert(mrec && "no such menu");
   assert(mrec->parent && "a menuitem must have a parent to be enabled/disabled");
