@@ -1011,10 +1011,52 @@ SoQtGLWidgetP::buildGLWidget(void)
     delete wasprevious;
   }
 
+  // FIXME: the panic below has been reported from a customer of dGB,
+  // on Windows, with a WildCat card and driver. Consider finding
+  // appropriate workarounds. Hard task, but needs to be done, as this
+  // is a *really* ugly problem.
+  //
+  // Snippets from my mail to dGB about the problem:
+  //
+  // -------8<------ [snip] -------------------8<------ [snip] ------------
+  // As for the cause of the problem: it is actually the QGLWidget class
+  // from Troll Tech's Qt library which fails to find a usable OpenGL
+  // context. We check for the QGLWidget::isValid() flag, and in your
+  // customer's case it returns FALSE. According to the API documentation
+  // of QGLWidget::isValid():
+  // 
+  //         [...] A widget will be invalid if the system has no OpenGL
+  //         support.
+  // 
+  // You said your customer know for sure other OpenGL programs work on his
+  // display, so this is obviously bogus.
+  // 
+  // I.e. it's technically not our bug, but Troll Tech's.
+  // 
+  // 
+  // I would like to tell you there is a quick workaround fix we could
+  // apply, but I'm afraid TT has made that difficult, because the OpenGL
+  // context selection is almost totally opaque -- we just have to work
+  // with what we get from Qt.
+  // 
+  // You could try to upgrade your Qt library version, but I doubt it would
+  // help, as I would guess that this is a quite obscure bug.
+  // 
+  // From our own experiences with low-level OpenGL/windowsystem handling
+  // with SoWin, I would say that it is probably triggered by QGLWidget's
+  // selection of a resource-intensive pixelformat for the OpenGL canvas
+  // (by using the Win32 API's ChoosePixelFormat()), which when attempted
+  // set up will actually find itself short on available resources.
+  // 
+  // Having then painted itself into a corner, the QGLWidget has not been
+  // written in a robust enough manner that it can deploy any fallback.
+  // -------8<------ [snip] -------------------8<------ [snip] ------------
+  //
+  // 20031218 mortene.
   if (!this->currentglwidget->isValid()) {
     SbString s =
       "Can't set up a valid OpenGL canvas, "
-      "something is seriously wrong with your system!";
+      "something is seriously wrong with the system!";
     SbBool handled =
       SoAny::si()->invokeFatalErrorHandler(s, SoQt::NO_OPENGL_CANVAS);
     if (handled) { return; }
