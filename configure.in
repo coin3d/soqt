@@ -519,6 +519,7 @@ if $BUILD_WITH_MSVC; then
   # list all libs used upon `soqt-config --libs`, as we can then
   # also use them from "parent" code (remember that their interfaces
   # is not exposed from the DLL) without any fuss.
+  SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS -DSOQT_DLL"
   SOQT_EXTRA_LIBS="-lsoqt$SOQT_MAJOR_VERSION $SOQT_EXTRA_LIBS"
 
 else
