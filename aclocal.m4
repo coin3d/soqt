@@ -339,7 +339,7 @@ $1
 #
 # SIM_AC_ERROR( ERROR [, ERROR ...] )
 #   Fetches the error messages from the error message file and displays
-#   them on stderr.
+#   them on stderr. The configure process will subsequently exit.
 #
 # SIM_AC_WITH_ERROR( WITHARG )
 #   Invokes AC_MSG_ERROR in a consistent way for problems with the --with-*
@@ -8063,15 +8063,15 @@ if test x"$with_opengl" != x"no"; then
 
   CPPFLAGS="$CPPFLAGS $sim_ac_gl_cppflags"
 
-  SIM_AC_CHECK_HEADER_SILENT([GL/gl.h], [
+  SIM_AC_CHECK_HEADER_SILENT([OpenGL/gl.h], [
     sim_ac_gl_header_avail=true
-    sim_ac_gl_header=GL/gl.h
-    AC_DEFINE([HAVE_GL_GL_H], 1, [define if the GL header should be included as GL/gl.h])
+    sim_ac_gl_header=OpenGL/gl.h
+    AC_DEFINE([HAVE_OPENGL_GL_H], 1, [define if the GL header should be included as OpenGL/gl.h])
   ], [
-    SIM_AC_CHECK_HEADER_SILENT([OpenGL/gl.h], [
+    SIM_AC_CHECK_HEADER_SILENT([GL/gl.h], [
       sim_ac_gl_header_avail=true
-      sim_ac_gl_header=OpenGL/gl.h
-      AC_DEFINE([HAVE_OPENGL_GL_H], 1, [define if the GL header should be included as OpenGL/gl.h])
+      sim_ac_gl_header=GL/gl.h
+      AC_DEFINE([HAVE_GL_GL_H], 1, [define if the GL header should be included as GL/gl.h])
     ])
   ])
 
@@ -8120,15 +8120,15 @@ if test x"$with_opengl" != x"no"; then
 
   CPPFLAGS="$CPPFLAGS $sim_ac_glu_cppflags"
 
-  SIM_AC_CHECK_HEADER_SILENT([GL/glu.h], [
+  SIM_AC_CHECK_HEADER_SILENT([OpenGL/glu.h], [
     sim_ac_glu_header_avail=true
-    sim_ac_glu_header=GL/glu.h
-    AC_DEFINE([HAVE_GL_GLU_H], 1, [define if the GLU header should be included as GL/glu.h])
+    sim_ac_glu_header=OpenGL/glu.h
+    AC_DEFINE([HAVE_OPENGL_GLU_H], 1, [define if the GLU header should be included as OpenGL/glu.h])
   ], [
-    SIM_AC_CHECK_HEADER_SILENT([OpenGL/glu.h], [
+    SIM_AC_CHECK_HEADER_SILENT([GL/glu.h], [
       sim_ac_glu_header_avail=true
-      sim_ac_glu_header=OpenGL/glu.h
-      AC_DEFINE([HAVE_OPENGL_GLU_H], 1, [define if the GLU header should be included as OpenGL/glu.h])
+      sim_ac_glu_header=GL/glu.h
+      AC_DEFINE([HAVE_GL_GLU_H], 1, [define if the GLU header should be included as GL/glu.h])
     ])
   ])
 
@@ -8177,15 +8177,15 @@ if test x"$with_opengl" != x"no"; then
 
   CPPFLAGS="$CPPFLAGS $sim_ac_glext_cppflags"
 
-  SIM_AC_CHECK_HEADER_SILENT([GL/glext.h], [
+  SIM_AC_CHECK_HEADER_SILENT([OpenGL/glext.h], [
     sim_ac_glext_header_avail=true
-    sim_ac_glext_header=GL/glext.h
-    AC_DEFINE([HAVE_GL_GLEXT_H], 1, [define if the GLEXT header should be included as GL/glext.h])
+    sim_ac_glext_header=OpenGL/glext.h
+    AC_DEFINE([HAVE_OPENGL_GLEXT_H], 1, [define if the GLEXT header should be included as OpenGL/glext.h])
   ], [
-    SIM_AC_CHECK_HEADER_SILENT([OpenGL/gl.h], [
+    SIM_AC_CHECK_HEADER_SILENT([GL/gl.h], [
       sim_ac_glext_header_avail=true
-      sim_ac_glext_header=OpenGL/glext.h
-      AC_DEFINE([HAVE_OPENGL_GLEXT_H], 1, [define if the GLEXT header should be included as OpenGL/glext.h])
+      sim_ac_glext_header=GL/glext.h
+      AC_DEFINE([HAVE_GL_GLEXT_H], 1, [define if the GLEXT header should be included as GL/glext.h])
     ])
   ])
 
@@ -9358,30 +9358,52 @@ if $sim_ac_coin_desired; then
     sim_ac_coin_msvcrt=`$sim_ac_coin_configcmd --msvcrt 2>/dev/null`
     sim_ac_coin_cflags=`$sim_ac_coin_configcmd --cflags 2>/dev/null`
     AC_CACHE_CHECK(
-      [whether libCoin is available],
+      [if we can compile and link with the Coin library],
       sim_cv_coin_avail,
       [sim_ac_save_cppflags=$CPPFLAGS
+      sim_ac_save_cxxflags=$CXXFLAGS
       sim_ac_save_ldflags=$LDFLAGS
       sim_ac_save_libs=$LIBS
       CPPFLAGS="$CPPFLAGS $sim_ac_coin_cppflags"
+      CXXFLAGS="$CXXFLAGS $sim_ac_coin_cxxflags"
       LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
       LIBS="$sim_ac_coin_libs $LIBS"
       AC_LANG_PUSH(C++)
+
       AC_TRY_LINK(
         [#include <Inventor/SoDB.h>],
         [SoDB::init();],
         [sim_cv_coin_avail=true],
         [sim_cv_coin_avail=false])
+
       AC_LANG_POP
       CPPFLAGS=$sim_ac_save_cppflags
+      CXXFLAGS=$sim_ac_save_cxxflags
       LDFLAGS=$sim_ac_save_ldflags
       LIBS=$sim_ac_save_libs
     ])
     sim_ac_coin_avail=$sim_cv_coin_avail
-  else
+    if ! $sim_ac_coin_avail; then
+      AC_MSG_WARN([
+Compilation and/or linking with the Coin main library SDK failed, for
+unknown reason. If you are familiar with configure-based configuration
+and building, investigate the 'config.log' file for clues.
+
+If you can not figure out what went wrong, please forward the 'config.log'
+file to the email address <coin-support@coin3d.org> and ask for help by
+describing the situation where this failed.
+])
+    fi
+  else # no 'coin-config' found
     locations=`IFS="${sim_ac_pathsep}"; for p in $sim_ac_path; do echo " -> $p/coin-config"; done`
     AC_MSG_WARN([cannot find 'coin-config' at any of these locations:
 $locations])
+    AC_MSG_WARN([
+Need to be able to run 'coin-config' to figure out how to build and link
+against the Coin library. To rectify this problem, you most likely need
+to a) install Coin if it has not been installed, b) add the Coin install
+bin/ directory to your PATH environment variable.
+])
   fi
 fi
 

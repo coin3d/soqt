@@ -21640,53 +21640,6 @@ _ACEOF
 cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
-#include <GL/gl.h>
-_ACEOF
-if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
-  (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
-  ac_status=$?
-  grep -v '^ *+' conftest.er1 >conftest.err
-  rm -f conftest.er1
-  cat conftest.err >&5
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } >/dev/null; then
-  if test -s conftest.err; then
-    ac_cpp_err=$ac_cxx_preproc_warn_flag
-  else
-    ac_cpp_err=
-  fi
-else
-  ac_cpp_err=yes
-fi
-if test -z "$ac_cpp_err"; then
-  ac_cv_header_GL_gl_h=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-  ac_cv_header_GL_gl_h=no
-fi
-rm -f conftest.err conftest.$ac_ext
-if test $ac_cv_header_GL_gl_h = yes; then
-
-    sim_ac_gl_header_avail=true
-    sim_ac_gl_header=GL/gl.h
-
-cat >>confdefs.h <<\_ACEOF
-#define HAVE_GL_GL_H 1
-_ACEOF
-
-
-else
-
-
-cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
 #include <OpenGL/gl.h>
 _ACEOF
 if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
@@ -21716,11 +21669,58 @@ fi
 rm -f conftest.err conftest.$ac_ext
 if test $ac_cv_header_OpenGL_gl_h = yes; then
 
-      sim_ac_gl_header_avail=true
-      sim_ac_gl_header=OpenGL/gl.h
+    sim_ac_gl_header_avail=true
+    sim_ac_gl_header=OpenGL/gl.h
 
 cat >>confdefs.h <<\_ACEOF
 #define HAVE_OPENGL_GL_H 1
+_ACEOF
+
+
+else
+
+
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+#include <GL/gl.h>
+_ACEOF
+if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
+  (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } >/dev/null; then
+  if test -s conftest.err; then
+    ac_cpp_err=$ac_cxx_preproc_warn_flag
+  else
+    ac_cpp_err=
+  fi
+else
+  ac_cpp_err=yes
+fi
+if test -z "$ac_cpp_err"; then
+  ac_cv_header_GL_gl_h=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+  ac_cv_header_GL_gl_h=no
+fi
+rm -f conftest.err conftest.$ac_ext
+if test $ac_cv_header_GL_gl_h = yes; then
+
+      sim_ac_gl_header_avail=true
+      sim_ac_gl_header=GL/gl.h
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_GL_GL_H 1
 _ACEOF
 
 
@@ -22049,53 +22049,6 @@ _ACEOF
 cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
-#include <GL/glu.h>
-_ACEOF
-if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
-  (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
-  ac_status=$?
-  grep -v '^ *+' conftest.er1 >conftest.err
-  rm -f conftest.er1
-  cat conftest.err >&5
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } >/dev/null; then
-  if test -s conftest.err; then
-    ac_cpp_err=$ac_cxx_preproc_warn_flag
-  else
-    ac_cpp_err=
-  fi
-else
-  ac_cpp_err=yes
-fi
-if test -z "$ac_cpp_err"; then
-  ac_cv_header_GL_glu_h=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-  ac_cv_header_GL_glu_h=no
-fi
-rm -f conftest.err conftest.$ac_ext
-if test $ac_cv_header_GL_glu_h = yes; then
-
-    sim_ac_glu_header_avail=true
-    sim_ac_glu_header=GL/glu.h
-
-cat >>confdefs.h <<\_ACEOF
-#define HAVE_GL_GLU_H 1
-_ACEOF
-
-
-else
-
-
-cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
 #include <OpenGL/glu.h>
 _ACEOF
 if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
@@ -22125,11 +22078,58 @@ fi
 rm -f conftest.err conftest.$ac_ext
 if test $ac_cv_header_OpenGL_glu_h = yes; then
 
-      sim_ac_glu_header_avail=true
-      sim_ac_glu_header=OpenGL/glu.h
+    sim_ac_glu_header_avail=true
+    sim_ac_glu_header=OpenGL/glu.h
 
 cat >>confdefs.h <<\_ACEOF
 #define HAVE_OPENGL_GLU_H 1
+_ACEOF
+
+
+else
+
+
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+#include <GL/glu.h>
+_ACEOF
+if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
+  (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } >/dev/null; then
+  if test -s conftest.err; then
+    ac_cpp_err=$ac_cxx_preproc_warn_flag
+  else
+    ac_cpp_err=
+  fi
+else
+  ac_cpp_err=yes
+fi
+if test -z "$ac_cpp_err"; then
+  ac_cv_header_GL_glu_h=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+  ac_cv_header_GL_glu_h=no
+fi
+rm -f conftest.err conftest.$ac_ext
+if test $ac_cv_header_GL_glu_h = yes; then
+
+      sim_ac_glu_header_avail=true
+      sim_ac_glu_header=GL/glu.h
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_GL_GLU_H 1
 _ACEOF
 
 
@@ -22745,53 +22745,6 @@ _ACEOF
 cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
-#include <GL/gl.h>
-_ACEOF
-if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
-  (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
-  ac_status=$?
-  grep -v '^ *+' conftest.er1 >conftest.err
-  rm -f conftest.er1
-  cat conftest.err >&5
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } >/dev/null; then
-  if test -s conftest.err; then
-    ac_cpp_err=$ac_cxx_preproc_warn_flag
-  else
-    ac_cpp_err=
-  fi
-else
-  ac_cpp_err=yes
-fi
-if test -z "$ac_cpp_err"; then
-  ac_cv_header_GL_gl_h=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-  ac_cv_header_GL_gl_h=no
-fi
-rm -f conftest.err conftest.$ac_ext
-if test $ac_cv_header_GL_gl_h = yes; then
-
-    sim_ac_gl_header_avail=true
-    sim_ac_gl_header=GL/gl.h
-
-cat >>confdefs.h <<\_ACEOF
-#define HAVE_GL_GL_H 1
-_ACEOF
-
-
-else
-
-
-cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
 #include <OpenGL/gl.h>
 _ACEOF
 if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
@@ -22821,11 +22774,58 @@ fi
 rm -f conftest.err conftest.$ac_ext
 if test $ac_cv_header_OpenGL_gl_h = yes; then
 
-      sim_ac_gl_header_avail=true
-      sim_ac_gl_header=OpenGL/gl.h
+    sim_ac_gl_header_avail=true
+    sim_ac_gl_header=OpenGL/gl.h
 
 cat >>confdefs.h <<\_ACEOF
 #define HAVE_OPENGL_GL_H 1
+_ACEOF
+
+
+else
+
+
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+#include <GL/gl.h>
+_ACEOF
+if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
+  (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } >/dev/null; then
+  if test -s conftest.err; then
+    ac_cpp_err=$ac_cxx_preproc_warn_flag
+  else
+    ac_cpp_err=
+  fi
+else
+  ac_cpp_err=yes
+fi
+if test -z "$ac_cpp_err"; then
+  ac_cv_header_GL_gl_h=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+  ac_cv_header_GL_gl_h=no
+fi
+rm -f conftest.err conftest.$ac_ext
+if test $ac_cv_header_GL_gl_h = yes; then
+
+      sim_ac_gl_header_avail=true
+      sim_ac_gl_header=GL/gl.h
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_GL_GL_H 1
 _ACEOF
 
 
@@ -22970,15 +22970,17 @@ fi
     sim_ac_coin_includedir=`$sim_ac_coin_configcmd --includedir 2>/dev/null`
     sim_ac_coin_msvcrt=`$sim_ac_coin_configcmd --msvcrt 2>/dev/null`
     sim_ac_coin_cflags=`$sim_ac_coin_configcmd --cflags 2>/dev/null`
-    echo "$as_me:$LINENO: checking whether libCoin is available" >&5
-echo $ECHO_N "checking whether libCoin is available... $ECHO_C" >&6
+    echo "$as_me:$LINENO: checking if we can compile and link with the Coin library" >&5
+echo $ECHO_N "checking if we can compile and link with the Coin library... $ECHO_C" >&6
 if test "${sim_cv_coin_avail+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
   sim_ac_save_cppflags=$CPPFLAGS
+      sim_ac_save_cxxflags=$CXXFLAGS
       sim_ac_save_ldflags=$LDFLAGS
       sim_ac_save_libs=$LIBS
       CPPFLAGS="$CPPFLAGS $sim_ac_coin_cppflags"
+      CXXFLAGS="$CXXFLAGS $sim_ac_coin_cxxflags"
       LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
       LIBS="$sim_ac_coin_libs $LIBS"
       ac_ext=cc
@@ -22986,6 +22988,7 @@ ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
 
       cat >conftest.$ac_ext <<_ACEOF
 #line $LINENO "configure"
@@ -23023,6 +23026,7 @@ sed 's/^/| /' conftest.$ac_ext >&5
 sim_cv_coin_avail=false
 fi
 rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+
       ac_ext=cc
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -23030,6 +23034,7 @@ ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ex
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
       CPPFLAGS=$sim_ac_save_cppflags
+      CXXFLAGS=$sim_ac_save_cxxflags
       LDFLAGS=$sim_ac_save_ldflags
       LIBS=$sim_ac_save_libs
 
@@ -23037,12 +23042,44 @@ fi
 echo "$as_me:$LINENO: result: $sim_cv_coin_avail" >&5
 echo "${ECHO_T}$sim_cv_coin_avail" >&6
     sim_ac_coin_avail=$sim_cv_coin_avail
-  else
+    if ! $sim_ac_coin_avail; then
+      { echo "$as_me:$LINENO: WARNING:
+Compilation and/or linking with the Coin main library SDK failed, for
+unknown reason. If you are familiar with configure-based configuration
+and building, investigate the 'config.log' file for clues.
+
+If you can not figure out what went wrong, please forward the 'config.log'
+file to the email address <coin-support@coin3d.org> and ask for help by
+describing the situation where this failed.
+" >&5
+echo "$as_me: WARNING:
+Compilation and/or linking with the Coin main library SDK failed, for
+unknown reason. If you are familiar with configure-based configuration
+and building, investigate the 'config.log' file for clues.
+
+If you can not figure out what went wrong, please forward the 'config.log'
+file to the email address <coin-support@coin3d.org> and ask for help by
+describing the situation where this failed.
+" >&2;}
+    fi
+  else # no 'coin-config' found
     locations=`IFS="${sim_ac_pathsep}"; for p in $sim_ac_path; do echo " -> $p/coin-config"; done`
     { echo "$as_me:$LINENO: WARNING: cannot find 'coin-config' at any of these locations:
 $locations" >&5
 echo "$as_me: WARNING: cannot find 'coin-config' at any of these locations:
 $locations" >&2;}
+    { echo "$as_me:$LINENO: WARNING:
+Need to be able to run 'coin-config' to figure out how to build and link
+against the Coin library. To rectify this problem, you most likely need
+to a) install Coin if it has not been installed, b) add the Coin install
+bin/ directory to your PATH environment variable.
+" >&5
+echo "$as_me: WARNING:
+Need to be able to run 'coin-config' to figure out how to build and link
+against the Coin library. To rectify this problem, you most likely need
+to a) install Coin if it has not been installed, b) add the Coin install
+bin/ directory to your PATH environment variable.
+" >&2;}
   fi
 fi
 

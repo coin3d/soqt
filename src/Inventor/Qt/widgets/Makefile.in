@@ -591,8 +591,7 @@ DEFAULT_INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
 
 BUILT_SOURCES = \
 	$(SoGuiAllBuiltFiles) \
-	moc_SoQtGradientDialog.icc \
-	moc_GradientEditor.icc \
+	moc_SoQtGradientDialogP.icc \
 	moc_GradientView.icc
 
 
@@ -618,8 +617,6 @@ SOURCES = \
 	Gradient.h \
 	GradientDialog.cpp \
 	SoQtGradientDialog.h \
-	gradientp/GradientEditor.cpp \
-	gradientp/GradientEditor.h \
 	gradientp/GradientView.cpp \
 	gradientp/GradientView.h \
 	gradientp/ImageItem.cpp \
@@ -665,8 +662,8 @@ widgets_lst_AR = $(AR) cru
 widgets_lst_LIBADD =
 am__objects_1 = SoQtGLArea.$(OBJEXT) SoQtThumbWheel.$(OBJEXT) \
 	QtNativePopupMenu.$(OBJEXT) Gradient.$(OBJEXT) \
-	GradientDialog.$(OBJEXT) GradientEditor.$(OBJEXT) \
-	GradientView.$(OBJEXT) ImageItem.$(OBJEXT) TickMark.$(OBJEXT)
+	GradientDialog.$(OBJEXT) GradientView.$(OBJEXT) \
+	ImageItem.$(OBJEXT) TickMark.$(OBJEXT)
 am_widgets_lst_OBJECTS = $(am__objects_1)
 am__objects_2 = SoAnyThumbWheel.$(OBJEXT) So@Gui@PopupMenu.$(OBJEXT)
 nodist_widgets_lst_OBJECTS = $(am__objects_2)
@@ -677,8 +674,8 @@ LTLIBRARIES = $(noinst_LTLIBRARIES)
 libSoQtWidgets_la_LDFLAGS =
 libSoQtWidgets_la_LIBADD =
 am__objects_3 = SoQtGLArea.lo SoQtThumbWheel.lo QtNativePopupMenu.lo \
-	Gradient.lo GradientDialog.lo GradientEditor.lo GradientView.lo \
-	ImageItem.lo TickMark.lo
+	Gradient.lo GradientDialog.lo GradientView.lo ImageItem.lo \
+	TickMark.lo
 am_libSoQtWidgets_la_OBJECTS = $(am__objects_3)
 am__objects_4 = SoAnyThumbWheel.lo So@Gui@PopupMenu.lo
 nodist_libSoQtWidgets_la_OBJECTS = $(am__objects_4)
@@ -689,8 +686,6 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/Gradient.Plo ./$(DEPDIR)/Gradient.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/GradientDialog.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/GradientDialog.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/GradientEditor.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/GradientEditor.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/GradientView.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/GradientView.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/ImageItem.Plo ./$(DEPDIR)/ImageItem.Po \
@@ -736,8 +731,6 @@ SOURCES = \
 	Gradient.h \
 	GradientDialog.cpp \
 	SoQtGradientDialog.h \
-	gradientp/GradientEditor.cpp \
-	gradientp/GradientEditor.h \
 	gradientp/GradientView.cpp \
 	gradientp/GradientView.h \
 	gradientp/ImageItem.cpp \
@@ -781,8 +774,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Gradient.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GradientDialog.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GradientDialog.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GradientEditor.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GradientEditor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GradientView.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GradientView.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ImageItem.Plo@am__quote@
@@ -835,39 +826,6 @@ distclean-depend:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(LTCXXCOMPILE) -c -o $@ `test -f '$<' || echo '$(srcdir)/'`$<
-
-GradientEditor.o: gradientp/GradientEditor.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT GradientEditor.o -MD -MP -MF "$(DEPDIR)/GradientEditor.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o GradientEditor.o `test -f 'gradientp/GradientEditor.cpp' || echo '$(srcdir)/'`gradientp/GradientEditor.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/GradientEditor.Tpo" "$(DEPDIR)/GradientEditor.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/GradientEditor.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='gradientp/GradientEditor.cpp' object='GradientEditor.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/GradientEditor.Po' tmpdepfile='$(DEPDIR)/GradientEditor.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o GradientEditor.o `test -f 'gradientp/GradientEditor.cpp' || echo '$(srcdir)/'`gradientp/GradientEditor.cpp
-
-GradientEditor.obj: gradientp/GradientEditor.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT GradientEditor.obj -MD -MP -MF "$(DEPDIR)/GradientEditor.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o GradientEditor.obj `if test -f 'gradientp/GradientEditor.cpp'; then $(CYGPATH_W) 'gradientp/GradientEditor.cpp'; else $(CYGPATH_W) '$(srcdir)/gradientp/GradientEditor.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/GradientEditor.Tpo" "$(DEPDIR)/GradientEditor.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/GradientEditor.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='gradientp/GradientEditor.cpp' object='GradientEditor.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/GradientEditor.Po' tmpdepfile='$(DEPDIR)/GradientEditor.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o GradientEditor.obj `if test -f 'gradientp/GradientEditor.cpp'; then $(CYGPATH_W) 'gradientp/GradientEditor.cpp'; else $(CYGPATH_W) '$(srcdir)/gradientp/GradientEditor.cpp'; fi`
-
-GradientEditor.lo: gradientp/GradientEditor.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT GradientEditor.lo -MD -MP -MF "$(DEPDIR)/GradientEditor.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o GradientEditor.lo `test -f 'gradientp/GradientEditor.cpp' || echo '$(srcdir)/'`gradientp/GradientEditor.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/GradientEditor.Tpo" "$(DEPDIR)/GradientEditor.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/GradientEditor.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='gradientp/GradientEditor.cpp' object='GradientEditor.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/GradientEditor.Plo' tmpdepfile='$(DEPDIR)/GradientEditor.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o GradientEditor.lo `test -f 'gradientp/GradientEditor.cpp' || echo '$(srcdir)/'`gradientp/GradientEditor.cpp
 
 GradientView.o: gradientp/GradientView.cpp
 @am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT GradientView.o -MD -MP -MF "$(DEPDIR)/GradientView.Tpo" \
@@ -1676,15 +1634,10 @@ install-nodist_SoQtWidgetsincHEADERS: $(nodist_SoQtWidgetsinc_HEADERS)
 # **************************************************************************
 # auto-generated Qt moc files.
 
-moc_SoQtGradientDialog.icc: $(srcdir)/SoQtGradientDialog.h
+moc_SoQtGradientDialogP.icc: $(srcdir)/gradientp/SoQtGradientDialogP.h
 	@( \
-	echo " $(MOC) -i -o moc_SoQtGradientDialog.icc $(srcdir)/SoQtGradientDialog.h"; \
-	$(MOC) -i -o moc_SoQtGradientDialog.icc `$(UNIX2WINPATH) $(srcdir)/SoQtGradientDialog.h` )
-
-moc_GradientEditor.icc: $(srcdir)/gradientp/GradientEditor.h
-	@( \
-	echo " $(MOC) -i -o moc_GradientEditor.icc $(srcdir)/gradientp/GradientEditor.h"; \
-	$(MOC) -i -o moc_GradientEditor.icc `$(UNIX2WINPATH) $(srcdir)/gradientp/GradientEditor.h` )
+	echo " $(MOC) -i -o moc_SoQtGradientDialogP.icc $(srcdir)/gradientp/SoQtGradientDialogP.h"; \
+	$(MOC) -i -o moc_SoQtGradientDialogP.icc `$(UNIX2WINPATH) $(srcdir)/gradientp/SoQtGradientDialogP.h` )
 
 moc_GradientView.icc: $(srcdir)/gradientp/GradientView.h
 	@( \
