@@ -6316,6 +6316,14 @@ EOF
   rm -f conftest.c
   AC_MSG_RESULT($sim_ac_qt_version)
 
+  case $host_os in
+  darwin*)
+    if test $sim_ac_qt_version -lt 302; then
+      SIM_AC_CONFIGURATION_WARNING([insert warning here])
+    fi
+    ;;
+  esac
+
   sim_ac_qt_cppflags=
   if test x"$MOC" != xfalse; then
     # Do not cache the result, as we might need to play tricks with
