@@ -191,6 +191,11 @@ SOQT_OBJECT_ABSTRACT_SOURCE(SoQtFullViewer);
   FIXME: write doc
 */
 
+/*!
+  \var SoAnyPopupMenu * SoQtFullViewer::prefmenu
+  FIXME: write doc
+*/
+
 // *************************************************************************
 
 static const int VIEWERBORDER = 2;
