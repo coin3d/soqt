@@ -1,18 +1,2 @@
 NEWS
 ====
-
-This file contains a history log of user-visible changes in the SoQt
-library.
-
-* 2000-09-21 larsa:
-
-	Changed public license from QPL to LGPL.
-
-* 2000-06-26 larsa:
-
-	SoQt has now support for the Linux Joystick driver, which means
-	you can connect e.g. a Spaceball 4000 FLX to your serial port
-	and get Motion3/SpaceballButton events sent into the scene graph.
-	See http://www.suse.cz/development/joystick/ for information on
-	the driver.
-
