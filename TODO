@@ -9,6 +9,9 @@ ToDo
 * [mortene:19990926] add configure option for specifying location of
   the Coin library.
 
+* [mortene:19990929] remove all compiler warnings, set default
+  configure settings to "warnings on".
+
 * [mortene:19990917] write information in NEWS, README, HACKING,
   AUTHORS, ChangeLog, COPYING.
 
