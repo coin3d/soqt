@@ -116,7 +116,15 @@ SoQtP::clean(void)
     SoQtP::mainwidget = NULL;
     SoQtP::didcreatemainwidget = FALSE;
   }
-  delete SoQtP::appobject; SoQtP::appobject = NULL;
+
+  // Notice that we *don't* delete the QApplication object, even
+  // though it originated with us, as it might be used someplace else
+  // in the application.
+  //
+  // (Keep this disabled code in place here, so we don't reactivate
+  // this by mistake again.)
+  //
+  // delete SoQtP::appobject; SoQtP::appobject = NULL;
 
   delete SoQtP::slotobj; SoQtP::slotobj = NULL;
 }
@@ -346,7 +354,19 @@ SoQt::init(int & argc, char ** argv, const char * appname, const char * classnam
     return SoQtP::mainwidget;
   }
 
-  SoQtP::appobject = new SoQtApplication(argc, argv);
+  if (qApp == NULL) {
+    // Set up the QApplication instance which we have derived into a
+    // subclass to catch spaceball events.
+    SoQtP::appobject = new SoQtApplication(argc, argv);
+  }
+  else {
+    // The user already set one up for us.
+    //
+    // FIXME: should somehow warn about the fact that spaceball events
+    // will not be caught, if a spaceball is attempted used. 20020619 mortene.
+    SoQtP::appobject = qApp;
+  }
+
   QWidget * mainw = new QWidget(NULL, classname);
   SoQtP::didcreatemainwidget = TRUE;
   SoQt::init(mainw);
@@ -432,37 +452,9 @@ SoQt::getShellWidget(const QWidget * w)
 void
 SoQt::show(QWidget * const widget)
 {
-  if (SOQT_DEBUG && !widget) {
-    SoDebugError::postWarning("SoQt::show",
-                              "Called with NULL pointer.");
-    return;
-  }
-
-#if 0 // debug
-  SoDebugError::postInfo("SoQt::show-1",
-                         "size %p: (%d, %d)",
-                         widget,
-                         widget->size().width(), widget->size().height());
-#endif // debug
-
-  widget->adjustSize();
-
-#if 0 // debug
-  SoDebugError::postInfo("SoQt::show-2",
-                         "size %p: (%d, %d)",
-                         widget,
-                         widget->size().width(), widget->size().height());
-#endif // debug
-
+  assert(widget && "called with NULL pointer");
   widget->show();
   widget->raise();
-
-#if 0 // debug
-  SoDebugError::postInfo("SoQt::show-3",
-                         "size %p: (%d, %d)",
-                         widget,
-                         widget->size().width(), widget->size().height());
-#endif // debug
 }
 
 /*!
@@ -476,12 +468,7 @@ SoQt::show(QWidget * const widget)
 void
 SoQt::hide(QWidget * const widget)
 {
-  if (SOQT_DEBUG && !widget) {
-    SoDebugError::postWarning("SoQt::hide",
-                              "Called with NULL pointer.");
-    return;
-  }
-
+  assert(widget && "called with NULL pointer");
   widget->hide();
 }
 
