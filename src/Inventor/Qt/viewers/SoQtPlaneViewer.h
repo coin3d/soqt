@@ -22,12 +22,16 @@
 #ifndef __SOQT_PLANEVIEWER_H__
 #define __SOQT_PLANEVIEWER_H__
 
+class SbPlaneProjector;
+
 #include <Inventor/Qt/viewers/SoQtFullViewer.h>
 
 // ************************************************************************
 
 class SoQtPlaneViewer : public SoQtFullViewer {
   typedef SoQtFullViewer inherited;
+
+  Q_OBJECT
 
 public:
   SoQtPlaneViewer(
@@ -65,11 +69,18 @@ protected:
   virtual void leftWheelMotion( float value );
   virtual void rightWheelMotion( float value );
 
-  virtual void createPrefSheet( void );
+  virtual void createPrefSheet(void);
 
   virtual void createViewerButtons( QWidget * parent );
   virtual void openViewerHelpCard(void);
   virtual void computeSeekFinalOrientation(void);
+
+private:
+  void constructor( SbBool buildNow );
+
+  void zoom( const float difference );
+
+  SbPlaneProjector * projector;
 
 }; // class SoQtPlaneViewer
 

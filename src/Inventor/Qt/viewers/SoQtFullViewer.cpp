@@ -1,6 +1,6 @@
 /**************************************************************************\
  *
- *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
+ *  Copyright (C) 1998-2000 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
  *
@@ -23,7 +23,7 @@ static const char rcsid[] =
 /*!
   \class SoQtFullViewer SoQtFullViewer.h Inventor/Qt/viewers/SoQtFullViewer.h
   \brief The SoQtFullViewer class adds decorations to the simple viewer of the parent.
-  \ingroup qtviewers
+  \ingroup soqtviewers
 
   TODO: more doc
   ...overview of what this class provides over parent class...
@@ -186,18 +186,24 @@ enum {
   PREFERENCES_ITEM
 };
 
+// *************************************************************************
+
 /*!
   Constructor. See parent class for explanation of arguments.
 
   Subclasses will probably usually call with the \c buildNow flag
   set to \c FALSE to be able to do delayed building of the OpenGL
   canvas after other setup tasks has been performed.
- */
-SoQtFullViewer::SoQtFullViewer(QWidget * parent, const char * name,
-                               SbBool buildInsideParent,
-                               SoQtFullViewer::BuildFlag buildFlag,
-                               SoQtViewer::Type t, SbBool buildNow)
-  : inherited(parent, name, buildInsideParent, t, FALSE)
+*/
+
+SoQtFullViewer::SoQtFullViewer(
+  QWidget * parent,
+  const char * name,
+  SbBool buildInsideParent,
+  SoQtFullViewer::BuildFlag buildFlag,
+  SoQtViewer::Type t,
+  SbBool buildNow)
+: inherited( parent, name, buildInsideParent, t, FALSE )
 {
   this->viewerwidget = NULL;
   this->canvas = NULL;
@@ -236,22 +242,29 @@ SoQtFullViewer::SoQtFullViewer(QWidget * parent, const char * name,
     QWidget * w = this->buildWidget(this->getParentWidget());
     this->setBaseWidget(w);
   }
-}
+} // SoQtFullViewer()
+
+// *************************************************************************
 
 /*!
   Destructor.
- */
-SoQtFullViewer::~SoQtFullViewer()
+*/
+
+SoQtFullViewer::~SoQtFullViewer(
+  void )
 {
   delete this->viewerbuttons;
   delete this->appbuttonlist;
-}
+} // ~SoQtFullViewer()
+
+// *************************************************************************
 
 /*!
   Turn the viewer decorations on or off.
 
   \sa isDecoration()
 */
+
 void
 SoQtFullViewer::setDecoration(const SbBool on)
 {
@@ -268,18 +281,23 @@ SoQtFullViewer::setDecoration(const SbBool on)
   if (this->prefmenu)
     this->prefmenu->setItemChecked(DECORATION_ITEM, on);
   if (this->viewerwidget) this->showDecorationWidgets(on);
-}
+} // setDecoration()
+
+// *************************************************************************
 
 /*!
   Return \c TRUE if the viewer decorations are on, otherwise \c FALSE.
 
   \sa setDecoration()
- */
+*/
+
 SbBool
 SoQtFullViewer::isDecoration(void) const
 {
   return this->decorations;
-}
+} // isDecoration()
+
+// *************************************************************************
 
 /*!
   Decide whether or not if clicking with the right mouse button on the
@@ -287,7 +305,8 @@ SoQtFullViewer::isDecoration(void) const
   mode.
 
   \sa isPopupMenuEnabled()
- */
+*/
+
 void
 SoQtFullViewer::setPopupMenuEnabled(const SbBool on)
 {
@@ -301,19 +320,24 @@ SoQtFullViewer::setPopupMenuEnabled(const SbBool on)
   }
 #endif // SOQT_DEBUG
   this->menuenabled = on;
-}
+} // setPopupMenuEnabled()
+
+// *************************************************************************
 
 /*!
   Return \c TRUE if the popup preferences menu is enabled,
   otherwise \c FALSE.
 
   \sa setPopupMenuEnabled()
- */
+*/
+
 SbBool
 SoQtFullViewer::isPopupMenuEnabled(void) const
 {
   return this->menuenabled;
-}
+} // isPopupMenuEnabled()
+
+// *************************************************************************
 
 /*!
   Returns the widget which is used as the parent of application
@@ -321,12 +345,15 @@ SoQtFullViewer::isPopupMenuEnabled(void) const
   placed in the upper left corner.
 
   \sa addAppPushButton(), insertAppPushButton(), removeAppPushButton()
- */
+*/
+
 QWidget *
 SoQtFullViewer::getAppPushButtonParent(void) const
 {
   return this->appbuttonform;
-}
+} // getAppPushButtonParent()
+
+// *************************************************************************
 
 /*!
   Add an application specific push button to the viewer decorations.
@@ -336,20 +363,24 @@ SoQtFullViewer::getAppPushButtonParent(void) const
   The button will be added bottom-most.
 
   \sa insertAppPushButton(), removeAppPushButton(), getAppPushButtonParent()
- */
+*/
+
 void
 SoQtFullViewer::addAppPushButton(QWidget * newButton)
 {
   this->appbuttonlist->append(newButton);
   this->layoutAppButtons(this->getAppPushButtonParent());
-}
+} // addAppPushButton()
+
+// *************************************************************************
 
 /*!
   Insert an application specific push button to the viewer decorations
   at the given \c index.
 
   \sa addAppPushButton(), removeAppPushButton(), getAppPushButtonParent()
- */
+*/
+
 void
 SoQtFullViewer::insertAppPushButton(QWidget * newButton, int index)
 {
@@ -362,13 +393,16 @@ SoQtFullViewer::insertAppPushButton(QWidget * newButton, int index)
 #endif // SOQT_DEBUG
   this->appbuttonlist->insert(newButton, index);
   this->layoutAppButtons(this->getAppPushButtonParent());
-}
+} // insertAppPushButton()
+
+// *************************************************************************
 
 /*!
   Remove one of the application specific buttons.
 
   \sa addAppPushButton(), insertAppPushButton()
- */
+*/
+
 void
 SoQtFullViewer::removeAppPushButton(QWidget * oldButton)
 {
@@ -384,39 +418,50 @@ SoQtFullViewer::removeAppPushButton(QWidget * oldButton)
 
   this->appbuttonlist->remove(idx);
   this->layoutAppButtons(this->getAppPushButtonParent());
-}
+} // removeAppPushButton()
+
+// *************************************************************************
 
 /*!
   Return the index of a particular button that has been specified by
   the application, or -1 of the button has not been added.
 
   \sa addAppPushButton()
- */
+*/
+
 int
 SoQtFullViewer::findAppPushButton(QWidget * oldButton) const
 {
   return this->appbuttonlist->find(oldButton);
-}
+} // findAppPushButton()
+
+// *************************************************************************
 
 /*!
   Return number of application specific buttons added.
 
   \sa addAppPushButton(), insertAddAppPushButton()
- */
+*/
+
 int
 SoQtFullViewer::lengthAppPushButton(void) const
 {
   return this->appbuttonlist->getLength();
-}
+} // lengthAppPushButton()
+
+// *************************************************************************
 
 /*!
   Returns the render area OpenGL canvas widget.
- */
+*/
+
 QWidget *
 SoQtFullViewer::getRenderAreaWidget(void)
 {
   return this->canvas;
-}
+} // getRenderAreaWidget()
+
+// *************************************************************************
 
 /*!
   Set a flag to indicate whether we're in viewing mode (where the
@@ -427,7 +472,8 @@ SoQtFullViewer::getRenderAreaWidget(void)
   indicators on the current state, namely the upper right push buttons
   indicating interact or view mode, the respective item on the popup menu
   and to grey out the seek mode activation button while in interact mode.
- */
+*/
+
 void
 SoQtFullViewer::setViewing(SbBool on)
 {
@@ -444,35 +490,44 @@ SoQtFullViewer::setViewing(SbBool on)
   VIEWERBUTTON(EXAMINE_BUTTON)->setOn(on);
   VIEWERBUTTON(INTERACT_BUTTON)->setOn(on ? FALSE : TRUE);
   VIEWERBUTTON(SEEK_BUTTON)->setEnabled(on);
-}
+} // setViewing()
+
+// *************************************************************************
 
 /*!
   Overloaded from parent to update user interface indicator for headlight
   on or off in the popup menu.
- */
+*/
+
 void
 SoQtFullViewer::setHeadlight(SbBool on)
 {
   inherited::setHeadlight(on);
   if (this->prefmenu) this->prefmenu->setItemChecked(HEADLIGHT_ITEM, on);
-}
+} // setHeadlight()
+
+// *************************************************************************
 
 /*!
   Overloaded from parent to make sure the user interface indicator in
   the popup menu is updated correctly.
- */
+*/
+
 void
 SoQtFullViewer::setDrawStyle(SoQtViewer::DrawType type,
                              SoQtViewer::DrawStyle style)
 {
   inherited::setDrawStyle(type, style);
   if (this->prefmenu) this->setDrawStyleMenuActivation(type, style);
-}
+} // setDrawStyle()
+
+// *************************************************************************
 
 /*!
   Overloaded from parent to make sure the user interface indicators in
   the popup menu are updated correctly.
- */
+*/
+
 void
 SoQtFullViewer::setBufferingType(SoQtViewer::BufferType type)
 {
@@ -490,12 +545,15 @@ SoQtFullViewer::setBufferingType(SoQtViewer::BufferType type)
     m->setItemChecked(INTERACTIVE_BUFFER_ITEM,
                       type == SoQtViewer::BUFFER_INTERACTIVE ? TRUE : FALSE);
   }
-}
+} // setBufferingType()
+
+// *************************************************************************
 
 /*!
   Overloaded from parent to make sure the user interface indicators on
   the camera features in the preferences sheet are updated correctly.
- */
+*/
+
 void
 SoQtFullViewer::setCamera(SoCamera * newCamera)
 {
@@ -511,18 +569,23 @@ SoQtFullViewer::setCamera(SoCamera * newCamera)
     this->zoomrangefrom->setEnabled(on);
     this->zoomrangeto->setEnabled(on);
   }
-}
+} // setCamera()
+
+// *************************************************************************
 
 /*!
   Overloaded from parent class to make sure the preferences window
   will be hidden automatically whenever the viewer window is hidden.
- */
+*/
+
 void
 SoQtFullViewer::hide(void)
 {
   inherited::hide();
   if (this->prefwindow) this->prefwindow->hide();
-}
+} // hide()
+
+// *************************************************************************
 
 /*!
   \internal
@@ -530,7 +593,8 @@ SoQtFullViewer::hide(void)
   Catch close events on the preferences window (to convert to hide
   events) and right mouse button presses (to pop up the
   preferences menu).
- */
+*/
+
 bool
 SoQtFullViewer::eventFilter(QObject *obj, QEvent * e)
 {
@@ -609,12 +673,15 @@ SoQtFullViewer::eventFilter(QObject *obj, QEvent * e)
   }
 
   return FALSE;
-}
+} // eventFilter()
+
+// *************************************************************************
 
 /*!
   This will build the main view widgets, along with the decorations
   widgets and popup menu if they are enabled.
- */
+*/
+
 QWidget *
 SoQtFullViewer::buildWidget(QWidget * parent)
 {
@@ -635,27 +702,28 @@ SoQtFullViewer::buildWidget(QWidget * parent)
   if (this->menuenabled) this->buildPopupMenu();
 
   return this->viewerwidget;
-}
+} // buildWidget()
+
+// *************************************************************************
 
 /*!
   Build viewer decorations.
- */
+*/
+
 void
 SoQtFullViewer::buildDecoration(QWidget * parent)
 {
   this->decorform[LEFTDECORATION] = this->buildLeftTrim(parent);
   this->decorform[BOTTOMDECORATION] = this->buildBottomTrim(parent);
   this->decorform[RIGHTDECORATION] = this->buildRightTrim(parent);
-}
+} // buildDecoration()
+
+// *************************************************************************
 
 /*!
   Build decorations on the left of the render canvas.  Overload this
   method in subclasses if you want your own decorations on the viewer
-  window.
-*/
-
-/*
-  standard trim is guaranteed to be 30 pixels wide
+  window.  The decoration will be 30 pixels wide.
 */
 
 QWidget *
@@ -686,53 +754,74 @@ SoQtFullViewer::buildLeftTrim(QWidget * parent)
   gl->activate();
 
   return w;
-}
+} // buildLeftTrim()
+
+// *************************************************************************
 
 /*!
   Build decorations on the bottom of the render canvas. Overload this
   method in subclasses if you want your own decorations on the viewer window.
- */
+*/
+
 QWidget *
 SoQtFullViewer::buildBottomTrim(QWidget * parent)
 {
   QWidget * w = new QWidget(parent);
   w->setFixedHeight( 30 );
 
-  int alignments[] = { AlignLeft|AlignTop, AlignRight|AlignVCenter,
-                       AlignRight|AlignTop, };
-  for (int i = FIRSTDECORATION; i <= LASTDECORATION; i++) {
-    this->wheellabels[i] = new QLabel(this->wheelstrings[i], w);
-    this->wheellabels[i]->adjustSize();
-    this->wheellabels[i]->setAlignment(alignments[i - FIRSTDECORATION]);
+  int alignments[] = {
+    AlignLeft|AlignTop, AlignRight|AlignVCenter, AlignRight|AlignTop
+  };
+
+  for ( int i = FIRSTDECORATION; i <= LASTDECORATION; i++ ) {
+    this->wheellabels[ i ] = new QLabel( this->wheelstrings[ i ], w );
+    this->wheellabels[ i ]->adjustSize();
+    this->wheellabels[ i ]->setAlignment( alignments[ i - FIRSTDECORATION ] );
   }
 
-  QtThumbwheel * t = this->wheels[BOTTOMDECORATION] =
-    new QtThumbwheel(QtThumbwheel::Horizontal, w);
+  QtThumbwheel * t = this->wheels[ BOTTOMDECORATION ] =
+    new QtThumbwheel( QtThumbwheel::Horizontal, w );
   t->setFixedSize( QSize( 88, 24 ) );
-//  t->adjustSize();
-//  t->setFixedSize(t->size());
-  QObject::connect(t, SIGNAL(wheelMoved(float)),
-                   this, SLOT(bottomWheelChanged(float)));
-  QObject::connect(t, SIGNAL(wheelPressed()),
-                   this, SLOT(bottomWheelPressed()));
-  QObject::connect(t, SIGNAL(wheelReleased()),
-                   this, SLOT(bottomWheelReleased()));
 
-  this->wheelvalues[BOTTOMDECORATION] = t->value();
+  QObject::connect( t, SIGNAL(wheelMoved(float)),
+                    this, SLOT(bottomWheelChanged(float)) );
+  QObject::connect( t, SIGNAL(wheelPressed()),
+                    this, SLOT(bottomWheelPressed()) );
+  QObject::connect( t, SIGNAL(wheelReleased()),
+                    this, SLOT(bottomWheelReleased()) );
 
-  QGridLayout * gl = new QGridLayout(w, 1, 5);
-  gl->addWidget(this->wheellabels[RIGHTDECORATION], 0, 4, AlignRight);
-  gl->addWidget(this->wheellabels[LEFTDECORATION], 0, 0, AlignLeft);
-  gl->addWidget(this->wheellabels[BOTTOMDECORATION], 0, 1);
-  gl->addWidget(t, 0, 2);
+  this->wheelvalues[ BOTTOMDECORATION ] = t->value();
+
+  QGridLayout * gl = new QGridLayout( w, 1, 5 );
+  gl->setColStretch( 0, 0 );
+  gl->setColStretch( 1, 0 );
+  gl->setColStretch( 2, 0 );
+  gl->setColStretch( 3, 1 );
+  gl->setColStretch( 4, 0 );
+
+  for ( int c = FIRSTDECORATION; c <= LASTDECORATION; c++ )
+    this->wheellabels[ c ]->setMargin( 2 );
+
+  gl->addWidget( this->wheellabels[ LEFTDECORATION ], 0, 0,
+                 AlignVCenter | AlignHCenter );
+  gl->addWidget( this->wheellabels[ BOTTOMDECORATION ], 0, 1,
+                 AlignVCenter | AlignRight );
+  gl->addWidget( t, 0, 2, AlignVCenter | AlignLeft );
+  gl->addWidget( this->wheellabels[ RIGHTDECORATION ], 0, 4,
+                 AlignVCenter | AlignRight );
+
   gl->activate();
+
   return w;
-}
+} // buildBottomTrim()
+
+// *************************************************************************
 
 /*!
   Build decorations on the right side of the render canvas. Overload this
   method in subclasses if you want your own decorations on the viewer window.
- */
+*/
+
 QWidget *
 SoQtFullViewer::buildRightTrim(QWidget * parent)
 {
@@ -760,14 +849,16 @@ SoQtFullViewer::buildRightTrim(QWidget * parent)
   l->addWidget(t, 2, 0, AlignBottom|AlignHCenter);
   l->activate();
 
-
   return w;
-}
+} // buildRightTrim()
+
+// *************************************************************************
 
 /*!
   Build the application specified button row (if any buttons were
   set up).
- */
+*/
+
 QWidget *
 SoQtFullViewer::buildAppButtons(QWidget * parent)
 {
@@ -777,11 +868,14 @@ SoQtFullViewer::buildAppButtons(QWidget * parent)
     this->layoutAppButtons(this->appbuttonform);
 
   return this->appbuttonform;
-}
+} // buildAppButtons()
+
+// *************************************************************************
 
 /*!
   Build and layout viewer specified button row.
- */
+*/
+
 QWidget *
 SoQtFullViewer::buildViewerButtons(QWidget * parent)
 {
@@ -801,11 +895,14 @@ SoQtFullViewer::buildViewerButtons(QWidget * parent)
 
   l->activate();
   return w;
-}
+} // buildViewerButtons()
+
+// *************************************************************************
 
 /*!
   Set up the viewer buttons with pixmaps and event connections.
- */
+*/
+
 void
 SoQtFullViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
 {
@@ -860,11 +957,14 @@ SoQtFullViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
     p->adjustSize();
     buttonlist->append(p);
   }
-}
+} // createViewerButtons()
+
+// *************************************************************************
 
 /*!
   Make a popup menu with preferences settings.
- */
+*/
+
 void
 SoQtFullViewer::buildPopupMenu(void)
 {
@@ -900,22 +1000,28 @@ SoQtFullViewer::buildPopupMenu(void)
 
   this->prefmenu->insertItem("Preferences...", this, SLOT(selectedPrefs()),
                              0, PREFERENCES_ITEM);
-}
+} // buildPopupMenu()
+
+// *************************************************************************
 
 /*!
   Set title of popup menu.
- */
+*/
+
 void
 SoQtFullViewer::setPopupMenuString(const char * str)
 {
   this->menutitle = str ? str : "";
   if (this->prefmenu) this->prefmenu->changeItem(this->menutitle.getString(),
                                                  MENUTITLE_ITEM);
-}
+} // setPopupMenuString()
+
+// *************************************************************************
 
 /*!
   Build the sub-popupmenu with miscellaneous functions.
- */
+*/
+
 QWidget *
 SoQtFullViewer::buildFunctionsSubmenu(QWidget * popup)
 {
@@ -937,11 +1043,14 @@ SoQtFullViewer::buildFunctionsSubmenu(QWidget * popup)
                 PASTE_VIEW_ITEM);
 
   return m;
-}
+} // buildFunctionsSubmenu()
+
+// *************************************************************************
 
 /*!
   Build the sub-popupmenu with the drawstyle settings.
- */
+*/
+
 QWidget *
 SoQtFullViewer::buildDrawStyleSubmenu(QWidget * popup)
 {
@@ -974,28 +1083,36 @@ SoQtFullViewer::buildDrawStyleSubmenu(QWidget * popup)
   QObject::connect(m, SIGNAL(activated(int)), SLOT(drawstyleActivated(int)));
 
   return m;
-}
+} // buildDrawStyleSubmenu()
+
+// *************************************************************************
 
 /*!
   Overload this method in subclass viewers to append more widgets to
   the bottom of the preferences sheet window.
- */
+*/
+
 QWidget *
 SoQtFullViewer::makeSubPreferences(QWidget * /*parent*/)
 {
   return NULL;
-}
+} // makeSubPreferences()
+
+// *************************************************************************
 
 /*!
   Set title of preferences sheet.
- */
+*/
+
 void
 SoQtFullViewer::setPrefSheetString(const char * title)
 {
   this->prefwindowtitle = title ? title : "";
   if (this->prefwindow)
     this->prefwindow->setCaption(this->prefwindowtitle.getString());
-}
+} // setPrefSheetString()
+
+// *************************************************************************
 
 /*!
   Called when the user start to drag the thumbwheel in the left frame.
@@ -1004,12 +1121,15 @@ SoQtFullViewer::setPrefSheetString(const char * title)
 
   \sa leftWheelMotion(), leftWheelFinish()
   \sa bottomWheelStart(), rightWheelStart()
- */
+*/
+
 void
 SoQtFullViewer::leftWheelStart(void)
 {
   this->interactiveCountInc();
-}
+} // leftWheelStart()
+
+// *************************************************************************
 
 /*!
   Called repeatedly as the user drags the thumbwheel in the left frame.
@@ -1018,12 +1138,15 @@ SoQtFullViewer::leftWheelStart(void)
 
   \sa leftWheelStart(), leftWheelFinish()
   \sa bottomWheelStart(), rightWheelStart()
- */
+*/
+
 void
 SoQtFullViewer::leftWheelMotion(float f)
 {
   this->wheelvalues[LEFTDECORATION] = f;
-}
+} // leftWheelMotion()
+
+// *************************************************************************
 
 /*!
   Called as the user let go of the thumbwheel in the left frame after
@@ -1032,23 +1155,29 @@ SoQtFullViewer::leftWheelMotion(float f)
 
   \sa leftWheelStart(), leftWheelMotion()
   \sa bottomWheelStart(), rightWheelStart()
- */
+*/
+
 void
 SoQtFullViewer::leftWheelFinish(void)
 {
   this->interactiveCountDec();
-}
+} // leftWheelFinish()
+
+// *************************************************************************
 
 /*!
   Get current value of the left thumbwheel.
 
   \sa leftWheelMotion()
- */
+*/
+
 float
 SoQtFullViewer::getLeftWheelValue(void) const
 {
   return this->wheelvalues[LEFTDECORATION];
-}
+} // getLeftWheelValue()
+
+// *************************************************************************
 
 /*!
   Called when the user start to drag the thumbwheel in the bottom frame.
@@ -1057,12 +1186,15 @@ SoQtFullViewer::getLeftWheelValue(void) const
 
   \sa bottomWheelMotion(), bottomWheelFinish()
   \sa leftWheelStart(), rightWheelStart()
- */
+*/
+
 void
 SoQtFullViewer::bottomWheelStart(void)
 {
   this->interactiveCountInc();
-}
+} // bottomWheelStart()
+
+// *************************************************************************
 
 /*!
   Called repeatedly as the user drags the thumbwheel in the bottom frame.
@@ -1071,12 +1203,15 @@ SoQtFullViewer::bottomWheelStart(void)
 
   \sa bottomWheelStart(), bottomWheelFinish()
   \sa leftWheelStart(), rightWheelStart()
- */
+*/
+
 void
 SoQtFullViewer::bottomWheelMotion(float f)
 {
   this->wheelvalues[BOTTOMDECORATION] = f;
-}
+} // bottomWheelMotion()
+
+// *************************************************************************
 
 /*!
   Called as the user let go of the thumbwheel in the bottom frame after
@@ -1085,23 +1220,29 @@ SoQtFullViewer::bottomWheelMotion(float f)
 
   \sa bottomWheelStart(), bottomWheelMotion()
   \sa leftWheelStart(), rightWheelStart()
- */
+*/
+
 void
 SoQtFullViewer::bottomWheelFinish(void)
 {
   this->interactiveCountDec();
-}
+} // bottomWheelFinish()
+
+// *************************************************************************
 
 /*!
   Get current value of the bottom thumbwheel.
 
   \sa bottomWheelMotion()
- */
+*/
+
 float
 SoQtFullViewer::getBottomWheelValue(void) const
 {
   return this->wheelvalues[BOTTOMDECORATION];
-}
+} // getBottomWheelValue()
+
+// *************************************************************************
 
 /*!
   Called when the user start to drag the thumbwheel in the right frame.
@@ -1110,12 +1251,15 @@ SoQtFullViewer::getBottomWheelValue(void) const
 
   \sa rightWheelMotion(), rightWheelFinish()
   \sa leftWheelStart(), bottomWheelStart()
- */
+*/
+
 void
 SoQtFullViewer::rightWheelStart(void)
 {
   this->interactiveCountInc();
-}
+} // rightWheelStart()
+
+// *************************************************************************
 
 /*!
   Called repeatedly as the user drags the thumbwheel in the right frame.
@@ -1124,12 +1268,15 @@ SoQtFullViewer::rightWheelStart(void)
 
   \sa rightWheelStart(), rightWheelFinish()
   \sa leftWheelStart(), bottomWheelStart()
- */
+*/
+
 void
 SoQtFullViewer::rightWheelMotion(float f)
 {
   this->wheelvalues[RIGHTDECORATION] = f;
-}
+} // rightWheelMotion()
+
+// *************************************************************************
 
 /*!
   Called as the user let go of the thumbwheel in the right frame after
@@ -1138,23 +1285,29 @@ SoQtFullViewer::rightWheelMotion(float f)
 
   \sa rightWheelStart(), rightWheelMotion()
   \sa leftWheelStart(), bottomWheelStart()
- */
+*/
+
 void
 SoQtFullViewer::rightWheelFinish(void)
 {
   this->interactiveCountDec();
-}
+} // rightWheelFinish()
+
+// *************************************************************************
 
 /*!
   Get current value of the right thumbwheel.
 
   \sa rightWheelMotion()
- */
+*/
+
 float
 SoQtFullViewer::getRightWheelValue(void) const
 {
   return this->wheelvalues[RIGHTDECORATION];
-}
+} // getRightWheelValue()
+
+// *************************************************************************
 
 // These are all private slots for catching Qt events.
 void SoQtFullViewer::leftWheelPressed(void) { this->leftWheelStart(); }
@@ -1167,54 +1320,69 @@ void SoQtFullViewer::rightWheelPressed(void) { this->rightWheelStart(); }
 void SoQtFullViewer::rightWheelChanged(float v) { this->rightWheelMotion(-v); }
 void SoQtFullViewer::rightWheelReleased(void) { this->rightWheelFinish(); }
 
+// *************************************************************************
+
 /*!
   Set label of the left thumbwheel.
- */
+*/
+
 void
 SoQtFullViewer::setLeftWheelString(const char * str)
 {
   this->wheelstrings[LEFTDECORATION] = str ? str : "";
   QLabel * l = this->wheellabels[LEFTDECORATION];
   if (l) l->setText(this->wheelstrings[LEFTDECORATION]);
-}
+} // setLeftWheelString()
+
+// *************************************************************************
 
 /*!
   Set label of the bottom thumbwheel.
- */
+*/
+
 void
 SoQtFullViewer::setBottomWheelString(const char * str)
 {
   this->wheelstrings[BOTTOMDECORATION] = str ? str : "";
   QLabel * l = this->wheellabels[BOTTOMDECORATION];
   if (l) l->setText(this->wheelstrings[BOTTOMDECORATION]);
-}
+} // setBottomWheelString()
+
+// *************************************************************************
 
 /*!
   Set label of the right thumbwheel.
- */
+*/
+
 void
 SoQtFullViewer::setRightWheelString(const char * str)
 {
   this->wheelstrings[RIGHTDECORATION] = str ? str : "";
   QLabel * l = this->wheellabels[RIGHTDECORATION];
   if (l) l->setText(this->wheelstrings[RIGHTDECORATION]);
-}
+} // setRightWheelString()
+
+// *************************************************************************
 
 /*!
   Overload this method to provide functionality when the user clicks
   the Help button. Default implementation does nothing.
- */
+*/
+
 void
 SoQtFullViewer::openViewerHelpCard(void)
 {
-}
+} // openViewerHelpCard()
+
+// *************************************************************************
 
 /*!
   \internal
 
   Show or hide decorations. Will make and activate a Qt layout grid
   if we're turning the decorations on.
- */
+*/
+
 void
 SoQtFullViewer::showDecorationWidgets(SbBool onOff)
 {
@@ -1255,11 +1423,14 @@ SoQtFullViewer::showDecorationWidgets(SbBool onOff)
   }
 
   this->mainlayout->activate();
-}
+} // showDecorationWidgets()
+
+// *************************************************************************
 
 /*!
   Layout application specified buttons.
- */
+*/
+
 void
 SoQtFullViewer::layoutAppButtons(QWidget * form)
 {
@@ -1278,11 +1449,14 @@ SoQtFullViewer::layoutAppButtons(QWidget * form)
   }
 
   this->appbuttonlayout->activate();
-}
+} // layoutAppButtons()
+
+// *************************************************************************
 
 /*!
   Create preferences sheet.
- */
+*/
+
 QWidget *
 SoQtFullViewer::makePreferencesWindow(void)
 {
@@ -1308,12 +1482,15 @@ SoQtFullViewer::makePreferencesWindow(void)
   layout->activate();
   top->adjustSize();
   return top;
-}
+} // makePreferencesWindow()
+
+// *************************************************************************
 
 /*!
   Create the UI representation of the preferences' settings for the
   seek-to-point functionality.
- */
+*/
+
 QWidget *
 SoQtFullViewer::makeSeekPreferences(QWidget * parent)
 {
@@ -1406,12 +1583,15 @@ SoQtFullViewer::makeSeekPreferences(QWidget * parent)
   w->resize(totalsize);
   toplayout->activate();
   return w;
-}
+} // makeSeekPreferences()
+
+// *************************************************************************
 
 /*!
   Create the UI representation of the preferences' settings for the
   seek-to-point functionality.
- */
+*/
+
 QWidget *
 SoQtFullViewer::makeSeekDistancePreferences(QWidget * parent)
 {
@@ -1491,12 +1671,15 @@ SoQtFullViewer::makeSeekDistancePreferences(QWidget * parent)
   toplayout->activate();
 
   return w;
-}
+} // makeSeekDistancePreferences()
+
+// *************************************************************************
 
 /*!
   Create the UI representation of the preferences' settings for the
   camera zoom functionality.
- */
+*/
+
 QWidget *
 SoQtFullViewer::makeZoomPreferences(QWidget * parent)
 {
@@ -1600,12 +1783,15 @@ SoQtFullViewer::makeZoomPreferences(QWidget * parent)
   toplayout->activate();
 
   return w;
-}
+} // makeZoomPreferences()
+
+// *************************************************************************
 
 /*!
   Enable or disable interaction through the near and far clipping
   widgets.
- */
+*/
+
 void
 SoQtFullViewer::setEnabledClippingWidgets(bool flag)
 {
@@ -1627,12 +1813,15 @@ SoQtFullViewer::setEnabledClippingWidgets(bool flag)
   this->nearclippingedit->setText(s);
   s.setNum(cam->farDistance.getValue(), 'f', 3);
   this->farclippingedit->setText(s);
-}
+} // setEnabledClippingWidgets()
+
+// *************************************************************************
 
 /*!
   Create the UI representation of the preferences' settings for the
   manual control of the near and far clippping planes.
- */
+*/
+
 QWidget *
 SoQtFullViewer::makeAutoclipPreferences(QWidget * dialog)
 {
@@ -1738,11 +1927,14 @@ SoQtFullViewer::makeAutoclipPreferences(QWidget * dialog)
   toplayout->activate();
 
   return w;
-}
+} // makeAutoclipPreferences()
+
+// *************************************************************************
 
 /*!
   Set camera zoom value.
- */
+*/
+
 void
 SoQtFullViewer::setCameraZoom(const float val)
 {
@@ -1758,11 +1950,14 @@ SoQtFullViewer::setCameraZoom(const float val)
 #if SOQT_DEBUG
   else assert(0);
 #endif // SOQT_DEBUG
-}
+} // setCameraZoom()
+
+// *************************************************************************
 
 /*!
   Return camera zoom value.
- */
+*/
+
 float
 SoQtFullViewer::getCameraZoom(void)
 {
@@ -1781,11 +1976,14 @@ SoQtFullViewer::getCameraZoom(void)
   assert(0);
 #endif // SOQT_DEBUG
   return 0.0f;
-}
+} // getCameraZoom()
+
+// *************************************************************************
 
 /*!
   Update the Qt slider representing the camera zoom.
- */
+*/
+
 void
 SoQtFullViewer::setZoomSliderPosition(float zoom)
 {
@@ -1796,11 +1994,14 @@ SoQtFullViewer::setZoomSliderPosition(float zoom)
   f = QMAX(0.0f, QMIN(f, 1.0f)) * ZOOMSLIDERRESOLUTION;
 
   this->zoomslider->setValue(f);
-}
+} // setZoomSliderPosition()
+
+// *************************************************************************
 
 /*!
   Set string in the camera zoom edit field.
- */
+*/
+
 void
 SoQtFullViewer::setZoomFieldString(float zoom)
 {
@@ -1809,132 +2010,170 @@ SoQtFullViewer::setZoomFieldString(float zoom)
   QString s;
   s.setNum(zoom, 'f', 1);
   this->zoomfield->setText(s);
-}
+} // setZoomFieldString()
+
+// *************************************************************************
 
 /*!
   \internal
   Qt slot.
- */
+*/
+
 void
 SoQtFullViewer::interactbuttonToggled(bool flag)
 {
   this->setViewing(!flag);
-}
+} // interactbuttonToggled()
+
+// *************************************************************************
 
 /*!
   \internal
   Qt slot.
- */
+*/
+
 void
 SoQtFullViewer::viewbuttonToggled(bool flag)
 {
   this->setViewing(flag);
-}
+} // viewbuttonToggled()
+
+// *************************************************************************
 
 /*!
   \internal
   Qt slot.
- */
+*/
+
 void
 SoQtFullViewer::helpbuttonClicked()
 {
   this->openViewerHelpCard();
-}
+} // helpbuttonClicked()
+
+// *************************************************************************
 
 /*!
   \internal
   Qt slot.
- */
+*/
+
 void
 SoQtFullViewer::homebuttonClicked()
 {
   this->resetToHomePosition();
-}
+} // homebuttonClicked()
+
+// *************************************************************************
 
 /*!
   \internal
   Qt slot.
- */
+*/
+
 void
 SoQtFullViewer::sethomebuttonClicked()
 {
   this->saveHomePosition();
-}
+} // sethomebuttonClicked()
+
+// *************************************************************************
 
 /*!
   \internal
   Qt slot.
- */
+*/
+
 void
 SoQtFullViewer::viewallbuttonClicked()
 {
   this->viewAll();
-}
+} // viewallbuttonClicked()
+
+// *************************************************************************
 
 /*!
   \internal
   Qt slot.
- */
+*/
+
 void
 SoQtFullViewer::seekbuttonClicked()
 {
   this->setSeekMode(this->isSeekMode() ? FALSE : TRUE);
-}
+} // seekbuttonClicked()
+
+// *************************************************************************
 
 /*!
   \internal
   Qt slot.
- */
+*/
+
 void
 SoQtFullViewer::selectedViewing()
 {
   this->setViewing(this->isViewing() ? FALSE : TRUE);
-}
+} // selectedViewing()
+
+// *************************************************************************
 
 /*!
   \internal
   Qt slot.
- */
+*/
+
 void
 SoQtFullViewer::selectedDecoration()
 {
   this->setDecoration(this->isDecoration() ? FALSE : TRUE);
-}
+} // selectedDecoration()
 
+// *************************************************************************
 
 /*!
   \internal
   Qt slot.
- */
+*/
+
 void
 SoQtFullViewer::selectedHeadlight()
 {
   this->setHeadlight(this->isHeadlight() ? FALSE : TRUE);
-}
+} // selectedHeadlight()
+
+// *************************************************************************
 
 /*!
   \internal
   Qt slot.
- */
+*/
+
 void
 SoQtFullViewer::copyviewSelected()
 {
   this->copyView(SbTime::getTimeOfDay());
-}
+} // copyviewSelected()
+
+// *************************************************************************
 
 /*!
   \internal
   Qt slot.
- */
+*/
+
 void
 SoQtFullViewer::pasteviewSelected()
 {
   this->pasteView(SbTime::getTimeOfDay());
-}
+} // pasteviewSelected()
+
+// *************************************************************************
 
 /*!
   \internal
- */
+*/
+
 void
 SoQtFullViewer::setDrawStyleMenuActivation(SoQtViewer::DrawType type,
                                            SoQtViewer::DrawStyle val)
@@ -1981,12 +2220,15 @@ SoQtFullViewer::setDrawStyleMenuActivation(SoQtViewer::DrawType type,
   }
 
   m->setItemChecked(id, TRUE);
-}
+} // setDrawStyleMenuActivation()
+
+// *************************************************************************
 
 /*!
   \internal
   Qt slot.
- */
+*/
+
 void
 SoQtFullViewer::drawstyleActivated(int id)
 {
@@ -2002,8 +2244,6 @@ SoQtFullViewer::drawstyleActivated(int id)
     this->setBufferingType(SoQtViewer::BUFFER_INTERACTIVE);
     return;
   };
-
-
 
   SoQtViewer::DrawStyle val;
 
@@ -2057,59 +2297,74 @@ SoQtFullViewer::drawstyleActivated(int id)
   }
 
   this->setDrawStyle(type, val);
-}
+} // drawstyleActivated()
+
+// *************************************************************************
 
 /*!
   \internal
   Qt slot.
- */
+*/
+
 void
 SoQtFullViewer::selectedPrefs(void)
 {
   if (!this->prefwindow) this->prefwindow = this->makePreferencesWindow();
   this->prefwindow->show();
   this->prefwindow->raise();
-}
+} // selectedPrefs()
+
+// *************************************************************************
 
 /*!
   \internal
   Qt slot.
- */
+*/
+
 void
 SoQtFullViewer::seekAnimationTimeChanged(const char * s)
 {
   float val;
   if ((sscanf(s, "%f", &val) == 1) && (val >= 0.0f)) this->setSeekTime(val);
-}
+} // seekAnimationTimeChanged()
+
+// *************************************************************************
 
 /*!
   \internal
   Qt slot.
- */
+*/
+
 void
 SoQtFullViewer::seekAnimationTimeChanged(const QString & s)
 {
   bool ok;
   float val = s.toFloat(&ok);
   if (ok && (val >= 0.0f)) this->setSeekTime(val);
-}
+} // seekAnimationTimeChanged()
+
+// *************************************************************************
 
 /*!
   \internal
   Qt slot.
- */
+*/
+
 void
 SoQtFullViewer::seekDetailToggled(int id)
 {
   if (id == 0) this->setDetailSeek(TRUE);
   else if (id == 1) this->setDetailSeek(FALSE);
   else assert(0);
-}
+} // seekDetailToggled()
+
+// *************************************************************************
 
 /*!
   \internal
   Qt slot.
- */
+*/
+
 void
 SoQtFullViewer::seekDistanceWheelChanged(float val)
 {
@@ -2123,12 +2378,15 @@ SoQtFullViewer::seekDistanceWheelChanged(float val)
   QString s;
   s.setNum(this->getSeekDistance(), 'f', 2);
   this->seekdistancefield->setText(s);
-}
+} // seekDistanceWheelChanged()
+
+// *************************************************************************
 
 /*!
   \internal
   Qt slot.
- */
+*/
+
 void
 SoQtFullViewer::seekDistanceEdit()
 {
@@ -2143,22 +2401,28 @@ SoQtFullViewer::seekDistanceEdit()
     s.setNum(this->getSeekDistance(), 'f', 2);
     this->seekdistancefield->setText(s);
   }
-}
+} // seekDistanceEdit()
+
+// *************************************************************************
 
 /*!
   \internal
   Qt slot.
- */
+*/
+
 void
 SoQtFullViewer::seekDistanceTypeToggle(int id)
 {
   this->setSeekValueAsPercentage(id == 0 ? TRUE : FALSE);
-}
+} // seekDistanceTypeToggle()
+
+// *************************************************************************
 
 /*!
   \internal
   Qt slot.
- */
+*/
+
 void
 SoQtFullViewer::zoomSliderMoved(int val)
 {
@@ -2167,12 +2431,15 @@ SoQtFullViewer::zoomSliderMoved(int val)
 
   this->setCameraZoom(f);
   this->setZoomFieldString(f);
-}
+} // zoomSliderMoved()
+
+// *************************************************************************
 
 /*!
   \internal
   Qt slot.
- */
+*/
+
 void
 SoQtFullViewer::zoomFieldChanged()
 {
@@ -2187,12 +2454,15 @@ SoQtFullViewer::zoomFieldChanged()
     s.setNum(this->getCameraZoom(), 'f', 1);
     this->zoomfield->setText(s);
   }
-}
+} // zoomFieldChanged()
+
+// *************************************************************************
 
 /*!
   \internal
   Qt slot.
- */
+*/
+
 void
 SoQtFullViewer::zoomRangeChanged1()
 {
@@ -2208,12 +2478,15 @@ SoQtFullViewer::zoomRangeChanged1()
     s.setNum(this->zoomrange[0], 'f', 1);
     this->zoomrangefrom->setText(s);
   }
-}
+} // zoomRangeChanged1()
+
+// *************************************************************************
 
 /*!
   \internal
   Qt slot.
- */
+*/
+
 void
 SoQtFullViewer::zoomRangeChanged2()
 {
@@ -2229,43 +2502,55 @@ SoQtFullViewer::zoomRangeChanged2()
     s.setNum(this->zoomrange[1], 'f', 1);
     this->zoomrangeto->setText(s);
   }
-}
+} // zoomRangeChanged2()
+
+// *************************************************************************
 
 /*!
   \internal
   Qt slot.
- */
+*/
+
 void
 SoQtFullViewer::clippingToggled(bool flag)
 {
   this->setAutoClipping(flag);
   this->setEnabledClippingWidgets(!flag);
-}
+} // clippingToggled()
+
+// *************************************************************************
 
 /*!
   \internal
   Qt slot.
- */
+*/
+
 void
 SoQtFullViewer::increaseInteractiveCount()
 {
   this->interactiveCountInc();
-}
+} // increaseInteractiveCount()
+
+// *************************************************************************
 
 /*!
   \internal
   Qt slot.
- */
+*/
+
 void
 SoQtFullViewer::decreaseInteractiveCount()
 {
   this->interactiveCountDec();
-}
+} // decreaseInteractiveCount()
+
+// *************************************************************************
 
 /*!
   \internal
   Qt slot.
- */
+*/
+
 void
 SoQtFullViewer::nearclippingwheelMoved(float val)
 {
@@ -2278,12 +2563,15 @@ SoQtFullViewer::nearclippingwheelMoved(float val)
   QString s;
   s.setNum(cam->nearDistance.getValue(), 'f', 3);
   this->nearclippingedit->setText(s);
-}
+} // nearclippingwheelMoved()
+
+// *************************************************************************
 
 /*!
   \internal
   Qt slot.
- */
+*/
+
 void
 SoQtFullViewer::farclippingwheelMoved(float val)
 {
@@ -2296,12 +2584,15 @@ SoQtFullViewer::farclippingwheelMoved(float val)
   QString s;
   s.setNum(cam->farDistance.getValue(), 'f', 3);
   this->farclippingedit->setText(s);
-}
+} // farclippingwheelMoved()
+
+// *************************************************************************
 
 /*!
   \internal
   Qt slot.
- */
+*/
+
 void
 SoQtFullViewer::nearclipEditPressed()
 {
@@ -2319,12 +2610,15 @@ SoQtFullViewer::nearclipEditPressed()
     s.setNum(cam->nearDistance.getValue(), 'f', 3);
     this->nearclippingedit->setText(s);
   }
-}
+} // nearclipEditPressed()
+
+// *************************************************************************
 
 /*!
   \internal
   Qt slot.
- */
+*/
+
 void
 SoQtFullViewer::farclipEditPressed()
 {
@@ -2342,6 +2636,16 @@ SoQtFullViewer::farclipEditPressed()
     s.setNum(cam->farDistance.getValue(), 'f', 3);
     this->farclippingedit->setText(s);
   }
-}
+} // farclipEditPressed()
 
-#undef VIEWERBUTTON
+// *************************************************************************
+
+QtThumbwheel *
+SoQtFullViewer::getThumbwheel(
+  int num )
+{
+  assert( num >= FIRSTDECORATION && num < LASTDECORATION );
+  return this->wheels[ num ];
+} // getThumbwheel()
+
+// *************************************************************************

@@ -1,6 +1,6 @@
 /**************************************************************************\
  *
- *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
+ *  Copyright (C) 1998-2000 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
  *
@@ -19,8 +19,8 @@
 
 //  $Id$
 
-#ifndef __SOQTFULLVIEWER_H__
-#define __SOQTFULLVIEWER_H__
+#ifndef __SOQT_FULLVIEWER_H__
+#define __SOQT_FULLVIEWER_H__
 
 #include <Inventor/Qt/viewers/SoQtViewer.h>
 
@@ -32,6 +32,7 @@ class QLineEdit;
 class QSlider;
 class QtThumbwheel;
 
+// *************************************************************************
 
 class SoQtFullViewer : public SoQtViewer {
   typedef SoQtViewer inherited;
@@ -73,7 +74,7 @@ protected:
   SoQtFullViewer(QWidget * parent, const char * name, SbBool buildInsideParent,
                  BuildFlag flag, Type type,
                  SbBool buildNow);
-  ~SoQtFullViewer();
+  ~SoQtFullViewer(void);
 
   virtual bool eventFilter(QObject * obj, QEvent * e);
 
@@ -113,6 +114,8 @@ protected:
   void setRightWheelString(const char * name);
 
   virtual void openViewerHelpCard(void);
+
+  QtThumbwheel * getThumbwheel( int num );
 
 private:
   enum {
@@ -231,7 +234,9 @@ private slots:
   // Generic slots.
   void increaseInteractiveCount();
   void decreaseInteractiveCount();
-};
 
+}; // class SoQtFullViewer
 
-#endif // !__SOQTFULLVIEWER_H__
+// *************************************************************************
+
+#endif // ! __SOQT_FULLVIEWER_H__
