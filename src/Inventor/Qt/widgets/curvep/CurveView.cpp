@@ -228,6 +228,12 @@ CurveView::contentsMouseMoveEvent(QMouseEvent* e)
   this->canvas->update();
 }
 
+void
+CurveView::drawContents(QPainter * p)
+{
+  this->drawContents(p, 0, 0, this->contentsWidth(), this->contentsHeight());
+}
+
 void 
 CurveView::drawContents(QPainter * p, int cx, int cy, int cw, int ch)
 {

@@ -29,7 +29,7 @@
 #include <Inventor/system/inttypes.h>
 
 
-class SOQT_DLL_API SoQtColorTableEditor : public QWidget {
+class /*SOQT_DLL_API*/ SoQtColorTableEditor : public QWidget {
 
 public:
   SoQtColorTableEditor(int numcolors = 256, 

@@ -74,6 +74,7 @@ protected:
   virtual void drawContents(QPainter * p, int cx, int cy, int cw, int ch);
 
 private:
+  virtual void drawContents(QPainter * p);
   void interpolateFromColors();
   void initColorCurves(void);
   void initCanvasCurve(void);
