@@ -148,7 +148,6 @@ SoQtExaminerViewer::constructor(SbBool build)
   this->feedbackwheel = NULL;
   this->feedbackedit = NULL;
   this->cameratogglebutton = NULL;
-  this->defaultcursor = NULL;
 
   this->orthopixmap = new QPixmap((const char **)ortho_xpm);
   this->perspectivepixmap = new QPixmap((const char **)perspective_xpm);
@@ -178,9 +177,6 @@ SoQtExaminerViewer::constructor(SbBool build)
 
 SoQtExaminerViewer::~SoQtExaminerViewer()
 {
-  // Cursors.
-  delete this->defaultcursor;
-
   // Button pixmaps.
   delete this->orthopixmap;
   delete this->perspectivepixmap;
@@ -583,12 +579,9 @@ SoQtExaminerViewer::actualRedraw(void)
 void
 SoQtExaminerViewer::setCursorRepresentation(int mode)
 {
-  QWidget * w = this->getRenderAreaWidget();
-  assert(w);
-
-  if (!this->defaultcursor) {
-    this->defaultcursor = new QCursor(w->cursor());
-  }
+  // FIXME: with the new So@Gui@Cursor class, this has actually become
+  // a possibly generic method for all So* toolkits. Move to common
+  // code. 20011125 mortene.
 
   if (!this->isCursorEnabled()) {
     this->setComponentCursor(SoQtCursor(SoQtCursor::BLANK));
@@ -597,7 +590,7 @@ SoQtExaminerViewer::setCursorRepresentation(int mode)
 
   switch (mode) {
   case SoAnyExaminerViewer::INTERACT:
-    this->setComponentCursor(SoQtCursor(SoQtCursor::NORMAL));
+    this->setComponentCursor(SoQtCursor(SoQtCursor::DEFAULT));
     break;
 
   case SoAnyExaminerViewer::EXAMINE:
