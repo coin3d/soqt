@@ -2641,8 +2641,8 @@ if test x"$with_qt" != xno; then
 fi
 ])
 
-# Usage:
-#  SIM_AC_QGLWIDGET_SETAUTOBUFFERSWAP
+# SIM_AC_QGLWIDGET_SETAUTOBUFFERSWAP
+# ----------------------------------
 #
 # Use the macro for its side-effect: it defines
 #
@@ -2670,8 +2670,8 @@ fi
 ])
 
 
-# Usage:
-#  SIM_AC_QGLFORMAT_SETOVERLAY
+# SIM_AC_QGLFORMAT_SETOVERLAY
+# ---------------------------
 #
 # Use the macro for its side-effect: it defines
 #
@@ -2697,8 +2697,8 @@ fi
 ])
 
 
-# Usage:
-#  SIM_AC_QGLFORMAT_EQ_OP
+# SIM_AC_QGLFORMAT_EQ_OP
+# ----------------------
 #
 # Use the macro for its side-effect: it defines
 #
@@ -2724,6 +2724,31 @@ if $sim_cv_func_qglformat_eq_op; then
     [Define this to 1 if operator==(QGLFormat&, QGLFormat&) is available])
 fi
 ])
+
+
+# SIM_AC_QWIDGET_SHOWFULLSCREEN
+# -----------------------------
+#
+# Use the macro for its side-effect: it defines HAVE_QWIDGET_SHOWFULLSCREEN
+# to 1 in config.h if QWidget::showFullScreen() is available (that
+# function wasn't introduced in Qt until version 2.1.0).
+#
+# Author: Morten Eriksen, <mortene@sim.no>.
+
+AC_DEFUN([SIM_AC_QWIDGET_SHOWFULLSCREEN], [
+AC_CACHE_CHECK(
+  [whether QWidget::showFullScreen() is available],
+  sim_cv_def_qwidget_showfullscreen,
+  [AC_TRY_LINK([#include <qwidget.h>],
+               [QWidget * w = new QWidget(); w->showFullScreen();],
+               [sim_cv_def_qwidget_showfullscreen=true],
+               [sim_cv_def_qwidget_showfullscreen=false])])
+
+if $sim_cv_def_qwidget_showfullscreen; then
+  AC_DEFINE([HAVE_QWIDGET_SHOWFULLSCREEN], 1,
+            [Define this if QWidget::showFullScreen() is available])
+fi
+]) # SIM_AC_QWIDGET_SHOWFULLSCREEN
 
 
 # SIM_AC_QT_KEYPAD_DEFINE

@@ -44,13 +44,15 @@ static const char rcsid[] =
   "$Id$";
 #endif // SOQT_DEBUG
 
+#if HAVE_CONFIG_H
+#include <config.h>
+#endif // HAVE_CONFIG_H
+
 #include <qwidget.h>
 #include <qmainwindow.h>
 #include <qmessagebox.h>
 
-#if SOQT_DEBUG
 #include <Inventor/errors/SoDebugError.h>
-#endif // SOQT_DEBUG
 
 #include <soqtdefs.h>
 #include <Inventor/Qt/SoQt.h>
@@ -993,9 +995,27 @@ SoQtComponent::goFullScreen(const SbBool onoff)
   if (w == NULL) w = this->getParentWidget();
   if (w == NULL) w = this->getWidget();
   if (w) {
+
+    // FIXME: note that the compile-time binding technique against
+    // QWidget::showFullScreen() doesn't work very well with the idea
+    // that we'll compile a distribution version of SoQt against the
+    // lowest common denominator of Qt versions we support (ie
+    // v2.0.0), as that means SoQtComponent::goFullScreen() will never
+    // work as expected in the pre-compiled distro version we make.
+    // 20010608 mortene.
+
+#if HAVE_QWIDGET_SHOWFULLSCREEN
     if (onoff) w->showFullScreen();
     else w->showNormal();
     THIS->fullscreen = onoff;
+#else // !HAVE_QWIDGET_SHOWFULLSCREEN
+    SoDebugError::postWarning("SoQtComponent::goFullScreen",
+                              "SoQt was compiled against version %d of Qt, "
+                              "which doesn't have the "
+                              "QWidget::showFullScreen() method",
+                              );
+#endif // !HAVE_QWIDGET_SHOWFULLSCREEN
+
   }
 }
 
