@@ -357,8 +357,9 @@ QtNativePopupMenu::addMenuItem(int menuid,
                                int pos)
 {
   MenuRecord * menu = this->getMenuRecord(menuid);
+  assert(menu && "invalid parent menu id");
   ItemRecord * item = this->getItemRecord(itemid);
-  assert(menu && item && "no such menu");
+  assert(item && "invalid child menu id");
 
   if (pos == -1)
     menu->menu->insertItem(QString(item->title), item->itemid);
