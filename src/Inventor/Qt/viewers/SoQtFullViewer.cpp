@@ -2703,7 +2703,6 @@ void
 SoQtFullViewer::afterRealizeHook( // virtual
   void )
 {
-  SoDebugError::postInfo( "SoQtFullViewer::afterRealizeHook", "[invoked]" );
   this->sizeChanged( this->getSize() );
   inherited::afterRealizeHook();
 } // afterRealizeHook()

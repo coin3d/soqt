@@ -102,6 +102,8 @@ protected:
   virtual void setSeekMode( SbBool enable );
   virtual void actualRedraw(void);
 
+  virtual void afterRealizeHook(void);
+
 private:
   void setModeFromState(const unsigned int state);
 

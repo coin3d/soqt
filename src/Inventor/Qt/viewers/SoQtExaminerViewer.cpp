@@ -1084,6 +1084,19 @@ SoQtExaminerViewer::getFeedbackSize(
 
 // *************************************************************************
 
+/*!
+*/
+
+void
+SoQtExaminerViewer::afterRealizeHook( // virtual
+  void )
+{
+  this->setCursorRepresentation( this->common->currentmode );
+  inherited::afterRealizeHook();
+} // afterRealizeHook()
+
+// *************************************************************************
+
 #if SOQT_DEBUG
 static const char * getSoQtExaminerViewerRCSID(void) { return rcsid; }
 #endif
