@@ -46,8 +46,8 @@ static const char rcsid[] =
 #include <Inventor/errors/SoDebugError.h>
 #include <Inventor/misc/SoBasic.h>
 
+#include <common/soguidefs.h>
 #include <Inventor/Qt/widgets/QtGLArea.h>
-
 #include <Inventor/Qt/SoQtGLWidget.h>
 
 
@@ -500,7 +500,7 @@ SoQtGLWidget::glFlushBuffer(
   void )
 {
   assert( this->glLockLevel > 0 );
-  COIN_STUB();
+  SOGUI_STUB();
 } // glFlushBuffer()
 
 void
