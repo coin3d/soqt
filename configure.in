@@ -371,6 +371,10 @@ AC_SUBST(soqt_include_dir)
 SIM_AC_DOBACKSLASH(soqt_lib_dir,$libdir)
 AC_SUBST(soqt_lib_dir)
 
+# For the soqt.spec RPM specification file.
+SIM_AC_ISO8601_DATE(soqt_configure_date)
+AC_SUBST(soqt_configure_date)
+
 # **************************************************************************
 # List all files configure shall automatically generate.
 
@@ -388,6 +392,7 @@ AC_OUTPUT([
         build/soqt.mak
         build/soqt_dll.dsp
         build/soqt_dll.mak
+        build/soqt.spec
 ],[
 	chmod a+x soqt-config
 ])

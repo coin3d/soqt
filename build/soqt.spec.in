@@ -1,0 +1,91 @@
+Summary: Qt GUI widgets for Coin / Open Inventor.
+Name: SoQt
+Version: @VERSION@
+Release: @soqt_configure_date@
+Copyright: Q Public License (QPL)
+Group: Development/Libraries
+URL: http://www.coin3d.org
+Vendor: Systems in Motion
+Packager: Morten Eriksen <mortene@sim.no>
+
+%description
+
+Qt GUI widgets for Coin. The components are also compatible with Open
+Inventor, and the API is (somewhat loosely) based on the API of the
+Xt/Motif toolkit which comes with Open Inventor.
+
+The library is released publicly under the Q Public License for
+developers of free software and is also available for commercial use
+under a "professional edition" license.
+
+SoQt is supported on both UNIX and Win32 platforms.
+
+
+%prep
+cd $RPM_SOURCE_DIR
+export CVSROOT=:pserver:cvs@cvs.sim.no:/export/cvsroot
+if test ! -d SoQt; then
+  cvs checkout -P SoQt
+else
+  cvs update -dP SoQt
+fi
+
+
+%build
+
+cd $RPM_BUILD_DIR
+test -d SoQt || mkdir SoQt
+cd SoQt
+# The options must cover the set of install-directories in the %files section.
+$RPM_SOURCE_DIR/SoQt/configure --without-examples \
+                       --bindir=@bindir@ --includedir=@includedir@ \
+                       --libdir=@libdir@ --datadir=@datadir@
+make
+
+
+%install
+
+cd $RPM_BUILD_DIR/SoQt
+make install
+
+
+%files
+
+@bindir@/soqt-config
+# FIXME: kill this m4-file -- should be unnecessary. 20000704 mortene.
+@datadir@/aclocal/modifierlist.m4
+@datadir@/aclocal/soqt.m4
+@includedir@/Inventor/Qt/SoQt.h
+@includedir@/Inventor/Qt/SoQtBasic.h
+@includedir@/Inventor/Qt/SoQtComponent.h
+@includedir@/Inventor/Qt/SoQtCursors.h
+@includedir@/Inventor/Qt/SoQtGLWidget.h
+@includedir@/Inventor/Qt/SoQtLightSliderSet.h
+@includedir@/Inventor/Qt/SoQtMaterialSliderSet.h
+@includedir@/Inventor/Qt/SoQtRenderArea.h
+@includedir@/Inventor/Qt/SoQtSliderSet.h
+@includedir@/Inventor/Qt/SoQtSliderSetBase.h
+@includedir@/Inventor/Qt/SoQtTransformSliderSet.h
+@includedir@/Inventor/Qt/devices/SoQtDevice.h
+@includedir@/Inventor/Qt/devices/SoQtInputFocus.h
+@includedir@/Inventor/Qt/devices/SoQtKeyboard.h
+@includedir@/Inventor/Qt/devices/SoQtLinuxJoystick.h
+@includedir@/Inventor/Qt/devices/SoQtMouse.h
+@includedir@/Inventor/Qt/devices/SoQtSpaceball.h
+@includedir@/Inventor/Qt/viewers/SoQtConstrainedViewer.h
+@includedir@/Inventor/Qt/viewers/SoQtExaminerViewer.h
+@includedir@/Inventor/Qt/viewers/SoQtFlyViewer.h
+@includedir@/Inventor/Qt/viewers/SoQtFullViewer.h
+@includedir@/Inventor/Qt/viewers/SoQtPlaneViewer.h
+@includedir@/Inventor/Qt/viewers/SoQtViewer.h
+@includedir@/Inventor/Qt/viewers/SoQtWalkViewer.h
+@libdir@/libSoQt-0.8.so.1
+@libdir@/libSoQt-0.8.so.1.0.0
+@libdir@/libSoQt.la
+@libdir@/libSoQt.so
+
+
+%clean
+
+cd $RPM_BUILD_DIR/SoQt
+make uninstall

@@ -5771,9 +5771,21 @@ subdirs="$sim_ac_subconfig"
 
 test x"$prefix" = x"NONE" && prefix="$ac_default_prefix"
 test x"$exec_prefix" = x"NONE" && exec_prefix="${prefix}"
-includedir="`eval echo $includedir`"
-libdir="`eval echo $libdir`"
+
+# This is the list of all install-path variables found in configure
+# scripts. FIXME: use another "eval-nesting" to move assignments into
+# a for-loop. 20000704 mortene.
+bindir="`eval echo $bindir`"
+sbindir="`eval echo $sbindir`"
+libexecdir="`eval echo $libexecdir`"
 datadir="`eval echo $datadir`"
+sysconfdir="`eval echo $sysconfdir`"
+sharedstatedir="`eval echo $sharedstatedir`"
+localstatedir="`eval echo $localstatedir`"
+libdir="`eval echo $libdir`"
+includedir="`eval echo $includedir`"
+infodir="`eval echo $infodir`"
+mandir="`eval echo $mandir`"
 
 
 # Set soqt_build_dir so we can change soqt.dsp
@@ -5798,6 +5810,12 @@ eval "soqt_include_dir=\"`echo $includedir | sed -e 's%\\/%\\\\%g'`\""
 # Set soqt_lib_dir so we can change SoCoinSDK.iwz
 
 eval "soqt_lib_dir=\"`echo $libdir | sed -e 's%\\/%\\\\%g'`\""
+
+
+
+# For the soqt.spec RPM specification file.
+
+  eval "soqt_configure_date=\"`date +%Y%m%d`\""
 
 
 
@@ -5891,7 +5909,7 @@ config_files="\\
     src/Inventor/Qt/devices/Makefile src/Inventor/Qt/viewers/Makefile
     src/Inventor/Qt/widgets/Makefile test-code/Makefile
     test-code/components/Makefile test-code/widgets/Makefile build/soqt.dsp
-    build/soqt.mak build/soqt_dll.dsp build/soqt_dll.mak"
+    build/soqt.mak build/soqt_dll.dsp build/soqt_dll.mak build/soqt.spec"
 config_headers="\\
     config.h"
 
@@ -5948,6 +5966,7 @@ do
   'build/soqt.mak' ) CONFIG_FILES="\$CONFIG_FILES build/soqt.mak" ;;
   'build/soqt_dll.dsp' ) CONFIG_FILES="\$CONFIG_FILES build/soqt_dll.dsp" ;;
   'build/soqt_dll.mak' ) CONFIG_FILES="\$CONFIG_FILES build/soqt_dll.mak" ;;
+  'build/soqt.spec' ) CONFIG_FILES="\$CONFIG_FILES build/soqt.spec" ;;
   'config.h' ) CONFIG_HEADERS="\$CONFIG_HEADERS config.h" ;;
   # This is an error.
   *) echo "$CONFIG_STATUS: invalid argument: \$ac_option"; exit 1 ;;
@@ -6085,6 +6104,7 @@ s%@soqt_build_dir@%$soqt_build_dir%;t t
 s%@soqt_src_dir@%$soqt_src_dir%;t t
 s%@soqt_include_dir@%$soqt_include_dir%;t t
 s%@soqt_lib_dir@%$soqt_lib_dir%;t t
+s%@soqt_configure_date@%$soqt_configure_date%;t t
 CEOF
 
 EOF

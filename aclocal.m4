@@ -1412,6 +1412,48 @@ if test x"$with_opengl" != xno; then
 fi
 ])
 
+
+# Usage:
+#  SIM_AC_GLU_NURBSOBJECT([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+#
+#  Try to find out whether the interface struct against the GLU
+#  library NURBS functions is called "GLUnurbs" or "GLUnurbsObj".
+#  (This seems to have changed somewhere between release 1.1 and
+#  release 1.3 of GLU).
+#
+#  The variable $sim_ac_glu_nurbsobject is set to the correct name
+#  if the nurbs structure is found.
+#
+# Author: Morten Eriksen, <mortene@sim.no>.
+
+AC_DEFUN(SIM_AC_GLU_NURBSOBJECT, [
+AC_CACHE_CHECK(
+  [what structure to use in the GLU NURBS interface],
+  sim_cv_func_glu_nurbsobject,
+  [sim_cv_func_glu_nurbsobject=NONE
+   for sim_ac_glu_structname in GLUnurbs GLUnurbsObj; do
+    if test "$sim_cv_func_glu_nurbsobject" = NONE; then
+      AC_TRY_LINK([#ifdef _WIN32
+                  #include <windows.h>
+                  #endif
+                  #include <GL/gl.h>
+                  #include <GL/glu.h>],
+                  [$sim_ac_glu_structname * hepp = gluNewNurbsRenderer();
+                   gluDeleteNurbsRenderer(hepp)],
+                  [sim_cv_func_glu_nurbsobject=$sim_ac_glu_structname])
+    fi
+  done
+])
+
+if test $sim_cv_func_glu_nurbsobject = NONE; then
+  sim_ac_glu_nurbsobject=
+  $2
+else
+  sim_ac_glu_nurbsobject=$sim_cv_func_glu_nurbsobject
+  $1
+fi
+])
+
 # Usage:
 #  SIM_AC_CHECK_PTHREAD([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 #
@@ -2768,8 +2810,33 @@ fi
 AC_DEFUN([SIM_EXPAND_DIR_VARS], [
 test x"$prefix" = x"NONE" && prefix="$ac_default_prefix"
 test x"$exec_prefix" = x"NONE" && exec_prefix="${prefix}"
-includedir="`eval echo $includedir`"
-libdir="`eval echo $libdir`"
+
+# This is the list of all install-path variables found in configure
+# scripts. FIXME: use another "eval-nesting" to move assignments into
+# a for-loop. 20000704 mortene.
+bindir="`eval echo $bindir`"
+sbindir="`eval echo $sbindir`"
+libexecdir="`eval echo $libexecdir`"
 datadir="`eval echo $datadir`"
+sysconfdir="`eval echo $sysconfdir`"
+sharedstatedir="`eval echo $sharedstatedir`"
+localstatedir="`eval echo $localstatedir`"
+libdir="`eval echo $libdir`"
+includedir="`eval echo $includedir`"
+infodir="`eval echo $infodir`"
+mandir="`eval echo $mandir`"
+])
+
+# Usage:
+#  SIM_AC_ISO8601_DATE(variable)
+#
+# Description:
+#   This macro sets the given variable to a strings representing
+#   the current date in the ISO8601-compliant format YYYYMMDD.
+#
+# Author: Morten Eriksen, <mortene@sim.no>.
+
+AC_DEFUN(SIM_AC_ISO8601_DATE, [
+  eval "$1=\"`date +%Y%m%d`\""
 ])
 

@@ -102,6 +102,7 @@ lGUI = @lGUI@
 qt_version = @qt_version@
 sim_ac_conf_cmd = @sim_ac_conf_cmd@
 soqt_build_dir = @soqt_build_dir@
+soqt_configure_date = @soqt_configure_date@
 soqt_include_dir = @soqt_include_dir@
 soqt_lib_dir = @soqt_lib_dir@
 soqt_src_dir = @soqt_src_dir@
