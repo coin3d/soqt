@@ -37,6 +37,7 @@
 #include <moc_SoQtThumbWheel.cpp>
 
 #include <Inventor/SbBasic.h>
+#include <Inventor/errors/SoDebugError.h>
 
 #include <soqtdefs.h>
 #include <Inventor/Qt/widgets/SoAnyThumbWheel.h>
