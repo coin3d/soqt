@@ -28,9 +28,9 @@
 #include <Inventor/Qt/SoQtBasic.h>
 #include <Inventor/Qt/widgets/Gradient.h>
 
-class SOQT_DLL_API SoQtGradientDialog : public QDialog
+class /*SOQT_DLL_API*/ SoQtGradientDialog : public QDialog
 {
-  Q_OBJECT
+  //Q_OBJECT
 
 public:
   SoQtGradientDialog(const Gradient & grad = Gradient(),
@@ -44,13 +44,12 @@ public:
   void setDataLimits(float min, float max);
   const Gradient & getGradient(void) const;
   void setChangeCallback(Gradient::ChangeCB * cb, void * userdata);
+  void setContinuousNotification(SbBool yes);
+  void getContinuousNotification(void) const;
+  void alwaysContinuousUpdates(SbBool yes);
 
-  // FIXME: implement these slots in the private
-  // implementation. frodo, 20030927
-private slots:
-  void loadGradient(void);
-  void saveGradient(void);
-  void chooseGradient(int i);
+protected:
+  void resizeEvent(class QResizeEvent * e);
 
 private:
   class SoQtGradientDialogP * pimpl;
