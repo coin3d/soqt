@@ -418,13 +418,12 @@ SoQtKeyboard::SoQtKeyboard(
   this->eventmask = mask;
   this->kbdevent = NULL;
 
-  // Protect against surprises in future Qt version (> v2.x.x).
+  // Protect against surprises in future Qt version (>= v3).
   static bool mask_tested = false;
   if (!mask_tested) {
     mask_tested = true;
-    if (QT_KEYPAD_MASK != QT_KEYPAD_MASK_ASSUMED) {
-      assert(false && "value of Qt::Keypad has changed!");
-    }
+    assert((QT_KEYPAD_MASK == QT_KEYPAD_MASK_ASSUMED) &&
+           "value of Qt::Keypad has changed!");
   }
 } // SoQtKeyboard()
 
