@@ -194,6 +194,10 @@ AC_SUBST(SOGUI_EXTRA_LIBS, $LIBS)
 
 # SIM_EXPAND_DIR_VARS
 
+# FIXME: I disabled the doxy4win.pl substitution of the <PATH> tag, as the
+# setup wasn't working for ``make distcheck'' for some reason, and it
+# also made an extra dependency in our build environment: Perl.
+# 20011211 mortene.
 case $host in
 *-cygwin) path_tag="<PATH>" ;;
 *)        path_tag= ;;
@@ -299,6 +303,11 @@ AM_CONDITIONAL(BUILD_MANPAGES, test x"$want_man" = x"yes")
 AM_CONDITIONAL(BUILD_HTMLPAGES, test x"$want_html" = x"yes")
 
 if test x"$want_man" = x"yes"; then
+  # Stop any attempts at using Doxygen under MSWin, as it's not working yet.
+  case $host in
+  *-cygwin) AC_MSG_ERROR([Sorry, Doxygen-generation of documentation does not work under Cygwin yet.]) ;;
+  esac
+
   SIM_AC_CONFIGURATION_SETTING([manpage installation], [$mandir])
 fi
 
@@ -307,12 +316,12 @@ if test x"$want_html" = x"yes"; then
 fi
 
 if test x"$want_html" != xno -o x"$want_man" != xno; then
+  # Stop any attempts at using Doxygen under MSWin, as it's not working yet.
+  case $host in
+  *-cygwin) AC_MSG_ERROR([Sorry, Doxygen-generation of documentation does not work under Cygwin yet.]) ;;
+  esac
+
   SIM_AC_DOXYGEN_TOOL([], [SIM_AC_ERROR([no-doxygen])])
-  # too much overhead in maintaining this stupid thing...
-  # sim_ac_doxygen_our_version=1.2.1
-  # if test x"$sim_ac_doxygen_avail" != x"$sim_ac_doxygen_our_version"; then
-  #   AC_MSG_WARN(You are not using Doxygen version $sim_ac_doxygen_our_version)
-  # fi
 
   AC_PATH_PROG(sim_ac_perl_exe, perl, false, $PATH)
   if test x"$sim_ac_perl_exe" = xfalse; then
@@ -322,6 +331,11 @@ fi
 
 # path_tag is used to identify paths in docs/coin.doxygen that needs to be
 # transformed using cygpath under cygwin.
+
+# FIXME: I disabled the doxy4win.pl substitution of the <PATH> tag, as the
+# setup wasn't working for ``make distcheck'' for some reason, and it
+# also made an extra dependency in our build environment: Perl.
+# 20011211 mortene.
 
 case $host in
 *-cygwin) path_tag="<PATH>" ;;
