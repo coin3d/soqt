@@ -1,0 +1,24 @@
+--- src/Inventor/Qt/viewers/Makefile.in	Fri Feb  4 16:15:41 2000
++++ src/Inventor/Qt/viewers/Makefile.in.corrected	Fri Feb  4 16:17:56 2000
+@@ -187,7 +187,8 @@
+ HEADERS =  $(libSoQtViewersinc_HEADERS)
+ 
+ DIST_COMMON =  $(libSoQtViewersinc_HEADERS) Makefile.am Makefile.in \
+-SoQtViewer.cpp.in SoQtViewer.h.in
++$(top_srcdir)/src/Inventor/Qt/common/SoAnyViewer.cpp.in \
++$(top_srcdir)/src/Inventor/Qt/common/SoAnyViewer.h.in
+ 
+ 
+ DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+@@ -215,9 +216,9 @@
+ 	cd $(top_builddir) \
+ 	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
+ 
+-SoQtViewer.h: $(top_builddir)/config.status SoQtViewer.h.in
++SoQtViewer.h: $(top_builddir)/config.status $(top_srcdir)/src/Inventor/Qt/common/SoAnyViewer.h.in
+ 	cd $(top_builddir) && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
+-SoQtViewer.cpp: $(top_builddir)/config.status SoQtViewer.cpp.in
++SoQtViewer.cpp: $(top_builddir)/config.status  $(top_srcdir)/src/Inventor/Qt/common/SoAnyViewer.cpp.in
+ 	cd $(top_builddir) && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
+ 
+ mostlyclean-noinstLTLIBRARIES:
