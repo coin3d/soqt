@@ -6312,7 +6312,11 @@ if test x"$with_qt" != xno; then
 #include <qglobal.h>
 int VerQt = QT_VERSION;
 EOF
-  sim_ac_qt_version=`$CXXCPP $CPPFLAGS conftest.c | grep '^int VerQt' | sed 's%^int VerQt = %%' | sed 's%;$%%'`
+  # The " *"-parts of the last sed-expression on the next line are necessary
+  # because at least the Solaris/CC preprocessor adds extra spaces before and
+  # after the trailing semicolon.
+  sim_ac_qt_version=`$CXXCPP $CPPFLAGS conftest.c | grep '^int VerQt' | sed 's%^int VerQt = %%' | sed 's% *; *$%%'`
+
   rm -f conftest.c
   AC_MSG_RESULT($sim_ac_qt_version)
 
@@ -6321,7 +6325,7 @@ EOF
     if test $sim_ac_qt_version -lt 302; then
       SIM_AC_CONFIGURATION_WARNING([The version of Qt you are using is
 known to contain some serious bugs. We strongly recommend you to
-upgrade. (See README.MAC for details.)])
+upgrade. (See $srcdir/README.MAC for details.)])
     fi
     ;;
   esac
