@@ -57,8 +57,6 @@ public:
     SoQtViewer::Type type = BROWSER );
   ~SoQtExaminerViewer(void);
 
-  virtual void setViewing( SbBool enable );
-
   void setAnimationEnabled( const SbBool enable );
   SbBool isAnimationEnabled(void) const;
 
@@ -71,7 +69,11 @@ public:
   void setFeedbackSize( const int size );
   int getFeedbackSize(void) const;
 
+  virtual void setViewing( SbBool enable );
   virtual void setCamera( SoCamera * const camera );
+  virtual void setCursorEnabled( SbBool enable );
+  virtual void resetToHomePosition(void);
+  virtual void viewAll(void);
 
 protected:
   SoQtExaminerViewer(
@@ -82,7 +84,6 @@ protected:
     SoQtViewer::Type type,
     SbBool build );
 
-  virtual void setCursorEnabled( SbBool enable );
 
   virtual void leftWheelMotion( float val );
   virtual void bottomWheelMotion( float val );
