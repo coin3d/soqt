@@ -1,5 +1,5 @@
-#ifndef COIN_SBCUBICSPLINE_H
-#define COIN_SBCUBICSPLINE_H
+#ifndef COIN_SbGuiCubicSpline_H
+#define COIN_SbGuiCubicSpline_H
 
 /**************************************************************************\
  *
@@ -29,10 +29,10 @@
 #include <Inventor/SbVec3f.h>
 #include <Inventor/SbVec4f.h>
 
-class SbCubicSpline {
+class SbGuiCubicSpline {
 public:
-  SbCubicSpline(const int approxcount = 256);
-  ~SbCubicSpline();
+  SbGuiCubicSpline(const int approxcount = 256);
+  ~SbGuiCubicSpline();
 
   enum Type {
     CATMULL_ROM = 0,
@@ -78,4 +78,4 @@ private:
 };
 
 
-#endif // COIN_SBCUBICSPLINE_H
+#endif // COIN_SbGuiCubicSpline_H

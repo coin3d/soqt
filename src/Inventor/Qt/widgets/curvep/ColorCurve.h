@@ -27,7 +27,7 @@
 #include <Inventor/SbLinear.h>
 #include <Inventor/Qt/common/SbGuiList.h>
 
-class SbCubicSpline;
+class SbGuiCubicSpline;
 
 class ColorCurve {
 public:
@@ -70,7 +70,7 @@ private:
   SbVec2f * curvepts;
   uint8_t * colormap;
 
-  SbCubicSpline * curve;
+  SbGuiCubicSpline * curve;
   SbGuiList<SbVec3f> ctrlpts;
   ColorCurve::ChangeCB * callBack;
   void * callbackdata;

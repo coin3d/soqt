@@ -21,9 +21,9 @@
  *
 \**************************************************************************/
 
-#include "SoGuiSpline.h"
+#include "SbGuiCubicSpline.h"
 
-SbCubicSpline::SbCubicSpline(const int approxcount)
+SbGuiCubicSpline::SbGuiCubicSpline(const int approxcount)
   : needinit(TRUE),
     loop(FALSE),
     approxcount(approxcount),    
@@ -32,12 +32,12 @@ SbCubicSpline::SbCubicSpline(const int approxcount)
   this->setBasisMatrix(B_SPLINE);
 }
 
-SbCubicSpline::~SbCubicSpline()
+SbGuiCubicSpline::~SbGuiCubicSpline()
 {
 }
 
 void 
-SbCubicSpline::setBasisMatrix(const Type type)
+SbGuiCubicSpline::setBasisMatrix(const Type type)
 {
   switch(type) {
   case CATMULL_ROM:
@@ -62,7 +62,7 @@ SbCubicSpline::setBasisMatrix(const Type type)
 }
 
 void 
-SbCubicSpline::setBasisMatrix(const SbMatrix & m)
+SbGuiCubicSpline::setBasisMatrix(const SbMatrix & m)
 {
   if (m != this->basismatrix) {
     this->basismatrix = m;
@@ -71,13 +71,13 @@ SbCubicSpline::setBasisMatrix(const SbMatrix & m)
 }
 
 const SbMatrix & 
-SbCubicSpline::getBasisMatrix(void) const
+SbGuiCubicSpline::getBasisMatrix(void) const
 {
   return this->basismatrix;
 }
 
 void 
-SbCubicSpline::setLoop(const SbBool loop)
+SbGuiCubicSpline::setLoop(const SbBool loop)
 {
   if (loop != this->loop) {
     this->loop = loop;
@@ -86,7 +86,7 @@ SbCubicSpline::setLoop(const SbBool loop)
 }
 
 void 
-SbCubicSpline::setControlPoints(const SbVec3f * pts, const int num)
+SbGuiCubicSpline::setControlPoints(const SbVec3f * pts, const int num)
 {
   this->ctrlpts.truncate(0);
   for (int i = 0; i < num; i++) {
@@ -96,7 +96,7 @@ SbCubicSpline::setControlPoints(const SbVec3f * pts, const int num)
 }
 
 void 
-SbCubicSpline::setControlPoints(const SbVec4f * pts, const int num)
+SbGuiCubicSpline::setControlPoints(const SbVec4f * pts, const int num)
 {
   this->ctrlpts.truncate(0);
   for (int i = 0; i < num; i++) {
@@ -106,7 +106,7 @@ SbCubicSpline::setControlPoints(const SbVec4f * pts, const int num)
 }
 
 SbVec3f 
-SbCubicSpline::getPoint(const float t)
+SbGuiCubicSpline::getPoint(const float t)
 {
   float segt;
   this->getSegdata(t, segt); 
@@ -114,7 +114,7 @@ SbCubicSpline::getPoint(const float t)
 }
 
 SbVec3f 
-SbCubicSpline::getTangent(const float t)
+SbGuiCubicSpline::getTangent(const float t)
 {
   float segt;
   this->getSegdata(t, segt); 
@@ -122,13 +122,13 @@ SbCubicSpline::getTangent(const float t)
 }
 
 float 
-SbCubicSpline::getSegmentLength(const int idx)
+SbGuiCubicSpline::getSegmentLength(const int idx)
 {
   return this->seglens[idx];
 }
 
 int 
-SbCubicSpline::getSegdata(const float t, float & segt)
+SbGuiCubicSpline::getSegdata(const float t, float & segt)
 {
   if (this->needinit) this->initialize();
   int seg = this->getSegnum(t);
@@ -147,7 +147,7 @@ SbCubicSpline::getSegdata(const float t, float & segt)
 }
 
 void
-SbCubicSpline::initialize(void)
+SbGuiCubicSpline::initialize(void)
 {
   this->currsegment = -1;
   int i, n = this->ctrlpts.getLength();
@@ -208,7 +208,7 @@ SbCubicSpline::initialize(void)
 }
 
 SbVec3f 
-SbCubicSpline::getPoint(const SbMatrix & m, const float t)
+SbGuiCubicSpline::getPoint(const SbMatrix & m, const float t)
 {
 #if 0
   float t2, t3;
@@ -232,7 +232,7 @@ SbCubicSpline::getPoint(const SbMatrix & m, const float t)
 }
 
 SbVec3f
-SbCubicSpline::getTangent(const SbMatrix &m, const float t)
+SbGuiCubicSpline::getTangent(const SbMatrix &m, const float t)
 {
   float t2;
   t2 = t*t;
@@ -244,7 +244,7 @@ SbCubicSpline::getTangent(const SbMatrix &m, const float t)
 }
 
 void 
-SbCubicSpline::initMatrix(const int q, SbMatrix & m)
+SbGuiCubicSpline::initMatrix(const int q, SbMatrix & m)
 {
   int pnr[4], i;
   pnr[0] = this->clampSegnum(q-1);
@@ -262,7 +262,7 @@ SbCubicSpline::initMatrix(const int q, SbMatrix & m)
 }
 
 int 
-SbCubicSpline::getSegmentInfo(const float t, float & segt) const
+SbGuiCubicSpline::getSegmentInfo(const float t, float & segt) const
 {
   assert(t > 1.0f);
   int segnum = this->getSegnum(t);
@@ -272,7 +272,7 @@ SbCubicSpline::getSegmentInfo(const float t, float & segt) const
 }
 
 int 
-SbCubicSpline::getSegnum(const float time) const
+SbGuiCubicSpline::getSegnum(const float time) const
 {
   int i = this->currsegment;
   if (i >= 0 && time >= this->segstarttimes[i] && 
@@ -304,7 +304,7 @@ SbCubicSpline::getSegnum(const float time) const
 }
 
 int 
-SbCubicSpline::clampSegnum(const int q) const
+SbGuiCubicSpline::clampSegnum(const int q) const
 {
   int ret = q;
   int n = this->ctrlpts.getLength();

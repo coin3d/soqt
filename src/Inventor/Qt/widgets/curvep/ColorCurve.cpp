@@ -22,7 +22,7 @@
 \**************************************************************************/
 
 #include <qcolor.h>
-#include "SoGuiSpline.h" // FIXME: the SbCubic spline should perhaps be made available in Coin or SoQt 20031016 frodo
+#include "SbGuiCubicSpline.h" // FIXME: the SbCubic spline should perhaps be made available in Coin or SoQt 20031016 frodo
 #include "ColorCurve.h"
 
 ColorCurve::ColorCurve(CurveType type, const int numcolors)
@@ -31,8 +31,8 @@ ColorCurve::ColorCurve(CurveType type, const int numcolors)
   this->curvepts = new SbVec2f[this->numpts];
   this->colormap = new uint8_t[this->numcolors];
   this->type = type;
-  this->curve = new SbCubicSpline(numpts);
-  this->curve->setBasisMatrix(SbCubicSpline::CATMULL_ROM);
+  this->curve = new SbGuiCubicSpline(numpts);
+  this->curve->setBasisMatrix(SbGuiCubicSpline::CATMULL_ROM);
   this->callBack = NULL;
   this->prevx = 0;
   this->needinterpol = FALSE;
