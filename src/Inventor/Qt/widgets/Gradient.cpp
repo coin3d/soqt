@@ -216,11 +216,6 @@ void Gradient::setChangeCallback(Gradient::ChangeCB * callBack)
   PRIVATE(this)->callBack = callBack;
 }
 
-// void Gradient::handleChange(void)
-// {
-//   if (PRIVATE(this)->callBack) { PRIVATE(this)->callBack(*this); }
-// }
-
 void Gradient::getColorArray(QRgb * colorArray, int num) const
 {
   for (int i = 0; i < num; i++) {
