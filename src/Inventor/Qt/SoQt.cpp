@@ -164,7 +164,7 @@
   cone:
 
   <center>
-  <img src="http://doc.coin3d.org/images/Coin/draggers/trackball.png">
+  <img src="http://doc.coin3d.org/images/Coin/draggers/trackball-cone.png">
   </center>
   </li>
 
@@ -207,8 +207,8 @@
 
   For those who are using the implementations of the Inventor API from
   either SGI or TGS, we would like to point out that %SoQt can also be
-  used on top of either of those libraries instead the \COIN library
-  from Systems in Motion.
+  used on top of either of those libraries instead of the \COIN
+  library from Systems in Motion.
 
   The %SoQt API is based on and closely matches the InventorXt library
   API, originally developed by SGI. This should make it
@@ -576,11 +576,24 @@ SoQt::init(QWidget * toplevelwidget)
   // This init()-method is called by the other 2 init()'s, so place
   // common code here.
 
+  // Must do this here so SoDebugError is initialized before it could
+  // be attempted used.
+  if (!SoDB::isInitialized()) { SoDB::init(); }
+  SoNodeKit::init();
+  SoInteraction::init();
+
   if (SOQT_DEBUG && SoQtP::mainwidget) {
     SoDebugError::postWarning("SoQt::init",
                               "This method should be called only once.");
     return;
   }
+
+  SoQtObject::init();
+#ifdef COIN_IV_EXTENSIONS
+#define COIN_IV_EXTENSION(ext) ext::initClass();
+  COIN_IV_EXTENSIONS
+#undef COIN_IV_EXTENSION
+#endif
 
   // This is _extremely_ useful for debugging X errors: activate this
   // code (set the SOQT_XSYNC environment variable on your system to
@@ -602,16 +615,6 @@ SoQt::init(QWidget * toplevelwidget)
   }
 #endif // Q_WS_X11
 
-  SoDB::init();
-  SoNodeKit::init();
-  SoInteraction::init();
-  SoQtObject::init();
-#ifdef COIN_IV_EXTENSIONS
-#define COIN_IV_EXTENSION(ext) ext::initClass();
-  COIN_IV_EXTENSIONS
-#undef COIN_IV_EXTENSION
-#endif
-
   // This should prove helpful for debugging the pervasive problem
   // under Win32 with loading multiple instances of the same library.
   if (SoQtP::DEBUG_LISTMODULES == ENVVAR_NOT_INITED) {
@@ -628,6 +631,12 @@ SoQt::init(QWidget * toplevelwidget)
 QWidget *
 SoQt::init(int & argc, char ** argv, const char * appname, const char * classname)
 {
+  // Must do this here so SoDebugError is initialized before it could
+  // be attempted used.
+  if (!SoDB::isInitialized()) { SoDB::init(); }
+  SoNodeKit::init();
+  SoInteraction::init();
+
   if (SOQT_DEBUG && (SoQtP::appobject || SoQtP::mainwidget)) {
     SoDebugError::postWarning("SoQt::init",
                               "This method should be called only once.");
