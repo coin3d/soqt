@@ -48,8 +48,6 @@ public:
   static SoQtP_XErrorHandler * previous_handler;
   static int X11Errorhandler(void * d, void * ee);
 
-  static int DEBUG_LISTMODULES;
-
   static int BRIL_X11_SILENCER;
 
   static QWidget * mainwidget;
