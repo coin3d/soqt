@@ -25,6 +25,12 @@ ToDo
 * [mortene:19990918] look into making some kind of suffix (or prefix?)
   make rule for moc targets (to minimalize mess in Makefile.am files).
 
+* [mortene:19990923] having moc generating source files means
+  cross-compilation will be harder. Basically, we'll need to generate
+  moc for the host platform and build the other sources with the
+  cross-compiler. Ugh. This is pretty low-priority now, though, as we
+  haven't set up anything for cross-compilation yet.
+
 * [mortene:19990919] improve the detection and handling of Open
   Inventor dependency libraries in configure.in -- possibly also for
   other libraries we depend on (Qt, QGL). Ideally, we should make
