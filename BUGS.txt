@@ -821,3 +821,15 @@ main(int argc, char ** argv)
     20041130 mortene.
 
 =====================================================================
+
+035 "Animating Drawstyle" == "no texture" has no effect.
+
+    ...when "Still Drawstyle" == "as is".
+
+    This is probably an error common over all So* toolkits.
+
+    Low priority item.
+
+    20041207 mortene.
+
+=====================================================================
