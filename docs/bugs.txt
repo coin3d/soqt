@@ -36,7 +36,7 @@
 008. Interactivebuffer mode is foobar.
 
 009. No support for overlay planes. Overlay planes can be done within
-     Qt with a bit of hacking -- see the example in the Qt distro.
+     Qt with a bit of hacking -- see the example in the Qt 2 distro.
 
 010. No support for stereo mode.
 

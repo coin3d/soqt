@@ -1,0 +1,23 @@
+/* config.h.in.  Generated automatically from configure.in by autoheader.  */
+
+/* Define if the X Window System is missing or not being used.  */
+#undef X_DISPLAY_MISSING
+
+/* Define if you have the Coin library (-lCoin).  */
+#undef HAVE_LIBCOIN
+
+/* Define if you have the Inventor library (-lInventor).  */
+#undef HAVE_LIBINVENTOR
+
+/* Define if you have the qgl library (-lqgl).  */
+#undef HAVE_LIBQGL
+
+/* Define if you have the qt library (-lqt).  */
+#undef HAVE_LIBQT
+
+/* Name of package */
+#undef PACKAGE
+
+/* Version number of package */
+#undef VERSION
+

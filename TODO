@@ -1,0 +1,68 @@
+===============================================================================
+ToDo
+====
+
+(format is: "* [author:conceived-date] item", listed in no particular order)
+
+* [mortene:19990917] write information in NEWS, README, HACKING,
+  AUTHORS, ChangeLog, COPYING.
+
+* [mortene:19990917] write non-generic info in INSTALL.
+
+* [mortene:19990918] use the OpenGL detection macro (and the resulting
+  GL_CFLAGS and GL_LIBS)? Or is this taken care of with the linking
+  against OpenGL (or Mesa) with libCoin?
+
+* [mortene:19990918] add SOQT_MAJOR/MINOR/MICRO_VERSION etc somewhere
+  in an include file (as in libCoin SbBasic.h).
+
+* [mortene:19990918] moc_*.cpp files should be removed when doing
+  ``make clean''.
+
+* [mortene:19990918] look into making some kind of suffix (or prefix?)
+  make rule for moc targets (to minimalize mess in Makefile.am files).
+
+* [mortene:19990919] improve the detection and handling of Open
+  Inventor dependency libraries in configure.in -- possibly also for
+  other libraries we depend on (Qt, QGL). Ideally, we should make
+  something which automatically works over multiple platforms
+  (including Win32).
+
+* [mortene:19990919] move the items in the buglist at docs/bugs.txt
+  into this ToDo-list.
+
+* [mortene:19990919] integrate generation of man- and html-doc into
+  the autoconf/automake-based build.
+
+* [mortene:19990919] use caching for some of the extra configuration
+  checks we do to speed up invocations of configure.
+
+===============================================================================
+Done
+====
+
+(format is: "* [author:conceived-date][implementer:finished-date] item")
+
+* [mortene:19990917][mortene:19990919] build QtThumbwheel test program.
+
+* [mortene:19990917][mortene:19990919] build example program
+  examples/examinerviewer/examinerviewer.
+
+* [mortene:19990917][mortene:19990918] make a configure option for
+  compiling over Open Inventor (from OIVHOME?).
+
+* [mortene:19990917][mortene:19990918] include moc-invocation and
+  moc-generated files in the build.
+
+* [mortene:19990917][mortene:19990917] check for the moc binary.
+
+* [mortene:19990917][mortene:19990918] check for the Qt library (under
+  QTDIR).
+
+* [mortene:19990917][mortene:19990918] check for the QGL library
+  (under QTDIR).
+
+* [mortene:19990917][mortene:19990918] check for the Coin library
+  (under COINDIR?).
+
+===============================================================================
