@@ -7,7 +7,7 @@ SUFFIXES = .cpp .h .m4 .in .o .lo .Plo .TPlo
 
 ############################################################################
 
-SUBDIRS = src/Inventor/Qt
+SUBDIRS = . src/Inventor/Qt
 
 SoQtBuiltSources = \
 	soqt-config \

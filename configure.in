@@ -5,17 +5,6 @@ AC_INIT(src/Inventor/Qt/SoQt.h)
 AC_CONFIG_AUX_DIR(cfg)
 
 # **************************************************************************
-# create "reconfigure" script for invoking configure again with the exact
-# same command line options as last time.
-
-cat >reconfigure <<END_OF_SCRIPT
-#! /bin/sh
-echo $0 $@
-exec $0 $@
-END_OF_SCRIPT
-chmod 755 reconfigure
-
-# **************************************************************************
 # Make sure the given source repository is in sync with the master source
 # repository.
 

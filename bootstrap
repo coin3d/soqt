@@ -18,7 +18,7 @@ fi
 
 AUTOCONF_VER=2.49c     # Autoconf from CVS
 AUTOMAKE_VER=1.4[abc]  # Automake from CVS
-LIBTOOL_VER=1.3.5
+LIBTOOL_VER=1.3c       # Libtool from CVS
 
 GUI=Qt
 PROJECT=So$GUI
@@ -104,6 +104,10 @@ ${DIE=false} && echo "" && echo >&2 "$me: aborting..." && exit 1
 echo "Running aclocal..."
 aclocal -I $MACRODIR
 
+# generate configure
+echo "Running autoconf..."
+autoconf
+
 # generate config.h.in
 echo "Running autoheader..."
 ( autoheader 3>&1 1>&2 2>&3 | grep -v 'is unchanged$' ) 3>&1 1>&2 2>&3
@@ -112,6 +116,3 @@ echo "Running autoheader..."
 echo "Running automake..."
 ( automake $AUTOMAKE_ADD 3>&1 1>&2 2>&3 | grep -v 'directory should not' ) 3>&1 1>&2 2>&3
 
-# generate configure
-echo "Running autoconf..."
-autoconf

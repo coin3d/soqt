@@ -120,7 +120,7 @@ SUFFIXES = .cpp .h .m4 .in .o .lo .Plo .TPlo
 
 ############################################################################
 
-SUBDIRS = src/Inventor/Qt
+SUBDIRS = . src/Inventor/Qt
 
 SoQtBuiltSources = \
 	soqt-config \
@@ -241,10 +241,11 @@ $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ configure.in  \
 		cfg/m4/macro_quoting.m4 cfg/m4/misc_compiler.m4 \
 		cfg/m4/modifierlist.m4 cfg/m4/msvccc.m4 \
 		cfg/m4/network.m4 cfg/m4/path_conversion.m4 \
-		cfg/m4/profit.m4 cfg/m4/progtest.m4 cfg/m4/simage.m4 \
-		cfg/m4/sobe.m4 cfg/m4/sockets.m4 cfg/m4/sogtk.m4 \
-		cfg/m4/sogui.m4 cfg/m4/soqt.m4 cfg/m4/sowin.m4 \
-		cfg/m4/soxt.m4 cfg/m4/uniqify.m4
+		cfg/m4/profit.m4 cfg/m4/progtest.m4 \
+		cfg/m4/reconfigure.m4 cfg/m4/simage.m4 cfg/m4/sobe.m4 \
+		cfg/m4/sockets.m4 cfg/m4/sogtk.m4 cfg/m4/sogui.m4 \
+		cfg/m4/soqt.m4 cfg/m4/sowin.m4 cfg/m4/soxt.m4 \
+		cfg/m4/uniqify.m4
 	cd $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 
 config.status: $(srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
