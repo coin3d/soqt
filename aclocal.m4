@@ -133,15 +133,9 @@ fi
 # **************************************************************************
 # SIM_AC_SETUP_MSVC_IFELSE( IF-FOUND, IF-NOT-FOUND )
 #
-# This macro invokes IF-FOUND if the msvccc wrapper can be run, and
+# This macro invokes IF-FOUND if the wrapmsvc wrapper can be run, and
 # IF-NOT-FOUND if not.
 #
-# **************************************************************************
-# SIM_AC_MSVCRT
-#
-# Set up the MSVC++ run-time library.
-#
-# **************************************************************************
 # Authors:
 #   Morten Eriksen <mortene@coin3d.org>
 #   Lars J. Aas <larsa@coin3d.org>
@@ -154,13 +148,13 @@ AC_DEFUN([SIM_AC_SETUP_MSVC_IFELSE],
 # compiling with it and to generate an MSWindows .dll file.
 
 : ${BUILD_WITH_MSVC=false}
-sim_ac_msvccc=`cd $srcdir; pwd`/cfg/m4/wrapmsvc.exe
-if test -z "$CC" -a -z "$CXX" && $sim_ac_msvccc >/dev/null 2>&1; then
+sim_ac_wrapmsvc=`cd $srcdir; pwd`/cfg/m4/wrapmsvc.exe
+if test -z "$CC" -a -z "$CXX" && $sim_ac_wrapmsvc >/dev/null 2>&1; then
   m4_ifdef([$0_VISITED],
     [AC_FATAL([Macro $0 invoked multiple times])])
   m4_define([$0_VISITED], 1)
-  CC=$sim_ac_msvccc
-  CXX=$sim_ac_msvccc
+  CC=$sim_ac_wrapmsvc
+  CXX=$sim_ac_wrapmsvc
   export CC CXX
   BUILD_WITH_MSVC=true
 fi
@@ -174,10 +168,14 @@ else
 fi
 ]) # SIM_AC_SETUP_MSVC_IFELSE
 
-AC_DEFUN([SIM_AC_SETUP_MSVCRT],
-[
+# **************************************************************************
+# SIM_AC_SETUP_MSVCRT
+#
+# This macro sets up compiler flags for the MS Visual C++ C library of
+# choice.
 
-sim_ac_msvcrt_LDFLAGS=""
+AC_DEFUN([SIM_AC_SETUP_MSVCRT],
+[sim_ac_msvcrt_LDFLAGS=""
 sim_ac_msvcrt_LIBS=""
 
 AC_ARG_WITH([msvcrt],
@@ -238,6 +236,7 @@ AC_MSG_RESULT([$sim_ac_msvcrt])
 $1
 ]) # SIM_AC_SETUP_MSVCRT
 
+# EOF **********************************************************************
 # EOF **********************************************************************
 
 # **************************************************************************

@@ -6,6 +6,8 @@ m4_define([MINOR_VERSION], [10])
 m4_define([MICRO_VERSION], [0])
 m4_define([VERSION_STRING], [MAJOR_VERSION.MINOR_VERSION.MICRO_VERSION])
 
+AC_PREREQ(2.50)
+
 AC_INIT([SoQt], [VERSION_STRING])
 
 AC_CONFIG_AUX_DIR(cfg)
@@ -51,15 +53,17 @@ if $sim_ac_try_msvc; then
     *-cygwin) SIM_AC_ERROR([no-msvc++]) ;;
     esac
   ])
-  SIM_AC_SETUP_MSVCRT([
-    CPPFLAGS="$CFLAGS $sim_ac_msvcrt_CPPFLAGS"
-    CFLAGS="$CFLAGS $sim_ac_msvcrt_CFLAGS"
-    CXXFLAGS="$CXXFLAGS $sim_ac_msvcrt_CXXFLAGS"
-    LDFLAGS="$LDFLAGS $sim_ac_msvcrt_LDFLAGS"
-    LIBS="$LIBS $sim_ac_msvcrt_LIBS"
-    # sim_ac_msvcrt_LIBLIBS is set up at the end
-    # sim_ac_msvcrt_LIBLDFLAGS is set up at the end
-  ])
+  if $BUILD_WITH_MSVC; then
+    SIM_AC_SETUP_MSVCRT([
+      CPPFLAGS="$CPPFLAGS $sim_ac_msvcrt_CPPFLAGS"
+      CFLAGS="$CFLAGS $sim_ac_msvcrt_CFLAGS"
+      CXXFLAGS="$CXXFLAGS $sim_ac_msvcrt_CXXFLAGS"
+      LDFLAGS="$LDFLAGS $sim_ac_msvcrt_LDFLAGS"
+      LIBS="$LIBS $sim_ac_msvcrt_LIBS"
+      # sim_ac_msvcrt_LIBLIBS is set up at the end
+      # sim_ac_msvcrt_LIBLDFLAGS is set up at the end
+    ])
+  fi
 fi
 
 # **************************************************************************
