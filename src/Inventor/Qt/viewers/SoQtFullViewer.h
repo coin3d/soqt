@@ -70,6 +70,8 @@ public:
   virtual void setCamera(SoCamera * cam);
   virtual void hide(void);
 
+  virtual void setComponentCursor(const SoQtCursor & cursor);
+
 protected:
   SoQtFullViewer(
     QWidget * parent,

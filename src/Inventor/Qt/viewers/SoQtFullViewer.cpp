@@ -593,6 +593,20 @@ SoQtFullViewer::getRenderAreaWidget(void)
 
 // *************************************************************************
 
+// Doc in superclass.
+void
+SoQtFullViewer::setComponentCursor(const SoQtCursor & cursor)
+{
+  // Overridden to apply the new cursor only for the rendering canvas
+  // widget. Otherwise, the default SoQtComponent setComponentCursor()
+  // method will set the cursor for the top-most parent widget, which
+  // makes it affect all sub-widgets, like the decorations stuff.
+
+  SoQtComponent::setWidgetCursor(this->getRenderAreaWidget(), cursor);
+}
+
+// *************************************************************************
+
 /*!
   Set a flag to indicate whether we're in viewing mode (where the user
   can drag the model or scene around), or in interaction mode (where
