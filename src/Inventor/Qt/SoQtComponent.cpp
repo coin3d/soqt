@@ -1042,10 +1042,10 @@ SoQtComponent::setCursor(const SoQtCursor & cursor)
   PRIVATE(this)->cursor = cursor;
   switch(cursor.getShape()) {
   case SoQtCursor::DEFAULT:
-    this->getWidget()->setCursor(QCursor(Qt::ArrowCursor));
+    this->getWidget()->setCursor(QCursor(Qt::arrowCursor));
     break;
   case SoQtCursor::BUSY:
-    this->getWidget()->setCursor(QCursor(Qt::WaitCursor));
+    this->getWidget()->setCursor(QCursor(Qt::waitCursor));
     break;
   case SoQtCursor::CUSTOM_BITMAP:
     assert(0 && "FIXME: not implemented");
