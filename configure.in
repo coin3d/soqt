@@ -243,6 +243,17 @@ AC_CHECK_HEADERS([windows.h unistd.h sys/types.h sys/time.h X11/extensions/SGIMi
 # **************************************************************************
 # Search and set up necessary stuff to use Open Inventor or Coin.
 
+## Run AC_PATH_XTRA outside the if-then-else-fi, as a workaround for
+## an Autoconf bug (AC_PATH_XTRA AC_REQUIREs AC_PATH_X, which means
+## AC_PATH_X will only get expanded on the first AC_PATH_XTRA, which
+## means trouble when AC_PATH_XTRA uses $no_x="yes"? from AC_PATH_X
+## to decide whether or not to define X_DISPLAY_MISSING on X11-less
+## systems).
+##
+## The bug has been reported to the Autoconf mailinglist on 20001122
+## by mortene.
+AC_PATH_XTRA
+
 # $with_inventor is from within SIM_AC_HAVE_INVENTOR_IFELSE, and can
 # be used here since the value is empty when it reaches this point
 # unless it has been explicitly set.
@@ -256,16 +267,16 @@ if test x"$with_inventor" = xyes; then
     SOQT_EXTRA_LIBS="$sim_ac_dl_libs $SOQT_EXTRA_LIBS"
   ])
 
-  SIM_CHECK_X11([
+  SIM_AC_CHECK_X11([
     SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS $sim_ac_x11_cppflags"
     SOQT_EXTRA_LDFLAGS="$SOQT_EXTRA_LDFLAGS $sim_ac_x11_ldflags"
     SOQT_EXTRA_LIBS="$sim_ac_x11_libs $SOQT_EXTRA_LIBS"
   ])
 
   if test x"$sim_ac_x11_avail" = xyes; then
-    SIM_CHECK_X11SHMEM(SOQT_EXTRA_LIBS="$sim_ac_x11shmem_libs $SOQT_EXTRA_LIBS")
-    SIM_CHECK_X11MU(SOQT_EXTRA_LIBS="$sim_ac_x11mu_libs $SOQT_EXTRA_LIBS")
-    SIM_CHECK_X11XID(SOQT_EXTRA_LIBS="$sim_ac_x11xid_libs $SOQT_EXTRA_LIBS")
+    SIM_AC_CHECK_X11SHMEM(SOQT_EXTRA_LIBS="$sim_ac_x11shmem_libs $SOQT_EXTRA_LIBS")
+    SIM_AC_CHECK_X11MU(SOQT_EXTRA_LIBS="$sim_ac_x11mu_libs $SOQT_EXTRA_LIBS")
+    SIM_AC_CHECK_X11XID(SOQT_EXTRA_LIBS="$sim_ac_x11xid_libs $SOQT_EXTRA_LIBS")
   fi
 
   SIM_AC_CHECK_OPENGL([
@@ -305,7 +316,7 @@ else
     [sim_ac_x11_ready=false])
 
   if ! $sim_ac_x11_ready; then
-    SIM_CHECK_X11([
+    SIM_AC_CHECK_X11([
       CPPFLAGS="$CPPFLAGS $sim_ac_x11_cppflags"
       LDFLAGS="$LDFLAGS $sim_ac_x11_ldflags"
       LIBS="$sim_ac_x11_libs $LIBS"
@@ -317,17 +328,17 @@ else
     # if -lX11 is available from coin-config. Should really have macros
     # SIM_AC_CHECK_[X11SHMEM|X11MU]_READY. 20001116 mortene.
     if test x"$sim_ac_x11_avail" = xyes; then
-      SIM_CHECK_X11SHMEM([
+      SIM_AC_CHECK_X11SHMEM([
         # LIBS="$sim_ac_x11shmem_libs $LIBS"
         SOQT_EXTRA_LIBS="$sim_ac_x11shmem_libs $SOQT_EXTRA_LIBS"
       ])
-      SIM_CHECK_X11MU([
+      SIM_AC_CHECK_X11MU([
         # LIBS="$sim_ac_x11mu_libs $LIBS"
         SOQT_EXTRA_LIBS="$sim_ac_x11mu_libs $SOQT_EXTRA_LIBS"
       ])
     fi
   fi
-  SIM_CHECK_X11XID([
+  SIM_AC_CHECK_X11XID([
 	SOQT_EXTRA_LIBS="$sim_ac_x11xid_libs $SOQT_EXTRA_LIBS"
   ])
 fi
@@ -351,7 +362,7 @@ SIM_AC_CHECK_QT([
 AC_SUBST(qt_version)
 
 if test x"$sim_ac_x11mu_avail" != xyes; then
-  SIM_CHECK_X11MU(SOQT_EXTRA_LIBS="$sim_ac_x11mu_libs $SOQT_EXTRA_LIBS")
+  SIM_AC_CHECK_X11MU(SOQT_EXTRA_LIBS="$sim_ac_x11mu_libs $SOQT_EXTRA_LIBS")
 fi
 
 SIM_AC_CHECK_QGL([

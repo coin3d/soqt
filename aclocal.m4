@@ -1041,7 +1041,7 @@ done
 ])# SIM_AC_CHECK_HEADERS
 
 # Usage:
-#  SIM_CHECK_X11([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+#  SIM_AC_CHECK_X11([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 #
 #  Try to find the X11 development system. If it is found, these
 #  shell variables are set:
@@ -1057,11 +1057,10 @@ done
 #
 # Author: Morten Eriksen, <mortene@sim.no>.
 
-AC_DEFUN([SIM_CHECK_X11], [
+AC_DEFUN([SIM_AC_CHECK_X11], [
+AC_REQUIRE([AC_PATH_XTRA])
 
 sim_ac_x11_avail=no
-
-AC_PATH_XTRA
 
 if test x"$no_x" != xyes; then
   #  *** DEBUG ***
@@ -1111,7 +1110,7 @@ fi
 ])
 
 # Usage:
-#  SIM_CHECK_X11SHMEM([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+#  SIM_AC_CHECK_X11SHMEM([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 #
 #  Try to find the X11 shared memory extension. If it is found, this
 #  shell variable is set:
@@ -1130,8 +1129,7 @@ fi
 #      Cygwin installation)
 #
 
-AC_DEFUN([SIM_CHECK_X11SHMEM], [
-AC_PREREQ([2.14.1])
+AC_DEFUN([SIM_AC_CHECK_X11SHMEM], [
 
 sim_ac_x11shmem_avail=no
 sim_ac_x11shmem_libs="-lXext"
@@ -1157,7 +1155,7 @@ fi
 ])
 
 # Usage:
-#  SIM_CHECK_X11MU([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+#  SIM_AC_CHECK_X11MU([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 #
 #  Try to find the X11 miscellaneous utilities extension. If it is
 #  found, this shell variable is set:
@@ -1175,8 +1173,7 @@ fi
 #      Cygwin installation)
 #
 
-AC_DEFUN([SIM_CHECK_X11MU], [
-AC_PREREQ([2.14.1])
+AC_DEFUN([SIM_AC_CHECK_X11MU], [
 
 sim_ac_x11mu_avail=no
 sim_ac_x11mu_libs="-lXmu"
@@ -1203,7 +1200,7 @@ fi
 ])
 
 # Usage:
-#  SIM_CHECK_X11XID([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+#  SIM_AC_CHECK_X11XID([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 #
 #  Try to find the X11 extension device library. Sets this
 #  shell variable:
@@ -1221,8 +1218,7 @@ fi
 #      Cygwin installation)
 #
 
-AC_DEFUN([SIM_CHECK_X11XID], [
-AC_PREREQ([2.14.1])
+AC_DEFUN([SIM_AC_CHECK_X11XID], [
 
 sim_ac_x11xid_avail=no
 sim_ac_x11xid_libs="-lXi"
@@ -1247,7 +1243,7 @@ fi
 ])
 
 # Usage:
-#  SIM_CHECK_X_INTRINSIC([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+#  SIM_AC_CHECK_X_INTRINSIC([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 #
 #  Try to find the Xt intrinsic library. Sets this shell variable:
 #
@@ -1260,8 +1256,7 @@ fi
 # Author: Morten Eriksen, <mortene@sim.no>.
 #
 
-AC_DEFUN([SIM_CHECK_X_INTRINSIC], [
-AC_PREREQ([2.14.1])
+AC_DEFUN([SIM_AC_CHECK_X_INTRINSIC], [
 
 sim_ac_xt_avail=no
 sim_ac_xt_libs="-lXt"
@@ -1286,7 +1281,7 @@ fi
 ])
 
 # Usage:
-#   SIM_CHECK_LIBXPM( [ACTION-IF-FOUND], [ACTION-IF-NOT-FOUND] )
+#   SIM_AC_CHECK_LIBXPM( [ACTION-IF-FOUND], [ACTION-IF-NOT-FOUND] )
 #
 # Description:
 #   This macro checks for libXpm.
@@ -1299,8 +1294,7 @@ fi
 #   Lars J. Aas <larsa@sim.no>
 #
 
-AC_DEFUN([SIM_CHECK_LIBXPM], [
-AC_PREREQ([2.14.1])
+AC_DEFUN([SIM_AC_CHECK_LIBXPM], [
 
 sim_ac_xpm_avail=no
 sim_ac_xpm_libs="-lXpm"
