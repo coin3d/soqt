@@ -220,12 +220,12 @@ class SoQtSuperViewerP : QObject{
 
   void actualInit(SbBool buildNow);
   void buildBars();
-  void buildMenus();
-  void buildFileMenu();
-  void buildViewMenu();
-  void buildSettingsMenu();
-  void buildCameraMenu();
-  void buildLightsMenu();
+  void buildMenus(SbBool build, SbBool enable);
+  void buildFileMenu(SbBool build, SbBool enable);
+  void buildViewMenu(SbBool build, SbBool enable);
+  void buildSettingsMenu(SbBool build, SbBool enable);
+  void buildCameraMenu(SbBool build, SbBool enable);
+  void buildLightsMenu(SbBool build, SbBool enable);
   void addModelEntry(SbString * const filename);
 
   void setupNodes();

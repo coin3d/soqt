@@ -124,11 +124,11 @@ class SoQtSuperViewer : public SoQtViewer {
   void init(void);
 
   void setBars(const int buildFlag);
-  void setMenus(const int buildFlag);
-  void setFileMenuItems(const int buildFlag);
-  void setViewMenuItems(const int buildFlag);
-  void setSettingsMenuItems(const int buildFlag);
-  void setCameraMenuItems(const int buildFlag);
+  void setMenus(const int buildFlag = 0, const int enabled = 0);
+  void setFileMenuItems(const int buildFlag = 0, const int enabled = 0);
+  void setViewMenuItems(const int buildFlag = 0, const int enabled = 0);
+  void setSettingsMenuItems(const int buildFlag = 0, const int enabled = 0);
+  void setCameraMenuItems(const int buildFlag = 0, const int enabled = 0);
 
   void setMenuBar(const SbBool on);
   SbBool isMenuBar(void) const;
