@@ -99,10 +99,10 @@ extern void expandSize(QSize & result, const QSize & addend,
 SoQtExaminerViewer::SoQtExaminerViewer(
   QWidget * parent,
   const char * name,
-  SbBool buildInsideParent,
+  SbBool embed,
   SoQtFullViewer::BuildFlag flag,
   SoQtViewer::Type type )
-: inherited( parent, name, buildInsideParent, flag, type, FALSE )
+: inherited( parent, name, embed, flag, type, FALSE )
 , common( new SoAnyExaminerViewer( this ) )
 {
   this->constructor( TRUE );
@@ -117,14 +117,14 @@ SoQtExaminerViewer::SoQtExaminerViewer(
 SoQtExaminerViewer::SoQtExaminerViewer(
   QWidget * parent,
   const char * name,
-  SbBool buildInsideParent,
+  SbBool embed,
   SoQtFullViewer::BuildFlag flag,
   SoQtViewer::Type type,
-  SbBool buildNow )
-: inherited( parent, name, buildInsideParent, flag, type, FALSE )
+  SbBool build)
+: inherited( parent, name, embed, flag, type, FALSE )
 , common( new SoAnyExaminerViewer( this ) )
 {
-  this->constructor( buildNow );
+  this->constructor( build );
 } // SoQtExaminerViewer()
 
 // *************************************************************************
@@ -138,7 +138,7 @@ SoQtExaminerViewer::SoQtExaminerViewer(
 
 void
 SoQtExaminerViewer::constructor(
-  SbBool buildNow )
+  SbBool build )
 {
   this->currentmode = EXAMINE;
   this->defaultcursor = NULL;
@@ -160,8 +160,10 @@ SoQtExaminerViewer::constructor(
   this->setLeftWheelString("Rotx");
   this->setBottomWheelString("Roty");
 
-  if ( buildNow )
-    this->setBaseWidget( this->buildWidget( this->getParentWidget() ) );
+  if ( build ) {
+    QWidget * widget = this->buildWidget( this->getParentWidget() );
+    this->setBaseWidget( widget );
+  }
 } // constructor()
 
 // *************************************************************************
@@ -477,6 +479,7 @@ SoQtExaminerViewer::openViewerHelpCard(void)
 void
 SoQtExaminerViewer::processEvent(QEvent * event)
 {
+//  SoDebugError::postInfo( "SoQtExaminerViewer::processEvent", "[invoked]" );
   // Upon first event detected, make sure the cursor is set correctly.
   if (!this->defaultcursor) this->setCursorRepresentation(this->currentmode);
   // Let parent class take care of any events which are common for

@@ -62,10 +62,10 @@ static const char rcsid[] =
 SoQtPlaneViewer::SoQtPlaneViewer(
   QWidget * parent,
   const char * const name, 
-  SbBool buildInsideParent,
+  SbBool embed,
   SoQtFullViewer::BuildFlag flag, 
   SoQtViewer::Type type )
-: inherited( parent, name, buildInsideParent, flag, type, FALSE )
+: inherited( parent, name, embed, flag, type, FALSE )
 , common( new SoAnyPlaneViewer( this ) )
 {
   this->constructor( TRUE );
@@ -80,14 +80,14 @@ SoQtPlaneViewer::SoQtPlaneViewer(
 SoQtPlaneViewer::SoQtPlaneViewer(
   QWidget * parent,
   const char * const name, 
-  SbBool buildInsideParent, 
+  SbBool embed, 
   SoQtFullViewer::BuildFlag flag, 
   SoQtViewer::Type type, 
-  SbBool buildNow )
-: inherited( parent, name, buildInsideParent, flag, type, FALSE )
+  SbBool build )
+: inherited( parent, name, embed, flag, type, FALSE )
 , common( new SoAnyPlaneViewer( this ) )
 {
-  this->constructor( buildNow );
+  this->constructor( build );
 } // SoQtPlaneViewer()
 
 // ************************************************************************
@@ -97,7 +97,7 @@ SoQtPlaneViewer::SoQtPlaneViewer(
 
 void
 SoQtPlaneViewer::constructor( // private
-  SbBool buildNow )
+  SbBool build )
 {
   this->mode = IDLE_MODE;
 
@@ -115,10 +115,11 @@ SoQtPlaneViewer::constructor( // private
   this->pixmaps.orthogonal = new QPixmap( (const char **) ortho_xpm );
   this->pixmaps.perspective = new QPixmap( (const char **) perspective_xpm );
 
-  if ( buildNow )
-    this->setBaseWidget( this->buildWidget( this->getParentWidget() ) );
-
-  this->setSize( SbVec2s( 550, 450 ) ); // extra buttons -> more height
+  if ( build ) {
+    QWidget * widget = this->buildWidget( this->getParentWidget() );
+    this->setBaseWidget( widget );
+    this->setSize( SbVec2s( 550, 450 ) ); // extra buttons -> more height
+  }
 } // constructor()
 
 // ************************************************************************
@@ -192,10 +193,10 @@ SoQtPlaneViewer::buildWidget(
 {
   QWidget * widget = inherited::buildWidget( parent );
 
-  this->getThumbwheel( LEFTDECORATION )->
-    setRangeBoundaryHandling( SoQtThumbWheel::ACCUMULATE );
-  this->getThumbwheel( BOTTOMDECORATION )->
-    setRangeBoundaryHandling( SoQtThumbWheel::ACCUMULATE );
+  this->getThumbwheel( LEFTDECORATION )
+    -> setRangeBoundaryHandling( SoQtThumbWheel::ACCUMULATE );
+  this->getThumbwheel( BOTTOMDECORATION )
+    -> setRangeBoundaryHandling( SoQtThumbWheel::ACCUMULATE );
   
   return widget;
 } // buildWidget()

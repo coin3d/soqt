@@ -44,10 +44,10 @@ protected:
   SoQtConstrainedViewer(
     QWidget * parent,
     const char * const name,
-    SbBool buildInsideParent,
+    SbBool embed,
     SoQtFullViewer::BuildFlag flag, 
     SoQtViewer::Type type, 
-    SbBool buildNow );
+    SbBool build );
 
   ~SoQtConstrainedViewer(void);
 

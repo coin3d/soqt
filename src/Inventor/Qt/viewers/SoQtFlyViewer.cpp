@@ -37,10 +37,10 @@ static const char rcsid[] =
 SoQtFlyViewer::SoQtFlyViewer( // protected
   QWidget * parent,
   const char * name, 
-  SbBool buildInsideParent, 
+  SbBool embed, 
   SoQtFullViewer::BuildFlag flag,
   SoQtViewer::Type type )
-: inherited( parent, name, buildInsideParent, flag, type, TRUE )
+: inherited( parent, name, embed, flag, type, TRUE )
 {
 } // SoQtFlyViewer()
 
@@ -52,11 +52,11 @@ SoQtFlyViewer::SoQtFlyViewer( // protected
 SoQtFlyViewer::SoQtFlyViewer( // protected
   QWidget * parent,
   const char * const name,
-  SbBool buildInsideParent, 
+  SbBool embed, 
   SoQtFullViewer::BuildFlag flag, 
   SoQtViewer::Type type, 
-  SbBool buildNow )
-: inherited( parent, name, buildInsideParent, flag, type, FALSE )
+  SbBool build )
+: inherited( parent, name, embed, flag, type, FALSE )
 {
 } // SoQtFlyViewer()
 

@@ -38,10 +38,10 @@ static const char rcsid[] =
 SoQtWalkViewer::SoQtWalkViewer(
   QWidget * parent,
   const char * name,
-  SbBool buildInsideParent,
+  SbBool embed,
   SoQtFullViewer::BuildFlag flag,
   SoQtViewer::Type type )
-: inherited( parent, name, buildInsideParent, flag, type, TRUE )
+: inherited( parent, name, embed, flag, type, TRUE )
 {
 //  this->constructor( TRUE );
 } // SoQtWalkViewer()
@@ -55,13 +55,13 @@ SoQtWalkViewer::SoQtWalkViewer(
 SoQtWalkViewer::SoQtWalkViewer( // protected
   QWidget * parent,
   const char * name,
-  SbBool buildInsideParent,
+  SbBool embed,
   SoQtFullViewer::BuildFlag flag,
   SoQtViewer::Type type,
-  SbBool buildNow )
-: inherited( parent, name, buildInsideParent, flag, type, FALSE )
+  SbBool build )
+: inherited( parent, name, embed, flag, type, FALSE )
 {
-//  this->constructor( buildNow );
+//  this->constructor( build );
 } // SoQtWalkViewer()
 
 // ************************************************************************

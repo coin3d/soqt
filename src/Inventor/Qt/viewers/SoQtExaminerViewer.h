@@ -52,7 +52,7 @@ public:
   SoQtExaminerViewer(
     QWidget * parent = NULL,
     const char * name = NULL,
-    SbBool buildInsideParent = TRUE,
+    SbBool embed = TRUE,
     SoQtFullViewer::BuildFlag flag = BUILD_ALL,
     SoQtViewer::Type type = BROWSER );
   ~SoQtExaminerViewer(void);
@@ -65,10 +65,10 @@ protected:
   SoQtExaminerViewer(
     QWidget * parent,
     const char * name,
-    SbBool buildInsideParent,
+    SbBool embed,
     SoQtFullViewer::BuildFlag flag,
     SoQtViewer::Type type,
-    SbBool buildNow );
+    SbBool build );
 
   virtual void leftWheelMotion( float val );
   virtual void bottomWheelMotion( float val );

@@ -79,13 +79,14 @@ protected:
   SoQtFullViewer(
     QWidget * parent,
     const char * name,
-    SbBool buildInsideParent,
+    SbBool embed,
     BuildFlag flag,
     Type type,
-    SbBool buildNow );
+    SbBool build );
   ~SoQtFullViewer(void);
 
   virtual bool eventFilter(QObject * obj, QEvent * e);
+  virtual void sizeChanged( const SbVec2s size );
 
   QWidget * buildWidget(QWidget * parent);
 
@@ -141,7 +142,7 @@ private:
   QWidget * makeZoomPreferences(QWidget * parent);
   QWidget * makeAutoclipPreferences(QWidget * parent);
 
-  QWidget * viewerwidget, * canvasparent, * canvas;
+  QWidget * viewerwidget, * canvas;
   SbBool decorations;
   float wheelvalues[NUMDECORATIONS];
   QString wheelstrings[NUMDECORATIONS];

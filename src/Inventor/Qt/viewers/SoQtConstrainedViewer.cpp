@@ -40,17 +40,19 @@ static const char rcsid[] =
 SoQtConstrainedViewer::SoQtConstrainedViewer( // protected
   QWidget * parent,
   const char * const name,
-  SbBool buildInsideParent,
+  SbBool embed,
   SoQtFullViewer::BuildFlag flag, 
   SoQtViewer::Type type, 
-  SbBool buildNow )
-: inherited( parent, name, buildInsideParent, flag, type, FALSE )
+  SbBool build )
+: inherited( parent, name, embed, flag, type, FALSE )
 {
   this->setClassName( "SoQtConstrainedViewer" );
   this->upVector = SbVec3f( 0.0f, 1.0f, 0.0f );
 
-  if ( buildNow )
-    this->setBaseWidget( this->buildWidget( this->getParentWidget() ) );
+  if ( build ) {
+    QWidget * viewer = this->buildWidget( this->getParentWidget() );
+    this->setBaseWidget( viewer );
+  }
 } // SoQtConstainedViewer()
 
 // ************************************************************************

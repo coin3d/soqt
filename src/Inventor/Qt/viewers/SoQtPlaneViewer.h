@@ -41,7 +41,7 @@ public:
   SoQtPlaneViewer(
     QWidget * parent = NULL,
     const char * const name = NULL, 
-    SbBool buildInsideParent = TRUE, 
+    SbBool embed = TRUE, 
     SoQtFullViewer::BuildFlag flag = BUILD_ALL, 
     SoQtViewer::Type type = BROWSER );
   ~SoQtPlaneViewer(void);
@@ -54,10 +54,10 @@ protected:
   SoQtPlaneViewer(
     QWidget * parent,
     const char * const name, 
-    SbBool buildInsideParent, 
+    SbBool embed, 
     SoQtFullViewer::BuildFlag flag, 
     SoQtViewer::Type type, 
-    SbBool buildNow );
+    SbBool build );
 
   QWidget * buildWidget( QWidget * parent );
 

@@ -27,6 +27,8 @@ static const char rcsid[] =
 #include <q1xcompatibility.h>
 #endif // Qt v2.x
 
+#include <Inventor/errors/SoDebugError.h>
+
 #include <soqtdefs.h>
 #include <Inventor/Qt/viewers/SoQtViewer.h>
 
@@ -41,6 +43,7 @@ SbBool
 SoQtViewer::processCommonEvents(
   QEvent * event )
 {
+//  SoDebugError::postInfo( "SoQtViewer::processCommonEvents", "[invoked]" );
   if ( inherited::invokeAppCB( event ) )
     return TRUE;
 

@@ -77,7 +77,8 @@ protected:
   void setClassName( const char * const name );
   void setBaseWidget( QWidget * const widget );
 
-  void subclassInitialized(void);
+  void registerWidget( QWidget * widget );
+  void unregisterWidget( QWidget * widget );
 
   virtual const char * getDefaultWidgetName(void) const;
   virtual const char * getDefaultTitle(void) const;

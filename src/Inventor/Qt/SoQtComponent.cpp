@@ -134,11 +134,13 @@ SoQtComponent::SoQtComponent(
 
   if ( (parent == NULL) || ! embed ) {
     this->parent = (QWidget *) new QMainWindow( parent, name );
+    this->registerWidget( parent );
     this->embedded = FALSE;
   } else {
     this->parent = parent;
     this->embedded = TRUE;
   }
+  this->parent->installEventFilter( this );
 } // SoQtComponent()
 
 /*!
@@ -148,6 +150,10 @@ SoQtComponent::SoQtComponent(
 SoQtComponent::~SoQtComponent(
   void )
 {
+  if ( ! this->embedded ) {
+    this->unregisterWidget( this->parent );
+  }
+
   int idx = SoQtComponent::soqtcomplist->find(this);
   assert(idx != -1);
   SoQtComponent::soqtcomplist->remove(idx);
@@ -227,6 +233,8 @@ SoQtComponent::setClassName(
   this->classname = name;
 } // setClassName()
 
+// *************************************************************************
+
 /*!
   Set the core widget for this SoQt component. It is important that
   subclasses get this correct, as the widget set here will be the widget
@@ -241,13 +249,13 @@ SoQtComponent::setBaseWidget(
 {
   assert( widget );
 
-  if ( this->parent )
-    this->parent->removeEventFilter( this );
-  if ( this->widget )
-    this->widget->removeEventFilter( this );
+//  if ( this->parent )
+//    this->parent->removeEventFilter( this );
+//  if ( this->widget )
+//    this->widget->removeEventFilter( this );
 
   this->widget = widget;
-  this->parent = widget->parentWidget();
+//  this->parent = widget->parentWidget();
 
 #if 0 // debug
   SoDebugError::postInfo("SoQtComponent::setBaseWidget",
@@ -273,15 +281,15 @@ SoQtComponent::setBaseWidget(
   this->widget->setName(this->widgetname);
 
   // Need this to auto-detect resize events.
-  if (this->parent) this->parent->installEventFilter(this);
-  this->widget->installEventFilter(this);
+//  if (this->parent) this->parent->installEventFilter(this);
+//  this->widget->installEventFilter(this);
 #if 0 // debug
   SoDebugError::postInfo("SoQtComponent::setBaseWidget",
                          "installeventfilter, widget: %p", this->widget);
 #endif // debug
 
-  if ( storesize[0] != -1 )
-    this->widget->resize( QSize( storesize[0], storesize[1] ) );
+//  if ( storesize[0] != -1 )
+//    this->widget->resize( QSize( storesize[0], storesize[1] ) );
 } // setBaseWidget()
 
 // *************************************************************************
@@ -299,7 +307,7 @@ SoQtComponent::eventFilter( // virtual
   QEvent * e )
 {
 #if 0 // debug
-  const char eventnaming[][50] = {
+  static const char eventnaming[][50] = {
     "None", // 0
     "Timer",
     "MouseButtonPress",
@@ -353,6 +361,7 @@ SoQtComponent::eventFilter( // virtual
                          obj, eventnaming[e->type()]);
 #endif // debug
 
+#if 0
   // Remove event filter if unknown Qt widget.
   // FIXME: this code should probably be superfluous if everything
   // else works 100%? 990216 mortene.
@@ -364,6 +373,7 @@ SoQtComponent::eventFilter( // virtual
     obj->removeEventFilter(this);
     return FALSE;
   }
+#endif // 0
 
   // Detect resize events.
   if (e->type() == Event_Resize) {
@@ -377,13 +387,15 @@ SoQtComponent::eventFilter( // virtual
                              r->size().width(), r->size().height());
 #endif // debug
       this->widget->resize(r->size());
-    }
-    else if (obj == (QObject *)this->widget) {
-      this->storesize.setValue(r->size().width(), r->size().height());
+      this->storesize.setValue( r->size().width(), r->size().height() );
       this->sizeChanged(this->storesize);
     }
-    else
-      assert(0);
+    else if (obj == (QObject *)this->widget) {
+//      this->storesize.setValue(r->size().width(), r->size().height());
+//      this->sizeChanged(this->storesize);
+    }
+//    else
+//      assert(0);
 
   }
   // Detect visibility changes.
@@ -409,6 +421,7 @@ SoQtComponent::eventFilter( // virtual
   widget has been otherwise initialized.
 */
 
+/*
 void
 SoQtComponent::subclassInitialized(
   void )
@@ -420,10 +433,10 @@ SoQtComponent::subclassInitialized(
     return;
   }
 #endif // SOQT_DEBUG
-
   QObject::connect(this->widget, SIGNAL(destroyed()),
                    this, SLOT(widgetClosed()));
 } // subclassInitialized()
+*/
 
 // *************************************************************************
 
@@ -563,7 +576,7 @@ SbBool
 SoQtComponent::isTopLevelShell(
   void ) const
 {
-#if SOQT_DEBUG
+#if SOQT_DEBUG && 0
   if ( ! this->widget ) {
     SoDebugError::postWarning( "SoQtComponent::isTopLevelShell",
       "Called while no QWidget has been set." );
@@ -847,5 +860,27 @@ SoQtComponent::getComponent(
 
   return NULL;
 } // getComponent()
+
+// *************************************************************************
+
+/*!
+*/
+
+void
+SoQtComponent::registerWidget(
+  QWidget * widget )
+{
+  // nada yet
+} // registerWidget()
+
+/*!
+*/
+
+void
+SoQtComponent::unregisterWidget(
+  QWidget * widget )
+{
+  // nada yet
+} // unregisterWidget()
 
 // *************************************************************************

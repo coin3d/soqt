@@ -35,7 +35,7 @@ public:
   SoQtFlyViewer(
     QWidget * parent,
     const char *name = NULL, 
-    SbBool buildInsideParent = TRUE, 
+    SbBool embed = TRUE, 
     SoQtFullViewer::BuildFlag flag = BUILD_ALL,
     SoQtViewer::Type type = BROWSER );
   ~SoQtFlyViewer(void);
@@ -50,10 +50,10 @@ protected:
   SoQtFlyViewer(
     QWidget * parent,
     const char * const name, 
-    SbBool buildInsideParent, 
+    SbBool embed, 
     SoQtFullViewer::BuildFlag flag, 
     SoQtViewer::Type type, 
-    SbBool buildNow );
+    SbBool build );
 
   virtual const char * getDefaultWidgetName(void) const;
   virtual const char * getDefaultTitle(void) const;

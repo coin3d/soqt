@@ -161,16 +161,16 @@ enum {
 SoQtFullViewer::SoQtFullViewer(
   QWidget * parent,
   const char * name,
-  SbBool buildInsideParent,
+  SbBool embed,
   SoQtFullViewer::BuildFlag buildFlag,
-  SoQtViewer::Type t,
-  SbBool buildNow )
-: inherited( parent, name, buildInsideParent, t, FALSE )
+  SoQtViewer::Type type,
+  SbBool build )
+: inherited( parent, name, embed, type, FALSE )
 , common( new SoAnyFullViewer( this ) )
 {
   this->viewerwidget = NULL;
   this->canvas = NULL;
-  this->canvasparent = NULL;
+//  this->canvasparent = NULL;
 
   char axisindicator[] = { 'Y', 'X', 'Z' };
   for (int i = FIRSTDECORATION; i <= LASTDECORATION; i++) {
@@ -198,11 +198,13 @@ SoQtFullViewer::SoQtFullViewer(
   this->appbuttonlist = new SbPList;
   this->appbuttonform = NULL;
 
-  this->setSize(SbVec2s(500, 390));
+  this->setSize( SbVec2s(500, 390) );
   this->setClassName("SoQtFullViewer");
 
-  if ( buildNow )
-    this->setBaseWidget( this->buildWidget( this->getParentWidget() ) );
+  if ( build ) {
+    QWidget * widget = this->buildWidget( this->getParentWidget() );
+    this->setBaseWidget( widget );
+  }
 } // SoQtFullViewer()
 
 // *************************************************************************
@@ -245,6 +247,8 @@ SoQtFullViewer::setDecoration(
     this->prefmenu->SetMenuItemMarked( DECORATION_ITEM, enable );
   if ( this->viewerwidget )
     this->showDecorationWidgets( enable );
+  QSize size( this->viewerwidget->size() );
+  SoQtFullViewer::sizeChanged( SbVec2s( size.width(), size.height() ) );
 } // setDecoration()
 
 // *************************************************************************
@@ -655,7 +659,7 @@ SoQtFullViewer::eventFilter(QObject * obj, QEvent * e)
 
   // Show the popup menu when we detect rmb pressed on top of the
   // render area canvas.
-  if (this->menuenabled && obj == this->getRenderAreaWidget() &&
+  if (this->menuenabled && obj == this->getGLWidget() &&
       eventtype == Event_MouseButtonPress) {
     QMouseEvent * me = (QMouseEvent *)e;
     if (me->button() == RightButton) {
@@ -682,22 +686,28 @@ SoQtFullViewer::eventFilter(QObject * obj, QEvent * e)
 */
 
 QWidget *
-SoQtFullViewer::buildWidget(QWidget * parent)
+SoQtFullViewer::buildWidget(
+  QWidget * parent )
 {
   this->viewerwidget = new QWidget(parent);
+  this->registerWidget( viewerwidget );
+//  this->viewerwidget->installEventFilter( this );
+
   this->viewerwidget->move( 0, 0 );
-#if SOQT_DEBUG
+#if SOQT_DEBUG & 0
   this->viewerwidget->setBackgroundColor( QColor( 250, 0, 0 ) );
 #endif // SOQT_DEBUG
 
   // Build and layout the widget components of the viewer window on
   // top of the manager widget.
 
-  this->canvasparent = new QWidget(this->viewerwidget);
-  this->canvasparent->move( 0, 0 );
-  this->canvas = inherited::buildWidget(this->canvasparent);
+//  this->canvasparent = new QWidget(this->viewerwidget);
+//  this->canvasparent->move( 0, 0 );
+  this->canvas = inherited::buildWidget( this->viewerwidget );
+  this->canvas->move( 0, 0 );
+  this->canvas->resize( this->viewerwidget->size() );
 
-  if (this->decorations) {
+  if ( this->decorations ) {
     this->buildDecoration(this->viewerwidget);
     this->showDecorationWidgets(TRUE);
   }
@@ -830,7 +840,9 @@ SoQtFullViewer::buildRightTrim(QWidget * parent)
   QWidget * w = new QWidget(parent);
   // FIXME: should be set according to width of viewer
   // buttons. 20000424 mortene.
-  w->setFixedWidth( 36 );
+  w->setFixedWidth( 30 );
+  // FIXME: nope, trims are actually guaranteed to be 30 pixels wide
+
 
   SoQtThumbWheel * t = this->wheels[RIGHTDECORATION] =
     new SoQtThumbWheel(SoQtThumbWheel::Vertical, w);
@@ -846,8 +858,9 @@ SoQtFullViewer::buildRightTrim(QWidget * parent)
   this->wheelvalues[RIGHTDECORATION] = t->value();
 
   QGridLayout * l = new QGridLayout(w, 3, 1, 2, -1 );
-  l->addWidget(this->buildViewerButtons(w), 0, 0);
-  l->addWidget(t, 2, 0, AlignBottom|AlignHCenter);
+  l->setMargin( 0 );
+  l->addWidget( this->buildViewerButtons(w), 0, 0 );
+  l->addWidget( t, 2, 0, AlignBottom|AlignHCenter );
   l->activate();
 
   return w;
@@ -880,15 +893,21 @@ SoQtFullViewer::buildAppButtons(QWidget * parent)
 QWidget *
 SoQtFullViewer::buildViewerButtons(QWidget * parent)
 {
-  QWidget * w = new QWidget(parent);
+  QWidget * w = new QWidget( parent );
   this->createViewerButtons(w, this->viewerbuttons);
+  w->move( 0, 0 );
 
   assert(this->viewerbuttons->getLength() != 0);
   QGridLayout * l =
     new QGridLayout(w, this->viewerbuttons->getLength(), 1);
+  l->setMargin( 0 );
+  l->setSpacing( 0 );
 
-  for (int i=0; i < this->viewerbuttons->getLength(); i++) {
+  const int numViewerButtons = this->viewerbuttons->getLength();
+  for ( int i = 0; i < numViewerButtons; i++ ) {
     QButton * b = VIEWERBUTTON(i);
+    b->setFixedSize( 30, 30 );
+    b->setFocusPolicy( QWidget::NoFocus );
     l->addWidget(b, i, 0);
   }
 
@@ -1382,7 +1401,7 @@ SoQtFullViewer::showDecorationWidgets(SbBool onOff)
   if (this->mainlayout) delete this->mainlayout;
 
   assert(this->viewerwidget);
-  assert(this->canvasparent);
+//  assert(this->canvasparent);
 
   if (onOff) {
     for (int i = FIRSTDECORATION; i <= LASTDECORATION; i++) {
@@ -1398,7 +1417,7 @@ SoQtFullViewer::showDecorationWidgets(SbBool onOff)
     g->addLayout(subLayout, 0, 0);
 
     subLayout->addWidget(this->decorform[LEFTDECORATION], 0, 0);
-    subLayout->addWidget(this->canvasparent, 0, 1);
+    subLayout->addWidget(this->canvas, 0, 1);
     subLayout->addWidget(this->decorform[RIGHTDECORATION], 0, 2);
 
 //     subLayout->setColStretch(1, 1);
@@ -1408,7 +1427,7 @@ SoQtFullViewer::showDecorationWidgets(SbBool onOff)
   }
   else {
     QGridLayout * g = new QGridLayout(this->viewerwidget, 1, 1, 0, -1 );
-    g->addWidget(this->canvasparent, 0, 0);
+    g->addWidget(this->canvas, 0, 0);
     this->mainlayout = g;
 
     for (int i = FIRSTDECORATION; i <= LASTDECORATION; i++)
@@ -2522,6 +2541,9 @@ SoQtFullViewer::farclipEditPressed()
 
 // *************************************************************************
 
+/*!
+*/
+
 SoQtThumbWheel *
 SoQtFullViewer::getThumbwheel(
   int num )
@@ -2529,6 +2551,31 @@ SoQtFullViewer::getThumbwheel(
   assert( num >= FIRSTDECORATION && num < LASTDECORATION );
   return this->wheels[ num ];
 } // getThumbwheel()
+
+// *************************************************************************
+
+/*!
+  This method is invoked when the component size has changed.
+*/
+
+void
+SoQtFullViewer::sizeChanged( // virtual
+  const SbVec2s size )
+{
+#if SOQT_DEBUG && 0
+  SoDebugError::postInfo( "SoQtFullViewer::sizeChanged", "[invoked (%d, %d)]",
+    size[0], size[1] );
+#endif // SOQT_DEBUG
+  if ( this->decorations ) {
+    if ( size[0] <= 60 || size[1] <= 30 ) return;
+    this->canvas->setGeometry( 30, 0, size[0] - 60, size[1] - 30 );
+    inherited::sizeChanged( SbVec2s( size[0] - 60, size[1] - 30 ) );
+  } else {
+    if ( size[0] <= 0 || size[1] <= 0 ) return;
+    this->canvas->setGeometry( 0, 0, size[0], size[1] );
+    inherited::sizeChanged( size );
+  }
+} // sizeChanged()
 
 // *************************************************************************
 
