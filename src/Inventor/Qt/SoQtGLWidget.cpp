@@ -172,6 +172,8 @@ public:
   {
   }
 
+  static void GLAreaKeyEvent(QKeyEvent * e, void * userdata);
+
   SbVec2s glSize;
   SbBool wasresized;
 
@@ -355,10 +357,13 @@ SoQtGLWidget::buildGLWidget(void)
     // Couldn't use the previous widget, make a new one.
     SoQtGLWidget * sharewidget = (SoQtGLWidget*) SoAny::si()->getSharedGLContext(display, screen);
     if (PRIVATE(this)->currentglwidget) SoAny::si()->unregisterGLContext((void*) this);
-    PRIVATE(this)->currentglwidget = new SoQtGLArea(PRIVATE(this)->glformat,
-                                           PRIVATE(this)->borderwidget,
-                                           sharewidget ? (const QGLWidget*) sharewidget->getGLWidget() : NULL);
-    SoAny::si()->registerGLContext((void*) this, display, screen);
+    PRIVATE(this)->currentglwidget =
+      new SoQtGLArea(PRIVATE(this)->glformat,
+                     PRIVATE(this)->borderwidget,
+                     sharewidget ? (const QGLWidget*) sharewidget->getGLWidget() : NULL);
+    PRIVATE(this)->currentglwidget->registerQKeyEventHandler(SoQtGLWidgetP::GLAreaKeyEvent,
+                                                             this);
+    SoAny::si()->registerGLContext((void *)this, display, screen);
     // Send this one to the final hunting grounds.    
     delete wasprevious;
   }
@@ -440,6 +445,17 @@ SoQtGLWidget::buildGLWidget(void)
 
 // *************************************************************************
 
+// Gets called by the SoQtGLArea instance upon keyboard presses. These
+// are then forwarded to subclasses for handling.
+void
+SoQtGLWidgetP::GLAreaKeyEvent(QKeyEvent * e, void * userdata)
+{
+  SoQtGLWidget * that = (SoQtGLWidget *)userdata;
+  that->processEvent(e);
+}
+
+// *************************************************************************
+
 static const char eventnaming[][50] = {
   "None", // 0
   "Timer",
@@ -506,8 +522,8 @@ SoQtGLWidget::eventFilter(QObject * obj, QEvent * e)
     else if (istoplevel) { w = "top-level"; }
 
     SoDebugError::postInfo("SoQtGLWidget::eventFilter",
-                           "[invoked] obj: %p (=\"%s\", %s, %s) %s (typecode==%d)",
-                           obj, w.getString(), obj->className(),
+                           "[invoked] QEvent==%p obj==%p==\"%s\"==%s (%s) %s (typecode==%d)",
+                           e, obj, w.getString(), obj->className(),
                            istoplevel ? "TOPLEVEL" : "",
                            eventnaming[e->type()], e->type());
   }
@@ -537,24 +553,13 @@ SoQtGLWidget::eventFilter(QObject * obj, QEvent * e)
        e->type() == QEvent::MouseMove) &&
       (obj != PRIVATE(this)->currentglwidget)) return FALSE;
 
-  // Set keyboard focus on enter.
-  if ((e->type() == QEvent::Enter) && (obj == PRIVATE(this)->currentglwidget)) {
-    PRIVATE(this)->currentglwidget->setFocus();
-  }
-
   SbBool keyboardevent =
     (e->type() == QEvent::KeyPress) || (e->type() == QEvent::KeyRelease);
-
   if (keyboardevent) {
-    // Ignore keyboard-events not directly piped to glcanvas widget,
-    // to avoid catching multiple keyboard events. Returns FALSE to
-    // continue propagation, though.
-    if (obj != PRIVATE(this)->currentglwidget) { return FALSE; }
-
-    // FIXME: there's a bug here. It can be reproduced as follows:
-    // when using Qt 2 and tapping in one of the backdoor key combos
-    // so the dialog box comes up, the glcanvas looses focus and does
-    // not regain it when the dialog box is removed. 20011210 mortene.
+    // Ignore keyboard-events, as they are caught directly by the
+    // SoQtGLArea widget and forwarded through the
+    // SoQtGLWidgetP::GLAreaKeyEvent() callback.
+    return FALSE;
   }
 
   if (obj == (QObject *) PRIVATE(this)->glparent) {

@@ -26,6 +26,9 @@
 
 #include <Inventor/Qt/SoQtBasic.h>
 
+
+typedef void GLAreaKeyHandler(QKeyEvent * ke, void * userdata);
+
 // *************************************************************************
 
 class SoQtGLArea : public QGLWidget {
@@ -36,7 +39,13 @@ public:
   SoQtGLArea(QGLFormat * const format, QWidget * const parent,
              const QGLWidget * sharewidget,
              const char * const name = "QtGLArea");
-  ~SoQtGLArea(void);
+  ~SoQtGLArea();
+
+  void registerQKeyEventHandler(GLAreaKeyHandler * cb, void * userdata)
+  {
+    this->keycb = cb;
+    this->keycbuserdata = userdata;
+  }
 
 signals:
   void init_sig(void);
@@ -48,7 +57,12 @@ protected:
   virtual void resizeGL(int width, int height);
   virtual void initializeGL(void);
 
-}; // class SoQtGLArea
+  virtual bool event(QEvent * e);
+
+private:
+  GLAreaKeyHandler * keycb;
+  void * keycbuserdata;
+};
 
 // *************************************************************************
 

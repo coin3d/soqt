@@ -71,7 +71,7 @@ SoQtGLArea::SoQtGLArea(QGLFormat * const format,
   // The 3rd argument is supposed to be the widget name, but when
   // running on QGL v4.30 and Qt v2.1.0 application code will crash on
   // exit under freak conditions -- see Bugzilla #264. 20001120 mortene.
-: inherited(*format, parent, NULL, sharewidget, WResizeNoErase)
+  : inherited(*format, parent, NULL, sharewidget, WResizeNoErase)
 {
 #if HAVE_QGLWIDGET_SETAUTOBUFFERSWAP
   // We'll handle the OpenGL buffer swapping ourselves, to support the
@@ -80,52 +80,64 @@ SoQtGLArea::SoQtGLArea(QGLFormat * const format,
   // QGLWidget model).
   this->setAutoBufferSwap(FALSE);
 #endif // HAVE_QGLWIDGET_SETAUTOBUFFERSWAP
-} // SoQtGLArea()
 
-SoQtGLArea::~SoQtGLArea(
-  void)
+  this->keycb = NULL;
+  this->setFocusPolicy(QWidget::StrongFocus);
+}
+
+SoQtGLArea::~SoQtGLArea()
 {
-} // ~SoQtGLArea()
+}
 
 /*
   Overloaded from QGLWidget to emit a signal.
 */
-
 void
-SoQtGLArea::initializeGL(
-  void)
+SoQtGLArea::initializeGL(void)
 {
   SOQT_GLAREA_DEBUG_START(initializeGL);
   this->setBackgroundMode(QWidget::NoBackground); // Avoid unnecessary flicker.
   emit this->init_sig();
   SOQT_GLAREA_DEBUG_DONE(initializeGL);
-} // initializeGL()
+}
 
 /*
   Overloaded from QtGLWidget to emit a signal.
 */
-
 void
-SoQtGLArea::resizeGL(
-  int width,
-  int height)
+SoQtGLArea::resizeGL(int width, int height)
 {
   SOQT_GLAREA_DEBUG_START(resizeGL);
   emit this->reshape_sig(width, height);
   SOQT_GLAREA_DEBUG_DONE(resizeGL);
-} // resizeGL()
+}
 
 /*
   Emit a signal whenever we need to repaint because of an expose event.
 */
-
 void
-SoQtGLArea::paintGL(
-  void)
+SoQtGLArea::paintGL(void)
 {
   SOQT_GLAREA_DEBUG_START(paintGL);
   emit this->expose_sig();
   SOQT_GLAREA_DEBUG_DONE(paintGL);
-} // paintGL()
+}
+
+// *************************************************************************
+
+bool
+SoQtGLArea::event(QEvent * e)
+{
+  if ((e->type() == QEvent::KeyPress) || (e->type() == QEvent::KeyRelease)) {
+    if (this->keycb) {
+      QKeyEvent * ke = (QKeyEvent *)e;
+      this->keycb(ke, this->keycbuserdata);
+      ke->accept();
+      return TRUE;
+    }
+  }
+
+  QGLWidget::event(e);
+}
 
 // *************************************************************************
