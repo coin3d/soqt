@@ -372,6 +372,10 @@ DISTCLEANFILES = \
 
 # built sourcefiles that are to be included in any case
 libSoQtDevicesBuiltSources = \
+	SoQtInputFocus.h \
+	SoQtKeyboard.h \
+	SoQtMouse.h \
+	SoQtSpaceball.h \
 	moc_SoQtDevice.cpp \
 	moc_SoQtInputFocus.cpp \
 	moc_SoQtKeyboard.cpp \
@@ -385,12 +389,12 @@ libSoQtDevicesBuiltSources = \
 # automake conditional stuff
 
 # if HAVE_JOYSTICK_LINUX
-# libSoQtDevicesLinuxJoystickHeaders = \ 
+# libSoQtDevicesLinuxJoystickHeaders = \
 #         SoQtLinuxJoystick.h
 # 
-# libSoQtDevicesLinuxJoystickSources = \ 
-#         SoQtLinuxJoystick.cpp \ 
-# 	moc_SoQtLinuxJoystick.cpp \ 
+# libSoQtDevicesLinuxJoystickSources = \
+#         SoQtLinuxJoystick.cpp \
+# 	moc_SoQtLinuxJoystick.cpp \
 #         $(libSoQtDevicesLinuxJoystickHeaders)
 # else
 libSoQtDevicesLinuxJoystickHeaders = 
@@ -402,7 +406,7 @@ libSoQtDevicesConditionalSources = \
 
 
 
-# libSoQtDevicesConditionalHeaders = \ 
+# libSoQtDevicesConditionalHeaders = \
 #         $(libSoQtDevicesLinuxJoystickHeaders)
 
 ############################################################################
@@ -411,13 +415,9 @@ libSoQtDevices_la_SOURCES = \
 	SoQtDevice.cpp \
 	SoQtDevice.h \
 	SoQtInputFocus.cpp \
-	SoQtInputFocus.h \
 	SoQtKeyboard.cpp \
-	SoQtKeyboard.h \
 	SoQtMouse.cpp \
-	SoQtMouse.h \
 	SoQtSpaceball.cpp \
-	SoQtSpaceball.h \
 	$(libSoQtDevicesConditionalSources)
 
 
@@ -1024,6 +1024,18 @@ $(top_builddir)/src/Inventor/@Gui@/common/gl.h: $(top_srcdir)/src/Inventor/@Gui@
 	fi; \
 	$(SHELL) config.status --file=src/Inventor/@Gui@/common/gl.h:src/Inventor/@Gui@/common/gl.h.in )
 
+$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocus.h: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiInputFocus.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocus.h:src/Inventor/@Gui@/common/devices/SoGuiInputFocus.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Keyboard.h: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiKeyboard.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Keyboard.h:src/Inventor/@Gui@/common/devices/SoGuiKeyboard.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Mouse.h: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiMouse.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Mouse.h:src/Inventor/@Gui@/common/devices/SoGuiMouse.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Spaceball.h: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiSpaceball.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Spaceball.h:src/Inventor/@Gui@/common/devices/SoGuiSpaceball.h.in )
+
 $(top_builddir)/src/Inventor/@Gui@/devices/spwinput.h: $(top_srcdir)/src/Inventor/@Gui@/common/spwinput.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/spwinput.h:src/Inventor/@Gui@/common/spwinput.h.in )
 
@@ -1142,25 +1154,25 @@ $(top_builddir)/man/man1/so@gui@-config.1: $(top_srcdir)/src/Inventor/@Gui@/comm
 @BUILD_METAFILES_TRUE@	echo "$(MOC) -o src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@Device.cpp `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/devices/So@Gui@Device.h`"; \
 @BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@Device.cpp `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/devices/So@Gui@Device.h` )
 
-@BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@InputFocus.cpp: $(top_srcdir)/src/Inventor/@Gui@/devices/So@Gui@InputFocus.h $(top_builddir)/config.status
+@BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@InputFocus.cpp: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocus.h $(top_builddir)/config.status
 @BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
-@BUILD_METAFILES_TRUE@	echo "$(MOC) -o src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@InputFocus.cpp `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/devices/So@Gui@InputFocus.h`"; \
-@BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@InputFocus.cpp `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/devices/So@Gui@InputFocus.h` )
+@BUILD_METAFILES_TRUE@	echo "$(MOC) -o src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@InputFocus.cpp `$(UNIX2WINPATH) $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocus.h`"; \
+@BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@InputFocus.cpp `$(UNIX2WINPATH) $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocus.h` )
 
-@BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@Keyboard.cpp: $(top_srcdir)/src/Inventor/@Gui@/devices/So@Gui@Keyboard.h $(top_builddir)/config.status
+@BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@Keyboard.cpp: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Keyboard.h $(top_builddir)/config.status
 @BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
-@BUILD_METAFILES_TRUE@	echo "$(MOC) -o src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@Keyboard.cpp `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/devices/So@Gui@Keyboard.h`"; \
-@BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@Keyboard.cpp `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/devices/So@Gui@Keyboard.h` )
+@BUILD_METAFILES_TRUE@	echo "$(MOC) -o src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@Keyboard.cpp `$(UNIX2WINPATH) $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Keyboard.h`"; \
+@BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@Keyboard.cpp `$(UNIX2WINPATH) $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Keyboard.h` )
 
-@BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@Mouse.cpp: $(top_srcdir)/src/Inventor/@Gui@/devices/So@Gui@Mouse.h $(top_builddir)/config.status
+@BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@Mouse.cpp: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Mouse.h $(top_builddir)/config.status
 @BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
-@BUILD_METAFILES_TRUE@	echo "$(MOC) -o src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@Mouse.cpp `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/devices/So@Gui@Mouse.h`"; \
-@BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@Mouse.cpp `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/devices/So@Gui@Mouse.h` )
+@BUILD_METAFILES_TRUE@	echo "$(MOC) -o src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@Mouse.cpp `$(UNIX2WINPATH) $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Mouse.h`"; \
+@BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@Mouse.cpp `$(UNIX2WINPATH) $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Mouse.h` )
 
-@BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@Spaceball.cpp: $(top_srcdir)/src/Inventor/@Gui@/devices/So@Gui@Spaceball.h $(top_builddir)/config.status
+@BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@Spaceball.cpp: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Spaceball.h $(top_builddir)/config.status
 @BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
-@BUILD_METAFILES_TRUE@	echo "$(MOC) -o src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@Spaceball.cpp `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/devices/So@Gui@Spaceball.h`"; \
-@BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@Spaceball.cpp `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/devices/So@Gui@Spaceball.h` )
+@BUILD_METAFILES_TRUE@	echo "$(MOC) -o src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@Spaceball.cpp `$(UNIX2WINPATH) $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Spaceball.h`"; \
+@BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@Spaceball.cpp `$(UNIX2WINPATH) $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Spaceball.h` )
 
 @BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@LinuxJoystick.cpp: $(top_srcdir)/src/Inventor/@Gui@/devices/So@Gui@LinuxJoystick.h $(top_builddir)/config.status
 @BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \

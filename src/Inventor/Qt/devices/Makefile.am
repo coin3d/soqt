@@ -27,6 +27,10 @@ endif
 
 # built sourcefiles that are to be included in any case
 libSoQtDevicesBuiltSources = \
+	SoQtInputFocus.h \
+	SoQtKeyboard.h \
+	SoQtMouse.h \
+	SoQtSpaceball.h \
 	moc_SoQtDevice.cpp \
 	moc_SoQtInputFocus.cpp \
 	moc_SoQtKeyboard.cpp \
@@ -39,12 +43,12 @@ libSoQtDevicesBuiltSources = \
 # automake conditional stuff
 
 # if HAVE_JOYSTICK_LINUX
-# libSoQtDevicesLinuxJoystickHeaders = \ 
+# libSoQtDevicesLinuxJoystickHeaders = \
 #         SoQtLinuxJoystick.h
 # 
-# libSoQtDevicesLinuxJoystickSources = \ 
-#         SoQtLinuxJoystick.cpp \ 
-# 	moc_SoQtLinuxJoystick.cpp \ 
+# libSoQtDevicesLinuxJoystickSources = \
+#         SoQtLinuxJoystick.cpp \
+# 	moc_SoQtLinuxJoystick.cpp \
 #         $(libSoQtDevicesLinuxJoystickHeaders)
 # else
 libSoQtDevicesLinuxJoystickHeaders =
@@ -54,7 +58,7 @@ libSoQtDevicesLinuxJoystickSources =
 libSoQtDevicesConditionalSources = \
         $(libSoQtDevicesLinuxJoystickSources)
 
-# libSoQtDevicesConditionalHeaders = \ 
+# libSoQtDevicesConditionalHeaders = \
 #         $(libSoQtDevicesLinuxJoystickHeaders)
 
 ############################################################################
@@ -64,13 +68,9 @@ libSoQtDevices_la_SOURCES = \
 	SoQtDevice.cpp \
 	SoQtDevice.h \
 	SoQtInputFocus.cpp \
-	SoQtInputFocus.h \
 	SoQtKeyboard.cpp \
-	SoQtKeyboard.h \
 	SoQtMouse.cpp \
-	SoQtMouse.h \
 	SoQtSpaceball.cpp \
-	SoQtSpaceball.h \
 	$(libSoQtDevicesConditionalSources)
 
 nodist_libSoQtDevices_la_SOURCES = \
