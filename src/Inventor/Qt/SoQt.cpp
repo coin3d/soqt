@@ -261,6 +261,8 @@
 #include <Inventor/Qt/SoAny.h>
 #include <Inventor/Qt/SoQtInternal.h>
 
+#include <Inventor/Qt/nodes/SoGuiNodes.h>
+
 #include <soqtdefs.h>
 
 
@@ -596,6 +598,8 @@ SoQt::init(QWidget * toplevelwidget)
 #undef COIN_IV_EXTENSION
 #endif
 
+  SoGuiNodes::initClasses();
+
   // This is _extremely_ useful for debugging X errors: activate this
   // code (set the SOQT_XSYNC environment variable on your system to
   // "1"), then rerun the application code in a debugger with a
@@ -635,8 +639,11 @@ SoQt::init(int & argc, char ** argv, const char * appname, const char * classnam
   // Must do this here so SoDebugError is initialized before it could
   // be attempted used.
   if (!SoDB::isInitialized()) { SoDB::init(); }
-  SoNodeKit::init();
-  SoInteraction::init();
+
+  // these aren't necessary - they are initialized in the SoQt::init method above
+  // which is invoked below
+  // SoNodeKit::init();
+  // SoInteraction::init();
 
   if (SOQT_DEBUG && (SoQtP::appobject || SoQtP::mainwidget)) {
     SoDebugError::postWarning("SoQt::init",
