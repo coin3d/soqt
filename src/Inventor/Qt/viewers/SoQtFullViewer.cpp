@@ -1104,6 +1104,20 @@ SoQtFullViewer::buildDrawStyleSubmenu(QWidget * popup)
 } // buildDrawStyleSubmenu()
 */
 
+/*!
+  NOTE: This method is not part of the original InventorXt API.
+*/
+
+void
+SoQtFullViewer::openPopupMenu( // protected
+  const SbVec2s position )
+{
+  if ( ! this->isPopupMenuEnabled() ) return;
+  if ( this->prefmenu == NULL )
+    this->buildPopupMenu();
+  this->prefmenu->PopUp( this->getGLWidget(), position[0], position[1] );
+} // openPopupMenu()
+
 // *************************************************************************
 
 /*!
@@ -2593,5 +2607,22 @@ SoQtFullViewer::sizeChanged( // virtual
 
 // *************************************************************************
 
+/*!
+*/
+
+SbBool
+SoQtFullViewer::processSoEvent(
+  const SoEvent * const event )
+{
+  if ( common->processSoEvent(event) ||
+       inherited::processSoEvent(event) )
+    return TRUE;
+  return FALSE;
+} // processSoEvent()
+
+// *************************************************************************
+
+#if SOQT_DEBUG
 static const char * getSoQtFullViewerRCSId(void) { return rcsid; }
+#endif // SOQT_DEBUG
 

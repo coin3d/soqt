@@ -499,6 +499,19 @@ SoQtExaminerViewer::openViewerHelpCard(void)
 // *************************************************************************
 
 /*!
+*/
+
+SbBool
+SoQtExaminerViewer::processSoEvent(
+  const SoEvent * const event )
+{
+  if ( common->processSoEvent(event) ||
+       inherited::processSoEvent(event) )
+    return TRUE;
+  return FALSE;
+} // processSoEvent()
+
+/*!
   Overloaded from parent class to take care of any model interaction
   events.
 */
@@ -506,6 +519,11 @@ SoQtExaminerViewer::openViewerHelpCard(void)
 void
 SoQtExaminerViewer::processEvent(QEvent * event)
 {
+  inherited::processEvent( event );
+  return;
+
+#if 0
+
 //  SoDebugError::postInfo( "SoQtExaminerViewer::processEvent", "[invoked]" );
   // Upon first event detected, make sure the cursor is set correctly.
   if (!this->defaultcursor) this->setCursorRepresentation(this->currentmode);
@@ -587,7 +605,7 @@ SoQtExaminerViewer::processEvent(QEvent * event)
           this->spindetecttimer->isActive()) {
         this->spindetecttimer->stop();
         common->spinanimating = TRUE;
-        common->spintimertrigger->schedule();
+//        common->spintimertrigger->schedule();
         this->interactiveCountInc();
       }
 
@@ -658,6 +676,9 @@ SoQtExaminerViewer::processEvent(QEvent * event)
   }
 
   common->lastmouseposition = norm_mousepos;
+
+#endif
+
 } // processEvents()
 
 // *************************************************************************
@@ -693,9 +714,12 @@ SoQtExaminerViewer::setSeekMode(SbBool on)
 void
 SoQtExaminerViewer::actualRedraw(void)
 {
+  common->actualRedraw();
   inherited::actualRedraw();
   if ( common->isFeedbackVisible() )
     common->drawAxisCross();
+  if ( common->isAnimating() )
+    this->scheduleRedraw();
 } // actualRedraw()
 
 // *************************************************************************
@@ -911,10 +935,10 @@ void
 SoQtExaminerViewer::visibilityCallback( SbBool visible )
 {
   if ( common->isAnimating() ) {
-    if ( visible )
-      common->spintimertrigger->schedule();
-    else
-      common->spintimertrigger->unschedule();
+//    if ( visible )
+//      common->spintimertrigger->schedule();
+//    else
+//      common->spintimertrigger->unschedule();
   }
 }
 

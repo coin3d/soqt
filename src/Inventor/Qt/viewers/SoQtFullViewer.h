@@ -100,6 +100,7 @@ protected:
 
   virtual void buildPopupMenu(void);
   void setPopupMenuString(const char * title);
+  void openPopupMenu( const SbVec2s position );
 
   virtual QWidget * makeSubPreferences(QWidget * parent);
   void setPrefSheetString(const char * title);
@@ -120,6 +121,8 @@ protected:
   void setLeftWheelString(const char * name);
   void setBottomWheelString(const char * name);
   void setRightWheelString(const char * name);
+
+  virtual SbBool processSoEvent(const SoEvent * const event);
 
   virtual void openViewerHelpCard(void);
 

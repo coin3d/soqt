@@ -98,6 +98,7 @@ protected:
 
   virtual void openViewerHelpCard(void);
 
+  virtual SbBool processSoEvent( const SoEvent * const event );
   virtual void processEvent( QEvent * anyevent );
   virtual void setSeekMode( SbBool enable );
   virtual void actualRedraw(void);
