@@ -79,6 +79,12 @@ libSoQt@SUFFIX@inc_HEADERS = \
 SoQtBasic.h: $(top_srcdir)/src/Inventor/Qt/common/SoGuiBasic.h.in
 	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/SoQtBasic.h )
 
+SoAny.h: $(top_srcdir)/src/Inventor/Qt/common/SoAny.h.in
+	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/SoAny.h )
+
+SoAny.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoAny.cpp.in
+	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/SoAny.cpp )
+
 SoQtCursors.h: $(top_srcdir)/src/Inventor/Qt/common/SoGuiCursors.h.in
 	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/SoQtCursors.h )
 

@@ -1141,8 +1141,8 @@ else
   $1_FALSE=
 fi])
 
-# Usage:
-#  SIM_AC_CHECK_DL([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+# SIM_AC_CHECK_DL([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+# ----------------------------------------------------------
 #
 #  Try to find the dynamic link loader library. If it is found, these
 #  shell variables are set:
@@ -1152,9 +1152,6 @@ fi])
 #    $sim_ac_dl_libs     (link libraries the linker needs for dl lib)
 #
 #  The CPPFLAGS, LDFLAGS and LIBS flags will also be modified accordingly.
-#  In addition, the variable $sim_ac_dl_avail is set to "yes" if
-#  the dynamic link loader library is found.
-#
 #
 # Author: Morten Eriksen, <mortene@sim.no>.
 
@@ -1166,8 +1163,6 @@ AC_ARG_WITH(
     [include support for the dynamic link loader library [default=yes]])],
   [],
   [with_dl=yes])
-
-sim_ac_dl_avail=no
 
 if test x"$with_dl" != xno; then
   if test x"$with_dl" != xyes; then
@@ -1200,7 +1195,6 @@ if test x"$with_dl" != xno; then
                  [sim_cv_lib_dl_avail=no])])
 
   if test x"$sim_cv_lib_dl_avail" = xyes; then
-    sim_ac_dl_avail=yes
     ifelse([$1], , :, [$1])
   else
     CPPFLAGS=$sim_ac_save_cppflags
@@ -1211,6 +1205,46 @@ if test x"$with_dl" != xno; then
 fi
 ])
 
+# SIM_AC_CHECK_LOADLIBRARY([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+# -------------------------------------------------------------------
+#
+#  Try to use the Win32 dynamic link loader methods LoadLibrary(),
+#  GetProcAddress() and FreeLibrary().
+#
+# Author: Morten Eriksen, <mortene@sim.no>.
+
+AC_DEFUN([SIM_AC_CHECK_LOADLIBRARY], [
+AC_ARG_WITH(
+  [loadlibrary],
+  [AC_HELP_STRING(
+    [--with-loadlibrary],
+    [always use run-time link bindings under Win32 [default=yes]])],
+  [],
+  [with_loadlibrary=yes])
+
+if test x"$with_loadlibrary" != xno; then
+  # Use SIM_AC_CHECK_HEADERS instead of .._HEADER to get the
+  # HAVE_DLFCN_H symbol set up in config.h automatically.
+  AC_CHECK_HEADERS([windows.h])
+
+  AC_CACHE_CHECK([whether the Win32 LoadLibrary() method is available],
+    sim_cv_lib_loadlibrary_avail,
+    [AC_TRY_LINK([
+#if HAVE_WINDOWS_H
+#include <windows.h>
+#endif /* HAVE_WINDOWS_H */
+],
+                 [(void)LoadLibrary(0L); (void)GetProcAddress(0L, 0L); (void)FreeLibrary(0L); ],
+                 [sim_cv_lib_loadlibrary_avail=yes],
+                 [sim_cv_lib_loadlibrary_avail=no])])
+
+  if test x"$sim_cv_lib_loadlibrary_avail" = xyes; then
+    ifelse([$1], , :, [$1])
+  else
+    ifelse([$2], , :, [$2])
+  fi
+fi
+])
 
 # Usage:
 #  SIM_AC_CHECK_X11([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
