@@ -17,34 +17,35 @@
  *
  **************************************************************************/
 
-#include <qcursor.h>
+#include <Inventor/Qt/SoQtCursor.h>
 
 /*!
   \internal
   Set cursor graphics according to mode.
 */
 void
-SoQtFlyViewerP::updateCursorRepresentation()
+SoQtFlyViewerP::updateCursorRepresentation(void)
 {
-  QWidget * w = this->viewer->getRenderAreaWidget();
-  assert(w);
+  // FIXME: with the new So@Gui@Cursor class, this has actually become
+  // a possibly generic method for all So* toolkits. Move to common
+  // code. 20011125 mortene.
 
   if (!this->viewer->isCursorEnabled()) {
-    w->setCursor(Qt::blankCursor);
+    this->viewer->setComponentCursor(SoQtCursor(SoQtCursor::BLANK));
     return;
   }
 
   switch (this->viewermode) {
   case SoQtFlyViewerP::FLYING:
-    w->setCursor(Qt::arrowCursor);
+    this->viewer->setComponentCursor(SoQtCursor(SoQtCursor::DEFAULT));
     break;
 
   case SoQtFlyViewerP::WAITING_FOR_SEEK:
-    w->setCursor(Qt::crossCursor);
+    this->viewer->setComponentCursor(SoQtCursor(SoQtCursor::CROSSHAIR));
     break;
 
   case SoQtFlyViewerP::WAITING_FOR_UP_PICK:
-    w->setCursor(Qt::upArrowCursor);
+    this->viewer->setComponentCursor(SoQtCursor(SoQtCursor::UPARROW));
     break;
 
   default:
