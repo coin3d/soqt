@@ -25,12 +25,6 @@
 #include <Inventor/Qt/viewers/SoQtWalkViewer.h>
 #include <Inventor/Qt/viewers/SoGuiWalkViewerP.h>
 
-/*!
-  \class SoQtWalkViewer Inventor/Qt/viewers/SoQtWalkViewers.h
-  \brief The SoQtWalkViewer class is yet to be documented...
-  \ingroup soqtviewers
-*/
-
 // ************************************************************************
 
 SOQT_OBJECT_SOURCE(SoQtWalkViewer);

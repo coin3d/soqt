@@ -52,65 +52,8 @@
 
 // ************************************************************************
 
-// SoQtPlaneViewerP "private implementation" class.
-
 #define PUBLIC(ptr) (ptr->pub)
 #define PRIVATE(ptr) (ptr->pimpl)
-
-SoQtPlaneViewerP::SoQtPlaneViewerP(SoQtPlaneViewer * publ)
-  : SoGuiPlaneViewerP(publ)
-{
-  this->pixmaps.orthogonal = new QPixmap((const char **) ortho_xpm);
-  this->pixmaps.perspective = new QPixmap((const char **) perspective_xpm);
-}
-
-SoQtPlaneViewerP::~SoQtPlaneViewerP()
-{
-  delete this->pixmaps.orthogonal;
-  delete this->pixmaps.perspective;
-}
-
-// Private constructor-code common for all public / protected
-// constructors.
-void
-SoQtPlaneViewerP::constructor(SbBool buildnow)
-{
-  this->commonConstructor(); // init generic stuff
-
-  PUBLIC(this)->setClassName("SoQtPlaneViewer");
-  PUBLIC(this)->setLeftWheelString("transY");
-  PUBLIC(this)->setBottomWheelString("transX");
-
-  if (!buildnow) return;
-
-  PUBLIC(this)->setSize(SbVec2s(550, 490)); // extra buttons -> more height
-  QWidget * viewer = PUBLIC(this)->buildWidget(PUBLIC(this)->getParentWidget());
-  PUBLIC(this)->setBaseWidget(viewer);
-}
-
-void
-SoQtPlaneViewerP::xClicked(void)
-{
-  this->viewPlaneX();
-}
-
-void
-SoQtPlaneViewerP::yClicked(void)
-{
-  this->viewPlaneY();
-}
-
-void
-SoQtPlaneViewerP::zClicked(void)
-{
-  this->viewPlaneZ();
-}
-
-void
-SoQtPlaneViewerP::cameraToggleClicked(void)
-{
-  PUBLIC(this)->toggleCameraType();
-}
 
 // ************************************************************************
 
@@ -244,3 +187,66 @@ SoQtPlaneViewer::createPrefSheet(void)
 }
 
 // ************************************************************************
+
+// SoQtPlaneViewerP "private implementation" class.
+
+#ifndef DOXYGEN_SKIP_THIS
+
+SoQtPlaneViewerP::SoQtPlaneViewerP(SoQtPlaneViewer * publ)
+  : SoGuiPlaneViewerP(publ)
+{
+  this->pixmaps.orthogonal = new QPixmap((const char **) ortho_xpm);
+  this->pixmaps.perspective = new QPixmap((const char **) perspective_xpm);
+}
+
+SoQtPlaneViewerP::~SoQtPlaneViewerP()
+{
+  delete this->pixmaps.orthogonal;
+  delete this->pixmaps.perspective;
+}
+
+// Private constructor-code common for all public / protected
+// constructors.
+void
+SoQtPlaneViewerP::constructor(SbBool buildnow)
+{
+  this->commonConstructor(); // init generic stuff
+
+  PUBLIC(this)->setClassName("SoQtPlaneViewer");
+  PUBLIC(this)->setLeftWheelString("transY");
+  PUBLIC(this)->setBottomWheelString("transX");
+
+  if (!buildnow) return;
+
+  PUBLIC(this)->setSize(SbVec2s(550, 490)); // extra buttons -> more height
+  QWidget * viewer = PUBLIC(this)->buildWidget(PUBLIC(this)->getParentWidget());
+  PUBLIC(this)->setBaseWidget(viewer);
+}
+
+void
+SoQtPlaneViewerP::xClicked(void)
+{
+  this->viewPlaneX();
+}
+
+void
+SoQtPlaneViewerP::yClicked(void)
+{
+  this->viewPlaneY();
+}
+
+void
+SoQtPlaneViewerP::zClicked(void)
+{
+  this->viewPlaneZ();
+}
+
+void
+SoQtPlaneViewerP::cameraToggleClicked(void)
+{
+  PUBLIC(this)->toggleCameraType();
+}
+
+// ************************************************************************
+
+#endif // DOXYGEN_SKIP_THIS

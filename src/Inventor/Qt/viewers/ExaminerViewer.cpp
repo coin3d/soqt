@@ -60,24 +60,6 @@
 
 // *************************************************************************
 
-// SoQtExaminerViewerP "private implementation" class.
-
-SoQtExaminerViewerP::SoQtExaminerViewerP(SoQtExaminerViewer * publ)
-  : SoGuiExaminerViewerP(publ)
-{
-}
-
-SoQtExaminerViewerP::~SoQtExaminerViewerP()
-{
-  // Button pixmaps.
-  delete this->orthopixmap;
-  delete this->perspectivepixmap;
-
-  this->genericDestructor();
-}
-
-// *************************************************************************
-
 SOQT_OBJECT_SOURCE(SoQtExaminerViewer);
 
 // *************************************************************************
@@ -125,43 +107,6 @@ SoQtExaminerViewer::SoQtExaminerViewer(QWidget * parent,
 {
   PRIVATE(this) = new SoQtExaminerViewerP(this);
   PRIVATE(this)->constructor(build);
-}
-
-// *************************************************************************
-
-/*!
-  \internal
-
-  This contains the real constructor code (the two constructors are only
-  entry points for this method).
-*/
-
-void
-SoQtExaminerViewerP::constructor(SbBool build)
-{
-  this->genericConstructor();
-
-  this->feedbacklabel1 = NULL;
-  this->feedbacklabel2 = NULL;
-  this->feedbackwheel = NULL;
-  this->feedbackedit = NULL;
-  this->cameratogglebutton = NULL;
-
-  this->orthopixmap = new QPixmap((const char **)ortho_xpm);
-  this->perspectivepixmap = new QPixmap((const char **)perspective_xpm);
-  assert(this->orthopixmap->size() == this->perspectivepixmap->size());
-
-  PUBLIC(this)->setClassName("SoQtExaminerViewer");
-
-  PUBLIC(this)->setPopupMenuString("Examiner Viewer");
-  PUBLIC(this)->setPrefSheetString("Examiner Viewer Preference Sheet");
-  PUBLIC(this)->setLeftWheelString("Rotx");
-  PUBLIC(this)->setBottomWheelString("Roty");
-
-  if (build) {
-    QWidget * widget = PUBLIC(this)->buildWidget(PUBLIC(this)->getParentWidget());
-    PUBLIC(this)->setBaseWidget(widget);
-  }
 }
 
 // *************************************************************************
@@ -336,103 +281,6 @@ SoQtExaminerViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
 // *************************************************************************
 
 /*!
-  \internal
-*/
-
-void
-SoQtExaminerViewerP::setEnableFeedbackControls(const SbBool flag)
-{
-  this->feedbacklabel1->setEnabled(flag);
-  this->feedbacklabel2->setEnabled(flag);
-  this->feedbackwheel->setEnabled(flag);
-  this->feedbackedit->setEnabled(flag);
-}
-
-// *************************************************************************
-
-//  Pref sheet slot.
-void
-SoQtExaminerViewerP::spinAnimationToggled(bool flag)
-{
-  PUBLIC(this)->setAnimationEnabled(flag ? TRUE : FALSE);
-}
-
-// *************************************************************************
-
-// Pref sheet slot.
-void
-SoQtExaminerViewerP::feedbackVisibilityToggle(bool flag)
-{
-  PUBLIC(this)->setFeedbackVisibility(flag ? TRUE : FALSE);
-  this->setEnableFeedbackControls(flag);
-}
-
-// *************************************************************************
-
-//  Pref sheet slot.
-void
-SoQtExaminerViewerP::feedbackEditPressed()
-{
-  int val;
-  if ((sscanf(this->feedbackedit->text(), "%d", &val) == 1) && (val > 0.0f)) {
-    this->feedbackwheel->setValue(float(val)/10.0f);
-    PUBLIC(this)->setFeedbackSize(val);
-  }
-  else {
-    QString s;
-    s.setNum(PUBLIC(this)->getFeedbackSize());
-    this->feedbackedit->setText(s);
-  }
-}
-
-// *************************************************************************
-
-// Pref sheet slot.
-void
-SoQtExaminerViewerP::feedbackWheelPressed()
-{
-  PUBLIC(this)->interactiveCountInc();
-}
-
-// *************************************************************************
-
-// Pref sheet slot.
-void
-SoQtExaminerViewerP::feedbackWheelReleased()
-{
-  PUBLIC(this)->interactiveCountDec();
-}
-
-// *************************************************************************
-
-// Pref sheet slot.
-void
-SoQtExaminerViewerP::feedbackSizeChanged(float val)
-{
-  if (val < 0.1f) {
-    val = 0.1f;
-    this->feedbackwheel->setValue(val);
-  }
-
-  PUBLIC(this)->setFeedbackSize(int(val * 10));
-
-  QString s;
-  s.setNum(PUBLIC(this)->getFeedbackSize());
-  this->feedbackedit->setText(s);
-}
-
-// *************************************************************************
-
-// Pref sheet slot.
-void
-SoQtExaminerViewerP::cameratoggleClicked()
-{
-  if (PUBLIC(this)->getCamera()) PUBLIC(this)->toggleCameraType();
-}
-
-// *************************************************************************
-
-/*!
   FIXME: write doc
 */
 
@@ -456,3 +304,132 @@ SoQtExaminerViewer::setFeedbackSize(const int size)
 }
 
 // *************************************************************************
+
+// SoQtExaminerViewerP "private implementation" class.
+
+#ifndef DOXYGEN_SKIP_THIS
+
+SoQtExaminerViewerP::SoQtExaminerViewerP(SoQtExaminerViewer * publ)
+  : SoGuiExaminerViewerP(publ)
+{
+}
+
+SoQtExaminerViewerP::~SoQtExaminerViewerP()
+{
+  // Button pixmaps.
+  delete this->orthopixmap;
+  delete this->perspectivepixmap;
+
+  this->genericDestructor();
+}
+
+// This contains the real constructor code (the two SoQtExaminerViewer
+// constructors are only entry points for this method).
+void
+SoQtExaminerViewerP::constructor(SbBool build)
+{
+  this->genericConstructor();
+
+  this->feedbacklabel1 = NULL;
+  this->feedbacklabel2 = NULL;
+  this->feedbackwheel = NULL;
+  this->feedbackedit = NULL;
+  this->cameratogglebutton = NULL;
+
+  this->orthopixmap = new QPixmap((const char **)ortho_xpm);
+  this->perspectivepixmap = new QPixmap((const char **)perspective_xpm);
+  assert(this->orthopixmap->size() == this->perspectivepixmap->size());
+
+  PUBLIC(this)->setClassName("SoQtExaminerViewer");
+
+  PUBLIC(this)->setPopupMenuString("Examiner Viewer");
+  PUBLIC(this)->setPrefSheetString("Examiner Viewer Preference Sheet");
+  PUBLIC(this)->setLeftWheelString("Rotx");
+  PUBLIC(this)->setBottomWheelString("Roty");
+
+  if (build) {
+    QWidget * widget = PUBLIC(this)->buildWidget(PUBLIC(this)->getParentWidget());
+    PUBLIC(this)->setBaseWidget(widget);
+  }
+}
+
+void
+SoQtExaminerViewerP::setEnableFeedbackControls(const SbBool flag)
+{
+  this->feedbacklabel1->setEnabled(flag);
+  this->feedbacklabel2->setEnabled(flag);
+  this->feedbackwheel->setEnabled(flag);
+  this->feedbackedit->setEnabled(flag);
+}
+
+//  Pref sheet slot.
+void
+SoQtExaminerViewerP::spinAnimationToggled(bool flag)
+{
+  PUBLIC(this)->setAnimationEnabled(flag ? TRUE : FALSE);
+}
+
+// Pref sheet slot.
+void
+SoQtExaminerViewerP::feedbackVisibilityToggle(bool flag)
+{
+  PUBLIC(this)->setFeedbackVisibility(flag ? TRUE : FALSE);
+  this->setEnableFeedbackControls(flag);
+}
+
+//  Pref sheet slot.
+void
+SoQtExaminerViewerP::feedbackEditPressed()
+{
+  int val;
+  if ((sscanf(this->feedbackedit->text(), "%d", &val) == 1) && (val > 0.0f)) {
+    this->feedbackwheel->setValue(float(val)/10.0f);
+    PUBLIC(this)->setFeedbackSize(val);
+  }
+  else {
+    QString s;
+    s.setNum(PUBLIC(this)->getFeedbackSize());
+    this->feedbackedit->setText(s);
+  }
+}
+
+// Pref sheet slot.
+void
+SoQtExaminerViewerP::feedbackWheelPressed()
+{
+  PUBLIC(this)->interactiveCountInc();
+}
+
+// Pref sheet slot.
+void
+SoQtExaminerViewerP::feedbackWheelReleased()
+{
+  PUBLIC(this)->interactiveCountDec();
+}
+
+// Pref sheet slot.
+void
+SoQtExaminerViewerP::feedbackSizeChanged(float val)
+{
+  if (val < 0.1f) {
+    val = 0.1f;
+    this->feedbackwheel->setValue(val);
+  }
+
+  PUBLIC(this)->setFeedbackSize(int(val * 10));
+
+  QString s;
+  s.setNum(PUBLIC(this)->getFeedbackSize());
+  this->feedbackedit->setText(s);
+}
+
+// Pref sheet slot.
+void
+SoQtExaminerViewerP::cameratoggleClicked()
+{
+  if (PUBLIC(this)->getCamera()) PUBLIC(this)->toggleCameraType();
+}
+
+// *************************************************************************
+
+#endif // DOXYGEN_SKIP_THIS
