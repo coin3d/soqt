@@ -81,3 +81,24 @@
     20020619 mortene.
 
 =====================================================================
+
+003 Animations that are continually triggered by timer-sensors are not
+    running as smooth in Coin's viewers as with SGI Inventor. This
+    makes it looks like Coin has worse rendering performance than SGI
+    Inventor.
+
+    To see what I mean, do a seek operation on a lightweigth scene and
+    watch the SoQt-version be a lot more "jumpy" than the InventorXt
+    version (even when SoQt is built on top of SGI Inventor).
+
+    It also looks like we have the same problem in SoXt.
+
+    Proceed to hunt down this bug by first checking that it's not
+    actually our seek operation that is the culprit, then try to find
+    out what we do wrong in how we process our event queues.  :-(
+
+    This is not a trivial task.
+
+    mortene 20020702.
+
+=====================================================================
