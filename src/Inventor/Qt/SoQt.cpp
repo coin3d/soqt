@@ -102,6 +102,7 @@ main(int argc, char **argv)
 #include <Inventor/Qt/SoQtObject.h>
 #include <Inventor/Qt/devices/SoQtDevice.h>
 #include <Inventor/Qt/SoQtComponent.h>
+#include <Inventor/Qt/SoAny.h>
 
 // *************************************************************************
 
@@ -710,4 +711,15 @@ SoQt::slot_delaytimeoutSensor()
   // SoSensorManager after the process methods, so we need to
   // explicitly trigger it ourselves here.
   SoQt::sensorQueueChanged(NULL);
+}
+
+// Documented in SoWin.cpp, along with doc for the callback function
+// typedef and the enums.
+//
+// FIXME: find a way to collect the documentation of the public API
+// for all common So[Win|Qt|Gtk|Xt|Mac] classes.
+SoQt::FatalErrorCB *
+SoQt::setFatalErrorHandler(SoQt::FatalErrorCB * cb, void * userdata)
+{
+  return SoAny::si()->setFatalErrorHandler(cb, userdata);
 }
