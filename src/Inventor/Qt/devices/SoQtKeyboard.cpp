@@ -518,7 +518,7 @@ SoQtKeyboard::makeTranslationTable(
   int i=0;
   while (QtToSoMapping[i].from != Key_unknown) {
     // FIXME: nasty casting going on -- design broken, should be
-    // repaired somehow. 990212 mortene.
+    // repaired somehow. 19990212 mortene.
     SoQtKeyboard::translatetable->enter(QtToSoMapping[i].from,
                                         (void *)QtToSoMapping[i].to);
     i++;
@@ -555,8 +555,10 @@ SoQtKeyboard::translateEvent(
     // Allocate system-neutral event object once and reuse.
     if (!this->kbdevent) this->kbdevent = new SoKeyboardEvent;
 
-    // FIXME: check for Key_unknown. 990212 mortene.
+    // FIXME: check for Key_unknown. 19990212 mortene.
 
+    // Key code / sequence unknown to Qt.
+    if (keyevent->key() == 0) return NULL;
 
     // Translate keycode Qt -> So
     void * sokey;
@@ -605,14 +607,14 @@ SoQtKeyboard::translateEvent(
     this->kbdevent->setAltDown(state & AltButton);
 
     // FIXME: read QCursor::position() instead,
-    // and clean up this mess. 990222 mortene.
+    // and clean up this mess. 19990222 mortene.
     this->setEventPosition( this->kbdevent,
                             SoQtDevice::getLastEventPosition().x(),
                             SoQtDevice::getLastEventPosition().y() );
 
     // FIXME: wrong -- should be the time the Qt event happened. Can't
-    // find support for getting hold of that information in Qt. 990211
-    // mortene.
+    // find support for getting hold of that information in
+    // Qt. 19990211 mortene.
     this->kbdevent->setTime(SbTime::getTimeOfDay());
 
     return this->kbdevent;
