@@ -44,23 +44,11 @@ public:
   ~SoQtExaminerViewerP();
 
   void constructor(SbBool buildNow);
-  void setEnableFeedbackControls(const SbBool flag);
 
   QPixmap * orthopixmap, * perspectivepixmap;
   class QPushButton * cameratogglebutton;
-  class QLabel * feedbacklabel1, * feedbacklabel2;
-  class SoQtThumbWheel * feedbackwheel;
-  class QLineEdit * feedbackedit;
 
 public slots:
-  // preferences window:
-  void spinAnimationToggled(bool);
-  void feedbackVisibilityToggle(bool);
-  void feedbackEditPressed(void);
-  void feedbackWheelPressed(void);
-  void feedbackSizeChanged(float val);
-  void feedbackWheelReleased(void);
-
   // viewer buttons row:
   void cameratoggleClicked(void);
 };

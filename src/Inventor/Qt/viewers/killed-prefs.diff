@@ -1,0 +1,1385 @@
+This file contains the big diff resulting when killing off all the
+native toolkit specific code for handling the preference sheets. It
+has been added to the CVS repository in case someone (important)
+loudly complains about me ripping out the prefsheet support.
+
+The common template diff can be found in
+src/Inventor/@Gui@/common/viewers/.
+
+20020606 mortene.
+
+
+
+Index: ExaminerViewer.cpp
+===================================================================
+RCS file: /export/cvsroot/SoQt/src/Inventor/Qt/viewers/ExaminerViewer.cpp,v
+retrieving revision 1.16
+diff -u -r1.16 ExaminerViewer.cpp
+--- ExaminerViewer.cpp	5 Jun 2002 12:17:20 -0000	1.16
++++ ExaminerViewer.cpp	6 Jun 2002 18:16:36 -0000
+@@ -124,16 +124,6 @@
+ 
+ // Documented in superclass.
+ void
+-SoQtExaminerViewer::createPrefSheet(void)
+-{
+-  // FIXME: not implemented according to correct API yet. 20020603 mortene.
+-  inherited::createPrefSheet();
+-}
+-
+-// *************************************************************************
+-
+-// Documented in superclass.
+-void
+ SoQtExaminerViewer::setCamera(SoCamera * newCamera)
+ {
+   // This method overridden from parent class to toggle the camera
+@@ -158,97 +148,6 @@
+ 
+ // *************************************************************************
+ 
+-/*!
+-  Overloaded to add preferences settings for examiner viewer
+-  specific stuff (enable/disable possible spin animation,
+-  enable/disable/configure axis cross graphics).
+-*/
+-
+-QWidget *
+-SoQtExaminerViewer::makeSubPreferences(QWidget * parent)
+-{
+-  QWidget * w = new QWidget(parent);
+-//  w->setBackgroundColor(QColor(250, 0, 0));
+-
+-  // Initialize objects keeping track of geometry data.
+-
+-  QSize totalsize(0, 0);
+-  QVBoxLayout * toplayout = new QVBoxLayout(w);
+-
+-  // First, do the single widget on the uppermost row (a checkbox).
+-
+-  QCheckBox * c1 = new QCheckBox("Enable spin animation", w);
+-  c1->adjustSize();
+-  c1->setChecked(this->isAnimationEnabled());
+-  QObject::connect(c1, SIGNAL(toggled(bool)),
+-                   PRIVATE(this), SLOT(spinAnimationToggled(bool)));
+-
+-  // Layout row 1.
+-  toplayout->addWidget(c1, c1->height());
+-  expandSize(totalsize, c1->size(), LayoutVertical);
+-
+-  // Do the single widget on the second row (a checkbox).
+-
+-  QCheckBox * c2 = new QCheckBox("Show point of rotation axes", w);
+-  c2->adjustSize();
+-  c2->setChecked(this->isFeedbackVisible());
+-  QObject::connect(c2, SIGNAL(toggled(bool)),
+-                   PRIVATE(this), SLOT(feedbackVisibilityToggle(bool)));
+-
+-  // Layout row 2.
+-  toplayout->addWidget(c2, c2->height());
+-  expandSize(totalsize, c2->size(), LayoutVertical);
+-
+-
+-  // Do the four widgets on the third row (label, thumbwheel,
+-  // lineedit, label).
+-
+-  QSize tmpsize = QSize(0, 0);
+-
+-  PRIVATE(this)->feedbacklabel1 = new QLabel("axes size", w);
+-  PRIVATE(this)->feedbacklabel1->adjustSize();
+-  expandSize(tmpsize, PRIVATE(this)->feedbacklabel1->size(), LayoutHorizontal);
+-
+-  PRIVATE(this)->feedbackwheel = new SoQtThumbWheel(SoQtThumbWheel::Horizontal, w);
+-  PRIVATE(this)->feedbackwheel->setRangeBoundaryHandling(SoQtThumbWheel::ACCUMULATE);
+-  QObject::connect(PRIVATE(this)->feedbackwheel, SIGNAL(wheelMoved(float)),
+-                   PRIVATE(this), SLOT(feedbackSizeChanged(float)));
+-  PRIVATE(this)->feedbackwheel->setValue(float(this->getFeedbackSize())/10.0f);
+-  PRIVATE(this)->feedbackwheel->adjustSize();
+-  expandSize(tmpsize, PRIVATE(this)->feedbackwheel->size(), LayoutHorizontal);
+-
+-  PRIVATE(this)->feedbackedit = new QLineEdit(w);
+-  QObject::connect(PRIVATE(this)->feedbackedit, SIGNAL(returnPressed()),
+-                   PRIVATE(this), SLOT(feedbackEditPressed()));
+-  QString s;
+-  s.setNum(this->getFeedbackSize());
+-  PRIVATE(this)->feedbackedit->setText(s);
+-  PRIVATE(this)->feedbackedit->adjustSize();
+-  expandSize(tmpsize, PRIVATE(this)->feedbackedit->size(), LayoutHorizontal);
+-
+-  PRIVATE(this)->feedbacklabel2 = new QLabel("size", w);
+-  PRIVATE(this)->feedbacklabel2->adjustSize();
+-  expandSize(tmpsize, PRIVATE(this)->feedbacklabel2->size(), LayoutHorizontal);
+-
+-  // Layout row 3.
+-  QHBoxLayout * layout = new QHBoxLayout;
+-  toplayout->addLayout(layout, tmpsize.height());
+-  layout->addWidget(PRIVATE(this)->feedbacklabel1, PRIVATE(this)->feedbacklabel1->width());
+-  layout->addWidget(PRIVATE(this)->feedbackwheel, PRIVATE(this)->feedbackwheel->width());
+-  layout->addWidget(PRIVATE(this)->feedbackedit, PRIVATE(this)->feedbackedit->width());
+-  layout->addWidget(PRIVATE(this)->feedbacklabel2, PRIVATE(this)->feedbacklabel2->width());
+-  expandSize(totalsize, tmpsize, LayoutVertical);
+-
+-  w->resize(totalsize);
+-  toplayout->activate();
+-
+-  PRIVATE(this)->setEnableFeedbackControls(this->isFeedbackVisible());
+-
+-  return w;
+-}
+-
+-// *************************************************************************
+-
+ // Documented in superclass. Overridden so we can append the camera
+ // type switch button in the rightside button column.
+ void
+@@ -287,7 +186,6 @@
+ void
+ SoQtExaminerViewer::setAnimationEnabled(const SbBool enable)
+ {
+-  // FIXME: update pref-sheet widget with the value. 20020603 mortene.
+   PRIVATE(this)->setGenericAnimationEnabled(enable);
+ }
+ 
+@@ -299,7 +197,6 @@
+ void
+ SoQtExaminerViewer::setFeedbackSize(const int size)
+ {
+-  // FIXME: update pref-sheet widget with the value. 20020603 mortene.
+   PRIVATE(this)->setGenericFeedbackSize(size);
+ }
+ 
+@@ -330,10 +227,6 @@
+ {
+   this->genericConstructor();
+ 
+-  this->feedbacklabel1 = NULL;
+-  this->feedbacklabel2 = NULL;
+-  this->feedbackwheel = NULL;
+-  this->feedbackedit = NULL;
+   this->cameratogglebutton = NULL;
+ 
+   this->orthopixmap = new QPixmap((const char **)ortho_xpm);
+@@ -343,7 +236,6 @@
+   PUBLIC(this)->setClassName("SoQtExaminerViewer");
+ 
+   PUBLIC(this)->setPopupMenuString("Examiner Viewer");
+-  PUBLIC(this)->setPrefSheetString("Examiner Viewer Preference Sheet");
+   PUBLIC(this)->setLeftWheelString("Rotx");
+   PUBLIC(this)->setBottomWheelString("Roty");
+ 
+@@ -351,83 +243,6 @@
+     QWidget * widget = PUBLIC(this)->buildWidget(PUBLIC(this)->getParentWidget());
+     PUBLIC(this)->setBaseWidget(widget);
+   }
+-}
+-
+-void
+-SoQtExaminerViewerP::setEnableFeedbackControls(const SbBool flag)
+-{
+-  this->feedbacklabel1->setEnabled(flag);
+-  this->feedbacklabel2->setEnabled(flag);
+-  this->feedbackwheel->setEnabled(flag);
+-  this->feedbackedit->setEnabled(flag);
+-}
+-
+-//  Pref sheet slot.
+-void
+-SoQtExaminerViewerP::spinAnimationToggled(bool flag)
+-{
+-  PUBLIC(this)->setAnimationEnabled(flag ? TRUE : FALSE);
+-}
+-
+-// Pref sheet slot.
+-void
+-SoQtExaminerViewerP::feedbackVisibilityToggle(bool flag)
+-{
+-  PUBLIC(this)->setFeedbackVisibility(flag ? TRUE : FALSE);
+-  this->setEnableFeedbackControls(flag);
+-}
+-
+-//  Pref sheet slot.
+-void
+-SoQtExaminerViewerP::feedbackEditPressed()
+-{
+-  int val;
+-  if ((sscanf(this->feedbackedit->text(), "%d", &val) == 1) && (val > 0.0f)) {
+-    this->feedbackwheel->setValue(float(val)/10.0f);
+-    PUBLIC(this)->setFeedbackSize(val);
+-  }
+-  else {
+-    QString s;
+-    s.setNum(PUBLIC(this)->getFeedbackSize());
+-    this->feedbackedit->setText(s);
+-  }
+-}
+-
+-// Pref sheet slot.
+-void
+-SoQtExaminerViewerP::feedbackWheelPressed()
+-{
+-  PUBLIC(this)->interactiveCountInc();
+-}
+-
+-// Pref sheet slot.
+-void
+-SoQtExaminerViewerP::feedbackWheelReleased()
+-{
+-  PUBLIC(this)->interactiveCountDec();
+-}
+-
+-// Pref sheet slot.
+-void
+-SoQtExaminerViewerP::feedbackSizeChanged(float val)
+-{
+-  if (val < 0.1f) {
+-    val = 0.1f;
+-    this->feedbackwheel->setValue(val);
+-  }
+-
+-  PUBLIC(this)->setFeedbackSize(int(val * 10));
+-
+-  QString s;
+-  s.setNum(PUBLIC(this)->getFeedbackSize());
+-  this->feedbackedit->setText(s);
+-}
+-
+-// Pref sheet slot.
+-void
+-SoQtExaminerViewerP::cameratoggleClicked()
+-{
+-  if (PUBLIC(this)->getCamera()) PUBLIC(this)->toggleCameraType();
+ }
+ 
+ // *************************************************************************
+Index: FullViewer.cpp
+===================================================================
+RCS file: /export/cvsroot/SoQt/src/Inventor/Qt/viewers/FullViewer.cpp,v
+retrieving revision 1.15
+diff -u -r1.15 FullViewer.cpp
+--- FullViewer.cpp	4 Jun 2002 15:35:02 -0000	1.15
++++ FullViewer.cpp	6 Jun 2002 18:16:36 -0000
+@@ -38,8 +38,7 @@
+ */
+ 
+ // FIXME: this sourcefile is way too large -- this reeks of bad
+-// design. Should try to factor out lots of stuff, like the preference
+-// sheet. 20010821 mortene.
++// design. Should try to factor out lots of stuff. 20010821 mortene.
+ 
+ // FIXME: can hide more stuff from the public header file into
+ // SoQtFullViewerP -- most or all of the private methods, for
+@@ -286,14 +285,9 @@
+   this->setBottomWheelString("Motion Y");
+   this->setRightWheelString("Motion Z");
+ 
+-  PRIVATE(this)->zoomrange = SbVec2f(1.0f, 140.0f);
+-
+   PRIVATE(this)->mainlayout = NULL;
+   PRIVATE(this)->appbuttonlayout = NULL;
+ 
+-  PRIVATE(this)->prefwindow = NULL;
+-  PRIVATE(this)->prefwindowtitle = "Viewer Preference Sheet";
+-
+   PRIVATE(this)->menuenabled = buildFlag & SoQtFullViewer::BUILD_POPUP;
+   PRIVATE(this)->decorations =
+     (buildFlag & SoQtFullViewer::BUILD_DECORATION) ? TRUE : FALSE;
+@@ -375,13 +369,12 @@
+ // *************************************************************************
+ 
+ /*!
+-  Decide whether or not if clicking with the right mouse button on the
+-  OpenGL canvas should reveal a preferences popup menu when in viewing
+-  mode.
++  Decide whether or not if clicking with the right mouse button on
++  the OpenGL canvas should reveal a preferences popup menu when in
++  viewing mode.
+ 
+   \sa isPopupMenuEnabled()
+ */
+-
+ void
+ SoQtFullViewer::setPopupMenuEnabled(const SbBool enable)
+ {
+@@ -405,7 +398,6 @@
+ 
+   \sa setPopupMenuEnabled()
+ */
+-
+ SbBool
+ SoQtFullViewer::isPopupMenuEnabled(void) const
+ {
+@@ -568,69 +560,6 @@
+ // *************************************************************************
+ 
+ // Documented in superclass.
+-void
+-SoQtFullViewer::setCamera(SoCamera * newCamera)
+-{
+-  // Overridden from parent to make sure the user interface indicators
+-  // on the camera features in the preferences sheet are updated
+-  // correctly.
+-
+-  inherited::setCamera(newCamera);
+-
+-  if (PRIVATE(this)->prefwindow) {
+-    PRIVATE(this)->setZoomSliderPosition(PRIVATE(this)->getCameraZoom());
+-    PRIVATE(this)->setZoomFieldString(PRIVATE(this)->getCameraZoom());
+-
+-    SbBool on = newCamera ? TRUE : FALSE;
+-    PRIVATE(this)->zoomslider->setEnabled(on);
+-    PRIVATE(this)->zoomfield->setEnabled(on);
+-    PRIVATE(this)->zoomrangefrom->setEnabled(on);
+-    PRIVATE(this)->zoomrangeto->setEnabled(on);
+-  }
+-}
+-
+-// *************************************************************************
+-
+-// Documented in superclass.
+-void
+-SoQtFullViewer::hide(void)
+-{
+-  // Overridden from parent class to make sure the preferences window
+-  // will be hidden automatically whenever the viewer window is
+-  // hidden.
+-
+-  inherited::hide();
+-  if (PRIVATE(this)->prefwindow) PRIVATE(this)->prefwindow->hide();
+-}
+-
+-// *************************************************************************
+-
+-/*!
+-  \internal
+-
+-  Catch close events on the preferences window (to convert to hide
+-  events).
+-*/
+-
+-bool
+-SoQtFullViewer::eventFilter(QObject * obj, QEvent * e)
+-{
+-  inherited::eventFilter(obj, e);
+-
+-  // Catch pref window close events to avoid it actually being
+-  // destroyed.
+-  if (obj == PRIVATE(this)->prefwindow && e->type() == QEvent::Close) {
+-    ((QCloseEvent *)e)->ignore();
+-    PRIVATE(this)->prefwindow->hide();
+-    return TRUE;
+-  }
+-
+-  return FALSE;
+-}
+-
+-// *************************************************************************
+-
+-// Documented in superclass.
+ QWidget *
+ SoQtFullViewer::buildWidget(QWidget * parent)
+ {
+@@ -972,33 +901,6 @@
+ 
+ // *************************************************************************
+ 
+-/*!
+-  Override this method in subclass viewers to append more widgets to
+-  the bottom of the preferences sheet window.
+-*/
+-
+-QWidget *
+-SoQtFullViewer::makeSubPreferences(QWidget * parent)
+-{
+-  return NULL;
+-}
+-
+-// *************************************************************************
+-
+-/*!
+-  Set title of preferences sheet.
+-*/
+-
+-void
+-SoQtFullViewer::setPrefSheetString(const char * title)
+-{
+-  PRIVATE(this)->prefwindowtitle = title ? title : "";
+-  if (PRIVATE(this)->prefwindow)
+-    PRIVATE(this)->prefwindow->setCaption(PRIVATE(this)->prefwindowtitle.getString());
+-}
+-
+-// *************************************************************************
+-
+ // These are all private slots for catching Qt events.
+ void SoQtFullViewerP::leftWheelPressed(void) { PUBLIC(this)->leftWheelStart(); }
+ void SoQtFullViewerP::leftWheelChanged(float v) { PUBLIC(this)->leftWheelMotion(v); }
+@@ -1149,486 +1051,6 @@
+ 
+ // *************************************************************************
+ 
+-// Documented in common/viewers/SoGuiFullViewer.cpp.in.
+-void
+-SoQtFullViewer::createPrefSheet(void)
+-{
+-  // FIXME: this is really not the way to do it, the prefsheet should
+-  // actually be constructed from the subclass(es) by piecing it
+-  // together from other virtual createPref*() methods. SoXt does the
+-  // right thing, look there for reference.  20020529 mortene.
+-
+-  PRIVATE(this)->prefwindow = new QWidget(NULL);
+-  PRIVATE(this)->prefwindow->setCaption(PRIVATE(this)->prefwindowtitle.getString());
+-  PRIVATE(this)->prefwindow->setIconText(PRIVATE(this)->prefwindowtitle.getString());
+-
+-  QVBoxLayout * layout = new QVBoxLayout(PRIVATE(this)->prefwindow, 10);
+-
+-  QWidget * w;
+-  w = PRIVATE(this)->makeSeekPreferences(PRIVATE(this)->prefwindow);
+-  if (w) layout->addWidget(w, w->height());
+-  w = PRIVATE(this)->makeSeekDistancePreferences(PRIVATE(this)->prefwindow);
+-  if (w) layout->addWidget(w, w->height());
+-  w = PRIVATE(this)->makeZoomPreferences(PRIVATE(this)->prefwindow);
+-  if (w) layout->addWidget(w, w->height());
+-  w = PRIVATE(this)->makeAutoclipPreferences(PRIVATE(this)->prefwindow);
+-  if (w) layout->addWidget(w, w->height());
+-
+-  w = this->makeSubPreferences(PRIVATE(this)->prefwindow);
+-  if (w) layout->addWidget(w, w->height());
+-
+-  layout->activate();
+-  PRIVATE(this)->prefwindow->adjustSize();
+-}
+-
+-// *************************************************************************
+-
+-/*!
+-  Create the UI representation of the preferences' settings for the
+-  seek-to-point functionality.
+-*/
+-QWidget *
+-SoQtFullViewerP::makeSeekPreferences(QWidget * parent)
+-{
+-  // FIXME: it'd be nice to show separation in the prefs sheet, but
+-  // this code doesn't work for some reason (because of the
+-  // layout objects?). 990221 mortene.
+-#if 0
+-  QFrame * w = new QFrame(parent);
+-  w->setFrameStyle(QFrame::Box | QFrame::Plain);
+-  w->setLineWidth(1);
+-#else
+-  QWidget * w = new QWidget(parent);
+-#endif
+-
+-  // Initialize objects keeping track of geometry data.
+-
+-  QSize tmpsize(0, 0);
+-  QSize totalsize(0, 0);
+-
+-  QVBoxLayout * toplayout = new QVBoxLayout(w);
+-
+-  // First, do the three widgets on the uppermost row (label,
+-  // lineedit, label).
+-
+-  QLabel * l1 = new QLabel("Seek animation time:", w);
+-  l1->adjustSize();
+-  expandSize(tmpsize, l1->size(), LayoutHorizontal);
+-
+-  QLineEdit * le = new QLineEdit(w);
+-#if QT_VERSION < 200 // Qt 2.xx
+-  QObject::connect(le, SIGNAL(textChanged(const char *)),
+-                   this, SLOT(seekAnimationTimeChanged(const char *)));
+-#else // Qt 1.xx
+-  QObject::connect(le, SIGNAL(textChanged(const QString &)),
+-                   this, SLOT(seekAnimationTimeChanged(const QString &)));
+-#endif // Qt 1.xx
+-  QString s;
+-  s.setNum(PUBLIC(this)->getSeekTime(), 'f', 2);
+-  le->setText(s);
+-  le->adjustSize();
+-  expandSize(tmpsize, le->size(), LayoutHorizontal);
+-
+-  QLabel * l2 = new QLabel("seconds", w);
+-  l2->adjustSize();
+-  expandSize(tmpsize, l2->size(), LayoutHorizontal);
+-
+-  // Layout row 1.
+-  QBoxLayout * layout = new QHBoxLayout;
+-  toplayout->addLayout(layout, tmpsize.height());
+-  layout->addWidget(l1, l1->width());
+-  layout->addWidget(le, le->width());
+-  layout->addWidget(l2, l2->width());
+-  expandSize(totalsize, tmpsize, LayoutVertical);
+-
+-
+-  // Do the three widgets on the second row (label, radiobutton,
+-  // radiobutton).
+-
+-  tmpsize = QSize(0, 0);
+-
+-  QLabel * l3 = new QLabel("Seek to:", w);
+-  l3->adjustSize();
+-  expandSize(tmpsize, l3->size(), LayoutHorizontal);
+-
+-  QButtonGroup * bg = new QButtonGroup;
+-  QRadioButton * r1 = new QRadioButton("point", w);
+-  r1->setChecked(PUBLIC(this)->isDetailSeek());
+-  r1->adjustSize();
+-  expandSize(tmpsize, r1->size(), LayoutHorizontal);
+-  bg->insert(r1);
+-
+-  QRadioButton * r2 = new QRadioButton("object", w);
+-  r2->setChecked(!PUBLIC(this)->isDetailSeek());
+-  r2->adjustSize();
+-  expandSize(tmpsize, r2->size(), LayoutHorizontal);
+-  bg->insert(r2);
+-
+-  bg->setExclusive(TRUE);
+-  QObject::connect(bg, SIGNAL(clicked(int)),
+-                   this, SLOT(seekDetailToggled(int)));
+-
+-  // Layout row 2.
+-  layout = new QHBoxLayout;
+-  toplayout->addLayout(layout, tmpsize.height());
+-  layout->addWidget(l3, l3->width());
+-  layout->addWidget(r1, r1->width());
+-  layout->addWidget(r2, r2->width());
+-  expandSize(totalsize, tmpsize, LayoutVertical);
+-
+-  w->resize(totalsize);
+-  toplayout->activate();
+-  return w;
+-}
+-
+-// *************************************************************************
+-
+-/*!
+-  Create the UI representation of the preferences' settings for the
+-  seek-to-point functionality.
+-*/
+-
+-QWidget *
+-SoQtFullViewerP::makeSeekDistancePreferences(QWidget * parent)
+-{
+-  QWidget * w = new QWidget(parent);
+-
+-  // Initialize objects keeping track of geometry data.
+-
+-  QSize tmpsize(0, 0);
+-  QSize totalsize(0, 0);
+-
+-  QVBoxLayout * toplayout = new QVBoxLayout(w);
+-
+-  // First, do the three widgets on the uppermost row (label,
+-  // thumbwheel, lineedit).
+-
+-  QLabel * l = new QLabel("Seek distance:", w);
+-  l->adjustSize();
+-  expandSize(tmpsize, l->size(), LayoutHorizontal);
+-
+-  this->seekdistancewheel = new SoQtThumbWheel(SoQtThumbWheel::Horizontal, w);
+-  this->seekdistancewheel->setRangeBoundaryHandling(SoQtThumbWheel::ACCUMULATE);
+-  this->seekdistancewheel->setValue(sqrt(PUBLIC(this)->getSeekDistance()));
+-  this->seekdistancewheel->adjustSize();
+-  expandSize(tmpsize, this->seekdistancewheel->size(),
+-                             LayoutHorizontal);
+-  QObject::connect(this->seekdistancewheel, SIGNAL(wheelMoved(float)),
+-                   this, SLOT(seekDistanceWheelChanged(float)));
+-
+-  this->seekdistancefield = new QLineEdit(w);
+-  QString s;
+-  s.setNum(PUBLIC(this)->getSeekDistance(), 'f', 2);
+-  this->seekdistancefield->setText(s);
+-  this->seekdistancefield->adjustSize();
+-  expandSize(tmpsize, this->seekdistancefield->size(),
+-                             LayoutHorizontal);
+-  QObject::connect(this->seekdistancefield, SIGNAL(returnPressed()),
+-                   this, SLOT(seekDistanceEdit()));
+-
+-  // Layout row 1.
+-  QBoxLayout * layout = new QHBoxLayout;
+-  toplayout->addLayout(layout, tmpsize.height());
+-  layout->addWidget(l, l->width());
+-  layout->addWidget(this->seekdistancewheel, this->seekdistancewheel->width());
+-  layout->addWidget(this->seekdistancefield, this->seekdistancefield->width());
+-  expandSize(totalsize, tmpsize, LayoutVertical);
+-
+-
+-  // Do the two widgets on the second row (radiobutton, radiobutton).
+-
+-  tmpsize = QSize(0, 0);
+-
+-  QButtonGroup * bg = new QButtonGroup;
+-  QRadioButton * r1 = new QRadioButton("percentage", w);
+-  r1->setChecked(PUBLIC(this)->isSeekValuePercentage());
+-  r1->adjustSize();
+-  expandSize(tmpsize, r1->size(), LayoutHorizontal);
+-  bg->insert(r1);
+-
+-  QRadioButton * r2 = new QRadioButton("absolute", w);
+-  r2->setChecked(!PUBLIC(this)->isSeekValuePercentage());
+-  r2->adjustSize();
+-  expandSize(tmpsize, r2->size(), LayoutHorizontal);
+-  bg->insert(r2);
+-
+-  bg->setExclusive(TRUE);
+-  QObject::connect(bg, SIGNAL(clicked(int)),
+-                   this, SLOT(seekDistanceTypeToggle(int)));
+-
+-  // Layout row 2.
+-  layout = new QHBoxLayout;
+-  toplayout->addLayout(layout, tmpsize.height());
+-  layout->addWidget(r1, r1->width());
+-  layout->addWidget(r2, r2->width());
+-  expandSize(totalsize, tmpsize, LayoutVertical);
+-
+-  w->resize(totalsize);
+-  toplayout->activate();
+-
+-  return w;
+-}
+-
+-// *************************************************************************
+-
+-/*!
+-  Create the UI representation of the preferences' settings for the
+-  camera zoom functionality.
+-*/
+-
+-QWidget *
+-SoQtFullViewerP::makeZoomPreferences(QWidget * parent)
+-{
+-  QWidget * w = new QWidget(parent);
+-
+-  // Initialize objects keeping track of geometry data.
+-
+-  QSize tmpsize(0, 0);
+-  QSize totalsize(0, 0);
+-
+-  QVBoxLayout * toplayout = new QVBoxLayout(w);
+-
+-  // First, do the three widgets on the uppermost row (label,
+-  // slider, lineedit).
+-
+-  QLabel * l1 = new QLabel("Camera zoom", w);
+-  l1->adjustSize();
+-  expandSize(tmpsize, l1->size(), LayoutHorizontal);
+-
+-  this->zoomslider = new QSlider(0, ZOOMSLIDERRESOLUTION,
+-                                 1, 0, QSlider::Horizontal, w);
+-  this->zoomslider->adjustSize();
+-  expandSize(tmpsize, this->zoomslider->size(), LayoutHorizontal);
+-  QObject::connect(this->zoomslider, SIGNAL(sliderPressed()),
+-                   this, SLOT(increaseInteractiveCount()));
+-  QObject::connect(this->zoomslider, SIGNAL(valueChanged(int)),
+-                   this, SLOT(zoomSliderMoved(int)));
+-  QObject::connect(this->zoomslider, SIGNAL(sliderReleased()),
+-                   this, SLOT(decreaseInteractiveCount()));
+-
+-  this->zoomfield = new QLineEdit(w);
+-  this->zoomfield->adjustSize();
+-  expandSize(tmpsize, this->zoomfield->size(), LayoutHorizontal);
+-  QObject::connect(this->zoomfield, SIGNAL(returnPressed()),
+-                   this, SLOT(zoomFieldChanged()));
+-
+-
+-  // Layout row 1.
+-  QBoxLayout * layout = new QHBoxLayout;
+-  toplayout->addLayout(layout, tmpsize.height());
+-  layout->addWidget(l1, l1->width());
+-  layout->addWidget(this->zoomslider, this->zoomslider->width());
+-  layout->addWidget(this->zoomfield, this->zoomfield->width());
+-  expandSize(totalsize, tmpsize, LayoutVertical);
+-
+-
+-  // Do the four widgets on the second row (label, lineedit, label,
+-  // lineedit).
+-
+-  tmpsize = QSize(0, 0);
+-
+-  QLabel * l2 = new QLabel("Zoom slider ranges from:", w);
+-  l2->adjustSize();
+-  expandSize(tmpsize, l2->size(), LayoutHorizontal);
+-
+-  this->zoomrangefrom = new QLineEdit(w);
+-  QString s;
+-  s.setNum(this->zoomrange[0], 'f', 1);
+-  this->zoomrangefrom->setText(s);
+-  this->zoomrangefrom->adjustSize();
+-  expandSize(tmpsize, this->zoomrangefrom->size(), LayoutHorizontal);
+-  QObject::connect(this->zoomrangefrom, SIGNAL(returnPressed()),
+-                   this, SLOT(zoomRangeChanged1()));
+-
+-  QLabel * l3 = new QLabel("to:", w);
+-  l3->adjustSize();
+-  expandSize(tmpsize, l3->size(), LayoutHorizontal);
+-
+-  this->zoomrangeto = new QLineEdit(w);
+-  s.setNum(this->zoomrange[1], 'f', 1);
+-  this->zoomrangeto->setText(s);
+-  this->zoomrangeto->adjustSize();
+-  expandSize(tmpsize, this->zoomrangeto->size(), LayoutHorizontal);
+-  QObject::connect(this->zoomrangeto, SIGNAL(returnPressed()),
+-                   this, SLOT(zoomRangeChanged2()));
+-
+-
+-  // Layout row 2.
+-  layout = new QHBoxLayout;
+-  toplayout->addLayout(layout, tmpsize.height());
+-  layout->addWidget(l2, l2->width());
+-  layout->addWidget(this->zoomrangefrom, this->zoomrangefrom->width());
+-  layout->addWidget(l3, l3->width());
+-  layout->addWidget(this->zoomrangeto, this->zoomrangeto->width());
+-  expandSize(totalsize, tmpsize, LayoutVertical);
+-
+-
+-  SoCamera * cam = PUBLIC(this)->getCamera();
+-  if (cam) {
+-    this->setZoomSliderPosition(this->getCameraZoom());
+-    this->setZoomFieldString(this->getCameraZoom());
+-  }
+-  else {
+-    this->zoomslider->setEnabled(FALSE);
+-    this->zoomfield->setEnabled(FALSE);
+-    this->zoomrangefrom->setEnabled(FALSE);
+-    this->zoomrangeto->setEnabled(FALSE);
+-  }
+-
+-  w->resize(totalsize);
+-  toplayout->activate();
+-
+-  return w;
+-}
+-
+-// *************************************************************************
+-
+-/*!
+-  Enable or disable interaction through the near and far clipping
+-  widgets.
+-*/
+-
+-void
+-SoQtFullViewerP::setEnabledClippingWidgets(SbBool flag)
+-{
+-  this->nearclippinglabel->setEnabled(flag);
+-  this->nearclippingwheel->setEnabled(flag);
+-  this->nearclippingedit->setEnabled(flag);
+-  this->farclippinglabel->setEnabled(flag);
+-  this->farclippingwheel->setEnabled(flag);
+-  this->farclippingedit->setEnabled(flag);
+-
+-  SoCamera * cam = PUBLIC(this)->getCamera();
+-  if (!cam) return;
+-
+-  this->nearclippingwheel->setValue(cam->nearDistance.getValue());
+-  this->farclippingwheel->setValue(cam->farDistance.getValue());
+-
+-  QString s;
+-  s.setNum(cam->nearDistance.getValue(), 'f', 3);
+-  this->nearclippingedit->setText(s);
+-  s.setNum(cam->farDistance.getValue(), 'f', 3);
+-  this->farclippingedit->setText(s);
+-}
+-
+-// *************************************************************************
+-
+-/*!
+-  Create the UI representation of the preferences' settings for the
+-  manual control of the near and far clippping planes.
+-*/
+-
+-QWidget *
+-SoQtFullViewerP::makeAutoclipPreferences(QWidget * dialog)
+-{
+-  QWidget * w = new QWidget(dialog);
+-
+-  // Initialize objects keeping track of geometry data.
+-
+-  QSize totalsize(0, 0);
+-
+-  QVBoxLayout * toplayout = new QVBoxLayout(w);
+-
+-  // First, do the checkbutton widget.
+-
+-  QCheckBox * c = new QCheckBox("Auto clipping planes", w);
+-  c->adjustSize();
+-  c->setChecked(PUBLIC(this)->isAutoClipping());
+-  QObject::connect(c, SIGNAL(toggled(bool)),
+-                   this, SLOT(clippingToggled(bool)));
+-
+-  // Layout row 1.
+-  toplayout->addWidget(c, c->height());
+-  expandSize(totalsize, c->size(), LayoutVertical);
+-
+-  // Do the three widgets on the second row (label, thumbwheel,
+-  // lineedit).
+-
+-  QSize tmpsize = QSize(0, 0);
+-
+-  this->nearclippinglabel = new QLabel("near plane", w);
+-  this->nearclippinglabel->adjustSize();
+-  expandSize(tmpsize, this->nearclippinglabel->size(), LayoutHorizontal);
+-
+-  this->nearclippingwheel = new SoQtThumbWheel(SoQtThumbWheel::Horizontal, w);
+-  this->nearclippingwheel->setRangeBoundaryHandling(SoQtThumbWheel::ACCUMULATE);
+-  this->nearclippingwheel->adjustSize();
+-  this->nearclippingwheel->setEnabled(FALSE);
+-  expandSize(tmpsize, this->nearclippingwheel->size(), LayoutHorizontal);
+-  QObject::connect(this->nearclippingwheel, SIGNAL(wheelPressed()),
+-                   this, SLOT(increaseInteractiveCount()));
+-  QObject::connect(this->nearclippingwheel, SIGNAL(wheelMoved(float)),
+-                   this, SLOT(nearclippingwheelMoved(float)));
+-  QObject::connect(this->nearclippingwheel, SIGNAL(wheelReleased()),
+-                   this, SLOT(decreaseInteractiveCount()));
+-
+-  this->nearclippingedit = new QLineEdit(w);
+-  this->nearclippingedit->adjustSize();
+-  expandSize(tmpsize, this->nearclippingedit->size(), LayoutHorizontal);
+-  QObject::connect(this->nearclippingedit, SIGNAL(returnPressed()),
+-                   this, SLOT(nearclipEditPressed()));
+-
+-
+-  // Layout row 2.
+-  QBoxLayout * layout = new QHBoxLayout;
+-  toplayout->addLayout(layout, tmpsize.height());
+-  layout->addWidget(this->nearclippinglabel, this->nearclippinglabel->width());
+-  layout->addWidget(this->nearclippingwheel, this->nearclippingwheel->width());
+-  layout->addWidget(this->nearclippingedit, this->nearclippingedit->width());
+-  expandSize(totalsize, tmpsize, LayoutVertical);
+-
+-
+-  // Do the three widgets on the third row (label, thumbwheel,
+-  // lineedit).
+-
+-  tmpsize = QSize(0, 0);
+-
+-  this->farclippinglabel = new QLabel("far plane", w);
+-  this->farclippinglabel->adjustSize();
+-  expandSize(tmpsize,
+-             QSize(QMAX(this->nearclippinglabel->width(),
+-                        this->farclippinglabel->width()),
+-                   this->farclippinglabel->height()),
+-             LayoutHorizontal);
+-
+-  this->farclippingwheel = new SoQtThumbWheel(SoQtThumbWheel::Horizontal, w);
+-  this->farclippingwheel->setRangeBoundaryHandling(SoQtThumbWheel::ACCUMULATE);
+-  this->farclippingwheel->adjustSize();
+-  this->farclippingwheel->setEnabled(FALSE);
+-  expandSize(tmpsize, this->farclippingwheel->size(), LayoutHorizontal);
+-  QObject::connect(this->farclippingwheel, SIGNAL(wheelPressed()),
+-                   this, SLOT(increaseInteractiveCount()));
+-  QObject::connect(this->farclippingwheel, SIGNAL(wheelMoved(float)),
+-                   this, SLOT(farclippingwheelMoved(float)));
+-  QObject::connect(this->farclippingwheel, SIGNAL(wheelReleased()),
+-                   this, SLOT(decreaseInteractiveCount()));
+-
+-  this->farclippingedit = new QLineEdit(w);
+-  this->farclippingedit->adjustSize();
+-  expandSize(tmpsize, this->farclippingedit->size(), LayoutHorizontal);
+-  QObject::connect(this->farclippingedit, SIGNAL(returnPressed()),
+-                   this, SLOT(farclipEditPressed()));
+-
+-  // Layout row 3.
+-  layout = new QHBoxLayout;
+-  toplayout->addLayout(layout, tmpsize.height());
+-  layout->addWidget(this->farclippinglabel,
+-                    QMAX(this->nearclippinglabel->width(),
+-                         this->farclippinglabel->width()));
+-  layout->addWidget(this->farclippingwheel, this->farclippingwheel->width());
+-  layout->addWidget(this->farclippingedit, this->farclippingedit->width());
+-  expandSize(totalsize, tmpsize, LayoutVertical);
+-
+-  this->setEnabledClippingWidgets(!PUBLIC(this)->isAutoClipping());
+-
+-  w->resize(totalsize);
+-  toplayout->activate();
+-
+-  return w;
+-}
+-
+-// *************************************************************************
+-
+ /*!
+   Set camera zoom value.
+ */
+@@ -1678,40 +1100,6 @@
+ 
+ // *************************************************************************
+ 
+-/*!
+-  Update the Qt slider representing the camera zoom.
+-*/
+-
+-void
+-SoQtFullViewerP::setZoomSliderPosition(float zoom)
+-{
+-  if (!this->prefwindow) return;
+-
+-  float f =
+-    (zoom - this->zoomrange[0]) / (this->zoomrange[1] - this->zoomrange[0]);
+-  f = SoQtClamp(f, 0.0f, 1.0f) * ZOOMSLIDERRESOLUTION;
+-
+-  this->zoomslider->setValue(f);
+-}
+-
+-// *************************************************************************
+-
+-/*!
+-  Set string in the camera zoom edit field.
+-*/
+-
+-void
+-SoQtFullViewerP::setZoomFieldString(float zoom)
+-{
+-  if (!this->prefwindow) return;
+-
+-  QString s;
+-  s.setNum(zoom, 'f', 1);
+-  this->zoomfield->setText(s);
+-}
+-
+-// *************************************************************************
+-
+ // doc in super
+ void
+ SoQtFullViewer::sizeChanged(const SbVec2s & size)
+@@ -1866,182 +1254,6 @@
+ 
+ // Qt slot.
+ void
+-SoQtFullViewerP::selectedPrefs(void)
+-{
+-  if (!this->prefwindow) {
+-     PUBLIC(this)->createPrefSheet();
+-  }
+-  if (this->prefwindow) {
+-    this->prefwindow->show();
+-    this->prefwindow->raise();
+-  }
+-}
+-
+-// *************************************************************************
+-
+-// Qt slot.
+-void
+-SoQtFullViewerP::seekAnimationTimeChanged(const char * s)
+-{
+-  float val;
+-  if ((sscanf(s, "%f", &val) == 1) && (val >= 0.0f))
+-    PUBLIC(this)->setSeekTime(val);
+-}
+-
+-// *************************************************************************
+-
+-// Qt slot.
+-void
+-SoQtFullViewerP::seekAnimationTimeChanged(const QString & s)
+-{
+-  bool ok;
+-  float val = s.toFloat(&ok);
+-  if (ok && (val >= 0.0f)) PUBLIC(this)->setSeekTime(val);
+-}
+-
+-// *************************************************************************
+-
+-// Qt slot.
+-void
+-SoQtFullViewerP::seekDetailToggled(int id)
+-{
+-  if (id == 0) PUBLIC(this)->setDetailSeek(TRUE);
+-  else if (id == 1) PUBLIC(this)->setDetailSeek(FALSE);
+-  else assert(0);
+-}
+-
+-// *************************************************************************
+-
+-// Qt slot.
+-void
+-SoQtFullViewerP::seekDistanceWheelChanged(float val)
+-{
+-  if (val < 0.1f) {
+-    val = 0.1f;
+-    this->seekdistancewheel->setValue(val);
+-  }
+-
+-  PUBLIC(this)->setSeekDistance(val * val);
+-
+-  QString s;
+-  s.setNum(PUBLIC(this)->getSeekDistance(), 'f', 2);
+-  this->seekdistancefield->setText(s);
+-}
+-
+-// *************************************************************************
+-
+-// Qt slot.
+-void
+-SoQtFullViewerP::seekDistanceEdit()
+-{
+-  float val;
+-  if ((sscanf(this->seekdistancefield->text(), "%f", &val) == 1) &&
+-      (val > 0.0f)) {
+-    PUBLIC(this)->setSeekDistance(val);
+-    this->seekdistancewheel->setValue(sqrt(val));
+-  }
+-  else {
+-    QString s;
+-    s.setNum(PUBLIC(this)->getSeekDistance(), 'f', 2);
+-    this->seekdistancefield->setText(s);
+-  }
+-}
+-
+-// *************************************************************************
+-
+-// Qt slot.
+-void
+-SoQtFullViewerP::seekDistanceTypeToggle(int id)
+-{
+-  PUBLIC(this)->setSeekValueAsPercentage(id == 0 ? TRUE : FALSE);
+-}
+-
+-// *************************************************************************
+-
+-// Qt slot.
+-void
+-SoQtFullViewerP::zoomSliderMoved(int val)
+-{
+-  float f = val / float(ZOOMSLIDERRESOLUTION);
+-  f = this->zoomrange[0] + f * (this->zoomrange[1] - this->zoomrange[0]);
+-
+-  this->setCameraZoom(f);
+-  this->setZoomFieldString(f);
+-}
+-
+-// *************************************************************************
+-
+-// Qt slot.
+-void
+-SoQtFullViewerP::zoomFieldChanged()
+-{
+-  float val;
+-  if (sscanf(this->zoomfield->text(), "%f", &val) == 1) {
+-    val = SoQtClamp(val, 0.001f, 179.999f);
+-    this->setCameraZoom(val);
+-    this->setZoomSliderPosition(val);
+-  }
+-  else {
+-    QString s;
+-    s.setNum(this->getCameraZoom(), 'f', 1);
+-    this->zoomfield->setText(s);
+-  }
+-}
+-
+-// *************************************************************************
+-
+-// Qt slot.
+-void
+-SoQtFullViewerP::zoomRangeChanged1()
+-{
+-  float val;
+-  if (sscanf(this->zoomrangefrom->text(), "%f", &val) == 1) {
+-    if (val > 0.0f && val < 180.0f && val < this->zoomrange[1]) {
+-      this->zoomrange[0] = val;
+-      this->setZoomSliderPosition(this->getCameraZoom());
+-    }
+-  }
+-  else {
+-    QString s;
+-    s.setNum(this->zoomrange[0], 'f', 1);
+-    this->zoomrangefrom->setText(s);
+-  }
+-}
+-
+-// *************************************************************************
+-
+-// Qt slot.
+-void
+-SoQtFullViewerP::zoomRangeChanged2()
+-{
+-  float val;
+-  if (sscanf(this->zoomrangeto->text(), "%f", &val) == 1) {
+-    if (val > 0.0f && val < 180.0f && val > this->zoomrange[0]) {
+-      this->zoomrange[1] = val;
+-      this->setZoomSliderPosition(this->getCameraZoom());
+-    }
+-  }
+-  else {
+-    QString s;
+-    s.setNum(this->zoomrange[1], 'f', 1);
+-    this->zoomrangeto->setText(s);
+-  }
+-}
+-
+-// *************************************************************************
+-
+-// Qt slot.
+-void
+-SoQtFullViewerP::clippingToggled(bool flag)
+-{
+-  PUBLIC(this)->setAutoClipping(flag);
+-  this->setEnabledClippingWidgets(!flag);
+-}
+-
+-// *************************************************************************
+-
+-// Qt slot.
+-void
+ SoQtFullViewerP::increaseInteractiveCount()
+ {
+   PUBLIC(this)->interactiveCountInc();
+@@ -2054,105 +1266,6 @@
+ SoQtFullViewerP::decreaseInteractiveCount()
+ {
+   PUBLIC(this)->interactiveCountDec();
+-}
+-
+-// *************************************************************************
+-
+-// Qt slot.
+-void
+-SoQtFullViewerP::nearclippingwheelMoved(float val)
+-{
+-  assert(this->nearclippingwheel != NULL &&
+-          this->farclippingwheel != NULL);
+-  if (val < 0.001f) {
+-    val = 0.001f;
+-    this->nearclippingwheel->setValue(val);
+-  }
+-  float farval = this->farclippingwheel->value();
+-  if (val >= farval) {
+-    val = farval - 0.001f;
+-    this->nearclippingwheel->setValue(val);
+-  }
+-
+-  SoCamera * cam = PUBLIC(this)->getCamera();
+-  if (!cam) return;
+-
+-  // FIXME: cut off at 0.0? And against far clipping value? 19990223 mortene.
+-  cam->nearDistance = val;
+-
+-  QString s;
+-  s.setNum(cam->nearDistance.getValue(), 'f', 3);
+-  this->nearclippingedit->setText(s);
+-}
+-
+-// *************************************************************************
+-
+-// Qt slot.
+-void
+-SoQtFullViewerP::farclippingwheelMoved(float val)
+-{
+-  assert(this->nearclippingwheel != NULL &&
+-          this->farclippingwheel != NULL);
+-  float nearval = this->nearclippingwheel->value();
+-  if (nearval < 0.001f) nearval = 0.001f;
+-  if (val <= nearval) {
+-    val = nearval + 0.001f;
+-    this->farclippingwheel->setValue(val);
+-  }
+-
+-  SoCamera * cam = PUBLIC(this)->getCamera();
+-  if (!cam) return;
+-
+-  // FIXME: cut off at 0.0? And against near clipping value? 990223 mortene.
+-  cam->farDistance = val;
+-
+-  QString s;
+-  s.setNum(cam->farDistance.getValue(), 'f', 3);
+-  this->farclippingedit->setText(s);
+-}
+-
+-// *************************************************************************
+-
+-// Qt slot.
+-void
+-SoQtFullViewerP::nearclipEditPressed()
+-{
+-  SoCamera * cam = PUBLIC(this)->getCamera();
+-  if (!cam) return;
+-
+-  float val;
+-  if (sscanf(this->nearclippingedit->text(), "%f", &val) == 1) {
+-    // FIXME: sanity check on val? 990223 mortene.
+-    cam->nearDistance = val;
+-    this->nearclippingwheel->setValue(val);
+-  }
+-  else {
+-    QString s;
+-    s.setNum(cam->nearDistance.getValue(), 'f', 3);
+-    this->nearclippingedit->setText(s);
+-  }
+-}
+-
+-// *************************************************************************
+-
+-// Qt slot.
+-void
+-SoQtFullViewerP::farclipEditPressed()
+-{
+-  SoCamera * cam = PUBLIC(this)->getCamera();
+-  if (!cam) return;
+-
+-  float val;
+-  if (sscanf(this->farclippingedit->text(), "%f", &val) == 1) {
+-    // FIXME: sanity check on val? 990223 mortene.
+-    cam->farDistance = val;
+-    this->farclippingwheel->setValue(val);
+-  }
+-  else {
+-    QString s;
+-    s.setNum(cam->farDistance.getValue(), 'f', 3);
+-    this->farclippingedit->setText(s);
+-  }
+ }
+ 
+ // *************************************************************************
+Index: PlaneViewer.cpp
+===================================================================
+RCS file: /export/cvsroot/SoQt/src/Inventor/Qt/viewers/PlaneViewer.cpp,v
+retrieving revision 1.24
+diff -u -r1.24 PlaneViewer.cpp
+--- PlaneViewer.cpp	6 Jun 2002 12:40:57 -0000	1.24
++++ PlaneViewer.cpp	6 Jun 2002 18:16:36 -0000
+@@ -141,16 +141,6 @@
+ 
+ // ************************************************************************
+ 
+-// Documented in superclass.
+-void
+-SoQtPlaneViewer::createPrefSheet(void)
+-{
+-  SOQT_STUB();
+-  inherited::createPrefSheet();
+-}
+-
+-// ************************************************************************
+-
+ // SoQtPlaneViewerP "private implementation" class.
+ 
+ #ifndef DOXYGEN_SKIP_THIS
+Index: SoQtExaminerViewerP.h
+===================================================================
+RCS file: /export/cvsroot/SoQt/src/Inventor/Qt/viewers/SoQtExaminerViewerP.h,v
+retrieving revision 1.1
+diff -u -r1.1 SoQtExaminerViewerP.h
+--- SoQtExaminerViewerP.h	3 Jun 2002 18:49:57 -0000	1.1
++++ SoQtExaminerViewerP.h	6 Jun 2002 18:16:36 -0000
+@@ -44,23 +44,11 @@
+   ~SoQtExaminerViewerP();
+ 
+   void constructor(SbBool buildNow);
+-  void setEnableFeedbackControls(const SbBool flag);
+ 
+   QPixmap * orthopixmap, * perspectivepixmap;
+   class QPushButton * cameratogglebutton;
+-  class QLabel * feedbacklabel1, * feedbacklabel2;
+-  class SoQtThumbWheel * feedbackwheel;
+-  class QLineEdit * feedbackedit;
+ 
+ public slots:
+-  // preferences window:
+-  void spinAnimationToggled(bool);
+-  void feedbackVisibilityToggle(bool);
+-  void feedbackEditPressed(void);
+-  void feedbackWheelPressed(void);
+-  void feedbackSizeChanged(float val);
+-  void feedbackWheelReleased(void);
+-
+   // viewer buttons row:
+   void cameratoggleClicked(void);
+ };
+Index: SoQtFullViewerP.h
+===================================================================
+RCS file: /export/cvsroot/SoQt/src/Inventor/Qt/viewers/SoQtFullViewerP.h,v
+retrieving revision 1.4
+diff -u -r1.4 SoQtFullViewerP.h
+--- SoQtFullViewerP.h	4 Jun 2002 15:35:02 -0000	1.4
++++ SoQtFullViewerP.h	6 Jun 2002 18:16:36 -0000
+@@ -76,27 +76,6 @@
+   void selectedHeadlight();
+   void copyviewSelected();
+   void pasteviewSelected();
+-  void selectedPrefs();
+-
+-  // Pref sheet.
+-  //  seek settings
+-  void seekAnimationTimeChanged(const char *);
+-  void seekAnimationTimeChanged(const QString &);
+-  void seekDetailToggled(int id);
+-  void seekDistanceWheelChanged(float);
+-  void seekDistanceEdit();
+-  void seekDistanceTypeToggle(int id);
+-  //  zoom settings
+-  void zoomSliderMoved(int val);
+-  void zoomFieldChanged();
+-  void zoomRangeChanged1();
+-  void zoomRangeChanged2();
+-  //  clipping settings
+-  void clippingToggled(bool flag);
+-  void nearclippingwheelMoved(float val);
+-  void farclippingwheelMoved(float val);
+-  void nearclipEditPressed();
+-  void farclipEditPressed();
+ 
+   // Generic slots.
+   void increaseInteractiveCount();
+@@ -105,22 +84,12 @@
+ public:
+   static void setThumbWheelValue(void * wheel, float val);
+ 
+-  QWidget * makePreferencesWindow(void);
+-  QWidget * makeSeekPreferences(QWidget * parent);
+-  QWidget * makeSeekDistancePreferences(QWidget * parent);
+-  QWidget * makeZoomPreferences(QWidget * parent);
+-  QWidget * makeAutoclipPreferences(QWidget * parent);
+-
+   void showDecorationWidgets(SbBool onOff);
+ 
+   void layoutAppButtons(QWidget * form);
+ 
+   void setCameraZoom(const float zoom);
+   float getCameraZoom(void);
+-  void setZoomSliderPosition(float zoom);
+-  void setZoomFieldString(float zoom);
+-
+-  void setEnabledClippingWidgets(SbBool flag);
+ 
+   // Return pointer to pushbutton in right-side decoration bar.
+   QPushButton * getViewerbutton(const int idx)
+@@ -138,16 +107,6 @@
+   QWidget * appbuttonform;
+   SbPList * appbuttonlist;
+   SbPList * viewerbuttons;
+-  QWidget * prefwindow;
+-  SbString prefwindowtitle;
+-  QSlider * zoomslider;
+-  QLineEdit * zoomfield, * zoomrangefrom, * zoomrangeto;
+-  SbVec2f zoomrange;
+-  SoQtThumbWheel * seekdistancewheel;
+-  QLineEdit * seekdistancefield;
+-  QLabel * nearclippinglabel, * farclippinglabel;
+-  SoQtThumbWheel * nearclippingwheel, * farclippingwheel;
+-  QLineEdit * nearclippingedit, * farclippingedit;
+ };
+ 
+ // ************************************************************************
+Index: WalkViewer.cpp
+===================================================================
+RCS file: /export/cvsroot/SoQt/src/Inventor/Qt/viewers/WalkViewer.cpp,v
+retrieving revision 1.8
+diff -u -r1.8 WalkViewer.cpp
+--- WalkViewer.cpp	5 Jun 2002 12:17:20 -0000	1.8
++++ WalkViewer.cpp	6 Jun 2002 18:16:36 -0000
+@@ -225,16 +225,6 @@
+ */
+ 
+ void
+-SoQtWalkViewer::createPrefSheet(void)
+-{
+-}
+-
+-// ************************************************************************
+-
+-/*!
+-*/
+-
+-void
+ SoQtWalkViewer::openViewerHelpCard(void)
+ {
+ }

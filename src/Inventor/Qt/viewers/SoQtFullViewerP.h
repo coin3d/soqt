@@ -76,27 +76,6 @@ public slots:
   void selectedHeadlight();
   void copyviewSelected();
   void pasteviewSelected();
-  void selectedPrefs();
-
-  // Pref sheet.
-  //  seek settings
-  void seekAnimationTimeChanged(const char *);
-  void seekAnimationTimeChanged(const QString &);
-  void seekDetailToggled(int id);
-  void seekDistanceWheelChanged(float);
-  void seekDistanceEdit();
-  void seekDistanceTypeToggle(int id);
-  //  zoom settings
-  void zoomSliderMoved(int val);
-  void zoomFieldChanged();
-  void zoomRangeChanged1();
-  void zoomRangeChanged2();
-  //  clipping settings
-  void clippingToggled(bool flag);
-  void nearclippingwheelMoved(float val);
-  void farclippingwheelMoved(float val);
-  void nearclipEditPressed();
-  void farclipEditPressed();
 
   // Generic slots.
   void increaseInteractiveCount();
@@ -105,22 +84,12 @@ public slots:
 public:
   static void setThumbWheelValue(void * wheel, float val);
 
-  QWidget * makePreferencesWindow(void);
-  QWidget * makeSeekPreferences(QWidget * parent);
-  QWidget * makeSeekDistancePreferences(QWidget * parent);
-  QWidget * makeZoomPreferences(QWidget * parent);
-  QWidget * makeAutoclipPreferences(QWidget * parent);
-
   void showDecorationWidgets(SbBool onOff);
 
   void layoutAppButtons(QWidget * form);
 
   void setCameraZoom(const float zoom);
   float getCameraZoom(void);
-  void setZoomSliderPosition(float zoom);
-  void setZoomFieldString(float zoom);
-
-  void setEnabledClippingWidgets(SbBool flag);
 
   // Return pointer to pushbutton in right-side decoration bar.
   QPushButton * getViewerbutton(const int idx)
@@ -138,16 +107,6 @@ public:
   QWidget * appbuttonform;
   SbPList * appbuttonlist;
   SbPList * viewerbuttons;
-  QWidget * prefwindow;
-  SbString prefwindowtitle;
-  QSlider * zoomslider;
-  QLineEdit * zoomfield, * zoomrangefrom, * zoomrangeto;
-  SbVec2f zoomrange;
-  SoQtThumbWheel * seekdistancewheel;
-  QLineEdit * seekdistancefield;
-  QLabel * nearclippinglabel, * farclippinglabel;
-  SoQtThumbWheel * nearclippingwheel, * farclippingwheel;
-  QLineEdit * nearclippingedit, * farclippingedit;
 };
 
 // ************************************************************************

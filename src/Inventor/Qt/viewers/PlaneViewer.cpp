@@ -141,16 +141,6 @@ SoQtPlaneViewer::createViewerButtons(QWidget * parent,
 
 // ************************************************************************
 
-// Documented in superclass.
-void
-SoQtPlaneViewer::createPrefSheet(void)
-{
-  SOQT_STUB();
-  inherited::createPrefSheet();
-}
-
-// ************************************************************************
-
 // SoQtPlaneViewerP "private implementation" class.
 
 #ifndef DOXYGEN_SKIP_THIS

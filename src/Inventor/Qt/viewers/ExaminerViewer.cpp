@@ -124,16 +124,6 @@ SoQtExaminerViewer::~SoQtExaminerViewer()
 
 // Documented in superclass.
 void
-SoQtExaminerViewer::createPrefSheet(void)
-{
-  // FIXME: not implemented according to correct API yet. 20020603 mortene.
-  inherited::createPrefSheet();
-}
-
-// *************************************************************************
-
-// Documented in superclass.
-void
 SoQtExaminerViewer::setCamera(SoCamera * newCamera)
 {
   // This method overridden from parent class to toggle the camera
@@ -154,97 +144,6 @@ SoQtExaminerViewer::setCamera(SoCamera * newCamera)
   }
 
   inherited::setCamera(newCamera);
-}
-
-// *************************************************************************
-
-/*!
-  Overloaded to add preferences settings for examiner viewer
-  specific stuff (enable/disable possible spin animation,
-  enable/disable/configure axis cross graphics).
-*/
-
-QWidget *
-SoQtExaminerViewer::makeSubPreferences(QWidget * parent)
-{
-  QWidget * w = new QWidget(parent);
-//  w->setBackgroundColor(QColor(250, 0, 0));
-
-  // Initialize objects keeping track of geometry data.
-
-  QSize totalsize(0, 0);
-  QVBoxLayout * toplayout = new QVBoxLayout(w);
-
-  // First, do the single widget on the uppermost row (a checkbox).
-
-  QCheckBox * c1 = new QCheckBox("Enable spin animation", w);
-  c1->adjustSize();
-  c1->setChecked(this->isAnimationEnabled());
-  QObject::connect(c1, SIGNAL(toggled(bool)),
-                   PRIVATE(this), SLOT(spinAnimationToggled(bool)));
-
-  // Layout row 1.
-  toplayout->addWidget(c1, c1->height());
-  expandSize(totalsize, c1->size(), LayoutVertical);
-
-  // Do the single widget on the second row (a checkbox).
-
-  QCheckBox * c2 = new QCheckBox("Show point of rotation axes", w);
-  c2->adjustSize();
-  c2->setChecked(this->isFeedbackVisible());
-  QObject::connect(c2, SIGNAL(toggled(bool)),
-                   PRIVATE(this), SLOT(feedbackVisibilityToggle(bool)));
-
-  // Layout row 2.
-  toplayout->addWidget(c2, c2->height());
-  expandSize(totalsize, c2->size(), LayoutVertical);
-
-
-  // Do the four widgets on the third row (label, thumbwheel,
-  // lineedit, label).
-
-  QSize tmpsize = QSize(0, 0);
-
-  PRIVATE(this)->feedbacklabel1 = new QLabel("axes size", w);
-  PRIVATE(this)->feedbacklabel1->adjustSize();
-  expandSize(tmpsize, PRIVATE(this)->feedbacklabel1->size(), LayoutHorizontal);
-
-  PRIVATE(this)->feedbackwheel = new SoQtThumbWheel(SoQtThumbWheel::Horizontal, w);
-  PRIVATE(this)->feedbackwheel->setRangeBoundaryHandling(SoQtThumbWheel::ACCUMULATE);
-  QObject::connect(PRIVATE(this)->feedbackwheel, SIGNAL(wheelMoved(float)),
-                   PRIVATE(this), SLOT(feedbackSizeChanged(float)));
-  PRIVATE(this)->feedbackwheel->setValue(float(this->getFeedbackSize())/10.0f);
-  PRIVATE(this)->feedbackwheel->adjustSize();
-  expandSize(tmpsize, PRIVATE(this)->feedbackwheel->size(), LayoutHorizontal);
-
-  PRIVATE(this)->feedbackedit = new QLineEdit(w);
-  QObject::connect(PRIVATE(this)->feedbackedit, SIGNAL(returnPressed()),
-                   PRIVATE(this), SLOT(feedbackEditPressed()));
-  QString s;
-  s.setNum(this->getFeedbackSize());
-  PRIVATE(this)->feedbackedit->setText(s);
-  PRIVATE(this)->feedbackedit->adjustSize();
-  expandSize(tmpsize, PRIVATE(this)->feedbackedit->size(), LayoutHorizontal);
-
-  PRIVATE(this)->feedbacklabel2 = new QLabel("size", w);
-  PRIVATE(this)->feedbacklabel2->adjustSize();
-  expandSize(tmpsize, PRIVATE(this)->feedbacklabel2->size(), LayoutHorizontal);
-
-  // Layout row 3.
-  QHBoxLayout * layout = new QHBoxLayout;
-  toplayout->addLayout(layout, tmpsize.height());
-  layout->addWidget(PRIVATE(this)->feedbacklabel1, PRIVATE(this)->feedbacklabel1->width());
-  layout->addWidget(PRIVATE(this)->feedbackwheel, PRIVATE(this)->feedbackwheel->width());
-  layout->addWidget(PRIVATE(this)->feedbackedit, PRIVATE(this)->feedbackedit->width());
-  layout->addWidget(PRIVATE(this)->feedbacklabel2, PRIVATE(this)->feedbacklabel2->width());
-  expandSize(totalsize, tmpsize, LayoutVertical);
-
-  w->resize(totalsize);
-  toplayout->activate();
-
-  PRIVATE(this)->setEnableFeedbackControls(this->isFeedbackVisible());
-
-  return w;
 }
 
 // *************************************************************************
@@ -287,7 +186,6 @@ SoQtExaminerViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
 void
 SoQtExaminerViewer::setAnimationEnabled(const SbBool enable)
 {
-  // FIXME: update pref-sheet widget with the value. 20020603 mortene.
   PRIVATE(this)->setGenericAnimationEnabled(enable);
 }
 
@@ -299,7 +197,6 @@ SoQtExaminerViewer::setAnimationEnabled(const SbBool enable)
 void
 SoQtExaminerViewer::setFeedbackSize(const int size)
 {
-  // FIXME: update pref-sheet widget with the value. 20020603 mortene.
   PRIVATE(this)->setGenericFeedbackSize(size);
 }
 
@@ -330,10 +227,6 @@ SoQtExaminerViewerP::constructor(SbBool build)
 {
   this->genericConstructor();
 
-  this->feedbacklabel1 = NULL;
-  this->feedbacklabel2 = NULL;
-  this->feedbackwheel = NULL;
-  this->feedbackedit = NULL;
   this->cameratogglebutton = NULL;
 
   this->orthopixmap = new QPixmap((const char **)ortho_xpm);
@@ -343,7 +236,6 @@ SoQtExaminerViewerP::constructor(SbBool build)
   PUBLIC(this)->setClassName("SoQtExaminerViewer");
 
   PUBLIC(this)->setPopupMenuString("Examiner Viewer");
-  PUBLIC(this)->setPrefSheetString("Examiner Viewer Preference Sheet");
   PUBLIC(this)->setLeftWheelString("Rotx");
   PUBLIC(this)->setBottomWheelString("Roty");
 
@@ -351,83 +243,6 @@ SoQtExaminerViewerP::constructor(SbBool build)
     QWidget * widget = PUBLIC(this)->buildWidget(PUBLIC(this)->getParentWidget());
     PUBLIC(this)->setBaseWidget(widget);
   }
-}
-
-void
-SoQtExaminerViewerP::setEnableFeedbackControls(const SbBool flag)
-{
-  this->feedbacklabel1->setEnabled(flag);
-  this->feedbacklabel2->setEnabled(flag);
-  this->feedbackwheel->setEnabled(flag);
-  this->feedbackedit->setEnabled(flag);
-}
-
-//  Pref sheet slot.
-void
-SoQtExaminerViewerP::spinAnimationToggled(bool flag)
-{
-  PUBLIC(this)->setAnimationEnabled(flag ? TRUE : FALSE);
-}
-
-// Pref sheet slot.
-void
-SoQtExaminerViewerP::feedbackVisibilityToggle(bool flag)
-{
-  PUBLIC(this)->setFeedbackVisibility(flag ? TRUE : FALSE);
-  this->setEnableFeedbackControls(flag);
-}
-
-//  Pref sheet slot.
-void
-SoQtExaminerViewerP::feedbackEditPressed()
-{
-  int val;
-  if ((sscanf(this->feedbackedit->text(), "%d", &val) == 1) && (val > 0.0f)) {
-    this->feedbackwheel->setValue(float(val)/10.0f);
-    PUBLIC(this)->setFeedbackSize(val);
-  }
-  else {
-    QString s;
-    s.setNum(PUBLIC(this)->getFeedbackSize());
-    this->feedbackedit->setText(s);
-  }
-}
-
-// Pref sheet slot.
-void
-SoQtExaminerViewerP::feedbackWheelPressed()
-{
-  PUBLIC(this)->interactiveCountInc();
-}
-
-// Pref sheet slot.
-void
-SoQtExaminerViewerP::feedbackWheelReleased()
-{
-  PUBLIC(this)->interactiveCountDec();
-}
-
-// Pref sheet slot.
-void
-SoQtExaminerViewerP::feedbackSizeChanged(float val)
-{
-  if (val < 0.1f) {
-    val = 0.1f;
-    this->feedbackwheel->setValue(val);
-  }
-
-  PUBLIC(this)->setFeedbackSize(int(val * 10));
-
-  QString s;
-  s.setNum(PUBLIC(this)->getFeedbackSize());
-  this->feedbackedit->setText(s);
-}
-
-// Pref sheet slot.
-void
-SoQtExaminerViewerP::cameratoggleClicked()
-{
-  if (PUBLIC(this)->getCamera()) PUBLIC(this)->toggleCameraType();
 }
 
 // *************************************************************************

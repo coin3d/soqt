@@ -225,16 +225,6 @@ SoQtWalkViewer::buildLeftTrim(QWidget * parent)
 */
 
 void
-SoQtWalkViewer::createPrefSheet(void)
-{
-}
-
-// ************************************************************************
-
-/*!
-*/
-
-void
 SoQtWalkViewer::openViewerHelpCard(void)
 {
 }
