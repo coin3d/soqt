@@ -83,6 +83,7 @@ SoQtGLWidget::SoQtGLWidget(QWidget * const parent, const char * const /*name*/,
                            const SbBool buildNow)
   : inherited(parent), waitForExpose(TRUE), drawToFrontBuffer(FALSE)
 {
+  this->glSize = SbVec2s( 200, 200 );
   this->glLockLevel = 0;
   this->glmodebits = glModes;
 
@@ -410,11 +411,11 @@ void
 SoQtGLWidget::setGLSize(
   const SbVec2s size )
 {
-  assert(this->borderwidget);
-//  this->borderwidget->resize( size[0] + this->borderthickness * 2,
-//                              size[1] + this->borderthickness * 2 );
-  this->borderwidget->resize( size[0] + this->borderwidget->frameWidth(),
-                              size[1] + this->borderwidget->frameWidth() );
+  if ( this->borderwidget ) {
+    this->borderwidget->resize( size[0] + this->borderwidget->frameWidth(),
+                                size[1] + this->borderwidget->frameWidth() );
+  }
+  this->glSize = size;
 } // setGLSize()
 
 
@@ -433,8 +434,7 @@ SbVec2s
 SoQtGLWidget::getGLSize(
   void ) const
 {
-  assert( this->glwidget != NULL );
-  return SbVec2s( this->glwidget->width(), this->glwidget->height() );
+  return this->glSize;
 }
 
 /*!
@@ -574,6 +574,7 @@ SoQtGLWidget::glReshape( // virtual
 #if 0 // SOQT_DEBUG
   SoDebugError::postInfo( "SoQtGLWidget::glReshape", "called" );
 #endif // 0 was SOQT_DEBUG
+  this->glSize = SbVec2s( (short) width, (short) height );
 } // glReshape()
 
 void

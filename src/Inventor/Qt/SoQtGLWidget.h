@@ -105,6 +105,8 @@ private slots:
   void gl_exposed(void);
 
 private:
+  SbVec2s glSize;
+
   SoQtGLArea * glwidget;
   QWidget * glparent;
   QFrame * borderwidget;
