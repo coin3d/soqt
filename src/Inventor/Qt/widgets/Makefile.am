@@ -28,7 +28,7 @@ libSoQtWidgetsVPATH = . $(srcdir) $(top_srcdir)/src/Inventor/Qt/common
 
 .cpp.lo:
 	@(source='$<'; \
-	set dummy $(libSoQtWidgetsVPATH); \
+	set dummy $(libSoQtDevicesVPATH); \
 	shift; \
 	for dir \
 	do \
@@ -36,10 +36,13 @@ libSoQtWidgetsVPATH = . $(srcdir) $(top_srcdir)/src/Inventor/Qt/common
 	    source="$$dir/$<"; \
 	  fi \
 	done; \
-	echo "Making $@ from '$$source'"; \
+	eval $(CXXDEPMODE); \
+	if test x"$$depmode" = x""; then \
+	  depmode=sgi; \
+	fi; \
 	source="$$source" object='$@' libtool=no \
 	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' \
-	$(CXXDEPMODE) $(depcomp) $(LTCXXCOMPILE) -c -o $@ "$$source";)
+	depmode=$$depmode $(depcomp) $(LTCXXCOMPILE) -c -o $@ "$$source";)
 
 ## All source files used when building this submodule, including all
 ## headers.

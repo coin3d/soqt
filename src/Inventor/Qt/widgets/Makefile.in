@@ -369,7 +369,7 @@ moc_QtGLArea.cpp: $(top_srcdir)/src/Inventor/Qt/widgets/QtGLArea.h
 
 .cpp.lo:
 	@(source='$<'; \
-	set dummy $(libSoQtWidgetsVPATH); \
+	set dummy $(libSoQtDevicesVPATH); \
 	shift; \
 	for dir \
 	do \
@@ -377,10 +377,13 @@ moc_QtGLArea.cpp: $(top_srcdir)/src/Inventor/Qt/widgets/QtGLArea.h
 	    source="$$dir/$<"; \
 	  fi \
 	done; \
-	echo "Making $@ from '$$source'"; \
+	eval $(CXXDEPMODE); \
+	if test x"$$depmode" = x""; then \
+	  depmode=sgi; \
+	fi; \
 	source="$$source" object='$@' libtool=no \
 	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' \
-	$(CXXDEPMODE) $(depcomp) $(LTCXXCOMPILE) -c -o $@ "$$source";)
+	depmode=$$depmode $(depcomp) $(LTCXXCOMPILE) -c -o $@ "$$source";)
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

@@ -28,18 +28,21 @@ libSoQtVPATH = . $(srcdir)
 
 .cpp.lo:
 	@(source='$<'; \
-	set dummy $(libSoQtVPATH); \
+	set dummy $(libSoQtDevicesVPATH); \
 	shift; \
 	for dir \
 	do \
-	  if test ! -f $$source -a -f "$$dir/$<"; then \
+	  if test ! -f "$$source" -a -f "$$dir/$<"; then \
 	    source="$$dir/$<"; \
 	  fi \
 	done; \
-	echo "Making $@ from '$$source'"; \
+	eval $(CXXDEPMODE); \
+	if test x"$$depmode" = x""; then \
+	  depmode=sgi; \
+	fi; \
 	source="$$source" object='$@' libtool=no \
 	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' \
-	$(CXXDEPMODE) $(depcomp) $(LTCXXCOMPILE) -c -o $@ "$$source";)
+	depmode=$$depmode $(depcomp) $(LTCXXCOMPILE) -c -o $@ "$$source";)
 
 ############################################################################
 
