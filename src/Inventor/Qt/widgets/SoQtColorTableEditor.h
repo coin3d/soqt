@@ -26,7 +26,7 @@
 
 #include <qwidget.h>
 #include <Inventor/Qt/SoQtBasic.h>
-#include <Inventor/system/inttypes.h>
+#include <Inventor/SbBasic.h>
 
 
 class SOQT_DLL_API SoQtColorTableEditor : public QWidget {
