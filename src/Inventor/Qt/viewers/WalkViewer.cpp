@@ -21,11 +21,9 @@
  *
 \**************************************************************************/
 
-#include <qmetaobject.h>
-#include <moc_SoQtWalkViewer.cpp>
-
 #include <soqtdefs.h>
 #include <Inventor/Qt/viewers/SoQtWalkViewer.h>
+#include <Inventor/Qt/viewers/SoGuiWalkViewerP.h>
 
 /*!
   \class SoQtWalkViewer Inventor/Qt/viewers/SoQtWalkViewers.h
@@ -39,20 +37,35 @@ SOQT_OBJECT_SOURCE(SoQtWalkViewer);
 
 // ************************************************************************
 
+class SoQtWalkViewerP : SoGuiWalkViewerP {
+public:
+  SoQtWalkViewerP(SoQtWalkViewer * o)
+    : SoGuiWalkViewerP(o)
+  {
+  }
+
+  void constructor(void);
+};
+
+#define PRIVATE(ptr) ptr->pimpl
+#define PUBLIC(ptr) ptr->pub
+
+// ************************************************************************
+
 /*!
   The public constructor.
 */
 
-SoQtWalkViewer::SoQtWalkViewer(
-  QWidget * parent,
-  const char * name,
-  SbBool embed,
-  SoQtFullViewer::BuildFlag flag,
-  SoQtViewer::Type type)
-: inherited(parent, name, embed, flag, type, TRUE)
+SoQtWalkViewer::SoQtWalkViewer(QWidget * parent,
+                               const char * name,
+                               SbBool embed,
+                               SoQtFullViewer::BuildFlag flag,
+                               SoQtViewer::Type type)
+  : inherited(parent, name, embed, flag, type, TRUE)
 {
-//  this->constructor(TRUE);
-} // SoQtWalkViewer()
+  PRIVATE(this) = new SoQtWalkViewerP(this);
+  PRIVATE(this)->constructor();
+}
 
 // ************************************************************************
 
@@ -60,17 +73,24 @@ SoQtWalkViewer::SoQtWalkViewer(
   A protected constructor.
 */
 
-SoQtWalkViewer::SoQtWalkViewer(// protected
-  QWidget * parent,
-  const char * name,
-  SbBool embed,
-  SoQtFullViewer::BuildFlag flag,
-  SoQtViewer::Type type,
-  SbBool build)
-: inherited(parent, name, embed, flag, type, FALSE)
+SoQtWalkViewer::SoQtWalkViewer(QWidget * parent,
+                               const char * name,
+                               SbBool embed,
+                               SoQtFullViewer::BuildFlag flag,
+                               SoQtViewer::Type type,
+                               SbBool build)
+  : inherited(parent, name, embed, flag, type, FALSE)
 {
-//  this->constructor(build);
-} // SoQtWalkViewer()
+  PRIVATE(this) = new SoQtWalkViewerP(this);
+  PRIVATE(this)->constructor();
+}
+
+// ************************************************************************
+
+void
+SoQtWalkViewerP::constructor(void)
+{
+}
 
 // ************************************************************************
 
@@ -78,10 +98,9 @@ SoQtWalkViewer::SoQtWalkViewer(// protected
   The destructor.
 */
 
-SoQtWalkViewer::~SoQtWalkViewer(
-  void)
+SoQtWalkViewer::~SoQtWalkViewer()
 {
-} // ~SoQtWalkViewer()
+}
 
 // ************************************************************************
 
@@ -89,10 +108,9 @@ SoQtWalkViewer::~SoQtWalkViewer(
 */
 
 void
-SoQtWalkViewer::setViewing(// virtual
-  SbBool enable)
+SoQtWalkViewer::setViewing(SbBool enable)
 {
-} // setViewing()
+}
 
 // ************************************************************************
 
@@ -108,10 +126,9 @@ SoQtWalkViewer::setCamera(SoCamera * camera)
 */
 
 void
-SoQtWalkViewer::setCursorEnabled(// virtual
-  SbBool enable)
+SoQtWalkViewer::setCursorEnabled(SbBool enable)
 {
-} // setCursorEnabled()
+}
 
 // ************************************************************************
 
@@ -119,10 +136,9 @@ SoQtWalkViewer::setCursorEnabled(// virtual
 */
 
 void
-SoQtWalkViewer::setCameraType(// virtual
-  SoType type)
+SoQtWalkViewer::setCameraType(SoType type)
 {
-} // setCameraType()
+}
 
 // ************************************************************************
 
@@ -130,12 +146,11 @@ SoQtWalkViewer::setCameraType(// virtual
 */
 
 const char *
-SoQtWalkViewer::getDefaultWidgetName(// virtual
-  void) const
+SoQtWalkViewer::getDefaultWidgetName(void) const
 {
   static const char defaultWidgetName[] = "";
   return defaultWidgetName;
-} // getDefaultWidgetName()
+}
 
 // ************************************************************************
 
@@ -143,12 +158,11 @@ SoQtWalkViewer::getDefaultWidgetName(// virtual
 */
 
 const char *
-SoQtWalkViewer::getDefaultTitle(// virtual
-  void) const
+SoQtWalkViewer::getDefaultTitle(void) const
 {
   static const char defaultTitle[] = "Walk Viewer";
   return defaultTitle;
-} // getDefaultTitle()
+}
 
 // ************************************************************************
 
@@ -156,12 +170,11 @@ SoQtWalkViewer::getDefaultTitle(// virtual
 */
 
 const char *
-SoQtWalkViewer::getDefaultIconTitle(// virtual
-  void) const
+SoQtWalkViewer::getDefaultIconTitle(void) const
 {
   static const char defaultIconTitle[] = "";
   return defaultIconTitle;
-} // getDefaultIconTitle()
+}
 
 // ************************************************************************
 
@@ -169,10 +182,9 @@ SoQtWalkViewer::getDefaultIconTitle(// virtual
 */
 
 void
-SoQtWalkViewer::processEvent(// virtual
-  QEvent * event)
+SoQtWalkViewer::processEvent(QEvent * event)
 {
-} // processEvent()
+}
 
 // ************************************************************************
 
@@ -180,10 +192,9 @@ SoQtWalkViewer::processEvent(// virtual
 */
 
 void
-SoQtWalkViewer::setSeekMode(// virtual
-  SbBool enable)
+SoQtWalkViewer::setSeekMode(SbBool enable)
 {
-} // setSeekMode()
+}
 
 // ************************************************************************
 
@@ -199,10 +210,9 @@ SoQtWalkViewer::actualRedraw(void)
 */
 
 void
-SoQtWalkViewer::rightWheelMotion(// virtual
-  float value)
+SoQtWalkViewer::rightWheelMotion(float value)
 {
-} // rightWheelMotion()
+}
 
 // ************************************************************************
 
@@ -210,11 +220,10 @@ SoQtWalkViewer::rightWheelMotion(// virtual
 */
 
 QWidget *
-SoQtWalkViewer::buildLeftTrim(// virtual
-  QWidget * parent)
+SoQtWalkViewer::buildLeftTrim(QWidget * parent)
 {
   return NULL;
-} // buildLeftTrim()
+}
 
 // ************************************************************************
 
@@ -222,10 +231,9 @@ SoQtWalkViewer::buildLeftTrim(// virtual
 */
 
 void
-SoQtWalkViewer::createPrefSheet(// virtual
-  void)
+SoQtWalkViewer::createPrefSheet(void)
 {
-} // createPrefSheet()
+}
 
 // ************************************************************************
 
@@ -233,9 +241,8 @@ SoQtWalkViewer::createPrefSheet(// virtual
 */
 
 void
-SoQtWalkViewer::openViewerHelpCard(// virtual
-  void)
+SoQtWalkViewer::openViewerHelpCard(void)
 {
-} // openViewerHelpCard()
+}
 
 // ************************************************************************
