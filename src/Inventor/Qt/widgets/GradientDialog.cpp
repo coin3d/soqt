@@ -40,7 +40,7 @@
 
 #include <Inventor/Qt/widgets/moc_SoQtGradientDialogP.icc>
 
-QString SoQtGradientDialogP::defaultdir = "";
+QString * SoQtGradientDialogP::defaultdir = new QString("");
 
 SoQtGradientDialogP::SoQtGradientDialogP(SoQtGradientDialog * publ)
 {
@@ -87,6 +87,9 @@ SoQtGradientDialogP::resetGradient()
 {
   this->gradview->setGradient(this->gradientcopy);
   this->saveCurrent();
+  if (this->changeCallBack) {
+    this->changeCallBack(this->gradview->getGradient(), this->changeCallBackData);
+  }
 }
 
 void 
@@ -104,8 +107,8 @@ SoQtGradientDialogP::loadGradient()
       QString description = filename.remove(0, dir.length() + 1);
       PUBLIC(this)->addGradient(grad, description);
 
-      if (SoQtGradientDialogP::defaultdir.isEmpty()) { // set the static defaultdir to the first dir chosen
-        SoQtGradientDialogP::defaultdir = dir;
+      if (SoQtGradientDialogP::defaultdir->isEmpty()) { // set the static defaultdir to the first dir chosen
+        *SoQtGradientDialogP::defaultdir = dir;
       }
     }
   }
@@ -129,8 +132,8 @@ SoQtGradientDialogP::saveGradient()
       QString description = filename.remove(0, dir.length() + 1);
       this->gradientlist->changeItem(grad.getImage(60, 16, 32), description, this->old_index);
 
-      if (SoQtGradientDialogP::defaultdir.isEmpty()) { // set the static defaultdir to the first dir chosen
-        SoQtGradientDialogP::defaultdir = dir;
+      if (SoQtGradientDialogP::defaultdir->isEmpty()) { // set the static defaultdir to the first dir chosen
+        *SoQtGradientDialogP::defaultdir = dir;
       }
     }
   }
@@ -143,6 +146,10 @@ SoQtGradientDialogP::chooseGradient(int i)
   this->gradview->setGradient(this->gradients[i]);
   this->gradientcopy = this->gradients[i];
   this->old_index = i;
+  if (this->changeCallBack) {
+    this->changeCallBack(this->gradview->getGradient(), this->changeCallBackData);
+  }
+
 }
 
 void SoQtGradientDialogP::saveCurrent()
@@ -167,8 +174,8 @@ SoQtGradientDialog::SoQtGradientDialog(const Gradient & grad,
 
   PRIVATE(this)->filetype = ".grad";
   PRIVATE(this)->filedialog = new QFileDialog(this);
-  if (!SoQtGradientDialogP::defaultdir.isEmpty()) {
-    PRIVATE(this)->filedialog->setDir(SoQtGradientDialogP::defaultdir);
+  if (!SoQtGradientDialogP::defaultdir->isEmpty()) {
+    PRIVATE(this)->filedialog->setDir(*SoQtGradientDialogP::defaultdir);
   }
   
   PRIVATE(this)->gradview = new GradientView(new QCanvas(), grad, this, "GradientView");
@@ -291,18 +298,19 @@ SoQtGradientDialog::setContinuousNotification(SbBool yes)
 SbBool 
 SoQtGradientDialog::getContinuousNotification(void) const
 {
-  return PRIVATE(this)->updatecontinuously; 
+  return PRIVATE(this)->updatecontinuously;
 }
 
 void 
 SoQtGradientDialog::alwaysContinuousUpdates(SbBool yes)
 {
   PRIVATE(this)->updatecontinuously = yes;
-  if (yes) { 
+  PRIVATE(this)->contupdate->setChecked(yes);
+
+  if (yes) {
     PRIVATE(this)->contupdate->hide();
     PRIVATE(this)->contupdatelabel->hide();
     PRIVATE(this)->applybutton->hide();
-    
   }
   else {
     PRIVATE(this)->contupdate->show();
