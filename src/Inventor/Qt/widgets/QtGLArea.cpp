@@ -41,11 +41,10 @@ static const char rcsid[] =
 
 QtGLArea::QtGLArea(
   QWidget * const parent,
-  const char * const name)
+  const char * const name )
 : inherited( parent, name )
 , dorender( true )
 {
-  this->owner = owner;
 } // QtGLArea()
 
 /*!
@@ -85,6 +84,8 @@ QtGLArea::initializeGL(
   // Need to call this explicitly, as it seems to have been forgotten
   // in Open Inventor.
   glEnable(GL_DEPTH_TEST);
+
+  emit this->init();
 } // initializeGL()
 
 /*
@@ -99,7 +100,8 @@ QtGLArea::resizeGL(
 #if 0 // debug
   SoDebugError::postInfo("PrivateGLWidget::resizeGL", "start");
 #endif // debug
-  inherited::resizeGL(w, h);
+  inherited::resizeGL( width, height );
+  emit this->reshape( width, height );
 #if 0 // debug
   SoDebugError::postInfo("PrivateGLWidget::resizeGL", "done");
 #endif // debug
@@ -118,10 +120,10 @@ QtGLArea::paintGL(
   SoDebugError::postInfo("PrivateGLWidget::paintGL", "%s",
                          this->dorender ? "executing" : "ignoring");
 #endif //debug
-  if (this->dorender) {
+//  if (this->dorender) {
     inherited::paintGL();
-    emit this->do_repaint();
-  }
+    emit this->render();
+//  }
 } // paintGL()
 
 /*
@@ -133,15 +135,15 @@ void
 QtGLArea::swapBuffers(
   void )
 {
-  if (this->owner->drawToFrontBuffer) {
+//  if (this->owner->drawToFrontBuffer) {
     // FIXME: need some OpenGL trickery here to be able to draw to the
     // front buffer of a double buffered GL widget. 990209 mortene.
-    inherited::swapBuffers(); // tmp hack
-  } else {
+//    inherited::swapBuffers(); // tmp hack
+//  } else {
     inherited::swapBuffers();
-  }
+//  }
 
-  this->owner->drawToFrontBuffer = FALSE;
+//  this->owner->drawToFrontBuffer = FALSE;
 } // swapBuffers()
 
 // *************************************************************************

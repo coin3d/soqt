@@ -36,14 +36,18 @@ public:
   ~QtGLArea(void);
 
   virtual void swapBuffers(void);
-  void doRender( const SbBool flag );
+  void doRender( bool flag );
 
 signals:
-  void do_repaint();
+  void init(void);
+  void reshape(int, int);
+  void render(void);
+
+//  void do_repaint();
 
 protected:
   virtual void paintGL(void);
-  virtual void resizeGL( int w, int h );
+  virtual void resizeGL( int width, int height );
   virtual void initializeGL(void);
 
 private:
