@@ -34,6 +34,7 @@ CLEANFILES = \
 
 DISTCLEANFILES = \
 	libtool \
+	build/so@gui@.doxygen \
 	$(SoGui_BuiltFiles) \
 	$(SoGui_BuiltMetaFiles)
 
