@@ -1,0 +1,56 @@
+//////////////////////////////////////////////////////
+//
+//             COMPILING SOQT ON WIN32
+//
+//////////////////////////////////////////////////////
+//
+//  Author:    Marius B. Monsen
+//  E-mail:    mariusbu@sim.no
+//
+//  Started:   2000.06.09
+//  Current:   2000.06.09
+//
+
+* 1 Introduction *
+
+1.1 SoQt is a GUI-binding library for Coin.
+
+1.2 In addition to Coin, SoQt needs the Qt GUI library from Trolltech
+    <URL:http://www.trolltech.com/products/qt/qt.html>.
+
+* 2 Environment *
+
+2.1 Throughout this file we assume using CygWin,Qt and MSVC++.
+
+2.2 You can download CygWin from <URL:http://sourceware.cygnus.com/>.
+
+2.3 Throughout this file we assume that '[your_install_path]/include'
+    is set in the INCLUDE variable, '[your_install_path]/lib' is set in
+    your LIB variable and '[your_install_path]/bin' is in your PATH
+    variable.
+    If you ommit the --prefix option, the default installation path is
+    set to '/usr/local/'.
+
+
+* 3 Compiling SoQt *
+
+3.1 Write the following into the command line
+
+      cd [your_build_path]
+      CC=cl CFLAGS=/Tp CXX=cl /[your_src_path]/configure --prefix=[your_install_path]
+      make built-sources
+      cd build
+      nmake soqt.mak CFG="coin - Win32 Debug"
+      cd ..
+      make install-data
+      make install-exec-am
+
+
+* 4 Linking with SoQt *
+
+4.1 When building programs using SoQt, be sure to link soqt.lib, qt.lib, qgl.lib,
+    coin.lib, opengl32.lib, glu32.lib, wsock32.lib, Imm32.lib and any other libs
+    you are using.
+
+Done!
+

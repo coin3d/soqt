@@ -1,4 +1,7 @@
-dnl  This can be any file in the package.
+# **************************************************************************
+# SoQt/configure.in
+
+# any source file in the project
 AC_INIT(src/Inventor/Qt/SoQt.h)
 
 sim_ac_cvs_syncproblem=false;
@@ -47,23 +50,21 @@ if test "x$sim_ac_cvs_syncproblem" = "xtrue"; then
   exit
 fi
 
-dnl  Locate C++ compiler and set C++ as the default compiler to run
-dnl  in tests.
+# Use C++ compiler for configure tests.
 AC_PROG_CXX
 AC_LANG_CPLUSPLUS
 
-dnl *******************************************************************
-dnl * Library version control.
-dnl *******************************************************************
+# **************************************************************************
+# Library version control.
 
-dnl  Making releases:
-dnl    SOQT_MICRO_VERSION += 1;
-dnl    SOQT_INTERFACE_AGE += 1;
-dnl    SOQT_BINARY_AGE += 1;
-dnl  if any functions have been added, set SOQT_INTERFACE_AGE to 0.
-dnl  if backwards compatibility has been broken,
-dnl  set SOQT_BINARY_AGE _and_ SOQT_INTERFACE_AGE to 0.
-dnl 
+#  Making releases:
+#    SOQT_MICRO_VERSION += 1;
+#    SOQT_INTERFACE_AGE += 1;
+#    SOQT_BINARY_AGE += 1;
+#  if any functions have been added, set SOQT_INTERFACE_AGE to 0.
+#  if backwards compatibility has been broken,
+#  set SOQT_BINARY_AGE _and_ SOQT_INTERFACE_AGE to 0.
+
 SOQT_MAJOR_VERSION=0
 SOQT_MINOR_VERSION=8
 SOQT_MICRO_VERSION=1
@@ -78,7 +79,7 @@ AC_SUBST(SOQT_VERSION)
 AC_SUBST(SOQT_INTERFACE_AGE)
 AC_SUBST(SOQT_BINARY_AGE)
 
-dnl  libtool versioning
+# libtool versioning
 LT_RELEASE=$SOQT_MAJOR_VERSION.$SOQT_MINOR_VERSION
 LT_CURRENT=`expr $SOQT_MICRO_VERSION - $SOQT_INTERFACE_AGE`
 LT_REVISION=$SOQT_INTERFACE_AGE
@@ -90,33 +91,30 @@ AC_SUBST(LT_AGE)
 
 VERSION=$SOQT_VERSION
 
-dnl  Not in use yet, should eventually use the same technique as in
-dnl  include/Inventor/SbBasic.h.in.
 AC_DEFINE_UNQUOTED(SOQT_MAJOR_VERSION, $SOQT_MAJOR_VERSION)
 AC_DEFINE_UNQUOTED(SOQT_MINOR_VERSION, $SOQT_MINOR_VERSION)
 AC_DEFINE_UNQUOTED(SOQT_MICRO_VERSION, $SOQT_MICRO_VERSION)
 AC_DEFINE_UNQUOTED(SOQT_VERSION, "$SOQT_VERSION")
 
-dnl *******************************************************************
-dnl * Miscellaneous options and initializations.
-dnl *******************************************************************
+# **************************************************************************
+# Miscellaneous options and initializations.
 
 AM_INIT_AUTOMAKE(libSoQt, $VERSION)
 
-dnl  File to cram results from the configure tests into.
+# File to cram results from the configure tests into.
 AM_CONFIG_HEADER(config.h)
 
-dnl  Default to not building a static library.
-dnl  Can be overridden by the user with --enable-static.
+# Default to not building a static library.
+# Can be overridden by the user with --enable-static.
 AM_DISABLE_STATIC
 
-dnl  Turn off default maintainer make-rules -- use ./autogen.sh instead.
+# Turn off default maintainer make-rules -- use ./autogen.sh instead.
 AM_MAINTAINER_MODE
 
-dnl  Initialize libtool
+# Initialize libtool
 AC_PROG_LIBTOOL
 
-dnl  These are used for constructing the soqt-config file.
+# These are used for constructing the soqt-config file.
 SOQT_EXTRA_CPPFLAGS=$CPPFLAGS
 SOQT_EXTRA_LDFLAGS=$LDFLAGS
 SOQT_EXTRA_LIBS=$LIBS
@@ -136,10 +134,8 @@ else
 fi
 AC_SUBST(SOQT_LIBNAME)
 
-
-dnl *******************************************************************
-dnl * Search and set up necessary stuff to use Open Inventor or Coin.
-dnl *******************************************************************
+# **************************************************************************
+# Search and set up necessary stuff to use Open Inventor or Coin.
 
 # $with_inventor is from within SIM_CHECK_INVENTOR(), and can be used
 # here since the value is empty when it reaches this point unless
@@ -210,15 +206,14 @@ else
   
 fi
 
-dnl Check for the availability of this node (it is used in the hidden
-dnl line rendering), which is not part of older Inventor implementations.
+# Check for the availability of this node (it is used in the hidden
+# line rendering), which is not part of older Inventor implementations.
+
 SIM_HAVE_SOPOLYGONOFFSET
 
-
-dnl *******************************************************************
-dnl * Check that the Qt installation looks ok and include the
-dnl * necessary paths and link libraries.
-dnl *******************************************************************
+# **************************************************************************
+# Check that the Qt installation looks ok and include the
+# necessary paths and link libraries.
 
 SIM_CHECK_QT([
   SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS $sim_ac_qt_cppflags"
@@ -239,10 +234,8 @@ SIM_CHECK_QGL([
 SIM_AC_QGLFORMAT_SETOVERLAY
 SIM_AC_QGLWIDGET_SETAUTOBUFFERSWAP
 
-
-dnl *******************************************************************
-dnl * Compiler control.
-dnl *******************************************************************
+# **************************************************************************
+# Compiler control.
 
 SIM_COMPILE_DEBUG
 if test "x$enable_debug" = "xyes"; then
@@ -259,11 +252,10 @@ SIM_EXCEPTION_HANDLING
 SIM_PROFILING_SUPPORT
 SIM_COMPILER_WARNINGS
 
-dnl *******************************************************************
-dnl * do we want to compile the example programs?
-dnl *******************************************************************
+# **************************************************************************
+# do we want to compile the example programs?
 
-dnl * undocumented option --with-test-code
+# undocumented option --with-test-code
 AM_CONDITIONAL(BUILD_TESTS, test x"${with_test_code+set}" = "xset")
 
 AC_ARG_WITH(examples,
@@ -283,10 +275,8 @@ fi
 AM_CONDITIONAL(BUILD_EXAMPLES, test x"$want_examples" = xyes)
 AM_CONDITIONAL(BUILD_IV_EXAMPLES, test x"$sim_ac_ivexamples_available" = xyes)
 
-
-dnl *******************************************************************
-dnl * Variable substitutions for using libSoQt in the generic code.
-dnl *******************************************************************
+# **************************************************************************
+# Variable substitutions for using libSoQt in the generic code.
 
 . ${srcdir}/libconfigvars.sh
 
@@ -297,10 +287,8 @@ AC_SUBST(WIDGET)
 AC_SUBST(EVENT)
 AC_SUBST(COMPONENTHEADER)
 
-
-dnl *******************************************************************
-dnl * Configure the submodule with the examples.
-dnl *******************************************************************
+# **************************************************************************
+# Configure the submodule with the examples.
 
 sim_ac_subconfig=examples
 if test x"$sim_ac_ivexamples_available" = xyes; then
@@ -308,10 +296,8 @@ if test x"$sim_ac_ivexamples_available" = xyes; then
 fi
 AC_CONFIG_SUBDIRS($sim_ac_subconfig)
 
-
-dnl *******************************************************************
-dnl * List all makefiles configure must automatically generate.
-dnl *******************************************************************
+# **************************************************************************
+# List all makefiles configure must automatically generate.
 
 SIM_EXPAND_DIR_VARS
 
@@ -320,12 +306,12 @@ test -d src              || mkdir src
 test -d src/Inventor     || mkdir src/Inventor
 test -d src/Inventor/Qt  || mkdir src/Inventor/Qt
 
-dnl Set soqt_build_dir so we can change soqt.dsp
+# Set soqt_build_dir so we can change soqt.dsp
 soqt_current_dir=`pwd`
 SIM_AC_DOBACKSLASH(soqt_build_dir,$soqt_current_dir)
 AC_SUBST(soqt_build_dir)
 
-dnl Set soqt_src_dir so we can change soqt.dsp
+# Set soqt_src_dir so we can change soqt.dsp
 SIM_AC_DOBACKSLASH(soqt_src_dir,$srcdir)
 AC_SUBST(soqt_src_dir)
 
@@ -341,21 +327,34 @@ AC_OUTPUT([
 	test-code/widgets/Makefile
         build/soqt.dsp
         build/soqt.mak
+        build/soqt_dll.dsp
+        build/soqt_dll.mak
 ],[
 	chmod a+x soqt-config
 ])
 
+# **************************************************************************
+# do some extra stuff for Windows system
+
 if test x"$sim_ac_linking_style" = xmswin; then
-  for sim_ac_winfile in build/soqt.dsp build/soqt.mak; do
+  for sim_ac_winfile in build/soqt.dsp build/soqt.mak build/soqt_dll.dsp build/soqt_dll.mak; do
     mv $sim_ac_winfile $sim_ac_winfile.bak
     echo "(Win)DOS-ifying $sim_ac_winfile"
     sed -e 's/$/
 /' < $sim_ac_winfile.bak > $sim_ac_winfile
+    rm $sim_ac_winfile.bak
   done
 fi
 
-echo ""
-echo "Now, run 'make install' to build and install SoQt..."
-echo ""
+if test x"$sim_ac_linking_style" = xmswin; then
+  echo ""
+  echo "If this is your first time building SoQt, please read 'README.WIN'"
+  echo "for a step-by-step guide to building SoQt with MSVC++."
+  echo ""
+else
+  echo ""
+  echo "Now, run 'make install' to build and install SoQt..."
+  echo ""
+fi
 
-dnl ************************************************************************
+# **************************************************************************
