@@ -343,6 +343,9 @@ SoQtComponent::~SoQtComponent()
   delete PRIVATE(this);
 }
 
+// FIXME: the visibility callback handling could be done in common
+// code. 20020624 mortene.
+
 // documented in common/SoGuiComponentCommon.cpp.in.
 void
 SoQtComponent::addVisibilityChangeCallback(SoQtComponentVisibilityCB * const func,
