@@ -25,9 +25,6 @@ NULL=
 NULL=nul
 !ENDIF 
 
-CPP=cl.exe
-RSC=rc.exe
-
 !IF  "$(CFG)" == "soqt - Win32 Release"
 
 OUTDIR=C:@libdir@
@@ -43,18 +40,23 @@ CLEAN :
 	-@erase "$(INTDIR)\moc_SoQt.obj"
 	-@erase "$(INTDIR)\moc_SoQtComponent.obj"
 	-@erase "$(INTDIR)\moc_SoQtConstrainedViewer.obj"
+	-@erase "$(INTDIR)\moc_SoQtDevice.obj"
 	-@erase "$(INTDIR)\moc_SoQtExaminerViewer.obj"
 	-@erase "$(INTDIR)\moc_SoQtFlyViewer.obj"
 	-@erase "$(INTDIR)\moc_SoQtFullViewer.obj"
 	-@erase "$(INTDIR)\moc_SoQtGLArea.obj"
 	-@erase "$(INTDIR)\moc_SoQtGLWidget.obj"
+	-@erase "$(INTDIR)\moc_SoQtInputFocus.obj"
+	-@erase "$(INTDIR)\moc_SoQtKeyboard.obj"
 	-@erase "$(INTDIR)\moc_SoQtLightSliderSet.obj"
 	-@erase "$(INTDIR)\moc_SoQtMaterialSliderSet.obj"
+	-@erase "$(INTDIR)\moc_SoQtMouse.obj"
 	-@erase "$(INTDIR)\moc_SoQtPlaneViewer.obj"
 	-@erase "$(INTDIR)\moc_SoQtPopupMenu.obj"
 	-@erase "$(INTDIR)\moc_SoQtRenderArea.obj"
 	-@erase "$(INTDIR)\moc_SoQtSliderSet.obj"
 	-@erase "$(INTDIR)\moc_SoQtSliderSetBase.obj"
+	-@erase "$(INTDIR)\moc_SoQtSpaceball.obj"
 	-@erase "$(INTDIR)\moc_SoQtThumbWheel.obj"
 	-@erase "$(INTDIR)\moc_SoQtTransformSliderSet.obj"
 	-@erase "$(INTDIR)\moc_SoQtViewer.obj"
@@ -101,7 +103,40 @@ CLEAN :
 "$(INTDIR)" :
     if not exist "$(INTDIR)/$(NULL)" mkdir "$(INTDIR)"
 
+CPP=cl.exe
 CPP_PROJ=/nologo /ML /W3 /GX /O2 /I "C:@soqt_build_dir@" /I "C:@soqt_build_dir@\src" /I "C:@soqt_src_dir@" /I "C:@soqt_src_dir@\src" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /Fp"$(INTDIR)\soqt.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
+
+.c{$(INTDIR)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(INTDIR)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(INTDIR)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.c{$(INTDIR)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(INTDIR)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(INTDIR)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+RSC=rc.exe
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\soqt.bsc" 
 BSC32_SBRS= \
@@ -160,7 +195,12 @@ LIB32_OBJS= \
 	"$(INTDIR)\SoQtTransformSliderSet.obj" \
 	"$(INTDIR)\SoQtViewer.obj" \
 	"$(INTDIR)\SoQtViewerExtra.obj" \
-	"$(INTDIR)\SoQtWalkViewer.obj"
+	"$(INTDIR)\SoQtWalkViewer.obj" \
+	"$(INTDIR)\moc_SoQtDevice.obj" \
+	"$(INTDIR)\moc_SoQtInputFocus.obj" \
+	"$(INTDIR)\moc_SoQtKeyboard.obj" \
+	"$(INTDIR)\moc_SoQtMouse.obj" \
+	"$(INTDIR)\moc_SoQtSpaceball.obj"
 
 "$(OUTDIR)\soqt.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
     $(LIB32) @<<
@@ -182,18 +222,23 @@ CLEAN :
 	-@erase "$(INTDIR)\moc_SoQt.obj"
 	-@erase "$(INTDIR)\moc_SoQtComponent.obj"
 	-@erase "$(INTDIR)\moc_SoQtConstrainedViewer.obj"
+	-@erase "$(INTDIR)\moc_SoQtDevice.obj"
 	-@erase "$(INTDIR)\moc_SoQtExaminerViewer.obj"
 	-@erase "$(INTDIR)\moc_SoQtFlyViewer.obj"
 	-@erase "$(INTDIR)\moc_SoQtFullViewer.obj"
 	-@erase "$(INTDIR)\moc_SoQtGLArea.obj"
 	-@erase "$(INTDIR)\moc_SoQtGLWidget.obj"
+	-@erase "$(INTDIR)\moc_SoQtInputFocus.obj"
+	-@erase "$(INTDIR)\moc_SoQtKeyboard.obj"
 	-@erase "$(INTDIR)\moc_SoQtLightSliderSet.obj"
 	-@erase "$(INTDIR)\moc_SoQtMaterialSliderSet.obj"
+	-@erase "$(INTDIR)\moc_SoQtMouse.obj"
 	-@erase "$(INTDIR)\moc_SoQtPlaneViewer.obj"
 	-@erase "$(INTDIR)\moc_SoQtPopupMenu.obj"
 	-@erase "$(INTDIR)\moc_SoQtRenderArea.obj"
 	-@erase "$(INTDIR)\moc_SoQtSliderSet.obj"
 	-@erase "$(INTDIR)\moc_SoQtSliderSetBase.obj"
+	-@erase "$(INTDIR)\moc_SoQtSpaceball.obj"
 	-@erase "$(INTDIR)\moc_SoQtThumbWheel.obj"
 	-@erase "$(INTDIR)\moc_SoQtTransformSliderSet.obj"
 	-@erase "$(INTDIR)\moc_SoQtViewer.obj"
@@ -241,7 +286,40 @@ CLEAN :
 "$(INTDIR)" :
     if not exist "$(INTDIR)/$(NULL)" mkdir "$(INTDIR)"
 
+CPP=cl.exe
 CPP_PROJ=/nologo /MLd /W3 /Gm /GX /ZI /Od /I "C:@soqt_build_dir@" /I "C:@soqt_build_dir@\src" /I "C:@soqt_src_dir@" /I "C:@soqt_src_dir@\src" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /Fp"$(INTDIR)\soqt.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /GZ /c 
+
+.c{$(INTDIR)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(INTDIR)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(INTDIR)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.c{$(INTDIR)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(INTDIR)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(INTDIR)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+RSC=rc.exe
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\soqt.bsc" 
 BSC32_SBRS= \
@@ -300,7 +378,12 @@ LIB32_OBJS= \
 	"$(INTDIR)\SoQtTransformSliderSet.obj" \
 	"$(INTDIR)\SoQtViewer.obj" \
 	"$(INTDIR)\SoQtViewerExtra.obj" \
-	"$(INTDIR)\SoQtWalkViewer.obj"
+	"$(INTDIR)\SoQtWalkViewer.obj" \
+	"$(INTDIR)\moc_SoQtDevice.obj" \
+	"$(INTDIR)\moc_SoQtInputFocus.obj" \
+	"$(INTDIR)\moc_SoQtKeyboard.obj" \
+	"$(INTDIR)\moc_SoQtMouse.obj" \
+	"$(INTDIR)\moc_SoQtSpaceball.obj"
 
 "$(OUTDIR)\soqtd.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
     $(LIB32) @<<
@@ -308,36 +391,6 @@ LIB32_OBJS= \
 <<
 
 !ENDIF 
-
-.c{$(INTDIR)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cpp{$(INTDIR)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cxx{$(INTDIR)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.c{$(INTDIR)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cpp{$(INTDIR)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cxx{$(INTDIR)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
 
 
 !IF "$(NO_EXTERNAL_DEPS)" != "1"
@@ -365,6 +418,12 @@ SOURCE="@soqt_build_dir@\src\Inventor\Qt\moc_SoQtComponent.cpp"
 SOURCE="@soqt_build_dir@\src\Inventor\Qt\viewers\moc_SoQtConstrainedViewer.cpp"
 
 "$(INTDIR)\moc_SoQtConstrainedViewer.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\devices\moc_SoQtDevice.cpp"
+
+"$(INTDIR)\moc_SoQtDevice.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -398,6 +457,18 @@ SOURCE="@soqt_build_dir@\src\Inventor\Qt\moc_SoQtGLWidget.cpp"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\devices\moc_SoQtInputFocus.cpp"
+
+"$(INTDIR)\moc_SoQtInputFocus.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\devices\moc_SoQtKeyboard.cpp"
+
+"$(INTDIR)\moc_SoQtKeyboard.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
 SOURCE="@soqt_build_dir@\src\Inventor\Qt\moc_SoQtLightSliderSet.cpp"
 
 "$(INTDIR)\moc_SoQtLightSliderSet.obj" : $(SOURCE) "$(INTDIR)"
@@ -407,6 +478,12 @@ SOURCE="@soqt_build_dir@\src\Inventor\Qt\moc_SoQtLightSliderSet.cpp"
 SOURCE="@soqt_build_dir@\src\Inventor\Qt\moc_SoQtMaterialSliderSet.cpp"
 
 "$(INTDIR)\moc_SoQtMaterialSliderSet.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\devices\moc_SoQtMouse.cpp"
+
+"$(INTDIR)\moc_SoQtMouse.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -437,6 +514,12 @@ SOURCE="@soqt_build_dir@\src\Inventor\Qt\moc_SoQtSliderSet.cpp"
 SOURCE="@soqt_build_dir@\src\Inventor\Qt\moc_SoQtSliderSetBase.cpp"
 
 "$(INTDIR)\moc_SoQtSliderSetBase.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\devices\moc_SoQtSpaceball.cpp"
+
+"$(INTDIR)\moc_SoQtSpaceball.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

@@ -95,218 +95,234 @@ LINK32=link.exe
 # End Group
 # Begin Source File
 
-SOURCE="\compile\soqt\src\Inventor\Qt\moc_SoQt.cpp"
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\moc_SoQt.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\compile\soqt\src\Inventor\Qt\moc_SoQtComponent.cpp"
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\moc_SoQtComponent.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\compile\soqt\src\Inventor\Qt\viewers\moc_SoQtConstrainedViewer.cpp"
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\viewers\moc_SoQtConstrainedViewer.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\compile\soqt\src\Inventor\Qt\viewers\moc_SoQtExaminerViewer.cpp"
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\viewers\moc_SoQtExaminerViewer.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\compile\soqt\src\Inventor\Qt\viewers\moc_SoQtFlyViewer.cpp"
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\viewers\moc_SoQtFlyViewer.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\compile\soqt\src\Inventor\Qt\viewers\moc_SoQtFullViewer.cpp"
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\viewers\moc_SoQtFullViewer.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\compile\soqt\src\Inventor\Qt\widgets\moc_SoQtGLArea.cpp"
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\widgets\moc_SoQtGLArea.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\compile\soqt\src\Inventor\Qt\moc_SoQtGLWidget.cpp"
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\moc_SoQtGLWidget.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\compile\soqt\src\Inventor\Qt\moc_SoQtLightSliderSet.cpp"
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\moc_SoQtLightSliderSet.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\compile\soqt\src\Inventor\Qt\moc_SoQtMaterialSliderSet.cpp"
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\moc_SoQtMaterialSliderSet.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\compile\soqt\src\Inventor\Qt\viewers\moc_SoQtPlaneViewer.cpp"
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\viewers\moc_SoQtPlaneViewer.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\compile\soqt\src\Inventor\Qt\widgets\moc_SoQtPopupMenu.cpp"
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\widgets\moc_SoQtPopupMenu.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\compile\soqt\src\Inventor\Qt\moc_SoQtRenderArea.cpp"
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\moc_SoQtRenderArea.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\compile\soqt\src\Inventor\Qt\moc_SoQtSliderSet.cpp"
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\moc_SoQtSliderSet.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\compile\soqt\src\Inventor\Qt\moc_SoQtSliderSetBase.cpp"
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\moc_SoQtSliderSetBase.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\compile\soqt\src\Inventor\Qt\widgets\moc_SoQtThumbWheel.cpp"
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\widgets\moc_SoQtThumbWheel.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\compile\soqt\src\Inventor\Qt\moc_SoQtTransformSliderSet.cpp"
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\moc_SoQtTransformSliderSet.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\compile\soqt\src\Inventor\Qt\viewers\moc_SoQtViewer.cpp"
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\viewers\moc_SoQtViewer.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\compile\soqt\src\Inventor\Qt\viewers\moc_SoQtWalkViewer.cpp"
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\viewers\moc_SoQtWalkViewer.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\compile\soqt\src\Inventor\Qt\viewers\SoAnyExaminerViewer.cpp"
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\viewers\SoAnyExaminerViewer.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\compile\soqt\src\Inventor\Qt\viewers\SoAnyFullViewer.cpp"
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\viewers\SoAnyFullViewer.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\compile\soqt\src\Inventor\Qt\viewers\SoAnyPlaneViewer.cpp"
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\viewers\SoAnyPlaneViewer.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\compile\soqt\src\Inventor\Qt\widgets\SoAnyPopupMenu.cpp"
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\widgets\SoAnyPopupMenu.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\compile\soqt\src\Inventor\Qt\widgets\SoAnyThumbWheel.cpp"
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\widgets\SoAnyThumbWheel.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\home\SoQt\src\Inventor\Qt\SoQt.cpp"
+SOURCE="@soqt_src_dir@\src\Inventor\Qt\SoQt.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\home\SoQt\src\Inventor\Qt\viewers\SoQtCollisionViewer.cpp"
+SOURCE="@soqt_src_dir@\src\Inventor\Qt\viewers\SoQtCollisionViewer.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\home\SoQt\src\Inventor\Qt\SoQtComponent.cpp"
+SOURCE="@soqt_src_dir@\src\Inventor\Qt\SoQtComponent.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\home\SoQt\src\Inventor\Qt\viewers\SoQtConstrainedViewer.cpp"
+SOURCE="@soqt_src_dir@\src\Inventor\Qt\viewers\SoQtConstrainedViewer.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\home\SoQt\src\Inventor\Qt\SoQtCursors.cpp"
+SOURCE="@soqt_src_dir@\src\Inventor\Qt\SoQtCursors.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\home\SoQt\src\Inventor\Qt\devices\SoQtDevice.cpp"
+SOURCE="@soqt_src_dir@\src\Inventor\Qt\devices\SoQtDevice.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\home\SoQt\src\Inventor\Qt\viewers\SoQtExaminerViewer.cpp"
+SOURCE="@soqt_src_dir@\src\Inventor\Qt\viewers\SoQtExaminerViewer.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\home\SoQt\src\Inventor\Qt\viewers\SoQtFlyViewer.cpp"
+SOURCE="@soqt_src_dir@\src\Inventor\Qt\viewers\SoQtFlyViewer.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\home\SoQt\src\Inventor\Qt\viewers\SoQtFullViewer.cpp"
+SOURCE="@soqt_src_dir@\src\Inventor\Qt\viewers\SoQtFullViewer.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\home\SoQt\src\Inventor\Qt\widgets\SoQtGLArea.cpp"
+SOURCE="@soqt_src_dir@\src\Inventor\Qt\widgets\SoQtGLArea.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\home\SoQt\src\Inventor\Qt\SoQtGLWidget.cpp"
+SOURCE="@soqt_src_dir@\src\Inventor\Qt\SoQtGLWidget.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\home\SoQt\src\Inventor\Qt\devices\SoQtInputFocus.cpp"
+SOURCE="@soqt_src_dir@\src\Inventor\Qt\devices\SoQtInputFocus.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\home\SoQt\src\Inventor\Qt\devices\SoQtKeyboard.cpp"
+SOURCE="@soqt_src_dir@\src\Inventor\Qt\devices\SoQtKeyboard.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\home\SoQt\src\Inventor\Qt\SoQtLightSliderSet.cpp"
+SOURCE="@soqt_src_dir@\src\Inventor\Qt\SoQtLightSliderSet.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\home\SoQt\src\Inventor\Qt\SoQtMaterialSliderSet.cpp"
+SOURCE="@soqt_src_dir@\src\Inventor\Qt\SoQtMaterialSliderSet.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\home\SoQt\src\Inventor\Qt\devices\SoQtMouse.cpp"
+SOURCE="@soqt_src_dir@\src\Inventor\Qt\devices\SoQtMouse.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\home\SoQt\src\Inventor\Qt\viewers\SoQtPlaneViewer.cpp"
+SOURCE="@soqt_src_dir@\src\Inventor\Qt\viewers\SoQtPlaneViewer.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\home\SoQt\src\Inventor\Qt\widgets\SoQtPopupMenu.cpp"
+SOURCE="@soqt_src_dir@\src\Inventor\Qt\widgets\SoQtPopupMenu.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\compile\soqt\src\Inventor\Qt\SoQtRenderArea.cpp"
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\SoQtRenderArea.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\home\SoQt\src\Inventor\Qt\SoQtRenderAreaExtra.cpp"
+SOURCE="@soqt_src_dir@\src\Inventor\Qt\SoQtRenderAreaExtra.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\home\SoQt\src\Inventor\Qt\SoQtSliderSet.cpp"
+SOURCE="@soqt_src_dir@\src\Inventor\Qt\SoQtSliderSet.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\home\SoQt\src\Inventor\Qt\SoQtSliderSetBase.cpp"
+SOURCE="@soqt_src_dir@\src\Inventor\Qt\SoQtSliderSetBase.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\home\SoQt\src\Inventor\Qt\devices\SoQtSpaceball.cpp"
+SOURCE="@soqt_src_dir@\src\Inventor\Qt\devices\SoQtSpaceball.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE=\home\SoQt\src\Inventor\Qt\widgets\SoQtThumbWheel.cpp
+SOURCE="@soqt_src_dir@\src\Inventor\Qt\widgets\SoQtThumbWheel.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE=\home\SoQt\src\Inventor\Qt\SoQtTransformSliderSet.cpp
+SOURCE="@soqt_src_dir@\src\Inventor\Qt\SoQtTransformSliderSet.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\compile\soqt\src\Inventor\Qt\viewers\SoQtViewer.cpp"
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\viewers\SoQtViewer.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\home\SoQt\src\Inventor\Qt\viewers\SoQtViewerExtra.cpp"
+SOURCE="@soqt_src_dir@\src\Inventor\Qt\viewers\SoQtViewerExtra.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\home\SoQt\src\Inventor\Qt\viewers\SoQtWalkViewer.cpp"
+SOURCE="@soqt_src_dir@\src\Inventor\Qt\viewers\SoQtWalkViewer.cpp"
 # End Source File
-# End Target
-# Begin Group "Header Files"
+# Begin Source File
 
-# PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\devices\moc_SoQtDevice.cpp"
+# End Source File
+# Begin Source File
+
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\devices\moc_SoQtInputFocus.cpp"
+# End Source File
+# Begin Source File
+
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\devices\moc_SoQtKeyboard.cpp"
+# End Source File
+# Begin Source File
+
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\devices\moc_SoQtMouse.cpp"
+# End Source File
+# Begin Source File
+
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\devices\moc_SoQtSpaceball.cpp"
+# End Source File
 # End Group
-# Begin Group "Header Files No. 1"
+# Begin Group "Header Files"
 
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # End Group
@@ -314,4 +330,5 @@ SOURCE="\home\SoQt\src\Inventor\Qt\viewers\SoQtWalkViewer.cpp"
 
 # PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 # End Group
+# End Target
 # End Project

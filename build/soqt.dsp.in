@@ -291,6 +291,26 @@ SOURCE="@soqt_src_dir@\src\Inventor\Qt\viewers\SoQtViewerExtra.cpp"
 
 SOURCE="@soqt_src_dir@\src\Inventor\Qt\viewers\SoQtWalkViewer.cpp"
 # End Source File
+# Begin Source File
+
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\devices\moc_SoQtDevice.cpp"
+# End Source File
+# Begin Source File
+
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\devices\moc_SoQtInputFocus.cpp"
+# End Source File
+# Begin Source File
+
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\devices\moc_SoQtKeyboard.cpp"
+# End Source File
+# Begin Source File
+
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\devices\moc_SoQtMouse.cpp"
+# End Source File
+# Begin Source File
+
+SOURCE="@soqt_build_dir@\src\Inventor\Qt\devices\moc_SoQtSpaceball.cpp"
+# End Source File
 # End Group
 # Begin Group "Header Files"
 
