@@ -60,6 +60,9 @@
 /* Define this if Qt::Keypad is available */
 #undef HAVE_QT_KEYPAD_DEFINE
 
+/* Define this if QWidget::setWindowState() is available */
+#undef HAVE_QWIDGET_SETWINDOWSTATE
+
 /* Define this if QWidget::showFullScreen() is available */
 #undef HAVE_QWIDGET_SHOWFULLSCREEN
 
