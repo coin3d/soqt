@@ -572,7 +572,7 @@ SoQt::init(QWidget * toplevelwidget)
   // to the exact source location of the failing X request.
 #ifdef Q_WS_X11
   // Intervene upon X11 errors.
-  SoQtP::previous_handler = XSetErrorHandler((XErrorHandler)SoQtP::X11Errorhandler);
+  SoQtP::previous_handler = (SoQtP_XErrorHandler*)XSetErrorHandler((XErrorHandler)SoQtP::X11Errorhandler);
 
   if (SoQtP::SOQT_XSYNC == ENVVAR_NOT_INITED) {
     const char * env = SoAny::si()->getenv("SOQT_XSYNC");
