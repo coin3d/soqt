@@ -247,8 +247,7 @@ SoQtGLWidget::SoQtGLWidget(QWidget * const parent,
 /*!
   Protected destructor.
 */
-
-SoQtGLWidget::~SoQtGLWidget(void)
+SoQtGLWidget::~SoQtGLWidget()
 {
   // Don't delete the widgets we've allocated, as they are destructed
   // implicitly when their parent widgets die. (Destructing "our"
@@ -323,7 +322,11 @@ SoQtGLWidget::buildGLWidget(void)
 
   void * display = NULL;
   void * screen = NULL;
+
 #if defined(_WS_X11_) // Qt defines this under X11
+  // FIXME: should make context sharing work for other Qt
+  // base-platforms (MSWin, MacOS X) aswell. 20020118 mortene.
+
   // the following Qt methods are only available under X11
   display = (void*) QPaintDevice::x11AppDisplay();
   screen = (void*) ((unsigned int) QPaintDevice::x11AppScreen());
@@ -442,6 +445,7 @@ SoQtGLWidget::buildGLWidget(void)
     PRIVATE(this)->currentglwidget->show();
     PRIVATE(this)->currentglwidget->raise();
   }
+  PRIVATE(this)->currentglwidget->setFocus();
 }
 
 // *************************************************************************
