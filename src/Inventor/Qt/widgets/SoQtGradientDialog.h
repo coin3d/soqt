@@ -35,7 +35,7 @@ class GradientEditor;
 class QComboBox;  
 
 
-class /*SOQT_DLL_API*/ SoQtGradientDialog : public QDialog
+class SOQT_DLL_API SoQtGradientDialog : public QDialog
 {
   Q_OBJECT
 
@@ -48,9 +48,8 @@ public:
   
   const Gradient & getGradient(void) const;
   void addGradient(Gradient * grad);
-  void setMin(int min);
-  void setMax(int max);
-  
+  void setDataLimits(float min, float max);
+
 public slots:
   void loadGradient(void);
   void saveGradient(void);

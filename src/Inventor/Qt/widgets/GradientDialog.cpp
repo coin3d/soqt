@@ -90,8 +90,10 @@ void SoQtGradientDialog::addGradient(Gradient * grad)
 void SoQtGradientDialog::loadGradient()
 {
   QString filename = QFileDialog::getOpenFileName();
-  Gradient * grad = new Gradient(filename);
-  this->addGradient(grad);
+  if (!filename.isEmpty()) {
+    Gradient * grad = new Gradient(filename);
+    this->addGradient(grad);
+  }
 }
 
 void SoQtGradientDialog::saveGradient()
@@ -112,13 +114,9 @@ const Gradient & SoQtGradientDialog::getGradient() const
   return this->gradEdit->getGradient();
 }
 
-void SoQtGradientDialog::setMin(int min)
+void SoQtGradientDialog::setDataLimits(float min, float max)
 {
   this->gradEdit->setMin(min);
-}
-
-void SoQtGradientDialog::setMax(int max)
-{
   this->gradEdit->setMax(max);
 }
 
