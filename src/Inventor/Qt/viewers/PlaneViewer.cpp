@@ -77,7 +77,7 @@ SoQtPlaneViewerP::~SoQtPlaneViewerP()
 void
 SoQtPlaneViewerP::constructor(SbBool buildnow)
 {
-  PUBLIC(this)->commonConstructor(); // init generic stuff
+  this->commonConstructor(); // init generic stuff
 
   PUBLIC(this)->setClassName("SoQtPlaneViewer");
   PUBLIC(this)->setLeftWheelString("transY");
@@ -93,19 +93,19 @@ SoQtPlaneViewerP::constructor(SbBool buildnow)
 void
 SoQtPlaneViewerP::xClicked(void)
 {
-  PUBLIC(this)->viewPlaneX();
+  this->viewPlaneX();
 }
 
 void
 SoQtPlaneViewerP::yClicked(void)
 {
-  PUBLIC(this)->viewPlaneY();
+  this->viewPlaneY();
 }
 
 void
 SoQtPlaneViewerP::zClicked(void)
 {
-  PUBLIC(this)->viewPlaneZ();
+  this->viewPlaneZ();
 }
 
 void
