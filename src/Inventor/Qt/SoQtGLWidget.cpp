@@ -473,7 +473,7 @@ static const char eventnaming[][50] = {
   "*unknown*", "*unknown*", "*unknown*", "*unknown*", "*unknown*",
   "*unknown*", "*unknown*", "*unknown*", "*unknown*",
   "SockAct", // 50
-  "*unknown*", "*unknown*", "*unknown*", "*unknown*", "*unknown*",
+  "AccelOverride", "*unknown*", "*unknown*", "*unknown*", "*unknown*",
   "*unknown*", "*unknown*", "*unknown*", "*unknown*",
   "DragEnter", // 60
   "DragMove",

@@ -436,7 +436,7 @@ SoQtComponent::eventFilter(QObject * obj, QEvent * e)
     "*error*", "*error*", "*error*", "*error*", "*error*",
     "*error*", "*error*", "*error*", "*error*",
     "SockAct", // 50
-    "*error*", "*error*", "*error*", "*error*", "*error*",
+    "AccelOverride", "*error*", "*error*", "*error*", "*error*",
     "*error*", "*error*", "*error*", "*error*",
     "DragEnter", // 60
     "DragMove",
