@@ -553,7 +553,7 @@ distcheck: dist
 	  sed 'h;s/./=/g;p;x;p;x'
 check-am: all-am
 check: check-recursive
-all-am: Makefile $(SCRIPTS) $(DATA)
+all-am: Makefile $(SCRIPTS) $(DATA) all-local
 installdirs: installdirs-recursive
 installdirs-am:
 	$(mkinstalldirs) $(DESTDIR)$(bindir) $(DESTDIR)$(cfgdatadir) $(DESTDIR)$(m4datadir)
@@ -627,8 +627,8 @@ uninstall-am: uninstall-cfgdataDATA uninstall-dist_binSCRIPTS \
 
 uninstall-info: uninstall-info-recursive
 
-.PHONY: $(RECURSIVE_TARGETS) GTAGS all all-am check check-am clean \
-	clean-generic clean-libtool clean-recursive dist dist-all \
+.PHONY: $(RECURSIVE_TARGETS) GTAGS all all-am all-local check check-am \
+	clean clean-generic clean-libtool clean-recursive dist dist-all \
 	distcheck distclean distclean-generic distclean-libtool \
 	distclean-recursive distclean-tags distdir dvi dvi-am \
 	dvi-recursive info info-am info-recursive install install-am \
@@ -647,7 +647,7 @@ uninstall-info: uninstall-info-recursive
 	uninstall-info-am uninstall-info-recursive uninstall-recursive
 
 
-soqt-@CONFIG@.cfg: Makefile $(srcdir)/soqt.cfg.in
+soqt-@CONFIG@.cfg: $(srcdir)/soqt.cfg.in Makefile config.status
 	@$(SHELL) config.status --file=$@:soqt.cfg.in
 
 # This is necessary to set up a hook somewhere in the generated Makefile
@@ -663,103 +663,103 @@ built-sources: $(BUILT_SOURCES)
 
 # **************************************************************************
 
-src/soqtdefs.h: $(srcdir)/src/soqtdefs.h.in
+src/soqtdefs.h: $(srcdir)/src/soqtdefs.h.in config.status
 	@$(SHELL) config.status --file=$@:src/soqtdefs.h.in
 
 src/Inventor/Qt/SoAny.h: \
-  $(srcdir)/src/Inventor/Qt/common/SoAny.h.in
+  $(srcdir)/src/Inventor/Qt/common/SoAny.h.in config.status
 	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoAny.h.in
 
 src/Inventor/Qt/SoAny.cpp: \
-  $(srcdir)/src/Inventor/Qt/common/SoAny.cpp.in
+  $(srcdir)/src/Inventor/Qt/common/SoAny.cpp.in config.status
 	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoAny.cpp.in
 
-src/Inventor/Qt/SoQtBasic.h: $(srcdir)/src/Inventor/Qt/common/SoGuiBasic.h.in
+src/Inventor/Qt/SoQtBasic.h: $(srcdir)/src/Inventor/Qt/common/SoGuiBasic.h.in config.status
 	@$(SHELL) config.status --file=-:src/Inventor/Qt/common/SoGuiBasic.h.in | \
 	  $(SHELL) config.status --header=$@:-
 
 src/Inventor/Qt/SoQtObject.h: \
-  $(srcdir)/src/Inventor/Qt/common/SoGuiObject.h.in
+  $(srcdir)/src/Inventor/Qt/common/SoGuiObject.h.in config.status
 	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoGuiObject.h.in
 
 src/Inventor/Qt/SoQtObject.cpp: \
-  $(srcdir)/src/Inventor/Qt/common/SoGuiObject.cpp.in
+  $(srcdir)/src/Inventor/Qt/common/SoGuiObject.cpp.in config.status
 	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoGuiObject.cpp.in
 
 src/Inventor/Qt/SoQtCursors.h: \
-  $(srcdir)/src/Inventor/Qt/common/SoGuiCursors.h.in
+  $(srcdir)/src/Inventor/Qt/common/SoGuiCursors.h.in config.status
 	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoGuiCursors.h.in
 
 src/Inventor/Qt/SoQtCursors.cpp: \
-  $(srcdir)/src/Inventor/Qt/common/SoGuiCursors.cpp.in
+  $(srcdir)/src/Inventor/Qt/common/SoGuiCursors.cpp.in config.status
 	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoGuiCursors.cpp.in
 
 src/Inventor/Qt/SoQtRenderArea.h: \
-  $(srcdir)/src/Inventor/Qt/common/SoGuiRenderArea.h.in
+  $(srcdir)/src/Inventor/Qt/common/SoGuiRenderArea.h.in config.status
 	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoGuiRenderArea.h.in
 
 src/Inventor/Qt/SoQtRenderArea.cpp: \
-  $(srcdir)/src/Inventor/Qt/common/SoGuiRenderArea.cpp.in
+  $(srcdir)/src/Inventor/Qt/common/SoGuiRenderArea.cpp.in config.status
 	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoGuiRenderArea.cpp.in
 
 src/Inventor/Qt/viewers/SoQtViewer.h: \
-  $(srcdir)/src/Inventor/Qt/common/SoGuiViewer.h.in
+  $(srcdir)/src/Inventor/Qt/common/SoGuiViewer.h.in config.status
 	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoGuiViewer.h.in
 
 src/Inventor/Qt/viewers/SoQtViewer.cpp: \
-  $(srcdir)/src/Inventor/Qt/common/SoGuiViewer.cpp.in
+  $(srcdir)/src/Inventor/Qt/common/SoGuiViewer.cpp.in config.status
 	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoGuiViewer.cpp.in
 
 src/Inventor/Qt/viewers/SoAnyFullViewer.h: \
-  $(srcdir)/src/Inventor/Qt/common/SoAnyFullViewer.h.in
+  $(srcdir)/src/Inventor/Qt/common/SoAnyFullViewer.h.in config.status
 	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoAnyFullViewer.h.in
 
 src/Inventor/Qt/viewers/SoAnyFullViewer.cpp: \
-  $(srcdir)/src/Inventor/Qt/common/SoAnyFullViewer.cpp.in
+  $(srcdir)/src/Inventor/Qt/common/SoAnyFullViewer.cpp.in config.status
 	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoAnyFullViewer.cpp.in
 
 src/Inventor/Qt/viewers/SoAnyExaminerViewer.h: \
-  $(srcdir)/src/Inventor/Qt/common/SoAnyExaminerViewer.h.in
+  $(srcdir)/src/Inventor/Qt/common/SoAnyExaminerViewer.h.in config.status
 	@$(SHELL) config.status \
 	  --file=$@:src/Inventor/Qt/common/SoAnyExaminerViewer.h.in
 
 src/Inventor/Qt/viewers/SoAnyExaminerViewer.cpp: \
-  $(srcdir)/src/Inventor/Qt/common/SoAnyExaminerViewer.cpp.in
+  $(srcdir)/src/Inventor/Qt/common/SoAnyExaminerViewer.cpp.in config.status
 	@$(SHELL) config.status \
 	  --file=$@:src/Inventor/Qt/common/SoAnyExaminerViewer.cpp.in
 
 src/Inventor/Qt/viewers/SoAnyPlaneViewer.h: \
-  $(srcdir)/src/Inventor/Qt/common/SoAnyPlaneViewer.h.in
+  $(srcdir)/src/Inventor/Qt/common/SoAnyPlaneViewer.h.in config.status
 	@$(SHELL) config.status \
 	  --file=$@:src/Inventor/Qt/common/SoAnyPlaneViewer.h.in
 
 src/Inventor/Qt/viewers/SoAnyPlaneViewer.cpp: \
-  $(srcdir)/src/Inventor/Qt/common/SoAnyPlaneViewer.cpp.in
+  $(srcdir)/src/Inventor/Qt/common/SoAnyPlaneViewer.cpp.in config.status
 	@$(SHELL) config.status \
 	  --file=$@:src/Inventor/Qt/common/SoAnyPlaneViewer.cpp.in
 
 src/Inventor/Qt/widgets/SoAnyThumbWheel.h: \
-  $(srcdir)/src/Inventor/Qt/common/SoAnyThumbWheel.h.in
+  $(srcdir)/src/Inventor/Qt/common/SoAnyThumbWheel.h.in config.status
 	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoAnyThumbWheel.h.in
 
 src/Inventor/Qt/widgets/SoAnyThumbWheel.cpp: \
-  $(srcdir)/src/Inventor/Qt/common/SoAnyThumbWheel.cpp.in
+  $(srcdir)/src/Inventor/Qt/common/SoAnyThumbWheel.cpp.in config.status
 	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoAnyThumbWheel.cpp.in
 
 src/Inventor/Qt/widgets/SoAnyPopupMenu.h: \
-  $(srcdir)/src/Inventor/Qt/common/SoAnyPopupMenu.h.in
+  $(srcdir)/src/Inventor/Qt/common/SoAnyPopupMenu.h.in config.status
 	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoAnyPopupMenu.h.in
 
 src/Inventor/Qt/widgets/SoAnyPopupMenu.cpp: \
-  $(srcdir)/src/Inventor/Qt/common/SoAnyPopupMenu.cpp.in
+  $(srcdir)/src/Inventor/Qt/common/SoAnyPopupMenu.cpp.in config.status
 	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoAnyPopupMenu.cpp.in
 
 src/Inventor/Qt/devices/spwinput.h: \
-  $(srcdir)/src/Inventor/Qt/common/spwinput.h.in
+  $(srcdir)/src/Inventor/Qt/common/spwinput.h.in config.status
 	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/spwinput.h.in
 
 src/Inventor/Qt/devices/spwinput_x11.cpp: \
-  $(srcdir)/src/Inventor/Qt/common/spwinput_x11.cpp.in
+  $(srcdir)/src/Inventor/Qt/common/spwinput_x11.cpp.in config.status
 	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/spwinput_x11.cpp.in
 
 # **************************************************************************
@@ -868,10 +868,12 @@ src/Inventor/Qt/widgets/moc_SoQtPopupMenu.cpp: \
 
 # **************************************************************************
 
-doxygen-doc:
+all-local: built-sources
+
+doxygen-doc: built-sources
 	@( cd build; @sim_ac_doxygen_exe@ soqt.doxygen )
 
-doxygen-docs:
+doxygen-docs: built-sources
 	@( cd build; @sim_ac_doxygen_exe@ soqt.doxygen )
 
 install-exec-local: $(srcdir)/cfg/m4/wrapmsvc.exe
