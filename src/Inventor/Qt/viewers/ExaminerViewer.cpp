@@ -72,10 +72,6 @@
   \sa SoQtWalkViewer, SoQtFlyViewer, SoQtPlaneViewer, SoQtCollisionViewer
 */
 
-/*¡
-  SoQtExaminerViewer is missing the class description documentation.
-*/
-
 // *************************************************************************
 
 SOQT_OBJECT_SOURCE(SoQtExaminerViewer);
@@ -98,16 +94,15 @@ extern void expandSize(QSize & result, const QSize & addend,
   will be built immediately.
 */
 
-SoQtExaminerViewer::SoQtExaminerViewer(
-  QWidget * parent,
-  const char * name,
-  SbBool embed,
-  SoQtFullViewer::BuildFlag flag,
-  SoQtViewer::Type type)
-: inherited(parent, name, embed, flag, type, FALSE)
+SoQtExaminerViewer::SoQtExaminerViewer(QWidget * parent,
+                                       const char * name,
+                                       SbBool embed,
+                                       SoQtFullViewer::BuildFlag flag,
+                                       SoQtViewer::Type type)
+  : inherited(parent, name, embed, flag, type, FALSE)
 {
   this->constructor(TRUE);
-} // SoQtExaminerViewer()
+}
 
 // *************************************************************************
 
@@ -115,17 +110,16 @@ SoQtExaminerViewer::SoQtExaminerViewer(
   Constructor. See parent class for explanation of arguments.
 */
 
-SoQtExaminerViewer::SoQtExaminerViewer(
-  QWidget * parent,
-  const char * name,
-  SbBool embed,
-  SoQtFullViewer::BuildFlag flag,
-  SoQtViewer::Type type,
-  SbBool build)
-: inherited(parent, name, embed, flag, type, FALSE)
+SoQtExaminerViewer::SoQtExaminerViewer(QWidget * parent,
+                                       const char * name,
+                                       SbBool embed,
+                                       SoQtFullViewer::BuildFlag flag,
+                                       SoQtViewer::Type type,
+                                       SbBool build)
+  : inherited(parent, name, embed, flag, type, FALSE)
 {
   this->constructor(build);
-} // SoQtExaminerViewer()
+}
 
 // *************************************************************************
 
@@ -165,7 +159,7 @@ SoQtExaminerViewer::constructor(SbBool build)
     QWidget * widget = this->buildWidget(this->getParentWidget());
     this->setBaseWidget(widget);
   }
-} // constructor()
+}
 
 // *************************************************************************
 
@@ -183,7 +177,7 @@ SoQtExaminerViewer::~SoQtExaminerViewer()
   delete this->spindetecttimer;
 
   this->genericDestructor();
-} // ~SoQtExaminerViewer()
+}
 
 // *************************************************************************
 
@@ -193,14 +187,13 @@ SoQtExaminerViewer::~SoQtExaminerViewer()
 */
 
 void
-SoQtExaminerViewer::setViewing(// virtual
-  SbBool enable)
+SoQtExaminerViewer::setViewing(SbBool enable)
 {
   this->setMode(enable ?
-                         SoQtExaminerViewer::EXAMINE :
-                         SoQtExaminerViewer::INTERACT);
+                SoQtExaminerViewer::EXAMINE :
+                SoQtExaminerViewer::INTERACT);
   inherited::setViewing(enable);
-} // setViewing()
+}
 
 // *************************************************************************
 
@@ -236,15 +229,14 @@ SoQtExaminerViewer::setCamera(SoCamera * newCamera)
 */
 
 void
-SoQtExaminerViewer::leftWheelMotion(
-  float value)
+SoQtExaminerViewer::leftWheelMotion(float value)
 {
   if (this->isAnimating())
     this->stopAnimating();
 
   inherited::leftWheelMotion(
     this->rotXWheelMotion(value, this->getLeftWheelValue()));
-} // leftWheelMotion()
+}
 
 /*!
   Overloaded to provide the examiner viewer functionality on the bottom
@@ -252,15 +244,14 @@ SoQtExaminerViewer::leftWheelMotion(
 */
 
 void
-SoQtExaminerViewer::bottomWheelMotion(
-  float value)
+SoQtExaminerViewer::bottomWheelMotion(float value)
 {
   if (this->isAnimating())
     this->stopAnimating();
 
   inherited::bottomWheelMotion(
     this->rotYWheelMotion(value, this->getBottomWheelValue()));
-} // bottomWheelMotion()
+}
 
 /*!
   Overloaded to provide the examiner viewer functionality on the left
@@ -268,12 +259,11 @@ SoQtExaminerViewer::bottomWheelMotion(
 */
 
 void
-SoQtExaminerViewer::rightWheelMotion(
-  float value)
+SoQtExaminerViewer::rightWheelMotion(float value)
 {
   this->zoom(this->getRightWheelValue() - value);
   inherited::rightWheelMotion(value);
-} // rightWheelMotion()
+}
 
 // *************************************************************************
 
@@ -364,7 +354,7 @@ SoQtExaminerViewer::makeSubPreferences(QWidget * parent)
   this->setEnableFeedbackControls(this->isFeedbackVisible());
 
   return w;
-} // makeSubPreferences()
+}
 
 // *************************************************************************
 
@@ -398,7 +388,7 @@ SoQtExaminerViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
                    this, SLOT(cameratoggleClicked()));
 
   buttonlist->append(this->cameratogglebutton);
-} // createViewerButtons()
+}
 
 // *************************************************************************
 
@@ -407,12 +397,11 @@ SoQtExaminerViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
 */
 
 const char *
-SoQtExaminerViewer::getDefaultWidgetName(// virtual
-  void) const
+SoQtExaminerViewer::getDefaultWidgetName(void) const
 {
   static const char defaultWidgetName[] = "SoQtExaminerViewer";
   return defaultWidgetName;
-} // getDefaultWidgetName()
+}
 
 // *************************************************************************
 
@@ -425,7 +414,7 @@ SoQtExaminerViewer::getDefaultTitle(void) const
 {
   static const char defaultTitle[] = "Examiner Viewer";
   return defaultTitle;
-} // getDefaultTitle()
+}
 
 // *************************************************************************
 
@@ -438,7 +427,7 @@ SoQtExaminerViewer::getDefaultIconTitle(void) const
 {
   static const char defaultIconTitle[] = "Examiner Viewer";
   return defaultIconTitle;
-} // getDefaultIconTitle()
+}
 
 // *************************************************************************
 
@@ -450,7 +439,7 @@ void
 SoQtExaminerViewer::openViewerHelpCard(void)
 {
   this->openHelpCard("SoQtExaminerViewer.help");
-} // openViewerHelpCard()
+}
 
 // *************************************************************************
 
@@ -470,7 +459,7 @@ SoQtExaminerViewer::actualRedraw(void)
   // Immediately reschedule to get continous spin animation.
   if (this->isAnimating())
     this->scheduleRedraw();
-} // actualRedraw()
+}
 
 // *************************************************************************
 
@@ -517,7 +506,7 @@ SoQtExaminerViewer::setCursorRepresentation(int mode)
 
   default: assert(0); break;
   }
-} // setCursorRepresentation()
+}
 
 // *************************************************************************
 
@@ -532,7 +521,7 @@ SoQtExaminerViewer::setEnableFeedbackControls(const SbBool flag)
   this->feedbacklabel2->setEnabled(flag);
   this->feedbackwheel->setEnabled(flag);
   this->feedbackedit->setEnabled(flag);
-} // setEnabledFeedbackControls()
+}
 
 // *************************************************************************
 
@@ -558,7 +547,7 @@ void
 SoQtExaminerViewer::visibilityCB(void * data, SbBool visible)
 {
   ((SoQtExaminerViewer *) data)->visibilityCallback(visible);
-} // visibilityCB()
+}
 
 // *************************************************************************
 
@@ -572,7 +561,7 @@ void
 SoQtExaminerViewer::spinAnimationToggled(bool flag)
 {
   this->setAnimationEnabled(flag ? TRUE : FALSE);
-} // spinAnimationToggled()
+}
 
 // *************************************************************************
 
@@ -586,7 +575,7 @@ SoQtExaminerViewer::feedbackVisibilityToggle(bool flag)
 {
   this->setFeedbackVisibility(flag ? TRUE : FALSE);
   this->setEnableFeedbackControls(flag);
-} // feedbackVisibilityToggle()
+}
 
 // *************************************************************************
 
@@ -609,7 +598,7 @@ SoQtExaminerViewer::feedbackEditPressed()
     s.setNum(this->getFeedbackSize());
     this->feedbackedit->setText(s);
   }
-} // feedbackEditPressed()
+}
 
 // *************************************************************************
 
@@ -622,7 +611,7 @@ void
 SoQtExaminerViewer::feedbackWheelPressed()
 {
   this->interactiveCountInc();
-} // feedbackWheelPressed()
+}
 
 // *************************************************************************
 
@@ -635,7 +624,7 @@ void
 SoQtExaminerViewer::feedbackWheelReleased()
 {
   this->interactiveCountDec();
-} // feedbackWheelReleased()
+}
 
 // *************************************************************************
 
@@ -657,7 +646,7 @@ SoQtExaminerViewer::feedbackSizeChanged(float val)
   QString s;
   s.setNum(this->getFeedbackSize());
   this->feedbackedit->setText(s);
-} // feedbackSizeChanged()
+}
 
 // *************************************************************************
 
@@ -670,7 +659,7 @@ void
 SoQtExaminerViewer::cameratoggleClicked()
 {
   if (this->getCamera()) this->toggleCameraType();
-} // cameratoggleClicked()
+}
 
 // *************************************************************************
 
@@ -679,12 +668,11 @@ SoQtExaminerViewer::cameratoggleClicked()
 */
 
 void
-SoQtExaminerViewer::setAnimationEnabled(
-  const SbBool enable)
+SoQtExaminerViewer::setAnimationEnabled(const SbBool enable)
 {
   this->setGenericAnimationEnabled(enable);
   // FIXME: set spinanimtoggle state
-} // setAnimationEnabled()
+}
 
 
 /*!
@@ -692,21 +680,19 @@ SoQtExaminerViewer::setAnimationEnabled(
 */
 
 void
-SoQtExaminerViewer::setFeedbackSize(
-   const int size)
+SoQtExaminerViewer::setFeedbackSize(const int size)
 {
   this->setGenericFeedbackSize(size);
-} // setFeedbackSize()
+}
 
 // *************************************************************************
 
 // doc in super
 void
-SoQtExaminerViewer::afterRealizeHook(// protected virtual
-  void)
+SoQtExaminerViewer::afterRealizeHook(void)
 {
   this->setCursorRepresentation(this->currentmode);
   inherited::afterRealizeHook();
-} // afterRealizeHook()
+}
 
 // *************************************************************************
