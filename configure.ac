@@ -571,7 +571,7 @@ sim_ac_framework_version="MAC_FRAMEWORK_VERSION_DEFAULT"
 frameworkdir=
 ivframeworkdir=
 # we don't allow SoQt as framework if Coin isn't instralled as a framework
-if $sim_ac_coin_desired && $sim_ac_coin_avail; then
+if $sim_ac_framework && $sim_ac_coin_desired && $sim_ac_coin_avail; then
   if test x"$CONFIG" != x"set"; then
     sim_ac_coin_frameworkdir=`$sim_ac_coin_configcmd --alternate=$CONFIG --frameworkdir 2>/dev/null`
   fi
@@ -763,7 +763,7 @@ else
     SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qgl_ldflags"
     SOGUI_EXTRA_LIBS="$sim_ac_qgl_libs $SOGUI_EXTRA_LIBS"
     # adjust for Coin usage
-    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_coin_ldflags"
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_coin_cppflags"
     SOGUI_EXTRA_CFLAGS="$SOGUI_EXTRA_CFLAGS $sim_ac_coin_cflags"
     SOGUI_EXTRA_CXXFLAGS="$SOGUI_EXTRA_CXXFLAGS $sim_ac_coin_cxxflags"
     SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_coin_ldflags"
