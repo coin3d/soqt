@@ -227,6 +227,8 @@ SoGui_src_Inventor_Gui_editors_BuiltFiles = \
 SoGui_src_Inventor_Gui_nodes_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiNodes.h \
   $(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiSceneTexture2.h \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp \
   $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiViewportFix.h \
   $(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp \
   $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiPane.h \
@@ -427,6 +429,8 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/engines/RadioGroup.cpp.in \
   src/Inventor/@Gui@/common/nodes/Nodes.h.in \
   src/Inventor/@Gui@/common/nodes/Nodes.cpp.in \
+  src/Inventor/@Gui@/common/nodes/SceneTexture2.h.in \
+  src/Inventor/@Gui@/common/nodes/SceneTexture2.cpp.in \
   src/Inventor/@Gui@/common/nodes/ViewportFix.h.in \
   src/Inventor/@Gui@/common/nodes/ViewportFix.cpp.in \
   src/Inventor/@Gui@/common/nodes/Pane.h.in \
@@ -533,20 +537,21 @@ LIBRARIES = $(noinst_LIBRARIES)
 
 nodes_lst_AR = $(AR) cru
 nodes_lst_LIBADD =
-nodist_nodes_lst_OBJECTS = Nodes.$(OBJEXT) ViewportFix.$(OBJEXT) \
-	Pane.$(OBJEXT) Position.$(OBJEXT) Translation.$(OBJEXT) \
-	Frame.$(OBJEXT) ToggleButton.$(OBJEXT) RadioButton.$(OBJEXT) \
-	ClickCounter.$(OBJEXT) Slider1.$(OBJEXT) Slider2.$(OBJEXT) \
-	ColorEditor.$(OBJEXT) MaterialEditor.$(OBJEXT)
+nodist_nodes_lst_OBJECTS = Nodes.$(OBJEXT) SceneTexture2.$(OBJEXT) \
+	ViewportFix.$(OBJEXT) Pane.$(OBJEXT) Position.$(OBJEXT) \
+	Translation.$(OBJEXT) Frame.$(OBJEXT) ToggleButton.$(OBJEXT) \
+	RadioButton.$(OBJEXT) ClickCounter.$(OBJEXT) Slider1.$(OBJEXT) \
+	Slider2.$(OBJEXT) ColorEditor.$(OBJEXT) \
+	MaterialEditor.$(OBJEXT)
 nodes_lst_OBJECTS = $(nodist_nodes_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
 libSoGuiNodes_la_LDFLAGS =
 libSoGuiNodes_la_LIBADD =
-nodist_libSoGuiNodes_la_OBJECTS = Nodes.lo ViewportFix.lo Pane.lo \
-	Position.lo Translation.lo Frame.lo ToggleButton.lo \
-	RadioButton.lo ClickCounter.lo Slider1.lo Slider2.lo \
-	ColorEditor.lo MaterialEditor.lo
+nodist_libSoGuiNodes_la_OBJECTS = Nodes.lo SceneTexture2.lo \
+	ViewportFix.lo Pane.lo Position.lo Translation.lo Frame.lo \
+	ToggleButton.lo RadioButton.lo ClickCounter.lo Slider1.lo \
+	Slider2.lo ColorEditor.lo MaterialEditor.lo
 libSoGuiNodes_la_OBJECTS = $(nodist_libSoGuiNodes_la_OBJECTS)
 
 DEFS = @DEFS@
@@ -561,7 +566,9 @@ depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 @AMDEP_TRUE@	$(DEPDIR)/Nodes.Po $(DEPDIR)/Pane.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/Pane.Po $(DEPDIR)/Position.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/Position.Po $(DEPDIR)/RadioButton.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/RadioButton.Po $(DEPDIR)/Slider1.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/RadioButton.Po \
+@AMDEP_TRUE@	$(DEPDIR)/SceneTexture2.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SceneTexture2.Po $(DEPDIR)/Slider1.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/Slider1.Po $(DEPDIR)/Slider2.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/Slider2.Po $(DEPDIR)/ToggleButton.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/ToggleButton.Po $(DEPDIR)/Translation.Plo \
@@ -617,6 +624,8 @@ AR = ar
 clean-noinstLIBRARIES:
 	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
 Nodes.$(OBJEXT): $(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp
+SceneTexture2.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp
 ViewportFix.$(OBJEXT): \
 	$(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp
 Pane.$(OBJEXT): $(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp
@@ -641,6 +650,8 @@ MaterialEditor.$(OBJEXT): \
 clean-noinstLTLIBRARIES:
 	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
 Nodes.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp
+SceneTexture2.lo: \
+	$(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp
 ViewportFix.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp
 Pane.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp
 Position.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp
@@ -681,6 +692,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Position.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/RadioButton.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/RadioButton.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SceneTexture2.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SceneTexture2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Slider1.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Slider1.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Slider2.Plo@am__quote@
@@ -730,6 +743,24 @@ Nodes.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp
 @AMDEP_TRUE@	depfile='$(DEPDIR)/Nodes.Plo' tmpdepfile='$(DEPDIR)/Nodes.TPlo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Nodes.lo `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp
+
+SceneTexture2.o: $(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp' object='SceneTexture2.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/SceneTexture2.Po' tmpdepfile='$(DEPDIR)/SceneTexture2.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o SceneTexture2.o `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp
+
+SceneTexture2.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp' object='SceneTexture2.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/SceneTexture2.Po' tmpdepfile='$(DEPDIR)/SceneTexture2.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o SceneTexture2.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp ) | xargs cygpath -w`
+
+SceneTexture2.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp' object='SceneTexture2.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/SceneTexture2.Plo' tmpdepfile='$(DEPDIR)/SceneTexture2.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o SceneTexture2.lo `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp
 
 ViewportFix.o: $(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp' object='ViewportFix.o' libtool=no @AMDEPBACKSLASH@
@@ -1289,6 +1320,12 @@ $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiNodes.h: $(top_srcdir)/src/Invento
 
 $(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Nodes.cpp.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/Nodes.cpp:src/Inventor/@Gui@/common/nodes/Nodes.cpp.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiSceneTexture2.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/SceneTexture2.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiSceneTexture2.h:src/Inventor/@Gui@/common/nodes/SceneTexture2.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/SceneTexture2.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SceneTexture2.cpp:src/Inventor/@Gui@/common/nodes/SceneTexture2.cpp.in )
 
 $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiViewportFix.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/ViewportFix.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiViewportFix.h:src/Inventor/@Gui@/common/nodes/ViewportFix.h.in )

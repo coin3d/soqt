@@ -227,6 +227,8 @@ SoGui_src_Inventor_Gui_editors_BuiltFiles = \
 SoGui_src_Inventor_Gui_nodes_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiNodes.h \
   $(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiSceneTexture2.h \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp \
   $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiViewportFix.h \
   $(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp \
   $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiPane.h \
@@ -427,6 +429,8 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/engines/RadioGroup.cpp.in \
   src/Inventor/@Gui@/common/nodes/Nodes.h.in \
   src/Inventor/@Gui@/common/nodes/Nodes.cpp.in \
+  src/Inventor/@Gui@/common/nodes/SceneTexture2.h.in \
+  src/Inventor/@Gui@/common/nodes/SceneTexture2.cpp.in \
   src/Inventor/@Gui@/common/nodes/ViewportFix.h.in \
   src/Inventor/@Gui@/common/nodes/ViewportFix.cpp.in \
   src/Inventor/@Gui@/common/nodes/Pane.h.in \
@@ -837,6 +841,12 @@ $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiNodes.h: $(top_srcdir)/src/Invento
 
 $(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Nodes.cpp.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/Nodes.cpp:src/Inventor/@Gui@/common/nodes/Nodes.cpp.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiSceneTexture2.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/SceneTexture2.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiSceneTexture2.h:src/Inventor/@Gui@/common/nodes/SceneTexture2.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/SceneTexture2.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SceneTexture2.cpp:src/Inventor/@Gui@/common/nodes/SceneTexture2.cpp.in )
 
 $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiViewportFix.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/ViewportFix.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiViewportFix.h:src/Inventor/@Gui@/common/nodes/ViewportFix.h.in )
