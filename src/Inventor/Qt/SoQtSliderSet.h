@@ -19,8 +19,8 @@
 
 //  $Id$
 
-#ifndef __SOQTSLIDERSET_H__
-#define __SOQTSLIDERSET_H__
+#ifndef __SOQT_SLIDERSET_H__
+#define __SOQT_SLIDERSET_H__
 
 #include <Inventor/Qt/SoQtSliderSetBase.h>
 
@@ -40,4 +40,4 @@ protected:
   ~SoQtSliderSet();
 };
 
-#endif // !__SOQTSLIDERSET_H__
+#endif // ! __SOQT_SLIDERSET_H__

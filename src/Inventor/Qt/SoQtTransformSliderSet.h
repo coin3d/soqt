@@ -19,8 +19,8 @@
 
 //  $Id$
 
-#ifndef __SOQTTRANSFORMSLIDERSET_H__
-#define __SOQTTRANSFORMSLIDERSET_H__
+#ifndef __SOQT_TRANSFORMSLIDERSET_H__
+#define __SOQT_TRANSFORMSLIDERSET_H__
 
 #include <Inventor/Qt/SoQtSliderSet.h>
 
@@ -39,4 +39,4 @@ public:
   ~SoQtTransformSliderSet(void);
 };
 
-#endif // !__SOQTTRANSFORMSLIDERSET_H__
+#endif // ! __SOQT_TRANSFORMSLIDERSET_H__

@@ -24,7 +24,12 @@
 
 class SbPlaneProjector;
 
+class QPushButton;
+class QPixmap;
+
+#ifndef __SOQT_FULLVIEWER_H__
 #include <Inventor/Qt/viewers/SoQtFullViewer.h>
+#endif // ! __SOQT_FULLVIEWER_H__
 
 // ************************************************************************
 
@@ -71,19 +76,39 @@ protected:
 
   virtual void createPrefSheet(void);
 
-  virtual void createViewerButtons( QWidget * parent );
+  virtual void createViewerButtons( QWidget * parent, SbPList * buttons );
   virtual void openViewerHelpCard(void);
   virtual void computeSeekFinalOrientation(void);
 
 private:
+  enum {
+    WAITING_FOR_DOLLY_MODE,
+    DOLLY_MODE,
+    TRANSLATE_MODE,
+    WAITING_FOR_SEEK_MODE,
+    SEEK_MODE,
+    ROTATE_MODE
+  } planeViewerMode;
+
   void constructor( SbBool buildNow );
 
   void zoom( const float difference );
 
-  int planeViewerMode;
   SbVec2f prevMousePosition;
 
   SbPlaneProjector * projector;
+
+  struct {
+    QPushButton * x, * y, * z;
+    QPushButton * camera;
+  } buttons;
+
+  struct {
+    QPixmap * orthogonal, * perspective;
+  } pixmaps;
+
+private slots:
+  void cameratoggleClicked(void);
 
 }; // class SoQtPlaneViewer
 

@@ -19,8 +19,8 @@
 
 //  $Id$
 
-#ifndef __SOQTGLWIDGET_H__
-#define __SOQTGLWIDGET_H__
+#ifndef __SOQT_GLWIDGET_H__
+#define __SOQT_GLWIDGET_H__
 
 #include <qgl.h>
 #include <Inventor/Qt/SoQtComponent.h>
@@ -129,4 +129,4 @@ private:
   } properties;
 };
 
-#endif // !__SOQTGLWIDGET_H__
+#endif // ! __SOQT_GLWIDGET_H__

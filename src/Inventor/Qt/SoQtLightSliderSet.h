@@ -19,8 +19,8 @@
 
 //  $Id$
 
-#ifndef __SOQTLIGHTSLIDERSET_H__
-#define __SOQTLIGHTSLIDERSET_H__
+#ifndef __SOQT_LIGHTSLIDERSET_H__
+#define __SOQT_LIGHTSLIDERSET_H__
 
 #include <Inventor/Qt/SoQtSliderSet.h>
 
@@ -39,4 +39,4 @@ public:
   ~SoQtLightSliderSet(void);
 };
 
-#endif // !__SOQTLIGHTSLIDERSET_H__
+#endif // ! __SOQT_LIGHTSLIDERSET_H__

@@ -19,8 +19,8 @@
 
 //  $Id$
 
-#ifndef __SOQTCOMPONENT_H__
-#define __SOQTCOMPONENT_H__
+#ifndef __SOQT_COMPONENT_H__
+#define __SOQT_COMPONENT_H__
 
 #include <Inventor/SbLinear.h>
 #include <Inventor/SbString.h>
@@ -110,4 +110,4 @@ private:
   SbVec2s storesize;
 };
 
-#endif // !__SOQTCOMPONENT_H__
+#endif // ! __SOQT_COMPONENT_H__

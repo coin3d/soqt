@@ -19,8 +19,8 @@
 
 //  $Id$
 
-#ifndef __SOQTMOUSE_H__
-#define __SOQTMOUSE_H__
+#ifndef __SOQT_MOUSE_H__
+#define __SOQT_MOUSE_H__
 
 #include <Inventor/Qt/devices/SoQtDevice.h>
 
@@ -57,4 +57,4 @@ private:
   SoQtMouseEventMask eventmask;
 };
 
-#endif // !__SOQTMOUSE_H__
+#endif // ! __SOQT_MOUSE_H__

@@ -19,8 +19,8 @@
 
 //  $Id$
 
-#ifndef __SOQTDEVICE_H__
-#define __SOQTDEVICE_H__
+#ifndef __SOQT_DEVICE_H__
+#define __SOQT_DEVICE_H__
 
 /*!
   \defgroup qtdevices Qt Device Classes
@@ -62,4 +62,4 @@ private:
   friend class SoQtRenderArea;
 };
 
-#endif // !__SOQTDEVICE_H__
+#endif // ! __SOQT_DEVICE_H__

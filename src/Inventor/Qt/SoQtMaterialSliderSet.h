@@ -19,8 +19,8 @@
 
 //  $Id$
 
-#ifndef __SOQTMATERIALSLIDERSET_H__
-#define __SOQTMATERIALSLIDERSET_H__
+#ifndef __SOQT_MATERIALSLIDERSET_H__
+#define __SOQT_MATERIALSLIDERSET_H__
 
 #include <Inventor/Qt/SoQtSliderSet.h>
 
@@ -39,4 +39,4 @@ public:
   ~SoQtMaterialSliderSet(void);
 };
 
-#endif // !__SOQTMATERIALSLIDERSET_H__
+#endif // ! __SOQT_MATERIALSLIDERSET_H__

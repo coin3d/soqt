@@ -19,8 +19,8 @@
 
 //  $Id$
 
-#ifndef __SOQTRENDERAREA_H__
-#define __SOQTRENDERAREA_H__
+#ifndef __SOQT_RENDERAREA_H__
+#define __SOQT_RENDERAREA_H__
 
 #include <Inventor/Qt/SoQtGLWidget.h>
 #include <Inventor/actions/SoGLRenderAction.h>
@@ -156,4 +156,4 @@ private:
   SoQtKeyboard * kbddevice;
 };
 
-#endif // !__SOQTRENDERAREA_H__
+#endif // !__SOQT_RENDERAREA_H__

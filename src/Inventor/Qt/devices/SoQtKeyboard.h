@@ -19,8 +19,8 @@
 
 //  $Id$
 
-#ifndef __SOQTKEYBOARD_H__
-#define __SOQTKEYBOARD_H__
+#ifndef __SOQT_KEYBOARD_H__
+#define __SOQT_KEYBOARD_H__
 
 #include <Inventor/Qt/devices/SoQtDevice.h>
 #include <Inventor/SbDict.h>
@@ -55,4 +55,4 @@ private:
   static SbBool madetable;
 };
 
-#endif // !__SOQTKEYBOARD_H__
+#endif // ! __SOQT_KEYBOARD_H__

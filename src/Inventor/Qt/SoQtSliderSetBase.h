@@ -19,8 +19,8 @@
 
 //  $Id$
 
-#ifndef __SOQTSLIDERSETBASE_H__
-#define __SOQTSLIDERSETBASE_H__
+#ifndef __SOQT_SLIDERSETBASE_H__
+#define __SOQT_SLIDERSETBASE_H__
 
 #include <Inventor/Qt/SoQtComponent.h>
 
@@ -48,4 +48,4 @@ private:
   SoNode * node;
 };
 
-#endif // !__SOQTSLIDERSETBASE_H__
+#endif // ! __SOQT_SLIDERSETBASE_H__

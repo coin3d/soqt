@@ -19,8 +19,8 @@
 
 //  $Id$
 
-#ifndef __SOQTSPACEBALL_H__
-#define __SOQTSPACEBALL_H__
+#ifndef __SOQT_SPACEBALL_H__
+#define __SOQT_SPACEBALL_H__
 
 #include <Inventor/Qt/devices/SoQtDevice.h>
 
@@ -58,4 +58,4 @@ private:
   Mask mask;
 };
 
-#endif // !__SOQTSPACEBALL_H__
+#endif // ! __SOQT_SPACEBALL_H__

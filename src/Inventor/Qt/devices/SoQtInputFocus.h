@@ -19,8 +19,8 @@
 
 //  $Id$
 
-#ifndef __SOQTINPUTFOCUS_H__
-#define __SOQTINPUTFOCUS_H__
+#ifndef __SOQT_INPUTFOCUS_H__
+#define __SOQT_INPUTFOCUS_H__
 
 #include <Inventor/Qt/devices/SoQtDevice.h>
 
@@ -44,4 +44,4 @@ private:
   soqtEventMask mask;
 };
 
-#endif // !__SOQTINPUTFOCUS_H__
+#endif // ! __SOQT_INPUTFOCUS_H__

@@ -19,14 +19,16 @@
 
 //  $Id$
 
-#ifndef __QTTHUMBWHEEL_H__
-#define __QTTHUMBWHEEL_H__
+#ifndef __QT_THUMBWHEEL_H__
+#define __QT_THUMBWHEEL_H__
 
 #include <qwidget.h>
 #include <qrangecontrol.h>
 
 class QPixmap;
 class ThumbWheel;
+
+// *************************************************************************
 
 class QtThumbwheel : public QWidget, public QRangeControl
 {
@@ -79,7 +81,7 @@ private:
 
   Orientation orient;
   float wheelValue, tempWheelValue;
-  int mouseDownPos;
+  int mouseDownPos, mouseLastPos;
 
   void initWheel( int diameter, int width );
 
@@ -87,6 +89,9 @@ private:
   QPixmap ** pixmaps;
   int numPixmaps;
   int currentPixmap;
+
 }; // class QtThumbwheel
 
-#endif // !__QTTHUMBWHEEL_H__
+// *************************************************************************
+
+#endif // ! __QT_THUMBWHEEL_H__
