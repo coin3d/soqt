@@ -172,6 +172,9 @@ SoQtFullViewer::SoQtFullViewer(
   this->canvas = NULL;
 //  this->canvasparent = NULL;
 
+  this->viewbutton = NULL;
+  this->interactbutton = NULL;
+
   char axisindicator[] = { 'Y', 'X', 'Z' };
   for (int i = FIRSTDECORATION; i <= LASTDECORATION; i++) {
     this->wheelstrings[i] = "Motion ";
@@ -945,18 +948,20 @@ SoQtFullViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
 
     switch (i) {
     case INTERACT_BUTTON:
+      this->interactbutton = p;
       p->setToggleButton(TRUE);
       p->setPixmap(QPixmap((const char **)pick_xpm));
       p->setOn(this->isViewing() ? FALSE : TRUE);
-      QObject::connect(p, SIGNAL(toggled(bool)),
-                       this, SLOT(interactbuttonToggled(bool)));
+      QObject::connect(p, SIGNAL(clicked()),
+                       this, SLOT(interactbuttonClicked()));
       break;
     case EXAMINE_BUTTON:
+      this->viewbutton = p;
       p->setToggleButton(TRUE);
       p->setPixmap(QPixmap((const char **)view_xpm));
       p->setOn(this->isViewing());
-      QObject::connect(p, SIGNAL(toggled(bool)),
-                       this, SLOT(viewbuttonToggled(bool)));
+      QObject::connect(p, SIGNAL(clicked()),
+                       this, SLOT(viewbuttonClicked()));
       break;
     case HELP_BUTTON:
       QObject::connect(p, SIGNAL(clicked()), this, SLOT(helpbuttonClicked()));
@@ -2059,9 +2064,15 @@ SoQtFullViewer::setZoomFieldString(float zoom)
 */
 
 void
-SoQtFullViewer::interactbuttonToggled(bool flag)
+SoQtFullViewer::interactbuttonClicked(
+  void )
 {
-  this->setViewing(!flag);
+  if ( this->interactbutton )
+    ((QPushButton *)this->interactbutton)->setOn(TRUE);
+  if ( this->viewbutton )
+    ((QPushButton *)this->viewbutton)->setOn(FALSE);
+  if ( this->isViewing() )
+    this->setViewing(FALSE);
 } // interactbuttonToggled()
 
 // *************************************************************************
@@ -2072,9 +2083,15 @@ SoQtFullViewer::interactbuttonToggled(bool flag)
 */
 
 void
-SoQtFullViewer::viewbuttonToggled(bool flag)
+SoQtFullViewer::viewbuttonClicked(
+  void )
 {
-  this->setViewing(flag);
+  if ( this->interactbutton )
+    ((QPushButton *)this->interactbutton)->setOn(FALSE);
+  if ( this->viewbutton )
+    ((QPushButton *)this->viewbutton)->setOn(TRUE);
+  if ( ! this->isViewing() )
+    this->setViewing(TRUE);
 } // viewbuttonToggled()
 
 // *************************************************************************

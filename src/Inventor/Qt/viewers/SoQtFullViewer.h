@@ -146,6 +146,8 @@ private:
   QWidget * makeAutoclipPreferences(QWidget * parent);
 
   QWidget * viewerwidget, * canvas;
+  QWidget * interactbutton, * viewbutton;
+
   SbBool decorations;
   float wheelvalues[NUMDECORATIONS];
   QString wheelstrings[NUMDECORATIONS];
@@ -201,8 +203,8 @@ private slots:
   void bottomWheelReleased(void);
 
   // Button row.
-  void interactbuttonToggled(bool);
-  void viewbuttonToggled(bool);
+  void interactbuttonClicked();
+  void viewbuttonClicked();
   void helpbuttonClicked();
   void homebuttonClicked();
   void sethomebuttonClicked();
