@@ -243,9 +243,9 @@ AC_CHECK_HEADERS([windows.h unistd.h sys/types.h sys/time.h X11/extensions/SGIMi
 # **************************************************************************
 # Search and set up necessary stuff to use Open Inventor or Coin.
 
-# $with_inventor is from within SIM_CHECK_INVENTOR(), and can be used
-# here since the value is empty when it reaches this point unless
-# it has been explicitly set.
+# $with_inventor is from within SIM_AC_HAVE_INVENTOR_IFELSE, and can
+# be used here since the value is empty when it reaches this point
+# unless it has been explicitly set.
 
 if test x"$with_inventor" = xyes; then
   # For Open Inventor linkage, we need to check for a shitload of libraries.
@@ -280,11 +280,14 @@ if test x"$with_inventor" = xyes; then
     SOQT_EXTRA_LIBS="$sim_ac_glu_libs $SOQT_EXTRA_LIBS"
   ], AC_MSG_ERROR(needs the OpenGL utility library))
 
-  SIM_CHECK_INVENTOR([
-    SOQT_EXTRA_CPPFLAGS="$sim_ac_oiv_cppflags $SOQT_EXTRA_CPPFLAGS"
-    SOQT_EXTRA_LDFLAGS="$sim_ac_oiv_ldflags $SOQT_EXTRA_LDFLAGS"
-    SOQT_EXTRA_LIBS="$sim_ac_oiv_libs $SOQT_EXTRA_LIBS"
-  ], AC_MSG_ERROR(couldn't compile and link against Open Inventor))
+  SIM_AC_HAVE_INVENTOR_IFELSE(
+    [CPPFLAGS="$sim_ac_inventor_cppflags $CPPFLAGS"
+     LDFLAGS="$sim_ac_inventor_ldflags $LDFLAGS"
+     LIBS="$sim_ac_inventor_libs $LIBS"
+     SOQT_EXTRA_CPPFLAGS="$sim_ac_inventor_cppflags $SOQT_EXTRA_CPPFLAGS"
+     SOQT_EXTRA_LDFLAGS="$sim_ac_inventor_ldflags $SOQT_EXTRA_LDFLAGS"
+     SOQT_EXTRA_LIBS="$sim_ac_inventor_libs $SOQT_EXTRA_LIBS"],
+    AC_MSG_ERROR(couldn't compile and link against Open Inventor))
 
 else
 
