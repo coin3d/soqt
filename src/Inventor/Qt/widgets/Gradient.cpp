@@ -253,7 +253,7 @@ Gradient::getColorArray(QRgb * colorArray, unsigned int num) const
   }
 }
 
-const QImage
+QImage
 Gradient::getImage(unsigned int width, unsigned int height, unsigned int depth) const
 {
   QImage gradImage(width, height, depth);
