@@ -1,5 +1,5 @@
 =====================================================================
-Note: see also src/Inventor/Qt/common/BUGS.txt.
+NOTE: see also src/Inventor/Qt/common/BUGS.txt.
 =====================================================================
 
 000 Adding an app-specific pushbutton to the SoQtExaminerViewer will
@@ -193,5 +193,31 @@ Note: see also src/Inventor/Qt/common/BUGS.txt.
     Bug reported by Ron Summers.
 
     20020923 mortene.
+
+=====================================================================
+
+009 Michael Wimmer reported that using SoQt on top of SGI Inventor
+    causes one particular scene he had to run veeeeeery slow, both
+    compared to SoQt-on-Coin and InventorXt-on-Inventor.
+
+    The scene consists of some very simple geometry and 11
+    textures. The textures are in total shared > 1000 times in the
+    scene, though.
+
+    (I could reproduce the problem with Wimmer's example model file,
+    but it was too large (lots if inlined textures) to cut down on and
+    include here.)
+
+    It seems likely that the bad rendering performance is caused by
+    continuous re-construction and re-destruction of GL texture
+    objects. According to pederb, SGI Inventor has a bug here which
+    has since been fixed by TGS.
+
+    Should a) construct a scene which reproduces the problem, b)
+    investigate how we set up cache context IDs for the
+    SoGLRenderAction instance in SoQt and determine what causes SGI
+    Inventor to completely flip out, c) try to find a work-around.
+
+    20021002 mortene.
 
 =====================================================================
