@@ -331,8 +331,10 @@ SoQtSuperViewer::setMenus(int buildFlag)
   PRIVATE(this)->menus[4].build = 
     buildFlag & SoQtSuperViewer::LIGHTS_MENU ? TRUE : FALSE;
 
-  if(PRIVATE(this)->built) PRIVATE(this)->buildMenus();
-  else PRIVATE(this)->actualInit(FALSE);
+  if(PRIVATE(this)->built) 
+    PRIVATE(this)->buildMenus();
+  else 
+    PRIVATE(this)->actualInit(FALSE);
 
 } // setMenus()
 
@@ -368,8 +370,10 @@ SoQtSuperViewer::setFileMenuItems(int buildFlag)
   PRIVATE(this)->filemenuItems[10].build = 
     buildFlag & SoQtSuperViewer::EXIT ? TRUE : FALSE;
 
-  if(PRIVATE(this)->built) PRIVATE(this)->buildFileMenu();
-  else PRIVATE(this)->actualInit(FALSE);
+  if(PRIVATE(this)->built) 
+    PRIVATE(this)->buildFileMenu();
+  else 
+    PRIVATE(this)->actualInit(FALSE);
 
 } // setFileMenu()
 
@@ -411,8 +415,10 @@ SoQtSuperViewer::setViewMenuItems(int buildFlag)
   PRIVATE(this)->viewmenuItems[13].build = 
     buildFlag & SoQtSuperViewer::WHILE_MOVING ? TRUE : FALSE;
 
-  if(PRIVATE(this)->built) PRIVATE(this)->buildViewMenu();
-  else PRIVATE(this)->actualInit(FALSE);
+  if(PRIVATE(this)->built) 
+    PRIVATE(this)->buildViewMenu();
+  else 
+    PRIVATE(this)->actualInit(FALSE);
 
 } // setViewMenu()
 
@@ -444,8 +450,11 @@ SoQtSuperViewer::setSettingsMenuItems(int buildFlag)
   PRIVATE(this)->settingsmenuItems[8].build = 
     buildFlag & SoQtSuperViewer::TRANSPARENCY_TYPE ? TRUE : FALSE;
 
-  if(PRIVATE(this)->built) PRIVATE(this)->buildSettingsMenu();
-  else PRIVATE(this)->actualInit(FALSE);
+
+  if(PRIVATE(this)->built) 
+    PRIVATE(this)->buildSettingsMenu();
+  else 
+    PRIVATE(this)->actualInit(FALSE);
 
 } // setSettingsMenu()
 
@@ -473,8 +482,10 @@ SoQtSuperViewer::setCameraMenuItems(int buildFlag)
   PRIVATE(this)->cameramenuItems[6].build = 
     buildFlag & SoQtSuperViewer::CAMERAS ? TRUE : FALSE;
 
-  if(PRIVATE(this)->built) PRIVATE(this)->buildCameraMenu();
-  else PRIVATE(this)->actualInit(FALSE);
+  if(PRIVATE(this)->built) 
+    PRIVATE(this)->buildCameraMenu();
+  else 
+    PRIVATE(this)->actualInit(FALSE);
 
 } // setCameraMenuItems()
 

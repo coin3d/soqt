@@ -416,8 +416,12 @@ SoQtSuperViewerP::buildMenus()
 void
 SoQtSuperViewerP::buildFileMenu()
 {
-  if(this->filemenu == NULL)
+  if(this->filemenu == NULL){
     this->filemenu = new QPopupMenu(this->menubar);
+    this->menubar->insertItem(menus[0].text.getString(), this->filemenu);
+    this->menubar->setItemEnabled(this->menubar->idAt(menus[0].index),
+                                  menus[0].enabled);
+  }
   else
     this->filemenu->clear();
 
@@ -521,9 +525,6 @@ SoQtSuperViewerP::buildFileMenu()
     this->filemenu->setItemChecked(this->filemenu->idAt(filemenuItems[10].index),
                                    filemenuItems[10].checked);
   }
-  this->menubar->insertItem(menus[0].text.getString(), this->filemenu);
-  this->menubar->setItemEnabled(this->menubar->idAt(menus[0].index),
-                                menus[0].enabled);
 } // buildFileMenu()
 
 void
@@ -661,7 +662,7 @@ SoQtSuperViewerP::buildSettingsMenu()
   if(this->settingsmenu == NULL)
     this->settingsmenu = new QPopupMenu(this->menubar);
   else
-    this->settingsmenu.clear();
+    this->settingsmenu->clear();
 
   int idx = 0;
   if(this->settingsmenuItems[0].build){
@@ -964,7 +965,7 @@ SoQtSuperViewerP::addModelEntry(
 {
   if(this->modelsubmenu == NULL){
     this->modelsubmenu = new QPopupMenu(this->filemenu);
-    owner->setFileMenu(BUILD_FILE_MENU);
+    owner->setFileMenuItems(SoQtSuperViewer::BUILD_FILE_MENU);
   }
 
   this->modelsubmenu->insertItem(filename->getString(), 
@@ -2273,7 +2274,7 @@ SoQtSuperViewerP::openModelSelected()
     for(QStringList::Iterator i = qs.begin(); i != qs.end(); ++i) {
       SbString s((* i).latin1());
       if(owner->openModel(&s, FALSE))
-        owner->addModelEntry(
+        this->addModelEntry(
           this->modelnames[this->modelnames.getLength() - 1]);
 
     }
