@@ -30,9 +30,8 @@
 
 // ************************************************************************
 
-// This class contains common data and methods that we want to share
-// among classes within SoQt, but which should not be publicly visible
-// in the library API.
+// This class contains private data and methods used within the SoQt
+// class.
 
 class SoQtP : public QObject
 {
