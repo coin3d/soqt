@@ -33,6 +33,9 @@
 /* define if the GL header should be included as OpenGL/gl.h */
 #undef HAVE_OPENGL_GL_H
 
+/* define if pthread's struct timespec uses nsecs and not usecs */
+#undef HAVE_PTHREAD_TIMESPEC_NSEC
+
 /* Define this to 1 if operator==(QGLFormat&, QGLFormat&) is available */
 #undef HAVE_QGLFORMAT_EQ_OP
 
