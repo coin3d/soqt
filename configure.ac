@@ -655,41 +655,7 @@ AM_CONDITIONAL([BUILD_WITH_MSVC], [$BUILD_WITH_MSVC])
 
 # **************************************************************************
 
-if $sim_ac_make_dsp; then
-  SIM_AC_CONFIGURATION_SETTING([SoQt build type], [msvc .dsp])
-  CC=$soqt_src_dir/cfg/m4/gendsp.sh
-  CXX=$soqt_src_dir/cfg/m4/gendsp.sh
-  CXXLD=$soqt_src_dir/cfg/m4/gendsp.sh
-  # Yes, this is totally bogus stuff, but don't worry about it.  As long
-  # as gendsp.sh recognizes it...  20030219 larsa
-  CPPFLAGS="$CPPFLAGS -Ddspfile=$soqt_build_dir/soqt$SOQT_MAJOR_VERSION.dsp"
-  LDFLAGS="$LDFLAGS -Wl,-Ddspfile=$soqt_build_dir/soqt$SOQT_MAJOR_VERSION.dsp"
-  LIBFLAGS="$LIBFLAGS -o soqt$SOQT_MAJOR_VERSION.so.0"
-
-  SOQT_DSP_LIBS=
-  for arg in $LIBS; do
-    case $arg in
-    -l* )
-      libname=`echo $arg | cut -c3-`
-      if test x"$SOQT_DSP_LIBS" = x""; then
-        SOQT_DSP_LIBS="$libname.lib"
-      else
-        SOQT_DSP_LIBS="$SOQT_DSP_LIBS $libname.lib"
-      fi
-      ;;
-    esac
-  done
-  AC_SUBST(SOQT_DSP_LIBS)
-
-  # this can't be set up at the point the libtool script is generated
-  mv libtool libtool.bak
-  sed -e "s%^CC=\"gcc\"%CC=\"$soqt_src_dir/cfg/m4/gendsp.sh\"%" \
-      -e "s%^CC=\".*/wrapmsvc.exe\"%CC=\"$soqt_src_dir/cfg/m4/gendsp.sh\"%" \
-      <libtool.bak >libtool
-  rm -f libtool.bak
-  chmod 755 libtool
-
-elif $sim_ac_build_library; then
+if $sim_ac_build_library; then
   if $BUILD_WITH_MSVC; then
     rm -f vc60.pdb
     ## Ensure that if we link with Coin, we use the same C library as Coin
@@ -765,6 +731,81 @@ elif $sim_ac_build_library; then
     fi
   fi
 fi
+
+# **************************************************************************
+# Microsoft Developer Studio Project files section
+
+SOQT_DSP_LIBS=
+SOQT_DSP_DEFS=
+SOQT_DSP_INCS=
+
+if $sim_ac_make_dsp; then
+  SIM_AC_CONFIGURATION_SETTING([SoQt build type], [msvc .dsp])
+
+  for arg in $CPPFLAGS $LDFLAGS $LIBS; do
+    case $arg in
+    -L* )
+      # libdir=`echo $arg | cut -c3-`
+      # libdir=`cygpath -w "$libdir" 2>/dev/null || echo "$libdir"`
+      # SOQT_DSP_LIBDIRS="$SOQT_DSP_LIBDIRS /? \"$libdir\""
+      # FIXME: there is no /L-option to feed to the linker - $LIB is used
+      # at linktime, so the libs must be in such a location already...
+      ;;
+    -l* )
+      libname=`echo $arg | cut -c3-`
+      if test x"$SOQT_DSP_LIBS" = x""; then
+        SOQT_DSP_LIBS="$libname.lib"
+      else
+        SOQT_DSP_LIBS="$SOQT_DSP_LIBS $libname.lib"
+      fi
+      ;;
+    -I* )
+      incdir=`echo $arg | cut -c3-`
+      incdir=`cygpath -w "$incdir" 2>/dev/null || echo "$incdir"`
+      if test x"$SOQT_DSP_INCS" = x""; then
+        SOQT_DSP_INCS="/I \"$incdir\""
+      else
+        SOQT_DSP_INCS="$SOQT_DSP_INCS /I \"$incdir\""
+      fi
+      ;;
+    -DSOQT_DEBUG* | -DNDEBUG )
+      # Defines that vary between release/debug configurations can't be
+      # set up dynamically in SOQT_DSP_DEFS - they must be static in the
+      # gendsp.sh script.  We therefore catche them here so we can ignore
+      # checking for them below.
+      ;;
+    -D*=* | -D* )
+      define=`echo $arg | cut -c3-`
+      if test x"$SOQT_DSP_DEFS" = x""; then
+        SOQT_DSP_DEFS="/D \"$define\""
+      else
+        SOQT_DSP_DEFS="$SOQT_DSP_DEFS /D \"$define\""
+      fi
+      ;;
+    esac
+  done
+
+  CC=$soqt_src_dir/cfg/m4/gendsp.sh
+  CXX=$soqt_src_dir/cfg/m4/gendsp.sh
+  CXXLD=$soqt_src_dir/cfg/m4/gendsp.sh
+  # Yes, this is totally bogus stuff, but don't worry about it.  As long
+  # as gendsp.sh recognizes it...  20030219 larsa
+  CPPFLAGS="$CPPFLAGS -Ddspfile=$soqt_build_dir/soqt$SOQT_MAJOR_VERSION.dsp"
+  LDFLAGS="$LDFLAGS -Wl,-Ddspfile=$soqt_build_dir/soqt$SOQT_MAJOR_VERSION.dsp"
+  LIBFLAGS="$LIBFLAGS -o soqt$SOQT_MAJOR_VERSION.so.0"
+
+  # this can't be set up at the point the libtool script is generated
+  mv libtool libtool.bak
+  sed -e "s%^CC=\"gcc\"%CC=\"$soqt_src_dir/cfg/m4/gendsp.sh\"%" \
+      -e "s%^CC=\".*/wrapmsvc.exe\"%CC=\"$soqt_src_dir/cfg/m4/gendsp.sh\"%" \
+      <libtool.bak >libtool
+  rm -f libtool.bak
+  chmod 755 libtool
+fi
+
+AC_SUBST([SOQT_DSP_DEFS])
+AC_SUBST([SOQT_DSP_INCS])
+AC_SUBST([SOQT_DSP_LIBS])
 
 # **************************************************************************
 # Submodules that needs to be configured...
