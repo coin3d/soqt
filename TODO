@@ -88,6 +88,12 @@ ToDo
 
 *** BUGS ***
 
+* [mortene:19991111] seems like there's a problem with camera focal
+  point and floating point precision, here's how to reproduce: load a
+  scene containing only a sphere (other shapes or complex scene graphs
+  will probably also do), start a spin, zoom it backwards _far_ away,
+  zoom it back again.
+
 * [mortene:1999????] SoQt over Qt2.0 has a number of irritating
   problems which doesn't show up with Qt1.x:
    a. decoration on/off doesn't make the scene gfx reposition/resize
