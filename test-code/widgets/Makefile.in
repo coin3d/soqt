@@ -99,6 +99,8 @@ WIDGET = @WIDGET@
 install_sh = @install_sh@
 lGUI = @lGUI@
 sim_ac_conf_cmd = @sim_ac_conf_cmd@
+soqt_build_dir = @soqt_build_dir@
+soqt_src_dir = @soqt_src_dir@
 uGUI = @uGUI@
 
 

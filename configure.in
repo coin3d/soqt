@@ -320,6 +320,15 @@ test -d src              || mkdir src
 test -d src/Inventor     || mkdir src/Inventor
 test -d src/Inventor/Qt  || mkdir src/Inventor/Qt
 
+dnl Set soqt_build_dir so we can change soqt.dsp
+soqt_current_dir=`pwd`
+SIM_AC_DOBACKSLASH(soqt_build_dir,$soqt_current_dir)
+AC_SUBST(soqt_build_dir)
+
+dnl Set soqt_src_dir so we can change soqt.dsp
+SIM_AC_DOBACKSLASH(soqt_src_dir,$srcdir)
+AC_SUBST(soqt_src_dir)
+
 AC_OUTPUT([
 	soqt-config
 	Makefile
@@ -330,9 +339,18 @@ AC_OUTPUT([
 	test-code/Makefile
 	test-code/components/Makefile
 	test-code/widgets/Makefile
+        build/soqt.dsp
+        build/soqt.mak
 ],[
 	chmod a+x soqt-config
 ])
+
+for fil in build/soqt.dsp build/soqt.mak; do
+  mv $fil $fil.bak
+  echo "(Win)DOS-ifying $fil"
+  sed -e 's/$/
+/' < $fil.bak > $fil
+done
 
 echo ""
 echo "Now, run 'make install' to build and install SoQt..."

@@ -77,7 +77,6 @@ if test -z "`libtool --version | egrep \"$LIBTOOL_VER\" 2> /dev/null`"; then
     DIE=1
 fi
 
-
 set $SUBPROJECTNAMES
 num=1
 for project in $SUBPROJECTS; do
@@ -118,7 +117,7 @@ AMBUGFIXES=`find . \( -name Makefile.in.diff \) | egrep -v '^\./(examples|ivexam
 fixmsg=0
 for bugfix in $AMBUGFIXES; do
   if test $fixmsg -eq 0; then
-    echo "[correcting automake bugs]"
+    echo "[correcting automake problems]"
     fixmsg=1
   fi
   patch -p0 < $bugfix
@@ -127,4 +126,10 @@ done
 echo "Running autoconf (generating ./configure)..."
 autoconf
 
+if test -f configure.diff; then
+  echo "[correcting autoconf problems]";
+  patch -p0 < configure.diff;
+fi
+
 echo "Done: Now run './configure' and 'make install' to build $PROJECT."
+
