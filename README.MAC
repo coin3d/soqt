@@ -6,6 +6,11 @@ General information
 Building SoQt on Mac OS X should be straightforward. If it isn't, we
 consider this a bug, so please let us know and we'll be happy to fix it.
 
+If you install Coin from the binary SDK, please note that you also
+have to install the CoinTools.pkg (in the tools directory of the
+Coin-2.0.1 binary distribution), since the coin-config utility is
+needed by SoQt/configure.
+
 SoQt is installed as SoQt.framework by default. For more information
 about frameworks, please refer to the README.MAC file that comes with
 Coin. 
@@ -40,8 +45,8 @@ o If the OpenGL context overlaps the QSizeGrip in the lower right corner
   SoQtExaminerViewer without decorations, we have to leave 15 pixel at the 
   bottom blank. 
 
-  This bug is present in Qt/Mac 3.1.0 and 3.1.1, and is supposed to be 
-  fixed in Qt/Mac 3.1.2. 
+  This bug is present in Qt/Mac 3.1.0 and 3.1.1. It has been fixed in
+  Qt/Mac 3.1.2.
 
   If you are using a newer snapshot of Qt/Mac 3.1.1 (after 20030121),
   the problem should be fixed there. In this case, you can override the
@@ -52,8 +57,8 @@ o If the OpenGL context overlaps the QSizeGrip in the lower right corner
 o Custom cursors do not work in Qt/Mac 3.1.x. Therefore, we display a
   standard "arrow" cursor. 
 
-  This bug is present in Qt/Mac 3.1.0 and 3.1.1, and is hopefully going
-  to be fixed in Qt/Mac 3.1.2. 
+  This bug is present in Qt/Mac 3.1.0, 3.1.1 and 3.1.2. It will be
+  fixed in Qt/Mac 3.1.3.
 
 --
 kyrah@sim.no
