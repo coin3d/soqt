@@ -48,13 +48,36 @@ static const char rcsid[] =
   \class SoQtGLWidget SoQtGLWidget.h Inventor/Qt/SoQtGLWidget.h
   \brief The SoQtGLWidget class contains an OpenGL canvas.
 
-  TODO:
-  - doc on how this needs Qt OpenGL extension library, w/html links to Qt doc
-  - use the add/removeVisibilityCB methods in SoQtComponent?
-  - there's a heap of methods missing from SoXtGLWidget, none (or few)
-    of which seems relevant for the Qt implementation -- check the truth of
-    this statement
+  [FIXME: basic doc here]
+
+  An important thing to know about embedding SoQtGLWidget derived
+  components into other Qt widgets is that you need to set up "focus
+  proxying" to have events still be set to the OpenGL canvas
+  widget. This is true for both the SoQtRenderArea aswell as all the
+  viewer components (like SoQtExaminerViewer, SoQtWalkViewer etc).  As
+  an example, if you embed an SoQtExaminerViewer inside a QFrame like
+  this:
+
+  \code
+  QMainWindow * toplevel = new QMainWindow;
+  QFrame * frame = new QFrame(toplevel);
+  SoQtExaminerViewer * viewer = new SoQtExaminerViewer(toplevelwidget);
+  \endcode
+
+  ..events from the keyboard will not always automatically be
+  forwarded to the viewer OpenGL canvas. This is the code you need to
+  add in this case:
+
+  \code
+  toplevel->setFocusProxy(viewer);
+  \endcode
 */
+
+//  FIXME:
+//    - use the add/removeVisibilityCB methods in SoQtComponent?
+//    - there's a heap of methods missing from SoXtGLWidget, none (or few)
+//      of which seems relevant for the Qt implementation -- check the truth of
+//      this statement
 
 // *************************************************************************
 
