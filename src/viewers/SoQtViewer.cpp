@@ -1597,11 +1597,19 @@ SoQtViewer::interactiveCountInc(void)
 void
 SoQtViewer::interactiveCountDec(void)
 {
+#if SOQT_DEBUG
   // Catch problems with missing interactiveCountInc() calls.
   assert(this->interactionnesting > 0);
 
-  if (--(this->interactionnesting) == 0)
+  if (--(this->interactionnesting) == 0) {
     this->interactionendCallbacks->invokeCallbacks(this);
+  }
+#else // no debug
+  if (--(this->interactionnesting) <= 0) {
+    this->interactionendCallbacks->invokeCallbacks(this);
+    this->interactionnesting = 0;
+  }
+#endif // nodebug
 
 #if 0 // debug
   SoDebugError::postInfo("SoQtViewer::interactiveCountDec", "%d -> %d",
