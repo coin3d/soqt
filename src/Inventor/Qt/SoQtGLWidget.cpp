@@ -60,7 +60,7 @@
 #include <qframe.h>
 
 #include <qmetaobject.h>
-#include <moc_SoQtGLWidgetP.cpp>
+#include <Inventor/Qt/moc_SoQtGLWidgetP.cpp>
 
 #include <Inventor/Qt/SoAny.h>
 #include <Inventor/Qt/SoQtBasic.h>

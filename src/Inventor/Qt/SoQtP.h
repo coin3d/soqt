@@ -28,7 +28,7 @@
 #include <qapplication.h>
 #include <qwidget.h>
 
-#include <SoGuiP.h>
+#include <Inventor/Qt/SoGuiP.h>
 
 // ************************************************************************
 

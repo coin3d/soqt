@@ -50,9 +50,8 @@
 #include <qslider.h>
 #include <qcheckbox.h>
 #include <qmetaobject.h>
-#include <moc_SoQtFullViewerP.cpp>
-
-#include <SoQtFullViewerP.h>
+#include <Inventor/Qt/viewers/moc_SoQtFullViewerP.cpp>
+#include <Inventor/Qt/viewers/SoQtFullViewerP.h>
 
 #include <Inventor/nodes/SoPerspectiveCamera.h>
 #include <Inventor/nodes/SoOrthographicCamera.h>

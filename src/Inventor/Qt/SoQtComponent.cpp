@@ -36,7 +36,7 @@
 #include <qapplication.h>
 #include <qmetaobject.h>
 #include <qcursor.h>
-#include <moc_SoQtComponentP.cpp>
+#include <Inventor/Qt/moc_SoQtComponentP.cpp>
 
 #include <Inventor/errors/SoDebugError.h>
 

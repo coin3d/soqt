@@ -241,8 +241,8 @@
 #include <qapplication.h>
 #include <qmetaobject.h>
 
-#include <moc_SoQtP.cpp>
-#include <SoQtP.h>
+#include <Inventor/Qt/moc_SoQtP.cpp>
+#include <Inventor/Qt/SoQtP.h>
 
 #include <Inventor/SoDB.h>
 #include <Inventor/SoInteraction.h>

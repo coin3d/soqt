@@ -26,7 +26,7 @@
 
 #include <qobject.h>
 #include <Inventor/SbBasic.h>
-#include <SoGuiPlaneViewerP.h>
+#include "SoGuiPlaneViewerP.h"
 
 class SoQtPlaneViewer;
 

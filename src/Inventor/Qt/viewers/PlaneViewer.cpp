@@ -33,8 +33,8 @@
 #include <qpixmap.h>
 #include <qkeycode.h>
 #include <qmetaobject.h>
-#include <moc_SoQtPlaneViewerP.cpp>
-#include <SoQtPlaneViewerP.h>
+#include <Inventor/Qt/viewers/moc_SoQtPlaneViewerP.cpp>
+#include <Inventor/Qt/viewers/SoQtPlaneViewerP.h>
 
 #include <Inventor/errors/SoDebugError.h>
 #include <Inventor/nodes/SoPerspectiveCamera.h>

@@ -24,7 +24,7 @@
 #ifndef SOQTFULLVIEWERP_H
 #define SOQTFULLVIEWERP_H
 
-#include <SoGuiFullViewerP.h>
+#include "SoGuiFullViewerP.h"
 #include <qobject.h>
 
 class QLabel;

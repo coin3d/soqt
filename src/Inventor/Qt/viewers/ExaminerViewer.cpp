@@ -37,8 +37,8 @@
 #include <qtimer.h>
 #include <qcursor.h>
 #include <qmetaobject.h>
-#include <moc_SoQtExaminerViewerP.cpp>
-#include <SoQtExaminerViewerP.h>
+#include <Inventor/Qt/viewers/moc_SoQtExaminerViewerP.cpp>
+#include <Inventor/Qt/viewers/SoQtExaminerViewerP.h>
 
 #include <Inventor/nodes/SoPerspectiveCamera.h>
 #include <Inventor/nodes/SoOrthographicCamera.h>

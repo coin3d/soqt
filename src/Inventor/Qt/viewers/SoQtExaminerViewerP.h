@@ -26,7 +26,7 @@
 
 #include <qobject.h>
 #include <Inventor/SbBasic.h>
-#include <SoGuiExaminerViewerP.h>
+#include "SoGuiExaminerViewerP.h"
 
 class SoQtExaminerViewer;
 

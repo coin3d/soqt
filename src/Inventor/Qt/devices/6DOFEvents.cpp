@@ -26,7 +26,7 @@
 #endif
 
 
-#include <6DOFEvents.h>
+#include "6DOFEvents.h"
 
 SoQt6dofDevicePressureEvent::SoQt6dofDevicePressureEvent(void)
   : inherited(QEvent::User, NULL)

@@ -34,7 +34,7 @@
 #include <qimage.h>
 #include <qpixmap.h>
 #include <qmetaobject.h>
-#include <moc_SoQtThumbWheel.cpp>
+#include "moc_SoQtThumbWheel.cpp"
 
 #include <Inventor/SbBasic.h>
 #include <Inventor/errors/SoDebugError.h>

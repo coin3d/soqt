@@ -23,7 +23,7 @@
 
 #include <qpopupmenu.h>
 #include <qmetaobject.h>
-#include <moc_QtNativePopupMenu.cpp>
+#include "moc_QtNativePopupMenu.cpp"
 
 #include <Inventor/SoLists.h>
 #include <Inventor/errors/SoDebugError.h>
