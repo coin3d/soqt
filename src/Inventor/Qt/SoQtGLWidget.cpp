@@ -824,16 +824,17 @@ SoQtGLWidget::glLock(
   THIS->glLockLevel++;
   assert( THIS->glLockLevel < 10 && "must be programming error" );
   if ( THIS->glLockLevel == 1 ) {
-    if ( THIS->currentIsNormal ) {
 #if SOQT_DEBUG && 0
-      SoDebugError::postInfo( "SoQtGLWidget::glLock", "normal made current" );
+    SoDebugError::postInfo( "SoQtGLWidget::glLock",
+                            "%s made current",
+                            THIS->currentIsNormal ? "normal" : "overlay" );
 #endif
+    if ( THIS->currentIsNormal ) {
       ((SoQtGLArea *)THIS->currentglwidget)->makeCurrent();
     } else {
-#if SOQT_DEBUG && 0
-      SoDebugError::postInfo( "SoQtGLWidget::glLock", "overlay made current" );
-#endif
+#if HAVE_QGLFORMAT_SETOVERLAY
       ((SoQtGLArea *)THIS->currentglwidget)->makeOverlayCurrent();
+#endif // HAVE_QGLFORMAT_SETOVERLAY
     }
   }
 #if SOQT_DEBUG
