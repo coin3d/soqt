@@ -28,7 +28,8 @@ CLEANFILES = \
 DISTCLEANFILES = \
 	$(SoQt_ExtraDistClean) \
 	$(SoGui_src_Inventor_Gui_BuiltFiles) \
-	$(SoGui_src_Inventor_Gui_BuiltMetaFiles)
+	$(SoGui_src_Inventor_Gui_BuiltMetaFiles) \
+	stamp*
 
 ############################################################################
 
