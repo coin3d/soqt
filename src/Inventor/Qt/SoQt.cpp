@@ -45,6 +45,7 @@
 
 // *************************************************************************
 
+
 #if HAVE_CONFIG_H
 #include <config.h>
 #endif // HAVE_CONFIG_H
@@ -212,12 +213,9 @@ public:
 
 #endif // DOXYGEN_SKIP_THIS
 
-/*!
-  Calls \a SoDB::init(), \a SoNodeKit::init() and \a SoInteraction::init().
-  Assumes you are creating your own QApplication and main widget.
-  \a topLevelWidget should be your application's main widget.
-*/
-
+// documented as
+//   void SoQt::init(QWidget * toplevelwidget)
+// in common/SoGuiCommon.cpp.in
 void
 SoQt::internal_init(QWidget * toplevelwidget)
 {
@@ -244,17 +242,11 @@ SoQt::internal_init(QWidget * toplevelwidget)
   }
 }
 
-/*!
-  Initializes the SoQt component toolkit library, as well as the
-  Inventor API.
-
-  Calls \a SoDB::init(), \a SoNodeKit::init() and \a
-  SoInteraction::init(), and creates a QApplication and constructs and
-  returns a main widget for you.
-
-  \sa getApplication()
-*/
-
+// documented as
+//   @WIDGET@ * So@Gui@::init(int & argc, char ** argv,
+//                            const char * appname,
+//                            const char * classname)
+// in common/SoGuiCommon.cpp.in
 QWidget *
 SoQt::internal_init(int & argc, char ** argv,
                     const char * appname,
@@ -275,15 +267,9 @@ SoQt::internal_init(int & argc, char ** argv,
   return SoQtP::mainwidget;
 }
 
-/*!
-  \internal
-
-  This function gets called whenever something has happened to any of
-  the sensor queues. It starts or reschedules a timer which will trigger
-  when a sensor is ripe for plucking.
-
-*/
-
+// This function gets called whenever something has happened to any of
+// the sensor queues. It starts or reschedules a timer which will
+// trigger when a sensor is ripe for plucking.
 void
 SoQt::sensorQueueChanged(void *)
 {
