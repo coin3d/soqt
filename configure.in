@@ -651,6 +651,9 @@ SIM_AC_UNIQIFY_LIST(CPPFLAGS, $CPPFLAGS)
 SIM_AC_UNIQIFY_LIST(LDFLAGS, $LDFLAGS)
 SIM_AC_UNIQIFY_LIST(LIBS, $LIBS)
 
+# default value
+SOQT_STATIC=false
+
 case $enable_static in
 yes | true)  SOQT_STATIC=true;;
 *)           SOQT_STATIC=false;;
