@@ -89,13 +89,9 @@ devices_lst_SOURCES = \
 	SoQtDevice.cpp \
 	SoQtDevice.h \
 	SoQtInputFocus.cpp \
-	SoQtInputFocus.h \
 	SoQtKeyboard.cpp \
-	SoQtKeyboard.h \
 	SoQtMouse.cpp \
-	SoQtMouse.h \
 	SoQtSpaceball.cpp \
-	SoQtSpaceball.h \
 	$(libSoQtDevicesConditionalSources)
 
 nodist_devices_lst_SOURCES = \
@@ -110,27 +106,27 @@ devices.lst: Makefile $(devices_lst_OBJECTS)
 ############################################################################
 ## Header file installation information.
 
-libSoQtDevicesincdir = $(includedir)/Inventor/Qt/devices
-libSoQtDevicesinc_HEADERS = \
-	SoQtDevice.h \
+SoQtDevicesincdir = $(includedir)/Inventor/Qt/devices
+SoQtDevicesinc_HEADERS = \
+	SoQtDevice.h
+
+nodist_SoQtDevicesinc_HEADERS = \
 	SoQtInputFocus.h \
 	SoQtKeyboard.h \
 	SoQtMouse.h \
 	SoQtSpaceball.h
-# FIXME: this is bad practice...
-#	$(libSoQtDevicesConditionalHeaders)
 
-install-libSoQtDevicesincHEADERS: $(libSoQtDevicesinc_HEADERS)
-	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(libSoQtDevicesincdir)
-	@list='$(libSoQtDevicesinc_HEADERS)'; for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  src="$$d$$p"; dst="$(DESTDIR)$(libSoQtDevicesincdir)/$$f"; \
-	  if cmp -s "$$src" "$$dst"; then :; else \
-	    echo " $(INSTALL_HEADER) $$src $$dst"; \
-	    $(INSTALL_HEADER) "$$src" "$$dst"; \
-	  fi \
-	done
+# install-SoQtDevicesincHEADERS: $(SoQtDevicesinc_HEADERS)
+# 	@$(NORMAL_INSTALL)
+# 	$(mkinstalldirs) $(DESTDIR)$(SoQtDevicesincdir)
+# 	@list='$(SoQtDevicesinc_HEADERS)'; for p in $$list; do \
+# 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+# 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+# 	  src="$$d$$p"; dst="$(DESTDIR)$(SoQtDevicesincdir)/$$f"; \
+# 	  if cmp -s "$$src" "$$dst"; then :; else \
+# 	    echo " $(INSTALL_HEADER) $$src $$dst"; \
+# 	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+# 	  fi \
+# 	done
 
 # EOF ######################################################################
