@@ -46,8 +46,8 @@ static const char rcsid[] =
 #include <Inventor/Qt/viewers/SoAnyPlaneViewer.h>
 #include <Inventor/Qt/viewers/SoQtPlaneViewer.h>
 
-#include "icons/ortho.xpm"
-#include "icons/perspective.xpm"
+#include <Inventor/Qt/common/pixmaps/ortho.xpm>
+#include <Inventor/Qt/common/pixmaps/perspective.xpm>
 
 // ************************************************************************
 
