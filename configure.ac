@@ -173,7 +173,7 @@ AC_ARG_WITH(
 AC_SUBST(SUFFIX)
 
 # **************************************************************************
-# If you just want to generate docs, ignore all the build-related tests
+# If you just want to generate docs.
 
 sim_ac_build_library=true
 AC_ARG_ENABLE(
@@ -220,8 +220,6 @@ case $host_os in
     sim_ac_want_x11=yes
     ;;
 esac
-
-if $sim_ac_build_library; then
 
 # **************************************************************************
 # Header files we might want.
@@ -331,68 +329,71 @@ if test x"${with_inventor+set}" = x"set" &&
     AC_MSG_ERROR(couldn't compile and link against Open Inventor))
 
   SIM_AC_CONFIGURATION_SETTING([Open Inventor brand], [SGI/TGS Inventor])
+
 else
 
-  SIM_AC_CHECK_HEADER_GL([
-    CPPFLAGS="$CPPFLAGS $sim_ac_gl_cppflags"
-    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_gl_cppflags"
-  ], [AC_MSG_ERROR([could not detect a gl.h header file])])
+  if $sim_ac_build_library; then
+    SIM_AC_CHECK_HEADER_GL([
+      CPPFLAGS="$CPPFLAGS $sim_ac_gl_cppflags"
+      SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_gl_cppflags"
+    ], [AC_MSG_ERROR([could not detect a gl.h header file])])
 
-  SIM_AC_HAVE_COIN_IFELSE([
-    CPPFLAGS="$CPPFLAGS $sim_ac_coin_cppflags"
-    LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
-    LIBS="$sim_ac_coin_libs $LIBS"
-    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_coin_cppflags"
-    SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_coin_ldflags"
-    SOGUI_EXTRA_LIBS="$sim_ac_coin_libs $SOGUI_EXTRA_LIBS"
-  ], [AC_MSG_ERROR([couldn't compile and link against Coin])])
-
-if test x"$sim_ac_want_x11" = xyes; then 
-  SIM_AC_CHECK_X11_READY(
-    [sim_ac_x11_ready=true],
-    [sim_ac_x11_ready=false])
-
-  if $sim_ac_x11_ready; then :; else
-    SIM_AC_CHECK_X11([
-        CPPFLAGS="$CPPFLAGS $sim_ac_x11_cppflags"
-        LDFLAGS="$LDFLAGS $sim_ac_x11_ldflags"
-        LIBS="$sim_ac_x11_libs $LIBS"
-        SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_x11_cppflags"
-        SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_x11_ldflags"
-        SOGUI_EXTRA_LIBS="$sim_ac_x11_libs $SOGUI_EXTRA_LIBS"
-    ])
-    # FIXME: we just implicitly assume that -lXext and -lXmu is available
-    # if -lX11 is available from coin-config. Should really have macros
-    # SIM_AC_CHECK_[X11SHMEM|X11MU]_READY. 20001116 mortene.
-    if test x"$sim_ac_x11_avail" = xyes; then
-      SIM_AC_CHECK_X11SHMEM([
-        # LIBS="$sim_ac_x11shmem_libs $LIBS"
-        SOGUI_EXTRA_LIBS="$sim_ac_x11shmem_libs $SOGUI_EXTRA_LIBS"
-      ])
-      SIM_AC_CHECK_X11MU([
-        # LIBS="$sim_ac_x11mu_libs $LIBS"
-        SOGUI_EXTRA_LIBS="$sim_ac_x11mu_libs $SOGUI_EXTRA_LIBS"
-      ])
-    fi
+    SIM_AC_HAVE_COIN_IFELSE([
+      CPPFLAGS="$CPPFLAGS $sim_ac_coin_cppflags"
+      LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
+      LIBS="$sim_ac_coin_libs $LIBS"
+      SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_coin_cppflags"
+      SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_coin_ldflags"
+      SOGUI_EXTRA_LIBS="$sim_ac_coin_libs $SOGUI_EXTRA_LIBS"
+    ], [AC_MSG_ERROR([couldn't compile and link against Coin])])
   fi
-  SIM_AC_CHECK_X11XID([
-    SOGUI_EXTRA_LIBS="$sim_ac_x11xid_libs $SOGUI_EXTRA_LIBS"
-  ])
-fi
+
+  if test x"$sim_ac_want_x11" = xyes; then 
+    SIM_AC_CHECK_X11_READY(
+      [sim_ac_x11_ready=true],
+      [sim_ac_x11_ready=false])
+
+    if $sim_ac_x11_ready; then :; else
+      SIM_AC_CHECK_X11([
+          CPPFLAGS="$CPPFLAGS $sim_ac_x11_cppflags"
+          LDFLAGS="$LDFLAGS $sim_ac_x11_ldflags"
+          LIBS="$sim_ac_x11_libs $LIBS"
+          SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_x11_cppflags"
+          SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_x11_ldflags"
+          SOGUI_EXTRA_LIBS="$sim_ac_x11_libs $SOGUI_EXTRA_LIBS"
+      ])
+      # FIXME: we just implicitly assume that -lXext and -lXmu is available
+      # if -lX11 is available from coin-config. Should really have macros
+      # SIM_AC_CHECK_[X11SHMEM|X11MU]_READY. 20001116 mortene.
+      if test x"$sim_ac_x11_avail" = xyes; then
+        SIM_AC_CHECK_X11SHMEM([
+          # LIBS="$sim_ac_x11shmem_libs $LIBS"
+          SOGUI_EXTRA_LIBS="$sim_ac_x11shmem_libs $SOGUI_EXTRA_LIBS"
+        ])
+        SIM_AC_CHECK_X11MU([
+          # LIBS="$sim_ac_x11mu_libs $LIBS"
+          SOGUI_EXTRA_LIBS="$sim_ac_x11mu_libs $SOGUI_EXTRA_LIBS"
+        ])
+      fi
+    fi
+    SIM_AC_CHECK_X11XID([
+      SOGUI_EXTRA_LIBS="$sim_ac_x11xid_libs $SOGUI_EXTRA_LIBS"
+    ])
+  fi
 
   SIM_AC_CONFIGURATION_SETTING([Open Inventor brand], [Coin])
 fi
 
 if test x"$sim_ac_want_x11" = xyes; then 
-SIM_AC_HAVE_GLX_IFELSE([
-  AC_DEFINE([HAVE_GLX], 1, [define if you have GLX X11 OpenGL bindings])
-])
+  SIM_AC_HAVE_GLX_IFELSE([
+    AC_DEFINE([HAVE_GLX], 1, [define if you have GLX X11 OpenGL bindings])
+  ])
 
-    ## We need this extra, final X11 check to set up the HAVE_X11_AVAILABLE
-    ## define -- the X_DISPLAY_MISSING define provided by the built-in
-    ## Autoconf X11 check is not strict enough.
-    SIM_AC_CHECK_X11_READY([AC_DEFINE([HAVE_X11_AVAILABLE],,
-                           [define if it is possible to build against X11])])
+  ## We need this extra, final X11 check to set up the HAVE_X11_AVAILABLE
+  ## define -- the X_DISPLAY_MISSING define provided by the built-in
+  ## Autoconf X11 check is not strict enough.
+  SIM_AC_CHECK_X11_READY([AC_DEFINE([HAVE_X11_AVAILABLE],,
+                         [define if it is possible to build against X11])])
 fi
 
 # Check for the availability of this node (it is used in the hidden
@@ -445,21 +446,25 @@ if test x"$sim_ac_want_x11" = xyes; then
   fi
 fi
 
-SIM_AC_CHECK_QT([
-  SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qt_cppflags"
-  SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qt_ldflags"
-  SOGUI_EXTRA_LIBS="$sim_ac_qt_libs $SOGUI_EXTRA_LIBS"
-], [
-  SIM_AC_ERROR([no-qt])
-])
+if $sim_ac_build_library; then
+  SIM_AC_CHECK_QT([
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qt_cppflags"
+    SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qt_ldflags"
+    SOGUI_EXTRA_LIBS="$sim_ac_qt_libs $SOGUI_EXTRA_LIBS"
+  ], [
+    SIM_AC_ERROR([no-qt])
+  ])
 
-SIM_AC_CHECK_QGL([
-  SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qgl_cppflags"
-  SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qgl_ldflags"
-  SOGUI_EXTRA_LIBS="$sim_ac_qgl_libs $SOGUI_EXTRA_LIBS"
-], [
-  SIM_AC_ERROR([no-qgl])
-])
+  SIM_AC_CHECK_QGL([
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qgl_cppflags"
+    SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qgl_ldflags"
+    SOGUI_EXTRA_LIBS="$sim_ac_qgl_libs $SOGUI_EXTRA_LIBS"
+  ], [
+    SIM_AC_ERROR([no-qgl])
+  ])
+else # $sim_ac_build_library == false (we still need the 'moc' utility)
+  AC_SUBST([MOC], [moc])
+fi
 
 # Check misc capabilities of the Qt and QGL libraries which depends
 # on the exact version available to us.
@@ -531,10 +536,6 @@ AC_SUBST([BUILD_WITH_MSVC])
 if $BUILD_WITH_MSVC; then
   # don't use wrapmsvc from source hierarchy when later using soqt-config.
   COIN_COMPILER="wrapmsvc"
-fi
-
-else # $sim_ac_build_library == false
-  AC_SUBST([MOC], [moc])
 fi
 
 AC_SUBST([ac_compiler_gnu])
@@ -710,89 +711,87 @@ AM_CONDITIONAL([BUILD_WITH_MSVC], [$BUILD_WITH_MSVC])
 
 # **************************************************************************
 
-if $sim_ac_build_library; then
-  if $BUILD_WITH_MSVC; then
-    rm -f vc60.pdb
-    ## Ensure that if we link with Coin, we use the same C library as Coin
-    if test x"$sim_ac_coin_msvcrt" != x"" &&
-       test x"$sim_ac_msvcrt" != x"$sim_ac_coin_msvcrt"; then
-        SIM_AC_CONFIGURATION_WARNING([You have built Coin with the $sim_ac_coin_msvcrt C library, while you try to build So$Gui with the $sim_ac_msvcrt C library.  This can cause mysterious crashes for you.  We recommend that you run So$Gui's configure script with the --with-msvcrt=$sim_ac_coin_msvcrt option.])
-    fi
-    LIBFLAGS="$LIBFLAGS $sim_ac_msvcrt_LIBLDFLAGS"
-    LIBS="$LIBS $sim_ac_msvcrt_LIBLIBS"
-    if $SOQT_STATIC; then
-      SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS -DSOQT_NOT_DLL"
-    else
-      CPPFLAGS="-DSOQT_MAKE_DLL $CPPFLAGS"
-      SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS -DSOQT_DLL"
-    fi
-
-    debugfile="`pwd`/src/Inventor/Qt/soqt${SOQT_MAJOR_VERSION}${SUFFIX}.pdb"
-    debugfile=`cygpath -w "$debugfile" | sed 's,\\\\,\\\\\\\\,g'`
-    if $SOQT_STATIC; then
-      if $sim_ac_make_dsp; then :; else
-        SIM_AC_CONFIGURATION_SETTING([SoQt build type], [static .lib])
-      fi
-      LIBFLAGS="-LIB $LIBFLAGS"
-      LIBFLAGS="$LIBFLAGS /OUT:soqt$SOQT_MAJOR_VERSION$SUFFIX.lib"
-    else
-      LIBFLAGS="-DLL /INCREMENTAL:NO $LIBFLAGS"
-      case $enable_symbols in
-      no | false)
-        LIBFLAGS="$LIBFLAGS /RELEASE"
-        if $sim_ac_make_dsp; then :; else
-          SIM_AC_CONFIGURATION_SETTING([SoQt build type],
-                                       [dynamic .dll, no symbols])
-        fi
-        ;;
-      *)
-        SIM_AC_CONFIGURATION_SETTING([SoQt build type], [dynamic .dll + .pdb])
-        CPPFLAGS="/Fd$debugfile $CPPFLAGS"
-        LIBFLAGS="$LIBFLAGS /DEBUG /PDB:soqt$SOQT_MAJOR_VERSION$SUFFIX.pdb"
-        ;;
-      esac
-      LIBFLAGS="$LIBFLAGS /OUT:soqt$SOQT_MAJOR_VERSION$SUFFIX.dll"
-    fi
-  
-    # We use a version suffix on the .dll-file, so several incompatible
-    # (major) versions can be installed on a system.
-    #
-    # BTW, when linking DLLs, the 3rd-party .lib files will be
-    # linked into the .dll file. I believe it is still advisable to
-    # list all libs used upon `soqt-config --libs`, as we can then
-    # also use them from "parent" code (remember that their interfaces
-    # is not exposed from the DLL) without any fuss.
-    SOGUI_EXTRA_LIBS="-lsoqt$SOQT_MAJOR_VERSION$SUFFIX $SOGUI_EXTRA_LIBS"
-  else
-    SOGUI_EXTRA_LIBS="-lSoQt$SUFFIX $SOGUI_EXTRA_LIBS"
-
-    if $sim_ac_framework; then
-      # setup for SoQt usage
-      SOGUI_EXTRA_CPPFLAGS=
-      SOGUI_EXTRA_CFLAGS=
-      SOGUI_EXTRA_CXXFLAGS=
-      SOGUI_EXTRA_LDFLAGS="-Wl,-multiply_defined,suppress -framework SoQt"
-      SOGUI_EXTRA_LIBS=
-      # adjust for Qt usage
-      SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qt_cppflags"
-      SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qt_ldflags"
-      SOGUI_EXTRA_LIBS="$sim_ac_qt_libs $SOGUI_EXTRA_LIBS"
-      # adjust for QGL usage
-      SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qgl_cppflags"
-      SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qgl_ldflags"
-      SOGUI_EXTRA_LIBS="$sim_ac_qgl_libs $SOGUI_EXTRA_LIBS"
-      # adjust for Coin usage
-      SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_coin_cppflags"
-      SOGUI_EXTRA_CFLAGS="$SOGUI_EXTRA_CFLAGS $sim_ac_coin_cflags"
-      SOGUI_EXTRA_CXXFLAGS="$SOGUI_EXTRA_CXXFLAGS $sim_ac_coin_cxxflags"
-      SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_coin_ldflags"
-      SOGUI_EXTRA_LIBS="$sim_ac_coin_libs $SOGUI_EXTRA_LIBS"
-      # adjust for Fink usage
-      SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_fink_cppflags"
-      SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_fink_ldflags"
-    fi
+if $BUILD_WITH_MSVC; then
+  rm -f vc60.pdb
+  ## Ensure that if we link with Coin, we use the same C library as Coin
+  if test x"$sim_ac_coin_msvcrt" != x"" &&
+     test x"$sim_ac_msvcrt" != x"$sim_ac_coin_msvcrt"; then
+      SIM_AC_CONFIGURATION_WARNING([You have built Coin with the $sim_ac_coin_msvcrt C library, while you try to build So$Gui with the $sim_ac_msvcrt C library.  This can cause mysterious crashes for you.  We recommend that you run So$Gui's configure script with the --with-msvcrt=$sim_ac_coin_msvcrt option.])
   fi
-fi
+  LIBFLAGS="$LIBFLAGS $sim_ac_msvcrt_LIBLDFLAGS"
+  LIBS="$LIBS $sim_ac_msvcrt_LIBLIBS"
+  if $SOQT_STATIC; then
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS -DSOQT_NOT_DLL"
+  else
+    CPPFLAGS="-DSOQT_MAKE_DLL $CPPFLAGS"
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS -DSOQT_DLL"
+  fi
+
+  debugfile="`pwd`/src/Inventor/Qt/soqt${SOQT_MAJOR_VERSION}${SUFFIX}.pdb"
+  debugfile=`cygpath -w "$debugfile" | sed 's,\\\\,\\\\\\\\,g'`
+  if $SOQT_STATIC; then
+    if $sim_ac_make_dsp; then :; else
+      SIM_AC_CONFIGURATION_SETTING([SoQt build type], [static .lib])
+    fi
+    LIBFLAGS="-LIB $LIBFLAGS"
+    LIBFLAGS="$LIBFLAGS /OUT:soqt$SOQT_MAJOR_VERSION$SUFFIX.lib"
+  else
+    LIBFLAGS="-DLL /INCREMENTAL:NO $LIBFLAGS"
+    case $enable_symbols in
+    no | false)
+      LIBFLAGS="$LIBFLAGS /RELEASE"
+      if $sim_ac_make_dsp; then :; else
+        SIM_AC_CONFIGURATION_SETTING([SoQt build type],
+                                     [dynamic .dll, no symbols])
+      fi
+      ;;
+    *)
+      SIM_AC_CONFIGURATION_SETTING([SoQt build type], [dynamic .dll + .pdb])
+      CPPFLAGS="/Fd$debugfile $CPPFLAGS"
+      LIBFLAGS="$LIBFLAGS /DEBUG /PDB:soqt$SOQT_MAJOR_VERSION$SUFFIX.pdb"
+      ;;
+    esac
+    LIBFLAGS="$LIBFLAGS /OUT:soqt$SOQT_MAJOR_VERSION$SUFFIX.dll"
+  fi
+  
+  # We use a version suffix on the .dll-file, so several incompatible
+  # (major) versions can be installed on a system.
+  #
+  # BTW, when linking DLLs, the 3rd-party .lib files will be
+  # linked into the .dll file. I believe it is still advisable to
+  # list all libs used upon `soqt-config --libs`, as we can then
+  # also use them from "parent" code (remember that their interfaces
+  # is not exposed from the DLL) without any fuss.
+  SOGUI_EXTRA_LIBS="-lsoqt$SOQT_MAJOR_VERSION$SUFFIX $SOGUI_EXTRA_LIBS"
+else # !BUILD_WITH_MSVC
+  SOGUI_EXTRA_LIBS="-lSoQt$SUFFIX $SOGUI_EXTRA_LIBS"
+
+  if $sim_ac_framework; then
+    # setup for SoQt usage
+    SOGUI_EXTRA_CPPFLAGS=
+    SOGUI_EXTRA_CFLAGS=
+    SOGUI_EXTRA_CXXFLAGS=
+    SOGUI_EXTRA_LDFLAGS="-Wl,-multiply_defined,suppress -framework SoQt"
+    SOGUI_EXTRA_LIBS=
+    # adjust for Qt usage
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qt_cppflags"
+    SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qt_ldflags"
+    SOGUI_EXTRA_LIBS="$sim_ac_qt_libs $SOGUI_EXTRA_LIBS"
+    # adjust for QGL usage
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qgl_cppflags"
+    SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qgl_ldflags"
+    SOGUI_EXTRA_LIBS="$sim_ac_qgl_libs $SOGUI_EXTRA_LIBS"
+    # adjust for Coin usage
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_coin_cppflags"
+    SOGUI_EXTRA_CFLAGS="$SOGUI_EXTRA_CFLAGS $sim_ac_coin_cflags"
+    SOGUI_EXTRA_CXXFLAGS="$SOGUI_EXTRA_CXXFLAGS $sim_ac_coin_cxxflags"
+    SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_coin_ldflags"
+    SOGUI_EXTRA_LIBS="$sim_ac_coin_libs $SOGUI_EXTRA_LIBS"
+    # adjust for Fink usage
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_fink_cppflags"
+    SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_fink_ldflags"
+  fi # sim_ac_framework
+fi # !BUILD_WITH_MSVC
 
 SIM_AC_MSVC_DSP_SETUP([SOQT], [SoQt], [soqt], [-I$soqt_build_dir/src -I$soqt_build_dir/data -I$soqt_src_dir/src])
 
