@@ -35,7 +35,14 @@ static const char rcsid[] =
 #include <Inventor/Qt/devices/SoQtKeyboard.h>
 #include <Inventor/Qt/devices/SoQtMouse.h>
 #include <Inventor/Qt/devices/SoQtSpaceball.h>
+
+#if HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#ifdef HAVE_JOYSTICK_LINUX
 #include <Inventor/Qt/devices/SoQtLinuxJoystick.h>
+#endif
 
 /*!
   \class SoQtDevice SoQtDevice.h Inventor/Qt/devices/SoQtDevice.h
@@ -58,7 +65,9 @@ SoQtDevice::initClasses(
   SoQtKeyboard::initClass();
   SoQtMouse::initClass();
   SoQtSpaceball::initClass();
+#ifdef HAVE_JOYSTICK_LINUX
   SoQtLinuxJoystick::initClass();
+#endif
 } // initClasses()
 
 // *************************************************************************
