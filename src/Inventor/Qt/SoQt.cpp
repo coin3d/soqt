@@ -97,9 +97,7 @@ main(int argc, char **argv)
 #include <Inventor/SoInteraction.h>
 #include <Inventor/nodekits/SoNodeKit.h>
 #include <Inventor/SbTime.h>
-#if SOQT_DEBUG
 #include <Inventor/errors/SoDebugError.h>
-#endif // SOQT_DEBUG
 
 #include <soqtdefs.h>
 #include <Inventor/Qt/SoQt.h>
@@ -226,13 +224,11 @@ SoQt::init(QWidget * const topLevelWidget)
   // This init()-method is called by the other 2 init()'s, so place
   // common code here.
 
-#if SOQT_DEBUG
-  if (SoQtP::mainwidget) {
+  if (SOQT_DEBUG && SoQtP::mainwidget) {
     SoDebugError::postWarning("SoQt::init",
                               "This method should be called only once.");
     return;
   }
-#endif // SOQT_DEBUG
 
   SoDB::init();
   SoNodeKit::init();
@@ -242,10 +238,10 @@ SoQt::init(QWidget * const topLevelWidget)
   SoDB::getSensorManager()->setChangedCallback(SoQt::sensorQueueChanged, NULL);
   SoQtP::mainwidget = topLevelWidget;
 
-#if SOQT_DEBUG
-  int ret = atexit(SoQtP::clean);
-  assert(ret == 0 && "couldn't set exit hook!?");
-#endif // SOQT_DEBUG
+  if (SOQT_DEBUG) {
+    int ret = atexit(SoQtP::clean);
+    assert(ret == 0 && "couldn't set exit hook!?");
+  }
 }
 
 /*!
@@ -264,23 +260,17 @@ SoQt::init(int & argc, char ** argv,
            const char * const appName,
            const char * const className)
 {
-#if SOQT_DEBUG
-  if (SoQtP::appobject || SoQtP::mainwidget) {
+  if (SOQT_DEBUG && (SoQtP::appobject || SoQtP::mainwidget)) {
     SoDebugError::postWarning("SoQt::init",
                               "This method should be called only once.");
     return SoQtP::mainwidget;
   }
-#endif // SOQT_DEBUG
 
   SoQtP::appobject = new SoQtApplication(argc, argv);
   QWidget * mainw = new QWidget(NULL, className);
   SoQt::init(mainw);
 
-#if 0 // debug
-  SoDebugError::postInfo("SoQt::init", "setCaption('%s')", appName);
-#endif // debug
-
-  if (appName) SoQtP::mainwidget->setCaption(appName);
+  if (appName) { SoQtP::mainwidget->setCaption(appName); }
   SoQtP::appobject->setMainWidget(SoQtP::mainwidget);
   return SoQtP::mainwidget;
 }
@@ -331,11 +321,11 @@ SoQt::sensorQueueChanged(void *)
     // timer if the interval is < 0.0.
     if (interval.getValue() < 0.0) interval.setValue(0.0);
 
-#if SOQT_DEBUG && 0 // debug
-    SoDebugError::postInfo("SoQt::sensorQueueChanged",
-                           "timersensor pending, interval %f",
-                           interval.getValue());
-#endif // debug
+    if (SOQT_DEBUG && 0) { // debug
+      SoDebugError::postInfo("SoQt::sensorQueueChanged",
+                             "timersensor pending, interval %f",
+                             interval.getValue());
+    }
 
     if (!SoQtP::timerqueuetimer->isActive())
       SoQtP::timerqueuetimer->start((int)interval.getMsecValue(), TRUE);
@@ -350,10 +340,10 @@ SoQt::sensorQueueChanged(void *)
   // Set up idle notification for delay queue processing if necessary.
 
   if (sm->isDelaySensorPending()) {
-#if SOQT_DEBUG && 0 // debug
+    if (SOQT_DEBUG && 0) { // debug
     SoDebugError::postInfo("SoQt::sensorQueueChanged",
                            "delaysensor pending");
-#endif // debug
+    }
 
     if (!SoQtP::idletimer->isActive()) SoQtP::idletimer->start(0, TRUE);
 
@@ -432,13 +422,11 @@ SoQt::getTopLevelWidget(void)
 QWidget *
 SoQt::getShellWidget(const QWidget * w)
 {
-#if SOQT_DEBUG
-  if (w == NULL) {
+  if (SOQT_DEBUG && !w) {
     SoDebugError::postWarning("SoQt::getShellWidget",
                               "Called with NULL pointer.");
     return NULL;
   }
-#endif // SOQT_DEBUG
 
   return w->topLevelWidget();
 }
@@ -454,13 +442,11 @@ SoQt::getShellWidget(const QWidget * w)
 void
 SoQt::show(QWidget * const widget)
 {
-#if SOQT_DEBUG
-  if (widget == NULL) {
+  if (SOQT_DEBUG && !widget) {
     SoDebugError::postWarning("SoQt::show",
                               "Called with NULL pointer.");
     return;
   }
-#endif // SOQT_DEBUG
 
 #if 0 // debug
   SoDebugError::postInfo("SoQt::show-1",
@@ -500,13 +486,11 @@ SoQt::show(QWidget * const widget)
 void
 SoQt::hide(QWidget * const widget)
 {
-#if SOQT_DEBUG
-  if (widget == NULL) {
+  if (SOQT_DEBUG && !widget) {
     SoDebugError::postWarning("SoQt::hide",
                               "Called with NULL pointer.");
     return;
   }
-#endif // SOQT_DEBUG
 
   widget->hide();
 }
@@ -522,19 +506,17 @@ SoQt::hide(QWidget * const widget)
 void
 SoQt::setWidgetSize(QWidget * const w, const SbVec2s size)
 {
-#if SOQT_DEBUG
-  if (w == NULL) {
+  if (SOQT_DEBUG && !w) {
     SoDebugError::postWarning("SoQt::setWidgetSize",
                               "Called with NULL pointer.");
     return;
   }
-  if((size[0] <= 0) || (size[1] <= 0)) {
+  if (SOQT_DEBUG && ((size[0] <= 0) || (size[1] <= 0))) {
     SoDebugError::postWarning("SoQt::setWidgetSize",
                               "Called with invalid dimension(s): (%d, %d).",
                               size[0], size[1]);
     return;
   }
-#endif // SOQT_DEBUG
 
 #if 0 // debug
   SoDebugError::postInfo("SoQt::setWidgetSize",
@@ -556,13 +538,11 @@ SoQt::setWidgetSize(QWidget * const w, const SbVec2s size)
 SbVec2s
 SoQt::getWidgetSize(const QWidget * w)
 {
-#if SOQT_DEBUG
-  if (w == NULL) {
+  if (SOQT_DEBUG && !w) {
     SoDebugError::postWarning("SoQt::getWidgetSize",
                               "Called with NULL pointer.");
     return SbVec2s(0, 0);
   }
-#endif // SOQT_DEBUG
 
   return SbVec2s(w->width(), w->height());
 }
@@ -587,16 +567,14 @@ SoQt::createSimpleErrorDialog(QWidget * widget,
                               const char * errorStr1,
                               const char * errorStr2)
 {
-#if SOQT_DEBUG
-  if (dialogTitle == NULL) {
+  if (SOQT_DEBUG && !dialogTitle) {
     SoDebugError::postWarning("SoQt::createSimpleErrorDialog",
                               "Called with NULL dialogTitle pointer.");
   }
-  if (errorStr1 == NULL) {
+  if (SOQT_DEBUG && !errorStr1) {
     SoDebugError::postWarning("SoQt::createSimpleErrorDialog",
                               "Called with NULL error string pointer.");
   }
-#endif // SOQT_DEBUG
 
   SbString title(dialogTitle ? dialogTitle : "");
   SbString errstr(errorStr1 ? errorStr1 : "");
@@ -653,12 +631,15 @@ SoQt::eventFilter(QObject *, QEvent *)
 void
 SoQt::slot_timedOutSensor()
 {
-#if SOQT_DEBUG && 0
+  if (SOQT_DEBUG && 0) { // debug
   SoDebugError::postInfo("SoQt::timedOutSensor",
-    "processing timer queue");
+                         "processing timer queue");
   SoDebugError::postInfo("SoQt::timedOutSensor",
-    "is %s", SoQtP::delaytimeouttimer->isActive() ? "active" : "inactive");
-#endif // SOQT_DEBUG
+                         "is %s",
+                         SoQtP::delaytimeouttimer->isActive() ?
+                         "active" : "inactive");
+  }
+
   SoDB::getSensorManager()->processTimerQueue();
 
   // The change callback is _not_ called automatically from
@@ -676,11 +657,11 @@ SoQt::slot_timedOutSensor()
 void
 SoQt::slot_idleSensor()
 {
-#if SOQT_DEBUG && 0
-  SoDebugError::postInfo("SoQt::idleSensor", "processing delay queue");
-  SoDebugError::postInfo("SoQt::idleSensor", "is %s",
-                         SoQtP::idletimer->isActive() ? "active" : "inactive");
-#endif // SOQT_DEBUG
+  if (SOQT_DEBUG && 0) { // debug
+    SoDebugError::postInfo("SoQt::idleSensor", "processing delay queue");
+    SoDebugError::postInfo("SoQt::idleSensor", "is %s",
+                           SoQtP::idletimer->isActive() ? "active" : "inactive");
+  }
 
   SoDB::getSensorManager()->processTimerQueue();
   SoDB::getSensorManager()->processDelayQueue(TRUE);
@@ -701,12 +682,13 @@ SoQt::slot_idleSensor()
 void
 SoQt::slot_delaytimeoutSensor()
 {
-#if SOQT_DEBUG && 0
-  SoDebugError::postInfo("SoQt::delaytimeoutSensor",
-                         "processing delay queue");
-  SoDebugError::postInfo("SoQtP::delaytimeouttimer", "is %s",
-                         SoQtP::delaytimeouttimer->isActive() ? "active" : "inactive");
-#endif // SOQT_DEBUG
+  if (SOQT_DEBUG && 0) { // debug
+    SoDebugError::postInfo("SoQt::delaytimeoutSensor",
+                           "processing delay queue");
+    SoDebugError::postInfo("SoQtP::delaytimeouttimer", "is %s",
+                           SoQtP::delaytimeouttimer->isActive() ?
+                           "active" : "inactive");
+  }
 
   SoDB::getSensorManager()->processTimerQueue();
   SoDB::getSensorManager()->processDelayQueue(FALSE);
