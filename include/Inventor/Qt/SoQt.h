@@ -71,7 +71,6 @@ private slots:
   void slot_delaytimeoutSensor();
 
 private:
-  static void clean(void);
   static void sensorQueueChanged(void * cbdata);
 
   static QWidget * mainWidget;

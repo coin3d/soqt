@@ -110,7 +110,7 @@ SoQt::init(const char * const appName, const char * const className)
 }
 
 /*!
-  Calls \a SoDB::init(), \a SoNodeKit::init(), \a SoInteraction::init().
+  Calls \a SoDB::init() and \a SoInteraction::init().
   Assumes you are creating your own QApplication and main widget.
   \a topLevelWidget should be your application's main widget.
 */
@@ -126,7 +126,6 @@ SoQt::init(QWidget * const topLevelWidget)
 #endif // SOQT_DEBUG
 
   SoDB::init();
-  SoNodeKit::init();
   SoInteraction::init();
 
   SoDB::getSensorManager()->setChangedCallback(SoQt::sensorQueueChanged, NULL);
@@ -137,7 +136,7 @@ SoQt::init(QWidget * const topLevelWidget)
   Initializes the SoQt component toolkit library, as well as the Open Inventor
   library.
 
-  Calls \a SoDB::init(), \a SoNodeKit::init(), \a SoInteraction::init(), and
+  Calls \a SoDB::init() and \a SoInteraction::init(), and
   creates a QApplication and constructs and returns a  main widget for
   you
   
@@ -237,6 +236,8 @@ SoQt::sensorQueueChanged(void *)
   }
 }
 
+
+#if 0 // FIXME: re-code to be run automatically upon exit. 19991107 mortene.
 /*!
   \internal
 
@@ -262,6 +263,7 @@ SoQt::clean(void)
   SoDB::clean();
 #endif // __COIN__
 }
+#endif // re-code
 
 /*!
   This is the event dispatch loop. It doesn't return until
@@ -278,8 +280,6 @@ SoQt::mainLoop(void)
   qApp->installEventFilter(SoQt::soqt_instance());
 
   qApp->exec();
-
-  SoQt::clean();
 }
 
 /*!
