@@ -1596,7 +1596,7 @@ fi;
 
 BUILD_WITH_MSVC=false
 if $sim_ac_try_msvc; then
-  sim_ac_wrapmsvc=`cd $srcdir; pwd`/cfg/m4/wrapmsvc.exe
+  sim_ac_wrapmsvc=`cd $srcdir; pwd`/cfg/wrapmsvc.exe
   if test -z "$CC" -a -z "$CXX" && $sim_ac_wrapmsvc >/dev/null 2>&1; then
 
 
@@ -1610,7 +1610,7 @@ if $sim_ac_try_msvc; then
 echo >&2 ""
 
 
-: ${sim_ac_message_file=$ac_aux_dir/m4/errors.txt}
+: ${sim_ac_message_file=$ac_aux_dir/errors.txt}
 if test -f $sim_ac_message_file; then
   sim_ac_message="`sed -n -e '/^!no-msvc++$/,/^!/ { /^!/ d; p; }' <$sim_ac_message_file`"
   if test x"$sim_ac_message" = x""; then
@@ -3792,7 +3792,7 @@ if test "${with_msvcrt+set}" = set; then
 echo >&2 ""
 
 
-: ${sim_ac_message_file=$ac_aux_dir/m4/errors.txt}
+: ${sim_ac_message_file=$ac_aux_dir/errors.txt}
 if test -f $sim_ac_message_file; then
   sim_ac_message="`sed -n -e '/^!invalid-msvcrt$/,/^!/ { /^!/ d; p; }' <$sim_ac_message_file`"
   if test x"$sim_ac_message" = x""; then
@@ -8537,7 +8537,7 @@ fi
 echo >&2 ""
 
 
-: ${sim_ac_message_file=$ac_aux_dir/m4/errors.txt}
+: ${sim_ac_message_file=$ac_aux_dir/errors.txt}
 if test -f $sim_ac_message_file; then
   sim_ac_message="`sed -n -e '/^!no-doxygen$/,/^!/ { /^!/ d; p; }' <$sim_ac_message_file`"
   if test x"$sim_ac_message" = x""; then
@@ -10770,6 +10770,8 @@ fi
 
 
 sim_ac_x11mu_avail=no
+sim_ac_x11mu_cppflags=""
+sim_ac_x11mu_ldflags=""
 sim_ac_x11mu_libs="-lXmu"
 
 sim_ac_save_libs=$LIBS
@@ -10830,9 +10832,13 @@ if test x"$sim_cv_lib_x11mu_avail" = xyes; then
   sim_ac_x11mu_avail=yes
 else
   # On HP-UX, Xmu might be located under /usr/contrib/X11R6/
-  if test -d /usr/contrib/X11R6; then
-    CPPFLAGS="-I/usr/contrib/X11R6/include $CPPFLAGS"
-    LDFLAGS="-L/usr/contrib/X11R6/lib $LDFLAGS"
+  mudir=/usr/contrib/X11R6
+  if test -d $mudir; then
+    sim_ac_x11mu_cppflags="-I$mudir/include"
+    sim_ac_x11mu_ldflags="-L$mudir/lib"
+    CPPFLAGS="$sim_ac_x11mu_cppflags $CPPFLAGS"
+    LDFLAGS="$sim_ac_x11mu_ldflags $LDFLAGS"
+
     echo "$as_me:$LINENO: checking once more whether the X11 miscellaneous utilities library is available" >&5
 echo $ECHO_N "checking once more whether the X11 miscellaneous utilities library is available... $ECHO_C" >&6
 if test "${sim_cv_lib_x11mu_contrib_avail+set}" = set; then
@@ -10882,6 +10888,9 @@ echo "$as_me:$LINENO: result: $sim_cv_lib_x11mu_contrib_avail" >&5
 echo "${ECHO_T}$sim_cv_lib_x11mu_contrib_avail" >&6
     if test x"$sim_cv_lib_x11mu_contrib_avail" = xyes; then
       sim_ac_x11mu_avail=yes
+    else
+      sim_ac_x11mu_cppflags=""
+      sim_ac_x11mu_ldflags=""
     fi
   fi
 fi
@@ -10949,7 +10958,7 @@ fi
 echo "$as_me:$LINENO: result: $sim_cv_lib_x11xid_avail" >&5
 echo "${ECHO_T}$sim_cv_lib_x11xid_avail" >&6
 
-if test x"$sim_cv_lib_x11xid_avail" = xyes; then
+if test x"$sim_cv_lib_x11xid_avail" = x"yes"; then
   sim_ac_x11xid_avail=yes
   SOGUI_EXTRA_LIBS="$sim_ac_x11xid_libs $SOGUI_EXTRA_LIBS"
 else
@@ -12377,10 +12386,14 @@ else
 echo "${ECHO_T}no" >&6
 fi
 
-  if $sim_ac_coin_configcmd; then
+
+  if ! test "X$sim_ac_coin_configcmd" = "Xfalse"; then
     test -n "$CONFIG" &&
       $sim_ac_coin_configcmd --alternate=$CONFIG >/dev/null 2>/dev/null &&
       sim_ac_coin_configcmd="$sim_ac_coin_configcmd --alternate=$CONFIG"
+  fi
+
+  if $sim_ac_coin_configcmd; then
     sim_ac_coin_version=`$sim_ac_coin_configcmd --version`
     sim_ac_coin_cppflags=`$sim_ac_coin_configcmd --cppflags`
     sim_ac_coin_cflags=`$sim_ac_coin_configcmd --cflags 2>/dev/null`
@@ -12703,6 +12716,8 @@ fi
 
 
 sim_ac_x11mu_avail=no
+sim_ac_x11mu_cppflags=""
+sim_ac_x11mu_ldflags=""
 sim_ac_x11mu_libs="-lXmu"
 
 sim_ac_save_libs=$LIBS
@@ -12763,9 +12778,13 @@ if test x"$sim_cv_lib_x11mu_avail" = xyes; then
   sim_ac_x11mu_avail=yes
 else
   # On HP-UX, Xmu might be located under /usr/contrib/X11R6/
-  if test -d /usr/contrib/X11R6; then
-    CPPFLAGS="-I/usr/contrib/X11R6/include $CPPFLAGS"
-    LDFLAGS="-L/usr/contrib/X11R6/lib $LDFLAGS"
+  mudir=/usr/contrib/X11R6
+  if test -d $mudir; then
+    sim_ac_x11mu_cppflags="-I$mudir/include"
+    sim_ac_x11mu_ldflags="-L$mudir/lib"
+    CPPFLAGS="$sim_ac_x11mu_cppflags $CPPFLAGS"
+    LDFLAGS="$sim_ac_x11mu_ldflags $LDFLAGS"
+
     echo "$as_me:$LINENO: checking once more whether the X11 miscellaneous utilities library is available" >&5
 echo $ECHO_N "checking once more whether the X11 miscellaneous utilities library is available... $ECHO_C" >&6
 if test "${sim_cv_lib_x11mu_contrib_avail+set}" = set; then
@@ -12815,6 +12834,9 @@ echo "$as_me:$LINENO: result: $sim_cv_lib_x11mu_contrib_avail" >&5
 echo "${ECHO_T}$sim_cv_lib_x11mu_contrib_avail" >&6
     if test x"$sim_cv_lib_x11mu_contrib_avail" = xyes; then
       sim_ac_x11mu_avail=yes
+    else
+      sim_ac_x11mu_cppflags=""
+      sim_ac_x11mu_ldflags=""
     fi
   fi
 fi
@@ -12887,7 +12909,7 @@ fi
 echo "$as_me:$LINENO: result: $sim_cv_lib_x11xid_avail" >&5
 echo "${ECHO_T}$sim_cv_lib_x11xid_avail" >&6
 
-if test x"$sim_cv_lib_x11xid_avail" = xyes; then
+if test x"$sim_cv_lib_x11xid_avail" = x"yes"; then
   sim_ac_x11xid_avail=yes
 
     SOGUI_EXTRA_LIBS="$sim_ac_x11xid_libs $SOGUI_EXTRA_LIBS"
@@ -13504,6 +13526,8 @@ if test x"$sim_ac_want_x11" = xyes; then
 
 
 sim_ac_x11mu_avail=no
+sim_ac_x11mu_cppflags=""
+sim_ac_x11mu_ldflags=""
 sim_ac_x11mu_libs="-lXmu"
 
 sim_ac_save_libs=$LIBS
@@ -13564,9 +13588,13 @@ if test x"$sim_cv_lib_x11mu_avail" = xyes; then
   sim_ac_x11mu_avail=yes
 else
   # On HP-UX, Xmu might be located under /usr/contrib/X11R6/
-  if test -d /usr/contrib/X11R6; then
-    CPPFLAGS="-I/usr/contrib/X11R6/include $CPPFLAGS"
-    LDFLAGS="-L/usr/contrib/X11R6/lib $LDFLAGS"
+  mudir=/usr/contrib/X11R6
+  if test -d $mudir; then
+    sim_ac_x11mu_cppflags="-I$mudir/include"
+    sim_ac_x11mu_ldflags="-L$mudir/lib"
+    CPPFLAGS="$sim_ac_x11mu_cppflags $CPPFLAGS"
+    LDFLAGS="$sim_ac_x11mu_ldflags $LDFLAGS"
+
     echo "$as_me:$LINENO: checking once more whether the X11 miscellaneous utilities library is available" >&5
 echo $ECHO_N "checking once more whether the X11 miscellaneous utilities library is available... $ECHO_C" >&6
 if test "${sim_cv_lib_x11mu_contrib_avail+set}" = set; then
@@ -13616,6 +13644,9 @@ echo "$as_me:$LINENO: result: $sim_cv_lib_x11mu_contrib_avail" >&5
 echo "${ECHO_T}$sim_cv_lib_x11mu_contrib_avail" >&6
     if test x"$sim_cv_lib_x11mu_contrib_avail" = xyes; then
       sim_ac_x11mu_avail=yes
+    else
+      sim_ac_x11mu_cppflags=""
+      sim_ac_x11mu_ldflags=""
     fi
   fi
 fi
@@ -13955,7 +13986,7 @@ echo "${ECHO_T}$sim_ac_qt_version" >&6
 echo >&2 ""
 
 
-: ${sim_ac_message_file=$ac_aux_dir/m4/errors.txt}
+: ${sim_ac_message_file=$ac_aux_dir/errors.txt}
 if test -f $sim_ac_message_file; then
   sim_ac_message="`sed -n -e '/^!too-old-qt$/,/^!/ { /^!/ d; p; }' <$sim_ac_message_file`"
   if test x"$sim_ac_message" = x""; then
@@ -14040,7 +14071,7 @@ cat conftest.$ac_ext >&5
 echo >&2 ""
 
 
-: ${sim_ac_message_file=$ac_aux_dir/m4/errors.txt}
+: ${sim_ac_message_file=$ac_aux_dir/errors.txt}
 if test -f $sim_ac_message_file; then
   sim_ac_message="`sed -n -e '/^!x11-qt-on-mac$/,/^!/ { /^!/ d; p; }' <$sim_ac_message_file`"
   if test x"$sim_ac_message" = x""; then
@@ -14192,9 +14223,10 @@ echo $ECHO_N "checking for Qt library devkit... $ECHO_C" >&6
       ## * "-lqt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32": should cover
       ##   static linking on Win32 platforms
       ##
-      ## * "-lqt-mt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32 -lwinspool -lwinmm -ladvapi32":
+      ## * "-lqt-mt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32 -lwinspool -lwinmm -ladvapi32 -lws2_32":
       ##   added for the benefit of the Qt 3.0.0 Evaluation Version
       ##   (update: "advapi32.lib" seems to be a new dependency for Qt 3.1.0)
+      ##   (update: "ws2_32.lib" seems to be a new dependency for Qt 3.1.2)
       ##
       ## * "-lqt-mt-eval": the Qt/Mac evaluation version
 
@@ -14216,7 +14248,7 @@ echo $ECHO_N "checking for Qt library devkit... $ECHO_C" >&6
             "-lqt-gl" \
             "-lqt-mt" \
             "-lqt" \
-            "-lqt-mt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32 -lwinspool -lwinmm -ladvapi32" \
+            "-lqt-mt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32 -lwinspool -lwinmm -ladvapi32 -lws2_32" \
             "-lqt-mt${sim_ac_qt_version}${sim_ac_qt_suffix} -lqtmain -lgdi32" \
             "-lqt-mt${sim_ac_qt_version}nc${sim_ac_qt_suffix} -lqtmain -lgdi32" \
             "-lqt -lqtmain -lgdi32" \
@@ -14298,7 +14330,7 @@ echo "$as_me: WARNING: header file qglobal.h not found, can not compile Qt code"
 echo >&2 ""
 
 
-: ${sim_ac_message_file=$ac_aux_dir/m4/errors.txt}
+: ${sim_ac_message_file=$ac_aux_dir/errors.txt}
 if test -f $sim_ac_message_file; then
   sim_ac_message="`sed -n -e '/^!no-qt$/,/^!/ { /^!/ d; p; }' <$sim_ac_message_file`"
   if test x"$sim_ac_message" = x""; then
@@ -14455,7 +14487,7 @@ echo "${ECHO_T}unavailable" >&6
 echo >&2 ""
 
 
-: ${sim_ac_message_file=$ac_aux_dir/m4/errors.txt}
+: ${sim_ac_message_file=$ac_aux_dir/errors.txt}
 if test -f $sim_ac_message_file; then
   sim_ac_message="`sed -n -e '/^!no-qgl$/,/^!/ { /^!/ d; p; }' <$sim_ac_message_file`"
   if test x"$sim_ac_message" = x""; then
@@ -16559,9 +16591,9 @@ fi
     esac
   done
 
-  CC=$soqt_src_dir/cfg/m4/gendsp.sh
-  CXX=$soqt_src_dir/cfg/m4/gendsp.sh
-  CXXLD=$soqt_src_dir/cfg/m4/gendsp.sh
+  CC=$soqt_src_dir/cfg/gendsp.sh
+  CXX=$soqt_src_dir/cfg/gendsp.sh
+  CXXLD=$soqt_src_dir/cfg/gendsp.sh
   # Yes, this is totally bogus stuff, but don't worry about it.  As long
   # as gendsp.sh recognizes it...  20030219 larsa
   CPPFLAGS="$CPPFLAGS -Ddspfile=$soqt_build_dir/soqt$SOQT_MAJOR_VERSION.dsp"
@@ -16570,8 +16602,8 @@ fi
 
   # this can't be set up at the point the libtool script is generated
   mv libtool libtool.bak
-  sed -e "s%^CC=\"gcc\"%CC=\"$soqt_src_dir/cfg/m4/gendsp.sh\"%" \
-      -e "s%^CC=\".*/wrapmsvc.exe\"%CC=\"$soqt_src_dir/cfg/m4/gendsp.sh\"%" \
+  sed -e "s%^CC=\"gcc\"%CC=\"$soqt_src_dir/cfg/gendsp.sh\"%" \
+      -e "s%^CC=\".*/wrapmsvc.exe\"%CC=\"$soqt_src_dir/cfg/gendsp.sh\"%" \
       <libtool.bak >libtool
   rm -f libtool.bak
   chmod 755 libtool

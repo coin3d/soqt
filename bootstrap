@@ -1,150 +1,19 @@
-#! /bin/sh
-# **************************************************************************
-# Regenerate all files which are constructed by the autoconf, automake
-# and libtool tool-chain.
-# Note: only developers should need to use this script.
-#
-# Authors:
-#   Lars J. Aas <larsa@sim.no>
-#   Morten Eriksen <mortene@sim.no>
+#!/bin/sh
 
-wd=`echo "$0" | sed -e 's,[^/]*$,,g'`
-me=`echo "$0" | sed -e 's,.*/,,g'`
+cat <<EOF
 
-cd $wd
-if test ! -f ./$me; then
-  echo >&2 "$me: error: unexpected problem with your shell - bailing out"
-  exit 1
-fi
+Error: to bootstrap, invoke the script simacros/bin/bootstrap.
 
-if test x"$@" = x"" -a ! -f cfg/missing; then
-  echo >&2 "$me: assuming '--add' was meant"
-  set : --add
-  shift
-fi
+The simacros CVS module can be fetched by doing:
 
-AUTOCONF_VER=2.5[023456]
-AUTOMAKE_VER=1.5
-LIBTOOL_VER=1.4.2
+   \$ export CVSROOT=:pserver:cvs@cvs.coin3d.org:/export/cvsroot
+   \$ cvs login
+   [password is 'cvs']
+   \$ cvs checkout simacros
 
-GUI=Qt
-PROJECT=So$GUI
-MACRODIR=cfg/m4
 
-SUBPROJECTS="$MACRODIR src/Inventor/Qt/common"
-SUBPROJECTNAMES="SoQtMacros SoQtCommon"
+Exiting..
 
-libtoolize=false
-AUTOMAKE_ADD=
-if test "$1" = "--clean"; then
-  rm -f config.h.in \
-        configure \
-        stamp-h*
-  ( cd cfg
-    rm -f depcomp \
-          install-sh \
-          mkinstalldirs \
-          missing \
-          ltconfig \
-          ltmain.sh \
-          config.sub \
-          config.guess \
-          ltcf-*.sh
-  )
-  find . -name Makefile.in -print | grep -v "^./data/" | xargs rm -f
-  exit 0
-elif test "$1" = "--add"; then
-  AUTOMAKE_ADD="--add-missing --gnu --copy"
-  libtoolize=true
-fi
+EOF
 
-echo "Checking the installed configuration tools..."
-
-if test -z "`autoconf --version 2>/dev/null | grep \" $AUTOCONF_VER\"`"; then
-    echo ""
-    echo "You must have autoconf version $AUTOCONF_VER installed to"
-    echo "generate configure information and Makefiles for $PROJECT."
-    echo ""
-    DIE=true
-fi
-
-if test -z "`automake --version 2>/dev/null | grep \" $AUTOMAKE_VER\"`"; then
-    echo ""
-    echo "You must have automake version $AUTOMAKE_VER installed to"
-    echo "generate configure information and Makefiles for $PROJECT."
-    echo ""
-    DIE=true
-fi
-
-if test -z "`libtool --version | egrep \"$LIBTOOL_VER\" 2> /dev/null`"; then
-    echo
-    echo "You must have libtool version $LIBTOOL_VER installed to"
-    echo "generate configure information and Makefiles for $PROJECT."
-    echo ""
-    DIE=true
-fi
-
-set $SUBPROJECTNAMES
-num=1
-for project in $SUBPROJECTS; do
-  test -d $project || {
-    echo
-    echo "Could not find subdirectory '$project'."
-    echo "It was probably added after you initially fetched $PROJECT."
-    echo "To add the missing module, run 'cvs co $1' from the $PROJECT"
-    echo "base directory."
-    echo ""
-    echo "To do a completely fresh cvs checkout of the whole $PROJECT module,"
-    echo "(if all else fails), remove $PROJECT and run:"
-    echo "  cvs -z3 -d :pserver:cvs@cvs.sim.no:/export/cvsroot co -P $PROJECT"
-    echo ""
-    DIE=true
-  }
-  num=`expr $num + 1`
-  shift
-done
-
-# abnormal exit?
-${DIE=false} && echo "" && echo >&2 "$me: aborting..." && exit 1
-
-# **************************************************************************
-
-# add missing files in cfg/
-if $libtoolize; then
-  echo "Running libtoolize..."
-  libtoolize --copy --force
-  ( cd cfg
-    test -f ltmain.sh.diff && patch -p0 < ltmain.sh.diff
-    test -f ltconfig.diff  && patch -p0 < ltconfig.diff
-  )
-fi
-
-# generate aclocal.m4
-echo "Running aclocal..."
-rm -f aclocal.m4.old
-test -f aclocal.m4 && mv aclocal.m4 aclocal.m4.old
-aclocal -I $MACRODIR
-if test -f aclocal.m4.old; then
-  if cmp -s aclocal.m4 aclocal.m4.old; then
-    echo "aclocal: aclocal.m4 is unchanged"
-    rm -f aclocal.m4
-    mv aclocal.m4.old aclocal.m4
-  else
-    rm -f aclocal.m4.old
-  fi
-fi
-
-# generate configure
-echo "Running autoconf..."
-( autoconf 3>&1 1>&2 2>&3 | grep -v AR_FLAGS) 3>&1 1>&2 2>&3
-
-# generate config.h.in
-echo "Running autoheader..."
-autoheader
-
-# generate Makefile.in templates, and add missing files in cfg/
-echo "Running automake..."
-( automake $AUTOMAKE_ADD 3>&1 1>&2 2>&3 | \
-  grep -v 'directory should not' | \
-  grep -v 'not a standard library name' ) 3>&1 1>&2 2>&3
-
+exit 1

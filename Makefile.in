@@ -190,6 +190,8 @@ SoGui_src_Inventor_Gui_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.h \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/So@Gui@ColorEditor.h \
+  $(top_builddir)/src/Inventor/@Gui@/So@Gui@MaterialEditor.h \
   $(SoGui_src_Inventor_Gui_common_BuiltFiles)
 
 
@@ -369,13 +371,10 @@ SoGuiCommonDistFiles = \
   BUGS.txt \
   src/Inventor/@Gui@/common/BUGS.txt \
   \
-  cfg/m4/errors.txt \
-  cfg/m4/doxy4win.pl \
-  cfg/m4/gendsp.m4 \
-  cfg/m4/gendsp.sh \
-  cfg/m4/wrapmsvc.m4 \
-  cfg/m4/wrapmsvc.cpp \
-  cfg/m4/wrapmsvc.exe \
+  cfg/errors.txt \
+  cfg/doxy4win.pl \
+  cfg/gendsp.sh \
+  cfg/wrapmsvc.exe \
   \
   src/Inventor/@Gui@/common/ChangeLog \
   src/Inventor/@Gui@/common/Makefile.common \
@@ -399,6 +398,8 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/SoGuiGLWidgetCommon.cpp.in \
   src/Inventor/@Gui@/common/SoGuiRenderArea.h.in \
   src/Inventor/@Gui@/common/SoGuiRenderArea.cpp.in \
+  src/Inventor/@Gui@/common/SoGuiColorEditor.h \
+  src/Inventor/@Gui@/common/SoGuiMaterialEditor.h \
   src/Inventor/@Gui@/common/SbGuiList.h \
   src/Inventor/@Gui@/common/SoAny.h.in \
   src/Inventor/@Gui@/common/SoAny.cpp.in \
@@ -537,7 +538,7 @@ DISTCLEANFILES = \
 
 # Don't replace "qt" with "@gui@" here, is it will pøkk up
 # for ``make dist''.
-@BUILD_LIBRARY_TRUE@dist_m4data_DATA = cfg/m4/soqt.m4
+@BUILD_LIBRARY_TRUE@dist_m4data_DATA = cfg/soqt.m4
 
 @BUILD_LIBRARY_TRUE@cfgdatadir = $(datadir)/Coin/conf
 @BUILD_LIBRARY_TRUE@cfgdata_DATA = so@gui@-@CONFIG@.cfg
@@ -550,7 +551,6 @@ EXTRA_DIST = \
 	README.WIN32 \
 	README.MAC \
 	Info.plist \
-	cfg/m4/soqt.m4 \
 	models/coin_soqt.iv \
 	models/coin_soqt.wrl \
 	test-code/README \
@@ -793,7 +793,7 @@ GZIP_ENV = --best
 distdir: $(DISTFILES)
 	-chmod -R a+w $(distdir) >/dev/null 2>&1; rm -rf $(distdir)
 	mkdir $(distdir)
-	$(mkinstalldirs) $(distdir)/cfg $(distdir)/cfg/m4 $(distdir)/models $(distdir)/packaging/windows $(distdir)/src/Inventor/@Gui@/common $(distdir)/src/Inventor/@Gui@/common/devices $(distdir)/src/Inventor/@Gui@/common/editors $(distdir)/src/Inventor/@Gui@/common/engines $(distdir)/src/Inventor/@Gui@/common/nodes $(distdir)/src/Inventor/@Gui@/common/pixmaps $(distdir)/src/Inventor/@Gui@/common/viewers $(distdir)/src/Inventor/@Gui@/common/widgets $(distdir)/src/Inventor/Qt/common $(distdir)/test-code $(distdir)/test-code/components
+	$(mkinstalldirs) $(distdir)/cfg $(distdir)/models $(distdir)/packaging/windows $(distdir)/src/Inventor/@Gui@/common $(distdir)/src/Inventor/@Gui@/common/devices $(distdir)/src/Inventor/@Gui@/common/editors $(distdir)/src/Inventor/@Gui@/common/engines $(distdir)/src/Inventor/@Gui@/common/nodes $(distdir)/src/Inventor/@Gui@/common/pixmaps $(distdir)/src/Inventor/@Gui@/common/viewers $(distdir)/src/Inventor/@Gui@/common/widgets $(distdir)/src/Inventor/Qt/common $(distdir)/test-code $(distdir)/test-code/components
 	@for file in $(DISTFILES); do \
 	  if test -f $$file; then d=.; else d=$(srcdir); fi; \
 	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
@@ -966,7 +966,7 @@ uninstall-info: uninstall-info-recursive
 $(top_builddir)/sogui.doxygen: $(top_srcdir)/src/Inventor/@Gui@/common/sogui.doxygen.in $(top_builddir)/config.status
 	@cd $(top_builddir); \
 	$(SHELL) config.status --file=sogui.doxygen:src/Inventor/@Gui@/common/sogui.doxygen.in; \
-	$(top_srcdir)/cfg/m4/doxy4win.pl sogui.doxygen; \
+	$(top_srcdir)/cfg/doxy4win.pl sogui.doxygen; \
 	rm -f sogui.doxygen.bak;
 
 $(top_builddir)/so@gui@-config: $(top_srcdir)/src/Inventor/@Gui@/common/sogui-config.in $(top_builddir)/config.status
@@ -1036,6 +1036,12 @@ $(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.h: $(top_srcdir)/src/Invent
 
 $(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/SoGuiRenderArea.cpp.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/So@Gui@RenderArea.cpp:src/Inventor/@Gui@/common/SoGuiRenderArea.cpp.in )
+
+$(top_builddir)/src/Inventor/@Gui@/So@Gui@ColorEditor.h: $(top_srcdir)/src/Inventor/@Gui@/common/SoGuiColorEditor.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/So@Gui@ColorEditor.h:src/Inventor/@Gui@/common/SoGuiColorEditor.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/So@Gui@MaterialEditor.h: $(top_srcdir)/src/Inventor/@Gui@/common/SoGuiMaterialEditor.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/So@Gui@MaterialEditor.h:src/Inventor/@Gui@/common/SoGuiMaterialEditor.h.in )
 
 $(top_builddir)/src/Inventor/@Gui@/common/gl.h: $(top_srcdir)/src/Inventor/@Gui@/common/gl.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); \
@@ -1359,14 +1365,14 @@ all-local: built-sources
 #	  ln -sf $(prefix)/Headers $(ivincludedir)/Qt; \
 #	  ;; \
 #	esac
-@BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_FALSE@install-exec-local: built-sources $(srcdir)/cfg/m4/wrapmsvc.exe
+@BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_FALSE@install-exec-local: built-sources $(srcdir)/cfg/wrapmsvc.exe
 @BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_FALSE@	@$(NORMAL_INSTALL)
 @BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_FALSE@	@if @BUILD_WITH_MSVC@; then \
 @BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_FALSE@	  echo " $(mkinstalldirs) $(DESTDIR)$(bindir)"; \
 @BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_FALSE@	  $(mkinstalldirs) "$(DESTDIR)$(bindir)"; \
 @BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_FALSE@	  p=wrapmsvc.exe; \
-@BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_FALSE@	  echo " $(INSTALL_PROGRAM) $(top_srcdir)/cfg/m4/$$p $(DESTDIR)$(bindir)/$$p"; \
-@BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_FALSE@	  $(INSTALL_PROGRAM) "$(top_srcdir)/cfg/m4/$$p" "$(DESTDIR)$(bindir)/$$p"; \
+@BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_FALSE@	  echo " $(INSTALL_PROGRAM) $(top_srcdir)/cfg/$$p $(DESTDIR)$(bindir)/$$p"; \
+@BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_FALSE@	  $(INSTALL_PROGRAM) "$(top_srcdir)/cfg/$$p" "$(DESTDIR)$(bindir)/$$p"; \
 @BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_FALSE@	fi
 
 install-data-local: built-sources

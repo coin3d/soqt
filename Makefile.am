@@ -47,7 +47,7 @@ m4datadir = $(datadir)/aclocal
 
 # Don't replace "qt" with "@gui@" here, is it will pøkk up
 # for ``make dist''.
-dist_m4data_DATA = cfg/m4/soqt.m4
+dist_m4data_DATA = cfg/soqt.m4
 
 cfgdatadir = $(datadir)/Coin/conf
 cfgdata_DATA = so@gui@-@CONFIG@.cfg
@@ -62,7 +62,6 @@ EXTRA_DIST = \
 	README.WIN32 \
 	README.MAC \
 	Info.plist \
-	cfg/m4/soqt.m4 \
 	models/coin_soqt.iv \
 	models/coin_soqt.wrl \
 	test-code/README \
@@ -103,14 +102,14 @@ install-exec-local:
 #	  ;; \
 #	esac
 else
-install-exec-local: built-sources $(srcdir)/cfg/m4/wrapmsvc.exe
+install-exec-local: built-sources $(srcdir)/cfg/wrapmsvc.exe
 	@$(NORMAL_INSTALL)
 	@if @BUILD_WITH_MSVC@; then \
 	  echo " $(mkinstalldirs) $(DESTDIR)$(bindir)"; \
 	  $(mkinstalldirs) "$(DESTDIR)$(bindir)"; \
 	  p=wrapmsvc.exe; \
-	  echo " $(INSTALL_PROGRAM) $(top_srcdir)/cfg/m4/$$p $(DESTDIR)$(bindir)/$$p"; \
-	  $(INSTALL_PROGRAM) "$(top_srcdir)/cfg/m4/$$p" "$(DESTDIR)$(bindir)/$$p"; \
+	  echo " $(INSTALL_PROGRAM) $(top_srcdir)/cfg/$$p $(DESTDIR)$(bindir)/$$p"; \
+	  $(INSTALL_PROGRAM) "$(top_srcdir)/cfg/$$p" "$(DESTDIR)$(bindir)/$$p"; \
 	fi
 endif
 endif
