@@ -8089,6 +8089,7 @@ ac_config_files="$ac_config_files
 	test-code/Makefile
 	test-code/components/Makefile
 	test-code/widgets/Makefile
+	build/Makefile
 	build/soqt.doxygen
         build/soqt.spec
 "
@@ -8347,6 +8348,7 @@ Try \`$me --help' for more information."; exit 1 ;;
   'test-code/Makefile' ) CONFIG_FILES="$CONFIG_FILES test-code/Makefile" ;;
   'test-code/components/Makefile' ) CONFIG_FILES="$CONFIG_FILES test-code/components/Makefile" ;;
   'test-code/widgets/Makefile' ) CONFIG_FILES="$CONFIG_FILES test-code/widgets/Makefile" ;;
+  'build/Makefile' ) CONFIG_FILES="$CONFIG_FILES build/Makefile" ;;
   'build/soqt.doxygen' ) CONFIG_FILES="$CONFIG_FILES build/soqt.doxygen" ;;
   'build/soqt.spec' ) CONFIG_FILES="$CONFIG_FILES build/soqt.spec" ;;
   'default-1' ) CONFIG_COMMANDS="$CONFIG_COMMANDS default-1" ;;

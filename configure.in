@@ -537,6 +537,7 @@ AC_OUTPUT([
 	test-code/Makefile
 	test-code/components/Makefile
 	test-code/widgets/Makefile
+	build/Makefile
 	build/soqt.doxygen
         build/soqt.spec
 ],[

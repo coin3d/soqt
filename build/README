@@ -8,3 +8,17 @@ soqt.doxygen.in
         Configuration file for generating the SoQt documentation from
         the source files with Doxygen. The HTML docs are also
         available on-line at <URL:http://www.coin3d.org/soqt-docs/>.
+
+geniwz.pl
+
+        Perl script which generates specification file for
+        InstallShield Express v2.12. Invoke the script by running
+
+	       $ make ispkg
+
+        in the [soqt_builddir]/build/ subdir. Installshield's
+        IsxBuild.exe need to be in the $PATH.
+
+        A self-extracting executable SETUPEX.EXE with the
+        InstallShield install should then be available under
+        [soqt_builddir]/build/soqt/.
