@@ -21,6 +21,22 @@
  *
 \**************************************************************************/
 
+/*!
+  \class GradientView GradientView.h Inventor/Qt/widgets/GradientView.h
+  \brief The GradientView class wraps a Gradient in UI controls.
+  \ingroup components
+
+  Provides visualization of and controls on a Gradient object. The UI
+  controls makes it possible to change the color values of the
+  underlying gradient.
+*/
+
+// FIXME: I wonder if this shouldn't rather just have been a class for
+// displaying a gradient, and the actual UI controls better be placed
+// in the GradientEditor class. Discuss with frodo. 20031008 mortene.
+
+// *************************************************************************
+
 #include <stdlib.h>
 #include <assert.h>
 #include <qimage.h>
@@ -36,6 +52,7 @@
 
 #include <Inventor/Qt/widgets/moc_GradientView.icc>
 
+// *************************************************************************
 
 GradientView::GradientView(QCanvas * c,
                            const Gradient & g,
@@ -54,6 +71,9 @@ GradientView::GradientView(QCanvas * c,
   this->menu = NULL;
   this->startIndex = 0;
   this->endIndex = 1;
+
+  // FIXME: this looks bogus -- why not just use the default
+  // background color?  20031008 mortene.
   this->canvas->setBackgroundColor(Qt::lightGray);
 
   connect(this, SIGNAL(viewChanged()), this, SLOT(updateView()));
@@ -113,6 +133,8 @@ void GradientView::contentsMousePressEvent(QMouseEvent * e)
 {
   QPoint p = inverseWorldMatrix().map(e->pos());
  
+  this->movingItem = NULL;
+
   switch (e->button()) {
   case Qt::LeftButton: 
     {
@@ -125,8 +147,8 @@ void GradientView::contentsMousePressEvent(QMouseEvent * e)
           this->selectedMark = this->movingItem;
           this->selectedMark->setBrush(Qt::blue);
           emit this->viewChanged();
-          return;
-        } else {
+        }
+        else {
           this->startIndex = -1;
           while (this->tickMarks[++this->startIndex]->x() < p.x());
           this->startIndex--;
@@ -139,15 +161,15 @@ void GradientView::contentsMousePressEvent(QMouseEvent * e)
   case Qt::RightButton: 
     this->buildMenu();
     if (this->menu->exec(e->globalPos())) {
+      // FIXME: this seems unnecessary. 20031008 mortene.
       delete this->menu;
       this->menu = NULL;
     }
     break;
-  default:
-    // do nothing
+
+  default: // do nothing
     break;
   }
-  this->movingItem = 0;
 }
 
 void GradientView::contentsMouseMoveEvent(QMouseEvent * e)
@@ -193,7 +215,8 @@ void GradientView::keyPressEvent(QKeyEvent * e)
   }
 }
 
-float GradientView::getSelectedPos()
+float
+GradientView::getSelectedPos(void)
 {
   if (this->selectedMark) {
     int i = this->tickMarks.findIndex(this->selectedMark);
@@ -304,6 +327,7 @@ void GradientView::deleteTick()
   int i = (int) this->tickMarks.findIndex(this->selectedMark);
   this->selectedMark = NULL;
 
+  // FIXME: this should be an assert(), not an if(). 20031008 mortene.
   if ((i > 0) && (i < (int) this->tickMarks.size() - 1)) {
     this->grad.removeTick(i);
     this->updateTicks();
@@ -371,7 +395,7 @@ void GradientView::buildMenu()
   
   QPixmap left(16,16);
   left.fill(this->grad.getColor(this->startIndex, FALSE));
-  id = menu->insertItem(left, "Left endpoints color", this, SLOT(chooseColorLeft()));
+  id = menu->insertItem(left, "Left endpoint's color", this, SLOT(chooseColorLeft()));
 
   QPixmap pmleft(16,16);
   this->leftcolor = grad.getColor(this->startIndex, TRUE);
@@ -384,7 +408,7 @@ void GradientView::buildMenu()
 
   QPixmap right(16,16);
   right.fill(this->grad.getColor(this->endIndex, TRUE));
-  id = menu->insertItem(right, "Right endpoints color", this, SLOT(chooseColorRight()));
+  id = menu->insertItem(right, "Right endpoint's color", this, SLOT(chooseColorRight()));
 
   QPixmap pmright(16,16);
   this->rightcolor = this->grad.getColor(this->endIndex, FALSE);
@@ -394,7 +418,7 @@ void GradientView::buildMenu()
   if (this->grad.leftEqualsRight(this->endIndex)) menu->setItemEnabled(id, FALSE);
 
   menu->insertSeparator();
-  id = menu->insertItem("Insert tick", this, SLOT(insertTick()));
+  id = menu->insertItem("Insert new tick", this, SLOT(insertTick()));
 
   bool tickSelected = (this->selectedMark != NULL);
 

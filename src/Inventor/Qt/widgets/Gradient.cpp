@@ -227,9 +227,10 @@ Gradient::setChangeCallback(Gradient::ChangeCB * callBack, void * userdata)
   PRIVATE(this)->callBackData = userdata;
 }
 
-void Gradient::getColorArray(QRgb * colorArray, int num) const
+void
+Gradient::getColorArray(QRgb * colorArray, unsigned int num) const
 {
-  for (int i = 0; i < num; i++) {
+  for (unsigned int i = 0; i < num; i++) {
     float t = float(i) / float(num - 1);
     colorArray[i] = this->eval(t);
   }
@@ -250,10 +251,10 @@ Gradient::getImage(unsigned int width, unsigned int height, unsigned int depth) 
       if (((i & 0x8) == 0) ^ ((j & 0x8) == 0)) {
         background = 255;
       }
-      int bg = int((1.0f - alpha) * float(background));
-      int r = (int) (alpha * float(qRed(colors[i])) + bg);
-      int g = (int) (alpha * float(qGreen(colors[i])) + bg);
-      int b = (int) (alpha * float(qBlue(colors[i])) + bg);
+      const unsigned char bg = (unsigned char)((1.0f - alpha) * float(background));
+      const unsigned char r = (unsigned char)(alpha * float(qRed(colors[i])) + bg);
+      const unsigned char g = (unsigned char)(alpha * float(qGreen(colors[i])) + bg);
+      const unsigned char b = (unsigned char)(alpha * float(qBlue(colors[i])) + bg);
       gradImage.setPixel(i, j, qRgb(r, g, b));
     }
   }

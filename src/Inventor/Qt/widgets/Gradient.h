@@ -49,7 +49,7 @@ public:
   void removeTick(unsigned int i);
 
   void setColor(unsigned int i, SbBool left, const QRgb & color);
-  void getColorArray(QRgb * colors, int num) const;
+  void getColorArray(QRgb * colors, unsigned int num) const;
   void save(const QString & filename) const;
   void load(const QString & filename);
 

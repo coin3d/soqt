@@ -21,9 +21,16 @@
  *
 \**************************************************************************/
 
+// FIXME: should probably collect thumbwheel doc to a common
+// class. 20031008 mortene.
 
-// FIXME: should strongly consider making the thumbwheel a public
-// class, as we've had several requests for it. 20020226 mortene.
+/*!
+  \class SoQtThumbWheel SoQtThumbWheel.h Inventor/Qt/widgets/SoQtThumbWheel.h
+  \brief The SoQtThumbWheel class is a UI component for fancy looking thumbwheel controls.
+  \ingroup components
+*/
+
+// *************************************************************************
 
 #include <math.h>
 #include <assert.h>

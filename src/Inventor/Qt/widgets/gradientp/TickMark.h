@@ -33,13 +33,11 @@ public:
   TickMark(QCanvas * canvas);
   ~TickMark();
 
-  float getPos() const;
+  float getPos(void) const;
   bool hit(QPoint p) const;
 
   SbBool isStart;
   SbBool isEnd;
 };
 
-
-
-#endif
+#endif // ! TICKMARK_H
