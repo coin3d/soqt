@@ -268,8 +268,6 @@ SoQtFullViewer::setDecoration(
 #endif // SOQT_DEBUG
 
   this->decorations = enable;
-  if ( this->prefmenu )
-    this->prefmenu->setMenuItemMarked( DECORATION_ITEM, enable );
   if ( this->viewerwidget )
     this->showDecorationWidgets( enable );
 } // setDecoration()
@@ -458,14 +456,15 @@ SoQtFullViewer::getRenderAreaWidget(void)
 // *************************************************************************
 
 /*!
-  Set a flag to indicate whether we're in viewing mode (where the
-  user can drag the model or scene around), or in interaction mode (where
-  all window events from mouse, keyboard, etc are sent to the scene graph).
+  Set a flag to indicate whether we're in viewing mode (where the user
+  can drag the model or scene around), or in interaction mode (where
+  all window events from mouse, keyboard, etc are sent to the scene
+  graph).
 
   Overloaded from parent class to correctly set the user interface
-  indicators on the current state, namely the upper right push buttons
-  indicating interact or view mode, the respective item on the popup menu
-  and to grey out the seek mode activation button while in interact mode.
+  indicators on the current state, i.e. to flip the examine and
+  interact pushbuttons and to grey out the seek mode activation button
+  iff in interact mode.
 */
 
 void
@@ -482,74 +481,11 @@ SoQtFullViewer::setViewing(
   }
 
   inherited::setViewing( enable );
-  if ( this->prefmenu )
-    this->prefmenu->setMenuItemMarked( EXAMINING_ITEM, enable );
+
   VIEWERBUTTON(EXAMINE_BUTTON)->setOn( enable );
   VIEWERBUTTON(INTERACT_BUTTON)->setOn( enable ? FALSE : TRUE);
   VIEWERBUTTON(SEEK_BUTTON)->setEnabled( enable );
 } // setViewing()
-
-// *************************************************************************
-
-/*!
-  Overloaded from parent to update user interface indicator for headlight
-  on or off in the popup menu.
-*/
-
-void
-SoQtFullViewer::setHeadlight(
-  SbBool enable )
-{
-  inherited::setHeadlight( enable );
-  if ( this->prefmenu )
-    this->prefmenu->setMenuItemMarked( HEADLIGHT_ITEM, enable );
-} // setHeadlight()
-
-// *************************************************************************
-
-/*!
-  Overloaded from parent to make sure the user interface indicator in
-  the popup menu is updated correctly.
-*/
-
-void
-SoQtFullViewer::setDrawStyle(SoQtViewer::DrawType type,
-                             SoQtViewer::DrawStyle style)
-{
-  inherited::setDrawStyle(type, style);
-  if (this->prefmenu)
-    common->setDrawStyleMenuActivation(type, style);
-} // setDrawStyle()
-
-// *************************************************************************
-
-/*!
-  Overloaded from parent to make sure the user interface indicators in
-  the popup menu are updated correctly.
-*/
-
-void
-SoQtFullViewer::setBufferingType(
-  SoQtViewer::BufferType type )
-{
-  inherited::setBufferingType( type );
-  if ( this->prefmenu ) {
-    switch ( type ) {
-    case SoQtViewer::BUFFER_SINGLE:
-      this->prefmenu->setMenuItemMarked( SINGLE_BUFFER_ITEM, TRUE );
-      break;
-    case SoQtViewer::BUFFER_DOUBLE:
-      this->prefmenu->setMenuItemMarked( DOUBLE_BUFFER_ITEM, TRUE );
-      break;
-    case SoQtViewer::BUFFER_INTERACTIVE:
-      this->prefmenu->setMenuItemMarked( INTERACTIVE_BUFFER_ITEM, TRUE );
-      break;
-    default:
-      assert( 0 && "unsupported buffer type" );
-      break;
-    }
-  }
-} // setBufferingType()
 
 // *************************************************************************
 
@@ -595,107 +531,20 @@ SoQtFullViewer::hide(void)
   \internal
 
   Catch close events on the preferences window (to convert to hide
-  events) and right mouse button presses (to pop up the
-  preferences menu).
+  events).
 */
 
 bool
 SoQtFullViewer::eventFilter(QObject * obj, QEvent * e)
 {
-#if 0 // debug
-  const char eventnaming[][50] = {
-    "None", // 0
-    "Timer",
-    "MouseButtonPress",
-    "MouseButtonRelease",
-    "MouseButtonDblClick",
-    "MouseMove",
-    "KeyPress",
-    "KeyRelease",
-    "FocusIn",
-    "FocusOut",
-    "Enter",
-    "Leave",
-    "Paint",
-    "Move",
-    "Resize",
-    "Create",
-    "Destroy",
-    "Show",
-    "Hide",
-    "Close",
-    "Quit", // 20
-    "*error*", "*error*", "*error*", "*error*", "*error*",
-    "*error*", "*error*", "*error*", "*error*",
-    "Accel", // 30
-    "Wheel",
-    "AccelAvailable", // 32
-    "*error*", "*error*", "*error*", "*error*",
-    "*error*", "*error*", "*error*",
-    "Clipboard", // 40
-    "*error*", "*error*", "*error*", "*error*", "*error*",
-    "*error*", "*error*", "*error*", "*error*",
-    "SockAct", // 50
-    "*error*", "*error*", "*error*", "*error*", "*error*",
-    "*error*", "*error*", "*error*", "*error*",
-    "DragEnter", // 60
-    "DragMove",
-    "DragLeave",
-    "Drop",
-    "DragResponse", // 64
-    "*error*", "*error*", "*error*", "*error*", "*error*",
-    "ChildInserted", // 70
-    "ChildRemoved",
-    "LayoutHint", // 72
-    "*error*", "*error*", "*error*", "*error*", "*error*",
-    "*error*", "*error*",
-    "ActivateControl", // 80
-    "DeactivateControl"
-  };
-  
-  SoDebugError::postInfo("SoQtFullViewer::eventFilter", "%p: %s",
-                         obj, eventnaming[e->type()]);
-#endif // debug
-
   inherited::eventFilter(obj, e);
 
-  // Convert dblclick events to press events to get the "correct"
-  // sequence of two press+release pairs under Qt 1.xx and Qt
-  // 2.xx. (It has been confirmed with the Trolls that this Qt
-  // behavior is actually a feature, not a bug.)
-#if QT_VERSION < 200
-  int eventtype = e->type();
-#else // Qt 2.0
-  QEvent::Type eventtype = e->type();
-#endif // Qt 2.0
-  eventtype = (eventtype == Event_MouseButtonDblClick ?
-               Event_MouseButtonPress : eventtype);
-
-  // Catch close events to avoid anything actually being destroyed.
-  if (obj == this->prefwindow) {
-    if (eventtype == Event_Close) {
-      ((QCloseEvent *)e)->ignore();
-      this->prefwindow->hide();
-      return TRUE;
-    }
-  }
-
-  // Show the popup menu when we detect rmb pressed on top of the
-  // render area canvas.
-  if (this->menuenabled && obj == this->getGLWidget() &&
-      eventtype == Event_MouseButtonPress) {
-    QMouseEvent * me = (QMouseEvent *)e;
-    if (me->button() == RightButton) {
-      if ( ! this->prefmenu )
-        this->buildPopupMenu();
-      QPoint pos;
-#if (QT_VERSION > 140)
-      pos = me->globalPos();
-#else
-      pos = me->pos();
-#endif
-//      this->prefmenu->popUp( this->getGLWidget(), pos.x(), pos.y() );
-    }
+  // Catch pref window close events to avoid it actually being
+  // destroyed.
+  if (obj == this->prefwindow && e->type() == Event_Close) {
+    ((QCloseEvent *)e)->ignore();
+    this->prefwindow->hide();
+    return TRUE;
   }
 
   return FALSE;
@@ -1031,19 +880,7 @@ void
 SoQtFullViewer::buildPopupMenu(
   void )
 {
-  this->prefmenu = common->setupStandardPopupMenu();
-
-  // Set initial checkmarks on drawstyle menus.
-  this->setDrawStyle(
-    SoQtViewer::STILL, this->getDrawStyle( SoQtViewer::STILL ) );
-  this->setDrawStyle(
-    SoQtViewer::INTERACTIVE, this->getDrawStyle( SoQtViewer::INTERACTIVE ) );
-  this->setBufferingType( this->getBufferingType() );
-
-  this->prefmenu->setMenuItemMarked( EXAMINING_ITEM, this->isViewing() );
-  this->prefmenu->setMenuItemMarked( DECORATION_ITEM, this->decorations );
-  this->prefmenu->setMenuItemMarked( HEADLIGHT_ITEM, this->isHeadlight() );
-
+  this->prefmenu = this->common->setupStandardPopupMenu();
 } // buildPopupMenu()
 
 // *************************************************************************

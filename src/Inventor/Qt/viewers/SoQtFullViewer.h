@@ -67,10 +67,6 @@ public:
   // internal
   // These are overloaded to update user interface components.
   virtual void setViewing(SbBool on);
-  virtual void setHeadlight(SbBool on);
-  virtual void setDrawStyle(SoQtViewer::DrawType type,
-                            SoQtViewer::DrawStyle style);
-  virtual void setBufferingType(SoQtViewer::BufferType type);
   virtual void setCamera(SoCamera * cam);
   virtual void hide(void);
 
