@@ -194,6 +194,12 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
 
     20020923 mortene.
 
+    UPDATE 20021014 mortene: I'm not able to reproduce this
+    bug. Strange, as I'm sure I could easily reproduce it when it was
+    reported, and I don't think anything has been done with the
+    FlyViewer since. Summers has been contacted to get an exact
+    description of how the problem can be reproduced.
+
 =====================================================================
 
 009 Michael Wimmer reported that using SoQt on top of SGI Inventor
