@@ -36,7 +36,7 @@
 #include <qapplication.h>
 #include <qmetaobject.h>
 #include <qcursor.h>
-#include <moc_SoQtComponent.cpp>
+#include <moc_SoQtComponentP.cpp>
 
 #include <Inventor/errors/SoDebugError.h>
 
@@ -66,23 +66,15 @@ static const char nullstring[] = "(null)";
 
 // The private data and code for the SoQtComponent.
 
-SbPList * SoQtComponentP::soqtcomplist = NULL;
 SbDict * SoQtComponentP::cursordict = NULL;
 
 SoQtComponentP::SoQtComponentP(SoQtComponent * o)
   : SoGuiComponentP(o)
 {
-  if (!SoQtComponentP::soqtcomplist)
-    SoQtComponentP::soqtcomplist = new SbPList;
-    SoQtComponentP::soqtcomplist->append((void *) o);
 }
 
 SoQtComponentP::~SoQtComponentP()
 {
-  if (SoQtComponentP::soqtcomplist->getLength() == 0) {
-    delete SoQtComponentP::soqtcomplist;
-    SoQtComponentP::soqtcomplist = NULL;
-  }
 }
 
 void
@@ -100,7 +92,7 @@ SoQtComponentP::cleanupQtReferences(void)
   // during construction of the component (like for instance in the
   // case where no valid OpenGL canvas can be set up for the
   // SoQtGLWidget).
-  this->parent->removeEventFilter(PUBLIC(this));
+  this->parent->removeEventFilter(this);
 }
 
 // Converts from the common generic cursor format to a QCursor
@@ -154,6 +146,118 @@ SoQtComponentP::getNativeCursor(const SoQtCursor::CustomCursor * cc)
   QCursor * c = new QCursor(bitmap, mask, cc->hotspot[0], cc->hotspot[1]);
   SoQtComponentP::cursordict->enter((unsigned long)cc, c);
   return c;
+}
+
+// SLOT for when the user clicks/selects window decoration close.
+void
+SoQtComponentP::widgetClosed(void)
+{
+  if (this->closeCB) { this->closeCB(this->closeCBdata, PUBLIC(this)); }
+}
+
+// Helps us detect changes in size (base widget and parent widget)
+// and visibility status.
+bool
+SoQtComponentP::eventFilter(QObject * obj, QEvent * e)
+{
+#if 0 // debug
+  static const char eventnaming[][50] = {
+    "None", // 0
+    "Timer",
+    "MouseButtonPress",
+    "MouseButtonRelease",
+    "MouseButtonDblClick",
+    "MouseMove",
+    "KeyPress",
+    "KeyRelease",
+    "FocusIn",
+    "FocusOut",
+    "Enter",
+    "Leave",
+    "Paint",
+    "Move",
+    "Resize",
+    "Create",
+    "Destroy",
+    "Show",
+    "Hide",
+    "Close",
+    "Quit", // 20
+    "*error*", "*error*", "*error*", "*error*", "*error*",
+    "*error*", "*error*", "*error*", "*error*",
+    "Accel", // 30
+    "Wheel",
+    "AccelAvailable", // 32
+    "*error*", "*error*", "*error*", "*error*",
+    "*error*", "*error*", "*error*",
+    "Clipboard", // 40
+    "*error*", "*error*", "*error*", "*error*", "*error*",
+    "*error*", "*error*", "*error*", "*error*",
+    "SockAct", // 50
+    "AccelOverride", "*error*", "*error*", "*error*", "*error*",
+    "*error*", "*error*", "*error*", "*error*",
+    "DragEnter", // 60
+    "DragMove",
+    "DragLeave",
+    "Drop",
+    "DragResponse", // 64
+    "*error*", "*error*", "*error*", "*error*", "*error*",
+    "ChildInserted", // 70
+    "ChildRemoved",
+    "LayoutHint", // 72
+    "*error*", "*error*", "*error*", "*error*", "*error*",
+    "*error*", "*error*",
+    "ActivateControl", // 80
+    "DeactivateControl"
+  };
+
+  SoDebugError::postInfo("SoQtComponent::eventFilter", "%p: %s",
+                         obj, eventnaming[e->type()]);
+#endif // debug
+
+  if (e->type() == QEvent::Resize) {
+    QResizeEvent * r = (QResizeEvent *)e;
+
+    if (obj == (QObject *)this->parent) {
+#if SOQTCOMP_RESIZE_DEBUG  // debug
+      SoDebugError::postInfo("SoQtComponent::eventFilter",
+                             "resize on parent (%p) to %p: (%d, %d)",
+                             this->parent, this->widget,
+                             r->size().width(), r->size().height());
+#endif // debug
+      this->widget->resize(r->size());
+      this->storesize.setValue(r->size().width(), r->size().height());
+      PUBLIC(this)->sizeChanged(this->storesize);
+    }
+    else if (obj == (QObject *)this->widget) {
+      this->storesize.setValue(r->size().width(), r->size().height());
+      PUBLIC(this)->sizeChanged(this->storesize);
+    }
+  }
+  // Detect visibility changes.
+  else if (obj == this->widget &&
+           (e->type() == QEvent::Show || e->type() == QEvent::Hide)) {
+    if (this->visibilitychangeCBs) {
+      for (int i=0; i < this->visibilitychangeCBs->getLength()/2; i++) {
+        SoQtComponentVisibilityCB * cb =
+          (SoQtComponentVisibilityCB *)(*(this->visibilitychangeCBs))[i*2+0];
+        void * userdata = (*(this->visibilitychangeCBs))[i*2+1];
+        cb(userdata, e->type() == QEvent::Show ? TRUE : FALSE);
+      }
+    }
+  }
+
+  // It would seem more sensible that we should trigger on
+  // QEvent::Create than on QEvent::Show for the afterRealizeHook()
+  // method, but the QEvent::Create type is not yet used in Qt (as of
+  // version 2.2.2 at least) -- it has just been reserved for future
+  // releases.
+  if (e->type() == QEvent::Show && !this->realized) {
+    this->realized = TRUE;
+    PUBLIC(this)->afterRealizeHook();
+  }
+
+  return FALSE;
 }
 
 #endif // DOXYGEN_SKIP_THIS
@@ -216,7 +320,7 @@ SoQtComponent::SoQtComponent(QWidget * const parent,
     PRIVATE(this)->embedded = TRUE;
   }
 
-  PRIVATE(this)->parent->installEventFilter(this);
+  PRIVATE(this)->parent->installEventFilter(PRIVATE(this));
 }
 
 // documented in common/SoGuiComponentCommon.cpp.in.
@@ -225,10 +329,6 @@ SoQtComponent::~SoQtComponent()
   if (PRIVATE(this)->widget) {
     this->unregisterWidget(PRIVATE(this)->widget);
   }
-
-  int idx = SoQtComponentP::soqtcomplist->find((void *) this);
-  assert(idx != -1);
-  SoQtComponentP::soqtcomplist->remove(idx);
 
   delete PRIVATE(this)->visibilitychangeCBs;
 
@@ -300,9 +400,9 @@ SoQtComponent::setBaseWidget(QWidget * widget)
   assert(widget);
 
 //  if (PRIVATE(this)->parent)
-//    PRIVATE(this)->parent->removeEventFilter(this);
+//    PRIVATE(this)->parent->removeEventFilter(PRIVATE(this));
   if (PRIVATE(this)->widget)
-    PRIVATE(this)->widget->removeEventFilter(this);
+    PRIVATE(this)->widget->removeEventFilter(PRIVATE(this));
 
   if (PRIVATE(this)->widget) { this->unregisterWidget(PRIVATE(this)->widget); }
   PRIVATE(this)->widget = widget;
@@ -334,128 +434,16 @@ SoQtComponent::setBaseWidget(QWidget * widget)
   PRIVATE(this)->widget->setName(PRIVATE(this)->widgetname);
 
   // Need this to auto-detect resize events.
-//  if (PRIVATE(this)->parent) PRIVATE(this)->parent->installEventFilter(this);
-  PRIVATE(this)->widget->installEventFilter(this);
+//  if (PRIVATE(this)->parent)
+//    PRIVATE(this)->parent->installEventFilter(PRIVATE(this));
+
+  PRIVATE(this)->widget->installEventFilter(PRIVATE(this));
+
   QObject::connect(PRIVATE(this)->widget, SIGNAL(destroyed()),
-                   this, SLOT(widgetClosed()));
-#if 0 // debug
-  SoDebugError::postInfo("SoQtComponent::setBaseWidget",
-                         "installeventfilter, widget: %p", PRIVATE(this)->widget);
-#endif // debug
+                   PRIVATE(this), SLOT(widgetClosed()));
 
 //  if (storesize[0] != -1)
 //    PRIVATE(this)->widget->resize(QSize(storesize[0], storesize[1]));
-}
-
-// *************************************************************************
-
-/*!
-  \internal
-
-  Helps us detect changes in size (base widget and parent widget)
-  and visibility status.
-*/
-bool
-SoQtComponent::eventFilter(QObject * obj, QEvent * e)
-{
-#if 0 // debug
-  static const char eventnaming[][50] = {
-    "None", // 0
-    "Timer",
-    "MouseButtonPress",
-    "MouseButtonRelease",
-    "MouseButtonDblClick",
-    "MouseMove",
-    "KeyPress",
-    "KeyRelease",
-    "FocusIn",
-    "FocusOut",
-    "Enter",
-    "Leave",
-    "Paint",
-    "Move",
-    "Resize",
-    "Create",
-    "Destroy",
-    "Show",
-    "Hide",
-    "Close",
-    "Quit", // 20
-    "*error*", "*error*", "*error*", "*error*", "*error*",
-    "*error*", "*error*", "*error*", "*error*",
-    "Accel", // 30
-    "Wheel",
-    "AccelAvailable", // 32
-    "*error*", "*error*", "*error*", "*error*",
-    "*error*", "*error*", "*error*",
-    "Clipboard", // 40
-    "*error*", "*error*", "*error*", "*error*", "*error*",
-    "*error*", "*error*", "*error*", "*error*",
-    "SockAct", // 50
-    "AccelOverride", "*error*", "*error*", "*error*", "*error*",
-    "*error*", "*error*", "*error*", "*error*",
-    "DragEnter", // 60
-    "DragMove",
-    "DragLeave",
-    "Drop",
-    "DragResponse", // 64
-    "*error*", "*error*", "*error*", "*error*", "*error*",
-    "ChildInserted", // 70
-    "ChildRemoved",
-    "LayoutHint", // 72
-    "*error*", "*error*", "*error*", "*error*", "*error*",
-    "*error*", "*error*",
-    "ActivateControl", // 80
-    "DeactivateControl"
-  };
-
-  SoDebugError::postInfo("SoQtComponent::eventFilter", "%p: %s",
-                         obj, eventnaming[e->type()]);
-#endif // debug
-
-  if (e->type() == QEvent::Resize) {
-    QResizeEvent * r = (QResizeEvent *)e;
-
-    if (obj == (QObject *)PRIVATE(this)->parent) {
-#if SOQTCOMP_RESIZE_DEBUG  // debug
-      SoDebugError::postInfo("SoQtComponent::eventFilter",
-                             "resize on parent (%p) to %p: (%d, %d)",
-                             PRIVATE(this)->parent, PRIVATE(this)->widget,
-                             r->size().width(), r->size().height());
-#endif // debug
-      PRIVATE(this)->widget->resize(r->size());
-      PRIVATE(this)->storesize.setValue(r->size().width(), r->size().height());
-      this->sizeChanged(PRIVATE(this)->storesize);
-    }
-    else if (obj == (QObject *)PRIVATE(this)->widget) {
-      PRIVATE(this)->storesize.setValue(r->size().width(), r->size().height());
-      this->sizeChanged(PRIVATE(this)->storesize);
-    }
-  }
-  // Detect visibility changes.
-  else if (obj == PRIVATE(this)->widget &&
-           (e->type() == QEvent::Show || e->type() == QEvent::Hide)) {
-    if (PRIVATE(this)->visibilitychangeCBs) {
-      for (int i=0; i < PRIVATE(this)->visibilitychangeCBs->getLength()/2; i++) {
-        SoQtComponentVisibilityCB * cb =
-          (SoQtComponentVisibilityCB *)(*(PRIVATE(this)->visibilitychangeCBs))[i*2+0];
-        void * userdata = (*(PRIVATE(this)->visibilitychangeCBs))[i*2+1];
-        cb(userdata, e->type() == QEvent::Show ? TRUE : FALSE);
-      }
-    }
-  }
-
-  // It would seem more sensible that we should trigger on
-  // QEvent::Create than on QEvent::Show for the afterRealizeHook()
-  // method, but the QEvent::Create type is not yet used in Qt (as of
-  // version 2.2.2 at least) -- it has just been reserved for future
-  // releases.
-  if (e->type() == QEvent::Show && !PRIVATE(this)->realized) {
-    PRIVATE(this)->realized = TRUE;
-    this->afterRealizeHook();
-  }
-
-  return FALSE;
 }
 
 // *************************************************************************
@@ -700,18 +688,6 @@ SoQtComponent::setWindowCloseCallback(SoQtComponentCB * const func,
 {
   PRIVATE(this)->closeCB = func;
   PRIVATE(this)->closeCBdata = data;
-}
-
-/*!
-  \internal
-
-  SLOT for when the user clicks/selects window decoration close.
-*/
-void
-SoQtComponent::widgetClosed(void)
-{
-  if (PRIVATE(this)->closeCB)
-    PRIVATE(this)->closeCB(PRIVATE(this)->closeCBdata, this);
 }
 
 // *************************************************************************

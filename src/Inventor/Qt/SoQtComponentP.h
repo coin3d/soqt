@@ -24,16 +24,20 @@
 #ifndef SOQTCOMPONENTP_H
 #define SOQTCOMPONENTP_H
 
+#include <qobject.h>
 #include <Inventor/Qt/SoGuiComponentP.h>
 #include <Inventor/Qt/SoQtCursor.h>
+#include <Inventor/Qt/SoQtComponent.h> // for SoQtComponentCB typedef
 
 // ************************************************************************
 
 // This class contains private data and methods used within the
 // SoQtComponent class.
 
-class SoQtComponentP : public SoGuiComponentP
+class SoQtComponentP : public QObject, public SoGuiComponentP
 {
+  Q_OBJECT
+
 public:
   SoQtComponentP(SoQtComponent * publ);
   ~SoQtComponentP();
@@ -56,9 +60,10 @@ public:
   SbVec2s storesize;
   SbBool fullscreen;
 
-  // List of all SoQtComponent instances. Needed for the
-  // SoQtComponent::getComponent() function.
-  static SbPList * soqtcomplist;
+  virtual bool eventFilter(QObject * obj, QEvent * e);
+
+public slots:
+  void widgetClosed(void);
 
 private:
   static SbDict * cursordict;
