@@ -17,16 +17,16 @@
  *
 \**************************************************************************/
 
+#include <math.h> 
+#include <assert.h>
+#include <stdio.h>
+
 #include <Inventor/Qt/widgets/QtThumbwheel.h>
 #include <Inventor/SbBasic.h>
 
 #include "qpainter.h"
 #include "qdrawutil.h"
 
-#include <assert.h>
-#include <math.h> 
-
-#include <stdio.h>
 
 static const int SHADEBORDERWIDTH = 2;
 
