@@ -58,6 +58,9 @@
 
 // *************************************************************************
 
+#define PRIVATE(obj) ((obj)->pimpl)
+#define PUBLIC(obj) ((obj)->pub)
+
 #ifndef DOXYGEN_SKIP_THIS
 
 class SoQtKeyboardP : public SoGuiKeyboardP {
@@ -475,3 +478,7 @@ SoQtKeyboard::translateEvent(QEvent * event)
 }
 
 // *************************************************************************
+
+#undef PRIVATE
+#undef PUBLIC
+

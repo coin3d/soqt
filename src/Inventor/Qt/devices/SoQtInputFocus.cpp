@@ -33,6 +33,9 @@
 #include <Inventor/Qt/devices/SoQtInputFocus.h>
 #include <Inventor/Qt/devices/SoGuiInputFocusP.h>
 
+#define PRIVATE(obj) ((obj)->pimpl)
+#define PUBLIC(obj) ((obj)->pub)
+
 // *************************************************************************
 
 class SoQtInputFocusP : public SoGuiInputFocusP {
@@ -77,3 +80,7 @@ SoQtInputFocus::translateEvent(QEvent *)
 }
 
 // *************************************************************************
+
+#undef PRIVATE
+#undef PUBLIC
+

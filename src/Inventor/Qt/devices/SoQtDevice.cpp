@@ -35,6 +35,9 @@
 #include <soqtdefs.h>
 #include <Inventor/Qt/devices/SoQtDeviceP.h>
 
+#define PRIVATE(obj) ((obj)->pimpl)
+#define PUBLIC(obj) ((obj)->pub)
+
 // *************************************************************************
 
 /*!
@@ -83,3 +86,7 @@ SoQtDeviceP::invokeHandlerCB(SoQtEventHandler * handler,
 #endif // DOXYGEN_SKIP_THIS
 
 // *************************************************************************
+
+#undef PRIVATE
+#undef PUBLIC
+

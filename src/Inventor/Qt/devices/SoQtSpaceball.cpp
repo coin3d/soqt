@@ -46,6 +46,8 @@
 #include <Inventor/Qt/devices/spwinput_win32.h>
 #endif // HAVE_WIN32_API
 
+#define PRIVATE(obj) ((obj)->pimpl)
+#define PUBLIC(obj) ((obj)->pub)
 
 // *************************************************************************
 
@@ -211,3 +213,7 @@ SoQtSpaceball::isFocusToWindow(void) const
 }
 
 // *************************************************************************
+
+#undef PRIVATE
+#undef PUBLIC
+

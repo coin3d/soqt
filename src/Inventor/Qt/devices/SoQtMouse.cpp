@@ -33,6 +33,9 @@
 #include <Inventor/Qt/devices/SoQtMouse.h>
 #include <Inventor/Qt/devices/SoGuiMouseP.h>
 
+#define PRIVATE(obj) ((obj)->pimpl)
+#define PUBLIC(obj) ((obj)->pub)
+
 // *************************************************************************
 
 #ifndef DOXYGEN_SKIP_THIS
@@ -231,3 +234,7 @@ SoQtMouse::translateEvent(QEvent * event)
 }
 
 // *************************************************************************
+
+#undef PRIVATE
+#undef PUBLIC
+
