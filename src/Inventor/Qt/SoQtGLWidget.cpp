@@ -188,19 +188,15 @@ SoQtGLWidget::buildGLWidget(void)
     this->glwidget = NULL;
   }
   QGLFormat f;
-  f.setDoubleBuffer((this->glmodebits & SO_GLX_DOUBLE) ? TRUE : FALSE);
-  f.setDepth((this->glmodebits & SO_GLX_ZBUFFER) ? TRUE : FALSE);
-  f.setRgba((this->glmodebits & SO_GLX_RGB) ? TRUE : FALSE);
-  f.setStereo((this->glmodebits & SO_GLX_STEREO) ? TRUE : FALSE);
+  f.setDoubleBuffer((this->glmodebits & SO_GLX_DOUBLE) ? true : false);
+  f.setDepth((this->glmodebits & SO_GLX_ZBUFFER) ? true : false);
+  f.setRgba((this->glmodebits & SO_GLX_RGB) ? true : false);
+  f.setStereo((this->glmodebits & SO_GLX_STEREO) ? true : false);
 
 #if HAVE_QGLFORMAT_SETOVERLAY
-  f.setOverlay( FALSE ); // at the time being...
+  // FIXME: do proper overlay handling. 20001121 mortene.
+  f.setOverlay( false );
 #endif // HAVE_QGLFORMAT_SETOVERLAY
-
-  // FIXME: the SO_GLX_OVERLAY bit is not considered (Qt doesn't seem
-  // to support overlay planes -- check this with the Qt FAQ or
-  // mailing list archives). 990210 mortene.
-  // UPDATE: overlay planes are supported with Qt 2.x. 19991218 mortene.
 
   this->glwidget = new SoQtGLArea( &f, this->borderwidget );
 
@@ -479,7 +475,7 @@ SoQtGLWidget::setDoubleBuffer(
 SbBool
 SoQtGLWidget::isDoubleBuffer(void) const
 {
-  if(this->glwidget) return this->glwidget->doubleBuffer();
+  if (this->glwidget) return this->glwidget->doubleBuffer();
   else return (this->glmodebits & SO_GLX_DOUBLE) ? TRUE : FALSE;
 }
 
@@ -493,7 +489,9 @@ SoQtGLWidget::setQuadBufferStereo(const SbBool enable)
   if ( enable != oldenable ) {
     if (enable) this->glmodebits |= SO_GLX_STEREO;
     else this->glmodebits &= ~SO_GLX_STEREO;
-    this->buildGLWidget();
+    // We're satisfied with just setting up the flag if no GL widget
+    // was built yet.
+    if (this->glwidget) this->buildGLWidget();
   }
 }
 
