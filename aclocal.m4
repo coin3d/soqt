@@ -7446,334 +7446,6 @@ fi
 ])
 
 
-# **************************************************************************
-# SIM_AC_CHECK_HEADER_TLHELP32_H:
-#
-#   Check for tlhelp32.h.
-
-AC_DEFUN([SIM_AC_CHECK_HEADER_TLHELP32_H], [
-# At least with MSVC++, these headers needs windows.h to have been included first.
-AC_CHECK_HEADERS([tlhelp32.h], [], [], [
-#ifdef HAVE_WINDOWS_H
-#include <windows.h>
-#endif
-])
-]) # SIM_AC_CHECK_HEADER_TLHELP32_H
-
-
-# **************************************************************************
-# SIM_AC_CHECK_FUNC__SPLITPATH:
-#
-#   Check for the _splitpath() macro/function.
-
-AC_DEFUN([SIM_AC_CHECK_FUNC__SPLITPATH], [
-AC_MSG_CHECKING([for _splitpath()])
-AC_LINK_IFELSE(
-[AC_LANG_PROGRAM([
-#ifdef HAVE_WINDOWS_H
-#include <windows.h>
-#endif
-#include <stdlib.h>
-], [
-  char filename[[100]];
-  char drive[[100]];
-  char dir[[100]];
-  _splitpath(filename, drive, dir, NULL, NULL);
-])], [
-  AC_DEFINE([HAVE__SPLITPATH], 1, [define if the system has _splitpath()])
-  AC_MSG_RESULT([found])
-], [
-  AC_MSG_RESULT([not found])
-])
-]) # SIM_AC_CHECK_FUNC__SPLITPATH
-
-
-# **************************************************************************
-# SIM_AC_CHECK_WIN32_API:
-#
-#   Check if the basic Win32 API is available.
-#
-#   Defines HAVE_WIN32_API, and sets sim_ac_have_win32_api to
-#   either true or false.
-
-AC_DEFUN([SIM_AC_CHECK_WIN32_API], [
-sim_ac_have_win32_api=false
-AC_MSG_CHECKING([if the Win32 API is available])
-AC_COMPILE_IFELSE(
-[AC_LANG_PROGRAM([
-#include <windows.h>
-],
-[
-  /* These need to be as basic as possible. I.e. they should be
-     available on all Windows versions. That means NT 3.1 and later,
-     Win95 and later, WinCE 1.0 and later), their definitions should
-     be available from windows.h, and should be linked in from kernel32.
-
-     The ones below are otherwise rather random picks.
-  */
-  (void)CreateDirectory(NULL, NULL);
-  (void)RemoveDirectory(NULL);
-  SetLastError(0);
-  (void)GetLastError();
-  (void)LocalAlloc(0, 1);
-  (void)LocalFree(NULL);
-  return 0;
-])],
-[sim_ac_have_win32_api=true])
-
-if $sim_ac_have_win32_api; then
-  AC_DEFINE([HAVE_WIN32_API], [1], [Define if the Win32 API is available])
-  AC_MSG_RESULT([yes])
-else
-  AC_MSG_RESULT([no])
-fi
-]) # SIM_AC_CHECK_WIN32_API
-
-
-# SIM_AC_CHECK_DL([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
-# ----------------------------------------------------------
-#
-#  Try to find the dynamic link loader library. If it is found, these
-#  shell variables are set:
-#
-#    $sim_ac_dl_cppflags (extra flags the compiler needs for dl lib)
-#    $sim_ac_dl_ldflags  (extra flags the linker needs for dl lib)
-#    $sim_ac_dl_libs     (link libraries the linker needs for dl lib)
-#
-#  The CPPFLAGS, LDFLAGS and LIBS flags will also be modified accordingly.
-#
-# Author: Morten Eriksen, <mortene@sim.no>.
-
-AC_DEFUN([SIM_AC_CHECK_DL], [
-AC_ARG_WITH(
-  [dl],
-  [AC_HELP_STRING(
-    [--with-dl=DIR],
-    [include support for the dynamic link loader library [default=yes]])],
-  [],
-  [with_dl=yes])
-
-if test x"$with_dl" != xno; then
-  if test x"$with_dl" != xyes; then
-    sim_ac_dl_cppflags="-I${with_dl}/include"
-    sim_ac_dl_ldflags="-L${with_dl}/lib"
-  fi
-
-  sim_ac_save_cppflags=$CPPFLAGS
-  sim_ac_save_ldflags=$LDFLAGS
-  sim_ac_save_libs=$LIBS
-
-  CPPFLAGS="$CPPFLAGS $sim_ac_dl_cppflags"
-  LDFLAGS="$LDFLAGS $sim_ac_dl_ldflags"
-
-  # Use SIM_AC_CHECK_HEADERS instead of .._HEADER to get the
-  # HAVE_DLFCN_H symbol set up in config.h automatically.
-  AC_CHECK_HEADERS([dlfcn.h])
-
-  sim_ac_dl_avail=false
-
-  AC_MSG_CHECKING([for the dl library])
-  # At least under FreeBSD, dlopen() et al is part of the C library.
-  # On HP-UX, dlopen() might reside in a library "svld" instead of "dl".
-  for sim_ac_dl_libcheck in "" "-ldl" "-lsvld"; do
-    if ! $sim_ac_dl_avail; then
-      LIBS="$sim_ac_dl_libcheck $sim_ac_save_libs"
-      AC_TRY_LINK([
-#ifdef HAVE_DLFCN_H
-#include <dlfcn.h>
-#endif /* HAVE_DLFCN_H */
-],
-                  [(void)dlopen(0L, 0); (void)dlsym(0L, "Gunners!"); (void)dlclose(0L);],
-                  [sim_ac_dl_avail=true
-                   sim_ac_dl_libs="$sim_ac_dl_libcheck"
-                  ])
-    fi
-  done
-
-  if $sim_ac_dl_avail; then
-    if test x"$sim_ac_dl_libs" = x""; then
-      AC_MSG_RESULT(yes)
-    else
-      AC_MSG_RESULT($sim_ac_dl_cppflags $sim_ac_dl_ldflags $sim_ac_dl_libs)
-    fi
-  else
-    AC_MSG_RESULT(not available)
-  fi
-
-  if $sim_ac_dl_avail; then
-    ifelse([$1], , :, [$1])
-  else
-    CPPFLAGS=$sim_ac_save_cppflags
-    LDFLAGS=$sim_ac_save_ldflags
-    LIBS=$sim_ac_save_libs
-    ifelse([$2], , :, [$2])
-  fi
-fi
-])
-
-# SIM_AC_CHECK_LOADLIBRARY([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
-# -------------------------------------------------------------------
-#
-#  Try to use the Win32 dynamic link loader methods LoadLibrary(),
-#  GetProcAddress() and FreeLibrary().
-#
-# Author: Morten Eriksen, <mortene@sim.no>.
-
-AC_DEFUN([SIM_AC_CHECK_LOADLIBRARY], [
-AC_ARG_ENABLE(
-  [loadlibrary],
-  [AC_HELP_STRING([--disable-loadlibrary], [don't use run-time link bindings under Win32])],
-  [case $enableval in
-  yes | true ) sim_ac_win32_loadlibrary=true ;;
-  *) sim_ac_win32_loadlibrary=false ;;
-  esac],
-  [sim_ac_win32_loadlibrary=true])
-
-if $sim_ac_win32_loadlibrary; then
-  # Use SIM_AC_CHECK_HEADERS instead of .._HEADER to get the
-  # HAVE_DLFCN_H symbol set up in config.h automatically.
-  AC_CHECK_HEADERS([windows.h])
-
-  AC_CACHE_CHECK([whether the Win32 LoadLibrary() method is available],
-    sim_cv_lib_loadlibrary_avail,
-    [AC_TRY_LINK([
-#ifdef HAVE_WINDOWS_H
-#include <windows.h>
-#endif /* HAVE_WINDOWS_H */
-],
-                 [(void)LoadLibrary(0L); (void)GetProcAddress(0L, 0L); (void)FreeLibrary(0L); ],
-                 [sim_cv_lib_loadlibrary_avail=yes],
-                 [sim_cv_lib_loadlibrary_avail=no])])
-
-  if test x"$sim_cv_lib_loadlibrary_avail" = xyes; then
-    ifelse([$1], , :, [$1])
-  else
-    ifelse([$2], , :, [$2])
-  fi
-fi
-])
-
-# SIM_AC_CHECK_DLD([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
-# ----------------------------------------------------------
-#
-#  Try to find the dynamic link loader library available on HP-UX 10.
-#  If it is found, this shell variable is set:
-#
-#    $sim_ac_dld_libs     (link libraries the linker needs for dld lib)
-#
-#  The $LIBS var will also be modified accordingly.
-#
-# Author: Morten Eriksen, <mortene@sim.no>.
-
-AC_DEFUN([SIM_AC_CHECK_DLD], [
-  sim_ac_dld_libs="-ldld"
-
-  sim_ac_save_libs=$LIBS
-  LIBS="$sim_ac_dld_libs $LIBS"
-
-  AC_CACHE_CHECK([whether the DLD shared library loader is available],
-    sim_cv_lib_dld_avail,
-    [AC_TRY_LINK([#include <dl.h>],
-                 [(void)shl_load("allyourbase", 0, 0L); (void)shl_findsym(0L, "arebelongtous", 0, 0L); (void)shl_unload((shl_t)0);],
-                 [sim_cv_lib_dld_avail=yes],
-                 [sim_cv_lib_dld_avail=no])])
-
-  if test x"$sim_cv_lib_dld_avail" = xyes; then
-    ifelse([$1], , :, [$1])
-  else
-    LIBS=$sim_ac_save_libs
-    ifelse([$2], , :, [$2])
-  fi
-])
-
-
-# SIM_AC_CHECK_DYLD([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
-# -------------------------------------------------------------------
-#
-#  Try to use the Mac OS X dynamik link editor method 
-#  NSLookupAndBindSymbol()
-#
-# Author: Karin Kosina, <kyrah@sim.no>
-
-AC_DEFUN([SIM_AC_CHECK_DYLD], [
-AC_ARG_ENABLE(
-  [dyld],
-  [AC_HELP_STRING([--disable-dyld], 
-                  [don't use run-time link bindings under Mac OS X])],
-  [case $enableval in
-  yes | true ) sim_ac_dyld=true ;;
-  *) sim_ac_dyld=false ;;
-  esac],
-  [sim_ac_dyld=true])
-
-if $sim_ac_dyld; then
-
-  AC_CHECK_HEADERS([mach-o/dyld.h])
-
-  AC_CACHE_CHECK([whether we can use Mach-O dyld],
-    sim_cv_dyld_avail,
-    [AC_TRY_LINK([
-#ifdef HAVE_MACH_O_DYLD_H
-#include <mach-o/dyld.h>
-#endif /* HAVE_MACH_O_DYLD_H */
-],
-                 [(void)NSLookupAndBindSymbol("foo");],
-                 [sim_cv_dyld_avail=yes],
-                 [sim_cv_dyld_avail=no])])
-
-  if test x"$sim_cv_dyld_avail" = xyes; then
-    ifelse([$1], , :, [$1])
-  else
-    ifelse([$2], , :, [$2])
-  fi
-fi
-])
-
-# **************************************************************************
-# Usage:
-#   SIM_AC_CHECK_FINK ([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
-#
-# Description:
-#   This macro checks for the availability of the Fink system. Fink is 
-#   dpkg-based distribution of UNIX tools for Mac OS X that installs
-#   libraries and headers into /sw.
-#
-# Autoconf Variables:
-#     $sim_ac_fink_avail       true | false
-#     $sim_ac_fink_cppflags    (extra flags the preprocessor needs)
-#     $sim_ac_fink_ldflags     (extra flags the linker needs)
-#
-# CPPFLAGS and LDFLAGS will also be set accordingly.
-#
-# Authors:
-#   Karin Kosina <kyrah@sim.no>
-#
-
-AC_DEFUN([SIM_AC_CHECK_FINK], [
-sim_ac_have_fink=false
-AC_MSG_CHECKING([if fink is available])
-if test -d /sw/include && test -d /sw/lib; then
-  AC_MSG_RESULT([yes])
-  sim_ac_have_fink=true
-  sim_ac_fink_cppflags="-I/sw/include"
-  sim_ac_fink_ldflags="-L/sw/lib"
-  CPPFLAGS="$CPPFLAGS $sim_ac_fink_cppflags"
-  LDFLAGS="$LDFLAGS $sim_ac_fink_ldflags"
-else 
-  AC_MSG_RESULT([no])
-  sim_ac_fink_cppflags=
-  sim_ac_fink_ldflags=
-fi
-
-if $sim_ac_have_fink; then
-  ifelse([$1], , :, [$1])
-else
-  ifelse([$2], , :, [$2])
-fi
-
-]) # SIM_AC_CHECK_FINK
-
-
 # Usage:
 #  SIM_AC_CHECK_X11([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 #
@@ -7794,9 +7466,25 @@ fi
 AC_DEFUN([SIM_AC_CHECK_X11], [
 AC_REQUIRE([AC_PATH_XTRA])
 
+sim_ac_enable_darwin_x11=true
+
+case $host_os in
+  darwin* ) 
+    AC_ARG_ENABLE([darwin-x11],
+      AC_HELP_STRING([--enable-darwin-x11],
+                     [enable X11 on Darwin [[default=--disable-darwin-x11]]]),
+      [case "${enableval}" in
+        yes | true) sim_ac_enable_darwin_x11=true ;;
+        no | false) sim_ac_enable_darwin_x11=false ;;
+        *) SIM_AC_ENABLE_ERROR([--enable-darwin-x11]) ;;
+      esac],
+      [sim_ac_enable_darwin_x11=false])
+  ;;
+esac
+
 sim_ac_x11_avail=no
 
-if test x"$no_x" != xyes; then
+if test x"$no_x" != xyes -a x"$sim_ac_enable_darwin_x11" = xtrue; then
   #  *** DEBUG ***
   #  Keep this around, as it can be handy when testing on new systems.
   # echo "X_CFLAGS: $X_CFLAGS"
@@ -8212,6 +7900,334 @@ fi
 
 
 # **************************************************************************
+# SIM_AC_CHECK_HEADER_TLHELP32_H:
+#
+#   Check for tlhelp32.h.
+
+AC_DEFUN([SIM_AC_CHECK_HEADER_TLHELP32_H], [
+# At least with MSVC++, these headers needs windows.h to have been included first.
+AC_CHECK_HEADERS([tlhelp32.h], [], [], [
+#ifdef HAVE_WINDOWS_H
+#include <windows.h>
+#endif
+])
+]) # SIM_AC_CHECK_HEADER_TLHELP32_H
+
+
+# **************************************************************************
+# SIM_AC_CHECK_FUNC__SPLITPATH:
+#
+#   Check for the _splitpath() macro/function.
+
+AC_DEFUN([SIM_AC_CHECK_FUNC__SPLITPATH], [
+AC_MSG_CHECKING([for _splitpath()])
+AC_LINK_IFELSE(
+[AC_LANG_PROGRAM([
+#ifdef HAVE_WINDOWS_H
+#include <windows.h>
+#endif
+#include <stdlib.h>
+], [
+  char filename[[100]];
+  char drive[[100]];
+  char dir[[100]];
+  _splitpath(filename, drive, dir, NULL, NULL);
+])], [
+  AC_DEFINE([HAVE__SPLITPATH], 1, [define if the system has _splitpath()])
+  AC_MSG_RESULT([found])
+], [
+  AC_MSG_RESULT([not found])
+])
+]) # SIM_AC_CHECK_FUNC__SPLITPATH
+
+
+# **************************************************************************
+# SIM_AC_CHECK_WIN32_API:
+#
+#   Check if the basic Win32 API is available.
+#
+#   Defines HAVE_WIN32_API, and sets sim_ac_have_win32_api to
+#   either true or false.
+
+AC_DEFUN([SIM_AC_CHECK_WIN32_API], [
+sim_ac_have_win32_api=false
+AC_MSG_CHECKING([if the Win32 API is available])
+AC_COMPILE_IFELSE(
+[AC_LANG_PROGRAM([
+#include <windows.h>
+],
+[
+  /* These need to be as basic as possible. I.e. they should be
+     available on all Windows versions. That means NT 3.1 and later,
+     Win95 and later, WinCE 1.0 and later), their definitions should
+     be available from windows.h, and should be linked in from kernel32.
+
+     The ones below are otherwise rather random picks.
+  */
+  (void)CreateDirectory(NULL, NULL);
+  (void)RemoveDirectory(NULL);
+  SetLastError(0);
+  (void)GetLastError();
+  (void)LocalAlloc(0, 1);
+  (void)LocalFree(NULL);
+  return 0;
+])],
+[sim_ac_have_win32_api=true])
+
+if $sim_ac_have_win32_api; then
+  AC_DEFINE([HAVE_WIN32_API], [1], [Define if the Win32 API is available])
+  AC_MSG_RESULT([yes])
+else
+  AC_MSG_RESULT([no])
+fi
+]) # SIM_AC_CHECK_WIN32_API
+
+
+# SIM_AC_CHECK_DL([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+# ----------------------------------------------------------
+#
+#  Try to find the dynamic link loader library. If it is found, these
+#  shell variables are set:
+#
+#    $sim_ac_dl_cppflags (extra flags the compiler needs for dl lib)
+#    $sim_ac_dl_ldflags  (extra flags the linker needs for dl lib)
+#    $sim_ac_dl_libs     (link libraries the linker needs for dl lib)
+#
+#  The CPPFLAGS, LDFLAGS and LIBS flags will also be modified accordingly.
+#
+# Author: Morten Eriksen, <mortene@sim.no>.
+
+AC_DEFUN([SIM_AC_CHECK_DL], [
+AC_ARG_WITH(
+  [dl],
+  [AC_HELP_STRING(
+    [--with-dl=DIR],
+    [include support for the dynamic link loader library [default=yes]])],
+  [],
+  [with_dl=yes])
+
+if test x"$with_dl" != xno; then
+  if test x"$with_dl" != xyes; then
+    sim_ac_dl_cppflags="-I${with_dl}/include"
+    sim_ac_dl_ldflags="-L${with_dl}/lib"
+  fi
+
+  sim_ac_save_cppflags=$CPPFLAGS
+  sim_ac_save_ldflags=$LDFLAGS
+  sim_ac_save_libs=$LIBS
+
+  CPPFLAGS="$CPPFLAGS $sim_ac_dl_cppflags"
+  LDFLAGS="$LDFLAGS $sim_ac_dl_ldflags"
+
+  # Use SIM_AC_CHECK_HEADERS instead of .._HEADER to get the
+  # HAVE_DLFCN_H symbol set up in config.h automatically.
+  AC_CHECK_HEADERS([dlfcn.h])
+
+  sim_ac_dl_avail=false
+
+  AC_MSG_CHECKING([for the dl library])
+  # At least under FreeBSD, dlopen() et al is part of the C library.
+  # On HP-UX, dlopen() might reside in a library "svld" instead of "dl".
+  for sim_ac_dl_libcheck in "" "-ldl" "-lsvld"; do
+    if $sim_ac_dl_avail; then :; else
+      LIBS="$sim_ac_dl_libcheck $sim_ac_save_libs"
+      AC_TRY_LINK([
+#ifdef HAVE_DLFCN_H
+#include <dlfcn.h>
+#endif /* HAVE_DLFCN_H */
+],
+                  [(void)dlopen(0L, 0); (void)dlsym(0L, "Gunners!"); (void)dlclose(0L);],
+                  [sim_ac_dl_avail=true
+                   sim_ac_dl_libs="$sim_ac_dl_libcheck"
+                  ])
+    fi
+  done
+
+  if $sim_ac_dl_avail; then
+    if test x"$sim_ac_dl_libs" = x""; then
+      AC_MSG_RESULT(yes)
+    else
+      AC_MSG_RESULT($sim_ac_dl_cppflags $sim_ac_dl_ldflags $sim_ac_dl_libs)
+    fi
+  else
+    AC_MSG_RESULT(not available)
+  fi
+
+  if $sim_ac_dl_avail; then
+    ifelse([$1], , :, [$1])
+  else
+    CPPFLAGS=$sim_ac_save_cppflags
+    LDFLAGS=$sim_ac_save_ldflags
+    LIBS=$sim_ac_save_libs
+    ifelse([$2], , :, [$2])
+  fi
+fi
+])
+
+# SIM_AC_CHECK_LOADLIBRARY([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+# -------------------------------------------------------------------
+#
+#  Try to use the Win32 dynamic link loader methods LoadLibrary(),
+#  GetProcAddress() and FreeLibrary().
+#
+# Author: Morten Eriksen, <mortene@sim.no>.
+
+AC_DEFUN([SIM_AC_CHECK_LOADLIBRARY], [
+AC_ARG_ENABLE(
+  [loadlibrary],
+  [AC_HELP_STRING([--disable-loadlibrary], [don't use run-time link bindings under Win32])],
+  [case $enableval in
+  yes | true ) sim_ac_win32_loadlibrary=true ;;
+  *) sim_ac_win32_loadlibrary=false ;;
+  esac],
+  [sim_ac_win32_loadlibrary=true])
+
+if $sim_ac_win32_loadlibrary; then
+  # Use SIM_AC_CHECK_HEADERS instead of .._HEADER to get the
+  # HAVE_DLFCN_H symbol set up in config.h automatically.
+  AC_CHECK_HEADERS([windows.h])
+
+  AC_CACHE_CHECK([whether the Win32 LoadLibrary() method is available],
+    sim_cv_lib_loadlibrary_avail,
+    [AC_TRY_LINK([
+#ifdef HAVE_WINDOWS_H
+#include <windows.h>
+#endif /* HAVE_WINDOWS_H */
+],
+                 [(void)LoadLibrary(0L); (void)GetProcAddress(0L, 0L); (void)FreeLibrary(0L); ],
+                 [sim_cv_lib_loadlibrary_avail=yes],
+                 [sim_cv_lib_loadlibrary_avail=no])])
+
+  if test x"$sim_cv_lib_loadlibrary_avail" = xyes; then
+    ifelse([$1], , :, [$1])
+  else
+    ifelse([$2], , :, [$2])
+  fi
+fi
+])
+
+# SIM_AC_CHECK_DLD([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+# ----------------------------------------------------------
+#
+#  Try to find the dynamic link loader library available on HP-UX 10.
+#  If it is found, this shell variable is set:
+#
+#    $sim_ac_dld_libs     (link libraries the linker needs for dld lib)
+#
+#  The $LIBS var will also be modified accordingly.
+#
+# Author: Morten Eriksen, <mortene@sim.no>.
+
+AC_DEFUN([SIM_AC_CHECK_DLD], [
+  sim_ac_dld_libs="-ldld"
+
+  sim_ac_save_libs=$LIBS
+  LIBS="$sim_ac_dld_libs $LIBS"
+
+  AC_CACHE_CHECK([whether the DLD shared library loader is available],
+    sim_cv_lib_dld_avail,
+    [AC_TRY_LINK([#include <dl.h>],
+                 [(void)shl_load("allyourbase", 0, 0L); (void)shl_findsym(0L, "arebelongtous", 0, 0L); (void)shl_unload((shl_t)0);],
+                 [sim_cv_lib_dld_avail=yes],
+                 [sim_cv_lib_dld_avail=no])])
+
+  if test x"$sim_cv_lib_dld_avail" = xyes; then
+    ifelse([$1], , :, [$1])
+  else
+    LIBS=$sim_ac_save_libs
+    ifelse([$2], , :, [$2])
+  fi
+])
+
+
+# SIM_AC_CHECK_DYLD([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+# -------------------------------------------------------------------
+#
+#  Try to use the Mac OS X dynamik link editor method 
+#  NSLookupAndBindSymbol()
+#
+# Author: Karin Kosina, <kyrah@sim.no>
+
+AC_DEFUN([SIM_AC_CHECK_DYLD], [
+AC_ARG_ENABLE(
+  [dyld],
+  [AC_HELP_STRING([--disable-dyld], 
+                  [don't use run-time link bindings under Mac OS X])],
+  [case $enableval in
+  yes | true ) sim_ac_dyld=true ;;
+  *) sim_ac_dyld=false ;;
+  esac],
+  [sim_ac_dyld=true])
+
+if $sim_ac_dyld; then
+
+  AC_CHECK_HEADERS([mach-o/dyld.h])
+
+  AC_CACHE_CHECK([whether we can use Mach-O dyld],
+    sim_cv_dyld_avail,
+    [AC_TRY_LINK([
+#ifdef HAVE_MACH_O_DYLD_H
+#include <mach-o/dyld.h>
+#endif /* HAVE_MACH_O_DYLD_H */
+],
+                 [(void)NSLookupAndBindSymbol("foo");],
+                 [sim_cv_dyld_avail=yes],
+                 [sim_cv_dyld_avail=no])])
+
+  if test x"$sim_cv_dyld_avail" = xyes; then
+    ifelse([$1], , :, [$1])
+  else
+    ifelse([$2], , :, [$2])
+  fi
+fi
+])
+
+# **************************************************************************
+# Usage:
+#   SIM_AC_CHECK_FINK ([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+#
+# Description:
+#   This macro checks for the availability of the Fink system. Fink is 
+#   dpkg-based distribution of UNIX tools for Mac OS X that installs
+#   libraries and headers into /sw.
+#
+# Autoconf Variables:
+#     $sim_ac_fink_avail       true | false
+#     $sim_ac_fink_cppflags    (extra flags the preprocessor needs)
+#     $sim_ac_fink_ldflags     (extra flags the linker needs)
+#
+# CPPFLAGS and LDFLAGS will also be set accordingly.
+#
+# Authors:
+#   Karin Kosina <kyrah@sim.no>
+#
+
+AC_DEFUN([SIM_AC_CHECK_FINK], [
+sim_ac_have_fink=false
+AC_MSG_CHECKING([if fink is available])
+if test -d /sw/include && test -d /sw/lib; then
+  AC_MSG_RESULT([yes])
+  sim_ac_have_fink=true
+  sim_ac_fink_cppflags="-I/sw/include"
+  sim_ac_fink_ldflags="-L/sw/lib"
+  CPPFLAGS="$CPPFLAGS $sim_ac_fink_cppflags"
+  LDFLAGS="$LDFLAGS $sim_ac_fink_ldflags"
+else 
+  AC_MSG_RESULT([no])
+  sim_ac_fink_cppflags=
+  sim_ac_fink_ldflags=
+fi
+
+if $sim_ac_have_fink; then
+  ifelse([$1], , :, [$1])
+else
+  ifelse([$2], , :, [$2])
+fi
+
+]) # SIM_AC_CHECK_FINK
+
+
+# **************************************************************************
 # SIM_AC_CHECK_HEADER_SILENT([header], [if-found], [if-not-found], [includes])
 # 
 # This macro will not output any header checking information, nor will it
@@ -8257,19 +8273,35 @@ if test x"$with_opengl" != x"no"; then
     fi
   fi
 
+  # On Mac OS X, GL is part of the optional X11 fraemwork
+  case $host_os in
+  darwin*)
+    AC_REQUIRE([SIM_AC_CHECK_X11])
+    if test x$sim_ac_enable_darwin_x11 = xtrue; then
+      sim_ac_gl_darwin_x11=/usr/X11R6
+      if test -d $sim_ac_gl_darwin_x11; then
+        sim_ac_gl_cppflags=-I$sim_ac_gl_darwin_x11/include
+      fi
+    fi
+    ;;
+  esac
+
   CPPFLAGS="$CPPFLAGS $sim_ac_gl_cppflags"
 
-  SIM_AC_CHECK_HEADER_SILENT([OpenGL/gl.h], [
-    sim_ac_gl_header_avail=true
-    sim_ac_gl_header=OpenGL/gl.h
-    AC_DEFINE([HAVE_OPENGL_GL_H], 1, [define if the GL header should be included as OpenGL/gl.h])
-  ], [
+  # Mac OS X framework (no X11, -framework OpenGL) 
+  if test x$sim_ac_enable_darwin_x11 = xfalse; then
+    SIM_AC_CHECK_HEADER_SILENT([OpenGL/gl.h], [
+      sim_ac_gl_header_avail=true
+      sim_ac_gl_header=OpenGL/gl.h
+      AC_DEFINE([HAVE_OPENGL_GL_H], 1, [define if the GL header should be included as OpenGL/gl.h])
+    ])
+  else
     SIM_AC_CHECK_HEADER_SILENT([GL/gl.h], [
       sim_ac_gl_header_avail=true
       sim_ac_gl_header=GL/gl.h
       AC_DEFINE([HAVE_GL_GL_H], 1, [define if the GL header should be included as GL/gl.h])
     ])
-  ])
+  fi
 
   CPPFLAGS="$sim_ac_gl_save_CPPFLAGS"
   if $sim_ac_gl_header_avail; then
@@ -8314,20 +8346,36 @@ if test x"$with_opengl" != x"no"; then
     fi
   fi
 
+  # On Mac OS X, GL is part of the optional X11 fraemwork
+  case $host_os in
+  darwin*)
+    AC_REQUIRE([SIM_AC_CHECK_X11])
+    if test x$sim_ac_enable_darwin_x11 = xtrue; then
+      sim_ac_gl_darwin_x11=/usr/X11R6
+      if test -d $sim_ac_gl_darwin_x11; then
+        sim_ac_gl_cppflags=-I$sim_ac_gl_darwin_x11/include
+      fi
+    fi
+    ;;
+  esac
+
   CPPFLAGS="$CPPFLAGS $sim_ac_glu_cppflags"
 
-  SIM_AC_CHECK_HEADER_SILENT([OpenGL/glu.h], [
-    sim_ac_glu_header_avail=true
-    sim_ac_glu_header=OpenGL/glu.h
-    AC_DEFINE([HAVE_OPENGL_GLU_H], 1, [define if the GLU header should be included as OpenGL/glu.h])
-  ], [
+  # Mac OS X framework (no X11, -framework OpenGL) 
+  if test x$sim_ac_enable_darwin_x11 = xfalse; then
+    SIM_AC_CHECK_HEADER_SILENT([OpenGL/glu.h], [
+      sim_ac_glu_header_avail=true
+      sim_ac_glu_header=OpenGL/glu.h
+      AC_DEFINE([HAVE_OPENGL_GLU_H], 1, [define if the GLU header should be included as OpenGL/glu.h])
+    ])
+  else
     SIM_AC_CHECK_HEADER_SILENT([GL/glu.h], [
       sim_ac_glu_header_avail=true
       sim_ac_glu_header=GL/glu.h
       AC_DEFINE([HAVE_GL_GLU_H], 1, [define if the GLU header should be included as GL/glu.h])
     ])
-  ])
-
+  fi
+ 
   CPPFLAGS="$sim_ac_glu_save_CPPFLAGS"
   if $sim_ac_glu_header_avail; then
     if test x"$sim_ac_glu_cppflags" = x""; then
@@ -8371,19 +8419,35 @@ if test x"$with_opengl" != x"no"; then
     fi
   fi
 
+  # On Mac OS X, GL is part of the optional X11 fraemwork
+  case $host_os in
+  darwin*)
+    AC_REQUIRE([SIM_AC_CHECK_X11])
+    if test x$sim_ac_enable_darwin_x11 = xtrue; then
+      sim_ac_gl_darwin_x11=/usr/X11R6
+      if test -d $sim_ac_gl_darwin_x11; then
+        sim_ac_gl_cppflags=-I$sim_ac_gl_darwin_x11/include
+      fi
+    fi
+    ;;
+  esac
+
   CPPFLAGS="$CPPFLAGS $sim_ac_glext_cppflags"
 
-  SIM_AC_CHECK_HEADER_SILENT([OpenGL/glext.h], [
-    sim_ac_glext_header_avail=true
-    sim_ac_glext_header=OpenGL/glext.h
-    AC_DEFINE([HAVE_OPENGL_GLEXT_H], 1, [define if the GLEXT header should be included as OpenGL/glext.h])
-  ], [
-    SIM_AC_CHECK_HEADER_SILENT([GL/gl.h], [
+  # Mac OS X framework (no X11, -framework OpenGL) 
+  if test x$sim_ac_enable_darwin_x11 = xfalse; then
+    SIM_AC_CHECK_HEADER_SILENT([OpenGL/glext.h], [
+      sim_ac_glext_header_avail=true
+      sim_ac_glext_header=OpenGL/glext.h
+      AC_DEFINE([HAVE_OPENGL_GLEXT_H], 1, [define if the GLEXT header should be included as OpenGL/glext.h])
+    ])
+  else
+    SIM_AC_CHECK_HEADER_SILENT([GL/glext.h], [
       sim_ac_glext_header_avail=true
       sim_ac_glext_header=GL/glext.h
       AC_DEFINE([HAVE_GL_GLEXT_H], 1, [define if the GLEXT header should be included as GL/glext.h])
     ])
-  ])
+  fi
 
   CPPFLAGS="$sim_ac_glext_save_CPPFLAGS"
   if $sim_ac_glext_header_avail; then
@@ -8470,8 +8534,16 @@ if test x"$with_opengl" != xno; then
   sim_ac_use_framework_option=false;
   case $host_os in
   darwin*)
-    if test x"$GCC" = x"yes"; then
+    AC_REQUIRE([SIM_AC_CHECK_X11])
+    if test x"$GCC" = x"yes" -a x$sim_ac_enable_darwin_x11 = xfalse; then
       SIM_AC_CC_COMPILER_OPTION([-framework OpenGL], [sim_ac_use_framework_option=true])
+    else
+      # On Mac OS X, OpenGL is installed as part of the optional X11 SDK.
+      sim_ac_gl_darwin_x11=/usr/X11R6
+      if test -d $sim_ac_gl_darwin_x11; then
+        sim_ac_ogl_cppflags=-I$sim_ac_gl_darwin_x11/include
+        sim_ac_ogl_ldflags=-L$sim_ac_gl_darwin_x11/lib
+      fi
     fi
     ;;
   esac
@@ -8494,7 +8566,7 @@ if test x"$with_opengl" != xno; then
 
   sim_ac_glchk_hit=false
   for sim_ac_tmp_outerloop in barebones withpthreads; do
-    if ! $sim_ac_glchk_hit; then
+    if $sim_ac_glchk_hit; then :; else
 
       sim_ac_oglchk_pthreadslib=""
       if test "$sim_ac_tmp_outerloop" = "withpthreads"; then
@@ -8512,7 +8584,7 @@ if test x"$with_opengl" != xno; then
       AC_MSG_CHECKING([for OpenGL library dev-kit])
       # Mac OS X uses nada (only LDFLAGS), which is why "" was set first
       for sim_ac_ogl_libcheck in "" $sim_ac_ogl_first $sim_ac_ogl_second; do
-        if ! $sim_ac_glchk_hit; then
+        if $sim_ac_glchk_hit; then :; else
           LIBS="$sim_ac_ogl_libcheck $sim_ac_oglchk_pthreadslib $sim_ac_save_libs"
           AC_TRY_LINK(
             [#ifdef HAVE_WINDOWS_H
@@ -9012,7 +9084,7 @@ if test x"$with_pthread" != xno; then
   AC_MSG_CHECKING([for POSIX threads])
   # At least under FreeBSD, we link to pthreads library with -pthread.
   for sim_ac_pthreads_libcheck in "-lpthread" "-pthread"; do
-    if ! $sim_ac_pthread_avail; then
+    if $sim_ac_pthread_avail; then :; else
       LIBS="$sim_ac_pthreads_libcheck $sim_ac_save_libs"
       AC_TRY_LINK([#include <pthread.h>],
                   [(void)pthread_create(0L, 0L, 0L, 0L);],
@@ -9550,7 +9622,7 @@ if $sim_ac_coin_desired; then
 
   AC_PATH_PROG(sim_ac_coin_configcmd, coin-config, false, $sim_ac_path)
 
-  if ! test "X$sim_ac_coin_configcmd" = "Xfalse"; then
+  if test "X$sim_ac_coin_configcmd" != "Xfalse"; then
     test -n "$CONFIG" &&
       $sim_ac_coin_configcmd --alternate=$CONFIG >/dev/null 2>/dev/null &&
       sim_ac_coin_configcmd="$sim_ac_coin_configcmd --alternate=$CONFIG"
@@ -9595,7 +9667,7 @@ if $sim_ac_coin_desired; then
       LIBS=$sim_ac_save_libs
     ])
     sim_ac_coin_avail=$sim_cv_coin_avail
-    if ! $sim_ac_coin_avail; then
+    if $sim_ac_coin_avail; then :; else
       AC_MSG_WARN([
 Compilation and/or linking with the Coin main library SDK failed, for
 unknown reason. If you are familiar with configure-based configuration
@@ -9816,12 +9888,19 @@ upgrade. (See $srcdir/README.MAC for details.)])
       fi
 
       if test x"$sim_ac_want_x11" = xno; then   
-      # Qt/X11 needs X11, which you need to enable by --enable-x11
+      # Using Qt/X11 but option --enable-darwin-x11 not given
       AC_TRY_LINK([#include <qapplication.h>],
                   [#if defined(__APPLE__) && defined(Q_WS_X11)
                    #error blah!
                    #endif],[],
-                  [SIM_AC_ERROR([x11-qt-on-mac])])
+                  [SIM_AC_ERROR([x11-qt-but-no-x11-requested])])
+      else 
+      # --enable-darwin-x11 specified but attempting Qt/Mac linkage
+      AC_TRY_LINK([#include <qapplication.h>],
+                  [#if defined(__APPLE__) && defined(Q_WS_MAC)
+                   #error blah!
+                   #endif],[],
+                  [SIM_AC_ERROR([mac-qt-but-x11-requested])])
       fi
       ;;
     esac

@@ -64,7 +64,7 @@ if $sim_ac_soqt_desired; then
 
   AC_PATH_PROG(sim_ac_soqt_configcmd, soqt-config, false, $sim_ac_path)
 
-  if ! test "X$sim_ac_soqt_configcmd" = "Xfalse"; then
+  if test "X$sim_ac_soqt_configcmd" = "Xfalse"; then :; else
     test -n "$CONFIG" &&
       $sim_ac_soqt_configcmd --alternate=$CONFIG >/dev/null 2>/dev/null &&
       sim_ac_soqt_configcmd="$sim_ac_soqt_configcmd --alternate=$CONFIG"
