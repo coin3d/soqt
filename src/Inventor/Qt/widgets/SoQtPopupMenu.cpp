@@ -266,6 +266,7 @@ SoQtPopupMenu::setMenuItemEnabled(
 {
   ItemRecord * rec = this->getItemRecord( itemid );
   assert( rec && "no such menu" );
+  assert( rec->parent && "a menuitem must have a parent to be enabled/disabled" );
   rec->parent->setItemEnabled( rec->itemid, enabled ? true : false );
 } // setMenuItemEnabled()
 
