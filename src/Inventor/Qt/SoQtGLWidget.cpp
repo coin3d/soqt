@@ -1,5 +1,5 @@
 /**************************************************************************\
- * 
+ *
  *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
@@ -62,9 +62,9 @@ static const int SO_BORDER_THICKNESS = 2;
 /*!
   FIXME: write function documentation
 */
-SoQtGLWidget::SoQtGLWidget(QWidget * const parent, const char * const name, 
-			   const SbBool buildInsideParent, const int glModes, 
-			   const SbBool buildNow)
+SoQtGLWidget::SoQtGLWidget(QWidget * const parent, const char * const name,
+                           const SbBool buildInsideParent, const int glModes,
+                           const SbBool buildNow)
   : inherited(parent)
 {
   this->glmodebits = glModes;
@@ -78,7 +78,7 @@ SoQtGLWidget::SoQtGLWidget(QWidget * const parent, const char * const name,
   }
   else {
     SoDebugError::post("SoQtGLWidget::SoQtGLWidget",
-		       "OpenGL not available on your display!");
+                       "OpenGL not available on your display!");
   }
 
   this->properties.mouseinput = FALSE;
@@ -97,7 +97,7 @@ SoQtGLWidget::buildWidget(QWidget * parent)
   this->borderwidget = new QWidget(parent);
 
   QGLWidget * w = new PrivateGLWidget(this, this->borderwidget, NULL);
-  
+
   QGLFormat f;
   f.setDoubleBuffer((this->glmodebits & SO_GLX_DOUBLE) ? TRUE : FALSE);
   f.setDepth((this->glmodebits & SO_GLX_ZBUFFER) ? TRUE : FALSE);
@@ -112,12 +112,12 @@ SoQtGLWidget::buildWidget(QWidget * parent)
     // FIXME: what should we do here if the requested mode is not
     // available?  990210 mortene.
     SoDebugError::post("SoQtGLWidget::SoQtGLWidget",
-		       "Your graphics hardware is weird! Can't use it.");
+                       "Your graphics hardware is weird! Can't use it.");
   }
 
 
   QObject::connect(w, SIGNAL(do_repaint()),
-		   this, SLOT(repaint_slot()));
+                   this, SLOT(repaint_slot()));
 
   w->setMouseTracking(TRUE);
 
@@ -129,8 +129,8 @@ SoQtGLWidget::buildWidget(QWidget * parent)
 
 #if 0 // debug
   SoDebugError::postInfo("SoQtGLWidget::buildWidget",
-			 "installeventfilter, parent: %p, glwidget: %p",
-			 parent, this->glwidget);
+                         "installeventfilter, parent: %p, glwidget: %p",
+                         parent, this->glwidget);
 #endif // debug
 
 
@@ -160,17 +160,17 @@ SoQtGLWidget::eventFilter(QObject * obj, QEvent * e)
       QResizeEvent * r = (QResizeEvent *)e;
 #if SOQTGL_RESIZE_DEBUG  // debug
       SoDebugError::postInfo("SoQtGLWidget::eventFilter",
-			     "resize %p: (%d, %d)",
-			     this->glwidget,
-			     r->size().width(), r->size().height());
-#endif // debug			 
+                             "resize %p: (%d, %d)",
+                             this->glwidget,
+                             r->size().width(), r->size().height());
+#endif // debug
 
       this->borderwidget->resize(r->size());
       int newwidth = r->size().width() - 2 * this->borderthickness;
       int newheight = r->size().height() - 2 * this->borderthickness;
       this->glwidget->setGeometry(this->borderthickness,
-				  this->borderthickness,
-				  newwidth, newheight);
+                                  this->borderthickness,
+                                  newwidth, newheight);
 
       this->sizeChanged(SbVec2s(newwidth, newheight));
     }
@@ -193,7 +193,7 @@ SoQtGLWidget::eventFilter(QObject * obj, QEvent * e)
 
   \sa isBorder()
  */
-void 
+void
 SoQtGLWidget::setBorder(const SbBool enable)
 {
   this->borderthickness = (enable ? SO_BORDER_THICKNESS : 0);
@@ -204,7 +204,7 @@ SoQtGLWidget::setBorder(const SbBool enable)
 
   \sa setBorder()
  */
-SbBool 
+SbBool
 SoQtGLWidget::isBorder(void) const
 {
   return this->borderthickness ? TRUE : FALSE;
@@ -216,7 +216,7 @@ SoQtGLWidget::isBorder(void) const
 
   \sa isDoubleBuffer()
  */
-void 
+void
 SoQtGLWidget::setDoubleBuffer(const SbBool enable)
 {
   if (this->glwidget) {
@@ -225,13 +225,13 @@ SoQtGLWidget::setDoubleBuffer(const SbBool enable)
       format.setDoubleBuffer(enable);
       this->getQGLWidget()->setFormat(format);
       if(!this->getQGLWidget()->isValid()) {
-	SoDebugError::post("SoQtGLWidget::setDoubleBuffer",
-			   "Couldn't switch to %s buffer mode. "
-			   "Falling back on %s buffer.",
-			   enable ? "double" : "single",
-			   enable ? "single" : "double");
-	format.setDoubleBuffer(!enable);
-	this->getQGLWidget()->setFormat(format);
+        SoDebugError::post("SoQtGLWidget::setDoubleBuffer",
+                           "Couldn't switch to %s buffer mode. "
+                           "Falling back on %s buffer.",
+                           enable ? "double" : "single",
+                           enable ? "single" : "double");
+        format.setDoubleBuffer(!enable);
+        this->getQGLWidget()->setFormat(format);
       }
 
       if (this->glwidget->doubleBuffer()) this->glmodebits |= SO_GLX_DOUBLE;
@@ -249,7 +249,7 @@ SoQtGLWidget::setDoubleBuffer(const SbBool enable)
 
   \sa setDoubleBuffer()
  */
-SbBool 
+SbBool
 SoQtGLWidget::isDoubleBuffer(void) const
 {
   if(this->glwidget) return this->glwidget->doubleBuffer();
@@ -283,7 +283,7 @@ SoQtGLWidget::setGlxSize(SbVec2s newSize)
   assert(this->borderwidget);
 
   this->borderwidget->resize(newSize[0] + this->borderthickness * 2,
-			     newSize[1] + this->borderthickness * 2);
+                             newSize[1] + this->borderthickness * 2);
 }
 
 /*!
@@ -367,13 +367,13 @@ SoQtGLWidget::processEvent(QEvent * anyevent)
   overload the "event catching" methods.
  */
 PrivateGLWidget::PrivateGLWidget(SoQtGLWidget * owner,
-				 QWidget * parent, const char * const name)
+                                 QWidget * parent, const char * const name)
   : inherited(parent, name)
 {
   this->owner = owner;
 }
 
-void 
+void
 PrivateGLWidget::initializeGL()
 {
   inherited::initializeGL();
@@ -390,7 +390,7 @@ PrivateGLWidget::initializeGL()
   Emit a signal whenever we need to repaint (usually (always?) because
   of expose events).
  */
-void 
+void
 PrivateGLWidget::paintGL()
 {
   inherited::paintGL();

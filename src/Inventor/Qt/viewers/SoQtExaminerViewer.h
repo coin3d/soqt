@@ -1,5 +1,5 @@
 /**************************************************************************\
- * 
+ *
  *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
@@ -45,10 +45,10 @@ class SoQtExaminerViewer : public SoQtFullViewer {
 
 public:
   SoQtExaminerViewer(QWidget * parent = NULL,
-		     const char * name = NULL, 
-		     SbBool buildInsideParent = TRUE, 
-		     SoQtFullViewer::BuildFlag flag = BUILD_ALL, 
-		     SoQtViewer::Type type = BROWSER);
+                     const char * name = NULL,
+                     SbBool buildInsideParent = TRUE,
+                     SoQtFullViewer::BuildFlag flag = BUILD_ALL,
+                     SoQtViewer::Type type = BROWSER);
   ~SoQtExaminerViewer();
 
   void setFeedbackVisibility(const SbBool on);
@@ -59,7 +59,7 @@ public:
 
   void setAnimationEnabled(SbBool on);
   SbBool isAnimationEnabled(void);
-  
+
   void stopAnimating(void);
   SbBool isAnimating(void);
 
@@ -69,11 +69,11 @@ public:
 
 protected:
   SoQtExaminerViewer(QWidget * parent,
-		     const char * name,
-		     SbBool buildInsideParent, 
-		     SoQtFullViewer::BuildFlag flag, 
-		     SoQtViewer::Type type, 
-		     SbBool buildNow);
+                     const char * name,
+                     SbBool buildInsideParent,
+                     SoQtFullViewer::BuildFlag flag,
+                     SoQtViewer::Type type,
+                     SbBool buildNow);
 
   virtual void leftWheelMotion(float val);
   virtual void bottomWheelMotion(float val);
@@ -94,11 +94,11 @@ protected:
 
 private:
   enum ViewerMode {
-    INTERACT, 
-    EXAMINE, DRAGGING, 
+    INTERACT,
+    EXAMINE, DRAGGING,
     WAITING_FOR_SEEK,
-    ZOOMING, 
-    WAITING_FOR_PAN, PANNING, 
+    ZOOMING,
+    WAITING_FOR_PAN, PANNING,
   };
 
   ViewerMode currentmode;

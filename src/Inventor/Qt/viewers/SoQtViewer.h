@@ -1,5 +1,5 @@
 /**************************************************************************\
- * 
+ *
  *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
@@ -53,7 +53,7 @@ class SoQtViewer;
 typedef void SoQtViewerCB(void * data, SoQtViewer * viewer);
 typedef void SoQtViewerFPSCB(float fps, void * data, SoQtViewer * viewer);
 typedef void SoQtViewerDecimationPercentageCB(float percentage, void * data,
-					      SoQtViewer * viewer);
+                                              SoQtViewer * viewer);
 
 
 class SoQtViewer : public SoQtRenderArea {
@@ -67,7 +67,7 @@ public:
     EDITOR,
   };
 
-  enum DecimationStrategy { 
+  enum DecimationStrategy {
     NORMAL,
     FIXED_NUM_TRIANGLES,
     FRAMES_PER_SECOND,
@@ -94,7 +94,7 @@ public:
   };
   enum BufferType {
     BUFFER_SINGLE,
-    BUFFER_DOUBLE, 
+    BUFFER_DOUBLE,
     BUFFER_INTERACTIVE
   };
 
@@ -114,7 +114,7 @@ public:
   SoDirectionalLight * getHeadlight(void) const;
 
   virtual void setDrawStyle(SoQtViewer::DrawType type,
-			    SoQtViewer::DrawStyle style);
+                            SoQtViewer::DrawStyle style);
   SoQtViewer::DrawStyle getDrawStyle(const SoQtViewer::DrawType type) const;
 
   virtual void setBufferingType(SoQtViewer::BufferType type);
@@ -173,7 +173,7 @@ public:
   int getNumSamples(void) const;
 
   void setDecimationPercentageCallback(SoQtViewerDecimationPercentageCB * cb,
-				       void * data = NULL);
+                                       void * data = NULL);
   float getCurrentDecimationPercentage(void) const;
 
 
@@ -187,7 +187,7 @@ public:
 
 protected:
   SoQtViewer(QWidget * parent, const char * name, SbBool buildInsideParent,
-	     Type type, SbBool buildNow);
+             Type type, SbBool buildNow);
   ~SoQtViewer();
 
   virtual void setSeekMode(SbBool on);

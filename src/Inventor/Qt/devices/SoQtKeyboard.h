@@ -1,5 +1,5 @@
 /**************************************************************************\
- * 
+ *
  *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
@@ -34,7 +34,7 @@ class SoKeyboardEvent;
 class SoQtKeyboard : public SoQtDevice
 {
   typedef SoQtDevice inherited;
-  
+
 public:
   SoQtKeyboard(soqtEventMask mask = SO_QT_ALL_KEYBOARD_EVENTS);
   virtual ~SoQtKeyboard();

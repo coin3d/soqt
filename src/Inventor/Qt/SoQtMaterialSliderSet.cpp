@@ -1,5 +1,5 @@
 /**************************************************************************\
- * 
+ *
  *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
@@ -30,13 +30,13 @@
   TODO: doc
  */
 SoQtMaterialSliderSet::SoQtMaterialSliderSet(QWidget * parent,
-					     const char * name,
-					     SbBool buildInsideParent,
-					     SoNode * editnode)
+                                             const char * name,
+                                             SbBool buildInsideParent,
+                                             SoNode * editnode)
   : inherited(parent, name, buildInsideParent, editnode)
 {
 }
-  
+
 /*!
   TODO: doc
  */

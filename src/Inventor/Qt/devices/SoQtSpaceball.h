@@ -1,5 +1,5 @@
 /**************************************************************************\
- * 
+ *
  *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
@@ -26,9 +26,9 @@ class SoQtSpaceball : public SoQtDevice
 {
 public:
   enum Mask {
-    MOTION = 0x01, 
-    PRESS = 0x02, 
-    RELEASE = 0x04, 
+    MOTION = 0x01,
+    PRESS = 0x02,
+    RELEASE = 0x04,
     ALL = 0x07
   };
 

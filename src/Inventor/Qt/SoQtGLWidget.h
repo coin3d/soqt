@@ -1,5 +1,5 @@
 /**************************************************************************\
- * 
+ *
  *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
@@ -24,11 +24,11 @@
 #include <Inventor/Qt/SoQtComponent.h>
 #include <Inventor/SbBasic.h>
 
-#define SO_GLX_RGB	0x01
-#define SO_GLX_DOUBLE	0x02
-#define SO_GLX_ZBUFFER	0x04
-#define SO_GLX_OVERLAY	0x08
-#define SO_GLX_STEREO	0x10
+#define SO_GLX_RGB      0x01
+#define SO_GLX_DOUBLE   0x02
+#define SO_GLX_ZBUFFER  0x04
+#define SO_GLX_OVERLAY  0x08
+#define SO_GLX_STEREO   0x10
 
 
 // FIXME: should move PrivateGLWidget definition inside the .cpp-file?
@@ -46,7 +46,7 @@ class PrivateGLWidget : public QGLWidget
 
 public:
   PrivateGLWidget(SoQtGLWidget * owner,
-		  QWidget *parent, const char * const name);
+                  QWidget *parent, const char * const name);
 
   virtual void swapBuffers(void);
 
@@ -85,10 +85,10 @@ public:
 
 protected:
   SoQtGLWidget(QWidget * const parent = NULL,
-	       const char * const name = NULL, 
-	       const SbBool buildInsideParent = TRUE, 
-	       const int glModes = SO_GLX_RGB, 
-	       const SbBool buildNow = TRUE);
+               const char * const name = NULL,
+               const SbBool buildInsideParent = TRUE,
+               const int glModes = SO_GLX_RGB,
+               const SbBool buildNow = TRUE);
 
   virtual void processEvent(QEvent * anyevent);
 
@@ -112,7 +112,7 @@ protected:
 private slots:
   void repaint_slot();
 
-private:  
+private:
   QGLWidget * glwidget;
   QWidget * glparent, * borderwidget;
   int borderthickness, glmodebits;

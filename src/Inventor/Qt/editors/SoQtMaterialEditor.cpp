@@ -1,5 +1,5 @@
 /**************************************************************************\
- * 
+ *
  *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
@@ -46,10 +46,10 @@ static char *colorStrings[] = { "Ambient", "Diffuse", "Specular", "Emission" };
 # define false FALSE
 #endif
 
-#define colors2QColor(index)						\
+#define colors2QColor(index)                                            \
     QColor((int)(colors[index]->getValues(0)->getValue()[0] * 255.0),       \
-	(int)(colors[index]->getValues(0)->getValue()[1] * 255.0), 		\
-	(int) (colors[index]->getValues(0)->getValue()[2] * 255.0))
+        (int)(colors[index]->getValues(0)->getValue()[1] * 255.0),              \
+        (int) (colors[index]->getValues(0)->getValue()[2] * 255.0))
 
 SoQtMaterialEditor::SoQtMaterialEditor(QWidget *parent, const char *name, SbBool buildInsideParent) : SoQtComponent(parent)
 {
@@ -59,7 +59,7 @@ SoQtMaterialEditor::SoQtMaterialEditor(QWidget *parent, const char *name, SbBool
   widget = mgrWidget;
 
   QHBoxLayout* hbox = new QHBoxLayout(widget, 5);
-  
+
   /*
    *  The Menu
    */
@@ -103,7 +103,7 @@ SoQtMaterialEditor::SoQtMaterialEditor(QWidget *parent, const char *name, SbBool
   bbox->addStretch(4);
   bbox->addWidget(acceptButton);
   bbox->addStretch(5);
-  
+
   acceptButton->hide();
 
 
@@ -167,7 +167,7 @@ SoQtMaterialEditor::SoQtMaterialEditor(QWidget *parent, const char *name, SbBool
 #endif
   }
 #endif
-  
+
 
 #if 0
   checkButtons[0] = new QCheckBox(widget);
@@ -260,7 +260,7 @@ SoQtMaterialEditor::SoQtMaterialEditor(QWidget *parent, const char *name, SbBool
   dummyMaterial = new SoMaterial;
 //  dummyMaterial->setToDefaults(); <--- causes a segfault
   attach(dummyMaterial);
-  
+
 }
 
 SoQtMaterialEditor::~SoQtMaterialEditor()
@@ -276,10 +276,10 @@ const char* SoQtMaterialEditor::componentClassName() const
 void SoQtMaterialEditor::material_list()
 {
   menu->hide();
-  if (materialList == NULL) { 
+  if (materialList == NULL) {
     materialList = new SoQtMaterialList;
     QObject::connect(materialList, SIGNAL(materialSelected(SoMaterial *)),
-	this, SLOT(setMaterial(SoMaterial *)));
+        this, SLOT(setMaterial(SoMaterial *)));
   }
   materialList->show();
 }
@@ -376,15 +376,15 @@ SbBool SoQtMaterialEditor::isAttached()
 }
 
 void SoQtMaterialEditor::setUpdateFrequency(
-	SoQtMaterialEditor::UpdateFrequency freq)
+        SoQtMaterialEditor::UpdateFrequency freq)
 {
   switch (freq) {
     case SoQtMaterialEditor::CONTINUOUS:
-	continuous();
-	break;
+        continuous();
+        break;
     case SoQtMaterialEditor::AFTER_ACCEPT:
-	manual();
-	break;
+        manual();
+        break;
   }
 }
 
@@ -423,7 +423,7 @@ void SoQtMaterialEditor::rButtonPressed()
     }
     colorSelection->setType(colorStrings[i]);
 //    colorSelection->setColor(QColor((int)colors[i]->getValues(0)->getValue()[0] * 255, (int)colors[i]->getValues(0)->getValue()[1] * 255, (int) colors[i]->getValues(0)->getValue()[2] * 255));
-	printf("color2QColor\n");					\
+        printf("color2QColor\n");                                       \
     colorSelection->setColor(colors2QColor(i));
     colorSelection->show();
   }
@@ -448,7 +448,7 @@ void SoQtMaterialEditor::cButtonPressed()
     radioButtons[i]->setChecked(true);
     if (colorSelection->isVisible() == false) colorSelection->show();
     colorSelection->setType(colorStrings[i]);
-	printf("color2QColor\n");					\
+        printf("color2QColor\n");                                       \
     colorSelection->setColor(colors2QColor(i));
   } else {
     char colorString[41];

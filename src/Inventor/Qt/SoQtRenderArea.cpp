@@ -1,5 +1,5 @@
 /**************************************************************************\
- * 
+ *
  *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
@@ -61,18 +61,18 @@
   Constructor.
 */
 SoQtRenderArea::SoQtRenderArea(QWidget * parent,
-			       const char * const name, 
-			       SbBool buildInsideParent, 
-			       SbBool getMouseInput,
-			       SbBool getKeyboardInput)
+                               const char * const name,
+                               SbBool buildInsideParent,
+                               SbBool getMouseInput,
+                               SbBool getKeyboardInput)
   : inherited(parent, name, buildInsideParent,
-	      SO_GLX_RGB|SO_GLX_DOUBLE|SO_GLX_ZBUFFER, FALSE)
+              SO_GLX_RGB|SO_GLX_DOUBLE|SO_GLX_ZBUFFER, FALSE)
 {
 #if SOQT_RA_RESIZE_DEBUG  // debug
   SoDebugError::postInfo("SoQtRenderArea::SoQtRenderArea-1",
-			 "size %p: <%d, %d>",
-			 this->getWidget(),
-			 getSize()[0], getSize()[1]);
+                         "size %p: <%d, %d>",
+                         this->getWidget(),
+                         getSize()[0], getSize()[1]);
 #endif // debug
 
   this->constructor_initialize(getMouseInput, getKeyboardInput);
@@ -80,14 +80,14 @@ SoQtRenderArea::SoQtRenderArea(QWidget * parent,
 
 #if SOQT_RA_RESIZE_DEBUG  // debug
   SoDebugError::postInfo("SoQtRenderArea::SoQtRenderArea-2",
-			 "size %p: (%d, %d)",
-			 this->getWidget(),
-			 getSize()[0], getSize()[1]);
+                         "size %p: (%d, %d)",
+                         this->getWidget(),
+                         getSize()[0], getSize()[1]);
 
   QWidget * w = getWidget();
   SoDebugError::postInfo("SoQtRenderArea::SoQtRenderArea-3",
-			 "size %p: (%d, %d)",
-			 w, w->size().width(), w->size().height());
+                         "size %p: (%d, %d)",
+                         w, w->size().width(), w->size().height());
 #endif // debug
 }
 
@@ -95,13 +95,13 @@ SoQtRenderArea::SoQtRenderArea(QWidget * parent,
   This constructor can only be used by subclasses.
  */
 SoQtRenderArea::SoQtRenderArea(QWidget * parent,
-			       const char * const name, 
-			       SbBool buildInsideParent, 
-			       SbBool getMouseInput,
-			       SbBool getKeyboardInput,
-			       SbBool buildNow)
+                               const char * const name,
+                               SbBool buildInsideParent,
+                               SbBool getMouseInput,
+                               SbBool getKeyboardInput,
+                               SbBool buildNow)
   : inherited(parent, name, buildInsideParent,
-	      SO_GLX_RGB|SO_GLX_DOUBLE|SO_GLX_ZBUFFER, buildNow)
+              SO_GLX_RGB|SO_GLX_DOUBLE|SO_GLX_ZBUFFER, buildNow)
 {
   this->constructor_initialize(getMouseInput, getKeyboardInput);
   if (buildNow) this->buildWidget(buildInsideParent ? parent : NULL);
@@ -123,7 +123,7 @@ SoQtRenderArea::buildWidget(QWidget * parent)
 
 void
 SoQtRenderArea::constructor_initialize(SbBool getmouseinput,
-				       SbBool getkeyboardinput)
+                                       SbBool getkeyboardinput)
 
 {
   this->sceneManager = new SoSceneManager;
@@ -179,7 +179,7 @@ SoQtRenderArea::renderCB(void * data, SoSceneManager * scenemanager)
 /*!
   FIXME: write function documentation
 */
-void 
+void
 SoQtRenderArea::setSceneGraph(SoNode * const newScene)
 {
   this->sceneManager->setSceneGraph(newScene);
@@ -190,14 +190,14 @@ SoQtRenderArea::setSceneGraph(SoNode * const newScene)
 */
 SoNode *
 SoQtRenderArea::getSceneGraph(void) const
-{  
+{
   return this->sceneManager->getSceneGraph();
 }
 
 /*!
   FIXME: write function documentation
 */
-void 
+void
 SoQtRenderArea::setOverlaySceneGraph(SoNode * const newScene)
 {
   this->overlaySceneManager->setSceneGraph(newScene);
@@ -215,7 +215,7 @@ SoQtRenderArea::getOverlaySceneGraph(void) const
 /*!
   FIXME: write function documentation
 */
-void 
+void
 SoQtRenderArea::registerDevice(SoQtDevice * const device)
 {
   if (!this->deviceList) this->deviceList = new SbPList;
@@ -226,7 +226,7 @@ SoQtRenderArea::registerDevice(SoQtDevice * const device)
 /*!
   FIXME: write function documentation
 */
-void 
+void
 SoQtRenderArea::unregisterDevice(SoQtDevice * const device)
 {
   int idx = this->deviceList->find(device);
@@ -234,7 +234,7 @@ SoQtRenderArea::unregisterDevice(SoQtDevice * const device)
 #if SOQT_DEBUG
   if (idx == -1) {
     SoDebugError::postWarning("SoQtRenderArea::unregisterDevice",
-			      "tried to remove device not in list");
+                              "tried to remove device not in list");
   }
 #endif // SOQT_DEBUG
 }
@@ -242,7 +242,7 @@ SoQtRenderArea::unregisterDevice(SoQtDevice * const device)
 /*!
   FIXME: write function documentation
 */
-void 
+void
 SoQtRenderArea::setBackgroundColor(const SbColor & c)
 {
   this->sceneManager->setBackgroundColor(c);
@@ -254,13 +254,13 @@ SoQtRenderArea::setBackgroundColor(const SbColor & c)
 const SbColor &
 SoQtRenderArea::getBackgroundColor() const
 {
-  return this->sceneManager->getBackgroundColor();  
+  return this->sceneManager->getBackgroundColor();
 }
 
 /*!
   FIXME: write function documentation
 */
-void 
+void
 SoQtRenderArea::setBackgroundIndex(const int index)
 {
   this->sceneManager->setBackgroundIndex(index);
@@ -269,7 +269,7 @@ SoQtRenderArea::setBackgroundIndex(const int index)
 /*!
   FIXME: write function documentation
 */
-int 
+int
 SoQtRenderArea::getBackgroundIndex() const
 {
   return this->sceneManager->getBackgroundIndex();
@@ -278,7 +278,7 @@ SoQtRenderArea::getBackgroundIndex() const
 /*!
   FIXME: write function documentation
 */
-void 
+void
 SoQtRenderArea::setOverlayBackgroundIndex(const int index)
 {
   this->overlaySceneManager->setBackgroundIndex(index);
@@ -287,7 +287,7 @@ SoQtRenderArea::setOverlayBackgroundIndex(const int index)
 /*!
   FIXME: write function documentation
 */
-int 
+int
 SoQtRenderArea::getOverlayBackgroundIndex() const
 {
   return this->overlaySceneManager->getBackgroundIndex();
@@ -296,9 +296,9 @@ SoQtRenderArea::getOverlayBackgroundIndex() const
 /*!
   FIXME: write function documentation
 */
-void 
+void
 SoQtRenderArea::setColorMap(const int startIndex, const int num, const
-			    SbColor * const colors)
+                            SbColor * const colors)
 {
   delete [] this->colormap;
   this->cmStartIndex = startIndex;
@@ -312,9 +312,9 @@ SoQtRenderArea::setColorMap(const int startIndex, const int num, const
 /*!
   FIXME: write function documentation
 */
-void 
+void
 SoQtRenderArea::setOverlayColorMap(const int startIndex, const int num,
-				   const SbColor * const colors)
+                                   const SbColor * const colors)
 {
   delete [] this->overlayColormap;
   this->ocmStartIndex = startIndex;
@@ -328,7 +328,7 @@ SoQtRenderArea::setOverlayColorMap(const int startIndex, const int num,
 /*!
   FIXME: write function documentation
 */
-void 
+void
 SoQtRenderArea::setViewportRegion(const SbViewportRegion & newRegion)
 {
   this->sceneManager->getGLRenderAction()->setViewportRegion(newRegion);
@@ -347,7 +347,7 @@ SoQtRenderArea::getViewportRegion() const
 /*!
   FIXME: write function documentation
 */
-void 
+void
 SoQtRenderArea::setTransparencyType(const SoGLRenderAction::TransparencyType type)
 {
   this->sceneManager->getGLRenderAction()->setTransparencyType(type);
@@ -356,7 +356,7 @@ SoQtRenderArea::setTransparencyType(const SoGLRenderAction::TransparencyType typ
 /*!
   FIXME: write function documentation
 */
-SoGLRenderAction::TransparencyType 
+SoGLRenderAction::TransparencyType
 SoQtRenderArea::getTransparencyType(void) const
 {
   return this->sceneManager->getGLRenderAction()->getTransparencyType();
@@ -365,7 +365,7 @@ SoQtRenderArea::getTransparencyType(void) const
 /*!
   FIXME: write function documentation
 */
-void 
+void
 SoQtRenderArea::setAntialiasing(const SbBool smoothing, const int numPasses)
 {
   this->sceneManager->setAntialiasing(smoothing, numPasses);
@@ -374,7 +374,7 @@ SoQtRenderArea::setAntialiasing(const SbBool smoothing, const int numPasses)
 /*!
   FIXME: write function documentation
 */
-void 
+void
 SoQtRenderArea::getAntialiasing(SbBool & smoothing, int & numPasses) const
 {
   this->sceneManager->getAntialiasing(smoothing, numPasses);
@@ -383,7 +383,7 @@ SoQtRenderArea::getAntialiasing(SbBool & smoothing, int & numPasses) const
 /*!
   FIXME: write function documentation
 */
-void 
+void
 SoQtRenderArea::setClearBeforeRender(const SbBool trueOrFalse)
 {
   this->clear = trueOrFalse;
@@ -392,7 +392,7 @@ SoQtRenderArea::setClearBeforeRender(const SbBool trueOrFalse)
 /*!
   FIXME: write function documentation
 */
-SbBool 
+SbBool
 SoQtRenderArea::isClearBeforeRender(void) const
 {
   return this->clear;
@@ -401,7 +401,7 @@ SoQtRenderArea::isClearBeforeRender(void) const
 /*!
   FIXME: write function documentation
 */
-void 
+void
 SoQtRenderArea::setClearBeforeOverlayRender(const SbBool trueOrFalse)
 {
   this->clearOverlay = trueOrFalse;
@@ -410,7 +410,7 @@ SoQtRenderArea::setClearBeforeOverlayRender(const SbBool trueOrFalse)
 /*!
   FIXME: write function documentation
 */
-SbBool 
+SbBool
 SoQtRenderArea::isClearBeforeOverlayRender(void) const
 {
   return this->clearOverlay;
@@ -419,7 +419,7 @@ SoQtRenderArea::isClearBeforeOverlayRender(void) const
 /*!
   FIXME: write function documentation
 */
-void 
+void
 SoQtRenderArea::setAutoRedraw(const SbBool trueOrFalse)
 {
   this->autoRedraw = trueOrFalse;
@@ -428,7 +428,7 @@ SoQtRenderArea::setAutoRedraw(const SbBool trueOrFalse)
 /*!
   FIXME: write function documentation
 */
-SbBool 
+SbBool
 SoQtRenderArea::isAutoRedraw(void) const
 {
   return this->autoRedraw;
@@ -437,7 +437,7 @@ SoQtRenderArea::isAutoRedraw(void) const
 /*!
   FIXME: write function documentation
 */
-void 
+void
 SoQtRenderArea::setRedrawPriority(const uint32_t priority)
 {
   this->sceneManager->setRedrawPriority(priority);
@@ -447,7 +447,7 @@ SoQtRenderArea::setRedrawPriority(const uint32_t priority)
 /*!
   FIXME: write function documentation
 */
-uint32_t 
+uint32_t
 SoQtRenderArea::getRedrawPriority(void) const
 {
   return this->sceneManager->getRedrawPriority();
@@ -456,16 +456,16 @@ SoQtRenderArea::getRedrawPriority(void) const
 /*!
   FIXME: write function documentation
 */
-uint32_t 
+uint32_t
 SoQtRenderArea::getDefaultRedrawPriority(void)
 {
-  return SoSceneManager::getDefaultRedrawPriority(); 
+  return SoSceneManager::getDefaultRedrawPriority();
 }
 
 /*!
   FIXME: write function documentation
 */
-void 
+void
 SoQtRenderArea::render(void)
 {
   assert(this->getQGLWidget());
@@ -480,20 +480,20 @@ SoQtRenderArea::render(void)
 /*!
   FIXME: write function documentation
 */
-void 
+void
 SoQtRenderArea::renderOverlay(void)
 {
   assert(this->overlaySceneManager);
   // FIXME: doesn't work, as Qt has no notion of overlay
   // planes. 990215 mortene.
-  this->overlaySceneManager->render(this->clearOverlay, 
-				    this->clearOverlay);  
+  this->overlaySceneManager->render(this->clearOverlay,
+                                    this->clearOverlay);
 }
 
 /*!
   FIXME: write function documentation
 */
-void 
+void
 SoQtRenderArea::scheduleRedraw(void)
 {
   this->sceneManager->scheduleRedraw();
@@ -502,7 +502,7 @@ SoQtRenderArea::scheduleRedraw(void)
 /*!
   FIXME: write function documentation
 */
-void 
+void
 SoQtRenderArea::scheduleOverlayRedraw(void)
 {
   this->sceneManager->scheduleRedraw();
@@ -511,7 +511,7 @@ SoQtRenderArea::scheduleOverlayRedraw(void)
 /*!
   FIXME: write function documentation
 */
-void 
+void
 SoQtRenderArea::redrawOnSelectionChange(SoSelection * const s)
 {
   this->selection = s;
@@ -520,7 +520,7 @@ SoQtRenderArea::redrawOnSelectionChange(SoSelection * const s)
 /*!
   FIXME: write function documentation
 */
-void 
+void
 SoQtRenderArea::redrawOverlayOnSelectionChange(SoSelection * const s)
 {
   this->overlaySelection = s;
@@ -529,9 +529,9 @@ SoQtRenderArea::redrawOverlayOnSelectionChange(SoSelection * const s)
 /*!
   FIXME: write function documentation
 */
-void 
-SoQtRenderArea::setEventCallback(SoQtRenderAreaEventCB * const fcn, 
-				 void * const userData)
+void
+SoQtRenderArea::setEventCallback(SoQtRenderAreaEventCB * const fcn,
+                                 void * const userData)
 {
   this->appEventHandler = fcn;
   this->appEventHandlerData = userData;
@@ -540,7 +540,7 @@ SoQtRenderArea::setEventCallback(SoQtRenderAreaEventCB * const fcn,
 /*!
   FIXME: write function documentation
 */
-void 
+void
 SoQtRenderArea::setGLRenderAction(SoGLRenderAction * const action)
 {
   this->sceneManager->setGLRenderAction(action);
@@ -559,7 +559,7 @@ SoQtRenderArea::getGLRenderAction(void) const
 /*!
   FIXME: write function documentation
 */
-void 
+void
 SoQtRenderArea::setOverlayGLRenderAction(SoGLRenderAction * const ra)
 {
   this->overlaySceneManager->setGLRenderAction(ra);
@@ -577,7 +577,7 @@ SoQtRenderArea::getOverlayGLRenderAction(void) const
 /*!
   FIXME: write function documentation
 */
-void 
+void
 SoQtRenderArea::setSceneManager(SoSceneManager * const sm)
 {
   this->sceneManager = sm;
@@ -595,7 +595,7 @@ SoQtRenderArea::getSceneManager(void) const
 /*!
   FIXME: write function documentation
 */
-void 
+void
 SoQtRenderArea::setOverlaySceneManager(SoSceneManager * const sm)
 {
   this->overlaySceneManager = sm;
@@ -685,7 +685,7 @@ SoQtRenderArea::actualOverlayRedraw(void)
 {
   // FIXME: defunct -- overlay planes not supported in Qt. 990224 mortene
   this->overlaySceneManager->render(this->clear /* ?? */,
-				    this->clear /* ?? */);
+                                    this->clear /* ?? */);
 }
 
 /*!
@@ -734,7 +734,7 @@ SbBool
 SoQtRenderArea::invokeAppCB(QEvent * anyevent)
 {
   return (this->appEventHandler &&
-	  this->appEventHandler(this->appEventHandlerData, anyevent));
+          this->appEventHandler(this->appEventHandlerData, anyevent));
 }
 
 /*!

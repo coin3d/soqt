@@ -1,5 +1,5 @@
 /**************************************************************************\
- * 
+ *
  *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
@@ -60,7 +60,7 @@ QColorSelection::QColorSelection(QWidget *parent, const char *name, QColor *col)
   grid->addWidget(rgblabels[0], 1, 0);
   grid->addWidget(rgblabels[1], 2, 0);
   grid->addWidget(rgblabels[2], 3, 0);
- 
+
   grid->addWidget(red,   1, 1);
   grid->addWidget(green, 2, 1);
   grid->addWidget(blue,  3, 1);

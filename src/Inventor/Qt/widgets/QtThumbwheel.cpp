@@ -1,5 +1,5 @@
 /**************************************************************************\
- * 
+ *
  *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
@@ -17,7 +17,7 @@
  *
 \**************************************************************************/
 
-#include <math.h> 
+#include <math.h>
 #include <assert.h>
 #include <stdio.h>
 
@@ -39,7 +39,7 @@ QtThumbwheel::QtThumbwheel(QWidget *parent, const char *name)
 }
 
 QtThumbwheel::QtThumbwheel(Orientation orientation, QWidget *parent,
-			   const char *name)
+                           const char *name)
   : QWidget(parent, name)
 {
   this->orient = orientation;
@@ -59,14 +59,14 @@ void
 QtThumbwheel::setOrientation(Orientation orientation)
 {
   this->orient = orientation;
-  this->repaint(); 
+  this->repaint();
 }
 
 
 //
 // remaps values using a cosine func
 //
-static int 
+static int
 cosmap(const float pos, const int maxval, float offset)
 {
 #if 0 // linear mapping
@@ -78,14 +78,14 @@ cosmap(const float pos, const int maxval, float offset)
   t += offset;
   t *= M_PI;
   t = cos(t);
-  
+
   t /= cos(offset); // normalize [-1, 1]
-  
+
   t = -t;
   t += 1.0f;
 
   t *= 0.5f;
-    
+
   return (int)(maxval * t);
 #endif
 }
@@ -103,11 +103,11 @@ QtThumbwheel::paintEvent(QPaintEvent *e)
   // FIXME: make this effect look a little better... 990418 mortene.
 
   qDrawShadePanel(&p, 0, 0, this->width(), this->height(),
-		  g, FALSE, SHADEBORDERWIDTH, &fill);
+                  g, FALSE, SHADEBORDERWIDTH, &fill);
 
   QRect wheelrect(SHADEBORDERWIDTH, SHADEBORDERWIDTH,
-		  this->width() - 2*SHADEBORDERWIDTH,
-		  this->height() - 2*SHADEBORDERWIDTH);
+                  this->width() - 2*SHADEBORDERWIDTH,
+                  this->height() - 2*SHADEBORDERWIDTH);
 
 //    const int numLines =
 //        (this->orient == QtThumbwheel::Vertical) ?
@@ -129,8 +129,8 @@ QtThumbwheel::paintEvent(QPaintEvent *e)
     switch (this->orient) {
     case QtThumbwheel::Vertical:
       pos = wheelrect.top()  +
-	cosmap(float(wheelrect.height())/float(numLines) * i + offset,
-	       length, 0.08);
+        cosmap(float(wheelrect.height())/float(numLines) * i + offset,
+               length, 0.08);
       topleft.setX(wheelrect.left());
       topleft.setY(pos);
       botright.setX(wheelrect.right());
@@ -138,8 +138,8 @@ QtThumbwheel::paintEvent(QPaintEvent *e)
       break;
     case QtThumbwheel::Horizontal:
       pos = wheelrect.left() +
-	cosmap(float(wheelrect.width())/float(numLines) * i + offset,
-	       length, 0.08);
+        cosmap(float(wheelrect.width())/float(numLines) * i + offset,
+               length, 0.08);
       topleft.setX(pos);
       topleft.setY(wheelrect.top());
       botright.setX(pos);
@@ -151,11 +151,11 @@ QtThumbwheel::paintEvent(QPaintEvent *e)
     }
 
     qDrawShadeLine(&p,
-		   topleft.x(),
-		   topleft.y(),
-		   botright.x(),
-		   botright.y(),
-		   g, FALSE, 1, 1);
+                   topleft.x(),
+                   topleft.y(),
+                   botright.x(),
+                   botright.y(),
+                   g, FALSE, 1, 1);
   }
 }
 

@@ -1,5 +1,5 @@
 /**************************************************************************\
- * 
+ *
  *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
@@ -258,8 +258,8 @@ getParentOfNode(SoNode * root, SoNode * node)
   for more information on those.
 */
 SoQtViewer::SoQtViewer(QWidget * parent, const char * name,
-		       SbBool buildInsideParent, SoQtViewer::Type t,
-		       SbBool buildNow) 
+                       SbBool buildInsideParent, SoQtViewer::Type t,
+                       SbBool buildNow)
   : inherited(parent, name, buildInsideParent, TRUE, TRUE, FALSE)
 {
   this->viewertype = t;
@@ -391,7 +391,7 @@ SoQtViewer::setCamera(SoCamera * cam)
   if (this->camera) {
     // Detach headlight.
     if (this->isHeadlight()) this->setHeadlight(FALSE);
-	
+
     // If we made the camera, detach it. Otherwise just leave it in
     // the graph.
     if (this->deletecamera) {
@@ -402,9 +402,9 @@ SoQtViewer::setCamera(SoCamera * cam)
 
     this->camera->unref();
   }
-    
+
   this->camera = cam;
-    
+
   if (this->camera) {
     this->camera->ref();
     this->saveHomePosition();
@@ -451,9 +451,9 @@ SoQtViewer::setCameraType(SoType t)
 
   if (!valid) {
     SoDebugError::post("SoQtViewer::setCameraType",
-		       "not a valid camera type: '%s'",
-		       t == SoType::badType() ?
-		       "badType" : t.getName().getString());
+                       "not a valid camera type: '%s'",
+                       t == SoType::badType() ?
+                       "badType" : t.getName().getString());
     return;
   }
 #endif // SOQT_DEBUG
@@ -487,7 +487,7 @@ SoQtViewer::viewAll(void)
 }
 
 /*!
-  Store the current camera settings for later retrieval with 
+  Store the current camera settings for later retrieval with
   resetToHomePosition().
 
   \sa resetToHomePosition()
@@ -496,7 +496,7 @@ void
 SoQtViewer::saveHomePosition(void)
 {
   assert(this->camera);
-    
+
   this->storedorientation = this->camera->orientation.getValue();
   this->storedposition = this->camera->position.getValue();
 
@@ -522,7 +522,7 @@ void
 SoQtViewer::resetToHomePosition(void)
 {
   assert(this->camera);
-    
+
   this->camera->orientation = this->storedorientation;
   this->camera->position = this->storedposition;
 
@@ -556,8 +556,8 @@ SoQtViewer::setHeadlight(SbBool on)
   if (this->lightroot &&
       ((on && this->isHeadlight()) || (!on && !this->isHeadlight()))) {
     SoDebugError::postWarning("SoQtViewer::setHeadlight",
-			      "headlight already turned %s",
-			      on ? "on" : "off");
+                              "headlight already turned %s",
+                              on ? "on" : "off");
     return;
   }
 #endif // SOQT_DEBUG
@@ -592,7 +592,7 @@ SoQtViewer::setHeadlight(SbBool on)
     SoRotation * lorient = (SoRotation *) this->lightroot->getChild(0);
     lorient->rotation.disconnect();
   }
-    
+
   this->lighton = on;
 #endif // !NO_HEADLIGHT
 }
@@ -650,12 +650,12 @@ SoQtViewer::getHeadlight(void) const
  */
 void
 SoQtViewer::setDrawStyle(SoQtViewer::DrawType type,
-			 SoQtViewer::DrawStyle style)
+                         SoQtViewer::DrawStyle style)
 {
 #if SOQT_DEBUG
   if ((type != STILL) && (type != INTERACTIVE)) {
     SoDebugError::postWarning("SoQtViewer::setDrawStyle",
-			      "unknown drawstyle type setting 0x%x", type);
+                              "unknown drawstyle type setting 0x%x", type);
     return;
   }
   int s = style & ALL_STYLES_COMBINED;
@@ -663,7 +663,7 @@ SoQtViewer::setDrawStyle(SoQtViewer::DrawType type,
   while (s) { if (s & 0x0001) bits++; s >>= 1; }
   if (bits != 1) {
     SoDebugError::postWarning("SoQtViewer::setDrawStyle",
-			      "unknown drawstyle setting 0x04%x", style);
+                              "unknown drawstyle setting 0x04%x", style);
     return;
   }
 #endif // SOQT_DEBUG
@@ -671,8 +671,8 @@ SoQtViewer::setDrawStyle(SoQtViewer::DrawType type,
   if (style == this->getDrawStyle(type)) {
 #if 0 // SOQT_DEBUG
     SoDebugError::postWarning("SoQtViewer::setDrawStyle",
-			      "drawstyle for type 0x%02x already 0x%02x",
-			      type, style);
+                              "drawstyle for type 0x%02x already 0x%02x",
+                              type, style);
 #endif // SOQT_DEBUG
     return;
   }
@@ -693,7 +693,7 @@ SoQtViewer::getDrawStyle(const SoQtViewer::DrawType type) const
 #if SOQT_DEBUG
   if ((type != STILL) && (type != INTERACTIVE)) {
     SoDebugError::postWarning("SoQtViewer::setDrawStyle",
-			      "unknown drawstyle type setting 0x%x", type);
+                              "unknown drawstyle type setting 0x%x", type);
     return this->drawstyles[STILL];
   }
 #endif // SOQT_DEBUG
@@ -713,7 +713,7 @@ SoQtViewer::setBufferingType(SoQtViewer::BufferType type)
 #if 0 // SOQT_DEBUG
   if (type == this->buffertype) {
     SoDebugError::postWarning("SoQtViewer::setBufferingType",
-			      "buffer type 0x%x already set", type);
+                              "buffer type 0x%x already set", type);
     return;
   }
 
@@ -721,11 +721,11 @@ SoQtViewer::setBufferingType(SoQtViewer::BufferType type)
       type != BUFFER_DOUBLE &&
       type != BUFFER_INTERACTIVE) {
     SoDebugError::postWarning("SoQtViewer::setBufferingType",
-			      "unknown buffer type 0x%x", type);
+                              "unknown buffer type 0x%x", type);
     return;
   }
 #endif // SOQT_DEBUG
-    
+
   this->buffertype = type;
   inherited::setDoubleBuffer(type == BUFFER_DOUBLE ? TRUE : FALSE);
 }
@@ -762,7 +762,7 @@ SoQtViewer::setViewing(SbBool on)
     return;
   }
 #endif // SOQT_DEBUG
-    
+
 #if !defined(COIN_CONFIG_NO_SOLOCATEHIGHLIGHT)
   // Turn off the selection indicators when we go back from picking
   // mode into viewing mode.
@@ -825,7 +825,7 @@ SoQtViewer::setAutoClipping(SbBool on)
 #if SOQT_DEBUG
   if (this->adjustclipplanes == on) {
     SoDebugError::postWarning("SoQtViewer::setAutoClipping",
-			      "unnecessary called");
+                              "unnecessary called");
     return;
   }
 #endif // SOQT_DEBUG
@@ -857,7 +857,7 @@ SoQtViewer::setStereoViewing(SbBool on)
 {
   // FIXME: implement. 990507 mortene.
   SoDebugError::postInfo("SoQtViewer::setStereoViewing",
-			 "stereo viewing not implemented yet");
+                         "stereo viewing not implemented yet");
 }
 
 /*!
@@ -886,7 +886,7 @@ SoQtViewer::setStereoOffset(const float dist)
 {
   // FIXME: implement. 990507 mortene.
   SoDebugError::postInfo("SoQtViewer::setStereoOffset",
-			 "stereo viewing not implemented yet");
+                         "stereo viewing not implemented yet");
 }
 
 /*!
@@ -914,7 +914,7 @@ SoQtViewer::setDetailSeek(const SbBool on)
 #if SOQT_DEBUG
   if (this->seektopoint == on) {
     SoDebugError::postWarning("SoQtViewer::setDetailSeek",
-			      "unnecessary called");
+                              "unnecessary called");
     return;
   }
 #endif // SOQT_DEBUG
@@ -948,8 +948,8 @@ SoQtViewer::setSeekTime(const float seconds)
 #if SOQT_DEBUG
   if (seconds < 0.0f) {
     SoDebugError::postWarning("SoQtViewer::setSeekTime",
-			      "an attempt was made to set a negative seek "
-			      "time duration");
+                              "an attempt was made to set a negative seek "
+                              "time duration");
     return;
   }
 #endif SOQT_DEBUG
@@ -999,7 +999,7 @@ void
 SoQtViewer::removeStartCallback(SoQtViewerCB * func, void * data)
 {
   this->interactionstartCallbacks->removeCallback((SoCallbackListCB *)func,
-						  data);
+                                                  data);
 }
 
 /*!
@@ -1012,7 +1012,7 @@ void
 SoQtViewer::removeFinishCallback(SoQtViewerCB * func, void * data)
 {
   this->interactionendCallbacks->removeCallback((SoCallbackListCB *)func,
-						data);
+                                                data);
 }
 
 /*!
@@ -1030,7 +1030,7 @@ SoQtViewer::copyView(const SbTime eventTime)
   // first. 990507 mortene.
 
   SoDebugError::postInfo("SoQtViewer::copyView",
-			 "clipboard support not implemented yet");
+                         "clipboard support not implemented yet");
 }
 
 /*!
@@ -1047,7 +1047,7 @@ SoQtViewer::pasteView(const SbTime eventTime)
   // first. 990507 mortene.
 
   SoDebugError::postInfo("SoQtViewer::pasteView",
-			 "clipboard support not implemented yet");
+                         "clipboard support not implemented yet");
 }
 
 /*!
@@ -1057,7 +1057,7 @@ void
 SoQtViewer::recomputeSceneSize(void)
 {
   SoDebugError::postInfo("SoQtViewer::recomputeSceneSize",
-			 "this method is obsoleted, don't use it");
+                         "this method is obsoleted, don't use it");
 }
 
 /*!
@@ -1068,7 +1068,7 @@ SoQtViewer::setDecimationStrategy(const SoQtViewer::DecimationStrategy strategy)
 {
   // FIXME: implement. 990508 mortene.
   SoDebugError::postInfo("SoQtViewer::setDecimationStrategy",
-			 "not implemented yet");
+                         "not implemented yet");
 }
 
 /*!
@@ -1079,7 +1079,7 @@ SoQtViewer::getDecimationStrategy(void) const
 {
   // FIXME: implement. 990508 mortene.
   SoDebugError::postInfo("SoQtViewer::getDecimationStrategy",
-			 "not implemented yet");
+                         "not implemented yet");
   return NORMAL;
 }
 
@@ -1092,7 +1092,7 @@ SoQtViewer::setGoalNumberOfTriangles(const int32_t goal)
 {
   // FIXME: implement. 990508 mortene.
   SoDebugError::postInfo("SoQtViewer::setGoalNumberOfTriangles",
-			 "not implemented yet");
+                         "not implemented yet");
 }
 
 /*!
@@ -1103,7 +1103,7 @@ SoQtViewer::getGoalNumberOfTriangles(void) const
 {
   // FIXME: implement. 990508 mortene.
   SoDebugError::postInfo("SoQtViewer::getGoalNumberOfTriangles",
-			 "not implemented yet");
+                         "not implemented yet");
   return -1;
 }
 
@@ -1116,7 +1116,7 @@ SoQtViewer::setGoalFramesPerSecond(const float goal)
 {
   // FIXME: implement. 990508 mortene.
   SoDebugError::postInfo("SoQtViewer::setGoalFramesPerSecond",
-			 "not implemented yet");
+                         "not implemented yet");
 }
 
 /*!
@@ -1127,7 +1127,7 @@ SoQtViewer::getGoalFramesPerSecond(void) const
 {
   // FIXME: implement. 990508 mortene.
   SoDebugError::postInfo("SoQtViewer::getGoalFramesPerSecond",
-			 "not implemented yet");
+                         "not implemented yet");
   return 72.0f;
 }
 
@@ -1140,7 +1140,7 @@ SoQtViewer::setFixedPercentage(const float percent)
 {
   // FIXME: implement. 990508 mortene.
   SoDebugError::postInfo("SoQtViewer::setFixedPercentage",
-			 "not implemented yet");
+                         "not implemented yet");
 }
 
 /*!
@@ -1151,7 +1151,7 @@ SoQtViewer::getFixedPercentage(void) const
 {
   // FIXME: implement. 990508 mortene.
   SoDebugError::postInfo("SoQtViewer::getFixedPercentage",
-			 "not implemented yet");
+                         "not implemented yet");
   return 100.0f;
 }
 
@@ -1164,7 +1164,7 @@ SoQtViewer::enableFullRenderingWhenStill(const SbBool on)
 {
   // FIXME: implement. 990508 mortene.
   SoDebugError::postInfo("SoQtViewer::enableFullRenderingWhenStill",
-			 "not implemented yet");
+                         "not implemented yet");
 }
 
 /*!
@@ -1175,7 +1175,7 @@ SoQtViewer::isFullRenderingWhenStill(void) const
 {
   // FIXME: implement. 990508 mortene.
   SoDebugError::postInfo("SoQtViewer::isFullRenderingWhenStill",
-			 "not implemented yet");
+                         "not implemented yet");
   return TRUE;
 }
 
@@ -1187,7 +1187,7 @@ SoQtViewer::isStillNow(void) const
 {
   // FIXME: implement. 990508 mortene.
   SoDebugError::postInfo("SoQtViewer::isStillNow",
-			 "not implemented yet");
+                         "not implemented yet");
   return this->getInteractiveCount() == 0;
 }
 
@@ -1200,7 +1200,7 @@ SoQtViewer::setFramesPerSecondCallback(SoQtViewerFPSCB * callback, void * data)
 {
   // FIXME: implement. 990508 mortene.
   SoDebugError::postInfo("SoQtViewer::setFramesPerSecondCallback",
-			 "not implemented yet");
+                         "not implemented yet");
 }
 
 
@@ -1212,7 +1212,7 @@ SoQtViewer::setNumSamples(const int numFrames)
 {
   // FIXME: implement. 990508 mortene.
   SoDebugError::postInfo("SoQtViewer::setNumSamples",
-			 "not implemented yet");
+                         "not implemented yet");
 }
 
 /*!
@@ -1223,7 +1223,7 @@ SoQtViewer::getNumSamples(void) const
 {
   // FIXME: implement. 990508 mortene.
   SoDebugError::postInfo("SoQtViewer::getNumSamples",
-			 "not implemented yet");
+                         "not implemented yet");
   return 10;
 }
 
@@ -1236,7 +1236,7 @@ SoQtViewer::setDecimationPercentageCallback(SoQtViewerDecimationPercentageCB * c
 {
   // FIXME: implement. 990508 mortene.
   SoDebugError::postInfo("SoQtViewer::setDecimationPercentageCallback",
-			 "not implemented yet");
+                         "not implemented yet");
 }
 
 /*!
@@ -1247,7 +1247,7 @@ SoQtViewer::getCurrentDecimationPercentage(void) const
 {
   // FIXME: implement. 990508 mortene.
   SoDebugError::postInfo("SoQtViewer::getCurrentDecimationPercentage",
-			 "not implemented yet");
+                         "not implemented yet");
   return 100.0f;
 }
 
@@ -1292,7 +1292,7 @@ SoQtViewer::setSceneGraph(SoNode * root)
   if (!root) return;
 
   this->viewerroot->addChild(this->userroot);
- 
+
   // Search for a camera already present.
   SoSearchAction search;
   search.setType(SoCamera::getClassTypeId());
@@ -1303,10 +1303,10 @@ SoQtViewer::setSceneGraph(SoNode * root)
 
 #if 0 // debug
   SoDebugError::postInfo("SoQtViewer::setSceneGraph",
-			 "camera %sfound in graph",
-			 scenecamera ? "" : "not ");
+                         "camera %sfound in graph",
+                         scenecamera ? "" : "not ");
 #endif // debug
- 
+
   // Make our own camera if none was available.
   if (!scenecamera) {
     scenecamera = (SoCamera *)this->cameratype.createInstance();
@@ -1317,21 +1317,21 @@ SoQtViewer::setSceneGraph(SoNode * root)
     }
     else {
       if (this->userroot->isOfType(SoGroup::getClassTypeId())) {
-	((SoGroup *)this->userroot)->insertChild(scenecamera, 0);
+        ((SoGroup *)this->userroot)->insertChild(scenecamera, 0);
       }
       else {
-	SoGroup * g = new SoGroup;
-	g->addChild(scenecamera);
-	g->addChild(this->userroot);
-	this->viewerroot->removeChild(this->userroot);
-	this->viewerroot->addChild(g);
-	this->userroot = g;
+        SoGroup * g = new SoGroup;
+        g->addChild(scenecamera);
+        g->addChild(this->userroot);
+        this->viewerroot->removeChild(this->userroot);
+        this->viewerroot->addChild(g);
+        this->userroot = g;
       }
     }
 
     scenecamera->viewAll(this->userroot, this->getViewportRegion());
   }
- 
+
   // This will set up the headlight
   this->setCamera(scenecamera);
 }
@@ -1362,12 +1362,12 @@ void
 SoQtViewer::setSeekMode(SbBool on)
 {
   assert(this->isViewing());
-    
+
   if (!on && this->seeksensor->isScheduled()) {
     this->seeksensor->unschedule();
     this->interactiveCountDec();
   }
-    
+
   this->inseekmode = on;
 }
 
@@ -1394,16 +1394,16 @@ SbBool
 SoQtViewer::seekToPoint(const SbVec2s & screenpos)
 {
   assert(this->camera);
-    
+
 #if !defined(COIN_CONFIG_NO_SORAYPICKACTION)
   SoRayPickAction rpaction(this->getViewportRegion());
   rpaction.setPoint(screenpos);
   rpaction.setRadius(2);
   rpaction.apply(this->viewerroot);
-    
+
   SoPickedPoint * picked = rpaction.getPickedPoint();
   if (!picked) return FALSE;
-    
+
   SbVec3f hitpoint;
   if (this->seektopoint) {
     hitpoint = picked->getPoint();
@@ -1414,14 +1414,14 @@ SoQtViewer::seekToPoint(const SbVec2s & screenpos)
     SbBox3f bbox = bbaction.getBoundingBox();
     hitpoint = bbox.getCenter();
   }
-    
+
   this->camerastartposition = this->camera->position.getValue();
 
   float fd = this->seekdistance;
   if (this->seekdistanceabs)
     fd *= (hitpoint - this->camera->position.getValue()).length()/100.0f;
   this->camera->focalDistance = fd;
-	
+
   SbVec3f dir;
   this->camera->orientation.getValue().multVec(SbVec3f(0, 0, -1), dir);
   this->cameraendposition = hitpoint - fd * dir;
@@ -1437,7 +1437,7 @@ SoQtViewer::seekToPoint(const SbVec2s & screenpos)
 //    this->setSeekMode(FALSE);
 #ifdef SOQT_DEBUG
   SoDebugError::postWarning("SoQtViewer::seekToPoint",
-			    "no SoRayPickAction available");
+                            "no SoRayPickAction available");
 #endif // SOQT_DEBUG
   return FALSE;
 #endif // COIN_CONFIG_NO_SORAYPICKACTION
@@ -1452,7 +1452,7 @@ SoQtViewer::actualRedraw(void)
 {
   // Recalculate near/far planes.
   if (this->isAutoClipping()) this->setClippingPlanes();
-    
+
 #if !defined(NO_DRAWSTYLESETTING)
   if (this->drawAsHiddenLine()) {
     this->sodrawstyle->style = SoDrawStyle::FILLED;
@@ -1494,7 +1494,7 @@ SoQtViewer::processCommonEvents(QEvent * e)
 {
   // Check if the application wants to "steal" the event.
   if (inherited::invokeAppCB(e)) return TRUE;
-    
+
   // Hit Escape to toggle between interact and examine viewer modes.
   if (e->type() == Event_KeyPress) {
     QKeyEvent * ke = (QKeyEvent *)e;
@@ -1503,14 +1503,14 @@ SoQtViewer::processCommonEvents(QEvent * e)
       return TRUE;
     }
   }
-    
+
   // If we're in interact mode, don't catch anything else than Esc
   // presses, everything else should be passed on to the scene graph.
   if (!this->isViewing()) {
     inherited::processEvent(e);
     return TRUE;
   }
-  
+
   if (e->type() == Event_KeyPress) {
     QKeyEvent * ke = (QKeyEvent *)e;
     SbVec2f pos(0.0f, 0.0f);
@@ -1519,7 +1519,7 @@ SoQtViewer::processCommonEvents(QEvent * e)
     case Key_Home:
       this->resetToHomePosition();
       return TRUE;
-      
+
     case Key_S:
       this->setSeekMode(this->isSeekMode() ? FALSE : TRUE);
       return TRUE;
@@ -1546,7 +1546,7 @@ SoQtViewer::processCommonEvents(QEvent * e)
     this->moveCameraScreen(pos);
     return TRUE;
   }
-    
+
   return FALSE;
 }
 
@@ -1575,8 +1575,8 @@ SoQtViewer::interactiveCountInc(void)
 
 #if 0 // debug
   SoDebugError::postInfo("SoQtViewer::interactiveCountInc", "%d -> %d",
-			 this->interactionnesting - 1,
-			 this->interactionnesting);
+                         this->interactionnesting - 1,
+                         this->interactionnesting);
 #endif // debug
 }
 
@@ -1613,8 +1613,8 @@ SoQtViewer::interactiveCountDec(void)
 
 #if 0 // debug
   SoDebugError::postInfo("SoQtViewer::interactiveCountDec", "%d -> %d",
-			 this->interactionnesting + 1,
-			 this->interactionnesting);
+                         this->interactionnesting + 1,
+                         this->interactionnesting);
 #endif // debug
 }
 
@@ -1651,8 +1651,8 @@ SoQtViewer::setSeekDistance(const float distance)
 #if SOQT_DEBUG
   if (distance <= 0.0f) {
     SoDebugError::postWarning("SoQtViewer::setSeekDistance",
-			      "invalid seek distance value: %f",
-			      distance);
+                              "invalid seek distance value: %f",
+                              distance);
     return;
   }
 #endif // SOQT_DEBUG
@@ -1686,8 +1686,8 @@ SoQtViewer::setSeekValueAsPercentage(const SbBool on)
   if ((on && this->isSeekValuePercentage()) ||
       (!on && !this->isSeekValuePercentage())) {
     SoDebugError::postWarning("SoQtViewer::setSeekDistanceAsPercentage",
-			      "unnecessary called, value already %s",
-			      on ? "on" : "off");
+                              "unnecessary called, value already %s",
+                              on ? "on" : "off");
     return;
   }
 #endif // SOQT_DEBUG
@@ -1744,12 +1744,12 @@ SoQtViewer::toggleCameraType(void)
   else if (oldtype.isDerivedFrom(orthotype)) {
     ((SoPerspectiveCamera *)newcamera)->heightAngle = 2.0f *
       atan(((SoOrthographicCamera *)this->camera)->height.getValue() / 2.0f /
-	   this->camera->focalDistance.getValue());
+           this->camera->focalDistance.getValue());
   }
   else {
     assert(0);
   }
-    
+
   SoGroup * cameraparent = getParentOfNode(this->viewerroot, this->camera);
   cameraparent->insertChild(newcamera, cameraparent->findChild(this->camera));
   SoCamera * oldcamera = !this->deletecamera ? this->camera : NULL;
@@ -1789,7 +1789,7 @@ SoQtViewer::currentDrawStyle(void) const
 {
   SbBool interactivemode = this->getInteractiveCount() > 0 ? TRUE : FALSE;
   SbBool moveasstill = this->drawInteractiveAsStill();
-  
+
   if (!interactivemode || this->drawInteractiveAsStill())
     return this->drawstyles[STILL];
   else
@@ -1844,7 +1844,7 @@ SoQtViewer::changeDrawStyle(SoQtViewer::DrawStyle style)
     this->hiddenlineroot->whichChild = SO_SWITCH_ALL;
     return;
   }
-  
+
   this->hiddenlineroot->whichChild = SO_SWITCH_NONE;
 
   // Set ignore flags.
@@ -1853,13 +1853,13 @@ SoQtViewer::changeDrawStyle(SoQtViewer::DrawStyle style)
   this->sodrawstyle->style.setIgnored(ignored);
   this->solightmodel->model.setIgnored(ignored);
   ignored = ((VIEW_NO_TEXTURE|VIEW_LOW_COMPLEXITY|VIEW_LINE|VIEW_POINT) &
-	     style) ? TRUE : FALSE;
+             style) ? TRUE : FALSE;
   this->socomplexity->type.setIgnored(ignored);
   ignored = ((VIEW_NO_TEXTURE|VIEW_LINE|VIEW_POINT|VIEW_BBOX) & style) ?
     TRUE : FALSE;
   this->socomplexity->value.setIgnored(ignored);
   ignored = ((VIEW_NO_TEXTURE|VIEW_LOW_COMPLEXITY|VIEW_LINE|VIEW_LOW_RES_LINE|
-	      VIEW_POINT|VIEW_LOW_RES_POINT|VIEW_BBOX) & style) ? TRUE : FALSE;
+              VIEW_POINT|VIEW_LOW_RES_POINT|VIEW_BBOX) & style) ? TRUE : FALSE;
 
   // Set draw style.
   if (!this->sodrawstyle->style.isIgnored()) {
@@ -1887,20 +1887,20 @@ SoQtViewer::changeDrawStyle(SoQtViewer::DrawStyle style)
 
 #if 0 // debug
   SoDebugError::postInfo("SoQtViewer::changeDrawStyle",
-			 "\n"
-			 "\tdrawstyle style: 0x%02x (isIgnored() == %s)\n"
-			 "\tlightmodel model: 0x%02x, (isIgnored() == %s)\n"
-			 "\tcomplexity type: 0x%02x, (isIgnored() == %s)\n"
-			 "\tcomplexity value: %f, (isIgnored() == %s)\n"
-			 "",
-			 this->sodrawstyle->style.getValue(),
-			 this->sodrawstyle->style.isIgnored() ? "T" : "F",
-			 this->solightmodel->model.getValue(),
-			 this->solightmodel->model.isIgnored() ? "T" : "F",
-			 this->socomplexity->type.getValue(),
-			 this->socomplexity->type.isIgnored() ? "T" : "F",
-			 this->socomplexity->value.getValue(),
-			 this->socomplexity->value.isIgnored() ? "T" : "F");
+                         "\n"
+                         "\tdrawstyle style: 0x%02x (isIgnored() == %s)\n"
+                         "\tlightmodel model: 0x%02x, (isIgnored() == %s)\n"
+                         "\tcomplexity type: 0x%02x, (isIgnored() == %s)\n"
+                         "\tcomplexity value: %f, (isIgnored() == %s)\n"
+                         "",
+                         this->sodrawstyle->style.getValue(),
+                         this->sodrawstyle->style.isIgnored() ? "T" : "F",
+                         this->solightmodel->model.getValue(),
+                         this->solightmodel->model.isIgnored() ? "T" : "F",
+                         this->socomplexity->type.getValue(),
+                         this->socomplexity->type.isIgnored() ? "T" : "F",
+                         this->socomplexity->value.getValue(),
+                         this->socomplexity->value.isIgnored() ? "T" : "F");
 #endif // debug
 
 #endif // !NO_DRAWSTYLESETTING
@@ -1909,7 +1909,7 @@ SoQtViewer::changeDrawStyle(SoQtViewer::DrawStyle style)
 /*!
   \internal
 
-  Position the near and far clipping planes just in front of and behind 
+  Position the near and far clipping planes just in front of and behind
   the scene's bounding box. This will give us the optimal utilization of
   the z buffer resolution by shrinking it to its minimum depth.
  */
@@ -1947,7 +1947,7 @@ SoQtViewer::setClippingPlanes(void)
   // Disallow negative near clipping plane distance, and make sure the
   // z-buffer depth utilization is kept below a certain threshold.
   nearval = QMAX(SLACK * farval, nearval);
-    
+
   // Give a bit of slack to avoid artifacts when scene fits exactly
   // inside bounding box.
   this->camera->nearDistance = nearval * (1.0f - SLACK);
@@ -1955,9 +1955,9 @@ SoQtViewer::setClippingPlanes(void)
 
 #if 0 // debug
   SoDebugError::postInfo("SoQtViewer::setClippingPlanes",
-			 "near, far: %f (%f), %f (%f)",
-			 nearval, this->camera->nearDistance.getValue(),
-			 farval, this->camera->farDistance.getValue());
+                         "near, far: %f (%f), %f (%f)",
+                         nearval, this->camera->nearDistance.getValue(),
+                         farval, this->camera->farDistance.getValue());
 #endif // debug
 }
 
@@ -1972,14 +1972,14 @@ SoQtViewer::moveCameraScreen(const SbVec2f & screenpos)
 {
   SoCamera * cam = this->getCamera();
   assert(cam);
-    
+
 #if 1 // debug
   SoDebugError::postInfo("SoQtViewer::moveCameraScreen",
-			 "screenpos: <%f, %f>, campos: <%f, %f, %f>",
-			 screenpos[0], screenpos[1],
-			 cam->position.getValue()[0],
-			 cam->position.getValue()[1],
-			 cam->position.getValue()[2]);
+                         "screenpos: <%f, %f>, campos: <%f, %f, %f>",
+                         screenpos[0], screenpos[1],
+                         cam->position.getValue()[0],
+                         cam->position.getValue()[1],
+                         cam->position.getValue()[2]);
 #endif // debug
 
   SbViewVolume vv = cam->getViewVolume(this->getGlxAspectRatio());
@@ -1999,10 +1999,10 @@ SoQtViewer::moveCameraScreen(const SbVec2f & screenpos)
 
 #if 1 // debug
   SoDebugError::postInfo("SoQtViewer::moveCameraScreen",
-			 "newcampos: <%f, %f, %f>",
-			 cam->position.getValue()[0],
-			 cam->position.getValue()[1],
-			 cam->position.getValue()[2]);
+                         "newcampos: <%f, %f, %f>",
+                         cam->position.getValue()[0],
+                         cam->position.getValue()[1],
+                         cam->position.getValue()[2]);
 #endif // debug
 }
 

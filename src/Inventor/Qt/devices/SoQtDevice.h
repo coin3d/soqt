@@ -1,5 +1,5 @@
 /**************************************************************************\
- * 
+ *
  *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
@@ -45,7 +45,7 @@ public:
   virtual const SoEvent * translateEvent(QEvent * event) = 0;
   void setWindowSize(const SbVec2s & s);
   const SbVec2s & getWindowSize(void) const;
-  
+
 protected:
   void setEventPosition(SoEvent * event, int x, int y) const;
   static QPoint getLastEventPosition(void);

@@ -1,5 +1,5 @@
 /**************************************************************************\
- * 
+ *
  *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
@@ -486,7 +486,7 @@ SoQtKeyboard::makeTranslationTable(void)
     // FIXME: nasty casting going on -- design broken, should be
     // repaired somehow. 990212 mortene.
     SoQtKeyboard::translatetable.enter(QtToSoMapping[i].from,
-				       (void *)QtToSoMapping[i].to);
+                                       (void *)QtToSoMapping[i].to);
     i++;
   }
 
@@ -521,10 +521,10 @@ SoQtKeyboard::translateEvent(QEvent * event)
     else {
 #if SOQT_DEBUG
       SoDebugError::postWarning("SoQtKeyboard::translateEvent",
-				"couldn't translate key 0x%04x '%c' from "
-				"Qt -- please report",
-				keyevent->key(),
-				keyevent->ascii());
+                                "couldn't translate key 0x%04x '%c' from "
+                                "Qt -- please report",
+                                keyevent->key(),
+                                keyevent->ascii());
 #endif // SOQT_DEBUG
       return NULL;
     }
@@ -560,13 +560,13 @@ SoQtKeyboard::translateEvent(QEvent * event)
     this->kbdevent->setShiftDown(state & ShiftButton);
     this->kbdevent->setCtrlDown(state & ControlButton);
     this->kbdevent->setAltDown(state & AltButton);
-    
+
     this->setEventPosition(this->kbdevent,
-			   // FIXME: read QCursor::position() instead,
-			   // and clean up this mess. 990222 mortene.
-			   SoQtDevice::getLastEventPosition().x(),
-			   SoQtDevice::getLastEventPosition().y());
-    
+                           // FIXME: read QCursor::position() instead,
+                           // and clean up this mess. 990222 mortene.
+                           SoQtDevice::getLastEventPosition().x(),
+                           SoQtDevice::getLastEventPosition().y());
+
     // FIXME: wrong -- should be the time the Qt event happened. Can't
     // find support for getting hold of that information in Qt. 990211
     // mortene.

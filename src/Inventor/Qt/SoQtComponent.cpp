@@ -1,5 +1,5 @@
 /**************************************************************************\
- * 
+ *
  *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
@@ -107,8 +107,8 @@ SbPList SoQtComponent::qtwidgetlist;
   \a parent.
 */
 SoQtComponent::SoQtComponent(QWidget * const parent,
-			     const char * const name,
-			     const SbBool buildInsideParent)
+                             const char * const name,
+                             const SbBool buildInsideParent)
 {
   this->widget = NULL;
   this->parent = parent;
@@ -135,7 +135,7 @@ SoQtComponent::~SoQtComponent()
   assert(idx != -1);
   SoQtComponent::qtwidgetlist.remove(idx);
   SoQtComponent::soqtcomplist.remove(idx);
-  
+
   delete this->visibilitychangeCBs;
 
   // If we've got a toplevel widget on our hands it won't
@@ -152,7 +152,7 @@ SoQtComponent::~SoQtComponent()
  */
 void
 SoQtComponent::addVisibilityChangeCallback(SoQtComponentVisibilityCB * func,
-					   void * userData)
+                                           void * userData)
 {
   if (!this->visibilitychangeCBs) this->visibilitychangeCBs = new SbPList;
   this->visibilitychangeCBs->append((void *)func);
@@ -167,12 +167,12 @@ SoQtComponent::addVisibilityChangeCallback(SoQtComponentVisibilityCB * func,
  */
 void
 SoQtComponent::removeVisibilityChangeCallback(SoQtComponentVisibilityCB * func,
-					      void *)
+                                              void *)
 {
 #if SOQT_DEBUG
   if (!this->visibilitychangeCBs) {
     SoDebugError::postWarning("SoQtComponent::removeVisibilityChangeCallback",
-			      "empty callback list");
+                              "empty callback list");
     return;
   }
 #endif // SOQT_DEBUG
@@ -186,7 +186,7 @@ SoQtComponent::removeVisibilityChangeCallback(SoQtComponentVisibilityCB * func,
 #if SOQT_DEBUG
   if (idx == -1) {
     SoDebugError::postWarning("SoQtComponent::removeVisibilityChangeCallback",
-			      "tried to remove non-existant callback");
+                              "tried to remove non-existant callback");
     return;
   }
 #endif // SOQT_DEBUG
@@ -223,15 +223,15 @@ SoQtComponent::setBaseWidget(QWidget * w)
 
 #if 0 // debug
   SoDebugError::postInfo("SoQtComponent::setBaseWidget",
-			 "widget: %p, parent: %p", w, this->parent);
+                         "widget: %p, parent: %p", w, this->parent);
 #endif // debug
 
 
 #if 0 // debug
   if (!this->captiontext.isNull()) {
     SoDebugError::postInfo("SoQtComponent::setBaseWidget",
-			   "setCaption('%s')",
-			   (const char *)this->captiontext);
+                           "setCaption('%s')",
+                           (const char *)this->captiontext);
   }
 #endif // debug
   if (this->captiontext.isNull()) this->captiontext = this->getDefaultTitle();
@@ -249,12 +249,12 @@ SoQtComponent::setBaseWidget(QWidget * w)
   this->widget->installEventFilter(this);
 #if 0 // debug
   SoDebugError::postInfo("SoQtComponent::setBaseWidget",
-			 "installeventfilter, widget: %p", this->widget);
+                         "installeventfilter, widget: %p", this->widget);
 #endif // debug
 }
 
 /*!
-  \internal 
+  \internal
 
   Helps us detect changes in size (base widget and parent widget)
   and visibility status.
@@ -272,7 +272,7 @@ SoQtComponent::eventFilter(QObject *obj, QEvent * e)
   if ((obj != this->widget) && (obj != this->parent)) {
 #if SOQT_DEBUG
     SoDebugError::postWarning("SoQtComponent::eventFilter",
-			      "had to do a removeEventFilter()");
+                              "had to do a removeEventFilter()");
 #endif // SOQT_DEBUG
     obj->removeEventFilter(this);
     return FALSE;
@@ -285,10 +285,10 @@ SoQtComponent::eventFilter(QObject *obj, QEvent * e)
     if (obj == (QObject *)this->parent) {
 #if SOQTCOMP_RESIZE_DEBUG  // debug
       SoDebugError::postInfo("SoQtComponent::eventFilter",
-			     "resize %p: (%d, %d)",
-			     this->widget,
-			     r->size().width(), r->size().height());
-#endif // debug			 
+                             "resize %p: (%d, %d)",
+                             this->widget,
+                             r->size().width(), r->size().height());
+#endif // debug
       this->widget->resize(r->size());
     }
     else if (obj == (QObject *)this->widget) {
@@ -303,10 +303,10 @@ SoQtComponent::eventFilter(QObject *obj, QEvent * e)
   else if (e->type() == Event_Show || e->type() == Event_Hide) {
     if (this->visibilitychangeCBs) {
       for (int i=0; i < this->visibilitychangeCBs->getLength()/2; i++) {
-	SoQtComponentVisibilityCB * cb =
-	  (SoQtComponentVisibilityCB *)(*(this->visibilitychangeCBs))[i*2+0];
-	void * userdata = (*(this->visibilitychangeCBs))[i*2+1];
-	cb(userdata, e->type() == Event_Show ? TRUE : FALSE);
+        SoQtComponentVisibilityCB * cb =
+          (SoQtComponentVisibilityCB *)(*(this->visibilitychangeCBs))[i*2+0];
+        void * userdata = (*(this->visibilitychangeCBs))[i*2+1];
+        cb(userdata, e->type() == Event_Show ? TRUE : FALSE);
       }
     }
   }
@@ -318,19 +318,19 @@ SoQtComponent::eventFilter(QObject *obj, QEvent * e)
   This function \e must be called by subclasses after the component's
   widget has been otherwise initialized.
 */
-void 
+void
 SoQtComponent::subclassInitialized(void)
 {
 #if SOQT_DEBUG
   if(!this->widget) {
     SoDebugError::postWarning("SoQtComponent::subclassInitialized",
-			      "Called while no QWidget has been set.");
+                              "Called while no QWidget has been set.");
     return;
   }
 #endif // SOQT_DEBUG
 
   QObject::connect(this->widget, SIGNAL(destroyed()),
-		   this, SLOT(widgetClosed()));
+                   this, SLOT(widgetClosed()));
 }
 
 /*!
@@ -339,50 +339,50 @@ SoQtComponent::subclassInitialized(void)
 
   \sa hide(), isVisible()
  */
-void 
+void
 SoQtComponent::show(void)
 {
 #if SOQT_DEBUG
   if(!this->widget) {
     SoDebugError::postWarning("SoQtComponent::show",
-			      "Called while no QWidget has been set.");
+                              "Called while no QWidget has been set.");
     return;
   }
 #endif // SOQT_DEBUG
 
 #if SOQTCOMP_RESIZE_DEBUG  // debug
   SoDebugError::postInfo("SoQtComponent::show-1",
-			 "resizing %p: (%d, %d)",
-			 this->widget,
-			 this->storesize[0], this->storesize[1]);
+                         "resizing %p: (%d, %d)",
+                         this->widget,
+                         this->storesize[0], this->storesize[1]);
 #endif // debug
-			 
+
   this->widget->resize(this->storesize[0], this->storesize[1]);
 
 #if SOQTCOMP_RESIZE_DEBUG  // debug
   SoDebugError::postInfo("SoQtComponent::show-2",
-			 "resized %p: (%d, %d)",
-			 this->widget,
-			 this->widget->size().width(),
-			 this->widget->size().height());
-#endif // debug			 
+                         "resized %p: (%d, %d)",
+                         this->widget,
+                         this->widget->size().width(),
+                         this->widget->size().height());
+#endif // debug
 
   this->widget->show();
 #if SOQTCOMP_RESIZE_DEBUG  // debug
   SoDebugError::postInfo("SoQtComponent::show-3",
-			 "showed %p: (%d, %d)",
-			 this->widget,
-			 this->widget->size().width(),
-			 this->widget->size().height());
+                         "showed %p: (%d, %d)",
+                         this->widget,
+                         this->widget->size().width(),
+                         this->widget->size().height());
 #endif // debug
 
   this->widget->raise();
 #if SOQTCOMP_RESIZE_DEBUG  // debug
   SoDebugError::postInfo("SoQtComponent::show-4",
-			 "raised %p: (%d, %d)",
-			 this->widget,
-			 this->widget->size().width(),
-			 this->widget->size().height());
+                         "raised %p: (%d, %d)",
+                         this->widget,
+                         this->widget->size().width(),
+                         this->widget->size().height());
 #endif // debug
 }
 
@@ -391,13 +391,13 @@ SoQtComponent::show(void)
 
   \sa show(), isVisible()
  */
-void 
+void
 SoQtComponent::hide(void)
 {
 #if SOQT_DEBUG
   if(!this->widget) {
     SoDebugError::postWarning("SoQtComponent::hide",
-			      "Called while no QWidget has been set.");
+                              "Called while no QWidget has been set.");
     return;
   }
 #endif // SOQT_DEBUG
@@ -408,13 +408,13 @@ SoQtComponent::hide(void)
 /*!
   Returns visibility status on the widget. If any parents of this widget
   or this widget itself is hidden, returns \a FALSE.
-  
+
   Note that a widget which is just obscured by other windows on the
   desktop is not hidden in this sense, and \a TRUE will be returned.
 
   \sa show(), hide()
  */
-SbBool 
+SbBool
 SoQtComponent::isVisible(void)
 {
   if (!this->widget) return FALSE;
@@ -452,13 +452,13 @@ SoQtComponent::baseWidget(void) const
 
   \sa getShellWidget()
  */
-SbBool 
+SbBool
 SoQtComponent::isTopLevelShell(void) const
 {
 #if SOQT_DEBUG
   if(!this->widget) {
     SoDebugError::postWarning("SoQtComponent::isTopLevelShell",
-			      "Called while no QWidget has been set.");
+                              "Called while no QWidget has been set.");
     return FALSE;
   }
 #endif // SOQT_DEBUG
@@ -478,7 +478,7 @@ SoQtComponent::getShellWidget(void) const
 #if SOQT_DEBUG
   if (!this->widget) {
     SoDebugError::postWarning("SoQtComponent::getShellWidget",
-			      "Called while no QWidget has been set.");
+                              "Called while no QWidget has been set.");
     return NULL;
   }
 #endif // SOQT_DEBUG
@@ -504,7 +504,7 @@ SoQtComponent::getParentWidget(void) const
 
   \sa getTitle(), setIconTitle(), isTopLevelShell()
  */
-void 
+void
 SoQtComponent::setTitle(const char * const newTitle)
 {
 #if 0 // debug
@@ -515,7 +515,7 @@ SoQtComponent::setTitle(const char * const newTitle)
   if (this->widget) {
 #if 0 // debug
     SoDebugError::postInfo("SoQtComponent::setTitle",
-			   "actually setCaption('%s')", newTitle);
+                           "actually setCaption('%s')", newTitle);
 #endif // debug
     this->getShellWidget()->setCaption(newTitle);
   }
@@ -614,25 +614,25 @@ SoQtComponent::getDefaultIconTitle(void) const
 
   \sa getSize()
  */
-void 
+void
 SoQtComponent::setSize(const SbVec2s & size)
 {
 #if SOQT_DEBUG
   if((size[0] <= 0) || (size[1] <= 0)) {
     SoDebugError::postWarning("SoQtComponent::setSize",
-			      "Invalid size setting: <%d, %d>.",
-			      size[0], size[1]);
+                              "Invalid size setting: <%d, %d>.",
+                              size[0], size[1]);
     return;
   }
 #endif // SOQT_DEBUG
 
 #if SOQTCOMP_RESIZE_DEBUG  // debug
   SoDebugError::postInfo("SoQtComponent::setSize",
-			 "resize %p: (%d, %d)",
-			 this->widget,
-			 size[0], size[1]);
+                         "resize %p: (%d, %d)",
+                         this->widget,
+                         size[0], size[1]);
 #endif // debug
-			 
+
   this->storesize = size;
   if (this->widget) {
     QSize newsize(size[0], size[1]);
@@ -648,7 +648,7 @@ SoQtComponent::setSize(const SbVec2s & size)
 
   \sa setSize()
  */
-SbVec2s 
+SbVec2s
 SoQtComponent::getSize(void)
 {
   return this->storesize;
@@ -666,8 +666,8 @@ SoQtComponent::openHelpCard(const char *)
 {
   // FIXME: code MiA. 990222 mortene.
   QMessageBox::warning(NULL, "SoQt",
-		       "The help functionality has not been "
-		       "implemented.");
+                       "The help functionality has not been "
+                       "implemented.");
 }
 
 /*!
@@ -680,9 +680,9 @@ SoQtComponent::openHelpCard(const char *)
 
   \sa isTopLevelShell()
  */
-void 
+void
 SoQtComponent::setWindowCloseCallback(SoQtComponentCB *func,
-				      void * const data)
+                                      void * const data)
 {
   this->closeCB = func;
   this->closeCBdata = data;
@@ -693,7 +693,7 @@ SoQtComponent::setWindowCloseCallback(SoQtComponentCB *func,
 
   SLOT for when the user clicks/selects window decoration close.
 */
-void 
+void
 SoQtComponent::widgetClosed(void)
 {
   if (this->closeCB) this->closeCB(this->closeCBdata, this);

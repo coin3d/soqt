@@ -1,5 +1,5 @@
 /**************************************************************************\
- * 
+ *
  *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
@@ -44,10 +44,10 @@ class SoQtRenderArea : public SoQtGLWidget
 
 public:
   SoQtRenderArea(QWidget * parent = NULL,
-		 const char * const name = NULL, 
-		 SbBool buildInsideParent = TRUE, 
-		 SbBool getMouseInput = TRUE,
-		 SbBool getKeyboardInput = TRUE);
+                 const char * const name = NULL,
+                 SbBool buildInsideParent = TRUE,
+                 SbBool getMouseInput = TRUE,
+                 SbBool getKeyboardInput = TRUE);
 
 
   virtual ~SoQtRenderArea();
@@ -64,13 +64,13 @@ public:
   int getBackgroundIndex(void) const;
   void setOverlayBackgroundIndex(const int index);
   int getOverlayBackgroundIndex(void) const;
-  void setColorMap(const int startIndex, const int num, 
-		   const SbColor * const colors);
+  void setColorMap(const int startIndex, const int num,
+                   const SbColor * const colors);
   void setOverlayColorMap(const int startIndex, const int num,
-			  const SbColor * const colors);
+                          const SbColor * const colors);
   void setViewportRegion(const SbViewportRegion & newRegion);
   const SbViewportRegion & getViewportRegion(void) const;
-  
+
   void setTransparencyType(const SoGLRenderAction::TransparencyType type);
   SoGLRenderAction::TransparencyType getTransparencyType(void) const;
   void setAntialiasing(const SbBool smoothing, const int numPasses);
@@ -90,8 +90,8 @@ public:
   void scheduleOverlayRedraw(void);
   void redrawOnSelectionChange(SoSelection * const s);
   void redrawOverlayOnSelectionChange(SoSelection * const s);
-  void setEventCallback(SoQtRenderAreaEventCB * const fcn, 
-			void * const userData = NULL);
+  void setEventCallback(SoQtRenderAreaEventCB * const fcn,
+                        void * const userData = NULL);
   void setGLRenderAction(SoGLRenderAction * const ra);
   SoGLRenderAction * getGLRenderAction(void) const;
   void setOverlayGLRenderAction(SoGLRenderAction * const ra);
@@ -103,11 +103,11 @@ public:
 
 protected:
   SoQtRenderArea(QWidget * parent,
-		 const char * const name, 
-		 SbBool buildInsideParent, 
-		 SbBool getMouseInput,
-		 SbBool getKeyboardInput,
-		 SbBool buildNow);
+                 const char * const name,
+                 SbBool buildInsideParent,
+                 SbBool getMouseInput,
+                 SbBool getKeyboardInput,
+                 SbBool buildNow);
 
   virtual void processEvent(QEvent * anyevent);
 

@@ -1,5 +1,5 @@
 /**************************************************************************\
- * 
+ *
  *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
@@ -38,7 +38,7 @@ class SoQtFullViewer : public SoQtViewer {
 
 public:
   enum BuildFlag {
-    BUILD_NONE = 0x00, BUILD_DECORATION = 0x01, BUILD_POPUP = 0x02, 
+    BUILD_NONE = 0x00, BUILD_DECORATION = 0x01, BUILD_POPUP = 0x02,
     BUILD_ALL = 0xff,
   };
 
@@ -61,16 +61,16 @@ public:
   // These are overloaded to update user interface components.
   virtual void setViewing(SbBool on);
   virtual void setHeadlight(SbBool on);
-  virtual void setDrawStyle(SoQtViewer::DrawType type, 
-			    SoQtViewer::DrawStyle style);
+  virtual void setDrawStyle(SoQtViewer::DrawType type,
+                            SoQtViewer::DrawStyle style);
   virtual void setBufferingType(SoQtViewer::BufferType type);
   virtual void setCamera(SoCamera * cam);
   virtual void hide(void);
 
 protected:
   SoQtFullViewer(QWidget * parent, const char * name, SbBool buildInsideParent,
-		 BuildFlag flag, Type type, 
-		 SbBool buildNow);
+                 BuildFlag flag, Type type,
+                 SbBool buildNow);
   ~SoQtFullViewer();
 
   virtual bool eventFilter(QObject * obj, QEvent * e);
@@ -117,7 +117,7 @@ private:
     LEFTDECORATION,
     BOTTOMDECORATION,
     RIGHTDECORATION,
-    
+
     FIRSTDECORATION = LEFTDECORATION,
     LASTDECORATION = RIGHTDECORATION,
     NUMDECORATIONS = LASTDECORATION - FIRSTDECORATION + 1,
@@ -172,7 +172,7 @@ private:
   QLineEdit * nearclippingedit, * farclippingedit;
 
   void setDrawStyleMenuActivation(SoQtViewer::DrawType type,
-				  SoQtViewer::DrawStyle val);
+                                  SoQtViewer::DrawStyle val);
 
   void setEnabledClippingWidgets(bool flag);
 

@@ -1,5 +1,5 @@
 /**************************************************************************\
- * 
+ *
  *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
@@ -98,10 +98,10 @@ inline void SbSwap( Type & A, Type & B ) { Type T; T = A; A = B; B = T; }
 
 ///////// FIXME start //////////////////////////////////////////////////
 // Do something clever about this Qt layout assistant code.. (the code
-// for expandSize() is inside SoQtFullViewer.cpp). 990222 mortene. 
+// for expandSize() is inside SoQtFullViewer.cpp). 990222 mortene.
 enum LayoutOrientation { LayoutVertical, LayoutHorizontal };
 extern void expandSize(QSize & result, const QSize & addend,
-		       LayoutOrientation o);
+                       LayoutOrientation o);
 ///////// FIXME end ////////////////////////////////////////////////////
 
 
@@ -111,9 +111,9 @@ extern void expandSize(QSize & result, const QSize & addend,
   will be built immediately.
  */
 SoQtExaminerViewer::SoQtExaminerViewer(QWidget * parent, const char * name,
-				       SbBool buildInsideParent, 
-				       SoQtFullViewer::BuildFlag b, 
-				       SoQtViewer::Type t)
+                                       SbBool buildInsideParent,
+                                       SoQtFullViewer::BuildFlag b,
+                                       SoQtViewer::Type t)
   : inherited(parent, name, buildInsideParent, b, t, FALSE)
 {
   this->constructor(TRUE);
@@ -123,10 +123,10 @@ SoQtExaminerViewer::SoQtExaminerViewer(QWidget * parent, const char * name,
   Constructor. See parent class for explanation of arguments.
  */
 SoQtExaminerViewer::SoQtExaminerViewer(QWidget * parent, const char * name,
-				       SbBool buildInsideParent, 
-				       SoQtFullViewer::BuildFlag b, 
-				       SoQtViewer::Type t, 
-				       SbBool buildNow)
+                                       SbBool buildInsideParent,
+                                       SoQtFullViewer::BuildFlag b,
+                                       SoQtViewer::Type t,
+                                       SbBool buildNow)
   : inherited(parent, name, buildInsideParent, b, t, FALSE)
 {
   this->constructor(buildNow);
@@ -172,12 +172,12 @@ SoQtExaminerViewer::constructor(SbBool buildNow)
   this->setClassName("SoQtExaminerViewer");
 
   this->addVisibilityChangeCallback(SoQtExaminerViewer::visibilityCB, this);
-    
+
   this->setPopupMenuString("Examiner Viewer");
   this->setPrefSheetString("Examiner Viewer Preference Sheet");
   this->setLeftWheelString("Rotx");
   this->setBottomWheelString("Roty");
-    
+
   this->axiscrossOn = FALSE;
   this->axiscrossSize = 25;
 
@@ -216,8 +216,8 @@ SoQtExaminerViewer::setFeedbackVisibility(const SbBool on)
 #if SOQT_DEBUG
   if (on == this->axiscrossOn) {
     SoDebugError::postWarning("SoQtExaminerViewer::setFeedbackVisibility",
-			      "feedback visibility already set to %s",
-			      on ? "TRUE" : "FALSE");
+                              "feedback visibility already set to %s",
+                              on ? "TRUE" : "FALSE");
     return;
   }
 #endif // SOQT_DEBUG
@@ -248,7 +248,7 @@ SoQtExaminerViewer::setFeedbackSize(const int size)
 #if SOQT_DEBUG
   if (size < 1) {
     SoDebugError::postWarning("SoQtExaminerViewer::setFeedbackSize",
-			      "the size setting should be larger than 0");
+                              "the size setting should be larger than 0");
     return;
   }
 #endif // SOQT_DEBUG
@@ -310,7 +310,7 @@ SoQtExaminerViewer::stopAnimating(void)
 #if SOQT_DEBUG
   else {
     SoDebugError::postWarning("SoQtExaminerViewer::stopAnimating",
-			      "not animating");
+                              "not animating");
   }
 #endif // SOT_DEBUG
 }
@@ -351,15 +351,15 @@ SoQtExaminerViewer::setCamera(SoCamera * newCamera)
     SbBool orthotype =
       camtype.isDerivedFrom(SoOrthographicCamera::getClassTypeId());
 #endif // !COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA
-			     
+
     this->setRightWheelString(orthotype ? "Zoom" : "Dolly");
     if (this->cameratogglebutton) {
-      this->cameratogglebutton->setPixmap(orthotype ? 
-					  * (this->orthopixmap) : 
-					  * (this->perspectivepixmap));
+      this->cameratogglebutton->setPixmap(orthotype ?
+                                          * (this->orthopixmap) :
+                                          * (this->perspectivepixmap));
     }
   }
-  
+
   inherited::setCamera(newCamera);
 }
 
@@ -382,7 +382,7 @@ void
 SoQtExaminerViewer::leftWheelMotion(float val)
 {
   this->reorientCamera(SbRotation(SbVec3f(1.0f, 0.0f, 0.0f),
-				  val - this->getLeftWheelValue()));
+                                  val - this->getLeftWheelValue()));
   inherited::leftWheelMotion(val);
 }
 
@@ -394,7 +394,7 @@ void
 SoQtExaminerViewer::bottomWheelMotion(float val)
 {
   this->reorientCamera(SbRotation(SbVec3f(0.0f, 1.0f, 0.0f),
-				  this->getBottomWheelValue() - val));
+                                  this->getBottomWheelValue() - val));
   inherited::bottomWheelMotion(val);
 }
 
@@ -430,7 +430,7 @@ SoQtExaminerViewer::makeSubPreferences(QWidget * parent)
   c1->adjustSize();
   c1->setChecked(this->animatingallowed);
   QObject::connect(c1, SIGNAL(toggled(bool)),
-		   this, SLOT(spinAnimationToggled(bool)));
+                   this, SLOT(spinAnimationToggled(bool)));
 
   // Layout row 1.
   toplayout->addWidget(c1, c1->height());
@@ -442,7 +442,7 @@ SoQtExaminerViewer::makeSubPreferences(QWidget * parent)
   c2->adjustSize();
   c2->setChecked(this->isFeedbackVisible());
   QObject::connect(c2, SIGNAL(toggled(bool)),
-		   this, SLOT(feedbackVisibilityToggle(bool)));
+                   this, SLOT(feedbackVisibilityToggle(bool)));
 
   // Layout row 2.
   toplayout->addWidget(c2, c2->height());
@@ -460,14 +460,14 @@ SoQtExaminerViewer::makeSubPreferences(QWidget * parent)
 
   this->feedbackwheel = new QtThumbwheel(QtThumbwheel::Horizontal, w);
   QObject::connect(this->feedbackwheel, SIGNAL(wheelMoved(float)),
-		   this, SLOT(feedbackSizeChanged(float)));
+                   this, SLOT(feedbackSizeChanged(float)));
   this->feedbackwheel->setMidpointValue(float(this->getFeedbackSize())/10.0f);
   this->feedbackwheel->adjustSize();
   expandSize(tmpsize, this->feedbackwheel->size(), LayoutHorizontal);
 
   this->feedbackedit = new QLineEdit(w);
   QObject::connect(this->feedbackedit, SIGNAL(returnPressed()),
-		   this, SLOT(feedbackEditPressed()));
+                   this, SLOT(feedbackEditPressed()));
   QString s;
   s.setNum(this->getFeedbackSize());
   this->feedbackedit->setText(s);
@@ -503,7 +503,7 @@ void
 SoQtExaminerViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
 {
   inherited::createViewerButtons(parent, buttonlist);
-    
+
 #if defined(COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA)
 #define NO_CAM_TOGGLE 1
 #endif // COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA
@@ -532,8 +532,8 @@ SoQtExaminerViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
   this->cameratogglebutton->adjustSize();
 
   QObject::connect(this->cameratogglebutton, SIGNAL(clicked()),
-		   this, SLOT(cameratoggleClicked()));
-    
+                   this, SLOT(cameratoggleClicked()));
+
   buttonlist->append(this->cameratogglebutton);
 #endif // !NO_CAM_TOGGLE
 #undef NO_CAM_TOGGLE
@@ -587,15 +587,15 @@ SoQtExaminerViewer::processEvent(QEvent * event)
   // Let parent class take care of any events which are common for
   // all viewer classes.
   if (this->processCommonEvents(event)) return;
-    
+
   QWidget * canvas = this->getRenderAreaWidget();
   SbVec2s canvassize = this->getGlxSize();
   SbVec2s mousepos(canvas->mapFromGlobal(QCursor::pos()).x(),
-		   canvas->mapFromGlobal(QCursor::pos()).y());
+                   canvas->mapFromGlobal(QCursor::pos()).y());
   // Convert from Qt coordinate system to OpenGL coordinate system.
   mousepos[1] = canvassize[1] - mousepos[1];
   SbVec2f norm_mousepos(mousepos[0]/float(canvassize[0]),
-  			mousepos[1]/float(canvassize[1]));
+                        mousepos[1]/float(canvassize[1]));
 
   // Convert dblclick events to press events to get the "correct"
   // sequence of two press+release pairs under Qt 1.xx and Qt 2.00 at
@@ -607,7 +607,7 @@ SoQtExaminerViewer::processEvent(QEvent * event)
   QEvent::Type eventtype = event->type();
 #endif // Qt 2.0
   eventtype = (eventtype == Event_MouseButtonDblClick ?
-	       Event_MouseButtonPress : eventtype);
+               Event_MouseButtonPress : eventtype);
 
   switch (eventtype) {
   case Event_MouseButtonPress:
@@ -619,16 +619,16 @@ SoQtExaminerViewer::processEvent(QEvent * event)
 
 #if 0 // debug
       SoDebugError::postInfo("SoQtExaminerViewer::processEvent",
-			     "mb press, nesting count: %d",
-			     this->getInteractiveCount());
+                             "mb press, nesting count: %d",
+                             this->getInteractiveCount());
 #endif // debug
 
       if (this->currentmode == WAITING_FOR_SEEK) {
-	this->seekToPoint(mousepos);
+        this->seekToPoint(mousepos);
       }
       else {
-	this->setModeFromState(be->state() | be->button());
-	if (this->isAnimating()) this->stopAnimating();
+        this->setModeFromState(be->state() | be->button());
+        if (this->isAnimating()) this->stopAnimating();
       }
     }
     break;
@@ -639,13 +639,13 @@ SoQtExaminerViewer::processEvent(QEvent * event)
       if (be->button() != LeftButton && be->button() != MidButton) break;
 
       if (this->currentmode == DRAGGING &&
-	  this->animatingallowed &&
-	  this->spindetecttimer &&
-	  this->spindetecttimer->isActive()) {
-	this->spindetecttimer->stop();
-	this->spinanimating = TRUE;
-	this->timertrigger->schedule();
-	this->interactiveCountInc();
+          this->animatingallowed &&
+          this->spindetecttimer &&
+          this->spindetecttimer->isActive()) {
+        this->spindetecttimer->stop();
+        this->spinanimating = TRUE;
+        this->timertrigger->schedule();
+        this->interactiveCountInc();
       }
 
       // FIXME: This sometimes makes the interactivecount < 0, as
@@ -654,8 +654,8 @@ SoQtExaminerViewer::processEvent(QEvent * event)
 
 #if 0 // debug
       SoDebugError::postInfo("SoQtExaminerViewer::processEvent",
-			     "mb release, nesting count: %d",
-			     this->getInteractiveCount());
+                             "mb release, nesting count: %d",
+                             this->getInteractiveCount());
 #endif // debug
       this->setModeFromState(be->state() & ~be->button());
     }
@@ -666,18 +666,18 @@ SoQtExaminerViewer::processEvent(QEvent * event)
       QMouseEvent * me = (QMouseEvent *)event;
       switch (this->currentmode) {
       case DRAGGING:
-	if (!this->spindetecttimer) this->spindetecttimer = new QTimer;
-	this->spindetecttimer->start(0, TRUE);
-	this->spin(norm_mousepos);
-	break;
+        if (!this->spindetecttimer) this->spindetecttimer = new QTimer;
+        this->spindetecttimer->start(0, TRUE);
+        this->spin(norm_mousepos);
+        break;
 
       case PANNING:
-	this->pan(norm_mousepos);
-	break;
+        this->pan(norm_mousepos);
+        break;
 
       case ZOOMING:
-	this->zoomByCursor(norm_mousepos);
-	break;
+        this->zoomByCursor(norm_mousepos);
+        break;
       }
     }
     break;
@@ -686,12 +686,12 @@ SoQtExaminerViewer::processEvent(QEvent * event)
   case Event_KeyRelease:
     {
       QKeyEvent * ke = (QKeyEvent *)event;
-    
+
       if (ke->key() == Key_Control) {
-	if (ke->type() == Event_KeyPress)
-	  this->setModeFromState(ke->state() | ControlButton);
-	else
-	  this->setModeFromState(ke->state() & ~ControlButton);
+        if (ke->type() == Event_KeyPress)
+          this->setModeFromState(ke->state() | ControlButton);
+        else
+          this->setModeFromState(ke->state() & ~ControlButton);
       }
     }
     break;
@@ -710,11 +710,11 @@ SoQtExaminerViewer::setSeekMode(SbBool on)
 #if SOQT_DEBUG
   if (on == this->isSeekMode()) {
     SoDebugError::postWarning("SoQtExaminerViewer::setSeekMode",
-			      "seek mode already %sset", on ? "" : "un");
+                              "seek mode already %sset", on ? "" : "un");
     return;
   }
 #endif // SOQT_DEBUG
-    
+
   if (this->isAnimating()) this->stopAnimating();
   inherited::setSeekMode(on);
   this->setMode(on ? WAITING_FOR_SEEK : EXAMINE);
@@ -783,17 +783,17 @@ void
 SoQtExaminerViewer::setMode(const ViewerMode mode)
 {
   this->setCursorRepresentation(mode);
-    
+
   switch (mode) {
   case INTERACT:
     if (this->isAnimating()) this->stopAnimating();
     while (this->getInteractiveCount()) this->interactiveCountDec();
     break;
-	    
+
   case DRAGGING:
     this->projector->project(this->lastmouseposition);
     break;
-	    
+
   case PANNING:
     {
       // The plane we're projecting the mouse coordinates to get 3D
@@ -824,24 +824,24 @@ SoQtExaminerViewer::setCursorRepresentation(const ViewerMode mode)
     this->defaultcursor = new QCursor(w->cursor());
 
     QBitmap zoomBtm(so_qt_zoom_width, so_qt_zoom_height,
-		    (uchar*)so_qt_zoom_bitmap, FALSE);
+                    (uchar*)so_qt_zoom_bitmap, FALSE);
     QBitmap zoomMask(so_qt_zoom_width, so_qt_zoom_height,
-		     (uchar*)so_qt_zoom_mask_bitmap, FALSE);
+                     (uchar*)so_qt_zoom_mask_bitmap, FALSE);
     QBitmap panBtm(so_qt_pan_width, so_qt_pan_height,
-		   (uchar*)so_qt_pan_bitmap, FALSE);
+                   (uchar*)so_qt_pan_bitmap, FALSE);
     QBitmap panMask(so_qt_pan_width, so_qt_pan_height,
-		    (uchar*)so_qt_pan_mask_bitmap, FALSE);
+                    (uchar*)so_qt_pan_mask_bitmap, FALSE);
     QBitmap rotateBtm(so_qt_rotate_width, so_qt_rotate_height,
-		      (uchar*)so_qt_rotate_bitmap, FALSE);
+                      (uchar*)so_qt_rotate_bitmap, FALSE);
     QBitmap rotateMask(so_qt_rotate_width, so_qt_rotate_height,
-		       (uchar*)so_qt_rotate_mask_bitmap, FALSE);
+                       (uchar*)so_qt_rotate_mask_bitmap, FALSE);
 
     this->zoomcursor = new QCursor(zoomBtm, zoomMask,
-				   so_qt_zoom_x_hot, so_qt_zoom_y_hot);
+                                   so_qt_zoom_x_hot, so_qt_zoom_y_hot);
     this->pancursor = new QCursor(panBtm, panMask,
-				  so_qt_pan_x_hot, so_qt_pan_y_hot);
+                                  so_qt_pan_x_hot, so_qt_pan_y_hot);
     this->rotatecursor = new QCursor(rotateBtm, rotateMask,
-				     so_qt_rotate_x_hot, so_qt_rotate_y_hot);
+                                     so_qt_rotate_x_hot, so_qt_rotate_y_hot);
   }
 
 
@@ -850,21 +850,21 @@ SoQtExaminerViewer::setCursorRepresentation(const ViewerMode mode)
     w->setCursor(blankCursor);
     return;
   }
-    
+
   switch (mode) {
   case INTERACT:
     w->setCursor(arrowCursor);
     break;
-	    
+
   case EXAMINE:
   case DRAGGING:
     w->setCursor(* this->rotatecursor);
     break;
-	    
+
   case ZOOMING:
     w->setCursor(* this->zoomcursor);
     break;
-	    
+
   case WAITING_FOR_SEEK:
     w->setCursor(crossCursor);
     break;
@@ -873,7 +873,7 @@ SoQtExaminerViewer::setCursorRepresentation(const ViewerMode mode)
   case PANNING:
     w->setCursor(* this->pancursor);
     break;
-	    
+
   default: assert(0); break;
   }
 }
@@ -917,7 +917,7 @@ SoQtExaminerViewer::drawAxisCross(void)
 {
   // Store GL state information for the variables that we modify.
   glPushAttrib(GL_LIGHTING_BIT|GL_DEPTH_BUFFER_BIT|GL_TRANSFORM_BIT|
-	       GL_VIEWPORT_BIT|GL_LINE_BIT|GL_ENABLE_BIT);
+               GL_VIEWPORT_BIT|GL_LINE_BIT|GL_ENABLE_BIT);
   GLfloat depthrange[2];
   glGetFloatv(GL_DEPTH_RANGE, depthrange);
   GLdouble projectionmatrix[16];
@@ -1023,21 +1023,21 @@ SoQtExaminerViewer::drawAxisCross(void)
     for (int i=0; i < 3; i++) {
       glPushMatrix();
       if (xturn == i) {
-	// X axis.
-	glColor3fv(SbVec3f(0.500f, 0.125f, 0.125f).getValue());
-	this->drawArrow();
+        // X axis.
+        glColor3fv(SbVec3f(0.500f, 0.125f, 0.125f).getValue());
+        this->drawArrow();
       }
       else if (yturn == i) {
-	// Y axis.
-	glRotatef(90, 0, 0, 1);
-	glColor3fv(SbVec3f(0.125f, 0.500f, 0.125f).getValue());
-	this->drawArrow();
+        // Y axis.
+        glRotatef(90, 0, 0, 1);
+        glColor3fv(SbVec3f(0.125f, 0.500f, 0.125f).getValue());
+        this->drawArrow();
       }
       else {
-	// Z axis.
-	glRotatef(-90, 0, 1, 0);
-	glColor3fv(SbVec3f(0.125f, 0.125f, 0.500f).getValue());
-	this->drawArrow();
+        // Z axis.
+        glRotatef(-90, 0, 1, 0);
+        glColor3fv(SbVec3f(0.125f, 0.125f, 0.500f).getValue());
+        this->drawArrow();
       }
       glPopMatrix();
     }
@@ -1067,7 +1067,7 @@ SoQtExaminerViewer::drawAxisCross(void)
   glPixelStorei(GL_UNPACK_ALIGNMENT, unpack);
   glPopMatrix();
 
-  
+
   // Reset original state.
   glDepthRange(depthrange[0], depthrange[1]);
   glMatrixMode(GL_PROJECTION);
@@ -1086,16 +1086,16 @@ SoQtExaminerViewer::reorientCamera(const SbRotation & rot)
 {
   SoCamera * cam = this->getCamera();
   assert(cam);
-    
+
   // Find global coordinates of focal point.
   SbVec3f direction;
   cam->orientation.getValue().multVec(SbVec3f(0, 0, -1), direction);
   SbVec3f focalpoint =
     cam->position.getValue() + cam->focalDistance.getValue() * direction;
-    
+
   // Set new orientation value by accumulating the new rotation.
   cam->orientation = rot * cam->orientation.getValue();
-    
+
   // Reposition camera so we are still pointing at the same old focal
   // point.
   cam->orientation.getValue().multVec(SbVec3f(0, 0, -1), direction);
@@ -1113,7 +1113,7 @@ SoQtExaminerViewer::pan(const SbVec2f & mousepos)
 {
   SoCamera * cam = this->getCamera();
   assert(cam);
-    
+
   // Find projection points for the last and current mouse
   // coordinates.
   SbViewVolume vv = cam->getViewVolume(this->getGlxAspectRatio());
@@ -1148,12 +1148,12 @@ SoQtExaminerViewer::spin(const SbVec2f & mousepos)
   // 990501 mortene.
   if (r == SbRotation::identity()) {
     SoDebugError::postWarning("SoQtExaminerViewer::spin",
-			      "rotation equals identity");
+                              "rotation equals identity");
   }
 #endif // debug
   r.invert();
   this->reorientCamera(r);
-    
+
 
   // Calculate an average angle magnitude value to make the transition
   // to a possible spin animation mode appear smooth.
@@ -1205,11 +1205,11 @@ SoQtExaminerViewer::zoom(const float diffvalue)
   else if (t.isDerivedFrom(SoPerspectiveCamera::getClassTypeId())) {
     float oldfocaldist = cam->focalDistance.getValue();
     cam->focalDistance = oldfocaldist * multiplicator;
-	
+
     SbVec3f direction;
     cam->orientation.getValue().multVec(SbVec3f(0, 0, -1), direction);
     cam->position =
-      cam->position.getValue() + 
+      cam->position.getValue() +
       (cam->focalDistance.getValue() - oldfocaldist) * -direction;
   }
 #endif // !COIN_CONFIG_NO_SOPERSPECTIVECAMERA
@@ -1256,7 +1256,7 @@ SoQtExaminerViewer::timertriggeredCB(void * data, SoSensor *)
 
 #if 0 // debug
   SoDebugError::postInfo("SoQtExaminerViewer::timertriggeredCB",
-			 "spin samples: %d", thisp->spinsamplecounter);
+                         "spin samples: %d", thisp->spinsamplecounter);
 #endif // debug
 
   if (thisp->spinsamplecounter < 2) {
@@ -1270,7 +1270,7 @@ SoQtExaminerViewer::timertriggeredCB(void * data, SoSensor *)
 #endif
     return;
   }
-	
+
   thisp->reorientCamera(thisp->spinincrement);
 }
 
@@ -1285,7 +1285,7 @@ void
 SoQtExaminerViewer::visibilityCB(void * data, SbBool visible)
 {
   SoQtExaminerViewer * thisp = (SoQtExaminerViewer *)data;
-    
+
   if (thisp->isAnimating()) {
     if (visible) thisp->timertrigger->schedule();
     else thisp->timertrigger->unschedule();
@@ -1365,7 +1365,7 @@ SoQtExaminerViewer::feedbackSizeChanged(float val)
   }
 
   this->setFeedbackSize(int(val * 10));
-    
+
   QString s;
   s.setNum(this->getFeedbackSize());
   this->feedbackedit->setText(s);

@@ -1,5 +1,5 @@
 /**************************************************************************\
- * 
+ *
  *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
@@ -21,8 +21,8 @@
 #define __SOQTCOLORSLIDER_H__
 
 // FIXME: not in use yet. 19990620 mortene.
- 
-# include <qwidget.h> 
+
+# include <qwidget.h>
 
 class QLabel;
 class QSlider;
@@ -35,7 +35,7 @@ class _SoQtColorSlider : public QWidget {
   Q_OBJECT
 public:
   _SoQtColorSlider(int minValue, int maxValue, QWidget * parent = 0, const char * label = NULL);
- 
+
   int getValue() const;
   void setColor(QColor col);
 public slots:
@@ -47,7 +47,7 @@ public slots:
 
   signals:
   void valueChanged(float value);
- 
+
 private:
   QLabel * title;
   QSlider * slider;

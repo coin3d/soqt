@@ -1,5 +1,5 @@
 /**************************************************************************\
- * 
+ *
  *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
@@ -125,7 +125,7 @@ SoQtMouse::translateEvent(QEvent * event)
   if (((event->type() == Event_MouseButtonPress) ||
        (event->type() == Event_MouseButtonRelease)) &&
       (this->eventmask & (SoQtMouse::ButtonPressMask |
-			  SoQtMouse::ButtonReleaseMask))) {
+                          SoQtMouse::ButtonReleaseMask))) {
 
     // Allocate system-neutral event object once and reuse.
     if (!this->buttonevent) this->buttonevent = new SoMouseButtonEvent;
@@ -159,10 +159,10 @@ SoQtMouse::translateEvent(QEvent * event)
   // Check for mouse movement.
   if ((event->type() == Event_MouseMove) &&
       (this->eventmask & (SoQtMouse::PointerMotionMask |
-			  SoQtMouse::ButtonMotionMask))) {
+                          SoQtMouse::ButtonMotionMask))) {
     // Allocate system-neutral event object once and reuse.
     if (!this->locationevent) this->locationevent = new SoLocation2Event;
-    
+
     super = this->locationevent;
   }
 

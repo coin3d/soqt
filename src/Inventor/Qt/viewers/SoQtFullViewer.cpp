@@ -1,5 +1,5 @@
 /**************************************************************************\
- * 
+ *
  *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
@@ -115,7 +115,7 @@ static const int ZOOMSLIDERRESOLUTION = 200;
 
 ///////// FIXME start //////////////////////////////////////////////////
 // Do something clever about this Qt layout assistant code..
-// 990222 mortene. 
+// 990222 mortene.
 
 enum LayoutOrientation { LayoutVertical, LayoutHorizontal };
 
@@ -197,9 +197,9 @@ enum {
   canvas after other setup tasks has been performed.
  */
 SoQtFullViewer::SoQtFullViewer(QWidget * parent, const char * name,
-			       SbBool buildInsideParent,
-			       SoQtFullViewer::BuildFlag buildFlag,
-			       SoQtViewer::Type t, SbBool buildNow)
+                               SbBool buildInsideParent,
+                               SoQtFullViewer::BuildFlag buildFlag,
+                               SoQtViewer::Type t, SbBool buildNow)
   : inherited(parent, name, buildInsideParent, t, FALSE)
 {
   this->viewerwidget = NULL;
@@ -218,7 +218,7 @@ SoQtFullViewer::SoQtFullViewer(QWidget * parent, const char * name,
 
   this->mainlayout = NULL;
   this->appbuttonlayout = NULL;
-    
+
   this->prefwindow = NULL;
   this->prefwindowtitle = "Viewer Preference Sheet";
 
@@ -227,11 +227,11 @@ SoQtFullViewer::SoQtFullViewer(QWidget * parent, const char * name,
 
   this->prefmenu = NULL;
   this->menutitle = "Viewer Menu";
-    
+
   this->viewerbuttons = new SbPList;
   this->appbuttonlist = new SbPList;
   this->appbuttonform = NULL;
-    
+
   this->setSize(SbVec2s(500, 390));
   this->setClassName("SoQtFullViewer");
 
@@ -261,12 +261,12 @@ SoQtFullViewer::setDecoration(const SbBool on)
 #if SOQT_DEBUG
   if ((on && this->isDecoration()) || (!on && !this->isDecoration())) {
     SoDebugError::postWarning("SoQtFullViewer::setDecoration",
-			      "decorations already turned %s",
-			      on ? "on" : "off");
+                              "decorations already turned %s",
+                              on ? "on" : "off");
     return;
   }
 #endif // SOQT_DEBUG
-        
+
   this->decorations = on;
   if (this->prefmenu)
     this->prefmenu->setItemChecked(DECORATION_ITEM, on);
@@ -298,8 +298,8 @@ SoQtFullViewer::setPopupMenuEnabled(const SbBool on)
   if ((on && this->isPopupMenuEnabled()) ||
       (!on && !this->isPopupMenuEnabled())) {
     SoDebugError::postWarning("SoQtFullViewer::setPopupMenuEnabled",
-			      "popup menu already turned %s",
-			      on ? "on" : "off");
+                              "popup menu already turned %s",
+                              on ? "on" : "off");
     return;
   }
 #endif // SOQT_DEBUG
@@ -359,7 +359,7 @@ SoQtFullViewer::insertAppPushButton(QWidget * newButton, int index)
 #if SOQT_DEBUG
   if ((index < 0) || (index > this->lengthAppPushButton())) {
     SoDebugError::postWarning("SoQtFullViewer::insertAppPushButton",
-			      "index %d out of bounds", index);
+                              "index %d out of bounds", index);
     return;
   }
 #endif // SOQT_DEBUG
@@ -380,11 +380,11 @@ SoQtFullViewer::removeAppPushButton(QWidget * oldButton)
 #if SOQT_DEBUG
   if (idx == -1) {
     SoDebugError::postWarning("SoQtFullViewer::removeAppPushButton",
-			      "tried to remove non-existant button");
+                              "tried to remove non-existant button");
     return;
   }
 #endif // SOQT_DEBUG
-    
+
   this->appbuttonlist->remove(idx);
   this->layoutAppButtons(this->getAppPushButtonParent());
 }
@@ -437,11 +437,11 @@ SoQtFullViewer::setViewing(SbBool on)
   if ((on && this->isViewing()) || (!on && !this->isViewing())) {
 #if SOQT_DEBUG
     SoDebugError::postWarning("SoQtFullViewer::setViewing",
-			      "view mode already %s", on ? "on" : "off");
+                              "view mode already %s", on ? "on" : "off");
 #endif // SOQT_DEBUG
     return;
   }
-    
+
   inherited::setViewing(on);
   if (this->prefmenu) this->prefmenu->setItemChecked(EXAMINING_ITEM, on);
   VIEWERBUTTON(EXAMINE_BUTTON)->setOn(on);
@@ -466,7 +466,7 @@ SoQtFullViewer::setHeadlight(SbBool on)
  */
 void
 SoQtFullViewer::setDrawStyle(SoQtViewer::DrawType type,
-			     SoQtViewer::DrawStyle style)
+                             SoQtViewer::DrawStyle style)
 {
   inherited::setDrawStyle(type, style);
   if (this->prefmenu) this->setDrawStyleMenuActivation(type, style);
@@ -480,18 +480,18 @@ void
 SoQtFullViewer::setBufferingType(SoQtViewer::BufferType type)
 {
   inherited::setBufferingType(type);
-    
+
   if (this->prefmenu) {
     QMenuData * m;
     this->prefmenu->findItem(AS_IS_ITEM, &m);
     assert(m);
 
     m->setItemChecked(SINGLE_BUFFER_ITEM,
-		      type == SoQtViewer::BUFFER_SINGLE ? TRUE : FALSE);
+                      type == SoQtViewer::BUFFER_SINGLE ? TRUE : FALSE);
     m->setItemChecked(DOUBLE_BUFFER_ITEM,
-		      type == SoQtViewer::BUFFER_DOUBLE ? TRUE : FALSE);
+                      type == SoQtViewer::BUFFER_DOUBLE ? TRUE : FALSE);
     m->setItemChecked(INTERACTIVE_BUFFER_ITEM,
-		      type == SoQtViewer::BUFFER_INTERACTIVE ? TRUE : FALSE);
+                      type == SoQtViewer::BUFFER_INTERACTIVE ? TRUE : FALSE);
   }
 }
 
@@ -541,15 +541,15 @@ SoQtFullViewer::eventFilter(QObject *obj, QEvent * e)
   switch (e->type()) {
   case Event_MouseButtonPress:
     SoDebugError::postInfo("SoQtFullViewer::eventFilter",
-			   "button press");
+                           "button press");
     break;
   case Event_MouseButtonRelease:
     SoDebugError::postInfo("SoQtFullViewer::eventFilter",
-			   "button release");
+                           "button release");
     break;
   case Event_MouseButtonDblClick:
     SoDebugError::postInfo("SoQtFullViewer::eventFilter",
-			   "dbl click");
+                           "dbl click");
     break;
   default:
     break;
@@ -568,7 +568,7 @@ SoQtFullViewer::eventFilter(QObject *obj, QEvent * e)
   QEvent::Type eventtype = e->type();
 #endif // Qt 2.0
   eventtype = (eventtype == Event_MouseButtonDblClick ?
-	       Event_MouseButtonPress : eventtype);
+               Event_MouseButtonPress : eventtype);
 
   // Catch close events to avoid anything actually being destroyed.
   if (obj == this->prefwindow) {
@@ -650,11 +650,11 @@ SoQtFullViewer::buildLeftTrim(QWidget * parent)
   t->adjustSize();
   t->setFixedSize(t->size());
   QObject::connect(t, SIGNAL(wheelMoved(float)),
-		   this, SLOT(leftWheelChanged(float)));
+                   this, SLOT(leftWheelChanged(float)));
   QObject::connect(t, SIGNAL(wheelPressed()),
-		   this, SLOT(leftWheelPressed()));
-  QObject::connect(t, SIGNAL(wheelReleased()), 
-		   this, SLOT(leftWheelReleased()));
+                   this, SLOT(leftWheelPressed()));
+  QObject::connect(t, SIGNAL(wheelReleased()),
+                   this, SLOT(leftWheelReleased()));
 
   this->wheelvalues[LEFTDECORATION] = t->getMidpointValue();
 
@@ -673,8 +673,8 @@ SoQtFullViewer::buildBottomTrim(QWidget * parent)
 {
   QWidget * w = new QWidget(parent);
 
-  int alignments[] = { AlignLeft|AlignTop, AlignRight|AlignVCenter, 
-		       AlignRight|AlignTop, };
+  int alignments[] = { AlignLeft|AlignTop, AlignRight|AlignVCenter,
+                       AlignRight|AlignTop, };
   for (int i = FIRSTDECORATION; i <= LASTDECORATION; i++) {
     this->wheellabels[i] = new QLabel(this->wheelstrings[i], w);
     this->wheellabels[i]->adjustSize();
@@ -686,11 +686,11 @@ SoQtFullViewer::buildBottomTrim(QWidget * parent)
   t->adjustSize();
   t->setFixedSize(t->size());
   QObject::connect(t, SIGNAL(wheelMoved(float)),
-		   this, SLOT(bottomWheelChanged(float)));
+                   this, SLOT(bottomWheelChanged(float)));
   QObject::connect(t, SIGNAL(wheelPressed()),
-		   this, SLOT(bottomWheelPressed()));
+                   this, SLOT(bottomWheelPressed()));
   QObject::connect(t, SIGNAL(wheelReleased()),
-		   this, SLOT(bottomWheelReleased()));
+                   this, SLOT(bottomWheelReleased()));
 
   this->wheelvalues[BOTTOMDECORATION] = t->getMidpointValue();
 
@@ -717,11 +717,11 @@ SoQtFullViewer::buildRightTrim(QWidget * parent)
   t->adjustSize();
   t->setMaximumSize(t->size());
   QObject::connect(t, SIGNAL(wheelMoved(float)),
-		   this, SLOT(rightWheelChanged(float)));
+                   this, SLOT(rightWheelChanged(float)));
   QObject::connect(t, SIGNAL(wheelPressed()),
-		   this, SLOT(rightWheelPressed()));
+                   this, SLOT(rightWheelPressed()));
   QObject::connect(t, SIGNAL(wheelReleased()),
-		   this, SLOT(rightWheelReleased()));
+                   this, SLOT(rightWheelReleased()));
 
   this->wheelvalues[RIGHTDECORATION] = t->getMidpointValue();
 
@@ -744,7 +744,7 @@ SoQtFullViewer::buildAppButtons(QWidget * parent)
 
   if (this->lengthAppPushButton() > 0)
     this->layoutAppButtons(this->appbuttonform);
-  
+
   return this->appbuttonform;
 }
 
@@ -787,14 +787,14 @@ SoQtFullViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
       p->setPixmap(QPixmap((const char **)pick_xpm));
       p->setOn(this->isViewing() ? FALSE : TRUE);
       QObject::connect(p, SIGNAL(toggled(bool)),
-		       this, SLOT(interactbuttonToggled(bool)));
+                       this, SLOT(interactbuttonToggled(bool)));
       break;
     case EXAMINE_BUTTON:
       p->setToggleButton(TRUE);
       p->setPixmap(QPixmap((const char **)view_xpm));
       p->setOn(this->isViewing());
       QObject::connect(p, SIGNAL(toggled(bool)),
-		       this, SLOT(viewbuttonToggled(bool)));
+                       this, SLOT(viewbuttonToggled(bool)));
       break;
     case HELP_BUTTON:
       QObject::connect(p, SIGNAL(clicked()), this, SLOT(helpbuttonClicked()));
@@ -806,12 +806,12 @@ SoQtFullViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
       break;
     case SET_HOME_BUTTON:
       QObject::connect(p, SIGNAL(clicked()),
-		       this, SLOT(sethomebuttonClicked()));
+                       this, SLOT(sethomebuttonClicked()));
       p->setPixmap(QPixmap((const char **)set_home_xpm));
       break;
     case VIEW_ALL_BUTTON:
       QObject::connect(p, SIGNAL(clicked()),
-		       this, SLOT(viewallbuttonClicked()));
+                       this, SLOT(viewallbuttonClicked()));
       p->setPixmap(QPixmap((const char **)view_all_xpm));
       break;
     case SEEK_BUTTON:
@@ -848,35 +848,35 @@ SoQtFullViewer::buildPopupMenu(void)
   // Set initial checkmarks on drawstyle menus.
   this->setDrawStyle(SoQtViewer::STILL, this->getDrawStyle(SoQtViewer::STILL));
   this->setDrawStyle(SoQtViewer::INTERACTIVE,
-		     this->getDrawStyle(SoQtViewer::INTERACTIVE));
+                     this->getDrawStyle(SoQtViewer::INTERACTIVE));
   this->setBufferingType(this->getBufferingType());
 
 
   this->prefmenu->insertItem("Viewing", this, SLOT(selectedViewing()),
-			     0, EXAMINING_ITEM);
+                             0, EXAMINING_ITEM);
   this->prefmenu->setItemChecked(EXAMINING_ITEM, this->isViewing());
-  
+
   this->prefmenu->insertItem("Decoration", this, SLOT(selectedDecoration()),
-			     0, DECORATION_ITEM);
+                             0, DECORATION_ITEM);
   this->prefmenu->setItemChecked(DECORATION_ITEM, this->decorations);
-  
+
   this->prefmenu->insertItem("Headlight", this, SLOT(selectedHeadlight()),
-			     0, HEADLIGHT_ITEM);
+                             0, HEADLIGHT_ITEM);
   this->prefmenu->setItemChecked(HEADLIGHT_ITEM, this->isHeadlight());
-  
+
   this->prefmenu->insertItem("Preferences...", this, SLOT(selectedPrefs()),
-			     0, PREFERENCES_ITEM);
+                             0, PREFERENCES_ITEM);
 }
 
 /*!
-  Set title of popup menu. 
+  Set title of popup menu.
  */
 void
 SoQtFullViewer::setPopupMenuString(const char * str)
 {
   this->menutitle = str ? str : "";
   if (this->prefmenu) this->prefmenu->changeItem(this->menutitle.getString(),
-						 MENUTITLE_ITEM);
+                                                 MENUTITLE_ITEM);
 }
 
 /*!
@@ -890,17 +890,17 @@ SoQtFullViewer::buildFunctionsSubmenu(QWidget * popup)
   m->insertItem("Help", this, SLOT(helpbuttonClicked()), 0, HELP_ITEM);
   m->insertItem("Home", this, SLOT(homebuttonClicked()), 0, HOME_ITEM);
   m->insertItem("Set Home", this, SLOT(sethomebuttonClicked()), 0,
-		SET_HOME_ITEM);
+                SET_HOME_ITEM);
   m->insertItem("View All", this, SLOT(viewallbuttonClicked()), 0,
-		VIEW_ALL_ITEM);
+                VIEW_ALL_ITEM);
   m->insertItem("Seek", this, SLOT(seekbuttonClicked()), 0, SEEK_ITEM);
 
   m->insertSeparator();
 
   m->insertItem("Copy View", this, SLOT(copyviewSelected()), 0,
-		COPY_VIEW_ITEM);
+                COPY_VIEW_ITEM);
   m->insertItem("Paste View", this, SLOT(pasteviewSelected()), 0,
-		PASTE_VIEW_ITEM);
+                PASTE_VIEW_ITEM);
 
   return m;
 }
@@ -927,7 +927,7 @@ SoQtFullViewer::buildDrawStyleSubmenu(QWidget * popup)
   m->insertItem("move low res", MOVE_LOW_RES_ITEM);
   m->insertItem("move wireframe", MOVE_WIREFRAME_ITEM);
   m->insertItem("move low res wireframe (no depth)",
-		MOVE_LOW_RES_WIREFRAME_ITEM);
+                MOVE_LOW_RES_WIREFRAME_ITEM);
   m->insertItem("move points", MOVE_POINTS_ITEM);
   m->insertItem("move low res points (no depth)", MOVE_LOW_RES_POINTS_ITEM);
   m->insertItem("move bounding box (no depth)", MOVE_BOUNDING_BOX_ITEM);
@@ -1201,7 +1201,7 @@ SoQtFullViewer::showDecorationWidgets(SbBool onOff)
 
     QGridLayout * subLayout = new QGridLayout(1, 3);
     g->addLayout(subLayout, 0, 0);
-    
+
     subLayout->addWidget(this->decorform[LEFTDECORATION], 0, 0);
     subLayout->addWidget(this->canvasparent, 0, 1);
     subLayout->addWidget(this->decorform[RIGHTDECORATION], 0, 2);
@@ -1311,10 +1311,10 @@ SoQtFullViewer::makeSeekPreferences(QWidget * parent)
   QLineEdit * le = new QLineEdit(w);
 #if QT_VERSION < 200 // Qt 2.xx
   QObject::connect(le, SIGNAL(textChanged(const char *)),
-		   this, SLOT(seekAnimationTimeChanged(const char *)));
+                   this, SLOT(seekAnimationTimeChanged(const char *)));
 #else // Qt 1.xx
   QObject::connect(le, SIGNAL(textChanged(const QString &)),
-		   this, SLOT(seekAnimationTimeChanged(const QString &)));
+                   this, SLOT(seekAnimationTimeChanged(const QString &)));
 #endif // Qt 1.xx
   QString s;
   s.setNum(this->getSeekTime(), 'f', 2);
@@ -1359,7 +1359,7 @@ SoQtFullViewer::makeSeekPreferences(QWidget * parent)
 
   bg->setExclusive(TRUE);
   QObject::connect(bg, SIGNAL(clicked(int)),
-		   this, SLOT(seekDetailToggled(int)));
+                   this, SLOT(seekDetailToggled(int)));
 
   // Layout row 2.
   layout = new QHBoxLayout;
@@ -1401,9 +1401,9 @@ SoQtFullViewer::makeSeekDistancePreferences(QWidget * parent)
   this->seekdistancewheel->setMidpointValue(sqrt(this->getSeekDistance()));
   this->seekdistancewheel->adjustSize();
   expandSize(tmpsize, this->seekdistancewheel->size(),
-			     LayoutHorizontal);
+                             LayoutHorizontal);
   QObject::connect(this->seekdistancewheel, SIGNAL(wheelMoved(float)),
-		   this, SLOT(seekDistanceWheelChanged(float)));
+                   this, SLOT(seekDistanceWheelChanged(float)));
 
   this->seekdistancefield = new QLineEdit(w);
   QString s;
@@ -1411,9 +1411,9 @@ SoQtFullViewer::makeSeekDistancePreferences(QWidget * parent)
   this->seekdistancefield->setText(s);
   this->seekdistancefield->adjustSize();
   expandSize(tmpsize, this->seekdistancefield->size(),
-			     LayoutHorizontal);
+                             LayoutHorizontal);
   QObject::connect(this->seekdistancefield, SIGNAL(returnPressed()),
-		   this, SLOT(seekDistanceEdit()));
+                   this, SLOT(seekDistanceEdit()));
 
   // Layout row 1.
   QBoxLayout * layout = new QHBoxLayout;
@@ -1443,7 +1443,7 @@ SoQtFullViewer::makeSeekDistancePreferences(QWidget * parent)
 
   bg->setExclusive(TRUE);
   QObject::connect(bg, SIGNAL(clicked(int)),
-		   this, SLOT(seekDistanceTypeToggle(int)));
+                   this, SLOT(seekDistanceTypeToggle(int)));
 
   // Layout row 2.
   layout = new QHBoxLayout;
@@ -1482,22 +1482,22 @@ SoQtFullViewer::makeZoomPreferences(QWidget * parent)
   expandSize(tmpsize, l1->size(), LayoutHorizontal);
 
   this->zoomslider = new QSlider(0, ZOOMSLIDERRESOLUTION,
-				 1, 0, QSlider::Horizontal, w);
+                                 1, 0, QSlider::Horizontal, w);
   this->zoomslider->adjustSize();
   expandSize(tmpsize, this->zoomslider->size(), LayoutHorizontal);
   QObject::connect(this->zoomslider, SIGNAL(sliderPressed()),
-		   this, SLOT(increaseInteractiveCount()));
+                   this, SLOT(increaseInteractiveCount()));
   QObject::connect(this->zoomslider, SIGNAL(valueChanged(int)),
-		   this, SLOT(zoomSliderMoved(int)));
+                   this, SLOT(zoomSliderMoved(int)));
   QObject::connect(this->zoomslider, SIGNAL(sliderReleased()),
-		   this, SLOT(decreaseInteractiveCount()));
+                   this, SLOT(decreaseInteractiveCount()));
 
   this->zoomfield = new QLineEdit(w);
   this->zoomfield->adjustSize();
   expandSize(tmpsize, this->zoomfield->size(), LayoutHorizontal);
   QObject::connect(this->zoomfield, SIGNAL(returnPressed()),
-		   this, SLOT(zoomFieldChanged()));
-  
+                   this, SLOT(zoomFieldChanged()));
+
 
   // Layout row 1.
   QBoxLayout * layout = new QHBoxLayout;
@@ -1506,7 +1506,7 @@ SoQtFullViewer::makeZoomPreferences(QWidget * parent)
   layout->addWidget(this->zoomslider, this->zoomslider->width());
   layout->addWidget(this->zoomfield, this->zoomfield->width());
   expandSize(totalsize, tmpsize, LayoutVertical);
- 
+
 
   // Do the four widgets on the second row (label, lineedit, label,
   // lineedit).
@@ -1524,7 +1524,7 @@ SoQtFullViewer::makeZoomPreferences(QWidget * parent)
   this->zoomrangefrom->adjustSize();
   expandSize(tmpsize, this->zoomrangefrom->size(), LayoutHorizontal);
   QObject::connect(this->zoomrangefrom, SIGNAL(returnPressed()),
-		   this, SLOT(zoomRangeChanged1()));
+                   this, SLOT(zoomRangeChanged1()));
 
   QLabel * l3 = new QLabel("to:", w);
   l3->adjustSize();
@@ -1536,7 +1536,7 @@ SoQtFullViewer::makeZoomPreferences(QWidget * parent)
   this->zoomrangeto->adjustSize();
   expandSize(tmpsize, this->zoomrangeto->size(), LayoutHorizontal);
   QObject::connect(this->zoomrangeto, SIGNAL(returnPressed()),
-		   this, SLOT(zoomRangeChanged2()));
+                   this, SLOT(zoomRangeChanged2()));
 
 
   // Layout row 2.
@@ -1563,7 +1563,7 @@ SoQtFullViewer::makeZoomPreferences(QWidget * parent)
 
   w->resize(totalsize);
   toplayout->activate();
-  
+
   return w;
 }
 
@@ -1615,13 +1615,13 @@ SoQtFullViewer::makeAutoclipPreferences(QWidget * dialog)
   c->adjustSize();
   c->setChecked(this->isAutoClipping());
   QObject::connect(c, SIGNAL(toggled(bool)),
-		   this, SLOT(clippingToggled(bool)));
+                   this, SLOT(clippingToggled(bool)));
 
   // Layout row 1.
   toplayout->addWidget(c, c->height());
   expandSize(totalsize, c->size(), LayoutVertical);
 
- 
+
 
   // Do the three widgets on the second row (label, thumbwheel,
   // lineedit).
@@ -1636,17 +1636,17 @@ SoQtFullViewer::makeAutoclipPreferences(QWidget * dialog)
   this->nearclippingwheel->adjustSize();
   expandSize(tmpsize, this->nearclippingwheel->size(), LayoutHorizontal);
   QObject::connect(this->nearclippingwheel, SIGNAL(wheelPressed()),
-		   this, SLOT(increaseInteractiveCount()));
+                   this, SLOT(increaseInteractiveCount()));
   QObject::connect(this->nearclippingwheel, SIGNAL(wheelMoved(float)),
-		   this, SLOT(nearclippingwheelMoved(float)));
+                   this, SLOT(nearclippingwheelMoved(float)));
   QObject::connect(this->nearclippingwheel, SIGNAL(wheelReleased()),
-		   this, SLOT(decreaseInteractiveCount()));
+                   this, SLOT(decreaseInteractiveCount()));
 
   this->nearclippingedit = new QLineEdit(w);
   this->nearclippingedit->adjustSize();
   expandSize(tmpsize, this->nearclippingedit->size(), LayoutHorizontal);
   QObject::connect(this->nearclippingedit, SIGNAL(returnPressed()),
-		   this, SLOT(nearclipEditPressed()));
+                   this, SLOT(nearclipEditPressed()));
 
 
   // Layout row 2.
@@ -1666,33 +1666,33 @@ SoQtFullViewer::makeAutoclipPreferences(QWidget * dialog)
   this->farclippinglabel = new QLabel("far plane", w);
   this->farclippinglabel->adjustSize();
   expandSize(tmpsize,
-	     QSize(QMAX(this->nearclippinglabel->width(),
-			this->farclippinglabel->width()),
-		   this->farclippinglabel->height()),
-	     LayoutHorizontal);
+             QSize(QMAX(this->nearclippinglabel->width(),
+                        this->farclippinglabel->width()),
+                   this->farclippinglabel->height()),
+             LayoutHorizontal);
 
   this->farclippingwheel = new QtThumbwheel(QtThumbwheel::Horizontal, w);
   this->farclippingwheel->adjustSize();
   expandSize(tmpsize, this->farclippingwheel->size(), LayoutHorizontal);
   QObject::connect(this->farclippingwheel, SIGNAL(wheelPressed()),
-		   this, SLOT(increaseInteractiveCount()));
+                   this, SLOT(increaseInteractiveCount()));
   QObject::connect(this->farclippingwheel, SIGNAL(wheelMoved(float)),
-		   this, SLOT(farclippingwheelMoved(float)));
+                   this, SLOT(farclippingwheelMoved(float)));
   QObject::connect(this->farclippingwheel, SIGNAL(wheelReleased()),
-		   this, SLOT(decreaseInteractiveCount()));
+                   this, SLOT(decreaseInteractiveCount()));
 
   this->farclippingedit = new QLineEdit(w);
   this->farclippingedit->adjustSize();
   expandSize(tmpsize, this->farclippingedit->size(), LayoutHorizontal);
   QObject::connect(this->farclippingedit, SIGNAL(returnPressed()),
-		   this, SLOT(farclipEditPressed()));
+                   this, SLOT(farclipEditPressed()));
 
   // Layout row 3.
   layout = new QHBoxLayout;
   toplayout->addLayout(layout, tmpsize.height());
   layout->addWidget(this->farclippinglabel,
-		    QMAX(this->nearclippinglabel->width(),
-			 this->farclippinglabel->width()));
+                    QMAX(this->nearclippinglabel->width(),
+                         this->farclippinglabel->width()));
   layout->addWidget(this->farclippingwheel, this->farclippingwheel->width());
   layout->addWidget(this->farclippingedit, this->farclippingedit->width());
   expandSize(totalsize, tmpsize, LayoutVertical);
@@ -1764,11 +1764,11 @@ void
 SoQtFullViewer::setZoomSliderPosition(float zoom)
 {
   if (!this->prefwindow) return;
-    
+
   float f =
     (zoom - this->zoomrange[0]) / (this->zoomrange[1] - this->zoomrange[0]);
   f = QMAX(0.0f, QMIN(f, 1.0f)) * ZOOMSLIDERRESOLUTION;
-    
+
   this->zoomslider->setValue(f);
 }
 
@@ -1911,7 +1911,7 @@ SoQtFullViewer::pasteviewSelected()
  */
 void
 SoQtFullViewer::setDrawStyleMenuActivation(SoQtViewer::DrawType type,
-					   SoQtViewer::DrawStyle val)
+                                           SoQtViewer::DrawStyle val)
 {
   QMenuData * m;
   assert(this->prefmenu);
@@ -2093,7 +2093,7 @@ SoQtFullViewer::seekDistanceWheelChanged(float val)
   }
 
   this->setSeekDistance(val * val);
-    
+
   QString s;
   s.setNum(this->getSeekDistance(), 'f', 2);
   this->seekdistancefield->setText(s);
@@ -2138,7 +2138,7 @@ SoQtFullViewer::zoomSliderMoved(int val)
 {
   float f = val / float(ZOOMSLIDERRESOLUTION);
   f = this->zoomrange[0] + f * (this->zoomrange[1] - this->zoomrange[0]);
-  
+
   this->setCameraZoom(f);
   this->setZoomFieldString(f);
 }

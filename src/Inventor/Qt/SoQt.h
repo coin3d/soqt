@@ -1,5 +1,5 @@
 /**************************************************************************\
- * 
+ *
  *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
@@ -37,11 +37,11 @@ class SoQt : public QObject
 
 public:
   static QWidget * init(const char * const appName,
-			const char * const className = "SoQt");
+                        const char * const className = "SoQt");
 
   static QWidget * init(int argc, char **argv,
-			const char * const appName,
-			const char * const className = "SoQt");
+                        const char * const appName,
+                        const char * const className = "SoQt");
 
   static void init(QWidget * const topLevelWidget);
 
@@ -57,10 +57,10 @@ public:
   static void setWidgetSize(QWidget * const w, const SbVec2s & size);
   static SbVec2s getWidgetSize(const QWidget * const w);
 
-  static void createSimpleErrorDialog(QWidget * const widget, 
-				      const char * const dialogTitle, 
-				      const char * const errorStr1, 
-				      const char * const errorStr2 = NULL);
+  static void createSimpleErrorDialog(QWidget * const widget,
+                                      const char * const dialogTitle,
+                                      const char * const errorStr1,
+                                      const char * const errorStr2 = NULL);
 
 protected:
   bool eventFilter(QObject *, QEvent *);

@@ -1,5 +1,5 @@
 /**************************************************************************\
- * 
+ *
  *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
@@ -35,7 +35,7 @@
 #define DEFAULT_MATERIAL_DIR "/usr/share/data/materials"
 
 SoQtMaterialList::SoQtMaterialList(QWidget * parent, const char * name,
-	SbBool buildInsideParent, const char * dir) : SoQtComponent(parent)
+        SbBool buildInsideParent, const char * dir) : SoQtComponent(parent)
 {
   printf("0\n");
   materialDir = NULL;
@@ -84,7 +84,7 @@ SoQtMaterialList::~SoQtMaterialList()
   delete [] curPalettePath;
 }
 
-void SoQtMaterialList::dir2List(const char * dir) 
+void SoQtMaterialList::dir2List(const char * dir)
 {
   mtlPalettes = new QDir(dir, NULL, QDir::Unsorted, QDir::Dirs);
   SoInput in;
@@ -94,7 +94,7 @@ void SoQtMaterialList::dir2List(const char * dir)
   }
   for (int i = 0; i < mtlPalettes->count(); i++) {
     if ((* mtlPalettes)[i][0] != '.') {
-	    menu->insertItem((*mtlPalettes)[i], 100 + i);
+            menu->insertItem((*mtlPalettes)[i], 100 + i);
     }
   }
   connect(menu, SIGNAL(activated(int)), this, SLOT(setPalette(int)));

@@ -1,5 +1,5 @@
 /**************************************************************************\
- * 
+ *
  *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
@@ -59,40 +59,40 @@ _SoQtColorSlider::_SoQtColorSlider(int minValue, int maxValue, QWidget *parent, 
   QObject::connect( edit, SIGNAL(returnPressed()), this, SLOT(setValue()));
 
   setValue(slider->value());
-  
+
 }
 
 void _SoQtColorSlider::setValue(int value)
 {
-	char temp[20];
+        char temp[20];
 #ifdef linux
-	snprintf(temp, 19, "%1.2f", (float) value / 100.0);
+        snprintf(temp, 19, "%1.2f", (float) value / 100.0);
 #else
-	sprintf(temp, "%1.2f", (float) value / 100.0);
+        sprintf(temp, "%1.2f", (float) value / 100.0);
 #endif
-	edit->setText(temp);
+        edit->setText(temp);
 
         disconnect( slider, SIGNAL(valueChanged(int)), this, SLOT(setValue(int)));
-	slider->setValue(value);
+        slider->setValue(value);
         connect( slider, SIGNAL(valueChanged(int)), this, SLOT(setValue(int)));
         printf("emit valueChanged...");
-   	emit valueChanged((float) value / 100.0);
-	printf("done\n");
+        emit valueChanged((float) value / 100.0);
+        printf("done\n");
 }
 
 void _SoQtColorSlider::setValue(const char *text)
 {
-	double temp;
-	temp = strtod(text, NULL);
+        double temp;
+        temp = strtod(text, NULL);
         disconnect( slider, SIGNAL(valueChanged(int)), this, SLOT(setValue(int)));
-	slider->setValue((int) (temp * 100.0f));
+        slider->setValue((int) (temp * 100.0f));
         connect( slider, SIGNAL(valueChanged(int)), this, SLOT(setValue(int)));
- 	emit valueChanged(temp);
+        emit valueChanged(temp);
 }
 
 void _SoQtColorSlider::setValue()
 {
-	setValue(edit->text());
+        setValue(edit->text());
 }
 
 QSize _SoQtColorSlider::sizeHint() const
@@ -110,11 +110,11 @@ void _SoQtColorSlider::setColor(QColor col)
   QPalette palette;
   palette = slider->palette();
   cgrp = slider->colorGroup();
-  
+
   QColorGroup *newgrp;
   if (cgrp == palette.normal()) {
-    newgrp = new QColorGroup(cgrp.foreground(), cgrp.background(), 
-	cgrp.light(), cgrp.dark(), col, cgrp.text(), cgrp.base());
+    newgrp = new QColorGroup(cgrp.foreground(), cgrp.background(),
+        cgrp.light(), cgrp.dark(), col, cgrp.text(), cgrp.base());
     palette.setNormal(*newgrp);
   }
   slider->setPalette(palette);

@@ -1,5 +1,5 @@
 /**************************************************************************\
- * 
+ *
  *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
@@ -32,7 +32,7 @@ class QColorSelection : public QWidget {
 public:
   enum { MAX_TITLE = 60 };
   QColorSelection(QWidget * parent = NULL, const char * name = NULL,
-		  QColor * col = NULL);
+                  QColor * col = NULL);
 
   void setColor(QColor col);
   void setType(const char * typeString);

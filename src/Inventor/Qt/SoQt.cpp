@@ -1,5 +1,5 @@
 /**************************************************************************\
- * 
+ *
  *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
@@ -56,7 +56,7 @@ main(int argc, char **argv)
   return 0;
 }
   \endcode
-   
+
   For general information on the Qt GUI toolkit, see the web site for
   Troll Tech (makers of Qt): <http://www.troll.no>.
 
@@ -94,7 +94,7 @@ SoQt * SoQt::slotobj = NULL;
   Open Inventor SoXt component classes. It just adds dummy \a argc and
   \a argv arguments and calls the SoQt::init() method below.
 */
-QWidget * 
+QWidget *
 SoQt::init(const char * const appName, const char * const className)
 {
   if (appName) {
@@ -114,13 +114,13 @@ SoQt::init(const char * const appName, const char * const className)
   Assumes you are creating your own QApplication and main widget.
   \a topLevelWidget should be your application's main widget.
 */
-void 
+void
 SoQt::init(QWidget * const topLevelWidget)
 {
 #if SOQT_DEBUG
   if (SoQt::mainWidget) {
     SoDebugError::postWarning("SoQt::init",
-			      "This method should be called only once.");
+                              "This method should be called only once.");
     return;
   }
 #endif // SOQT_DEBUG
@@ -140,18 +140,18 @@ SoQt::init(QWidget * const topLevelWidget)
   Calls \a SoDB::init(), \a SoNodeKit::init() and \a SoInteraction::init(), and
   creates a QApplication and constructs and returns a  main widget for
   you
-  
+
   \sa getApplication()
  */
 QWidget *
 SoQt::init(int argc, char ** argv,
-	   const char * const appName,
-	   const char * const className)
+           const char * const appName,
+           const char * const className)
 {
 #if SOQT_DEBUG
   if (SoQt::appobject || SoQt::mainWidget) {
     SoDebugError::postWarning("SoQt::init",
-			      "This method should be called only once.");
+                              "This method should be called only once.");
     return SoQt::mainWidget;
   }
 #endif // SOQT_DEBUG
@@ -186,13 +186,13 @@ SoQt::sensorQueueChanged(void *)
   if (!SoQt::timerqueuetimer) {
     SoQt::timerqueuetimer = new QTimer;
     QObject::connect(SoQt::timerqueuetimer, SIGNAL(timeout()),
-		     SoQt::soqt_instance(), SLOT(slot_timedOutSensor()));
+                     SoQt::soqt_instance(), SLOT(slot_timedOutSensor()));
     SoQt::idletimer = new QTimer;
     QObject::connect(SoQt::idletimer, SIGNAL(timeout()),
-		     SoQt::soqt_instance(), SLOT(slot_idleSensor()));
+                     SoQt::soqt_instance(), SLOT(slot_idleSensor()));
     SoQt::delaytimeouttimer = new QTimer;
     QObject::connect(SoQt::delaytimeouttimer, SIGNAL(timeout()),
-		     SoQt::soqt_instance(), SLOT(slot_delaytimeoutSensor()));
+                     SoQt::soqt_instance(), SLOT(slot_delaytimeoutSensor()));
   }
 
 
@@ -202,7 +202,7 @@ SoQt::sensorQueueChanged(void *)
   if (sm->isTimerSensorPending(t)) {
 #if 0 // debug
     SoDebugError::postInfo("SoQt::sensorQueueChanged",
-			   "timersensor pending");
+                           "timersensor pending");
 #endif // debug
 
     SbTime interval = t - SbTime::getTimeOfDay();
@@ -221,7 +221,7 @@ SoQt::sensorQueueChanged(void *)
   if (sm->isDelaySensorPending()) {
 #if 0 // debug
     SoDebugError::postInfo("SoQt::sensorQueueChanged",
-			   "delaysensor pending");
+                           "delaysensor pending");
 #endif // debug
 
     if (!SoQt::idletimer->isActive()) SoQt::idletimer->start(0, TRUE);
@@ -272,7 +272,7 @@ SoQt::clean(void)
   is also done automatically by Qt whenever the user closes an application's
   main widget).
  */
-void 
+void
 SoQt::mainLoop(void)
 {
   // We need to process immediate sensors _before_ any events are
@@ -321,7 +321,7 @@ SoQt::getShellWidget(const QWidget * const w)
 #if SOQT_DEBUG
   if (w == NULL) {
     SoDebugError::postWarning("SoQt::getShellWidget",
-			      "Called with NULL pointer.");
+                              "Called with NULL pointer.");
     return NULL;
   }
 #endif // SOQT_DEBUG
@@ -336,41 +336,41 @@ SoQt::getShellWidget(const QWidget * const w)
 
   \sa hide()
 */
-void 
+void
 SoQt::show(QWidget * const widget)
 {
 #if SOQT_DEBUG
   if (widget == NULL) {
     SoDebugError::postWarning("SoQt::show",
-			      "Called with NULL pointer.");
+                              "Called with NULL pointer.");
     return;
   }
 #endif // SOQT_DEBUG
 
 #if 0 // debug
   SoDebugError::postInfo("SoQt::show-1",
-			 "size %p: (%d, %d)",
-			 widget,
-			 widget->size().width(), widget->size().height());
+                         "size %p: (%d, %d)",
+                         widget,
+                         widget->size().width(), widget->size().height());
 #endif // debug
-			 
+
   widget->adjustSize();
 
 #if 0 // debug
   SoDebugError::postInfo("SoQt::show-2",
-			 "size %p: (%d, %d)",
-			 widget,
-			 widget->size().width(), widget->size().height());
+                         "size %p: (%d, %d)",
+                         widget,
+                         widget->size().width(), widget->size().height());
 #endif // debug
-			 
+
   widget->show();
   widget->raise();
 
 #if 0 // debug
   SoDebugError::postInfo("SoQt::show-3",
-			 "size %p: (%d, %d)",
-			 widget,
-			 widget->size().width(), widget->size().height());
+                         "size %p: (%d, %d)",
+                         widget,
+                         widget->size().width(), widget->size().height());
 #endif // debug
 }
 
@@ -381,20 +381,20 @@ SoQt::show(QWidget * const widget)
 
   \sa show()
  */
-void 
+void
 SoQt::hide(QWidget * const widget)
 {
 #if SOQT_DEBUG
   if (widget == NULL) {
     SoDebugError::postWarning("SoQt::hide",
-			      "Called with NULL pointer.");
+                              "Called with NULL pointer.");
     return;
   }
 #endif // SOQT_DEBUG
 
   widget->hide();
 }
-  
+
 /*!
   This method is provided for easier porting of applications based on the
   Open Inventor SoXt component classes. It will call QWidget::resize() on the
@@ -402,29 +402,29 @@ SoQt::hide(QWidget * const widget)
 
   \sa getWidgetSize()
  */
-void 
+void
 SoQt::setWidgetSize(QWidget * const w, const SbVec2s & size)
 {
 #if SOQT_DEBUG
   if (w == NULL) {
     SoDebugError::postWarning("SoQt::setWidgetSize",
-			      "Called with NULL pointer.");
+                              "Called with NULL pointer.");
     return;
   }
   if((size[0] <= 0) || (size[1] <= 0)) {
     SoDebugError::postWarning("SoQt::setWidgetSize",
-			      "Called with invalid dimension(s): (%d, %d).",
-			      size[0], size[1]);
+                              "Called with invalid dimension(s): (%d, %d).",
+                              size[0], size[1]);
     return;
   }
 #endif // SOQT_DEBUG
 
 #if 0 // debug
   SoDebugError::postInfo("SoQt::setWidgetSize",
-			 "resize %p: (%d, %d)",
-			 w, size[0], size[1]);
+                         "resize %p: (%d, %d)",
+                         w, size[0], size[1]);
 #endif // debug
-			 
+
   w->resize(size[0], size[1]);
 }
 
@@ -436,13 +436,13 @@ SoQt::setWidgetSize(QWidget * const w, const SbVec2s & size)
 
   \sa setWidgetSize()
  */
-SbVec2s 
+SbVec2s
 SoQt::getWidgetSize(const QWidget * const w)
 {
 #if SOQT_DEBUG
   if (w == NULL) {
     SoDebugError::postWarning("SoQt::getWidgetSize",
-			      "Called with NULL pointer.");
+                              "Called with NULL pointer.");
     return SbVec2s(0, 0);
   }
 #endif // SOQT_DEBUG
@@ -464,20 +464,20 @@ SoQt::getWidgetSize(const QWidget * const w)
 
   There will only be a single "Ok" button for the user to press.
  */
-void 
-SoQt::createSimpleErrorDialog(QWidget * const widget, 
-			      const char * const dialogTitle, 
-			      const char * const errorStr1, 
-			      const char * const errorStr2)
+void
+SoQt::createSimpleErrorDialog(QWidget * const widget,
+                              const char * const dialogTitle,
+                              const char * const errorStr1,
+                              const char * const errorStr2)
 {
 #if SOQT_DEBUG
   if (dialogTitle == NULL) {
     SoDebugError::postWarning("SoQt::createSimpleErrorDialog",
-			      "Called with NULL dialogTitle pointer.");
+                              "Called with NULL dialogTitle pointer.");
   }
   if (errorStr1 == NULL) {
     SoDebugError::postWarning("SoQt::createSimpleErrorDialog",
-			      "Called with NULL error string pointer.");
+                              "Called with NULL error string pointer.");
   }
 #endif // SOQT_DEBUG
 
@@ -490,7 +490,7 @@ SoQt::createSimpleErrorDialog(QWidget * const widget,
   }
 
   QMessageBox::warning(widget, title.getString(), errstr.getString());
-}  
+}
 
 
 // *************************************************************************
@@ -535,7 +535,7 @@ SoQt::slot_timedOutSensor()
 {
 #if 0 // debug
   SoDebugError::postInfo("SoQt::timedOutSensor",
-			 "processing timer queue");
+                         "processing timer queue");
 #endif // debug
   SoDB::getSensorManager()->processTimerQueue();
 
@@ -556,7 +556,7 @@ SoQt::slot_idleSensor()
 {
 #if 0 // debug
   SoDebugError::postInfo("SoQt::idleSensor",
-			 "processing delay queue");
+                         "processing delay queue");
 #endif // debug
 
   SoDB::getSensorManager()->processDelayQueue(TRUE);
@@ -578,7 +578,7 @@ SoQt::slot_delaytimeoutSensor()
 {
 #if 0 // debug
   SoDebugError::postInfo("SoQt::delaytimeoutSensor",
-			 "processing delay queue");
+                         "processing delay queue");
 #endif // debug
 
   SoDB::getSensorManager()->processDelayQueue(FALSE);

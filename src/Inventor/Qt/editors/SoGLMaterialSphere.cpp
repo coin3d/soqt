@@ -1,5 +1,5 @@
 /**************************************************************************\
- * 
+ *
  *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
@@ -43,7 +43,7 @@
 # define false FALSE
 #endif
 
-// 
+//
 // first some data for a Icosahedron (sphere with 20 faces)
 //
 #define X .525731112119133606
@@ -60,7 +60,7 @@ static int tindices[20][3] = {
   {0,4,1}, {0,9,4}, {9,5,4}, {4,5,8}, {4,8,1},
   {8,10,1}, {8,3,10}, {5,3,8}, {5,2,3}, {2,7,3},
   {7,10,3,}, {7,6,10}, {7,11,6}, {11,0,6}, {0,1,6},
-  {6,1,10}, {9,0,11}, {9,11,2}, {9,2,5}, {7,2,11}}; 
+  {6,1,10}, {9,0,11}, {9,11,2}, {9,2,5}, {7,2,11}};
 
 //
 // normalize a vector
@@ -72,7 +72,7 @@ void normalize(float *v)
   d = 1.0f / d;
   v[0] *= d;
   v[1] *= d;
-  v[2] *= d;  
+  v[2] *= d;
 }
 
 //
@@ -80,8 +80,8 @@ void normalize(float *v)
 //
 void average_vector(float *v, float *v1, float *v2, float *v3)
 {
-  for (int i = 0; i < 3; i++) 
-    v[i] = v1[i] + v2[i] + v3[i]; 
+  for (int i = 0; i < 3; i++)
+    v[i] = v1[i] + v2[i] + v3[i];
   normalize(v);
 }
 
@@ -116,12 +116,12 @@ void subdivide(float *v1, float *v2, float *v3, int depth)
   if (depth == 0) {
     drawtriangle(v1, v2, v3);
     return; // end recursion
-  }  
+  }
   for (i = 0; i < 3; i++) {
     v12[i] = v1[i] + v2[i];
     v23[i] = v2[i] + v3[i];
     v31[i] = v3[i] + v1[i];
-  }  
+  }
   normalize(v12);
   normalize(v23);
   normalize(v31);
@@ -142,7 +142,7 @@ void draw_sphere(int depth)
   for (int i = 0; i < 20; i++) {
     subdivide(&vdata[tindices[i][0]][0],
               &vdata[tindices[i][1]][0],
-              &vdata[tindices[i][2]][0], depth);   
+              &vdata[tindices[i][2]][0], depth);
   }
   glEnd();
 }
@@ -182,7 +182,7 @@ void SoGLMaterialSphere::resizeGL(int w, int h)
     glOrtho(-1.5*(GLfloat)w/(GLfloat)h,
             1.5*(GLfloat)w/(GLfloat)h, -1.5, 1.5, -10.0, 10.0);
 
-  glMatrixMode(GL_MODELVIEW);  
+  glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   initializeGL();
   paintGL();
@@ -219,7 +219,7 @@ void SoGLMaterialSphere::initializeGL()
 
   glLightfv(GL_LIGHT0, GL_POSITION, light0_pos);
   glLightfv(GL_LIGHT1, GL_POSITION, light1_pos);
-  
+
   glLightfv(GL_LIGHT0, GL_SPECULAR, specular);
   glLightfv(GL_LIGHT1, GL_SPECULAR, specular);
 
@@ -241,18 +241,18 @@ void SoGLMaterialSphere::initializeGL()
 
 void SoGLMaterialSphere::drawBackground()
 {
-  
+
   glColor4f(BG_COLOR2);
   glDisable(GL_LIGHTING);
   glBegin(GL_QUADS);
-	glVertex3f(-1.5,  1.5, -1.0);
-	glVertex3f( 0.0,  1.5, -1.0);
-	glVertex3f( 0.0,  0.0, -1.0);
-	glVertex3f(-1.5,  0.0, -1.0);
-	glVertex3f( 0.0,  0.0, -1.0);
-	glVertex3f( 1.5,  0.0, -1.0);
-	glVertex3f( 1.5, -1.5, -1.0);
-	glVertex3f( 0.0, -1.5, -1.0);
+        glVertex3f(-1.5,  1.5, -1.0);
+        glVertex3f( 0.0,  1.5, -1.0);
+        glVertex3f( 0.0,  0.0, -1.0);
+        glVertex3f(-1.5,  0.0, -1.0);
+        glVertex3f( 0.0,  0.0, -1.0);
+        glVertex3f( 1.5,  0.0, -1.0);
+        glVertex3f( 1.5, -1.5, -1.0);
+        glVertex3f( 0.0, -1.5, -1.0);
   glEnd();
   glEnable(GL_LIGHTING);
 }
@@ -266,8 +266,8 @@ void SoGLMaterialSphere::drawSphere()
   glClearColor(0.0, 0.0, 0.0, 0.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glBegin(GL_POINTS);
-	for (int i = 0; i < NUM_POINTS; i++) 
-		glVertex3f(point[i*3],point[i*3+1],point[i*3+2]);
+        for (int i = 0; i < NUM_POINTS; i++)
+                glVertex3f(point[i*3],point[i*3+1],point[i*3+2]);
   glEnd();
   delete [] point;
 #else
@@ -296,11 +296,11 @@ void SoGLMaterialSphere::calculateSpherePoints(float *points, int max_points)
 }
 
 #if 1
-#define CopyColor(color)						\
-	color##Light[0] = material->color##Color.getValues(0)[0].getValue()[0];			\
-	color##Light[1] = material->color##Color.getValues(0)[0].getValue()[1];			\
-	color##Light[2] = material->color##Color.getValues(0)[0].getValue()[2];			\
-	color##Light[3] = material->transparency.getValues(0)[0];
+#define CopyColor(color)                                                \
+        color##Light[0] = material->color##Color.getValues(0)[0].getValue()[0];                 \
+        color##Light[1] = material->color##Color.getValues(0)[0].getValue()[1];                 \
+        color##Light[2] = material->color##Color.getValues(0)[0].getValue()[2];                 \
+        color##Light[3] = material->transparency.getValues(0)[0];
 #else
 #define CopyColor(color)
 #endif
@@ -338,7 +338,7 @@ void SoGLMaterialSphere::setDiffuse(float val)
   diffuseLight[1] *= val;
   diffuseLight[2] *= val;
   printf("diffuseLight[] = %f, %f, %f, %f\n", diffuseLight[0], diffuseLight[1],
-	diffuseLight[2], diffuseLight[3]);
+        diffuseLight[2], diffuseLight[3]);
 
 //  glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
 //  glLightfv(GL_LIGHT1, GL_DIFFUSE, diffuseLight);

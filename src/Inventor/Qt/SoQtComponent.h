@@ -1,5 +1,5 @@
 /**************************************************************************\
- * 
+ *
  *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
@@ -55,7 +55,7 @@ public:
   void setIconTitle(const char * const newIconTitle);
   const char * getIconTitle(void) const;
   void setWindowCloseCallback(SoQtComponentCB * func,
-			      void * const data = NULL);
+                              void * const data = NULL);
   static SoQtComponent * getComponent(QWidget * const w);
   const char * getWidgetName(void) const;
   const char * getClassName(void) const;
@@ -63,8 +63,8 @@ public:
 
 protected:
   SoQtComponent(QWidget * const parent = NULL,
-		const char * const name = NULL,
-		const SbBool buildInsideParent = TRUE);
+                const char * const name = NULL,
+                const SbBool buildInsideParent = TRUE);
 
   void setClassName(const char * const name);
   void setBaseWidget(QWidget * w);
@@ -75,13 +75,13 @@ protected:
   virtual const char * getDefaultWidgetName(void) const;
   virtual const char * getDefaultTitle(void) const;
   virtual const char * getDefaultIconTitle(void) const;
-  
+
   virtual void sizeChanged(const SbVec2s & newSize) = 0;
-  
+
   void addVisibilityChangeCallback(SoQtComponentVisibilityCB * func,
-				   void * userData = NULL);
+                                   void * userData = NULL);
   void removeVisibilityChangeCallback(SoQtComponentVisibilityCB * func,
-				      void * userData = NULL);
+                                      void * userData = NULL);
 
   void openHelpCard(const char * name);
 

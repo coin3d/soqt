@@ -1,5 +1,5 @@
 /**************************************************************************\
- * 
+ *
  *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
@@ -22,7 +22,7 @@
 
 # include <Inventor/Qt/SoQtComponent.h>
 # include <qwidget.h>
- 
+
   class _SoQtColorSlider;
   class _SoQtColorEditor;
   class SoQtMaterialList;
@@ -34,7 +34,7 @@
   class SoGLMaterialSphere;
   class QColorSelection;
   class SoMFColor;
-  
+
 
   typedef void SoQtMaterialEditorCB(void *userData, const SoMaterial *mtl);
 
@@ -42,79 +42,77 @@
     Q_OBJECT
     public:
 
-	enum UpdateFrequency {
-		CONTINUOUS,
-		AFTER_ACCEPT
-	};
+        enum UpdateFrequency {
+                CONTINUOUS,
+                AFTER_ACCEPT
+        };
 
-		SoQtMaterialEditor(QWidget *parent = NULL, 
-			const char *name =NULL,
-			SbBool buildInsideParent = TRUE);
-		~SoQtMaterialEditor();
+                SoQtMaterialEditor(QWidget *parent = NULL,
+                        const char *name =NULL,
+                        SbBool buildInsideParent = TRUE);
+                ~SoQtMaterialEditor();
 
-	void	attach(SoMaterial *material, int index = 0);
-	void 	detach();
+        void    attach(SoMaterial *material, int index = 0);
+        void    detach();
 
-	SbBool	isAttached();
+        SbBool  isAttached();
 
-	void	addMaterialChangedCallback(SoQtMaterialEditorCB *f,
-			void *userData = NULL);
-	void	removeMaterialChangedCallback(SoQtMaterialEditorCB *f,
-			void *userData = NULL);
+        void    addMaterialChangedCallback(SoQtMaterialEditorCB *f,
+                        void *userData = NULL);
+        void    removeMaterialChangedCallback(SoQtMaterialEditorCB *f,
+                        void *userData = NULL);
 
-	void	setUpdateFrequency(UpdateFrequency freq);
-	UpdateFrequency	getUpdateFrequency();
+        void    setUpdateFrequency(UpdateFrequency freq);
+        UpdateFrequency getUpdateFrequency();
 
-	void	setMaterial(const SoMaterial &mtl);
-	const SoMaterial&	getMaterial() const;
+        void    setMaterial(const SoMaterial &mtl);
+        const SoMaterial&       getMaterial() const;
 
 
     public slots:
-	void		material_list();
-	void		continuous();
-	void		manual();
-	void		accept();
-	void		menu_popup();
-	void		colorChanged(QColor&);
-	void		rButtonPressed();
-	void		cButtonPressed();
-	void		setMaterial(SoMaterial *);
-	void		clearAllButtons();
+        void            material_list();
+        void            continuous();
+        void            manual();
+        void            accept();
+        void            menu_popup();
+        void            colorChanged(QColor&);
+        void            rButtonPressed();
+        void            cButtonPressed();
+        void            setMaterial(SoMaterial *);
+        void            clearAllButtons();
 
     signals:
-        void		materialChanged();
+        void            materialChanged();
 
-    protected: 
-	const char*	componentClassName() const;
+    protected:
+        const char*     componentClassName() const;
 
     private:
-	SoMaterial*	material;
-	SoMFColor*	colors[4];
-	int		index;
-	int		contId;
-	int		manuId;
+        SoMaterial*     material;
+        SoMFColor*      colors[4];
+        int             index;
+        int             contId;
+        int             manuId;
 
-	QWidget		*acceptButton;
-	QCheckBox	*checkButtons[4];
-	QRadioButton	*radioButtons[4];
-	QPopupMenu	*menu;
-	QButton		*menuButton;
+        QWidget         *acceptButton;
+        QCheckBox       *checkButtons[4];
+        QRadioButton    *radioButtons[4];
+        QPopupMenu      *menu;
+        QButton         *menuButton;
 
-	UpdateFrequency	updatefreq;
+        UpdateFrequency updatefreq;
 
-	QWidget*	mgrWidget;
-	
-	_SoQtColorEditor	*colorEditor;
-	_SoQtColorSlider	*sliders[6];
-	QColorSelection		*colorSelection;
+        QWidget*        mgrWidget;
 
-	QWidget*	editColor;
-	SoGLMaterialSphere*	ball;
-	SoMaterial*	dummyMaterial;
-	SoQtMaterialList*	materialList;
-	
-	void		connectUpdaters(bool connect = true);
+        _SoQtColorEditor        *colorEditor;
+        _SoQtColorSlider        *sliders[6];
+        QColorSelection         *colorSelection;
+
+        QWidget*        editColor;
+        SoGLMaterialSphere*     ball;
+        SoMaterial*     dummyMaterial;
+        SoQtMaterialList*       materialList;
+
+        void            connectUpdaters(bool connect = true);
 };
 #endif
-
-
