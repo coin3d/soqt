@@ -196,6 +196,7 @@ SoGui_src_Inventor_Gui_common_BuiltFiles = \
 SoGui_src_Inventor_Gui_devices_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/devices/spwinput.h \
   $(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Device.h \
   $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocus.h \
   $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Keyboard.h \
   $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Mouse.h \
@@ -333,6 +334,7 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/soguidefs.h.in \
   src/Inventor/@Gui@/common/spwinput.h.in \
   src/Inventor/@Gui@/common/spwinput_x11.cpp.in \
+  src/Inventor/@Gui@/common/devices/SoGuiDevice.h.in \
   src/Inventor/@Gui@/common/devices/SoGuiInputFocus.h.in \
   src/Inventor/@Gui@/common/devices/SoGuiKeyboard.h.in \
   src/Inventor/@Gui@/common/devices/SoGuiMouse.h.in \
@@ -959,6 +961,9 @@ $(top_builddir)/src/Inventor/@Gui@/common/gl.h: $(top_srcdir)/src/Inventor/@Gui@
 	  mkdir src/Inventor/@Gui@/common; \
 	fi; \
 	$(SHELL) config.status --file=src/Inventor/@Gui@/common/gl.h:src/Inventor/@Gui@/common/gl.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Device.h: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiDevice.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/So@Gui@Device.h:src/Inventor/@Gui@/common/devices/SoGuiDevice.h.in )
 
 $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocus.h: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiInputFocus.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/So@Gui@InputFocus.h:src/Inventor/@Gui@/common/devices/SoGuiInputFocus.h.in )
