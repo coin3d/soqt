@@ -395,11 +395,11 @@ SoQtFullViewer::buildWidget(QWidget * parent)
   // evil-doers in this county.... 20021022 rolvs.
 
   PRIVATE(this)->canvas = inherited::buildWidget(PRIVATE(this)->viewerwidget);
- 
-  PRIVATE(this)->canvas->move(30, 0);
-  PRIVATE(this)->canvas->resize
-    (QSize(PRIVATE(this)->viewerwidget->size().width() - 60,
-           PRIVATE(this)->viewerwidget->size().height() - 30));
+
+  QSize s(PRIVATE(this)->viewerwidget->size().width(),
+          PRIVATE(this)->viewerwidget->size().height());
+
+  PRIVATE(this)->canvas->resize(s);
 
   this->buildDecoration( PRIVATE(this)->viewerwidget );
   PRIVATE(this)->showDecorationWidgets( PRIVATE(this)->decorations );
@@ -735,7 +735,11 @@ SoQtFullViewer::sizeChanged(const SbVec2s & size)
 #endif
 
   SbVec2s newsize(size);
-  if (PRIVATE(this)->decorations) { newsize -= SbVec2s(2 * 30, 30); }
+  if (PRIVATE(this)->decorations) {
+    newsize[0] -= this->leftDecoration ? this->leftDecoration->width() : 0;
+    newsize[0] -= this->rightDecoration ? this->rightDecoration->width() : 0;
+    newsize[1] -= this->bottomDecoration ? this->bottomDecoration->height() : 0;
+  }
 
   // Workaround for a bug in Qt/Mac 3.1.0 and 3.1.1 (which has been
   // confirmed fixed in 3.1.2):
