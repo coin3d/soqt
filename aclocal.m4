@@ -377,7 +377,7 @@ fi
 
 AC_DEFUN([AM_AUX_DIR_EXPAND], [
 # expand $ac_aux_dir to an absolute path
-am_aux_dir=`CDPATH=:; cd $ac_aux_dir && pwd`
+am_aux_dir=`CDPATH=:; cd $ac_aux_dir &>dev/null && pwd`
 ])
 
 # AM_PROG_INSTALL_SH
@@ -3546,7 +3546,7 @@ AC_DEFUN([SIM_AC_DATE_ISO8601], [
 ])
 
 AC_DEFUN([SIM_AC_DATE_RFC822], [
-  eval "$1=\"`date -R`\""
+  eval "$1=\"`date '+%a, %d %b %Y %X %z'`\""
 ])
 
 # old alias
