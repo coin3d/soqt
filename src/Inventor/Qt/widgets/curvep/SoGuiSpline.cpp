@@ -21,7 +21,7 @@
  *
 \**************************************************************************/
 
-#include "SbCubicSpline.h"
+#include "SoGuiSpline.h"
 
 SbCubicSpline::SbCubicSpline(const int approxcount)
   : needinit(TRUE),
