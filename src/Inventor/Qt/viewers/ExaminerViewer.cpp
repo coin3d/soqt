@@ -72,12 +72,7 @@ SOQT_OBJECT_SOURCE(SoQtExaminerViewer);
 
 // *************************************************************************
 
-/*!
-  Constructor.  See parent class for explanation of arguments.
-  Calling this constructor will make sure the examiner viewer widget
-  will be built immediately.
-*/
-
+// Documented in common/viewers/SoGuiExaminerViewer.cpp.in.
 SoQtExaminerViewer::SoQtExaminerViewer(QWidget * parent,
                                        const char * name,
                                        SbBool embed,
@@ -91,10 +86,7 @@ SoQtExaminerViewer::SoQtExaminerViewer(QWidget * parent,
 
 // *************************************************************************
 
-/*!
-  Constructor. See parent class for explanation of arguments.
-*/
-
+// Documented in common/viewers/SoGuiExaminerViewer.cpp.in.
 SoQtExaminerViewer::SoQtExaminerViewer(QWidget * parent,
                                        const char * name,
                                        SbBool embed,
@@ -108,10 +100,6 @@ SoQtExaminerViewer::SoQtExaminerViewer(QWidget * parent,
 }
 
 // *************************************************************************
-
-/*!
-  Destructor.
-*/
 
 SoQtExaminerViewer::~SoQtExaminerViewer()
 {
