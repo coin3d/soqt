@@ -648,7 +648,10 @@ SoQtExaminerViewer::processEvent(QEvent * event)
 	this->interactiveCountInc();
       }
 
+      // FIXME: This sometimes makes the interactivecount < 0, as
+      // reported by pederb. Find out why. 19991110 mortene.
       this->interactiveCountDec();
+
 #if 0 // debug
       SoDebugError::postInfo("SoQtExaminerViewer::processEvent",
 			     "mb release, nesting count: %d",
