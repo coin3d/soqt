@@ -1,0 +1,22 @@
+Subject: [coin-discuss] SoQt and IRIX [link problem solution]
+From: "Lars J. Aas" <larsa@sim.no>
+To: coin-discuss@sim.no
+Date: Thu, 7 Jun 2001 16:02:49 +0200
+
+IRIX has been the most problematic platform for getting SoQt compiled
+and linked on.  On some IRIX installations, "ar" will produce unusable
+binaries for C++ libraries, and CC -ar -o must be used instead (that's
+how things are on our O2).  On other installations, CC -ar -o will not
+link C++ libraries, and "ar cru" must be used.
+
+When you run SoQt/configure, the default is to set up libtool to use
+"CC -ar -o" for library linking.  If that doesn't work for you, you
+should try the other approach, which you will trigger by setting AR for
+the configure script, like this:
+
+  ../path/to/SoQt/configure --prefix=/install/path AR=ar
+
+We'll see if we can figure out a configure check for detecting this
+automatically, but until then, the above method is the recommended one.
+
+  Lars J
