@@ -4,14 +4,27 @@
 AC_INIT(src/Inventor/Qt/SoQt.h)
 AC_CONFIG_AUX_DIR(cfg)
 
+# **************************************************************************
 sim_ac_cvs_syncproblem=false;
 
-# [insert CVS rep stuff here]
+if test -d $srcdir/cfg/m4; then
+  :
+else
+  cat <<EOT
 
-if $sim_ac_cvs_syncproblem; then
-  exit
+There has been changes in the SoQt CVS repository structure, and your
+source repository is out of sync.  Do the following in the source directory:
+
+  rm -rf conf-macros  (if exists)
+  cvs co SoQtMacros
+
+EOT
+  sim_ac_cvs_syncproblem=true;
 fi
 
+$sim_ac_cvs_syncproblem && echo "" && exit
+
+# **************************************************************************
 # Use C++ compiler for configure tests.
 AC_PROG_CXX
 AC_LANG_CPLUSPLUS
