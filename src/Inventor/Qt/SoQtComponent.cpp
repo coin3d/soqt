@@ -309,7 +309,7 @@ SoQtComponent::setBaseWidget(QWidget * widget)
   SoQt::getShellWidget(this->getWidget())->setCaption(PRIVATE(this)->captiontext);
 
   if (PRIVATE(this)->icontext.isNull()) PRIVATE(this)->icontext = this->getDefaultIconTitle();
-  this->getShellWidget()->setIconText(PRIVATE(this)->icontext);
+  SoQt::getShellWidget(this->getWidget())->setIconText(PRIVATE(this)->icontext);
 
   if (PRIVATE(this)->widgetname.isNull())
     PRIVATE(this)->widgetname = this->getDefaultWidgetName();
@@ -587,8 +587,8 @@ void
 SoQtComponent::setTitle(const char * const title)
 {
   PRIVATE(this)->captiontext = title;
-  if (PRIVATE(this)->widget)
-    this->getShellWidget()->setCaption(title);
+  if (this->getWidget())
+    SoQt::getShellWidget(this->getWidget())->setCaption(title);
 }
 
 // documented in common/SoGuiComponentCommon.cpp.in.
@@ -604,8 +604,8 @@ void
 SoQtComponent::setIconTitle(const char * const title)
 {
   PRIVATE(this)->icontext = title;
-  if (PRIVATE(this)->widget)
-    this->getShellWidget()->setIconText(title);
+  if (this->getWidget())
+    SoQt::getShellWidget(this->getWidget())->setIconText(title);
 }
 
 // documented in common/SoGuiComponentCommon.cpp.in.
