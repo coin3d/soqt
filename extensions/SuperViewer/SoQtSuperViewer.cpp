@@ -160,12 +160,12 @@ SoQtSuperViewer::SoQtSuperViewer(
 
   //PRIVATE(this)->initializeMenus(buildFlag);
 
-  PRIVATE(this)->menubarenabled = buildFlag & SoQtSuperViewer::BUILD_MENUBAR;
-  PRIVATE(this)->filemenuenabled = buildFlag & SoQtSuperViewer::FILE_MENU;
-  PRIVATE(this)->viewmenuenabled = buildFlag & SoQtSuperViewer::VIEW_MENU;
-  PRIVATE(this)->settingsmenuenabled = buildFlag & SoQtSuperViewer::SETTINGS_MENU;
-  PRIVATE(this)->cameramenuenabled = buildFlag & SoQtSuperViewer::CAMERA_MENU;
-  PRIVATE(this)->lightsmenuenabled = buildFlag & SoQtSuperViewer::LIGHTS_MENU;
+  PRIVATE(this)->menubarenabled = buildFlag;
+  PRIVATE(this)->filemenuenabled = buildFlag;
+  PRIVATE(this)->viewmenuenabled = buildFlag;
+  PRIVATE(this)->settingsmenuenabled = buildFlag;
+  PRIVATE(this)->cameramenuenabled = buildFlag;
+  PRIVATE(this)->lightsmenuenabled = buildFlag;
   
   PRIVATE(this)->defaultoverride = FALSE;
 
@@ -191,6 +191,9 @@ SoQtSuperViewer::SoQtSuperViewer(
   PRIVATE(this)->filefilter = "Models (*.iv *.wrl)";
   PRIVATE(this)->modeldirectory = "";
   PRIVATE(this)->imagedirectory = "";
+
+  PRIVATE(this)->pathtomodels = NULL;
+  PRIVATE(this)->modelnames = NULL;
 
   PRIVATE(this)->prevRedrawTime = SbTime::getTimeOfDay();
   PRIVATE(this)->spinanimatingallowed = TRUE;
@@ -270,7 +273,7 @@ SoQtSuperViewer::~SoQtSuperViewer(
   to build the viewer with other settings than the default settings, those
   must be set before init() is called.
 */
-
+void
 SoQtSuperViewer::init()
 {
   PRIVATE(this)->actualInit();
@@ -1272,7 +1275,7 @@ SoQtSuperViewer::actualRedraw(void)
 
   if (this->isAnimating()) {
     SbRotation deltaRotation = PRIVATE(this)->spinRotation;
-    deltaRotation.scaleAngle((float) msecs / 200.0f);
+    deltaRotation.scaleAngle((float) secs / 0.2f);
     PRIVATE(this)->reorientCamera(deltaRotation);
   }
 
@@ -2047,14 +2050,12 @@ SoQtSuperViewer::openModel(SbString * const filename, SbBool show){
     PRIVATE(this)->openmodels = new SoSeparator;
     PRIVATE(this)->openmodels->ref();
   }
-  
+
   SbIntList slashes;
   filename->findAll("/", slashes);
-  (void)printf("filename %s\n", filename->getString());
   PRIVATE(this)->pathtomodels.append(filename);
-  (void)printf("filename igjen %s\n", filename->getSubString(slashes[slashes.getLength() - 1] + 1).getString());
-  PRIVATE(this)->modelnames.append(&(filename->getSubString(slashes[slashes.getLength() - 1] + 1)));
-  (void)printf("caption 1 %s\n", ((SbString *)PRIVATE(this)->modelnames[0])->getString());
+  PRIVATE(this)->modelnames.append(new SbString(
+    filename->getSubString(slashes[slashes.getLength() - 1] + 1).getString()));
   PRIVATE(this)->openmodels->addChild(newroot);
   PRIVATE(this)->currentroot = newroot;
   //search for textures
@@ -2066,9 +2067,10 @@ SoQtSuperViewer::openModel(SbString * const filename, SbBool show){
                  PRIVATE(this)->searchaction->getPaths().getLength());
   delete PRIVATE(this)->searchaction;
   PRIVATE(this)->searchaction = NULL;
-  
-  if(show)
+ 
+  if(show) {
     this->showModel(PRIVATE(this)->openmodels->getNumChildren() - 1);
+  }
 
   return TRUE;
 
@@ -2092,9 +2094,6 @@ SoQtSuperViewer::showModel(int index)
   PRIVATE(this)->resetBBox();
 
   SbString caption= "Super Viewer - ";
-  (void)printf("index %i\n", index);
-   (void)printf("caption 2 %s\n", ((SbString *)PRIVATE(this)->modelnames[0])->getString());
-  (void)printf("caption 3 %s\n", ((SbString *)PRIVATE(this)->modelnames[index])->getString());
   caption.operator+=(((SbString *)PRIVATE(this)->modelnames[index])->getString());
   this->setTitle(caption.getString());
   this->saveHomePosition();

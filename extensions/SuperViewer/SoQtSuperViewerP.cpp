@@ -240,8 +240,54 @@ SoQtSuperViewerP::SoQtSuperViewerP(
 SoQtSuperViewerP::~SoQtSuperViewerP()
 {}
 
+void
 SoQtSuperViewerP::actualInit()
 {
+
+  this->menus[0].text = "File";
+  this->menus[1].text = "View"; 
+  this->menus[2].text = "Settings"; 
+  this->menus[3].text = "Camera"; 
+  this->menus[4].text = "Lights";
+
+  this->filemenuItems[0].text = "Open model";
+  this->filemenuItems[1].text = "Close model";
+  this->filemenuItems[2].text = "Close all models";
+  this->filemenuItems[3].text = "Next model";
+  this->filemenuItems[4].text = "Previous model";
+  this->filemenuItems[5].text = "Refresh model";
+  this->filemenuItems[6].text = "Snapshot";
+  this->filemenuItems[7].text = "Exit";
+
+  this->viewmenuItems[0].text = "Information";
+  this->viewmenuItems[1].text = "Flatshading";
+  this->viewmenuItems[2].text = "Filled";
+  this->viewmenuItems[3].text = "Boundingboxes";
+  this->viewmenuItems[4].text = "Wireframe";
+  this->viewmenuItems[5].text = "Vertices";
+  this->viewmenuItems[6].text = "Hidden parts";
+  this->viewmenuItems[7].text = "Textures";
+  this->viewmenuItems[8].text = "One boundingbox while moving";
+  this->viewmenuItems[9].text = "Boundingboxes while moving";
+  this->viewmenuItems[10].text = "Full model while moving";
+  this->viewmenuItems[11].text = "No textures while moving";
+  
+  this->settingsmenuItems[0].text = "Information settings";
+  this->settingsmenuItems[1].text = "Line width";
+  this->settingsmenuItems[2].text = "Point size";
+  this->settingsmenuItems[3].text = "Line color";
+  this->settingsmenuItems[4].text = "Point color";
+  this->settingsmenuItems[5].text = "Background color";
+  this->settingsmenuItems[6].text = "Render quality";
+  this->settingsmenuItems[7].text = "Texture Quality";
+  this->settingsmenuItems[8].text = "Transparency type";
+  
+  this->cameramenuItems[0].text = "View all";
+  this->cameramenuItems[1].text = "Reset view";
+  this->cameramenuItems[2].text = "Seek";
+  this->cameramenuItems[3].text = "View modes";
+  this->cameramenuItems[4].text = "Fly modes";
+  
   if(this->defaultoverride){
 
   }
@@ -250,12 +296,12 @@ SoQtSuperViewerP::actualInit()
     //setup menubar and toolbars (2 elements)
     for(;i < 2; i++){
       this->bars[i].index = i;
-      this->bars[i].on = TRUE;
+      this->bars[i].build = TRUE;
       this->bars[i].enabled = TRUE;
       this->bars[i].checked = FALSE;
     }
     //until the toolbar is made
-    this->bars[0].on = FALSE;
+    this->bars[0].build = FALSE;
     this->bars[1].index = 0;
     //the rest should stay when the toolbar is finished
     this->bars[0].text = "Toolbar";
@@ -265,15 +311,10 @@ SoQtSuperViewerP::actualInit()
     //setup menus (5 elements)
     for(;i < 5; i++){
       this->menus[i].index = i;
-      this->menus[i].on = TRUE;
+      this->menus[i].build = TRUE;
       this->menus[i].enabled = i < 1 ? TRUE : FALSE;
       this->menus[i].checked = FALSE;
     }
-    this->menus[0].text = "File";
-    this->menus[1].text = "View"; 
-    this->menus[2].text = "Settings"; 
-    this->menus[3].text = "Camera"; 
-    this->menus[4].text = "Lights";
 
     i = 0;
     //setup filemenu (8 elements)
@@ -281,19 +322,10 @@ SoQtSuperViewerP::actualInit()
       if(i < 3) this->filemenuItems[i].index = i;
       else if(i < 7) this->filemenuItems[i].index = i + 1;
       else this->filemenuItems[i].index = i + 2;
-      this->filemenuItems[i].on = TRUE;
+      this->filemenuItems[i].build = TRUE;
       this->filemenuItems[i].enabled = i < 1 || i > 6 ? TRUE : FALSE;
       this->filemenuItems[i].checked = FALSE;
     }
-
-    this->filemenuItems[i].text = "Open model";
-    this->filemenuItems[i].text = "Close model";
-    this->filemenuItems[i].text = "Close all models";
-    this->filemenuItems[i].text = "Next model";
-    this->filemenuItems[i].text = "Previous model";
-    this->filemenuItems[i].text = "Refresh model";
-    this->filemenuItems[i].text = "Snapshot";
-    this->filemenuItems[i].text = "Exit";
     
     i = 0;
     //setup viewmenu (12 elements)
@@ -301,61 +333,28 @@ SoQtSuperViewerP::actualInit()
       if(i < 2) this->viewmenuItems[i].index = i;
       else if(i < 8) this->viewmenuItems[i].index = i + 1;
       else this->viewmenuItems[i].index = i + 2;
-      this->viewmenuItems[i].on = TRUE;
+      this->viewmenuItems[i].build = TRUE;
       this->viewmenuItems[i].enabled = (i == 6) ? FALSE : TRUE;
       this->viewmenuItems[i].checked = (i == 2 || i == 10) ? FALSE : TRUE;
     }
 
-    this->viewmenuItems[i].text = "Information";
-    this->viewmenuItems[i].text = "Flatshading";
-    this->viewmenuItems[i].text = "Filled";
-    this->viewmenuItems[i].text = "Boundingboxes";
-    this->viewmenuItems[i].text = "Wireframe";
-    this->viewmenuItems[i].text = "Vertices";
-    this->viewmenuItems[i].text = "Hidden parts";
-    this->viewmenuItems[i].text = "Textures";
-    this->viewmenuItems[i].text = "One boundingbox while moving";
-    this->viewmenuItems[i].text = "Boundingboxes while moving";
-    this->viewmenuItems[i].text = "Full model while moving";
-    this->viewmenuItems[i].text = "No textures while moving";
+    i = 0;
+    //setup settingsmenu (9 elements)
+    for(;i < 9; i++){
+      this->settingsmenuItems[i].index = i;
+      this->settingsmenuItems[i].build = TRUE;
+      this->settingsmenuItems[i].enabled = TRUE;
+      this->settingsmenuItems[i].checked = FALSE;
+    }
 
- PRIVATE(this)->viewmenu = new QPopupMenu(PRIVATE(this)->menubar);
-  PRIVATE(this)->viewmenu->insertItem("Information", 
-                                      PRIVATE(this), SLOT(informationSelected()));
-  PRIVATE(this)->viewmenu->insertItem("Flatshading", 
-                                      PRIVATE(this), SLOT(flatshadingSelected()));
-  PRIVATE(this)->viewmenu->insertSeparator();
-  PRIVATE(this)->viewmenu->insertItem("Filled", 
-                                      PRIVATE(this), SLOT(filledSelected()));
-  PRIVATE(this)->viewmenu->setItemChecked(
-                           PRIVATE(this)->viewmenu->idAt(3), TRUE);
-  PRIVATE(this)->viewmenu->insertItem("Boundingboxes", 
-                                      PRIVATE(this), SLOT(boundingboxesSelected()));
-  PRIVATE(this)->viewmenu->insertItem("Wireframe",
-                                      PRIVATE(this), SLOT(wireframeSelected()));
-  PRIVATE(this)->viewmenu->insertItem("Vertices", 
-                                      PRIVATE(this), SLOT(verticesSelected()));
-  PRIVATE(this)->viewmenu->insertItem("Hidden parts",
-                                      PRIVATE(this), SLOT(hiddenpartsSelected()));
-  PRIVATE(this)->viewmenu->setItemEnabled(
-                           PRIVATE(this)->viewmenu->idAt(7), FALSE);
-  PRIVATE(this)->viewmenu->insertItem("Textures",
-                                      PRIVATE(this), SLOT(texturesSelected()));
-  PRIVATE(this)->viewmenu->insertSeparator();
-  PRIVATE(this)->viewmenu->insertItem("One boundingbox while moving",
-                                      PRIVATE(this), SLOT(oneBBoxMovingSelected()));
-  PRIVATE(this)->viewmenu->insertItem("Boundingboxes while moving",
-                                      PRIVATE(this), SLOT(bBoxesMovingSelected()));
-  PRIVATE(this)->viewmenu->insertItem("Full model while moving",
-                                      PRIVATE(this), SLOT(fullMovingSelected()));
-  PRIVATE(this)->viewmenu->setItemChecked(
-                           PRIVATE(this)->viewmenu->idAt(12), TRUE);
-  PRIVATE(this)->viewmenu->insertItem("No textures while moving",
-                                      PRIVATE(this), SLOT(noTexturesMovingSelected()));
-
-  PRIVATE(this)->menubar->insertItem("View", PRIVATE(this)->viewmenu);
-  PRIVATE(this)->menubar->setItemEnabled(
-                                         PRIVATE(this)->menubar->idAt(1), FALSE);
+    i = 0;
+    //setup cameramenu (5 elements)
+    for(;i < 5; i++){
+      this->cameramenuItems[i].index = i;
+      this->cameramenuItems[i].build = TRUE;
+      this->cameramenuItems[i].enabled = i < 4 ? TRUE : FALSE;
+      this->cameramenuItems[i].checked = FALSE;
+    }
   }
 }
 
@@ -1676,8 +1675,8 @@ SoQtSuperViewerP::openModelSelected()
     for(QStringList::Iterator i = qs.begin(); i != qs.end(); ++i) {
       SbString s((* i).latin1());
       if(owner->openModel(&s, FALSE))
-        owner->addModelEntry(this->modelnames[
-                            this->modelnames.getLength() - 1]);
+        owner->addModelEntry(
+          this->modelnames[this->modelnames.getLength() - 1]);
 
     }
     if(this->currentroot != NULL)
@@ -1701,6 +1700,13 @@ SoQtSuperViewerP::closeModelSelected()
   if(this->openmodels){
     if(this->openmodels->getNumChildren() > 0){
       this->openmodels->removeChild(this->currentroot);
+     
+      (void)printf("foer %i\n", this->pathtomodels.getLength());
+      delete this->pathtomodels[this->currentindex];
+      delete this->modelnames[this->currentindex];
+      (void)printf("etter %i\n", this->pathtomodels.getLength());
+      //this->pathtomodels.remove(this->currentindex);
+      //this->modelnames.remove(this->currentindex);
       owner->removeModelEntry();
       if(this->openmodels->getNumChildren() > 0){
         owner->showModel( --this->currentindex < 0 ? 
@@ -1734,7 +1740,7 @@ SoQtSuperViewerP::closeModelSelected()
                                  this->menubar->idAt(4), FALSE);
         delete this->modelsubmenu;
         this->modelsubmenu = NULL;
-        owner->getShellWidget()->setCaption(QString(owner->getDefaultTitle()));
+        owner->setTitle(owner->getDefaultTitle());
       }
       return TRUE;
     }
@@ -1850,8 +1856,8 @@ void
 SoQtSuperViewerP::refreshSelected()
 {
   this->currentroot = 
-    this->loadModelFromFile(this->pathtomodels[
-                              this->currentindex]); 
+    this->loadModelFromFile(
+          this->pathtomodels[this->currentindex]); 
   this->openmodels->replaceChild(this->currentindex,
                                           this->currentroot);
   owner->showModel(this->currentindex);
