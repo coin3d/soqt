@@ -257,6 +257,11 @@
 #include <Inventor/Qt/SoAny.h>
 #include <Inventor/Qt/SoQtInternal.h>
 
+#ifdef Q_WS_X11
+#include <X11/Xlib.h>
+#endif // Q_WS_X11
+
+
 // *************************************************************************
 
 // The private data for the SoQt class.
@@ -271,6 +276,10 @@ QTimer * SoQtP::delaytimeouttimer = NULL;
 SoQtP * SoQtP::slotobj = NULL;
 bool SoQtP::didcreatemainwidget = FALSE;
 
+#define ENVVAR_NOT_INITED INT_MAX
+int SoQtP::SOQT_XSYNC = ENVVAR_NOT_INITED;
+SoQtP_XErrorHandler * SoQtP::previous_handler = NULL;
+
 // We're using the singleton pattern to create a single SoQtP object
 // instance (a dynamic object is needed for attaching slots to signals
 // -- this is really a workaround for some silliness in the Qt
@@ -280,6 +289,50 @@ SoQtP::soqt_instance(void)
 {
   if (!SoQtP::slotobj) { SoQtP::slotobj = new SoQtP; }
   return SoQtP::slotobj;
+}
+
+int
+SoQtP::X11Errorhandler(void * d, void * ee)
+{
+#ifdef Q_WS_X11
+  // Include misc information on the Display to aid further debugging
+  // on our end upon bugreports.
+
+  SbString depthsstr = "";
+  int num;
+  int * depths = XListDepths((Display *)d, DefaultScreen(d), &num);
+  if ((depths != NULL) && (num > 0)) {
+    depthsstr = "(Available Display depths are:";
+    for (int i=0; i < num; i++) {
+      depthsstr += ' ';
+      depthsstr += SbString(depths[i]);
+    }
+    depthsstr += ". Default depth is ";
+    depthsstr += SbString(DefaultDepth(d, DefaultScreen(d)));
+    depthsstr += ".)";
+    XFree(depths);
+  }
+
+  // Then the instructions:
+
+  SoDebugError::post("SoQtP::X11Errorhandler",
+                     "Detected possibly internal SoQt bug. %s %s",
+
+                     SoQtP::SOQT_XSYNC == 1 ? "" :
+                     "Set environment variable SOQT_XSYNC to \"1\" and "
+                     "re-run the application in a debugger with a breakpoint "
+                     "set on SoQtP::X11Errorhandler() to get a valid "
+                     "backtrace. "
+
+                     "Then please forward the following information in an "
+                     "e-mail to <coin-bugs@coin3d.org> along with the "
+                     "backtrace. ",
+
+                     depthsstr.getString());
+
+  SoQtP::previous_handler(d, ee);
+#endif // Q_WS_X11
+  return -1; // shouldn't get here, the system handler will normally exit
 }
 
 // A timer sensor is ready for triggering, so tell the sensor manager
@@ -511,6 +564,25 @@ SoQt::init(QWidget * toplevelwidget)
                               "This method should be called only once.");
     return;
   }
+
+  // This is _extremely_ useful for debugging X errors: activate this
+  // code (set the SOQT_XSYNC environment variable on your system to
+  // "1"), then rerun the application code in a debugger with a
+  // breakpoint set at SoQtP::X11Errorhandler(). Now you can backtrace
+  // to the exact source location of the failing X request.
+#ifdef Q_WS_X11
+  // Intervene upon X11 errors.
+  SoQtP::previous_handler = XSetErrorHandler((XErrorHandler)SoQtP::X11Errorhandler);
+
+  if (SoQtP::SOQT_XSYNC == ENVVAR_NOT_INITED) {
+    const char * env = SoAny::si()->getenv("SOQT_XSYNC");
+    SoQtP::SOQT_XSYNC = env ? atoi(env) : 0;
+    if (SoQtP::SOQT_XSYNC) {
+      SoDebugError::postInfo("SoQt::init", "Turning on X synchronization.");
+      XSynchronize(qt_xdisplay(), True);
+    }
+  }
+#endif // Q_WS_X11
 
   SoDB::init();
   SoNodeKit::init();

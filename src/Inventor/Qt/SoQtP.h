@@ -32,6 +32,8 @@
 
 // ************************************************************************
 
+typedef int SoQtP_XErrorHandler(void *, void *);
+
 // This class contains private data and methods used within the SoQt
 // class.
 
@@ -41,6 +43,10 @@ class SoQtP : public QObject, public SoGuiP
 
 public:
   static SoQtP * soqt_instance(void);
+
+  static int SOQT_XSYNC;
+  static SoQtP_XErrorHandler * previous_handler;
+  static int X11Errorhandler(void * d, void * ee);
 
   static QWidget * mainwidget;
   static bool didcreatemainwidget;
