@@ -1,6 +1,9 @@
-New in SoQt v1.1.0a (so far):
-* SoQtColorEditor
-* SoQtMaterialEditor
+New in SoQt v1.2.0 (2004-08-27):
+* New classes SoQtColorEditor, SoQtMaterialEditor
+* support Coin's SORTED_LAYERS_BLEND transparency mode
+* --enable-compact configure option, as with Coin
+* misc bugfixes
+* many Mac OS X improvements
 
 New in SoQt v1.0.2 (2003-03-07):
 * bugfixes
