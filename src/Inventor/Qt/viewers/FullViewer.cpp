@@ -60,7 +60,6 @@
 #include <qslider.h>
 #include <qcheckbox.h>
 #include <qmetaobject.h>
-#include <moc_SoQtFullViewer.cpp>
 #include <moc_SoQtFullViewerP.cpp>
 
 #include <SoQtFullViewerP.h>
