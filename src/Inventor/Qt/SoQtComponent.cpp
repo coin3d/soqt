@@ -812,7 +812,7 @@ SoQtComponent::setWidgetCursor(QWidget * w, const SoQtCursor & cursor)
       SoDebugError::postWarning("SoQtComponent::setWidgetCursor",
                                 "\nThis version of Qt/Mac contains a bug "
                                 "that makes it impossible to use custom\n"
-                                "cursors. Warnings about Qt/Mac bugs"
+                                "cursors. Warnings about Qt/Mac bugs "
                                 "can be turned off permanently by setting\n"
                                 "the environment variable "
                                 "SOQT_NO_QTMAC_BUG_WARNINGS=1.");
