@@ -413,18 +413,6 @@ SoQtPlaneViewer::openViewerHelpCard(// virtual
 // ************************************************************************
 
 /*!
-  FIXME: write doc
-*/
-
-void
-SoQtPlaneViewer::computeSeekFinalOrientation(// virtual
-  void)
-{
-} // computeSeekFinalOrientation()
-
-// ************************************************************************
-
-/*!
   \internal
 */
 
