@@ -119,8 +119,7 @@ public:
   virtual bool x11EventFilter(XEvent * e) {
     SPW_InputEvent sbEvent;
     QWidget * topw = SoQt::getTopLevelWidget();
-    if (topw && SPW_TranslateEventX11(topw->x11Display(), 
-                                      e, &sbEvent) == TRUE) {
+    if (topw && SPW_TranslateEventX11(topw->x11Display(), e, &sbEvent)) {
       QWidget * focus = this->focusWidget();
       if (!focus) focus = this->activeWindow();
       if (focus) {
@@ -344,7 +343,7 @@ void
 SoQt::exitMainLoop(
   void )
 {
-  SOQT_STUB();
+  qApp->exit( 0 );
 } // exitMainLoop()
 
 /*!
