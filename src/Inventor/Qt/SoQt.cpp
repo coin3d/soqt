@@ -678,29 +678,7 @@ SoQt::init(int & argc, char ** argv, const char * appname, const char * classnam
   return SoQtP::mainwidget;
 }
 
-/*!
-  This is the event dispatch loop. It doesn't return until \a
-  QApplication::quit() or \a QApplication::exit() is called (which is
-  also done automatically by Qt whenever the user closes an
-  application's main widget).
-
-  An important note: be careful about how you handle
-  SoQtComponent-derived objects after the application control returns
-  from mainLoop(), as SoQt will then have been "cleaned up" with
-  regards to various internal resources. So doing for instance
-  something like this:
-
-  \code
-  SoQt::mainLoop();
-  viewer->hide();
-  \endcode
-
-  ..spells "undefined behavior, expect a crash".
-
-  \e Deleting a component after mainLoop() returns is allowed, though,
-  and also necessary to avoid getting reports of possible memory leaks
-  from memleak checkers.
-*/
+// documented in common/SoGuiCommon.cpp.in
 void
 SoQt::mainLoop(void)
 {
@@ -713,12 +691,7 @@ SoQt::mainLoop(void)
   SoQt::done();
 }
 
-/*!
-  This function will make the main event loop finish looping.
-
-  NOTE: exitMainLoop() is not present in the original API for SGI's
-  InventorXt library.
-*/
+// documented in common/SoGuiCommon.cpp.in
 void
 SoQt::exitMainLoop(void)
 {
@@ -759,13 +732,7 @@ SoQt::done(void)
 }
 
 
-/*!
-  Returns a pointer to the Qt QWidget which is the main widget for the
-  application. When this widget gets closed, SoQt::mainLoop() will
-  return (unless the close event is caught by the user).
-
-  \sa getShellWidget()
-*/
+// Documented in common/SoGuiCommon.cpp.in.
 QWidget *
 SoQt::getTopLevelWidget(void)
 {
