@@ -602,15 +602,6 @@ SoQt::init(QWidget * toplevelwidget)
   }
 #endif // Q_WS_X11
 
-  // This should prove helpful for debugging the pervasive problem
-  // under Win32 with loading multiple instances of the same library.
-  if (SoQtP::DEBUG_LISTMODULES == ENVVAR_NOT_INITED) {
-    const char * env = SoAny::si()->getenv("SOQT_DEBUG_LISTMODULES");
-    SoQtP::DEBUG_LISTMODULES = env ? atoi(env) : 0;
-    if (SoQtP::DEBUG_LISTMODULES) { SoAny::listWin32ProcessModules(); }
-  }
-  
-
   SoDB::init();
   SoNodeKit::init();
   SoInteraction::init();
@@ -621,6 +612,14 @@ SoQt::init(QWidget * toplevelwidget)
 #undef COIN_IV_EXTENSION
 #endif
 
+  // This should prove helpful for debugging the pervasive problem
+  // under Win32 with loading multiple instances of the same library.
+  if (SoQtP::DEBUG_LISTMODULES == ENVVAR_NOT_INITED) {
+    const char * env = SoAny::si()->getenv("SOQT_DEBUG_LISTMODULES");
+    SoQtP::DEBUG_LISTMODULES = env ? atoi(env) : 0;
+    if (SoQtP::DEBUG_LISTMODULES) { SoAny::listWin32ProcessModules(); }
+  }
+  
   SoDB::getSensorManager()->setChangedCallback(SoGuiP::sensorQueueChanged, NULL);
   SoQtP::mainwidget = toplevelwidget;
 }
