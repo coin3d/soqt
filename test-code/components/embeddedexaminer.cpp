@@ -69,7 +69,11 @@ int
 main(int argc, char ** argv)
 {
   // Initialize Qt and SoQt.
-  QApplication app(argc, argv);
+
+  // You should not create a QApplication instance if you want
+  // to receive spaceball events.
+  //  QApplication app(argc, argv);
+
   SoQt::init((QWidget *)NULL);
 
   // Set up scrollview window.
