@@ -1172,6 +1172,13 @@ if test x"$with_opengl" != xno; then
   if test x"$with_opengl" != xyes; then
     sim_ac_gl_cppflags="-I${with_opengl}/include"
     sim_ac_gl_ldflags="-L${with_opengl}/lib"
+  else
+    case "$host_os" in
+      hpux*)
+        # This is a common location for the OpenGL libraries on HPUX.
+        sim_ac_gl_cppflags="-I/opt/graphics/OpenGL/include"
+        sim_ac_gl_ldflags="-L/opt/graphics/OpenGL/lib" ;;
+    esac
   fi
 
   sim_ac_save_cppflags=$CPPFLAGS
@@ -1449,142 +1456,6 @@ dnl Autoconf is a developer tool, so don't bother to support older versions.
 AC_PREREQ([2.14.1])
 
 AC_ARG_WITH(qt, AC_HELP_STRING([--with-qt=DIR], [specify location of Qt library [default=yes]]), , [with_qt=yes])
-
-sim_ac_qt_avail=no
-
-if test x"$with_qt" != xno; then
-  sim_ac_path=$PATH
-
-  if test x"$with_qt" != xyes; then
-    sim_ac_qt_cppflags="-I${with_qt}/include"
-    sim_ac_qt_ldflags="-L${with_qt}/lib"
-    sim_ac_path=${with_qt}/bin:$PATH
-  else
-    AC_MSG_CHECKING(value of the QTDIR environment variable)
-    if test x"$QTDIR" = x; then
-      AC_MSG_RESULT(empty)
-      AC_MSG_WARN(QTDIR environment variable not set -- this might be an indication of a problem)
-    else
-      AC_MSG_RESULT($QTDIR)
-      sim_ac_qt_cppflags="-I$QTDIR/include"
-      sim_ac_qt_ldflags="-L$QTDIR/lib"
-      sim_ac_path=$QTDIR/bin:$PATH
-    fi
-  fi
-
-  sim_ac_qt_libs="-lqt"
-
-  sim_ac_save_cppflags=$CPPFLAGS
-  sim_ac_save_ldflags=$LDFLAGS
-  sim_ac_save_libs=$LIBS
-
-  CPPFLAGS="$CPPFLAGS $sim_ac_qt_cppflags"
-  LDFLAGS="$LDFLAGS $sim_ac_qt_ldflags"
-  LIBS="$sim_ac_qt_libs $LIBS"
-
-  AC_PATH_PROG(MOC, moc, false, $sim_ac_path)
-
-  if test x"$MOC" != x; then
-    AC_CACHE_CHECK([whether the Qt library is available],
-      sim_cv_lib_qt_avail,
-      [AC_TRY_LINK([#include <qapplication.h>],
-                   [int dummy=0; QApplication a(dummy, 0L);],
-                   sim_cv_lib_qt_avail=yes,
-                   sim_cv_lib_qt_avail=no)])
-  fi
-
-  if test x"$sim_cv_lib_qt_avail" = xyes; then
-    sim_ac_qt_avail=yes
-    ifelse($1, , :, $1)
-  else
-    CPPFLAGS=$sim_ac_save_cppflags
-    LDFLAGS=$sim_ac_save_ldflags
-    LIBS=$sim_ac_save_libs
-    ifelse($2, , :, $2)
-  fi
-fi
-])
-
-
-
-dnl Usage:
-dnl  SIM_CHECK_QGL([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
-dnl
-dnl  Try to find the QGL extension library. If it is found, these
-dnl  shell variables are set:
-dnl
-dnl    $sim_ac_qgl_cppflags (extra flags the compiler needs for QGL lib)
-dnl    $sim_ac_qgl_ldflags  (extra flags the linker needs for QGL lib)
-dnl    $sim_ac_qgl_libs     (link libraries the linker needs for QGL lib)
-dnl
-dnl  The LIBS flag will also be modified accordingly. In addition, the
-dnl  variable $sim_ac_qgl_avail is set to "yes" if the QGL extension
-dnl  library is found.
-dnl
-dnl
-dnl Author: Morten Eriksen, <mortene@sim.no>.
-dnl
-dnl TODO:
-dnl    * [mortene:20000122] make sure this work on MSWin (with
-dnl      Cygwin installation)
-dnl
-
-AC_DEFUN(SIM_CHECK_QGL,[
-dnl Autoconf is a developer tool, so don't bother to support older versions.
-AC_PREREQ([2.14.1])
-
-sim_ac_qgl_avail=no
-
-if test x"$with_qt" != xno; then
-  sim_ac_qgl_libs="-lqgl"
-  sim_ac_save_libs=$LIBS
-  LIBS="$sim_ac_qgl_libs $LIBS"
-
-  AC_CACHE_CHECK([whether the QGL extension library is available],
-    sim_cv_lib_qgl_avail,
-    [AC_TRY_LINK([#include <qgl.h>],
-                 [(void)qGLVersion();],
-                 sim_cv_lib_qgl_avail=yes,
-                 sim_cv_lib_qgl_avail=no)])
-
-  if test x"$sim_cv_lib_qgl_avail" = xyes; then
-    sim_ac_qgl_avail=yes
-    ifelse($1, , :, $1)
-  else
-    LIBS=$sim_ac_save_libs
-    ifelse($2, , :, $2)
-  fi
-fi
-])
-
-dnl Usage:
-dnl  SIM_CHECK_GTK([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
-dnl
-dnl  Try to find the GTK+ development system. If it is found, these
-dnl  shell variables are set:
-dnl
-dnl    $sim_ac_gtk_cppflags (extra flags the compiler needs for GTK+ libs)
-dnl    $sim_ac_gtk_ldflags  (extra flags the linker needs for GTK+ libs)
-dnl    $sim_ac_gtk_libs     (link libraries the linker needs for GTK+ libs)
-dnl
-dnl  The CPPFLAGS, LDFLAGS and LIBS flags will also be modified accordingly.
-dnl  In addition, the variable $sim_ac_gtk_avail is set to "yes" if
-dnl  the GTK+ development system is found.
-dnl
-dnl
-dnl Author: Morten Eriksen, <mortene@sim.no>,
-dnl         Lars J. Aas <larsa@sim.no>
-dnl
-dnl TODO:
-dnl    * [mortene:20000122] make sure this work on MSWin (with
-dnl      Cygwin installation)
-dnl
-
-AC_DEFUN(SIM_CHECK_GTK,[
-dnl Autoconf is a developer tool, so don't bother to support older versions.
-AC_PREREQ([2.14.1])
-
-AC_ARG_WITH(gtk, AC_HELP_STRING([--with-gtk=DIR], [specify location of Qt library [default=yes]]), , [with_qt=yes])
 
 sim_ac_qt_avail=no
 

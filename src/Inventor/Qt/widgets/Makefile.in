@@ -66,12 +66,14 @@ AMTAR = @AMTAR@
 AS = @AS@
 AWK = @AWK@
 CC = @CC@
+COMPONENTHEADER = @COMPONENTHEADER@
 COMPONENTLIBS = @COMPONENTLIBS@
 CPP = @CPP@
 CXX = @CXX@
 CXXCPP = @CXXCPP@
 DEPDIR = @DEPDIR@
 DLLTOOL = @DLLTOOL@
+EVENT = @EVENT@
 GUI = @GUI@
 LIBTOOL = @LIBTOOL@
 LN_S = @LN_S@
@@ -97,18 +99,25 @@ SOQT_VERSION = @SOQT_VERSION@
 VERSION = @VERSION@
 WIDGET = @WIDGET@
 install_sh = @install_sh@
+lGUI = @lGUI@
 sim_ac_conf_cmd = @sim_ac_conf_cmd@
+uGUI = @uGUI@
 
 
 noinst_LTLIBRARIES = libSoQtWidgets.la
 
 LIBS = 
 
-INCLUDES = -I$(top_srcdir)/src
+INCLUDES = -I$(top_srcdir)/src -I$(top_builddir)/src
 
-BUILT_SOURCES = moc_QtThumbwheel.cpp
+BUILT_SOURCES = \
+	moc_QtGLArea.cpp \
+	moc_QtThumbwheel.cpp
+
 
 libSoQtWidgets_la_SOURCES = \
+	QtGLArea.cpp \
+	QtGLArea.h \
 	QtThumbwheel.cpp \
 	QtThumbwheel.h \
 	$(BUILT_SOURCES)
@@ -129,7 +138,8 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libSoQtWidgets_la_LDFLAGS = 
 libSoQtWidgets_la_LIBADD = 
-am_libSoQtWidgets_la_OBJECTS =  QtThumbwheel.lo moc_QtThumbwheel.lo
+am_libSoQtWidgets_la_OBJECTS =  QtGLArea.lo QtThumbwheel.lo \
+moc_QtGLArea.lo moc_QtThumbwheel.lo
 libSoQtWidgets_la_OBJECTS =  $(am_libSoQtWidgets_la_OBJECTS)
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -149,8 +159,8 @@ DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
 GZIP_ENV = --best
 depcomp = $(SHELL) $(top_srcdir)/depcomp
-DEP_FILES =  @AMDEP@ $(DEPDIR)/QtThumbwheel.Plo \
-$(DEPDIR)/moc_QtThumbwheel.Plo
+DEP_FILES =  @AMDEP@ $(DEPDIR)/QtGLArea.Plo $(DEPDIR)/QtThumbwheel.Plo \
+$(DEPDIR)/moc_QtGLArea.Plo $(DEPDIR)/moc_QtThumbwheel.Plo
 SOURCES = $(libSoQtWidgets_la_SOURCES)
 OBJECTS = $(am_libSoQtWidgets_la_OBJECTS)
 
@@ -244,7 +254,9 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 
+@AMDEP@include $(DEPDIR)/QtGLArea.Plo
 @AMDEP@include $(DEPDIR)/QtThumbwheel.Plo
+@AMDEP@include $(DEPDIR)/moc_QtGLArea.Plo
 @AMDEP@include $(DEPDIR)/moc_QtThumbwheel.Plo
 
 mostlyclean-depend:
@@ -351,6 +363,9 @@ mostlyclean distclean maintainer-clean
 
 moc_QtThumbwheel.cpp: $(top_srcdir)/src/Inventor/Qt/widgets/QtThumbwheel.h
 	$(MOC) -o moc_QtThumbwheel.cpp $(top_srcdir)/src/Inventor/Qt/widgets/QtThumbwheel.h
+
+moc_QtGLArea.cpp: $(top_srcdir)/src/Inventor/Qt/widgets/QtGLArea.h
+	$(MOC) -o moc_QtGLArea.cpp $(top_srcdir)/src/Inventor/Qt/widgets/QtGLArea.h
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

@@ -1,6 +1,6 @@
 --- src/Inventor/Qt/Makefile.in	Tue Feb  8 16:33:27 2000
 +++ src/Inventor/Qt/Makefile.in.corrected	Tue Feb  8 16:32:34 2000
-@@ -218,7 +218,8 @@
+@@ -219,7 +219,8 @@
  HEADERS =  $(libSoQtinc_HEADERS)
  
  DIST_COMMON =  $(libSoQtinc_HEADERS) Makefile.am Makefile.in \
@@ -10,7 +10,7 @@
  
  
  DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-@@ -249,9 +250,9 @@
+@@ -251,9 +252,9 @@
  	cd $(top_builddir) \
  	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
  

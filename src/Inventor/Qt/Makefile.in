@@ -66,12 +66,14 @@ AMTAR = @AMTAR@
 AS = @AS@
 AWK = @AWK@
 CC = @CC@
+COMPONENTHEADER = @COMPONENTHEADER@
 COMPONENTLIBS = @COMPONENTLIBS@
 CPP = @CPP@
 CXX = @CXX@
 CXXCPP = @CXXCPP@
 DEPDIR = @DEPDIR@
 DLLTOOL = @DLLTOOL@
+EVENT = @EVENT@
 GUI = @GUI@
 LIBTOOL = @LIBTOOL@
 LN_S = @LN_S@
@@ -97,16 +99,20 @@ SOQT_VERSION = @SOQT_VERSION@
 VERSION = @VERSION@
 WIDGET = @WIDGET@
 install_sh = @install_sh@
+lGUI = @lGUI@
 sim_ac_conf_cmd = @sim_ac_conf_cmd@
+uGUI = @uGUI@
+
+############################################################################
 
 
-SUBDIRS = \
-	common devices viewers widgets .
+SUBDIRS = common devices viewers widgets
 
+############################################################################
+
+INCLUDES = -I$(top_srcdir)/src -I$(top_builddir)/src
 
 lib_LTLIBRARIES = libSoQt.la
-
-INCLUDES = -I$(top_srcdir)/src
 
 BUILT_SOURCES = \
 	moc_SoQt.cpp \
@@ -119,6 +125,8 @@ BUILT_SOURCES = \
 	moc_SoQtSliderSetBase.cpp \
 	moc_SoQtTransformSliderSet.cpp
 
+
+############################################################################
 
 libSoQt_la_SOURCES = \
 	SoQt.cpp \
@@ -133,8 +141,9 @@ libSoQt_la_SOURCES = \
 	SoQtLightSliderSet.h \
 	SoQtMaterialSliderSet.cpp \
 	SoQtMaterialSliderSet.h \
-	SoQtRenderArea.cpp \
-	SoQtRenderArea.h \
+	$(top_builddir)/src/Inventor/Qt/SoQtRenderArea.cpp \
+	$(top_builddir)/src/Inventor/Qt/SoQtRenderArea.h \
+	SoQtRenderAreaExtra.cpp \
 	SoQtSliderSet.cpp \
 	SoQtSliderSet.h \
 	SoQtSliderSetBase.cpp \
@@ -165,7 +174,7 @@ libSoQtinc_HEADERS = \
 	$(top_srcdir)/src/Inventor/Qt/SoQtGLWidget.h \
 	$(top_srcdir)/src/Inventor/Qt/SoQtLightSliderSet.h \
 	$(top_srcdir)/src/Inventor/Qt/SoQtMaterialSliderSet.h \
-	$(top_srcdir)/src/Inventor/Qt/SoQtRenderArea.h \
+	$(top_builddir)/src/Inventor/Qt/SoQtRenderArea.h \
 	$(top_srcdir)/src/Inventor/Qt/SoQtSliderSet.h \
 	$(top_srcdir)/src/Inventor/Qt/SoQtSliderSetBase.h \
 	$(top_srcdir)/src/Inventor/Qt/SoQtTransformSliderSet.h
@@ -173,7 +182,7 @@ libSoQtinc_HEADERS = \
 subdir = src/Inventor/Qt
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../config.h
-CONFIG_CLEAN_FILES = 
+CONFIG_CLEAN_FILES =  SoQtRenderArea.h SoQtRenderArea.cpp
 LTLIBRARIES =  $(lib_LTLIBRARIES)
 
 
@@ -190,9 +199,9 @@ devices/libSoQtDevices.la viewers/libSoQtViewers.la \
 widgets/libSoQtWidgets.la
 am_libSoQt_la_OBJECTS =  SoQt.lo SoQtComponent.lo SoQtCursors.lo \
 SoQtGLWidget.lo SoQtLightSliderSet.lo SoQtMaterialSliderSet.lo \
-SoQtRenderArea.lo SoQtSliderSet.lo SoQtSliderSetBase.lo \
-SoQtTransformSliderSet.lo moc_SoQt.lo moc_SoQtComponent.lo \
-moc_SoQtGLWidget.lo moc_SoQtLightSliderSet.lo \
+SoQtRenderArea.lo SoQtRenderAreaExtra.lo SoQtSliderSet.lo \
+SoQtSliderSetBase.lo SoQtTransformSliderSet.lo moc_SoQt.lo \
+moc_SoQtComponent.lo moc_SoQtGLWidget.lo moc_SoQtLightSliderSet.lo \
 moc_SoQtMaterialSliderSet.lo moc_SoQtRenderArea.lo moc_SoQtSliderSet.lo \
 moc_SoQtSliderSetBase.lo moc_SoQtTransformSliderSet.lo
 libSoQt_la_OBJECTS =  $(am_libSoQt_la_OBJECTS)
@@ -209,7 +218,9 @@ LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDF
 DIST_SOURCES =  $(libSoQt_la_SOURCES)
 HEADERS =  $(libSoQtinc_HEADERS)
 
-DIST_COMMON =  $(libSoQtinc_HEADERS) Makefile.am Makefile.in
+DIST_COMMON =  $(libSoQtinc_HEADERS) Makefile.am Makefile.in \
+$(top_srcdir)/src/Inventor/Qt/common/SoAnyRenderArea.cpp.in \
+$(top_srcdir)/src/Inventor/Qt/common/SoAnyRenderArea.h.in
 
 
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -219,10 +230,11 @@ depcomp = $(SHELL) $(top_srcdir)/depcomp
 DEP_FILES =  @AMDEP@ $(DEPDIR)/SoQt.Plo $(DEPDIR)/SoQtComponent.Plo \
 $(DEPDIR)/SoQtCursors.Plo $(DEPDIR)/SoQtGLWidget.Plo \
 $(DEPDIR)/SoQtLightSliderSet.Plo $(DEPDIR)/SoQtMaterialSliderSet.Plo \
-$(DEPDIR)/SoQtRenderArea.Plo $(DEPDIR)/SoQtSliderSet.Plo \
-$(DEPDIR)/SoQtSliderSetBase.Plo $(DEPDIR)/SoQtTransformSliderSet.Plo \
-$(DEPDIR)/moc_SoQt.Plo $(DEPDIR)/moc_SoQtComponent.Plo \
-$(DEPDIR)/moc_SoQtGLWidget.Plo $(DEPDIR)/moc_SoQtLightSliderSet.Plo \
+$(DEPDIR)/SoQtRenderArea.Plo $(DEPDIR)/SoQtRenderAreaExtra.Plo \
+$(DEPDIR)/SoQtSliderSet.Plo $(DEPDIR)/SoQtSliderSetBase.Plo \
+$(DEPDIR)/SoQtTransformSliderSet.Plo $(DEPDIR)/moc_SoQt.Plo \
+$(DEPDIR)/moc_SoQtComponent.Plo $(DEPDIR)/moc_SoQtGLWidget.Plo \
+$(DEPDIR)/moc_SoQtLightSliderSet.Plo \
 $(DEPDIR)/moc_SoQtMaterialSliderSet.Plo \
 $(DEPDIR)/moc_SoQtRenderArea.Plo $(DEPDIR)/moc_SoQtSliderSet.Plo \
 $(DEPDIR)/moc_SoQtSliderSetBase.Plo \
@@ -240,6 +252,10 @@ Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
 	cd $(top_builddir) \
 	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
+SoQtRenderArea.h: $(top_builddir)/config.status $(top_srcdir)/src/Inventor/Qt/common/SoAnyRenderArea.h.in
+	cd $(top_builddir) && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
+SoQtRenderArea.cpp: $(top_builddir)/config.status $(top_srcdir)/src/Inventor/Qt/common/SoAnyRenderArea.cpp.in
+	cd $(top_builddir) && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
 mostlyclean-libLTLIBRARIES:
 
@@ -286,6 +302,7 @@ clean-libtool:
 distclean-libtool:
 
 maintainer-clean-libtool:
+SoQtRenderArea.lo: $(top_builddir)/src/Inventor/Qt/SoQtRenderArea.cpp
 
 libSoQt.la: $(libSoQt_la_OBJECTS) $(libSoQt_la_DEPENDENCIES)
 	$(CXXLINK) -rpath $(libdir) $(libSoQt_la_LDFLAGS) $(libSoQt_la_OBJECTS) $(libSoQt_la_LIBADD) $(LIBS)
@@ -384,7 +401,8 @@ maintainer-clean-tags:
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
 distdir: $(DISTFILES)
-	$(mkinstalldirs) $(distdir)/$(top_srcdir)/src/Inventor/Qt
+	$(mkinstalldirs) $(distdir)/$(top_builddir)/src/Inventor/Qt \
+	   $(distdir)/$(top_srcdir)/src/Inventor/Qt
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
@@ -412,6 +430,7 @@ distdir: $(DISTFILES)
 @AMDEP@include $(DEPDIR)/SoQtLightSliderSet.Plo
 @AMDEP@include $(DEPDIR)/SoQtMaterialSliderSet.Plo
 @AMDEP@include $(DEPDIR)/SoQtRenderArea.Plo
+@AMDEP@include $(DEPDIR)/SoQtRenderAreaExtra.Plo
 @AMDEP@include $(DEPDIR)/SoQtSliderSet.Plo
 @AMDEP@include $(DEPDIR)/SoQtSliderSetBase.Plo
 @AMDEP@include $(DEPDIR)/SoQtTransformSliderSet.Plo
@@ -536,6 +555,8 @@ mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
 
+############################################################################
+
 moc_SoQt.cpp: $(top_srcdir)/src/Inventor/Qt/SoQt.h
 	$(MOC) -o moc_SoQt.cpp $(top_srcdir)/src/Inventor/Qt/SoQt.h
 
@@ -551,8 +572,8 @@ moc_SoQtLightSliderSet.cpp: $(top_srcdir)/src/Inventor/Qt/SoQtLightSliderSet.h
 moc_SoQtMaterialSliderSet.cpp: $(top_srcdir)/src/Inventor/Qt/SoQtMaterialSliderSet.h
 	$(MOC) -o moc_SoQtMaterialSliderSet.cpp $(top_srcdir)/src/Inventor/Qt/SoQtMaterialSliderSet.h
 
-moc_SoQtRenderArea.cpp: $(top_srcdir)/src/Inventor/Qt/SoQtRenderArea.h
-	$(MOC) -o moc_SoQtRenderArea.cpp $(top_srcdir)/src/Inventor/Qt/SoQtRenderArea.h
+moc_SoQtRenderArea.cpp: $(top_builddir)/src/Inventor/Qt/SoQtRenderArea.h
+	$(MOC) -o moc_SoQtRenderArea.cpp $(top_builddir)/src/Inventor/Qt/SoQtRenderArea.h
 
 moc_SoQtSliderSet.cpp: $(top_srcdir)/src/Inventor/Qt/SoQtSliderSet.h
 	$(MOC) -o moc_SoQtSliderSet.cpp $(top_srcdir)/src/Inventor/Qt/SoQtSliderSet.h
@@ -562,6 +583,8 @@ moc_SoQtSliderSetBase.cpp: $(top_srcdir)/src/Inventor/Qt/SoQtSliderSetBase.h
 
 moc_SoQtTransformSliderSet.cpp: $(top_srcdir)/src/Inventor/Qt/SoQtTransformSliderSet.h
 	$(MOC) -o moc_SoQtTransformSliderSet.cpp $(top_srcdir)/src/Inventor/Qt/SoQtTransformSliderSet.h
+
+############################################################################
 
 install-libSoQtincHEADERS: $(libSoQtinc_HEADERS)
 	@$(NORMAL_INSTALL)
@@ -580,6 +603,8 @@ uninstall-libSoQtincHEADERS:
 	  echo " rm -f $(DESTDIR)$(libSoQtincdir)/$$f"; \
 	  rm -f $(DESTDIR)$(libSoQtincdir)/$$f; \
 	done
+
+############################################################################
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

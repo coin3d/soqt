@@ -3156,6 +3156,13 @@ if test x"$with_opengl" != xno; then
   if test x"$with_opengl" != xyes; then
     sim_ac_gl_cppflags="-I${with_opengl}/include"
     sim_ac_gl_ldflags="-L${with_opengl}/lib"
+  else
+    case "$host_os" in
+      hpux*)
+        # This is a common location for the OpenGL libraries on HPUX.
+        sim_ac_gl_cppflags="-I/opt/graphics/OpenGL/include"
+        sim_ac_gl_ldflags="-L/opt/graphics/OpenGL/lib" ;;
+    esac
   fi
 
   sim_ac_save_cppflags=$CPPFLAGS
@@ -3169,12 +3176,12 @@ if test x"$with_opengl" != xno; then
   LIBS="$sim_ac_gl_libs $LIBS"
 
   echo $ac_n "checking whether OpenGL libraries with the Mesa prefix are available... $ac_c" 1>&6
-echo "configure:3173: checking whether OpenGL libraries with the Mesa prefix are available" 1>&5
+echo "configure:3180: checking whether OpenGL libraries with the Mesa prefix are available" 1>&5
 if test "${sim_cv_lib_mesa_avail+set}" = set; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   cat >conftest.$ac_ext <<EOF
-#line 3178 "configure"
+#line 3185 "configure"
 #include "confdefs.h"
 #include <GL/gl.h>
                   #include <GL/glu.h>
@@ -3182,7 +3189,7 @@ int main() {
 glPointSize(1.0f); gluSphere(0L, 1.0, 1, 1);
 ; return 0; }
 EOF
-if { (eval echo configure:3186: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:3193: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   sim_cv_lib_mesa_avail=yes
 else
@@ -3203,12 +3210,12 @@ echo "$ac_t""$sim_cv_lib_mesa_avail" 1>&6
     LIBS="$sim_ac_gl_libs $sim_ac_save_libs"
 
     echo $ac_n "checking whether OpenGL libraries are available... $ac_c" 1>&6
-echo "configure:3207: checking whether OpenGL libraries are available" 1>&5
+echo "configure:3214: checking whether OpenGL libraries are available" 1>&5
 if test "${sim_cv_lib_gl_avail+set}" = set; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   cat >conftest.$ac_ext <<EOF
-#line 3212 "configure"
+#line 3219 "configure"
 #include "confdefs.h"
 #include <GL/gl.h>
                     #include <GL/glu.h>
@@ -3216,7 +3223,7 @@ int main() {
 glPointSize(1.0f); gluSphere(0L, 1.0, 1, 1);
 ; return 0; }
 EOF
-if { (eval echo configure:3220: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:3227: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   sim_cv_lib_gl_avail=yes
 else
@@ -3232,12 +3239,12 @@ echo "$ac_t""$sim_cv_lib_gl_avail" 1>&6
     if test x"$sim_cv_lib_gl_avail" = xyes; then
       sim_ac_gl_avail=yes
       echo $ac_n "checking whether OpenGL libraries actually are the Mesa libraries... $ac_c" 1>&6
-echo "configure:3236: checking whether OpenGL libraries actually are the Mesa libraries" 1>&5
+echo "configure:3243: checking whether OpenGL libraries actually are the Mesa libraries" 1>&5
 if test "${sim_cv_lib_gl_ismesa+set}" = set; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   cat >conftest.$ac_ext <<EOF
-#line 3241 "configure"
+#line 3248 "configure"
 #include "confdefs.h"
 #include <GL/gl.h>
                       #include <GL/glu.h>
@@ -3247,7 +3254,7 @@ int main() {
                       #endif
 ; return 0; }
 EOF
-if { (eval echo configure:3251: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:3258: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   sim_cv_lib_gl_ismesa=yes
 else
@@ -3300,7 +3307,7 @@ if test x"$with_inventor" != xno; then
     sim_ac_oiv_ldflags="-L${with_inventor}/lib"
   else
     echo $ac_n "checking value of the OIVHOME environment variable... $ac_c" 1>&6
-echo "configure:3304: checking value of the OIVHOME environment variable" 1>&5
+echo "configure:3311: checking value of the OIVHOME environment variable" 1>&5
     if test x"$OIVHOME" = x; then
       echo "$ac_t""empty" 1>&6
       echo "configure: warning: OIVHOME environment variable not set -- this might be an indication of a problem" 1>&2
@@ -3322,19 +3329,19 @@ echo "configure:3304: checking value of the OIVHOME environment variable" 1>&5
   LIBS="$sim_ac_oiv_libs $LIBS"
 
   echo $ac_n "checking for Open Inventor developer kit... $ac_c" 1>&6
-echo "configure:3326: checking for Open Inventor developer kit" 1>&5
+echo "configure:3333: checking for Open Inventor developer kit" 1>&5
 if test "${sim_cv_lib_oiv_avail+set}" = set; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   cat >conftest.$ac_ext <<EOF
-#line 3331 "configure"
+#line 3338 "configure"
 #include "confdefs.h"
 #include <Inventor/SoDB.h>
 int main() {
 SoDB::init();
 ; return 0; }
 EOF
-if { (eval echo configure:3338: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:3345: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   sim_cv_lib_oiv_avail=yes
 else
@@ -3387,7 +3394,7 @@ if test x"$with_coin" != xno; then
   # Extract the first word of "coin-config", so it can be a program name with args.
 set dummy coin-config; ac_word=$2
 echo $ac_n "checking for $ac_word... $ac_c" 1>&6
-echo "configure:3391: checking for $ac_word" 1>&5
+echo "configure:3398: checking for $ac_word" 1>&5
 if test "${ac_cv_path_sim_ac_conf_cmd+set}" = set; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3431,19 +3438,19 @@ fi
   LIBS="$sim_ac_coin_libs $LIBS"
 
   echo $ac_n "checking whether the Coin library is available... $ac_c" 1>&6
-echo "configure:3435: checking whether the Coin library is available" 1>&5
+echo "configure:3442: checking whether the Coin library is available" 1>&5
 if test "${sim_cv_lib_coin_avail+set}" = set; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   cat >conftest.$ac_ext <<EOF
-#line 3440 "configure"
+#line 3447 "configure"
 #include "confdefs.h"
 #include <Inventor/SoDB.h>
 int main() {
 SoDB::init();
 ; return 0; }
 EOF
-if { (eval echo configure:3447: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:3454: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   sim_cv_lib_coin_avail=yes
 else
@@ -3496,7 +3503,7 @@ if test x"$with_qt" != xno; then
     sim_ac_path=${with_qt}/bin:$PATH
   else
     echo $ac_n "checking value of the QTDIR environment variable... $ac_c" 1>&6
-echo "configure:3500: checking value of the QTDIR environment variable" 1>&5
+echo "configure:3507: checking value of the QTDIR environment variable" 1>&5
     if test x"$QTDIR" = x; then
       echo "$ac_t""empty" 1>&6
       echo "configure: warning: QTDIR environment variable not set -- this might be an indication of a problem" 1>&2
@@ -3521,7 +3528,7 @@ echo "configure:3500: checking value of the QTDIR environment variable" 1>&5
   # Extract the first word of "moc", so it can be a program name with args.
 set dummy moc; ac_word=$2
 echo $ac_n "checking for $ac_word... $ac_c" 1>&6
-echo "configure:3525: checking for $ac_word" 1>&5
+echo "configure:3532: checking for $ac_word" 1>&5
 if test "${ac_cv_path_MOC+set}" = set; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3554,19 +3561,19 @@ fi
 
   if test x"$MOC" != x; then
     echo $ac_n "checking whether the Qt library is available... $ac_c" 1>&6
-echo "configure:3558: checking whether the Qt library is available" 1>&5
+echo "configure:3565: checking whether the Qt library is available" 1>&5
 if test "${sim_cv_lib_qt_avail+set}" = set; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   cat >conftest.$ac_ext <<EOF
-#line 3563 "configure"
+#line 3570 "configure"
 #include "confdefs.h"
 #include <qapplication.h>
 int main() {
 int dummy=0; QApplication a(dummy, 0L);
 ; return 0; }
 EOF
-if { (eval echo configure:3570: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:3577: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   sim_cv_lib_qt_avail=yes
 else
@@ -3605,12 +3612,12 @@ sim_ac_save_libs=$LIBS
 LIBS="$sim_ac_x11mu_libs $LIBS"
 
 echo $ac_n "checking whether the X11 miscellaneous utilities is available... $ac_c" 1>&6
-echo "configure:3609: checking whether the X11 miscellaneous utilities is available" 1>&5
+echo "configure:3616: checking whether the X11 miscellaneous utilities is available" 1>&5
 if test "${sim_cv_lib_x11mu_avail+set}" = set; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   cat >conftest.$ac_ext <<EOF
-#line 3614 "configure"
+#line 3621 "configure"
 #include "confdefs.h"
 #include <X11/Xlib.h>
                 #include <X11/Xmu/Xmu.h>
@@ -3619,7 +3626,7 @@ int main() {
 (void)XmuAllStandardColormaps(0L);
 ; return 0; }
 EOF
-if { (eval echo configure:3623: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:3630: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   sim_cv_lib_x11mu_avail=yes
 else
@@ -3653,19 +3660,19 @@ if test x"$with_qt" != xno; then
   LIBS="$sim_ac_qgl_libs $LIBS"
 
   echo $ac_n "checking whether the QGL extension library is available... $ac_c" 1>&6
-echo "configure:3657: checking whether the QGL extension library is available" 1>&5
+echo "configure:3664: checking whether the QGL extension library is available" 1>&5
 if test "${sim_cv_lib_qgl_avail+set}" = set; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   cat >conftest.$ac_ext <<EOF
-#line 3662 "configure"
+#line 3669 "configure"
 #include "confdefs.h"
 #include <qgl.h>
 int main() {
 (void)qGLVersion();
 ; return 0; }
 EOF
-if { (eval echo configure:3669: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:3676: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   sim_cv_lib_qgl_avail=yes
 else
@@ -3788,18 +3795,18 @@ if test "x$enable_exceptions" = "xno"; then
         
 
 echo $ac_n "checking whether $CXX accepts -fno-exceptions... $ac_c" 1>&6
-echo "configure:3792: checking whether $CXX accepts -fno-exceptions" 1>&5
+echo "configure:3799: checking whether $CXX accepts -fno-exceptions" 1>&5
 _save_cxxflags=$CXXFLAGS
 CXXFLAGS="$CXXFLAGS -fno-exceptions"
 cat >conftest.$ac_ext <<EOF
-#line 3796 "configure"
+#line 3803 "configure"
 #include "confdefs.h"
 
 int main() {
 
 ; return 0; }
 EOF
-if { (eval echo configure:3803: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:3810: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
   _accept_result=yes _exception_flag=-fno-exceptions
 else
@@ -3817,18 +3824,18 @@ unset _accept_result _save_cxxflags
             
 
 echo $ac_n "checking whether $CXX accepts -fno-handle-exceptions... $ac_c" 1>&6
-echo "configure:3821: checking whether $CXX accepts -fno-handle-exceptions" 1>&5
+echo "configure:3828: checking whether $CXX accepts -fno-handle-exceptions" 1>&5
 _save_cxxflags=$CXXFLAGS
 CXXFLAGS="$CXXFLAGS -fno-handle-exceptions"
 cat >conftest.$ac_ext <<EOF
-#line 3825 "configure"
+#line 3832 "configure"
 #include "confdefs.h"
 
 int main() {
 
 ; return 0; }
 EOF
-if { (eval echo configure:3832: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:3839: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
   _accept_result=yes _exception_flag=-fno-handle-exceptions
 else
@@ -3900,18 +3907,18 @@ if test x"$enable_warnings" = xyes; then
     
 
 echo $ac_n "checking whether $CXX accepts -Wno-multichar... $ac_c" 1>&6
-echo "configure:3904: checking whether $CXX accepts -Wno-multichar" 1>&5
+echo "configure:3911: checking whether $CXX accepts -Wno-multichar" 1>&5
 _save_cxxflags=$CXXFLAGS
 CXXFLAGS="$CXXFLAGS -Wno-multichar"
 cat >conftest.$ac_ext <<EOF
-#line 3908 "configure"
+#line 3915 "configure"
 #include "confdefs.h"
 
 int main() {
 
 ; return 0; }
 EOF
-if { (eval echo configure:3915: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:3922: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
   _accept_result=yes _warn_flags=-Wno-multichar
 else
@@ -3938,18 +3945,18 @@ unset _accept_result _save_cxxflags
         
 
 echo $ac_n "checking whether $CXX accepts -fullwarn... $ac_c" 1>&6
-echo "configure:3942: checking whether $CXX accepts -fullwarn" 1>&5
+echo "configure:3949: checking whether $CXX accepts -fullwarn" 1>&5
 _save_cxxflags=$CXXFLAGS
 CXXFLAGS="$CXXFLAGS -fullwarn"
 cat >conftest.$ac_ext <<EOF
-#line 3946 "configure"
+#line 3953 "configure"
 #include "confdefs.h"
 
 int main() {
 
 ; return 0; }
 EOF
-if { (eval echo configure:3953: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:3960: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
   _accept_result=yes _warn_flags="$_warn_flags -fullwarn"
 else
@@ -3967,18 +3974,18 @@ unset _accept_result _save_cxxflags
         
 
 echo $ac_n "checking whether $CXX accepts -woff 3262... $ac_c" 1>&6
-echo "configure:3971: checking whether $CXX accepts -woff 3262" 1>&5
+echo "configure:3978: checking whether $CXX accepts -woff 3262" 1>&5
 _save_cxxflags=$CXXFLAGS
 CXXFLAGS="$CXXFLAGS -woff 3262"
 cat >conftest.$ac_ext <<EOF
-#line 3975 "configure"
+#line 3982 "configure"
 #include "confdefs.h"
 
 int main() {
 
 ; return 0; }
 EOF
-if { (eval echo configure:3982: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:3989: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
   _accept_result=yes _warn_flags="$_warn_flags -woff 3262"
 else
@@ -4032,11 +4039,20 @@ fi
 
 
 GUI="Qt"
+lGUI="qt"
+uGUI="QT"
 WIDGET="QWidget *"
+EVENT="QEvent *"
+COMPONENTHEADER="Q_OBJECT"
+
+
+
+
+
+
+
+
 COMPONENTLIBS=""
-
-
-
 
 
 
@@ -4181,9 +4197,14 @@ cat >$CONFIG_STATUS <<EOF
 # Files that config.status was made for.
 config_files="\\
     soqt-config Makefile src/Inventor/Qt/Makefile
+    src/Inventor/Qt/SoQtRenderArea.h:src/Inventor/Qt/common/SoAnyRenderArea.h.in
+    src/Inventor/Qt/SoQtRenderArea.cpp:src/Inventor/Qt/common/SoAnyRenderArea.cpp.in
     src/Inventor/Qt/common/Makefile src/Inventor/Qt/devices/Makefile
-    src/Inventor/Qt/viewers/Makefile src/Inventor/Qt/widgets/Makefile
-    examples/Makefile examples/widgets/Makefile examples/components/Makefile
+    src/Inventor/Qt/viewers/Makefile
+    src/Inventor/Qt/viewers/SoQtViewer.h:src/Inventor/Qt/common/SoAnyViewer.h.in
+    src/Inventor/Qt/viewers/SoQtViewer.cpp:src/Inventor/Qt/common/SoAnyViewer.cpp.in
+    src/Inventor/Qt/widgets/Makefile examples/Makefile
+    examples/widgets/Makefile examples/components/Makefile
     examples/components/renderarea.cpp examples/components/examinerviewer.cpp
     examples/components/planeviewer.cpp examples/components/walkviewer.cpp
     examples/components/flyviewer.cpp"
@@ -4233,9 +4254,13 @@ do
   'soqt-config' ) CONFIG_FILES="\$CONFIG_FILES soqt-config" ;;
   'Makefile' ) CONFIG_FILES="\$CONFIG_FILES Makefile" ;;
   'src/Inventor/Qt/Makefile' ) CONFIG_FILES="\$CONFIG_FILES src/Inventor/Qt/Makefile" ;;
+  'src/Inventor/Qt/SoQtRenderArea.h' ) CONFIG_FILES="\$CONFIG_FILES src/Inventor/Qt/SoQtRenderArea.h:src/Inventor/Qt/common/SoAnyRenderArea.h.in" ;;
+  'src/Inventor/Qt/SoQtRenderArea.cpp' ) CONFIG_FILES="\$CONFIG_FILES src/Inventor/Qt/SoQtRenderArea.cpp:src/Inventor/Qt/common/SoAnyRenderArea.cpp.in" ;;
   'src/Inventor/Qt/common/Makefile' ) CONFIG_FILES="\$CONFIG_FILES src/Inventor/Qt/common/Makefile" ;;
   'src/Inventor/Qt/devices/Makefile' ) CONFIG_FILES="\$CONFIG_FILES src/Inventor/Qt/devices/Makefile" ;;
   'src/Inventor/Qt/viewers/Makefile' ) CONFIG_FILES="\$CONFIG_FILES src/Inventor/Qt/viewers/Makefile" ;;
+  'src/Inventor/Qt/viewers/SoQtViewer.h' ) CONFIG_FILES="\$CONFIG_FILES src/Inventor/Qt/viewers/SoQtViewer.h:src/Inventor/Qt/common/SoAnyViewer.h.in" ;;
+  'src/Inventor/Qt/viewers/SoQtViewer.cpp' ) CONFIG_FILES="\$CONFIG_FILES src/Inventor/Qt/viewers/SoQtViewer.cpp:src/Inventor/Qt/common/SoAnyViewer.cpp.in" ;;
   'src/Inventor/Qt/widgets/Makefile' ) CONFIG_FILES="\$CONFIG_FILES src/Inventor/Qt/widgets/Makefile" ;;
   'examples/Makefile' ) CONFIG_FILES="\$CONFIG_FILES examples/Makefile" ;;
   'examples/widgets/Makefile' ) CONFIG_FILES="\$CONFIG_FILES examples/widgets/Makefile" ;;
@@ -4363,7 +4388,11 @@ s%@MOC@%$MOC%;t t
 s%@BUILD_EXAMPLES_TRUE@%$BUILD_EXAMPLES_TRUE%;t t
 s%@BUILD_EXAMPLES_FALSE@%$BUILD_EXAMPLES_FALSE%;t t
 s%@GUI@%$GUI%;t t
+s%@lGUI@%$lGUI%;t t
+s%@uGUI@%$uGUI%;t t
 s%@WIDGET@%$WIDGET%;t t
+s%@EVENT@%$EVENT%;t t
+s%@COMPONENTHEADER@%$COMPONENTHEADER%;t t
 s%@COMPONENTLIBS@%$COMPONENTLIBS%;t t
 s%@HAVE_RENDERAREA_TRUE@%$HAVE_RENDERAREA_TRUE%;t t
 s%@HAVE_RENDERAREA_FALSE@%$HAVE_RENDERAREA_FALSE%;t t
@@ -4680,7 +4709,7 @@ done
 
 test -z "$CONFIG_HEADERS" || echo timestamp > stamp-h
 
-        chmod a+x soqt-config
+chmod a+x soqt-config
 
 exit 0
 EOF

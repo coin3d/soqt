@@ -66,12 +66,14 @@ AMTAR = @AMTAR@
 AS = @AS@
 AWK = @AWK@
 CC = @CC@
+COMPONENTHEADER = @COMPONENTHEADER@
 COMPONENTLIBS = @COMPONENTLIBS@
 CPP = @CPP@
 CXX = @CXX@
 CXXCPP = @CXXCPP@
 DEPDIR = @DEPDIR@
 DLLTOOL = @DLLTOOL@
+EVENT = @EVENT@
 GUI = @GUI@
 LIBTOOL = @LIBTOOL@
 LN_S = @LN_S@
@@ -97,14 +99,16 @@ SOQT_VERSION = @SOQT_VERSION@
 VERSION = @VERSION@
 WIDGET = @WIDGET@
 install_sh = @install_sh@
+lGUI = @lGUI@
 sim_ac_conf_cmd = @sim_ac_conf_cmd@
+uGUI = @uGUI@
 
 
 noinst_LTLIBRARIES = libSoQtViewers.la
 
 LIBS = 
 
-INCLUDES = -I$(top_srcdir)/src
+INCLUDES = -I$(top_srcdir)/src -I$(top_builddir)/src
 
 BUILT_SOURCES = \
 	moc_SoQtViewer.cpp \
@@ -117,8 +121,9 @@ BUILT_SOURCES = \
 
 
 libSoQtViewers_la_SOURCES = \
-	SoQtViewer.cpp \
-	SoQtViewer.h \
+	$(top_builddir)/src/Inventor/Qt/viewers/SoQtViewer.cpp \
+	$(top_builddir)/src/Inventor/Qt/viewers/SoQtViewer.h \
+	SoQtViewerExtra.cpp \
 	SoQtFullViewer.cpp \
 	SoQtFullViewer.h \
 	SoQtExaminerViewer.cpp \
@@ -137,7 +142,7 @@ libSoQtViewers_la_SOURCES = \
 libSoQtViewersincdir = $(includedir)/Inventor/Qt/viewers
 
 libSoQtViewersinc_HEADERS = \
-	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtViewer.h \
+	$(top_builddir)/src/Inventor/Qt/viewers/SoQtViewer.h \
 	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtFullViewer.h \
 	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtExaminerViewer.h \
 	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtPlaneViewer.h \
@@ -148,7 +153,7 @@ libSoQtViewersinc_HEADERS = \
 subdir = src/Inventor/Qt/viewers
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../../config.h
-CONFIG_CLEAN_FILES = 
+CONFIG_CLEAN_FILES =  SoQtViewer.h SoQtViewer.cpp
 LTLIBRARIES =  $(noinst_LTLIBRARIES)
 
 
@@ -161,11 +166,12 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libSoQtViewers_la_LDFLAGS = 
 libSoQtViewers_la_LIBADD = 
-am_libSoQtViewers_la_OBJECTS =  SoQtViewer.lo SoQtFullViewer.lo \
-SoQtExaminerViewer.lo SoQtPlaneViewer.lo SoQtConstrainedViewer.lo \
-SoQtWalkViewer.lo SoQtFlyViewer.lo moc_SoQtViewer.lo \
-moc_SoQtFullViewer.lo moc_SoQtExaminerViewer.lo moc_SoQtPlaneViewer.lo \
-moc_SoQtConstrainedViewer.lo moc_SoQtWalkViewer.lo moc_SoQtFlyViewer.lo
+am_libSoQtViewers_la_OBJECTS =  SoQtViewer.lo SoQtViewerExtra.lo \
+SoQtFullViewer.lo SoQtExaminerViewer.lo SoQtPlaneViewer.lo \
+SoQtConstrainedViewer.lo SoQtWalkViewer.lo SoQtFlyViewer.lo \
+moc_SoQtViewer.lo moc_SoQtFullViewer.lo moc_SoQtExaminerViewer.lo \
+moc_SoQtPlaneViewer.lo moc_SoQtConstrainedViewer.lo \
+moc_SoQtWalkViewer.lo moc_SoQtFlyViewer.lo
 libSoQtViewers_la_OBJECTS =  $(am_libSoQtViewers_la_OBJECTS)
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -180,7 +186,9 @@ LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDF
 DIST_SOURCES =  $(libSoQtViewers_la_SOURCES)
 HEADERS =  $(libSoQtViewersinc_HEADERS)
 
-DIST_COMMON =  $(libSoQtViewersinc_HEADERS) Makefile.am Makefile.in
+DIST_COMMON =  $(libSoQtViewersinc_HEADERS) Makefile.am Makefile.in \
+$(top_srcdir)/src/Inventor/Qt/common/SoAnyViewer.cpp.in \
+$(top_srcdir)/src/Inventor/Qt/common/SoAnyViewer.h.in
 
 
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -190,8 +198,8 @@ depcomp = $(SHELL) $(top_srcdir)/depcomp
 DEP_FILES =  @AMDEP@ $(DEPDIR)/SoQtConstrainedViewer.Plo \
 $(DEPDIR)/SoQtExaminerViewer.Plo $(DEPDIR)/SoQtFlyViewer.Plo \
 $(DEPDIR)/SoQtFullViewer.Plo $(DEPDIR)/SoQtPlaneViewer.Plo \
-$(DEPDIR)/SoQtViewer.Plo $(DEPDIR)/SoQtWalkViewer.Plo \
-$(DEPDIR)/moc_SoQtConstrainedViewer.Plo \
+$(DEPDIR)/SoQtViewer.Plo $(DEPDIR)/SoQtViewerExtra.Plo \
+$(DEPDIR)/SoQtWalkViewer.Plo $(DEPDIR)/moc_SoQtConstrainedViewer.Plo \
 $(DEPDIR)/moc_SoQtExaminerViewer.Plo $(DEPDIR)/moc_SoQtFlyViewer.Plo \
 $(DEPDIR)/moc_SoQtFullViewer.Plo $(DEPDIR)/moc_SoQtPlaneViewer.Plo \
 $(DEPDIR)/moc_SoQtViewer.Plo $(DEPDIR)/moc_SoQtWalkViewer.Plo
@@ -208,6 +216,10 @@ Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
 	cd $(top_builddir) \
 	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
+SoQtViewer.h: $(top_builddir)/config.status $(top_srcdir)/src/Inventor/Qt/common/SoAnyViewer.h.in
+	cd $(top_builddir) && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
+SoQtViewer.cpp: $(top_builddir)/config.status  $(top_srcdir)/src/Inventor/Qt/common/SoAnyViewer.cpp.in
+	cd $(top_builddir) && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
 mostlyclean-noinstLTLIBRARIES:
 
@@ -237,6 +249,7 @@ clean-libtool:
 distclean-libtool:
 
 maintainer-clean-libtool:
+SoQtViewer.lo: $(top_builddir)/src/Inventor/Qt/viewers/SoQtViewer.cpp
 
 libSoQtViewers.la: $(libSoQtViewers_la_OBJECTS) $(libSoQtViewers_la_DEPENDENCIES)
 	$(CXXLINK)  $(libSoQtViewers_la_LDFLAGS) $(libSoQtViewers_la_OBJECTS) $(libSoQtViewers_la_LIBADD) $(LIBS)
@@ -277,7 +290,8 @@ maintainer-clean-tags:
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
 distdir: $(DISTFILES)
-	$(mkinstalldirs) $(distdir)/$(top_srcdir)/src/Inventor/Qt/viewers
+	$(mkinstalldirs) $(distdir)/$(top_builddir)/src/Inventor/Qt/viewers \
+	   $(distdir)/$(top_srcdir)/src/Inventor/Qt/viewers
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
@@ -295,6 +309,7 @@ distdir: $(DISTFILES)
 @AMDEP@include $(DEPDIR)/SoQtFullViewer.Plo
 @AMDEP@include $(DEPDIR)/SoQtPlaneViewer.Plo
 @AMDEP@include $(DEPDIR)/SoQtViewer.Plo
+@AMDEP@include $(DEPDIR)/SoQtViewerExtra.Plo
 @AMDEP@include $(DEPDIR)/SoQtWalkViewer.Plo
 @AMDEP@include $(DEPDIR)/moc_SoQtConstrainedViewer.Plo
 @AMDEP@include $(DEPDIR)/moc_SoQtExaminerViewer.Plo
@@ -408,8 +423,10 @@ distclean-generic clean-generic maintainer-clean-generic clean \
 mostlyclean distclean maintainer-clean
 
 
-moc_SoQtViewer.cpp: $(top_srcdir)/src/Inventor/Qt/viewers/SoQtViewer.h
-	$(MOC) -o moc_SoQtViewer.cpp $(top_srcdir)/src/Inventor/Qt/viewers/SoQtViewer.h
+############################################################################
+
+moc_SoQtViewer.cpp: $(top_builddir)/src/Inventor/Qt/viewers/SoQtViewer.h
+	$(MOC) -o moc_SoQtViewer.cpp $(top_builddir)/src/Inventor/Qt/viewers/SoQtViewer.h
 
 moc_SoQtFullViewer.cpp: $(top_srcdir)/src/Inventor/Qt/viewers/SoQtFullViewer.h
 	$(MOC) -o moc_SoQtFullViewer.cpp $(top_srcdir)/src/Inventor/Qt/viewers/SoQtFullViewer.h
