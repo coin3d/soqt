@@ -799,14 +799,6 @@ SoQtExaminerViewer::setCursorRepresentation(const ViewerMode mode)
   if (!this->defaultcursor) {
     this->defaultcursor = new QCursor(w->cursor());
 
-    int i;
-    for (i = 0; i < so_qt_zoom_width * (so_qt_zoom_height+7)/8; i++)
-      so_qt_zoom_bitmap[i] &= so_qt_zoom_mask_bitmap[i];
-    for (i = 0; i < so_qt_pan_width * (so_qt_pan_height+7)/8; i++)
-      so_qt_pan_bitmap[i] &= so_qt_pan_mask_bitmap[i];
-    for (i = 0; i < so_qt_rotate_width * (so_qt_rotate_height+7)/8; i++)
-      so_qt_rotate_bitmap[i] &= so_qt_rotate_mask_bitmap[i];
-
     QBitmap zoomBtm(so_qt_zoom_width, so_qt_zoom_height,
 		    (uchar*)so_qt_zoom_bitmap, FALSE);
     QBitmap zoomMask(so_qt_zoom_width, so_qt_zoom_height,
