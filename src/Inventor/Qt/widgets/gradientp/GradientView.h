@@ -51,7 +51,6 @@ public:
   void setGradient(const Gradient & grad);
   const Gradient & getGradient(void) const;
   void insertTick(float t);
-  float getSelectedPos(void);
   void setChangeCallback(Gradient::ChangeCB * cb, void * userdata);
   void setDataLimits(float min, float max);
 
@@ -70,7 +69,6 @@ protected:
   void contentsMouseReleaseEvent(QMouseEvent *);
   void contentsMouseMoveEvent(QMouseEvent *);
   void viewportResizeEvent(QResizeEvent *);
-  void keyPressEvent(QKeyEvent * e);
   void buildMenu();
   void unselectAll(void);
 
