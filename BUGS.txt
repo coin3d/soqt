@@ -385,6 +385,10 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     First reported by Daniel Soto.
 
     20021022 rolvs
+    
+    UPDATE: Should be fixed now. Building the decorations, and then
+    hiding them if they aren't needed makes this failure go away, as
+    well as an assert-bailout reported by Tamer Fahmy. 20021022 rolvs
 
 =====================================================================
     
