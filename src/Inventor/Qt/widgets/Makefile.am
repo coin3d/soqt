@@ -23,7 +23,6 @@ LIBS =
 BUILT_SOURCES = \
 	$(SoGuiAllBuiltFiles) \
 	moc_SoQtGradientDialog.icc \
-	moc_GradientEditor.icc \
 	moc_GradientView.icc
 
 CLEANFILES = \
@@ -46,8 +45,6 @@ SOURCES = \
 	Gradient.h \
 	GradientDialog.cpp \
 	SoQtGradientDialog.h \
-	gradientp/GradientEditor.cpp \
-	gradientp/GradientEditor.h \
 	gradientp/GradientView.cpp \
 	gradientp/GradientView.h \
 	gradientp/ImageItem.cpp \
@@ -123,11 +120,6 @@ moc_SoQtGradientDialog.icc: $(srcdir)/SoQtGradientDialog.h
 	@( \
 	echo " $(MOC) -i -o moc_SoQtGradientDialog.icc $(srcdir)/SoQtGradientDialog.h"; \
 	$(MOC) -i -o moc_SoQtGradientDialog.icc `$(UNIX2WINPATH) $(srcdir)/SoQtGradientDialog.h` )
-
-moc_GradientEditor.icc: $(srcdir)/gradientp/GradientEditor.h
-	@( \
-	echo " $(MOC) -i -o moc_GradientEditor.icc $(srcdir)/gradientp/GradientEditor.h"; \
-	$(MOC) -i -o moc_GradientEditor.icc `$(UNIX2WINPATH) $(srcdir)/gradientp/GradientEditor.h` )
 
 moc_GradientView.icc: $(srcdir)/gradientp/GradientView.h
 	@( \
