@@ -86,7 +86,16 @@ do
             grep "^AC_SUBST_" $configfile \
               | sed -e 's/^AC_SUBST_\([^=]*\)="\([^"]*\)"$/s\/@\1@\/\2\/g;/g' \
               >$sedscript
-            sed -f $sedscript <$1 >$outfile
+            rm -f $outfile
+            case `echo "$compiler" | sed 's/ .*//g'` in
+            gcc | g++)
+              echo "# 1 \"$1\"" >$outfile
+              ;;
+            wrapmsvc | wrapmsvc.exe | msvccc)
+              echo "#line 1 \"$1\"" >$outfile
+              ;;
+            esac
+            sed -f $sedscript <$1 >>$outfile
             rm -f $sedscript
             ;;
           *)
