@@ -227,14 +227,20 @@ RadioGroupKitP::buttonClickedCallback(void * userData, SoPath * path)
 {
 
   RadioGroupKitP * radioGroupP = (RadioGroupKitP *) userData;
-  SoNode * tail = (SoNode *) ((SoFullPath*)path)->getNodeFromTail(1);
 
-  // there's a subgraph for Y-spacing inbetween each button root
+  // Fetch clicked node object
+  SoNode * tail = (SoNode *) ((SoFullPath*)path)->getNodeFromTail(0);
+
+  // Bullet or the text?
+  if(tail->isOfType(SoText2::getClassTypeId()))
+    tail = (SoNode *) ((SoFullPath*)path)->getNodeFromTail(1);
+  else
+    tail = (SoNode *) ((SoFullPath*)path)->getNodeFromTail(2);
+  
   int index = (radioGroupP->root->findChild(tail))/2;
-  assert(index != -1);
+  assert(index != -1); // Failsafe
 
   SoTransformSeparator * button = (SoTransformSeparator *) radioGroupP->buttonList->get(index);
-
   for(int i=0;i<radioGroupP->buttonList->getLength();++i){
     SoTransformSeparator *sep = (SoTransformSeparator *) radioGroupP->buttonList->get(i);
     SoBaseColor *color = (SoBaseColor *) sep->getChild(0);
@@ -252,7 +258,7 @@ RadioGroupKitP::buttonClickedCallback(void * userData, SoPath * path)
 
 
 #if 0 // debug
-  SoDebugError::postInfo("RadioGroupKitP::buttonClickedCallback","selected %d", idx);
+  SoDebugError::postInfo("RadioGroupKitP::buttonClickedCallback","RadioGroupKit::selected = %d", index);
 #endif // debug
   
 }
@@ -328,7 +334,7 @@ RadioGroupKitP::addRadioButton(SbString label)
 
   SoTransformSeparator * sep;
 
-  // Make first added button selected as default
+  // Make the first added button selected as default
   if(buttonCounter == 0){
     sep = (SoTransformSeparator*) SO_GET_PART(PUBLIC(this), "RadioBulletActive",SoTransformSeparator)->copy();
     PUBLIC(this)->selected.setValue(0);
