@@ -262,6 +262,20 @@
 #include <X11/Xlib.h>
 #endif // HAVE_X11_AVAILABLE
 
+#ifdef HAVE_WIN32_API
+// FIXME: place extern "C" inside spwinput_win32.h if possible 20030812 frodo.
+#ifdef __cplusplus
+extern "C" {
+#endif
+#include <windows.h>
+#include <Inventor/Qt/devices/spwinput_win32.h>
+#ifdef __cplusplus
+}
+#endif
+
+#endif // HAVE_WIN32_API
+
+
 #include <Inventor/Qt/SoQtComponent.h>
 #include <Inventor/Qt/SoAny.h>
 #include <Inventor/Qt/SoQtInternal.h>
@@ -603,6 +617,22 @@ public:
   }
   Display * display;
 #endif // HAVE_X11_AVAILABLE
+
+#ifdef HAVE_WIN32_API
+  virtual bool winEventFilter(MSG * msg) {
+    SPW_InputEvent sbEvent;
+    if (SPW_TranslateEventWin32(NULL, msg, &sbEvent)) {
+      QWidget * focus = this->focusWidget();
+      if (!focus) focus = this->activeWindow();
+      if (focus) {
+        QCustomEvent qevent((QEvent::Type)SoQtInternal::SPACEBALL_EVENT,
+                            (void *)&sbEvent);
+        QApplication::sendEvent(focus, &qevent);
+      }
+    }
+    return QApplication::winEventFilter(msg);
+  }
+#endif // HAVE_WIN32_API
 };
 
 #endif // DOXYGEN_SKIP_THIS
