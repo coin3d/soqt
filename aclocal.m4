@@ -6310,9 +6310,23 @@ if test x"$with_qt" != xno; then
   sim_ac_save_ldflags=$LDFLAGS
   sim_ac_save_libs=$LIBS
 
+  CPPFLAGS="$sim_ac_qt_incflags $CPPFLAGS"
   LDFLAGS="$LDFLAGS $sim_ac_qt_ldflags"
 
+  sim_ac_qt_libs=UNRESOLVED
+
   AC_PATH_PROG(MOC, moc, false, $sim_ac_path)
+
+  if test x"$MOC" = x"false"; then
+    AC_MSG_WARN([the ``moc'' Qt pre-processor tool not found])
+  else
+
+  AC_CHECK_HEADER([qglobal.h],
+                  [sim_ac_qglobal=true],
+                  [AC_MSG_WARN([header file qglobal.h not found])
+                   sim_ac_qglobal=false])
+
+  if $sim_ac_qglobal; then
 
   # Find version of the Qt library (MSWindows .dll is named with the
   # version number.)
@@ -6321,11 +6335,10 @@ if test x"$with_qt" != xno; then
 #include <qglobal.h>
 int VerQt = QT_VERSION;
 EOF
-  sim_ac_qt_version=`$CPP $sim_ac_qt_incflags $CPPFLAGS conftest.c | grep '^int VerQt' | sed 's%^int VerQt = %%' | sed 's%;$%%'`
+  sim_ac_qt_version=`$CPP $CPPFLAGS conftest.c | grep '^int VerQt' | sed 's%^int VerQt = %%' | sed 's%;$%%'`
   rm -f conftest.c
   AC_MSG_RESULT($sim_ac_qt_version)
 
-  sim_ac_qt_libs=UNRESOLVED
   sim_ac_qt_cppflags=
   if test x"$MOC" != xfalse; then
     # Do not cache the result, as we might need to play tricks with
@@ -6390,6 +6403,9 @@ EOF
 
     AC_MSG_RESULT($sim_ac_qt_cppflags $sim_ac_qt_libs)
   fi
+
+  fi # sim_ac_sbbasic = TRUE
+  fi # MOC = false
 
   if test ! x"$sim_ac_qt_libs" = xUNRESOLVED; then
     sim_ac_qt_avail=yes
