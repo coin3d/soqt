@@ -91,8 +91,8 @@ public:
     this->owner = o;
 
     if ( !SoQtComponentP::soqtcomplist )
-      SoQtComponentP::soqtcomplist = new SbList<SoQtComponent *>;
-    SoQtComponentP::soqtcomplist->append(this->owner);
+      SoQtComponentP::soqtcomplist = new SbPList;
+    SoQtComponentP::soqtcomplist->append( (void *) this->owner );
   }
 
   // Destructor.
@@ -117,13 +117,13 @@ public:
 
   // List of all SoQtComponent instances. Needed for the
   // SoQtComponent::getComponent() function.
-  static SbList<SoQtComponent *> * soqtcomplist;
+  static SbPList * soqtcomplist;
 
 private:
   SoQtComponent * owner;
 };
 
-SbList<SoQtComponent *> * SoQtComponentP::soqtcomplist = NULL;
+SbPList * SoQtComponentP::soqtcomplist = NULL;
 
 #define THIS (this->pimpl)
 
@@ -226,7 +226,7 @@ SoQtComponent::~SoQtComponent(
   if ( ! THIS->embedded )
     this->unregisterWidget( THIS->parent );
 
-  int idx = SoQtComponentP::soqtcomplist->find(this);
+  int idx = SoQtComponentP::soqtcomplist->find( (void *) this);
   assert(idx != -1);
   SoQtComponentP::soqtcomplist->remove(idx);
 
@@ -950,7 +950,7 @@ SoQtComponent::getComponent(
   QWidget * const widget )
 {
   for (int i = 0; i < SoQtComponentP::soqtcomplist->getLength(); i++) {
-    SoQtComponent * c = (*SoQtComponentP::soqtcomplist)[i];
+    SoQtComponent * c = (SoQtComponent *) (*SoQtComponentP::soqtcomplist)[i];
     if ( c->getWidget() == widget ) return c;
   }
 
