@@ -895,19 +895,6 @@ SoQtFullViewer::openPopupMenu(const SbVec2s position)
 
 // *************************************************************************
 
-// These are all private slots for catching Qt events.
-void SoQtFullViewerP::leftWheelPressed(void) { PUBLIC(this)->leftWheelStart(); }
-void SoQtFullViewerP::leftWheelChanged(float v) { PUBLIC(this)->leftWheelMotion(v); }
-void SoQtFullViewerP::leftWheelReleased(void) { PUBLIC(this)->leftWheelFinish(); }
-void SoQtFullViewerP::bottomWheelPressed(void) { PUBLIC(this)->bottomWheelStart(); }
-void SoQtFullViewerP::bottomWheelChanged(float v) { PUBLIC(this)->bottomWheelMotion(v);}
-void SoQtFullViewerP::bottomWheelReleased(void) { PUBLIC(this)->bottomWheelFinish(); }
-void SoQtFullViewerP::rightWheelPressed(void) { PUBLIC(this)->rightWheelStart(); }
-void SoQtFullViewerP::rightWheelChanged(float v) { PUBLIC(this)->rightWheelMotion(v); }
-void SoQtFullViewerP::rightWheelReleased(void) { PUBLIC(this)->rightWheelFinish(); }
-
-// *************************************************************************
-
 /*!
   Set label of the left thumbwheel.
 */
@@ -962,18 +949,49 @@ SoQtFullViewer::setRightWheelString(const char * const string)
 
 // *************************************************************************
 
-/*!
-  \internal
+// doc in super
+void
+SoQtFullViewer::sizeChanged(const SbVec2s & size)
+{
+#if SOQT_DEBUG && 0
+  SoDebugError::postInfo("SoQtFullViewer::sizeChanged", "[invoked (%d, %d)]",
+                         size[0], size[1]);
+#endif // SOQT_DEBUG
 
-  Show or hide decorations. Will make and activate a Qt layout grid
-  if we're turning the decorations on.
-*/
+  if (PRIVATE(this)->decorations) {
+    if (size[0] <= 60 || size[1] <= 30) return; // bogus
+    if (PRIVATE(this)->viewerwidget) {
+      // SoDebugError::postInfo("SoQtFullViewer::sizeChanged", "[resizing]");
+      PRIVATE(this)->viewerwidget->setGeometry(0, 0, size[0], size[1]);
+      PRIVATE(this)->canvas->setGeometry(30, 0, size[0] - 60, size[1] - 30);
+      this->leftDecoration->resize(30, size[1] - 30);
+      this->rightDecoration->setGeometry(size[0]-30, 0, size[0], size[1] - 30);
+      this->bottomDecoration->setGeometry(0, size[1]-30, size[0], size[1]);
+    }
+    const SbVec2s rasize = SbVec2s(size[0] - 60, size[1] - 30);
+    inherited::sizeChanged(rasize);
+  } else {
+    if (size[0] <= 0 || size[1] <= 0) return;
+    if (PRIVATE(this)->viewerwidget && PRIVATE(this)->canvas) {
+      // SoDebugError::postInfo("SoQtFullViewer::sizeChanged", "[resizing]");
+      PRIVATE(this)->viewerwidget->setGeometry(0, 0, size[0], size[1]);
+      PRIVATE(this)->canvas->setGeometry(0, 0, size[0], size[1]);
+    }
+    inherited::sizeChanged(size);
+  }
+}
 
+// *************************************************************************
+
+#ifndef DOXYGEN_SKIP_THIS
+
+// Show or hide decorations. Will make and activate a Qt layout grid
+// if we're turning the decorations on.
 void
 SoQtFullViewerP::showDecorationWidgets(SbBool onOff)
 {
 #if SOQT_DEBUG && 0
-  SoDebugError::postInfo("SoQtFullViewer::showDecorationWidgets", "[invoked]");
+  SoDebugError::postInfo("SoQtFullViewerP::showDecorationWidgets", "[invoked]");
 #endif // SOQT_DEBUG
 
   if (this->mainlayout) delete this->mainlayout;
@@ -1020,10 +1038,7 @@ SoQtFullViewerP::showDecorationWidgets(SbBool onOff)
 
 // *************************************************************************
 
-/*!
-  Layout application specified buttons.
-*/
-
+// Layout application specified buttons.
 void
 SoQtFullViewerP::layoutAppButtons(QWidget * form)
 {
@@ -1041,40 +1056,6 @@ SoQtFullViewerP::layoutAppButtons(QWidget * form)
   }
 
   this->appbuttonlayout->activate();
-}
-
-// *************************************************************************
-
-// doc in super
-void
-SoQtFullViewer::sizeChanged(const SbVec2s & size)
-{
-#if SOQT_DEBUG && 0
-  SoDebugError::postInfo("SoQtFullViewer::sizeChanged", "[invoked (%d, %d)]",
-                         size[0], size[1]);
-#endif // SOQT_DEBUG
-
-  if (PRIVATE(this)->decorations) {
-    if (size[0] <= 60 || size[1] <= 30) return; // bogus
-    if (PRIVATE(this)->viewerwidget) {
-      // SoDebugError::postInfo("SoQtFullViewer::sizeChanged", "[resizing]");
-      PRIVATE(this)->viewerwidget->setGeometry(0, 0, size[0], size[1]);
-      PRIVATE(this)->canvas->setGeometry(30, 0, size[0] - 60, size[1] - 30);
-      this->leftDecoration->resize(30, size[1] - 30);
-      this->rightDecoration->setGeometry(size[0]-30, 0, size[0], size[1] - 30);
-      this->bottomDecoration->setGeometry(0, size[1]-30, size[0], size[1]);
-    }
-    const SbVec2s rasize = SbVec2s(size[0] - 60, size[1] - 30);
-    inherited::sizeChanged(rasize);
-  } else {
-    if (size[0] <= 0 || size[1] <= 0) return;
-    if (PRIVATE(this)->viewerwidget && PRIVATE(this)->canvas) {
-      // SoDebugError::postInfo("SoQtFullViewer::sizeChanged", "[resizing]");
-      PRIVATE(this)->viewerwidget->setGeometry(0, 0, size[0], size[1]);
-      PRIVATE(this)->canvas->setGeometry(0, 0, size[0], size[1]);
-    }
-    inherited::sizeChanged(size);
-  }
 }
 
 // *************************************************************************
@@ -1204,3 +1185,18 @@ SoQtFullViewerP::setThumbWheelValue(void * wheel, float val)
 }
 
 // *************************************************************************
+
+// These are all private slots for catching Qt events.
+void SoQtFullViewerP::leftWheelPressed(void) { PUBLIC(this)->leftWheelStart(); }
+void SoQtFullViewerP::leftWheelChanged(float v) { PUBLIC(this)->leftWheelMotion(v); }
+void SoQtFullViewerP::leftWheelReleased(void) { PUBLIC(this)->leftWheelFinish(); }
+void SoQtFullViewerP::bottomWheelPressed(void) { PUBLIC(this)->bottomWheelStart(); }
+void SoQtFullViewerP::bottomWheelChanged(float v) { PUBLIC(this)->bottomWheelMotion(v);}
+void SoQtFullViewerP::bottomWheelReleased(void) { PUBLIC(this)->bottomWheelFinish(); }
+void SoQtFullViewerP::rightWheelPressed(void) { PUBLIC(this)->rightWheelStart(); }
+void SoQtFullViewerP::rightWheelChanged(float v) { PUBLIC(this)->rightWheelMotion(v); }
+void SoQtFullViewerP::rightWheelReleased(void) { PUBLIC(this)->rightWheelFinish(); }
+
+// *************************************************************************
+
+#endif // DOXYGEN_SKIP_THIS
