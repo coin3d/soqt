@@ -925,6 +925,21 @@ SoQtGLWidget::glFlushBuffer(void)
 {
   // might be called for both normal and overlay widgets
   glFlush();
+
+#ifdef Q_WS_MAC
+  // Qt/Mac double-buffers everything internally to circumvent some of
+  // AGLs limitations. Since we don't use their "recommended"
+  // updateGL() way of rendering, we have to explicitly swap the
+  // buffers.
+  ((QGLWidget *)this->getGLWidget())->swapBuffers();
+  // FIXME: this should only be a temporary hack until Apple fixes
+  // AGL...  kyrah 20011129
+  //
+  // UPDATE: or until we pick up and integrate into the SoQt library
+  // the pieces of sourcecode from QGLWidget et al that depend on. As
+  // Qt Professional Edition License holders on all platforms, this is
+  // something we seem to be allowed to do.  20011129 mortene.
+#endif // Q_WS_MAC
 }
 
 /*!
