@@ -288,6 +288,8 @@ src/Inventor/Qt/widgets/Makefile
 test-code/Makefile
 test-code/widgets/Makefile
 examples/Makefile
+examples/nodes/Makefile
+examples/nodes/selection.cpp
 examples/components/Makefile
 examples/components/renderarea.cpp
 examples/components/examinerviewer.cpp
