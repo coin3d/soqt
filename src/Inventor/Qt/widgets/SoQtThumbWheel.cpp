@@ -65,7 +65,7 @@ SoQtThumbWheel::constructor( // private
   this->wheelValue = this->tempWheelValue = 0.0f;
   this->wheel = new SoAnyThumbWheel;
   this->wheel->SetWheelMotionMethod( SoAnyThumbWheel::UNIFORM );
-  this->wheel->SetGraphicsByteOrder( SoAnyThumbWheel::ABGR );
+  this->wheel->SetGraphicsByteOrder( SoAnyThumbWheel::ARGB );
   this->wheel->SetWheelRangeBoundaryHandling( SoAnyThumbWheel::MODULATE );
   this->pixmaps = NULL;
   this->numPixmaps = 0;
@@ -321,7 +321,7 @@ SoQtThumbWheel::initWheel(
 
   this->numPixmaps = this->wheel->BitmapsRequired();
   this->pixmaps = new QPixmap * [this->numPixmaps];
-  QImage image( pwidth, pheight, 32, 0, QImage::LittleEndian );
+  QImage image( pwidth, pheight, 32, 0 );
   for ( int i = 0; i < this->numPixmaps; i++ ) {
     this->wheel->DrawBitmap( i, image.bits(), (this->orient == Vertical) ?
       SoAnyThumbWheel::VERTICAL : SoAnyThumbWheel::HORIZONTAL );
