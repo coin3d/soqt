@@ -48,7 +48,7 @@ else
 if MACOSX_10_2FF
 LibtoolLinkArgs = -Wl,-twolevel_namespace -Wl,-undefined,error -Wl,-prebind -Wl,-seg1addr,0x30000000 -Wl,-headerpad_max_install_names 
 else
-LibtoolLinkArgs = -Wl,-headerpad_max_install_names 
+LibtoolLinkArgs = 
 endif
 endif 
 
