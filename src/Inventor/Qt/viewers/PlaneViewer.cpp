@@ -150,6 +150,11 @@ SoQtPlaneViewerP::SoQtPlaneViewerP(SoQtPlaneViewer * publ)
 {
   this->pixmaps.orthogonal = new QPixmap((const char **) ortho_xpm);
   this->pixmaps.perspective = new QPixmap((const char **) perspective_xpm);
+
+  this->buttons.x = NULL;
+  this->buttons.y = NULL;
+  this->buttons.z = NULL;
+  this->buttons.camera = NULL;
 }
 
 SoQtPlaneViewerP::~SoQtPlaneViewerP()
