@@ -10,8 +10,10 @@ lib_LTLIBRARIES = libSoQt.la
 
 BUILT_SOURCES = \
 	SoQtBasic.h \
-	SoQtRenderArea.cpp \
+	SoQtCursors.h \
+	SoQtCursors.cpp \
 	SoQtRenderArea.h \
+	SoQtRenderArea.cpp \
 	moc_SoQt.cpp \
 	moc_SoQtObject.cpp \
 	moc_SoQtComponent.cpp \
@@ -32,8 +34,6 @@ libSoQt_la_SOURCES = \
 	SoQtObject.h \
 	SoQtComponent.cpp \
 	SoQtComponent.h \
-	SoQtCursors.cpp \
-	SoQtCursors.h \
 	SoQtGLWidget.cpp \
 	SoQtGLWidget.h \
 	SoQtLightSliderSet.cpp \
@@ -63,7 +63,7 @@ libSoQtinc_HEADERS = \
 	$(top_builddir)/src/Inventor/Qt/SoQtBasic.h \
 	$(top_srcdir)/src/Inventor/Qt/SoQtObject.h \
 	$(top_srcdir)/src/Inventor/Qt/SoQtComponent.h \
-	$(top_srcdir)/src/Inventor/Qt/SoQtCursors.h \
+	$(top_builddir)/src/Inventor/Qt/SoQtCursors.h \
 	$(top_srcdir)/src/Inventor/Qt/SoQtGLWidget.h \
 	$(top_srcdir)/src/Inventor/Qt/SoQtLightSliderSet.h \
 	$(top_srcdir)/src/Inventor/Qt/SoQtMaterialSliderSet.h \
@@ -76,6 +76,12 @@ libSoQtinc_HEADERS = \
 
 SoQtBasic.h: $(top_srcdir)/src/Inventor/Qt/common/SoGuiBasic.h.in
 	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/SoQtBasic.h )
+
+SoQtCursors.h: $(top_srcdir)/src/Inventor/Qt/common/SoGuiCursors.h.in
+	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/SoQtCursors.h )
+
+SoQtCursors.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoGuiCursors.cpp.in
+	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/SoQtCursors.cpp )
 
 SoQtRenderArea.h: $(top_srcdir)/src/Inventor/Qt/common/SoGuiRenderArea.h.in
 	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/SoQtRenderArea.h )

@@ -16,6 +16,8 @@ BUILT_SOURCES = \
 	soqt-config \
 	soqtdefs.h \
 	src/Inventor/Qt/SoQtBasic.h \
+	src/Inventor/Qt/SoQtCursors.h \
+	src/Inventor/Qt/SoQtCursors.cpp \
 	src/Inventor/Qt/SoQtRenderArea.h \
 	src/Inventor/Qt/SoQtRenderArea.cpp \
 	src/Inventor/Qt/viewers/SoQtViewer.h \
@@ -81,6 +83,14 @@ src/Inventor/Qt/SoQtBasic.h: $(srcdir)/src/Inventor/Qt/common/SoGuiBasic.h.in
 	@./config.status \
 	  --file=-:$(srcdir)/src/Inventor/Qt/common/SoGuiBasic.h.in | \
 	  ./config.status --header=$@:-
+
+src/Inventor/Qt/SoQtCursors.h: \
+  $(srcdir)/src/Inventor/Qt/common/SoGuiCursors.h.in
+	@./config.status --file=$@:src/Inventor/Qt/common/SoGuiCursors.h.in
+
+src/Inventor/Qt/SoQtCursors.cpp: \
+  $(srcdir)/src/Inventor/Qt/common/SoGuiCursors.cpp.in
+	@./config.status --file=$@:src/Inventor/Qt/common/SoGuiCursors.cpp.in
 
 src/Inventor/Qt/SoQtRenderArea.h: \
   $(srcdir)/src/Inventor/Qt/common/SoGuiRenderArea.h.in

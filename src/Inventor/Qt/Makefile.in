@@ -132,8 +132,10 @@ lib_LTLIBRARIES = libSoQt.la
 
 BUILT_SOURCES = \
 	SoQtBasic.h \
-	SoQtRenderArea.cpp \
+	SoQtCursors.h \
+	SoQtCursors.cpp \
 	SoQtRenderArea.h \
+	SoQtRenderArea.cpp \
 	moc_SoQt.cpp \
 	moc_SoQtObject.cpp \
 	moc_SoQtComponent.cpp \
@@ -155,8 +157,6 @@ libSoQt_la_SOURCES = \
 	SoQtObject.h \
 	SoQtComponent.cpp \
 	SoQtComponent.h \
-	SoQtCursors.cpp \
-	SoQtCursors.h \
 	SoQtGLWidget.cpp \
 	SoQtGLWidget.h \
 	SoQtLightSliderSet.cpp \
@@ -189,7 +189,7 @@ libSoQtinc_HEADERS = \
 	$(top_builddir)/src/Inventor/Qt/SoQtBasic.h \
 	$(top_srcdir)/src/Inventor/Qt/SoQtObject.h \
 	$(top_srcdir)/src/Inventor/Qt/SoQtComponent.h \
-	$(top_srcdir)/src/Inventor/Qt/SoQtCursors.h \
+	$(top_builddir)/src/Inventor/Qt/SoQtCursors.h \
 	$(top_srcdir)/src/Inventor/Qt/SoQtGLWidget.h \
 	$(top_srcdir)/src/Inventor/Qt/SoQtLightSliderSet.h \
 	$(top_srcdir)/src/Inventor/Qt/SoQtMaterialSliderSet.h \
@@ -216,13 +216,12 @@ X_PRE_LIBS = @X_PRE_LIBS@
 libSoQt_la_DEPENDENCIES =  devices/libSoQtDevices.la \
 viewers/libSoQtViewers.la widgets/libSoQtWidgets.la
 am_libSoQt_la_OBJECTS =  SoQt.lo SoQtObject.lo SoQtComponent.lo \
-SoQtCursors.lo SoQtGLWidget.lo SoQtLightSliderSet.lo \
-SoQtMaterialSliderSet.lo SoQtSliderSet.lo SoQtSliderSetBase.lo \
-SoQtTransformSliderSet.lo SoQtRenderArea.lo moc_SoQt.lo \
-moc_SoQtObject.lo moc_SoQtComponent.lo moc_SoQtGLWidget.lo \
-moc_SoQtLightSliderSet.lo moc_SoQtMaterialSliderSet.lo \
-moc_SoQtRenderArea.lo moc_SoQtSliderSet.lo moc_SoQtSliderSetBase.lo \
-moc_SoQtTransformSliderSet.lo
+SoQtGLWidget.lo SoQtLightSliderSet.lo SoQtMaterialSliderSet.lo \
+SoQtSliderSet.lo SoQtSliderSetBase.lo SoQtTransformSliderSet.lo \
+SoQtCursors.lo SoQtRenderArea.lo moc_SoQt.lo moc_SoQtObject.lo \
+moc_SoQtComponent.lo moc_SoQtGLWidget.lo moc_SoQtLightSliderSet.lo \
+moc_SoQtMaterialSliderSet.lo moc_SoQtRenderArea.lo moc_SoQtSliderSet.lo \
+moc_SoQtSliderSetBase.lo moc_SoQtTransformSliderSet.lo
 libSoQt_la_OBJECTS =  $(am_libSoQt_la_OBJECTS)
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -592,6 +591,12 @@ maintainer-clean
 
 SoQtBasic.h: $(top_srcdir)/src/Inventor/Qt/common/SoGuiBasic.h.in
 	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/SoQtBasic.h )
+
+SoQtCursors.h: $(top_srcdir)/src/Inventor/Qt/common/SoGuiCursors.h.in
+	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/SoQtCursors.h )
+
+SoQtCursors.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoGuiCursors.cpp.in
+	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/SoQtCursors.cpp )
 
 SoQtRenderArea.h: $(top_srcdir)/src/Inventor/Qt/common/SoGuiRenderArea.h.in
 	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/SoQtRenderArea.h )
