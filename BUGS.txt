@@ -167,26 +167,6 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
 
 =====================================================================
 
-006 SoQtFlyViewer CTRL-modus can get sticky. To reproduce, hold down
-    CTRL, move mouse cursor outside canvas/window, release CTRL, move
-    cursor back into the canvas. Now it seems impossible to get rid of
-    the CTRL-mode.
-
-    The SoQtFlyViewer event handling generally seems a little
-    bug-prone. Should make SoGuiFlyViewer::processSoEvent() adapt the
-    strategy in for instance the ExaminerViewer, where we just check
-    the state of everything (modifier keys, mousebuttons, ...) and set
-    mode from that, instead of changing modes directly caused by user
-    actions.
-
-    20020923 mortene.
-
-    UPDATE 20021017 rolvs: 'Like in a miracle, this bug seems to have
-    dissapeared', or the description of how to reproduce the bug is
-    buggy. The notes on the event-processing is still valid though.
-
-=====================================================================
-
 007 We have a problem report from Radu Ursu on coin-discuss on using
     SoQt with a static Qt library, built with Microsoft Visual C++ v7:
     if Qt is added to the link-line for the final executable, it seems
@@ -197,38 +177,6 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     to resolve when we install VC7.
 
     mortene 20020926.
-
-=====================================================================
-
-008 For somewhat larger scenes, the vertical tilt of the So*FlyViewer
-    during motion doesn't work like in SGI's InventorXt -- actually,
-    it hardly works at all.
-
-    Bug reported by Ron Summers.
-
-    20020923 mortene.
-
-    UPDATE 20021014 mortene: I'm not able to reproduce this
-    bug. Strange, as I'm sure I could easily reproduce it when it was
-    reported, and I don't think anything has been done with the
-    FlyViewer since. Summers has been contacted to get an exact
-    description of how the problem can be reproduced.
-
-    UPDATE 20021016 rolvs: Here is what Ron Summers say about it:
-    "Moving the cursor to the left or right causes a large velocity
-    change in the corresponding direction. Moving the cursor up or
-    down causes a very small velocity change."
-
-    UPDATE 20021017 rolvs: This should be fixed now, please verify.
-    
-    UPDATE 20021021 rolvs: Not fixed after all.. :-/ There is some
-    'magical scaling' going on in there that makes it behave
-    differently for different sized scenes. Further investigation is
-    needed to sort it out.
-
-    UPDATE 20021022 rolvs: Fixed. Bug caused by a coupling of amount
-    of pan and tilt with framerate. Now decoupled, and it feels the
-    same independent of scene size (in #polygons).
 
 =====================================================================
 
@@ -255,33 +203,6 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     Inventor to completely flip out, c) try to find a work-around.
 
     20021002 mortene.
-
-=====================================================================
-
-010 Acceleration and movement in SoQtFlyViewer differs on several
-    aspects when compared to the behavior displayed by InventorXT:
-    
-    - The vertical tilt of So*FlyViewer behaves opposite of that of
-      InventorXT (up/down swapped).
-
-    - InventorXT don't have reverse. Instead, the user is able to
-      change view-orientation with without changing position (This
-      'feels more right' for me).
-      
-    - The InventorXT viewer stops moving instantly when the speed is
-      zero. Our So*FLyViewer seems to be 'hanging behind', and then
-      stop moving after a short time-interval (This is not a
-      deceleration, but a delayed instant stop. It feels awkward).
-
-    20021014 rolvs.
-    
-    UPDATE 20021016 rolvs: The 'hanging behind' behaviour is now
-    fixed. But the way which speeds and rotations is calculated is
-    still fishy (work-in-progress).
-
-    UPDATE 20021017 rolvs: The inverted vertical tilt item is now
-    fixed. Try out how it 'feels', and swap it back if the new
-    behaviour feels awkward.
 
 =====================================================================
 
