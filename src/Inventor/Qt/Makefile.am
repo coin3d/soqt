@@ -52,8 +52,7 @@ libSoQt_la_LIBADD = \
 	widgets/libSoQtWidgets.la
 
 libSoQt_la_LDFLAGS = \
-        -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE) \
-        -release $(LT_RELEASE)
+        -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
 
 libSoQtincdir = $(includedir)/Inventor/Qt
 
