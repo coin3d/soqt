@@ -22,6 +22,9 @@ static const char rcsid[] =
   "$Id$";
 #endif // SOQT_DEBUG
 
+#include <qmetaobject.h>
+#include <moc_SoQtSliderSetBase.cpp>
+
 #include <Inventor/nodes/SoNode.h>
 
 #include <soqtdefs.h>

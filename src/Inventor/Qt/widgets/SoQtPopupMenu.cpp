@@ -23,6 +23,8 @@ static const char rcsid[] =
 #endif // SOQT_DEBUG
 
 #include <qpopupmenu.h>
+#include <qmetaobject.h>
+#include <moc_SoQtPopupMenu.cpp>
 
 #include <Inventor/SoLists.h>
 #include <Inventor/errors/SoDebugError.h>

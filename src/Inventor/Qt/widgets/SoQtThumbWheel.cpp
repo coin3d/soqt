@@ -30,6 +30,8 @@ static const char rcsid[] =
 #include <qdrawutil.h>
 #include <qimage.h>
 #include <qpixmap.h>
+#include <qmetaobject.h>
+#include <moc_SoQtThumbWheel.cpp>
 
 #include <Inventor/SbBasic.h>
 

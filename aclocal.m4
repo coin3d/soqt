@@ -377,7 +377,10 @@ fi
 
 AC_DEFUN([AM_AUX_DIR_EXPAND], [
 # expand $ac_aux_dir to an absolute path
-am_aux_dir=`CDPATH=:; cd $ac_aux_dir && pwd`
+if test "${CDPATH+set}" = set; then
+  CDPATH=${ZSH_VERSION+.}:   # as recommended in autoconf.texi
+fi
+am_aux_dir=`cd $ac_aux_dir && pwd`
 ])
 
 # AM_PROG_INSTALL_SH
@@ -4390,7 +4393,7 @@ fi
 
 # **************************************************************************
 # SIM_AC_ERROR_MESSAGE_FILE( FILENAME )
-#   Sets the error message file.  Default is $ac_aux_dir/errors.txt.
+#   Sets the error message file.  Default is $ac_aux_dir/m4/errors.txt.
 #
 # SIM_AC_ERROR( ERROR [, ERROR ...] )
 #   Fetches the error messages from the error message file and displays
@@ -4412,7 +4415,7 @@ sim_ac_message_file=$1
 ]) # SIM_AC_ERROR_MESSAGE_FILE
 
 AC_DEFUN([SIM_AC_ONE_MESSAGE], [
-: ${sim_ac_message_file=$ac_aux_dir/errors.txt}
+: ${sim_ac_message_file=$ac_aux_dir/m4/errors.txt}
 if test -f $sim_ac_message_file; then
   sim_ac_message="`sed -n -e '/^!$1$/,/^!/ { /^!/ d; p; }' <$sim_ac_message_file`"
   if test x"$sim_ac_message" = x""; then
@@ -6114,6 +6117,9 @@ if test x"$with_qt" != xno; then
   sim_ac_path=$PATH
 
   # Remember over config.status re-runs of configure.
+  # FIXME: this doesn't work unless QTDIR is part of the configure
+  # argument line. We should be able to grab it from the
+  # environment settings. 20011018 mortene. 
   AC_SUBST(QTDIR)
 
   # The Cygwin environment needs to invoke moc with a POSIX-style path.
@@ -6121,6 +6127,7 @@ if test x"$with_qt" != xno; then
   if test $sim_ac_qt_cygpath = "false"; then
     sim_ac_qt_dir=$QTDIR
   else
+    # Quote $QTDIR in case it's empty.
     sim_ac_qt_dir=`$sim_ac_qt_cygpath -u "$QTDIR"`
   fi
 

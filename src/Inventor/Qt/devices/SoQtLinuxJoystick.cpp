@@ -25,6 +25,9 @@ static const char rcsid[] =
 #include <unistd.h>
 #include <stdlib.h>
 
+#include <qmetaobject.h>
+#include <moc_SoQtLinuxJoystick.cpp>
+
 #include <qsocketnotifier.h>
 
 #include <Inventor/errors/SoDebugError.h>

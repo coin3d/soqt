@@ -22,6 +22,9 @@ static const char rcsid[] =
   "$Id$";
 #endif // SOQT_DEBUG
 
+#include <qmetaobject.h>
+#include <moc_SoQtWalkViewer.cpp>
+
 #include <soqtdefs.h>
 #include <Inventor/Qt/viewers/SoQtWalkViewer.h>
 

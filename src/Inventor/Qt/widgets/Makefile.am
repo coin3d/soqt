@@ -42,8 +42,8 @@ libSoQtWidgets_la_SOURCES = \
 	SoQtPopupMenu.h
 
 nodist_libSoQtWidgets_la_SOURCES = \
-	$(SoGui_src_Inventor_Gui_widgets_BuiltFiles) \
-	$(SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles)
+	$(SoGui_src_Inventor_Gui_widgets_BuiltFiles)
+#	$(SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles)
 
 ############################################################################
 # custom setup
@@ -57,8 +57,8 @@ widgets_lst_SOURCES = \
 	SoQtPopupMenu.h
 
 nodist_widgets_lst_SOURCES = \
-	$(SoGui_src_Inventor_Gui_widgets_BuiltFiles) \
-	$(SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles)
+	$(SoGui_src_Inventor_Gui_widgets_BuiltFiles)
+#	$(SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles)
 
 widgets.lst: Makefile $(widgets_lst_OBJECTS)
 	@echo "Linking widgets.lst..."; \

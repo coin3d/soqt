@@ -8,7 +8,7 @@ include common/Makefile.common
 
 SUBDIRS = devices viewers widgets
 
-INCLUDES = -I$(top_srcdir)/src
+INCLUDES = -I$(top_srcdir)/src -I$(top_builddir)/data
 
 BUILT_SOURCES = \
 	$(SoGuiAllBuiltfiles)
@@ -44,11 +44,13 @@ libSoQt@SUFFIX@_la_SOURCES = \
 	SoQtSliderSetBase.cpp \
 	SoQtSliderSetBase.h \
 	SoQtTransformSliderSet.cpp \
-	SoQtTransformSliderSet.h
+	SoQtTransformSliderSet.h \
+	SoQtMaterialList.cpp \
+	SoQtMaterialList.h
 
 nodist_libSoQt@SUFFIX@_la_SOURCES = \
-	$(SoGui_src_Inventor_Gui_BuiltFiles) \
-	$(SoGui_src_Inventor_Gui_BuiltMetaFiles)
+	$(SoGui_src_Inventor_Gui_BuiltFiles)
+#	$(SoGui_src_Inventor_Gui_BuiltMetaFiles)
 
 libSoQt@SUFFIX@_la_LIBADD = \
 	devices/libSoQtDevices.la \
@@ -74,11 +76,13 @@ soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
 	SoQtSliderSetBase.cpp \
 	SoQtSliderSetBase.h \
 	SoQtTransformSliderSet.cpp \
-	SoQtTransformSliderSet.h
+	SoQtTransformSliderSet.h \
+	SoQtMaterialList.cpp \
+	SoQtMaterialList.h
 
 nodist_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
-	$(SoGui_src_Inventor_Gui_BuiltFiles) \
-	$(SoGui_src_Inventor_Gui_BuiltMetaFiles)
+	$(SoGui_src_Inventor_Gui_BuiltFiles)
+#	$(SoGui_src_Inventor_Gui_BuiltMetaFiles)
 
 soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
 	devices/devices.lst \
@@ -94,7 +98,8 @@ SoQtinc_HEADERS = \
 	SoQtMaterialSliderSet.h \
 	SoQtSliderSet.h \
 	SoQtSliderSetBase.h \
-	SoQtTransformSliderSet.h
+	SoQtTransformSliderSet.h \
+	SoQtMaterialList.h
 
 nodist_SoQtinc_HEADERS = \
 	SoQt.h \

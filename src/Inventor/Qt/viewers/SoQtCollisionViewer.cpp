@@ -28,6 +28,9 @@ static const char rcsid[] =
   \ingroup soqtviewers
 */
 
+#include <qmetaobject.h>
+#include <moc_SoQtCollisionViewer.cpp>
+
 #include <soqtdefs.h>
 #include <Inventor/Qt/viewers/SoQtCollisionViewer.h>
 

@@ -30,6 +30,9 @@ static const char rcsid[] =
   FIXME: write class doc
 */
 
+#include <qmetaobject.h>
+#include <moc_SoQtSpaceball.cpp>
+
 #include <soqtdefs.h>
 #include <Inventor/Qt/SoQt.h>
 #include <Inventor/Qt/SoQtBasic.h>

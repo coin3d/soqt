@@ -32,6 +32,8 @@ static const char rcsid[] =
 #include <qbitmap.h>
 #include <qtimer.h>
 #include <qcursor.h>
+#include <qmetaobject.h>
+#include <moc_SoQtExaminerViewer.cpp>
 
 #include <Inventor/nodes/SoPerspectiveCamera.h>
 #include <Inventor/nodes/SoOrthographicCamera.h>

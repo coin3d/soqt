@@ -32,6 +32,9 @@ static const char rcsid[] =
 #include <config.h>
 #endif // HAVE_CONFIG_H
 
+#include <qmetaobject.h>
+#include <moc_SoQtMouse.cpp>
+
 #include <soqtdefs.h>
 #include <Inventor/Qt/SoQtBasic.h>
 #include <Inventor/Qt/devices/SoQtMouse.h>

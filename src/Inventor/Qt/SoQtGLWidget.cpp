@@ -94,6 +94,8 @@ static const char rcsid[] =
 
 #include <qevent.h>
 #include <qframe.h>
+#include <qmetaobject.h>
+#include <moc_SoQtGLWidget.cpp>
 
 #include <Inventor/errors/SoDebugError.h>
 #include <Inventor/misc/SoBasic.h>

@@ -26,6 +26,8 @@ static const char rcsid[] =
 #include <qpushbutton.h>
 #include <qpixmap.h>
 #include <qkeycode.h>
+#include <qmetaobject.h>
+#include <moc_SoQtPlaneViewer.cpp>
 
 #include <Inventor/errors/SoDebugError.h>
 #include <Inventor/projectors/SbPlaneProjector.h>

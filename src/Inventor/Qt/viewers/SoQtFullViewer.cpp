@@ -66,6 +66,8 @@ static const char rcsid[] =
 #include <qframe.h>
 #include <qslider.h>
 #include <qcheckbox.h>
+#include <qmetaobject.h>
+#include <moc_SoQtFullViewer.cpp>
 
 #include <Inventor/nodes/SoPerspectiveCamera.h>
 #include <Inventor/nodes/SoOrthographicCamera.h>

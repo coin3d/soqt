@@ -19,7 +19,7 @@ HTMLDIR =
 endif
 
 if BUILD_LIBRARY
-LIBDIR = src
+LIBDIR = data src
 else
 LIBDIR =
 endif

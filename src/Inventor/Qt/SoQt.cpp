@@ -90,6 +90,8 @@ main(int argc, char **argv)
 #include <qtimer.h>
 #include <qevent.h>
 #include <qapplication.h>
+#include <qmetaobject.h>
+#include <moc_SoQt.cpp>
 
 #include <Inventor/SoDB.h>
 #include <Inventor/SoInteraction.h>

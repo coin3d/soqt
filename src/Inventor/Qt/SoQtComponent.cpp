@@ -52,6 +52,8 @@ static const char rcsid[] =
 #include <qmainwindow.h>
 #include <qmessagebox.h>
 #include <qapplication.h>
+#include <qmetaobject.h>
+#include <moc_SoQtComponent.cpp>
 
 #include <Inventor/errors/SoDebugError.h>
 

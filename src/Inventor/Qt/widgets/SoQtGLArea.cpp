@@ -31,6 +31,9 @@ static const char rcsid[] =
 #include <config.h>
 #endif // HAVE_CONFIG_H
 
+#include <qmetaobject.h>
+#include <moc_SoQtGLArea.cpp>
+
 #if SOQT_DEBUG
 #include <Inventor/errors/SoDebugError.h>
 #endif // SOQT_DEBUG

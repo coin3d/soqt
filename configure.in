@@ -202,7 +202,7 @@ AC_ARG_ENABLE(html,
   esac],
   [want_html=no])
 
-coin_html_dir=`pwd`/html
+soqt_html_dir=`pwd`/html
 
 case $htmldir in
 "")
@@ -226,7 +226,7 @@ AC_ARG_ENABLE(man,
   esac],
   [want_man=no])
 
-coin_man_dir=`pwd`/man
+soqt_man_dir=`pwd`/man
 
 # Used in the Doxygen parameter file.
 SOQT_DOC_HTML=`echo $want_html | tr '[a-z]' '[A-Z]'`
@@ -701,7 +701,7 @@ AC_SUBST([HTML_DOC_DIR])
 # **************************************************************************
 # Submodules that needs to be configured...
 
-# AC_CONFIG_SUBDIRS(data)
+AC_CONFIG_SUBDIRS(data)
 
 # **************************************************************************
 # List all files configure shall automatically generate.

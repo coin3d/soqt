@@ -38,6 +38,9 @@ static const char rcsid[] =
 #include <config.h>
 #endif // HAVE_CONFIG_H
 
+#include <qmetaobject.h>
+#include <moc_SoQtKeyboard.cpp>
+
 // The reason for this is that SoQt _compiled_ against Qt versions
 // 2.0.0 <= X < 2.2.0 should still detect keypad presses when _run_
 // against Qt versions >= 2.2.0.
@@ -48,8 +51,6 @@ static const char rcsid[] =
 #else // !HAVE_QT_KEYPAD_DEFINE
 #define QT_KEYPAD_MASK QT_KEYPAD_MASK_ASSUMED
 #endif // !HAVE_QT_KEYPAD_DEFINE
-
-
 
 /*!
   \class SoQtKeyboard SoQtKeyboard.h Inventor/Qt/devices/SoQtKeyboard.h
