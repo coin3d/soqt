@@ -562,7 +562,11 @@ SoQtFullViewer::eventFilter(QObject *obj, QEvent * e)
   // sequence of two press+release pairs under Qt 1.xx and Qt 2.00 at
   // least. (FIXME: is this a Qt bug? Report sent to the Trolls
   // 19991001 mortene.)
+#if QT_VERSION < 200
+  int eventtype = e->type();
+#else // Qt 2.0
   QEvent::Type eventtype = e->type();
+#endif // Qt 2.0
   eventtype = (eventtype == Event_MouseButtonDblClick ?
 	       Event_MouseButtonPress : eventtype);
 
