@@ -382,7 +382,7 @@ void
 SoQtExaminerViewer::leftWheelMotion(float val)
 {
   this->reorientCamera(SbRotation(SbVec3f(1.0f, 0.0f, 0.0f),
-				  this->getLeftWheelValue() - val));
+				  val - this->getLeftWheelValue()));
   inherited::leftWheelMotion(val);
 }
 
