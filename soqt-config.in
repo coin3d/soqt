@@ -29,6 +29,9 @@ while test $# -gt 0; do
       echo @SOQT_VERSION@
       ;;
     --cppflags)
+      # Note: if we for some reason changes this so "includedir" is
+      # not first, we need to fix up the examples/ and ivexamples/
+      # configure.in scripts, as they shift off the first argument.
       echo -I@includedir@ @SOQT_EXTRA_CPPFLAGS@
       ;;
     --ldflags)
