@@ -128,10 +128,22 @@ if $BUILD_WITH_MSVC; then
 fi
 
 
-# Check for Mac OS 10.2 or 10.3
+# Detect Mac OS X in general
 case $host_os in
-darwin[[67]].* ) sim_ac_macosx_10_2ff=true ;;
-* )         sim_ac_macosx_10_2ff=false ;;
+darwin* ) 
+  sim_ac_macosx=true 
+  # Check for Mac OS 10.2 or 10.3
+  case $host_os in
+  darwin[[67]].* ) 
+    sim_ac_macosx_10_2ff=true 
+    ;;
+  * )         
+    sim_ac_macosx_10_2ff=false 
+    ;;
+  esac
+  ;;
+  * ) 
+  sim_ac_macosx=false ;;
 esac
 
 if test x"$sim_ac_macosx_10_2ff" = x"true"; then
@@ -656,7 +668,9 @@ AC_SUBST([nop], [])
 
 AM_CONDITIONAL([MAC_FRAMEWORK], [$sim_ac_framework])
 AM_CONDITIONAL([MAC_FRAMEWORK], [$sim_ac_framework])
+AM_CONDITIONAL([MACOSX], [$sim_ac_macosx])
 AM_CONDITIONAL([MACOSX_10_2FF], [$sim_ac_macosx_10_2ff])
+
 
 # for sub-configure in data/
 export sim_ac_framework
