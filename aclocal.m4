@@ -6196,6 +6196,82 @@ m4_do([popdef([cache_variable])],
       [popdef([DEFINE_VARIABLE])])
 ]) # SIM_AC_HAVE_INVENTOR_FEATURE
 
+# **************************************************************************
+# SIM_AC_INVENTOR_EXTENSIONS( ACTION )
+#
+# This macro adds an "--with-iv-extensions=..." option to configure, that
+# enabes the configurer to enable extensions in third-party libraries to
+# be initialized by the library by default.  The configure-option argument
+# must be a comma-separated list of link library path options, link library
+# options and class-names.
+#
+# Sample usage is
+#   ./configure --with-iv-extension=-L/tmp/mynodes,-lmynodes,MyNode1,MyNode2
+#
+# TODO:
+#   * check if __declspec(dllimport) is needed on Cygwin
+
+AC_DEFUN([SIM_AC_INVENTOR_EXTENSIONS],
+[
+AC_ARG_WITH(
+  [iv-extensions],
+  [AC_HELP_STRING([--with-iv-extensions=extensions], [enable extra open inventor extensions])],
+  [sim_ac_iv_try_extensions=$withval])
+
+sim_ac_iv_extension_save_LIBS=$LIBS
+
+sim_ac_iv_extension_LIBS=
+sim_ac_iv_extension_LDFLAGS=
+sim_ac_iv_extension_decarations=
+sim_ac_iv_extension_initializations=
+
+sim_ac_iv_extensions=
+while test x"${sim_ac_iv_try_extensions}" != x""; do
+  sim_ac_iv_extension=`echo ,$sim_ac_iv_try_extensions | cut -d, -f2`
+  sim_ac_iv_try_extensions=`echo ,$sim_ac_iv_try_extensions | cut -d, -f3-`
+  case $sim_ac_iv_extension in
+  sim_ac_dummy ) # ignore
+    ;;
+  -L* ) # extension library path hint
+    sim_ac_iv_extension_LDFLAGS="$sim_ac_iv_extension_LDFLAGS $sim_ac_iv_extension"
+    ;;
+  -l* ) # extension library hint
+    LIBS="$sim_ac_iv_extension_save_LIBS $sim_ac_iv_extension_LIBS $sim_ac_iv_extension"
+    AC_MSG_CHECKING([for Open Inventor extension library $sim_ac_iv_extension])
+    AC_TRY_LINK([#include <Inventor/SoDB.h>], [SoDB::init();],
+      [sim_ac_iv_extension_LIBS="$sim_ac_iv_extension_LIBS $sim_ac_iv_extension"
+       AC_MSG_RESULT([linkable])],
+      [AC_MSG_RESULT([unlinkable - discarded])])
+    ;;
+  * )
+    AC_MSG_CHECKING([for Open Inventor extension $sim_ac_iv_extension])
+    AC_TRY_LINK(
+[#include <Inventor/SoDB.h>
+// hack up a declaration and see if the mangled name is found by the linker
+class $sim_ac_iv_extension {
+public:
+static void initClass(void);
+};], [
+  SoDB::init();
+  $sim_ac_iv_extension::initClass();
+], [
+  AC_MSG_RESULT([found])
+  sim_ac_iv_extensions="$sim_ac_iv_extensions COIN_IV_EXTENSION($sim_ac_iv_extension)"
+], [
+  AC_MSG_RESULT([not found])
+])
+    ;;
+  esac
+done
+
+AC_DEFINE_UNQUOTED([COIN_IV_EXTENSIONS], [$sim_ac_iv_extensions], [Open Inventor extensions])
+
+LIBS=$sim_ac_iv_extension_save_LIBS
+
+ifelse([$1], , :, [$1])
+
+]) # SIM_AC_INVENTOR_EXTENSIONS
+
 
 # Convenience macros SIM_AC_DEBACKSLASH and SIM_AC_DOBACKSLASH for
 # converting to and from MSWin/MS-DOS style paths.

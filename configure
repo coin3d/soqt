@@ -1061,6 +1061,8 @@ Optional Packages:
   --with-inventor=PATH    specify where Open Inventor and InventorXt resides
   --with-coin             enable use of Coin [default=yes]
   --with-coin=DIR         give prefix location of Coin
+  --with-iv-extensions=extensions
+                          enable extra open inventor extensions
   --with-qt=DIR           specify location of Qt library default=yes
   --with-framework  Do Mac OS X-like framework installation
   --without-framework  Do regular installation on Mac OS X
@@ -5127,7 +5129,7 @@ test "x$enable_libtool_lock" != xno && enable_libtool_lock=yes
 case $host in
 *-*-irix6*)
   # Find out which ABI we are using.
-  echo '#line 5130 "configure"' > conftest.$ac_ext
+  echo '#line 5132 "configure"' > conftest.$ac_ext
   if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
@@ -5663,7 +5665,7 @@ chmod -w .
 save_CFLAGS="$CFLAGS"
 CFLAGS="$CFLAGS -o out/conftest2.$ac_objext"
 compiler_c_o=no
-if { (eval echo configure:5666: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>out/conftest.err; } && test -s out/conftest2.$ac_objext; then
+if { (eval echo configure:5668: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>out/conftest.err; } && test -s out/conftest2.$ac_objext; then
   # The compiler can only warn and ignore the option if not recognized
   # So say no if there are warnings
   if test -s out/conftest.err; then
@@ -7456,7 +7458,7 @@ else
     lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 7459 "configure"
+#line 7461 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -7554,7 +7556,7 @@ else
     lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 7557 "configure"
+#line 7559 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -12655,6 +12657,152 @@ _ACEOF
 else
   :
 fi
+
+
+
+
+
+# Check whether --with-iv-extensions or --without-iv-extensions was given.
+if test "${with_iv_extensions+set}" = set; then
+  withval="$with_iv_extensions"
+  sim_ac_iv_try_extensions=$withval
+fi;
+
+sim_ac_iv_extension_save_LIBS=$LIBS
+
+sim_ac_iv_extension_LIBS=
+sim_ac_iv_extension_LDFLAGS=
+sim_ac_iv_extension_decarations=
+sim_ac_iv_extension_initializations=
+
+sim_ac_iv_extensions=
+while test x"${sim_ac_iv_try_extensions}" != x""; do
+  sim_ac_iv_extension=`echo ,$sim_ac_iv_try_extensions | cut -d, -f2`
+  sim_ac_iv_try_extensions=`echo ,$sim_ac_iv_try_extensions | cut -d, -f3-`
+  case $sim_ac_iv_extension in
+  sim_ac_dummy ) # ignore
+    ;;
+  -L* ) # extension library path hint
+    sim_ac_iv_extension_LDFLAGS="$sim_ac_iv_extension_LDFLAGS $sim_ac_iv_extension"
+    ;;
+  -l* ) # extension library hint
+    LIBS="$sim_ac_iv_extension_save_LIBS $sim_ac_iv_extension_LIBS $sim_ac_iv_extension"
+    echo "$as_me:$LINENO: checking for Open Inventor extension library $sim_ac_iv_extension" >&5
+echo $ECHO_N "checking for Open Inventor extension library $sim_ac_iv_extension... $ECHO_C" >&6
+    cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+#include "confdefs.h"
+#include <Inventor/SoDB.h>
+#ifdef F77_DUMMY_MAIN
+#  ifdef __cplusplus
+     extern "C"
+#  endif
+   int F77_DUMMY_MAIN() { return 1; }
+#endif
+int
+main ()
+{
+SoDB::init();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  sim_ac_iv_extension_LIBS="$sim_ac_iv_extension_LIBS $sim_ac_iv_extension"
+       echo "$as_me:$LINENO: result: linkable" >&5
+echo "${ECHO_T}linkable" >&6
+else
+  echo "$as_me: failed program was:" >&5
+cat conftest.$ac_ext >&5
+echo "$as_me:$LINENO: result: unlinkable - discarded" >&5
+echo "${ECHO_T}unlinkable - discarded" >&6
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+    ;;
+  * )
+    echo "$as_me:$LINENO: checking for Open Inventor extension $sim_ac_iv_extension" >&5
+echo $ECHO_N "checking for Open Inventor extension $sim_ac_iv_extension... $ECHO_C" >&6
+    cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+#include "confdefs.h"
+#include <Inventor/SoDB.h>
+// hack up a declaration and see if the mangled name is found by the linker
+class $sim_ac_iv_extension {
+public:
+static void initClass(void);
+};
+#ifdef F77_DUMMY_MAIN
+#  ifdef __cplusplus
+     extern "C"
+#  endif
+   int F77_DUMMY_MAIN() { return 1; }
+#endif
+int
+main ()
+{
+
+  SoDB::init();
+  $sim_ac_iv_extension::initClass();
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+
+  echo "$as_me:$LINENO: result: found" >&5
+echo "${ECHO_T}found" >&6
+  sim_ac_iv_extensions="$sim_ac_iv_extensions COIN_IV_EXTENSION($sim_ac_iv_extension)"
+
+else
+  echo "$as_me: failed program was:" >&5
+cat conftest.$ac_ext >&5
+
+  echo "$as_me:$LINENO: result: not found" >&5
+echo "${ECHO_T}not found" >&6
+
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+    ;;
+  esac
+done
+
+
+cat >>confdefs.h <<_ACEOF
+#define COIN_IV_EXTENSIONS $sim_ac_iv_extensions
+_ACEOF
+
+
+LIBS=$sim_ac_iv_extension_save_LIBS
+
+
+  LDFLAGS="$sim_ac_iv_extension_LDFLAGS $LDFLAGS"
+  SOGUI_EXTRA_LDFLAGS="$sim_ac_iv_extension_LDFLAGS $SOGUI_EXTRA_LDFLAGS"
+  LIBS="$sim_ac_iv_extension_LIBS $LIBS"
+  SOGUI_EXTRA_LIBS="$sim_ac_iv_extension_LIBS $SOGUI_EXTRA_LIBS"
+
 
 
 
