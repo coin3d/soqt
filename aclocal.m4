@@ -1897,8 +1897,8 @@ AC_HELP_STRING([--with-inventor=PATH], [specify where Open Inventor resides]),
   [case "$withval" in
   no)  sim_ac_want_inventor=false ;;
   yes) sim_ac_want_inventor=true
-       test -n "$OIVHOME" && sim_ac_inventor_path="$OIVHOME"
-       SIM_AC_DEBACKSLASH(sim_ac_inventor_path, $sim_ac_inventor_path) ;;
+       test -n "$OIVHOME" &&
+         SIM_AC_DEBACKSLASH(sim_ac_inventor_path, "$OIVHOME") ;;
   *)   sim_ac_want_inventor=true; sim_ac_inventor_path="$withval" ;;
   esac])
 ]) # SIM_AC_WITH_INVENTOR
