@@ -247,23 +247,14 @@ AC_SUBST([meta_prefix], [moc_])
 # *******************************************************************
 # Use X11 on Mac OS X only if specifically requested by the user.
 
+# FIXME: Since the Darwin-specific X11 check is now part of 
+# SIM_AC_CHECK_X11, we can probably remove the sim_ac_want_x11 
+# variable at all. Just trying to do this one step at a time...
+# 20041006 kyrah
 sim_ac_want_x11=no
 case $host_os in
   darwin*)
-    AC_ARG_ENABLE(
-      [x11],
-      AC_HELP_STRING([--enable-x11], [enable X11 on Mac OS X]), [
-      case $enableval in
-        yes) sim_ac_want_x11=yes 
-             CPPFLAGS="$CPPFLAGS -I/usr/X11R6/include"
-             LDFLAGS="$LDFLAGS -L/usr/X11R6/lib"  
-             LIBS="$LIBS -lX11 -lGL"
-             SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS -I/usr/X11R6/include"
-             SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS -L/usr/X11R6/lib"  
-             SOGUI_EXTRA_LIBS="$SOGUI_EXTRA_LIBS -lX11 -lGL"
-        ;;
-        *)  ;;
-      esac])
+    SIM_AC_CHECK_X11([sim_ac_want_x11=yes],[sim_ac_want_x11=no])
     ;;
   *)
     sim_ac_want_x11=yes
