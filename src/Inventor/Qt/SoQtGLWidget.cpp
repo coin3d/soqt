@@ -27,11 +27,9 @@ static const char rcsid[] =
   TODO:
   - doc on how this needs Qt OpenGL extension library, w/html links to Qt doc
   - use the add/removeVisibilityCB methods in SoQtComponent?
-  - "3D look" on border, like in OIV
   - there's a heap of methods missing from SoXtGLWidget, none (or few)
     of which seems relevant for the Qt implementation -- check the truth of
     this statement
-  - remove the PrivateGLWidget class - use QGLWidget directly.
  */
 
 #include <assert.h>
