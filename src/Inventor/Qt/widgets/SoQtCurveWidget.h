@@ -26,7 +26,7 @@
 
 #include <QWidget.h>
 #include <Inventor/system/inttypes.h>
-#include "ColorCurve.h"
+#include "curvep/ColorCurve.h"
 
 class SoQtCurveWidget : public QWidget {
 
@@ -42,8 +42,9 @@ public:
   };
 
   void setMode(Mode mode);
-  void setColors(uint8_t * color, int num, Mode mode);
-  void getColors(uint8_t * color, int num, Mode mode) const;
+  Mode getMode(void) const;
+  void setColors(uint8_t * color, int num);
+  void getColors(uint8_t * color, int num) const;
   void setCallBack(ColorCurve::ChangeCB * cb, void * userData);
 
 private:

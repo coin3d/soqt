@@ -126,6 +126,7 @@ SoQtCurveWidget::SoQtCurveWidget(QWidget * parent, const char * name)
 {
   this->pimpl = new SoQtCurveWidgetP(this);
   PRIVATE(this)->callBack = NULL;
+  PRIVATE(this)->mode = SoQtCurveWidget::RGB;
   
   QSizePolicy sizepolicy;
   sizepolicy.setVerData(QSizePolicy::MinimumExpanding);
@@ -136,39 +137,6 @@ SoQtCurveWidget::SoQtCurveWidget(QWidget * parent, const char * name)
   QVBoxLayout * buttonlayout = new QVBoxLayout();
 
   QGroupBox * controlgroup = new QGroupBox(3, Qt::Horizontal, this);
-  
-  buttonlayout->setAlignment(Qt::AlignBottom);
-
-  QWidget * curvewidget = new QWidget(this);
-  curvewidget->setFixedSize(QSize(300,300));
-  QGridLayout * curvelayout = new QGridLayout(curvewidget, 2, 2, 0);
-
-  PRIVATE(this)->vertgrad = new QLabel(curvewidget);
-  PRIVATE(this)->horgrad = new QLabel(curvewidget);
-  PRIVATE(this)->vertgrad->setFixedSize(20, 256);
-  PRIVATE(this)->horgrad->setFixedSize(256, 20); 
-  PRIVATE(this)->vertgrad->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-  PRIVATE(this)->horgrad->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-
-  curvelayout->addWidget(PRIVATE(this)->vertgrad, 0, 0);
-  curvelayout->addWidget(PRIVATE(this)->horgrad, 1, 1);
-
-  QCanvas * canvas = new QCanvas(256,256);
-  PRIVATE(this)->curveview = new CurveView(canvas, curvewidget);
-  PRIVATE(this)->curveview->setVScrollBarMode(QScrollView::AlwaysOff);
-  PRIVATE(this)->curveview->setHScrollBarMode(QScrollView::AlwaysOff);
-  PRIVATE(this)->curveview->setFixedSize(258,258); // need to make room for the border
-
-  PRIVATE(this)->curveview->show();
-
-  curvelayout->addWidget(PRIVATE(this)->curveview, 0, 1);
-
-  PRIVATE(this)->vertgrad->setPixmap(PRIVATE(this)->curveview->getGradient(20, 256));
-  PRIVATE(this)->horgrad->setPixmap(PRIVATE(this)->curveview->getPixmap(256, 20));
-
-  toplayout->addWidget(controlgroup, 0, 0);
-  toplayout->addLayout(buttonlayout, 1, 1);
-  toplayout->addWidget(curvewidget, 1, 0);
 
   PRIVATE(this)->modetext = new QLabel(controlgroup);
   PRIVATE(this)->modetext->setText("Modify channel: ");
@@ -176,19 +144,7 @@ SoQtCurveWidget::SoQtCurveWidget(QWidget * parent, const char * name)
   PRIVATE(this)->colormodelist = new QComboBox(controlgroup);
   PRIVATE(this)->colormodelist->show();
   controlgroup->addSpace(1);
-
-  QPixmap pm(16,16);
-  pm.fill(Qt::red);
-  PRIVATE(this)->colormodelist->insertItem(pm, "Red", CurveView::RED);
-  pm.fill(Qt::green);
-  PRIVATE(this)->colormodelist->insertItem(pm, "Green", CurveView::GREEN);
-  pm.fill(Qt::blue);
-  PRIVATE(this)->colormodelist->insertItem(pm, "Blue", CurveView::BLUE);
-  pm.fill(Qt::white);
-  PRIVATE(this)->colormodelist->insertItem(pm, "Alpha", CurveView::ALPHA);
-  pm.fill(Qt::gray);
-  PRIVATE(this)->colormodelist->insertItem(pm, "RGB", CurveView::LUMINANCE);
-
+  
   PRIVATE(this)->curvetypetext = new QLabel(controlgroup);
   PRIVATE(this)->curvetypetext->setText("Curve Type: ");
  
@@ -208,6 +164,40 @@ SoQtCurveWidget::SoQtCurveWidget(QWidget * parent, const char * name)
   PRIVATE(this)->contupdate = FALSE;
   PRIVATE(this)->instantupdate = new QCheckBox(controlgroup);
   PRIVATE(this)->instantupdate->setChecked(FALSE);
+  
+  buttonlayout->setAlignment(Qt::AlignBottom);
+
+  QWidget * curvewidget = new QWidget(this);
+  curvewidget->setFixedSize(QSize(300,300));
+  QGridLayout * curvelayout = new QGridLayout(curvewidget, 2, 2, 0);
+
+  PRIVATE(this)->vertgrad = new QLabel(curvewidget);
+  PRIVATE(this)->horgrad = new QLabel(curvewidget);
+  PRIVATE(this)->vertgrad->setFixedSize(20, 256);
+  PRIVATE(this)->horgrad->setFixedSize(256, 20); 
+  PRIVATE(this)->vertgrad->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+  PRIVATE(this)->horgrad->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+
+  curvelayout->addWidget(PRIVATE(this)->vertgrad, 0, 0);
+  curvelayout->addWidget(PRIVATE(this)->horgrad, 1, 1);
+
+  QCanvas * canvas = new QCanvas(256,256);
+  PRIVATE(this)->curveview = new CurveView(PRIVATE(this)->mode, canvas, curvewidget);
+  PRIVATE(this)->curveview->setVScrollBarMode(QScrollView::AlwaysOff);
+  PRIVATE(this)->curveview->setHScrollBarMode(QScrollView::AlwaysOff);
+  PRIVATE(this)->curveview->setFixedSize(258,258); // need to make room for the border
+
+  PRIVATE(this)->curveview->show();
+
+  curvelayout->addWidget(PRIVATE(this)->curveview, 0, 1);
+
+  PRIVATE(this)->vertgrad->setPixmap(PRIVATE(this)->curveview->getGradient(20, 256));
+  PRIVATE(this)->horgrad->setPixmap(PRIVATE(this)->curveview->getPixmap(256, 20));
+
+  toplayout->addWidget(controlgroup, 0, 0);
+  toplayout->addLayout(buttonlayout, 1, 1);
+  toplayout->addWidget(curvewidget, 1, 0);
+
   PRIVATE(this)->applybutton = new QPushButton(this);
   PRIVATE(this)->donebutton = new QPushButton(this);
   PRIVATE(this)->resetbutton = new QPushButton(this);
@@ -224,6 +214,9 @@ SoQtCurveWidget::SoQtCurveWidget(QWidget * parent, const char * name)
   PRIVATE(this)->applybutton->setText("Apply");
   PRIVATE(this)->donebutton->setText("Done");
   PRIVATE(this)->resetbutton->setText("Reset");
+
+  this->setMode(PRIVATE(this)->mode);
+
 
   connect(PRIVATE(this)->colormodelist, SIGNAL(activated(int)), 
           PRIVATE(this)->curveview, SLOT(changeColorMode(int)));
@@ -250,27 +243,16 @@ SoQtCurveWidget::~SoQtCurveWidget()
 }
 
 void 
-SoQtCurveWidget::getColors(uint8_t * color, int num, Mode mode) const
+SoQtCurveWidget::getColors(uint8_t * color, int num) const
 {
-  PRIVATE(this)->curveview->getColors(color, num, mode);
+  PRIVATE(this)->curveview->getColors(color, num);
 }
 
 void 
-SoQtCurveWidget::setColors(uint8_t * color, int num, Mode mode)
+SoQtCurveWidget::setColors(uint8_t * color, int num)
 {
-  switch (mode) {
-  case SoQtCurveWidget::LUMINANCE:
-  case SoQtCurveWidget::LUMINANCE_ALPHA:
-    PRIVATE(this)->colormodelist->setCurrentItem(CurveView::LUMINANCE);
-    PRIVATE(this)->curveview->changeColorMode(CurveView::LUMINANCE);
-    break;
-  default:
-    // do nothing
-    break;
-  }
   PRIVATE(this)->curvetypelist->setCurrentItem(CurveView::FREE);
-
-  PRIVATE(this)->curveview->setColors(color, num, mode);
+  PRIVATE(this)->curveview->setColors(color, num);
   if (PRIVATE(this)->callBack) {
     PRIVATE(this)->callBack(PRIVATE(this));
   }
@@ -283,6 +265,45 @@ SoQtCurveWidget::setCallBack(ColorCurve::ChangeCB * cb, void * userData)
   PRIVATE(this)->callbackData = userData;
   PRIVATE(this)->curveview->setCallBack(PRIVATE(this)->curveCallBack, PRIVATE(this));
   PRIVATE(this)->callBack(PRIVATE(this));
+}
+
+SoQtCurveWidget::Mode
+SoQtCurveWidget::getMode() const
+{
+  return PRIVATE(this)->mode;
+}
+
+void
+SoQtCurveWidget::setMode(Mode mode) 
+{
+  QPixmap pm(16,16);
+  PRIVATE(this)->mode = mode;
+  PRIVATE(this)->curveview->setMode(mode);
+  PRIVATE(this)->colormodelist->clear();
+
+  switch(mode) {
+  case SoQtCurveWidget::LUMINANCE:
+  case SoQtCurveWidget::LUMINANCE_ALPHA:
+    pm.fill(Qt::gray);
+    PRIVATE(this)->colormodelist->insertItem(pm, "Gray");
+    break;
+
+  case SoQtCurveWidget::RGB:
+  case SoQtCurveWidget::RGBA:
+    pm.fill(Qt::red);
+    PRIVATE(this)->colormodelist->insertItem(pm, "Red");
+    pm.fill(Qt::green);
+    PRIVATE(this)->colormodelist->insertItem(pm, "Green");
+    pm.fill(Qt::blue);
+    PRIVATE(this)->colormodelist->insertItem(pm, "Blue");
+    break;
+  }
+
+  if ((mode == SoQtCurveWidget::LUMINANCE_ALPHA) ||
+      (mode == SoQtCurveWidget::RGBA)) {
+    pm.fill(Qt::white);
+    PRIVATE(this)->colormodelist->insertItem(pm, "Alpha");
+  }
 }
 
 #undef PRIVATE

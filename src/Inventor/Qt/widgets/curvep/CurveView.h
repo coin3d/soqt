@@ -43,21 +43,19 @@ class CurveView : public QCanvasView
     Q_OBJECT // for signals and slots
 
 public:
-  CurveView(QCanvas*, QWidget* parent=0, const char* name=0, WFlags f=0);
+  CurveView(SoQtCurveWidget::Mode mode, 
+            QCanvas * canvas, 
+            QWidget * parent = 0, 
+            const char * name = 0, 
+            WFlags flags = 0);
+  
   ~CurveView();
 
-  enum ColorMode {
-    RED = 0,
-    GREEN,
-    BLUE,
-    ALPHA,
-    LUMINANCE,
-  };  
-
-  enum CurveMode { SMOOTH, FREE };
+  enum CurveType { SMOOTH, FREE };
   
-  void getColors(uint8_t * colors, int num, SoQtCurveWidget::Mode mode) const;
-  void setColors(uint8_t * colors, int num, SoQtCurveWidget::Mode mode);
+  void setMode(SoQtCurveWidget::Mode mode);
+  void setColors(uint8_t * colors, int num);
+  void getColors(uint8_t * colors, int num) const;
   void setCallBack(ColorCurve::ChangeCB * cb, void * userData);
 
 public slots:
@@ -80,10 +78,12 @@ protected:
 
 private:
   void interpolateFromColors();
-  void initCurve(void);
-  void insertGrid(void);
-  void updateCurve(void);
+  void initColorCurves(void);
+  void initCanvasCurve(void);
   void hideUnselected(void);
+  void updateCurve(void);
+  void initGrid(void);
+  
   QPixmap makePixmap(int w, int h, const uint8_t * r, const uint8_t * g, const uint8_t * b, int num) const;
   QCanvasRectangle * newControlPoint(int x, int y);
   QCanvasItemList newCanvasCtrlPtList(void);
@@ -95,8 +95,9 @@ private:
   QCanvas * canvas;
   QCanvasItem * movingitem;
 
-  ColorMode colormode;
-  CurveMode curvemode;
+  int colorindex;
+  CurveType curvemode;
+  SoQtCurveWidget::Mode colormode;
   
   const int ptsize;
 

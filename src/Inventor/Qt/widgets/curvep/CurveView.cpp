@@ -29,43 +29,58 @@
 #include "ColorCurve.h"
 #include "CurveView.h"
 
-CurveView::CurveView(QCanvas * c, QWidget* parent,	const char * name, WFlags f)
- : QCanvasView(c,parent,name,f), ptsize(3)
+CurveView::CurveView(SoQtCurveWidget::Mode mode,
+                     QCanvas * canvas,
+                     QWidget * parent,
+                     const char * name,
+                     WFlags flags)
+                     
+ : QCanvasView(canvas, parent, name, flags), ptsize(3)
 {
-  this->canvas = c;
+  this->colormode = mode;
+  this->canvas = canvas;
 
-  // initialize the 5 curves
-  for (int i = 0; i < 5; i++) {
-    this->colormode = (ColorMode)i;
-    ColorCurve::CurveType type = 
-      (CurveView::ALPHA == (ColorMode)i) ? ColorCurve::CONSTANT : ColorCurve::LINEAR;
-    this->colorcurves.append(new ColorCurve(type));
-    this->canvasctrlpts.append(this->newCanvasCtrlPtList());
-  }
+  this->initColorCurves();
+  this->hideUnselected();
   
   this->curvemode = CurveView::SMOOTH;
-  this->colormode = CurveView::RED;
 
   this->mousepressed = FALSE;
-  this->hideUnselected();
-  this->insertGrid();
-  this->initCurve();
+  this->initGrid();
+  this->initCanvasCurve();
   this->viewport()->setMouseTracking(TRUE);
 }
 
 CurveView::~CurveView()
 {
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < this->colormode; i++) {
     delete this->colorcurves[i];
   }
 }
 
-void 
-CurveView::initCurve()
+void
+CurveView::initColorCurves()
 {
-  const uint8_t * curvepts = this->colorcurves[this->colormode]->getColorMap();
+  for (int i = 0; i < this->colormode; i++) {
+    this->colorindex = i;
+    ColorCurve::CurveType type = ColorCurve::LINEAR;
+    if (((this->colormode == SoQtCurveWidget::LUMINANCE_ALPHA) && (i == 1)) ||
+        ((this->colormode == SoQtCurveWidget::RGBA) && (i == 3))){
+      type = ColorCurve::CONSTANT;
+    }
 
-  for (int i = 2; i < this->colorcurves[this->colormode]->getNumPoints(); i+=2) {
+    this->colorcurves.append(new ColorCurve(type));
+    this->canvasctrlpts.append(this->newCanvasCtrlPtList());
+  }
+  this->colorindex = 0;
+}
+
+void 
+CurveView::initCanvasCurve()
+{
+  const uint8_t * curvepts = this->colorcurves[this->colorindex]->getColorMap();
+
+  for (int i = 2; i < this->colorcurves[this->colorindex]->getNumPoints(); i+=2) {
     QCanvasLine * line = new QCanvasLine(this->canvas);
     line->setPoints(i-2, 255-curvepts[i-2], i, 255-curvepts[i]);
     line->setZ(1); // to make the curve be drawn on top of the grid
@@ -74,7 +89,7 @@ CurveView::initCurve()
   }
 }
 
-void CurveView::insertGrid()
+void CurveView::initGrid()
 {
   int step = 256/4;
   QPen pen(Qt::gray);
@@ -114,16 +129,16 @@ void CurveView::contentsMousePressEvent(QMouseEvent* e)
       if (e->button() == Qt::LeftButton) {
         this->movingitem = (*it);
       } else {
-        if (this->canvasctrlpts[this->colormode].size() > 2) {
+        if (this->canvasctrlpts[this->colorindex].size() > 2) {
           delete (*it);
-          this->canvasctrlpts[this->colormode].remove(*it);
+          this->canvasctrlpts[this->colorindex].remove(*it);
         }
       }
     } else {
       if (e->button() == Qt::LeftButton) {
         QCanvasRectangle * ctrlpt = this->newControlPoint(p.x(), p.y());
         this->movingitem = ctrlpt;
-        this->canvasctrlpts[this->colormode].append(ctrlpt);
+        this->canvasctrlpts[this->colorindex].append(ctrlpt);
       }
     }
     this->updateCurve();
@@ -136,7 +151,7 @@ void
 CurveView::contentsMouseReleaseEvent(QMouseEvent * e)
 {
   this->mousepressed = FALSE;
-  this->colorcurves[this->colormode]->notify();
+  this->colorcurves[this->colorindex]->notify();
 }
 
 void 
@@ -194,7 +209,7 @@ CurveView::contentsMouseMoveEvent(QMouseEvent* e)
           int y = int(w0 * y0 + w1 * y1 + 0.5f);
           if (y > 255) y = 255;
           if (y < 0) y = 0;
-          this->colorcurves[this->colormode]->setColorMapping(i, 255-y);
+          this->colorcurves[this->colorindex]->setColorMapping(i, 255-y);
         }
         this->lastpos = p;
         this->updateCurve();
@@ -220,8 +235,8 @@ CurveView::drawContents(QPainter * p, int cx, int cy, int cw, int ch)
     (*it)->draw(*p);
   }
   // draw the control points
-  it = this->canvasctrlpts[this->colormode].begin();
-  for (; it != this->canvasctrlpts[this->colormode].end(); ++it) {
+  it = this->canvasctrlpts[this->colorindex].begin();
+  for (; it != this->canvasctrlpts[this->colorindex].end(); ++it) {
     if (this->curvemode == CurveView::SMOOTH) {
       (*it)->draw(*p);
     }
@@ -233,10 +248,10 @@ CurveView::hideUnselected()
 {
   QCanvasItemList::Iterator it;
 
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < this->colormode; i++) {
     it = this->canvasctrlpts[i].begin();
     for (; it != this->canvasctrlpts[i].end(); ++it) {
-      if ((this->colormode == i) && (this->curvemode != CurveView::FREE)) {
+      if ((this->colorindex == i) && (this->curvemode != CurveView::FREE)) {
         (*it)->show();
       } else {
         (*it)->hide();
@@ -248,15 +263,15 @@ CurveView::hideUnselected()
 void
 CurveView::resetActive() 
 {
-  this->colorcurves[this->colormode]->resetCtrlPts();
+  this->colorcurves[this->colorindex]->resetCtrlPts();
   // QCanvasItemList::clear() only removes the items from the list, 
   // but they need to be deleted also.
-  QCanvasItemList::Iterator it = this->canvasctrlpts[this->colormode].begin();
-  for (; it != this->canvasctrlpts[this->colormode].end(); it++) {
+  QCanvasItemList::Iterator it = this->canvasctrlpts[this->colorindex].begin();
+  for (; it != this->canvasctrlpts[this->colorindex].end(); it++) {
     delete (*it);
   }
-  this->canvasctrlpts[this->colormode].clear();
-  this->canvasctrlpts[this->colormode] = this->newCanvasCtrlPtList();
+  this->canvasctrlpts[this->colorindex].clear();
+  this->canvasctrlpts[this->colorindex] = this->newCanvasCtrlPtList();
 
   this->curvemode = CurveView::SMOOTH;
 
@@ -270,8 +285,8 @@ QCanvasItemList
 CurveView::newCanvasCtrlPtList()
 {
   QCanvasItemList list;
-  int numpts = this->colorcurves[this->colormode]->getNumCtrlPoints();
-  const SbVec3f * ctrlpts = this->colorcurves[this->colormode]->getCtrlPoints();
+  int numpts = this->colorcurves[this->colorindex]->getNumCtrlPoints();
+  const SbVec3f * ctrlpts = this->colorcurves[this->colorindex]->getCtrlPoints();
 
   for (int i = 0; i < numpts; i++) {
     list.append(this->newControlPoint(ctrlpts[i][0], 255.0f - ctrlpts[i][1]));
@@ -298,7 +313,7 @@ CurveView::updateCurve()
 
   int i = 0;
   if (this->curvemode == CurveView::SMOOTH) { 
-    QCanvasItemList list = this->canvasctrlpts[this->colormode];
+    QCanvasItemList list = this->canvasctrlpts[this->colorindex];
     QCanvasItemList sortedlist;
     
     // Sort the list of control points
@@ -316,12 +331,12 @@ CurveView::updateCurve()
     for (it =  sortedlist.begin(); it != sortedlist.end(); it++) {
         ctrlpts[i++] = SbVec3f((*it)->x() + this->ptsize, 255.0f - (*it)->y() - this->ptsize, 0.0f);
     }
-    this->colorcurves[this->colormode]->setControlPoints(ctrlpts, numpts);
+    this->colorcurves[this->colorindex]->setControlPoints(ctrlpts, numpts);
     delete [] ctrlpts;
   }
 
   i = 2;
-  const uint8_t * curvepts = this->colorcurves[this->colormode]->getColorMap();
+  const uint8_t * curvepts = this->colorcurves[this->colorindex]->getColorMap();
   it = this->curvesegments.begin();
   for (; it != this->curvesegments.end(); it++) {
     QCanvasLine* line = (QCanvasLine*)(*it);
@@ -347,11 +362,29 @@ CurveView::smallestItem(QCanvasItemList * list)
   return smallest;
 }
 
+void
+CurveView::setMode(SoQtCurveWidget::Mode mode)
+{
+  for (int i = 0; i < this->colormode; i++) {
+    delete this->colorcurves[i];
+    QCanvasItemList::Iterator it = this->canvasctrlpts[i].begin();
+    for (; it != this->canvasctrlpts[i].end(); it++) {
+      delete *it;
+    }
+  }
+  this->colorcurves.clear();
+  this->canvasctrlpts.clear();
+
+  this->colormode = mode;
+  this->initColorCurves();
+  this->hideUnselected();
+}
+
 void 
 CurveView::changeColorMode(int mode)
 {
-  if (mode != this->colormode) {
-    this->colormode = (ColorMode)mode;
+  if (mode != this->colorindex) {
+    this->colorindex = mode;
     this->hideUnselected();
     this->updateCurve();
     this->canvas->update();
@@ -359,10 +392,10 @@ CurveView::changeColorMode(int mode)
 }
 
 void
-CurveView::changeCurveMode(int mode)
+CurveView::changeCurveMode(int cmode)
 {
-  if (mode != this->curvemode) {
-    this->curvemode = (CurveMode) mode;
+  if (cmode != this->curvemode) {
+    this->curvemode = (CurveType) cmode;
     if (this->curvemode == CurveView::SMOOTH) {
       this->interpolateFromColors();
     }
@@ -375,7 +408,7 @@ CurveView::changeCurveMode(int mode)
 void
 CurveView::interpolateFromColors()
 {
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < this->colormode; i++) {
     this->colorcurves[i]->interpolateColorMapping();
     const SbVec3f * ctrlpts = this->colorcurves[i]->getCtrlPoints();
 
@@ -393,96 +426,35 @@ CurveView::interpolateFromColors()
 void
 CurveView::setConstantValue(int value)
 {
-  this->colorcurves[this->colormode]->fill(value);
+  this->colorcurves[this->colorindex]->fill(value);
   this->updateCurve();
   this->canvas->update();
 }
 
 void 
-CurveView::getColors(uint8_t * colors, int num, SoQtCurveWidget::Mode mode) const
+CurveView::getColors(uint8_t * colors, int num) const
 {
-  switch (mode) {
-    case SoQtCurveWidget::RGB:
-    case SoQtCurveWidget::RGBA: {
-      uint8_t * rgba = new uint8_t[num];
-      for (int i = 0; i < mode; i++) {
-        this->colorcurves[i]->getColors(rgba, num);
-        for (int j = 0; j < num; j++) {
-          colors[j*mode + i] = rgba[j];
-        }
-      }
-      delete [] rgba;
-      break;
+  uint8_t * clrs = new uint8_t[num];
+  for (int i = 0; i < this->colormode; i++) {
+    this->colorcurves[i]->getColors(clrs, num);
+    for (int j = 0; j < num; j++) {
+      colors[j*(this->colormode) + i] = clrs[j];
     }
-
-    case SoQtCurveWidget::LUMINANCE_ALPHA: {
-      uint8_t * luminance = new uint8_t[num];
-      uint8_t * alpha= new uint8_t[num];
-      
-      this->colorcurves[CurveView::LUMINANCE]->getColors(luminance, num);
-      this->colorcurves[CurveView::ALPHA]->getColors(alpha, num);
-
-      for (int i = 0; i < num; i++) {
-        colors[i*2 + 0] = luminance[i];
-        colors[i*2 + 1] = alpha[i];
-      }
-      delete [] luminance;
-      delete [] alpha;
-      break;
-    }
-
-    case SoQtCurveWidget::LUMINANCE: {
-      this->colorcurves[CurveView::LUMINANCE]->getColors(colors, num);
-      break;
-    }
-
-    default:
-      break;
-
   }
+  delete [] clrs;
 }
 
 void 
-CurveView::setColors(uint8_t * colors, int num, SoQtCurveWidget::Mode mode)
+CurveView::setColors(uint8_t * colors, int num)
 {
-
-  switch (mode) {
-  case SoQtCurveWidget::RGB:
-  case SoQtCurveWidget::RGBA: {
-    uint8_t * rgba = new uint8_t[num];
-    for (int i = 0; i < mode; i++) {
-      for (int j = 0; j < num; j++) {
-        rgba[j] = colors[j*mode + i];
-      }
-      this->colorcurves[i]->setColors(rgba, num);
+  uint8_t * clrs = new uint8_t[num];
+  for (int i = 0; i < colormode; i++) {
+    for (int j = 0; j < num; j++) {
+      clrs[j] = colors[j*colormode + i];
     }
-    delete [] rgba;
-    break;
+    this->colorcurves[i]->setColors(clrs, num);
   }
-
-  case SoQtCurveWidget::LUMINANCE_ALPHA: {
-    uint8_t * luminance = new uint8_t[num];
-    uint8_t * alpha= new uint8_t[num];
-    for (int i = 0; i < num; i++) {
-      luminance[i] = colors[i*2 + 0];
-      alpha[i]     = colors[i*2 + 1];
-    }
-    this->colorcurves[CurveView::LUMINANCE]->setColors(luminance, num);
-    this->colorcurves[CurveView::ALPHA]->setColors(alpha, num);
-
-    delete [] luminance;
-    delete [] alpha;
-    break;
-  }        
-
-  case SoQtCurveWidget::LUMINANCE: 
-    this->colorcurves[CurveView::LUMINANCE]->setColors(colors, num);
-    break;
-
-  default:
-    break;
-  }
-
+  delete [] clrs;
   this->changeCurveMode(CurveView::FREE);
 }
 
@@ -491,13 +463,13 @@ CurveView::getPixmap(int width, int height) const
 {
   QImage img(width, height, 32);
   QPixmap pm;
-  if (this->colormode == CurveView::LUMINANCE) {
-    const uint8_t * gray = this->colorcurves[CurveView::LUMINANCE]->getColorMap();
-    pm = this->makePixmap(width, height, gray, gray, gray, width);
+  if (this->colormode < 3) {
+    const uint8_t * colors = this->colorcurves[0]->getColorMap();
+    pm = this->makePixmap(width, height, colors, colors, colors, width);
   } else {
-    const uint8_t * red = this->colorcurves[CurveView::RED]->getColorMap();
-    const uint8_t * green = this->colorcurves[CurveView::GREEN]->getColorMap();
-    const uint8_t * blue = this->colorcurves[CurveView::BLUE]->getColorMap();
+    const uint8_t * red = this->colorcurves[0]->getColorMap();
+    const uint8_t * green = this->colorcurves[1]->getColorMap();
+    const uint8_t * blue = this->colorcurves[2]->getColorMap();
     pm = this->makePixmap(width, height, red, green, blue, width);
   }
   return pm;
@@ -538,7 +510,7 @@ CurveView::getGradient(int width, int height) const
 void
 CurveView::setCallBack(ColorCurve::ChangeCB * cb, void * userData)
 {
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < this->colormode; i++) {
     this->colorcurves[i]->setChangeCallBack(cb, userData);
   }
 }

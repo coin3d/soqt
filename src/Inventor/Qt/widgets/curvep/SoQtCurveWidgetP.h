@@ -26,7 +26,8 @@
 
 #include <qobject.h>
 #include <Inventor/SbBasic.h>
-#include "ColorCurve.h"
+#include <Inventor/Qt/widgets/SoQtCurveWidget.h> // for Mode
+#include "ColorCurve.h" // for ColorCurve::ChangeCB
 
 class QComboBox;
 class CurveEditor;
@@ -41,7 +42,7 @@ class SoQtCurveWidgetP : public QObject {
   Q_OBJECT
 
 public:
-  SoQtCurveWidgetP(class SoQtCurveWidget * publ);
+  SoQtCurveWidgetP(SoQtCurveWidget * publ);
   static void curveCallBack(void * userData);
   SoQtCurveWidget * publ;
   QLabel * modetext;
@@ -60,6 +61,7 @@ public:
   ColorCurve::ChangeCB * callBack;
   void * callbackData;
   SbBool contupdate;
+  SoQtCurveWidget::Mode mode;
 
 public slots:
   void done(void);
