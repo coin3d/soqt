@@ -790,7 +790,8 @@ SoQtComponent::setFullScreen(const SbBool onoff)
   // as that means SoQtComponent::setFullScreen() will never work as
   // expected in the pre-compiled distro version we make.  20010608 mortene.
 
-
+  // prefer setWindowState() to showFullScreen() since
+  // setWindowState() will preserve other window flags/states.
 #if HAVE_QWIDGET_SETWINDOWSTATE
   if (onoff) w->setWindowState(w->windowState() | Qt::WindowFullScreen);
   else w->setWindowState(w->windowState() & ~Qt::WindowFullScreen);
