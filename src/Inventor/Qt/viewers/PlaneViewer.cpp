@@ -182,17 +182,6 @@ SoQtPlaneViewer::buildWidget(QWidget * parent)
 
 // ************************************************************************
 
-/*!
-  FIXME: write doc
-*/
-void
-SoQtPlaneViewer::createPrefSheet(void)
-{
-  SOQT_STUB();
-}
-
-// ************************************************************************
-
 // Documented in superclass. Overridden so we can append the X/Y/Z
 // buttons and the camera type switch button in the rightside button
 // column.
@@ -245,6 +234,16 @@ SoQtPlaneViewer::createViewerButtons(QWidget * parent,
   QObject::connect(PRIVATE(this)->buttons.camera, SIGNAL(clicked()),
                    PRIVATE(this), SLOT(cameraToggleClicked()));
 
+}
+
+// ************************************************************************
+
+// Documented in superclass.
+void
+SoQtPlaneViewer::createPrefSheet(void)
+{
+  SOQT_STUB();
+  inherited::createPrefSheet();
 }
 
 // ************************************************************************

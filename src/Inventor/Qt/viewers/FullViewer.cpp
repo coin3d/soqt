@@ -1189,35 +1189,31 @@ SoQtFullViewer::layoutAppButtons(QWidget * form)
 
 // *************************************************************************
 
-/*!
-  Create preferences sheet.
-*/
-
-QWidget *
-SoQtFullViewer::makePreferencesWindow(void)
+// Documented in common/viewers/SoGuiFullViewer.cpp.in.
+void
+SoQtFullViewer::createPrefSheet(void)
 {
-  QWidget * top = new QWidget(NULL);
-  top->setCaption(PRIVATE(this)->prefwindowtitle.getString());
-  top->setIconText(PRIVATE(this)->prefwindowtitle.getString());
+  PRIVATE(this)->prefwindow = new QWidget(NULL);
+  PRIVATE(this)->prefwindow->setCaption(PRIVATE(this)->prefwindowtitle.getString());
+  PRIVATE(this)->prefwindow->setIconText(PRIVATE(this)->prefwindowtitle.getString());
 
-  QVBoxLayout * layout = new QVBoxLayout(top, 10);
+  QVBoxLayout * layout = new QVBoxLayout(PRIVATE(this)->prefwindow, 10);
 
   QWidget * w;
-  w = this->makeSeekPreferences(top);
+  w = this->makeSeekPreferences(PRIVATE(this)->prefwindow);
   if (w) layout->addWidget(w, w->height());
-  w = this->makeSeekDistancePreferences(top);
+  w = this->makeSeekDistancePreferences(PRIVATE(this)->prefwindow);
   if (w) layout->addWidget(w, w->height());
-  w = this->makeZoomPreferences(top);
+  w = this->makeZoomPreferences(PRIVATE(this)->prefwindow);
   if (w) layout->addWidget(w, w->height());
-  w = this->makeAutoclipPreferences(top);
+  w = this->makeAutoclipPreferences(PRIVATE(this)->prefwindow);
   if (w) layout->addWidget(w, w->height());
 
-  w = this->makeSubPreferences(top);
+  w = this->makeSubPreferences(PRIVATE(this)->prefwindow);
   if (w) layout->addWidget(w, w->height());
 
   layout->activate();
-  top->adjustSize();
-  return top;
+  PRIVATE(this)->prefwindow->adjustSize();
 }
 
 // *************************************************************************
@@ -1926,9 +1922,13 @@ SoQtFullViewer::pasteviewSelected()
 void
 SoQtFullViewer::selectedPrefs(void)
 {
-  if (!PRIVATE(this)->prefwindow) PRIVATE(this)->prefwindow = this->makePreferencesWindow();
-  PRIVATE(this)->prefwindow->show();
-  PRIVATE(this)->prefwindow->raise();
+  if (!PRIVATE(this)->prefwindow) {
+     this->createPrefSheet();
+  }
+  if (PRIVATE(this)->prefwindow) {
+    PRIVATE(this)->prefwindow->show();
+    PRIVATE(this)->prefwindow->raise();
+  }
 }
 
 // *************************************************************************
