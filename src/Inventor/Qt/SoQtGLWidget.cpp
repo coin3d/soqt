@@ -75,13 +75,21 @@ static const char rcsid[] =
 
 static const int SO_BORDER_THICKNESS = 2;
 
+// *************************************************************************
+
 /*!
-  FIXME: write function documentation
+  Protected Constructor.
 */
-SoQtGLWidget::SoQtGLWidget(QWidget * const parent, const char * const /*name*/,
-                           const SbBool buildInsideParent, const int glModes,
-                           const SbBool buildNow)
-  : inherited(parent), waitForExpose(TRUE), drawToFrontBuffer(FALSE)
+
+SoQtGLWidget::SoQtGLWidget(
+  QWidget * const parent,
+  const char * const name,
+  const SbBool embed,
+  const int glModes,
+  const SbBool build )
+: inherited( parent, name )
+, waitForExpose( TRUE )
+, drawToFrontBuffer( FALSE )
 {
   this->glSize = SbVec2s( 200, 200 );
   this->glLockLevel = 0;
@@ -91,33 +99,43 @@ SoQtGLWidget::SoQtGLWidget(QWidget * const parent, const char * const /*name*/,
   this->glwidget = NULL;
   this->borderwidget = NULL;
 
-  if (QGLFormat::hasOpenGL()) {
-    if(buildNow) this->buildWidget(buildInsideParent ? parent : NULL);
+  if ( ! QGLFormat::hasOpenGL() ) {
+    SoDebugError::post( "SoQtGLWidget::SoQtGLWidget",
+      "OpenGL not available!" );
+    return;
   }
-  else {
-    SoDebugError::post("SoQtGLWidget::SoQtGLWidget",
-                       "OpenGL not available on your display!");
-  }
+
 
   this->properties.mouseinput = FALSE;
   this->properties.keyboardinput = FALSE;
 
   this->borderthickness = 0;
-}
+
+  if ( build ) {
+    QWidget * widget = this->buildWidget( this->getParentWidget() );
+    this->setBaseWidget( widget );
+  }
+} // SoQtGLWidget()
+
+// *************************************************************************
 
 /*!
   FIXME: write function documentation
 */
+
 QWidget *
-SoQtGLWidget::buildWidget(QWidget * parent)
+SoQtGLWidget::buildWidget(
+  QWidget * parent )
 {
-//  this->borderwidget = new QWidget(parent);
-//  this->borderwidget->setBackgroundColor( QColor( 0, 0, 0 ) );
+  if ( parent != NULL )
+    parent->installEventFilter( this );
 
   this->borderwidget = new QFrame(parent);
   this->borderwidget->setFrameStyle( QFrame::Panel | QFrame::Raised );
   this->borderwidget->setLineWidth( SO_BORDER_THICKNESS );
   this->borderwidget->move( 0, 0 );
+
+  this->borderwidget->installEventFilter( this );
 
   QGLFormat f;
   f.setDoubleBuffer((this->glmodebits & SO_GLX_DOUBLE) ? TRUE : FALSE);
@@ -131,8 +149,7 @@ SoQtGLWidget::buildWidget(QWidget * parent)
   // FIXME: the SO_GLX_OVERLAY bit is not considered (Qt doesn't seem
   // to support overlay planes -- check this with the Qt FAQ or
   // mailing list archives). 990210 mortene.
-
-  // FIXME, update: overlay planes are supported with Qt 2.x. 19991218 mortene.
+  // UPDATE: overlay planes are supported with Qt 2.x. 19991218 mortene.
 
   this->glwidget = new SoQtGLArea( &f, this->borderwidget );
   QRect frameInterior( borderwidget->contentsRect() );
@@ -154,8 +171,6 @@ SoQtGLWidget::buildWidget(QWidget * parent)
 
   this->glparent = parent;
 
-  if ( parent != NULL )
-    parent->installEventFilter( this );
   this->glwidget->installEventFilter( this );
 
 #if 0 // debug
@@ -167,16 +182,25 @@ SoQtGLWidget::buildWidget(QWidget * parent)
 
   this->setBaseWidget( this->borderwidget );
   this->subclassInitialized();
-  return this->glwidget;
-}
+
+  return this->borderwidget;
+} // buildWidget()
+
+// *************************************************************************
 
 /*!
   FIXME: write function documentation
 */
 
 bool
-SoQtGLWidget::eventFilter(QObject * obj, QEvent * e)
+SoQtGLWidget::eventFilter(
+  QObject * obj,
+  QEvent * e )
 {
+#if SOQT_DEBUG && 0
+  SoDebugError::postInfo( "SoQtGLWidget::eventFilter", "[invoked]" );
+#endif // SOQT_DEBUG
+
 #if 0 // debug
   SoDebugError::postInfo("SoQtGLWidget::eventFilter", "obj: %p", obj);
 
@@ -312,34 +336,42 @@ SoQtGLWidget::eventFilter(QObject * obj, QEvent * e)
   Specify that there should be a border around the OpenGL canvas (or not).
 
   \sa isBorder()
- */
+*/
+
 void
-SoQtGLWidget::setBorder(const SbBool enable)
+SoQtGLWidget::setBorder(
+  const SbBool enable )
 {
   this->borderthickness = (enable ? SO_BORDER_THICKNESS : 0);
   // FIXME: reshape glwidget if built
-}
+} // setBorder()
 
 /*!
   Returns whether or not there's a border around the OpenGL canvas.
 
   \sa setBorder()
- */
+*/
 
 SbBool
-SoQtGLWidget::isBorder(void) const
+SoQtGLWidget::isBorder(
+  void ) const
 {
   return this->borderthickness ? TRUE : FALSE;
-}
+} // isBorder()
+
+// *************************************************************************
+
 
 /*!
   Switch between single and double buffer mode for the OpenGL canvas.
   The default is to use a single buffer canvas.
 
   \sa isDoubleBuffer()
- */
+*/
+
 void
-SoQtGLWidget::setDoubleBuffer(const SbBool enable)
+SoQtGLWidget::setDoubleBuffer(
+  const SbBool enable )
 {
   if (this->glwidget) {
 //    if (enable != this->getQtGLArea()->doubleBuffer()) {
