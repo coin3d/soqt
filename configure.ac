@@ -115,13 +115,14 @@ AC_LANG(C++)
 AC_OBJEXT
 AC_EXEEXT
 
-case $enable_static in
+case ${enable_static-no} in
 yes | true) SOQT_STATIC=true
             enable_shared=no ;; # fix for Autoconf --enable-static problem
 *)          SOQT_STATIC=false ;;
 esac
 
-case $enable_shared in
+case ${enable_shared-default} in
+default)    ;;
 yes | true) SOQT_STATIC=false ;;
 *)          SOQT_STATIC=true ;;
 esac
