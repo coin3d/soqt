@@ -497,14 +497,18 @@ bool
 SoQtGLWidget::eventFilter(QObject * obj, QEvent * e)
 {
   if (SOQT_DEBUG && 0) { // debug
-    SbString w = "unknown";
+    SbString w = obj->name();
+    SbBool istoplevel = obj == PRIVATE(this)->currentglwidget->topLevelWidget();
+
     if (obj == PRIVATE(this)->glparent) { w = "glparent"; }
     else if (obj == PRIVATE(this)->currentglwidget) { w = "currentglwidget"; }
     else if (obj == PRIVATE(this)->borderwidget) { w = "borderwidget"; }
+    else if (istoplevel) { w = "top-level"; }
 
     SoDebugError::postInfo("SoQtGLWidget::eventFilter",
-                           "[invoked] obj: %p (=%s) %s (typecode==%d)",
-                           obj, w.getString(),
+                           "[invoked] obj: %p (=\"%s\", %s, %s) %s (typecode==%d)",
+                           obj, w.getString(), obj->className(),
+                           istoplevel ? "TOPLEVEL" : "",
                            eventnaming[e->type()], e->type());
   }
 
@@ -533,21 +537,25 @@ SoQtGLWidget::eventFilter(QObject * obj, QEvent * e)
        e->type() == QEvent::MouseMove) &&
       (obj != PRIVATE(this)->currentglwidget)) return FALSE;
 
-  SbBool stopevent = FALSE;
+  // Set keyboard focus on enter.
+  if ((e->type() == QEvent::Enter) && (obj == PRIVATE(this)->currentglwidget)) {
+    PRIVATE(this)->currentglwidget->setFocus();
+  }
 
   SbBool keyboardevent =
     (e->type() == QEvent::KeyPress) || (e->type() == QEvent::KeyRelease);
 
   if (keyboardevent) {
-    // Redirect absolutely all keyboard events to the GL canvas
-    // widget, ignoring the current focus setting.
-    obj = PRIVATE(this)->currentglwidget;
-    // isAccepted() usually defaults to TRUE, but we need to manually
-    // set this (probably due to the way we intercept all events
-    // through this eventfilter).
-    ((QKeyEvent *)e)->accept();
-  }
+    // Ignore keyboard-events not directly piped to glcanvas widget,
+    // to avoid catching multiple keyboard events. Returns FALSE to
+    // continue propagation, though.
+    if (obj != PRIVATE(this)->currentglwidget) { return FALSE; }
 
+    // FIXME: there's a bug here. It can be reproduced as follows:
+    // when using Qt 2 and tapping in one of the backdoor key combos
+    // so the dialog box comes up, the glcanvas looses focus and does
+    // not regain it when the dialog box is removed. 20011210 mortene.
+  }
 
   if (obj == (QObject *) PRIVATE(this)->glparent) {
     // If this hits, the PRIVATE(this)->glparent QWidget is a toplevelshell, so
@@ -592,13 +600,12 @@ SoQtGLWidget::eventFilter(QObject * obj, QEvent * e)
   }
   else {
     // Handle in superclass.
-    stopevent = inherited::eventFilter(obj, e);
-  }
-  if (!stopevent) {
-    this->processEvent(e);
+    bool stop = inherited::eventFilter(obj, e);
+    if (stop) { return TRUE; }
   }
 
-  return stopevent;
+  this->processEvent(e);
+  return FALSE;
 }
 
 // *************************************************************************
