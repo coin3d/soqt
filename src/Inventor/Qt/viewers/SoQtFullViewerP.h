@@ -64,7 +64,6 @@ public slots:
   // Button row.
   void interactbuttonClicked();
   void viewbuttonClicked();
-  void helpbuttonClicked();
   void homebuttonClicked();
   void sethomebuttonClicked();
   void viewallbuttonClicked();

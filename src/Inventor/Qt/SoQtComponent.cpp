@@ -671,16 +671,6 @@ SoQtComponent::sizeChanged(const SbVec2s & size)
 
 // documented in common/SoGuiComponentCommon.cpp.in.
 void
-SoQtComponent::openHelpCard(const char * const name)
-{
-  // FIXME: code MiA. 19990222 mortene.
-  QMessageBox::warning(NULL, "SoQt",
-                        "The help functionality has not been "
-                        "implemented.");
-}
-
-// documented in common/SoGuiComponentCommon.cpp.in.
-void
 SoQtComponent::setWindowCloseCallback(SoQtComponentCB * const func,
                                       void * const data)
 {

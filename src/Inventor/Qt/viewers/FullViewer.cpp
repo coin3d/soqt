@@ -76,7 +76,6 @@
 // Button icons.
 #include <Inventor/Qt/common/pixmaps/pick.xpm>
 #include <Inventor/Qt/common/pixmaps/view.xpm>
-#include <Inventor/Qt/common/pixmaps/help.xpm>
 #include <Inventor/Qt/common/pixmaps/home.xpm>
 #include <Inventor/Qt/common/pixmaps/set_home.xpm>
 #include <Inventor/Qt/common/pixmaps/view_all.xpm>
@@ -223,7 +222,6 @@ expandSize(QSize & result, const QSize & addend, LayoutOrientation o)
 enum {
   INTERACT_BUTTON = 0,
   EXAMINE_BUTTON,
-  HELP_BUTTON,
   HOME_BUTTON,
   SET_HOME_BUTTON,
   VIEW_ALL_BUTTON,
@@ -836,10 +834,6 @@ SoQtFullViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
       QObject::connect(p, SIGNAL(clicked()),
                        PRIVATE(this), SLOT(viewbuttonClicked()));
       break;
-    case HELP_BUTTON:
-      QObject::connect(p, SIGNAL(clicked()), PRIVATE(this), SLOT(helpbuttonClicked()));
-      p->setPixmap(QPixmap((const char **)help_xpm));
-      break;
     case HOME_BUTTON:
       QObject::connect(p, SIGNAL(clicked()), PRIVATE(this), SLOT(homebuttonClicked()));
       p->setPixmap(QPixmap((const char **)home_xpm));
@@ -1158,15 +1152,6 @@ SoQtFullViewerP::viewbuttonClicked(void)
     ((QPushButton *)this->viewbutton)->setOn(TRUE);
   if (!PUBLIC(this)->isViewing())
     PUBLIC(this)->setViewing(TRUE);
-}
-
-// *************************************************************************
-
-// Qt slot.
-void
-SoQtFullViewerP::helpbuttonClicked()
-{
-  PUBLIC(this)->openViewerHelpCard();
 }
 
 // *************************************************************************
