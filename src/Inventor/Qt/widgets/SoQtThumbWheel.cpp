@@ -46,26 +46,23 @@
 
 static const int SHADEBORDERWIDTH = 0;
 
-SoQtThumbWheel::SoQtThumbWheel(
-  QWidget * parent,
-  const char * name)
-: QWidget(parent, name)
+SoQtThumbWheel::SoQtThumbWheel(QWidget * parent,
+                               const char * name)
+  : QWidget(parent, name)
 {
   this->constructor(SoQtThumbWheel::Vertical);
-} // SoQtThumbWheel()
+}
 
-SoQtThumbWheel::SoQtThumbWheel(
-  Orientation orientation,
-  QWidget * parent,
-  const char * name)
-: QWidget(parent, name)
+SoQtThumbWheel::SoQtThumbWheel(Orientation orientation,
+                               QWidget * parent,
+                               const char * name)
+  : QWidget(parent, name)
 {
   this->constructor(orientation);
-} // SoQtThumbWheel()
+}
 
 void
-SoQtThumbWheel::constructor(// private
-  Orientation orientation)
+SoQtThumbWheel::constructor(Orientation orientation)
 {
   this->orient = orientation;
   this->state = SoQtThumbWheel::Idle;
@@ -73,14 +70,12 @@ SoQtThumbWheel::constructor(// private
   this->wheel = new SoAnyThumbWheel;
   this->wheel->setMovement(SoAnyThumbWheel::UNIFORM);
   this->wheel->setGraphicsByteOrder(SoAnyThumbWheel::ARGB);
-  this->wheel->setBoundaryHandling(SoAnyThumbWheel::MODULATE);
   this->pixmaps = NULL;
   this->numPixmaps = 0;
   this->currentPixmap = -1;
-} // constructor()
+}
 
-SoQtThumbWheel::~SoQtThumbWheel(
-  void)
+SoQtThumbWheel::~SoQtThumbWheel()
 {
   delete this->wheel;
   if (this->pixmaps) {
@@ -88,19 +83,17 @@ SoQtThumbWheel::~SoQtThumbWheel(
       delete this->pixmaps[i];
     delete [] this->pixmaps;
   }
-} // ~SoQtThumbWheel()
+}
 
 void
-SoQtThumbWheel::setOrientation(
-  Orientation orientation)
+SoQtThumbWheel::setOrientation(Orientation orientation)
 {
   this->orient = orientation;
   this->repaint(FALSE);
-} // setOrientation()
+}
 
 void
-SoQtThumbWheel::paintEvent(
-  QPaintEvent * event)
+SoQtThumbWheel::paintEvent(QPaintEvent * event)
 {
   QPainter p(this);
   QRect paintRect = event->rect();
@@ -122,8 +115,8 @@ SoQtThumbWheel::paintEvent(
   this->initWheel(d, w);
 
   int pixmap = this->wheel->getBitmapForValue(this->tempWheelValue,
-     (this->state == SoQtThumbWheel::Disabled) ?
-        SoAnyThumbWheel::DISABLED : SoAnyThumbWheel::ENABLED);
+                                              (this->state == SoQtThumbWheel::Disabled) ?
+                                              SoAnyThumbWheel::DISABLED : SoAnyThumbWheel::ENABLED);
 
   QRect widgetrect(0, 0, this->width(), this->height());
   QRect wheelrect(widgetrect);
@@ -141,7 +134,7 @@ SoQtThumbWheel::paintEvent(
   }
   
   qDrawPlainRect(&p, wheelrect.left(), wheelrect.top(), wheelrect.width(),
-                  wheelrect.height(), QColor(0, 0, 0), 1);
+                 wheelrect.height(), QColor(0, 0, 0), 1);
   
   wheelrect.setTop(   wheelrect.top() + 1);
   wheelrect.setBottom(wheelrect.bottom() - 1);
@@ -151,20 +144,19 @@ SoQtThumbWheel::paintEvent(
 
   if (this->orient == Vertical)
     bitBlt(this, wheelrect.left(), wheelrect.top(), this->pixmaps[pixmap],
-            0, 0, w, d, CopyROP);
+           0, 0, w, d, CopyROP);
   else
     bitBlt(this, wheelrect.left(), wheelrect.top(), this->pixmaps[pixmap],
-            0, 0, d, w, CopyROP);
+           0, 0, d, w, CopyROP);
   this->currentPixmap = pixmap;
-} // paintEvent()
+}
 
 /*!
   \internal
 */
 
 void
-SoQtThumbWheel::mousePressEvent(
-  QMouseEvent * event)
+SoQtThumbWheel::mousePressEvent(QMouseEvent * event)
 {
   if (this->state != SoQtThumbWheel::Idle)
     return;
@@ -198,15 +190,14 @@ SoQtThumbWheel::mousePressEvent(
   this->mouseLastPos = this->mouseDownPos;
 
   emit wheelPressed();
-} // mousePressEvent()
+}
 
 /*!
   \internal
 */
 
 void
-SoQtThumbWheel::mouseMoveEvent(
-  QMouseEvent * event)
+SoQtThumbWheel::mouseMoveEvent(QMouseEvent * event)
 {
   if (this->state != SoQtThumbWheel::Dragging)
     return;
@@ -223,15 +214,14 @@ SoQtThumbWheel::mouseMoveEvent(
   emit wheelMoved(this->tempWheelValue);
 
   this->repaint(FALSE);
-} // mouseMoveEvent()
+}
 
 /*!
   \internal
 */
 
 void
-SoQtThumbWheel::mouseReleaseEvent(
-  QMouseEvent * event)
+SoQtThumbWheel::mouseReleaseEvent(QMouseEvent * event)
 {
   if (this->state != SoQtThumbWheel::Dragging)
     return;
@@ -243,7 +233,7 @@ SoQtThumbWheel::mouseReleaseEvent(
   this->mouseLastPos = this->mouseDownPos;
   this->state = SoQtThumbWheel::Idle;
   emit wheelReleased();
-} // mouseReleaseEvent()
+}
 
 /*
 float
@@ -251,7 +241,7 @@ SoQtThumbWheel::getNormalizedValue(int pos) const
 {
   int relativepos = pos - this->mouseDownPos;
   return (float) relativepos / (float)this->getWheelLength() * 2.0f;
-} // getNormalizedValue()
+}
 */
 
 /*
@@ -260,7 +250,7 @@ SoQtThumbWheel::getWheelLength(void) const
 {
   return this->orient == SoQtThumbWheel::Vertical ?
     this->height() : this->width();
-} // getWheelLength()
+}
 */
 
 /*
@@ -268,7 +258,7 @@ int
 SoQtThumbWheel::orientedCoord(const QPoint &p) const
 {
   return (this->orient == SoQtThumbWheel::Horizontal) ?  p.x() : p.y();
-} // orientedCoord()
+}
 */
 
 QSize
@@ -281,26 +271,24 @@ SoQtThumbWheel::sizeHint(void) const
     return QSize(length, thick);
   else
     return QSize(thick, length);
-} // sizeHint()
+}
 
 SoQtThumbWheel::Orientation
 SoQtThumbWheel::orientation(void) const
 {
   return this->orient;
-} // orientation()
+}
 
 float
 SoQtThumbWheel::value(void) const
 {
   return this->wheelValue;
-} // value()
+}
 
 // *************************************************************************
 
 void
-SoQtThumbWheel::initWheel(
-  int diameter,
-  int width)
+SoQtThumbWheel::initWheel(int diameter, int width)
 {
   int d, w;
   this->wheel->getSize(d, w);
@@ -326,46 +314,42 @@ SoQtThumbWheel::initWheel(
   QImage image(pwidth, pheight, 32, 0);
   for (int i = 0; i < this->numPixmaps; i++) {
     this->wheel->drawBitmap(i, image.bits(), (this->orient == Vertical) ?
-      SoAnyThumbWheel::VERTICAL : SoAnyThumbWheel::HORIZONTAL);
+                            SoAnyThumbWheel::VERTICAL : SoAnyThumbWheel::HORIZONTAL);
     this->pixmaps[i] = new QPixmap(QSize(pwidth, pheight));
     this->pixmaps[i]->convertFromImage(image);
   }
-} // initWheel()
+}
 
 // *************************************************************************
 
 void
-SoQtThumbWheel::setEnabled(
-  bool enable)
+SoQtThumbWheel::setEnabled(bool enable)
 {
   if (enable)
     this->state = SoQtThumbWheel::Idle;
   else
     this->state = SoQtThumbWheel::Disabled;
   this->repaint(FALSE);
-} // setEnabled()
+}
 
 bool
-SoQtThumbWheel::isEnabled(
-  void) const
+SoQtThumbWheel::isEnabled(void) const
 {
   return (this->state != SoQtThumbWheel::Disabled);
-} // isEnabled()
+}
 
 void
-SoQtThumbWheel::setValue(
-  float value)
+SoQtThumbWheel::setValue(float value)
 {
   this->wheelValue = this->tempWheelValue = value;
   this->mouseDownPos = this->mouseLastPos;
   this->repaint(FALSE);
-} // setValue()
+}
 
 // *************************************************************************
 
 void
-SoQtThumbWheel::setRangeBoundaryHandling(
-  boundaryHandling handling)
+SoQtThumbWheel::setRangeBoundaryHandling(boundaryHandling handling)
 {
   switch (handling) {
   case CLAMP:
@@ -380,13 +364,12 @@ SoQtThumbWheel::setRangeBoundaryHandling(
   default:
     assert(0 && "impossible");
   }
-} // setRangeBoundaryHandling()
+}
 
 // *************************************************************************
 
 SoQtThumbWheel::boundaryHandling
-SoQtThumbWheel::getRangeBoundaryHandling(
-  void) const
+SoQtThumbWheel::getRangeBoundaryHandling(void) const
 {
   switch (this->wheel->getBoundaryHandling()) {
   case SoAnyThumbWheel::CLAMP:
@@ -399,6 +382,6 @@ SoQtThumbWheel::getRangeBoundaryHandling(
     assert(0 && "impossible");
   }
   return CLAMP; // never reached
-} // getRangeBoundaryHandling()
+}
 
 // *************************************************************************
