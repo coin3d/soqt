@@ -396,10 +396,6 @@ AC_OUTPUT([
 # do some extra stuff for Windows system
 
 if test x"$sim_ac_linking_style" = xmswin; then
-  pf="build/soqt";
-  sim_ac_winfiles="${pf}.dsp ${pf}.mak ${pf}_dll.dsp ${pf}_dll.mak"
-  sim_ac_winfiles="${sim_ac_winfiles} build/SoCoinSDK.iwz";
-
   # Set so_build_dir so we can change SoCoinSDK.iwz
   SIM_AC_DODOUBLEBACKSLASH(so_build_dir,$soqt_current_dir)
   # Set so_src_dir so we can change SoCoinSDK.iwz
@@ -418,8 +414,12 @@ if test x"$sim_ac_linking_style" = xmswin; then
   coin_data_dir=`coin-config --datadir`
   # Do our own substitutions, as AC_OUTPUT only works for
   # files present under the srcdir of SoQt.
-  cat $coin_data_dir/build/SoCoinSDK.iwz.in | sed -e s%@so_name_hi@%$so_name_hi%g -e s%@so_name_lo@%$so_name_lo%g -e s%@so_build_dir@%$so_build_dir%g -e s%@so_src_dir@%$so_src_dir%g -e s%@so_lib_dir@%$so_lib_dir%g -e s%@so_include_dir@%$so_include_dir%g -e s%@so_version@%$so_version%g > build/SoCoinSDK.tmp
+  cat $coin_data_dir/Coin/build/SoCoinSDK.iwz.in | sed -e s%@so_name_hi@%$so_name_hi%g -e s%@so_name_lo@%$so_name_lo%g -e s%@so_build_dir@%$so_build_dir%g -e s%@so_src_dir@%$so_src_dir%g -e s%@so_lib_dir@%$so_lib_dir%g -e s%@so_include_dir@%$so_include_dir%g -e s%@so_version@%$so_version%g > build/SoCoinSDK.tmp
   mv build/SoCoinSDK.tmp build/SoCoinSDK.iwz
+
+  pf="build/soqt";
+  sim_ac_winfiles="${pf}.dsp ${pf}.mak ${pf}_dll.dsp ${pf}_dll.mak"
+  sim_ac_winfiles="${sim_ac_winfiles} build/SoCoinSDK.iwz";
 
   for sim_ac_winfile in $sim_ac_winfiles; do
     mv $sim_ac_winfile $sim_ac_winfile.bak
