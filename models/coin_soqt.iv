@@ -197,13 +197,16 @@ Separator {
     }
   }
 
-  Separator {
-    Material {
-      transparency 0.4
-    }
-    Scale {
-      scaleFactor 10 10 4
-    }
-    USE UnitCube
-  }
+# DISABLED: the transparent box wasn't looking very good, so I killed it.
+# 20011006 mortene.
+
+#  Separator {
+#    Material {
+#      transparency 0.4
+#    }
+#    Scale {
+#      scaleFactor 10 10 4
+#    }
+#    USE UnitCube
+#  }
 }
