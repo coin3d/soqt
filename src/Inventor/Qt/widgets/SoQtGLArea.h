@@ -61,6 +61,8 @@ protected:
   virtual void resizeGL(int width, int height);
   virtual void initializeGL(void);
 
+  virtual void focusInEvent(QFocusEvent * e);
+  virtual void focusOutEvent(QFocusEvent * e);
   virtual bool event(QEvent * e);
 
 private:

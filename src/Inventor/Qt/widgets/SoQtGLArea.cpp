@@ -21,11 +21,6 @@
  *
 \**************************************************************************/
 
-#if SOQT_DEBUG
-static const char rcsid[] =
-  "$Id$";
-#endif // SOQT_DEBUG
-
 // This class' purpose is to overload the Qt OpenGL widget, so we can
 // do our own initialization and event handling on resizes and expose
 // events.
@@ -51,7 +46,7 @@ static const char rcsid[] =
 
 #define SOQT_GLAREA_DEBUG_INFO(_funcname_, _infostr_) \
   do { \
-    SbString s("QtGLArea::"); \
+    SbString s("SoQtGLArea::"); \
     s += SO__QUOTE(_funcname_); \
     SoDebugError::postInfo(s.getString(), _infostr_); \
   } while (0)
@@ -93,9 +88,7 @@ SoQtGLArea::~SoQtGLArea()
 {
 }
 
-/*
-  Overloaded from QGLWidget to emit a signal.
-*/
+// Overridden from QGLWidget to emit a signal.
 void
 SoQtGLArea::initializeGL(void)
 {
@@ -105,9 +98,7 @@ SoQtGLArea::initializeGL(void)
   SOQT_GLAREA_DEBUG_DONE(initializeGL);
 }
 
-/*
-  Overloaded from QtGLWidget to emit a signal.
-*/
+// Overridden from QtGLWidget to emit a signal.
 void
 SoQtGLArea::resizeGL(int width, int height)
 {
@@ -116,15 +107,38 @@ SoQtGLArea::resizeGL(int width, int height)
   SOQT_GLAREA_DEBUG_DONE(resizeGL);
 }
 
-/*
-  Emit a signal whenever we need to repaint because of an expose event.
-*/
+// Overridden from QtGLWidget. Emit a signal whenever we need to
+// repaint because of an expose event.
 void
 SoQtGLArea::paintGL(void)
 {
   SOQT_GLAREA_DEBUG_START(paintGL);
   emit this->expose_sig();
   SOQT_GLAREA_DEBUG_DONE(paintGL);
+}
+
+// Overridden from QWidget to avoid update() being called when we
+// enable another focuspolicy than QWidget::NoFocus.
+void
+SoQtGLArea::focusInEvent(QFocusEvent * e)
+{
+  // Here's what the QWidget implementation of this method does:
+
+//     if ( focusPolicy() != NoFocus || !isTopLevel() ) {
+// 	update();
+// 	if ( testWState(WState_AutoMask) )
+// 	    updateMask();
+// 	setMicroFocusHint(width()/2, 0, 1, height(), FALSE);
+//     }
+
+  // QWidget::update() calls repaint(), which causes paintGL() to be
+  // invoked on all focus-in and focus-out events.
+}
+
+// See doc on focusInEvent() above.
+void
+SoQtGLArea::focusOutEvent(QFocusEvent * e)
+{
 }
 
 // *************************************************************************
