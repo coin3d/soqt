@@ -27,13 +27,13 @@ static const char rcsid[] =
 #include <stdlib.h>
 #include <assert.h>
 
-#include <glaux.h>
+#include <GL/glaux.h>
 
 #include <Inventor/SbColor.h>
 #include <Inventor/nodes/SoMaterial.h>
 #include <Inventor/fields/SoMFColor.h>
 
-#include <Inventor/Qt/SoGLMaterialSphere.h>
+#include <Inventor/Qt/editors/SoGLMaterialSphere.h>
 
 
 #define NUM_POINTS 10000
@@ -46,6 +46,11 @@ static const char rcsid[] =
 #ifndef _GCC_
 # define true TRUE
 # define false FALSE
+#endif
+
+#ifdef WIN32
+#define random() rand()
+#pragma warning(once: 4305)
 #endif
 
 //

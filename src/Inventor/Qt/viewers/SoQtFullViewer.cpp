@@ -684,6 +684,7 @@ QWidget *
 SoQtFullViewer::buildWidget(QWidget * parent)
 {
   this->viewerwidget = new QWidget(parent);
+  this->viewerwidget->move( 0, 0 );
 #if SOQT_DEBUG
   this->viewerwidget->setBackgroundColor( QColor( 250, 0, 0 ) );
 #endif // SOQT_DEBUG
@@ -692,6 +693,7 @@ SoQtFullViewer::buildWidget(QWidget * parent)
   // top of the manager widget.
 
   this->canvasparent = new QWidget(this->viewerwidget);
+  this->canvasparent->move( 0, 0 );
   this->canvas = inherited::buildWidget(this->canvasparent);
 
   if (this->decorations) {

@@ -29,6 +29,7 @@
 #include <Inventor/Qt/SoQtComponent.h>
 
 class QtGLArea;
+class QFrame;
 
 enum GLModes {        // remove the GLX ones?
   SO_GL_RGB      = 0x01, SO_GLX_RGB      = SO_GL_RGB,
@@ -100,7 +101,8 @@ private slots:
 
 private:
   QtGLArea * glwidget;
-  QWidget * glparent, * borderwidget;
+  QWidget * glparent;
+  QFrame * borderwidget;
   int borderthickness, glmodebits;
 
   struct {

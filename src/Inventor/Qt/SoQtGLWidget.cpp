@@ -39,6 +39,7 @@ static const char rcsid[] =
 // FIXME: get rid of this before 1.0 release by converting everything
 // to Qt version 2.x API? 19990630 mortene.
 #include <qevent.h>
+#include <qframe.h>
 #if QT_VERSION >= 200
 #include <q1xcompatibility.h>
 #endif // Qt v2.x
@@ -100,10 +101,18 @@ SoQtGLWidget::SoQtGLWidget(QWidget * const parent, const char * const /*name*/,
 QWidget *
 SoQtGLWidget::buildWidget(QWidget * parent)
 {
-  this->borderwidget = new QWidget(parent);
-  this->borderwidget->setBackgroundColor( QColor( 0, 0, 0 ) );
+//  this->borderwidget = new QWidget(parent);
+//  this->borderwidget->setBackgroundColor( QColor( 0, 0, 0 ) );
+
+  this->borderwidget = new QFrame(parent);
+  this->borderwidget->setFrameStyle( QFrame::Panel | QFrame::Raised );
+  this->borderwidget->setLineWidth( SO_BORDER_THICKNESS );
+  this->borderwidget->move( 0, 0 );
 
   this->glwidget = new QtGLArea( this->borderwidget, NULL );
+  QRect frameInterior( borderwidget->contentsRect() );
+  this->glwidget->move( frameInterior.topLeft() );
+  this->glwidget->resize( frameInterior.size() );
 
   QGLFormat f;
   f.setDoubleBuffer((this->glmodebits & SO_GLX_DOUBLE) ? TRUE : FALSE);
@@ -231,15 +240,19 @@ SoQtGLWidget::eventFilter(QObject * obj, QEvent * e)
 #endif // debug
 
       this->borderwidget->resize(r->size());
-      int newwidth = r->size().width() - 2 * this->borderthickness;
-      int newheight = r->size().height() - 2 * this->borderthickness;
+//      int newwidth = r->size().width() - 2 * this->borderthickness;
+//      int newheight = r->size().height() - 2 * this->borderthickness;
 
       ((QtGLArea *)this->glwidget)->doRender(FALSE);
-      this->glwidget->setGeometry( this->borderthickness,
-                                   this->borderthickness,
-                                   newwidth, newheight );
+//      this->glwidget->setGeometry( this->borderthickness,
+//                                   this->borderthickness,
+//                                   newwidth, newheight );
+      this->glwidget->setGeometry( this->borderwidget->contentsRect() );
+  
       ((QtGLArea *)this->glwidget)->doRender(TRUE);
 
+      int newwidth = r->size().width();
+      int newheight = r->size().height();
       this->sizeChanged( SbVec2s(newwidth, newheight) );
 #if 0 // debug
       SoDebugError::postInfo("SoQtGLWidget::eventFilter", "resize done");
@@ -295,7 +308,8 @@ void
 SoQtGLWidget::setDoubleBuffer(const SbBool enable)
 {
   if (this->glwidget) {
-    if (enable != this->getQtGLArea()->doubleBuffer()) {
+//    if (enable != this->getQtGLArea()->doubleBuffer()) {
+    if ( enable != (SbBool) this->getQtGLArea()->doubleBuffer() ) {
       QGLFormat format = this->getQtGLArea()->format();
       format.setDoubleBuffer(enable);
       this->getQtGLArea()->setFormat(format);
@@ -364,8 +378,10 @@ SoQtGLWidget::setGLSize(
   SbVec2s size )
 {
   assert(this->borderwidget);
-  this->borderwidget->resize( size[0] + this->borderthickness * 2,
-                              size[1] + this->borderthickness * 2 );
+//  this->borderwidget->resize( size[0] + this->borderthickness * 2,
+//                              size[1] + this->borderthickness * 2 );
+  this->borderwidget->resize( size[0] + this->borderwidget->frameWidth(),
+                              size[1] + this->borderwidget->frameWidth() );
 } // setGLSize()
 
 
@@ -410,7 +426,7 @@ SoQtGLWidget::getGLAspectRatio(
 QtGLArea *
 SoQtGLWidget::getQtGLArea(void)
 {
-  return this->glwidget;
+  return (QtGLArea *) this->glwidget;
 }
 
 /*!

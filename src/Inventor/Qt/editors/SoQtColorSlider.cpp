@@ -30,7 +30,7 @@ static const char rcsid[] =
 #include <qlined.h>
 #include <qlayout.h>
 
-#include <Inventor/Qt/SoQtColorSlider.h>
+#include <Inventor/Qt/editors/SoQtColorSlider.h>
 
 _SoQtColorSlider::_SoQtColorSlider(int minValue, int maxValue, QWidget *parent, const char *label) : QWidget(parent)
 {
