@@ -434,13 +434,22 @@ void
 QtNativePopupMenu::popUp(QWidget * inside, int x, int y)
 {
   MenuRecord * rec = this->getMenuRecord(0);
+
   // Use exec() and not popup(). popup() doesn't seem to work properly
   // with a GL widget (the GL-redraw seems to overwrite the popup
   // widget or something). pederb, 2003-10-01 
   //
+  // An additional piece of information: the popup-menu misbehavior is
+  // that at first attempt just a "shadow" comes up, and then on the
+  // second RMB-press the menu actually comes up. This problem has
+  // only been seen on a few Windows 2000 platforms, though, so in
+  // case we ever need to revert to using popup() again, make sure the
+  // code is properly tested over a wide range of platforms.
+  // mortene, 2003-10-01
+  //
   // Ignore return value. We use callbacks.
   (void) rec->menu->exec(inside->mapToGlobal(QPoint(x, y)));
-} // PopUp()
+}
 
 // *************************************************************************
 
