@@ -1054,8 +1054,8 @@ SoQtComponentP::getNativeCursor(const SoQtCursor::CustomCursor * cc)
   }
 
   void * qc;
-  SoQtComponentP::cursordict->find((unsigned long)cc, qc);
-  if (qc) { return (QCursor *)qc; }
+  SbBool b = SoQtComponentP::cursordict->find((unsigned long)cc, qc);
+  if (b) { return (QCursor *)qc; }
 
   // For Qt on MSWin, it is necessary to mask the bitmaps "manually"
   // before setting up the QBitmaps for the cursors. It doesn't seem
@@ -1074,6 +1074,24 @@ SoQtComponentP::getNativeCursor(const SoQtCursor::CustomCursor * cc)
 
   QBitmap bitmap(cc->dim[0], cc->dim[1], (uchar *)cc->bitmap, TRUE);
   QBitmap mask(cc->dim[0], cc->dim[1], (uchar *)cc->mask, TRUE);
+
+  if (SOQT_DEBUG && FALSE) { // debug
+    SoDebugError::postInfo("SoQtComponentP::getNativeCursor",
+                           "bitmap.depth==%d, bitmap.size==<%d, %d>  "
+                           "mask.depth==%d, mask.size==<%d, %d>",
+                           bitmap.depth(),
+                           bitmap.size().width(),
+                           bitmap.size().height(),
+                           mask.depth(),
+                           mask.size().width(),
+                           mask.size().height());
+  }
+
+  // Sanity checks.
+  assert(bitmap.size().width() > 0 && bitmap.size().height() > 0);
+  assert(bitmap.size() == mask.size());
+  assert(bitmap.depth() == 1);
+  assert(mask.depth() == 1);
 
   // FIXME: currently a memory leak here. 20011121 mortene.
   QCursor * c = new QCursor(bitmap, mask, cc->hotspot[0], cc->hotspot[1]);
@@ -1100,6 +1118,10 @@ SoQtComponent::setWidgetCursor(QWidget * w, const SoQtCursor & cursor)
 
     case SoQtCursor::BUSY:
       w->setCursor(QCursor(Qt::waitCursor));
+      break;
+
+    case SoQtCursor::BLANK:
+      w->setCursor(QCursor(Qt::blankCursor));
       break;
 
     default:
