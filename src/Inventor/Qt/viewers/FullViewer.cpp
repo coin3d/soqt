@@ -1746,16 +1746,6 @@ SoQtFullViewer::sizeChanged(const SbVec2s & size)
 
 // *************************************************************************
 
-// Documented in superclass.
-void
-SoQtFullViewer::afterRealizeHook(void)
-{
-  this->sizeChanged(this->getSize());
-  inherited::afterRealizeHook();
-}
-
-// *************************************************************************
-
 // Qt slot.
 void
 SoQtFullViewerP::interactbuttonClicked(void)
