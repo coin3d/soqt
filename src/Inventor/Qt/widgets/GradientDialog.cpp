@@ -25,84 +25,184 @@
 
 #include <qlayout.h>
 #include <qimage.h>
+#include <qcanvas.h>
 #include <qcombobox.h>
+#include <qcheckbox.h>
+#include <qlabel.h>
 #include <qvaluelist.h>
 #include <qfiledialog.h>
 #include <qpushbutton.h>
 
-#include "gradientp/GradientEditor.h"
+#include "gradientp/GradientView.h"
+#include "gradientp/SoQtGradientDialogP.h"
 #include "SoQtGradientDialog.h"
 
-#include <Inventor/Qt/widgets/moc_SoQtGradientDialog.icc>
+//#include <Inventor/Qt/widgets/moc_SoQtGradientDialog.icc>
 
-class SoQtGradientDialogP
+SbBool SoQtGradientDialogP::updateContinuously = FALSE;
+Gradient::ChangeCB * SoQtGradientDialogP::changeCallBack = NULL;
+
+SoQtGradientDialogP::SoQtGradientDialogP(SoQtGradientDialog * publ)
 {
-public:
-  SoQtGradientDialogP(SoQtGradientDialog * publ);
-  SoQtGradientDialog * pub;
-  GradientEditor * gradEdit;
-  QValueList<Gradient> gradients;
-  Gradient::ChangeCB * changeCallBack;
-  void * changeCallBackData;
-  QComboBox * gradientList;
-  int old_index;
-  void saveCurrent();
-};
+  PUBLIC(this) = publ;
+}
+
+void
+SoQtGradientDialogP::contupdateClicked()
+{
+  SoQtGradientDialogP::updateContinuously = this->contupdate->isChecked();
+}
+
+void
+SoQtGradientDialogP::callGradientUpdate()
+{  
+  if (SoQtGradientDialogP::changeCallBack) {
+    SoQtGradientDialogP::changeCallBack(this->gradView->getGradient(), 
+                                        this->changeCallBackData);
+  }
+}
+
+void
+SoQtGradientDialogP::gradientCallBack(const Gradient & thisp, void * userData)
+{
+  if (SoQtGradientDialogP::updateContinuously) {
+    SoQtGradientDialogP::changeCallBack(thisp, userData);
+  }
+}
+
+void
+SoQtGradientDialogP::resetGradient()
+{
+  this->gradView->setGradient(this->gradientcopy);
+  this->saveCurrent();
+}
+
+void 
+SoQtGradientDialogP::loadGradient()
+{
+  QStringList filenames = 
+    QFileDialog::getOpenFileNames("Gradients (*.grad)",
+                                  "gradients/",
+                                  PUBLIC(this),
+                                  "Open Gradient Dialog",
+                                  "Choose a Gradient to load");
+  if (!filenames.isEmpty()) {
+    this->saveCurrent();
+    for (unsigned int i = 0; i < filenames.size(); i++) {
+      Gradient grad(filenames[i]);
+      PUBLIC(this)->addGradient(grad, filenames[i]);
+    }
+  }
+}
+
+void 
+SoQtGradientDialogP::saveGradient()
+{
+  QString filename = 
+    QFileDialog::getSaveFileName("gradients/",
+                                 "*.grad",
+                                 PUBLIC(this),
+                                 "Save Gradient Dialog",
+                                 "Choose a filename");
+
+  if (!filename.isEmpty()) {
+    Gradient grad = this->gradView->getGradient();
+    grad.save(filename);
+  }
+}
+
+void 
+SoQtGradientDialogP::chooseGradient(int i)
+{
+  this->saveCurrent();
+  this->gradView->setGradient(this->gradients[i]);
+  this->gradientcopy = this->gradients[i];
+  this->old_index = i;
+}
 
 void SoQtGradientDialogP::saveCurrent()
 {
-  const Gradient & grad = this->gradEdit->getGradient();
+  const Gradient & grad = this->gradView->getGradient();
   QString description = this->gradientList->text(this->old_index);
   this->gradientList->changeItem(grad.getImage(60, 16, 32), description, this->old_index);
   this->gradients[old_index] = grad;
 }
 
-SoQtGradientDialogP::SoQtGradientDialogP(SoQtGradientDialog * publ)
-{
-  PUBLIC(this) = publ;
-  this->changeCallBack = NULL;
-}
-
 SoQtGradientDialog::SoQtGradientDialog(const Gradient & grad,
                                        QWidget * parent, 
                                        bool modal, 
-                                       const char* name)
+                                       const char* name)  
 : QDialog(parent, name, modal)
 {
-  this->pimpl = new SoQtGradientDialogP(this);
+  PRIVATE(this) = new SoQtGradientDialogP(this);
+  
+  QCanvas * canvas = new QCanvas(450,75);
+  PRIVATE(this)->gradView = new GradientView(canvas, grad, this, "GradientView");
+  PRIVATE(this)->gradView->setFrameStyle(QFrame::Sunken);
+  PRIVATE(this)->gradView->setMinimumHeight(75);
 
-  PRIVATE(this)->gradEdit = new GradientEditor(grad, this, "gradEdit");
   PRIVATE(this)->gradientList = new QComboBox(this, "gradientList");
   PRIVATE(this)->old_index = 0;
   this->addGradient(grad, "description");
   PRIVATE(this)->gradientList->hide();
 
   QVBoxLayout * topLayout = new QVBoxLayout(this);
+  topLayout->setSpacing(5);
   topLayout->setMargin(10);
-  topLayout->addWidget(PRIVATE(this)->gradEdit);
+  topLayout->addWidget(PRIVATE(this)->gradView);
 
   QHBoxLayout * buttonLayout = new QHBoxLayout();
   topLayout->addLayout(buttonLayout);
 
-  buttonLayout->setAlignment(Qt::AlignLeft | Qt::AlignBottom);
+  QVBoxLayout * loadsaveLayout = new QVBoxLayout();
+  buttonLayout->addLayout(loadsaveLayout);
+
+  QHBoxLayout * contupdateLayout = new QHBoxLayout();
+  contupdateLayout->setAlignment(Qt::AlignRight);
+  topLayout->addLayout(contupdateLayout);
+
+  QHBoxLayout * applyresetLayout = new QHBoxLayout();
+  applyresetLayout->setAlignment(Qt::AlignBottom | Qt::AlignRight);
+  buttonLayout->addLayout(applyresetLayout);
+
+  loadsaveLayout->setAlignment(Qt::AlignLeft | Qt::AlignBottom);
+  loadsaveLayout->addWidget(PRIVATE(this)->gradientList, 0, 1);
 
   QPushButton * loadButton = new QPushButton(this, "loadButton");
   loadButton->setText("Load");
-  buttonLayout->addWidget(loadButton, 0, 1);
+  loadsaveLayout->addWidget(loadButton, 0, 1);
 
   QPushButton * saveButton = new QPushButton(this, "saveButton");
   saveButton->setText("Save");
-  buttonLayout->addWidget(saveButton, 0, 1);
+  loadsaveLayout->addWidget(saveButton, 0, 1);
 
-  buttonLayout->addWidget(PRIVATE(this)->gradientList, 0, 1);
+  PRIVATE(this)->contupdate = new QCheckBox(this);
+  PRIVATE(this)->contupdate->setChecked(FALSE);
 
-  connect(loadButton, SIGNAL(clicked()), this, SLOT(loadGradient()));
-  connect(saveButton, SIGNAL(clicked()), this, SLOT(saveGradient()));
-
-  connect(PRIVATE(this)->gradientList, SIGNAL(activated(int)), this, SLOT(chooseGradient(int)));
+  QLabel * contupdateLabel = new QLabel(PRIVATE(this)->contupdate, "Update continuosly", this);
   
-  connect(PRIVATE(this)->gradEdit, SIGNAL(accepted()), this, SLOT(accept()));
-  connect(PRIVATE(this)->gradEdit, SIGNAL(rejected()), this, SLOT(reject()));
+  contupdateLayout->addWidget(contupdateLabel);
+  contupdateLayout->addWidget(PRIVATE(this)->contupdate);
+
+  QPushButton * applyButton = new QPushButton(this);
+  applyButton->setText("Apply");
+  applyresetLayout->addWidget(applyButton);
+
+  QPushButton * resetButton = new QPushButton(this);
+  resetButton->setText("Reset");
+  applyresetLayout->addWidget(resetButton);
+
+  QPushButton * doneButton = new QPushButton(this);
+  doneButton->setText("Done");
+  applyresetLayout->addWidget(doneButton);
+
+  connect(loadButton, SIGNAL(clicked()), PRIVATE(this), SLOT(loadGradient()));
+  connect(saveButton, SIGNAL(clicked()), PRIVATE(this), SLOT(saveGradient()));
+  connect(applyButton, SIGNAL(clicked()), PRIVATE(this), SLOT(callGradientUpdate()));
+  connect(resetButton, SIGNAL(clicked()), PRIVATE(this), SLOT(resetGradient()));
+  connect(doneButton, SIGNAL(clicked()), this, SLOT(close()));
+  connect(PRIVATE(this)->gradientList, SIGNAL(activated(int)), PRIVATE(this), SLOT(chooseGradient(int)));
+  connect(PRIVATE(this)->contupdate, SIGNAL(clicked()), PRIVATE(this), SLOT(contupdateClicked()));
 }
 
 SoQtGradientDialog::~SoQtGradientDialog()
@@ -110,80 +210,48 @@ SoQtGradientDialog::~SoQtGradientDialog()
   delete this->pimpl;
 }
 
+void 
+SoQtGradientDialog::resizeEvent(QResizeEvent * e)
+{
+  this->resize(e->size());
+  PRIVATE(this)->gradView->resize(e->size().width()-20, 75);
+
+  this->repaint();
+}
+
 void SoQtGradientDialog::addGradient(const Gradient & grad, QString description)
 {
-  Gradient gradientcopy = grad;
+  PRIVATE(this)->gradientcopy = grad;
 
   if (PRIVATE(this)->changeCallBack) {
-    gradientcopy.setChangeCallback(PRIVATE(this)->changeCallBack,
-                                   PRIVATE(this)->changeCallBackData);
+    PRIVATE(this)->gradientcopy.setChangeCallback(PRIVATE(this)->gradientCallBack,
+                                                  PRIVATE(this)->changeCallBackData);
   }
 
-  PRIVATE(this)->gradients.append(gradientcopy);
-  PRIVATE(this)->gradientList->insertItem(gradientcopy.getImage(60, 16, 32), description);
+  PRIVATE(this)->gradients.append(PRIVATE(this)->gradientcopy);
+  PRIVATE(this)->gradientList->insertItem(PRIVATE(this)->gradientcopy.getImage(60, 16, 32), description);
   PRIVATE(this)->old_index = PRIVATE(this)->gradientList->count() - 1;
   
   PRIVATE(this)->gradientList->setCurrentItem(PRIVATE(this)->old_index);
-  PRIVATE(this)->gradEdit->setGradient(gradientcopy);
+  PRIVATE(this)->gradView->setGradient(PRIVATE(this)->gradientcopy);
   PRIVATE(this)->gradientList->show();
-}
-
-void SoQtGradientDialog::loadGradient()
-{
-  QStringList filenames = 
-    QFileDialog::getOpenFileNames("Gradients (*.grad)",
-                                  "gradients/",
-                                  this,
-                                  "Open Gradient Dialog",
-                                  "Choose a Gradient to load");
-  if (!filenames.isEmpty()) {
-    PRIVATE(this)->saveCurrent();
-    for (unsigned int i = 0; i < filenames.size(); i++) {
-      Gradient grad(filenames[i]);
-      this->addGradient(grad, filenames[i]);
-    }
-  }
-}
-
-void SoQtGradientDialog::saveGradient()
-{
-  QString filename = 
-    QFileDialog::getSaveFileName("gradients/",
-                                 "*.grad",
-                                 this,
-                                 "Save Gradient Dialog",
-                                 "Choose a filename");
-
-  if (!filename.isEmpty()) {
-    Gradient grad = PRIVATE(this)->gradEdit->getGradient();
-    grad.save(filename);
-  }
-}
-
-void SoQtGradientDialog::chooseGradient(int i)
-{
-  PRIVATE(this)->saveCurrent();
-  PRIVATE(this)->gradEdit->setGradient(PRIVATE(this)->gradients[i]);
-  PRIVATE(this)->old_index = i;
-  PRIVATE(this)->gradEdit->updateAll();
 }
 
 const Gradient & SoQtGradientDialog::getGradient() const
 {
-  return PRIVATE(this)->gradEdit->getGradient();
+  return PRIVATE(this)->gradView->getGradient();
 }
 
 void SoQtGradientDialog::setDataLimits(float min, float max)
 {
-  PRIVATE(this)->gradEdit->setMin(min);
-  PRIVATE(this)->gradEdit->setMax(max);
+  PRIVATE(this)->gradView->setDataLimits(min, max);
 }
 
 void SoQtGradientDialog::setChangeCallback(Gradient::ChangeCB * cb, void * userdata)
 {
   PRIVATE(this)->changeCallBack = cb;
   PRIVATE(this)->changeCallBackData = userdata;
-  PRIVATE(this)->gradEdit->setChangeCallback(cb, userdata);
+  PRIVATE(this)->gradView->setChangeCallback(PRIVATE(this)->gradientCallBack, userdata);
 }
 
 #undef PRIVATE
