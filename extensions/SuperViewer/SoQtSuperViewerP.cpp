@@ -289,6 +289,15 @@ SoQtSuperViewerP::actualInit()
   this->cameramenuItems[4].text = "Fly modes";
   
   if(this->defaultoverride){
+    SbBool allmenus = this->bars[1].build;
+
+    //until toolbar is made
+    this->bars[0].build = FALSE;
+    int i, k;
+    i = k = 0;
+
+    for(;i < 2; i++){
+    }
 
   }
   else{
@@ -1889,28 +1898,33 @@ SoQtSuperViewerP::snapshotSelected()
   SbString fullname = "";
   SbString description = "";
 
-  psrgbextensions.append(SbName("rgb"));
-  psrgbextensions.append(SbName("ps"));
-  psrgbextensions.append(SbName("eps"));
-  
-  filter = "SGI RGB (*.rgb);;Adobe PostScript (*.ps *.eps)";
-  filters.append(&SbString("SGI RGB (*.rgb)"));
-  filters.append(&SbString("Adobe PostScript (*.ps *.eps)"));
+  if(!wtf->isWriteSupported("rgb")){
+    psrgbextensions.append(SbName("rgb"));
+    filter = "SGI RGB (*.rgb)";
+    filters.append(new SbString("SGI RGB (*.rgb)"));
+  }
+  if(!wtf->isWriteSupported("eps")){
+    if(filter.getLength() > 0) filter.operator+=(";;");
+    filter.operator+=("Encapsulated PostScript (*.ps *.eps)");
+    psrgbextensions.append(SbName("ps"));
+    psrgbextensions.append(SbName("eps"));
+    filters.append(new SbString("Adobe PostScript (*.ps *.eps)"));
+  }
 
   for(int i = 0; i < numft; i++){
-    SbString * temp = new SbString;
+    SbString temp;
     wtf->getWriteFiletypeInfo(i, ext, fullname, description);
     filter.operator+=(";;");
-    (*temp) = fullname.getString();
-    temp->operator+=(" (");
+    temp = fullname.getString();
+    temp.operator+=(" (");
     for(int j = 0; j < ext.getLength(); j++){
-      if (j > 0) temp->operator+=(" ");
-      temp->operator+=("*.");
-      temp->operator+=((SbName)ext[j].getString());
+      if (j > 0) temp.operator+=(" ");
+      temp.operator+=("*.");
+      temp.operator+=((SbName)ext[j].getString());
     }
-    temp->operator+=(")");
-    filters.append(temp);
-    filter.operator+=(*temp);
+    temp.operator+=(")");
+    filters.append(new SbString(temp));
+    filter.operator+=(temp);
   }
     
   QFileDialog * filedialog = new QFileDialog(
@@ -1933,7 +1947,7 @@ SoQtSuperViewerP::snapshotSelected()
 
     SbString filename(qss.latin1());
     SbName extension = "";
-    if(filtnum < 2){
+    if(psrgbextensions.getLength() > 0){
       for(int k = 0; k < psrgbextensions.getLength(); k++){
         SbIntList templist;
         if(!filename.findAll(((SbName)psrgbextensions[k]).getString(), templist))
@@ -1948,7 +1962,10 @@ SoQtSuperViewerP::snapshotSelected()
       }
     }
     else{
-      wtf->getWriteFiletypeInfo(filtnum-2, ext, fullname, description);
+      wtf->getWriteFiletypeInfo(filtnum -
+           (psrgbextensions.getLength() > 2 ? 2 : 
+           (psrgbextensions.getLength() == 0 ? 0 : 1)), 
+           ext, fullname, description);
       for(int k = 0; k < ext.getLength(); k++){
         SbIntList templist;
         if(!filename.findAll(((SbName)ext[k]).getString(), templist))
@@ -1963,7 +1980,8 @@ SoQtSuperViewerP::snapshotSelected()
       }
     }
     if(!extension.getLength()){
-      switch(filtnum){
+      switch(filtnum + (psrgbextensions.getLength() > 2 ? 0 : 
+                       (psrgbextensions.getLength() == 0 ? 2 : 1))){
       case 0:
         extension = (SbName)psrgbextensions[0];
         break;
@@ -1978,7 +1996,8 @@ SoQtSuperViewerP::snapshotSelected()
       filename.operator+=(SbString(extension.getString()));
     }
     
-    switch(filtnum){
+    switch(filtnum + (psrgbextensions.getLength() > 2 ? 0 : 
+                     (psrgbextensions.getLength() == 0 ? 2 : 1))){
     case 0:
       wtf->writeToRGB(filename.getString());
       break;
@@ -1991,10 +2010,10 @@ SoQtSuperViewerP::snapshotSelected()
     }
   }
   
-  i = 0;
-  for(; i < filters.getLength(); i++){
-    delete filters[i];
-    filters.remove(i);
+  while(filters.getLength()){
+    (void)printf("filterlengd %i\n", filters.getLength());
+    delete filters[0];
+    filters.remove(0);
   }
   
   delete wtf;
