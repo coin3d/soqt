@@ -248,6 +248,28 @@ SoQtExaminerViewer::setCursorEnabled( // virtual, protected
   this->setCursorRepresentation( this->currentmode );
 } // setcursorEnabled()
 
+/*!
+  FIXME: write doc
+*/
+
+void
+SoQtExaminerViewer::resetToHomePosition(
+  void )
+{
+  inherited::resetToHomePosition();
+} // resetToHomePosition()
+
+/*!
+  FIXME: write doc
+*/
+
+void
+SoQtExaminerViewer::viewAll( // virtual
+  void )
+{
+  inherited::viewAll();
+} // viewAll()
+
 // *************************************************************************
 
 /*!
