@@ -360,7 +360,10 @@ SUFFIXES = .cpp .h .m4 .in .o .lo .Plo .TPlo
 @BUILD_HTMLPAGES_TRUE@HTMLDIR = html
 @BUILD_HTMLPAGES_FALSE@HTMLDIR = 
 
-SUBDIRS = . src man $(HTMLDIR)
+@BUILD_LIBRARY_TRUE@LIBDIR = src
+@BUILD_LIBRARY_FALSE@LIBDIR = 
+
+SUBDIRS = . $(LIBDIR) man $(HTMLDIR)
 
 BUILT_SOURCES = \
 	$(SoGuiAllBuiltFiles)
@@ -376,13 +379,13 @@ DISTCLEANFILES = \
 	$(SoGui_BuiltMetaFiles)
 
 
-bin_SCRIPTS = so@gui@-config
+@BUILD_LIBRARY_TRUE@bin_SCRIPTS = so@gui@-config
 
-m4datadir = $(datadir)/aclocal
-dist_m4data_DATA = so@gui@.m4
+@BUILD_LIBRARY_TRUE@m4datadir = $(datadir)/aclocal
+@BUILD_LIBRARY_TRUE@dist_m4data_DATA = so@gui@.m4
 
-cfgdatadir = $(datadir)/Coin/conf
-cfgdata_DATA = so@gui@-@CONFIG@.cfg
+@BUILD_LIBRARY_TRUE@cfgdatadir = $(datadir)/Coin/conf
+@BUILD_LIBRARY_TRUE@cfgdata_DATA = so@gui@-@CONFIG@.cfg
 
 EXTRA_DIST = \
 	LICENSE.LGPL \

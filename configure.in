@@ -185,6 +185,8 @@ AC_ARG_ENABLE(
     *)  ;;
   esac])
 
+AM_CONDITIONAL(BUILD_LIBRARY, $sim_ac_build_library)
+
 # *******************************************************************
 # * Do we want to build the documentation?
 # *******************************************************************
@@ -274,6 +276,9 @@ case $host in
 esac
 
 AC_SUBST(path_tag)
+
+AM_CONDITIONAL([BUILD_METAFILES], [true])
+AC_SUBST([meta_prefix], [moc_])
 
 if $sim_ac_build_library; then
 
@@ -524,9 +529,6 @@ if $BUILD_WITH_MSVC; then
   COIN_COMPILER="wrapmsvc"
 fi
 AC_SUBST(COIN_COMPILER)
-
-AM_CONDITIONAL([BUILD_METAFILES], [true])
-AC_SUBST([meta_prefix], [moc_])
 
 else # $sim_ac_build_library == false
   AC_SUBST([MOC], [moc])

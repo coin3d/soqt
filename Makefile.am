@@ -18,7 +18,13 @@ else
 HTMLDIR =
 endif
 
-SUBDIRS = . src man $(HTMLDIR)
+if BUILD_LIBRARY
+LIBDIR = src
+else
+LIBDIR =
+endif
+
+SUBDIRS = . $(LIBDIR) man $(HTMLDIR)
 
 BUILT_SOURCES = \
 	$(SoGuiAllBuiltFiles)
@@ -31,6 +37,8 @@ DISTCLEANFILES = \
 	$(SoGui_BuiltFiles) \
 	$(SoGui_BuiltMetaFiles)
 
+if BUILD_LIBRARY
+
 bin_SCRIPTS = so@gui@-config
 
 m4datadir = $(datadir)/aclocal
@@ -38,6 +46,8 @@ dist_m4data_DATA = so@gui@.m4
 
 cfgdatadir = $(datadir)/Coin/conf
 cfgdata_DATA = so@gui@-@CONFIG@.cfg
+
+endif
 
 EXTRA_DIST = \
 	LICENSE.LGPL \
