@@ -455,7 +455,7 @@ void
 SoQtExaminerViewer::rightWheelMotion(
   float value )
 {
-  this->zoom( value - this->getRightWheelValue() );
+  this->zoom( this->getRightWheelValue() - value );
   inherited::rightWheelMotion( value );
 } // rightWheelMotion()
 

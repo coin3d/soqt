@@ -737,10 +737,9 @@ SoQtFullViewer::buildLeftTrim(QWidget * parent)
 
   QtThumbwheel * t = this->wheels[LEFTDECORATION] =
     new QtThumbwheel(QtThumbwheel::Vertical, w);
-//  t->adjustSize();
-//  QSize rect = t->size();
-//  rect.setWidth( 30 );
+  t->setRangeBoundaryHandling( QtThumbwheel::ACCUMULATE );
   t->setFixedSize( QSize( 24, 88 ) );
+
   QObject::connect(t, SIGNAL(wheelMoved(float)),
                    this, SLOT(leftWheelChanged(float)));
   QObject::connect(t, SIGNAL(wheelPressed()),
@@ -782,6 +781,7 @@ SoQtFullViewer::buildBottomTrim(QWidget * parent)
   QtThumbwheel * t = this->wheels[ BOTTOMDECORATION ] =
     new QtThumbwheel( QtThumbwheel::Horizontal, w );
   t->setFixedSize( QSize( 88, 24 ) );
+  t->setRangeBoundaryHandling( QtThumbwheel::ACCUMULATE );
 
   QObject::connect( t, SIGNAL(wheelMoved(float)),
                     this, SLOT(bottomWheelChanged(float)) );
@@ -830,8 +830,6 @@ SoQtFullViewer::buildRightTrim(QWidget * parent)
 
   QtThumbwheel * t = this->wheels[RIGHTDECORATION] =
     new QtThumbwheel(QtThumbwheel::Vertical, w);
-//  t->adjustSize();
-//  t->setMaximumSize(t->size());
   t->setFixedSize( QSize( 24, 88 ) );
   t->setRangeBoundaryHandling( QtThumbwheel::ACCUMULATE );
 
@@ -1141,9 +1139,10 @@ SoQtFullViewer::leftWheelStart(void)
 */
 
 void
-SoQtFullViewer::leftWheelMotion(float f)
+SoQtFullViewer::leftWheelMotion(
+  float value )
 {
-  this->wheelvalues[LEFTDECORATION] = f;
+  this->wheels[LEFTDECORATION]->setValue( value );
 } // leftWheelMotion()
 
 // *************************************************************************
@@ -1172,9 +1171,10 @@ SoQtFullViewer::leftWheelFinish(void)
 */
 
 float
-SoQtFullViewer::getLeftWheelValue(void) const
+SoQtFullViewer::getLeftWheelValue(
+  void ) const
 {
-  return this->wheelvalues[LEFTDECORATION];
+  return this->wheels[LEFTDECORATION]->value();
 } // getLeftWheelValue()
 
 // *************************************************************************
@@ -1194,8 +1194,6 @@ SoQtFullViewer::bottomWheelStart(void)
   this->interactiveCountInc();
 } // bottomWheelStart()
 
-// *************************************************************************
-
 /*!
   Called repeatedly as the user drags the thumbwheel in the bottom frame.
   Overload this method in subclassed viewers to provide your own
@@ -1206,12 +1204,11 @@ SoQtFullViewer::bottomWheelStart(void)
 */
 
 void
-SoQtFullViewer::bottomWheelMotion(float f)
+SoQtFullViewer::bottomWheelMotion(
+  float value )
 {
-  this->wheelvalues[BOTTOMDECORATION] = f;
+  this->wheels[BOTTOMDECORATION]->setValue( value );
 } // bottomWheelMotion()
-
-// *************************************************************************
 
 /*!
   Called as the user let go of the thumbwheel in the bottom frame after
@@ -1228,8 +1225,6 @@ SoQtFullViewer::bottomWheelFinish(void)
   this->interactiveCountDec();
 } // bottomWheelFinish()
 
-// *************************************************************************
-
 /*!
   Get current value of the bottom thumbwheel.
 
@@ -1237,9 +1232,10 @@ SoQtFullViewer::bottomWheelFinish(void)
 */
 
 float
-SoQtFullViewer::getBottomWheelValue(void) const
+SoQtFullViewer::getBottomWheelValue(
+  void ) const
 {
-  return this->wheelvalues[BOTTOMDECORATION];
+  return this->wheels[BOTTOMDECORATION]->value();
 } // getBottomWheelValue()
 
 // *************************************************************************
@@ -1271,9 +1267,10 @@ SoQtFullViewer::rightWheelStart(void)
 */
 
 void
-SoQtFullViewer::rightWheelMotion(float f)
+SoQtFullViewer::rightWheelMotion(
+  float value )
 {
-  this->wheelvalues[RIGHTDECORATION] = f;
+  this->wheels[RIGHTDECORATION]->setValue( value );
 } // rightWheelMotion()
 
 // *************************************************************************
@@ -1302,22 +1299,23 @@ SoQtFullViewer::rightWheelFinish(void)
 */
 
 float
-SoQtFullViewer::getRightWheelValue(void) const
+SoQtFullViewer::getRightWheelValue(
+  void ) const
 {
-  return this->wheelvalues[RIGHTDECORATION];
+  return this->wheels[RIGHTDECORATION]->value();
 } // getRightWheelValue()
 
 // *************************************************************************
 
 // These are all private slots for catching Qt events.
 void SoQtFullViewer::leftWheelPressed(void) { this->leftWheelStart(); }
-void SoQtFullViewer::leftWheelChanged(float v) { this->leftWheelMotion(-v); }
+void SoQtFullViewer::leftWheelChanged(float v) { this->leftWheelMotion(v); }
 void SoQtFullViewer::leftWheelReleased(void) { this->leftWheelFinish(); }
 void SoQtFullViewer::bottomWheelPressed(void) { this->bottomWheelStart(); }
 void SoQtFullViewer::bottomWheelChanged(float v) { this->bottomWheelMotion(v);}
 void SoQtFullViewer::bottomWheelReleased(void) { this->bottomWheelFinish(); }
 void SoQtFullViewer::rightWheelPressed(void) { this->rightWheelStart(); }
-void SoQtFullViewer::rightWheelChanged(float v) { this->rightWheelMotion(-v); }
+void SoQtFullViewer::rightWheelChanged(float v) { this->rightWheelMotion(v); }
 void SoQtFullViewer::rightWheelReleased(void) { this->rightWheelFinish(); }
 
 // *************************************************************************

@@ -189,6 +189,8 @@ QtThumbwheel::mousePressEvent(
   else
     this->mouseDownPos = event->pos().x() - SHADEBORDERWIDTH - 6;
 
+  this->mouseLastPos = this->mouseDownPos;
+
   emit wheelPressed();
 } // mousePressEvent()
 
@@ -203,14 +205,14 @@ QtThumbwheel::mouseMoveEvent(
   if ( this->state != QtThumbwheel::Dragging )
     return;
 
-  int pos;
   if ( this->orient == QtThumbwheel::Vertical )
-    pos = event->pos().y() - SHADEBORDERWIDTH - 6;
+    this->mouseLastPos = event->pos().y() - SHADEBORDERWIDTH - 6;
   else
-    pos = event->pos().x() - SHADEBORDERWIDTH - 6;
+    this->mouseLastPos = event->pos().x() - SHADEBORDERWIDTH - 6;
+ 
 
   this->tempWheelValue = this->wheel->CalculateValue( this->wheelValue,
-      this->mouseDownPos, pos - this->mouseDownPos );
+      this->mouseDownPos, this->mouseLastPos - this->mouseDownPos );
 
   emit wheelMoved( this->tempWheelValue );
 
@@ -232,6 +234,7 @@ QtThumbwheel::mouseReleaseEvent(
     return;
 
   this->wheelValue = this->tempWheelValue;
+  this->mouseLastPos = this->mouseDownPos;
   this->state = QtThumbwheel::Idle;
   emit wheelReleased();
 } // mouseReleaseEvent()
@@ -348,16 +351,11 @@ QtThumbwheel::setValue(
   float value )
 {
   this->wheelValue = this->tempWheelValue = value;
+  this->mouseDownPos = this->mouseLastPos;
   this->repaint();
-}
+} // setValue()
 
 // *************************************************************************
-
-enum boundaryHandling { 
-  CLAMP, 
-  MODULATE, 
-  ACCUMULATE 
-};
 
 void
 QtThumbwheel::setRangeBoundaryHandling(

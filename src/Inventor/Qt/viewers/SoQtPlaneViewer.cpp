@@ -27,6 +27,8 @@ static const char rcsid[] =
 */
 
 #include <qevent.h>
+#include <qpushbutton.h>
+#include <qpixmap.h>
 #include <q1xcompatibility.h>
 
 #include <Inventor/errors/SoDebugError.h>
@@ -39,14 +41,8 @@ static const char rcsid[] =
 #include <Inventor/Qt/common/SoAnyPlaneViewer.h>
 #include <Inventor/Qt/viewers/SoQtPlaneViewer.h>
 
-enum {
-  WAITING_FOR_DOLLY_MODE,
-  DOLLY_MODE,
-  TRANSLATE_MODE,
-  WAITING_FOR_SEEK_MODE,
-  SEEK_MODE,
-  ROTATE_MODE
-};
+#include "icons/ortho.xpm"
+#include "icons/perspective.xpm"
 
 // ************************************************************************
 
@@ -104,8 +100,14 @@ SoQtPlaneViewer::constructor( // private
   this->setClassName("SoQtPlaneViewer");
   this->setLeftWheelString( "transY" );
   this->setBottomWheelString( "transX" );
+
+  this->pixmaps.orthogonal = new QPixmap( (const char **) ortho_xpm );
+  this->pixmaps.perspective = new QPixmap( (const char **) perspective_xpm );
+
   if ( buildNow )
     this->setBaseWidget( this->buildWidget( this->getParentWidget() ) );
+
+  this->setSize( SbVec2s( 550, 450 ) ); // extra buttons -> more height
 } // constructor()
 
 // ************************************************************************
@@ -117,6 +119,8 @@ SoQtPlaneViewer::constructor( // private
 SoQtPlaneViewer::~SoQtPlaneViewer(
   void )
 {
+  delete this->pixmaps.orthogonal;
+  delete this->pixmaps.perspective;
   delete this->projector;
 } // ~SoQtPlaneViewer()
 
@@ -146,13 +150,10 @@ SoQtPlaneViewer::setCamera( // virtual
     SbBool orthogonal =
       type.isDerivedFrom( SoOrthographicCamera::getClassTypeId() );
     this->setRightWheelString( orthogonal ? "Zoom" : "Dolly" );
-/*
-    if ( this->cameratogglebutton ) {
-      this->cameratogglebutton->setPixmap( orthogonal ?
-                                          * (this->orthopixmap) :
-                                          * (this->perspectivepixmap) );
+    if ( this->buttons.camera ) {
+      this->buttons.camera->setPixmap( orthogonal ?
+        *(this->pixmaps.orthogonal) : *(this->pixmaps.perspective) );
     }
-*/
   }
   inherited::setCamera( camera );
 } // setCamera()
@@ -304,15 +305,16 @@ SoQtPlaneViewer::processEvent( // virtual
   
       case DOLLY_MODE:
         if ( norm_mousepos[1] != this->prevMousePosition[1] )
-          this->zoom( (norm_mousepos[1] - this->prevMousePosition[1]) * 10.0f );
+          this->rightWheelMotion( this->getRightWheelValue() +
+            (this->prevMousePosition[1] - norm_mousepos[1]) * 10.0f );
         break;
 
       case TRANSLATE_MODE:
         if ( (norm_mousepos[0] != this->prevMousePosition[0]) ||
              (norm_mousepos[1] != this->prevMousePosition[1]) ) {
-          float diffx = (this->prevMousePosition[0] - norm_mousepos[0]) * 2.5f;
-          float diffy = (this->prevMousePosition[1] - norm_mousepos[1]) * 2.5f;
-          this->leftWheelMotion( this->getLeftWheelValue() + diffy );
+          float diffx = (norm_mousepos[0] - this->prevMousePosition[0]) * 2.5f;
+          float diffy = (norm_mousepos[1] - this->prevMousePosition[1]) * 2.5f;
+          this->leftWheelMotion( this->getLeftWheelValue() - diffy );
           this->bottomWheelMotion( this->getBottomWheelValue() + diffx );
         }
         break;
@@ -406,7 +408,7 @@ void
 SoQtPlaneViewer::rightWheelMotion( // virtual
   float value )
 {
-  this->zoom( value - this->getRightWheelValue() );
+  this->zoom( this->getRightWheelValue() - value );
   inherited::rightWheelMotion( value );
 } // rightWheelMotion()
 
@@ -428,10 +430,45 @@ SoQtPlaneViewer::createPrefSheet( // virtual
 
 void
 SoQtPlaneViewer::createViewerButtons( // virtual
-  QWidget * parent )
+  QWidget * parent,
+  SbPList * buttons )
 {
-/* add X, Y, Z buttons */
-//  inherited::createViewerButtons( parent );
+  // add X, Y, Z viewpoint buttons
+  inherited::createViewerButtons( parent, buttons );
+  this->buttons.x = new QPushButton( parent );
+  this->buttons.x->setFocusPolicy( QWidget::NoFocus );
+  this->buttons.x->setText( QString( "X" ) );
+  buttons->append( this->buttons.x );
+  this->buttons.y = new QPushButton( parent );
+  this->buttons.y->setFocusPolicy( QWidget::NoFocus );
+  this->buttons.y->setText( QString( "Y" ) );
+  buttons->append( this->buttons.y );
+  this->buttons.z = new QPushButton( parent );
+  this->buttons.z->setFocusPolicy( QWidget::NoFocus );
+  this->buttons.z->setText( QString( "Z" ) );
+  buttons->append( this->buttons.z );
+  // add camera toggle button
+  assert( this->pixmaps.perspective != NULL );
+  assert( this->pixmaps.orthogonal != NULL );
+  this->buttons.camera = new QPushButton( parent );
+  this->buttons.camera->setFocusPolicy( QWidget::NoFocus );
+  QPixmap * pixmap = this->pixmaps.orthogonal;
+  SoCamera * cam = this->getCamera();
+  if ( cam != NULL ) {
+    SoType type = cam->getTypeId();
+    if ( type.isDerivedFrom(SoOrthographicCamera::getClassTypeId()) )
+      pixmap = this->pixmaps.orthogonal;
+    else if ( type.isDerivedFrom(SoPerspectiveCamera::getClassTypeId()) )
+      pixmap = this->pixmaps.perspective;
+    else
+      assert( 0 && "impossible" );
+  }
+  this->buttons.camera->setPixmap( *pixmap );
+  buttons->append( this->buttons.camera );
+
+  QObject::connect( this->buttons.camera, SIGNAL(clicked()),
+                    this, SLOT(cameratoggleClicked()) );
+
 } // createViewerButtons()
 
 // ************************************************************************
@@ -485,5 +522,17 @@ SoQtPlaneViewer::zoom(
     assert( 0 && "impossible" );
   }
 } // zoom()
+
+// ************************************************************************
+
+/*!
+  \internal
+*/
+
+void
+SoQtPlaneViewer::cameratoggleClicked()
+{
+  this->toggleCameraType();
+} // cameratoggleClicked()
 
 // ************************************************************************
