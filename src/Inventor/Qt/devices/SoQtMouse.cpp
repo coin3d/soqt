@@ -23,11 +23,6 @@ static const char rcsid[] =
 #endif // SOQT_DEBUG
 
 #include <qevent.h>
-// FIXME: get rid of this before 1.0 release (convert everything to Qt
-// version 2.x API). 19990630 mortene.
-#if QT_VERSION >= 200
-#include <q1xcompatibility.h>
-#endif // Qt v2.x
 
 #include <Inventor/errors/SoDebugError.h>
 #include <Inventor/events/SoMouseButtonEvent.h>
@@ -177,15 +172,15 @@ SoQtMouse::translateEvent(
   // application.
 
   // Qt actually sends this series of events upon dblclick:
-  // Event_MouseButtonPress, Event_MouseButtonRelease,
-  // Event_MouseButtonDblClick, Event_MouseButtonRelease.
+  // QEvent::MouseButtonPress, QEvent::MouseButtonRelease,
+  // QEvent::MouseButtonDblClick, QEvent::MouseButtonRelease.
   //
   // This was reported to Troll Tech as a possible bug, but was
   // confirmed by TT support to be the intended behavior.
 
-  if (((event->type() == Event_MouseButtonDblClick) ||
-       (event->type() == Event_MouseButtonPress) ||
-       (event->type() == Event_MouseButtonRelease)) &&
+  if (((event->type() == QEvent::MouseButtonDblClick) ||
+       (event->type() == QEvent::MouseButtonPress) ||
+       (event->type() == QEvent::MouseButtonRelease)) &&
       (this->eventmask & (BUTTON_PRESS | BUTTON_RELEASE))) {
 
     // Allocate system-neutral event object once and reuse.
@@ -218,7 +213,7 @@ SoQtMouse::translateEvent(
 
 
   // Check for mouse movement.
-  if ((event->type() == Event_MouseMove) &&
+  if ((event->type() == QEvent::MouseMove) &&
       (this->eventmask & (POINTER_MOTION | BUTTON_MOTION))) {
     // Allocate system-neutral event object once and reuse.
     if (!this->locationevent) this->locationevent = new SoLocation2Event;

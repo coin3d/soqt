@@ -32,11 +32,6 @@ static const char rcsid[] =
 #include <qframe.h>
 #include <qslider.h>
 #include <qcheckbox.h>
-// FIXME: get rid of this before 1.0 release (convert everything to Qt
-// version 2.x API). 19990630 mortene.
-#if QT_VERSION >= 200
-#include <q1xcompatibility.h>
-#endif // Qt v2.x
 
 #include <Inventor/nodes/SoPerspectiveCamera.h>
 #include <Inventor/nodes/SoOrthographicCamera.h>
@@ -620,7 +615,7 @@ SoQtFullViewer::eventFilter(QObject * obj, QEvent * e)
 
   // Catch pref window close events to avoid it actually being
   // destroyed.
-  if (obj == this->prefwindow && e->type() == Event_Close) {
+  if (obj == this->prefwindow && e->type() == QEvent::Close) {
     ((QCloseEvent *)e)->ignore();
     this->prefwindow->hide();
     return TRUE;

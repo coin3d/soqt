@@ -31,11 +31,7 @@ static const char rcsid[] =
 #include <qpixmap.h>
 #include <qbitmap.h>
 #include <qtimer.h>
-// FIXME: get rid of this before 1.0 release (convert everything to Qt
-// version 2.x API). 19990630 mortene.
-#if QT_VERSION >= 200
-#include <q1xcompatibility.h>
-#endif // Qt v2.x
+#include <qcursor.h>
 
 #include <Inventor/nodes/SoPerspectiveCamera.h>
 #include <Inventor/nodes/SoOrthographicCamera.h>

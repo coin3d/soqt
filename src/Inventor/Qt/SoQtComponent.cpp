@@ -47,11 +47,6 @@ static const char rcsid[] =
 #include <qwidget.h>
 #include <qmainwindow.h>
 #include <qmessagebox.h>
-// FIXME: get rid of this before 1.0 release (convert everything to Qt
-// version 2.x API). 19990630 mortene.
-#if QT_VERSION >= 200
-#include <q1xcompatibility.h>
-#endif // Qt v2.x
 
 #if SOQT_DEBUG
 #include <Inventor/errors/SoDebugError.h>
@@ -429,7 +424,7 @@ SoQtComponent::eventFilter( // virtual
                          obj, eventnaming[e->type()]);
 #endif // debug
 
-  if (e->type() == Event_Resize) {
+  if (e->type() == QEvent::Resize) {
     QResizeEvent * r = (QResizeEvent *)e;
 
     if (obj == (QObject *)THIS->parent) {
@@ -450,23 +445,23 @@ SoQtComponent::eventFilter( // virtual
   }
   // Detect visibility changes.
   else if (obj == THIS->widget &&
-           (e->type() == Event_Show || e->type() == Event_Hide)) {
+           (e->type() == QEvent::Show || e->type() == QEvent::Hide)) {
     if (THIS->visibilitychangeCBs) {
       for (int i=0; i < THIS->visibilitychangeCBs->getLength()/2; i++) {
         SoQtComponentVisibilityCB * cb =
           (SoQtComponentVisibilityCB *)(*(THIS->visibilitychangeCBs))[i*2+0];
         void * userdata = (*(THIS->visibilitychangeCBs))[i*2+1];
-        cb(userdata, e->type() == Event_Show ? TRUE : FALSE);
+        cb(userdata, e->type() == QEvent::Show ? TRUE : FALSE);
       }
     }
   }
 
   // It would seem more sensible that we should trigger on
-  // Event_Create than on Event_Show for the afterRealizeHook()
-  // method, but the Event_Create type is not yet used in Qt (as of
+  // QEvent::Create than on QEvent::Show for the afterRealizeHook()
+  // method, but the QEvent::Create type is not yet used in Qt (as of
   // version 2.2.2 at least) -- it has just been reserved for future
   // releases.
-  if (e->type() == Event_Show && !THIS->realized) {
+  if (e->type() == QEvent::Show && !THIS->realized) {
     THIS->realized = TRUE;
     this->afterRealizeHook();
   }

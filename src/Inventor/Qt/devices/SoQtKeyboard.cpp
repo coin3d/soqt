@@ -26,9 +26,6 @@ static const char rcsid[] =
 
 #include <qevent.h>
 #include <qkeycode.h>
-#if QT_VERSION >= 200
-#include <q1xcompatibility.h>
-#endif // Qt v2.0
 
 #include <Inventor/SbDict.h>
 #include <Inventor/events/SoKeyboardEvent.h>
@@ -503,8 +500,8 @@ const SoEvent *
 SoQtKeyboard::translateEvent(
   QEvent * event )
 {
-  SbBool keypress = event->type() == Event_KeyPress;
-  SbBool keyrelease = event->type() == Event_KeyRelease;
+  SbBool keypress = event->type() == QEvent::KeyPress;
+  SbBool keyrelease = event->type() == QEvent::KeyRelease;
 
 #if QT_VERSION >= 200
   // Qt 2 introduced "accelerator" type keyboard events.

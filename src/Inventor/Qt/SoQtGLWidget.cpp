@@ -92,13 +92,8 @@ static const char rcsid[] =
 
 // *************************************************************************
 
-// FIXME: get rid of this before 1.0 release by converting everything
-// to Qt version 2.x API? 19990630 mortene.
 #include <qevent.h>
 #include <qframe.h>
-#if QT_VERSION >= 200
-#include <q1xcompatibility.h>
-#endif // Qt v2.x
 
 #include <Inventor/errors/SoDebugError.h>
 #include <Inventor/misc/SoBasic.h>
@@ -519,7 +514,7 @@ SoQtGLWidget::eventFilter(
   SbBool stopevent = FALSE;
 
   SbBool keyboardevent =
-    (e->type() == Event_KeyPress) || (e->type() == Event_KeyRelease);
+    (e->type() == QEvent::KeyPress) || (e->type() == QEvent::KeyRelease);
 
   if (keyboardevent) {
     // Redirect absolutely all keyboard events to the GL canvas
@@ -535,7 +530,7 @@ SoQtGLWidget::eventFilter(
   if ( obj == (QObject *) THIS->glparent ) {
     // If this hits, the THIS->glparent QWidget is a toplevelshell, so
     // we resize the GL widget along with it.
-    if (e->type() == Event_Resize) {
+    if (e->type() == QEvent::Resize) {
       QResizeEvent * r = (QResizeEvent *)e;
 #if SOQT_DEBUG && 0  // debug
       SoDebugError::postInfo("SoQtGLWidget::eventFilter",
@@ -567,7 +562,7 @@ SoQtGLWidget::eventFilter(
 
   } else if ( obj == (QObject *) THIS->currentglwidget ) {
 #if 1  // debug
-    if (e->type() == Event_Resize) {
+    if (e->type() == QEvent::Resize) {
       QResizeEvent * r = (QResizeEvent *)e;
 #if 0
       SoDebugError::postInfo("SoQtGLWidget::eventFilter",
