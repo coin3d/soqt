@@ -252,20 +252,6 @@ SoQtPlaneViewer::getDefaultIconTitle(// virtual
   FIXME: write doc
 */
 
-SbBool
-SoQtPlaneViewer::processSoEvent(// virtual, protected
-  const SoEvent * const event)
-{
-  if (this->processGenericSoEvent(event))
-    return TRUE;
-
-  return inherited::processSoEvent(event);
-} // processSoEvent()
-
-/*!
-  FIXME: write doc
-*/
-
 void
 SoQtPlaneViewer::processEvent(// virtual
   QEvent * event)

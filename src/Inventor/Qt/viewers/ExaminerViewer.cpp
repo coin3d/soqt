@@ -494,34 +494,6 @@ SoQtExaminerViewer::openViewerHelpCard(void)
 // *************************************************************************
 
 /*!
-  FIXME: write doc
-*/
-
-SbBool
-SoQtExaminerViewer::processSoEvent(
-  const SoEvent * const event)
-{
-  if (this->processGenericSoEvent(event))
-    return TRUE;
-
-  return inherited::processSoEvent(event);
-} // processSoEvent()
-
-/*!
-  Overloaded from parent class to take care of any model interaction
-  events.
-*/
-
-void
-SoQtExaminerViewer::processEvent(QEvent * event)
-{
-  inherited::processEvent(event);
-  return;
-} // processEvents()
-
-// *************************************************************************
-
-/*!
   Overload this method to make sure any animations are stopped before
   we go into seek mode.
 */
