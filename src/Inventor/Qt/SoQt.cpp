@@ -364,14 +364,16 @@ SoQtP::slot_timedOutSensor()
 void
 SoQtP::slot_idleSensor()
 {
-  if (SOQT_DEBUG && 0) { // debug
+#if 0 // Disabled. hasPendingEvents() was probably not introduced until Qt 3
+  if (SOQT_DEBUG) { // debug
     SoDebugError::postInfo("SoQt::idleSensor",
                            "processing delay queue, "
                            "QApplication::hasPendingEvents()==%d",
                            SoQtP::appobject->hasPendingEvents());
     SoDebugError::postInfo("SoQt::idleSensor", "is %s",
                            SoQtP::idletimer->isActive() ? "active" : "inactive");
-  }
+  } 
+#endif // disabled
 
   // FIXME: tmp disabled, as I'm not sure if this really
   // helps. Investigate further the actual semantics of "idle trigger
