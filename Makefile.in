@@ -192,9 +192,9 @@ DIST_SOURCES =
 DATA =  $(m4data_DATA) $(noinst_DATA)
 
 DIST_COMMON =  README ./stamp-h.in AUTHORS COPYING ChangeLog INSTALL \
-Makefile.am Makefile.in NEWS acconfig.h aclocal.m4 cfg/config.guess \
-cfg/config.sub cfg/install-sh cfg/ltconfig cfg/ltmain.sh cfg/missing \
-cfg/mkinstalldirs config.h.in configure configure.in soqt-config.in
+Makefile.am Makefile.in NEWS aclocal.m4 cfg/config.guess cfg/config.sub \
+cfg/install-sh cfg/ltconfig cfg/ltmain.sh cfg/missing cfg/mkinstalldirs \
+config.h.in configure configure.in soqt-config.in
 
 
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -236,7 +236,7 @@ $(srcdir)/config.h.in: @MAINTAINER_MODE_TRUE@$(srcdir)/./stamp-h.in
 		rm -f $(srcdir)/./stamp-h.in; \
 		$(MAKE) $(srcdir)/./stamp-h.in; \
 	else :; fi
-$(srcdir)/./stamp-h.in: $(top_srcdir)/configure.in $(ACLOCAL_M4) acconfig.h
+$(srcdir)/./stamp-h.in: $(top_srcdir)/configure.in $(ACLOCAL_M4) 
 	@rm -f $(srcdir)/./stamp-h.in $(srcdir)/./stamp-h.inT
 	@echo timestamp > $(srcdir)/./stamp-h.inT 2> /dev/null
 	cd $(top_srcdir) && $(AUTOHEADER)
