@@ -1,0 +1,30 @@
+This file contains information about building SoQt on Mac OS X.
+
+General information
+====================
+
+Building SoQt on Mac OS X should be straightforward. If it isn't, we
+consider this a bug, so please let us know and we'll be happy to fix it.
+
+SoQt is installed as SoQt.framework by default. For more information
+about frameworks, please refer to the README.MAC file that comes with
+Coin. 
+
+Note that we do not support Mac OS 10.0.x. It will probably work just
+fine if you compile SoQt yourself, but we don't guarantee that. Please
+upgrade to 10.1, you will be amazed by the increase in performance and
+stability anyway.
+
+
+Problems with older versions of Qt/Mac
+======================================
+
+The first Qt/Mac releases (3.0.0 and 3.0.1) contained a number of
+serious bugs that also affect SoQt. These bugs are fixed in Qt-3.0.2, so
+we strongly recommend you to upgrade your version of Qt. I personally 
+suggest you to try and keep up with the latest version of Qt/Mac until 
+at least Qt/Mac-3.1, since Qt/Mac itself is still under heavy
+development.
+
+--
+kyrah@sim.no
