@@ -301,14 +301,11 @@ void GradientView::insertTick()
   int i = this->grad->insertTick(t);
 
   QValueList<TickMark *>::Iterator it = this->tickMarks.begin();
-#if QT_VERSION >= 310
-  it += i;
-#else // QT_VERSION >= 3.1
-  // the += operator wasn't available until Qt 3.1.0.
+  // the += operator wasn't available until Qt 3.1.0. Just interate
+  // and use ++. pederb, 2003-09-22
   for (int j = 0; j < i; j++) {
     it++;
   }
-#endif // QT_VERSION < 3.1
   this->tickMarks.insert(it, this->getTick(x));
 
   this->endIndex = i;

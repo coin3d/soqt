@@ -48,8 +48,8 @@ public:
   
   const Gradient & getGradient(void) const;
   void addGradient(Gradient * grad);
-  void setMin(int min) const;
-  void setMax(int max) const;
+  void setMin(int min);
+  void setMax(int max);
   
 public slots:
   void loadGradient(void);
