@@ -126,8 +126,19 @@ if $libtoolize; then
 fi
 
 # generate aclocal.m4
-echo "Running aclocal..."
+echo "Running aclocal (generating aclocal.m4)..."
+rm -f aclocal.m4.old
+test -f aclocal.m4 && mv aclocal.m4 aclocal.m4.old
 aclocal -I $MACRODIR
+if test -f aclocal.m4.old; then
+  if cmp -s aclocal.m4 aclocal.m4.old; then
+    echo "aclocal: aclocal.m4 is unchanged"
+    rm -f aclocal.m4
+    mv aclocal.m4.old aclocal.m4
+  else
+    rm -f aclocal.m4.old
+  fi
+fi
 
 # generate configure
 echo "Running autoconf..."
@@ -135,7 +146,7 @@ echo "Running autoconf..."
 
 # generate config.h.in
 echo "Running autoheader..."
-( autoheader 3>&1 1>&2 2>&3 | grep -v 'is unchanged$' ) 3>&1 1>&2 2>&3
+autoheader
 
 # generate Makefile.in templates, and add missing files in cfg/
 echo "Running automake..."

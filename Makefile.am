@@ -7,10 +7,10 @@ SUFFIXES = .cpp .h .m4 .in .o .lo .Plo .TPlo
 
 ############################################################################
 
-SUBDIRS = . src/Inventor/Qt
+SUBDIRS = . src
 
 SoQtBuiltSources = \
-	soqtdefs.h \
+	src/soqtdefs.h \
         src/Inventor/Qt/SoAny.h \
         src/Inventor/Qt/SoAny.cpp \
 	src/Inventor/Qt/SoQtBasic.h \
@@ -67,16 +67,78 @@ BUILT_SOURCES = \
 	$(SoQtBuiltSources) \
 	$(SoQtMocSources)
 
-bin_SCRIPTS = soqt-config
+dist_bin_SCRIPTS = soqt-config
+
+noinst_SCRIPTS = \
+	cfg/m4/msvccc
 
 m4datadir = $(datadir)/aclocal
-m4data_DATA = cfg/m4/soqt.m4
+dist_m4data_DATA = cfg/m4/soqt.m4
 
 cfgdatadir = $(datadir)/Coin/conf
 cfgdata_DATA = soqt-@CONFIG@.cfg
 
 soqt-@CONFIG@.cfg: Makefile $(srcdir)/soqt.cfg.in
 	@$(SHELL) config.status --file=$@:soqt.cfg.in
+
+EXTRA_DIST = \
+	LICENSE.LGPL \
+	README.DLL \
+	README.IRIX \
+	README.WIN32 \
+	soqt.cfg.in \
+	build/soqt.doxygen.in \
+	build/soqt.spec.in \
+	cfg/ltconfig \
+	cfg/doxy4win.pl \
+	cfg/m4/msvccc \
+	models/coin_soqt.iv \
+	models/coin_soqt.wrl \
+	src/Inventor/Qt/common/ChangeLog \
+	src/Inventor/Qt/common/SoGuiBasic.h.in \
+	src/Inventor/Qt/common/SoGuiCursors.h.in \
+	src/Inventor/Qt/common/SoGuiCursors.cpp.in \
+	src/Inventor/Qt/common/SoGuiObject.h.in \
+	src/Inventor/Qt/common/SoGuiObject.cpp.in \
+	src/Inventor/Qt/common/SoGuiRenderArea.h.in \
+	src/Inventor/Qt/common/SoGuiRenderArea.cpp.in \
+	src/Inventor/Qt/common/SoGuiViewer.h.in \
+	src/Inventor/Qt/common/SoGuiViewer.cpp.in \
+	src/Inventor/Qt/common/SoAny.h.in \
+	src/Inventor/Qt/common/SoAny.cpp.in \
+	src/Inventor/Qt/common/SoAnyPopupMenu.h.in \
+	src/Inventor/Qt/common/SoAnyPopupMenu.cpp.in \
+	src/Inventor/Qt/common/SoAnyThumbWheel.h.in \
+	src/Inventor/Qt/common/SoAnyThumbWheel.cpp.in \
+	src/Inventor/Qt/common/SoAnyFullViewer.h.in \
+	src/Inventor/Qt/common/SoAnyFullViewer.cpp.in \
+	src/Inventor/Qt/common/SoAnyExaminerViewer.h.in \
+	src/Inventor/Qt/common/SoAnyExaminerViewer.cpp.in \
+	src/Inventor/Qt/common/SoAnyPlaneViewer.h.in \
+	src/Inventor/Qt/common/SoAnyPlaneViewer.cpp.in \
+	src/Inventor/Qt/common/SoAnyConstrainedViewer.h.in \
+	src/Inventor/Qt/common/SoAnyConstrainedViewer.cpp.in \
+	src/Inventor/Qt/common/SoAnyWalkViewer.h.in \
+	src/Inventor/Qt/common/SoAnyWalkViewer.cpp.in \
+	src/Inventor/Qt/common/SoAnyFlyViewer.h.in \
+	src/Inventor/Qt/common/SoAnyFlyViewer.cpp.in \
+	src/Inventor/Qt/common/SoAnyMaterialList.h.in \
+	src/Inventor/Qt/common/SoAnyMaterialList.cpp.in \
+	src/Inventor/Qt/common/SoAnyMaterialListBuiltins.cpp.in \
+	src/Inventor/Qt/common/spwinput.h.in \
+	src/Inventor/Qt/common/spwinput_x11.cpp.in \
+	src/Inventor/Qt/common/pixmaps/help.xpm \
+	src/Inventor/Qt/common/pixmaps/home.xpm \
+	src/Inventor/Qt/common/pixmaps/ortho.xpm \
+	src/Inventor/Qt/common/pixmaps/perspective.xpm \
+	src/Inventor/Qt/common/pixmaps/pick.xpm \
+	src/Inventor/Qt/common/pixmaps/seek.xpm \
+	src/Inventor/Qt/common/pixmaps/set_home.xpm \
+	src/Inventor/Qt/common/pixmaps/view.xpm \
+	src/Inventor/Qt/common/pixmaps/view_all.xpm \
+	src/Inventor/Qt/common/pixmaps/x.xpm \
+	src/Inventor/Qt/common/pixmaps/y.xpm \
+	src/Inventor/Qt/common/pixmaps/z.xpm
 
 # This is necessary to set up a hook somewhere in the generated Makefile
 # so the sources are actually built.
@@ -90,8 +152,8 @@ built-sources: $(BUILT_SOURCES)
 
 # **************************************************************************
 
-soqtdefs.h: $(srcdir)/soqtdefs.h.in
-	@$(SHELL) config.status --file=soqtdefs.h
+src/soqtdefs.h: $(srcdir)/src/soqtdefs.h.in
+	@$(SHELL) config.status --file=$@:src/soqtdefs.h.in
 
 src/Inventor/Qt/SoAny.h: \
   $(srcdir)/src/Inventor/Qt/common/SoAny.h.in

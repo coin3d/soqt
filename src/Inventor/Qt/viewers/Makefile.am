@@ -9,7 +9,8 @@ endif
 ## Remove any linklibraries detected by configure, as they are not
 ## needed in the submodules -- only in the toplevel libSoQt build.
 
-INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
+INCLUDES = -I$(top_srcdir)/src
+
 LIBS = 
 
 ############################################################################
@@ -111,7 +112,6 @@ moc_SoQtFlyViewer.cpp: $(top_srcdir)/src/Inventor/Qt/viewers/SoQtFlyViewer.h
 # libtool setup
 
 libSoQtViewers_la_SOURCES = \
-	$(BUILT_SOURCES) \
 	SoQtFullViewer.cpp \
 	SoQtFullViewer.h \
 	SoQtExaminerViewer.cpp \
@@ -124,12 +124,14 @@ libSoQtViewers_la_SOURCES = \
 	SoQtWalkViewer.h \
 	SoQtFlyViewer.cpp \
 	SoQtFlyViewer.h
+
+nodist_libSoQtViewers_la_SOURCES = \
+	$(BUILT_SOURCES)
 
 ############################################################################
 # custom setup
 
 viewers_lst_SOURCES = \
-	$(BUILT_SOURCES) \
 	SoQtFullViewer.cpp \
 	SoQtFullViewer.h \
 	SoQtExaminerViewer.cpp \
@@ -143,20 +145,19 @@ viewers_lst_SOURCES = \
 	SoQtFlyViewer.cpp \
 	SoQtFlyViewer.h
 
+nodist_viewers_lst_SOURCES = \
+	$(BUILT_SOURCES)
+
 viewers.lst: Makefile $(viewers_lst_OBJECTS)
 	@echo "Linking viewers.lst..."; \
-	echo $(CC) /LST:viewers.lst \
-	  $(viewers_lst_OBJECTS); \
-	$(CC) /LST:viewers.lst \
-	  $(viewers_lst_OBJECTS);
+	rm -f $@; \
+	for i in $(viewers_lst_OBJECTS); do echo $$i >>$@; done
 
 ############################################################################
 # header installation
 
 libSoQtViewersincdir = $(includedir)/Inventor/Qt/viewers
-
 libSoQtViewersinc_HEADERS = \
-	$(top_builddir)/src/Inventor/Qt/viewers/SoQtViewer.h \
 	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtFullViewer.h \
 	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtExaminerViewer.h \
 	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtPlaneViewer.h \
@@ -164,3 +165,33 @@ libSoQtViewersinc_HEADERS = \
 	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtWalkViewer.h \
 	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtFlyViewer.h
 
+nodist_libSoQtViewersinc_HEADERS = \
+	$(top_builddir)/src/Inventor/Qt/viewers/SoQtViewer.h \
+
+install-libSoQtViewersincHEADERS: $(libSoQtViewersinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(libSoQtViewersincdir)
+	@list='$(libSoQtViewersinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(libSoQtViewersincdir)/$$f"; \
+	  if cmp -s "$$src" "$$dst"; then :; else \
+	    echo " $(INSTALL_HEADER) $$src $$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	  fi \
+	done
+
+install-nodist_libSoQtViewersincHEADERS: $(nodist_libSoQtViewersinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(libSoQtViewersincdir)
+	@list='$(nodist_libSoQtViewersinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(libSoQtViewersincdir)/$$f"; \
+	  if cmp -s "$$src" "$$dst"; then :; else \
+	    echo " $(INSTALL_HEADER) $$src $$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	  fi \
+	done
+
+# EOF ######################################################################

@@ -6,8 +6,8 @@ else
 noinst_LTLIBRARIES = libSoQtDevices.la
 endif
 
-INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
 LIBS =
+INCLUDES = -I$(top_srcdir)/src
 
 # every built sourcefile
 BUILT_SOURCES = \
@@ -17,7 +17,8 @@ BUILT_SOURCES = \
 	moc_SoQtMouse.cpp \
 	moc_SoQtSpaceball.cpp \
 	moc_SoQtLinuxJoystick.cpp \
-	spwinput_x11.cpp spwinput.h
+	spwinput_x11.cpp \
+	spwinput.h
 
 # built sourcefiles that are to be included in any case
 libSoQtDevicesBuiltSources = \
@@ -26,18 +27,19 @@ libSoQtDevicesBuiltSources = \
 	moc_SoQtKeyboard.cpp \
 	moc_SoQtMouse.cpp \
 	moc_SoQtSpaceball.cpp \
-	spwinput_x11.cpp spwinput.h
+	spwinput_x11.cpp \
+	spwinput.h
 
 ############################################################################
 # automake conditional stuff
 
 # if HAVE_JOYSTICK_LINUX
-# libSoQtDevicesLinuxJoystickHeaders = \
+# libSoQtDevicesLinuxJoystickHeaders = \ 
 #         SoQtLinuxJoystick.h
 # 
-# libSoQtDevicesLinuxJoystickSources = \
-#         SoQtLinuxJoystick.cpp \
-# 	moc_SoQtLinuxJoystick.cpp \
+# libSoQtDevicesLinuxJoystickSources = \ 
+#         SoQtLinuxJoystick.cpp \ 
+# 	moc_SoQtLinuxJoystick.cpp \ 
 #         $(libSoQtDevicesLinuxJoystickHeaders)
 # else
 libSoQtDevicesLinuxJoystickHeaders =
@@ -47,8 +49,8 @@ libSoQtDevicesLinuxJoystickSources =
 libSoQtDevicesConditionalSources = \
         $(libSoQtDevicesLinuxJoystickSources)
 
-libSoQtDevicesConditionalHeaders = \
-        $(libSoQtDevicesLinuxJoystickHeaders)
+# libSoQtDevicesConditionalHeaders = \ 
+#         $(libSoQtDevicesLinuxJoystickHeaders)
 
 ############################################################################
 # libtool setup
@@ -64,14 +66,15 @@ libSoQtDevices_la_SOURCES = \
 	SoQtMouse.h \
 	SoQtSpaceball.cpp \
 	SoQtSpaceball.h \
-	$(libSoQtDevicesBuiltSources) \
 	$(libSoQtDevicesConditionalSources)
+
+nodist_libSoQtDevices_la_SOURCES = \
+	$(libSoQtDevicesBuiltSources)
 
 # all the sources that are conditional
 EXTRA_libSoQtDevices_la_SOURCES = \
 	SoQtLinuxJoystick.h \
-	SoQtLinuxJoystick.cpp \
-	moc_SoQtLinuxJoystick.cpp
+	SoQtLinuxJoystick.cpp
 
 ############################################################################
 # custom setup
@@ -87,28 +90,41 @@ devices_lst_SOURCES = \
 	SoQtMouse.h \
 	SoQtSpaceball.cpp \
 	SoQtSpaceball.h \
-	$(libSoQtDevicesBuiltSources) \
 	$(libSoQtDevicesConditionalSources)
+
+nodist_devices_lst_SOURCES = \
+	$(libSoQtDevicesBuiltSources)
 
 devices.lst: Makefile $(devices_lst_OBJECTS)
 	@echo "Linking devices.lst..."; \
-	echo $(CC) /LST:devices.lst \
-	  $(devices_lst_OBJECTS); \
-	$(CC) /LST:devices.lst \
-	  $(devices_lst_OBJECTS);
+	rm -f $@; \
+	for i in $(devices_lst_OBJECTS); do echo $$i >>$@; done
 
 ############################################################################
 ## Header file installation information.
 
 libSoQtDevicesincdir = $(includedir)/Inventor/Qt/devices
-
 libSoQtDevicesinc_HEADERS = \
 	$(srcdir)/SoQtDevice.h \
 	$(srcdir)/SoQtInputFocus.h \
 	$(srcdir)/SoQtKeyboard.h \
 	$(srcdir)/SoQtMouse.h \
-	$(srcdir)/SoQtSpaceball.h \
-	$(libSoQtDevicesConditionalHeaders)
+	$(srcdir)/SoQtSpaceball.h
+# FIXME: this is bad practice...
+#	$(libSoQtDevicesConditionalHeaders)
+
+install-libSoQtDevicesincHEADERS: $(libSoQtDevicesinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(libSoQtDevicesincdir)
+	@list='$(libSoQtDevicesinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(libSoQtDevicesincdir)/$$f"; \
+	  if cmp -s "$$src" "$$dst"; then :; else \
+	    echo " $(INSTALL_HEADER) $$src $$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	  fi \
+	done
 
 ############################################################################
 
@@ -143,3 +159,4 @@ spwinput_x11.cpp: $(top_srcdir)/src/Inventor/Qt/common/spwinput_x11.cpp.in
 	@( cd $(top_builddir); \
 		$(MAKE) src/Inventor/Qt/devices/spwinput_x11.cpp )
 
+# EOF ######################################################################

@@ -4,13 +4,13 @@ SUBDIRS = devices viewers widgets
 
 ############################################################################
 
-INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
-
 if BUILD_WITH_MSVC
 lib_LIBRARIES = soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib
 else
 lib_LTLIBRARIES = libSoQt@SUFFIX@.la
 endif
+
+INCLUDES = -I$(top_srcdir)/src
 
 BUILT_SOURCES = \
 	SoAny.h \
@@ -33,8 +33,10 @@ BUILT_SOURCES = \
 	moc_SoQtSliderSetBase.cpp \
 	moc_SoQtTransformSliderSet.cpp
 
-SOQTSOURCES = \
-	$(BUILT_SOURCES) \
+############################################################################
+# libtool setup
+
+libSoQt@SUFFIX@_la_SOURCES = \
 	SoQt.cpp \
 	SoQt.h \
 	SoQtComponent.cpp \
@@ -52,11 +54,8 @@ SOQTSOURCES = \
 	SoQtTransformSliderSet.cpp \
 	SoQtTransformSliderSet.h
 
-############################################################################
-# libtool setup
-
-libSoQt@SUFFIX@_la_SOURCES = \
-	$(SOQTSOURCES)
+nodist_libSoQt@SUFFIX@_la_SOURCES = \
+	$(BUILT_SOURCES)
 
 libSoQt@SUFFIX@_la_LIBADD = \
 	devices/libSoQtDevices.la \
@@ -69,8 +68,26 @@ libSoQt@SUFFIX@_la_LDFLAGS = \
 ############################################################################
 # custom setup
 
-soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
-	$(SOQTSOURCES)
+soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES =
+	SoQt.cpp \
+	SoQt.h \
+	SoQtComponent.cpp \
+	SoQtComponent.h \
+	SoQtGLWidget.cpp \
+	SoQtGLWidget.h \
+	SoQtLightSliderSet.cpp \
+	SoQtLightSliderSet.h \
+	SoQtMaterialSliderSet.cpp \
+	SoQtMaterialSliderSet.h \
+	SoQtSliderSet.cpp \
+	SoQtSliderSet.h \
+	SoQtSliderSetBase.cpp \
+	SoQtSliderSetBase.h \
+	SoQtTransformSliderSet.cpp \
+	SoQtTransformSliderSet.h
+
+nodist_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
+	$(BUILT_SOURCES)
 
 soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
 	devices/devices.lst \
@@ -80,21 +97,48 @@ soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
 ############################################################################
 # header installation
 
-libSoQt@SUFFIX@incdir = $(includedir)/Inventor/Qt
-
-libSoQt@SUFFIX@inc_HEADERS = \
+SoQtincdir = $(includedir)/Inventor/Qt
+SoQtinc_HEADERS = \
 	$(top_srcdir)/src/Inventor/Qt/SoQt.h \
-	$(top_builddir)/src/Inventor/Qt/SoQtBasic.h \
-	$(top_builddir)/src/Inventor/Qt/SoQtObject.h \
 	$(top_srcdir)/src/Inventor/Qt/SoQtComponent.h \
-	$(top_builddir)/src/Inventor/Qt/SoQtCursors.h \
 	$(top_srcdir)/src/Inventor/Qt/SoQtGLWidget.h \
 	$(top_srcdir)/src/Inventor/Qt/SoQtLightSliderSet.h \
 	$(top_srcdir)/src/Inventor/Qt/SoQtMaterialSliderSet.h \
-	$(top_builddir)/src/Inventor/Qt/SoQtRenderArea.h \
 	$(top_srcdir)/src/Inventor/Qt/SoQtSliderSet.h \
 	$(top_srcdir)/src/Inventor/Qt/SoQtSliderSetBase.h \
 	$(top_srcdir)/src/Inventor/Qt/SoQtTransformSliderSet.h
+
+nodist_SoQtinc_HEADERS = \
+	$(top_builddir)/src/Inventor/Qt/SoQtBasic.h \
+	$(top_builddir)/src/Inventor/Qt/SoQtObject.h \
+	$(top_builddir)/src/Inventor/Qt/SoQtCursors.h \
+	$(top_builddir)/src/Inventor/Qt/SoQtRenderArea.h
+
+install-SoQtincHEADERS: $(SoQtinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(SoQtincdir)
+	@list='$(SoQtinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoQtincdir)/$$f"; \
+	  if cmp -s "$$src" "$$dst"; then :; else \
+	    echo " $(INSTALL_HEADER) $$src $$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	  fi \
+	done
+
+install-nodist_SoQtincHEADERS: $(nodist_SoQtinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(SoQtincdir)
+	@list='$(nodist_SoQtinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoQtincdir)/$$f"; \
+	  if cmp -s "$$src" "$$dst"; then :; else \
+	    echo " $(INSTALL_HEADER) $$src $$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	  fi \
+	done
 
 ############################################################################
 

@@ -134,10 +134,10 @@ SUFFIXES = .cpp .h .m4 .in .o .lo .Plo .TPlo
 
 ############################################################################
 
-SUBDIRS = . src/Inventor/Qt
+SUBDIRS = . src
 
 SoQtBuiltSources = \
-	soqtdefs.h \
+	src/soqtdefs.h \
         src/Inventor/Qt/SoAny.h \
         src/Inventor/Qt/SoAny.cpp \
 	src/Inventor/Qt/SoQtBasic.h \
@@ -197,30 +197,94 @@ BUILT_SOURCES = \
 	$(SoQtMocSources)
 
 
-bin_SCRIPTS = soqt-config
+dist_bin_SCRIPTS = soqt-config
+
+noinst_SCRIPTS = \
+	cfg/m4/msvccc
+
 
 m4datadir = $(datadir)/aclocal
-m4data_DATA = cfg/m4/soqt.m4
+dist_m4data_DATA = cfg/m4/soqt.m4
 
 cfgdatadir = $(datadir)/Coin/conf
 cfgdata_DATA = soqt-@CONFIG@.cfg
+
+EXTRA_DIST = \
+	LICENSE.LGPL \
+	README.DLL \
+	README.IRIX \
+	README.WIN32 \
+	soqt.cfg.in \
+	build/soqt.doxygen.in \
+	build/soqt.spec.in \
+	cfg/ltconfig \
+	cfg/doxy4win.pl \
+	cfg/m4/msvccc \
+	models/coin_soqt.iv \
+	models/coin_soqt.wrl \
+	src/Inventor/Qt/common/ChangeLog \
+	src/Inventor/Qt/common/SoGuiBasic.h.in \
+	src/Inventor/Qt/common/SoGuiCursors.h.in \
+	src/Inventor/Qt/common/SoGuiCursors.cpp.in \
+	src/Inventor/Qt/common/SoGuiObject.h.in \
+	src/Inventor/Qt/common/SoGuiObject.cpp.in \
+	src/Inventor/Qt/common/SoGuiRenderArea.h.in \
+	src/Inventor/Qt/common/SoGuiRenderArea.cpp.in \
+	src/Inventor/Qt/common/SoGuiViewer.h.in \
+	src/Inventor/Qt/common/SoGuiViewer.cpp.in \
+	src/Inventor/Qt/common/SoAny.h.in \
+	src/Inventor/Qt/common/SoAny.cpp.in \
+	src/Inventor/Qt/common/SoAnyPopupMenu.h.in \
+	src/Inventor/Qt/common/SoAnyPopupMenu.cpp.in \
+	src/Inventor/Qt/common/SoAnyThumbWheel.h.in \
+	src/Inventor/Qt/common/SoAnyThumbWheel.cpp.in \
+	src/Inventor/Qt/common/SoAnyFullViewer.h.in \
+	src/Inventor/Qt/common/SoAnyFullViewer.cpp.in \
+	src/Inventor/Qt/common/SoAnyExaminerViewer.h.in \
+	src/Inventor/Qt/common/SoAnyExaminerViewer.cpp.in \
+	src/Inventor/Qt/common/SoAnyPlaneViewer.h.in \
+	src/Inventor/Qt/common/SoAnyPlaneViewer.cpp.in \
+	src/Inventor/Qt/common/SoAnyConstrainedViewer.h.in \
+	src/Inventor/Qt/common/SoAnyConstrainedViewer.cpp.in \
+	src/Inventor/Qt/common/SoAnyWalkViewer.h.in \
+	src/Inventor/Qt/common/SoAnyWalkViewer.cpp.in \
+	src/Inventor/Qt/common/SoAnyFlyViewer.h.in \
+	src/Inventor/Qt/common/SoAnyFlyViewer.cpp.in \
+	src/Inventor/Qt/common/SoAnyMaterialList.h.in \
+	src/Inventor/Qt/common/SoAnyMaterialList.cpp.in \
+	src/Inventor/Qt/common/SoAnyMaterialListBuiltins.cpp.in \
+	src/Inventor/Qt/common/spwinput.h.in \
+	src/Inventor/Qt/common/spwinput_x11.cpp.in \
+	src/Inventor/Qt/common/pixmaps/help.xpm \
+	src/Inventor/Qt/common/pixmaps/home.xpm \
+	src/Inventor/Qt/common/pixmaps/ortho.xpm \
+	src/Inventor/Qt/common/pixmaps/perspective.xpm \
+	src/Inventor/Qt/common/pixmaps/pick.xpm \
+	src/Inventor/Qt/common/pixmaps/seek.xpm \
+	src/Inventor/Qt/common/pixmaps/set_home.xpm \
+	src/Inventor/Qt/common/pixmaps/view.xpm \
+	src/Inventor/Qt/common/pixmaps/view_all.xpm \
+	src/Inventor/Qt/common/pixmaps/x.xpm \
+	src/Inventor/Qt/common/pixmaps/y.xpm \
+	src/Inventor/Qt/common/pixmaps/z.xpm
+
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
-CONFIG_HEADER = config.h
-CONFIG_CLEAN_FILES =
-SCRIPTS = $(bin_SCRIPTS)
+CONFIG_HEADER = $(top_builddir)/src/config.h
+CONFIG_CLEAN_FILES = build/soqt.doxygen build/soqt.spec
+SCRIPTS = $(dist_bin_SCRIPTS) $(noinst_SCRIPTS)
 
 DIST_SOURCES =
-DATA = $(cfgdata_DATA) $(m4data_DATA)
+DATA = $(cfgdata_DATA) $(dist_m4data_DATA)
 
-DIST_COMMON = README ./stamp-h.in AUTHORS COPYING ChangeLog INSTALL \
-Makefile.am Makefile.in NEWS aclocal.m4 cfg/config.guess cfg/config.sub \
-cfg/install-sh cfg/ltmain.sh cfg/missing cfg/mkinstalldirs config.h.in \
-configure configure.in
+DIST_COMMON = README $(dist_bin_SCRIPTS) $(dist_m4data_DATA) AUTHORS \
+COPYING ChangeLog INSTALL Makefile.am Makefile.in NEWS aclocal.m4 \
+cfg/config.guess cfg/config.sub cfg/install-sh cfg/ltmain.sh \
+cfg/missing cfg/mkinstalldirs configure configure.in
 
 DIST_SUBDIRS = $(SUBDIRS)
-all: $(BUILT_SOURCES) config.h
+all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
 .SUFFIXES:
@@ -263,36 +327,14 @@ config.status: $(srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	$(SHELL) ./config.status --recheck
 $(srcdir)/configure: @MAINTAINER_MODE_TRUE@ $(srcdir)/configure.in $(ACLOCAL_M4) $(CONFIGURE_DEPENDENCIES)
 	cd $(srcdir) && $(AUTOCONF)
-
-config.h: stamp-h
-	@if test ! -f $@; then \
-		rm -f stamp-h; \
-		$(MAKE) stamp-h; \
-	else :; fi
-stamp-h: $(srcdir)/config.h.in $(top_builddir)/config.status
-	@rm -f stamp-h stamp-hT
-	@echo timestamp > stamp-hT 2> /dev/null
-	cd $(top_builddir) \
-	  && CONFIG_FILES= CONFIG_HEADERS=config.h \
-	     $(SHELL) ./config.status
-	@mv stamp-hT stamp-h
-$(srcdir)/config.h.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/./stamp-h.in
-	@if test ! -f $@; then \
-		rm -f $(srcdir)/./stamp-h.in; \
-		$(MAKE) $(srcdir)/./stamp-h.in; \
-	else :; fi
-$(srcdir)/./stamp-h.in: $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	@rm -f $(srcdir)/./stamp-h.in $(srcdir)/./stamp-h.inT
-	@echo timestamp > $(srcdir)/./stamp-h.inT 2> /dev/null
-	cd $(top_srcdir) && $(AUTOHEADER)
-	@mv $(srcdir)/./stamp-h.inT $(srcdir)/./stamp-h.in
-
-distclean-hdr:
-	-rm -f config.h
-install-binSCRIPTS: $(bin_SCRIPTS)
+build/soqt.doxygen: $(top_builddir)/config.status $(top_srcdir)/build/soqt.doxygen.in
+	cd $(top_builddir) && CONFIG_FILES=$@ CONFIG_HEADERS= CONFIG_LINKS= $(SHELL) ./config.status
+build/soqt.spec: $(top_builddir)/config.status $(top_srcdir)/build/soqt.spec.in
+	cd $(top_builddir) && CONFIG_FILES=$@ CONFIG_HEADERS= CONFIG_LINKS= $(SHELL) ./config.status
+install-dist_binSCRIPTS: $(dist_bin_SCRIPTS)
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(bindir)
-	@list='$(bin_SCRIPTS)'; for p in $$list; do \
+	@list='$(dist_bin_SCRIPTS)'; for p in $$list; do \
 	  f="`echo $$p|sed '$(transform)'`"; \
 	  if test -f $$p; then \
 	    echo " $(INSTALL_SCRIPT) $$p $(DESTDIR)$(bindir)/$$f"; \
@@ -303,9 +345,9 @@ install-binSCRIPTS: $(bin_SCRIPTS)
 	  else :; fi; \
 	done
 
-uninstall-binSCRIPTS:
+uninstall-dist_binSCRIPTS:
 	@$(NORMAL_UNINSTALL)
-	@list='$(bin_SCRIPTS)'; for p in $$list; do \
+	@list='$(dist_bin_SCRIPTS)'; for p in $$list; do \
 	  f="`echo $$p|sed '$(transform)'`"; \
 	  echo " rm -f $(DESTDIR)$(bindir)/$$f"; \
 	  rm -f $(DESTDIR)$(bindir)/$$f; \
@@ -327,19 +369,19 @@ uninstall-cfgdataDATA:
 	  echo " rm -f $(DESTDIR)$(cfgdatadir)/$$f"; \
 	  rm -f $(DESTDIR)$(cfgdatadir)/$$f; \
 	done
-install-m4dataDATA: $(m4data_DATA)
+install-dist_m4dataDATA: $(dist_m4data_DATA)
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(m4datadir)
-	@list='$(m4data_DATA)'; for p in $$list; do \
+	@list='$(dist_m4data_DATA)'; for p in $$list; do \
 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
 	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(m4datadir)/$$f"; \
 	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(m4datadir)/$$f; \
 	done
 
-uninstall-m4dataDATA:
+uninstall-dist_m4dataDATA:
 	@$(NORMAL_UNINSTALL)
-	@list='$(m4data_DATA)'; for p in $$list; do \
+	@list='$(dist_m4data_DATA)'; for p in $$list; do \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
 	  echo " rm -f $(DESTDIR)$(m4datadir)/$$f"; \
 	  rm -f $(DESTDIR)$(m4datadir)/$$f; \
@@ -414,7 +456,7 @@ ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	       END { for (i in files) print i; }'`; \
 	mkid -fID $$unique $(LISP)
 
-TAGS: tags-recursive $(HEADERS) $(SOURCES) config.h.in $(TAGS_DEPENDENCIES) \
+TAGS: tags-recursive $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
 		$(TAGS_FILES) $(LISP)
 	tags=; \
 	here=`pwd`; \
@@ -429,8 +471,8 @@ TAGS: tags-recursive $(HEADERS) $(SOURCES) config.h.in $(TAGS_DEPENDENCIES) \
 	  done | \
 	  $(AWK) '    { files[$$0] = 1; } \
 	       END { for (i in files) print i; }'`; \
-	test -z "$(ETAGS_ARGS)config.h.in$$unique$(LISP)$$tags" \
-	  || etags $(ETAGS_ARGS) $$tags config.h.in $$unique $(LISP)
+	test -z "$(ETAGS_ARGS)$$unique$(LISP)$$tags" \
+	  || etags $(ETAGS_ARGS) $$tags  $$unique $(LISP)
 
 GTAGS:
 	here=`CDPATH=: && cd $(top_builddir) && pwd` \
@@ -450,7 +492,7 @@ GZIP_ENV = --best
 distdir: $(DISTFILES)
 	-chmod -R a+w $(distdir) >/dev/null 2>&1; rm -rf $(distdir)
 	mkdir $(distdir)
-	$(mkinstalldirs) $(distdir)/build $(distdir)/cfg
+	$(mkinstalldirs) $(distdir)/build $(distdir)/cfg $(distdir)/cfg/m4 $(distdir)/models $(distdir)/src/Inventor/Qt/common $(distdir)/src/Inventor/Qt/common/pixmaps
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
@@ -514,7 +556,7 @@ distcheck: dist
 	  sed 'h;s/./=/g;p;x;p;x'
 check-am: all-am
 check: check-recursive
-all-am: Makefile $(SCRIPTS) $(DATA) config.h
+all-am: Makefile $(SCRIPTS) $(DATA)
 
 installdirs: installdirs-recursive
 installdirs-am:
@@ -556,7 +598,7 @@ dist-all: dist
 distclean: distclean-recursive
 	-rm -f config.status
 
-distclean-am: clean-am distclean-generic distclean-hdr distclean-tags
+distclean-am: clean-am distclean-generic distclean-tags
 
 dvi:
 
@@ -566,9 +608,10 @@ info:
 
 info-am:
 
-install-data-am: install-cfgdataDATA install-m4dataDATA
+install-data-am: install-cfgdataDATA install-dist_binSCRIPTS \
+	install-dist_m4dataDATA
 
-install-exec-am: install-binSCRIPTS
+install-exec-am:
 
 install-info:
 
@@ -585,25 +628,25 @@ mostlyclean: mostlyclean-recursive
 
 mostlyclean-am: mostlyclean-generic
 
-uninstall-am: uninstall-binSCRIPTS uninstall-cfgdataDATA \
-	uninstall-m4dataDATA
+uninstall-am: uninstall-cfgdataDATA uninstall-dist_binSCRIPTS \
+	uninstall-dist_m4dataDATA
 
 .PHONY: all all-am all-recursive check check-am check-recursive clean \
 	clean-generic clean-recursive dist dist-all distcheck distclean \
-	distclean-generic distclean-hdr distclean-recursive \
-	distclean-tags distdir dvi dvi-am dvi-recursive info info-am \
-	info-recursive install install-am install-binSCRIPTS \
-	install-cfgdataDATA install-data install-data-am \
-	install-data-recursive install-exec install-exec-am \
+	distclean-generic distclean-recursive distclean-tags distdir \
+	dvi dvi-am dvi-recursive info info-am info-recursive install \
+	install-am install-cfgdataDATA install-data install-data-am \
+	install-data-recursive install-dist_binSCRIPTS \
+	install-dist_m4dataDATA install-exec install-exec-am \
 	install-exec-recursive install-info install-info-recursive \
-	install-m4dataDATA install-man install-recursive install-strip \
-	installcheck installcheck-am installcheck-recursive installdirs \
+	install-man install-recursive install-strip installcheck \
+	installcheck-am installcheck-recursive installdirs \
 	installdirs-am installdirs-recursive maintainer-clean \
 	maintainer-clean-generic maintainer-clean-recursive mostlyclean \
 	mostlyclean-generic mostlyclean-recursive tags tags-recursive \
-	uninstall uninstall-am uninstall-binSCRIPTS \
-	uninstall-cfgdataDATA uninstall-info-recursive \
-	uninstall-m4dataDATA uninstall-recursive
+	uninstall uninstall-am uninstall-cfgdataDATA \
+	uninstall-dist_binSCRIPTS uninstall-dist_m4dataDATA \
+	uninstall-info-recursive uninstall-recursive
 
 
 soqt-@CONFIG@.cfg: Makefile $(srcdir)/soqt.cfg.in
@@ -621,8 +664,8 @@ built-sources: $(BUILT_SOURCES)
 
 # **************************************************************************
 
-soqtdefs.h: $(srcdir)/soqtdefs.h.in
-	@$(SHELL) config.status --file=soqtdefs.h
+src/soqtdefs.h: $(srcdir)/src/soqtdefs.h.in
+	@$(SHELL) config.status --file=$@:src/soqtdefs.h.in
 
 src/Inventor/Qt/SoAny.h: \
   $(srcdir)/src/Inventor/Qt/common/SoAny.h.in

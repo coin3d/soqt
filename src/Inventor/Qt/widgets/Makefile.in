@@ -129,7 +129,7 @@ win_srcdir = @win_srcdir@
 @BUILD_WITH_MSVC_TRUE@noinst_LIBRARIES = widgets.lst
 @BUILD_WITH_MSVC_FALSE@noinst_LTLIBRARIES = libSoQtWidgets.la
 
-INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
+INCLUDES = -I$(top_srcdir)/src
 LIBS = 
 
 BUILT_SOURCES = \
@@ -146,20 +146,22 @@ BUILT_SOURCES = \
 # libtool setup
 
 libSoQtWidgets_la_SOURCES = \
-	$(BUILT_SOURCES) \
 	SoQtGLArea.cpp \
 	SoQtGLArea.h \
 	SoQtThumbWheel.cpp \
 	SoQtThumbWheel.h \
 	SoQtPopupMenu.cpp \
 	SoQtPopupMenu.h
+
+
+nodist_libSoQtWidgets_la_SOURCES = \
+	$(BUILT_SOURCES)
 
 
 ############################################################################
 # custom setup
 
 widgets_lst_SOURCES = \
-	$(BUILT_SOURCES) \
 	SoQtGLArea.cpp \
 	SoQtGLArea.h \
 	SoQtThumbWheel.cpp \
@@ -167,14 +169,18 @@ widgets_lst_SOURCES = \
 	SoQtPopupMenu.cpp \
 	SoQtPopupMenu.h
 
+
+nodist_widgets_lst_SOURCES = \
+	$(BUILT_SOURCES)
+
 subdir = src/Inventor/Qt/widgets
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
-CONFIG_HEADER = $(top_builddir)/config.h
+CONFIG_HEADER = $(top_builddir)/src/config.h
 CONFIG_CLEAN_FILES =
 LIBRARIES = $(noinst_LIBRARIES)
 
 
-DEFS = @DEFS@ -I. -I$(srcdir) -I$(top_builddir)
+DEFS = @DEFS@ -I. -I$(srcdir) -I$(top_builddir)/src
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 X_CFLAGS = @X_CFLAGS@
@@ -183,20 +189,24 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 widgets_lst_AR = $(AR) cru
 widgets_lst_LIBADD = 
-am_widgets_lst_OBJECTS = SoAnyPopupMenu.$(OBJEXT) \
+am_widgets_lst_OBJECTS = SoQtGLArea.$(OBJEXT) SoQtThumbWheel.$(OBJEXT) \
+SoQtPopupMenu.$(OBJEXT)
+nodist_widgets_lst_OBJECTS = SoAnyPopupMenu.$(OBJEXT) \
 SoAnyThumbWheel.$(OBJEXT) moc_SoQtPopupMenu.$(OBJEXT) \
-moc_SoQtGLArea.$(OBJEXT) moc_SoQtThumbWheel.$(OBJEXT) \
-SoQtGLArea.$(OBJEXT) SoQtThumbWheel.$(OBJEXT) SoQtPopupMenu.$(OBJEXT)
-widgets_lst_OBJECTS = $(am_widgets_lst_OBJECTS)
+moc_SoQtGLArea.$(OBJEXT) moc_SoQtThumbWheel.$(OBJEXT)
+widgets_lst_OBJECTS = $(am_widgets_lst_OBJECTS) \
+$(nodist_widgets_lst_OBJECTS)
 AR = ar
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
 libSoQtWidgets_la_LDFLAGS = 
 libSoQtWidgets_la_LIBADD = 
-am_libSoQtWidgets_la_OBJECTS = SoAnyPopupMenu.lo SoAnyThumbWheel.lo \
-moc_SoQtPopupMenu.lo moc_SoQtGLArea.lo moc_SoQtThumbWheel.lo \
-SoQtGLArea.lo SoQtThumbWheel.lo SoQtPopupMenu.lo
-libSoQtWidgets_la_OBJECTS = $(am_libSoQtWidgets_la_OBJECTS)
+am_libSoQtWidgets_la_OBJECTS = SoQtGLArea.lo SoQtThumbWheel.lo \
+SoQtPopupMenu.lo
+nodist_libSoQtWidgets_la_OBJECTS = SoAnyPopupMenu.lo SoAnyThumbWheel.lo \
+moc_SoQtPopupMenu.lo moc_SoQtGLArea.lo moc_SoQtThumbWheel.lo
+libSoQtWidgets_la_OBJECTS = $(am_libSoQtWidgets_la_OBJECTS) \
+$(nodist_libSoQtWidgets_la_OBJECTS)
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 CXXFLAGS = @CXXFLAGS@
@@ -220,8 +230,8 @@ depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 @AMDEP@ $(DEPDIR)/moc_SoQtThumbWheel.Po
 DIST_COMMON = Makefile.am Makefile.in
 
-SOURCES = $(widgets_lst_SOURCES) $(libSoQtWidgets_la_SOURCES)
-OBJECTS = $(am_widgets_lst_OBJECTS) $(am_libSoQtWidgets_la_OBJECTS)
+SOURCES = $(widgets_lst_SOURCES) $(nodist_widgets_lst_SOURCES) $(libSoQtWidgets_la_SOURCES) $(nodist_libSoQtWidgets_la_SOURCES)
+OBJECTS = $(am_widgets_lst_OBJECTS) $(nodist_widgets_lst_OBJECTS) $(am_libSoQtWidgets_la_OBJECTS) $(nodist_libSoQtWidgets_la_OBJECTS)
 
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-am
@@ -466,10 +476,8 @@ SoAnyThumbWheel.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoAnyThumbWheel.cpp.in
 
 widgets.lst: Makefile $(widgets_lst_OBJECTS)
 	@echo "Linking widgets.lst..."; \
-	echo $(CC) /LST:widgets.lst \
-	  $(widgets_lst_OBJECTS); \
-	$(CC) /LST:widgets.lst \
-	  $(widgets_lst_OBJECTS);
+	rm -f $@; \
+	for i in $(widgets_lst_OBJECTS); do echo $$i >>$@; done
 
 # EOF ######################################################################
 

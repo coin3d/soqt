@@ -225,7 +225,9 @@ AC_DEFINE_UNQUOTED(SOQT_VERSION, "$SOQT_VERSION",
 AM_INIT_AUTOMAKE(SoQt, $VERSION)
 
 # File to cram results from the configure tests into.
-AM_CONFIG_HEADER(config.h)
+# we pit this in src/ to avoid having to add extra INCLUDES directives in
+# MAkefile.am
+AM_CONFIG_HEADER(src/config.h)
 
 # Default to not building a static library.
 # Can be overridden by the user with --enable-static.
@@ -737,11 +739,12 @@ AC_SUBST([HTML_DOC_DIR])
 
 AC_OUTPUT([
 	Makefile
+	src/Makefile
+	src/Inventor/Makefile
 	src/Inventor/Qt/Makefile
 	src/Inventor/Qt/devices/Makefile
 	src/Inventor/Qt/viewers/Makefile
 	src/Inventor/Qt/widgets/Makefile
-	build/Makefile
 	build/soqt.doxygen
         build/soqt.spec
 ])
