@@ -146,24 +146,24 @@ SoQtGradientDialog::SoQtGradientDialog(const Gradient & grad,
   this->addGradient(grad, "description");
   PRIVATE(this)->gradientList->hide();
 
-  QVBoxLayout * topLayout = new QVBoxLayout(this);
+  QGridLayout * topLayout = new QGridLayout(this, 3, 2);
   topLayout->setSpacing(5);
   topLayout->setMargin(10);
-  topLayout->addWidget(PRIVATE(this)->gradView);
+  topLayout->addMultiCellWidget(PRIVATE(this)->gradView, 0, 0, 0, 2);
 
   QHBoxLayout * buttonLayout = new QHBoxLayout();
-  topLayout->addLayout(buttonLayout);
+  topLayout->addLayout(buttonLayout, 2, 0);
 
   QVBoxLayout * loadsaveLayout = new QVBoxLayout();
   buttonLayout->addLayout(loadsaveLayout);
 
   QHBoxLayout * contupdateLayout = new QHBoxLayout();
-  contupdateLayout->setAlignment(Qt::AlignRight);
-  topLayout->addLayout(contupdateLayout);
+  contupdateLayout->setAlignment(Qt::AlignRight | Qt::AlignBottom);
+  topLayout->addLayout(contupdateLayout, 1, 2);
 
   QHBoxLayout * applyresetLayout = new QHBoxLayout();
   applyresetLayout->setAlignment(Qt::AlignBottom | Qt::AlignRight);
-  buttonLayout->addLayout(applyresetLayout);
+  topLayout->addLayout(applyresetLayout, 2, 2);
 
   loadsaveLayout->setAlignment(Qt::AlignLeft | Qt::AlignBottom);
   loadsaveLayout->addWidget(PRIVATE(this)->gradientList, 0, 1);
@@ -179,7 +179,9 @@ SoQtGradientDialog::SoQtGradientDialog(const Gradient & grad,
   PRIVATE(this)->contupdate = new QCheckBox(this);
   PRIVATE(this)->contupdate->setChecked(FALSE);
 
-  PRIVATE(this)->contupdateLabel = new QLabel(PRIVATE(this)->contupdate, "Update continuosly", this);
+  PRIVATE(this)->contupdateLabel = new QLabel(this);
+  PRIVATE(this)->contupdateLabel->setText("Continuous update ");
+  PRIVATE(this)->contupdateLabel->setBuddy(PRIVATE(this)->contupdate);
   
   contupdateLayout->addWidget(PRIVATE(this)->contupdateLabel);
   contupdateLayout->addWidget(PRIVATE(this)->contupdate);
