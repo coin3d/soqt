@@ -453,6 +453,8 @@ devices_lst_SOURCES = \
 	SoQtKeyboard.cpp \
 	SoQtMouse.cpp \
 	SoQtSpaceball.cpp \
+	6DOFEvents.cpp \
+	6DOFEvents.h \
 	$(libSoQtDevicesConditionalSources)
 
 
@@ -484,7 +486,7 @@ devices_lst_AR = $(AR) cru
 devices_lst_LIBADD =
 am_devices_lst_OBJECTS = SoQtDevice.$(OBJEXT) SoQtInputFocus.$(OBJEXT) \
 	SoQtKeyboard.$(OBJEXT) SoQtMouse.$(OBJEXT) \
-	SoQtSpaceball.$(OBJEXT)
+	SoQtSpaceball.$(OBJEXT) 6DOFEvents.$(OBJEXT)
 nodist_devices_lst_OBJECTS = spwinput_x11.$(OBJEXT)
 devices_lst_OBJECTS = $(am_devices_lst_OBJECTS) \
 	$(nodist_devices_lst_OBJECTS)
@@ -503,7 +505,8 @@ DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
-@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/SoQtDevice.Plo $(DEPDIR)/SoQtDevice.Po \
+@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/6DOFEvents.Po $(DEPDIR)/SoQtDevice.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoQtDevice.Po \
 @AMDEP_TRUE@	$(DEPDIR)/SoQtInputFocus.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/SoQtInputFocus.Po \
 @AMDEP_TRUE@	$(DEPDIR)/SoQtKeyboard.Plo \
@@ -580,6 +583,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/6DOFEvents.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtDevice.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtDevice.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtInputFocus.Plo@am__quote@

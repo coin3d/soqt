@@ -21,11 +21,18 @@
  *
 \**************************************************************************/
 
+/*!
+  \class SoQtDevice SoQtDevice.h Inventor/Qt/devices/SoQtDevice.h
+  \brief The SoQtDevice class ...
+  \ingroup devices
+
+  FIXME: write class doc
+*/
+
 #if HAVE_CONFIG_H
 #include <config.h>
-#endif
+#endif // HAVE_CONFIG_H
 
-#include <qpoint.h>
 #include <qevent.h>
 
 #include <Inventor/SbPList.h>
@@ -41,15 +48,48 @@
 
 #ifdef HAVE_JOYSTICK_LINUX
 #include <Inventor/Qt/devices/SoQtLinuxJoystick.h>
-#endif
+#endif // HAVE_JOYSTICK_LINUX
 
-/*!
-  \class SoQtDevice SoQtDevice.h Inventor/Qt/devices/SoQtDevice.h
-  \brief The SoQtDevice class ...
-  \ingroup devices
+// *************************************************************************
 
-  FIXME: write class doc
-*/
+struct SoQtDeviceHandlerInfo {
+  QWidget * widget;
+  SoQtDevice::SoQtEventHandler * handler;
+  void * closure;
+};
+
+// *************************************************************************
+
+class SoQtDeviceP {
+public:
+  SoQtDeviceP(void);
+  ~SoQtDeviceP();
+
+  static SbVec2s lasteventposition;
+  SbVec2s widgetsize;
+  SbPList * handlers;
+};
+
+SbVec2s SoQtDeviceP::lasteventposition;
+
+SoQtDeviceP::SoQtDeviceP(void)
+{
+  this->handlers = NULL;
+}
+
+SoQtDeviceP::~SoQtDeviceP()
+{
+  if (this->handlers) {
+    for (int i = 0; i < this->handlers->getLength(); i++) {
+      SoQtDeviceHandlerInfo * info =
+        (SoQtDeviceHandlerInfo *) (*this->handlers)[i];
+      delete info;
+    }
+    delete this->handlers;
+  }
+}
+
+#define PRIVATE(p) (p->pimpl)
 
 // *************************************************************************
 
@@ -71,7 +111,7 @@ SoQtDevice::initClasses(void)
   SoQtSpaceball::initClass();
 #ifdef HAVE_JOYSTICK_LINUX
   SoQtLinuxJoystick::initClass();
-#endif
+#endif // HAVE_JOYSTICK_LINUX
 }
 
 // *************************************************************************
@@ -97,19 +137,6 @@ SoQtDevice::initClasses(void)
 */
 
 // *************************************************************************
-// static variables
-
-QPoint * SoQtDevice::lasteventposition = NULL;
-
-// *************************************************************************
-
-struct SoQtDeviceHandlerInfo {
-  QWidget * widget;
-  SoQtDevice::SoQtEventHandler * handler;
-  void * closure;
-};
-
-// *************************************************************************
 
 /*!
   Constructor.
@@ -117,9 +144,8 @@ struct SoQtDeviceHandlerInfo {
 
 SoQtDevice::SoQtDevice(void)
 {
-  this->handlers = NULL;
+  PRIVATE(this) = new SoQtDeviceP;
 }
-
 
 /*!
   Virtual destructor.
@@ -127,14 +153,7 @@ SoQtDevice::SoQtDevice(void)
 
 SoQtDevice::~SoQtDevice()
 {
-  if (this->handlers) {
-    for (int i = 0; i < this->handlers->getLength(); i++) {
-      SoQtDeviceHandlerInfo * info =
-        (SoQtDeviceHandlerInfo *) (*this->handlers)[i];
-      delete info;
-    }
-    delete this->handlers;
-  }
+  delete PRIVATE(this);
 }
 
 // *************************************************************************
@@ -146,7 +165,7 @@ SoQtDevice::~SoQtDevice()
 void
 SoQtDevice::setWindowSize(const SbVec2s size)
 {
-  this->widgetsize = size;
+  PRIVATE(this)->widgetsize = size;
 }
 
 /*!
@@ -156,7 +175,7 @@ SoQtDevice::setWindowSize(const SbVec2s size)
 SbVec2s
 SoQtDevice::getWindowSize(void) const
 {
-  return this->widgetsize;
+  return PRIVATE(this)->widgetsize;
 }
 
 // *************************************************************************
@@ -168,38 +187,18 @@ SoQtDevice::getWindowSize(void) const
 void
 SoQtDevice::setEventPosition(SoEvent * event, int x, int y) const
 {
-  this->setLastEventPosition(QPoint(x, y));
-  event->setPosition(SbVec2s(x, this->widgetsize[1] - y - 1));
+  SoQtDeviceP::lasteventposition = SbVec2s(x, y);
+  event->setPosition(SbVec2s(x, PRIVATE(this)->widgetsize[1] - y - 1));
 }
 
 /*!
   FIXME: write function documentation
 */
 
-QPoint
+SbVec2s
 SoQtDevice::getLastEventPosition(void)
 {
-  if (SoQtDevice::lasteventposition == NULL) {
-#if SOQT_DEBUG && 0
-    SoDebugError::postInfo("SoQtDevice::getLastEventPosition", "not initialized");
-#endif // SOQT_DEBUG
-    SoQtDevice::lasteventposition = new QPoint(-1, -1);
-  }
-  return *SoQtDevice::lasteventposition;
-}
-
-/*!
-  FIXME: write doc
-*/
-
-void
-SoQtDevice::setLastEventPosition(QPoint p)
-{
-  if (!SoQtDevice::lasteventposition) {
-    // FIXME: deallocate on exit. 20000311 mortene.
-    SoQtDevice::lasteventposition = new QPoint;
-  }
-  *SoQtDevice::lasteventposition = p;
+  return SoQtDeviceP::lasteventposition;
 }
 
 // *************************************************************************
@@ -213,13 +212,13 @@ SoQtDevice::addEventHandler(QWidget * widget,
                             SoQtEventHandler * handler,
                             void * closure)
 {
-  if (this->handlers == NULL)
-    this->handlers = new SbPList;
+  if (PRIVATE(this)->handlers == NULL)
+    PRIVATE(this)->handlers = new SbPList;
   SoQtDeviceHandlerInfo * info = new SoQtDeviceHandlerInfo;
   info->widget = widget;
   info->handler = handler;
   info->closure = closure;
-  this->handlers->append(info);
+  PRIVATE(this)->handlers->append(info);
 }
 
 /*!
@@ -231,14 +230,14 @@ SoQtDevice::removeEventHandler(QWidget * widget,
                                SoQtEventHandler * handler,
                                void * closure)
 {
-  if (this->handlers) {
-    for (int i = 0; i < this->handlers->getLength(); i++) {
+  if (PRIVATE(this)->handlers) {
+    for (int i = 0; i < PRIVATE(this)->handlers->getLength(); i++) {
       SoQtDeviceHandlerInfo * info =
-        (SoQtDeviceHandlerInfo *) (*this->handlers)[i];
+        (SoQtDeviceHandlerInfo *) (*PRIVATE(this)->handlers)[i];
       if ((info->widget == widget) && (info->handler == handler) &&
            (info->closure == closure)) {
         delete info;
-        this->handlers->remove(i);
+        PRIVATE(this)->handlers->remove(i);
         return;
       }
     }
@@ -256,127 +255,14 @@ SoQtDevice::removeEventHandler(QWidget * widget,
 void
 SoQtDevice::invokeHandlers(QEvent * event)
 {
-  if (this->handlers) {
+  if (PRIVATE(this)->handlers) {
     bool dispatch = false;
-    for (int i = 0; i < this->handlers->getLength(); i++) {
+    for (int i = 0; i < PRIVATE(this)->handlers->getLength(); i++) {
       SoQtDeviceHandlerInfo * info =
-        (SoQtDeviceHandlerInfo *) (*this->handlers)[i];
+        (SoQtDeviceHandlerInfo *) (*PRIVATE(this)->handlers)[i];
       info->handler(info->widget, info->closure, event, &dispatch);
     }
   }
-}
-
-// *************************************************************************
-
-#include <6dofEvents.h>
-
-SoQt6dofDevicePressureEvent::SoQt6dofDevicePressureEvent(void)
-  : inherited(QEvent::User, NULL)
-{
-  this->t = (QEvent::Type) soqt6dofDevicePressureEvent;
-  this->trans_x = 0.0f;
-  this->trans_y = 0.0f;
-  this->trans_z = 0.0f;
-  this->rot_x = 0.0f;
-  this->rot_y = 0.0f;
-  this->rot_z = 0.0f;
-}
-
-void
-SoQt6dofDevicePressureEvent::setTranslation(float x, float y, float z)
-{
-  this->trans_x = x;
-  this->trans_y = y;
-  this->trans_z = z;
-}
-
-void
-SoQt6dofDevicePressureEvent::getTranslation(float & x,
-                                            float & y,
-                                            float & z) const
-{
-  x = this->trans_x;
-  y = this->trans_y;
-  z = this->trans_z;
-}
-
-void
-SoQt6dofDevicePressureEvent::setRotation(float x, float y, float z)
-{
-  this->rot_x = x;
-  this->rot_y = y;
-  this->rot_z = z;
-}
-
-void
-SoQt6dofDevicePressureEvent::getRotation(float & x, float & y, float & z) const
-{
-  x = this->rot_x;
-  y = this->rot_y;
-  z = this->rot_z;
-}
-
-// *************************************************************************
-
-SoQt6dofDeviceButtonEvent::SoQt6dofDeviceButtonEvent(void)
-  : inherited(QEvent::User, NULL)
-{
-  this->t = (QEvent::Type) soqt6dofDeviceButtonReleasedEvent;
-  this->state = 0;
-  this->button = 0;
-  this->buttons = 0;
-}
-
-void
-SoQt6dofDeviceButtonEvent::setButton(unsigned int button)
-{
-  this->button = button;
-  if ((1 << this->button) & this->state)
-    this->t = (QEvent::Type) soqt6dofDeviceButtonPressedEvent;
-  else
-    this->t = (QEvent::Type) soqt6dofDeviceButtonReleasedEvent;
-}
-
-unsigned int
-SoQt6dofDeviceButtonEvent::getButton(void) const
-{
-  return this->button;
-}
-
-void
-SoQt6dofDeviceButtonEvent::setState(unsigned int state)
-{
-  this->state = state;
-  if ((1 << this->button) & this->state)
-    this->t = (QEvent::Type) soqt6dofDeviceButtonPressedEvent;
-  else
-    this->t = (QEvent::Type) soqt6dofDeviceButtonReleasedEvent;
-}
-
-unsigned int
-SoQt6dofDeviceButtonEvent::getState(void) const
-{
-  return this->state;
-}
-
-void
-SoQt6dofDeviceButtonEvent::setNumButtons(unsigned int buttons)
-{
-  this->buttons = buttons;
-}
-
-unsigned int
-SoQt6dofDeviceButtonEvent::getNumButtons(void) const
-{
-  return this->buttons;
-}
-
-int
-SoQt6dofDeviceButtonEvent::isButtonPress(void) const
-{
-  if (this->t == (QEvent::Type) soqt6dofDeviceButtonPressedEvent)
-    return TRUE;
-  return FALSE;
 }
 
 // *************************************************************************

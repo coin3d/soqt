@@ -26,7 +26,6 @@
 
 #include <Inventor/SbLinear.h>
 #include <Inventor/Qt/SoQtObject.h>
-#include <qpoint.h>
 #include <qevent.h>
 
 class QWidget;
@@ -57,21 +56,16 @@ public:
 
 protected:
   void setEventPosition(SoEvent * event, int x, int y) const;
-  static QPoint getLastEventPosition(void);
+  static SbVec2s getLastEventPosition(void);
 
   void addEventHandler(QWidget *, SoQtEventHandler *, void *);
   void removeEventHandler(QWidget *, SoQtEventHandler *, void *);
   void invokeHandlers(QEvent * event);
 
 private:
-  static void setLastEventPosition(QPoint p);
-  static QPoint * lasteventposition;
-  SbVec2s widgetsize;
-
-  SbPList * handlers;
+  class SoQtDeviceP * pimpl;
+  friend class SoQtDeviceP;
 };
-
-typedef void (*SoQtEventHandlerPtr)(QWidget *, void *, QEvent *, bool *);
 
 // *************************************************************************
 

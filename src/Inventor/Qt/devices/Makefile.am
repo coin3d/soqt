@@ -82,6 +82,8 @@ devices_lst_SOURCES = \
 	SoQtKeyboard.cpp \
 	SoQtMouse.cpp \
 	SoQtSpaceball.cpp \
+	6DOFEvents.cpp \
+	6DOFEvents.h \
 	$(libSoQtDevicesConditionalSources)
 
 nodist_devices_lst_SOURCES = \
