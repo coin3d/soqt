@@ -506,23 +506,3 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     20040218 larsa
 
 =====================================================================
-
-026 SoQtExaminerViewer crashes under the KDE window manager with
-    "Keramic" style on the widgets.
-
-    SoQtExaminerViewer decorations (and possibly ditto for other
-    SoQtFullViewer-derived viewers) triggers what looks like a
-    NULL-ptr dereference bug in the KDE "Keramic" widget
-    style. The SoQtRenderArea works fine.
-
-    The "Keramic" style seems to be a popular selection among
-    KDE-users, and we've had several external reports about this
-    problem already, so we should investigate and try to find a
-    work-around.
-
-    (In case someone grabs ahold of this bug and needs a test-bed:
-    pederb runs a desktop with KDE, where the bug is reproducable.)
-
-    20040315 mortene.
-
-=====================================================================
