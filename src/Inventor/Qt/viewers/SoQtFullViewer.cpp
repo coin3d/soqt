@@ -17,34 +17,10 @@
  *
 \**************************************************************************/
 
+#if SOQT_DEBUG
 static const char rcsid[] =
   "$Id$";
-
-/*!
-  \class SoQtFullViewer SoQtFullViewer.h Inventor/Qt/viewers/SoQtFullViewer.h
-  \brief The SoQtFullViewer class adds decorations to the simple viewer of the parent.
-  \ingroup soqtviewers
-
-  TODO: more doc
-  ...overview of what this class provides over parent class...
-  ...keyboard combinations...mousebutton combinations...explain pan,
-  rotate, zoom, dolly, seek...explain the fact that we're moving the
-  camera, not the scene...
-  ...viewer modes (examine vs interact) w/ explanation of what they are
-  useful for...
-
-  \sa SoQtConstrainedViewer, SoQtExaminerViewer, SoQtPlaneViewer
-*/
-
-/*¡
-  SoQtFullViewer is missing the class description documentation.
-
-  TODO, low priority:
-  <UL>
-  <LI>add tooltips to the widgets?</LI>
-  <LI>trim length of edit fields</LI>
-  </UL>
-*/
+#endif
 
 #include <assert.h>
 
@@ -83,6 +59,38 @@ static const char rcsid[] =
 #include <Inventor/Qt/common/pixmaps/set_home.xpm>
 #include <Inventor/Qt/common/pixmaps/view_all.xpm>
 #include <Inventor/Qt/common/pixmaps/seek.xpm>
+
+/*!
+  \class SoQtFullViewer SoQtFullViewer.h Inventor/Qt/viewers/SoQtFullViewer.h
+  \brief The SoQtFullViewer class adds decorations to the simple viewer of the parent.
+  \ingroup soqtviewers
+
+  TODO: more doc
+  ...overview of what this class provides over parent class...
+  ...keyboard combinations...mousebutton combinations...explain pan,
+  rotate, zoom, dolly, seek...explain the fact that we're moving the
+  camera, not the scene...
+  ...viewer modes (examine vs interact) w/ explanation of what they are
+  useful for...
+
+  \sa SoQtConstrainedViewer, SoQtExaminerViewer, SoQtPlaneViewer
+*/
+
+// *************************************************************************
+
+SOQT_TYPED_ABSTRACT_OBJECT_SOURCE(SoQtFullViewer, SoQtViewer);
+
+// *************************************************************************
+
+/*¡
+  SoQtFullViewer is missing the class description documentation.
+
+  TODO, low priority:
+  <UL>
+  <LI>add tooltips to the widgets?</LI>
+  <LI>trim length of edit fields</LI>
+  </UL>
+*/
 
 /*!
   \enum SoQtFullViewer::BuildFlag

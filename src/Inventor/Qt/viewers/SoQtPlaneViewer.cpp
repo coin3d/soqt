@@ -17,14 +17,10 @@
  *
  **************************************************************************/
 
+#if SOQT_DEBUG
 static const char rcsid[] =
   "$Id$";
-
-/*!
-  \class SoQtPlaneViewer Inventor/Qt/viewers/SoQtPlaneViewer.h
-  \brief The SoQtPlaneViewer class is yet to be documented...
-  \ingroup soqtviewers
-*/
+#endif
 
 #include <assert.h>
 
@@ -52,6 +48,16 @@ static const char rcsid[] =
 #include <Inventor/Qt/common/pixmaps/x.xpm>
 #include <Inventor/Qt/common/pixmaps/y.xpm>
 #include <Inventor/Qt/common/pixmaps/z.xpm>
+
+/*!
+  \class SoQtPlaneViewer Inventor/Qt/viewers/SoQtPlaneViewer.h
+  \brief The SoQtPlaneViewer class is yet to be documented...
+  \ingroup soqtviewers
+*/
+
+// ************************************************************************
+
+SOQT_TYPED_OBJECT_SOURCE(SoQtPlaneViewer, SoQtFullViewer);
 
 // ************************************************************************
 

@@ -27,8 +27,8 @@
 // ************************************************************************
 
 class SOQT_DLL_EXPORT SoQtConstrainedViewer : public SoQtFullViewer {
+  SOQT_TYPED_ABSTRACT_OBJECT_HEADER(SoQtConstrainedViewer);
   typedef SoQtFullViewer inherited;
-
   Q_OBJECT
 
 public:

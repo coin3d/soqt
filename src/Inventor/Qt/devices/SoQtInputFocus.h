@@ -30,6 +30,7 @@
 #define SO_QT_ALL_FOCUS_EVENTS (soqtEnterWindowMask | soqtLeaveWindowMask)
 
 class SOQT_DLL_EXPORT SoQtInputFocus : public SoQtDevice {
+  SOQT_TYPED_OBJECT_HEADER(SoQtInputFocus);
   typedef SoQtDevice inherited;
   Q_OBJECT
 

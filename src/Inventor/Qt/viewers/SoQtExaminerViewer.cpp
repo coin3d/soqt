@@ -22,29 +22,6 @@ static const char rcsid[] =
   "$Id$";
 #endif // SOQT_DEBUG
 
-/*!
-  \class SoQtExaminerViewer SoQtExaminerViewer.h Inventor/Qt/viewers/SoQtExaminerViewer.h
-  \brief The SoQtExaminerViewer class is a full-fledged model viewer
-  with functionality for rotation, pan, zoom, etc.
-  \ingroup soqtviewers
-
-  TODO: more doc
-  ...overview of what this class provides over parent class...
-  ...keyboard combinations...mousebutton combinations...explain pan,
-  rotate, zoom, dolly, seek...explain the fact that we're moving the
-  camera, not the scene...
-  ...viewer modes (examine vs interact) w/ explanation of what they are
-  useful for...
-  ...screenshot...
-  ...example code...
-
-  \sa SoQtWalkViewer, SoQtFlyViewer, SoQtPlaneViewer, SoQtCollisionViewer
-*/
-
-/*¡
-  SoQtExaminerViewer is missing the class description documentation.
-*/
-
 #include <assert.h>
 
 #include <qpushbutton.h>
@@ -81,6 +58,35 @@ static const char rcsid[] =
 // Icon graphic for the camera button.
 #include <Inventor/Qt/common/pixmaps/ortho.xpm>
 #include <Inventor/Qt/common/pixmaps/perspective.xpm>
+
+/*!
+  \class SoQtExaminerViewer SoQtExaminerViewer.h Inventor/Qt/viewers/SoQtExaminerViewer.h
+  \brief The SoQtExaminerViewer class is a full-fledged model viewer
+  with functionality for rotation, pan, zoom, etc.
+  \ingroup soqtviewers
+
+  TODO: more doc
+  ...overview of what this class provides over parent class...
+  ...keyboard combinations...mousebutton combinations...explain pan,
+  rotate, zoom, dolly, seek...explain the fact that we're moving the
+  camera, not the scene...
+  ...viewer modes (examine vs interact) w/ explanation of what they are
+  useful for...
+  ...screenshot...
+  ...example code...
+
+  \sa SoQtWalkViewer, SoQtFlyViewer, SoQtPlaneViewer, SoQtCollisionViewer
+*/
+
+/*¡
+  SoQtExaminerViewer is missing the class description documentation.
+*/
+
+// *************************************************************************
+
+SOQT_TYPED_OBJECT_SOURCE(SoQtExaminerViewer, SoQtFullViewer);
+
+// *************************************************************************
 
 ///////// FIXME start //////////////////////////////////////////////////
 // Do something clever about this Qt layout assistant code.. (the code

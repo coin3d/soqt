@@ -26,15 +26,13 @@
   \defgroup qtdevices Qt Device Classes
 */
 
-#include <qobject.h>
-#include <qpoint.h>
-#include <qevent.h>
-
 #include <Inventor/SbLinear.h>
 
-#include <Inventor/Qt/SoQtBasic.h>
+#include <Inventor/Qt/SoQtTypedObject.h>
 
+class QEvent;
 class QWidget;
+
 class SbPList;
 class SoEvent;
 
@@ -42,7 +40,8 @@ typedef int soqtEventMask;
 
 // *************************************************************************
 
-class SOQT_DLL_EXPORT SoQtDevice : public QObject {
+class SOQT_DLL_EXPORT SoQtDevice : public SoQtTypedObject {
+  SOQT_TYPED_ABSTRACT_OBJECT_HEADER(SoQtDevice);
   Q_OBJECT
 
 public:

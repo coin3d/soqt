@@ -27,14 +27,14 @@
 // ************************************************************************
 
 class SOQT_DLL_EXPORT SoQtFlyViewer : public SoQtConstrainedViewer {
+  SOQT_TYPED_OBJECT_HEADER(SoQtFlyViewer);
   typedef SoQtConstrainedViewer inherited;
-
   Q_OBJECT
 
 public:
   SoQtFlyViewer(
-    QWidget * parent,
-    const char *name = NULL, 
+    QWidget * parent = NULL,
+    const char * name = NULL, 
     SbBool embed = TRUE, 
     SoQtFullViewer::BuildFlag flag = BUILD_ALL,
     SoQtViewer::Type type = BROWSER );

@@ -22,6 +22,10 @@ static const char rcsid[] =
   "$Id$";
 #endif // SOQT_DEBUG
 
+#include <soqtdefs.h>
+#include <Inventor/Qt/SoQtBasic.h>
+#include <Inventor/Qt/devices/SoQtInputFocus.h>
+
 /*!
   \class SoQtInputFocus SoQtInputFocus.h Inventor/Qt/devices/SoQtInputFocus.h
   \brief The SoQtInputFocus class ...
@@ -30,9 +34,9 @@ static const char rcsid[] =
   FIXME: write class doc
 */
 
-#include <soqtdefs.h>
-#include <Inventor/Qt/SoQtBasic.h>
-#include <Inventor/Qt/devices/SoQtInputFocus.h>
+// *************************************************************************
+
+SOQT_TYPED_OBJECT_SOURCE(SoQtInputFocus, SoQtDevice);
 
 // *************************************************************************
 

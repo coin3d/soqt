@@ -22,14 +22,18 @@ static const char rcsid[] =
   "$Id$";
 #endif // SOQT_DEBUG
 
+#include <soqtdefs.h>
+#include <Inventor/Qt/viewers/SoQtFlyViewer.h>
+
 /*!
   \class SoQtFlyViewer Inventor/Qt/viewers/SoQtFlyViewer.h
   \brief The SoQtFlyViewer class is yet to be documented.
   \ingroup soqtviewers
 */
 
-#include <soqtdefs.h>
-#include <Inventor/Qt/viewers/SoQtFlyViewer.h>
+// ************************************************************************
+
+SOQT_TYPED_OBJECT_SOURCE(SoQtFlyViewer, SoQtConstrainedViewer);
 
 // ************************************************************************
 

@@ -22,14 +22,18 @@ static const char rcsid[] =
   "$Id$";
 #endif // SOQT_DEBUG
 
+#include <soqtdefs.h>
+#include <Inventor/Qt/viewers/SoQtWalkViewer.h>
+
 /*!
   \class SoQtWalkViewer Inventor/Qt/viewers/SoQtWalkViewers.h
   \brief The SoQtWalkViewer class is yet to be documented...
   \ingroup soqtviewers
 */
 
-#include <soqtdefs.h>
-#include <Inventor/Qt/viewers/SoQtWalkViewer.h>
+// ************************************************************************
+
+SOQT_TYPED_OBJECT_SOURCE(SoQtWalkViewer, SoQtConstrainedViewer);
 
 // ************************************************************************
 

@@ -37,9 +37,9 @@ class SoAnyFullViewer;
 // *************************************************************************
 
 class SOQT_DLL_EXPORT SoQtFullViewer : public SoQtViewer {
+  SOQT_TYPED_ABSTRACT_OBJECT_HEADER(SoQtFullViewer);
   typedef SoQtViewer inherited;
   friend class SoAnyFullViewer;
-
   Q_OBJECT
 
 public:

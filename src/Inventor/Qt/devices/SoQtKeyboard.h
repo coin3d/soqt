@@ -33,6 +33,7 @@ class SoKeyboardEvent;
 #define SO_QT_ALL_KEYBOARD_EVENTS (soqtKeyPressMask | soqtKeyReleaseMask)
 
 class SOQT_DLL_EXPORT SoQtKeyboard : public SoQtDevice {
+  SOQT_TYPED_OBJECT_HEADER(SoQtKeyboard);
   typedef SoQtDevice inherited;
   Q_OBJECT
 

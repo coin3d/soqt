@@ -22,16 +22,20 @@ static const char rcsid[] =
   "$Id$";
 #endif // SOQT_DEBUG
 
+#include <Inventor/errors/SoDebugError.h>
+
+#include <soqtdefs.h>
+#include <Inventor/Qt/viewers/SoQtConstrainedViewer.h>
+
 /*!
   \class SoQtConstrainedViewer Inventor/Qt/viewers/SoQtConstrainedViewer.h
   \brief The SoQtConstrainedViewer class is yet to be documented...
   \ingroup soqtviewers
 */
 
-#include <Inventor/errors/SoDebugError.h>
+// ************************************************************************
 
-#include <soqtdefs.h>
-#include <Inventor/Qt/viewers/SoQtConstrainedViewer.h>
+SOQT_TYPED_ABSTRACT_OBJECT_SOURCE(SoQtConstrainedViewer, SoQtFullViewer);
 
 // ************************************************************************
 

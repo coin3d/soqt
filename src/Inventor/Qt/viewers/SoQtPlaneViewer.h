@@ -32,9 +32,9 @@ class SoAnyPlaneViewer;
 // ************************************************************************
 
 class SOQT_DLL_EXPORT SoQtPlaneViewer : public SoQtFullViewer {
+  SOQT_TYPED_OBJECT_HEADER(SoQtPlaneViewer);
   typedef SoQtFullViewer inherited;
   friend class SoAnyPlaneViewer;
-
   Q_OBJECT
 
 public:

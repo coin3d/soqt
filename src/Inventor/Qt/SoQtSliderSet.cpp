@@ -22,6 +22,9 @@ static const char rcsid[] =
   "$Id$";
 #endif // SOQT_DEBUG
 
+#include <soqtdefs.h>
+#include <Inventor/Qt/SoQtSliderSet.h>
+
 /*!
   \class SoQtSliderSet SoQtSliderSet.h Inventor/Qt/SoQtSliderSet.h
   \brief The SoQtSliderSet class blablabla TODO
@@ -29,23 +32,25 @@ static const char rcsid[] =
   TODO: doc
 */
 
-#include <soqtdefs.h>
-#include <Inventor/Qt/SoQtSliderSet.h>
+SOQT_TYPED_ABSTRACT_OBJECT_SOURCE(SoQtSliderSet, SoQtSliderSetBase);
 
 /*!
   TODO: doc
- */
+*/
+
 SoQtSliderSet::SoQtSliderSet(QWidget * parent,
                              const char * name,
                              SbBool buildInsideParent,
                              SoNode * editnode)
-  : inherited(parent, name, buildInsideParent, editnode)
+: inherited(parent, name, buildInsideParent, editnode)
 {
 }
 
 /*!
   TODO: doc
- */
+*/
+
 SoQtSliderSet::~SoQtSliderSet()
 {
 }
+

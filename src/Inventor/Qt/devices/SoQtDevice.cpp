@@ -22,6 +22,21 @@ static const char rcsid[] =
   "$Id$";
 #endif // SOQT_DEBUG
 
+#include <qpoint.h>
+#include <qevent.h>
+
+#include <Inventor/SbPList.h>
+#include <Inventor/events/SoEvent.h>
+#include <Inventor/errors/SoDebugError.h>
+
+#include <soqtdefs.h>
+#include <Inventor/Qt/devices/SoQtDevice.h>
+#include <Inventor/Qt/devices/SoQtInputFocus.h>
+#include <Inventor/Qt/devices/SoQtKeyboard.h>
+#include <Inventor/Qt/devices/SoQtMouse.h>
+#include <Inventor/Qt/devices/SoQtSpaceball.h>
+#include <Inventor/Qt/devices/SoQtLinuxJoystick.h>
+
 /*!
   \class SoQtDevice SoQtDevice.h Inventor/Qt/devices/SoQtDevice.h
   \brief The SoQtDevice class ...
@@ -30,12 +45,23 @@ static const char rcsid[] =
   FIXME: write class doc
 */
 
-#include <Inventor/SbPList.h>
-#include <Inventor/events/SoEvent.h>
-#include <Inventor/errors/SoDebugError.h>
+// *************************************************************************
 
-#include <soqtdefs.h>
-#include <Inventor/Qt/devices/SoQtDevice.h>
+SOQT_TYPED_ABSTRACT_OBJECT_SOURCE(SoQtDevice, SoQtTypedObject);
+
+void
+SoQtDevice::initClasses(
+  void )
+{
+  SoQtDevice::initClass();
+  SoQtInputFocus::initClass();
+  SoQtKeyboard::initClass();
+  SoQtMouse::initClass();
+  SoQtSpaceball::initClass();
+  SoQtLinuxJoystick::initClass();
+} // initClasses()
+
+// *************************************************************************
 
 /*!
   \typedef void SoQtDevice::SoQtEventHandler(QWidget *, void *, QEvent *, bool *)
@@ -46,20 +72,16 @@ static const char rcsid[] =
   \fn void SoQtDevice::enable(QWidget * widget, SoQtEventHandler * handler, void * closure)
   FIXME: write doc
 */
+
 /*!
   \fn void SoQtDevice::disable(QWidget * widget, SoQtEventHandler * handler, void * closure)
   FIXME: write doc
 */
+
 /*!
   \fn const SoEvent * SoQtDevice::translateEvent(QEvent * event)
   FIXME: write doc
 */
-
-void
-SoQtDevice::initClasses(
-  void )
-{
-} // initClasses()
 
 // *************************************************************************
 // static variables

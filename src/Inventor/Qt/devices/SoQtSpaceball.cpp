@@ -22,6 +22,10 @@ static const char rcsid[] =
   "$Id$";
 #endif // SOQT_DEBUG
 
+#include <soqtdefs.h>
+#include <Inventor/Qt/SoQtBasic.h>
+#include <Inventor/Qt/devices/SoQtSpaceball.h>
+
 /*!
   \class SoQtSpaceball SoQtSpaceball.h Inventor/Qt/devices/SoQtSpaceball.h
   \brief The SoQtSpaceball class ...
@@ -30,13 +34,11 @@ static const char rcsid[] =
   FIXME: write class doc
 */
 
-/*!
-  TODO:
-*/
+// *************************************************************************
 
-#include <soqtdefs.h>
-#include <Inventor/Qt/SoQtBasic.h>
-#include <Inventor/Qt/devices/SoQtSpaceball.h>
+SOQT_TYPED_OBJECT_SOURCE(SoQtSpaceball, SoQtDevice);
+
+// *************************************************************************
 
 /*!
   \enum SoQtSpaceball::Mask

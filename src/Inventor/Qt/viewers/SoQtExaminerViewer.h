@@ -43,9 +43,9 @@ class SoQtExaminerViewer;
 // *************************************************************************
 
 class SOQT_DLL_EXPORT SoQtExaminerViewer : public SoQtFullViewer {
+  SOQT_TYPED_OBJECT_HEADER(SoQtExaminerViewer);
   typedef SoQtFullViewer inherited;
   friend class SoAnyExaminerViewer;
-
   Q_OBJECT
 
 public:

@@ -35,6 +35,7 @@ class SoSpaceballButtonEvent;
 // *************************************************************************
 
 class SOQT_DLL_EXPORT SoQtLinuxJoystick : public SoQtDevice {
+  SOQT_TYPED_OBJECT_HEADER(SoQtLinuxJoystick);
   typedef SoQtDevice inherited;
   Q_OBJECT
 

@@ -27,8 +27,8 @@
 // ************************************************************************
 
 class SOQT_DLL_EXPORT SoQtWalkViewer : public SoQtConstrainedViewer {
+  SOQT_TYPED_OBJECT_HEADER(SoQtWalkViewer);
   typedef SoQtConstrainedViewer inherited;
-
   Q_OBJECT
 
 public:

@@ -43,6 +43,17 @@ static const char rcsid[] =
 #include <Inventor/Qt/SoQtGLWidget.h>
 #include <Inventor/Qt/SoQtRenderArea.h>
 #include <Inventor/Qt/viewers/SoQtViewer.h>
+#include <Inventor/Qt/viewers/SoQtFullViewer.h>
+#include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
+#include <Inventor/Qt/viewers/SoQtPlaneViewer.h>
+#include <Inventor/Qt/viewers/SoQtConstrainedViewer.h>
+#include <Inventor/Qt/viewers/SoQtWalkViewer.h>
+#include <Inventor/Qt/viewers/SoQtFlyViewer.h>
+#include <Inventor/Qt/SoQtSliderSetBase.h>
+#include <Inventor/Qt/SoQtSliderSet.h>
+#include <Inventor/Qt/SoQtLightSliderSet.h>
+#include <Inventor/Qt/SoQtMaterialSliderSet.h>
+#include <Inventor/Qt/SoQtTransformSliderSet.h>
 
 // debug
 #define SOQTCOMP_RESIZE_DEBUG 0
@@ -83,6 +94,17 @@ SoQtComponent::initClasses(
   SoQtGLWidget::initClass();
   SoQtRenderArea::initClass();
   SoQtViewer::initClass();
+  SoQtFullViewer::initClass();
+  SoQtExaminerViewer::initClass();
+  SoQtPlaneViewer::initClass();
+  SoQtConstrainedViewer::initClass();
+  SoQtWalkViewer::initClass();
+  SoQtFlyViewer::initClass();
+  SoQtSliderSetBase::initClass();
+  SoQtSliderSet::initClass();
+  SoQtLightSliderSet::initClass();
+  SoQtMaterialSliderSet::initClass();
+  SoQtTransformSliderSet::initClass();
 } // initClasses()
 
 // *************************************************************************

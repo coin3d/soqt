@@ -25,6 +25,7 @@
 #include <Inventor/Qt/devices/SoQtDevice.h>
 
 class SOQT_DLL_EXPORT SoQtSpaceball : public SoQtDevice {
+  SOQT_TYPED_OBJECT_HEADER(SoQtSpaceball);
   typedef SoQtDevice inherited;
   Q_OBJECT
 

@@ -22,27 +22,29 @@ static const char rcsid[] =
   "$Id$";
 #endif // SOQT_DEBUG
 
-/*!
-  \class SoQtSliderSetBase SoQtSliderSetBase.h Inventor/Qt/SoQtSliderSetBase.h
-  \brief The SoQtSliderSetBase class blablabla TODO
-
-  TODO: doc
- */
-
 #include <Inventor/nodes/SoNode.h>
 
 #include <soqtdefs.h>
 #include <Inventor/Qt/SoQtSliderSetBase.h>
 
+/*!
+  \class SoQtSliderSetBase SoQtSliderSetBase.h Inventor/Qt/SoQtSliderSetBase.h
+  \brief The SoQtSliderSetBase class blablabla TODO
+
+  TODO: doc
+*/
+
+SOQT_TYPED_ABSTRACT_OBJECT_SOURCE(SoQtSliderSetBase, SoQtComponent);
 
 /*!
   TODO: doc
- */
+*/
+
 SoQtSliderSetBase::SoQtSliderSetBase(QWidget * parent,
                                      const char * name,
                                      SbBool buildInsideParent,
                                      SoNode * editnode)
-  : inherited(parent, name, buildInsideParent)
+: inherited(parent, name, buildInsideParent)
 {
   this->node = editnode;
   if (this->node) this->node->ref();
@@ -50,7 +52,7 @@ SoQtSliderSetBase::SoQtSliderSetBase(QWidget * parent,
 
 /*!
   TODO: doc
- */
+*/
 SoQtSliderSetBase::~SoQtSliderSetBase()
 {
   if (this->node) this->node->unref();

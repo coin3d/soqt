@@ -22,15 +22,17 @@ static const char rcsid[] =
   "$Id$";
 #endif // SOQT_DEBUG
 
+#include <soqtdefs.h>
+#include <Inventor/Qt/SoQtTransformSliderSet.h>
+
 /*!
   \class SoQtTransformSliderSet SoQtTransformSliderSet.h Inventor/Qt/SoQtTransformSliderSet.h
   \brief The SoQtTransformSliderSet class blablabla TODO
 
   TODO: doc
- */
+*/
 
-#include <soqtdefs.h>
-#include <Inventor/Qt/SoQtTransformSliderSet.h>
+SOQT_TYPED_OBJECT_SOURCE(SoQtTransformSliderSet, SoQtSliderSet);
 
 /*!
   TODO: doc

@@ -22,14 +22,6 @@ static const char rcsid[] =
   "$Id$";
 #endif // SOQT_DEBUG
 
-/*!
-  \class SoQtMouse SoQtMouse.h Inventor/Qt/devices/SoQtMouse.h
-  \brief The SoQtMouse class ...
-  \ingroup qtdevices
-
-  FIXME: write class doc
-*/
-
 #include <assert.h>
 
 #include <qevent.h>
@@ -50,6 +42,20 @@ static const char rcsid[] =
 #if HAVE_CONFIG_H
 #include <config.h>
 #endif // HAVE_CONFIG_H
+
+/*!
+  \class SoQtMouse SoQtMouse.h Inventor/Qt/devices/SoQtMouse.h
+  \brief The SoQtMouse class ...
+  \ingroup qtdevices
+
+  FIXME: write class doc
+*/
+
+// *************************************************************************
+
+SOQT_TYPED_OBJECT_SOURCE(SoQtMouse, SoQtDevice);
+
+// *************************************************************************
 
 /*!
   \enum SoQtMouse::SoQtMouseEventMask

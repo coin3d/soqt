@@ -22,14 +22,6 @@ static const char rcsid[] =
   "$Id$";
 #endif // SOQT_DEBUG
 
-/*!
-  \class SoQtKeyboard SoQtKeyboard.h Inventor/Qt/devices/SoQtKeyboard.h
-  \brief The SoQtKeyboard class ...
-  \ingroup qtdevices
-
-  FIXME: write class doc
-*/
-
 #include <assert.h>
 #include <qevent.h>
 #include <qkeycode.h>
@@ -46,6 +38,19 @@ static const char rcsid[] =
 #include <Inventor/Qt/SoQtBasic.h>
 #include <Inventor/Qt/devices/SoQtKeyboard.h>
 
+/*!
+  \class SoQtKeyboard SoQtKeyboard.h Inventor/Qt/devices/SoQtKeyboard.h
+  \brief The SoQtKeyboard class ...
+  \ingroup qtdevices
+
+  FIXME: write class doc
+*/
+
+// *************************************************************************
+
+SOQT_TYPED_OBJECT_SOURCE(SoQtKeyboard, SoQtDevice);
+
+// *************************************************************************
 
 // FIXME: get rid of this before 1.0 release (convert everything to Qt
 // version 2.x API). 19990630 mortene.

@@ -26,11 +26,9 @@
 
 class SoNode;
 
-
-class SOQT_DLL_EXPORT SoQtSliderSetBase : public SoQtComponent
-{
+class SOQT_DLL_EXPORT SoQtSliderSetBase : public SoQtComponent {
+  SOQT_TYPED_ABSTRACT_OBJECT_HEADER(SoQtSliderSetBase);
   typedef SoQtComponent inherited;
-
   Q_OBJECT
 
 public:
@@ -46,6 +44,7 @@ protected:
 
 private:
   SoNode * node;
+
 };
 
 #endif // ! SOQT_SLIDERSETBASE_H

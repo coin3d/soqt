@@ -22,16 +22,6 @@ static const char rcsid[] =
   "$Id$";
 #endif // SOQT_DEBUG
 
-/*!
-  \class SoQtLinuxJoystick Inventor/Qt/devices/SoQtLinuxJoystick.h
-  \brief The SoQtLinuxJoystick class is for enabling use of joysticks with
-  SoQt through the Linux Joystick driver.
-  \ingroup qtdevices
-
-  This class is not included with Open Inventor, but is an SoQt-specific
-  extension.
-*/
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif // HAVE_CONFIG_H
@@ -58,6 +48,20 @@ static const char rcsid[] =
 #include <Inventor/Qt/SoQt.h>
 
 #include <Inventor/Qt/devices/SoQtLinuxJoystick.h>
+
+/*!
+  \class SoQtLinuxJoystick Inventor/Qt/devices/SoQtLinuxJoystick.h
+  \brief The SoQtLinuxJoystick class is for enabling use of joysticks with
+  SoQt through the Linux Joystick driver.
+  \ingroup qtdevices
+
+  This class is not included with Open Inventor, but is an SoQt-specific
+  extension.
+*/
+
+// *************************************************************************
+
+SOQT_TYPED_OBJECT_SOURCE(SoQtLinuxJoystick, SoQtDevice);
 
 // *************************************************************************
 

@@ -22,11 +22,14 @@
 #ifndef SOQT_TYPEDOBJECT_H
 #define SOQT_TYPEDOBJECT_H
 
+#include <assert.h>
+
 #include <qobject.h>
 
 #include <Inventor/SbBasic.h>
 #include <Inventor/SbName.h>
 #include <Inventor/SoType.h>
+
 #include <Inventor/Qt/SoQtBasic.h>
 
 // *************************************************************************
