@@ -56,6 +56,7 @@ EXTRA_DIST = \
 	README.IRIX \
 	README.WIN32 \
 	build/so@gui@.spec.in \
+	build/so@gui@.doxygen.in \
 	cfg/doxy4win.pl \
 	cfg/m4/wrapmsvc.cpp \
 	cfg/m4/wrapmsvc.exe \
