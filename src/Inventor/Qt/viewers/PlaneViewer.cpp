@@ -218,43 +218,6 @@ SoQtPlaneViewer::buildWidget(QWidget * parent)
 /*!
   FIXME: write doc
 */
-
-const char *
-SoQtPlaneViewer::getDefaultWidgetName(void) const
-{
-  static const char defaultWidgetName[] = "SoQtPlaneViewer";
-  return defaultWidgetName;
-}
-
-// ************************************************************************
-
-/*!
-  FIXME: write doc
-*/
-const char *
-SoQtPlaneViewer::getDefaultTitle(void) const
-{
-  static const char defaultTitle[] = "Plane Viewer";
-  return defaultTitle;
-}
-
-// ************************************************************************
-
-/*!
-  FIXME: write doc
-*/
-const char *
-SoQtPlaneViewer::getDefaultIconTitle(void) const
-{
-  static const char defaultIconTitle[] = "Plane Viewer";
-  return defaultIconTitle;
-}
-
-// ************************************************************************
-
-/*!
-  FIXME: write doc
-*/
 void
 SoQtPlaneViewer::processEvent(QEvent * event)
 {
