@@ -46,9 +46,6 @@ public:
   SbBool getContinuousNotification(void) const;
   void alwaysContinuousUpdates(SbBool yes);
 
-protected:
-  void resizeEvent(class QResizeEvent * e);
-
 private:
   class SoQtGradientDialogP * pimpl;
 };

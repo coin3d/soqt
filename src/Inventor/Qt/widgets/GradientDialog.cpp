@@ -32,6 +32,7 @@
 #include <qvaluelist.h>
 #include <qfiledialog.h>
 #include <qpushbutton.h>
+#include <qsizepolicy.h>
 
 #include "gradientp/GradientView.h"
 #include "gradientp/SoQtGradientDialogP.h"
@@ -154,11 +155,15 @@ void SoQtGradientDialogP::saveCurrent()
 
 SoQtGradientDialog::SoQtGradientDialog(const Gradient & grad,
                                        QWidget * parent, 
-                                       bool modal, 
+                                       bool modal,
                                        const char* name)
 : QDialog(parent, name, modal)
 {
   PRIVATE(this) = new SoQtGradientDialogP(this);
+
+  QSizePolicy sizepolicy;
+  sizepolicy.setVerData(QSizePolicy::SizeType::MinimumExpanding);
+  this->setSizePolicy(sizepolicy);
 
   PRIVATE(this)->filetype = ".grad";
   PRIVATE(this)->filedialog = new QFileDialog(this);
@@ -166,10 +171,8 @@ SoQtGradientDialog::SoQtGradientDialog(const Gradient & grad,
     PRIVATE(this)->filedialog->setDir(SoQtGradientDialogP::defaultdir);
   }
   
-  QCanvas * canvas = new QCanvas(450,75);
-  PRIVATE(this)->gradview = new GradientView(canvas, grad, this, "GradientView");
+  PRIVATE(this)->gradview = new GradientView(new QCanvas(), grad, this, "GradientView");
   PRIVATE(this)->gradview->setFrameStyle(QFrame::Sunken);
-  PRIVATE(this)->gradview->setMinimumHeight(75);
 
   PRIVATE(this)->gradientlist = new QComboBox(this, "gradientlist");
   PRIVATE(this)->old_index = 0;
@@ -241,15 +244,6 @@ SoQtGradientDialog::SoQtGradientDialog(const Gradient & grad,
 SoQtGradientDialog::~SoQtGradientDialog()
 {
   delete this->pimpl;
-}
-
-void 
-SoQtGradientDialog::resizeEvent(QResizeEvent * e)
-{
-  this->resize(e->size());
-  PRIVATE(this)->gradview->resize(e->size().width()-20, 75);
-
-  this->repaint();
 }
 
 void SoQtGradientDialog::addGradient(const Gradient & grad, QString description)
