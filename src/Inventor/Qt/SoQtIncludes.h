@@ -30,9 +30,9 @@
 #include <Inventor/Qt/SoQtComponent.h>
 #endif // ! SOQT_COMPONENT_H
 
-#ifndef SOQT_CURSORS_H
-#include <Inventor/Qt/SoQtCursors.h>
-#endif // ! SOQT_CURSORS_H
+#ifndef SOQT_CURSOR_H
+#include <Inventor/Qt/SoQtCursor.h>
+#endif // ! SOQT_CURSOR_H
 
 #ifndef SOQT_GLWIDGET_H
 #include <Inventor/Qt/SoQtGLWidget.h>

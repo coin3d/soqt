@@ -103,7 +103,6 @@ nodist_SoQtinc_HEADERS = \
 	SoQtBasic.h \
 	SoQtObject.h \
 	SoQtCursor.h \
-	SoQtCursors.h \
 	SoQtComponent.h \
 	SoQtGLWidget.h \
 	SoQtRenderArea.h \
