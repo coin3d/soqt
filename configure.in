@@ -616,12 +616,11 @@ AC_SUBST(soqt_dox_build_dir)
 
 if test x"$want_html" != xno -o x"$want_man" != xno; then
   SIM_AC_DOXYGEN_TOOL(,
-    AC_MSG_ERROR(Could not find the doxygen tool -- see http://www.stack.nl/~d
-imitri/doxygen/))
-  sim_ac_doxygen_our_version=1.1.5
-  if test x"$sim_ac_doxygen_avail" != x"$sim_ac_doxygen_our_version"; then
-    AC_MSG_WARN(You are not using Doxygen version $sim_ac_doxygen_our_version)
-  fi
+    AC_MSG_ERROR([Could not find the doxygen tool -- see http://www.stack.nl/~dimitri/doxygen/]))
+  # sim_ac_doxygen_our_version=1.1.5
+  # if test x"$sim_ac_doxygen_avail" != x"$sim_ac_doxygen_our_version"; then
+  #   AC_MSG_WARN(You are not using Doxygen version $sim_ac_doxygen_our_version)
+  # fi
 
   AC_PATH_PROG(sim_ac_perl_exe, perl, false, $PATH)
   if test x"$sim_ac_perl_exe" = xfalse; then
