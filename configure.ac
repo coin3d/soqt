@@ -375,7 +375,7 @@ else
       SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_coin_ldflags"
       SOGUI_EXTRA_LIBS="$sim_ac_coin_libs $SOGUI_EXTRA_LIBS"
     ], [AC_MSG_ERROR([couldn't compile and link against Coin])])
-  fi
+  fi # sim_ac_build_library
 
   if test x"$sim_ac_want_x11" = xyes; then 
     SIM_AC_CHECK_X11_READY(
@@ -508,20 +508,21 @@ if $sim_ac_build_library; then
   ], [
     SIM_AC_ERROR([no-qgl])
   ])
-fi
 
-# Check misc capabilities of the Qt and QGL libraries which depends
-# on the exact version available to us.
-SIM_AC_QT_KEYPAD_DEFINE
-SIM_AC_QWIDGET_SHOWFULLSCREEN
-SIM_AC_QGLFORMAT_EQ_OP
-SIM_AC_QGLFORMAT_SETOVERLAY
-SIM_AC_QGLWIDGET_SETAUTOBUFFERSWAP
-SIM_AC_QAPPLICATION_HASPENDINGEVENTS
-SIM_AC_QWIDGET_HASSETWINDOWSTATE
+  # Check misc capabilities of the Qt and QGL libraries which depends
+  # on the exact version available to us.
+  SIM_AC_QT_KEYPAD_DEFINE
+  SIM_AC_QWIDGET_SHOWFULLSCREEN
+  SIM_AC_QGLFORMAT_EQ_OP
+  SIM_AC_QGLFORMAT_SETOVERLAY
+  SIM_AC_QGLWIDGET_SETAUTOBUFFERSWAP
+  SIM_AC_QAPPLICATION_HASPENDINGEVENTS
+  SIM_AC_QWIDGET_HASSETWINDOWSTATE
+  
+  # QStyleFactory was added in Qt 3.0.
+  AC_CHECK_HEADERS([qstylefactory.h])
 
-# QStyleFactory was added in Qt 3.0.
-AC_CHECK_HEADERS([qstylefactory.h])
+fi # sim_ac_build_library
 
 # **************************************************************************
 # Spaceball support through Linux Joystick driver
