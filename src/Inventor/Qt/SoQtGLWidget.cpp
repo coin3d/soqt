@@ -176,8 +176,7 @@ SoQtGLWidget::buildWidget(QWidget * parent)
 bool
 SoQtGLWidget::eventFilter(QObject * obj, QEvent * e)
 {
-
-#if 1 // debug
+#if 0 // debug
   SoDebugError::postInfo("SoQtGLWidget::eventFilter", "obj: %p", obj);
 
   const char eventnaming[][50] = {
