@@ -2254,7 +2254,7 @@ else
     # FIXME: Relying on posixy $() will cause problems for
     #        cross-compilation, but unfortunately the echo tests do not
     #        yet detect zsh echo's removal of \ escapes.
-    archive_cmds='$nonopt $(test x$module = xyes && echo -bundle || echo -dynamiclib) $allow_undefined_flag -o $lib $libobjs $linker_flags -install_name $rpath/$soname $verstring'
+    archive_cmds='$nonopt $(test x$module = xyes && echo -bundle || echo -dynamiclib) $allow_undefined_flag -o $lib $libobjs $deplibs$linker_flags -install_name $rpath/$soname $verstring'
     # We need to add '_' to the symbols in $export_symbols first
     #archive_expsym_cmds="$archive_cmds"' && strip -s $export_symbols'
     hardcode_direct=yes
@@ -5468,6 +5468,8 @@ AC_REQUIRE([SIM_AC_WITH_INVENTOR])
 
 if $sim_ac_want_inventor; then
   sim_ac_save_CPPFLAGS="$CPPFLAGS";
+  sim_ac_save_CFLAGS="$CFLAGS";
+  sim_ac_save_CXXFLAGS="$CXXFLAGS";
   sim_ac_save_LDFLAGS="$LDFLAGS";
   sim_ac_save_LIBS="$LIBS";
 
@@ -5540,6 +5542,8 @@ EOF
   done
 
   CPPFLAGS="$sim_ac_save_CPPFLAGS"
+  CFLAGS="$sim_ac_save_CFLAGS"
+  CXXFLAGS="$sim_ac_save_CXXFLAGS"
   LDFLAGS="$sim_ac_save_LDFLAGS"
   LIBS="$sim_ac_save_LIBS"
 

@@ -302,8 +302,8 @@ RECURSIVE_TARGETS = info-recursive dvi-recursive install-info-recursive \
 DIST_COMMON = README $(dist_bin_SCRIPTS) $(dist_m4data_DATA) AUTHORS \
 	COPYING ChangeLog INSTALL Makefile.am Makefile.in NEWS \
 	aclocal.m4 cfg/README cfg/config.guess cfg/config.sub \
-	cfg/depcomp cfg/install-sh cfg/ltconfig cfg/ltmain.sh \
-	cfg/missing cfg/mkinstalldirs configure configure.in
+	cfg/depcomp cfg/install-sh cfg/ltmain.sh cfg/missing \
+	cfg/mkinstalldirs configure configure.in
 DIST_SUBDIRS = $(SUBDIRS)
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
