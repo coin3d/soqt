@@ -14,7 +14,6 @@ SHELL = @SHELL@
 
 srcdir = @srcdir@
 top_srcdir = @top_srcdir@
-VPATH = @srcdir@
 prefix = @prefix@
 exec_prefix = @exec_prefix@
 
@@ -110,10 +109,13 @@ SUBDIRS = devices viewers widgets
 ############################################################################
 
 INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
+VPATH = .:@srcdir@
 
 lib_LTLIBRARIES = libSoQt.la
 
 BUILT_SOURCES = \
+	SoQtRenderArea.cpp \
+	SoQtRenderArea.h \
 	moc_SoQt.cpp \
 	moc_SoQtComponent.cpp \
 	moc_SoQtGLWidget.cpp \
@@ -124,6 +126,10 @@ BUILT_SOURCES = \
 	moc_SoQtSliderSetBase.cpp \
 	moc_SoQtTransformSliderSet.cpp
 
+
+############################################################################
+
+libSoQtVPATH = . $(srcdir)
 
 ############################################################################
 
@@ -140,8 +146,6 @@ libSoQt_la_SOURCES = \
 	SoQtLightSliderSet.h \
 	SoQtMaterialSliderSet.cpp \
 	SoQtMaterialSliderSet.h \
-	$(top_builddir)/src/Inventor/Qt/SoQtRenderArea.cpp \
-	$(top_builddir)/src/Inventor/Qt/SoQtRenderArea.h \
 	SoQtRenderAreaExtra.cpp \
 	SoQtSliderSet.cpp \
 	SoQtSliderSet.h \
@@ -196,8 +200,8 @@ libSoQt_la_DEPENDENCIES =  devices/libSoQtDevices.la \
 viewers/libSoQtViewers.la widgets/libSoQtWidgets.la
 am_libSoQt_la_OBJECTS =  SoQt.lo SoQtComponent.lo SoQtCursors.lo \
 SoQtGLWidget.lo SoQtLightSliderSet.lo SoQtMaterialSliderSet.lo \
-SoQtRenderArea.lo SoQtRenderAreaExtra.lo SoQtSliderSet.lo \
-SoQtSliderSetBase.lo SoQtTransformSliderSet.lo moc_SoQt.lo \
+SoQtRenderAreaExtra.lo SoQtSliderSet.lo SoQtSliderSetBase.lo \
+SoQtTransformSliderSet.lo SoQtRenderArea.lo moc_SoQt.lo \
 moc_SoQtComponent.lo moc_SoQtGLWidget.lo moc_SoQtLightSliderSet.lo \
 moc_SoQtMaterialSliderSet.lo moc_SoQtRenderArea.lo moc_SoQtSliderSet.lo \
 moc_SoQtSliderSetBase.lo moc_SoQtTransformSliderSet.lo
@@ -293,7 +297,6 @@ clean-libtool:
 distclean-libtool:
 
 maintainer-clean-libtool:
-SoQtRenderArea.lo: $(top_builddir)/src/Inventor/Qt/SoQtRenderArea.cpp
 
 libSoQt.la: $(libSoQt_la_OBJECTS) $(libSoQt_la_DEPENDENCIES)
 	$(CXXLINK) -rpath $(libdir) $(libSoQt_la_LDFLAGS) $(libSoQt_la_OBJECTS) $(libSoQt_la_LIBADD) $(LIBS)
@@ -452,12 +455,6 @@ maintainer-clean-depend:
 @AMDEP@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 	$(CXXCOMPILE) -c -o $@ $<
 
-.cpp.lo:
-@AMDEP@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
-@AMDEP@	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' @AMDEPBACKSLASH@
-@AMDEP@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(LTCXXCOMPILE) -c -o $@ $<
-
 info-am:
 info: info-recursive
 dvi-am:
@@ -545,6 +542,21 @@ all-redirect all-am all install-strip installdirs-am installdirs \
 mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
+
+.cpp.lo:
+	@(source='$<'; \
+	set dummy $(libSoQtVPATH); \
+	shift; \
+	for dir \
+	do \
+	  if test ! -f $$source -a -f "$$dir/$<"; then \
+	    source="$$dir/$<"; \
+	  fi \
+	done; \
+	echo "Making $@ from '$$source'"; \
+	source="$$source" object='$@' libtool=no \
+	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' \
+	$(CXXDEPMODE) $(depcomp) $(LTCXXCOMPILE) -c -o $@ "$$source";)
 
 ############################################################################
 

@@ -5,10 +5,13 @@ SUBDIRS = devices viewers widgets
 ############################################################################
 
 INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
+VPATH = .:@srcdir@
 
 lib_LTLIBRARIES = libSoQt.la
 
 BUILT_SOURCES = \
+	SoQtRenderArea.cpp \
+	SoQtRenderArea.h \
 	moc_SoQt.cpp \
 	moc_SoQtComponent.cpp \
 	moc_SoQtGLWidget.cpp \
@@ -18,6 +21,25 @@ BUILT_SOURCES = \
 	moc_SoQtSliderSet.cpp \
 	moc_SoQtSliderSetBase.cpp \
 	moc_SoQtTransformSliderSet.cpp
+
+############################################################################
+
+libSoQtVPATH = . $(srcdir)
+
+.cpp.lo:
+	@(source='$<'; \
+	set dummy $(libSoQtVPATH); \
+	shift; \
+	for dir \
+	do \
+	  if test ! -f $$source -a -f "$$dir/$<"; then \
+	    source="$$dir/$<"; \
+	  fi \
+	done; \
+	echo "Making $@ from '$$source'"; \
+	source="$$source" object='$@' libtool=no \
+	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' \
+	$(CXXDEPMODE) $(depcomp) $(LTCXXCOMPILE) -c -o $@ "$$source";)
 
 ############################################################################
 
@@ -34,8 +56,6 @@ libSoQt_la_SOURCES = \
 	SoQtLightSliderSet.h \
 	SoQtMaterialSliderSet.cpp \
 	SoQtMaterialSliderSet.h \
-	$(top_builddir)/src/Inventor/Qt/SoQtRenderArea.cpp \
-	$(top_builddir)/src/Inventor/Qt/SoQtRenderArea.h \
 	SoQtRenderAreaExtra.cpp \
 	SoQtSliderSet.cpp \
 	SoQtSliderSet.h \

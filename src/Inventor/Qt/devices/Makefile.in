@@ -14,7 +14,6 @@ SHELL = @SHELL@
 
 srcdir = @srcdir@
 top_srcdir = @top_srcdir@
-VPATH = @srcdir@
 prefix = @prefix@
 exec_prefix = @exec_prefix@
 
@@ -105,31 +104,41 @@ uGUI = @uGUI@
 
 noinst_LTLIBRARIES = libSoQtDevices.la
 
+INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
 LIBS = 
+VPATH = .:@srcdir@
 
-INCLUDES = -I$(top_srcdir)/src
+############################################################################
+
+BUILT_SOURCES = 
+
+############################################################################
+
+libSoQtDevicesVPATH = . $(srcdir)
 
 libSoQtDevices_la_SOURCES = \
-	$(top_srcdir)/src/Inventor/Qt/devices/SoQtDevice.cpp \
-	$(top_srcdir)/src/Inventor/Qt/devices/SoQtDevice.h \
-	$(top_srcdir)/src/Inventor/Qt/devices/SoQtInputFocus.cpp \
-	$(top_srcdir)/src/Inventor/Qt/devices/SoQtInputFocus.h \
-	$(top_srcdir)/src/Inventor/Qt/devices/SoQtKeyboard.cpp \
-	$(top_srcdir)/src/Inventor/Qt/devices/SoQtKeyboard.h \
-	$(top_srcdir)/src/Inventor/Qt/devices/SoQtMouse.cpp \
-	$(top_srcdir)/src/Inventor/Qt/devices/SoQtMouse.h \
-	$(top_srcdir)/src/Inventor/Qt/devices/SoQtSpaceball.cpp \
-	$(top_srcdir)/src/Inventor/Qt/devices/SoQtSpaceball.h
+	SoQtDevice.cpp \
+	SoQtDevice.h \
+	SoQtInputFocus.cpp \
+	SoQtInputFocus.h \
+	SoQtKeyboard.cpp \
+	SoQtKeyboard.h \
+	SoQtMouse.cpp \
+	SoQtMouse.h \
+	SoQtSpaceball.cpp \
+	SoQtSpaceball.h
 
+
+############################################################################
 
 libSoQtDevicesincdir = $(includedir)/Inventor/Qt/devices
 
 libSoQtDevicesinc_HEADERS = \
-	$(top_srcdir)/src/Inventor/Qt/devices/SoQtDevice.h \
-	$(top_srcdir)/src/Inventor/Qt/devices/SoQtInputFocus.h \
-	$(top_srcdir)/src/Inventor/Qt/devices/SoQtKeyboard.h \
-	$(top_srcdir)/src/Inventor/Qt/devices/SoQtMouse.h \
-	$(top_srcdir)/src/Inventor/Qt/devices/SoQtSpaceball.h
+	$(srcdir)/SoQtDevice.h \
+	$(srcdir)/SoQtInputFocus.h \
+	$(srcdir)/SoQtKeyboard.h \
+	$(srcdir)/SoQtMouse.h \
+	$(srcdir)/SoQtSpaceball.h
 
 subdir = src/Inventor/Qt/devices
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -215,13 +224,6 @@ clean-libtool:
 distclean-libtool:
 
 maintainer-clean-libtool:
-SoQtDevice.lo: $(top_srcdir)/src/Inventor/Qt/devices/SoQtDevice.cpp
-SoQtInputFocus.lo: \
-	$(top_srcdir)/src/Inventor/Qt/devices/SoQtInputFocus.cpp
-SoQtKeyboard.lo: $(top_srcdir)/src/Inventor/Qt/devices/SoQtKeyboard.cpp
-SoQtMouse.lo: $(top_srcdir)/src/Inventor/Qt/devices/SoQtMouse.cpp
-SoQtSpaceball.lo: \
-	$(top_srcdir)/src/Inventor/Qt/devices/SoQtSpaceball.cpp
 
 libSoQtDevices.la: $(libSoQtDevices_la_OBJECTS) $(libSoQtDevices_la_DEPENDENCIES)
 	$(CXXLINK)  $(libSoQtDevices_la_LDFLAGS) $(libSoQtDevices_la_OBJECTS) $(libSoQtDevices_la_LIBADD) $(LIBS)
@@ -262,7 +264,7 @@ maintainer-clean-tags:
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
 distdir: $(DISTFILES)
-	$(mkinstalldirs) $(distdir)/$(top_srcdir)/src/Inventor/Qt/devices
+	$(mkinstalldirs) $(distdir)/$(srcdir)
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
@@ -296,12 +298,6 @@ maintainer-clean-depend:
 @AMDEP@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
 @AMDEP@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 	$(CXXCOMPILE) -c -o $@ $<
-
-.cpp.lo:
-@AMDEP@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
-@AMDEP@	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' @AMDEPBACKSLASH@
-@AMDEP@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(LTCXXCOMPILE) -c -o $@ $<
 
 info-am:
 info: info-am
@@ -340,6 +336,7 @@ distclean-generic:
 
 maintainer-clean-generic:
 	-rm -f Makefile.in
+	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
 mostlyclean-am:  mostlyclean-noinstLTLIBRARIES mostlyclean-compile \
 		mostlyclean-libtool mostlyclean-tags mostlyclean-depend \
 		mostlyclean-generic
@@ -382,6 +379,20 @@ all-redirect all-am all install-strip installdirs mostlyclean-generic \
 distclean-generic clean-generic maintainer-clean-generic clean \
 mostlyclean distclean maintainer-clean
 
+
+.cpp.lo:
+	@(source='$<'; \
+	set dummy $(libSoQtDevicesVPATH); \
+	shift; \
+	for dir \
+	do \
+	  if test ! -f $$source -a -f "$$dir/$<"; then \
+	    source="$$dir/$<"; \
+	  fi \
+	done; \
+        source="$$source" object='$@' libtool=no \
+	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' \
+        $(CXXDEPMODE) $(depcomp) $(LTCXXCOMPILE) -c -o $@ "$$source";)
 
 install-libSoQtDevicesincHEADERS: $(libSoQtDevicesinc_HEADERS)
 	@$(NORMAL_INSTALL)

@@ -1,5 +1,7 @@
 ## Process this file with automake to generate Makefile.in.
 
+SUFFIXES = .cpp .h .m4 .in .o .lo .Plo .TPlo
+
 if BUILD_TESTS
 TESTDIR = test-code
 else
@@ -12,7 +14,7 @@ else
 EXAMPLEDIR = 
 endif
 
-SUBDIRS = src/Inventor/Qt $(TESTDIR) $(EXAMPLEDIR)
+SUBDIRS = . src/Inventor/Qt $(TESTDIR) $(EXAMPLEDIR)
 
 bin_SCRIPTS = soqt-config
 

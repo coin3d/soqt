@@ -102,12 +102,14 @@ lGUI = @lGUI@
 sim_ac_conf_cmd = @sim_ac_conf_cmd@
 uGUI = @uGUI@
 
+
+SUFFIXES = .cpp .h .m4 .in .o .lo .Plo .TPlo
 @BUILD_TESTS_TRUE@TESTDIR = @BUILD_TESTS_TRUE@test-code
 @BUILD_TESTS_FALSE@TESTDIR = 
 @BUILD_EXAMPLES_TRUE@EXAMPLEDIR = @BUILD_EXAMPLES_TRUE@examples
 @BUILD_EXAMPLES_FALSE@EXAMPLEDIR = 
 
-SUBDIRS = src/Inventor/Qt $(TESTDIR) $(EXAMPLEDIR)
+SUBDIRS = . src/Inventor/Qt $(TESTDIR) $(EXAMPLEDIR)
 
 bin_SCRIPTS = soqt-config
 
@@ -142,9 +144,10 @@ install-sh ltconfig ltmain.sh missing mkinstalldirs soqt-config.in
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
 GZIP_ENV = --best
-DIST_SUBDIRS =  src/Inventor/Qt test-code examples
+DIST_SUBDIRS =  . src/Inventor/Qt test-code examples
 all: all-redirect
 .SUFFIXES:
+.SUFFIXES: .Plo .TPlo .cpp .h .in .lo .m4 .o
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
 	cd $(top_srcdir) && $(AUTOMAKE) --gnu Makefile
 
