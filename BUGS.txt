@@ -433,3 +433,16 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     20030630 mortene.
 
 =====================================================================
+
+022 The X11 error message warning seems to come up too often.
+
+    pederb is seeing it on QMessageBox'es, we're both seeing it on
+    QColorDialog.
+
+    Investigate and check whether or not it's a _real_ Qt-on-X11 bug
+    here, or if our technique for hooking up with the X11 error msg
+    handler is giving false negatives.
+
+    20031022 mortene.
+
+=====================================================================
