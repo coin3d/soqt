@@ -19,6 +19,7 @@ Options:
   --datadir
   --have-feature <featurename>
   --ac-subst <string> | <sourcefile.in>
+  --ac-desubst <sourcefile>
   --compile <sourcefile> [<sourcefile>]...
   --link <program> <object> [<object>]...
   --build <program> <sourcefile> [<sourcefile>]...
@@ -82,10 +83,22 @@ do
       else
         for arg in $@; do
           $program --ac-subst $arg
-          test $? -ne 0 && exit $?
+          retval=$?
+          test $retval -ne 0 && exit $retval
         done
       fi
       exit 0
+      ;;
+    --ac-desubst)
+      shift
+      echo $me --ac-desubst $1
+      outfile="$1.in"
+      sedscript=/tmp/ac_subst_$$.sed
+      grep "^AC_SUBST_" $configfile \
+        | sed -e 's/^AC_SUBST_\([^=]*\)="\([^"]*\)"$/s\/\2\/@\1@\/g;/g' \
+        >$sedscript
+      sed -f $sedscript <$1 >$outfile
+      rm -f $sedscript
       ;;
     --compile)
       shift
@@ -93,25 +106,27 @@ do
         case $1 in
           *\.in)
             outfile=`echo $1 | sed -e 's/\.in$//'`
-            echo $program --ac-subst $1
             $program --ac-subst $1
             $program --alternate="$alternate" --compile $outfile
-            test $? -ne 0 && exit $?
+            retval=$?
+            test $retval -ne 0 && exit $retval
             ;;
           *)
             echo $compiler $CPPFLAGS $cppflags $CXXFLAGS $cxxflags -c $1 \
-              | fmt -w76 | sed -e '1,$ s/$/ \\/' -e '$ s/ \\$//'
+              | fmt -w76 | sed '2,$ s/^/  /g; $ q; 1,$ s/$/ \\/'
             $compiler \
               $CPPFLAGS $cppflags \
               $CXXFLAGS $cxxflags \
               -c $1
-            test $? -ne 0 && exit $?
+            retval=$?
+            test $retval -ne 0 && exit $retval
             ;;
         esac
       else
         for arg in $@; do
           $program --alternate="$alternate" --compile $arg
-          test $? -ne 0 && exit $?
+          retval=$?
+          test $retval -ne 0 && exit $retval
         done
       fi
       exit 0
@@ -121,12 +136,13 @@ do
       progname=$1
       shift
       echo $compiler $LDFLAGS $ldflags -o $progname $@ $libs $LIBS \
-        | fmt -w76 | sed -e '1,$ s/$/ \\/' -e '$ s/ \\$//'
+        | fmt -w76 | sed '2,$ s/^/  /g; $ q; 1,$ s/$/ \\/'
       $compiler \
         $LDFLAGS $ldflags \
         -o $progname $@ \
         $libs $LIBS
-      test $? -ne 0 && exit $?
+      retval=$?
+      test $retval -ne 0 && exit $retval
       exit 0
       ;;
     --build)
@@ -146,7 +162,8 @@ do
             basename=`echo "$outfile" | sed -e 's/\.[^\.]*$//'`
             $program --ac-subst $arg
             $program --alternate="$alternate" --compile $outfile
-            test $? -ne 0 && exit $?
+            retval=$?
+            test $retval -ne 0 && exit $retval
             objfile=`ls $basename.o $basename.obj 2>/dev/null`
             objs="$objs $objfile"
             ;;
@@ -158,16 +175,18 @@ do
             ;;
         esac
       done
-      echo $compiler $LDFLAGS $ldflags $extraldflags \
+      echo $compiler $CPPFLAGS $cppflags $CXXFLAGS $cxxflags \
+        $LDFLAGS $ldflags $extraldflags \
         -o $progname $objs $extralibs $libs $LIBS \
-        | fmt -w76 | sed -e '1,$ s/$/ \\/' -e '$ s/ \\$//'
+        | fmt -w76 | sed '2,$ s/^/  /g; $ q; 1,$ s/$/ \\/'
       $compiler \
         $CPPFLAGS $cppflags \
         $CXXFLAGS $cxxflags \
         $LDFLAGS $ldflags $extraldflags \
         -o $progname $objs \
         $extralibs $libs $LIBS
-      test $? -ne 0 && exit $?
+      retval=$?
+      test $retval -ne 0 && exit $retval
       exit 0
       ;;
     # ignore some options
