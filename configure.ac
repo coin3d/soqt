@@ -748,7 +748,7 @@ SOQT_DSP_INCS=
 if $sim_ac_make_dsp; then
   SIM_AC_CONFIGURATION_SETTING([SoQt build type], [msvc .dsp])
 
-  for arg in $CPPFLAGS $LDFLAGS $LIBS; do
+  for arg in $CPPFLAGS $DEFS $LDFLAGS $LIBS; do
     case $arg in
     -L* )
       # libdir=`echo $arg | cut -c3-`

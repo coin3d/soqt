@@ -15874,7 +15874,7 @@ else
 fi
 
 
-  for arg in $CPPFLAGS $LDFLAGS $LIBS; do
+  for arg in $CPPFLAGS $DEFS $LDFLAGS $LIBS; do
     case $arg in
     -L* )
       # libdir=`echo $arg | cut -c3-`
