@@ -14009,10 +14009,12 @@ else
   enable_symbols=yes
 fi;
 
+# FIXME: don't mangle options like -fno-gnu-linker and -fvolatile-global
+# 20020104 larsa
 if test x"$enable_symbols" = x"no"; then
-  CFLAGS="`echo $CFLAGS | sed 's/-g//'`"
-  CPPFLAGS="`echo $CPPFLAGS | sed 's/-g//'`"
-  CXXFLAGS="`echo $CXXFLAGS | sed 's/-g//'`"
+  # CPPFLAGS="`echo $CPPFLAGS | sed 's/-g[0-9]//'`"
+  CFLAGS="`echo $CFLAGS | sed 's/-g0-9?//'`"
+  CXXFLAGS="`echo $CXXFLAGS | sed 's/-g0-9?//'`"
 fi
 
 
@@ -14898,6 +14900,21 @@ fi
 fi
 
 # **************************************************************************
+
+COIN_COMPILER="$CXX"
+
+if $BUILD_WITH_MSVC; then
+  # don't use wrapmsvc from source hierarchy when later using soqt-config.
+  COIN_COMPILER="wrapmsvc"
+fi
+
+else # $sim_ac_build_library == false
+  MOC=moc
+
+fi
+
+
+# **************************************************************************
 # To test the Mac OS X framework setup on non-Mac systems, run configure
 # with the --with-framework option.  20011029 larsa
 
@@ -15006,18 +15023,6 @@ export sim_ac_framework
 export MAC_FRAMEWORK_NAME MAC_FRAMEWORK_PREFIX MAC_FRAMEWORK_VERSION
 
 # **************************************************************************
-
-COIN_COMPILER="$CXX"
-
-if $BUILD_WITH_MSVC; then
-  # don't use wrapmsvc from source hierarchy when later using soqt-config.
-  COIN_COMPILER="wrapmsvc"
-fi
-
-else # $sim_ac_build_library == false
-  MOC=moc
-
-fi
 
 # Qt's moc wants Windows-style paths, so if the inputfile is an
 # absolute Cygwin-style path it needs conversion.
@@ -16104,6 +16109,7 @@ s,@MOC@,$MOC,;t t
 s,@HAVE_JOYSTICK_LINUX_TRUE@,$HAVE_JOYSTICK_LINUX_TRUE,;t t
 s,@HAVE_JOYSTICK_LINUX_FALSE@,$HAVE_JOYSTICK_LINUX_FALSE,;t t
 s,@DSUFFIX@,$DSUFFIX,;t t
+s,@COIN_COMPILER@,$COIN_COMPILER,;t t
 s,@ivframeworkdir@,$ivframeworkdir,;t t
 s,@frameworkdir@,$frameworkdir,;t t
 s,@ivincludedir@,$ivincludedir,;t t
@@ -16115,7 +16121,6 @@ s,@MAC_FRAMEWORK_VERSION@,$MAC_FRAMEWORK_VERSION,;t t
 s,@nop@,$nop,;t t
 s,@MAC_FRAMEWORK_TRUE@,$MAC_FRAMEWORK_TRUE,;t t
 s,@MAC_FRAMEWORK_FALSE@,$MAC_FRAMEWORK_FALSE,;t t
-s,@COIN_COMPILER@,$COIN_COMPILER,;t t
 s,@UNIX2WINPATH@,$UNIX2WINPATH,;t t
 s,@Gui@,$Gui,;t t
 s,@gui@,$gui,;t t
