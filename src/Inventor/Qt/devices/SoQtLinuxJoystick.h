@@ -73,36 +73,9 @@ public:
   float getAxisValue(const int axis) const;
 
 private:
-  int events;
-  int joydev;
-  QSocketNotifier * notifier;
-
-  static SbBool enabled;
-
-  char * name;
-  int numaxes;
-  int32_t * axisvalues;
-  int numbuttons;
-  SbBool * buttonvalues;
-
-  SbBool focusToWindow;
-
-  float rotationScaleFactor;
-  float translationScaleFactor;
-
-  SoMotion3Event * motion3Event;
-  SoSpaceballButtonEvent * buttonEvent;
-
-  SoMotion3Event * makeMotion3Event(SoQt6dofDevicePressureEvent * event);
-  SoSpaceballButtonEvent * makeButtonEvent(SoQt6dofDeviceButtonEvent * event,
-      SoButtonEvent::State state);
-
-  static const char * getDevicePathName(void);
-
-private slots:
-  void device_event(int);
-
-}; // class SoQtLinuxJoystick
+  class SoQtLinuxJoystickP * pimpl;
+  friend class SoQtLinuxJoystickP;
+};
 
 // *************************************************************************
 
