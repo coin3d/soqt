@@ -197,17 +197,6 @@ AC_SUBST(SOGUI_EXTRA_LIBS, $LIBS)
 
 # SIM_EXPAND_DIR_VARS
 
-# FIXME: I disabled the doxy4win.pl substitution of the <PATH> tag, as the
-# setup wasn't working for ``make distcheck'' for some reason, and it
-# also made an extra dependency in our build environment: Perl.
-# 20011211 mortene.
-case $host in
-*-cygwin) path_tag="<PATH>" ;;
-*)        path_tag= ;;
-esac
-
-AC_SUBST(path_tag)
-
 # **************************************************************************
 
 AC_ARG_WITH(
@@ -227,11 +216,6 @@ AC_ARG_WITH(
   [SUFFIX=])
 
 AC_SUBST(SUFFIX)
-
-# FIXME: what's this? *Comment* disabled code, for f*ck's sake! 20011011 mortene.
-# INSTALL_HEADER="\
-# INSTALL='\$(INSTALL_DATA)' \$(SHELL) \$(top_srcdir)/cfg/install-header"
-# AC_SUBST(INSTALL_HEADER)
 
 # **************************************************************************
 # If you just want to generate docs, ignore all the build-related tests
