@@ -1,8 +1,8 @@
 # **************************************************************************
 # SoQt/configure.ac
 
-m4_define([SOQT_MAJOR], [2])
-m4_define([SOQT_MINOR], [0])
+m4_define([SOQT_MAJOR], [1])
+m4_define([SOQT_MINOR], [1])
 m4_define([SOQT_MICRO], [0])
 m4_define([SOQT_BETA], [a])
 
