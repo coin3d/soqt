@@ -654,10 +654,6 @@ SoQtRenderArea::redraw(void)
   // for any magic when rendering (like multipass rendering for hidden
   // line drawstyle, for instance).
   this->actualRedraw();
-
-#if 0 // debug
-  SoDebugError::postInfo("SoQtRenderArea::redraw", "done");
-#endif // debug
 }
 
 /*!
@@ -748,7 +744,7 @@ SoQtRenderArea::invokeAppCB(QEvent * anyevent)
 void
 SoQtRenderArea::processEvent(QEvent * anyevent)
 {
-  // If there's a event handling callback registered, it should be
+  // If there's an event handling callback registered, it should be
   // used before the OIV translation and handling.
 
   const SoEvent * ev = NULL;

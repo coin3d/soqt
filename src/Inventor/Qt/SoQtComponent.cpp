@@ -268,6 +268,42 @@ SoQtComponent::eventFilter(QObject *obj, QEvent * e)
   SoDebugError::postInfo("SoQtComponent::eventFilter", "obj: %p", obj);
 #endif // debug
 
+#if 0 // debug
+  switch (e->type()) {
+  case Event_MouseButtonPress:
+//      SoDebugError::postInfo("SoQtComponent::eventFilter", "button press");
+    break;
+  case Event_MouseButtonRelease:
+//      SoDebugError::postInfo("SoQtComponent::eventFilter", "button release");
+    break;
+  case Event_MouseButtonDblClick:
+//      SoDebugError::postInfo("SoQtComponent::eventFilter", "dbl click");
+    break;
+  case Event_MouseMove:
+//      SoDebugError::postInfo("SoQtComponent::eventFilter", "mousemove");
+    break;
+  case Event_Paint:
+    SoDebugError::postInfo("SoQtComponent::eventFilter", "paint");
+    break;
+  case Event_Resize:
+    SoDebugError::postInfo("SoQtComponent::eventFilter", "resize");
+    break;
+  case Event_FocusIn:
+  case Event_FocusOut:
+  case Event_Enter:
+  case Event_Leave:
+  case Event_Move:
+  case Event_LayoutHint:
+  case Event_ChildInserted:
+  case Event_ChildRemoved:
+    // ignored
+    break;
+  default:
+    SoDebugError::postInfo("SoQtComponent::eventFilter", "type %d", e->type());
+    break;
+  }
+#endif // debug
+
   // Remove event filter if unknown Qt widget.
   // FIXME: this code should probably be superfluous if everything
   // else works 100%? 990216 mortene.

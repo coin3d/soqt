@@ -51,16 +51,19 @@ public:
                   QWidget *parent, const char * const name);
 
   virtual void swapBuffers(void);
+  void doRender(const SbBool flag);
 
 signals:
   void do_repaint();
 
 protected:
   virtual void paintGL(void);
+  virtual void resizeGL(int w, int h);
   virtual void initializeGL(void);
 
 private:
   SoQtGLWidget * owner;
+  SbBool dorender;
 };
 
 /* internal class end ******************************************************/

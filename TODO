@@ -96,14 +96,29 @@ ToDo
   will probably also do), start a spin, zoom it backwards _far_ away,
   zoom it back again.
 
-* [mortene:1999????] SoQt over Qt2.0 has a number of irritating
+* [mortene:1999????] SoQt on top of Qt2.0 has a number of irritating
   problems which doesn't show up with Qt1.x:
-   a. decoration on/off doesn't make the scene gfx reposition/resize
-      correctly until further interaction
-   b. should remove the focus indicator on the top-most right-row button
-   c. something is wrong with the drag->spin mechanism, looks like we get
-      too few mouseposition events to get a good idea of where we are going
-   d. we get too many redraw events on resizing the window
+
+   a) should remove the focus indicator on the top-most right-row button
+
+   b) something is wrong with the drag->spin mechanism, looks like we
+      get too few mouseposition events to get a good idea of the spin
+      direction
+
+   c) need to set minimum size for some of the windows to avoid Qt
+      bombing out on resizing to too small dimensions
+
+   d) if we resize the window to be smaller, there's sometimes no
+      paint event. This happens both with and without decorations.
+
+   e) the geometry sometimes seems misaligned after resize
+      operations. Might be related to the problem in d).
+
+   f) key presses are not redirected to the GL canvas widget.
+
+* [mortene:19991218] we get too many redraw events on resizing the
+  window, but only when it has decorations -- and _not_ if you remove
+  decorations and then reinsert them again. Weird.
 
 * [mortene:1999????] resize so height > width -> aspectratio is not
   updated accordingly.
@@ -114,9 +129,7 @@ ToDo
   rendering fuckups.
 
 * [mortene:1999????] pick/view togglebuttons doesn't work correctly:
-     * clicking on a button already pressed down shouldn't have any effect
-     * moving the cursor within the render canvas while in pick mode leads
-       to an assertion failing
+  clicking on a button already pressed down shouldn't have any effect.
 
 * [mortene:1999????] switching buffer mode (from doublebuffer to
   singlebuffer, for instance) switches the cursor back to the standard
@@ -140,8 +153,6 @@ ToDo
 * [mortene:1999????] something is wrong with the signal-slot mechanism
   set up in the preference window.
 
-* [mortene:1999????] need to set minimum size for some of the windows
-  to avoid Qt bombing out on resizing to too small dimensions.
 
 
 ===============================================================================

@@ -22,8 +22,7 @@ static const char rcsid[] =
 
 /*!
   \class SoQtGLWidget SoQtGLWidget.h Inventor/Qt/SoQtGLWidget.h
-  \brief The SoQtGLWidget class contains the GL canvas widget used for
-  rendering.
+  \brief The SoQtGLWidget class contains an OpenGL canvas.
 
   TODO:
   - doc on how this needs Qt OpenGL extension library, w/html links to Qt doc
@@ -58,10 +57,6 @@ static const char rcsid[] =
 
 
 static const int SO_BORDER_THICKNESS = 2;
-
-// debug
-#define SOQTGL_RESIZE_DEBUG 0
-
 
 /*!
   FIXME: write function documentation
@@ -107,9 +102,13 @@ SoQtGLWidget::buildWidget(QWidget * parent)
   f.setDepth((this->glmodebits & SO_GLX_ZBUFFER) ? TRUE : FALSE);
   f.setRgba((this->glmodebits & SO_GLX_RGB) ? TRUE : FALSE);
   f.setStereo((this->glmodebits & SO_GLX_STEREO) ? TRUE : FALSE);
+
   // FIXME: the SO_GLX_OVERLAY bit is not considered (Qt doesn't seem
   // to support overlay planes -- check this with the Qt FAQ or
   // mailing list archives). 990210 mortene.
+
+  // FIXME, update: overlay planes are supported with Qt 2.x. 19991218 mortene.
+
   w->setFormat(f);
 
   if (!w->isValid()) {
@@ -120,8 +119,7 @@ SoQtGLWidget::buildWidget(QWidget * parent)
   }
 
 
-  QObject::connect(w, SIGNAL(do_repaint()),
-                   this, SLOT(repaint_slot()));
+  QObject::connect(w, SIGNAL(do_repaint()), this, SLOT(repaint_slot()));
 
   w->setMouseTracking(TRUE);
 
@@ -149,10 +147,48 @@ SoQtGLWidget::buildWidget(QWidget * parent)
 bool
 SoQtGLWidget::eventFilter(QObject * obj, QEvent * e)
 {
+
 #if 0 // debug
   SoDebugError::postInfo("SoQtGLWidget::eventFilter", "obj: %p", obj);
 #endif // debug
 
+#if 0 // debug
+  switch (e->type()) {
+  case Event_MouseButtonPress:
+//      SoDebugError::postInfo("SoQtGLWidget::eventFilter", "button press");
+    break;
+  case Event_MouseButtonRelease:
+//      SoDebugError::postInfo("SoQtGLWidget::eventFilter", "button release");
+    break;
+  case Event_MouseButtonDblClick:
+//      SoDebugError::postInfo("SoQtGLWidget::eventFilter", "dbl click");
+    break;
+  case Event_MouseMove:
+//      SoDebugError::postInfo("SoQtGLWidget::eventFilter", "mousemove");
+    break;
+  case Event_Paint:
+    SoDebugError::postInfo("SoQtGLWidget::eventFilter", "paint");
+    break;
+  case Event_Resize:
+    SoDebugError::postInfo("SoQtGLWidget::eventFilter", "resize");
+    break;
+  case Event_FocusIn:
+  case Event_FocusOut:
+  case Event_Enter:
+  case Event_Leave:
+  case Event_Move:
+  case Event_LayoutHint:
+  case Event_ChildInserted:
+  case Event_ChildRemoved:
+    // ignored
+    break;
+  default:
+    SoDebugError::postInfo("SoQtGLWidget::eventFilter", "type %d", e->type());
+    break;
+  }
+#endif // debug
+
+  SbBool stopevent = FALSE;
 
   // Redirect keyboard events to the GL canvas widget (workaround for
   // problems with Qt focus policy).
@@ -162,7 +198,7 @@ SoQtGLWidget::eventFilter(QObject * obj, QEvent * e)
   if (obj == (QObject *)this->glparent) {
     if (e->type() == Event_Resize) {
       QResizeEvent * r = (QResizeEvent *)e;
-#if SOQTGL_RESIZE_DEBUG  // debug
+#if 0  // debug
       SoDebugError::postInfo("SoQtGLWidget::eventFilter",
                              "resize %p: (%d, %d)",
                              this->glwidget,
@@ -172,24 +208,34 @@ SoQtGLWidget::eventFilter(QObject * obj, QEvent * e)
       this->borderwidget->resize(r->size());
       int newwidth = r->size().width() - 2 * this->borderthickness;
       int newheight = r->size().height() - 2 * this->borderthickness;
+
+      ((PrivateGLWidget *)this->glwidget)->doRender(FALSE);
       this->glwidget->setGeometry(this->borderthickness,
                                   this->borderthickness,
                                   newwidth, newheight);
+      ((PrivateGLWidget *)this->glwidget)->doRender(TRUE);
 
       this->sizeChanged(SbVec2s(newwidth, newheight));
+#if 0 // debug
+      SoDebugError::postInfo("SoQtGLWidget::eventFilter", "resize done");
+#endif // debug
     }
   }
   else if (obj == (QObject *)this->glwidget) {
+#if 0  // debug
+    if (e->type() == Event_Resize)
+      SoDebugError::postInfo("SoQtGLWidget::eventFilter", "gl widget resize");
+#endif // debug
     // Pass this on further down the inheritance hierarchy of the SoQt
     // components.
     this->processEvent(e);
   }
   else {
     // Handle in superclass.
-    return inherited::eventFilter(obj, e);
+    stopevent = inherited::eventFilter(obj, e);
   }
 
-  return FALSE;
+  return stopevent;
 }
 
 /*!
@@ -372,13 +418,26 @@ SoQtGLWidget::processEvent(QEvent * /*anyevent*/)
  */
 PrivateGLWidget::PrivateGLWidget(SoQtGLWidget * owner,
                                  QWidget * parent, const char * const name)
-  : inherited(parent, name)
+  : inherited(parent, name), dorender(TRUE)
 {
   this->owner = owner;
 }
 
+/*
+  Set/unset flag to actually do render the scene upon paintGL() events.
+  Useful for postponing render actions during resizes etc.
+ */
 void
-PrivateGLWidget::initializeGL()
+PrivateGLWidget::doRender(const SbBool flag)
+{
+  this->dorender = flag;
+}
+
+/*
+  Overloaded from QtGLWidget.
+ */
+void
+PrivateGLWidget::initializeGL(void)
 {
   inherited::initializeGL();
   this->setBackgroundMode(QWidget::NoBackground);
@@ -391,17 +450,35 @@ PrivateGLWidget::initializeGL()
 }
 
 /*
+  Overloaded from QtGLWidget.
+ */
+void
+PrivateGLWidget::resizeGL(int w, int h)
+{
+#if 0 // debug
+  SoDebugError::postInfo("PrivateGLWidget::resizeGL", "start");
+#endif // debug
+  inherited::resizeGL(w, h);
+#if 0 // debug
+  SoDebugError::postInfo("PrivateGLWidget::resizeGL", "done");
+#endif // debug
+}
+
+/*
   Emit a signal whenever we need to repaint (usually (always?) because
   of expose events).
  */
 void
-PrivateGLWidget::paintGL()
+PrivateGLWidget::paintGL(void)
 {
-  inherited::paintGL();
 #if 0 // debug
-  SoDebugError::postInfo("PrivateGLWidget::paintGL", "");
+  SoDebugError::postInfo("PrivateGLWidget::paintGL", "%s",
+                         this->dorender ? "executing" : "ignoring");
 #endif //debug
-  emit this->do_repaint();
+  if (this->dorender) {
+    inherited::paintGL();
+    emit this->do_repaint();
+  }
 }
 
 /*

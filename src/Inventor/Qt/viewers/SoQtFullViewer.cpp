@@ -537,18 +537,35 @@ SoQtFullViewer::eventFilter(QObject *obj, QEvent * e)
 #if 0 // debug
   switch (e->type()) {
   case Event_MouseButtonPress:
-    SoDebugError::postInfo("SoQtFullViewer::eventFilter",
-                           "button press");
+//      SoDebugError::postInfo("SoQtFullViewer::eventFilter", "button press");
     break;
   case Event_MouseButtonRelease:
-    SoDebugError::postInfo("SoQtFullViewer::eventFilter",
-                           "button release");
+//      SoDebugError::postInfo("SoQtFullViewer::eventFilter", "button release");
     break;
   case Event_MouseButtonDblClick:
-    SoDebugError::postInfo("SoQtFullViewer::eventFilter",
-                           "dbl click");
+//      SoDebugError::postInfo("SoQtFullViewer::eventFilter", "dbl click");
+    break;
+  case Event_MouseMove:
+//      SoDebugError::postInfo("SoQtFullViewer::eventFilter", "mousemove");
+    break;
+  case Event_Paint:
+    SoDebugError::postInfo("SoQtFullViewer::eventFilter", "paint");
+    break;
+  case Event_Resize:
+    SoDebugError::postInfo("SoQtFullViewer::eventFilter", "resize");
+    break;
+  case Event_FocusIn:
+  case Event_FocusOut:
+  case Event_Enter:
+  case Event_Leave:
+  case Event_Move:
+  case Event_LayoutHint:
+  case Event_ChildInserted:
+  case Event_ChildRemoved:
+    // ignored
     break;
   default:
+    SoDebugError::postInfo("SoQtFullViewer::eventFilter", "type %d", e->type());
     break;
   }
 #endif // debug
@@ -556,9 +573,9 @@ SoQtFullViewer::eventFilter(QObject *obj, QEvent * e)
   inherited::eventFilter(obj, e);
 
   // Convert dblclick events to press events to get the "correct"
-  // sequence of two press+release pairs under Qt 1.xx and Qt 2.00 at
-  // least. (FIXME: is this a Qt bug? Report sent to the Trolls
-  // 19991001 mortene.)
+  // sequence of two press+release pairs under Qt 1.xx and Qt
+  // 2.xx. (It has been confirmed with the Trolls that this Qt
+  // behavior is actually a feature, not a bug.)
 #if QT_VERSION < 200
   int eventtype = e->type();
 #else // Qt 2.0
