@@ -296,7 +296,7 @@ bool SoQtP::didcreatemainwidget = FALSE;
 #ifdef HAVE_WIN32_API
 // Qt 3.3 seems to use simple timers by default. Since simple timers
 // causes idle sensors to trigger only 100 times per second, we set
-// this variable to true in SoQt::init(). pederb, 2004-07-21
+// this variable to false in SoQt::init(). pederb, 2004-07-21
 
 // The global qt_win_use_simple_timers variable is defined in Qt 3.0.5
 // and 3.3.1. If linking fails for some version of Qt, we'll add a
