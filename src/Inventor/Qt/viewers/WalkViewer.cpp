@@ -31,6 +31,13 @@ SOQT_OBJECT_SOURCE(SoQtWalkViewer);
 
 // ************************************************************************
 
+#define PRIVATE(ptr) ptr->pimpl
+#define PUBLIC(ptr) ptr->pub
+
+// ************************************************************************
+
+#ifndef DOXYGEN_SKIP_THIS
+
 class SoQtWalkViewerP : public SoGuiWalkViewerP {
 public:
   SoQtWalkViewerP(SoQtWalkViewer * o)
@@ -41,8 +48,12 @@ public:
   void constructor(void);
 };
 
-#define PRIVATE(ptr) ptr->pimpl
-#define PUBLIC(ptr) ptr->pub
+void
+SoQtWalkViewerP::constructor(void)
+{
+}
+
+#endif // DOXYGEN_SKIP_THIS
 
 // ************************************************************************
 
@@ -77,13 +88,6 @@ SoQtWalkViewer::SoQtWalkViewer(QWidget * parent,
 {
   PRIVATE(this) = new SoQtWalkViewerP(this);
   PRIVATE(this)->constructor();
-}
-
-// ************************************************************************
-
-void
-SoQtWalkViewerP::constructor(void)
-{
 }
 
 // ************************************************************************

@@ -161,6 +161,8 @@ QGLFormat_eq(const QGLFormat & a, const QGLFormat & b)
 
 // *************************************************************************
 
+#ifndef DOXYGEN_SKIP_THIS
+
 // The private data for the SoQtGLWidget.
 
 class SoQtGLWidgetP {
@@ -182,6 +184,19 @@ public:
   int borderthickness;
   QGLFormat * glformat;
 };
+
+// Gets called by the SoQtGLArea instance upon keyboard presses. These
+// are then forwarded to subclasses for handling.
+void
+SoQtGLWidgetP::GLAreaKeyEvent(QKeyEvent * e, void * userdata)
+{
+  SoQtGLWidget * that = (SoQtGLWidget *)userdata;
+  that->processEvent(e);
+}
+
+#endif // DOXYGEN_SKIP_THIS
+
+// *************************************************************************
 
 #define PRIVATE(o) (o->pimpl)
 
@@ -441,17 +456,6 @@ SoQtGLWidget::buildGLWidget(void)
     PRIVATE(this)->currentglwidget->raise();
   }
   PRIVATE(this)->currentglwidget->setFocus();
-}
-
-// *************************************************************************
-
-// Gets called by the SoQtGLArea instance upon keyboard presses. These
-// are then forwarded to subclasses for handling.
-void
-SoQtGLWidgetP::GLAreaKeyEvent(QKeyEvent * e, void * userdata)
-{
-  SoQtGLWidget * that = (SoQtGLWidget *)userdata;
-  that->processEvent(e);
 }
 
 // *************************************************************************
