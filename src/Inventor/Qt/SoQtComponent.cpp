@@ -109,6 +109,7 @@ public:
   SbPList * visibilitychangeCBs;
   SbBool realized;
   SbVec2s storesize;
+  SbBool fullscreen;
 
   // List of all SoQtComponent instances. Needed for the
   // SoQtComponent::getComponent() function.
@@ -182,6 +183,7 @@ SoQtComponent::SoQtComponent(
   THIS->closeCB = NULL;
   THIS->closeCBdata = NULL;
   THIS->visibilitychangeCBs = NULL;
+  THIS->fullscreen = FALSE;
 
   if ( name )
     THIS->widgetname = name;
@@ -977,6 +979,33 @@ void
 SoQtComponent::afterRealizeHook( // virtual
   void )
 {
+}
+
+/*!
+  Toggle full screen mode for this component.
+*/
+void 
+SoQtComponent::goFullScreen(const SbBool onoff)
+{
+  if (onoff == THIS->fullscreen) return;
+  
+  QWidget * w = this->getShellWidget();
+  if (w == NULL) w = this->getParentWidget();
+  if (w == NULL) w = this->getWidget();
+  if (w) {
+    if (onoff) w->showFullScreen();
+    else w->showNormal();
+    THIS->fullscreen = onoff;
+  }
+}
+
+/*!
+  Returns if this widget/component is in full screen mode.
+*/
+SbBool 
+SoQtComponent::isFullScreen(void) const
+{
+  return THIS->fullscreen;
 }
 
 // *************************************************************************
