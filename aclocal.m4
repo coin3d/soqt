@@ -6319,7 +6319,9 @@ EOF
   case $host_os in
   darwin*)
     if test $sim_ac_qt_version -lt 302; then
-      SIM_AC_CONFIGURATION_WARNING([insert warning here])
+      SIM_AC_CONFIGURATION_WARNING([The version of Qt you are using is
+known to contain some serious bugs. We strongly recommend you to
+upgrade. (See README.MAC for details.)])
     fi
     ;;
   esac
