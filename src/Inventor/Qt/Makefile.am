@@ -155,7 +155,7 @@ all-local: soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib
 
 # **************************************************************************
 
-install-exec-local:
+install-exec-local: soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib
 	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
 	for ext in dll pdb; do \
 	  file="$$basename.$$ext"; \
@@ -166,7 +166,7 @@ install-exec-local:
 	  fi \
 	done;
 
-install-data-local:
+install-data-local: soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib
 	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
 	for ext in lib; do \
 	  file="$$basename.$$ext"; \
