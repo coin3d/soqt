@@ -91,7 +91,8 @@ EXTRA_DIST = \
 	build/soqt.spec.in \
 	cfg/ltconfig \
 	cfg/doxy4win.pl \
-	cfg/m4/msvccc \
+	cfg/m4/wrapmsvc.cpp \
+	cfg/m4/wrapmsvc.exe \
 	models/coin_soqt.iv \
 	models/coin_soqt.wrl \
 	src/Inventor/Qt/common/ChangeLog \
