@@ -68,7 +68,7 @@ libSoQt@SUFFIX@_la_LDFLAGS = \
 ############################################################################
 # custom setup
 
-soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES =
+soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
 	SoQt.cpp \
 	SoQt.h \
 	SoQtComponent.cpp \

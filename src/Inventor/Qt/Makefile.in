@@ -198,7 +198,24 @@ libSoQt@SUFFIX@_la_LDFLAGS = \
 ############################################################################
 # custom setup
 
-soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = 
+soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
+	SoQt.cpp \
+	SoQt.h \
+	SoQtComponent.cpp \
+	SoQtComponent.h \
+	SoQtGLWidget.cpp \
+	SoQtGLWidget.h \
+	SoQtLightSliderSet.cpp \
+	SoQtLightSliderSet.h \
+	SoQtMaterialSliderSet.cpp \
+	SoQtMaterialSliderSet.h \
+	SoQtSliderSet.cpp \
+	SoQtSliderSet.h \
+	SoQtSliderSetBase.cpp \
+	SoQtSliderSetBase.h \
+	SoQtTransformSliderSet.cpp \
+	SoQtTransformSliderSet.h
+
 
 nodist_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
 	$(BUILT_SOURCES)
@@ -249,6 +266,11 @@ X_PRE_LIBS = @X_PRE_LIBS@
 soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_AR = $(AR) cru
 soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_DEPENDENCIES = devices/devices.lst \
 viewers/viewers.lst widgets/widgets.lst
+am_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS = SoQt.$(OBJEXT) \
+SoQtComponent.$(OBJEXT) SoQtGLWidget.$(OBJEXT) \
+SoQtLightSliderSet.$(OBJEXT) SoQtMaterialSliderSet.$(OBJEXT) \
+SoQtSliderSet.$(OBJEXT) SoQtSliderSetBase.$(OBJEXT) \
+SoQtTransformSliderSet.$(OBJEXT)
 nodist_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS = SoAny.$(OBJEXT) \
 SoQtObject.$(OBJEXT) SoQtCursors.$(OBJEXT) SoQtRenderArea.$(OBJEXT) \
 moc_SoQt.$(OBJEXT) moc_SoQtObject.$(OBJEXT) moc_SoQtComponent.$(OBJEXT) \
@@ -290,14 +312,19 @@ HEADERS = $(SoQtinc_HEADERS) $(nodist_SoQtinc_HEADERS)
 
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 @AMDEP@DEP_FILES = $(DEPDIR)/SoAny.Plo $(DEPDIR)/SoAny.Po \
-@AMDEP@ $(DEPDIR)/SoQt.Plo $(DEPDIR)/SoQtComponent.Plo \
-@AMDEP@ $(DEPDIR)/SoQtCursors.Plo $(DEPDIR)/SoQtCursors.Po \
-@AMDEP@ $(DEPDIR)/SoQtGLWidget.Plo $(DEPDIR)/SoQtLightSliderSet.Plo \
-@AMDEP@ $(DEPDIR)/SoQtMaterialSliderSet.Plo $(DEPDIR)/SoQtObject.Plo \
+@AMDEP@ $(DEPDIR)/SoQt.Plo $(DEPDIR)/SoQt.Po $(DEPDIR)/SoQtComponent.Plo \
+@AMDEP@ $(DEPDIR)/SoQtComponent.Po $(DEPDIR)/SoQtCursors.Plo \
+@AMDEP@ $(DEPDIR)/SoQtCursors.Po $(DEPDIR)/SoQtGLWidget.Plo \
+@AMDEP@ $(DEPDIR)/SoQtGLWidget.Po $(DEPDIR)/SoQtLightSliderSet.Plo \
+@AMDEP@ $(DEPDIR)/SoQtLightSliderSet.Po \
+@AMDEP@ $(DEPDIR)/SoQtMaterialSliderSet.Plo \
+@AMDEP@ $(DEPDIR)/SoQtMaterialSliderSet.Po $(DEPDIR)/SoQtObject.Plo \
 @AMDEP@ $(DEPDIR)/SoQtObject.Po $(DEPDIR)/SoQtRenderArea.Plo \
 @AMDEP@ $(DEPDIR)/SoQtRenderArea.Po $(DEPDIR)/SoQtSliderSet.Plo \
-@AMDEP@ $(DEPDIR)/SoQtSliderSetBase.Plo \
-@AMDEP@ $(DEPDIR)/SoQtTransformSliderSet.Plo $(DEPDIR)/moc_SoQt.Plo \
+@AMDEP@ $(DEPDIR)/SoQtSliderSet.Po $(DEPDIR)/SoQtSliderSetBase.Plo \
+@AMDEP@ $(DEPDIR)/SoQtSliderSetBase.Po \
+@AMDEP@ $(DEPDIR)/SoQtTransformSliderSet.Plo \
+@AMDEP@ $(DEPDIR)/SoQtTransformSliderSet.Po $(DEPDIR)/moc_SoQt.Plo \
 @AMDEP@ $(DEPDIR)/moc_SoQt.Po $(DEPDIR)/moc_SoQtComponent.Plo \
 @AMDEP@ $(DEPDIR)/moc_SoQtComponent.Po $(DEPDIR)/moc_SoQtGLWidget.Plo \
 @AMDEP@ $(DEPDIR)/moc_SoQtGLWidget.Po \
@@ -515,19 +542,27 @@ distclean-tags:
 @AMDEP@@_am_include@ $(DEPDIR)/SoAny.Plo
 @AMDEP@@_am_include@ $(DEPDIR)/SoAny.Po
 @AMDEP@@_am_include@ $(DEPDIR)/SoQt.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/SoQt.Po
 @AMDEP@@_am_include@ $(DEPDIR)/SoQtComponent.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/SoQtComponent.Po
 @AMDEP@@_am_include@ $(DEPDIR)/SoQtCursors.Plo
 @AMDEP@@_am_include@ $(DEPDIR)/SoQtCursors.Po
 @AMDEP@@_am_include@ $(DEPDIR)/SoQtGLWidget.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/SoQtGLWidget.Po
 @AMDEP@@_am_include@ $(DEPDIR)/SoQtLightSliderSet.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/SoQtLightSliderSet.Po
 @AMDEP@@_am_include@ $(DEPDIR)/SoQtMaterialSliderSet.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/SoQtMaterialSliderSet.Po
 @AMDEP@@_am_include@ $(DEPDIR)/SoQtObject.Plo
 @AMDEP@@_am_include@ $(DEPDIR)/SoQtObject.Po
 @AMDEP@@_am_include@ $(DEPDIR)/SoQtRenderArea.Plo
 @AMDEP@@_am_include@ $(DEPDIR)/SoQtRenderArea.Po
 @AMDEP@@_am_include@ $(DEPDIR)/SoQtSliderSet.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/SoQtSliderSet.Po
 @AMDEP@@_am_include@ $(DEPDIR)/SoQtSliderSetBase.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/SoQtSliderSetBase.Po
 @AMDEP@@_am_include@ $(DEPDIR)/SoQtTransformSliderSet.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/SoQtTransformSliderSet.Po
 @AMDEP@@_am_include@ $(DEPDIR)/moc_SoQt.Plo
 @AMDEP@@_am_include@ $(DEPDIR)/moc_SoQt.Po
 @AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtComponent.Plo
@@ -703,22 +738,6 @@ uninstall-am: uninstall-SoQtincHEADERS uninstall-libLIBRARIES \
 	uninstall-libLIBRARIES uninstall-libLTLIBRARIES uninstall-local \
 	uninstall-nodist_SoQtincHEADERS uninstall-recursive
 
-	SoQt.cpp \
-	SoQt.h \
-	SoQtComponent.cpp \
-	SoQtComponent.h \
-	SoQtGLWidget.cpp \
-	SoQtGLWidget.h \
-	SoQtLightSliderSet.cpp \
-	SoQtLightSliderSet.h \
-	SoQtMaterialSliderSet.cpp \
-	SoQtMaterialSliderSet.h \
-	SoQtSliderSet.cpp \
-	SoQtSliderSet.h \
-	SoQtSliderSetBase.cpp \
-	SoQtSliderSetBase.h \
-	SoQtTransformSliderSet.cpp \
-	SoQtTransformSliderSet.h
 
 install-SoQtincHEADERS: $(SoQtinc_HEADERS)
 	@$(NORMAL_INSTALL)

@@ -126,7 +126,7 @@ if $libtoolize; then
 fi
 
 # generate aclocal.m4
-echo "Running aclocal (generating aclocal.m4)..."
+echo "Running aclocal..."
 rm -f aclocal.m4.old
 test -f aclocal.m4 && mv aclocal.m4 aclocal.m4.old
 aclocal -I $MACRODIR
