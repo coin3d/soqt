@@ -21,21 +21,11 @@
  *
 \**************************************************************************/
 
-/*!
-  \class SoQtFullViewer SoQtFullViewer.h Inventor/Qt/viewers/SoQtFullViewer.h
-  \brief The SoQtFullViewer class adds decorations to the simple viewer of the parent.
-  \ingroup soqtviewers
+// ************************************************************************
 
-  FIXME: proper class documentation
-  ...overview of what this class provides over parent class...
-  ...keyboard combinations...mousebutton combinations...explain pan,
-  rotate, zoom, dolly, seek...explain the fact that we're moving the
-  camera, not the scene...
-  ...viewer modes (examine vs interact) w/ explanation of what they are
-  useful for...
+// Class is documented in common/viewers/SoGuiFullViewer.cpp.in.
 
-  \sa SoQtConstrainedViewer, SoQtExaminerViewer, SoQtPlaneViewer
-*/
+// ************************************************************************
 
 // FIXME: this sourcefile is way too large -- this reeks of bad
 // design. Should try to factor out lots of stuff. 20010821 mortene.

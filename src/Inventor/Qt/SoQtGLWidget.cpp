@@ -75,18 +75,6 @@
   if the current rendering mode is double buffered.
 */
 
-/*!
-  \fn void SoQtGLWidget::setStereoBuffer(SbBool flag)
-  
-  Sets whether OpenGL stereo buffers (quad buffer stereo) should be used.
-*/
-
-/*!
-  \fn SbBool SoQtGLWidget::isStereoBuffer(void) const
-
-  Returns whether OpenGL stereo buffers are being used.
-*/
-
 // *************************************************************************
 
 #include <qevent.h>
