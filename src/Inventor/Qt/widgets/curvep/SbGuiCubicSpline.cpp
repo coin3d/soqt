@@ -29,6 +29,7 @@ SbGuiCubicSpline::SbGuiCubicSpline(const int approxcount)
     approxcount(approxcount),    
     currsegment(-1)
 {
+  this->basismatrix = SbMatrix::identity();
   this->setBasisMatrix(B_SPLINE);
 }
 
@@ -57,6 +58,9 @@ SbGuiCubicSpline::setBasisMatrix(const Type type)
                                   3.0f, -6.0f, 3.0f, 0.0f,
                                   -3.0f, 3.0f, 0.0f, 0.0f,
                                   1.0f, 0.0f, 0.0f, 0.0f));
+    break;
+  default:
+    assert(FALSE && "unknown type");
     break;
   }
 }
