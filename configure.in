@@ -1,8 +1,15 @@
 # **************************************************************************
 # SoQt/configure.in
 
-AC_INIT(src/Inventor/Qt/SoQt.h)
+m4_define([MAJOR_VERSION], [0])
+m4_define([MINOR_VERSION], [9])
+m4_define([MICRO_VERSION], [99])
+m4_define([VERSION_STRING], [MAJOR_VERSION.MINOR_VERSION.MICRO_VERSION])
+
+AC_INIT([SoQt], [VERSION_STRING])
+
 AC_CONFIG_AUX_DIR(cfg)
+AC_CONFIG_SRCDIR(src/Inventor/Qt/SoQt.h)
 
 # **************************************************************************
 # Make sure the given source repository is in sync with the master source
