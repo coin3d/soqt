@@ -1,4 +1,4 @@
-s# **************************************************************************
+# **************************************************************************
 # SoQt/configure.ac
 
 m4_define([SOQT_MAJOR], [2])
@@ -251,16 +251,19 @@ SIM_AC_CHECK_LOADLIBRARY(
 )
 
 
+  
 # **************************************************************************
-# Check to see if fink is installed on the system
+# Check to see if fink is installed on the system.
+# The only reason why we would need fink is for Qt/X11 on Mac OS X, so if
+# we are doing a non-X11 build, ignore it to avoid linking problems.
 
-SIM_AC_CHECK_FINK([
-  SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_fink_cppflags"
-  SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_fink_ldflags"
-])
+if test x"$sim_ac_want_x11" = xyes; then 
+  SIM_AC_CHECK_FINK([
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_fink_cppflags"
+    SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_fink_ldflags"
+  ])
+fi
 
-
- 
 # **************************************************************************
 # Search and set up necessary stuff to use Open Inventor or Coin.
 
