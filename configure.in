@@ -27,41 +27,182 @@ SIM_AC_CVS_CHANGES([
 ])
 
 # **************************************************************************
-# Library versioning
+# If the Microsoft Visual C++ cl.exe compiler is available, set us up for
+# compiling with it and to generate an MSWindows .dll file.
+
+BUILD_WITH_MSVC=false
+sim_ac_msvccc=$srcdir/cfg/m4/msvccc
+if test -z "$CC" && test -z "$CXX" && $sim_ac_msvccc >/dev/null 2>&1; then
+  CC=$sim_ac_msvccc
+  CXX=$sim_ac_msvccc
+  BUILD_WITH_MSVC=true
+fi
+AC_SUBST(BUILD_WITH_MSVC)
+
+# **************************************************************************
+# *******  MAKING RELEASES  ************************************************
+# **************************************************************************
 #
-#  Making releases:
-#    SOQT_MICRO_VERSION += 1;
-#    SOQT_INTERFACE_AGE += 1;
-#    SOQT_BINARY_AGE += 1;
-#  if any functions have been added, set SOQT_INTERFACE_AGE to 0.
-#  if backwards compatibility has been broken,
-#  set SOQT_BINARY_AGE _and_ SOQT_INTERFACE_AGE to 0.
+# Library versioning
+# ==================
+#
+# When making releases, follow these rules:
+#
+#  * if there has been made any incompatible changes to the ABI¹:
+#    SOQT_MAJOR_VERSION += 1, SOQT_MINOR_VERSION = 0,
+#    SOQT_MICRO_VERSION = 0.
+#
+#    (If you don't know if the changes that have been made since last
+#    release is binary incompatible with the last ABI, you shouldn't
+#    be making releases.)
+#
+#  * if there has been made additions to the API², but the ABI
+#    is still backwards compatible: SOQT_MAJOR_VERSION unchanged,
+#    SOQT_MINOR_VERSION += 1, SOQT_MICRO_VERSION = 0.
+#
+#  * for bugfix releases and other changes which do not change the interface
+#    at all, keep SOQT_MAJOR_VERSION and SOQT_MINOR_VERSION unchanged
+#    and SOQT_MICRO_VERSION += 1.
+#
+# Note that our MAJOR.MINOR.MICRO versioning scheme differs somewhat from
+# the idea of library versioning applied by Libtool. According to Libtool,
+# libraries should be versioned according to a CURRENT.AGE.REVISION scheme.
+# Here CURRENT is supposed to be increased by 1 each time the API changes,
+# and AGE increased by 1 along with CURRENT each time the API changes in a
+# way which keeps the ABI backwards compatible. If compatibility is broken,
+# AGE is set to 0 (while CURRENT is still increased by 1). The REVISION
+# number has the same semantics as our MICRO number.
+#
+# To cooperate in a painless way with Libtool, we choose to "convert" our
+# MAJOR.MINOR.MICRO scheme to Libtool's idea of versioning like this:
+#
+#    * Libtool's CURRENT number is increased when our MAJOR number is
+#      increased.
+#
+#    * Libtool's AGE number is always kept at 0 (i.e. we will never make
+#      ABI compatible releases where we increase the MAJOR number).
+#
+#    * Libtool's REVISION number will be a combination of our MINOR and
+#      MICRO number, like this: REVISION = MINOR * 100 + MICRO, so we get
+#      a REVISION number monotonically increasing in the way we want.
+#
+#      Note that this little "simplification" has two important
+#      ramifications: 1) we can't make more than 99 bugfix-releases of
+#      the library unless a MINOR or MAJOR version increase has happened,
+#      2) we need to keep a release history log to map from Libtool numbers
+#      back to our "native" MACRO.MINOR.MICRO versioning, as Libtool encodes
+#      the filename of the library with it's own CURRENT.AGE.REVISION scheme.
+#      This way it'll still be easy for us to find out which version a
+#      bugreport belongs to: we must tell the user to check out the full
+#      filename of the library, then we can just look up the MAJOR.MINOR.MICRO
+#      number from the release history log below.
+#
+#
+# **************************************************************************
+# CVS maintenance
+# ===============
+#
+# When making a release from the HEAD branch, increase the MAJOR number
+# and make a new branch as follows (from the HEAD):
+#
+#   $ cd [soqt_srcdir_HEADbranch]
+#   $ cvs tag -b soqt-MAJOR-0
+#
+# (The explicit mention of "soqt" in the branch name is necessary
+# because we also tag this name onto all included CVS modules.)
+#
+# Note that new releases from the HEAD branch should only happen when
+# there has been incompatible interface changes.
+#
+#
+# When adding new functionality while keeping backward ABI compatibility,
+# increase the MINOR number and make a new branch as follows:
+#
+#   $ cd [soqt_srcdir_MAJORbranch]
+#   $ cvs tag -b soqt-MAJOR-MINOR
+#
+# (Where MINOR>0 always).
+#
+#
+# Bugfix releases should be handled by setting a tag on the
+# soqt-MAJOR-MINOR with the latest MAJOR.MINOR.x release,
+# like this:
+#
+#   $ cd [soqt_srcdir_MAJORMINORbranch]
+#   $ cvs tag soqt-MAJOR-MINOR-MICRO
+#
+# (Where MICRO>0 always).
+#
+# **************************************************************************
+# Distribution binaries
+# =====================
+#
+#  * MSWindows SDK: this is constructed as a self-extracting InstallShield
+#    package. Run ``configure'' and ``make install'' on an MSWin-box with
+#    the correct setup (latest Cygwin, MSVC++ v6.0 and InstallShield Express
+#    v2.12), then execute
+#
+#         $ cd [soqt_builddir]/build
+#         $ make ispkg
+#
+#    (Installshield's IsxBuild.exe need to be in your path.)
+#
+#    A self-extracting executable SETUPEX.EXE with the InstallShield install
+#    should then be available under [soqt_builddir]/build/soqt/. Move
+#    to <ftp://ftp.sim.no/pub/coin/bin/win32/soqt-@SOQT_VERSION@.exe>.
+#
+#  * RPM packages: follow the instructions at the top of the
+#    build/soqt.spec.in file, make one package for each major platform
+#    version we have access to (RedHat v5, v6, v7, Mandrake?, SuSE, etc)
+#    for the architectures we want (i386, ...). Place packages under
+#    <ftp://ftp.sim.no/pub/coin/bin/[platform]/[arch]/>.
+#
+# **************************************************************************
+# Release history
+# ===============
+#
+# Release version     | Libtool version   |                 |
+# (MAJOR.MINOR.MICRO) | (CURRENT.AGE.REV) | CVS Branch name | Tag name
+# --------------------+-------------------+-----------------+-----------------
+#     0.9.99          |     0.0.999       |      HEAD       | soqt-0-9-99
+#
+#
+# **************************************************************************
+# Footnotes
+# =========
+#
+# ¹ Application Binary Interface. This covers any publicly exposed
+#   functions, function signatures, structures (and classes for C++
+#   code). If any functions has been removed or changed, or if any
+#   structures/classes has been modified in any way, the ABI has
+#   most likely been made incompatible with earlier releases.
+#
+# ² Application Programmer's Interface. This is the functions and data
+#   structures/classes exposed to the application programmer for
+#   interaction with the library.
+#
+# **************************************************************************
 
 SOQT_MAJOR_VERSION=0
-SOQT_MINOR_VERSION=8
-SOQT_MICRO_VERSION=1
-SOQT_INTERFACE_AGE=0
-SOQT_BINARY_AGE=0
+SOQT_MINOR_VERSION=9
+SOQT_MICRO_VERSION=99
 SOQT_VERSION=$SOQT_MAJOR_VERSION.$SOQT_MINOR_VERSION.$SOQT_MICRO_VERSION
+VERSION=$SOQT_VERSION
 
 AC_SUBST(SOQT_MAJOR_VERSION)
 AC_SUBST(SOQT_MINOR_VERSION)
 AC_SUBST(SOQT_MICRO_VERSION)
 AC_SUBST(SOQT_VERSION)
-AC_SUBST(SOQT_INTERFACE_AGE)
-AC_SUBST(SOQT_BINARY_AGE)
 
-# libtool versioning
-LT_RELEASE=$SOQT_MAJOR_VERSION.$SOQT_MINOR_VERSION
-LT_CURRENT=`expr $SOQT_MICRO_VERSION - $SOQT_INTERFACE_AGE`
-LT_REVISION=$SOQT_INTERFACE_AGE
-LT_AGE=`expr $SOQT_BINARY_AGE - $SOQT_INTERFACE_AGE`
-AC_SUBST(LT_RELEASE)
+# Libtool versioning
+LT_CURRENT=$SOQT_MAJOR_VERSION
+LT_AGE=0
+LT_REVISION=`expr $SOQT_MINOR_VERSION \* 100 + $SOQT_MICRO_VERSION`
+
 AC_SUBST(LT_CURRENT)
 AC_SUBST(LT_REVISION)
 AC_SUBST(LT_AGE)
 
-VERSION=$SOQT_VERSION
 
 AC_DEFINE_UNQUOTED(SOQT_MAJOR_VERSION, $SOQT_MAJOR_VERSION,
   [Define to the major version of SoQt])
@@ -91,7 +232,7 @@ AM_CONFIG_HEADER(config.h)
 # Can be overridden by the user with --enable-static.
 AM_DISABLE_STATIC
 
-# Turn off default maintainer make-rules -- use ./autogen.sh instead.
+# Turn off default maintainer make-rules -- use ./bootstrap instead.
 AM_MAINTAINER_MODE
 
 # Initialize libtool
@@ -105,16 +246,10 @@ AC_SUBST(SOQT_EXTRA_CPPFLAGS)
 AC_SUBST(SOQT_EXTRA_LDFLAGS)
 AC_SUBST(SOQT_EXTRA_LIBS)
 
-# Check if linking should be done MSWin-style ("libname.lib") or
-# Unix-style ("-llibname").
-SIM_AC_CHECK_LINKSTYLE
+# **************************************************************************
+# Header files we might want.
 
-if test x"$sim_ac_linking_style" = xmswin; then
-  SOQT_LIBNAME="soqt${SOQT_VERSION}.lib"
-else
-  SOQT_LIBNAME=-lSoQt
-fi
-AC_SUBST(SOQT_LIBNAME)
+AC_CHECK_HEADERS([windows.h])
 
 # **************************************************************************
 # Search and set up necessary stuff to use Open Inventor or Coin.
@@ -171,9 +306,6 @@ else
     SOQT_EXTRA_LDFLAGS="$SOQT_EXTRA_LDFLAGS $sim_ac_coin_ldflags"
     SOQT_EXTRA_LIBS="$sim_ac_coin_libs $SOQT_EXTRA_LIBS"
   ], AC_MSG_ERROR(couldn't compile and link against Coin))
-
-  coin_version=$sim_ac_coin_version
-  AC_SUBST(coin_version)
 
   SIM_AC_CHECK_X11_READY(
     [sim_ac_x11_ready=true],
@@ -245,43 +377,6 @@ SIM_AC_CHECK_JOYSTICK_LINUX([
 AM_CONDITIONAL(HAVE_JOYSTICK_LINUX, $sim_ac_joystick_linux_avail)
 
 # **************************************************************************
-# Strip off zlib and libpng from the set of link libraries if they are
-# not needed (they might already be linked in implicitly through Qt,
-# which will give us trouble with an MSWin soqt.dll).
-#
-# FIXME: should probably do the same check for libungif and libjpeg aswell?
-# 20000616 mortene.
-
-# snipped from SIM_CHECK_ZLIB
-if test x"$sim_ac_linking_style" = xmswin; then
-  sim_ac_zlib_libs=zlib.lib
-else
-  sim_ac_zlib_libs=-lz
-fi
-
-sim_ac_strip_libs=`echo $LIBS | sed s%\ ${sim_ac_zlib_libs}%%`
-if test x"$sim_ac_strip_libs" != x"$LIBS"; then
-  SIM_AC_CHECK_ZLIB_READY([
-    LIBS=$sim_ac_strip_libs
-    SOQT_EXTRA_LIBS=`echo $SOQT_EXTRA_LIBS | sed s%\ ${sim_ac_zlib_libs}%%`
-  ])
-fi
-
-if test x"$sim_ac_linking_style" = xmswin; then
-  sim_ac_pngdev_libs=png.lib
-else
-  sim_ac_pngdev_libs=-lpng
-fi
-
-sim_ac_strip_libs=`echo $LIBS | sed s%\ ${sim_ac_pngdev_libs}%%`
-if test x"$sim_ac_strip_libs" != x"$LIBS"; then
-  SIM_AC_CHECK_PNG_READY([
-    LIBS=$sim_ac_strip_libs
-    SOQT_EXTRA_LIBS=`echo $SOQT_EXTRA_LIBS | sed s%\ ${sim_ac_pngdev_libs}%%`
-  ])
-fi
-
-# **************************************************************************
 # Compiler control.
 
 SIM_AC_COMPILE_DEBUG(
@@ -301,23 +396,6 @@ SIM_COMPILER_WARNINGS
 
 # undocumented option --with-test-code
 AM_CONDITIONAL(BUILD_TESTS, test x"${with_test_code+set}" = "xset")
-
-AC_ARG_WITH(examples,
-  AC_HELP_STRING([--with-examples], [build example programs [default=yes]]),
-  [case "${withval}" in
-    yes) want_examples=yes ;;
-    no)  want_examples=no ;;
-    *) AC_MSG_ERROR(bad value "${withval}" for --with-examples) ;;
-  esac],
-  [want_examples=yes])
-
-sim_ac_ivexamples_available=no
-if test -f ${srcdir}/ivexamples/configure.in; then
-  sim_ac_ivexamples_available=yes
-fi
-
-AM_CONDITIONAL(BUILD_EXAMPLES, test x"$want_examples" = xyes)
-AM_CONDITIONAL(BUILD_IV_EXAMPLES, test x"$sim_ac_ivexamples_available" = xyes)
 
 SIM_AC_SOGUI_STATIC_DEFAULTS
 
@@ -406,55 +484,40 @@ fi
 
 SIM_EXPAND_DIR_VARS
 
-# Set soqt_build_dir so we can change soqt.dsp
-soqt_current_dir=`pwd`
-SIM_AC_DOBACKSLASH(soqt_build_dir,$soqt_current_dir)
-AC_SUBST(soqt_build_dir)
-
-# Set soqt_src_dir so we can change soqt.dsp
-SIM_AC_DOBACKSLASH(soqt_src_dir,$srcdir)
-AC_SUBST(soqt_src_dir)
-
-# Set soqt_include_dir so we can change SoCoinSDK.iwz
-SIM_AC_DOBACKSLASH(soqt_include_dir,$includedir)
-AC_SUBST(soqt_include_dir)
-
-# Set soqt_lib_dir so we can change SoCoinSDK.iwz
-SIM_AC_DOBACKSLASH(soqt_lib_dir,$libdir)
-AC_SUBST(soqt_lib_dir)
-
-# For the soqt.spec RPM specification file.
-SIM_AC_ISO8601_DATE(soqt_configure_date)
-AC_SUBST(soqt_configure_date)
-
 # **************************************************************************
 # Remove redundant options from certain option lists.
-# We add the first argument ourselves to shift it off because it's added
-# again inside soqt-config.in
-# FIXME: avoid the unnecessary shifting
 
 SIM_AC_UNIQIFY_LIST(SOQT_EXTRA_CPPFLAGS, -I$includedir $SOQT_EXTRA_CPPFLAGS)
-set : $SOQT_EXTRA_CPPFLAGS
-shift
-shift
-SOQT_EXTRA_CPPFLAGS=$@
-
 SIM_AC_UNIQIFY_LIST(SOQT_EXTRA_LDFLAGS, -L$libdir $SOQT_EXTRA_LDFLAGS)
-set : $SOQT_EXTRA_LDFLAGS
-shift
-shift
-SOQT_EXTRA_LDFLAGS=$@
-
 SIM_AC_UNIQIFY_LIST(SOQT_EXTRA_LIBS, $SOQT_LIBNAME $SOQT_EXTRA_LIBS)
-set : $SOQT_EXTRA_LIBS
-shift
-shift
-SOQT_EXTRA_LIBS=$@
 
-# We don't have to do shift magic on these:
 SIM_AC_UNIQIFY_LIST(CPPFLAGS, $CPPFLAGS)
 SIM_AC_UNIQIFY_LIST(LDFLAGS, $LDFLAGS)
 SIM_AC_UNIQIFY_LIST(LIBS, $LIBS)
+
+# **************************************************************************
+# Remaining setup based on platform.
+
+if $BUILD_WITH_MSVC; then
+  CPPFLAGS="-DSOQT_MAKE_DLL $CPPFLAGS"
+
+  # We use a version suffix on the .dll-file, so several incompatible
+  # (major) versions can be installed on a system.
+  #
+  # BTW, when linking DLLs, the 3rd-party .lib files will be
+  # linked into the .dll file. I believe it is still advisable to
+  # list all libs used upon `soqt-config --libs`, as we can then
+  # also use them from "parent" code (remember that their interfaces
+  # is not exposed from the DLL) without any fuss.
+  SOQT_EXTRA_LIBS="-lsoqt$SOQT_MAJOR_VERSION $SOQT_EXTRA_LIBS"
+
+else
+  SOQT_EXTRA_LIBS="-lSoQt $SOQT_EXTRA_LIBS"
+
+  # For the build/soqt.spec RPM specification file.
+  SIM_AC_ISO8601_DATE(soqt_configure_date)
+  AC_SUBST(soqt_configure_date)
+fi
 
 # **************************************************************************
 # Submodules that needs to be configured...
@@ -475,79 +538,21 @@ AC_OUTPUT([
 	test-code/components/Makefile
 	test-code/widgets/Makefile
 	build/soqt.doxygen
-        build/soqt.dsp
-        build/soqt.mak
-        build/soqt_dll.dsp
-        build/soqt_dll.mak
         build/soqt.spec
 ],[
 	chmod a+x soqt-config
 ])
 
-# **************************************************************************
-# Do some extra stuff for Windows system
-
-if test x"$sim_ac_linking_style" = xmswin; then
-  # Set so_build_dir so we can change SoCoinSDK.iwz
-  SIM_AC_DODOUBLEBACKSLASH(so_build_dir,$soqt_current_dir)
-  # Set so_src_dir so we can change SoCoinSDK.iwz
-  SIM_AC_DODOUBLEBACKSLASH(so_src_dir,$srcdir)
-  # Set so_include_dir so we can change SoCoinSDK.iwz
-  SIM_AC_DODOUBLEBACKSLASH(so_include_dir,$includedir)
-  # Set so_lib_dir so we can change SoCoinSDK.iwz
-  SIM_AC_DODOUBLEBACKSLASH(so_lib_dir,$libdir)
-  # Set so_name_hi so we can change SoCoinSDK.iwz
-  so_name_hi="Qt"
-  # Set so_name_lo so we can change SoCoinSDK.iwz
-  so_name_lo="qt"
-  # Set so_version so we can change SoCoinSDK.iwz
-  so_version="$SOQT_VERSION"
-  # Get path to SoCoinSDK.iwz
-  coin_data_dir=`coin-config --datadir`
-  # Do our own substitutions, as AC_OUTPUT only works for
-  # files present under the srcdir of SoQt.
-  cat $coin_data_dir/Coin/build/SoCoinSDK.iwz.in | sed -e s%@so_name_hi@%$so_name_hi%g -e s%@so_name_lo@%$so_name_lo%g -e s%@so_build_dir@%$so_build_dir%g -e s%@so_src_dir@%$so_src_dir%g -e s%@so_lib_dir@%$so_lib_dir%g -e s%@so_include_dir@%$so_include_dir%g -e s%@so_version@%$so_version%g > build/SoCoinSDK.tmp
-  mv build/SoCoinSDK.tmp build/SoCoinSDK.iwz
-
-  pf="build/soqt";
-  sim_ac_winfiles="${pf}.dsp ${pf}.mak ${pf}_dll.dsp ${pf}_dll.mak"
-  sim_ac_winfiles="${sim_ac_winfiles} build/SoCoinSDK.iwz";
-
-  for sim_ac_winfile in $sim_ac_winfiles; do
-    mv $sim_ac_winfile $sim_ac_winfile.bak
-    echo "(Win)DOS-ifying $sim_ac_winfile"
-    sed -e 's/$/
-/' < $sim_ac_winfile.bak > $sim_ac_winfile
-    rm $sim_ac_winfile.bak
-  done
-  sed -e 's/$/
-/' < ${srcdir}/LICENSE.QPL > build/qpl.txt
-  sed -e 's/$/
-/' < ${srcdir}/info.cvs > build/info.txt
-
-  if test -d ${srcdir}/examples; then
-    cat <<EOF
+if test -d ${srcdir}/examples; then
+  cat <<EOF
 
   ATTENTION:  You can remove the 'examples' directory from So$Gui.  It has
   been obsoleted by the stand-alone module 'SoGuiExamples'.
 EOF
-  fi
-
-  echo ""
-  echo "If this is your first time building SoQt, please read 'README.WIN'"
-  echo "for a step-by-step guide to building SoQt with MSVC++."
-  echo ""
-else
-  if test -d ${srcdir}/examples; then
-    cat <<EOF
-
-  ATTENTION:  You can remove the 'examples' directory from So$Gui.  It has
-  been obsoleted by the stand-alone module 'SoGuiExamples'.
-EOF
-  fi
-  echo ""
-  echo "Now, run 'make install' to build and install SoQt..."
-  echo ""
 fi
+
+echo ""
+echo "Now, run 'make install' to build and install SoQt..."
+echo ""
 
 # **************************************************************************

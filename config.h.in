@@ -27,6 +27,9 @@
    name */
 #undef HAVE_VAR___func__
 
+/* Define if you have the <windows.h> header file. */
+#undef HAVE_WINDOWS_H
+
 /* Name of package */
 #undef PACKAGE
 

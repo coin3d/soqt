@@ -907,43 +907,6 @@ else
 fi])
 
 # Usage:
-#   SIM_AC_CHECK_LINKSTYLE
-#
-# Description:
-#
-#   Detect how to link against external libraries; UNIX-style
-#   ("-llibname") or MSWin-style ("libname.lib"). As a side-effect of
-#   running this macro, the shell variable sim_ac_linking_style will be
-#   set to either "mswin" or "unix".
-#
-# Author:
-#   Marius B. Monsen <mariusbu@sim.no>
-
-AC_DEFUN([SIM_AC_CHECK_LINKSTYLE], [
-
-sim_ac_save_ldflags=$LDFLAGS
-LDFLAGS="$LDFLAGS version.lib"
-
-AC_CACHE_CHECK(
-  [if linking should be done "MSWin-style"],
-  sim_cv_mswin_linking,
-  AC_TRY_COMPILE([#include <windows.h>
-#include <version.h>],
-                 [(void)GetFileVersionInfoSize(0L, 0L);],
-                 [sim_cv_mswin_linking=yes],
-                 [sim_cv_mswin_linking=no])
-)
-
-LDFLAGS=$sim_ac_save_ldflags
-
-if test x"$sim_cv_mswin_linking" = x"yes"; then
-  sim_ac_linking_style=mswin
-else
-  sim_ac_linking_style=unix
-fi
-])
-
-# Usage:
 #  SIM_AC_CHECK_DL([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 #
 #  Try to find the dynamic link loader library. If it is found, these
@@ -2231,11 +2194,13 @@ if $sim_ac_coin_desired; then
       CPPFLAGS="$CPPFLAGS $sim_ac_coin_cppflags"
       LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
       LIBS="$sim_ac_coin_libs $LIBS"
+      AC_LANG_PUSH(C++)
       AC_TRY_LINK(
         [#include <Inventor/SoDB.h>],
         [SoDB::init();],
         [sim_cv_coin_avail=true],
         [sim_cv_coin_avail=false])
+      AC_LANG_POP
       CPPFLAGS=$sim_ac_save_cppflags
       LDFLAGS=$sim_ac_save_ldflags
       LIBS=$sim_ac_save_libs
@@ -2307,57 +2272,45 @@ if test x"$with_qt" != xno; then
     fi
   fi
 
-  # if we have to use mswin link style (.lib)
-  if test x"$sim_ac_linking_style" = xmswin; then
-    # if we have to use static link library (.lib)
-    sim_ac_tmp_libs="$LIBS"
-    LIBS="qt.lib gdi32.lib ole32.lib imm32.lib comdlg32.lib"
-    AC_TRY_LINK([ #include <qapplication.h>],
-                   [int dummy=0;
-                   QApplication a(dummy, 0L);],
-                   [sim_ac_qt_lib_style=static],
-                   [sim_ac_qt_lib_style=dynamic])
-    LIBS="$sim_ac_tmp_libs"
-    if test x"$sim_ac_qt_lib_style" = xstatic; then
-      sim_ac_qt_libs="qt.lib"
-    else
-      cat <<EOF > conftest.c
-#include <qglobal.h>
-SoQt qt-version: QT_VERSION
-EOF
-      qt_version=`$CXX -E conftest.c 2>/dev/null | grep "^SoQt" | sed -e 's/.* //g'`
-      rm -f conftest.c
-      sim_ac_qt_dll_def="#define QT_DLL"
-      sim_ac_qt_libs="qt${qt_version}.lib qtmain.lib"
-    fi
-    sim_ac_qt_libs="$sim_ac_qt_libs gdi32.lib ole32.lib imm32.lib comdlg32.lib"
-  else
-    sim_ac_qt_libs=-lqt
-  fi
-  
+#    sim_ac_qt_libs="$sim_ac_qt_libs gdi32.lib ole32.lib imm32.lib comdlg32.lib"
   sim_ac_save_cppflags=$CPPFLAGS
   sim_ac_save_ldflags=$LDFLAGS
   sim_ac_save_libs=$LIBS
 
   CPPFLAGS="$CPPFLAGS $sim_ac_qt_cppflags"
   LDFLAGS="$LDFLAGS $sim_ac_qt_ldflags"
-  LIBS="$sim_ac_qt_libs $LIBS"
 
   AC_PATH_PROG(MOC, moc, false, $sim_ac_path)
 
+  # Find version of the Qt library (MSWindows .dll is named with the
+  # version number.)
+  cat > conftest.c << EOF
+#include <qglobal.h>
+int SoQt = QT_VERSION;
+EOF
+  soqt_qt_version=`$CPP conftest.c | egrep '^int SoQt' | sed 's%^int SoQt = %%' | sed 's%;$%%'`
+  rm -f conftest.c
+
   if test x"$MOC" != xfalse; then
     AC_CACHE_CHECK([whether the Qt library is available],
-      sim_cv_lib_qt_avail,
-      [AC_TRY_LINK([$sim_ac_qt_dll_def
-                   #include <qapplication.h>],
-                   [int dummy=0;
-                   QApplication a(dummy, 0L);],
-                   [sim_cv_lib_qt_avail=yes],
-                   [sim_cv_lib_qt_avail=no])])
+      sim_cv_qtlibs,
+      [sim_cv_qtlibs=UNRESOLVED
+       for sim_ac_qt_libcheck in "-lqt" "-lqt$soqt_qt_version -lqtmain -lgdi32"; do
+         if test "x$sim_cv_qtlibs" = "xUNRESOLVED"; then
+           LIBS="$sim_ac_qt_libcheck $sim_ac_save_libs"
+           AC_TRY_LINK([#include <qapplication.h>],
+                       [int dummy=0;
+                        QApplication * a = new QApplication(dummy, 0L);],
+                       [sim_cv_qtlibs="$sim_ac_qt_libcheck"])
+         fi
+       done
+      ]
+    )
   fi
 
-  if test x"$sim_cv_lib_qt_avail" = xyes; then
+  if test ! x"$sim_cv_qtlibs" = xUNRESOLVED; then
     sim_ac_qt_avail=yes
+    LIBS="$sim_ac_qt_libcheck $sim_ac_save_libs"
     $1
   else
     CPPFLAGS=$sim_ac_save_cppflags
@@ -2562,190 +2515,7 @@ fi
 
 
 # Usage:
-#  SIM_AC_CHECK_ZLIB([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
-#
-#  Try to find the ZLIB development system. If it is found, these
-#  shell variables are set:
-#
-#    $sim_ac_zlib_cppflags (extra flags the compiler needs for zlib)
-#    $sim_ac_zlib_ldflags  (extra flags the linker needs for zlib)
-#    $sim_ac_zlib_libs     (link libraries the linker needs for zlib)
-#
-#  The CPPFLAGS, LDFLAGS and LIBS flags will also be modified accordingly.
-#  In addition, the variable $sim_ac_zlib_avail is set to "yes" if the
-#  zlib development system is found.
-#
-#
-# Author: Morten Eriksen, <mortene@sim.no>.
-
-AC_DEFUN([SIM_AC_CHECK_ZLIB], [
-
-AC_ARG_WITH(
-  [zlib],
-  AC_HELP_STRING([--with-zlib=DIR],
-                 [zlib installation directory]),
-  [],
-  [with_zlib=yes])
-
-sim_ac_zlib_avail=no
-
-if test x"$with_zlib" != xno; then
-  if test x"$with_zlib" != xyes; then
-    sim_ac_zlib_cppflags="-I${with_zlib}/include"
-    sim_ac_zlib_ldflags="-L${with_zlib}/lib"
-  fi
-
-  sim_ac_save_cppflags=$CPPFLAGS
-  sim_ac_save_ldflags=$LDFLAGS
-  sim_ac_save_libs=$LIBS
-
-  CPPFLAGS="$CPPFLAGS $sim_ac_zlib_cppflags"
-  LDFLAGS="$LDFLAGS $sim_ac_zlib_ldflags"
-
-  AC_CACHE_CHECK([whether the zlib development system is available],
-    sim_cv_zlib,
-    [sim_cv_zlib=UNRESOLVED
-     for sim_ac_zlib_libcheck in "-lz" "-lzlib"; do
-       if test "x$sim_cv_zlib" = "xUNRESOLVED"; then
-         LIBS="$sim_ac_zlib_libcheck $sim_ac_save_libs"
-         AC_TRY_LINK([#include <zlib.h>],
-                     [(void)zlibVersion();],
-                     [sim_cv_zlib="$sim_ac_zlib_libcheck"])
-       fi
-     done
-    ]
-  )
-
-  if test ! x"$sim_cv_zlib" = "xUNRESOLVED"; then
-    sim_ac_zlib_avail=yes
-    sim_ac_zlib_libs="$sim_cv_zlib"
-    $1
-  else
-    CPPFLAGS=$sim_ac_save_cppflags
-    LDFLAGS=$sim_ac_save_ldflags
-    LIBS=$sim_ac_save_libs
-    $2
-  fi
-fi
-])
-
-# Usage:
-#  SIM_AC_CHECK_ZLIB_READY([ACTION-IF-READY[, ACTION-IF-NOT-READY]])
-#
-#  Try to link code which needs the ZLIB development system.
-#
-# Author: Morten Eriksen, <mortene@sim.no>.
-
-AC_DEFUN([SIM_AC_CHECK_ZLIB_READY], [
-AC_MSG_CHECKING(if we can use zlib without explicit linkage)
-sim_ac_zlib_ready=
-
-AC_TRY_LINK([#include <zlib.h>],
-            [(void)zlibVersion();],
-            sim_ac_zlib_ready=true,
-            sim_ac_zlib_ready=false)
-
-if $sim_ac_zlib_ready; then
-  AC_MSG_RESULT(yes)
-  $1
-else
-  AC_MSG_RESULT(no)
-  $2
-fi
-])
-
-# Usage:
-#   SIM_AC_CHECK_PNGLIB([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
-#
-# Description:
-#  Try to find the PNG development system. If it is found, these
-#  shell variables are set:
-#
-#    $sim_ac_pngdev_cppflags (extra flags the compiler needs for png lib)
-#    $sim_ac_pngdev_ldflags  (extra flags the linker needs for png lib)
-#    $sim_ac_pngdev_libs     (link libraries the linker needs for png lib)
-#
-#  The CPPFLAGS, LDFLAGS and LIBS flags will also be modified accordingly.
-#  In addition, the variable $sim_ac_pngdev_avail is set to "yes" if the
-#  png development system is found.
-#
-# Author: Morten Eriksen, <mortene@sim.no>.
-
-AC_DEFUN([SIM_AC_CHECK_PNGLIB], [
-
-AC_ARG_WITH(
-  [png],
-  AC_HELP_STRING([--with-png=DIR],
-                 [include support for PNG images [[default=yes]]]),
-  [],
-  [with_png=yes])
-
-sim_ac_pngdev_avail=no
-
-if test x"$with_png" != xno; then
-  if test x"$with_png" != xyes; then
-    sim_ac_pngdev_cppflags="-I${with_png}/include"
-    sim_ac_pngdev_ldflags="-L${with_png}/lib"
-  fi
-
-  sim_ac_pngdev_libs=-lpng
-
-  sim_ac_save_cppflags=$CPPFLAGS
-  sim_ac_save_ldflags=$LDFLAGS
-  sim_ac_save_libs=$LIBS
-
-  CPPFLAGS="$CPPFLAGS $sim_ac_pngdev_cppflags"
-  LDFLAGS="$LDFLAGS $sim_ac_pngdev_ldflags"
-  LIBS="$sim_ac_pngdev_libs $LIBS"
-
-  AC_CACHE_CHECK(
-    [whether the libpng development system is available],
-    sim_cv_lib_pngdev_avail,
-    [AC_TRY_LINK([#include <png.h>],
-                 [(void)png_read_info(0L, 0L);],
-                 [sim_cv_lib_pngdev_avail=yes],
-                 [sim_cv_lib_pngdev_avail=no])])
-
-  if test x"$sim_cv_lib_pngdev_avail" = x"yes"; then
-    sim_ac_pngdev_avail=yes
-    $1
-  else
-    CPPFLAGS=$sim_ac_save_cppflags
-    LDFLAGS=$sim_ac_save_ldflags
-    LIBS=$sim_ac_save_libs
-    $2
-  fi
-fi
-])
-
-
-# Usage:
-#  SIM_AC_CHECK_PNG_READY([ACTION-IF-READY[, ACTION-IF-NOT-READY]])
-#
-#  Try to link code which needs the PNG development system.
-#
-# Author: Morten Eriksen, <mortene@sim.no>.
-
-AC_DEFUN([SIM_AC_CHECK_PNG_READY], [
-AC_MSG_CHECKING(if we can use libpng without explicit linkage)
-sim_ac_png_ready=
-
-AC_TRY_LINK([#include <png.h>],
-            [(void)png_read_info(0L, 0L);],
-            sim_ac_png_ready=true,
-            sim_ac_png_ready=false)
-
-if $sim_ac_png_ready; then
-  AC_MSG_RESULT(yes)
-  $1
-else
-  AC_MSG_RESULT(no)
-  $2
-fi
-])
-
-# Usage:
-#   SIM_COMPILE_DEBUG( ACTION-IF-DEBUG, ACTION-IF-NOT-DEBUG )
+#   SIM_AC_COMPILE_DEBUG([ACTION-IF-DEBUG[, ACTION-IF-NOT-DEBUG]])
 #
 # Description:
 #   Let the user decide if compilation should be done in "debug mode".
@@ -2758,9 +2528,6 @@ fi
 #   macro arguments following the well-known ACTION-IF / ACTION-IF-NOT
 #   concept.
 #
-#   Note: this macro must be placed after either AC_PROG_CC or AC_PROG_CXX
-#   in the configure.in script.
-#
 # Authors:
 #   Morten Eriksen, <mortene@sim.no>
 #   Lars J. Aas, <larsa@sim.no>
@@ -2770,28 +2537,25 @@ fi
 #   default-value.
 #
 
-AC_DEFUN([SIM_COMPILE_DEBUG], [
-AC_PREREQ([2.13])
-
+AC_DEFUN([SIM_AC_COMPILE_DEBUG], [
 AC_ARG_ENABLE(
   [debug],
   AC_HELP_STRING([--enable-debug], [compile in debug mode [[default=yes]]]),
   [case "${enableval}" in
-    yes) enable_debug=yes ;;
-    no)  enable_debug=no ;;
+    yes) enable_debug=true ;;
+    no)  enable_debug=false ;;
+    true | false) enable_debug=${enableval} ;;
     *) AC_MSG_ERROR(bad value "${enableval}" for --enable-debug) ;;
   esac],
-  [enable_debug=yes])
+  [enable_debug=true])
 
-if test x"$enable_debug" = x"yes"; then
+if $enable_debug; then
   ifelse([$1], , :, [$1])
 else
-  CFLAGS="$CFLAGS -DNDEBUG"
-  CXXFLAGS="$CXXFLAGS -DNDEBUG"
+  CPPFLAGS="$CPPFLAGS -DNDEBUG"
   $2
 fi
 ])
-
 
 # Usage:
 #   SIM_AC_CHECK_VAR_FUNCTIONNAME
@@ -3251,19 +3015,6 @@ infodir="`eval echo $infodir`"
 mandir="`eval echo $mandir`"
 ])
 
-# Usage:
-#  SIM_AC_ISO8601_DATE(variable)
-#
-# Description:
-#   This macro sets the given variable to a strings representing
-#   the current date in the ISO8601-compliant format YYYYMMDD.
-#
-# Author: Morten Eriksen, <mortene@sim.no>.
-
-AC_DEFUN(SIM_AC_ISO8601_DATE, [
-  eval "$1=\"`date +%Y%m%d`\""
-])
-
 # **************************************************************************
 # SIM_AC_UNIQIFY_LIST( VARIABLE, LIST )
 #
@@ -3294,4 +3045,17 @@ done
 $1=$sim_ac_uniqued_list
 ]) # SIM_AC_UNIQIFY_LIST
 
+
+# Usage:
+#  SIM_AC_ISO8601_DATE(variable)
+#
+# Description:
+#   This macro sets the given variable to a strings representing
+#   the current date in the ISO8601-compliant format YYYYMMDD.
+#
+# Author: Morten Eriksen, <mortene@sim.no>.
+
+AC_DEFUN(SIM_AC_ISO8601_DATE, [
+  eval "$1=\"`date +%Y%m%d`\""
+])
 

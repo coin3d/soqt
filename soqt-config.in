@@ -19,12 +19,9 @@ Options:
 
 version="@SOQT_VERSION@"
 
-# NOTE: If the first argument is changed in the following variables, it is
-# also necessary to update configure.in, since that argument is shifted off.
-
-cppflags="-I@includedir@ @SOQT_EXTRA_CPPFLAGS@"
-ldflags="-L@libdir@ @SOQT_EXTRA_LDFLAGS@"
-libs="@SOQT_LIBNAME@ @SOQT_EXTRA_LIBS@"
+cppflags="@SOQT_EXTRA_CPPFLAGS@"
+ldflags="@SOQT_EXTRA_LDFLAGS@"
+libs="@SOQT_EXTRA_LIBS@"
 
 datadir="@soqt_data_dir@"
 
@@ -82,4 +79,3 @@ do
 done
 
 exit 0
-
