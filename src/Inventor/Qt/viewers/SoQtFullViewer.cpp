@@ -1826,6 +1826,7 @@ SoQtFullViewer::makeAutoclipPreferences(QWidget * dialog)
   expandSize(tmpsize, this->nearclippinglabel->size(), LayoutHorizontal);
 
   this->nearclippingwheel = new SoQtThumbWheel(SoQtThumbWheel::Horizontal, w);
+  this->nearclippingwheel->setRangeBoundaryHandling( SoQtThumbWheel::ACCUMULATE );
   this->nearclippingwheel->adjustSize();
   this->nearclippingwheel->setEnabled( FALSE );
   expandSize(tmpsize, this->nearclippingwheel->size(), LayoutHorizontal);
@@ -1866,6 +1867,7 @@ SoQtFullViewer::makeAutoclipPreferences(QWidget * dialog)
              LayoutHorizontal);
 
   this->farclippingwheel = new SoQtThumbWheel(SoQtThumbWheel::Horizontal, w);
+  this->farclippingwheel->setRangeBoundaryHandling( SoQtThumbWheel::ACCUMULATE );
   this->farclippingwheel->adjustSize();
   this->farclippingwheel->setEnabled( FALSE );
   expandSize(tmpsize, this->farclippingwheel->size(), LayoutHorizontal);
@@ -2552,6 +2554,17 @@ SoQtFullViewer::decreaseInteractiveCount()
 void
 SoQtFullViewer::nearclippingwheelMoved(float val)
 {
+  assert( nearclippingwheel != NULL && this->farclippingwheel != NULL );
+  if ( val < 0.001f ) {
+    val = 0.001f;
+    this->nearclippingwheel->setValue( val );
+  }
+  float farval = this->farclippingwheel->value();
+  if ( val >= farval ) {
+    val = farval - 0.001f;
+    this->nearclippingwheel->setValue( val );
+  }
+
   SoCamera * cam = this->getCamera();
   if (!cam) return;
 
@@ -2573,6 +2586,14 @@ SoQtFullViewer::nearclippingwheelMoved(float val)
 void
 SoQtFullViewer::farclippingwheelMoved(float val)
 {
+  assert( nearclippingwheel != NULL && this->farclippingwheel != NULL );
+  float nearval = this->nearclippingwheel->value();
+  if ( nearval < 0.001f ) nearval = 0.001f;
+  if ( val <= nearval ) {
+    val = nearval + 0.001f;
+    this->farclippingwheel->setValue( val );
+  }
+
   SoCamera * cam = this->getCamera();
   if (!cam) return;
 
