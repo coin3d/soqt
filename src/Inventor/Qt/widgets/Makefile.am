@@ -74,7 +74,7 @@ else
 SoQtWidgetsincdir = $(includedir)/Inventor/@Gui@/widgets
 endif
 SoQtWidgetsinc_HEADERS = 
-nodist_SoQtWidgetsinc_HEADERS = SoQtPopupMenu.h
+nodist_SoQtWidgetsinc_HEADERS = SoQtPopupMenu.h SoQtThumbWheel.h
 
 install-SoQtWidgetsincHEADERS: $(SoQtWidgetsinc_HEADERS)
 	@$(NORMAL_INSTALL)
