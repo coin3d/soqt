@@ -4371,10 +4371,11 @@ AC_DEFUN([AM_MAINTAINER_MODE],
 # Apple preprocessor is used on Mac OS X platforms, and it is
 # known to be very buggy.  It's better to use this option, so
 # the GNU preprocessor is preferred.
+#
+
 
 AC_DEFUN([SIM_AC_MAC_CPP_ADJUSTMENTS],
-[
-case $host_os in
+[case $host_os in
 darwin*)
   if test x"$GCC" = x"yes"; then
     # FIXME: create a SIM_AC_CPP_OPTION macro
@@ -4383,6 +4384,29 @@ darwin*)
   ;;
 esac
 ]) # SIM_AC_MAC_CPP_ADJUSTMENTS
+
+# **************************************************************************
+# This macro sets up the MAC_FRAMEWORK automake conditional, depending on
+# the host OS and whether $sim_ac_prefer_framework has been overridden or
+# not.
+
+AC_DEFUN([SIM_AC_MAC_FRAMEWORK],
+[case $host_os in
+darwin*)
+  : ${sim_ac_prefer_framework=true}
+  ;;
+esac
+: ${sim_ac_prefer_framework=false}
+# This AM_CONDITIONAL can be used to make Mac OS X specific make-rules
+# related to installing proper Frameworks instead.
+AM_CONDITIONAL([MAC_FRAMEWORK], [$sim_ac_prefer_framework])
+
+if $sim_ac_prefer_framework; then
+  ifelse([$1], , :, [$1])
+else
+  ifelse([$2], , :, [$2])
+fi
+]) # SIM_AC_MAC_FRAMEWORK
 
 
 #   Use this file to store miscellaneous macros related to checking
@@ -6114,6 +6138,7 @@ eval "$1=\"`echo $2 | sed -e 's%\\/%\\\\\\\\\\\\\\\\%g'`\""
 # < $sim_ac_coin_ldflags     (extra flags the linker needs)
 # < $sim_ac_coin_libs        (link library flags the linker needs)
 # < $sim_ac_coin_datadir     (location of Coin data files)
+# < $sim_ac_coin_includedir  (location of Coin headers)
 # < $sim_ac_coin_version     (the libCoin version)
 # < $sim_ac_coin_msvcrt      (the MSVC++ C library Coin was built with)
 # < $sim_ac_coin_configcmd   (the path to coin-config or "false")
@@ -6131,9 +6156,12 @@ AC_PREREQ([2.14a])
 # official variables
 sim_ac_coin_avail=false
 sim_ac_coin_cppflags=
+sim_ac_coin_cflags=
+sim_ac_coin_cxxflags=
 sim_ac_coin_ldflags=
 sim_ac_coin_libs=
 sim_ac_coin_datadir=
+sim_ac_coin_includedir=
 sim_ac_coin_version=
 
 # internal variables
@@ -6170,6 +6198,7 @@ if $sim_ac_coin_desired; then
     sim_ac_coin_libs=`$sim_ac_coin_configcmd --libs`
     sim_ac_coin_msvcrt=`$sim_ac_coin_configcmd --msvcrt`
     sim_ac_coin_datadir=`$sim_ac_coin_configcmd --datadir`
+    sim_ac_coin_includedir=`$sim_ac_coin_configcmd --includedir`
     sim_ac_coin_version=`$sim_ac_coin_configcmd --version`
     AC_CACHE_CHECK(
       [whether libCoin is available],
