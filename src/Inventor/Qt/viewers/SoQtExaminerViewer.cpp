@@ -142,11 +142,15 @@ void
 SoQtExaminerViewer::constructor(
   SbBool build )
 {
+  this->feedbacklabel1 = NULL;
+  this->feedbacklabel2 = NULL;
+  this->feedbackwheel = NULL;
+  this->feedbackedit = NULL;
+  this->cameratogglebutton = NULL;
   this->defaultcursor = NULL;
   this->rotatecursor = NULL;
   this->pancursor = NULL;
   this->zoomcursor = NULL;
-  this->cameratobblebutton = NULL;
 
   this->orthopixmap = new QPixmap((const char **)ortho_xpm);
   this->perspectivepixmap = new QPixmap((const char **)perspective_xpm);
