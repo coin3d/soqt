@@ -38,7 +38,7 @@ pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
 
-top_builddir = ..
+top_builddir = ../../..
 
 ACLOCAL = @ACLOCAL@
 AUTOCONF = @AUTOCONF@
@@ -91,7 +91,7 @@ SUBDIRS =  	devices viewers widgets .
 
 lib_LTLIBRARIES = libSoQt.la
 
-INCLUDES = -I$(top_srcdir)/include
+INCLUDES = -I$(top_srcdir)/src
 
 BUILT_SOURCES =  	moc_SoQt.cpp 	moc_SoQtComponent.cpp 	moc_SoQtGLWidget.cpp 	moc_SoQtLightSliderSet.cpp 	moc_SoQtMaterialSliderSet.cpp 	moc_SoQtRenderArea.cpp 	moc_SoQtSliderSet.cpp 	moc_SoQtSliderSetBase.cpp 	moc_SoQtTransformSliderSet.cpp
 
@@ -107,15 +107,15 @@ libSoQtincdir = $(includedir)/Inventor/Qt
 libSoQt_la_LDFLAGS =          -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)         -release $(LT_RELEASE)
 
 
-libSoQtinc_HEADERS =  	$(top_srcdir)/include/Inventor/Qt/SoQt.h 	$(top_srcdir)/include/Inventor/Qt/SoQtComponent.h 	$(top_srcdir)/include/Inventor/Qt/SoQtCursors.h 	$(top_srcdir)/include/Inventor/Qt/SoQtGLWidget.h 	$(top_srcdir)/include/Inventor/Qt/SoQtLightSliderSet.h 	$(top_srcdir)/include/Inventor/Qt/SoQtMaterialSliderSet.h 	$(top_srcdir)/include/Inventor/Qt/SoQtRenderArea.h 	$(top_srcdir)/include/Inventor/Qt/SoQtSliderSet.h 	$(top_srcdir)/include/Inventor/Qt/SoQtSliderSetBase.h 	$(top_srcdir)/include/Inventor/Qt/SoQtTransformSliderSet.h
+libSoQtinc_HEADERS =  	$(top_srcdir)/src/Inventor/Qt/SoQt.h 	$(top_srcdir)/src/Inventor/Qt/SoQtComponent.h 	$(top_srcdir)/src/Inventor/Qt/SoQtCursors.h 	$(top_srcdir)/src/Inventor/Qt/SoQtGLWidget.h 	$(top_srcdir)/src/Inventor/Qt/SoQtLightSliderSet.h 	$(top_srcdir)/src/Inventor/Qt/SoQtMaterialSliderSet.h 	$(top_srcdir)/src/Inventor/Qt/SoQtRenderArea.h 	$(top_srcdir)/src/Inventor/Qt/SoQtSliderSet.h 	$(top_srcdir)/src/Inventor/Qt/SoQtSliderSetBase.h 	$(top_srcdir)/src/Inventor/Qt/SoQtTransformSliderSet.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = ../config.h
+CONFIG_HEADER = ../../../config.h
 CONFIG_CLEAN_FILES = 
 LTLIBRARIES =  $(lib_LTLIBRARIES)
 
 
-DEFS = @DEFS@ -I. -I$(srcdir) -I..
+DEFS = @DEFS@ -I. -I$(srcdir) -I../../..
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
@@ -167,7 +167,7 @@ all: all-redirect
 .SUFFIXES:
 .SUFFIXES: .S .c .cpp .lo .o .s
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu src/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu src/Inventor/Qt/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
 	cd $(top_builddir) \
@@ -329,14 +329,14 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = src
+subdir = src/Inventor/Qt
 
 distdir: $(DISTFILES)
 	here=`cd $(top_builddir) && pwd`; \
 	top_distdir=`cd $(top_distdir) && pwd`; \
 	distdir=`cd $(distdir) && pwd`; \
 	cd $(top_srcdir) \
-	  && $(AUTOMAKE) --include-deps --build-dir=$$here --srcdir-name=$(top_srcdir) --output-dir=$$top_distdir --gnu src/Makefile
+	  && $(AUTOMAKE) --include-deps --build-dir=$$here --srcdir-name=$(top_srcdir) --output-dir=$$top_distdir --gnu src/Inventor/Qt/Makefile
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
@@ -495,32 +495,32 @@ distclean-generic clean-generic maintainer-clean-generic clean \
 mostlyclean distclean maintainer-clean
 
 
-moc_SoQt.cpp: $(top_srcdir)/include/Inventor/Qt/SoQt.h
-	$(MOC) -o moc_SoQt.cpp $(top_srcdir)/include/Inventor/Qt/SoQt.h
+moc_SoQt.cpp: $(top_srcdir)/src/Inventor/Qt/SoQt.h
+	$(MOC) -o moc_SoQt.cpp $(top_srcdir)/src/Inventor/Qt/SoQt.h
 
-moc_SoQtComponent.cpp: $(top_srcdir)/include/Inventor/Qt/SoQtComponent.h
-	$(MOC) -o moc_SoQtComponent.cpp $(top_srcdir)/include/Inventor/Qt/SoQtComponent.h
+moc_SoQtComponent.cpp: $(top_srcdir)/src/Inventor/Qt/SoQtComponent.h
+	$(MOC) -o moc_SoQtComponent.cpp $(top_srcdir)/src/Inventor/Qt/SoQtComponent.h
 
-moc_SoQtGLWidget.cpp: $(top_srcdir)/include/Inventor/Qt/SoQtGLWidget.h
-	$(MOC) -o moc_SoQtGLWidget.cpp $(top_srcdir)/include/Inventor/Qt/SoQtGLWidget.h
+moc_SoQtGLWidget.cpp: $(top_srcdir)/src/Inventor/Qt/SoQtGLWidget.h
+	$(MOC) -o moc_SoQtGLWidget.cpp $(top_srcdir)/src/Inventor/Qt/SoQtGLWidget.h
 
-moc_SoQtLightSliderSet.cpp: $(top_srcdir)/include/Inventor/Qt/SoQtLightSliderSet.h
-	$(MOC) -o moc_SoQtLightSliderSet.cpp $(top_srcdir)/include/Inventor/Qt/SoQtLightSliderSet.h
+moc_SoQtLightSliderSet.cpp: $(top_srcdir)/src/Inventor/Qt/SoQtLightSliderSet.h
+	$(MOC) -o moc_SoQtLightSliderSet.cpp $(top_srcdir)/src/Inventor/Qt/SoQtLightSliderSet.h
 
-moc_SoQtMaterialSliderSet.cpp: $(top_srcdir)/include/Inventor/Qt/SoQtMaterialSliderSet.h
-	$(MOC) -o moc_SoQtMaterialSliderSet.cpp $(top_srcdir)/include/Inventor/Qt/SoQtMaterialSliderSet.h
+moc_SoQtMaterialSliderSet.cpp: $(top_srcdir)/src/Inventor/Qt/SoQtMaterialSliderSet.h
+	$(MOC) -o moc_SoQtMaterialSliderSet.cpp $(top_srcdir)/src/Inventor/Qt/SoQtMaterialSliderSet.h
 
-moc_SoQtRenderArea.cpp: $(top_srcdir)/include/Inventor/Qt/SoQtRenderArea.h
-	$(MOC) -o moc_SoQtRenderArea.cpp $(top_srcdir)/include/Inventor/Qt/SoQtRenderArea.h
+moc_SoQtRenderArea.cpp: $(top_srcdir)/src/Inventor/Qt/SoQtRenderArea.h
+	$(MOC) -o moc_SoQtRenderArea.cpp $(top_srcdir)/src/Inventor/Qt/SoQtRenderArea.h
 
-moc_SoQtSliderSet.cpp: $(top_srcdir)/include/Inventor/Qt/SoQtSliderSet.h
-	$(MOC) -o moc_SoQtSliderSet.cpp $(top_srcdir)/include/Inventor/Qt/SoQtSliderSet.h
+moc_SoQtSliderSet.cpp: $(top_srcdir)/src/Inventor/Qt/SoQtSliderSet.h
+	$(MOC) -o moc_SoQtSliderSet.cpp $(top_srcdir)/src/Inventor/Qt/SoQtSliderSet.h
 
-moc_SoQtSliderSetBase.cpp: $(top_srcdir)/include/Inventor/Qt/SoQtSliderSetBase.h
-	$(MOC) -o moc_SoQtSliderSetBase.cpp $(top_srcdir)/include/Inventor/Qt/SoQtSliderSetBase.h
+moc_SoQtSliderSetBase.cpp: $(top_srcdir)/src/Inventor/Qt/SoQtSliderSetBase.h
+	$(MOC) -o moc_SoQtSliderSetBase.cpp $(top_srcdir)/src/Inventor/Qt/SoQtSliderSetBase.h
 
-moc_SoQtTransformSliderSet.cpp: $(top_srcdir)/include/Inventor/Qt/SoQtTransformSliderSet.h
-	$(MOC) -o moc_SoQtTransformSliderSet.cpp $(top_srcdir)/include/Inventor/Qt/SoQtTransformSliderSet.h
+moc_SoQtTransformSliderSet.cpp: $(top_srcdir)/src/Inventor/Qt/SoQtTransformSliderSet.h
+	$(MOC) -o moc_SoQtTransformSliderSet.cpp $(top_srcdir)/src/Inventor/Qt/SoQtTransformSliderSet.h
 
 install-libSoQtincHEADERS: $(libSoQtinc_HEADERS)
 	@$(NORMAL_INSTALL)

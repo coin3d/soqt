@@ -38,7 +38,7 @@ pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
 
-top_builddir = ../..
+top_builddir = ../../../..
 
 ACLOCAL = @ACLOCAL@
 AUTOCONF = @AUTOCONF@
@@ -86,36 +86,40 @@ SOQT_VERSION = @SOQT_VERSION@
 USE_SYMBOL_UNDERSCORE = @USE_SYMBOL_UNDERSCORE@
 VERSION = @VERSION@
 
-noinst_LTLIBRARIES = libSoQtdevices.la
+noinst_LTLIBRARIES = libSoQtviewers.la
 
 LIBS = 
 
-INCLUDES = -I$(top_srcdir)/include
+INCLUDES = -I$(top_srcdir)/src
 
-libSoQtdevices_la_SOURCES =  	SoQtDevice.cpp 	SoQtDevice.h 	SoQtInputFocus.cpp 	SoQtInputFocus.h 	SoQtKeyboard.cpp 	SoQtKeyboard.h 	SoQtMouse.cpp 	SoQtMouse.h 	SoQtSpaceball.cpp 	SoQtSpaceball.h
+BUILT_SOURCES =  	moc_SoQtViewer.cpp moc_SoQtFullViewer.cpp moc_SoQtExaminerViewer.cpp
 
 
-libSoQtdevicesincdir = $(includedir)/Inventor/Qt/devices
+libSoQtviewers_la_SOURCES =  	SoQtViewer.cpp 	SoQtViewer.h 	SoQtFullViewer.cpp 	SoQtFullViewer.h 	SoQtExaminerViewer.cpp 	SoQtExaminerViewer.h 	$(BUILT_SOURCES)
 
-libSoQtdevicesinc_HEADERS =  	$(top_srcdir)/include/Inventor/Qt/devices/SoQtDevice.h 	$(top_srcdir)/include/Inventor/Qt/devices/SoQtInputFocus.h 	$(top_srcdir)/include/Inventor/Qt/devices/SoQtKeyboard.h 	$(top_srcdir)/include/Inventor/Qt/devices/SoQtMouse.h 	$(top_srcdir)/include/Inventor/Qt/devices/SoQtSpaceball.h
+
+libSoQtviewersincdir = $(includedir)/Inventor/Qt/viewers
+
+libSoQtviewersinc_HEADERS =  	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtViewer.h 	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtFullViewer.h 	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtExaminerViewer.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = ../../config.h
+CONFIG_HEADER = ../../../../config.h
 CONFIG_CLEAN_FILES = 
 LTLIBRARIES =  $(noinst_LTLIBRARIES)
 
 
-DEFS = @DEFS@ -I. -I$(srcdir) -I../..
+DEFS = @DEFS@ -I. -I$(srcdir) -I../../../..
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libSoQtdevices_la_LDFLAGS = 
-libSoQtdevices_la_LIBADD = 
-libSoQtdevices_la_OBJECTS =  SoQtDevice.lo SoQtInputFocus.lo \
-SoQtKeyboard.lo SoQtMouse.lo SoQtSpaceball.lo
+libSoQtviewers_la_LDFLAGS = 
+libSoQtviewers_la_LIBADD = 
+libSoQtviewers_la_OBJECTS =  SoQtViewer.lo SoQtFullViewer.lo \
+SoQtExaminerViewer.lo moc_SoQtViewer.lo moc_SoQtFullViewer.lo \
+moc_SoQtExaminerViewer.lo
 CXXFLAGS = @CXXFLAGS@
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -126,7 +130,7 @@ COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CF
 LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
-HEADERS =  $(libSoQtdevicesinc_HEADERS)
+HEADERS =  $(libSoQtviewersinc_HEADERS)
 
 DIST_COMMON =  Makefile.am Makefile.in
 
@@ -135,16 +139,17 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = gtar
 GZIP_ENV = --best
-DEP_FILES =  .deps/SoQtDevice.P .deps/SoQtInputFocus.P \
-.deps/SoQtKeyboard.P .deps/SoQtMouse.P .deps/SoQtSpaceball.P
-SOURCES = $(libSoQtdevices_la_SOURCES)
-OBJECTS = $(libSoQtdevices_la_OBJECTS)
+DEP_FILES =  .deps/SoQtExaminerViewer.P .deps/SoQtFullViewer.P \
+.deps/SoQtViewer.P .deps/moc_SoQtExaminerViewer.P \
+.deps/moc_SoQtFullViewer.P .deps/moc_SoQtViewer.P
+SOURCES = $(libSoQtviewers_la_SOURCES)
+OBJECTS = $(libSoQtviewers_la_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
 .SUFFIXES: .S .c .cpp .lo .o .s
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu src/devices/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu src/Inventor/Qt/viewers/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
 	cd $(top_builddir) \
@@ -192,8 +197,8 @@ distclean-libtool:
 
 maintainer-clean-libtool:
 
-libSoQtdevices.la: $(libSoQtdevices_la_OBJECTS) $(libSoQtdevices_la_DEPENDENCIES)
-	$(CXXLINK)  $(libSoQtdevices_la_LDFLAGS) $(libSoQtdevices_la_OBJECTS) $(libSoQtdevices_la_LIBADD) $(LIBS)
+libSoQtviewers.la: $(libSoQtviewers_la_OBJECTS) $(libSoQtviewers_la_DEPENDENCIES)
+	$(CXXLINK)  $(libSoQtviewers_la_LDFLAGS) $(libSoQtviewers_la_OBJECTS) $(libSoQtviewers_la_LIBADD) $(LIBS)
 .cpp.o:
 	$(CXXCOMPILE) -c $<
 .cpp.lo:
@@ -230,14 +235,14 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = src/devices
+subdir = src/Inventor/Qt/viewers
 
 distdir: $(DISTFILES)
 	here=`cd $(top_builddir) && pwd`; \
 	top_distdir=`cd $(top_distdir) && pwd`; \
 	distdir=`cd $(distdir) && pwd`; \
 	cd $(top_srcdir) \
-	  && $(AUTOMAKE) --include-deps --build-dir=$$here --srcdir-name=$(top_srcdir) --output-dir=$$top_distdir --gnu src/devices/Makefile
+	  && $(AUTOMAKE) --include-deps --build-dir=$$here --srcdir-name=$(top_srcdir) --output-dir=$$top_distdir --gnu src/Inventor/Qt/viewers/Makefile
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
@@ -310,20 +315,20 @@ installcheck: installcheck-am
 install-exec-am:
 install-exec: install-exec-am
 
-install-data-am: install-libSoQtdevicesincHEADERS
+install-data-am: install-libSoQtviewersincHEADERS
 install-data: install-data-am
 
 install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
 install: install-am
-uninstall-am: uninstall-libSoQtdevicesincHEADERS
+uninstall-am: uninstall-libSoQtviewersincHEADERS
 uninstall: uninstall-am
 all-am: Makefile $(LTLIBRARIES) $(HEADERS)
 all-redirect: all-am
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) INSTALL_STRIP_FLAG=-s install
 installdirs:
-	$(mkinstalldirs)  $(DESTDIR)$(libSoQtdevicesincdir)
+	$(mkinstalldirs)  $(DESTDIR)$(libSoQtviewersincdir)
 
 
 mostlyclean-generic:
@@ -335,6 +340,7 @@ distclean-generic:
 	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
 
 maintainer-clean-generic:
+	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
 mostlyclean-am:  mostlyclean-noinstLTLIBRARIES mostlyclean-compile \
 		mostlyclean-libtool mostlyclean-tags mostlyclean-depend \
 		mostlyclean-generic
@@ -367,7 +373,7 @@ clean-noinstLTLIBRARIES maintainer-clean-noinstLTLIBRARIES \
 mostlyclean-compile distclean-compile clean-compile \
 maintainer-clean-compile mostlyclean-libtool distclean-libtool \
 clean-libtool maintainer-clean-libtool \
-uninstall-libSoQtdevicesincHEADERS install-libSoQtdevicesincHEADERS \
+uninstall-libSoQtviewersincHEADERS install-libSoQtviewersincHEADERS \
 tags mostlyclean-tags distclean-tags clean-tags maintainer-clean-tags \
 distdir mostlyclean-depend distclean-depend clean-depend \
 maintainer-clean-depend info-am info dvi-am dvi check check-am \
@@ -378,22 +384,31 @@ distclean-generic clean-generic maintainer-clean-generic clean \
 mostlyclean distclean maintainer-clean
 
 
-install-libSoQtdevicesincHEADERS: $(libSoQtdevicesinc_HEADERS)
+moc_SoQtViewer.cpp: $(top_srcdir)/src/Inventor/Qt/viewers/SoQtViewer.h
+	$(MOC) -o moc_SoQtViewer.cpp $(top_srcdir)/src/Inventor/Qt/viewers/SoQtViewer.h
+
+moc_SoQtFullViewer.cpp: $(top_srcdir)/src/Inventor/Qt/viewers/SoQtFullViewer.h
+	$(MOC) -o moc_SoQtFullViewer.cpp $(top_srcdir)/src/Inventor/Qt/viewers/SoQtFullViewer.h
+
+moc_SoQtExaminerViewer.cpp: $(top_srcdir)/src/Inventor/Qt/viewers/SoQtExaminerViewer.h
+	$(MOC) -o moc_SoQtExaminerViewer.cpp $(top_srcdir)/src/Inventor/Qt/viewers/SoQtExaminerViewer.h
+
+install-libSoQtviewersincHEADERS: $(libSoQtviewersinc_HEADERS)
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(libSoQtdevicesincdir)
-	@list='$(libSoQtdevicesinc_HEADERS)'; for p in $$list; do \
+	$(mkinstalldirs) $(DESTDIR)$(libSoQtviewersincdir)
+	@list='$(libSoQtviewersinc_HEADERS)'; for p in $$list; do \
 	  if test -f "$$p"; then d= ; else d="$(srcdir)/"; fi; \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libSoQtdevicesincdir)/$$f"; \
-	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libSoQtdevicesincdir)/$$f; \
+	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libSoQtviewersincdir)/$$f"; \
+	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libSoQtviewersincdir)/$$f; \
 	done
 
-uninstall-libSoQtdevicesincHEADERS:
+uninstall-libSoQtviewersincHEADERS:
 	@$(NORMAL_UNINSTALL)
-	@list='$(libSoQtdevicesinc_HEADERS)'; for p in $$list; do \
+	@list='$(libSoQtviewersinc_HEADERS)'; for p in $$list; do \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " rm -f $(DESTDIR)$(libSoQtdevicesincdir)/$$f"; \
-	  rm -f $(DESTDIR)$(libSoQtdevicesincdir)/$$f; \
+	  echo " rm -f $(DESTDIR)$(libSoQtviewersincdir)/$$f"; \
+	  rm -f $(DESTDIR)$(libSoQtviewersincdir)/$$f; \
 	done
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

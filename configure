@@ -483,7 +483,7 @@ echo > confdefs.h
 
 # A filename unique to this package, relative to the directory that
 # configure is in, which we can look for to find out if srcdir is correct.
-ac_unique_file=src/SoQt.cpp
+ac_unique_file=src/Inventor/Qt/SoQt.h
 
 # Find the source files, if location was not specified.
 if test -z "$srcdir"; then
@@ -3652,6 +3652,10 @@ fi
 
 
 
+test -d src || mkdir src
+test -d src/Inventor || mkdir src/Inventor
+test -d src/Inventor/Qt || mkdir src/Inventor/Qt
+
 trap '' 1 2 15
 cat > confcache <<\EOF
 # This file is a shell script that caches the results of configure
@@ -3753,10 +3757,16 @@ done
 ac_given_srcdir=$srcdir
 ac_given_INSTALL="$INSTALL"
 
-trap 'rm -fr `echo "Makefile src/Makefile \
-	src/devices/Makefile src/viewers/Makefile src/widgets/Makefile \
-	examples/Makefile examples/examinerviewer/Makefile \
-	examples/widgets/Makefile config.h" | sed "s/:[^ ]*//g"` conftest*; exit 1' 1 2 15
+trap 'rm -fr `echo "
+	Makefile
+	src/Inventor/Qt/Makefile
+	src/Inventor/Qt/devices/Makefile
+	src/Inventor/Qt/viewers/Makefile
+	src/Inventor/Qt/widgets/Makefile
+	examples/Makefile
+	examples/examinerviewer/Makefile
+	examples/widgets/Makefile
+ config.h" | sed "s/:[^ ]*//g"` conftest*; exit 1' 1 2 15
 EOF
 cat >> $CONFIG_STATUS <<EOF
 
@@ -3879,10 +3889,15 @@ EOF
 
 cat >> $CONFIG_STATUS <<EOF
 
-CONFIG_FILES=\${CONFIG_FILES-"Makefile src/Makefile \
-	src/devices/Makefile src/viewers/Makefile src/widgets/Makefile \
-	examples/Makefile examples/examinerviewer/Makefile \
-	examples/widgets/Makefile"}
+CONFIG_FILES=\${CONFIG_FILES-"Makefile
+	src/Inventor/Qt/Makefile
+	src/Inventor/Qt/devices/Makefile
+	src/Inventor/Qt/viewers/Makefile
+	src/Inventor/Qt/widgets/Makefile
+	examples/Makefile
+	examples/examinerviewer/Makefile
+	examples/widgets/Makefile
+"}
 EOF
 cat >> $CONFIG_STATUS <<\EOF
 for ac_file in .. $CONFIG_FILES; do if test "x$ac_file" != x..; then

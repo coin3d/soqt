@@ -6,7 +6,7 @@ noinst_LTLIBRARIES = libSoQtdevices.la
 ## needed in the submodules -- only in the toplevel libSoQt build.
 LIBS = 
 
-INCLUDES = -I$(top_srcdir)/include
+INCLUDES = -I$(top_srcdir)/src
 
 ## All source files used when building this submodule, including all
 ## headers.
@@ -28,11 +28,11 @@ libSoQtdevices_la_SOURCES = \
 libSoQtdevicesincdir = $(includedir)/Inventor/Qt/devices
 
 libSoQtdevicesinc_HEADERS = \
-	$(top_srcdir)/include/Inventor/Qt/devices/SoQtDevice.h \
-	$(top_srcdir)/include/Inventor/Qt/devices/SoQtInputFocus.h \
-	$(top_srcdir)/include/Inventor/Qt/devices/SoQtKeyboard.h \
-	$(top_srcdir)/include/Inventor/Qt/devices/SoQtMouse.h \
-	$(top_srcdir)/include/Inventor/Qt/devices/SoQtSpaceball.h
+	$(top_srcdir)/src/Inventor/Qt/devices/SoQtDevice.h \
+	$(top_srcdir)/src/Inventor/Qt/devices/SoQtInputFocus.h \
+	$(top_srcdir)/src/Inventor/Qt/devices/SoQtKeyboard.h \
+	$(top_srcdir)/src/Inventor/Qt/devices/SoQtMouse.h \
+	$(top_srcdir)/src/Inventor/Qt/devices/SoQtSpaceball.h
 
 
 ## FIXME: this is a temporary workaround for a bug in Automake. The

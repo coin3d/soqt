@@ -1,3 +1,4 @@
 ## Process this file with automake to generate Makefile.in.
 
-SUBDIRS = src examples
+SUBDIRS = src/Inventor/Qt examples
+

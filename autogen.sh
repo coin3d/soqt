@@ -68,6 +68,7 @@ echo "avoid setting up dependency tracking. 19991006 mortene.)"
 automake
 
 echo "Running autoconf (generating ./configure and the Makefile files)..."
+echo "[ignore the \"directory should not contain '/'\" warning]"
 autoconf
 
 echo "Done: Now run './configure' and 'make install' to build $PROJECT."

@@ -1,5 +1,5 @@
 dnl  This can be any file in the package.
-AC_INIT(src/SoQt.cpp)
+AC_INIT(src/Inventor/Qt/SoQt.h)
 
 dnl  Locate C++ compiler and set C++ as the default compiler to run
 dnl  in tests.
@@ -120,7 +120,17 @@ dnl *******************************************************************
 dnl * List all files configure shall generate.
 dnl *******************************************************************
 
-AC_OUTPUT(Makefile src/Makefile \
-	src/devices/Makefile src/viewers/Makefile src/widgets/Makefile \
-	examples/Makefile examples/examinerviewer/Makefile \
-	examples/widgets/Makefile)
+test -d src || mkdir src
+test -d src/Inventor || mkdir src/Inventor
+test -d src/Inventor/Qt || mkdir src/Inventor/Qt
+
+AC_OUTPUT([
+	Makefile
+	src/Inventor/Qt/Makefile
+	src/Inventor/Qt/devices/Makefile
+	src/Inventor/Qt/viewers/Makefile
+	src/Inventor/Qt/widgets/Makefile
+	examples/Makefile
+	examples/examinerviewer/Makefile
+	examples/widgets/Makefile
+])

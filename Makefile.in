@@ -86,7 +86,7 @@ SOQT_VERSION = @SOQT_VERSION@
 USE_SYMBOL_UNDERSCORE = @USE_SYMBOL_UNDERSCORE@
 VERSION = @VERSION@
 
-SUBDIRS = src examples
+SUBDIRS = src/Inventor/Qt examples
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = config.h

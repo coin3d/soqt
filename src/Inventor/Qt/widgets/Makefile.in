@@ -38,7 +38,7 @@ pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
 
-top_builddir = ../..
+top_builddir = ../../../..
 
 ACLOCAL = @ACLOCAL@
 AUTOCONF = @AUTOCONF@
@@ -90,19 +90,19 @@ noinst_LTLIBRARIES = libSoQtwidgets.la
 
 LIBS = 
 
-INCLUDES = -I$(top_srcdir)/include
+INCLUDES = -I$(top_srcdir)/src
 
 BUILT_SOURCES = moc_QtThumbwheel.cpp
 
 libSoQtwidgets_la_SOURCES =  	QtThumbwheel.cpp QtThumbwheel.h 	$(BUILT_SOURCES)
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = ../../config.h
+CONFIG_HEADER = ../../../../config.h
 CONFIG_CLEAN_FILES = 
 LTLIBRARIES =  $(noinst_LTLIBRARIES)
 
 
-DEFS = @DEFS@ -I. -I$(srcdir) -I../..
+DEFS = @DEFS@ -I. -I$(srcdir) -I../../../..
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 X_CFLAGS = @X_CFLAGS@
@@ -137,7 +137,7 @@ all: all-redirect
 .SUFFIXES:
 .SUFFIXES: .S .c .cpp .lo .o .s
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu src/widgets/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu src/Inventor/Qt/widgets/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
 	cd $(top_builddir) \
@@ -223,14 +223,14 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = src/widgets
+subdir = src/Inventor/Qt/widgets
 
 distdir: $(DISTFILES)
 	here=`cd $(top_builddir) && pwd`; \
 	top_distdir=`cd $(top_distdir) && pwd`; \
 	distdir=`cd $(distdir) && pwd`; \
 	cd $(top_srcdir) \
-	  && $(AUTOMAKE) --include-deps --build-dir=$$here --srcdir-name=$(top_srcdir) --output-dir=$$top_distdir --gnu src/widgets/Makefile
+	  && $(AUTOMAKE) --include-deps --build-dir=$$here --srcdir-name=$(top_srcdir) --output-dir=$$top_distdir --gnu src/Inventor/Qt/widgets/Makefile
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
@@ -370,8 +370,8 @@ distclean-generic clean-generic maintainer-clean-generic clean \
 mostlyclean distclean maintainer-clean
 
 
-moc_QtThumbwheel.cpp: $(top_srcdir)/include/Inventor/Qt/widgets/QtThumbwheel.h
-	$(MOC) -o moc_QtThumbwheel.cpp $(top_srcdir)/include/Inventor/Qt/widgets/QtThumbwheel.h
+moc_QtThumbwheel.cpp: $(top_srcdir)/src/Inventor/Qt/widgets/QtThumbwheel.h
+	$(MOC) -o moc_QtThumbwheel.cpp $(top_srcdir)/src/Inventor/Qt/widgets/QtThumbwheel.h
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
