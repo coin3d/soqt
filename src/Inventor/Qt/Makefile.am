@@ -45,8 +45,7 @@ libSoQt@SUFFIX@_la_SOURCES = \
 	SoQtSliderSetBase.h \
 	SoQtTransformSliderSet.cpp \
 	SoQtTransformSliderSet.h \
-	SoQtMaterialList.cpp \
-	SoQtMaterialList.h
+	SoQtMaterialList.cpp
 
 nodist_libSoQt@SUFFIX@_la_SOURCES = \
 	$(SoGui_src_Inventor_Gui_BuiltFiles)
@@ -77,8 +76,7 @@ soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
 	SoQtSliderSetBase.h \
 	SoQtTransformSliderSet.cpp \
 	SoQtTransformSliderSet.h \
-	SoQtMaterialList.cpp \
-	SoQtMaterialList.h
+	SoQtMaterialList.cpp
 
 nodist_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
 	$(SoGui_src_Inventor_Gui_BuiltFiles)
@@ -98,8 +96,7 @@ SoQtinc_HEADERS = \
 	SoQtMaterialSliderSet.h \
 	SoQtSliderSet.h \
 	SoQtSliderSetBase.h \
-	SoQtTransformSliderSet.h \
-	SoQtMaterialList.h
+	SoQtTransformSliderSet.h
 
 nodist_SoQtinc_HEADERS = \
 	SoQt.h \
@@ -108,7 +105,8 @@ nodist_SoQtinc_HEADERS = \
 	SoQtCursors.h \
 	SoQtComponent.h \
 	SoQtGLWidget.h \
-	SoQtRenderArea.h
+	SoQtRenderArea.h \
+	SoQtMaterialList.h
 
 install-SoQtincHEADERS: $(SoQtinc_HEADERS)
 	@$(NORMAL_INSTALL)
