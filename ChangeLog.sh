@@ -1,12 +1,11 @@
 #!/bin/sh
 ############################################################################
 
+moduledir=${0%/[^/]*}
+module=${moduledir##*/}
 GUI=Qt
-module=So$GUI
 cvs2cl=$HOME/store/cvs/cvs2cl/cvs2cl.pl
-moduledir=$HOME/code/coin/src/$module
 headerfile=/tmp/$module.header
-
 cd $moduledir
 
 ############################################################################
@@ -18,9 +17,9 @@ This is the ChangeLog file for the $module module.  This file is automatically
 generated every night.  Entries are in reversed chronological order.  Check
 also out the following ChangeLog files:
 
-  ./conf-macros/ChangeLog
   ./src/Inventor/$GUI/common/ChangeLog
   ./examples/ChangeLog
+  ./conf-macros/ChangeLog
 
 See http://www.red-bean.com/~kfogel/cvs2cl.shtml for information about the
 cvs2cl script used to generate this file.
