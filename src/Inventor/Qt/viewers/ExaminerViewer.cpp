@@ -64,16 +64,6 @@ SOQT_OBJECT_SOURCE(SoQtExaminerViewer);
 
 // *************************************************************************
 
-///////// FIXME start //////////////////////////////////////////////////
-// Do something clever about this Qt layout assistant code.. (the code
-// for expandSize() is inside SoQtFullViewer.cpp). 990222 mortene.
-enum LayoutOrientation { LayoutVertical, LayoutHorizontal };
-extern void expandSize(QSize & result, const QSize & addend,
-                       LayoutOrientation o);
-///////// FIXME end ////////////////////////////////////////////////////
-
-// *************************************************************************
-
 /*!
   Constructor.  See parent class for explanation of arguments.
   Calling this constructor will make sure the examiner viewer widget

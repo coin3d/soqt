@@ -77,134 +77,10 @@ SOQT_OBJECT_ABSTRACT_SOURCE(SoQtFullViewer);
 
 // *************************************************************************
 
-/*!
-  \enum SoQtFullViewer::BuildFlag
-  FIXME: write documentation for enum
-*/
-/*!
-  \var SoQtFullViewer::BuildFlag SoQtFullViewer::BUILD_NONE
-  FIXME: write documentation for enum definition
-*/
-/*!
-  \var SoQtFullViewer::BuildFlag SoQtFullViewer::BUILD_DECORATION
-  FIXME: write documentation for enum definition
-*/
-/*!
-  \var SoQtFullViewer::BuildFlag SoQtFullViewer::BUILD_POPUP
-  FIXME: write documentation for enum definition
-*/
-/*!
-  \var SoQtFullViewer::BuildFlag SoQtFullViewer::BUILD_ALL
-  FIXME: write documentation for enum definition
-*/
-
-/*!
-  \var QWidget * SoQtFullViewer::leftDecoration
-  FIXME: write doc
-*/
-
-/*!
-  \var QWidget * SoQtFullViewer::leftWheel
-  FIXME: write doc
-*/
-
-/*!
-  \var QWidget * SoQtFullViewer::leftWheelLabel
-  FIXME: write doc
-*/
-
-/*!
-  \var char * SoQtFullViewer::leftWheelStr
-  FIXME: write doc
-*/
-
-/*!
-  \var float SoQtFullViewer::leftWheelVal
-  FIXME: write doc
-*/
-
-/*!
-  \var QWidget * SoQtFullViewer::bottomDecoration
-  FIXME: write doc
-*/
-
-/*!
-  \var QWidget * SoQtFullViewer::bottomWheel
-  FIXME: write doc
-*/
-
-/*!
-  \var QWidget * SoQtFullViewer::bottomWheelLabel
-  FIXME: write doc
-*/
-
-/*!
-  \var char * SoQtFullViewer::bottomWheelStr
-  FIXME: write doc
-*/
-
-/*!
-  \var float SoQtFullViewer::bottomWheelVal
-  FIXME: write doc
-*/
-
-/*!
-  \var QWidget * SoQtFullViewer::rightDecoration
-  FIXME: write doc
-*/
-
-/*!
-  \var QWidget * SoQtFullViewer::rightWheel
-  FIXME: write doc
-*/
-
-/*!
-  \var QWidget * SoQtFullViewer::rightWheelLabel
-  FIXME: write doc
-*/
-
-/*!
-  \var char * SoQtFullViewer::rightWheelStr
-  FIXME: write doc
-*/
-
-/*!
-  \var float SoQtFullViewer::rightWheelVal
-  FIXME: write doc
-*/
-
-/*!
-  \var SoQtPopupMenu * SoQtFullViewer::prefmenu
-  FIXME: write doc
-*/
-
 // *************************************************************************
 
 static const int VIEWERBORDER = 2;
 static const int ZOOMSLIDERRESOLUTION = 200;
-
-
-///////// FIXME start //////////////////////////////////////////////////
-// Do something clever about this Qt layout assistant code..
-// 990222 mortene.
-
-enum LayoutOrientation { LayoutVertical, LayoutHorizontal };
-
-void
-expandSize(QSize & result, const QSize & addend, LayoutOrientation o)
-{
-  if (o == LayoutHorizontal) {
-    result.rwidth() += addend.width();
-    if (result.height() < addend.height()) result.setHeight(addend.height());
-  }
-  else {
-    result.rheight() += addend.height();
-    if (result.width() < addend.width()) result.setWidth(addend.width());
-  }
-}
-
-///////// FIXME end ////////////////////////////////////////////////////
-
 
 // *************************************************************************
 
@@ -225,14 +101,7 @@ enum {
 
 // *************************************************************************
 
-/*!
-  Constructor. See parent class for explanation of arguments.
-
-  Subclasses will probably usually call with the \a buildNow flag
-  set to \c FALSE to be able to do delayed building of the OpenGL
-  canvas after other setup tasks has been performed.
-*/
-
+// Documented in common/viewers/SoGuiFullViewer.cpp.in.
 SoQtFullViewer::SoQtFullViewer(QWidget * parent,
                                const char * name,
                                SbBool embed,
@@ -298,10 +167,7 @@ SoQtFullViewer::SoQtFullViewer(QWidget * parent,
 
 // *************************************************************************
 
-/*!
-  Destructor.
-*/
-
+// Documented in common/viewers/SoGuiFullViewer.cpp.in.
 SoQtFullViewer::~SoQtFullViewer()
 {
   if (PRIVATE(this)->viewerwidget) {
@@ -320,12 +186,7 @@ SoQtFullViewer::~SoQtFullViewer()
 
 // *************************************************************************
 
-/*!
-  Turn the viewer decorations on or off.
-
-  \sa isDecoration()
-*/
-
+// Documented in common/viewers/SoGuiFullViewer.cpp.in.
 void
 SoQtFullViewer::setDecoration(const SbBool enable)
 {
@@ -346,12 +207,7 @@ SoQtFullViewer::setDecoration(const SbBool enable)
 
 // *************************************************************************
 
-/*!
-  Return \c TRUE if the viewer decorations are on, otherwise \c FALSE.
-
-  \sa setDecoration()
-*/
-
+// Documented in common/viewers/SoGuiFullViewer.cpp.in.
 SbBool
 SoQtFullViewer::isDecoration(void) const
 {
@@ -360,13 +216,7 @@ SoQtFullViewer::isDecoration(void) const
 
 // *************************************************************************
 
-/*!
-  Decide whether or not if clicking with the right mouse button on
-  the OpenGL canvas should reveal a preferences popup menu when in
-  viewing mode.
-
-  \sa isPopupMenuEnabled()
-*/
+// Documented in common/viewers/SoGuiFullViewer.cpp.in.
 void
 SoQtFullViewer::setPopupMenuEnabled(const SbBool enable)
 {
@@ -384,12 +234,7 @@ SoQtFullViewer::setPopupMenuEnabled(const SbBool enable)
 
 // *************************************************************************
 
-/*!
-  Return \c TRUE if the popup preferences menu is enabled,
-  otherwise \c FALSE.
-
-  \sa setPopupMenuEnabled()
-*/
+// Documented in common/viewers/SoGuiFullViewer.cpp.in.
 SbBool
 SoQtFullViewer::isPopupMenuEnabled(void) const
 {
@@ -398,14 +243,7 @@ SoQtFullViewer::isPopupMenuEnabled(void) const
 
 // *************************************************************************
 
-/*!
-  Returns the widget which is used as the parent of application
-  specified buttons. The row of application buttons (if any) will be
-  placed in the upper left corner.
-
-  \sa addAppPushButton(), insertAppPushButton(), removeAppPushButton()
-*/
-
+// Documented in common/viewers/SoGuiFullViewer.cpp.in.
 QWidget *
 SoQtFullViewer::getAppPushButtonParent(void) const
 {
@@ -414,16 +252,7 @@ SoQtFullViewer::getAppPushButtonParent(void) const
 
 // *************************************************************************
 
-/*!
-  Add an application specific push button to the viewer decorations.
-  Application buttons will be laid out in a vertical row from the
-  upper left corner.
-
-  The button will be added bottom-most.
-
-  \sa insertAppPushButton(), removeAppPushButton(), getAppPushButtonParent()
-*/
-
+// Documented in common/viewers/SoGuiFullViewer.cpp.in.
 void
 SoQtFullViewer::addAppPushButton(QWidget * newButton)
 {
@@ -433,13 +262,7 @@ SoQtFullViewer::addAppPushButton(QWidget * newButton)
 
 // *************************************************************************
 
-/*!
-  Insert an application specific push button to the viewer decorations
-  at the given \c index.
-
-  \sa addAppPushButton(), removeAppPushButton(), getAppPushButtonParent()
-*/
-
+// Documented in common/viewers/SoGuiFullViewer.cpp.in.
 void
 SoQtFullViewer::insertAppPushButton(QWidget * newButton, int index)
 {
@@ -456,12 +279,7 @@ SoQtFullViewer::insertAppPushButton(QWidget * newButton, int index)
 
 // *************************************************************************
 
-/*!
-  Remove one of the application specific buttons.
-
-  \sa addAppPushButton(), insertAppPushButton()
-*/
-
+// Documented in common/viewers/SoGuiFullViewer.cpp.in.
 void
 SoQtFullViewer::removeAppPushButton(QWidget * oldButton)
 {
@@ -481,13 +299,7 @@ SoQtFullViewer::removeAppPushButton(QWidget * oldButton)
 
 // *************************************************************************
 
-/*!
-  Return the index of a particular button that has been specified by
-  the application, or -1 of the button has not been added.
-
-  \sa addAppPushButton()
-*/
-
+// Documented in common/viewers/SoGuiFullViewer.cpp.in.
 int
 SoQtFullViewer::findAppPushButton(QWidget * oldButton) const
 {
@@ -496,12 +308,7 @@ SoQtFullViewer::findAppPushButton(QWidget * oldButton) const
 
 // *************************************************************************
 
-/*!
-  Return number of application specific buttons added.
-
-  \sa addAppPushButton(), insertAddAppPushButton()
-*/
-
+// Documented in common/viewers/SoGuiFullViewer.cpp.in.
 int
 SoQtFullViewer::lengthAppPushButton(void) const
 {
@@ -510,10 +317,7 @@ SoQtFullViewer::lengthAppPushButton(void) const
 
 // *************************************************************************
 
-/*!
-  Returns the render area OpenGL canvas widget.
-*/
-
+// Documented in common/viewers/SoGuiFullViewer.cpp.in.
 QWidget *
 SoQtFullViewer::getRenderAreaWidget(void) const
 {
@@ -602,10 +406,7 @@ SoQtFullViewer::buildWidget(QWidget * parent)
 
 // *************************************************************************
 
-/*!
-  Build viewer decorations.
-*/
-
+// Documented in common/viewers/SoGuiFullViewer.cpp.in.
 void
 SoQtFullViewer::buildDecoration(QWidget * parent)
 {
@@ -616,14 +417,7 @@ SoQtFullViewer::buildDecoration(QWidget * parent)
 
 // *************************************************************************
 
-/*!
-  Build decorations on the left of the render canvas.  Override this
-  method in subclasses if you want your own decorations on the viewer
-  window.
-
-  The decoration will be 30 pixels wide.
-*/
-
+// Documented in common/viewers/SoGuiFullViewer.cpp.in.
 QWidget *
 SoQtFullViewer::buildLeftTrim(QWidget * parent)
 {
@@ -650,11 +444,7 @@ SoQtFullViewer::buildLeftTrim(QWidget * parent)
 
 // *************************************************************************
 
-/*!
-  Build decorations on the bottom of the render canvas. Override this
-  method in subclasses if you want your own decorations on the viewer window.
-*/
-
+// Documented in common/viewers/SoGuiFullViewer.cpp.in.
 QWidget *
 SoQtFullViewer::buildBottomTrim(QWidget * parent)
 {
@@ -711,11 +501,7 @@ SoQtFullViewer::buildBottomTrim(QWidget * parent)
 
 // *************************************************************************
 
-/*!
-  Build decorations on the right side of the render canvas. Override this
-  method in subclasses if you want your own decorations on the viewer window.
-*/
-
+// Documented in common/viewers/SoGuiFullViewer.cpp.in.
 QWidget *
 SoQtFullViewer::buildRightTrim(QWidget * parent)
 {
@@ -748,11 +534,7 @@ SoQtFullViewer::buildRightTrim(QWidget * parent)
 
 // *************************************************************************
 
-/*!
-  Build the application specified button row (if any buttons were
-  set up).
-*/
-
+// Documented in common/viewers/SoGuiFullViewer.cpp.in.
 QWidget *
 SoQtFullViewer::buildAppButtons(QWidget * parent)
 {
@@ -766,10 +548,7 @@ SoQtFullViewer::buildAppButtons(QWidget * parent)
 
 // *************************************************************************
 
-/*!
-  Build and layout viewer specified button row.
-*/
-
+// Documented in common/viewers/SoGuiFullViewer.cpp.in.
 QWidget *
 SoQtFullViewer::buildViewerButtons(QWidget * parent)
 {
@@ -860,10 +639,7 @@ SoQtFullViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
 
 // *************************************************************************
 
-/*!
-  Make a popup menu with preferences settings.
-*/
-
+// Documented in common/viewers/SoGuiFullViewer.cpp.in.
 void
 SoQtFullViewer::buildPopupMenu(void)
 {
@@ -872,10 +648,7 @@ SoQtFullViewer::buildPopupMenu(void)
 
 // *************************************************************************
 
-/*!
-  NOTE: This method is not part of the original InventorXt API.
-*/
-
+// Documented in common/viewers/SoGuiFullViewer.cpp.in.
 void
 SoQtFullViewer::openPopupMenu(const SbVec2s position)
 {
@@ -891,10 +664,7 @@ SoQtFullViewer::openPopupMenu(const SbVec2s position)
 
 // *************************************************************************
 
-/*!
-  Set label of the left thumbwheel.
-*/
-
+// Documented in common/viewers/SoGuiFullViewer.cpp.in.
 void
 SoQtFullViewer::setLeftWheelString(const char * const string)
 {
@@ -909,10 +679,7 @@ SoQtFullViewer::setLeftWheelString(const char * const string)
 
 // *************************************************************************
 
-/*!
-  Set label of the bottom thumbwheel.
-*/
-
+// Documented in common/viewers/SoGuiFullViewer.cpp.in.
 void
 SoQtFullViewer::setBottomWheelString(const char * const string)
 {
@@ -927,10 +694,7 @@ SoQtFullViewer::setBottomWheelString(const char * const string)
 
 // *************************************************************************
 
-/*!
-  Set label of the right thumbwheel.
-*/
-
+// Documented in common/viewers/SoGuiFullViewer.cpp.in.
 void
 SoQtFullViewer::setRightWheelString(const char * const string)
 {

@@ -33,25 +33,6 @@
 
 // *************************************************************************
 
-/*!
-  \fn virtual void SoQtGLWidget::redraw(void)
-  This method will be called when we need a redraw. It must be overloaded in
-  non-abstract subclasses.
- */
-/*!
-  \var SbBool SoQtGLWidget::waitForExpose
-  If this is \c TRUE, rendering should not be done yet. Upon the first
-  expose event of a newly created OpenGL widget, this variable will
-  be set to \c FALSE.
-*/
-/*!
-  \var SbBool SoQtGLWidget::drawToFrontBuffer
-  If this is \c TRUE, rendering will happen in the front buffer even
-  if the current rendering mode is double buffered.
-*/
-
-// *************************************************************************
-
 #include <qevent.h>
 #include <qframe.h>
 
@@ -132,9 +113,7 @@ static const int SO_BORDER_THICKNESS = 2;
 
 // *************************************************************************
 
-/*!
-  Protected constructor.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SoQtGLWidget::SoQtGLWidget(QWidget * const parent,
                            const char * const name,
                            const SbBool embed,
@@ -180,9 +159,7 @@ SoQtGLWidget::SoQtGLWidget(QWidget * const parent,
 
 // *************************************************************************
 
-/*!
-  Protected destructor.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SoQtGLWidget::~SoQtGLWidget()
 {
   // Don't delete the Qt widgets we've allocated, as they are
@@ -229,11 +206,7 @@ SoQtGLWidget::buildWidget(QWidget * parent)
 
 // *************************************************************************
 
-/*!
-  Specify that there should be a border around the OpenGL canvas (or not).
-
-  \sa isBorder()
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoQtGLWidget::setBorder(const SbBool enable)
 {
@@ -242,22 +215,18 @@ SoQtGLWidget::setBorder(const SbBool enable)
     PRIVATE(this)->borderwidget->setLineWidth(PRIVATE(this)->borderthickness);
     PRIVATE(this)->currentglwidget->move(PRIVATE(this)->borderthickness, PRIVATE(this)->borderthickness);
     QSize frame(PRIVATE(this)->borderwidget->size());
-    PRIVATE(this)->currentglwidget->setGeometry(
-      QRect(PRIVATE(this)->borderthickness, PRIVATE(this)->borderthickness,
-             frame.width() - 2 * PRIVATE(this)->borderthickness,
-             frame.height() - 2 * PRIVATE(this)->borderthickness));
-
+    PRIVATE(this)->currentglwidget->setGeometry(QRect(PRIVATE(this)->borderthickness, PRIVATE(this)->borderthickness,
+                                                      frame.width() - 2 * PRIVATE(this)->borderthickness,
+                                                      frame.height() - 2 * PRIVATE(this)->borderthickness));
+    
+    // FIXME: uncommented, disabled code. 20020618 mortene.
 //    this->glwidget->resize(
 //      frame.width() - 2 * PRIVATE(this)->borderthickness,
 //      frame.height() - 2 * PRIVATE(this)->borderthickness);
   }
 }
 
-/*!
-  Returns whether or not there's a border around the OpenGL canvas.
-
-  \sa setBorder()
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SbBool
 SoQtGLWidget::isBorder(void) const
 {
@@ -267,11 +236,7 @@ SoQtGLWidget::isBorder(void) const
 // *************************************************************************
 
 
-/*!
-  Turn on or off the use of overlay planes.
-
-  \sa isOverlayRender()
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoQtGLWidget::setOverlayRender(const SbBool onoff)
 {
@@ -291,24 +256,14 @@ SoQtGLWidget::setOverlayRender(const SbBool onoff)
   if (PRIVATE(this)->currentglwidget) PRIVATE(this)->buildGLWidget();
 }
 
-/*!
-  Returns a flag indicating whether or not overplay planes are
-  currently used.
-
-  \sa setOverlayRender()
- */
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SbBool
 SoQtGLWidget::isOverlayRender(void) const
 {
   return QGLFormat_hasOverlay(PRIVATE(this)->glformat);
 }
 
-/*!
-  Switch between single and double buffer mode for the OpenGL canvas.
-  The default is to use a single buffer canvas.
-
-  \sa isDoubleBuffer()
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoQtGLWidget::setDoubleBuffer(const SbBool enable)
 {
@@ -321,20 +276,14 @@ SoQtGLWidget::setDoubleBuffer(const SbBool enable)
   if (PRIVATE(this)->currentglwidget) PRIVATE(this)->buildGLWidget();
 }
 
-/*!
-  Returns the status of the buffer mode.
-
-  \sa setDoubleBuffer()
- */
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SbBool
 SoQtGLWidget::isDoubleBuffer(void) const
 {
   return PRIVATE(this)->glformat->doubleBuffer();
 }
 
-/*!
-  Enables or disables quad buffer stereo.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoQtGLWidget::setQuadBufferStereo(const SbBool enable)
 {
@@ -348,19 +297,14 @@ SoQtGLWidget::setQuadBufferStereo(const SbBool enable)
   if (PRIVATE(this)->currentglwidget) PRIVATE(this)->buildGLWidget();
 }
 
-/*!
-  Returns \c TRUE if quad buffer stereo is enabled for this widget.
-*/
-
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SbBool
 SoQtGLWidget::isQuadBufferStereo(void) const
 {
   return PRIVATE(this)->glformat->stereo();
 }
 
-/*!
-  Enables/disables the OpenGL accumulation buffer.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void 
 SoQtGLWidget::setAccumulationBuffer(const SbBool enable)
 {
@@ -374,18 +318,14 @@ SoQtGLWidget::setAccumulationBuffer(const SbBool enable)
   if (PRIVATE(this)->currentglwidget) PRIVATE(this)->buildGLWidget();
 }
 
-/*!
-  Returns whether the OpenGL accumulation buffer is enabled.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SbBool 
 SoQtGLWidget::getAccumulationBuffer(void) const
 {
   return (SbBool) (PRIVATE(this)->glformat->accum());
 }
 
-/*!
-  Enables/disables the OpenGL stencil buffer.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void 
 SoQtGLWidget::setStencilBuffer(const SbBool enable)
 {
@@ -399,9 +339,7 @@ SoQtGLWidget::setStencilBuffer(const SbBool enable)
   if (PRIVATE(this)->currentglwidget) PRIVATE(this)->buildGLWidget();
 }
 
-/*!
-  Returns whether the OpenGL stencil buffer is enabled.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SbBool 
 SoQtGLWidget::getStencilBuffer(void) const
 {
@@ -409,19 +347,14 @@ SoQtGLWidget::getStencilBuffer(void) const
 }
 
 
-/*!
-  If this is set to \c TRUE, rendering will happen in the front buffer
-  even if the current rendering mode is double buffered.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoQtGLWidget::setDrawToFrontBufferEnable(const SbBool enable)
 {
   this->drawToFrontBuffer = enable;
 }
 
-/*!
-  \sa setDrawToFrontBufferEnable()
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SbBool
 SoQtGLWidget::isDrawToFrontBufferEnable(void) const
 {
@@ -430,16 +363,14 @@ SoQtGLWidget::isDrawToFrontBufferEnable(void) const
 
 // *************************************************************************
 
-/*!
-  For SoQt, this returns the same widget pointer as that of
-  SoQtGLWidget::getGLWidget().
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 QWidget *
 SoQtGLWidget::getNormalWidget(void) const
 {
   return this->getGLWidget();
 }
 
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 /*!
   Returns widget associated with overlay planes, or \c NULL if no
   overlay planes are available.
@@ -461,9 +392,7 @@ SoQtGLWidget::getOverlayWidget(void) const
 
 // *************************************************************************
 
-/*!
-  Sets the size of the GL canvas.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoQtGLWidget::setGLSize(const SbVec2s size)
 {
@@ -479,48 +408,24 @@ SoQtGLWidget::setGLSize(const SbVec2s size)
   }
 }
 
-/*!
-  Return the dimensions of the OpenGL canvas.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SbVec2s
 SoQtGLWidget::getGLSize(void) const
 {
   return PRIVATE(this)->glSize;
 }
 
-/*!
-  Return the aspect ratio of the OpenGL canvas.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 float
 SoQtGLWidget::getGLAspectRatio(void) const
 {
   return float(PRIVATE(this)->currentglwidget->width()) /
     float(PRIVATE(this)->currentglwidget->height());
-}  // getGLAspectRatio()
-
-/*!
-  \fn void SoQtGLWidget::setGlxSize(const SbVec2s size)
-  This function has been renamed to the more appropriate setGLSize.
-  \sa setGLSize
-*/
-
-/*!
-  \fn SbVec2s SoQtGLWidget::getGlxSize(void) const
-  This function has been renamed to the more appropriate getGLSize.
-  \sa getGLSize
-*/
-
-/*!
-  \fn float SoQtGLWidget::getGlxAspectRatio(void) const
-  This function has been renamed to the more appropriate getGLAspectRatio.
-  \sa getGLAspectRatio
-*/
+}
 
 // *************************************************************************
 
-/*!
-  Returns a pointer to the Qt QGLWidget.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 QWidget *
 SoQtGLWidget::getGLWidget(void) const
 {
@@ -530,29 +435,14 @@ SoQtGLWidget::getGLWidget(void) const
 
 // *************************************************************************
 
-/*!
-  This is the method which gets called whenever we change which OpenGL
-  widget is used.
-
-  Should be overloaded in subclasses which directly or indirectly
-  store the return value from the SoQtGLWidget::getGLWidget() method.
-
-  \sa sizeChanged()
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoQtGLWidget::widgetChanged(QWidget * w)
 {
   // virtual
 }
 
-/*!
-  Any events from the native window system that goes to the OpenGL
-  canvas gets piped through this method.
-
-  It is overloaded in the subclasses to catch user interaction with
-  the render canvas in the viewers, aswell as forwarding relevant
-  events to the scenegraph.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoQtGLWidget::processEvent(QEvent * anyevent)
 {
@@ -563,10 +453,7 @@ SoQtGLWidget::processEvent(QEvent * anyevent)
 
 // *************************************************************************
 
-/*!
-  This method calls make-current on the correct context and ups the
-  lock level.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoQtGLWidget::glLockNormal(void)
 {
@@ -574,18 +461,14 @@ SoQtGLWidget::glLockNormal(void)
   ((SoQtGLArea *)PRIVATE(this)->currentglwidget)->makeCurrent();
 }
 
-/*!
-  This method drops the lock level.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoQtGLWidget::glUnlockNormal(void)
 {
   // does nothing under Qt. Under BeOS the buffer needs to be unlocked
 }
 
-/*!
-  FIXME: write doc
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoQtGLWidget::glSwapBuffers(void)
 {
@@ -593,9 +476,7 @@ SoQtGLWidget::glSwapBuffers(void)
   ((SoQtGLArea *)PRIVATE(this)->currentglwidget)->swapBuffers();
 }
 
-/*!
-  Flush the current GL buffer. Simply calls glFlush().
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void 
 SoQtGLWidget::glFlushBuffer(void)
 {
@@ -639,11 +520,7 @@ SoQtGLWidget::glFlushBuffer(void)
 #endif // Q_WS_MAC
 }
 
-/*!
-  This method calls make-current on the correct context and ups the lock
-  level.
-*/
-
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoQtGLWidget::glLockOverlay(void)
 {
@@ -651,9 +528,7 @@ SoQtGLWidget::glLockOverlay(void)
   QGLFormat_makeOverlayCurrent((SoQtGLArea *)PRIVATE(this)->currentglwidget);
 }
 
-/*!
-  This method drops the lock level.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void
 SoQtGLWidget::glUnlockOverlay(void)
 {
@@ -662,9 +537,7 @@ SoQtGLWidget::glUnlockOverlay(void)
 
 // *************************************************************************
 
-/*!
-  Returns the overlay transparent pixel.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 unsigned long 
 SoQtGLWidget::getOverlayTransparentPixel(void)
 {
@@ -676,30 +549,21 @@ SoQtGLWidget::getOverlayTransparentPixel(void)
   return 0;
 }
 
-/*!
-  Returns TRUE if the normal GL context is in RGBA mode.
-  Return FALSE if color index mode is used.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SbBool 
 SoQtGLWidget::isRGBMode(void)
 {
   return (SbBool) PRIVATE(this)->glformat->rgba();
 }
 
-/*!
-  Renders the overlay scene graph. Default method is empty. Subclasses
-  should overload this method.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void 
 SoQtGLWidget::redrawOverlay(void)
 {
   // should be empty. It's up subclasses to do some work here
 }
 
-/*!
-  Will be called when GL widget should initialize graphic, after
-  the widget has been created. Default method enabled GL_DEPTH_TEST.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void 
 SoQtGLWidget::initGraphic(void)
 {
@@ -711,12 +575,7 @@ SoQtGLWidget::initGraphic(void)
   this->glUnlockNormal();
 }
 
-/*!
-  Will be called after the overlay widget has been created, and subclasses
-  should overload this to initialize overlay stuff.
-
-  Default method does nothing.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void 
 SoQtGLWidget::initOverlayGraphic(void)
 {
@@ -730,32 +589,21 @@ SoQtGLWidget::sizeChanged(const SbVec2s & size)
 {
 }
 
-/*!
-  Will be called whenever scene graph needs to be redrawn().
-  If this method return FALSE, redraw() will be called immediately.
-
-  Default method simply returns FALSE. Overload this method to
-  schedule a redraw and return TRUE if you're trying to do The Right
-  Thing.  
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SbBool 
 SoQtGLWidget::glScheduleRedraw(void)
 {
   return FALSE;
 }
 
-/*!
-  Will return \c TRUE if an overlay GL drawing area exists.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SbBool 
 SoQtGLWidget::hasOverlayGLArea(void) const 
 {
   return this->getOverlayWidget() != NULL;
 }
 
-/*!
-  Will return \c TRUE if a normal GL drawing area exists.
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 SbBool 
 SoQtGLWidget::hasNormalGLArea(void) const 
 {
