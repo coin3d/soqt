@@ -488,6 +488,8 @@ else # $sim_ac_build_library == false
   AC_SUBST([MOC], [moc])
 fi
 
+AC_SUBST([ac_compiler_gnu])
+
 
 # **************************************************************************
 # To test the Mac OS X framework setup on non-Mac systems, run configure
