@@ -152,6 +152,7 @@ QGLFormat_eq(const QGLFormat & a, const QGLFormat & b)
 class SoQtGLWidgetP {
 public:
   SbVec2s glSize;
+  SbBool wasresized;
 
   SoQtGLArea * currentglwidget;
   SoQtGLArea * previousglwidget;
@@ -159,9 +160,6 @@ public:
   QFrame * borderwidget;
   int borderthickness;
   QGLFormat * glformat;
-
-  int glLockLevel;
-  SbBool currentIsNormal;
 };
 
 #define THIS (this->pimpl)
@@ -191,8 +189,7 @@ SoQtGLWidget::SoQtGLWidget(
   THIS = new SoQtGLWidgetP;
 
   THIS->glSize = SbVec2s( 0, 0 );
-  THIS->glLockLevel = 0;
-  THIS->currentIsNormal = TRUE;
+  THIS->wasresized = FALSE;
 
   THIS->glformat = new QGLFormat;
   THIS->glformat->setDoubleBuffer((glmodes & SO_GL_DOUBLE) ? true : false);
@@ -321,6 +318,7 @@ SoQtGLWidget::buildGLWidget(void)
 #endif // Permanently disabled.
     QObject::disconnect( wascurrent, SIGNAL(expose_sig()), this, SLOT(gl_exposed()));
     QObject::disconnect( wascurrent, SIGNAL(init_sig()), this, SLOT(gl_init()));
+    //    QObject::disconnect( wascurrent, SIGNAL(reshape_sig()), this, SLOT(gl_reshape()));
     THIS->previousglwidget = wascurrent;
   }
 
@@ -388,8 +386,8 @@ SoQtGLWidget::buildGLWidget(void)
 
   QObject::connect( THIS->currentglwidget, SIGNAL(init_sig()),
                     this, SLOT(gl_init()));
-//  QObject::connect( this->glwidget, SIGNAL(reshape_sig(int, int)),
-//                   this, SLOT(gl_reshape(int, int)));
+  //  QObject::connect( THIS->currentglwidget, SIGNAL(reshape_sig(int, int)),
+  //                    this, SLOT(gl_reshape(int, int)));
   QObject::connect( THIS->currentglwidget, SIGNAL(expose_sig()),
                     this, SLOT(gl_exposed()));
 
@@ -700,8 +698,7 @@ QWidget *
 SoQtGLWidget::getNormalWidget(
   void ) const
 {
-  SOQT_STUB();
-  return NULL;
+  return this->getGLWidget();
 }
 
 /*!
@@ -712,7 +709,10 @@ QWidget *
 SoQtGLWidget::getOverlayWidget(
   void ) const
 {
-  SOQT_STUB();
+  if (((SoQtGLWidget*)this)->getOverlayContext()) {
+    // It's the same as the normal widget, as far as I know
+    return this->getGLWidget();
+  }
   return NULL;
 }
 
@@ -726,6 +726,7 @@ void
 SoQtGLWidget::setGLSize(
   const SbVec2s size )
 {
+  if (size == THIS->glSize) return;
 #if SOQT_DEBUG && 0 // debug
   SoDebugError::postInfo( "SoQtGLWidget::setGLSize",
     "[invoked (%d, %d)]", size[0], size[1] );
@@ -734,10 +735,6 @@ SoQtGLWidget::setGLSize(
   if ( THIS->currentglwidget ) {
     int frame = this->isBorder() ? THIS->borderthickness : 0;
     THIS->currentglwidget->setGeometry( QRect( frame, frame, THIS->glSize[0], THIS->glSize[1] ) );
-    // FIXME: this is crap, we should use glRender() instead, but that
-    // won't work because of the way they are overloaded in
-    // SoGuiRenderArea. 20001126 mortene.
-    this->glReshape( THIS->glSize[0], THIS->glSize[1] );
   }
 } // setGLSize()
 
@@ -789,28 +786,11 @@ SoQtGLWidget::getGLAspectRatio(
 */
 
 QWidget *
-SoQtGLWidget::getGLWidget(void)
+SoQtGLWidget::getGLWidget(void) const
 {
   return THIS->currentglwidget;
 } // getGLWidget()
 
-/*!
-  FIXME: write function documentation
-*/
-
-void
-SoQtGLWidget::sizeChanged(
-  const SbVec2s size )
-{
-#if SOQT_DEBUG && 0
-  SoDebugError::postInfo( "SoQtGLWidget::sizeChanged",
-    "[invoked] ( %d, %d ) [%d, %d]", size[0], size[1], THIS->glSize[0], THIS->glSize[1] );
-#endif // SOQT_DEBUG
-
-  if ( THIS->borderwidget ) THIS->borderwidget->resize( size[0], size[1] );
-  int frame = this->isBorder() ? THIS->borderthickness : 0;
-  this->setGLSize( SbVec2s( size[0] - 2 * frame, size[1] - 2 * frame ) );
-} // sizeChanged()
 
 // *************************************************************************
 
@@ -844,57 +824,28 @@ SoQtGLWidget::processEvent(QEvent * /* anyevent */)
 // *************************************************************************
 
 /*!
-  Returns the number of times glLock() has been invoked.
-*/
-
-int
-SoQtGLWidget::getLockLevel(
-  void ) const
-{
-  return THIS->glLockLevel;
-} // getLockLevel()
-
-/*!
   This method calls make-current on the correct context and ups the lock
   level.
 */
 
 void
-SoQtGLWidget::glLock(
+SoQtGLWidget::glLockNormal(
   void )
 {
   assert( THIS->currentglwidget != NULL );
-  THIS->glLockLevel++;
-  assert( THIS->glLockLevel < 10 && "must be programming error" );
-  if ( THIS->glLockLevel == 1 ) {
-#if SOQT_DEBUG && 0
-    SoDebugError::postInfo( "SoQtGLWidget::glLock",
-                            "%s made current",
-                            THIS->currentIsNormal ? "normal" : "overlay" );
-#endif
-    if ( THIS->currentIsNormal ) {
-      ((SoQtGLArea *)THIS->currentglwidget)->makeCurrent();
-    } else {
-      QGLFormat_makeOverlayCurrent((SoQtGLArea *)THIS->currentglwidget);
-    }
-  }
-#if SOQT_DEBUG
-  if ( THIS->glLockLevel > 5 )
-    SoDebugError::postInfo( "SoQtGLWidget::glLock", "excessive locking (lim=5)" );
-#endif
-} // glLock()
+  ((SoQtGLArea *)THIS->currentglwidget)->makeCurrent();
+} // glLockNormal()
 
 /*!
   This method drops the lock level.
 */
 
 void
-SoQtGLWidget::glUnlock(
+SoQtGLWidget::glUnlockNormal(
   void )
 {
-  THIS->glLockLevel--;
-  assert( THIS->glLockLevel >= 0 && "programming error" );
-} // glUnlock()
+  // does nothing under Qt. Under BeOS the buffer needs to be unlocked
+} // glUnlockNormal()
 
 /*!
   FIXME: write doc
@@ -904,45 +855,40 @@ void
 SoQtGLWidget::glSwapBuffers(
   void )
 {
-  assert( THIS->glLockLevel > 0 );
   assert( THIS->currentglwidget != NULL );
-#if SOQT_DEBUG && 0 // debug
-  SoDebugError::postInfo( "SoQtGLWidget::glSwapBuffers", "start" );
-#endif // debug
   ((SoQtGLArea *)THIS->currentglwidget)->swapBuffers();
-#if SOQT_DEBUG && 0 // debug
-  SoDebugError::postInfo( "SoQtGLWidget::glSwapBuffers", "done" );
-#endif // debug
 } // glSwapBuffers()
 
-/*!
-  FIXME: write doc
-*/
-
-void
-SoQtGLWidget::glFlushBuffer(
-  void )
+void 
+SoQtGLWidget::glFlushBuffer(void)
 {
-  assert( THIS->glLockLevel > 0 );
+  // might be called for both normal and overlay widgets
   glFlush();
-} // glFlushBuffer()
+}
 
 /*!
-  FIXME: write doc
+  This method calls make-current on the correct context and ups the lock
+  level.
 */
 
 void
-SoQtGLWidget::glInit( // virtual
+SoQtGLWidget::glLockOverlay(
   void )
 {
-  this->setOverlayRender( FALSE );
-  glLock();
-  // Need to set this explicitly when running on top of Open Inventor,
-  // as it seems to have been forgotten there.
-  // This code should be invoked from SoQtRenderArea::initGraphics()
-  glEnable( GL_DEPTH_TEST );
-  glUnlock();
-} // glInit()
+  assert( THIS->currentglwidget != NULL );
+  QGLFormat_makeOverlayCurrent((SoQtGLArea *)THIS->currentglwidget);
+} // glLock()
+
+/*!
+  This method drops the lock level.
+*/
+
+void
+SoQtGLWidget::glUnlockOverlay(
+  void )
+{
+  // does nothing under Qt. Under BeOS the buffer needs to be unlocked  
+} // glUnlock()
 
 /*!
   FIXME: write doc
@@ -952,60 +898,25 @@ void
 SoQtGLWidget::gl_init( // slot
   void )
 {
-  this->glInit();
+  this->initGraphic();
 } // gl_init()
-
-/*!
-  This method will be called whenever the OpenGL canvas changes size.
-*/
-
-void
-SoQtGLWidget::glReshape( // virtual
-  int width,
-  int height )
-{
-#if SOQT_DEBUG && 0
-  SoDebugError::postInfo( "SoQtGLWidget::glReshape",
-    "[invoked (%d, %d)]", width, height );
-#endif // SOQT_DEBUG
-  THIS->glSize = SbVec2s( (short) width, (short) height );
-} // glReshape()
 
 /*!
   FIXME: write doc
 */
-
 void
 SoQtGLWidget::gl_reshape( // slot
   int width,
   int height )
 {
-#if SOQT_DEBUG
-  SoDebugError::postInfo( "SoQtGLWidget::gl_reshape slot",
-    "[invoked (%d, %d)]", width, height );
-#endif // SOQT_DEBUG
-//  this->sizeChanged( SbVec2s( width, height ) );
-  this->glReshape( width, height );
+  fprintf(stderr,"gl_reshape\n");
+  THIS->glSize = SbVec2s((short) width, (short) height);
+  THIS->wasresized = TRUE;
 } // gl_reshape()
 
 /*!
   FIXME: write doc
 */
-
-void
-SoQtGLWidget::glRender( // virtual
-  void )
-{
-#if SOQT_DEBUG && 0 // debug
-  SoDebugError::postInfo( "SoQtGLWidget::glRender", "called" );
-#endif // debug
-  this->redraw();
-} // glRender()
-
-/*!
-  FIXME: write doc
-*/
-
 void
 SoQtGLWidget::gl_exposed( // slot
   void )
@@ -1023,54 +934,21 @@ SoQtGLWidget::gl_exposed( // slot
     this->setSize(this->getSize());
 #endif // tmp disabled
   }
-
-  this->glRender();
-} // gl_exposed()
-
-/*!
-  This method sets whether the next GL render action will be drawn to the
-  overlay context or not.
-*/
-
-void
-SoQtGLWidget::setOverlayRender(
-  const SbBool enable )
-{
-#if SOQT_DEBUG
-  if ( THIS->glLockLevel > 0 ) {
-    SoDebugError::postInfo( "SoQtGLWidget::setOverlayRender",
-      "cannot change context while locked" );
-    assert( 0 );
+  if (THIS->wasresized) {
+    this->sizeChanged(THIS->glSize);
+    THIS->wasresized = FALSE;
   }
-#endif
 
-  THIS->currentIsNormal =
-    ( enable && QGLFormat_hasOverlay( THIS->glformat )) ? FALSE : TRUE;
-
-#if SOQT_DEBUG && 0
-  SoDebugError::postInfo( "SoQtGLWidget::setOverlayRender",
-    "render set to %s", THIS->currentIsNormal ? "normal" : "overlay" );
-#endif
-} // setOverlayRender()
-
-/*!
-  This method returns whether the overlay GL context is made current or
-  not.
-*/
-
-SbBool
-SoQtGLWidget::isOverlayRender(
-  void ) const
-{
-  return THIS->currentIsNormal ? FALSE : TRUE;
-} // isOverlayRender()
+  if (!this->glScheduleRedraw()) {
+    this->redraw();
+  }
+} // gl_exposed()
 
 // *************************************************************************
 
 /*!
   FIXME: write doc
 */
-
 void
 SoQtGLWidget::eventHandler(
   QWidget * widget,
@@ -1082,5 +960,114 @@ SoQtGLWidget::eventHandler(
   SoQtGLWidget * component = (SoQtGLWidget *) closure;
   component->processEvent( event );
 } // eventHandler()
+
+QGLContext * 
+SoQtGLWidget::getNormalContext(void)
+{
+  QGLWidget * w = (QGLWidget*) this->getGLWidget();
+  if (w) return (QGLContext*) w->context();
+  return NULL;
+}
+
+QGLContext * 
+SoQtGLWidget::getOverlayContext(void)
+{
+  QGLWidget * w = (QGLWidget*) this->getGLWidget();
+  if (w) return (QGLContext*) w->overlayContext();
+  return NULL;
+}
+
+/*!
+  Returns the overlay transparent pixel.
+*/
+unsigned long 
+SoQtGLWidget::getOverlayTransparentPixel(void)
+{
+  QGLContext * ctx = this->getOverlayContext();
+  if (ctx) {
+    QColor color = ctx->overlayTransparentColor();
+    return color.pixel();
+  }
+  return 0;
+}
+
+SbBool 
+SoQtGLWidget::isRGBMode(void)
+{
+  return (SbBool) THIS->glformat->rgba();
+}
+
+void 
+SoQtGLWidget::redrawOverlay(void)
+{
+  // should be empty. It's up subclasses to do some work here
+}
+
+/*!
+  Will be called when GL widget should initialize graphic, after
+  the widget has been created. Default method enabled GL_DEPTH_TEST.
+*/
+void 
+SoQtGLWidget::initGraphic(void)
+{
+  this->glLockNormal();
+  // Need to set this explicitly when running on top of Open Inventor,
+  // as it seems to have been forgotten there.
+  // This code should be invoked from SoQtRenderArea::initGraphics()
+  glEnable( GL_DEPTH_TEST );
+  this->glUnlockNormal();
+}
+
+/*!
+  Will be called after the overlay widget has been created, and subclasses
+  should overload this to initialize overlay stuff.
+
+  Default method does nothing.
+*/
+void 
+SoQtGLWidget::initOverlayGraphic(void)
+{
+}
+
+/*!
+  Will be called every time the size of the GL widget changes.
+*/
+void
+SoQtGLWidget::sizeChanged(
+  const SbVec2s size )
+{
+} // sizeChanged()
+
+/*!
+  Will be called whenever scene graph needs to be redrawn().
+  If this method return FALSE, redraw() will be called immediately.
+
+  Default method simply returns FALSE. Overload this method to
+  schedule a redraw and return TRUE if you're trying to do The Right
+  Thing.  
+*/
+SbBool 
+SoQtGLWidget::glScheduleRedraw(void)
+{
+  return FALSE;
+}
+
+/*!
+  Should return TRUE if an overlay GL drawing area exists.
+*/
+SbBool 
+SoQtGLWidget::hasOverlayGLArea(void) const 
+{
+  return this->getOverlayWidget() != NULL;
+}
+
+/*!
+  Should return TRUE if a normal GL drawing area exists.
+*/
+SbBool 
+SoQtGLWidget::hasNormalGLArea(void) const 
+{
+  return this->getNormalWidget() != NULL;
+}
 
 // *************************************************************************

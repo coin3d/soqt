@@ -49,6 +49,7 @@ class SOQT_DLL_API SoQtGLWidget : public SoQtComponent {
   Q_OBJECT
 
 public:
+
   void setBorder( const SbBool enable );
   SbBool isBorder(void) const;
 
@@ -64,6 +65,15 @@ public:
   QWidget * getNormalWidget(void) const;
   QWidget * getOverlayWidget(void) const;
 
+  QGLContext * getNormalContext(void);
+  QGLContext * getOverlayContext(void);
+
+  // these two methods must be supplied by all So* toolkits
+  SbBool hasOverlayGLArea(void) const;
+  SbBool hasNormalGLArea(void) const;
+
+  unsigned long getOverlayTransparentPixel(void);
+
 protected:
   SoQtGLWidget(
     QWidget * const parent = NULL,
@@ -77,9 +87,13 @@ protected:
 
   QWidget * buildWidget( QWidget * parent );
 
-  QWidget * getGLWidget(void);
+  QWidget * getGLWidget(void) const;
 
   virtual void redraw(void) = 0;
+  virtual void redrawOverlay(void);
+
+  virtual void initGraphic(void);
+  virtual void initOverlayGraphic(void);
 
   virtual void sizeChanged( const SbVec2s size );
   virtual void widgetChanged( QWidget * w );
@@ -92,6 +106,13 @@ protected:
   void setGlxSize( const SbVec2s size ) { setGLSize( size ); }
   SbVec2s getGlxSize(void) const { return getGLSize(); }
   float getGlxAspectRatio(void) const { return getGLAspectRatio(); }
+  void setStereoBuffer(SbBool flag) {
+    this->setQuadBufferStereo(flag);
+  }
+  SbBool isStereoBuffer(void) const {
+    return this->isQuadBufferStereo();
+  }
+  SbBool isRGBMode(void);
 
   SbBool waitForExpose;
   SbBool drawToFrontBuffer;
@@ -99,18 +120,16 @@ protected:
   virtual bool eventFilter( QObject * obj, QEvent * e );
   static void eventHandler( QWidget *, void *, QEvent *, bool * );
 
-  int getLockLevel(void) const;
-  void glLock(void);
-  void glUnlock(void);
+  void glLockNormal(void);
+  void glUnlockNormal(void);
+
+  void glLockOverlay(void);
+  void glUnlockOverlay(void);
+
   void glSwapBuffers(void);
   void glFlushBuffer(void);
 
-  void setOverlayRender( const SbBool enable );
-  SbBool isOverlayRender(void) const;
-
-  virtual void glInit(void);
-  virtual void glReshape( int width, int height );
-  virtual void glRender(void);
+  virtual SbBool glScheduleRedraw(void);
 
 private slots:
   void gl_init(void);
