@@ -20,34 +20,67 @@
  *  <URL:http://www.sim.no>.
  *
 \**************************************************************************/
+#define PRIVATE(p) (p->pimpl)
+#define PUBLIC(p) (p->pub)
 
 #include <qlayout.h>
-#include <qfiledialog.h>
-#include <qcombobox.h>
 #include <qimage.h>
+#include <qcombobox.h>
+#include <qvaluelist.h>
+#include <qfiledialog.h>
 #include <qpushbutton.h>
 
-#include "SoQtGradientDialog.h"
 #include "gradientp/GradientEditor.h"
-#include "gradientp/Gradient.h"
+#include "SoQtGradientDialog.h"
 
 #include <Inventor/Qt/widgets/moc_SoQtGradientDialog.icc>
 
-SoQtGradientDialog::SoQtGradientDialog(const Gradient & grad, 
+class SoQtGradientDialogP
+{
+public:
+  SoQtGradientDialogP(SoQtGradientDialog * publ);
+  SoQtGradientDialog * pub;
+  GradientEditor * gradEdit;
+  QValueList<Gradient> gradients;
+  QComboBox * gradientList;
+  int old_index;
+  void saveCurrent();
+};
+
+void SoQtGradientDialogP::saveCurrent()
+{
+  const Gradient & grad = this->gradEdit->getGradient();
+  QString description = this->gradientList->text(this->gradientList->currentItem());
+  this->gradientList->changeItem(grad.getImage(60, 16, 32), description, this->old_index);
+  this->gradients[old_index] = grad;
+}
+
+SoQtGradientDialogP::SoQtGradientDialogP(SoQtGradientDialog * publ)
+{
+  PUBLIC(this) = publ;
+}
+
+SoQtGradientDialog::SoQtGradientDialog(const Gradient & grad,
                                        QWidget * parent, 
                                        bool modal, 
                                        const char* name)
 : QDialog(parent, name, modal)
 {
-  this->gradEdit = new GradientEditor(grad, this, "gradEdit");
+  this->pimpl = new SoQtGradientDialogP(this);
+
+  PRIVATE(this)->gradEdit = new GradientEditor(grad, this, "gradEdit");
+  PRIVATE(this)->gradientList = new QComboBox(this, "gradientList");
+  PRIVATE(this)->old_index = 0;
+  this->addGradient(grad, "description");
+  PRIVATE(this)->gradientList->hide();
 
   QVBoxLayout * topLayout = new QVBoxLayout(this);
-  topLayout->addWidget(this->gradEdit);
+  topLayout->addWidget(PRIVATE(this)->gradEdit);
 
   QHBoxLayout * buttonLayout = new QHBoxLayout();
   topLayout->addLayout(buttonLayout);
 
-  buttonLayout->setAlignment(Qt::AlignLeft);
+  buttonLayout->setAlignment(Qt::AlignLeft | Qt::AlignBottom);
 
   QPushButton * loadButton = new QPushButton(this, "loadButton");
   loadButton->setText("Load");
@@ -57,83 +90,76 @@ SoQtGradientDialog::SoQtGradientDialog(const Gradient & grad,
   saveButton->setText("Save");
   buttonLayout->addWidget(saveButton, 0, 1);
 
-  this->gradientList = new QComboBox(this, "gradientList");
-  this->addGradient(grad);
-  this->gradientList->hide();
-
-  buttonLayout->addWidget(gradientList, 0, 1);
+  buttonLayout->addWidget(PRIVATE(this)->gradientList, 0, 1);
 
   connect(loadButton, SIGNAL(clicked()), this, SLOT(loadGradient()));
   connect(saveButton, SIGNAL(clicked()), this, SLOT(saveGradient()));
 
-  connect(this->gradientList, SIGNAL(activated(int)), this, SLOT(chooseGradient(int)));
+  connect(PRIVATE(this)->gradientList, SIGNAL(activated(int)), this, SLOT(chooseGradient(int)));
   
-  connect(this->gradEdit, SIGNAL(accepted()), this, SLOT(accept()));
-  connect(this->gradEdit, SIGNAL(rejected()), this, SLOT(reject()));
+  connect(PRIVATE(this)->gradEdit, SIGNAL(accepted()), this, SLOT(accept()));
+  connect(PRIVATE(this)->gradEdit, SIGNAL(rejected()), this, SLOT(reject()));
 }
 
 SoQtGradientDialog::~SoQtGradientDialog()
 {
+  delete this->pimpl;
 }
 
-void SoQtGradientDialog::addGradient(const Gradient & grad)
+void SoQtGradientDialog::addGradient(const Gradient & grad, QString description)
 {
-  this->gradients.append(grad);
-  this->gradientList->insertItem(this->makePixmap(grad), "description");
-  this->gradientList->setCurrentItem(this->gradientList->count()-1);
-  this->gradEdit->setGradient(grad);
-  this->gradientList->show();
+  PRIVATE(this)->gradients.append(grad);
+  PRIVATE(this)->gradientList->insertItem(grad.getImage(60, 16, 32), description);
+  PRIVATE(this)->old_index = PRIVATE(this)->gradientList->count() - 1;
+  
+  PRIVATE(this)->gradientList->setCurrentItem(PRIVATE(this)->old_index);
+  PRIVATE(this)->gradEdit->setGradient(grad);
+  PRIVATE(this)->gradientList->show();
 }
 
 void SoQtGradientDialog::loadGradient()
 {
-  QString filename = QFileDialog::getOpenFileName();
+  // FIXME: add support for multiple selected files, and check
+  // that the files selected actually are gradient files. 20030925 frodo.
+  QString filename = QFileDialog::getOpenFileName("gradients",
+                                                  "*.grad",
+                                                  this,
+                                                  "Open Gradient Dialog",
+                                                  "Choose a Gradient to load");
   if (!filename.isEmpty()) {
+    PRIVATE(this)->saveCurrent();
     Gradient grad(filename);
-    this->addGradient(grad);
+    this->addGradient(grad, filename);
   }
 }
 
 void SoQtGradientDialog::saveGradient()
 {
-  QString filename = QFileDialog::getSaveFileName();
-  Gradient grad = this->gradEdit->getGradient();
+  QString filename = QFileDialog::getSaveFileName("gradients",
+                                                  "*.grad",
+                                                  this,
+                                                  "Save Gradient Dialog",
+                                                  "Choose a filename");
+
+  Gradient grad = PRIVATE(this)->gradEdit->getGradient();
   grad.save(filename.ascii());
 }
 
 void SoQtGradientDialog::chooseGradient(int i)
 {
-  this->gradEdit->setGradient(this->gradients[i]);
-  this->gradEdit->updateAll();
+  PRIVATE(this)->saveCurrent();
+  PRIVATE(this)->gradEdit->setGradient(PRIVATE(this)->gradients[i]);
+  PRIVATE(this)->old_index = i;
+  PRIVATE(this)->gradEdit->updateAll();
 }
 
 const Gradient & SoQtGradientDialog::getGradient() const
 {
-  return this->gradEdit->getGradient();
+  return PRIVATE(this)->gradEdit->getGradient();
 }
 
 void SoQtGradientDialog::setDataLimits(float min, float max)
 {
-  this->gradEdit->setMin(min);
-  this->gradEdit->setMax(max);
-}
-
-QPixmap SoQtGradientDialog::makePixmap(const Gradient & grad)
-{
-  int width = 60;
-  int height = 16;
-  QImage img(width, height, 32);
-
-  QRgb * colorArray = new QRgb[width];
-  grad.getColorArray(colorArray, width);
-
-  for (int i = 0; i < width; i++) {
-    QRgb pixel = colorArray[i];
-    for (int j = 0; j < height; j++) {
-      img.setPixel(i, j, pixel);
-    }
-  }
-  QPixmap pm;
-  pm.convertFromImage(img,  Qt::OrderedAlphaDither);
-  return pm;
+  PRIVATE(this)->gradEdit->setMin(min);
+  PRIVATE(this)->gradEdit->setMax(max);
 }

@@ -25,41 +25,33 @@
 \**************************************************************************/
 
 #include <qdialog.h>
-#include <qpixmap.h>
-#include <qvaluelist.h>
 #include "gradientp/Gradient.h"
 
-#include <Inventor/Qt/SoQtBasic.h>
-
-class Gradient;
-class GradientEditor;
-class QComboBox;  
-
-class SOQT_DLL_API SoQtGradientDialog : public QDialog
+class /*SOQT_DLL_API*/ SoQtGradientDialog : public QDialog
 {
   Q_OBJECT
 
 public:
-  SoQtGradientDialog(const Gradient & grad = Gradient(), 
-                     QWidget * parent=0, 
-                     bool modal = FALSE, 
+  SoQtGradientDialog(const Gradient & grad = Gradient(),
+                     QWidget * parent=0,
+                     bool modal = FALSE,
                      const char* name=0);
+
   ~SoQtGradientDialog();
   
-  const Gradient & getGradient(void) const;
-  void addGradient(const Gradient & grad);
+  void addGradient(const Gradient & grad, QString description = "");
   void setDataLimits(float min, float max);
+  const Gradient & getGradient(void) const;
 
-public slots:
+// FIXME: implement these slots in the 
+// private implementation. frodo, 20030927
+private slots:
   void loadGradient(void);
   void saveGradient(void);
   void chooseGradient(int i);
 
 private:
-  QPixmap makePixmap(const Gradient & grad);
-  GradientEditor * gradEdit;
-  QComboBox * gradientList;
-  QValueList<Gradient> gradients;
+  class SoQtGradientDialogP * pimpl;
 };
 
 #endif // SOQT_GRADIENTDIALOG_H
