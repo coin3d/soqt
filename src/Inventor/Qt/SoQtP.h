@@ -40,7 +40,6 @@ class SoQtP : public QObject, public SoGuiP
   Q_OBJECT
 
 public:
-  static void clean(void);
   static SoQtP * soqt_instance(void);
 
   static QWidget * mainwidget;

@@ -102,33 +102,6 @@ QTimer * SoQtP::delaytimeouttimer = NULL;
 SoQtP * SoQtP::slotobj = NULL;
 bool SoQtP::didcreatemainwidget = FALSE;
 
-// Clean up properly -- even though the data below are all one-time
-// stuff, to avoid reports of memory leaks.
-void
-SoQtP::clean(void)
-{
-  delete SoQtP::timerqueuetimer; SoQtP::timerqueuetimer = NULL;
-  delete SoQtP::idletimer; SoQtP::idletimer = NULL;
-  delete SoQtP::delaytimeouttimer; SoQtP::delaytimeouttimer = NULL;
-
-  if (SoQtP::didcreatemainwidget) {
-    delete SoQtP::mainwidget;
-    SoQtP::mainwidget = NULL;
-    SoQtP::didcreatemainwidget = FALSE;
-  }
-
-  // Notice that we *don't* delete the QApplication object, even
-  // though it originated with us, as it might be used someplace else
-  // in the application.
-  //
-  // (Keep this disabled code in place here, so we don't reactivate
-  // this by mistake again.)
-  //
-  // delete SoQtP::appobject; SoQtP::appobject = NULL;
-
-  delete SoQtP::slotobj; SoQtP::slotobj = NULL;
-}
-
 // We're using the singleton pattern to create a single SoQtP object
 // instance (a dynamic object is needed for attaching slots to signals
 // -- this is really a workaround for some silliness in the Qt
@@ -387,11 +360,11 @@ SoQt::mainLoop(void)
 {
   (void) qApp->exec();
 
-  // The invocation of SoQtP::clean() used to be triggered from
+  // The invocation of SoQt::done() used to be triggered from
   // atexit(), but this was changed as we were getting mysterious
   // crashes. No wonder, perhaps, as for all we know the Qt library is
   // cleaned up _before_ our atexit() methods are invoked.
-  SoQtP::clean();
+  SoQt::done();
 }
 
 /*!
@@ -404,7 +377,34 @@ void
 SoQt::exitMainLoop(void)
 {
   qApp->exit(0);
-} // exitMainLoop()
+}
+
+// documented in common/SoGuiCommon.cpp.in
+void
+SoQt::done(void)
+{
+  delete SoQtP::timerqueuetimer; SoQtP::timerqueuetimer = NULL;
+  delete SoQtP::idletimer; SoQtP::idletimer = NULL;
+  delete SoQtP::delaytimeouttimer; SoQtP::delaytimeouttimer = NULL;
+
+  if (SoQtP::didcreatemainwidget) {
+    delete SoQtP::mainwidget;
+    SoQtP::mainwidget = NULL;
+    SoQtP::didcreatemainwidget = FALSE;
+  }
+
+  // Notice that we *don't* delete the QApplication object, even
+  // though it originated with us, as it might be used someplace else
+  // in the application.
+  //
+  // (Keep this disabled code in place here, so we don't reactivate
+  // this by mistake again.)
+  //
+  // delete SoQtP::appobject; SoQtP::appobject = NULL;
+
+  delete SoQtP::slotobj; SoQtP::slotobj = NULL;
+}
+
 
 /*!
   Returns a pointer to the Qt QWidget which is the main widget for the
