@@ -51,14 +51,14 @@ protected:
 
   ~SoQtConstrainedViewer(void);
 
-  SbVec3f upDirection;
-  float sceneHeight;
+  SbVec3f upVector;
+//  float sceneHeight;
   
   virtual void tiltCamera( float delta );
   virtual void bottomWheelMotion( float value );
   virtual void leftWheelMotion( float value );
 
-  virtual void changeCameraValues( SoCamera * newCamera );
+  virtual void changeCameraValues( SoCamera * camera );
   void findUpDirection( SbVec2s mouseLocation );
   void checkForCameraUpConstrain(void);
   virtual void computeSeekFinalOrientation(void);

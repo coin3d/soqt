@@ -651,7 +651,7 @@ void
 SoQtPlaneViewer::setModeFromState( // private
   unsigned int state )
 {
-  PlaneViewerMode mode;
+  PlaneViewerMode mode = IDLE_MODE;
 
   const unsigned int maskedstate =
     state & (LeftButton|MidButton|ControlButton);

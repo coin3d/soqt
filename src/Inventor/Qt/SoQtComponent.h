@@ -19,28 +19,31 @@
 
 //  $Id$
 
-#ifndef __SOQT_COMPONENT_H__
-#define __SOQT_COMPONENT_H__
+#ifndef SOQT_COMPONENT_H
+#define SOQT_COMPONENT_H
+
+#include <qobject.h>
 
 #include <Inventor/SbLinear.h>
 #include <Inventor/SbString.h>
 #include <Inventor/SoLists.h>
-#include <qobject.h>
 
 class QWidget;
 class SoQtComponent;
 
+typedef void SoQtComponentCB( void * user, SoQtComponent * component );
+typedef void SoQtComponentVisibilityCB( void * user, SbBool visible );
 
-typedef void SoQtComponentCB(void * userData, SoQtComponent * comp);
-typedef void SoQtComponentVisibilityCB(void * userData, SbBool visibleFlag);
-
+// *************************************************************************
 
 class SoQtComponent : public QObject
 {
+  typedef QObject inherited;
+
   Q_OBJECT
 
 public:
-  virtual ~SoQtComponent();
+  virtual ~SoQtComponent(void);
 
   virtual void show(void);
   virtual void hide(void);
@@ -50,51 +53,49 @@ public:
   SbBool isTopLevelShell(void) const;
   QWidget * getShellWidget(void) const;
   QWidget * getParentWidget(void) const;
-  void setSize(const SbVec2s & size);
-  SbVec2s getSize(void);
-  void setTitle(const char * const newTitle);
+  void setSize( const SbVec2s size );
+  SbVec2s getSize(void) const;
+  void setTitle( const char * const title );
   const char * getTitle(void) const;
-  void setIconTitle(const char * const newIconTitle);
+  void setIconTitle( const char * const title );
   const char * getIconTitle(void) const;
-  void setWindowCloseCallback(SoQtComponentCB * func,
-                              void * const data = NULL);
-  static SoQtComponent * getComponent(QWidget * const w);
+  void setWindowCloseCallback( SoQtComponentCB * const func,
+                               void * const user = NULL );
+  static SoQtComponent * getComponent( QWidget * const widget );
   const char * getWidgetName(void) const;
   const char * getClassName(void) const;
 
 
 protected:
-  SoQtComponent(QWidget * const parent = NULL,
-                const char * const name = NULL,
-                const SbBool buildInsideParent = TRUE);
+  SoQtComponent( QWidget * const parent = NULL, const char * const name = NULL,
+      const SbBool inParent = TRUE );
 
-  void setClassName(const char * const name);
-  void setBaseWidget(QWidget * w);
+  void setClassName( const char * const name );
+  void setBaseWidget( QWidget * const widget );
 
   void subclassInitialized(void);
 
-  virtual const char * componentClassName(void) const = 0;
   virtual const char * getDefaultWidgetName(void) const;
   virtual const char * getDefaultTitle(void) const;
   virtual const char * getDefaultIconTitle(void) const;
 
-  virtual void sizeChanged(const SbVec2s & newSize) = 0;
+  virtual void sizeChanged( const SbVec2s size ) = 0;
 
-  void addVisibilityChangeCallback(SoQtComponentVisibilityCB * func,
-                                   void * userData = NULL);
-  void removeVisibilityChangeCallback(SoQtComponentVisibilityCB * func,
-                                      void * userData = NULL);
+  void addVisibilityChangeCallback( SoQtComponentVisibilityCB * const func,
+                                    void * const user = NULL );
+  void removeVisibilityChangeCallback( SoQtComponentVisibilityCB * const func,
+                                       void * const user = NULL );
 
-  void openHelpCard(const char * name);
+  void openHelpCard( const char * const name );
 
-  virtual bool eventFilter(QObject * obj, QEvent * e);
+  virtual bool eventFilter( QObject * obj, QEvent * e );
 
 private slots:
   void widgetClosed(void);
 
 private:
-  QWidget * widget;
   QWidget * parent;
+  QWidget * widget;
   SbBool buildinside;
   QString classname, widgetname, captiontext, icontext;
   SoQtComponentCB * closeCB;
@@ -105,9 +106,10 @@ private:
   static SbPList soqtcomplist;
   static SbPList qtwidgetlist;
 
-  // Need to keep track of setSize()/getSize() even when there's no
-  // QWidget yet.
   SbVec2s storesize;
-};
 
-#endif // ! __SOQT_COMPONENT_H__
+}; // class SoQtComponent
+
+// *************************************************************************
+
+#endif // ! SOQT_COMPONENT_H

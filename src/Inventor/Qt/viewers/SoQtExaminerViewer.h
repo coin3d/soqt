@@ -151,14 +151,14 @@ private:
 
 private slots:
   // Pref sheet.
-  void spinAnimationToggled(bool flag);
-  void feedbackVisibilityToggle(bool flag);
-  void feedbackEditPressed();
-  void feedbackWheelPressed();
+  void spinAnimationToggled(SbBool flag);
+  void feedbackVisibilityToggle(SbBool flag);
+  void feedbackEditPressed(void);
+  void feedbackWheelPressed(void);
   void feedbackSizeChanged(float val);
-  void feedbackWheelReleased();
+  void feedbackWheelReleased(void);
   // Button row.
-  void cameratoggleClicked();
+  void cameratoggleClicked(void);
 
 }; // class SoQtExaminerViewer
 

@@ -238,10 +238,8 @@ SoQtFullViewer::SoQtFullViewer(
   this->setSize(SbVec2s(500, 390));
   this->setClassName("SoQtFullViewer");
 
-  if (buildNow) {
-    QWidget * w = this->buildWidget(this->getParentWidget());
-    this->setBaseWidget(w);
-  }
+  if ( buildNow )
+    this->setBaseWidget( this->buildWidget( this->getParentWidget() ) );
 } // SoQtFullViewer()
 
 // *************************************************************************
@@ -1791,7 +1789,7 @@ SoQtFullViewer::makeZoomPreferences(QWidget * parent)
 */
 
 void
-SoQtFullViewer::setEnabledClippingWidgets(bool flag)
+SoQtFullViewer::setEnabledClippingWidgets(SbBool flag)
 {
   this->nearclippinglabel->setEnabled(flag);
   this->nearclippingwheel->setEnabled(flag);
@@ -1854,7 +1852,7 @@ SoQtFullViewer::makeAutoclipPreferences(QWidget * dialog)
 
   this->nearclippingwheel = new QtThumbwheel(QtThumbwheel::Horizontal, w);
   this->nearclippingwheel->adjustSize();
-  this->nearclippingwheel->setEnabled( false );
+  this->nearclippingwheel->setEnabled( FALSE );
   expandSize(tmpsize, this->nearclippingwheel->size(), LayoutHorizontal);
   QObject::connect(this->nearclippingwheel, SIGNAL(wheelPressed()),
                    this, SLOT(increaseInteractiveCount()));
@@ -1894,7 +1892,7 @@ SoQtFullViewer::makeAutoclipPreferences(QWidget * dialog)
 
   this->farclippingwheel = new QtThumbwheel(QtThumbwheel::Horizontal, w);
   this->farclippingwheel->adjustSize();
-  this->farclippingwheel->setEnabled( false );
+  this->farclippingwheel->setEnabled( FALSE );
   expandSize(tmpsize, this->farclippingwheel->size(), LayoutHorizontal);
   QObject::connect(this->farclippingwheel, SIGNAL(wheelPressed()),
                    this, SLOT(increaseInteractiveCount()));

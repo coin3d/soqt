@@ -44,6 +44,7 @@ static const char rcsid[] =
 #include <assert.h>
 
 #include <qwidget.h>
+#include <qmessagebox.h>
 // FIXME: get rid of this before 1.0 release (convert everything to Qt
 // version 2.x API). 19990630 mortene.
 #if QT_VERSION >= 200
@@ -63,7 +64,6 @@ static const char rcsid[] =
 static const char nullstring[] = "(null)";
 
 // *************************************************************************
-// Documentation
 
 /*!
   \fn virtual const char * SoQtComponent::componentClassName(void) const
@@ -72,7 +72,7 @@ static const char nullstring[] = "(null)";
  */
 
 /*!
-  \fn virtual void SoQtComponent::sizeChanged(const SbVec2s & newSize)
+  \fn virtual void SoQtComponent::sizeChanged( const SbVec2s size )
 
   Overload to detect when the base widget in the component changes its
   dimensions (an operation which is usually triggered by the user).
@@ -85,12 +85,9 @@ static const char nullstring[] = "(null)";
   classes which inherits SoQtComponent directly.
 */
 
-
 // *************************************************************************
 
-// Static lists which'll keep track of all SoQtComponent <-> QWidget
-// connections.
-// FIXME: replace with SbDict? Or a Qt dictionary? 990202 mortene.
+// lists that keep track of which widgets belong to which components
 SbPList SoQtComponent::soqtcomplist;
 SbPList SoQtComponent::qtwidgetlist;
 
@@ -108,9 +105,11 @@ SbPList SoQtComponent::qtwidgetlist;
   toplevel window for the component even when we've got a non-NULL
   \a parent.
 */
-SoQtComponent::SoQtComponent(QWidget * const parent,
-                             const char * const name,
-                             const SbBool buildInsideParent)
+
+SoQtComponent::SoQtComponent(
+  QWidget * const parent,
+  const char * const name,
+  const SbBool inParent )
 {
   this->widget = NULL;
   this->parent = parent;
@@ -118,18 +117,22 @@ SoQtComponent::SoQtComponent(QWidget * const parent,
   this->closeCBdata = NULL;
   this->visibilitychangeCBs = NULL;
 
-  if (name) this->widgetname = name;
+  if ( name )
+    this->widgetname = name;
+
   this->classname = "SoQtComponent";
 
-  this->storesize.setValue(-1, -1);
+  this->storesize.setValue( -1, -1 );
 
-  this->buildinside = buildInsideParent;
-}
+  this->buildinside = inParent;
+} // SoQtComponent()
 
 /*!
   Destructor.
- */
-SoQtComponent::~SoQtComponent()
+*/
+
+SoQtComponent::~SoQtComponent(
+  void )
 {
   // Link us out of the static QWidget<->SoQtComponent "correlation"
   // lists.
@@ -143,7 +146,7 @@ SoQtComponent::~SoQtComponent()
   // If we've got a toplevel widget on our hands it won't
   // automatically be deallocated (there's no real parent widget).
   if (this->widget && !this->widget->parentWidget()) delete this->widget;
-}
+} // ~SoQtComponent()
 
 /*!
   Add a callback which will be called whenever the widget component
@@ -151,35 +154,40 @@ SoQtComponent::~SoQtComponent()
   deiconification, for instance).
 
   \sa removeVisibilityChangeCallback(), isVisible()
- */
+*/
+
 void
-SoQtComponent::addVisibilityChangeCallback(SoQtComponentVisibilityCB * func,
-                                           void * userData)
+SoQtComponent::addVisibilityChangeCallback(
+  SoQtComponentVisibilityCB * const func,
+  void * const user )
 {
-  if (!this->visibilitychangeCBs) this->visibilitychangeCBs = new SbPList;
-  this->visibilitychangeCBs->append((void *)func);
-  this->visibilitychangeCBs->append(userData);
-}
+  if ( ! this->visibilitychangeCBs )
+    this->visibilitychangeCBs = new SbPList;
+  this->visibilitychangeCBs->append( (void *) func );
+  this->visibilitychangeCBs->append( user );
+} // addVisibilityChangeCallback()
 
 /*!
   Remove one of the callbacks from the list of visibility notification
   callbacks.
 
   \sa addVisibilityChangeCallback(), isVisible()
- */
+*/
+
 void
-SoQtComponent::removeVisibilityChangeCallback(SoQtComponentVisibilityCB * func,
-                                              void *)
+SoQtComponent::removeVisibilityChangeCallback(
+  SoQtComponentVisibilityCB * const func,
+  void * const data )
 {
 #if SOQT_DEBUG
-  if (!this->visibilitychangeCBs) {
+  if ( ! this->visibilitychangeCBs ) {
     SoDebugError::postWarning("SoQtComponent::removeVisibilityChangeCallback",
                               "empty callback list");
     return;
   }
 #endif // SOQT_DEBUG
 
-  int idx = this->visibilitychangeCBs->find((void *)func);
+  int idx = this->visibilitychangeCBs->find( (void *) func);
   if (idx != -1 ) {
     this->visibilitychangeCBs->remove(idx);
     this->visibilitychangeCBs->remove(idx);
@@ -192,18 +200,20 @@ SoQtComponent::removeVisibilityChangeCallback(SoQtComponentVisibilityCB * func,
     return;
   }
 #endif // SOQT_DEBUG
-}
+} // removeVisibilityChangeCallback()
 
 /*!
   Set class name of widget.
 
   \sa getClassName(), componentClassName()
- */
+*/
+
 void
-SoQtComponent::setClassName(const char * const name)
+SoQtComponent::setClassName(
+  const char * const name )
 {
   this->classname = name;
-}
+} // setClassName()
 
 /*!
   Set the core widget for this SoQt component. It is important that
@@ -211,17 +221,21 @@ SoQtComponent::setClassName(const char * const name)
   returned from query methods.
 
   \sa baseWidget()
- */
+*/
+
 void
-SoQtComponent::setBaseWidget(QWidget * w)
+SoQtComponent::setBaseWidget(
+  QWidget * const widget )
 {
-  assert(w);
+  assert( widget );
 
-  if (this->parent) this->parent->removeEventFilter(this);
-  if (this->widget) this->widget->removeEventFilter(this);
+  if ( this->parent )
+    this->parent->removeEventFilter( this );
+  if ( this->widget )
+    this->widget->removeEventFilter( this );
 
-  this->widget = w;
-  this->parent = w->parentWidget();
+  this->widget = widget;
+  this->parent = widget->parentWidget();
 
 #if 0 // debug
   SoDebugError::postInfo("SoQtComponent::setBaseWidget",
@@ -253,16 +267,24 @@ SoQtComponent::setBaseWidget(QWidget * w)
   SoDebugError::postInfo("SoQtComponent::setBaseWidget",
                          "installeventfilter, widget: %p", this->widget);
 #endif // debug
-}
+
+  if ( storesize[0] != -1 )
+    this->widget->resize( QSize( storesize[0], storesize[1] ) );
+} // setBaseWidget()
+
+// *************************************************************************
 
 /*!
   \internal
 
   Helps us detect changes in size (base widget and parent widget)
   and visibility status.
- */
+*/
+
 bool
-SoQtComponent::eventFilter(QObject *obj, QEvent * e)
+SoQtComponent::eventFilter( // virtual
+  QObject * obj,
+  QEvent * e )
 {
 #if 0 // debug
   SoDebugError::postInfo("SoQtComponent::eventFilter", "obj: %p", obj);
@@ -350,14 +372,18 @@ SoQtComponent::eventFilter(QObject *obj, QEvent * e)
   }
 
   return FALSE;
-}
+} // eventFilter()
+
+// *************************************************************************
 
 /*!
   This function \e must be called by subclasses after the component's
   widget has been otherwise initialized.
 */
+
 void
-SoQtComponent::subclassInitialized(void)
+SoQtComponent::subclassInitialized(
+  void )
 {
 #if SOQT_DEBUG
   if(!this->widget) {
@@ -369,16 +395,20 @@ SoQtComponent::subclassInitialized(void)
 
   QObject::connect(this->widget, SIGNAL(destroyed()),
                    this, SLOT(widgetClosed()));
-}
+} // subclassInitialized()
+
+// *************************************************************************
 
 /*!
   This will show the widget, deiconifiying and raising it if
   necessary.
 
   \sa hide(), isVisible()
- */
+*/
+
 void
-SoQtComponent::show(void)
+SoQtComponent::show(
+  void )
 {
 #if SOQT_DEBUG
   if(!this->widget) {
@@ -422,15 +452,17 @@ SoQtComponent::show(void)
                          this->widget->size().width(),
                          this->widget->size().height());
 #endif // debug
-}
+} // show()
 
 /*!
   This will hide the widget.
 
   \sa show(), isVisible()
- */
+*/
+
 void
-SoQtComponent::hide(void)
+SoQtComponent::hide(
+  void )
 {
 #if SOQT_DEBUG
   if(!this->widget) {
@@ -441,7 +473,9 @@ SoQtComponent::hide(void)
 #endif // SOQT_DEBUG
 
   this->widget->hide();
-}
+} // hide()
+
+// *************************************************************************
 
 /*!
   Returns visibility status on the widget. If any parents of this widget
@@ -451,25 +485,29 @@ SoQtComponent::hide(void)
   desktop is not hidden in this sense, and \a TRUE will be returned.
 
   \sa show(), hide()
- */
-SbBool
-SoQtComponent::isVisible(void)
-{
-  if (!this->widget) return FALSE;
+*/
 
+SbBool
+SoQtComponent::isVisible(
+  void )
+{
+  if ( ! this->widget )
+    return FALSE;
   return this->widget->isVisible() && this->widget->isVisibleToTLW();
-}
+} // isVisible()
 
 /*!
   Returns a pointer to the component's window system widget.
 
   \sa getShellWidget(), getParentWidget()
- */
+*/
+
 QWidget *
-SoQtComponent::getWidget(void) const
+SoQtComponent::getWidget(
+  void ) const
 {
   return this->widget;
-}
+} // getWidget()
 
 /*!
   An SoQtComponent may be composed of any number of widgets in
@@ -477,24 +515,28 @@ SoQtComponent::getWidget(void) const
   This method will return the root widget in that tree.
 
   \sa setBaseWidget()
- */
+*/
+
 QWidget *
-SoQtComponent::baseWidget(void) const
+SoQtComponent::baseWidget(
+  void ) const
 {
   return this->widget;
-}
+} // baseWidget()
 
 /*!
   Returns \a TRUE if this component is a toplevel shell, i.e. it has a
   window representation on the desktop.
 
   \sa getShellWidget()
- */
+*/
+
 SbBool
-SoQtComponent::isTopLevelShell(void) const
+SoQtComponent::isTopLevelShell(
+  void ) const
 {
 #if SOQT_DEBUG
-  if(!this->widget) {
+  if ( ! this->widget ) {
     SoDebugError::postWarning("SoQtComponent::isTopLevelShell",
                               "Called while no QWidget has been set.");
     return FALSE;
@@ -502,16 +544,18 @@ SoQtComponent::isTopLevelShell(void) const
 #endif // SOQT_DEBUG
 
   return this->widget->isTopLevel();
-}
+} // isTopLevelShell()
 
 /*!
   Returns the toplevel shell widget for this component. The toplevel shell
   is the desktop window which contains the component.
 
   \sa isTopLevelShell(), getWidget()
- */
+*/
+
 QWidget *
-SoQtComponent::getShellWidget(void) const
+SoQtComponent::getShellWidget(
+  void ) const
 {
 #if SOQT_DEBUG
   if (!this->widget) {
@@ -522,138 +566,153 @@ SoQtComponent::getShellWidget(void) const
 #endif // SOQT_DEBUG
 
   return this->widget->topLevelWidget();
-}
+} // getShellWidget()
 
 /*!
   Returns the widget which is the parent (i.e. contains) this component's
   base widget.
 
   \sa getWidget(), baseWidget(), isTopLevelShell()
- */
+*/
+
 QWidget *
-SoQtComponent::getParentWidget(void) const
+SoQtComponent::getParentWidget(
+  void ) const
 {
   return this->parent;
-}
+} // getParentWidget()
 
 /*!
   Set the window title of this component. This will not work unless the
   component is a toplevel shell.
 
   \sa getTitle(), setIconTitle(), isTopLevelShell()
- */
-void
-SoQtComponent::setTitle(const char * const newTitle)
-{
-#if 0 // debug
-  SoDebugError::postInfo("SoQtComponent::setTitle", "'%s'", newTitle);
-#endif // debug
+*/
 
-  this->captiontext = newTitle;
-  if (this->widget) {
-#if 0 // debug
-    SoDebugError::postInfo("SoQtComponent::setTitle",
-                           "actually setCaption('%s')", newTitle);
-#endif // debug
-    this->getShellWidget()->setCaption(newTitle);
-  }
-}
+void
+SoQtComponent::setTitle(
+  const char * const title )
+{
+  this->captiontext = title;
+  if ( this->widget )
+    this->getShellWidget()->setCaption( title );
+} // setTitle()
 
 /*!
   Returns the window title. The component should be a toplevel shell if
   you call this method.
 
   \sa setTitle(), isTopLevelShell()
- */
+*/
+
 const char *
-SoQtComponent::getTitle(void) const
+SoQtComponent::getTitle(
+  void ) const
 {
   return
-    this->captiontext.isNull() ? nullstring : (const char *)this->captiontext;
-}
+    this->captiontext.isNull() ? nullstring : (const char *) this->captiontext;
+} // getTitle()
 
 /*!
   Sets the window's title when it is iconfied. The component you use this
   method on should be a toplevel shell.
 
   \sa getIconTitle(), setTitle(), isTopLevelShell()
- */
+*/
+
 void
-SoQtComponent::setIconTitle(const char * const newIconTitle)
+SoQtComponent::setIconTitle(
+  const char * const title )
 {
-  this->icontext = newIconTitle;
-  if (this->widget) this->getShellWidget()->setIconText(newIconTitle);
-}
+  this->icontext = title;
+  if (this->widget)
+    this->getShellWidget()->setIconText( title );
+} // setIconTitle()
 
 /*!
   Returns the title the window has when iconfied. The component should be
   a toplevel shell if you use this method.
 
   \sa setIconTitle(), isTopLevelShell()
- */
+*/
+
 const char *
-SoQtComponent::getIconTitle(void) const
+SoQtComponent::getIconTitle(
+  void ) const
 {
   return this->icontext.isNull() ? nullstring : (const char *)this->icontext;
-}
+} // getIconTitle()
 
 /*!
   Returns name of the widget.
- */
+*/
+
 const char *
-SoQtComponent::getWidgetName(void) const
+SoQtComponent::getWidgetName(
+  void ) const
 {
   return
     this->widgetname.isNull() ? nullstring : (const char *)this->widgetname;
-}
+} // getWidgetName()
 
 /*!
   Returns class name of widget.
- */
+*/
+
 const char *
-SoQtComponent::getClassName(void) const
+SoQtComponent::getClassName(
+  void ) const
 {
   return (const char *)this->classname;
-}
+} // getClassName()
 
 /*!
   Returns the default name of an SoQtComponent widget. Should be overloaded
   by subclasses.
- */
+*/
+
 const char *
-SoQtComponent::getDefaultWidgetName(void) const
+SoQtComponent::getDefaultWidgetName(
+  void ) const
 {
   return "SoQtComponent";
-}
+} // getDefaultWidgetName()
 
 /*!
   Returns the default window caption string of this component. Should be
   overloaded by subclasses.
- */
+*/
+
 const char *
-SoQtComponent::getDefaultTitle(void) const
+SoQtComponent::getDefaultTitle(
+  void ) const
 {
   return "Qt Component";
-}
+} // getDefaultTitle()
 
 /*!
   Returns the default icon title of this component. Should be overloaded
   by subclasses.
- */
+*/
+
 const char *
-SoQtComponent::getDefaultIconTitle(void) const
+SoQtComponent::getDefaultIconTitle(
+  void ) const
 {
   return "Qt Comp";
-}
+} // getDefaultIconTitle()
 
+// *************************************************************************
 
 /*!
   Resize the component widget.
 
   \sa getSize()
- */
+*/
+
 void
-SoQtComponent::setSize(const SbVec2s & size)
+SoQtComponent::setSize(
+  const SbVec2s size )
 {
 #if SOQT_DEBUG
   if((size[0] <= 0) || (size[1] <= 0)) {
@@ -679,34 +738,39 @@ SoQtComponent::setSize(const SbVec2s & size)
       this->sizeChanged(size);
     }
   }
-}
+} // setSize()
 
 /*!
   Returns the component widget size.
 
   \sa setSize()
- */
+*/
+
 SbVec2s
-SoQtComponent::getSize(void)
+SoQtComponent::getSize(
+  void ) const
 {
   return this->storesize;
-}
+} // getSize()
+
+// *************************************************************************
 
 /*!
   Open a dialog providing help about use of this component.
 
   NB: no help system has been implemented yet, so for the time being this
   will only pop up an error message.
- */
-#include <qmessagebox.h>
+*/
+
 void
-SoQtComponent::openHelpCard(const char *)
+SoQtComponent::openHelpCard(
+  const char * const name )
 {
   // FIXME: code MiA. 990222 mortene.
-  QMessageBox::warning(NULL, "SoQt",
-                       "The help functionality has not been "
-                       "implemented.");
-}
+  QMessageBox::warning( NULL, "SoQt",
+                        "The help functionality has not been "
+                        "implemented." );
+} // openHelpCard()
 
 /*!
   Set up a callback function to use when the component gets closed. A
@@ -717,10 +781,12 @@ SoQtComponent::openHelpCard(const char *)
   be to delete the component.
 
   \sa isTopLevelShell()
- */
+*/
+
 void
-SoQtComponent::setWindowCloseCallback(SoQtComponentCB *func,
-                                      void * const data)
+SoQtComponent::setWindowCloseCallback(
+  SoQtComponentCB * const func,
+  void * const data )
 {
   this->closeCB = func;
   this->closeCBdata = data;
@@ -731,23 +797,32 @@ SoQtComponent::setWindowCloseCallback(SoQtComponentCB *func,
 
   SLOT for when the user clicks/selects window decoration close.
 */
-void
-SoQtComponent::widgetClosed(void)
-{
-  if (this->closeCB) this->closeCB(this->closeCBdata, this);
-}
 
-/* static functions ***************************************************/
+void
+SoQtComponent::widgetClosed(
+  void )
+{
+  if ( this->closeCB )
+    this->closeCB( this->closeCBdata, this );
+} // widgetClosed()
+
+// *************************************************************************
 
 /*!
   Finds and returns the \a SoQtComponent corresponding to the given
   \a QWidget, if any. If no SoQtComponent is the "owner" of the widget,
   \a NULL will be returned.
  */
+
 SoQtComponent *
-SoQtComponent::getComponent(QWidget * const w)
+SoQtComponent::getComponent(
+  QWidget * const widget )
 {
-  int idx = SoQtComponent::qtwidgetlist.find(w);
-  if(idx != -1) return (SoQtComponent *)SoQtComponent::soqtcomplist[idx];
-  else return NULL;
-}
+  int idx = SoQtComponent::qtwidgetlist.find( widget );
+  if ( idx != -1 )
+    return (SoQtComponent *)SoQtComponent::soqtcomplist[idx];
+  else
+    return NULL;
+} // getComponent()
+
+// *************************************************************************

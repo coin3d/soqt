@@ -488,8 +488,8 @@ SoQtExaminerViewer::makeSubPreferences(QWidget * parent)
   QCheckBox * c1 = new QCheckBox("Enable spin animation", w);
   c1->adjustSize();
   c1->setChecked(this->animatingallowed);
-  QObject::connect(c1, SIGNAL(toggled(bool)),
-                   this, SLOT(spinAnimationToggled(bool)));
+  QObject::connect(c1, SIGNAL(toggled(SbBool)),
+                   this, SLOT(spinAnimationToggled(SbBool)));
 
   // Layout row 1.
   toplayout->addWidget(c1, c1->height());
@@ -500,8 +500,8 @@ SoQtExaminerViewer::makeSubPreferences(QWidget * parent)
   QCheckBox * c2 = new QCheckBox("Show point of rotation axes", w);
   c2->adjustSize();
   c2->setChecked(this->isFeedbackVisible());
-  QObject::connect(c2, SIGNAL(toggled(bool)),
-                   this, SLOT(feedbackVisibilityToggle(bool)));
+  QObject::connect(c2, SIGNAL(toggled(SbBool)),
+                   this, SLOT(feedbackVisibilityToggle(SbBool)));
 
   // Layout row 2.
   toplayout->addWidget(c2, c2->height());
@@ -1426,7 +1426,7 @@ SoQtExaminerViewer::visibilityCB(void * data, SbBool visible)
 */
 
 void
-SoQtExaminerViewer::spinAnimationToggled(bool flag)
+SoQtExaminerViewer::spinAnimationToggled(SbBool flag)
 {
   this->setAnimationEnabled(flag);
 } // spinAnimationToggled()
@@ -1439,7 +1439,7 @@ SoQtExaminerViewer::spinAnimationToggled(bool flag)
 */
 
 void
-SoQtExaminerViewer::feedbackVisibilityToggle(bool flag)
+SoQtExaminerViewer::feedbackVisibilityToggle(SbBool flag)
 {
   this->setFeedbackVisibility(flag);
   this->setEnableFeedbackControls(flag);

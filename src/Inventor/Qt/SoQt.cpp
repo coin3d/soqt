@@ -398,7 +398,7 @@ SoQt::hide(QWidget * const widget)
   \sa getWidgetSize()
  */
 void
-SoQt::setWidgetSize(QWidget * const w, const SbVec2s & size)
+SoQt::setWidgetSize( QWidget * const w, const SbVec2s size )
 {
 #if SOQT_DEBUG
   if (w == NULL) {
@@ -509,7 +509,8 @@ SoQt::soqt_instance(void)
 
   Uses an event filter on qApp to be able to process immediate delay
   sensors before any system events.
- */
+*/
+
 bool
 SoQt::eventFilter(QObject *, QEvent *)
 {

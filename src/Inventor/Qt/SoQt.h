@@ -19,22 +19,25 @@
 
 //  $Id$
 
-#ifndef __SOQT_H__
-#define __SOQT_H__
+#ifndef SOQT_H
+#define SOQT_H
 
 #include <math.h>
+
+#include <qapplication.h>
 
 #include <Inventor/SbBasic.h>
 #include <Inventor/SbLinear.h>
 
-#include <qapplication.h>
-
 class QTimer;
 class SoSensor;
 
+// *************************************************************************
 
 class SoQt : public QObject
 {
+  typedef QObject inherited;
+
   Q_OBJECT
 
 public:
@@ -56,24 +59,23 @@ public:
   static void show(QWidget * const widget);
   static void hide(QWidget * const widget);
 
-  static void setWidgetSize(QWidget * const w, const SbVec2s & size);
-  static SbVec2s getWidgetSize(const QWidget * const w);
+  static void setWidgetSize( QWidget * const widget, const SbVec2s size );
+  static SbVec2s getWidgetSize( const QWidget * const widget );
 
-  static void createSimpleErrorDialog(QWidget * const widget,
-                                      const char * const dialogTitle,
-                                      const char * const errorStr1,
-                                      const char * const errorStr2 = NULL);
+  static void createSimpleErrorDialog( QWidget * const widget,
+      const char * const dialogTitle, const char * const errorStr1,
+      const char * const errorStr2 = NULL );
 
 protected:
-  bool eventFilter(QObject *, QEvent *);
+  bool eventFilter( QObject *, QEvent * );
 
 private slots:
-  void slot_timedOutSensor();
-  void slot_idleSensor();
-  void slot_delaytimeoutSensor();
+  void slot_timedOutSensor(void);
+  void slot_idleSensor(void);
+  void slot_delaytimeoutSensor(void);
 
 private:
-  static void sensorQueueChanged(void * cbdata);
+  static void sensorQueueChanged( void * const cbdata );
 
   static QWidget * mainWidget;
   static QApplication * appobject;
@@ -81,6 +83,9 @@ private:
 
   static SoQt * soqt_instance(void);
   static SoQt * slotobj;
-};
 
-#endif // !__SOQT_H__
+}; // class SoQt
+
+// *************************************************************************
+
+#endif // ! SOQT_H

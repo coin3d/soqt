@@ -26,6 +26,8 @@ static const char rcsid[] =
   \ingroup soqtviewers
 */
 
+#include <Inventor/errors/SoDebugError.h>
+
 #include <Inventor/Qt/viewers/SoQtConstrainedViewer.h>
 
 // ************************************************************************
@@ -43,12 +45,17 @@ SoQtConstrainedViewer::SoQtConstrainedViewer( // protected
   SbBool buildNow )
 : inherited( parent, name, buildInsideParent, flag, type, FALSE )
 {
+  this->setClassName( "SoQtConstrainedViewer" );
+  this->upVector = SbVec3f( 0.0f, 1.0f, 0.0f );
+
+  if ( buildNow )
+    this->setBaseWidget( this->buildWidget( this->getParentWidget() ) );
 } // SoQtConstainedViewer()
 
 // ************************************************************************
 
 /*!
-  Destructor
+  The destructor.
 */
 
 SoQtConstrainedViewer::~SoQtConstrainedViewer( // virtual
@@ -65,6 +72,7 @@ void
 SoQtConstrainedViewer::setUpDirection(
   const SbVec3f & upDirection )
 {
+  this->upVector = upDirection;
 } // setUpDirection()
 
 // ************************************************************************
@@ -76,9 +84,7 @@ const SbVec3f &
 SoQtConstrainedViewer::getUpDirection(
   void )
 {
-  /* FIXME */
-  static SbVec3f null( 0, 0, 0 );
-  return null;
+  return upVector;
 } // getUpDirection()
 
 // ************************************************************************
@@ -123,15 +129,18 @@ void
 SoQtConstrainedViewer::recomputeSceneSize( // virtual
   void )
 {
+  SoDebugError::postInfo( "SoQtConstrainedViewer::recomputeSceneSize",
+    "stub called" );
 } // recomputeSceneGraph()
 
 // ************************************************************************
 
 /*!
+  aka upperLeftWheelMotion() ;)
 */
 
 void
-SoQtConstrainedViewer::tiltCamera( // virtual
+SoQtConstrainedViewer::tiltCamera( // virtual, protected
   float delta )
 {
 } // tiltCamera()
@@ -142,7 +151,7 @@ SoQtConstrainedViewer::tiltCamera( // virtual
 */
 
 void
-SoQtConstrainedViewer::bottomWheelMotion( // virtual
+SoQtConstrainedViewer::bottomWheelMotion( // virtual, protected
   float value )
 {
 } // bottomWheelMotion()
@@ -153,9 +162,10 @@ SoQtConstrainedViewer::bottomWheelMotion( // virtual
 */
 
 void
-SoQtConstrainedViewer::leftWheelMotion( // virtual
+SoQtConstrainedViewer::leftWheelMotion( // virtual, protected
   float value )
 {
+//  SoAnyConstrainedViewer::elevation( );
 } // leftWheelMotion()
 
 // ************************************************************************
@@ -164,9 +174,11 @@ SoQtConstrainedViewer::leftWheelMotion( // virtual
 */
 
 void
-SoQtConstrainedViewer::changeCameraValues( // virtual
-  SoCamera * newCamera )
+SoQtConstrainedViewer::changeCameraValues( // virtual, protected
+  SoCamera * camera )
 {
+  SoDebugError::postInfo( "SoQtConstrainedViewer::changeCameraValues",
+    "stub called" );
 } // changeCameraValues()
 
 // ************************************************************************
@@ -178,6 +190,9 @@ void
 SoQtConstrainedViewer::findUpDirection(
   SbVec2s mouseLocation )
 {
+  SoDebugError::postInfo( "SoQtConstrainedViewer::findUpDirection",
+    "stub called" );
+  // pick on point, set upVector to normal of picked polygon
 } // findUpDirection()
 
 // ************************************************************************
@@ -189,6 +204,8 @@ void
 SoQtConstrainedViewer::checkForCameraUpConstrain(
   void )
 {
+  SoDebugError::postInfo( "SoQtConstrainedViewer::checkForCameraUpConstrain",
+    "stub called" );
 } // checkForCameraUpConstrain()
 
 // ************************************************************************
@@ -197,9 +214,13 @@ SoQtConstrainedViewer::checkForCameraUpConstrain(
 */
 
 void
-SoQtConstrainedViewer::computeSeekFinalOrientation( // virtual
+SoQtConstrainedViewer::computeSeekFinalOrientation( // virtual, protected
   void )
 {
+  SoDebugError::postInfo( "SoQtConstrainedViewer::computeSeekFinalOrientation",
+    "stub called" );
 } // computeSeekFinalOrientation()
 
 // ************************************************************************
+
+

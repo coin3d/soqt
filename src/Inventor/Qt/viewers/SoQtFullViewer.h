@@ -41,10 +41,10 @@ class SoQtFullViewer : public SoQtViewer {
 
 public:
   enum BuildFlag {
-    BUILD_NONE = 0x00,
+    BUILD_NONE       = 0x00,
     BUILD_DECORATION = 0x01,
-    BUILD_POPUP = 0x02,
-    BUILD_ALL = 0xff
+    BUILD_POPUP      = 0x02,
+    BUILD_ALL        = 0xff
   };
 
   void setDecoration(const SbBool on);
@@ -180,7 +180,7 @@ private:
   void setDrawStyleMenuActivation(SoQtViewer::DrawType type,
                                   SoQtViewer::DrawStyle val);
 
-  void setEnabledClippingWidgets(bool flag);
+  void setEnabledClippingWidgets(SbBool flag);
 
 private slots:
   // Thumbwheels.
