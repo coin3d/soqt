@@ -137,7 +137,7 @@ SoQtGLArea::event(QEvent * e)
     }
   }
 
-  QGLWidget::event(e);
+  return QGLWidget::event(e);
 }
 
 // *************************************************************************
