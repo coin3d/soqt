@@ -408,7 +408,9 @@ DISTCLEANFILES = \
 @BUILD_LIBRARY_TRUE@dynbin_SCRIPTS = so@gui@-config
 
 @BUILD_LIBRARY_TRUE@m4datadir = $(datadir)/aclocal
-@BUILD_LIBRARY_TRUE@dist_m4data_DATA = so@gui@.m4
+# Don't replace "qt" with "@gui@" here, is it will pøkk up
+# for ``make dist''.
+@BUILD_LIBRARY_TRUE@dist_m4data_DATA = soqt.m4
 
 @BUILD_LIBRARY_TRUE@cfgdatadir = $(datadir)/Coin/conf
 @BUILD_LIBRARY_TRUE@cfgdata_DATA = so@gui@-@CONFIG@.cfg

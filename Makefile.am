@@ -49,7 +49,9 @@ endif
 dynbin_SCRIPTS = so@gui@-config
 
 m4datadir = $(datadir)/aclocal
-dist_m4data_DATA = so@gui@.m4
+# Don't replace "qt" with "@gui@" here, is it will pøkk up
+# for ``make dist''.
+dist_m4data_DATA = soqt.m4
 
 cfgdatadir = $(datadir)/Coin/conf
 cfgdata_DATA = so@gui@-@CONFIG@.cfg
