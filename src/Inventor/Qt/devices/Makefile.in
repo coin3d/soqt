@@ -313,6 +313,7 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/SoGuiConstrainedViewer.cpp.in \
   src/Inventor/@Gui@/common/SoGuiFlyViewer.h.in \
   src/Inventor/@Gui@/common/SoGuiFlyViewer.cpp.in \
+  src/Inventor/@Gui@/common/SoGuiMaterialList.h.in \
   src/Inventor/@Gui@/common/SoAny.h.in \
   src/Inventor/@Gui@/common/SoAny.cpp.in \
   src/Inventor/@Gui@/common/SoAnyPopupMenu.h.in \
@@ -377,31 +378,20 @@ BUILT_SOURCES = \
 
 
 CLEANFILES = \
-	$(SoGui_src_Inventor_Gui_devices_BuiltMetaFiles)
+	$(SoGui_src_Inventor_Gui_devices_BuiltFiles)
 
 
 DISTCLEANFILES = \
 	$(SoGui_src_Inventor_Gui_devices_BuiltFiles) \
-	$(SoGui_src_Inventor_Gui_devices_BuiltMetaFiles)
+	$(SoGui_src_Inventor_Gui_devices_BuiltMetaFiles) \
+	SoQtInputFocus.h \
+	SoQtKeyboard.h \
+	SoQtMouse.h \
+	SoQtSpaceball.h
 
 
 @BUILD_WITH_MSVC_TRUE@noinst_LIBRARIES = devices.lst
 @BUILD_WITH_MSVC_FALSE@noinst_LTLIBRARIES = libSoQtDevices.la
-
-# built sourcefiles that are to be included in any case
-libSoQtDevicesBuiltSources = \
-	SoQtInputFocus.h \
-	SoQtKeyboard.h \
-	SoQtMouse.h \
-	SoQtSpaceball.h \
-	moc_SoQtDevice.cpp \
-	moc_SoQtInputFocus.cpp \
-	moc_SoQtKeyboard.cpp \
-	moc_SoQtMouse.cpp \
-	moc_SoQtSpaceball.cpp \
-	spwinput_x11.cpp \
-	spwinput.h
-
 
 ############################################################################
 # automake conditional stuff
@@ -454,8 +444,8 @@ EXTRA_libSoQtDevices_la_SOURCES = \
 ############################################################################
 # custom setup
 devices_lst_SOURCES = \
-	SoQtDevice.cpp \
 	SoQtDevice.h \
+	SoQtDevice.cpp \
 	SoQtInputFocus.cpp \
 	SoQtKeyboard.cpp \
 	SoQtMouse.cpp \
@@ -640,15 +630,6 @@ spwinput_x11.lo: $(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp
 	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o spwinput_x11.lo `test -f $(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp
 CXXDEPMODE = @CXXDEPMODE@
 uninstall-info-am:
-install-SoQtDevicesincHEADERS: $(SoQtDevicesinc_HEADERS)
-	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(SoQtDevicesincdir)
-	@list='$(SoQtDevicesinc_HEADERS)'; for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " $(INSTALL_HEADER) $$d$$p $(DESTDIR)$(SoQtDevicesincdir)/$$f"; \
-	  $(INSTALL_HEADER) $$d$$p $(DESTDIR)$(SoQtDevicesincdir)/$$f; \
-	done
 
 uninstall-SoQtDevicesincHEADERS:
 	@$(NORMAL_UNINSTALL)
@@ -656,15 +637,6 @@ uninstall-SoQtDevicesincHEADERS:
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
 	  echo " rm -f $(DESTDIR)$(SoQtDevicesincdir)/$$f"; \
 	  rm -f $(DESTDIR)$(SoQtDevicesincdir)/$$f; \
-	done
-install-nodist_SoQtDevicesincHEADERS: $(nodist_SoQtDevicesinc_HEADERS)
-	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(SoQtDevicesincdir)
-	@list='$(nodist_SoQtDevicesinc_HEADERS)'; for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " $(INSTALL_HEADER) $$d$$p $(DESTDIR)$(SoQtDevicesincdir)/$$f"; \
-	  $(INSTALL_HEADER) $$d$$p $(DESTDIR)$(SoQtDevicesincdir)/$$f; \
 	done
 
 uninstall-nodist_SoQtDevicesincHEADERS:
@@ -1113,18 +1085,31 @@ devices.lst: Makefile $(devices_lst_OBJECTS)
 	rm -f $@; \
 	for i in $(devices_lst_OBJECTS); do echo $$i >>$@; done
 
-# install-SoQtDevicesincHEADERS: $(SoQtDevicesinc_HEADERS)
-# 	@$(NORMAL_INSTALL)
-# 	$(mkinstalldirs) $(DESTDIR)$(SoQtDevicesincdir)
-# 	@list='$(SoQtDevicesinc_HEADERS)'; for p in $$list; do \
-# 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-# 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-# 	  src="$$d$$p"; dst="$(DESTDIR)$(SoQtDevicesincdir)/$$f"; \
-# 	  if cmp -s "$$src" "$$dst"; then :; else \
-# 	    echo " $(INSTALL_HEADER) $$src $$dst"; \
-# 	    $(INSTALL_HEADER) "$$src" "$$dst"; \
-# 	  fi \
-# 	done
+install-SoQtDevicesincHEADERS: $(SoQtDevicesinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(SoQtDevicesincdir)
+	@list='$(SoQtDevicesinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoQtDevicesincdir)/$$f"; \
+	  if cmp -s "$$src" "$$dst"; then :; else \
+	    echo " $(INSTALL_HEADER) $$src $$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	  fi \
+	done
+
+install-nodist_SoQtDevicesincHEADERS: $(nodist_SoQtDevicesinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(SoQtDevicesincdir)
+	@list='$(nodist_SoQtDevicesinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoQtDevicesincdir)/$$f"; \
+	  if cmp -s "$$src" "$$dst"; then :; else \
+	    echo " $(INSTALL_HEADER) $$src $$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	  fi \
+	done
 
 # EOF ######################################################################
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

@@ -11,11 +11,15 @@ BUILT_SOURCES = \
 	$(SoGuiAllBuiltFiles)
 
 CLEANFILES = \
-	$(SoGui_src_Inventor_Gui_devices_BuiltMetaFiles)
+	$(SoGui_src_Inventor_Gui_devices_BuiltFiles)
 
 DISTCLEANFILES = \
 	$(SoGui_src_Inventor_Gui_devices_BuiltFiles) \
-	$(SoGui_src_Inventor_Gui_devices_BuiltMetaFiles)
+	$(SoGui_src_Inventor_Gui_devices_BuiltMetaFiles) \
+	SoQtInputFocus.h \
+	SoQtKeyboard.h \
+	SoQtMouse.h \
+	SoQtSpaceball.h
 
 ## Process this file with automake to generate Makefile.in.
 
@@ -24,20 +28,6 @@ noinst_LIBRARIES = devices.lst
 else
 noinst_LTLIBRARIES = libSoQtDevices.la
 endif
-
-# built sourcefiles that are to be included in any case
-libSoQtDevicesBuiltSources = \
-	SoQtInputFocus.h \
-	SoQtKeyboard.h \
-	SoQtMouse.h \
-	SoQtSpaceball.h \
-	moc_SoQtDevice.cpp \
-	moc_SoQtInputFocus.cpp \
-	moc_SoQtKeyboard.cpp \
-	moc_SoQtMouse.cpp \
-	moc_SoQtSpaceball.cpp \
-	spwinput_x11.cpp \
-	spwinput.h
 
 ############################################################################
 # automake conditional stuff
@@ -86,8 +76,8 @@ EXTRA_libSoQtDevices_la_SOURCES = \
 # custom setup
 
 devices_lst_SOURCES = \
-	SoQtDevice.cpp \
 	SoQtDevice.h \
+	SoQtDevice.cpp \
 	SoQtInputFocus.cpp \
 	SoQtKeyboard.cpp \
 	SoQtMouse.cpp \
@@ -116,17 +106,30 @@ nodist_SoQtDevicesinc_HEADERS = \
 	SoQtMouse.h \
 	SoQtSpaceball.h
 
-# install-SoQtDevicesincHEADERS: $(SoQtDevicesinc_HEADERS)
-# 	@$(NORMAL_INSTALL)
-# 	$(mkinstalldirs) $(DESTDIR)$(SoQtDevicesincdir)
-# 	@list='$(SoQtDevicesinc_HEADERS)'; for p in $$list; do \
-# 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-# 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-# 	  src="$$d$$p"; dst="$(DESTDIR)$(SoQtDevicesincdir)/$$f"; \
-# 	  if cmp -s "$$src" "$$dst"; then :; else \
-# 	    echo " $(INSTALL_HEADER) $$src $$dst"; \
-# 	    $(INSTALL_HEADER) "$$src" "$$dst"; \
-# 	  fi \
-# 	done
+install-SoQtDevicesincHEADERS: $(SoQtDevicesinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(SoQtDevicesincdir)
+	@list='$(SoQtDevicesinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoQtDevicesincdir)/$$f"; \
+	  if cmp -s "$$src" "$$dst"; then :; else \
+	    echo " $(INSTALL_HEADER) $$src $$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	  fi \
+	done
+
+install-nodist_SoQtDevicesincHEADERS: $(nodist_SoQtDevicesinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(SoQtDevicesincdir)
+	@list='$(nodist_SoQtDevicesinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoQtDevicesincdir)/$$f"; \
+	  if cmp -s "$$src" "$$dst"; then :; else \
+	    echo " $(INSTALL_HEADER) $$src $$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	  fi \
+	done
 
 # EOF ######################################################################
