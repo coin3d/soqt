@@ -9,6 +9,8 @@ INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
 lib_LTLIBRARIES = libSoQt@SUFFIX@.la
 
 BUILT_SOURCES = \
+	SoAny.h \
+	SoAny.cpp \
 	SoQtBasic.h \
 	SoQtObject.cpp \
 	SoQtObject.h \

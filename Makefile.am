@@ -11,6 +11,8 @@ SUBDIRS = . src/Inventor/Qt
 
 SoQtBuiltSources = \
 	soqtdefs.h \
+        src/Inventor/Qt/SoAny.h \
+        src/Inventor/Qt/SoAny.cpp \
 	src/Inventor/Qt/SoQtBasic.h \
 	src/Inventor/Qt/SoQtCursors.h \
 	src/Inventor/Qt/SoQtCursors.cpp \
@@ -90,6 +92,14 @@ built-sources: $(BUILT_SOURCES)
 
 soqtdefs.h: $(srcdir)/soqtdefs.h.in
 	@$(SHELL) config.status --file=soqtdefs.h
+
+src/Inventor/Qt/SoAny.h: \
+  $(srcdir)/src/Inventor/Qt/common/SoAny.h.in
+	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoAny.h.in
+
+src/Inventor/Qt/SoAny.cpp: \
+  $(srcdir)/src/Inventor/Qt/common/SoAny.cpp.in
+	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoAny.cpp.in
 
 src/Inventor/Qt/SoQtBasic.h: $(srcdir)/src/Inventor/Qt/common/SoGuiBasic.h.in
 	@$(SHELL) config.status --file=-:src/Inventor/Qt/common/SoGuiBasic.h.in | \

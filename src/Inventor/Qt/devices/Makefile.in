@@ -1,4 +1,4 @@
-# Makefile.in generated automatically by automake 1.4g from Makefile.am.
+# Makefile.in generated automatically by automake 1.4e from Makefile.am.
 
 # Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
 # Free Software Foundation, Inc.
@@ -10,8 +10,6 @@
 # but WITHOUT ANY WARRANTY, to the extent permitted by law; without
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
-
-@SET_MAKE@
 
 SHELL = @SHELL@
 
@@ -33,9 +31,11 @@ infodir = @infodir@
 mandir = @mandir@
 includedir = @includedir@
 oldincludedir = /usr/include
+
 pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
+
 top_builddir = ../../../..
 
 ACLOCAL = @ACLOCAL@
@@ -49,18 +49,23 @@ INSTALL_DATA = @INSTALL_DATA@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_HEADER = $(INSTALL_DATA)
 transform = @program_transform_name@
+
 NORMAL_INSTALL = :
 PRE_INSTALL = :
 POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
+
 build_alias = @build_alias@
 build_triplet = @build@
 host_alias = @host_alias@
 host_triplet = @host@
 target_alias = @target_alias@
 target_triplet = @target@
+
+@SET_MAKE@
+AMDEP = @AMDEP@
 AMTAR = @AMTAR@
 AS = @AS@
 AWK = @AWK@
@@ -76,6 +81,7 @@ EVENT = @EVENT@
 GUI = @GUI@
 Gui = @Gui@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+INSTALL_STRIP_PROGRAM_ENV = @INSTALL_STRIP_PROGRAM_ENV@
 LIBFLAGS = @LIBFLAGS@
 LIBTOOL = @LIBTOOL@
 LN_S = @LN_S@
@@ -83,6 +89,7 @@ LT_AGE = @LT_AGE@
 LT_CURRENT = @LT_CURRENT@
 LT_REVISION = @LT_REVISION@
 MAINT = @MAINT@
+MAKEINFO = @MAKEINFO@
 MOC = @MOC@
 OBJDUMP = @OBJDUMP@
 PACKAGE = @PACKAGE@
@@ -97,16 +104,12 @@ SOQT_MAJOR_VERSION = @SOQT_MAJOR_VERSION@
 SOQT_MICRO_VERSION = @SOQT_MICRO_VERSION@
 SOQT_MINOR_VERSION = @SOQT_MINOR_VERSION@
 SOQT_VERSION = @SOQT_VERSION@
+STRIP = @STRIP@
 SUFFIX = @SUFFIX@
 UNIX2WINPATH = @UNIX2WINPATH@
 VERSION = @VERSION@
 WIDGET = @WIDGET@
-X_CFLAGS = @X_CFLAGS@
-X_EXTRA_LIBS = @X_EXTRA_LIBS@
-X_LIBS = @X_LIBS@
-X_PRE_LIBS = @X_PRE_LIBS@
 _am_include = @_am_include@
-_am_quote = @_am_quote@
 gui = @gui@
 install_sh = @install_sh@
 sim_ac_coin_configcmd = @sim_ac_coin_configcmd@
@@ -116,6 +119,7 @@ soqt_configure_date = @soqt_configure_date@
 soqt_dox_build_dir = @soqt_dox_build_dir@
 soqt_dox_src_dir = @soqt_dox_src_dir@
 win_srcdir = @win_srcdir@
+
 
 noinst_LTLIBRARIES = libSoQtDevices.la
 
@@ -157,8 +161,8 @@ libSoQtDevicesBuiltSources = \
 # else
 libSoQtDevicesLinuxJoystickHeaders = 
 libSoQtDevicesLinuxJoystickSources = 
-
 # endif
+
 libSoQtDevicesConditionalSources = \
         $(libSoQtDevicesLinuxJoystickSources)
 
@@ -167,8 +171,8 @@ libSoQtDevicesConditionalHeaders = \
         $(libSoQtDevicesLinuxJoystickHeaders)
 
 
-
 ############################################################################
+
 libSoQtDevices_la_SOURCES = \
 	SoQtDevice.cpp \
 	SoQtDevice.h \
@@ -191,8 +195,8 @@ EXTRA_libSoQtDevices_la_SOURCES = \
 	moc_SoQtLinuxJoystick.cpp
 
 
-
 ############################################################################
+
 libSoQtDevicesincdir = $(includedir)/Inventor/Qt/devices
 
 libSoQtDevicesinc_HEADERS = \
@@ -211,63 +215,58 @@ CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
-libSoQtDevices_la_LDFLAGS =
-libSoQtDevices_la_LIBADD =
-am_libSoQtDevices_la_OBJECTS = SoQtDevice.lo SoQtInputFocus.lo \
-	SoQtKeyboard.lo SoQtMouse.lo SoQtSpaceball.lo moc_SoQtDevice.lo \
-	moc_SoQtInputFocus.lo moc_SoQtKeyboard.lo moc_SoQtMouse.lo \
-	moc_SoQtSpaceball.lo spwinput_x11.lo
-libSoQtDevices_la_OBJECTS = $(am_libSoQtDevices_la_OBJECTS)
 
-DEFS = @DEFS@
-DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
+DEFS = @DEFS@ -I. -I$(srcdir) -I$(top_builddir)
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
-depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
-@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/SoQtDevice.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/SoQtInputFocus.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/SoQtKeyboard.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/SoQtLinuxJoystick.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/SoQtMouse.Plo $(DEPDIR)/SoQtSpaceball.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/moc_SoQtDevice.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/moc_SoQtInputFocus.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/moc_SoQtKeyboard.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/moc_SoQtLinuxJoystick.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/moc_SoQtMouse.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/moc_SoQtSpaceball.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/spwinput_x11.Plo
-CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
-	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
-LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
-	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
-	$(AM_CXXFLAGS) $(CXXFLAGS)
-CXXLD = $(CXX)
-CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) \
-	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+X_CFLAGS = @X_CFLAGS@
+X_LIBS = @X_LIBS@
+X_EXTRA_LIBS = @X_EXTRA_LIBS@
+X_PRE_LIBS = @X_PRE_LIBS@
+libSoQtDevices_la_LDFLAGS = 
+libSoQtDevices_la_LIBADD = 
+am_libSoQtDevices_la_OBJECTS = SoQtDevice.lo SoQtInputFocus.lo \
+SoQtKeyboard.lo SoQtMouse.lo SoQtSpaceball.lo moc_SoQtDevice.lo \
+moc_SoQtInputFocus.lo moc_SoQtKeyboard.lo moc_SoQtMouse.lo \
+moc_SoQtSpaceball.lo spwinput_x11.lo
+libSoQtDevices_la_OBJECTS = $(am_libSoQtDevices_la_OBJECTS)
+CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 CXXFLAGS = @CXXFLAGS@
+CXXLD = $(CXX)
+CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 CFLAGS = @CFLAGS@
-COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
-	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) \
-	$(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
-LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
-	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 DIST_SOURCES = $(libSoQtDevices_la_SOURCES) \
-	$(EXTRA_libSoQtDevices_la_SOURCES)
+$(EXTRA_libSoQtDevices_la_SOURCES)
 HEADERS = $(libSoQtDevicesinc_HEADERS)
 
+depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
+@AMDEP@DEP_FILES = $(DEPDIR)/SoQtDevice.Plo $(DEPDIR)/SoQtInputFocus.Plo \
+@AMDEP@ $(DEPDIR)/SoQtKeyboard.Plo $(DEPDIR)/SoQtLinuxJoystick.Plo \
+@AMDEP@ $(DEPDIR)/SoQtMouse.Plo $(DEPDIR)/SoQtSpaceball.Plo \
+@AMDEP@ $(DEPDIR)/moc_SoQtDevice.Plo $(DEPDIR)/moc_SoQtInputFocus.Plo \
+@AMDEP@ $(DEPDIR)/moc_SoQtKeyboard.Plo \
+@AMDEP@ $(DEPDIR)/moc_SoQtLinuxJoystick.Plo $(DEPDIR)/moc_SoQtMouse.Plo \
+@AMDEP@ $(DEPDIR)/moc_SoQtSpaceball.Plo $(DEPDIR)/spwinput_x11.Plo
 DIST_COMMON = $(libSoQtDevicesinc_HEADERS) Makefile.am Makefile.in
+
 SOURCES = $(libSoQtDevices_la_SOURCES) $(EXTRA_libSoQtDevices_la_SOURCES)
+OBJECTS = $(am_libSoQtDevices_la_OBJECTS)
 
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
 .SUFFIXES:
-.SUFFIXES: .cpp .lo .o .obj
+.SUFFIXES: .c .cpp .h .lo .o .obj
+
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
 	cd $(top_srcdir) && \
 	  $(AUTOMAKE) --gnu  src/Inventor/Qt/devices/Makefile
+
 Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && \
 	  CONFIG_HEADERS= CONFIG_LINKS= \
@@ -275,8 +274,6 @@ Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.s
 
 clean-noinstLTLIBRARIES:
 	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
-libSoQtDevices.la: $(libSoQtDevices_la_OBJECTS) $(libSoQtDevices_la_DEPENDENCIES)
-	$(CXXLINK)  $(libSoQtDevices_la_LDFLAGS) $(libSoQtDevices_la_OBJECTS) $(libSoQtDevices_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
@@ -293,42 +290,8 @@ clean-libtool:
 distclean-libtool:
 	-rm -f libtool
 
-@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoQtDevice.Plo@_am_quote@
-@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoQtInputFocus.Plo@_am_quote@
-@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoQtKeyboard.Plo@_am_quote@
-@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoQtLinuxJoystick.Plo@_am_quote@
-@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoQtMouse.Plo@_am_quote@
-@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoQtSpaceball.Plo@_am_quote@
-@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/moc_SoQtDevice.Plo@_am_quote@
-@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/moc_SoQtInputFocus.Plo@_am_quote@
-@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/moc_SoQtKeyboard.Plo@_am_quote@
-@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/moc_SoQtLinuxJoystick.Plo@_am_quote@
-@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/moc_SoQtMouse.Plo@_am_quote@
-@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/moc_SoQtSpaceball.Plo@_am_quote@
-@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/spwinput_x11.Plo@_am_quote@
-
-distclean-depend:
-	-rm -rf $(DEPDIR)
-
-.cpp.o:
-@AMDEP_TRUE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXXCOMPILE) -c -o $@ `test -f $< || echo '$(srcdir)/'`$<
-
-.cpp.obj:
-@AMDEP_TRUE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXXCOMPILE) -c -o $@ `cygpath -w $<`
-
-.cpp.lo:
-@AMDEP_TRUE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(LTCXXCOMPILE) -c -o $@ `test -f $< || echo '$(srcdir)/'`$<
-CXXDEPMODE = @CXXDEPMODE@
-uninstall-info-am:
+libSoQtDevices.la: $(libSoQtDevices_la_OBJECTS) $(libSoQtDevices_la_DEPENDENCIES)
+	$(CXXLINK)  $(libSoQtDevices_la_LDFLAGS) $(libSoQtDevices_la_OBJECTS) $(libSoQtDevices_la_LIBADD) $(LIBS)
 install-libSoQtDevicesincHEADERS: $(libSoQtDevicesinc_HEADERS)
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(libSoQtDevicesincdir)
@@ -379,6 +342,44 @@ GTAGS:
 distclean-tags:
 	-rm -f TAGS ID
 
+@AMDEP@@_am_include@ $(DEPDIR)/SoQtDevice.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/SoQtInputFocus.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/SoQtKeyboard.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/SoQtLinuxJoystick.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/SoQtMouse.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/SoQtSpaceball.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtDevice.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtInputFocus.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtKeyboard.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtLinuxJoystick.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtMouse.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtSpaceball.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/spwinput_x11.Plo
+
+distclean-depend:
+	-rm -rf $(DEPDIR)
+
+@AMDEP@CXXDEPMODE = @CXXDEPMODE@
+
+.cpp.o:
+@AMDEP@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
+@AMDEP@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXXCOMPILE) -c -o $@ `test -f $< || echo '$(srcdir)/'`$<
+
+.cpp.lo:
+@AMDEP@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
+@AMDEP@	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' @AMDEPBACKSLASH@
+@AMDEP@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LTCXXCOMPILE) -c -o $@ `test -f $< || echo '$(srcdir)/'`$<
+
+.cpp.obj:
+@AMDEP@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
+@AMDEP@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXXCOMPILE) -c -o $@ `cygpath -w $<`
+
+
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
 top_distdir = ../../../..
@@ -387,11 +388,7 @@ distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 distdir: $(DISTFILES)
 	$(mkinstalldirs) $(distdir)/$(srcdir)
 	@for file in $(DISTFILES); do \
-	  if test -f $$file; then d=.; else d=$(srcdir); fi; \
-	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
-	  if test "$$dir" != "$$file" && test "$$dir" != "."; then \
-	    $(mkinstalldirs) "$(distdir)/$$dir"; \
-	  fi; \
+	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
 	    cp -pR $$d/$$file $(distdir) \
 	    || exit 1; \
@@ -417,20 +414,23 @@ install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
 
 installcheck: installcheck-am
+
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) INSTALL_PROGRAM="$(INSTALL_STRIP_PROGRAM)" \
-	  `test -z '$(STRIP)' || \
-	    echo "INSTALL_PROGRAM_ENV=STRIPPROG='$(STRIP)'"` install
+	  INSTALL_PROGRAM_ENV='$(INSTALL_STRIP_PROGRAM_ENV)' install
+
 mostlyclean-generic:
 
 clean-generic:
 
 distclean-generic:
-	-rm -f Makefile $(CONFIG_CLEAN_FILES) stamp-h stamp-h[0-9]*
+	-rm -f Makefile $(CONFIG_CLEAN_FILES)
+	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
+	-rm -f Makefile.in
 	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
 clean: clean-am
 
@@ -442,11 +442,11 @@ distclean: distclean-am
 distclean-am: clean-am distclean-compile distclean-depend \
 	distclean-generic distclean-libtool distclean-tags
 
-dvi: dvi-am
+dvi:
 
 dvi-am:
 
-info: info-am
+info:
 
 info-am:
 
@@ -454,7 +454,7 @@ install-data-am: install-libSoQtDevicesincHEADERS
 
 install-exec-am:
 
-install-info: install-info-am
+install-info:
 
 install-man:
 
@@ -469,19 +469,18 @@ mostlyclean: mostlyclean-am
 mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
-uninstall-am: uninstall-info-am uninstall-libSoQtDevicesincHEADERS
+uninstall-am: uninstall-libSoQtDevicesincHEADERS
 
 .PHONY: all all-am check check-am clean clean-generic clean-libtool \
 	clean-noinstLTLIBRARIES distclean distclean-compile \
 	distclean-depend distclean-generic distclean-libtool \
 	distclean-tags distdir dvi dvi-am info info-am install \
 	install-am install-data install-data-am install-exec \
-	install-exec-am install-info install-info-am \
-	install-libSoQtDevicesincHEADERS install-man install-strip \
-	installcheck installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-libtool tags uninstall \
-	uninstall-am uninstall-info-am \
+	install-exec-am install-info install-libSoQtDevicesincHEADERS \
+	install-man install-strip installcheck installcheck-am \
+	installdirs maintainer-clean maintainer-clean-generic \
+	mostlyclean mostlyclean-compile mostlyclean-generic \
+	mostlyclean-libtool tags uninstall uninstall-am \
 	uninstall-libSoQtDevicesincHEADERS
 
 
@@ -517,6 +516,7 @@ spwinput.h: $(top_srcdir)/src/Inventor/Qt/common/spwinput.h.in
 spwinput_x11.cpp: $(top_srcdir)/src/Inventor/Qt/common/spwinput_x11.cpp.in
 	@( cd $(top_builddir); \
 		$(MAKE) src/Inventor/Qt/devices/spwinput_x11.cpp )
+
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
