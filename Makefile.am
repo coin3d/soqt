@@ -69,6 +69,7 @@ EXTRA_DIST = \
 	test-code/components/scrollview.cpp \
 	test-code/components/tripleview.cpp \
 	packaging/windows/Makefile.in \
+	packaging/windows/bfheader.nsi.in \
 	packaging/windows/footer.nsi.in \
 	packaging/windows/heading.nsi.in \
 	packaging/windows/middle.nsi.in \
