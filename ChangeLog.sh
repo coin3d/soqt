@@ -35,7 +35,8 @@ cvs log | $cvs2cl --stdin --header $headerfile --separate-header --prune \
   --ignore 'ChangeLog$' \
   --ignore '(Makefile\.in|configure|aclocal\.m4|config\.sub|config\.guess)$' \
   --ignore '(ltconfig|ltmain\.sh|missing|mkinstalldirs|stamp-h.*|install-sh)$' \
-  --ignore 'config\.h\.in$' 
+  --ignore 'config\.h\.in$' \
+  --ignore 'examples/components' 
 
 rm ChangeLog.bak $headerfile
 

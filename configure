@@ -4027,6 +4027,8 @@ fi
 
 GUI=Qt
 WIDGET="QWidget *"
+COMPONENTLIBS=""
+
 
 
 
@@ -4317,6 +4319,7 @@ s%@BUILD_EXAMPLES_TRUE@%$BUILD_EXAMPLES_TRUE%;t t
 s%@BUILD_EXAMPLES_FALSE@%$BUILD_EXAMPLES_FALSE%;t t
 s%@GUI@%$GUI%;t t
 s%@WIDGET@%$WIDGET%;t t
+s%@COMPONENTLIBS@%$COMPONENTLIBS%;t t
 s%@HAVE_RENDERAREA_TRUE@%$HAVE_RENDERAREA_TRUE%;t t
 s%@HAVE_RENDERAREA_FALSE@%$HAVE_RENDERAREA_FALSE%;t t
 s%@HAVE_EXAMINERVIEWER_TRUE@%$HAVE_EXAMINERVIEWER_TRUE%;t t
@@ -4625,7 +4628,9 @@ for mf in $CONFIG_FILES; do
 done
 
 test -z "$CONFIG_HEADERS" || echo timestamp > stamp-h
-chmod a+x soqt-config
+
+        chmod a+x soqt-config
+
 exit 0
 EOF
 chmod +x $CONFIG_STATUS

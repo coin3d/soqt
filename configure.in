@@ -179,9 +179,11 @@ dnl *******************************************************************
 
 GUI=Qt
 WIDGET="QWidget *"
+COMPONENTLIBS=""
 
 AC_SUBST(GUI)
 AC_SUBST(WIDGET)
+AC_SUBST(COMPONENTLIBS)
 
 AM_CONDITIONAL(HAVE_RENDERAREA, true)
 AM_CONDITIONAL(HAVE_EXAMINERVIEWER, true)
@@ -207,5 +209,6 @@ AC_OUTPUT([
 	examples/components/Makefile
 	examples/components/renderarea.cpp
 	examples/components/examinerviewer.cpp
-        ],
-        [chmod a+x soqt-config])
+],[
+        chmod a+x soqt-config
+])
