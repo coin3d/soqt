@@ -189,7 +189,8 @@ SoQtFullViewer::SoQtFullViewer(
   this->prefwindowtitle = "Viewer Preference Sheet";
 
   this->menuenabled = buildFlag & SoQtFullViewer::BUILD_POPUP;
-  this->decorations = buildFlag & SoQtFullViewer::BUILD_DECORATION;
+  this->decorations =
+    (buildFlag & SoQtFullViewer::BUILD_DECORATION) ? TRUE : FALSE;
 
   this->prefmenu = NULL;
   this->menutitle = "Viewer Menu";
@@ -199,9 +200,9 @@ SoQtFullViewer::SoQtFullViewer(
   this->appbuttonform = NULL;
 
   this->setSize( SbVec2s(500, 390) );
-  this->setClassName("SoQtFullViewer");
 
   if ( build ) {
+    this->setClassName("SoQtFullViewer");
     QWidget * widget = this->buildWidget( this->getParentWidget() );
     this->setBaseWidget( widget );
   }
@@ -247,8 +248,6 @@ SoQtFullViewer::setDecoration(
     this->prefmenu->SetMenuItemMarked( DECORATION_ITEM, enable );
   if ( this->viewerwidget )
     this->showDecorationWidgets( enable );
-  QSize size( this->viewerwidget->size() );
-  SoQtFullViewer::sizeChanged( SbVec2s( size.width(), size.height() ) );
 } // setDecoration()
 
 // *************************************************************************
@@ -703,9 +702,17 @@ SoQtFullViewer::buildWidget(
 
 //  this->canvasparent = new QWidget(this->viewerwidget);
 //  this->canvasparent->move( 0, 0 );
+
   this->canvas = inherited::buildWidget( this->viewerwidget );
-  this->canvas->move( 0, 0 );
-  this->canvas->resize( this->viewerwidget->size() );
+  if ( this->decorations ) {
+    this->canvas->move( 30, 0 );
+    this->canvas->resize(
+      QSize( this->viewerwidget->size().width() - 60,
+             this->viewerwidget->size().height() - 30 ) );
+  } else {
+    this->canvas->move( 0, 0 );
+    this->canvas->resize( this->viewerwidget->size() );
+  }
 
   if ( this->decorations ) {
     this->buildDecoration(this->viewerwidget);
@@ -1403,7 +1410,7 @@ SoQtFullViewer::showDecorationWidgets(SbBool onOff)
   assert(this->viewerwidget);
 //  assert(this->canvasparent);
 
-  if (onOff) {
+  if ( onOff ) {
     for (int i = FIRSTDECORATION; i <= LASTDECORATION; i++) {
       assert(this->decorform[i]);
       this->decorform[i]->show();
@@ -1424,8 +1431,7 @@ SoQtFullViewer::showDecorationWidgets(SbBool onOff)
 //     g->setRowStretch(0, 1);
 
     this->mainlayout = g;
-  }
-  else {
+  } else {
     QGridLayout * g = new QGridLayout(this->viewerwidget, 1, 1, 0, -1 );
     g->addWidget(this->canvas, 0, 0);
     this->mainlayout = g;
@@ -1435,6 +1441,9 @@ SoQtFullViewer::showDecorationWidgets(SbBool onOff)
   }
 
   this->mainlayout->activate();
+  QSize size = this->viewerwidget->size();
+  SbVec2s rasize = SbVec2s( size.width(), size.height() );
+  SoQtFullViewer::sizeChanged( rasize );
 } // showDecorationWidgets()
 
 // *************************************************************************
@@ -2566,13 +2575,18 @@ SoQtFullViewer::sizeChanged( // virtual
   SoDebugError::postInfo( "SoQtFullViewer::sizeChanged", "[invoked (%d, %d)]",
     size[0], size[1] );
 #endif // SOQT_DEBUG
-  if ( this->decorations ) {
-    if ( size[0] <= 60 || size[1] <= 30 ) return;
-    this->canvas->setGeometry( 30, 0, size[0] - 60, size[1] - 30 );
-    inherited::sizeChanged( SbVec2s( size[0] - 60, size[1] - 30 ) );
+  if ( this->decorations != FALSE ) {
+    if ( size[0] <= 60 || size[1] <= 30 ) return; // bogus
+    if ( this->canvas != NULL ) {
+      this->canvas->setGeometry( 30, 0, size[0] - 60, size[1] - 30 );
+    }
+    const SbVec2s rasize = SbVec2s( size[0] - 60, size[1] - 30 );
+    inherited::sizeChanged( rasize );
   } else {
     if ( size[0] <= 0 || size[1] <= 0 ) return;
-    this->canvas->setGeometry( 0, 0, size[0], size[1] );
+    if ( this->canvas != NULL ) {
+      this->canvas->setGeometry( 0, 0, size[0], size[1] );
+    }
     inherited::sizeChanged( size );
   }
 } // sizeChanged()

@@ -247,12 +247,13 @@ void
 SoQtComponent::setBaseWidget(
   QWidget * const widget )
 {
+//  SoDebugError::postInfo( "SoQtComponent::setBaseWidget", "[invoked]" );
   assert( widget );
 
 //  if ( this->parent )
 //    this->parent->removeEventFilter( this );
-//  if ( this->widget )
-//    this->widget->removeEventFilter( this );
+  if ( this->widget )
+    this->widget->removeEventFilter( this );
 
   this->widget = widget;
 //  this->parent = widget->parentWidget();
@@ -282,7 +283,7 @@ SoQtComponent::setBaseWidget(
 
   // Need this to auto-detect resize events.
 //  if (this->parent) this->parent->installEventFilter(this);
-//  this->widget->installEventFilter(this);
+  this->widget->installEventFilter(this);
 #if 0 // debug
   SoDebugError::postInfo("SoQtComponent::setBaseWidget",
                          "installeventfilter, widget: %p", this->widget);
@@ -391,8 +392,8 @@ SoQtComponent::eventFilter( // virtual
       this->sizeChanged(this->storesize);
     }
     else if (obj == (QObject *)this->widget) {
-//      this->storesize.setValue(r->size().width(), r->size().height());
-//      this->sizeChanged(this->storesize);
+      this->storesize.setValue(r->size().width(), r->size().height());
+      this->sizeChanged(this->storesize);
     }
 //    else
 //      assert(0);
@@ -493,6 +494,7 @@ SoQtComponent::show(
                          this->widget->size().width(),
                          this->widget->size().height());
 #endif // debug
+  this->sizeChanged( this->storesize );
 } // show()
 
 /*!
@@ -770,9 +772,9 @@ SoQtComponent::setSize(
 #endif // debug
   if ( this->isTopLevelShell() ) {
     this->getShellWidget()->resize( size[0], size[1] );
-    this->sizeChanged( size );
   }
   this->storesize = size;
+  this->sizeChanged( size );
 } // setSize()
 
 /*!
