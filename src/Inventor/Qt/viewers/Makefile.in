@@ -438,7 +438,7 @@ SoQtViewer.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoGuiViewer.cpp.in
 	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/viewers/SoQtViewer.cpp )
 
 SoAnyFullViewer.h: $(top_srcdir)/src/Inventor/Qt/common/SoAnyFullViewer.h.in
-	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/viewers/SoQtViewer.h )
+	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/viewers/SoAnyFullViewer.h )
 
 SoAnyFullViewer.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoAnyFullViewer.cpp.in
 	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/viewers/SoAnyFullViewer.cpp )
