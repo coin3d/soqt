@@ -42,7 +42,7 @@ class SoAnyExaminerViewer;
 
 // *************************************************************************
 
-class SOQT_DLL_EXPORT SoQtExaminerViewer : public SoQtFullViewer {
+class SOQT_DLL_API SoQtExaminerViewer : public SoQtFullViewer {
   SOQT_OBJECT_HEADER(SoQtExaminerViewer, SoQtFullViewer);
   friend class SoAnyExaminerViewer;
   Q_OBJECT

@@ -31,7 +31,7 @@ class SoKeyboardEvent;
 
 #define SO_QT_ALL_KEYBOARD_EVENTS SoQtKeyboard::ALL
 
-class SOQT_DLL_EXPORT SoQtKeyboard : public SoQtDevice {
+class SOQT_DLL_API SoQtKeyboard : public SoQtDevice {
   SOQT_OBJECT_HEADER(SoQtKeyboard, SoQtDevice);
   Q_OBJECT
 

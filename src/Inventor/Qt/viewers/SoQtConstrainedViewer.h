@@ -26,7 +26,7 @@
 
 // ************************************************************************
 
-class SOQT_DLL_EXPORT SoQtConstrainedViewer : public SoQtFullViewer {
+class SOQT_DLL_API SoQtConstrainedViewer : public SoQtFullViewer {
   SOQT_OBJECT_ABSTRACT_HEADER(SoQtConstrainedViewer, SoQtFullViewer);
   Q_OBJECT
 

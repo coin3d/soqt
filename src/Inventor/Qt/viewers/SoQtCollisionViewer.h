@@ -38,7 +38,7 @@ typedef void SoQtCollisionViewerCB( void * userData, SoQtCollisionViewer * colli
 
 // ************************************************************************
 
-class SOQT_DLL_EXPORT  SoQtCollisionViewer {
+class SOQT_DLL_API  SoQtCollisionViewer {
 public:
   SoQtCollisionViewer( SoQtViewer * viewer );
   ~SoQtCollisionViewer(void);

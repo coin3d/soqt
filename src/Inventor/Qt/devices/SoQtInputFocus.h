@@ -31,7 +31,7 @@
 
 #define SO_QT_ALL_FOCUS_EVENTS SoQtInputFocus::ALL_EVENTS;
 
-class SOQT_DLL_EXPORT SoQtInputFocus : public SoQtDevice {
+class SOQT_DLL_API SoQtInputFocus : public SoQtDevice {
   SOQT_OBJECT_HEADER(SoQtInputFocus, SoQtDevice);
   Q_OBJECT
 

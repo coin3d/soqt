@@ -28,7 +28,7 @@ class SoNode;
 
 // *************************************************************************
 
-class SOQT_DLL_EXPORT SoQtSliderSetBase : public SoQtComponent {
+class SOQT_DLL_API SoQtSliderSetBase : public SoQtComponent {
   SOQT_OBJECT_ABSTRACT_HEADER(SoQtSliderSetBase, SoQtComponent);
   Q_OBJECT
 

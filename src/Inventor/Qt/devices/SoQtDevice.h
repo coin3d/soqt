@@ -40,7 +40,7 @@ typedef int soqtEventMask;
 
 // *************************************************************************
 
-class SOQT_DLL_EXPORT SoQtDevice : public SoQtObject {
+class SOQT_DLL_API SoQtDevice : public SoQtObject {
   SOQT_OBJECT_ABSTRACT_HEADER(SoQtDevice, SoQtObject);
   Q_OBJECT
 
@@ -96,7 +96,7 @@ enum SoQtCustomEvents {
   soqt6dofDevicePressureEvent
 };
 
-class SOQT_DLL_EXPORT SoQt6dofDevicePressureEvent : public QCustomEvent {
+class SOQT_DLL_API SoQt6dofDevicePressureEvent : public QCustomEvent {
   typedef QCustomEvent inherited;
 
 public:
@@ -114,7 +114,7 @@ private:
 
 }; // class SoQt6dofDevicePressureEvent
 
-class SOQT_DLL_EXPORT SoQt6dofDeviceButtonEvent : public QCustomEvent {
+class SOQT_DLL_API SoQt6dofDeviceButtonEvent : public QCustomEvent {
   typedef QCustomEvent inherited;
 
 public:

@@ -31,7 +31,7 @@
 
 typedef void SoQtMaterialListCB(void *userData, const SoMaterial *mtl);
 
-class SOQT_DLL_EXPORT SoQtMaterialList : public SoQtComponent
+class SOQT_DLL_API SoQtMaterialList : public SoQtComponent
 {
   Q_OBJECT
 

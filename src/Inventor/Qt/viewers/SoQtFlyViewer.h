@@ -26,7 +26,7 @@
 
 // ************************************************************************
 
-class SOQT_DLL_EXPORT SoQtFlyViewer : public SoQtConstrainedViewer {
+class SOQT_DLL_API SoQtFlyViewer : public SoQtConstrainedViewer {
   SOQT_OBJECT_HEADER(SoQtFlyViewer, SoQtConstrainedViewer);
   Q_OBJECT
 

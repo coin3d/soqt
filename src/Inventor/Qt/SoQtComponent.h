@@ -38,7 +38,7 @@ typedef void SoQtComponentVisibilityCB( void * user, SbBool visible );
 
 // *************************************************************************
 
-class SOQT_DLL_EXPORT SoQtComponent : public SoQtObject {
+class SOQT_DLL_API SoQtComponent : public SoQtObject {
   SOQT_OBJECT_ABSTRACT_HEADER(SoQtComponent, SoQtObject);
   Q_OBJECT
 

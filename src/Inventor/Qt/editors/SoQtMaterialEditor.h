@@ -40,7 +40,7 @@
 
 typedef void SoQtMaterialEditorCB(void *userData, const SoMaterial *mtl);
 
-class SOQT_DLL_EXPORT SoQtMaterialEditor : public SoQtComponent
+class SOQT_DLL_API SoQtMaterialEditor : public SoQtComponent
 {
   Q_OBJECT
 public:

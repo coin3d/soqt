@@ -33,7 +33,7 @@ class QBoxLayout;
 class QSize;
 class QColor;
 
-class SOQT_DLL_EXPORT _SoQtColorSlider : public QWidget
+class SOQT_DLL_API _SoQtColorSlider : public QWidget
 {
   Q_OBJECT
 
@@ -58,7 +58,7 @@ private:
   QLineEdit * edit;
 };
 
-class SOQT_DLL_EXPORT _SoQtColorEditor : public QWidget
+class SOQT_DLL_API _SoQtColorEditor : public QWidget
 {
   Q_OBJECT
 

@@ -37,7 +37,7 @@ class SoSensor;
 
 // *************************************************************************
 
-class SOQT_DLL_EXPORT SoQt : public QObject {
+class SOQT_DLL_API SoQt : public QObject {
   typedef QObject inherited;
   Q_OBJECT
 

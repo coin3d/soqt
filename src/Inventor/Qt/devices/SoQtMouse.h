@@ -29,7 +29,7 @@ class SoLocation2Event;
 
 // *************************************************************************
 
-class SOQT_DLL_EXPORT SoQtMouse : public SoQtDevice {
+class SOQT_DLL_API SoQtMouse : public SoQtDevice {
   SOQT_OBJECT_HEADER(SoQtMouse, SoQtDevice);
   Q_OBJECT
 

@@ -26,7 +26,7 @@
 
 // ************************************************************************
 
-class SOQT_DLL_EXPORT SoQtWalkViewer : public SoQtConstrainedViewer {
+class SOQT_DLL_API SoQtWalkViewer : public SoQtConstrainedViewer {
   SOQT_OBJECT_HEADER(SoQtWalkViewer, SoQtConstrainedViewer);
   Q_OBJECT
 

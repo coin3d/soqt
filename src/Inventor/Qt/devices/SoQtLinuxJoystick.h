@@ -36,7 +36,7 @@ class SoSpaceballButtonEvent;
 
 #define SO_QT_ALL_LINUX_JOYSTICK_EVENTS SoQtLinuxJoystick::ALL_EVENTS
 
-class SOQT_DLL_EXPORT SoQtLinuxJoystick : public SoQtDevice {
+class SOQT_DLL_API SoQtLinuxJoystick : public SoQtDevice {
   SOQT_OBJECT_HEADER(SoQtLinuxJoystick, SoQtDevice);
   Q_OBJECT
 

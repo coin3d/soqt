@@ -31,7 +31,7 @@ class SoAnyPlaneViewer;
 
 // ************************************************************************
 
-class SOQT_DLL_EXPORT SoQtPlaneViewer : public SoQtFullViewer {
+class SOQT_DLL_API SoQtPlaneViewer : public SoQtFullViewer {
   SOQT_OBJECT_HEADER(SoQtPlaneViewer, SoQtFullViewer);
   friend class SoAnyPlaneViewer;
   Q_OBJECT

@@ -36,7 +36,7 @@ class SoAnyFullViewer;
 
 // *************************************************************************
 
-class SOQT_DLL_EXPORT SoQtFullViewer : public SoQtViewer {
+class SOQT_DLL_API SoQtFullViewer : public SoQtViewer {
   SOQT_OBJECT_ABSTRACT_HEADER(SoQtFullViewer, SoQtViewer);
   friend class SoAnyFullViewer;
   Q_OBJECT

@@ -34,7 +34,7 @@
 
 // *************************************************************************
 
-class SOQT_DLL_EXPORT SoQtObject : public QObject {
+class SOQT_DLL_API SoQtObject : public QObject {
   static SoType classTypeId;
   Q_OBJECT
 

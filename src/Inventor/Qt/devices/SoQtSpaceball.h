@@ -27,7 +27,7 @@
 
 // *************************************************************************
 
-class SOQT_DLL_EXPORT SoQtSpaceball : public SoQtDevice {
+class SOQT_DLL_API SoQtSpaceball : public SoQtDevice {
   SOQT_OBJECT_HEADER(SoQtSpaceball, SoQtDevice);
   Q_OBJECT
 

@@ -26,7 +26,7 @@
 
 // *************************************************************************
 
-class SOQT_DLL_EXPORT SoQtTransformSliderSet : public SoQtSliderSet {
+class SOQT_DLL_API SoQtTransformSliderSet : public SoQtSliderSet {
   SOQT_OBJECT_HEADER(SoQtTransformSliderSet, SoQtSliderSet);
   Q_OBJECT
 
