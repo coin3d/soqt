@@ -84,7 +84,7 @@ protected:
   virtual const char * getDefaultTitle(void) const;
   virtual const char * getDefaultIconTitle(void) const;
 
-  virtual void sizeChanged( const SbVec2s size ) = 0;
+  virtual void sizeChanged( const SbVec2s size );
 
   void addVisibilityChangeCallback( SoQtComponentVisibilityCB * const func,
                                     void * const user = NULL );

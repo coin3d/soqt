@@ -74,13 +74,6 @@ static const char nullstring[] = "(null)";
  */
 
 /*!
-  \fn virtual void SoQtComponent::sizeChanged( const SbVec2s size )
-
-  Overload to detect when the base widget in the component changes its
-  dimensions (an operation which is usually triggered by the user).
- */
-
-/*!
   \var QWidget * SoQtComponent::widget
 
   Pointer to the Qt widget. This member must be set from all component
@@ -789,6 +782,18 @@ SoQtComponent::getSize(
 {
   return this->storesize;
 } // getSize()
+
+/*!
+  Overload to detect when the base widget in the component changes its
+  dimensions (an operation which is usually triggered by the user).
+*/
+
+void
+SoQtComponent::sizeChanged(
+  const SbVec2s size )
+{
+  // nada
+} // sizeChanged()
 
 // *************************************************************************
 
