@@ -25,6 +25,7 @@
 \**************************************************************************/
 
 #include <qcanvas.h>
+#include "Gradient.h"
 
 class TickMark;
 class QMouseEvent;
@@ -40,14 +41,15 @@ class GradientView : public QCanvasView
 
 public:
   GradientView(QCanvas * c = 0, 
-               Gradient * g = 0, 
+               const Gradient & g = Gradient(), 
                QWidget * parent = 0, 
                const char * name = 0, 
                WFlags f = 0);
   
   ~GradientView();
 
-  void setGradient(Gradient * grad);
+  void setGradient(const Gradient & grad);
+  const Gradient & getGradient(void) const;
   void insertTick(float t);
   float getSelectedPos(void);
 
@@ -71,7 +73,6 @@ signals:
 
 protected:
   void contentsMousePressEvent(QMouseEvent *);
-  void contentsMouseReleaseEvent(QMouseEvent *);
   void contentsMouseMoveEvent(QMouseEvent *);
   void keyPressEvent(QKeyEvent * e);
   void buildMenu();
@@ -80,7 +81,7 @@ protected:
 private:
   TickMark * getTick(int x);
   QCanvas * canvas;
-  Gradient * grad;
+  Gradient grad;
   ImageItem * gradItem;
   ImageItem * selectionMarker;
   QPopupMenu * menu;
