@@ -4,8 +4,8 @@ ToDo
 
 (format is: "* [author:conceived-date] item", listed in no particular order)
 
-* [mortene:19990924] check for Coin in the --prefix installation
-  directory.
+* [mortene:19990926] add configure option for specifying location of
+  the Coin library.
 
 * [mortene:19990917] write information in NEWS, README, HACKING,
   AUTHORS, ChangeLog, COPYING.
@@ -45,6 +45,9 @@ Done
 ====
 
 (format is: "* [author:conceived-date][implementer:finished-date] item")
+
+* [mortene:19990924][mortene:19990926] check for Coin in the --prefix
+  installation directory.
 
 * [mortene:19990917][mortene:19990919] build QtThumbwheel test program.
 

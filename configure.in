@@ -126,7 +126,30 @@ else
   dnl * Check if libCoin is installed.
   dnl *******************************************************************
   
-  AC_CHECK_HEADER(Inventor/SbBasic.h, coin_dev=yes, coin_dev=no)
+  AC_MSG_CHECKING(for Coin header files)
+
+  dnl First try standard system locations.
+  AC_TRY_CPP([#include <Inventor/SbBasic.h>], coin_dev=yes, coin_dev=no)
+
+  dnl Not found in any of the standard system locations, try SoQt
+  dnl installation directory.
+  if test "x$coin_dev" = "xno"; then
+    _SOQTPREFIX=$prefix
+    test "x$_SOQTPREFIX" = xNONE && _SOQTPREFIX=$ac_default_prefix
+    _SOQTEPREFIX=$exec_prefix
+    test "x$_SOQTEPREFIX" = xNONE && _SOQTEPREFIX=$_SOQTPREFIX
+    _SAVECPPFLAGS=$CPPFLAGS
+    CPPFLAGS="-I$_SOQTPREFIX/include $CPPFLAGS"
+    AC_TRY_CPP([#include <Inventor/SbBasic.h>], coin_dev=yes, coin_dev=no)
+    CPPFLAGS=$_SAVECPPFLAGS
+    if test "x$coin_dev" = "xyes"; then
+      CPPFLAGS="-I$_SOQTPREFIX/include $CPPFLAGS"
+      LDFLAGS="-L$_SOQTEPREFIX/lib $LDFLAGS"
+    fi
+  fi
+
+  AC_MSG_RESULT($coin_dev)
+
   if test "x$coin_dev" = "xyes"; then
     dnl FIXME: this doesn't work, as the AC_CHECK_LIB only can check against
     dnl functions in a C library. Add a new macro AC_CHECK_CXXLIB? Ask on the

@@ -3062,43 +3062,67 @@ fi
   LIBS=$inventortest_save_LIBS
 else
         
-  ac_safe=`echo "Inventor/SbBasic.h" | sed 'y%./+-%__p_%'`
-echo $ac_n "checking for Inventor/SbBasic.h""... $ac_c" 1>&6
-echo "configure:3068: checking for Inventor/SbBasic.h" >&5
-if eval "test \"`echo '$''{'ac_cv_header_$ac_safe'+set}'`\" = set"; then
-  echo $ac_n "(cached) $ac_c" 1>&6
-else
-  cat > conftest.$ac_ext <<EOF
-#line 3073 "configure"
+  echo $ac_n "checking for Coin header files""... $ac_c" 1>&6
+echo "configure:3067: checking for Coin header files" >&5
+
+    cat > conftest.$ac_ext <<EOF
+#line 3070 "configure"
 #include "confdefs.h"
 #include <Inventor/SbBasic.h>
 EOF
 ac_try="$ac_cpp conftest.$ac_ext >/dev/null 2>conftest.out"
-{ (eval echo configure:3078: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }
+{ (eval echo configure:3075: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }
 ac_err=`grep -v '^ *+' conftest.out | grep -v "^conftest.${ac_ext}\$"`
 if test -z "$ac_err"; then
   rm -rf conftest*
-  eval "ac_cv_header_$ac_safe=yes"
+  coin_dev=yes
 else
   echo "$ac_err" >&5
   echo "configure: failed program was:" >&5
   cat conftest.$ac_ext >&5
   rm -rf conftest*
-  eval "ac_cv_header_$ac_safe=no"
+  coin_dev=no
 fi
 rm -f conftest*
-fi
-if eval "test \"`echo '$ac_cv_header_'$ac_safe`\" = yes"; then
-  echo "$ac_t""yes" 1>&6
+
+      if test "x$coin_dev" = "xno"; then
+    _SOQTPREFIX=$prefix
+    test "x$_SOQTPREFIX" = xNONE && _SOQTPREFIX=$ac_default_prefix
+    _SOQTEPREFIX=$exec_prefix
+    test "x$_SOQTEPREFIX" = xNONE && _SOQTEPREFIX=$_SOQTPREFIX
+    _SAVECPPFLAGS=$CPPFLAGS
+    CPPFLAGS="-I$_SOQTPREFIX/include $CPPFLAGS"
+    cat > conftest.$ac_ext <<EOF
+#line 3097 "configure"
+#include "confdefs.h"
+#include <Inventor/SbBasic.h>
+EOF
+ac_try="$ac_cpp conftest.$ac_ext >/dev/null 2>conftest.out"
+{ (eval echo configure:3102: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }
+ac_err=`grep -v '^ *+' conftest.out | grep -v "^conftest.${ac_ext}\$"`
+if test -z "$ac_err"; then
+  rm -rf conftest*
   coin_dev=yes
 else
-  echo "$ac_t""no" 1>&6
-coin_dev=no
+  echo "$ac_err" >&5
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  rm -rf conftest*
+  coin_dev=no
 fi
+rm -f conftest*
+    CPPFLAGS=$_SAVECPPFLAGS
+    if test "x$coin_dev" = "xyes"; then
+      CPPFLAGS="-I$_SOQTPREFIX/include $CPPFLAGS"
+      LDFLAGS="-L$_SOQTEPREFIX/lib $LDFLAGS"
+    fi
+  fi
+
+  echo "$ac_t""$coin_dev" 1>&6
 
   if test "x$coin_dev" = "xyes"; then
                     echo $ac_n "checking for main in -lCoin""... $ac_c" 1>&6
-echo "configure:3102: checking for main in -lCoin" >&5
+echo "configure:3126: checking for main in -lCoin" >&5
 ac_lib_var=`echo Coin'_'main | sed 'y%./+-%__p_%'`
 if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
@@ -3106,14 +3130,14 @@ else
   ac_save_LIBS="$LIBS"
 LIBS="-lCoin  $LIBS"
 cat > conftest.$ac_ext <<EOF
-#line 3110 "configure"
+#line 3134 "configure"
 #include "confdefs.h"
 
 int main() {
 main()
 ; return 0; }
 EOF
-if { (eval echo configure:3117: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:3141: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   eval "ac_cv_lib_$ac_lib_var=yes"
 else
@@ -3150,7 +3174,7 @@ fi
 
 
 echo $ac_n "checking value of the QTDIR environment variable""... $ac_c" 1>&6
-echo "configure:3154: checking value of the QTDIR environment variable" >&5
+echo "configure:3178: checking value of the QTDIR environment variable" >&5
 if test "x$QTDIR" = "x"; then
   echo "$ac_t""empty!" 1>&6
   echo "configure: warning: QTDIR environment variable not set -- this might be an indication of a problem" 1>&2
@@ -3165,7 +3189,7 @@ if test "x$QTDIR" != "x"; then
   # Extract the first word of "moc", so it can be a program name with args.
 set dummy moc; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:3169: checking for $ac_word" >&5
+echo "configure:3193: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_MOC'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3201,7 +3225,7 @@ else
   # Extract the first word of "moc", so it can be a program name with args.
 set dummy moc; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:3205: checking for $ac_word" >&5
+echo "configure:3229: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_MOC'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3241,16 +3265,16 @@ fi
 
 
 echo $ac_n "checking for Qt header files""... $ac_c" 1>&6
-echo "configure:3245: checking for Qt header files" >&5
+echo "configure:3269: checking for Qt header files" >&5
 cat > conftest.$ac_ext <<EOF
-#line 3247 "configure"
+#line 3271 "configure"
 #include "confdefs.h"
 #include <qapplication.h>
 int main() {
 
 ; return 0; }
 EOF
-if { (eval echo configure:3254: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:3278: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
   qt_dev=yes
 else
@@ -3267,7 +3291,7 @@ fi
 
 
 echo $ac_n "checking for main in -lqt""... $ac_c" 1>&6
-echo "configure:3271: checking for main in -lqt" >&5
+echo "configure:3295: checking for main in -lqt" >&5
 ac_lib_var=`echo qt'_'main | sed 'y%./+-%__p_%'`
 if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
@@ -3275,14 +3299,14 @@ else
   ac_save_LIBS="$LIBS"
 LIBS="-lqt $X_LIBS $X_PRE_LIBS -lX11 $X_EXTRA_LIBS $LIBS"
 cat > conftest.$ac_ext <<EOF
-#line 3279 "configure"
+#line 3303 "configure"
 #include "confdefs.h"
 
 int main() {
 main()
 ; return 0; }
 EOF
-if { (eval echo configure:3286: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:3310: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   eval "ac_cv_lib_$ac_lib_var=yes"
 else
@@ -3314,16 +3338,16 @@ fi
 
 
 echo $ac_n "checking for QGL header files""... $ac_c" 1>&6
-echo "configure:3318: checking for QGL header files" >&5
+echo "configure:3342: checking for QGL header files" >&5
 cat > conftest.$ac_ext <<EOF
-#line 3320 "configure"
+#line 3344 "configure"
 #include "confdefs.h"
 #include <qgl.h>
 int main() {
 
 ; return 0; }
 EOF
-if { (eval echo configure:3327: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:3351: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
   qgl_dev=yes
 else
@@ -3340,7 +3364,7 @@ fi
 
 
 echo $ac_n "checking for main in -lqgl""... $ac_c" 1>&6
-echo "configure:3344: checking for main in -lqgl" >&5
+echo "configure:3368: checking for main in -lqgl" >&5
 ac_lib_var=`echo qgl'_'main | sed 'y%./+-%__p_%'`
 if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
@@ -3348,14 +3372,14 @@ else
   ac_save_LIBS="$LIBS"
 LIBS="-lqgl  $LIBS"
 cat > conftest.$ac_ext <<EOF
-#line 3352 "configure"
+#line 3376 "configure"
 #include "confdefs.h"
 
 int main() {
 main()
 ; return 0; }
 EOF
-if { (eval echo configure:3359: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:3383: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   eval "ac_cv_lib_$ac_lib_var=yes"
 else
