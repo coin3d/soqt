@@ -210,8 +210,8 @@ SoGui_src_Inventor_Gui_viewers_BuiltFiles = \
 SoGui_src_Inventor_Gui_widgets_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.h \
   $(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp \
-  $(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyPopupMenu.h \
-  $(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyPopupMenu.cpp
+  $(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.h \
+  $(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp
 
 
 SoGui_man_man1_BuiltFiles = \
@@ -320,8 +320,8 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/SoGuiMaterialList.h.in \
   src/Inventor/@Gui@/common/SoAny.h.in \
   src/Inventor/@Gui@/common/SoAny.cpp.in \
-  src/Inventor/@Gui@/common/SoAnyPopupMenu.h.in \
-  src/Inventor/@Gui@/common/SoAnyPopupMenu.cpp.in \
+  src/Inventor/@Gui@/common/widgets/SoGuiPopupMenu.h.in \
+  src/Inventor/@Gui@/common/widgets/SoGuiPopupMenu.cpp.in \
   src/Inventor/@Gui@/common/SoAnyThumbWheel.h.in \
   src/Inventor/@Gui@/common/SoAnyThumbWheel.cpp.in \
   src/Inventor/@Gui@/common/SoAnyFullViewer.h.in \
@@ -424,6 +424,13 @@ widgets_lst_SOURCES = \
 nodist_widgets_lst_SOURCES = \
 	$(SoGui_src_Inventor_Gui_widgets_BuiltFiles)
 
+
+
+############################################################################
+# header installation
+SoQtWidgetsincdir = $(includedir)/Inventor/Qt/widgets
+SoQtWidgetsinc_HEADERS = 
+nodist_SoQtWidgetsinc_HEADERS = SoQtPopupMenu.h
 subdir = src/Inventor/Qt/widgets
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/src/config.h
@@ -435,7 +442,7 @@ widgets_lst_LIBADD =
 am_widgets_lst_OBJECTS = SoQtGLArea.$(OBJEXT) SoQtThumbWheel.$(OBJEXT) \
 	QtNativePopupMenu.$(OBJEXT)
 nodist_widgets_lst_OBJECTS = SoAnyThumbWheel.$(OBJEXT) \
-	SoAnyPopupMenu.$(OBJEXT)
+	So@Gui@PopupMenu.$(OBJEXT)
 widgets_lst_OBJECTS = $(am_widgets_lst_OBJECTS) \
 	$(nodist_widgets_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
@@ -444,7 +451,8 @@ libSoQtWidgets_la_LDFLAGS =
 libSoQtWidgets_la_LIBADD =
 am_libSoQtWidgets_la_OBJECTS = SoQtGLArea.lo SoQtThumbWheel.lo \
 	QtNativePopupMenu.lo
-nodist_libSoQtWidgets_la_OBJECTS = SoAnyThumbWheel.lo SoAnyPopupMenu.lo
+nodist_libSoQtWidgets_la_OBJECTS = SoAnyThumbWheel.lo \
+	So@Gui@PopupMenu.lo
 libSoQtWidgets_la_OBJECTS = $(am_libSoQtWidgets_la_OBJECTS) \
 	$(nodist_libSoQtWidgets_la_OBJECTS)
 
@@ -455,8 +463,8 @@ LDFLAGS = @LDFLAGS@
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 @AMDEP_TRUE@DEP_FILES = $(DEPDIR)/QtNativePopupMenu.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/QtNativePopupMenu.Po \
-@AMDEP_TRUE@	$(DEPDIR)/SoAnyPopupMenu.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/SoAnyPopupMenu.Po \
+@AMDEP_TRUE@	$(DEPDIR)/So@Gui@PopupMenu.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/So@Gui@PopupMenu.Po \
 @AMDEP_TRUE@	$(DEPDIR)/SoAnyThumbWheel.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/SoAnyThumbWheel.Po \
 @AMDEP_TRUE@	$(DEPDIR)/SoQtGLArea.Plo $(DEPDIR)/SoQtGLArea.Po \
@@ -480,7 +488,9 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 DIST_SOURCES = $(widgets_lst_SOURCES) $(libSoQtWidgets_la_SOURCES)
-DIST_COMMON = Makefile.am Makefile.in
+HEADERS = $(SoQtWidgetsinc_HEADERS) $(nodist_SoQtWidgetsinc_HEADERS)
+
+DIST_COMMON = $(SoQtWidgetsinc_HEADERS) Makefile.am Makefile.in
 SOURCES = $(widgets_lst_SOURCES) $(nodist_widgets_lst_SOURCES) $(libSoQtWidgets_la_SOURCES) $(nodist_libSoQtWidgets_la_SOURCES)
 
 all: $(BUILT_SOURCES)
@@ -511,15 +521,15 @@ clean-noinstLIBRARIES:
 	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
 SoAnyThumbWheel.$(OBJEXT): \
 	$(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp
-SoAnyPopupMenu.$(OBJEXT): \
-	$(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyPopupMenu.cpp
+So@Gui@PopupMenu.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp
 
 clean-noinstLTLIBRARIES:
 	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
 SoAnyThumbWheel.lo: \
 	$(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp
-SoAnyPopupMenu.lo: \
-	$(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyPopupMenu.cpp
+So@Gui@PopupMenu.lo: \
+	$(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp
 libSoQtWidgets.la: $(libSoQtWidgets_la_OBJECTS) $(libSoQtWidgets_la_DEPENDENCIES) 
 	$(CXXLINK)  $(libSoQtWidgets_la_LDFLAGS) $(libSoQtWidgets_la_OBJECTS) $(libSoQtWidgets_la_LIBADD) $(LIBS)
 
@@ -531,8 +541,8 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/QtNativePopupMenu.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/QtNativePopupMenu.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoAnyPopupMenu.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoAnyPopupMenu.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@PopupMenu.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@PopupMenu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoAnyThumbWheel.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoAnyThumbWheel.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtGLArea.Plo@am__quote@
@@ -579,25 +589,41 @@ SoAnyThumbWheel.lo: $(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.c
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o SoAnyThumbWheel.lo `test -f $(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp
 
-SoAnyPopupMenu.o: $(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyPopupMenu.cpp
-@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyPopupMenu.cpp' object='SoAnyPopupMenu.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/SoAnyPopupMenu.Po' tmpdepfile='$(DEPDIR)/SoAnyPopupMenu.TPo' @AMDEPBACKSLASH@
+So@Gui@PopupMenu.o: $(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp' object='So@Gui@PopupMenu.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@PopupMenu.Po' tmpdepfile='$(DEPDIR)/So@Gui@PopupMenu.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o SoAnyPopupMenu.o `test -f $(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyPopupMenu.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyPopupMenu.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@PopupMenu.o `test -f $(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp
 
-SoAnyPopupMenu.obj: $(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyPopupMenu.cpp
-@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyPopupMenu.cpp' object='SoAnyPopupMenu.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/SoAnyPopupMenu.Po' tmpdepfile='$(DEPDIR)/SoAnyPopupMenu.TPo' @AMDEPBACKSLASH@
+So@Gui@PopupMenu.obj: $(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp' object='So@Gui@PopupMenu.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@PopupMenu.Po' tmpdepfile='$(DEPDIR)/So@Gui@PopupMenu.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o SoAnyPopupMenu.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyPopupMenu.cpp`
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@PopupMenu.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp`
 
-SoAnyPopupMenu.lo: $(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyPopupMenu.cpp
-@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyPopupMenu.cpp' object='SoAnyPopupMenu.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/SoAnyPopupMenu.Plo' tmpdepfile='$(DEPDIR)/SoAnyPopupMenu.TPlo' @AMDEPBACKSLASH@
+So@Gui@PopupMenu.lo: $(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp' object='So@Gui@PopupMenu.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@PopupMenu.Plo' tmpdepfile='$(DEPDIR)/So@Gui@PopupMenu.TPlo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o SoAnyPopupMenu.lo `test -f $(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyPopupMenu.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyPopupMenu.cpp
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@PopupMenu.lo `test -f $(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp
 CXXDEPMODE = @CXXDEPMODE@
 uninstall-info-am:
+
+uninstall-SoQtWidgetsincHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(SoQtWidgetsinc_HEADERS)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(SoQtWidgetsincdir)/$$f"; \
+	  rm -f $(DESTDIR)$(SoQtWidgetsincdir)/$$f; \
+	done
+
+uninstall-nodist_SoQtWidgetsincHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(nodist_SoQtWidgetsinc_HEADERS)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(SoQtWidgetsincdir)/$$f"; \
+	  rm -f $(DESTDIR)$(SoQtWidgetsincdir)/$$f; \
+	done
 
 tags: TAGS
 
@@ -654,9 +680,10 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LIBRARIES) $(LTLIBRARIES)
+all-am: Makefile $(LIBRARIES) $(LTLIBRARIES) $(HEADERS)
 
 installdirs:
+	$(mkinstalldirs) $(DESTDIR)$(SoQtWidgetsincdir) $(DESTDIR)$(SoQtWidgetsincdir)
 
 install: install-am
 install-exec: install-exec-am
@@ -702,7 +729,8 @@ info: info-am
 
 info-am:
 
-install-data-am:
+install-data-am: install-SoQtWidgetsincHEADERS \
+	install-nodist_SoQtWidgetsincHEADERS
 
 install-exec-am:
 
@@ -721,19 +749,22 @@ mostlyclean: mostlyclean-am
 mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
-uninstall-am: uninstall-info-am
+uninstall-am: uninstall-SoQtWidgetsincHEADERS uninstall-info-am \
+	uninstall-nodist_SoQtWidgetsincHEADERS
 
 .PHONY: GTAGS all all-am check check-am clean clean-generic \
 	clean-libtool clean-noinstLIBRARIES clean-noinstLTLIBRARIES \
 	distclean distclean-compile distclean-depend distclean-generic \
 	distclean-libtool distclean-tags distdir dvi dvi-am info \
-	info-am install install-am install-data install-data-am \
-	install-exec install-exec-am install-info install-info-am \
-	install-man install-strip installcheck installcheck-am \
-	installdirs maintainer-clean maintainer-clean-generic \
-	mostlyclean mostlyclean-compile mostlyclean-generic \
-	mostlyclean-libtool tags uninstall uninstall-am \
-	uninstall-info-am
+	info-am install install-SoQtWidgetsincHEADERS install-am \
+	install-data install-data-am install-exec install-exec-am \
+	install-info install-info-am install-man \
+	install-nodist_SoQtWidgetsincHEADERS install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool tags uninstall \
+	uninstall-SoQtWidgetsincHEADERS uninstall-am uninstall-info-am \
+	uninstall-nodist_SoQtWidgetsincHEADERS
 
 
 ############################################################################
@@ -886,11 +917,11 @@ $(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.h: $(top_srcdir)/src/
 $(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/SoAnyThumbWheel.cpp.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp:src/Inventor/@Gui@/common/SoAnyThumbWheel.cpp.in )
 
-$(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyPopupMenu.h: $(top_srcdir)/src/Inventor/@Gui@/common/SoAnyPopupMenu.h.in $(top_builddir)/config.status
-	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/widgets/SoAnyPopupMenu.h:src/Inventor/@Gui@/common/SoAnyPopupMenu.h.in )
+$(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.h: $(top_srcdir)/src/Inventor/@Gui@/common/widgets/SoGuiPopupMenu.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.h:src/Inventor/@Gui@/common/widgets/SoGuiPopupMenu.h.in )
 
-$(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyPopupMenu.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/SoAnyPopupMenu.cpp.in $(top_builddir)/config.status
-	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/widgets/SoAnyPopupMenu.cpp:src/Inventor/@Gui@/common/SoAnyPopupMenu.cpp.in )
+$(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/widgets/SoGuiPopupMenu.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp:src/Inventor/@Gui@/common/widgets/SoGuiPopupMenu.cpp.in )
 
 $(top_builddir)/build/so@gui@.doxygen: $(top_srcdir)/build/so@gui@.doxygen.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=build/so@gui@.doxygen )
@@ -1043,6 +1074,32 @@ widgets.lst: Makefile $(widgets_lst_OBJECTS)
 	@echo "Linking widgets.lst..."; \
 	rm -f $@; \
 	for i in $(widgets_lst_OBJECTS); do echo $$i >>$@; done
+
+install-SoQtWidgetsincHEADERS: $(SoQtWidgetsinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(SoQtWidgetsincdir)
+	@list='$(SoQtWidgetsinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoQtWidgetsincdir)/$$f"; \
+	  if cmp -s "$$src" "$$dst"; then :; else \
+	    echo " $(INSTALL_HEADER) $$src $$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	  fi; \
+	done
+
+install-nodist_SoQtWidgetsincHEADERS: $(nodist_SoQtWidgetsinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(SoQtWidgetsincdir)
+	@list='$(nodist_SoQtWidgetsinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoQtWidgetsincdir)/$$f"; \
+	  if cmp -s "$$src" "$$dst"; then :; else \
+	    echo " $(INSTALL_HEADER) $$src $$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	  fi; \
+	done
 
 # EOF ######################################################################
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
