@@ -17,11 +17,6 @@
  *
  **************************************************************************/
 
-#if SOQT_DEBUG
-static const char rcsid[] =
-  "$Id$";
-#endif // SOQT_DEBUG
-
 // *************************************************************************
 
 // Class documentation in common/SoGuiCommon.cpp.in.
@@ -79,18 +74,7 @@ static const char rcsid[] =
 #include <Inventor/Qt/devices/SoQtDevice.h>
 #include <Inventor/Qt/SoQtComponent.h>
 #include <Inventor/Qt/SoAny.h>
-
-// *************************************************************************
-
-/*!
-  \enum SoQt::CustomEventId
-  FIXME: write doc
-*/
-
-/*!
-  \var SoQt::CustomEventId SoQt::SPACEBALL_EVENT
-  FIXME: write doc
-*/
+#include <Inventor/Qt/SoQtInternal.h>
 
 // *************************************************************************
 
@@ -135,7 +119,8 @@ public:
       QWidget * focus = this->focusWidget();
       if (!focus) focus = this->activeWindow();
       if (focus) {
-        QCustomEvent qevent((QEvent::Type)SoQt::SPACEBALL_EVENT, (void*) &sbEvent);
+        QCustomEvent qevent((QEvent::Type)SoQtInternal::SPACEBALL_EVENT,
+                            (void *)&sbEvent);
         QApplication::sendEvent(focus, &qevent);
       }
     }

@@ -37,6 +37,7 @@ static const char rcsid[] =
 #include <Inventor/Qt/SoQt.h>
 #include <Inventor/Qt/SoQtBasic.h>
 #include <Inventor/Qt/devices/SoQtSpaceball.h>
+#include <Inventor/Qt/SoQtInternal.h>
 #include <Inventor/events/SoMotion3Event.h>
 #include <Inventor/events/SoSpaceballButtonEvent.h>
 #include <qwidget.h>
@@ -174,7 +175,7 @@ const SoEvent *
 SoQtSpaceball::translateEvent(QEvent * event)
 {
 #ifdef HAVE_X11_AVAILABLE
-  if (event->type() == (QEvent::Type) SoQt::SPACEBALL_EVENT) {
+  if (event->type() == (QEvent::Type) SoQtInternal::SPACEBALL_EVENT) {
     SPW_InputEvent * sbEvent = (SPW_InputEvent*) ((QCustomEvent*)event)->data();
 
     switch (sbEvent->type) {
