@@ -21,98 +21,53 @@
  *
 \**************************************************************************/
 
+// FIXME: this device class has not been implemented yet. 20020625 mortene.
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
+#endif // HAVE_CONFIG_H
 
 #include <Inventor/errors/SoDebugError.h>
 
 #include <soqtdefs.h>
-#include <Inventor/Qt/SoQtBasic.h>
 #include <Inventor/Qt/devices/SoQtInputFocus.h>
-
-/*!
-  \class SoQtInputFocus SoQtInputFocus.h Inventor/Qt/devices/SoQtInputFocus.h
-  \brief The SoQtInputFocus class ...
-  \ingroup devices
-
-  FIXME: write class doc
-*/
-
-SOQT_OBJECT_SOURCE(SoQtInputFocus);
+#include <Inventor/Qt/devices/SoGuiInputFocusP.h>
 
 // *************************************************************************
 
-/*!
-  \enum SoQtInputFocus::Events
-  FIXME: write doc
-*/
-
-/*!
-  \var SoQtInputFocus::Events SoQtInputFocus::ENTER_WINDOW
-  FIXME: write doc
-*/
-
-/*!
-  \var SoQtInputFocus::Events SoQtInputFocus::LEAVE_WINDOW
-  FIXME: write doc
-*/
-
-/*!
-  \var SoQtInputFocus::Events SoQtInputFocus::ALL_EVENTS
-  FIXME: write doc
-*/
+class SoQtInputFocusP : public SoGuiInputFocusP {
+public:
+  SoQtInputFocusP(SoQtInputFocus * p) : SoGuiInputFocusP(p) { }
+};
 
 // *************************************************************************
-
-/*!
-  Constructor.
-*/
 
 SoQtInputFocus::SoQtInputFocus(int mask)
 {
-  this->eventmask = mask;
+  PRIVATE(this) = new SoQtInputFocusP(this);
+  PRIVATE(this)->eventmask = mask;
 }
-
-/*!
-  Destructor.
-*/
 
 SoQtInputFocus::~SoQtInputFocus()
 {
+  delete PRIVATE(this);
 }
 
 // *************************************************************************
 
-/*!
-  FIXME: write function documentation
-*/
-
 void
-SoQtInputFocus::enable(QWidget *, // widget,
-                       SoQtEventHandler *, // handler,
-                       void *) // closure)
+SoQtInputFocus::enable(QWidget * widget, SoQtEventHandler * handler, void * closure)
 {
   SOQT_STUB();
 }
 
-/*!
-  FIXME: write function documentation
-*/
-
 void
-SoQtInputFocus::disable(QWidget *, // widget,
-                        SoQtEventHandler *, // handler,
-                        void *) // closure)
+SoQtInputFocus::disable(QWidget * widget, SoQtEventHandler * handler, void * closure)
 {
   SOQT_STUB();
 }
 
 // *************************************************************************
-
-/*!
-  FIXME: write function documentation
-*/
 
 const SoEvent *
 SoQtInputFocus::translateEvent(QEvent *)
