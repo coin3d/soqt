@@ -397,20 +397,6 @@ SoQtComponent::eventFilter( // virtual
                          obj, eventnaming[e->type()]);
 #endif // debug
 
-#if 0
-  // Remove event filter if unknown Qt widget.
-  // FIXME: this code should probably be superfluous if everything
-  // else works 100%? 19990216 mortene.
-  if ((obj != this->widget) && (obj != this->parent)) {
-#if SOQT_DEBUG
-    SoDebugError::postWarning("SoQtComponent::eventFilter",
-                              "had to do a removeEventFilter()");
-#endif // SOQT_DEBUG
-    obj->removeEventFilter(this);
-    return FALSE;
-  }
-#endif // 0
-
   if (e->type() == Event_Resize) {
     QResizeEvent * r = (QResizeEvent *)e;
 
@@ -429,9 +415,6 @@ SoQtComponent::eventFilter( // virtual
       this->storesize.setValue(r->size().width(), r->size().height());
       this->sizeChanged(this->storesize);
     }
-//    else
-//      assert(0);
-
   }
   // Detect visibility changes.
   else if (obj == this->widget &&
