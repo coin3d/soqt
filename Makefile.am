@@ -56,6 +56,7 @@ endif
 
 EXTRA_DIST = \
 	FAQ \
+	LICENSE.GPL \
 	README.DLL \
 	README.IRIX \
 	README.WIN32 \
@@ -103,13 +104,12 @@ install-exec-local:
 else
 install-exec-local: built-sources $(srcdir)/cfg/m4/wrapmsvc.exe
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(bindir)
 	@if @BUILD_WITH_MSVC@; then \
+	  echo " $(mkinstalldirs) $(DESTDIR)$(bindir)"; \
+	  $(mkinstalldirs) "$(DESTDIR)$(bindir)"; \
 	  p=wrapmsvc.exe; \
-	  if cmp -s "$(srcdir)/cfg/m4/$$p" "$(DESTDIR)$(bindir)/$$p"; then \
-	    echo " $(INSTALL_PROGRAM) $(srcdir)/cfg/m4/$$p $(DESTDIR)$(bindir)/$$p"; \
-	    $(INSTALL_PROGRAM) $(srcdir)/cfg/m4/$$p $(DESTDIR)$(bindir)/$$p; \
-	  fi \
+	  echo " $(INSTALL_PROGRAM) $(top_srcdir)/cfg/m4/$$p $(DESTDIR)$(bindir)/$$p"; \
+	  $(INSTALL_PROGRAM) "$(top_srcdir)/cfg/m4/$$p" "$(DESTDIR)$(bindir)/$$p"; \
 	fi
 endif
 endif
