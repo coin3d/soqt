@@ -38,7 +38,7 @@ else
 lib_LTLIBRARIES = libSoQt@SUFFIX@.la
 endif
 
-if MACOSX_10_2
+if MACOSX_10_2FF
 LibtoolLinkArgs = -Wl,-twolevel_namespace -Wl,-undefined,error -Wl,-prebind -Wl,-seg1addr,0x30000000
 else
 LibtoolLinkArgs = -no-undefined
