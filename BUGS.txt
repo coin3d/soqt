@@ -89,15 +89,13 @@ Note: see also src/Inventor/Qt/common/BUGS.txt.
     makes it looks like Coin has worse rendering performance than SGI
     Inventor.
 
-    To see what I mean, do a seek operation on a lightweigth scene and
-    watch the SoQt-version be a lot more "jumpy" than the InventorXt
-    version (even when SoQt is built on top of SGI Inventor).
-
     It also looks like we have the same problem in SoXt.
 
-    Proceed to hunt down this bug by first checking that it's not
-    actually our seek operation that is the culprit, then try to find
-    out what we do wrong in how we process our event queues.  :-(
+    Part of the problem, at least, seems to be that it is possible to
+    get several actualRedraw() calls in-between the handling of native
+    Qt events. That causes for instance SoQtExaminerViewer's
+    invocations of spin() to happen more seldom than actualRedraw(),
+    which again causes bad responsiveness.
 
     This is not a trivial task.
 
