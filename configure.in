@@ -176,6 +176,25 @@ else
   ],[
     default searchprefix
   ])
+
+  SIM_AC_CHECK_X11_READY(
+    [sim_ac_x11_ready=true],
+    [sim_ac_x11_ready=false])
+
+  if ! $sim_ac_x11_ready; then
+    SIM_CHECK_X11([
+      SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS $sim_ac_x11_cppflags"
+      SOQT_EXTRA_LDFLAGS="$SOQT_EXTRA_LDFLAGS $sim_ac_x11_ldflags"
+      SOQT_EXTRA_LIBS="$sim_ac_x11_libs $SOQT_EXTRA_LIBS"
+    ])
+    if test x"$sim_ac_x11_avail" = xyes; then
+      SIM_CHECK_X11SHMEM(
+        [SOQT_EXTRA_LIBS="$sim_ac_x11shmem_libs $SOQT_EXTRA_LIBS"])
+      SIM_CHECK_X11MU(
+        [SOQT_EXTRA_LIBS="$sim_ac_x11mu_libs $SOQT_EXTRA_LIBS"])
+    fi
+  fi
+  
 fi
 
 dnl Check for the availability of this node (it is used in the hidden

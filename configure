@@ -3643,23 +3643,807 @@ else
   
 fi
 
+
+  echo $ac_n "checking if X11 linkage is ready... $ac_c" 1>&6
+echo "configure:3649: checking if X11 linkage is ready" 1>&5
+if test "${sim_cv_x11_ready+set}" = set; then
+  echo $ac_n "(cached) $ac_c" 1>&6
+else
+  cat >conftest.$ac_ext <<EOF
+#line 3654 "configure"
+#include "confdefs.h"
+#include <X11/Xlib.h>
+int main() {
+(void)XOpenDisplay(0L);
+; return 0; }
+EOF
+if { (eval echo configure:3661: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+  rm -rf conftest*
+  sim_cv_x11_ready=true
+else
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  rm -rf conftest*
+  sim_cv_x11_ready=false
+fi
+rm -f conftest*
+fi
+echo "$ac_t""$sim_cv_x11_ready" 1>&6
+if ${sim_cv_x11_ready}; then
+  sim_ac_x11_ready=true
+else
+  sim_ac_x11_ready=false
+fi
+
+
+  if ! $sim_ac_x11_ready; then
+    
+
+
+sim_ac_x11_avail=no
+
+if test "$no_x" = yes; then
+  # Not all programs may use this symbol, but it does not hurt to define it.
+  cat >>confdefs.h <<\EOF
+#define X_DISPLAY_MISSING 1
+EOF
+
+  X_CFLAGS= X_PRE_LIBS= X_LIBS= X_EXTRA_LIBS=
+else
+  if test -n "$x_includes"; then
+    X_CFLAGS="$X_CFLAGS -I$x_includes"
+  fi
+
+  # It would also be nice to do this for all -L options, not just this one.
+  if test -n "$x_libraries"; then
+    X_LIBS="$X_LIBS -L$x_libraries"
+    # For Solaris; some versions of Sun CC require a space after -R and
+    # others require no space.  Words are not sufficient . . . .
+    case "`(uname -sr) 2>/dev/null`" in
+    "SunOS 5"*)
+      echo $ac_n "checking whether -R must be followed by a space... $ac_c" 1>&6
+echo "configure:3706: checking whether -R must be followed by a space" 1>&5
+      ac_xsave_LIBS="$LIBS"; LIBS="$LIBS -R$x_libraries"
+      cat >conftest.$ac_ext <<EOF
+#line 3709 "configure"
+#include "confdefs.h"
+
+int main() {
+
+; return 0; }
+EOF
+if { (eval echo configure:3716: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+  rm -rf conftest*
+  ac_R_nospace=yes
+else
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  rm -rf conftest*
+  ac_R_nospace=no
+fi
+rm -f conftest*
+      if test $ac_R_nospace = yes; then
+	echo "$ac_t""no" 1>&6
+	X_LIBS="$X_LIBS -R$x_libraries"
+      else
+	LIBS="$ac_xsave_LIBS -R $x_libraries"
+	cat >conftest.$ac_ext <<EOF
+#line 3732 "configure"
+#include "confdefs.h"
+
+int main() {
+
+; return 0; }
+EOF
+if { (eval echo configure:3739: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+  rm -rf conftest*
+  ac_R_space=yes
+else
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  rm -rf conftest*
+  ac_R_space=no
+fi
+rm -f conftest*
+	if test $ac_R_space = yes; then
+	  echo "$ac_t""yes" 1>&6
+	  X_LIBS="$X_LIBS -R $x_libraries"
+	else
+	  echo "$ac_t""neither works" 1>&6
+	fi
+      fi
+      LIBS="$ac_xsave_LIBS"
+    esac
+  fi
+
+  # Check for system-dependent libraries X programs must link with.
+  # Do this before checking for the system-independent R6 libraries
+  # (-lICE), since we may need -lsocket or whatever for X linking.
+
+  if test "$ISC" = yes; then
+    X_EXTRA_LIBS="$X_EXTRA_LIBS -lnsl_s -linet"
+  else
+    # Martyn.Johnson@cl.cam.ac.uk says this is needed for Ultrix, if the X
+    # libraries were built with DECnet support.  And karl@cs.umb.edu says
+    # the Alpha needs dnet_stub (dnet does not exist).
+    echo $ac_n "checking for dnet_ntoa in -ldnet... $ac_c" 1>&6
+echo "configure:3771: checking for dnet_ntoa in -ldnet" 1>&5
+if test "${ac_cv_lib_dnet_dnet_ntoa+set}" = set; then
+  echo $ac_n "(cached) $ac_c" 1>&6
+else
+  ac_save_LIBS="$LIBS"
+LIBS="-ldnet  $LIBS"
+cat >conftest.$ac_ext <<EOF
+#line 3778 "configure"
+#include "confdefs.h"
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+/* We use char because int might match the return type of a gcc2
+    builtin and then its argument prototype would still apply.  */
+char dnet_ntoa();
+
+int main() {
+dnet_ntoa()
+; return 0; }
+EOF
+if { (eval echo configure:3792: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+  rm -rf conftest*
+  ac_cv_lib_dnet_dnet_ntoa=yes
+else
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  rm -rf conftest*
+  ac_cv_lib_dnet_dnet_ntoa=no
+fi
+rm -f conftest*
+LIBS="$ac_save_LIBS"
+fi
+echo "$ac_t""$ac_cv_lib_dnet_dnet_ntoa" 1>&6
+if test $ac_cv_lib_dnet_dnet_ntoa = yes; then
+  X_EXTRA_LIBS="$X_EXTRA_LIBS -ldnet"
+fi
+
+    if test $ac_cv_lib_dnet_dnet_ntoa = no; then
+      echo $ac_n "checking for dnet_ntoa in -ldnet_stub... $ac_c" 1>&6
+echo "configure:3811: checking for dnet_ntoa in -ldnet_stub" 1>&5
+if test "${ac_cv_lib_dnet_stub_dnet_ntoa+set}" = set; then
+  echo $ac_n "(cached) $ac_c" 1>&6
+else
+  ac_save_LIBS="$LIBS"
+LIBS="-ldnet_stub  $LIBS"
+cat >conftest.$ac_ext <<EOF
+#line 3818 "configure"
+#include "confdefs.h"
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+/* We use char because int might match the return type of a gcc2
+    builtin and then its argument prototype would still apply.  */
+char dnet_ntoa();
+
+int main() {
+dnet_ntoa()
+; return 0; }
+EOF
+if { (eval echo configure:3832: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+  rm -rf conftest*
+  ac_cv_lib_dnet_stub_dnet_ntoa=yes
+else
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  rm -rf conftest*
+  ac_cv_lib_dnet_stub_dnet_ntoa=no
+fi
+rm -f conftest*
+LIBS="$ac_save_LIBS"
+fi
+echo "$ac_t""$ac_cv_lib_dnet_stub_dnet_ntoa" 1>&6
+if test $ac_cv_lib_dnet_stub_dnet_ntoa = yes; then
+  X_EXTRA_LIBS="$X_EXTRA_LIBS -ldnet_stub"
+fi
+
+    fi
+
+    # msh@cis.ufl.edu says -lnsl (and -lsocket) are needed for his 386/AT,
+    # to get the SysV transport functions.
+    # chad@anasazi.com says the Pyramis MIS-ES running DC/OSx (SVR4)
+    # needs -lnsl.
+    # The nsl library prevents programs from opening the X display
+    # on Irix 5.2, according to dickey@clark.net.
+    echo $ac_n "checking for gethostbyname... $ac_c" 1>&6
+echo "configure:3858: checking for gethostbyname" 1>&5
+if test "${ac_cv_func_gethostbyname+set}" = set; then
+  echo $ac_n "(cached) $ac_c" 1>&6
+else
+  cat >conftest.$ac_ext <<EOF
+#line 3863 "configure"
+#include "confdefs.h"
+/* System header to define __stub macros and hopefully few prototypes,
+    which can conflict with char gethostbyname(); below.  */
+#include <assert.h>
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+/* We use char because int might match the return type of a gcc2
+    builtin and then its argument prototype would still apply.  */
+char gethostbyname();
+char (*f)();
+
+int main() {
+
+/* The GNU C library defines this for functions which it implements
+    to always fail with ENOSYS.  Some functions are actually named
+    something starting with __ and the normal name is an alias.  */
+#if defined (__stub_gethostbyname) || defined (__stub___gethostbyname)
+choke me
+#else
+f = gethostbyname;
+#endif
+
+; return 0; }
+EOF
+if { (eval echo configure:3890: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+  rm -rf conftest*
+  ac_cv_func_gethostbyname=yes
+else
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  rm -rf conftest*
+  ac_cv_func_gethostbyname=no
+fi
+rm -f conftest*
+fi
+echo "$ac_t""$ac_cv_func_gethostbyname" 1>&6
+
+    if test $ac_cv_func_gethostbyname = no; then
+      echo $ac_n "checking for gethostbyname in -lnsl... $ac_c" 1>&6
+echo "configure:3905: checking for gethostbyname in -lnsl" 1>&5
+if test "${ac_cv_lib_nsl_gethostbyname+set}" = set; then
+  echo $ac_n "(cached) $ac_c" 1>&6
+else
+  ac_save_LIBS="$LIBS"
+LIBS="-lnsl  $LIBS"
+cat >conftest.$ac_ext <<EOF
+#line 3912 "configure"
+#include "confdefs.h"
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+/* We use char because int might match the return type of a gcc2
+    builtin and then its argument prototype would still apply.  */
+char gethostbyname();
+
+int main() {
+gethostbyname()
+; return 0; }
+EOF
+if { (eval echo configure:3926: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+  rm -rf conftest*
+  ac_cv_lib_nsl_gethostbyname=yes
+else
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  rm -rf conftest*
+  ac_cv_lib_nsl_gethostbyname=no
+fi
+rm -f conftest*
+LIBS="$ac_save_LIBS"
+fi
+echo "$ac_t""$ac_cv_lib_nsl_gethostbyname" 1>&6
+if test $ac_cv_lib_nsl_gethostbyname = yes; then
+  X_EXTRA_LIBS="$X_EXTRA_LIBS -lnsl"
+fi
+
+    fi
+
+    # lieder@skyler.mavd.honeywell.com says without -lsocket,
+    # socket/setsockopt and other routines are undefined under SCO ODT
+    # 2.0.  But -lsocket is broken on IRIX 5.2 (and is not necessary
+    # on later versions), says simon@lia.di.epfl.ch: it contains
+    # gethostby* variants that don't use the nameserver (or something).
+    # -lsocket must be given before -lnsl if both are needed.
+    # We assume that if connect needs -lnsl, so does gethostbyname.
+    echo $ac_n "checking for connect... $ac_c" 1>&6
+echo "configure:3953: checking for connect" 1>&5
+if test "${ac_cv_func_connect+set}" = set; then
+  echo $ac_n "(cached) $ac_c" 1>&6
+else
+  cat >conftest.$ac_ext <<EOF
+#line 3958 "configure"
+#include "confdefs.h"
+/* System header to define __stub macros and hopefully few prototypes,
+    which can conflict with char connect(); below.  */
+#include <assert.h>
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+/* We use char because int might match the return type of a gcc2
+    builtin and then its argument prototype would still apply.  */
+char connect();
+char (*f)();
+
+int main() {
+
+/* The GNU C library defines this for functions which it implements
+    to always fail with ENOSYS.  Some functions are actually named
+    something starting with __ and the normal name is an alias.  */
+#if defined (__stub_connect) || defined (__stub___connect)
+choke me
+#else
+f = connect;
+#endif
+
+; return 0; }
+EOF
+if { (eval echo configure:3985: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+  rm -rf conftest*
+  ac_cv_func_connect=yes
+else
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  rm -rf conftest*
+  ac_cv_func_connect=no
+fi
+rm -f conftest*
+fi
+echo "$ac_t""$ac_cv_func_connect" 1>&6
+
+    if test $ac_cv_func_connect = no; then
+      echo $ac_n "checking for connect in -lsocket... $ac_c" 1>&6
+echo "configure:4000: checking for connect in -lsocket" 1>&5
+if test "${ac_cv_lib_socket_connect+set}" = set; then
+  echo $ac_n "(cached) $ac_c" 1>&6
+else
+  ac_save_LIBS="$LIBS"
+LIBS="-lsocket $X_EXTRA_LIBS $LIBS"
+cat >conftest.$ac_ext <<EOF
+#line 4007 "configure"
+#include "confdefs.h"
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+/* We use char because int might match the return type of a gcc2
+    builtin and then its argument prototype would still apply.  */
+char connect();
+
+int main() {
+connect()
+; return 0; }
+EOF
+if { (eval echo configure:4021: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+  rm -rf conftest*
+  ac_cv_lib_socket_connect=yes
+else
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  rm -rf conftest*
+  ac_cv_lib_socket_connect=no
+fi
+rm -f conftest*
+LIBS="$ac_save_LIBS"
+fi
+echo "$ac_t""$ac_cv_lib_socket_connect" 1>&6
+if test $ac_cv_lib_socket_connect = yes; then
+  X_EXTRA_LIBS="-lsocket $X_EXTRA_LIBS"
+fi
+
+    fi
+
+    # gomez@mi.uni-erlangen.de says -lposix is necessary on A/UX.
+    echo $ac_n "checking for remove... $ac_c" 1>&6
+echo "configure:4042: checking for remove" 1>&5
+if test "${ac_cv_func_remove+set}" = set; then
+  echo $ac_n "(cached) $ac_c" 1>&6
+else
+  cat >conftest.$ac_ext <<EOF
+#line 4047 "configure"
+#include "confdefs.h"
+/* System header to define __stub macros and hopefully few prototypes,
+    which can conflict with char remove(); below.  */
+#include <assert.h>
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+/* We use char because int might match the return type of a gcc2
+    builtin and then its argument prototype would still apply.  */
+char remove();
+char (*f)();
+
+int main() {
+
+/* The GNU C library defines this for functions which it implements
+    to always fail with ENOSYS.  Some functions are actually named
+    something starting with __ and the normal name is an alias.  */
+#if defined (__stub_remove) || defined (__stub___remove)
+choke me
+#else
+f = remove;
+#endif
+
+; return 0; }
+EOF
+if { (eval echo configure:4074: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+  rm -rf conftest*
+  ac_cv_func_remove=yes
+else
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  rm -rf conftest*
+  ac_cv_func_remove=no
+fi
+rm -f conftest*
+fi
+echo "$ac_t""$ac_cv_func_remove" 1>&6
+
+    if test $ac_cv_func_remove = no; then
+      echo $ac_n "checking for remove in -lposix... $ac_c" 1>&6
+echo "configure:4089: checking for remove in -lposix" 1>&5
+if test "${ac_cv_lib_posix_remove+set}" = set; then
+  echo $ac_n "(cached) $ac_c" 1>&6
+else
+  ac_save_LIBS="$LIBS"
+LIBS="-lposix  $LIBS"
+cat >conftest.$ac_ext <<EOF
+#line 4096 "configure"
+#include "confdefs.h"
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+/* We use char because int might match the return type of a gcc2
+    builtin and then its argument prototype would still apply.  */
+char remove();
+
+int main() {
+remove()
+; return 0; }
+EOF
+if { (eval echo configure:4110: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+  rm -rf conftest*
+  ac_cv_lib_posix_remove=yes
+else
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  rm -rf conftest*
+  ac_cv_lib_posix_remove=no
+fi
+rm -f conftest*
+LIBS="$ac_save_LIBS"
+fi
+echo "$ac_t""$ac_cv_lib_posix_remove" 1>&6
+if test $ac_cv_lib_posix_remove = yes; then
+  X_EXTRA_LIBS="$X_EXTRA_LIBS -lposix"
+fi
+
+    fi
+
+    # BSDI BSD/OS 2.1 needs -lipc for XOpenDisplay.
+    echo $ac_n "checking for shmat... $ac_c" 1>&6
+echo "configure:4131: checking for shmat" 1>&5
+if test "${ac_cv_func_shmat+set}" = set; then
+  echo $ac_n "(cached) $ac_c" 1>&6
+else
+  cat >conftest.$ac_ext <<EOF
+#line 4136 "configure"
+#include "confdefs.h"
+/* System header to define __stub macros and hopefully few prototypes,
+    which can conflict with char shmat(); below.  */
+#include <assert.h>
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+/* We use char because int might match the return type of a gcc2
+    builtin and then its argument prototype would still apply.  */
+char shmat();
+char (*f)();
+
+int main() {
+
+/* The GNU C library defines this for functions which it implements
+    to always fail with ENOSYS.  Some functions are actually named
+    something starting with __ and the normal name is an alias.  */
+#if defined (__stub_shmat) || defined (__stub___shmat)
+choke me
+#else
+f = shmat;
+#endif
+
+; return 0; }
+EOF
+if { (eval echo configure:4163: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+  rm -rf conftest*
+  ac_cv_func_shmat=yes
+else
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  rm -rf conftest*
+  ac_cv_func_shmat=no
+fi
+rm -f conftest*
+fi
+echo "$ac_t""$ac_cv_func_shmat" 1>&6
+
+    if test $ac_cv_func_shmat = no; then
+      echo $ac_n "checking for shmat in -lipc... $ac_c" 1>&6
+echo "configure:4178: checking for shmat in -lipc" 1>&5
+if test "${ac_cv_lib_ipc_shmat+set}" = set; then
+  echo $ac_n "(cached) $ac_c" 1>&6
+else
+  ac_save_LIBS="$LIBS"
+LIBS="-lipc  $LIBS"
+cat >conftest.$ac_ext <<EOF
+#line 4185 "configure"
+#include "confdefs.h"
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+/* We use char because int might match the return type of a gcc2
+    builtin and then its argument prototype would still apply.  */
+char shmat();
+
+int main() {
+shmat()
+; return 0; }
+EOF
+if { (eval echo configure:4199: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+  rm -rf conftest*
+  ac_cv_lib_ipc_shmat=yes
+else
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  rm -rf conftest*
+  ac_cv_lib_ipc_shmat=no
+fi
+rm -f conftest*
+LIBS="$ac_save_LIBS"
+fi
+echo "$ac_t""$ac_cv_lib_ipc_shmat" 1>&6
+if test $ac_cv_lib_ipc_shmat = yes; then
+  X_EXTRA_LIBS="$X_EXTRA_LIBS -lipc"
+fi
+
+    fi
+  fi
+
+  # Check for libraries that X11R6 Xt/Xaw programs need.
+  ac_save_LDFLAGS="$LDFLAGS"
+  test -n "$x_libraries" && LDFLAGS="$LDFLAGS -L$x_libraries"
+  # SM needs ICE to (dynamically) link under SunOS 4.x (so we have to
+  # check for ICE first), but we must link in the order -lSM -lICE or
+  # we get undefined symbols.  So assume we have SM if we have ICE.
+  # These have to be linked with before -lX11, unlike the other
+  # libraries we check for below, so use a different variable.
+  #  --interran@uluru.Stanford.EDU, kb@cs.umb.edu.
+  echo $ac_n "checking for IceConnectionNumber in -lICE... $ac_c" 1>&6
+echo "configure:4229: checking for IceConnectionNumber in -lICE" 1>&5
+if test "${ac_cv_lib_ICE_IceConnectionNumber+set}" = set; then
+  echo $ac_n "(cached) $ac_c" 1>&6
+else
+  ac_save_LIBS="$LIBS"
+LIBS="-lICE $X_EXTRA_LIBS $LIBS"
+cat >conftest.$ac_ext <<EOF
+#line 4236 "configure"
+#include "confdefs.h"
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+/* We use char because int might match the return type of a gcc2
+    builtin and then its argument prototype would still apply.  */
+char IceConnectionNumber();
+
+int main() {
+IceConnectionNumber()
+; return 0; }
+EOF
+if { (eval echo configure:4250: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+  rm -rf conftest*
+  ac_cv_lib_ICE_IceConnectionNumber=yes
+else
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  rm -rf conftest*
+  ac_cv_lib_ICE_IceConnectionNumber=no
+fi
+rm -f conftest*
+LIBS="$ac_save_LIBS"
+fi
+echo "$ac_t""$ac_cv_lib_ICE_IceConnectionNumber" 1>&6
+if test $ac_cv_lib_ICE_IceConnectionNumber = yes; then
+  X_PRE_LIBS="$X_PRE_LIBS -lSM -lICE"
+fi
+
+  LDFLAGS="$ac_save_LDFLAGS"
+
+fi
+
+
+if test x"$no_x" != xyes; then
+  #  *** DEBUG ***
+  #  Keep this around, as it can be handy when testing on new systems.
+  # echo "X_CFLAGS: $X_CFLAGS"
+  # echo "X_PRE_LIBS: $X_PRE_LIBS"
+  # echo "X_LIBS: $X_LIBS"
+  # echo "X_EXTRA_LIBS: $X_EXTRA_LIBS"
+  # echo
+  # echo "CFLAGS: $CFLAGS"
+  # echo "CPPFLAGS: $CPPFLAGS"
+  # echo "CXXFLAGS: $CXXFLAGS"
+  # echo "LDFLAGS: $LDFLAGS"
+  # echo "LIBS: $LIBS"
+  # exit 0
+
+  sim_ac_x11_cppflags="$X_CFLAGS"
+  sim_ac_x11_ldflags="$X_LIBS"
+  sim_ac_x11_libs="$X_PRE_LIBS -lX11 $X_EXTRA_LIBS"
+
+  sim_ac_save_cppflags=$CPPFLAGS
+  sim_ac_save_ldflags=$LDFLAGS
+  sim_ac_save_libs=$LIBS
+
+  CPPFLAGS="$CPPFLAGS $sim_ac_x11_cppflags"
+  LDFLAGS="$LDFLAGS $sim_ac_x11_ldflags"
+  LIBS="$sim_ac_x11_libs $LIBS"
+
+  echo $ac_n "checking whether we can link against X11... $ac_c" 1>&6
+echo "configure:4300: checking whether we can link against X11" 1>&5
+if test "${sim_cv_lib_x11_avail+set}" = set; then
+  echo $ac_n "(cached) $ac_c" 1>&6
+else
+  cat >conftest.$ac_ext <<EOF
+#line 4305 "configure"
+#include "confdefs.h"
+#include <X11/Xlib.h>
+int main() {
+(void)XOpenDisplay(0L);
+; return 0; }
+EOF
+if { (eval echo configure:4312: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+  rm -rf conftest*
+  sim_cv_lib_x11_avail=yes
+else
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  rm -rf conftest*
+  sim_cv_lib_x11_avail=no
+fi
+rm -f conftest*
+fi
+echo "$ac_t""$sim_cv_lib_x11_avail" 1>&6
+
+  if test x"$sim_cv_lib_x11_avail" = x"yes"; then
+    sim_ac_x11_avail=yes
+    
+      SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS $sim_ac_x11_cppflags"
+      SOQT_EXTRA_LDFLAGS="$SOQT_EXTRA_LDFLAGS $sim_ac_x11_ldflags"
+      SOQT_EXTRA_LIBS="$sim_ac_x11_libs $SOQT_EXTRA_LIBS"
+    
+  else
+    CPPFLAGS=$sim_ac_save_cppflags
+    LDFLAGS=$sim_ac_save_ldflags
+    LIBS=$sim_ac_save_libs
+    
+  fi
+fi
+
+    if test x"$sim_ac_x11_avail" = xyes; then
+      
+
+
+sim_ac_x11shmem_avail=no
+sim_ac_x11shmem_libs="-lXext"
+sim_ac_save_libs=$LIBS
+LIBS="$sim_ac_x11shmem_libs $LIBS"
+
+echo $ac_n "checking whether the X11 shared memory extension is available... $ac_c" 1>&6
+echo "configure:4350: checking whether the X11 shared memory extension is available" 1>&5
+if test "${sim_cv_lib_x11shmem_avail+set}" = set; then
+  echo $ac_n "(cached) $ac_c" 1>&6
+else
+  cat >conftest.$ac_ext <<EOF
+#line 4355 "configure"
+#include "confdefs.h"
+#include <X11/Xlib.h>
+               #include <X11/extensions/XShm.h>
+int main() {
+(void)XShmQueryVersion(0L, 0L, 0L, 0L);
+; return 0; }
+EOF
+if { (eval echo configure:4363: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+  rm -rf conftest*
+  sim_cv_lib_x11shmem_avail=yes
+else
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  rm -rf conftest*
+  sim_cv_lib_x11shmem_avail=no
+fi
+rm -f conftest*
+fi
+echo "$ac_t""$sim_cv_lib_x11shmem_avail" 1>&6
+
+if test x"$sim_cv_lib_x11shmem_avail" = xyes; then
+  sim_ac_x11shmem_avail=yes
+  SOQT_EXTRA_LIBS="$sim_ac_x11shmem_libs $SOQT_EXTRA_LIBS"
+else
+  LIBS=$sim_ac_save_libs
+  
+fi
+
+      
+
+
+sim_ac_x11mu_avail=no
+sim_ac_x11mu_libs="-lXmu"
+sim_ac_save_libs=$LIBS
+LIBS="$sim_ac_x11mu_libs $LIBS"
+
+echo $ac_n "checking whether the X11 miscellaneous utilities is available... $ac_c" 1>&6
+echo "configure:4393: checking whether the X11 miscellaneous utilities is available" 1>&5
+if test "${sim_cv_lib_x11mu_avail+set}" = set; then
+  echo $ac_n "(cached) $ac_c" 1>&6
+else
+  cat >conftest.$ac_ext <<EOF
+#line 4398 "configure"
+#include "confdefs.h"
+#include <X11/Xlib.h>
+                #include <X11/Xmu/Xmu.h>
+                #include <X11/Xmu/StdCmap.h>
+int main() {
+(void)XmuAllStandardColormaps(0L);
+; return 0; }
+EOF
+if { (eval echo configure:4407: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+  rm -rf conftest*
+  sim_cv_lib_x11mu_avail=yes
+else
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  rm -rf conftest*
+  sim_cv_lib_x11mu_avail=no
+fi
+rm -f conftest*
+fi
+echo "$ac_t""$sim_cv_lib_x11mu_avail" 1>&6
+
+if test x"$sim_cv_lib_x11mu_avail" = xyes; then
+  sim_ac_x11mu_avail=yes
+  SOQT_EXTRA_LIBS="$sim_ac_x11mu_libs $SOQT_EXTRA_LIBS"
+else
+  LIBS=$sim_ac_save_libs
+  
+fi
+
+    fi
+  fi
+  
 fi
 
 
 echo $ac_n "checking for the SoPolygonOffset node... $ac_c" 1>&6
-echo "configure:3651: checking for the SoPolygonOffset node" 1>&5
+echo "configure:4435: checking for the SoPolygonOffset node" 1>&5
 if test "${sim_cv_sopolygonoffset+set}" = set; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   cat >conftest.$ac_ext <<EOF
-#line 3656 "configure"
+#line 4440 "configure"
 #include "confdefs.h"
 #include <Inventor/nodes/SoPolygonOffset.h>
 int main() {
 SoPolygonOffset * p = new SoPolygonOffset;
 ; return 0; }
 EOF
-if { (eval echo configure:3663: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:4447: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   sim_cv_sopolygonoffset=yes
 else
@@ -3707,7 +4491,7 @@ if test x"$with_qt" != xno; then
     sim_ac_path=${with_qt}/bin:$PATH
   else
     echo $ac_n "checking value of the QTDIR environment variable... $ac_c" 1>&6
-echo "configure:3711: checking value of the QTDIR environment variable" 1>&5
+echo "configure:4495: checking value of the QTDIR environment variable" 1>&5
     if test x"$QTDIR" = x""; then
       echo "$ac_t""empty" 1>&6
       echo "configure: warning: QTDIR environment variable not set -- this might be an indication of a problem" 1>&2
@@ -3732,7 +4516,7 @@ echo "configure:3711: checking value of the QTDIR environment variable" 1>&5
   # Extract the first word of "moc", so it can be a program name with args.
 set dummy moc; ac_word=$2
 echo $ac_n "checking for $ac_word... $ac_c" 1>&6
-echo "configure:3736: checking for $ac_word" 1>&5
+echo "configure:4520: checking for $ac_word" 1>&5
 if test "${ac_cv_path_MOC+set}" = set; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3765,12 +4549,12 @@ fi
 
   if test x"$MOC" != xfalse; then
     echo $ac_n "checking whether the Qt library is available... $ac_c" 1>&6
-echo "configure:3769: checking whether the Qt library is available" 1>&5
+echo "configure:4553: checking whether the Qt library is available" 1>&5
 if test "${sim_cv_lib_qt_avail+set}" = set; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   cat >conftest.$ac_ext <<EOF
-#line 3774 "configure"
+#line 4558 "configure"
 #include "confdefs.h"
 #include <qapplication.h>
 int main() {
@@ -3778,7 +4562,7 @@ int dummy=0;
                    QApplication a(dummy, 0L);
 ; return 0; }
 EOF
-if { (eval echo configure:3782: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:4566: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   sim_cv_lib_qt_avail=yes
 else
@@ -3818,12 +4602,12 @@ sim_ac_save_libs=$LIBS
 LIBS="$sim_ac_x11mu_libs $LIBS"
 
 echo $ac_n "checking whether the X11 miscellaneous utilities is available... $ac_c" 1>&6
-echo "configure:3822: checking whether the X11 miscellaneous utilities is available" 1>&5
+echo "configure:4606: checking whether the X11 miscellaneous utilities is available" 1>&5
 if test "${sim_cv_lib_x11mu_avail+set}" = set; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   cat >conftest.$ac_ext <<EOF
-#line 3827 "configure"
+#line 4611 "configure"
 #include "confdefs.h"
 #include <X11/Xlib.h>
                 #include <X11/Xmu/Xmu.h>
@@ -3832,7 +4616,7 @@ int main() {
 (void)XmuAllStandardColormaps(0L);
 ; return 0; }
 EOF
-if { (eval echo configure:3836: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:4620: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   sim_cv_lib_x11mu_avail=yes
 else
@@ -3864,19 +4648,19 @@ if test x"$with_qt" != xno; then
   LIBS="$sim_ac_qgl_libs $LIBS"
 
   echo $ac_n "checking whether the QGL extension library is available... $ac_c" 1>&6
-echo "configure:3868: checking whether the QGL extension library is available" 1>&5
+echo "configure:4652: checking whether the QGL extension library is available" 1>&5
 if test "${sim_cv_lib_qgl_avail+set}" = set; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   cat >conftest.$ac_ext <<EOF
-#line 3873 "configure"
+#line 4657 "configure"
 #include "confdefs.h"
 #include <qgl.h>
 int main() {
 (void)qGLVersion();
 ; return 0; }
 EOF
-if { (eval echo configure:3880: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:4664: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   sim_cv_lib_qgl_avail=yes
 else
@@ -3905,12 +4689,12 @@ fi
 
 
 echo $ac_n "checking whether the QGLWidget method setAutoBufferSwap() is available... $ac_c" 1>&6
-echo "configure:3909: checking whether the QGLWidget method setAutoBufferSwap() is available" 1>&5
+echo "configure:4693: checking whether the QGLWidget method setAutoBufferSwap() is available" 1>&5
 if test "${sim_cv_func_qglwidget_setautobufferswap+set}" = set; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   cat >conftest.$ac_ext <<EOF
-#line 3914 "configure"
+#line 4698 "configure"
 #include "confdefs.h"
 #include <qgl.h>
 class MyGLWidget : public QGLWidget {
@@ -3919,7 +4703,7 @@ int main() {
 MyGLWidget * w = new MyGLWidget;
 ; return 0; }
 EOF
-if { (eval echo configure:3923: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:4707: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   sim_cv_func_qglwidget_setautobufferswap=yes
 else
@@ -3974,20 +4758,20 @@ fi
 
 
 echo $ac_n "checking for function name variable... $ac_c" 1>&6
-echo "configure:3978: checking for function name variable" 1>&5
+echo "configure:4762: checking for function name variable" 1>&5
 if test "${sim_cv_var_functionname+set}" = set; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   
   cat >conftest.$ac_ext <<EOF
-#line 3984 "configure"
+#line 4768 "configure"
 #include "confdefs.h"
 #include <stdio.h>
 int main() {
 (void)printf("%s\n",__PRETTY_FUNCTION__)
 ; return 0; }
 EOF
-if { (eval echo configure:3991: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:4775: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
   sim_cv_var_functionname=__PRETTY_FUNCTION__
 else
@@ -3999,14 +4783,14 @@ fi
 rm -f conftest*
   if test x"$sim_cv_pretty_function" = x"none"; then
     cat >conftest.$ac_ext <<EOF
-#line 4003 "configure"
+#line 4787 "configure"
 #include "confdefs.h"
 #include <stdio.h>
 int main() {
 (void)printf("%s\n",__FUNCTION__)
 ; return 0; }
 EOF
-if { (eval echo configure:4010: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:4794: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
   sim_cv_var_functionname=__FUNCTION__
 else
@@ -4103,18 +4887,18 @@ if test x"$enable_exceptions" = x"no"; then
         
 
 echo $ac_n "checking whether $CXX accepts -fno-exceptions... $ac_c" 1>&6
-echo "configure:4107: checking whether $CXX accepts -fno-exceptions" 1>&5
+echo "configure:4891: checking whether $CXX accepts -fno-exceptions" 1>&5
 _save_cxxflags=$CXXFLAGS
 CXXFLAGS="$CXXFLAGS -fno-exceptions"
 cat >conftest.$ac_ext <<EOF
-#line 4111 "configure"
+#line 4895 "configure"
 #include "confdefs.h"
 
 int main() {
 
 ; return 0; }
 EOF
-if { (eval echo configure:4118: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:4902: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
   _accept_result=yes _exception_flag=-fno-exceptions
 else
@@ -4132,18 +4916,18 @@ unset _accept_result _save_cxxflags
             
 
 echo $ac_n "checking whether $CXX accepts -fno-handle-exceptions... $ac_c" 1>&6
-echo "configure:4136: checking whether $CXX accepts -fno-handle-exceptions" 1>&5
+echo "configure:4920: checking whether $CXX accepts -fno-handle-exceptions" 1>&5
 _save_cxxflags=$CXXFLAGS
 CXXFLAGS="$CXXFLAGS -fno-handle-exceptions"
 cat >conftest.$ac_ext <<EOF
-#line 4140 "configure"
+#line 4924 "configure"
 #include "confdefs.h"
 
 int main() {
 
 ; return 0; }
 EOF
-if { (eval echo configure:4147: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:4931: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
   _accept_result=yes _exception_flag=-fno-handle-exceptions
 else
@@ -4215,18 +4999,18 @@ if test x"$enable_warnings" = x"yes"; then
     
 
 echo $ac_n "checking whether $CXX accepts -Wno-multichar... $ac_c" 1>&6
-echo "configure:4219: checking whether $CXX accepts -Wno-multichar" 1>&5
+echo "configure:5003: checking whether $CXX accepts -Wno-multichar" 1>&5
 _save_cxxflags=$CXXFLAGS
 CXXFLAGS="$CXXFLAGS -Wno-multichar"
 cat >conftest.$ac_ext <<EOF
-#line 4223 "configure"
+#line 5007 "configure"
 #include "confdefs.h"
 
 int main() {
 
 ; return 0; }
 EOF
-if { (eval echo configure:4230: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:5014: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
   _accept_result=yes _warn_flags=-Wno-multichar
 else
@@ -4253,18 +5037,18 @@ unset _accept_result _save_cxxflags
         
 
 echo $ac_n "checking whether $CXX accepts -fullwarn... $ac_c" 1>&6
-echo "configure:4257: checking whether $CXX accepts -fullwarn" 1>&5
+echo "configure:5041: checking whether $CXX accepts -fullwarn" 1>&5
 _save_cxxflags=$CXXFLAGS
 CXXFLAGS="$CXXFLAGS -fullwarn"
 cat >conftest.$ac_ext <<EOF
-#line 4261 "configure"
+#line 5045 "configure"
 #include "confdefs.h"
 
 int main() {
 
 ; return 0; }
 EOF
-if { (eval echo configure:4268: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:5052: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
   _accept_result=yes _warn_flags="$_warn_flags -fullwarn"
 else
@@ -4283,18 +5067,18 @@ unset _accept_result _save_cxxflags
         
 
 echo $ac_n "checking whether $CXX accepts -woff 3115... $ac_c" 1>&6
-echo "configure:4287: checking whether $CXX accepts -woff 3115" 1>&5
+echo "configure:5071: checking whether $CXX accepts -woff 3115" 1>&5
 _save_cxxflags=$CXXFLAGS
 CXXFLAGS="$CXXFLAGS -woff 3115"
 cat >conftest.$ac_ext <<EOF
-#line 4291 "configure"
+#line 5075 "configure"
 #include "confdefs.h"
 
 int main() {
 
 ; return 0; }
 EOF
-if { (eval echo configure:4298: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:5082: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
   _accept_result=yes _warn_flags="$_warn_flags -woff 3115"
 else
@@ -4312,18 +5096,18 @@ unset _accept_result _save_cxxflags
         
 
 echo $ac_n "checking whether $CXX accepts -woff 3262... $ac_c" 1>&6
-echo "configure:4316: checking whether $CXX accepts -woff 3262" 1>&5
+echo "configure:5100: checking whether $CXX accepts -woff 3262" 1>&5
 _save_cxxflags=$CXXFLAGS
 CXXFLAGS="$CXXFLAGS -woff 3262"
 cat >conftest.$ac_ext <<EOF
-#line 4320 "configure"
+#line 5104 "configure"
 #include "confdefs.h"
 
 int main() {
 
 ; return 0; }
 EOF
-if { (eval echo configure:4327: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:5111: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
   _accept_result=yes _warn_flags="$_warn_flags -woff 3262"
 else
