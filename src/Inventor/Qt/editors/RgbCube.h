@@ -5,6 +5,10 @@
 #define COLOR_CUBE_SPECULAR  2
 #define COLOR_CUBE_EMISSIVE  3
 
+#define COLOR_PATCH_SPHERE   0
+#define COLOR_PATCH_CUBE     1
+#define COLOR_PATCH_CONE     2
+
 class cRgbCube {
   
 
@@ -28,6 +32,22 @@ public:
 
   SoSeparator *sceneRoot;
 
+  SoScale1Dragger *diffuseDraggerX;
+  SoScale1Dragger *diffuseDraggerY;
+  SoScale1Dragger *diffuseDraggerZ;
+
+  SoScale1Dragger *specularDraggerX;
+  SoScale1Dragger *specularDraggerY;
+  SoScale1Dragger *specularDraggerZ;
+
+  SoScale1Dragger *ambientDraggerX;
+  SoScale1Dragger *ambientDraggerY;
+  SoScale1Dragger *ambientDraggerZ;
+
+  SoScale1Dragger *emissiveDraggerX;
+  SoScale1Dragger *emissiveDraggerY;
+  SoScale1Dragger *emissiveDraggerZ;
+
   SoMaterial *diffuseCubeMaterial;
   SoCoordinate3 *diffuseColorCubeCoords;
   SoMaterial *specularCubeMaterial;
@@ -47,8 +67,25 @@ public:
   SoBaseColor *specularButtonColor;
   SoBaseColor *emissiveButtonColor;
 
+
   SoTranslation *colorIndicatorPosition;
   SoMaterial *colorPatchMaterial;
+  SoSwitch *colorPatchCube;               // Switch for color patch type
+  SoSwitch *colorPatchSphere;               // Switch for color patch type
+  SoSwitch *colorPatchCone;               // Switch for color patch type
+
+
+  SoQtExaminerViewer *eviewer;
+  SoRayPickAction *rayPickAction;
+
+
+  SoText2 *textShininess; 
+  SoText2 *textTransparency;
+
+  SoText2 *textRedValue;
+  SoText2 *textGreenValue;
+  SoText2 *textBlueValue;
+
 
   SbVec3f *diffuseCubeVertices;
   int32_t diffuseCubeVertexIndices[6*5];
@@ -62,7 +99,11 @@ public:
   SbVec3f *emissiveCubeVertices;
   int32_t emissiveCubeVertexIndices[6*5];
 
-  int currentColorCube;
+
+  int currentColorCube;     // What is currently beeing adjusted?
+  int currentColorPatch;    // Cube or sphere as demonstration?
+
+  // ---
 
   cRgbCube();
   ~cRgbCube();
@@ -76,6 +117,9 @@ public:
 			SoMaterial *cubeMaterial);
 
   void initCubeDraggers(SoSeparator *root, 
+			SoScale1Dragger *draggerX,
+			SoScale1Dragger *draggerY,
+			SoScale1Dragger *draggerZ,
 			SoDraggerCB *cb1, 
 			SoDraggerCB *cb2, 
 			SoDraggerCB *cb3,
@@ -86,5 +130,7 @@ public:
   void updateCubeVertices(SoCoordinate3 *colorCubeCoords, 
 			  SoMaterial *cubeMaterial,
 			  float x,float y,float z); 
+
+  void modifyDraggerWidget(SoScale1Dragger *dragger);
 
 };

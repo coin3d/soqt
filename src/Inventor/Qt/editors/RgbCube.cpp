@@ -6,7 +6,9 @@
 
 #include <Inventor/Qt/SoQt.h>
 #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
+#include <Inventor/SoPickedPoint.h> 
 
+#include <Inventor/nodes/SoCone.h>
 #include <Inventor/nodes/SoCube.h>
 #include <Inventor/draggers/SoScale1Dragger.h>
 #include <Inventor/nodes/SoTranslation.h> 
@@ -29,6 +31,21 @@
 #include <Inventor/nodes/SoTransformSeparator.h> 
 #include <Inventor/nodes/SoSelection.h> 
 #include <Inventor/nodes/SoShapeHints.h> 
+#include <Inventor/nodes/SoSwitch.h> 
+#include <Inventor/nodes/SoPerspectiveCamera.h> 
+#include <Inventor/nodes/SoEventCallback.h> 
+#include <Inventor/events/SoEvent.h> 
+#include <Inventor/events/SoMouseButtonEvent.h> 
+#include <Inventor/actions/SoRayPickAction.h> 
+#include <Inventor/actions/SoWriteAction.h> 
+#include <Inventor/nodes/SoMarkerSet.h> 
+#include <Inventor/draggers/SoTranslate1Dragger.h> 
+#include <Inventor/nodes/SoCylinder.h> 
+#include <Inventor/nodes/SoRotationXYZ.h> 
+#include <Inventor/nodes/SoAntiSquish.h> 
+#include <Inventor/nodes/SoTransformation.h> 
+#include <Inventor/nodes/SoPickStyle.h> 
+
 
 #include "RgbCube.h"
 
@@ -44,33 +61,164 @@
 
 cRgbCube *rgbCube;
 
+// Predef'ing some static functions
+void static draggerCallbackDiffuse(void);
+void static draggerCallbackSpecular(void);
+void static draggerCallbackEmissive(void);
+void static draggerCallbackAmbient(void);
+
 ////////////////////////////////////////////////////////////////
 
 cRgbCube::cRgbCube()
 {
-  draggerXValueDiffuse = 1;
-  draggerYValueDiffuse = 1;
-  draggerZValueDiffuse = 1;
+  draggerXValueDiffuse = 0.8;
+  draggerYValueDiffuse = 0.8;
+  draggerZValueDiffuse = 0.8;
 
-  draggerXValueSpecular = 1;
-  draggerYValueSpecular = 1;
-  draggerZValueSpecular = 1;
+  draggerXValueSpecular = 0.001;
+  draggerYValueSpecular = 0.001;
+  draggerZValueSpecular = 0.001;
 
-  draggerXValueAmbient = 1;
-  draggerYValueAmbient = 1;
-  draggerZValueAmbient = 1;
+  draggerXValueAmbient = 0.2;
+  draggerYValueAmbient = 0.2;
+  draggerZValueAmbient = 0.2;
 
-  draggerXValueEmissive = 0;
-  draggerYValueEmissive = 0;
-  draggerZValueEmissive = 0;
+  draggerXValueEmissive = 0.001;
+  draggerYValueEmissive = 0.001;
+  draggerZValueEmissive = 0.001;
 
   currentColorCube = COLOR_CUBE_DIFFUSE;
+  currentColorPatch = COLOR_PATCH_SPHERE;
 
 }
 cRgbCube::~cRgbCube()
 {
 }
+////////////////////////////////////////////////////////////////
 
+void mouseClickCallback(void *, SoEventCallback *cb)
+{
+
+  SoMouseButtonEvent *mouseEvent = (SoMouseButtonEvent *) (cb->getEvent());
+  
+  
+  if(mouseEvent->getButton() == SoMouseButtonEvent::BUTTON1 &&
+       mouseEvent->getState() == SoButtonEvent::UP) return;
+  
+  SbViewportRegion vpr(rgbCube->eviewer->getViewportRegion());
+  SoRayPickAction rayPickAction(vpr);
+
+  SbVec2s pos(mouseEvent->getPosition());
+  rayPickAction.setPoint(mouseEvent->getPosition());
+  rayPickAction.apply(rgbCube->eviewer->getSceneManager()->getSceneGraph());
+  
+
+  SoPickedPoint *myPP = rayPickAction.getPickedPoint();
+  if(myPP == NULL)
+    return;  // no object were selected. aborting.
+  
+
+  SoFaceDetail *faceDetail = (SoFaceDetail *) myPP->getDetail();
+  SoPath *path = myPP->getPath();
+  SoNode *end = path->getTail();
+  
+  SoIndexedFaceSet *dummy = new SoIndexedFaceSet;
+
+
+  if(end->getTypeId() == SoIndexedFaceSet::getClassTypeId()){  // Is this the IndexedFaceSet object?
+  
+    SbVec3f ipoint = myPP->getPoint();
+
+    // Using 'diffusecube' coords since all cubes should be located at the same spot.
+    SbVec3f cubeOrigo = rgbCube->diffuseColorCubeCoords->point[0];
+ 
+    // ** INCREDIBLE UGLY ** Have to compensate for the 'translation' in the scenegraph
+    cubeOrigo[1] = cubeOrigo[1] + CUBE_SIZE_Y*1.5; 
+    
+    // Find new corner for color cube.
+    SbVec3f newPoint;
+    newPoint[0] = (ipoint[0] - cubeOrigo[0])/CUBE_SIZE_X;
+    newPoint[1] = (ipoint[1] - cubeOrigo[1])/CUBE_SIZE_Y;
+    newPoint[2] = (ipoint[2] - cubeOrigo[2])/CUBE_SIZE_Z;
+
+    // Chech if new corner is out of bounds
+    if(newPoint[0] > CUBE_SIZE_X/2) newPoint[0] = CUBE_SIZE_X/2;
+    if(newPoint[1] > CUBE_SIZE_Y/2) newPoint[1] = CUBE_SIZE_Y/2;
+    if(newPoint[2] > CUBE_SIZE_Z/2) newPoint[2] = CUBE_SIZE_Z/2;
+
+
+    // Update active cube.
+    switch(rgbCube->currentColorCube){
+      
+    case COLOR_CUBE_DIFFUSE:        
+      rgbCube->diffuseDraggerX->scaleFactor.setValue(newPoint[0],1,1);
+      rgbCube->diffuseDraggerY->scaleFactor.setValue(newPoint[1],1,1);
+      rgbCube->diffuseDraggerZ->scaleFactor.setValue(newPoint[2],1,1);
+      rgbCube->draggerXValueDiffuse = newPoint[0];
+      rgbCube->draggerYValueDiffuse = newPoint[1];
+      rgbCube->draggerZValueDiffuse = newPoint[2];
+      draggerCallbackDiffuse();
+      
+      break;
+
+    case COLOR_CUBE_AMBIENT:      
+      rgbCube->ambientDraggerX->scaleFactor.setValue(newPoint[0],1,1);
+      rgbCube->ambientDraggerY->scaleFactor.setValue(newPoint[1],1,1);
+      rgbCube->ambientDraggerZ->scaleFactor.setValue(newPoint[2],1,1); 
+      rgbCube->draggerXValueAmbient = newPoint[0];
+      rgbCube->draggerYValueAmbient = newPoint[1];
+      rgbCube->draggerZValueAmbient = newPoint[2];
+      draggerCallbackAmbient();
+      break;
+
+    case COLOR_CUBE_SPECULAR:      
+      rgbCube->specularDraggerX->scaleFactor.setValue(newPoint[0],1,1);
+      rgbCube->specularDraggerY->scaleFactor.setValue(newPoint[1],1,1);
+      rgbCube->specularDraggerZ->scaleFactor.setValue(newPoint[2],1,1);
+      rgbCube->draggerXValueSpecular = newPoint[0];
+      rgbCube->draggerYValueSpecular = newPoint[1];
+      rgbCube->draggerZValueSpecular = newPoint[2];
+      draggerCallbackSpecular();
+      break;
+      
+    case COLOR_CUBE_EMISSIVE:      
+      rgbCube->emissiveDraggerX->scaleFactor.setValue(newPoint[0],1,1);
+      rgbCube->emissiveDraggerY->scaleFactor.setValue(newPoint[1],1,1);
+      rgbCube->emissiveDraggerZ->scaleFactor.setValue(newPoint[2],1,1);
+      rgbCube->draggerXValueEmissive = newPoint[0];
+      rgbCube->draggerYValueEmissive = newPoint[1];
+      rgbCube->draggerZValueEmissive = newPoint[2];
+      draggerCallbackEmissive();
+      break;
+
+    }
+  }
+}
+////////////////////////////////////////////////////////////////
+static void colorPatchToggleCallback(void *,SoPath *selectionPath)
+{
+
+  switch(rgbCube->currentColorPatch){
+  case COLOR_PATCH_CUBE:
+    rgbCube->currentColorPatch = COLOR_PATCH_SPHERE;
+    rgbCube->colorPatchCube->whichChild = SO_SWITCH_NONE;
+    rgbCube->colorPatchSphere->whichChild = SO_SWITCH_ALL;
+    rgbCube->colorPatchCone->whichChild = SO_SWITCH_NONE;
+    break;
+  case COLOR_PATCH_SPHERE:
+    rgbCube->currentColorPatch = COLOR_PATCH_CONE;
+    rgbCube->colorPatchCube->whichChild = SO_SWITCH_ALL;
+    rgbCube->colorPatchSphere->whichChild = SO_SWITCH_NONE;
+    rgbCube->colorPatchCone->whichChild = SO_SWITCH_NONE;
+    break;
+  case COLOR_PATCH_CONE:
+    rgbCube->currentColorPatch = COLOR_PATCH_CUBE;
+    rgbCube->colorPatchCube->whichChild = SO_SWITCH_NONE;
+    rgbCube->colorPatchSphere->whichChild = SO_SWITCH_NONE;
+    rgbCube->colorPatchCone->whichChild = SO_SWITCH_ALL;
+    break;
+  }
+}
 ////////////////////////////////////////////////////////////////
 static void removeCurrentColorCube()
 {
@@ -103,6 +251,7 @@ static void radioButtonDiffuse(void *,SoPath *selectionPath)
   rgbCube->diffuseButtonColor->rgb.setValue(0,1,1);
   rgbCube->currentColorCube = COLOR_CUBE_DIFFUSE;
   rgbCube->sceneRoot->addChild(rgbCube->diffuseCubeRoot);
+  draggerCallbackDiffuse();
 }
 static void radioButtonAmbient(void *,SoPath *selectionPath)
 {
@@ -111,6 +260,7 @@ static void radioButtonAmbient(void *,SoPath *selectionPath)
   rgbCube->ambientButtonColor->rgb.setValue(0,1,1);
   rgbCube->currentColorCube = COLOR_CUBE_AMBIENT;
   rgbCube->sceneRoot->addChild(rgbCube->ambientCubeRoot);
+  draggerCallbackAmbient();
 }
 static void radioButtonSpecular(void *,SoPath *selectionPath)
 {
@@ -119,6 +269,7 @@ static void radioButtonSpecular(void *,SoPath *selectionPath)
   rgbCube->specularButtonColor->rgb.setValue(0,1,1);
   rgbCube->currentColorCube = COLOR_CUBE_SPECULAR;
   rgbCube->sceneRoot->addChild(rgbCube->specularCubeRoot);
+  draggerCallbackSpecular();
 }
 static void radioButtonEmissive(void *,SoPath *selectionPath)
 {
@@ -127,6 +278,7 @@ static void radioButtonEmissive(void *,SoPath *selectionPath)
   rgbCube->emissiveButtonColor->rgb.setValue(0,1,1);
   rgbCube->currentColorCube = COLOR_CUBE_EMISSIVE;
   rgbCube->sceneRoot->addChild(rgbCube->emissiveCubeRoot);
+  draggerCallbackEmissive();
 }
 ////////////////////////////////////////////////////////////////
 
@@ -134,46 +286,50 @@ static void draggerShininessCallback(void *,SoDragger *dragger)
 {
   SoScale1Dragger * sd = (SoScale1Dragger *)dragger;
   rgbCube->colorPatchMaterial->shininess = 1 - sd->scaleFactor.getValue()[0];
+
+  float value = sd->scaleFactor.getValue()[0];
+  if(value > 1) value = 1;
+  char buffer[24];
+  sprintf(buffer,"Shininess [%.2f]",value);
+  rgbCube->textShininess->string = buffer;
 }
 
 static void draggerTransparencyCallback(void *,SoDragger *dragger)
 {
   SoScale1Dragger * sd = (SoScale1Dragger *)dragger;
-  rgbCube->colorPatchMaterial->transparency = 1 - sd->scaleFactor.getValue()[0];  
+  rgbCube->colorPatchMaterial->transparency = 1 - sd->scaleFactor.getValue()[0];
+
+  float value = sd->scaleFactor.getValue()[0];
+  if(value > 1) value = 1;
+  char buffer[16];
+  sprintf(buffer,"Opaque [%.2f]",value);
+  rgbCube->textTransparency->string = buffer;
 }
+////////////////////////////////////////////////////////////////
+
+static void updateColorValueText(float red, float green, float blue)
+{
+
+  if(red < 0) red = 0;
+  if(green < 0) green = 0;
+  if(blue < 0) blue = 0;
+
+  char buffer[8];
+
+  sprintf(buffer,"[%.2f]",red);
+  rgbCube->textRedValue->string = buffer;
+
+  sprintf(buffer,"[%.2f]",green);
+  rgbCube->textGreenValue->string = buffer;
+
+  sprintf(buffer,"[%.2f]",blue);
+  rgbCube->textBlueValue->string = buffer;
+
+}
+
 //////////////////////-------------------------------------------
-static void draggerXCallbackDiffuse(void *,SoDragger *dragger)
+static void draggerCallbackDiffuse()
 {
-  SoScale1Dragger * sd = (SoScale1Dragger *)dragger;
-  rgbCube->draggerXValueDiffuse = sd->scaleFactor.getValue()[0];
-  if(rgbCube->draggerXValueDiffuse > 1.0)
-    rgbCube->draggerXValueDiffuse = 1;
-  rgbCube->updateCubeVertices(rgbCube->diffuseColorCubeCoords,
-			      rgbCube->diffuseCubeMaterial,
-			      rgbCube->draggerXValueDiffuse,rgbCube->draggerYValueDiffuse,rgbCube->draggerZValueDiffuse);
-  rgbCube->colorPatchMaterial->diffuseColor.setValue(rgbCube->draggerXValueDiffuse, 
-						     rgbCube->draggerYValueDiffuse, 
-						     rgbCube->draggerZValueDiffuse);
-}
-static void draggerYCallbackDiffuse(void *,SoDragger *dragger)
-{
-  SoScale1Dragger * sd = (SoScale1Dragger *)dragger;
-  rgbCube->draggerYValueDiffuse = sd->scaleFactor.getValue()[0];
-  if(rgbCube->draggerYValueDiffuse > 1.0)
-    rgbCube->draggerYValueDiffuse = 1;
-  rgbCube->updateCubeVertices(rgbCube->diffuseColorCubeCoords,
-			      rgbCube->diffuseCubeMaterial,
-			      rgbCube->draggerXValueDiffuse,rgbCube->draggerYValueDiffuse,rgbCube->draggerZValueDiffuse);
-  rgbCube->colorPatchMaterial->diffuseColor.setValue(rgbCube->draggerXValueDiffuse, 
-						     rgbCube->draggerYValueDiffuse, 
-						     rgbCube->draggerZValueDiffuse);
-}
-static void draggerZCallbackDiffuse(void *,SoDragger *dragger)
-{
-  SoScale1Dragger * sd = (SoScale1Dragger *)dragger;
-  rgbCube->draggerZValueDiffuse = sd->scaleFactor.getValue()[0];
-  if(rgbCube->draggerZValueDiffuse > 1.0)
-    rgbCube->draggerZValueDiffuse = 1;
   rgbCube->updateCubeVertices(rgbCube->diffuseColorCubeCoords,
 			      rgbCube->diffuseCubeMaterial,
 			      rgbCube->draggerXValueDiffuse,
@@ -182,14 +338,38 @@ static void draggerZCallbackDiffuse(void *,SoDragger *dragger)
   rgbCube->colorPatchMaterial->diffuseColor.setValue(rgbCube->draggerXValueDiffuse, 
 						     rgbCube->draggerYValueDiffuse, 
 						     rgbCube->draggerZValueDiffuse);
+  updateColorValueText(rgbCube->draggerXValueDiffuse,rgbCube->draggerYValueDiffuse,rgbCube->draggerZValueDiffuse);
 }
-////////////////////-------------------------------------------------
-static void draggerXCallbackSpecular(void *,SoDragger *dragger)
+static void draggerXCallbackDiffuse(void *,SoDragger *dragger)
 {
   SoScale1Dragger * sd = (SoScale1Dragger *)dragger;
-  rgbCube->draggerXValueSpecular = sd->scaleFactor.getValue()[0];
-  if(rgbCube->draggerXValueSpecular > 1.0)
-    rgbCube->draggerXValueSpecular = 1;
+  rgbCube->draggerXValueDiffuse = sd->scaleFactor.getValue()[0];
+  if(rgbCube->draggerXValueDiffuse > 1.0)
+    rgbCube->draggerXValueDiffuse = 1;
+  draggerCallbackDiffuse();
+}
+static void draggerYCallbackDiffuse(void *,SoDragger *dragger)
+{
+  SoScale1Dragger * sd = (SoScale1Dragger *)dragger;
+  rgbCube->draggerYValueDiffuse = sd->scaleFactor.getValue()[0];
+  if(rgbCube->draggerYValueDiffuse > 1.0)
+    rgbCube->draggerYValueDiffuse = 1;
+  draggerCallbackDiffuse();
+}
+static void draggerZCallbackDiffuse(void *,SoDragger *dragger)
+{
+  SoScale1Dragger * sd = (SoScale1Dragger *)dragger;
+  rgbCube->draggerZValueDiffuse = sd->scaleFactor.getValue()[0];
+  if(rgbCube->draggerZValueDiffuse > 1.0)
+    rgbCube->draggerZValueDiffuse = 1;
+  draggerCallbackDiffuse();
+}
+
+
+
+////////////////////-------------------------------------------------
+static void draggerCallbackSpecular()
+{
   rgbCube->updateCubeVertices(rgbCube->specularColorCubeCoords,
 			      rgbCube->specularCubeMaterial,
 			      rgbCube->draggerXValueSpecular,
@@ -198,6 +378,17 @@ static void draggerXCallbackSpecular(void *,SoDragger *dragger)
   rgbCube->colorPatchMaterial->specularColor.setValue(rgbCube->draggerXValueSpecular, 
 						      rgbCube->draggerYValueSpecular, 
 						      rgbCube->draggerZValueSpecular);
+  updateColorValueText(rgbCube->draggerXValueSpecular,rgbCube->draggerYValueSpecular,rgbCube->draggerZValueSpecular);
+}
+static void draggerXCallbackSpecular(void *,SoDragger *dragger)
+{
+  SoScale1Dragger * sd = (SoScale1Dragger *)dragger;
+  rgbCube->draggerXValueSpecular = sd->scaleFactor.getValue()[0];
+  if(rgbCube->draggerXValueSpecular > 1.0)
+    rgbCube->draggerXValueSpecular = 1;
+  if(sd->scaleFactor.getValue()[0] == 0)
+    sd->scaleFactor.setValue(0.01,1,1);
+  draggerCallbackSpecular();
 }
 static void draggerYCallbackSpecular(void *,SoDragger *dragger)
 {
@@ -205,14 +396,9 @@ static void draggerYCallbackSpecular(void *,SoDragger *dragger)
   rgbCube->draggerYValueSpecular = sd->scaleFactor.getValue()[0];
   if(rgbCube->draggerYValueSpecular > 1.0)
     rgbCube->draggerYValueSpecular = 1;
-  rgbCube->updateCubeVertices(rgbCube->specularColorCubeCoords,
-			      rgbCube->specularCubeMaterial,
-			      rgbCube->draggerXValueSpecular,
-			      rgbCube->draggerYValueSpecular,
-			      rgbCube->draggerZValueSpecular);
-  rgbCube->colorPatchMaterial->specularColor.setValue(rgbCube->draggerXValueSpecular, 
-						      rgbCube->draggerYValueSpecular, 
-						      rgbCube->draggerZValueSpecular);
+  if(sd->scaleFactor.getValue()[0] == 0)
+    sd->scaleFactor.setValue(0.01,1,1);
+  draggerCallbackSpecular();
 }
 static void draggerZCallbackSpecular(void *,SoDragger *dragger)
 {
@@ -220,22 +406,13 @@ static void draggerZCallbackSpecular(void *,SoDragger *dragger)
   rgbCube->draggerZValueSpecular = sd->scaleFactor.getValue()[0];
   if(rgbCube->draggerZValueSpecular > 1.0)
     rgbCube->draggerZValueSpecular = 1;
-  rgbCube->updateCubeVertices(rgbCube->specularColorCubeCoords,
-			      rgbCube->specularCubeMaterial,
-			      rgbCube->draggerXValueSpecular,
-			      rgbCube->draggerYValueSpecular,
-			      rgbCube->draggerZValueSpecular);
-  rgbCube->colorPatchMaterial->specularColor.setValue(rgbCube->draggerXValueSpecular, 
-						      rgbCube->draggerYValueSpecular, 
-						      rgbCube->draggerZValueSpecular);
+  if(sd->scaleFactor.getValue()[0] == 0)
+    sd->scaleFactor.setValue(0.01,1,1);
+  draggerCallbackSpecular();
 }
 ////////////////////-------------------------------------------------
-static void draggerXCallbackAmbient(void *,SoDragger *dragger)
+static void draggerCallbackAmbient()
 {
-  SoScale1Dragger * sd = (SoScale1Dragger *)dragger;
-  rgbCube->draggerXValueAmbient = sd->scaleFactor.getValue()[0];
-  if(rgbCube->draggerXValueAmbient > 1.0)
-    rgbCube->draggerXValueAmbient = 1;
   rgbCube->updateCubeVertices(rgbCube->ambientColorCubeCoords,
 			      rgbCube->ambientCubeMaterial,
 			      rgbCube->draggerXValueAmbient,
@@ -244,6 +421,17 @@ static void draggerXCallbackAmbient(void *,SoDragger *dragger)
   rgbCube->colorPatchMaterial->ambientColor.setValue(rgbCube->draggerXValueAmbient, 
 						     rgbCube->draggerYValueAmbient, 
 						     rgbCube->draggerZValueAmbient);
+  updateColorValueText(rgbCube->draggerXValueAmbient,rgbCube->draggerYValueAmbient,rgbCube->draggerZValueAmbient);
+}
+static void draggerXCallbackAmbient(void *,SoDragger *dragger)
+{
+  SoScale1Dragger * sd = (SoScale1Dragger *)dragger;
+  rgbCube->draggerXValueAmbient = sd->scaleFactor.getValue()[0];
+  if(rgbCube->draggerXValueAmbient > 1.0)
+    rgbCube->draggerXValueAmbient = 1;
+  if(sd->scaleFactor.getValue()[0] == 0)
+    sd->scaleFactor.setValue(0.01,1,1);
+  draggerCallbackAmbient();
 }
 static void draggerYCallbackAmbient(void *,SoDragger *dragger)
 {
@@ -251,14 +439,9 @@ static void draggerYCallbackAmbient(void *,SoDragger *dragger)
   rgbCube->draggerYValueAmbient = sd->scaleFactor.getValue()[0];
   if(rgbCube->draggerYValueAmbient > 1.0)
     rgbCube->draggerYValueAmbient = 1;
-  rgbCube->updateCubeVertices(rgbCube->ambientColorCubeCoords,
-			      rgbCube->ambientCubeMaterial,
-			      rgbCube->draggerXValueAmbient,
-			      rgbCube->draggerYValueAmbient,
-			      rgbCube->draggerZValueAmbient);
-  rgbCube->colorPatchMaterial->ambientColor.setValue(rgbCube->draggerXValueAmbient, 
-						     rgbCube->draggerYValueAmbient, 
-						     rgbCube->draggerZValueAmbient);
+  if(sd->scaleFactor.getValue()[0] == 0)
+    sd->scaleFactor.setValue(0.01,1,1);
+  draggerCallbackAmbient();
 }
 static void draggerZCallbackAmbient(void *,SoDragger *dragger)
 {
@@ -266,31 +449,33 @@ static void draggerZCallbackAmbient(void *,SoDragger *dragger)
   rgbCube->draggerZValueAmbient = sd->scaleFactor.getValue()[0];
   if(rgbCube->draggerZValueAmbient > 1.0)
     rgbCube->draggerZValueAmbient = 1;
-  rgbCube->updateCubeVertices(rgbCube->ambientColorCubeCoords,
-			      rgbCube->ambientCubeMaterial,
-			      rgbCube->draggerXValueAmbient,
-			      rgbCube->draggerYValueAmbient,
-			      rgbCube->draggerZValueAmbient);
-  rgbCube->colorPatchMaterial->ambientColor.setValue(rgbCube->draggerXValueAmbient, 
-						     rgbCube->draggerYValueAmbient, 
-						     rgbCube->draggerZValueAmbient);
+  if(sd->scaleFactor.getValue()[0] == 0)
+    sd->scaleFactor.setValue(0.01,1,1);
+  draggerCallbackAmbient();
 }
 
 ////////////////////-------------------------------------------------
-static void draggerXCallbackEmissive(void *,SoDragger *dragger)
+static void draggerCallbackEmissive()
 {
-  SoScale1Dragger * sd = (SoScale1Dragger *)dragger;
-  rgbCube->draggerXValueEmissive = sd->scaleFactor.getValue()[0];
-  if(rgbCube->draggerXValueEmissive > 1.0)
-    rgbCube->draggerXValueEmissive = 1;
   rgbCube->updateCubeVertices(rgbCube->emissiveColorCubeCoords,
 			      rgbCube->emissiveCubeMaterial,
 			      rgbCube->draggerXValueEmissive,
 			      rgbCube->draggerYValueEmissive,
 			      rgbCube->draggerZValueEmissive);
   rgbCube->colorPatchMaterial->emissiveColor.setValue(rgbCube->draggerXValueEmissive, 
-						     rgbCube->draggerYValueEmissive, 
-						     rgbCube->draggerZValueEmissive);
+						      rgbCube->draggerYValueEmissive, 
+						      rgbCube->draggerZValueEmissive);
+  updateColorValueText(rgbCube->draggerXValueEmissive,rgbCube->draggerYValueEmissive,rgbCube->draggerZValueEmissive);
+}
+static void draggerXCallbackEmissive(void *,SoDragger *dragger)
+{
+  SoScale1Dragger * sd = (SoScale1Dragger *)dragger;
+  rgbCube->draggerXValueEmissive = sd->scaleFactor.getValue()[0];
+  if(rgbCube->draggerXValueEmissive > 1.0)
+    rgbCube->draggerXValueEmissive = 1;
+  if(sd->scaleFactor.getValue()[0] == 0)
+    sd->scaleFactor.setValue(0.01,1,1);
+  draggerCallbackEmissive();
 }
 static void draggerYCallbackEmissive(void *,SoDragger *dragger)
 {
@@ -298,14 +483,9 @@ static void draggerYCallbackEmissive(void *,SoDragger *dragger)
   rgbCube->draggerYValueEmissive = sd->scaleFactor.getValue()[0];
   if(rgbCube->draggerYValueEmissive > 1.0)
     rgbCube->draggerYValueEmissive = 1;
-  rgbCube->updateCubeVertices(rgbCube->emissiveColorCubeCoords,
-			      rgbCube->emissiveCubeMaterial,
-			      rgbCube->draggerXValueEmissive,
-			      rgbCube->draggerYValueEmissive,
-			      rgbCube->draggerZValueEmissive);
-  rgbCube->colorPatchMaterial->emissiveColor.setValue(rgbCube->draggerXValueEmissive, 
-						     rgbCube->draggerYValueEmissive, 
-						     rgbCube->draggerZValueEmissive);
+  if(sd->scaleFactor.getValue()[0] == 0)
+    sd->scaleFactor.setValue(0.01,1,1);
+  draggerCallbackEmissive();
 }
 static void draggerZCallbackEmissive(void *,SoDragger *dragger)
 {
@@ -313,14 +493,9 @@ static void draggerZCallbackEmissive(void *,SoDragger *dragger)
   rgbCube->draggerZValueEmissive = sd->scaleFactor.getValue()[0];
   if(rgbCube->draggerZValueEmissive > 1.0)
     rgbCube->draggerZValueEmissive = 1;
-  rgbCube->updateCubeVertices(rgbCube->emissiveColorCubeCoords,
-			      rgbCube->emissiveCubeMaterial,
-			      rgbCube->draggerXValueEmissive,
-			      rgbCube->draggerYValueEmissive,
-			      rgbCube->draggerZValueEmissive);
-  rgbCube->colorPatchMaterial->emissiveColor.setValue(rgbCube->draggerXValueEmissive, 
-						     rgbCube->draggerYValueEmissive, 
-						     rgbCube->draggerZValueEmissive);
+  if(sd->scaleFactor.getValue()[0] == 0)
+    sd->scaleFactor.setValue(0.01,1,1);
+  draggerCallbackEmissive();
 }
 
 ////////////////////////////////////////////////////////////////
@@ -370,9 +545,9 @@ void cRgbCube::updateCubeVertices(SoCoordinate3 *cubeCoords,
   cubeMaterial->diffuseColor.set1Value(6, x, y, z);
   cubeMaterial->diffuseColor.set1Value(7, 0, y, z);
 
-  //colorIndicatorPosition->translation.setValue(cubeCoords->point[6]);  
-  colorIndicatorPosition->translation.setValue(x*CUBE_SIZE_X,y*CUBE_SIZE_Y,z*CUBE_SIZE_Z);
- 
+
+  colorIndicatorPosition->translation.setValue(cubeCoords->point[6]);  
+
 }
 
 ////////////////////////////////////////////////////////////////
@@ -477,12 +652,14 @@ void cRgbCube::initCubeFacelist(SoTransformSeparator *root,
 
   // Current color indicator
   SoSeparator *colorIndicatorRoot = new SoSeparator;
-  SoText2 *colorIndicator = new SoText2;
-  colorIndicator->string = "O";
+
+  SoMarkerSet *colorIndicator = new SoMarkerSet;
+  colorIndicator->markerIndex = SoMarkerSet::CIRCLE_LINE_9_9;
+  colorIndicator->numPoints = 1;
+
   SoBaseColor *colorIndicatorColor = new SoBaseColor;
   colorIndicatorColor->rgb.setValue(1,0,0);
   colorIndicatorRoot = new SoSeparator;
-  colorIndicatorPosition = new SoTranslation;
   colorIndicatorPosition->translation.setValue(cubeVerts[6].getValue());
 
   colorIndicatorRoot->addChild(colorIndicatorPosition);
@@ -508,23 +685,20 @@ void cRgbCube::initCubeFacelist(SoTransformSeparator *root,
 
 ////////////////////////////////////////////////////////////////
 
-void cRgbCube::initCubeDraggers(SoSeparator *root, 
+void cRgbCube::initCubeDraggers(SoSeparator *root,
+				SoScale1Dragger *draggerX,
+				SoScale1Dragger *draggerY,
+				SoScale1Dragger *draggerZ,
 				SoDraggerCB *cb1, 
 				SoDraggerCB *cb2, 
 				SoDraggerCB *cb3, 
 				float value1,float value2, float value3)
 {
 
-  SoScale1Dragger *draggerX = new SoScale1Dragger;
-  SoScale1Dragger *draggerY = new SoScale1Dragger;
-  SoScale1Dragger *draggerZ = new SoScale1Dragger;
-
-  /*
-  draggerX->scaleFactor.setValue(value1,0,0);
-  draggerY->scaleFactor.setValue(value2,0,0);
-  draggerZ->scaleFactor.setValue(value3,0,0);
-  */
-
+  draggerX->scaleFactor.setValue(value1,1,1);
+  draggerY->scaleFactor.setValue(value2,1,1);
+  draggerZ->scaleFactor.setValue(value3,1,1);
+  
   draggerX->addMotionCallback(cb1,NULL);
   draggerY->addMotionCallback(cb2,NULL);
   draggerZ->addMotionCallback(cb3,NULL);
@@ -547,49 +721,68 @@ void cRgbCube::initCubeDraggers(SoSeparator *root,
   draggerYTrans->translation.setValue(-CUBE_SIZE_X/2-.2, -CUBE_SIZE_Y-.2, CUBE_SIZE_Z/2+.1);
   draggerZTrans->translation.setValue(-CUBE_SIZE_X/2-.2, -CUBE_SIZE_Y/2-.2, 0);
 
+
   // Axis - Text
   SoFont *font = new SoFont;
   font->name.setValue("Times-Roman");
   font->size.setValue(44.0);
   root->addChild(font);
 
-  SoText2 *textRed = new SoText2;
-  textRed->string = "Red";
-  SoText2 *textGreen = new SoText2;
-  textGreen->string = "Green";
-  SoText2 *textBlue = new SoText2;
-  textBlue->string = "Blue";
+  SoPickStyle *pickStyle = new SoPickStyle;
+  pickStyle->style = SoPickStyle::UNPICKABLE;
+
+  SoTranslation *textTrans = new SoTranslation;
+  textTrans->translation.setValue(0,.3,-.2);
+
+  SoSeparator *textRedSep = new SoSeparator;
+  SoSeparator *textGreenSep = new SoSeparator;
+  SoSeparator *textBlueSep = new SoSeparator;
 
   SoBaseColor *textRedColor = new SoBaseColor;
-  textRedColor->rgb.setValue(1,0,0);
+  textRedColor->rgb.setValue(1,.4,.4);
   SoBaseColor *textGreenColor = new SoBaseColor;
-  textGreenColor->rgb.setValue(0,1,0);
+  textGreenColor->rgb.setValue(.4,1,.4);
   SoBaseColor *textBlueColor = new SoBaseColor;
-  textBlueColor->rgb.setValue(0,0,1);
+  textBlueColor->rgb.setValue(.4,.4,1);
 
+  textRedSep->addChild(pickStyle);
+  textRedSep->addChild(textRedColor);
+  textRedSep->addChild(textTrans);
+  textRedSep->addChild(textRedValue);      // Class variables. Initialized in 'initRgbCubeScene'
+
+  
+  textGreenSep->addChild(pickStyle);
+  textGreenSep->addChild(textGreenColor);
+  textGreenSep->addChild(textTrans);
+  textGreenSep->addChild(textGreenValue);
+  
+  textBlueSep->addChild(pickStyle);
+  textBlueSep->addChild(textBlueColor);
+  textBlueSep->addChild(textTrans);
+  textBlueSep->addChild(textBlueValue);
+
+  
+  // build scene graph
   root->addChild(sep);
 
   root->addChild(draggerXTrans);
   root->addChild(draggerXRotation);
   root->addChild(draggerX);
-  root->addChild(textRedColor);
-  root->addChild(textRed);
+  root->addChild(textRedSep);
 
   root->addChild(sep);
   
   root->addChild(draggerYTrans);
   root->addChild(draggerYRotation);
   root->addChild(draggerY);
-  root->addChild(textGreenColor);
-  root->addChild(textGreen);
+  root->addChild(textGreenSep);
 
   root->addChild(sep);
 
   root->addChild(draggerZTrans);
   root->addChild(draggerZRotation);
   root->addChild(draggerZ);
-  root->addChild(textBlueColor);
-  root->addChild(textBlue);
+  root->addChild(textBlueSep);
 
 }
 
@@ -689,6 +882,106 @@ void cRgbCube::initRadioButtons(SoSeparator *root)
   root->addChild(s4);
 
 }
+////////////////////////////////////////////////////////////////
+
+void cRgbCube::modifyDraggerWidget(SoScale1Dragger *dragger)
+{
+  
+  SoSeparator *newDragger = new SoSeparator;
+  newDragger->ref();
+
+  SoSeparator *newDraggerActive = new SoSeparator;
+  newDraggerActive->ref();
+
+  // Optimize all drawing
+  SoShapeHints *draggerHint = new SoShapeHints;
+  draggerHint->vertexOrdering = SoShapeHints::COUNTERCLOCKWISE;
+  draggerHint->shapeType = SoShapeHints::SOLID;
+  newDragger->addChild(draggerHint);
+  newDraggerActive->addChild(draggerHint);
+
+
+  SoCylinder *tube = new SoCylinder;
+  tube->radius=.05;
+  SoRotationXYZ *tubeRot = new SoRotationXYZ;
+  tubeRot->axis = SoRotationXYZ::Z;
+  tubeRot->angle = 3.1415/2;
+
+  // Passive dragger
+
+  SoMaterial *passiveMat = new SoMaterial;
+  passiveMat->diffuseColor.setValue(.7,.7,.7);
+  newDragger->addChild(passiveMat);
+  newDragger->addChild(tubeRot);
+  newDragger->addChild(tube);
+
+  // Active dragger
+
+  SoMaterial *activeMat = new SoMaterial;
+  activeMat->diffuseColor.setValue(0,1,1);
+  newDraggerActive->addChild(activeMat);
+  newDraggerActive->addChild(tubeRot);
+  newDraggerActive->addChild(tube);
+
+  // Scaler
+
+  SoSeparator *newScaler = new SoSeparator;
+  SoMaterial *scaleMat = new SoMaterial;
+  scaleMat->diffuseColor.setValue(0,1,0);
+
+  SoCube *cube1 = new SoCube; // Axis cross
+  SoCube *cube2 = new SoCube;
+  
+  cube1->width = 0.0;
+  cube1->height = .5;
+  cube1->depth = .1;
+  cube2->width = 0.0;
+  cube2->height = .1;
+  cube2->depth = .5;
+
+
+  SoSphere *endPoint = new SoSphere;  // Endpoint ball
+  endPoint->radius = .05;
+
+  SoAntiSquish *antiSquish = new SoAntiSquish; // Keep aspect ratio!
+  antiSquish->sizing = SoAntiSquish::Y;
+
+  SoTranslation *endPointTrans1 = new SoTranslation;
+  endPointTrans1->translation.setValue(-1,0,0);
+  SoTranslation *endPointTrans2 = new SoTranslation;
+  endPointTrans2->translation.setValue(1,0,0);
+
+  SoSeparator *endPoint1Sep = new SoSeparator;
+  SoSeparator *endPoint2Sep = new SoSeparator;
+
+  
+  // Build scene graph
+
+  endPoint1Sep->addChild(endPointTrans1);
+  endPoint1Sep->addChild(antiSquish);
+  endPoint1Sep->addChild(endPoint);
+  
+  endPoint2Sep->addChild(endPointTrans2);
+  endPoint2Sep->addChild(antiSquish);
+  endPoint2Sep->addChild(endPoint);
+
+  newScaler->addChild(scaleMat);
+  newScaler->addChild(cube1);
+  newScaler->addChild(cube2);
+
+  newScaler->addChild(endPoint1Sep);
+  newScaler->addChild(endPoint2Sep);
+
+
+  // Create new draggers
+
+  dragger->setPart("feedback",newDragger);
+  dragger->setPart("feedbackActive",newDraggerActive);
+
+  dragger->setPart("scaler",newScaler);
+  dragger->setPart("scalerActive",newScaler);
+
+}
 
 ////////////////////////////////////////////////////////////////
 
@@ -696,12 +989,36 @@ void cRgbCube::initRgbCubeScene(int argc,char **argv)
 {
 
   QWidget *widget = SoQt::init(argc,argv,argv[0]);
-  SoQtExaminerViewer *eviewer = new SoQtExaminerViewer(widget);
+  eviewer = new SoQtExaminerViewer(widget);
+  eviewer->setViewing(FALSE);
 
   sceneRoot = new SoSeparator;
   sceneRoot->ref();
 
+  SoEventCallback *mouseCallback = new SoEventCallback;
+  mouseCallback->addEventCallback(SoMouseButtonEvent::getClassTypeId(), &mouseClickCallback, NULL);
+  sceneRoot->addChild(mouseCallback);
+  rayPickAction = new SoRayPickAction(eviewer->getViewportRegion());
+
+  colorIndicatorPosition = new SoTranslation;  // Translation object for colorpoint indicator '*'
+
+
+  // Creating dragger-text objects
+  textRedValue = new SoText2; 
+  textGreenValue = new SoText2;
+  textBlueValue = new SoText2;
+  
+
   // Setup diffuse cube geometry
+  diffuseDraggerX = new SoScale1Dragger;
+  diffuseDraggerY = new SoScale1Dragger;
+  diffuseDraggerZ = new SoScale1Dragger;
+  
+  // Modify dragger look
+  modifyDraggerWidget(diffuseDraggerX);
+  modifyDraggerWidget(diffuseDraggerY);
+  modifyDraggerWidget(diffuseDraggerZ);
+
   diffuseCubeMaterial = new SoMaterial;
   diffuseCubeVertices = new SbVec3f[4*2];
   diffuseColorCubeCoords = new SoCoordinate3;
@@ -713,14 +1030,26 @@ void cRgbCube::initRgbCubeScene(int argc,char **argv)
 		   diffuseCubeMaterial);
   SoSeparator *diffuseCubeRootDraggers = new SoSeparator;
   initCubeDraggers(diffuseCubeRootDraggers,
+		   diffuseDraggerX,
+		   diffuseDraggerY,
+		   diffuseDraggerZ,
 		   &draggerXCallbackDiffuse,
 		   &draggerYCallbackDiffuse,
-		   &draggerZCallbackDiffuse,1,1,1);
+		   &draggerZCallbackDiffuse,draggerXValueDiffuse,draggerXValueDiffuse,draggerXValueDiffuse);
   diffuseCubeRoot->addChild(diffuseCubeRootDraggers);
   diffuseCubeRoot->ref();
 
   
   // Setup specular cube geometry
+  specularDraggerX = new SoScale1Dragger;
+  specularDraggerY = new SoScale1Dragger;
+  specularDraggerZ = new SoScale1Dragger;
+
+  // Modify dragger look
+  modifyDraggerWidget(specularDraggerX);
+  modifyDraggerWidget(specularDraggerY);
+  modifyDraggerWidget(specularDraggerZ);
+
   specularCubeMaterial = new SoMaterial;
   specularCubeVertices = new SbVec3f[4*2];
   specularColorCubeCoords = new SoCoordinate3;
@@ -732,14 +1061,26 @@ void cRgbCube::initRgbCubeScene(int argc,char **argv)
 		   specularCubeMaterial);
   SoSeparator *specularCubeRootDraggers = new SoSeparator;
   initCubeDraggers(specularCubeRootDraggers,
+		   specularDraggerX,
+		   specularDraggerY,
+		   specularDraggerZ,
 		   &draggerXCallbackSpecular,
 		   &draggerYCallbackSpecular,
-		   &draggerZCallbackSpecular,1,1,1);
+		   &draggerZCallbackSpecular,draggerXValueSpecular,draggerXValueSpecular,draggerXValueSpecular);
   specularCubeRoot->addChild(specularCubeRootDraggers);
   specularCubeRoot->ref();
   
   
   // Setup ambient cube geometry
+  ambientDraggerX = new SoScale1Dragger;
+  ambientDraggerY = new SoScale1Dragger;
+  ambientDraggerZ = new SoScale1Dragger;
+
+  // Modify dragger look
+  modifyDraggerWidget(ambientDraggerX);
+  modifyDraggerWidget(ambientDraggerY);
+  modifyDraggerWidget(ambientDraggerZ);
+
   ambientCubeMaterial = new SoMaterial;
   ambientCubeVertices = new SbVec3f[4*2];
   ambientColorCubeCoords = new SoCoordinate3;
@@ -751,14 +1092,26 @@ void cRgbCube::initRgbCubeScene(int argc,char **argv)
 		   ambientCubeMaterial);
   SoSeparator *ambientCubeRootDraggers = new SoSeparator;
   initCubeDraggers(ambientCubeRootDraggers,
+		   ambientDraggerX,
+		   ambientDraggerY,
+		   ambientDraggerZ,
 		   &draggerXCallbackAmbient,
 		   &draggerYCallbackAmbient,
-		   &draggerZCallbackAmbient,1,1,1);
+		   &draggerZCallbackAmbient,draggerXValueAmbient,draggerXValueAmbient,draggerXValueAmbient);
   ambientCubeRoot->addChild(ambientCubeRootDraggers);
   ambientCubeRoot->ref();
 
   
   // Setup emissive cube geometry
+  emissiveDraggerX = new SoScale1Dragger;
+  emissiveDraggerY = new SoScale1Dragger;
+  emissiveDraggerZ = new SoScale1Dragger;
+
+  // Modify dragger look
+  modifyDraggerWidget(emissiveDraggerX);
+  modifyDraggerWidget(emissiveDraggerY);
+  modifyDraggerWidget(emissiveDraggerZ);
+
   emissiveCubeMaterial = new SoMaterial;
   emissiveCubeVertices = new SbVec3f[4*2];
   emissiveColorCubeCoords = new SoCoordinate3;
@@ -770,10 +1123,18 @@ void cRgbCube::initRgbCubeScene(int argc,char **argv)
 		   emissiveCubeMaterial);
   SoSeparator *emissiveCubeRootDraggers = new SoSeparator;
   initCubeDraggers(emissiveCubeRootDraggers,
+		   emissiveDraggerX,
+		   emissiveDraggerY,
+		   emissiveDraggerZ,
 		   &draggerXCallbackEmissive,
 		   &draggerYCallbackEmissive,
-		   &draggerZCallbackEmissive,0.1,0.1,0.1);
+		   &draggerZCallbackEmissive,draggerXValueEmissive,draggerXValueEmissive,draggerXValueEmissive);
   emissiveCubeRoot->addChild(emissiveCubeRootDraggers);
+  rgbCube->updateCubeVertices(emissiveColorCubeCoords,     // Cube starts as <0,0,0> as default.
+			      emissiveCubeMaterial,
+			      draggerXValueEmissive,
+			      draggerYValueEmissive,
+			      draggerZValueEmissive);
   emissiveCubeRoot->ref();
 
 
@@ -783,8 +1144,15 @@ void cRgbCube::initRgbCubeScene(int argc,char **argv)
   
 
   // ---- Create color-patch for preview of selected color  
-  SoSeparator *colorPatchRoot = new SoSeparator;
-  colorPatchRoot->ref();
+
+  colorPatchCube = new SoSwitch;
+  colorPatchSphere = new SoSwitch;
+  colorPatchCone = new SoSwitch;
+
+  colorPatchSphere->whichChild = SO_SWITCH_ALL;
+
+  SoSelection *colorPatchRoot = new SoSelection;
+  colorPatchRoot->addSelectionCallback(colorPatchToggleCallback,NULL);
 
   SoShapeHints *colorPatchHint = new SoShapeHints;
   colorPatchHint->vertexOrdering = SoShapeHints::COUNTERCLOCKWISE;
@@ -795,7 +1163,14 @@ void cRgbCube::initRgbCubeScene(int argc,char **argv)
   colorPatchLight->model = SoLightModel::PHONG;
 
   // Demonstration/preview entity.
-  SoSphere *colorPatchCube = new SoSphere;
+  SoSphere *colorPatchTypeSphere = new SoSphere;
+  SoCube *colorPatchTypeCube = new SoCube;
+  SoCone *colorPatchTypeCone = new SoCone;
+ 
+  colorPatchTypeCube->depth = 1.3;
+  colorPatchTypeCube->height = 1.3;
+  colorPatchTypeCube->width = 1.3;
+
 
   // Create patch-material
   colorPatchMaterial = new SoMaterial;
@@ -810,7 +1185,54 @@ void cRgbCube::initRgbCubeScene(int argc,char **argv)
   colorPatchRoot->addChild(colorPatchLight);
   colorPatchRoot->addChild(colorPatchMaterial);
   colorPatchRoot->addChild(colorPatchTrans);
+
+  colorPatchCube->addChild(colorPatchTypeCube);
+  colorPatchSphere->addChild(colorPatchTypeSphere);
+  colorPatchCone->addChild(colorPatchTypeCone);
+
   colorPatchRoot->addChild(colorPatchCube);
+  colorPatchRoot->addChild(colorPatchSphere);
+  colorPatchRoot->addChild(colorPatchCone);
+
+
+  // ---- Create texts for RGB values
+
+  /*
+  SoSeparator *rgbValueRoot = new SoSeparator;
+  
+  SoTranslation *startPosRgbValues = new SoTranslation;
+  SoTranslation *lineShift = new SoTranslation;
+
+  SoMaterial *redValueTextMat = new SoMaterial;
+  SoMaterial *greenValueTextMat = new SoMaterial;
+  SoMaterial *blueValueTextMat = new SoMaterial;
+  
+  textRedValue = new SoText2;
+  textGreenValue = new SoText2;
+  textBlueValue = new SoText2;
+  
+  textRedValue->justification = SoText2::CENTER;
+  textGreenValue->justification = SoText2::CENTER;
+  textBlueValue->justification = SoText2::CENTER;
+
+  startPosRgbValues->translation.setValue(2*CUBE_SIZE_X,-CUBE_SIZE_Y*0.3,CUBE_SIZE_Z/2);
+  lineShift->translation.setValue(0,-.3,0);
+  
+  redValueTextMat->diffuseColor.setValue(1,.5,.5);
+  greenValueTextMat->diffuseColor.setValue(.5,1,.5);
+  blueValueTextMat->diffuseColor.setValue(.5,.5,1);
+
+  rgbValueRoot->addChild(startPosRgbValues);
+  rgbValueRoot->addChild(redValueTextMat);
+  rgbValueRoot->addChild(textRedValue);
+  rgbValueRoot->addChild(lineShift);
+  rgbValueRoot->addChild(greenValueTextMat);
+  rgbValueRoot->addChild(textGreenValue);
+  rgbValueRoot->addChild(lineShift);
+  rgbValueRoot->addChild(blueValueTextMat);
+  rgbValueRoot->addChild(textBlueValue);
+  */
+
 
 
   // ---- Create draggers for Shininess and transparency
@@ -819,38 +1241,57 @@ void cRgbCube::initRgbCubeScene(int argc,char **argv)
   draggersRoot->ref();
 
   SoTranslation *startPosDraggers = new SoTranslation;
-  startPosDraggers->translation.setValue(4*CUBE_SIZE_X,-CUBE_SIZE_Y*1.1,CUBE_SIZE_Z/2);
+  startPosDraggers->translation.setValue(4*CUBE_SIZE_X,-CUBE_SIZE_Y*1.2,CUBE_SIZE_Z/2);
 
   SoScale1Dragger *draggerShininess = new SoScale1Dragger;
   SoScale1Dragger *draggerTransparency = new SoScale1Dragger;
-  
+
+
+  modifyDraggerWidget(draggerShininess);  // Give dragger a customized look
+  modifyDraggerWidget(draggerTransparency);
+
   draggerShininess->addMotionCallback(&draggerShininessCallback,NULL);
   draggerTransparency->addMotionCallback(&draggerTransparencyCallback,NULL);
 
+  draggerShininess->scaleFactor.setValue(1-0.2,1,1);  // Shininess is 0.2 as default
+  
   SoTranslation *draggerShininessTrans = new SoTranslation;  
   SoTranslation *draggerTransparencyTrans = new SoTranslation;  
   draggerShininessTrans->translation.setValue(-CUBE_SIZE_X*2,0,0);
   draggerTransparencyTrans->translation.setValue(0,CUBE_SIZE_Y/2,0);
+
+
+  SoSeparator *textSep1 = new SoSeparator;
+  SoSeparator *textSep2 = new SoSeparator;
    
-  SoText2 *textShininess = new SoText2;
+  textShininess = new SoText2;
   textShininess->string = "Shininess";
-  SoText2 *textTransparency = new SoText2;
+  textTransparency = new SoText2;
   textTransparency->string = "Opaque";
 
+  SoTranslation *textTrans = new SoTranslation;
+  textTrans->translation.setValue(0,.1,-.2);
+
   SoBaseColor *textColor = new SoBaseColor;
-  textColor->rgb.setValue(1,1,1);
+  textColor->rgb.setValue(.7,1,1);
+
+  textSep1->addChild(textColor);
+  textSep1->addChild(textTrans);
+  textSep1->addChild(textShininess);
+
+  textSep2->addChild(textColor);
+  textSep2->addChild(textTrans);
+  textSep2->addChild(textTransparency);
 
   draggersRoot->addChild(startPosDraggers);
 
-  draggersRoot->addChild(textColor);
   draggersRoot->addChild(draggerShininessTrans);
   draggersRoot->addChild(draggerShininess);
-  draggersRoot->addChild(textShininess);
+  draggersRoot->addChild(textSep1);
 
   draggersRoot->addChild(draggerTransparencyTrans);
   draggersRoot->addChild(draggerTransparency);
-  draggersRoot->addChild(textTransparency);
-
+  draggersRoot->addChild(textSep2);
  
   // --------------------------------------------------
 
@@ -862,23 +1303,31 @@ void cRgbCube::initRgbCubeScene(int argc,char **argv)
   sceneRoot->addChild(shiftCube);
 
   sceneRoot->addChild(colorPatchRoot);
+  //sceneRoot->addChild(rgbValueRoot);
   sceneRoot->addChild(draggersRoot);
 
-  if(currentColorCube == COLOR_CUBE_DIFFUSE)
+  if(currentColorCube == COLOR_CUBE_DIFFUSE){
     sceneRoot->addChild(diffuseCubeRoot);
+    draggerCallbackDiffuse();
+  }
   
-  if(currentColorCube == COLOR_CUBE_AMBIENT)
+  if(currentColorCube == COLOR_CUBE_AMBIENT){
     sceneRoot->addChild(ambientCubeRoot);
+    draggerCallbackAmbient();
+  }
  
-  if(currentColorCube == COLOR_CUBE_SPECULAR)
+  if(currentColorCube == COLOR_CUBE_SPECULAR){
     sceneRoot->addChild(specularCubeRoot);
+    draggerCallbackSpecular();
+  }
 
-  if(currentColorCube == COLOR_CUBE_EMISSIVE)
+  if(currentColorCube == COLOR_CUBE_EMISSIVE){
     sceneRoot->addChild(emissiveCubeRoot);
-
+    draggerCallbackEmissive();
+  }
 
   eviewer->setSceneGraph(sceneRoot);
-  eviewer->setTitle("RGB-cube color chooser");
+  eviewer->setTitle("Coin Material Editor");
   eviewer->show(); 
  
   SoQt::show(widget);
@@ -892,8 +1341,6 @@ void cRgbCube::initRgbCubeScene(int argc,char **argv)
 
 int main(int argc,char **argv)
 {
-
-  std::cout << "- RgbCube v0.1, Øystein\n";
 
   rgbCube = new cRgbCube();  
   rgbCube->initRgbCubeScene(argc,argv);
