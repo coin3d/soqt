@@ -295,9 +295,9 @@ SoGui_src_Inventor_Gui_devices_BuiltFiles = \
 
 SoGui_src_Inventor_Gui_editors_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.h \
-  $(top_builddir)/src/Inventor/@Gui@/editors/ColorEditor.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp \
   $(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.h \
-  $(top_builddir)/src/Inventor/@Gui@/editors/MaterialEditor.cpp
+  $(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp
 
 
 SoGui_src_Inventor_Gui_nodes_BuiltFiles = \
@@ -1366,14 +1366,14 @@ $(top_builddir)/src/Inventor/@Gui@/devices/spwinput_win32.c: $(top_srcdir)/src/I
 $(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.h: $(top_srcdir)/src/Inventor/@Gui@/common/editors/ColorEditor.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/editors/So@Gui@ColorEditor.h:src/Inventor/@Gui@/common/editors/ColorEditor.h.in )
 
-$(top_builddir)/src/Inventor/@Gui@/editors/ColorEditor.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/editors/ColorEditor.cpp.in $(top_builddir)/config.status
-	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/editors/ColorEditor.cpp:src/Inventor/@Gui@/common/editors/ColorEditor.cpp.in )
+$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/editors/ColorEditor.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp:src/Inventor/@Gui@/common/editors/ColorEditor.cpp.in )
 
 $(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.h: $(top_srcdir)/src/Inventor/@Gui@/common/editors/MaterialEditor.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.h:src/Inventor/@Gui@/common/editors/MaterialEditor.h.in )
 
-$(top_builddir)/src/Inventor/@Gui@/editors/MaterialEditor.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/editors/MaterialEditor.cpp.in $(top_builddir)/config.status
-	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/editors/MaterialEditor.cpp:src/Inventor/@Gui@/common/editors/MaterialEditor.cpp.in )
+$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/editors/MaterialEditor.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp:src/Inventor/@Gui@/common/editors/MaterialEditor.cpp.in )
 
 $(top_builddir)/src/Inventor/@Gui@/engines/SoGuiEngines.h: $(top_srcdir)/src/Inventor/@Gui@/common/engines/Engines.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/engines/SoGuiEngines.h:src/Inventor/@Gui@/common/engines/Engines.h.in )
