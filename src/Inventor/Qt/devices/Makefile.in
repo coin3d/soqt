@@ -317,12 +317,6 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/SoGuiGLWidgetCommon.cpp.in \
   src/Inventor/@Gui@/common/SoGuiRenderArea.h.in \
   src/Inventor/@Gui@/common/SoGuiRenderArea.cpp.in \
-  src/Inventor/@Gui@/common/SoGuiViewer.h.in \
-  src/Inventor/@Gui@/common/SoGuiViewer.cpp.in \
-  src/Inventor/@Gui@/common/SoGuiConstrainedViewer.h.in \
-  src/Inventor/@Gui@/common/SoGuiConstrainedViewer.cpp.in \
-  src/Inventor/@Gui@/common/SoGuiFlyViewer.h.in \
-  src/Inventor/@Gui@/common/SoGuiFlyViewer.cpp.in \
   src/Inventor/@Gui@/common/SoGuiMaterialList.h.in \
   src/Inventor/@Gui@/common/SoAny.h.in \
   src/Inventor/@Gui@/common/SoAny.cpp.in \
