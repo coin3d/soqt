@@ -211,7 +211,11 @@ static struct key1map QtToSoMapping[] = {
   {Key_Return, SoKeyboardEvent::RETURN},
   {Key_Enter, SoKeyboardEvent::ENTER},
   {Key_Insert, SoKeyboardEvent::INSERT},
+#ifdef _WIN32
   {Key_Delete, SoKeyboardEvent::KEY_DELETE},
+#else
+  {Key_Delete, SoKeyboardEvent::DELETE},
+#endif
   {Key_Pause, SoKeyboardEvent::PAUSE},
   {Key_Print, SoKeyboardEvent::PRINT},
 //    {Key_SysReq, SoKeyboardEvent::}, // FIXME
