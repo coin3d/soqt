@@ -1603,7 +1603,6 @@ AC_DEFUN([SIM_PARSE_MODIFIER_LIST],
 #
 
 AC_DEFUN([SIM_CHECK_QT], [
-AC_PREREQ([2.14.1])
 
 AC_ARG_WITH(
   [qt],
@@ -1691,8 +1690,6 @@ fi
 #
 
 AC_DEFUN([SIM_CHECK_QGL], [
-AC_PREREQ([2.14.1])
-
 sim_ac_qgl_avail=no
 
 if test x"$with_qt" != xno; then
@@ -1718,6 +1715,33 @@ if test x"$with_qt" != xno; then
 fi
 ])
 
+
+
+# Usage:
+#  SIM_AC_QGLWIDGET_SETAUTOBUFFERSWAP
+#
+# Use the macro for its side-effect: it defines
+#
+#       HAVE_QGLWIDGET_SETAUTOBUFFERSWAP
+#
+# to 1 in config.h if QGLWidget::setAutoBufferSwap() is available.
+#
+# Author: Morten Eriksen, <mortene@sim.no>.
+
+AC_DEFUN([SIM_AC_QGLWIDGET_SETAUTOBUFFERSWAP], [
+AC_CACHE_CHECK(
+  [whether the QGLWidget method setAutoBufferSwap() is available],
+  sim_cv_func_qglwidget_setautobufferswap,
+  [AC_TRY_LINK([#include <qgl.h>],
+               [QGLWidget * w = new QGLWidget; w->setAutoBufferSwap(FALSE);],
+               [sim_cv_func_qglwidget_setautobufferswap=yes],
+               [sim_cv_func_qglwidget_setautobufferswap=no])])
+
+if test x"$sim_cv_func_qglwidget_setautobufferswap" = xyes; then
+  AC_DEFINE([HAVE_QGLWIDGET_SETAUTOBUFFERSWAP], 1,
+    [Define this to 1 if QGLWidget::setAutoBufferSwap() is available])
+fi
+])
 
 # Usage:
 #   SIM_COMPILE_DEBUG( ACTION-IF-DEBUG, ACTION-IF-NOT-DEBUG )

@@ -27,6 +27,9 @@
 /* Define if you have the `socket' library (-lsocket). */
 #undef HAVE_LIBSOCKET
 
+/* Define this to 1 if QGLWidget::setAutoBufferSwap() is available */
+#undef HAVE_QGLWIDGET_SETAUTOBUFFERSWAP
+
 /* Define this to true if the __FUNCTION__ variable contains the current
    function name */
 #undef HAVE_VAR___FUNCTION__

@@ -204,6 +204,9 @@ SIM_CHECK_QGL([
   SOQT_EXTRA_LIBS="$sim_ac_qgl_libs $SOQT_EXTRA_LIBS"
 ], AC_MSG_ERROR(can't compile and link against the QGL extension library))
 
+SIM_AC_QGLWIDGET_SETAUTOBUFFERSWAP
+
+
 dnl *******************************************************************
 dnl * Compiler control.
 dnl *******************************************************************
