@@ -106,6 +106,10 @@ SoQtThumbWheel::paintEvent(
     w = this->height() - 2*SHADEBORDERWIDTH - 6;
     d = this->width() - 2*SHADEBORDERWIDTH - 12;
   }
+
+  // Handle resizing to too small dimensions gracefully.
+  if ( ( d <= 0 ) || ( w <= 0 ) ) return;
+
   this->initWheel( d, w );
 
   int pixmap = this->wheel->GetBitmapForValue( this->tempWheelValue,
