@@ -22,7 +22,7 @@
 \**************************************************************************/
 
 #include <qcolor.h>
-#include "SbCubicSpline.h" // FIXME: the SbCubic spline should perhaps be made available in Coin or SoQt 20031016 frodo
+#include "SoGuiSpline.h" // FIXME: the SbCubic spline should perhaps be made available in Coin or SoQt 20031016 frodo
 #include "ColorCurve.h"
 
 ColorCurve::ColorCurve(CurveType type, const int numcolors)
