@@ -70,7 +70,7 @@ void
 SoQtColorTableEditorP::done()
 {
   if (!this->contupdate) {
-    this->callBack(this->callbackData);
+    if (this->callBack) { this->callBack(this->callbackData); }
   }
   PUBLIC(this)->close();
 }
