@@ -159,9 +159,10 @@ darwin* )
     ;;
   esac
   ;;
-  * ) 
-  sim_ac_macosx=false ;;
-  sim_ac_macosx_10_2ff=false 
+* ) 
+  sim_ac_macosx=false
+  sim_ac_macosx_10_2ff=false
+  ;;
 esac
 
 # Initialize libtool
