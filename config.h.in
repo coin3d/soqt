@@ -1,5 +1,8 @@
 /* config.h.in.  Generated automatically from configure.in by autoheader.  */
 
+/* Define if you have the <dlfcn.h> header file. */
+#undef HAVE_DLFCN_H
+
 /* Define to enable Linux Joystick driver support */
 #undef HAVE_JOYSTICK_LINUX
 

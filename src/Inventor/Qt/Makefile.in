@@ -1,6 +1,6 @@
-# Makefile.in generated automatically by automake 1.4c from Makefile.am
+# Makefile.in generated automatically by automake 1.4e from Makefile.am
 
-# Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000
+# Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
 # Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -48,6 +48,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_FLAG =
+INSTALL_HEADER = $(INSTALL_DATA)
 transform = @program_transform_name@
 
 NORMAL_INSTALL = :
@@ -71,15 +72,18 @@ AWK = @AWK@
 BUILD_WITH_MSVC = @BUILD_WITH_MSVC@
 CC = @CC@
 COMPONENTHEADER = @COMPONENTHEADER@
-CPP = @CPP@
+CONFIG = @CONFIG@
 CXX = @CXX@
-CXXCPP = @CXXCPP@
 DEPDIR = @DEPDIR@
-DLLFLAGS = @DLLFLAGS@
 DLLTOOL = @DLLTOOL@
+DSUFFIX = @DSUFFIX@
 EVENT = @EVENT@
 GUI = @GUI@
 Gui = @Gui@
+INSTALL_HEADER = @INSTALL_HEADER@
+INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+INSTALL_STRIP_PROGRAM_ENV = @INSTALL_STRIP_PROGRAM_ENV@
+LIBFLAGS = @LIBFLAGS@
 LIBTOOL = @LIBTOOL@
 LN_S = @LN_S@
 LT_AGE = @LT_AGE@
@@ -94,15 +98,19 @@ RANLIB = @RANLIB@
 SOQT_DOC_HTML = @SOQT_DOC_HTML@
 SOQT_DOC_MAN = @SOQT_DOC_MAN@
 SOQT_EXTRA_CPPFLAGS = @SOQT_EXTRA_CPPFLAGS@
+SOQT_EXTRA_CXXFLAGS = @SOQT_EXTRA_CXXFLAGS@
 SOQT_EXTRA_LDFLAGS = @SOQT_EXTRA_LDFLAGS@
 SOQT_EXTRA_LIBS = @SOQT_EXTRA_LIBS@
 SOQT_MAJOR_VERSION = @SOQT_MAJOR_VERSION@
 SOQT_MICRO_VERSION = @SOQT_MICRO_VERSION@
 SOQT_MINOR_VERSION = @SOQT_MINOR_VERSION@
 SOQT_VERSION = @SOQT_VERSION@
+STRIP = @STRIP@
+SUFFIX = @SUFFIX@
 UNIX2WINPATH = @UNIX2WINPATH@
 VERSION = @VERSION@
 WIDGET = @WIDGET@
+_am_include = @_am_include@
 gui = @gui@
 install_sh = @install_sh@
 sim_ac_coin_configcmd = @sim_ac_coin_configcmd@
@@ -111,6 +119,7 @@ sim_ac_perl_exe = @sim_ac_perl_exe@
 soqt_configure_date = @soqt_configure_date@
 soqt_dox_build_dir = @soqt_dox_build_dir@
 soqt_dox_src_dir = @soqt_dox_src_dir@
+win_srcdir = @win_srcdir@
 
 ############################################################################
 
@@ -121,7 +130,7 @@ SUBDIRS = devices viewers widgets
 
 INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
 
-lib_LTLIBRARIES = libSoQt.la
+lib_LTLIBRARIES = libSoQt@SUFFIX@.la
 
 BUILT_SOURCES = \
 	SoQtBasic.h \
@@ -145,7 +154,7 @@ BUILT_SOURCES = \
 
 ############################################################################
 
-libSoQt_la_SOURCES = \
+libSoQt@SUFFIX@_la_SOURCES = \
 	SoQt.cpp \
 	SoQt.h \
 	SoQtComponent.cpp \
@@ -165,19 +174,19 @@ libSoQt_la_SOURCES = \
 	$(BUILT_SOURCES)
 
 
-libSoQt_la_LIBADD = \
+libSoQt@SUFFIX@_la_LIBADD = \
 	devices/libSoQtDevices.la \
 	viewers/libSoQtViewers.la \
 	widgets/libSoQtWidgets.la
 
 
-libSoQt_la_LDFLAGS = \
+libSoQt@SUFFIX@_la_LDFLAGS = \
         -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
 
 
-libSoQtincdir = $(includedir)/Inventor/Qt
+libSoQt@SUFFIX@incdir = $(includedir)/Inventor/Qt
 
-libSoQtinc_HEADERS = \
+libSoQt@SUFFIX@inc_HEADERS = \
 	$(top_srcdir)/src/Inventor/Qt/SoQt.h \
 	$(top_builddir)/src/Inventor/Qt/SoQtBasic.h \
 	$(top_builddir)/src/Inventor/Qt/SoQtObject.h \
@@ -206,16 +215,17 @@ X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libSoQt_la_DEPENDENCIES =  devices/libSoQtDevices.la \
+libSoQt@SUFFIX@_la_DEPENDENCIES =  devices/libSoQtDevices.la \
 viewers/libSoQtViewers.la widgets/libSoQtWidgets.la
-am_libSoQt_la_OBJECTS =  SoQt.lo SoQtComponent.lo SoQtGLWidget.lo \
-SoQtLightSliderSet.lo SoQtMaterialSliderSet.lo SoQtSliderSet.lo \
-SoQtSliderSetBase.lo SoQtTransformSliderSet.lo SoQtObject.lo \
-SoQtCursors.lo SoQtRenderArea.lo moc_SoQt.lo moc_SoQtObject.lo \
-moc_SoQtComponent.lo moc_SoQtGLWidget.lo moc_SoQtLightSliderSet.lo \
-moc_SoQtMaterialSliderSet.lo moc_SoQtRenderArea.lo moc_SoQtSliderSet.lo \
-moc_SoQtSliderSetBase.lo moc_SoQtTransformSliderSet.lo
-libSoQt_la_OBJECTS =  $(am_libSoQt_la_OBJECTS)
+am_libSoQt@SUFFIX@_la_OBJECTS =  SoQt.lo SoQtComponent.lo \
+SoQtGLWidget.lo SoQtLightSliderSet.lo SoQtMaterialSliderSet.lo \
+SoQtSliderSet.lo SoQtSliderSetBase.lo SoQtTransformSliderSet.lo \
+SoQtObject.lo SoQtCursors.lo SoQtRenderArea.lo moc_SoQt.lo \
+moc_SoQtObject.lo moc_SoQtComponent.lo moc_SoQtGLWidget.lo \
+moc_SoQtLightSliderSet.lo moc_SoQtMaterialSliderSet.lo \
+moc_SoQtRenderArea.lo moc_SoQtSliderSet.lo moc_SoQtSliderSetBase.lo \
+moc_SoQtTransformSliderSet.lo
+libSoQt@SUFFIX@_la_OBJECTS =  $(am_libSoQt@SUFFIX@_la_OBJECTS)
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 CXXFLAGS = @CXXFLAGS@
@@ -226,31 +236,33 @@ COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CF
 LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES =  $(libSoQt_la_SOURCES)
-HEADERS =  $(libSoQtinc_HEADERS)
+DIST_SOURCES =  $(libSoQt@SUFFIX@_la_SOURCES)
+HEADERS =  $(libSoQt@SUFFIX@inc_HEADERS)
 
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
-DEP_FILES =  @AMDEP@ $(DEPDIR)/SoQt.Plo $(DEPDIR)/SoQtComponent.Plo \
-$(DEPDIR)/SoQtCursors.Plo $(DEPDIR)/SoQtGLWidget.Plo \
-$(DEPDIR)/SoQtLightSliderSet.Plo $(DEPDIR)/SoQtMaterialSliderSet.Plo \
-$(DEPDIR)/SoQtObject.Plo $(DEPDIR)/SoQtRenderArea.Plo \
-$(DEPDIR)/SoQtSliderSet.Plo $(DEPDIR)/SoQtSliderSetBase.Plo \
-$(DEPDIR)/SoQtTransformSliderSet.Plo $(DEPDIR)/moc_SoQt.Plo \
-$(DEPDIR)/moc_SoQtComponent.Plo $(DEPDIR)/moc_SoQtGLWidget.Plo \
-$(DEPDIR)/moc_SoQtLightSliderSet.Plo \
-$(DEPDIR)/moc_SoQtMaterialSliderSet.Plo $(DEPDIR)/moc_SoQtObject.Plo \
-$(DEPDIR)/moc_SoQtRenderArea.Plo $(DEPDIR)/moc_SoQtSliderSet.Plo \
-$(DEPDIR)/moc_SoQtSliderSetBase.Plo \
-$(DEPDIR)/moc_SoQtTransformSliderSet.Plo
-DIST_COMMON =  $(libSoQtinc_HEADERS) Makefile.am Makefile.in
+@AMDEP@DEP_FILES =  $(DEPDIR)/SoQt.Plo $(DEPDIR)/SoQtComponent.Plo \
+@AMDEP@$(DEPDIR)/SoQtCursors.Plo $(DEPDIR)/SoQtGLWidget.Plo \
+@AMDEP@$(DEPDIR)/SoQtLightSliderSet.Plo \
+@AMDEP@$(DEPDIR)/SoQtMaterialSliderSet.Plo $(DEPDIR)/SoQtObject.Plo \
+@AMDEP@$(DEPDIR)/SoQtRenderArea.Plo $(DEPDIR)/SoQtSliderSet.Plo \
+@AMDEP@$(DEPDIR)/SoQtSliderSetBase.Plo \
+@AMDEP@$(DEPDIR)/SoQtTransformSliderSet.Plo $(DEPDIR)/moc_SoQt.Plo \
+@AMDEP@$(DEPDIR)/moc_SoQtComponent.Plo $(DEPDIR)/moc_SoQtGLWidget.Plo \
+@AMDEP@$(DEPDIR)/moc_SoQtLightSliderSet.Plo \
+@AMDEP@$(DEPDIR)/moc_SoQtMaterialSliderSet.Plo \
+@AMDEP@$(DEPDIR)/moc_SoQtObject.Plo $(DEPDIR)/moc_SoQtRenderArea.Plo \
+@AMDEP@$(DEPDIR)/moc_SoQtSliderSet.Plo \
+@AMDEP@$(DEPDIR)/moc_SoQtSliderSetBase.Plo \
+@AMDEP@$(DEPDIR)/moc_SoQtTransformSliderSet.Plo
+DIST_COMMON =  $(libSoQt@SUFFIX@inc_HEADERS) Makefile.am Makefile.in
 
 
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
 GZIP_ENV = --best
 DIST_SUBDIRS =  $(SUBDIRS)
-SOURCES = $(libSoQt_la_SOURCES)
-OBJECTS = $(am_libSoQt_la_OBJECTS)
+SOURCES = $(libSoQt@SUFFIX@_la_SOURCES)
+OBJECTS = $(am_libSoQt@SUFFIX@_la_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
@@ -260,7 +272,7 @@ $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/configur
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
-	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
+	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= CONFIG_LINKS= $(SHELL) ./config.status
 
 
 mostlyclean-libLTLIBRARIES:
@@ -292,12 +304,8 @@ uninstall-libLTLIBRARIES:
 mostlyclean-compile:
 	-rm -f *.o core *.core
 
-clean-compile:
-
 distclean-compile:
 	-rm -f *.tab.c
-
-maintainer-clean-compile:
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -306,30 +314,27 @@ clean-libtool:
 	-rm -rf .libs _libs
 
 distclean-libtool:
+	-rm -f libtool
 
-maintainer-clean-libtool:
+libSoQt@SUFFIX@.la: $(libSoQt@SUFFIX@_la_OBJECTS) $(libSoQt@SUFFIX@_la_DEPENDENCIES)
+	$(CXXLINK) -rpath $(libdir) $(libSoQt@SUFFIX@_la_LDFLAGS) $(libSoQt@SUFFIX@_la_OBJECTS) $(libSoQt@SUFFIX@_la_LIBADD) $(LIBS)
 
-libSoQt.la: $(libSoQt_la_OBJECTS) $(libSoQt_la_DEPENDENCIES)
-	$(CXXLINK) -rpath $(libdir) $(libSoQt_la_LDFLAGS) $(libSoQt_la_OBJECTS) $(libSoQt_la_LIBADD) $(LIBS)
-
-install-libSoQtincHEADERS: $(libSoQtinc_HEADERS)
+install-libSoQt@SUFFIX@incHEADERS: $(libSoQt@SUFFIX@inc_HEADERS)
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(libSoQtincdir)
-	@list='$(libSoQtinc_HEADERS)'; for p in $$list; do \
-	  if test -f "$$p"; then d= ; else d="$(srcdir)/"; fi; \
+	$(mkinstalldirs) $(DESTDIR)$(libSoQt@SUFFIX@incdir)
+	@list='$(libSoQt@SUFFIX@inc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  if cmp -s $$d$$p $(DESTDIR)$(libSoQtincdir)/$$f; then :; else \
-	    echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libSoQtincdir)/$$f"; \
-	    $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libSoQtincdir)/$$f; \
-	  fi; \
+	  echo " $(INSTALL_HEADER) $$d$$p $(DESTDIR)$(libSoQt@SUFFIX@incdir)/$$f"; \
+	  $(INSTALL_HEADER) $$d$$p $(DESTDIR)$(libSoQt@SUFFIX@incdir)/$$f; \
 	done
 
-uninstall-libSoQtincHEADERS:
+uninstall-libSoQt@SUFFIX@incHEADERS:
 	@$(NORMAL_UNINSTALL)
-	@list='$(libSoQtinc_HEADERS)'; for p in $$list; do \
+	@list='$(libSoQt@SUFFIX@inc_HEADERS)'; for p in $$list; do \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " rm -f $(DESTDIR)$(libSoQtincdir)/$$f"; \
-	  rm -f $(DESTDIR)$(libSoQtincdir)/$$f; \
+	  echo " rm -f $(DESTDIR)$(libSoQt@SUFFIX@incdir)/$$f"; \
+	  rm -f $(DESTDIR)$(libSoQt@SUFFIX@incdir)/$$f; \
 	done
 
 # This directory's subdirectories are mostly independent; you can cd
@@ -338,7 +343,6 @@ uninstall-libSoQtincHEADERS:
 # (1) if the variable is set in `config.status', edit `config.status'
 #     (which will cause the Makefiles to be regenerated when you run `make');
 # (2) otherwise, pass the desired values on the `make' command line.
-
 all-recursive install-data-recursive install-exec-recursive \
 installdirs-recursive install-recursive uninstall-recursive  \
 check-recursive installcheck-recursive info-recursive dvi-recursive:
@@ -424,45 +428,33 @@ GTAGS:
 	  && cd $(top_srcdir) \
 	  && gtags -i $$here
 
-mostlyclean-tags:
-
-clean-tags:
-
 distclean-tags:
 	-rm -f TAGS ID
 
-maintainer-clean-tags:
-
-@AMDEP@include $(DEPDIR)/SoQt.Plo
-@AMDEP@include $(DEPDIR)/SoQtComponent.Plo
-@AMDEP@include $(DEPDIR)/SoQtCursors.Plo
-@AMDEP@include $(DEPDIR)/SoQtGLWidget.Plo
-@AMDEP@include $(DEPDIR)/SoQtLightSliderSet.Plo
-@AMDEP@include $(DEPDIR)/SoQtMaterialSliderSet.Plo
-@AMDEP@include $(DEPDIR)/SoQtObject.Plo
-@AMDEP@include $(DEPDIR)/SoQtRenderArea.Plo
-@AMDEP@include $(DEPDIR)/SoQtSliderSet.Plo
-@AMDEP@include $(DEPDIR)/SoQtSliderSetBase.Plo
-@AMDEP@include $(DEPDIR)/SoQtTransformSliderSet.Plo
-@AMDEP@include $(DEPDIR)/moc_SoQt.Plo
-@AMDEP@include $(DEPDIR)/moc_SoQtComponent.Plo
-@AMDEP@include $(DEPDIR)/moc_SoQtGLWidget.Plo
-@AMDEP@include $(DEPDIR)/moc_SoQtLightSliderSet.Plo
-@AMDEP@include $(DEPDIR)/moc_SoQtMaterialSliderSet.Plo
-@AMDEP@include $(DEPDIR)/moc_SoQtObject.Plo
-@AMDEP@include $(DEPDIR)/moc_SoQtRenderArea.Plo
-@AMDEP@include $(DEPDIR)/moc_SoQtSliderSet.Plo
-@AMDEP@include $(DEPDIR)/moc_SoQtSliderSetBase.Plo
-@AMDEP@include $(DEPDIR)/moc_SoQtTransformSliderSet.Plo
-
-mostlyclean-depend:
-
-clean-depend:
+@AMDEP@@_am_include@ $(DEPDIR)/SoQt.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/SoQtComponent.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/SoQtCursors.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/SoQtGLWidget.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/SoQtLightSliderSet.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/SoQtMaterialSliderSet.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/SoQtObject.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/SoQtRenderArea.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/SoQtSliderSet.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/SoQtSliderSetBase.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/SoQtTransformSliderSet.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQt.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtComponent.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtGLWidget.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtLightSliderSet.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtMaterialSliderSet.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtObject.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtRenderArea.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtSliderSet.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtSliderSetBase.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtTransformSliderSet.Plo
 
 distclean-depend:
 	-rm -rf $(DEPDIR)
-
-maintainer-clean-depend:
 
 @AMDEP@CXXDEPMODE = @CXXDEPMODE@
 
@@ -481,9 +473,8 @@ maintainer-clean-depend:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
+
 distdir: $(DISTFILES)
-	$(mkinstalldirs) $(distdir)/$(top_builddir)/src/Inventor/Qt \
-	   $(distdir)/$(top_srcdir)/src/Inventor/Qt
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
@@ -500,7 +491,8 @@ distdir: $(DISTFILES)
 	    test -d $(distdir)/$$subdir \
 	    || mkdir $(distdir)/$$subdir \
 	    || exit 1; \
-	    (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
+	    (cd $$subdir && \
+	      $(MAKE) $(AM_MAKEFLAGS) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	      || exit 1; \
 	  fi; \
 	done
@@ -512,29 +504,29 @@ check-am: all-am
 check: check-recursive
 installcheck-am:
 installcheck: installcheck-recursive
-all-recursive-am: $(BUILT_SOURCES)
+all-redirect: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
-install-exec-am: install-libLTLIBRARIES
-	@$(NORMAL_INSTALL)
-	$(MAKE) $(AM_MAKEFLAGS) install-exec-hook
+install-exec-am: install-libLTLIBRARIES install-exec-local
 install-exec: install-exec-recursive
 
-install-data-am: install-libSoQtincHEADERS
+install-data-am: install-libSoQt@SUFFIX@incHEADERS install-data-local
 install-data: install-data-recursive
 
 install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
 install: install-recursive
-uninstall-am: uninstall-libLTLIBRARIES uninstall-libSoQtincHEADERS
+uninstall-am: uninstall-libLTLIBRARIES \
+		uninstall-libSoQt@SUFFIX@incHEADERS uninstall-local
 uninstall: uninstall-recursive
-all-am: Makefile $(LTLIBRARIES) $(HEADERS)
-all-redirect: all-recursive-am
+all-am: Makefile $(LTLIBRARIES) $(HEADERS) all-local
 install-strip:
-	$(MAKE) $(AM_MAKEFLAGS) INSTALL_STRIP_FLAG=-s install
+	$(MAKE) $(AM_MAKEFLAGS) INSTALL_PROGRAM="$(INSTALL_STRIP_PROGRAM)" \
+	  INSTALL_PROGRAM_ENV='$(INSTALL_STRIP_PROGRAM_ENV)' install
 installdirs: installdirs-recursive
 installdirs-am:
-	$(mkinstalldirs)  $(DESTDIR)$(libdir) $(DESTDIR)$(libSoQtincdir)
+	$(mkinstalldirs)  $(DESTDIR)$(libdir) \
+		$(DESTDIR)$(libSoQt@SUFFIX@incdir)
 
 
 mostlyclean-generic:
@@ -546,55 +538,51 @@ distclean-generic:
 	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
 
 maintainer-clean-generic:
+	@echo "This command is intended for maintainers to use"
+	@echo "it deletes files that may require special tools to rebuild."
 	-rm -f Makefile.in
 	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
-mostlyclean-am:  mostlyclean-libLTLIBRARIES mostlyclean-compile \
-		mostlyclean-libtool mostlyclean-tags mostlyclean-depend \
-		mostlyclean-generic
-
-mostlyclean: mostlyclean-recursive
-
-clean-am:  clean-libLTLIBRARIES clean-compile clean-libtool clean-tags \
-		clean-depend clean-generic mostlyclean-am
-
 clean: clean-recursive
 
-distclean-am:  distclean-libLTLIBRARIES distclean-compile \
-		distclean-libtool distclean-tags distclean-depend \
-		distclean-generic clean-am
-	-rm -f libtool
+clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
+	mostlyclean-am
 
 distclean: distclean-recursive
 
-maintainer-clean-am:  maintainer-clean-libLTLIBRARIES \
-		maintainer-clean-compile maintainer-clean-libtool \
-		maintainer-clean-tags maintainer-clean-depend \
-		maintainer-clean-generic distclean-am
-	@echo "This command is intended for maintainers to use;"
-	@echo "it deletes files that may require special tools to rebuild."
+distclean-am: clean-am distclean-compile distclean-depend \
+	distclean-generic distclean-libLTLIBRARIES distclean-libtool \
+	distclean-tags
 
 maintainer-clean: maintainer-clean-recursive
 
-.PHONY: mostlyclean-libLTLIBRARIES distclean-libLTLIBRARIES \
-clean-libLTLIBRARIES maintainer-clean-libLTLIBRARIES \
-uninstall-libLTLIBRARIES install-libLTLIBRARIES mostlyclean-compile \
-distclean-compile clean-compile maintainer-clean-compile \
-mostlyclean-libtool distclean-libtool clean-libtool \
-maintainer-clean-libtool uninstall-libSoQtincHEADERS \
-install-libSoQtincHEADERS install-recursive uninstall-recursive \
-install-data-recursive uninstall-data-recursive install-exec-recursive \
-uninstall-exec-recursive installdirs-recursive uninstalldirs-recursive \
-all-recursive check-recursive installcheck-recursive info-recursive \
-dvi-recursive mostlyclean-recursive distclean-recursive clean-recursive \
-maintainer-clean-recursive tags tags-recursive mostlyclean-tags \
-distclean-tags clean-tags maintainer-clean-tags mostlyclean-depend \
-distclean-depend clean-depend maintainer-clean-depend distdir info-am \
-info dvi-am dvi check check-am installcheck-am installcheck \
-all-recursive-am install-exec-am install-exec install-data-am \
-install-data install-am install uninstall-am uninstall all-redirect \
-all-am all install-strip installdirs-am installdirs mostlyclean-generic \
-distclean-generic clean-generic maintainer-clean-generic clean \
-mostlyclean distclean maintainer-clean
+maintainer-clean-am: distclean-am maintainer-clean-generic \
+	maintainer-clean-libLTLIBRARIES
+
+mostlyclean: mostlyclean-recursive
+
+mostlyclean-am: mostlyclean-compile mostlyclean-generic \
+	mostlyclean-libLTLIBRARIES mostlyclean-libtool
+
+.PHONY: all all-am all-local all-recursive all-redirect check check-am \
+	check-recursive clean clean-generic clean-libLTLIBRARIES \
+	clean-libtool clean-recursive distclean distclean-compile \
+	distclean-depend distclean-generic distclean-libLTLIBRARIES \
+	distclean-libtool distclean-recursive distclean-tags distdir \
+	dvi dvi-am dvi-recursive info info-am info-recursive install \
+	install-am install-data install-data-am install-data-local \
+	install-data-recursive install-exec install-exec-am \
+	install-exec-local install-exec-recursive \
+	install-libLTLIBRARIES install-libSoQt@SUFFIX@incHEADERS \
+	install-recursive install-strip installcheck installcheck-am \
+	installcheck-recursive installdirs installdirs-am \
+	installdirs-recursive maintainer-clean maintainer-clean-generic \
+	maintainer-clean-libLTLIBRARIES maintainer-clean-recursive \
+	mostlyclean mostlyclean-compile mostlyclean-generic \
+	mostlyclean-libLTLIBRARIES mostlyclean-libtool \
+	mostlyclean-recursive tags tags-recursive uninstall \
+	uninstall-am uninstall-libLTLIBRARIES \
+	uninstall-libSoQt@SUFFIX@incHEADERS uninstall-local \
+	uninstall-recursive
 
 
 ############################################################################
@@ -658,40 +646,60 @@ moc_SoQtTransformSliderSet.cpp: \
 	@( cd $(top_builddir); \
 	   $(MAKE) src/Inventor/Qt/moc_SoQtTransformSliderSet.cpp )
 
-############################################################################
+# **************************************************************************
 
-#### Additional "native" Make rules #########################################
-
-soqt@SOQT_MAJOR_VERSION@.dll: $(libSoQt_la_OBJECTS) $(libSoQt_la_DEPENDENCIES)
-	@rm -f soqt@SOQT_MAJOR_VERSION@.dll && \
+soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib: Makefile \
+  $(libSoQt@SUFFIX@_la_OBJECTS) $(libSoQt@SUFFIX@_la_DEPENDENCIES)
+	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
+	rm -f "$$basename.lib" "$$basename.dll"; \
 	if @BUILD_WITH_MSVC@; then \
-	  echo "Linking DLL..."; \
-	  $(CC) @DLLFLAGS@ /out:soqt@SOQT_MAJOR_VERSION@.dll $(LDFLAGS) \
-	        `echo $(libSoQt_la_OBJECTS) | sed 's%\.lo%.obj%g'` \
-	        $(libSoQt_la_LIBADD) $(LIBS); \
+	  echo "Linking $@..." \
+	  echo $(CC) $(LDFLAGS) $(LIBFLAGS) \
+	    `echo $(libSoQt@SUFFIX@_la_OBJECTS) | sed 's%\.lo%.obj%g'` \
+	    $(libSoQt@SUFFIX@_la_LIBADD) $(LIBS); \
+	  $(CC) $(LDFLAGS) $(LIBFLAGS) \
+	    `echo $(libSoQt@SUFFIX@_la_OBJECTS) | sed 's%\.lo%.obj%g'` \
+	    $(libSoQt@SUFFIX@_la_LIBADD) $(LIBS); \
 	else \
-	  touch soqt@SOQT_MAJOR_VERSION@.dll; \
+	  touch "$$basename.lib" "$$basename.dll"; \
 	fi
 
-install-exec-hook: soqt@SOQT_MAJOR_VERSION@.dll
-	@if test -s soqt@SOQT_MAJOR_VERSION@.dll; then \
-	  echo "Installing soqt@SOQT_MAJOR_VERSION@.dll"; \
-	  for e in dll lib pdb; do \
-	    file="soqt@SOQT_MAJOR_VERSION@.$$e"; \
-	    if test -s "$$file"; then \
-	      $(INSTALL_DATA) $$file $(DESTDIR)$(libdir)/$$file; \
-	    fi; \
-	  done \
+all-local: soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib
+
+# **************************************************************************
+
+install-exec-local:
+	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
+	if test -s "$$basename.dll"; then \
+	  $(mkinstalldirs) "$(DESTDIR)$(bindir)"; \
+	  echo " $(INSTALL_PROGRAM)" "$$basename.dll" "$(DESTDIR)$(bindir)/$$basename.dll"; \
+	  $(INSTALL_PROGRAM) "$$basename.dll" "$(DESTDIR)$(bindir)/$$basename.dll"; \
 	fi
 
-uninstall: uninstall-am
-	@for e in dll lib pdb; do \
-	  file="$(DESTDIR)$(libdir)/coin@SOQT_MAJOR_VERSION@.$$e"; \
-	  if test -f "$$file"; then \
-	    echo rm -f "$$file"; \
-	    rm -f "$$file"; \
+install-data-local:
+	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
+	for ext in lib pdb; do \
+	  file="$$basename.$$ext"; \
+	  if test -s "$$file"; then \
+	    $(mkinstalldirs) "$(DESTDIR)$(libdir)"; \
+	    echo " $(INSTALL_DATA)" "$$file" "$(DESTDIR)$(libdir)/$$file"; \
+	    $(INSTALL_DATA) "$$file" "$(DESTDIR)$(libdir)/$$file"; \
 	  fi \
 	done
+
+uninstall-local:
+	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
+	for file in \
+	  "$(DESTDIR)$(bindir)/$$basename.dll" \
+	  "$(DESTDIR)$(libdir)/$$basename.pdb" \
+	  "$(DESTDIR)$(libdir)/$$basename.lib"; do \
+	  if test -f "$$file"; then \
+	    echo " rm -f" "$$file"; \
+	    echo rm -f "$$file"; \
+	  fi \
+	done
+
+# EOF **********************************************************************
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

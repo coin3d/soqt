@@ -1,0 +1,17 @@
+prefix="@prefix@"
+version="@SOQT_VERSION@"
+cppflags="@SOQT_EXTRA_CPPFLAGS@"
+cxxflags="@SOQT_EXTRA_CXXFLAGS@"
+ldflags="@SOQT_EXTRA_LDFLAGS@"
+libs="@SOQT_EXTRA_LIBS@"
+datadir="@datadir@"
+compiler="@CXX@"
+AC_SUBST_GUI="@GUI@"
+AC_SUBST_Gui="@Gui@"
+AC_SUBST_gui="@gui@"
+AC_SUBST_WIDGET="@WIDGET@"
+AC_SUBST_EVENT="@EVENT@"
+AC_SUBST_COMPONENTHEADER="@COMPONENTHEADER@"
+have_renderarea=1
+have_examinerviewer=1
+have_planeviewer=1

@@ -6,7 +6,7 @@ SUBDIRS = devices viewers widgets
 
 INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
 
-lib_LTLIBRARIES = libSoQt.la
+lib_LTLIBRARIES = libSoQt@SUFFIX@.la
 
 BUILT_SOURCES = \
 	SoQtBasic.h \
@@ -29,7 +29,7 @@ BUILT_SOURCES = \
 
 ############################################################################
 
-libSoQt_la_SOURCES = \
+libSoQt@SUFFIX@_la_SOURCES = \
 	SoQt.cpp \
 	SoQt.h \
 	SoQtComponent.cpp \
@@ -48,17 +48,17 @@ libSoQt_la_SOURCES = \
 	SoQtTransformSliderSet.h \
 	$(BUILT_SOURCES)
 
-libSoQt_la_LIBADD = \
+libSoQt@SUFFIX@_la_LIBADD = \
 	devices/libSoQtDevices.la \
 	viewers/libSoQtViewers.la \
 	widgets/libSoQtWidgets.la
 
-libSoQt_la_LDFLAGS = \
+libSoQt@SUFFIX@_la_LDFLAGS = \
         -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
 
-libSoQtincdir = $(includedir)/Inventor/Qt
+libSoQt@SUFFIX@incdir = $(includedir)/Inventor/Qt
 
-libSoQtinc_HEADERS = \
+libSoQt@SUFFIX@inc_HEADERS = \
 	$(top_srcdir)/src/Inventor/Qt/SoQt.h \
 	$(top_builddir)/src/Inventor/Qt/SoQtBasic.h \
 	$(top_builddir)/src/Inventor/Qt/SoQtObject.h \
@@ -133,51 +133,57 @@ moc_SoQtTransformSliderSet.cpp: \
 	@( cd $(top_builddir); \
 	   $(MAKE) src/Inventor/Qt/moc_SoQtTransformSliderSet.cpp )
 
-############################################################################
+# **************************************************************************
 
-#### Additional "native" Make rules #########################################
-
-
-## Rule for linking up a .DLL on MSWindows with MSVC++.
-##
-## Short explanation of what the shell-code does: tests if the C
-## compiler is our MSVC++ wrapper script, and if so: properly link the
-## DLL. If not, just make an empty soqt{version}.dll file so the
-## install-exec-hook knows when to _not_ install the .dll.
-
-soqt@SOQT_MAJOR_VERSION@.dll: $(libSoQt_la_OBJECTS) $(libSoQt_la_DEPENDENCIES)
-	@rm -f soqt@SOQT_MAJOR_VERSION@.dll && \
+soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib: Makefile \
+  $(libSoQt@SUFFIX@_la_OBJECTS) $(libSoQt@SUFFIX@_la_DEPENDENCIES)
+	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
+	rm -f "$$basename.lib" "$$basename.dll"; \
 	if @BUILD_WITH_MSVC@; then \
-	  echo "Linking DLL..."; \
-	  $(CC) @DLLFLAGS@ /out:soqt@SOQT_MAJOR_VERSION@.dll $(LDFLAGS) \
-	        `echo $(libSoQt_la_OBJECTS) | sed 's%\.lo%.obj%g'` \
-	        $(libSoQt_la_LIBADD) $(LIBS); \
+	  echo "Linking $@..." \
+	  echo $(CC) $(LDFLAGS) $(LIBFLAGS) \
+	    `echo $(libSoQt@SUFFIX@_la_OBJECTS) | sed 's%\.lo%.obj%g'` \
+	    $(libSoQt@SUFFIX@_la_LIBADD) $(LIBS); \
+	  $(CC) $(LDFLAGS) $(LIBFLAGS) \
+	    `echo $(libSoQt@SUFFIX@_la_OBJECTS) | sed 's%\.lo%.obj%g'` \
+	    $(libSoQt@SUFFIX@_la_LIBADD) $(LIBS); \
 	else \
-	  touch soqt@SOQT_MAJOR_VERSION@.dll; \
+	  touch "$$basename.lib" "$$basename.dll"; \
 	fi
 
-## This hook will be run at the end of a ``make install''.
-##
-## The single action taken is to install the soqt.dll and soqt.lib
-## files (if they have been built properly).
+all-local: soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib
 
-install-exec-hook: soqt@SOQT_MAJOR_VERSION@.dll
-	@if test -s soqt@SOQT_MAJOR_VERSION@.dll; then \
-	  echo "Installing soqt@SOQT_MAJOR_VERSION@.dll"; \
-	  for e in dll lib pdb; do \
-	    file="soqt@SOQT_MAJOR_VERSION@.$$e"; \
-	    if test -s "$$file"; then \
-	      $(INSTALL_DATA) $$file $(DESTDIR)$(libdir)/$$file; \
-	    fi; \
-	  done \
+# **************************************************************************
+
+install-exec-local:
+	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
+	if test -s "$$basename.dll"; then \
+	  $(mkinstalldirs) "$(DESTDIR)$(bindir)"; \
+	  echo " $(INSTALL_PROGRAM)" "$$basename.dll" "$(DESTDIR)$(bindir)/$$basename.dll"; \
+	  $(INSTALL_PROGRAM) "$$basename.dll" "$(DESTDIR)$(bindir)/$$basename.dll"; \
 	fi
 
-uninstall: uninstall-am
-	@for e in dll lib pdb; do \
-	  file="$(DESTDIR)$(libdir)/coin@SOQT_MAJOR_VERSION@.$$e"; \
-	  if test -f "$$file"; then \
-	    echo rm -f "$$file"; \
-	    rm -f "$$file"; \
+install-data-local:
+	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
+	for ext in lib pdb; do \
+	  file="$$basename.$$ext"; \
+	  if test -s "$$file"; then \
+	    $(mkinstalldirs) "$(DESTDIR)$(libdir)"; \
+	    echo " $(INSTALL_DATA)" "$$file" "$(DESTDIR)$(libdir)/$$file"; \
+	    $(INSTALL_DATA) "$$file" "$(DESTDIR)$(libdir)/$$file"; \
 	  fi \
 	done
 
+uninstall-local:
+	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
+	for file in \
+	  "$(DESTDIR)$(bindir)/$$basename.dll" \
+	  "$(DESTDIR)$(libdir)/$$basename.pdb" \
+	  "$(DESTDIR)$(libdir)/$$basename.lib"; do \
+	  if test -f "$$file"; then \
+	    echo " rm -f" "$$file"; \
+	    echo rm -f "$$file"; \
+	  fi \
+	done
+
+# EOF **********************************************************************

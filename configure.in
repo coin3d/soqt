@@ -26,7 +26,17 @@ SIM_AC_CVS_CHANGES([
   ], [test ! -d conf-macros], [test -d cfg/m4/CVS])
 ])
 
-SIM_AC_MSVC_SUPPORT
+# **************************************************************************
+
+AC_CANONICAL_SYSTEM
+
+SIM_AC_SETUP_MSVC_IFELSE([], [
+  case $host in
+  *-cygwin)
+    AC_MSG_ERROR([You need Microsoft Visual C++ to build SoQt on Cygwin])
+    ;;
+  esac
+])
 
 # **************************************************************************
 # *******  MAKING RELEASES  ************************************************
@@ -205,7 +215,6 @@ AC_DEFINE_UNQUOTED(SOQT_VERSION, "$SOQT_VERSION",
 # **************************************************************************
 # Miscellaneous options and initializations.
 
-AC_CANONICAL_SYSTEM
 AM_INIT_AUTOMAKE(SoQt, $VERSION)
 
 # File to cram results from the configure tests into.
@@ -239,13 +248,14 @@ case "$host_os" in
 irix*)
   # should really test if $CC = CC
   if test x"${AR+set}" != x"set"; then
-    echo "modifying libtool"
-    mv libtool libtool.orig
-    sed -e 's/\\\$AR cru/\$CC -ar -o/' < libtool.orig > libtool
-    chmod 755 libtool
+    if test x"$CXX" = xCC; then
+      echo "modifying libtool"
+      mv libtool libtool.orig
+      sed -e 's/\\\$AR cru/CC -ar -o/' <libtool.orig >libtool
+      chmod 755 libtool
+      rm -f libtool.orig
+    fi
   fi
-  ;;
-*)
   ;;
 esac
 
@@ -258,10 +268,35 @@ SOQT_EXTRA_CPPFLAGS=$CPPFLAGS
 SOQT_EXTRA_LDFLAGS=$LDFLAGS
 SOQT_EXTRA_LIBS=$LIBS
 AC_SUBST(SOQT_EXTRA_CPPFLAGS)
+AC_SUBST(SOQT_EXTRA_CXXFLAGS)
 AC_SUBST(SOQT_EXTRA_LDFLAGS)
 AC_SUBST(SOQT_EXTRA_LIBS)
 
-SIM_EXPAND_DIR_VARS
+# SIM_EXPAND_DIR_VARS
+
+# **************************************************************************
+
+AC_ARG_WITH(
+  [alternate],
+  [AC_HELP_STRING([--with-alternate=string],
+                  [specify name of alternate configuration])],
+  [CONFIG=$withval],
+  [CONFIG=default])
+
+AC_SUBST(CONFIG)
+
+AC_ARG_WITH(
+  [suffix],
+  [AC_HELP_STRING([--with-suffix=string],
+                  [specify library name suffix (e.g. "_g")])],
+  [SUFFIX=$withval],
+  [SUFFIX=])
+
+AC_SUBST(SUFFIX)
+
+INSTALL_HEADER="\
+INSTALL='\$(INSTALL_DATA)' \$(SHELL) \$(top_srcdir)/cfg/install-header"
+AC_SUBST(INSTALL_HEADER)
 
 # **************************************************************************
 # If you just want to generate docs, ignore all the build-related tests
@@ -409,8 +444,8 @@ SIM_AC_HAVE_INVENTOR_FEATURE(
 
 SIM_AC_HAVE_INVENTOR_FEATURE(
   [for SoCamera::setStereoMode() method],
-  [#include <Inventor/nodes/SoPerspectiveCamera.h>], [
-   /* SoCamera is abstract, so test with SoPerspectiveCamera */
+  [#include <Inventor/nodes/SoPerspectiveCamera.h>],
+  [/* SoCamera is abstract, so test with SoPerspectiveCamera */
    SoPerspectiveCamera * c = new SoPerspectiveCamera;
    c->setStereoMode(SoCamera::MONOSCOPIC);],
   [HAVE_SOCAMERA_SETSTEREOMODE])
@@ -426,17 +461,21 @@ SIM_AC_CHECK_QT([
   CPPFLAGS="$CPPFLAGS $sim_ac_qt_cppflags"
   LDFLAGS="$LDFLAGS $sim_ac_qt_ldflags"
   LIBS="$sim_ac_qt_libs $LIBS"
-], AC_MSG_ERROR(can't compile and link against Qt development kit))
+], [
+  AC_MSG_ERROR([can't compile and link against Qt development kit])
+])
 
 if test x"$sim_ac_x11mu_avail" != xyes; then
-  SIM_AC_CHECK_X11MU(SOQT_EXTRA_LIBS="$sim_ac_x11mu_libs $SOQT_EXTRA_LIBS")
+  SIM_AC_CHECK_X11MU([SOQT_EXTRA_LIBS="$sim_ac_x11mu_libs $SOQT_EXTRA_LIBS"])
 fi
 
 SIM_AC_CHECK_QGL([
   SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS $sim_ac_qgl_cppflags"
   SOQT_EXTRA_LDFLAGS="$SOQT_EXTRA_LDFLAGS $sim_ac_qgl_ldflags"
   SOQT_EXTRA_LIBS="$sim_ac_qgl_libs $SOQT_EXTRA_LIBS"
-], AC_MSG_ERROR(can't compile and link against the QGL extension library))
+], [
+  AC_MSG_ERROR([can't compile and link against the QGL extension library])
+])
 
 SIM_AC_QGLFORMAT_EQ_OP
 SIM_AC_QGLFORMAT_SETOVERLAY
@@ -448,7 +487,7 @@ AC_PATH_PROG(UNIX2WINPATH, cygpath, false)
 if test x"$UNIX2WINPATH" = x"false"; then
   UNIX2WINPATH="echo"
 else
-  UNIX2WINPATH="$UNIX2WINPATH -w"
+  UNIX2WINPATH="CYGWIN= $UNIX2WINPATH -w"
 fi
 
 # **************************************************************************
@@ -466,9 +505,11 @@ AM_CONDITIONAL(HAVE_JOYSTICK_LINUX, $sim_ac_joystick_linux_avail)
 # **************************************************************************
 # Compiler control.
 
-SIM_AC_COMPILE_DEBUG(
-  [CPPFLAGS="$CPPFLAGS -DSOQT_DEBUG=1"],
-  [CPPFLAGS="$CPPFLAGS -DSOQT_DEBUG=0"])
+SIM_AC_COMPILE_DEBUG([
+  CPPFLAGS="$CPPFLAGS -DSOQT_DEBUG=1"
+], [
+  CPPFLAGS="$CPPFLAGS -DSOQT_DEBUG=0"
+])
 
 SIM_AC_CHECK_VAR_FUNCTIONNAME
 
@@ -484,6 +525,10 @@ if $sim_ac_static_defaults; then
   SIM_AC_CONFIGURATION_SETTING([Static Materials], [Yes])
 else
   SIM_AC_CONFIGURATION_SETTING([Static Materials], [No])
+fi
+
+if test -n "$SUFFIX"; then
+  SIM_AC_CONFIGURATION_SETTING([SoQt library name suffix], [$SUFFIX])
 fi
 
 # **************************************************************************
@@ -506,11 +551,6 @@ AC_SUBST(GUI)
 AC_SUBST(WIDGET)
 AC_SUBST(EVENT)
 AC_SUBST(COMPONENTHEADER)
-
-# **************************************************************************
-# Misc set-up.
-
-SIM_EXPAND_DIR_VARS
 
 # **************************************************************************
 # Section for Doxygen
@@ -573,17 +613,52 @@ SIM_AC_UNIQIFY_LIST(CPPFLAGS, $CPPFLAGS)
 SIM_AC_UNIQIFY_LIST(LDFLAGS, $LDFLAGS)
 SIM_AC_UNIQIFY_LIST(LIBS, $LIBS)
 
+case $enable_static in
+yes | true)  SOQT_STATIC=true;;
+*)           SOQT_STATIC=false;;
+esac
+
+case $enable_shared in
+yes | true)  SOQT_SHARED=true;;
+*)           SOQT_SHARED=false;;
+esac
+
+LIBFLAGS=
+AC_SUBST(LIBFLAGS)
+
 # **************************************************************************
 # Remaining setup based on platform.
 
 if $BUILD_WITH_MSVC; then
-  CPPFLAGS="-DSOQT_MAKE_DLL $CPPFLAGS"
-  DLLFLAGS="/dll"
-  debugfile="`pwd`/src/Inventor/Qt/soqt$SOQT_MAJOR_VERSION.pdb"
+  if $SOQT_STATIC; then
+    # static overrides shared
+    :
+  else
+    CPPFLAGS="-DSOQT_MAKE_DLL $CPPFLAGS"
+    SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS -DSOQT_DLL"
+  fi
+
+  debugfile="`pwd`/src/Inventor/Qt/soqt${SOQT_MAJOR_VERSION}${SUFFIX}.pdb"
   debugfile=`cygpath -w "$debugfile" | sed 's,\\\\,\\\\\\\\,g'`
   CPPFLAGS="/Fd$debugfile $CPPFLAGS"
-  DLLFLAGS="$DLLFLAGS /PDB:$debugfile"
-  AC_SUBST(DLLFLAGS)
+  if $SOQT_STATIC; then
+    LIBFLAGS="-LIB"
+    LIBFLAGS="$LIBFLAGS /OUT:soqt$SOQT_MAJOR_VERSION$SUFFIX.lib"
+    SOQT_EXTRA_CPPFLAGS="-I$includedir"
+    SOQT_EXTRA_LDFLAGS="-L$libdir"
+    SOQT_EXTRA_LIBS=
+  else
+    LIBFLAGS="-DLL /INCREMENTAL:NO"
+    case $enable_debug in
+    no | false)
+      LIBFLAGS="$LIBFLAGS /RELEASE"
+      ;;
+    *)
+      LIBFLAGS="$LIBFLAGS /DEBUG /PDB:soqt$SOQT_MAJOR_VERSION$SUFFIX.pdb"
+      ;;
+    esac
+    LIBFLAGS="$LIBFLAGS /OUT:soqt$SOQT_MAJOR_VERSION$SUFFIX.dll"
+  fi
 
   # We use a version suffix on the .dll-file, so several incompatible
   # (major) versions can be installed on a system.
@@ -593,11 +668,14 @@ if $BUILD_WITH_MSVC; then
   # list all libs used upon `soqt-config --libs`, as we can then
   # also use them from "parent" code (remember that their interfaces
   # is not exposed from the DLL) without any fuss.
-  SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS -DSOQT_DLL"
-  SOQT_EXTRA_LIBS="-lsoqt$SOQT_MAJOR_VERSION $SOQT_EXTRA_LIBS"
+  SOQT_EXTRA_LIBS="-lsoqt$SOQT_MAJOR_VERSION$SUFFIX $SOQT_EXTRA_LIBS"
 
+  # For build/soqt.nsi
+  win_srcdir=`cd $srcdir; pwd`
+  win_srcdir=`cygpath -w "$srcdir" | sed 's,\\\\,\\\\\\\\,g'`
+  AC_SUBST(win_srcdir)
 else
-  SOQT_EXTRA_LIBS="-lSoQt $SOQT_EXTRA_LIBS"
+  SOQT_EXTRA_LIBS="-lSoQt$SUFFIX $SOQT_EXTRA_LIBS"
 
   # For the build/soqt.spec RPM specification file.
   SIM_AC_ISO8601_DATE(soqt_configure_date)
@@ -607,13 +685,12 @@ fi
 # **************************************************************************
 # Submodules that needs to be configured...
 
-AC_CONFIG_SUBDIRS(data)
+# AC_CONFIG_SUBDIRS(data)
 
 # **************************************************************************
 # List all files configure shall automatically generate.
 
 AC_OUTPUT([
-	soqt-config
 	Makefile
 	src/Inventor/Qt/Makefile
 	src/Inventor/Qt/devices/Makefile
@@ -622,24 +699,14 @@ AC_OUTPUT([
 	build/Makefile
 	build/soqt.doxygen
         build/soqt.spec
-],[
-	chmod a+x soqt-config
 ])
-
-if test -d ${srcdir}/examples; then
-  cat <<EOF
-
-  ATTENTION:  You can remove the 'examples' directory from So$Gui.  It has
-  been obsoleted by the stand-alone module 'SoGuiExamples'.
-EOF
-fi
 
 SIM_AC_CONFIGURATION_SETTING([Installation Prefix], [$prefix])
 
 SIM_AC_CONFIGURATION_SUMMARY
 
 echo ""
-echo "Now, run 'make install' to build and install So$Gui..."
+echo "Now, run 'make install' to build and install $PACKAGE."
 echo ""
 
 # **************************************************************************

@@ -1,0 +1,90 @@
+#! /bin/sh
+# **************************************************************************
+# soqt-config -- a utility for retrieving configuration information about
+# the installed SoQt library.
+
+me=`echo "$0" | sed 's,^.*[/\\],,g'`
+wd=`echo "$0" | sed 's,/[^/]*$,,'`
+prefix=`cd "$wd"/..; pwd` 
+
+usage="\
+Usage: $me [OPTIONS]
+Options:
+  --alternate=<string>
+  --cppflags
+  --cxxflags
+  --ldflags
+  --libs
+  --datadir
+  --ac-subst <string>
+  --have-feature <feature>
+  --build <program> <sourcefile> [<sourcefile>]...
+  --version
+  --usage | --help"
+
+for arg
+do
+  case $arg in
+  --alternate=*) alternate=`echo $arg | cut -d= -f2-` ;;
+  --debug) alternate=debug ;;
+  esac
+done
+
+if test -f $prefix/share/Coin/conf/soqt-$alternate.cfg; then
+  . $prefix/share/Coin/conf/soqt-$alternate.cfg
+elif test -f $prefix/share/Coin/conf/soqt-default.cfg; then
+  . $prefix/share/Coin/conf/soqt-default.cfg
+else
+  echo >&2 "$me: no default SoQt config available"
+  exit 1
+fi
+
+while test $# -gt 0
+do
+  case $1 in
+    --usage | --help)  echo "$usage"    ;;
+    --version)         echo "$version"  ;;
+    --cppflags)        echo "$cppflags" ;;
+    --cxxflags)        echo "$cxxflags" ;;
+    --ldflags)         echo "$ldflags"  ;;
+    --libs)            echo "$libs"     ;;
+    --datadir)         echo "$datadir"  ;;
+    --ac-subst)
+      eval "VAL=\${AC_SUBST_$2}"
+      echo "$VAL"
+      shift
+      ;;
+    --have-feature)
+      exitcode=1
+      eval "test x\${have_$2+set} = xset && exitcode=0"
+      exit $exitcode
+      ;;
+    --compile)
+      echo >&2 "$me: --compile not implemented yet"
+      exit 1
+      ;;
+    --build)
+      shift
+      program=$1
+      shift
+      exec $compiler \
+        $CPPFLAGS $cppflags \
+        $CXXFLAGS $cxxflags \
+        $LDFLAGS $ldflags \
+        -o $program $@ \
+        $libs $LIBS
+      ;;
+    # ignore some options
+    --alternate=*) ;;
+    --debug) ;;
+    # args not catched until now are invalid
+    *)
+      echo >&2 "$me: Invalid option: \"$1\""
+      echo >&2 "$usage"
+      exit 1
+      ;;
+  esac
+  shift
+done
+
+exit 0

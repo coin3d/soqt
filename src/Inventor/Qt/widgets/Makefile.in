@@ -1,6 +1,6 @@
-# Makefile.in generated automatically by automake 1.4c from Makefile.am
+# Makefile.in generated automatically by automake 1.4e from Makefile.am
 
-# Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000
+# Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
 # Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -48,6 +48,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_FLAG =
+INSTALL_HEADER = $(INSTALL_DATA)
 transform = @program_transform_name@
 
 NORMAL_INSTALL = :
@@ -71,15 +72,18 @@ AWK = @AWK@
 BUILD_WITH_MSVC = @BUILD_WITH_MSVC@
 CC = @CC@
 COMPONENTHEADER = @COMPONENTHEADER@
-CPP = @CPP@
+CONFIG = @CONFIG@
 CXX = @CXX@
-CXXCPP = @CXXCPP@
 DEPDIR = @DEPDIR@
-DLLFLAGS = @DLLFLAGS@
 DLLTOOL = @DLLTOOL@
+DSUFFIX = @DSUFFIX@
 EVENT = @EVENT@
 GUI = @GUI@
 Gui = @Gui@
+INSTALL_HEADER = @INSTALL_HEADER@
+INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+INSTALL_STRIP_PROGRAM_ENV = @INSTALL_STRIP_PROGRAM_ENV@
+LIBFLAGS = @LIBFLAGS@
 LIBTOOL = @LIBTOOL@
 LN_S = @LN_S@
 LT_AGE = @LT_AGE@
@@ -94,15 +98,19 @@ RANLIB = @RANLIB@
 SOQT_DOC_HTML = @SOQT_DOC_HTML@
 SOQT_DOC_MAN = @SOQT_DOC_MAN@
 SOQT_EXTRA_CPPFLAGS = @SOQT_EXTRA_CPPFLAGS@
+SOQT_EXTRA_CXXFLAGS = @SOQT_EXTRA_CXXFLAGS@
 SOQT_EXTRA_LDFLAGS = @SOQT_EXTRA_LDFLAGS@
 SOQT_EXTRA_LIBS = @SOQT_EXTRA_LIBS@
 SOQT_MAJOR_VERSION = @SOQT_MAJOR_VERSION@
 SOQT_MICRO_VERSION = @SOQT_MICRO_VERSION@
 SOQT_MINOR_VERSION = @SOQT_MINOR_VERSION@
 SOQT_VERSION = @SOQT_VERSION@
+STRIP = @STRIP@
+SUFFIX = @SUFFIX@
 UNIX2WINPATH = @UNIX2WINPATH@
 VERSION = @VERSION@
 WIDGET = @WIDGET@
+_am_include = @_am_include@
 gui = @gui@
 install_sh = @install_sh@
 sim_ac_coin_configcmd = @sim_ac_coin_configcmd@
@@ -111,6 +119,7 @@ sim_ac_perl_exe = @sim_ac_perl_exe@
 soqt_configure_date = @soqt_configure_date@
 soqt_dox_build_dir = @soqt_dox_build_dir@
 soqt_dox_src_dir = @soqt_dox_src_dir@
+win_srcdir = @win_srcdir@
 
 
 noinst_LTLIBRARIES = libSoQtWidgets.la
@@ -171,11 +180,11 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 DIST_SOURCES =  $(libSoQtWidgets_la_SOURCES)
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
-DEP_FILES =  @AMDEP@ $(DEPDIR)/SoAnyPopupMenu.Plo \
-$(DEPDIR)/SoAnyThumbWheel.Plo $(DEPDIR)/SoQtGLArea.Plo \
-$(DEPDIR)/SoQtPopupMenu.Plo $(DEPDIR)/SoQtThumbWheel.Plo \
-$(DEPDIR)/moc_SoQtGLArea.Plo $(DEPDIR)/moc_SoQtPopupMenu.Plo \
-$(DEPDIR)/moc_SoQtThumbWheel.Plo
+@AMDEP@DEP_FILES =  $(DEPDIR)/SoAnyPopupMenu.Plo \
+@AMDEP@$(DEPDIR)/SoAnyThumbWheel.Plo $(DEPDIR)/SoQtGLArea.Plo \
+@AMDEP@$(DEPDIR)/SoQtPopupMenu.Plo $(DEPDIR)/SoQtThumbWheel.Plo \
+@AMDEP@$(DEPDIR)/moc_SoQtGLArea.Plo $(DEPDIR)/moc_SoQtPopupMenu.Plo \
+@AMDEP@$(DEPDIR)/moc_SoQtThumbWheel.Plo
 DIST_COMMON =  Makefile.am Makefile.in
 
 
@@ -193,7 +202,7 @@ $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/configur
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
-	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
+	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= CONFIG_LINKS= $(SHELL) ./config.status
 
 
 mostlyclean-noinstLTLIBRARIES:
@@ -208,12 +217,8 @@ maintainer-clean-noinstLTLIBRARIES:
 mostlyclean-compile:
 	-rm -f *.o core *.core
 
-clean-compile:
-
 distclean-compile:
 	-rm -f *.tab.c
-
-maintainer-clean-compile:
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -222,8 +227,7 @@ clean-libtool:
 	-rm -rf .libs _libs
 
 distclean-libtool:
-
-maintainer-clean-libtool:
+	-rm -f libtool
 
 libSoQtWidgets.la: $(libSoQtWidgets_la_OBJECTS) $(libSoQtWidgets_la_DEPENDENCIES)
 	$(CXXLINK)  $(libSoQtWidgets_la_LDFLAGS) $(libSoQtWidgets_la_OBJECTS) $(libSoQtWidgets_la_LIBADD) $(LIBS)
@@ -239,7 +243,7 @@ ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	       END { for (i in files) print i; }'`; \
 	mkid -fID $$unique $(LISP)
 
-TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
+TAGS: $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
 		$(TAGS_FILES) $(LISP)
 	tags=; \
 	here=`pwd`; \
@@ -257,32 +261,20 @@ GTAGS:
 	  && cd $(top_srcdir) \
 	  && gtags -i $$here
 
-mostlyclean-tags:
-
-clean-tags:
-
 distclean-tags:
 	-rm -f TAGS ID
 
-maintainer-clean-tags:
-
-@AMDEP@include $(DEPDIR)/SoAnyPopupMenu.Plo
-@AMDEP@include $(DEPDIR)/SoAnyThumbWheel.Plo
-@AMDEP@include $(DEPDIR)/SoQtGLArea.Plo
-@AMDEP@include $(DEPDIR)/SoQtPopupMenu.Plo
-@AMDEP@include $(DEPDIR)/SoQtThumbWheel.Plo
-@AMDEP@include $(DEPDIR)/moc_SoQtGLArea.Plo
-@AMDEP@include $(DEPDIR)/moc_SoQtPopupMenu.Plo
-@AMDEP@include $(DEPDIR)/moc_SoQtThumbWheel.Plo
-
-mostlyclean-depend:
-
-clean-depend:
+@AMDEP@@_am_include@ $(DEPDIR)/SoAnyPopupMenu.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/SoAnyThumbWheel.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/SoQtGLArea.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/SoQtPopupMenu.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/SoQtThumbWheel.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtGLArea.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtPopupMenu.Plo
+@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtThumbWheel.Plo
 
 distclean-depend:
 	-rm -rf $(DEPDIR)
-
-maintainer-clean-depend:
 
 @AMDEP@CXXDEPMODE = @CXXDEPMODE@
 
@@ -300,6 +292,7 @@ maintainer-clean-depend:
 
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
+
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
@@ -321,8 +314,8 @@ check-am: all-am
 check: check-am
 installcheck-am:
 installcheck: installcheck-am
-all-recursive-am: $(BUILT_SOURCES)
-	$(MAKE) $(AM_MAKEFLAGS) all-recursive
+all-redirect: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) all-am
 
 install-exec-am:
 install-exec: install-exec-am
@@ -336,9 +329,9 @@ install: install-am
 uninstall-am:
 uninstall: uninstall-am
 all-am: Makefile $(LTLIBRARIES)
-all-redirect: all-am
 install-strip:
-	$(MAKE) $(AM_MAKEFLAGS) INSTALL_STRIP_FLAG=-s install
+	$(MAKE) $(AM_MAKEFLAGS) INSTALL_PROGRAM="$(INSTALL_STRIP_PROGRAM)" \
+	  INSTALL_PROGRAM_ENV='$(INSTALL_STRIP_PROGRAM_ENV)' install
 installdirs:
 
 
@@ -351,48 +344,42 @@ distclean-generic:
 	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
 
 maintainer-clean-generic:
+	@echo "This command is intended for maintainers to use"
+	@echo "it deletes files that may require special tools to rebuild."
 	-rm -f Makefile.in
 	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
-mostlyclean-am:  mostlyclean-noinstLTLIBRARIES mostlyclean-compile \
-		mostlyclean-libtool mostlyclean-tags mostlyclean-depend \
-		mostlyclean-generic
-
-mostlyclean: mostlyclean-am
-
-clean-am:  clean-noinstLTLIBRARIES clean-compile clean-libtool \
-		clean-tags clean-depend clean-generic mostlyclean-am
-
 clean: clean-am
 
-distclean-am:  distclean-noinstLTLIBRARIES distclean-compile \
-		distclean-libtool distclean-tags distclean-depend \
-		distclean-generic clean-am
-	-rm -f libtool
+clean-am: clean-generic clean-libtool clean-noinstLTLIBRARIES \
+	mostlyclean-am
 
 distclean: distclean-am
 
-maintainer-clean-am:  maintainer-clean-noinstLTLIBRARIES \
-		maintainer-clean-compile maintainer-clean-libtool \
-		maintainer-clean-tags maintainer-clean-depend \
-		maintainer-clean-generic distclean-am
-	@echo "This command is intended for maintainers to use;"
-	@echo "it deletes files that may require special tools to rebuild."
+distclean-am: clean-am distclean-compile distclean-depend \
+	distclean-generic distclean-libtool distclean-noinstLTLIBRARIES \
+	distclean-tags
 
 maintainer-clean: maintainer-clean-am
 
-.PHONY: mostlyclean-noinstLTLIBRARIES distclean-noinstLTLIBRARIES \
-clean-noinstLTLIBRARIES maintainer-clean-noinstLTLIBRARIES \
-mostlyclean-compile distclean-compile clean-compile \
-maintainer-clean-compile mostlyclean-libtool distclean-libtool \
-clean-libtool maintainer-clean-libtool tags mostlyclean-tags \
-distclean-tags clean-tags maintainer-clean-tags mostlyclean-depend \
-distclean-depend clean-depend maintainer-clean-depend distdir info-am \
-info dvi-am dvi check check-am installcheck-am installcheck \
-all-recursive-am install-exec-am install-exec install-data-am \
-install-data install-am install uninstall-am uninstall all-redirect \
-all-am all install-strip installdirs mostlyclean-generic \
-distclean-generic clean-generic maintainer-clean-generic clean \
-mostlyclean distclean maintainer-clean
+maintainer-clean-am: distclean-am maintainer-clean-generic \
+	maintainer-clean-noinstLTLIBRARIES
+
+mostlyclean: mostlyclean-am
+
+mostlyclean-am: mostlyclean-compile mostlyclean-generic \
+	mostlyclean-libtool mostlyclean-noinstLTLIBRARIES
+
+.PHONY: all all-am all-redirect check check-am clean clean-generic \
+	clean-libtool clean-noinstLTLIBRARIES distclean \
+	distclean-compile distclean-depend distclean-generic \
+	distclean-libtool distclean-noinstLTLIBRARIES distclean-tags \
+	distdir dvi dvi-am info info-am install install-am install-data \
+	install-data-am install-exec install-exec-am install-strip \
+	installcheck installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic maintainer-clean-noinstLTLIBRARIES \
+	mostlyclean mostlyclean-compile mostlyclean-generic \
+	mostlyclean-libtool mostlyclean-noinstLTLIBRARIES tags \
+	uninstall uninstall-am
 
 
 ############################################################################
