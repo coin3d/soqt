@@ -256,7 +256,7 @@ SoQtColorTableEditor::setColors(uint8_t * color, int num)
   PRIVATE(this)->curvetypelist->setCurrentItem(CurveView::FREE);
   PRIVATE(this)->curveview->setColors(color, num);
   if (PRIVATE(this)->callBack) {
-    PRIVATE(this)->callBack(this, PRIVATE(this));
+    PRIVATE(this)->callBack(this, PRIVATE(this)->callbackData);
   }
 }
 
