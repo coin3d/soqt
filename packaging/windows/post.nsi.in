@@ -1,5 +1,15 @@
 SectionEnd
 # **************************************************************************
+Section "Uninstaller"
+SectionIn 1,2,3
+
+SetCompress auto
+SetOverwrite on
+
+WriteUninstaller bin\soqt-v@sdk_version@-uninstall.exe
+
+SectionEnd
+# **************************************************************************
 # Section "Extra Libraries"
 # - freetype when support is implemented?
 

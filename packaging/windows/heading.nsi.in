@@ -9,7 +9,6 @@ Name "SoQt @sdk_version@"
 OutFile "soqt-@sdk_version@-install.exe"
 SilentInstall "normal"
 CRCCheck "on"
-UninstallExeName "soqt-@sdk_version@-uninstall.exe"
 
 LicenseText "GNU Lesser General Public License"
 LicenseData LICENSE.TXT
