@@ -121,6 +121,26 @@ SoQt::init(const char * const appName, const char * const className)
   }
 }
 
+
+
+// This is provided for convenience when debugging the library. Should
+// make it easier to find memory leaks.
+void
+SoQt::clean(void)
+{
+#if SOQT_DEBUG && 0 // FIXME: disable this after looking over that it is correct. 20001103 mortene.
+  delete SoQt::mainWidget; SoQt::mainWidget = NULL;
+  delete SoQt::appobject; SoQt::appobject = NULL;
+
+  delete SoQt::timerqueuetimer; SoQt::timerqueuetimer = NULL;
+  delete SoQt::idletimer; SoQt::idletimer = NULL;
+  delete SoQt::delaytimeouttimer; SoQt::delaytimeouttimer = NULL;
+
+  delete SoQt::slotobj; SoQt::slotobj = NULL;
+#endif // SOQT_DEBUG // disabled
+}
+
+
 /*!
   Calls \a SoDB::init(), \a SoNodeKit::init() and \a SoInteraction::init().
   Assumes you are creating your own QApplication and main widget.
@@ -130,6 +150,9 @@ SoQt::init(const char * const appName, const char * const className)
 void
 SoQt::init(QWidget * const topLevelWidget)
 {
+  // This init()-method is called by the other 2 init()'s, so place
+  // common code here.
+
 #if SOQT_DEBUG
   if (SoQt::mainWidget) {
     SoDebugError::postWarning("SoQt::init",
@@ -145,6 +168,11 @@ SoQt::init(QWidget * const topLevelWidget)
 
   SoDB::getSensorManager()->setChangedCallback(SoQt::sensorQueueChanged, NULL);
   SoQt::mainWidget = topLevelWidget;
+
+#if SOQT_DEBUG
+  int ret = atexit(SoQt::clean);
+  assert(ret == 0 && "couldn't set exit hook!?");
+#endif // SOQT_DEBUG
 }
 
 /*!
@@ -195,8 +223,6 @@ SoQt::init(int argc, char ** argv,
 void
 SoQt::sensorQueueChanged(void *)
 {
-  SoSensorManager * sm = SoDB::getSensorManager();
-
   // Allocate Qt timers on first call.
 
   if (!SoQt::timerqueuetimer) {
@@ -211,6 +237,7 @@ SoQt::sensorQueueChanged(void *)
                      SoQt::soqt_instance(), SLOT(slot_delaytimeoutSensor()));
   }
 
+  SoSensorManager * sm = SoDB::getSensorManager();
 
   // Set up timer queue timeout if necessary.
 
@@ -257,29 +284,6 @@ SoQt::sensorQueueChanged(void *)
     if (SoQt::delaytimeouttimer->isActive()) SoQt::delaytimeouttimer->stop();
   }
 }
-
-
-#if 0 // FIXME: re-code to be run automatically upon exit. 19991107 mortene.
-/*!
-  \internal
-
-  This is provided for convenience when debugging the library. Should make
-  it easier to find memory leaks.
-*/
-
-void
-SoQt::clean(void)
-{
-  delete SoQt::mainWidget; SoQt::mainWidget = NULL;
-  delete SoQt::appobject; SoQt::appobject = NULL;
-
-  delete SoQt::timerqueuetimer; SoQt::timerqueuetimer = NULL;
-  delete SoQt::idletimer; SoQt::idletimer = NULL;
-  delete SoQt::delaytimeouttimer; SoQt::delaytimeouttimer = NULL;
-
-  delete SoQt::slotobj; SoQt::slotobj = NULL;
-}
-#endif // re-code
 
 /*!
   This is the event dispatch loop. It doesn't return until

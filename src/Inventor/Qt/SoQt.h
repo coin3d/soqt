@@ -77,6 +77,7 @@ private slots:
 
 private:
   static void sensorQueueChanged( void * cbdata );
+  static void clean(void);
 
   static QWidget * mainWidget;
   static QApplication * appobject;
