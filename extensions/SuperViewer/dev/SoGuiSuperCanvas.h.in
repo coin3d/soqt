@@ -127,6 +127,7 @@ public:
   virtual SbBool isViewMode(ViewMode mode) const;
 
   virtual void setSceneGraph(SoNode * scene);
+  SoSeparator * loadSceneGraphFromFile(const char * filename);
 
   @WIDGET@ getRenderAreaWidget(void) const;
 

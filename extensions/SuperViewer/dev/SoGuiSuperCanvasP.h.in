@@ -49,8 +49,9 @@ class So@Gui@SuperCanvasP {
   @WIDGET@ canvas;
 
   // Variables used for the models viewed with the viewer
-  SoSeparator * currentroot, * supersg;
-  SoSwitch * cameraswitch;
+  SoNode * currentroot; 
+  SoSeparator * supersg;
+  SoSwitch * cameraswitch, * bboxroot;
   SbList<SoCamera *> cameras;
   SbList<SoLight *> lights;
 
@@ -156,6 +157,7 @@ class So@Gui@SuperCanvasP {
   void drawInformation();
   void resetCountAction();
   void resetBBox();
+  void setBBoxCameraType();
   void drawstyleRedraw(SbBool on);
   void movingRedraw(SbBool on);
   SoGroup * getParentOfNode(SoNode * root, SoNode * node, int & index);

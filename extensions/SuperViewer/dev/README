@@ -12,12 +12,17 @@ of them.
 
 As it is now, there is much that is not tested.
 As an alternative to RenderArea, the SuperCanvas can offer mousecontrolled
-interactions with the scenegraph (rotation, panning, zooming++). The untested
-functionality adds more flexibility.
+interactions with the scenegraph (rotation, panning, zooming++). The 
+functionality adds more flexibility and possibilities.
 
 Known bugs:
  
-  * ONE_BBOX_WM doesn't work.
+  * None
+
+Planned features:
+
+  * Snapshot functionality (with possibility for antialiasing)
+  * Possibility to disable mouse event catching.
 
 The files:
 

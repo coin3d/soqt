@@ -560,6 +560,7 @@ So@Gui@SuperCanvas::setCamera(int index)
     PRIVATE(this)->cameraswitch->whichChild = idx;
   }
   if(PRIVATE(this)->flying) PRIVATE(this)->flyCameraSetup();
+  PRIVATE(this)->setBBoxCameraType();
 } // setCamera()
 
 // *************************************************************************
@@ -1076,21 +1077,67 @@ So@Gui@SuperCanvas::processSoEvent(const SoEvent * const ev)
 
 // *************************************************************************
 
+/*!
+  FIXME: add docs larsivi 20020606
+*/
+
 void
 So@Gui@SuperCanvas::setSceneGraph(SoNode * scene)
 {
-  So@Gui@Viewer::setSceneGraph(scene);
-  PRIVATE(this)->currentroot = (SoSeparator*)scene;
+  if(PRIVATE(this)->graphswitch == NULL){
+    PRIVATE(this)->graphswitch = new SoSwitch;
+    PRIVATE(this)->graphswitch->addChild(scene);
+    PRIVATE(this)->graphswitch->whichChild = 0;
+  }
+  else
+    PRIVATE(this)->graphswitch->replaceChild(0, scene);
+
+  PRIVATE(this)->currentroot = scene;
+  So@Gui@Viewer::setSceneGraph(PRIVATE(this)->graphswitch);
+
   // Fetching variables necessary for the viewers functionality
-  if(PRIVATE(this)->supersg == NULL) 
+  if(PRIVATE(this)->supersg == NULL)
     PRIVATE(this)->setupNodes();
-  // FIXME: Put everything that needs to be set for every new scenegraph
-  // larsivi 20020603
+
   PRIVATE(this)->findCameras();
+  if(!PRIVATE(this)->frontcamera){
+    PRIVATE(this)->bboxroot->whichChild = SO_SWITCH_ALL;
+    PRIVATE(this)->setBBoxCameraType();
+  }
+  else
+    PRIVATE(this)->bboxroot->whichChild = 1;
   PRIVATE(this)->findLights();
   PRIVATE(this)->resetCountAction();
   PRIVATE(this)->resetBBox();
-
-}
+} // setSceneGraph()
 
 // *************************************************************************
+
+/*!
+  FIXME: add docs larsivi 20020606
+*/
+
+SoSeparator *
+So@Gui@SuperCanvas::loadSceneGraphFromFile(const char * filename)
+{
+  SoInput in;
+  SoSeparator * newroot;
+
+  if (in.openFile(filename)) {
+    newroot = SoDB::readAll(&in);
+    if (newroot){
+      return newroot;
+    }
+    else{
+      SoDebugError::postInfo("So@Gui@SuperCanvas::loadSceneGraphFromFile", 
+                             "[no root loaded]");
+      return NULL;
+    }
+  }
+  else{
+    SoDebugError::postInfo("So@Gui@SuperCanvas::loadSceneGraphFromFile", 
+                           "[opening file failed]");
+    return NULL;
+  }
+
+} // setSceneGraphFromFile()

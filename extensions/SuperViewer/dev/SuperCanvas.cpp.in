@@ -77,10 +77,10 @@ event_cb(void *userdata, SoEventCallback *node)
   }
 
   else if (SO_KEY_PRESS_EVENT(event, F)) {
-    if(!mycanvas->isDrawStyle(So@Gui@SuperCanvas::FILLED))
-      mycanvas->setDrawStyle(So@Gui@SuperCanvas::FILLED, TRUE);
+    if(!mycanvas->isFlatshading())
+      mycanvas->setFlatshading(TRUE);
     else
-      mycanvas->setDrawStyle(So@Gui@SuperCanvas::FILLED, FALSE);
+      mycanvas->setFlatshading(FALSE);
   }
 
   else if (SO_KEY_PRESS_EVENT(event, H)) {
@@ -111,9 +111,9 @@ main(int , char **argv)
 {
   @WIDGET@ mywindow = So@Gui@::init(argv[0]);
   if(mywindow == NULL) exit(1);
-
+  
   SoSeparator * root = new SoSeparator;
-
+  
   SoEventCallback *cb = new SoEventCallback;
   cb->addEventCallback(SoKeyboardEvent::getClassTypeId(), event_cb, NULL);
   SoPerspectiveCamera *mycamera = new SoPerspectiveCamera;
@@ -125,10 +125,10 @@ main(int , char **argv)
   mymaterial->diffuseColor.setValue(0.0,1.0,0.0);
   root->addChild(mymaterial);
   root->addChild(new SoCone);
-
+  
   mycanvas = new So@Gui@SuperCanvas(mywindow);
   mycanvas->setSceneGraph(root);
-  mycanvas->setTitle("cone");
+  mycanvas->setTitle("SuperCanvas");
   mycanvas->viewAll();
   mycanvas->show();
 

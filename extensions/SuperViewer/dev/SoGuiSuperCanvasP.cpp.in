@@ -86,23 +86,16 @@ So@Gui@SuperCanvasP::So@Gui@SuperCanvasP(So@Gui@SuperCanvas * o)
   this->cameraswitch = NULL;
   this->drawstyleroot = NULL;
   this->hiddenlineroot = NULL;
+  this->bboxroot = NULL;
   this->polygonoffsetparent = NULL;
   this->graphswitch = NULL;
   this->lightmodel = NULL;
   this->basecolor = NULL;
 
   this->polygonoffset = NULL;
-  this->drawstyle = NULL;
-  this->complexity = NULL;
-  this->basecolor = NULL;
-  this->lightmodel = NULL;
   this->materialbinding = NULL;
-  this->shapehints = NULL;
-  this->emptynormal = NULL;
-  this->emptynormalbinding = NULL;
   this->bbox = NULL;
   this->bboxvertices = NULL;
-  this->searchaction = NULL;
   this->countaction = NULL;
   this->bboxaction = NULL;
   this->cones = 0;
@@ -211,27 +204,19 @@ So@Gui@SuperCanvasP::movingRedraw(SbBool on)
     mv = this->verticesenabled;
     mw = this->wireframeenabled;
     mb = this->boundingboxesenabled;
-    owner->setDrawStyle(So@Gui@SuperCanvas::TEXTURES, FALSE);
-    owner->setDrawStyle(So@Gui@SuperCanvas::VERTICES, FALSE);
-    owner->setDrawStyle(So@Gui@SuperCanvas::WIREFRAME, FALSE);
-    if(howtomove != So@Gui@SuperCanvas::NO_TEXTURES_WM){
-      owner->setDrawStyle(So@Gui@SuperCanvas::FILLED, FALSE);
-      if(howtomove == So@Gui@SuperCanvas::BOUNDINGBOXES_WM){
-        owner->setDrawStyle(So@Gui@SuperCanvas::BOUNDINGBOXES, TRUE);
-      }
-      else{
-          this->drawstyleroot->whichChild = this->lightmodelindex;
-//          this->hiddenlineroot->whichChild = SO_SWITCH_ALL;
-          this->lightmodel->model.setIgnored(FALSE);
-//          this->materialbinding->value.setIgnored(FALSE);
-//          this->basecolor->rgb.setIgnored(FALSE);
-//          this->basecolor->rgb.setValue(this->linecolor);
-        this->graphswitch->whichChild = 1;
-        owner->setDrawStyle(So@Gui@SuperCanvas::BOUNDINGBOXES, FALSE);
-      }
+    if(howtomove == So@Gui@SuperCanvas::ONE_BOUNDINGBOX_WM){
+      this->graphswitch->whichChild = 1;
     }
     else{
-      owner->setDrawStyle(So@Gui@SuperCanvas::BOUNDINGBOXES, FALSE);
+      owner->setDrawStyle(So@Gui@SuperCanvas::TEXTURES, FALSE);
+      owner->setDrawStyle(So@Gui@SuperCanvas::VERTICES, FALSE);
+      owner->setDrawStyle(So@Gui@SuperCanvas::WIREFRAME, FALSE);
+      if(howtomove == So@Gui@SuperCanvas::BOUNDINGBOXES_WM){
+        owner->setDrawStyle(So@Gui@SuperCanvas::FILLED, FALSE);
+        owner->setDrawStyle(So@Gui@SuperCanvas::BOUNDINGBOXES, TRUE);
+      }
+      else
+        owner->setDrawStyle(So@Gui@SuperCanvas::BOUNDINGBOXES, FALSE);
     }
   }
   else{
@@ -256,9 +241,8 @@ So@Gui@SuperCanvasP::setupNodes()
   this->searchaction->setSearchingAll(TRUE);
   this->searchaction->setInterest(SoSearchAction::FIRST);
   this->supersg = (SoSeparator *)owner->getSceneManager()->getSceneGraph();
-  SoSeparator * usersg = NULL;
-  this->graphswitch = new SoSwitch;
-                                      
+  //SoSeparator * usersg = NULL;
+
 #define LOCATE_NODE(member, type, name) \
   do { \
     member = NULL; \
@@ -275,7 +259,6 @@ So@Gui@SuperCanvasP::setupNodes()
     } \
   } while (FALSE)
 
-  //  LOCATE_NODE(this->headlight, SoDirectionalLight, "so@gui@->headlight");
   LOCATE_NODE(this->drawstyleroot, SoSwitch, "so@gui@->drawstyleroot");
   LOCATE_NODE(this->hiddenlineroot, SoSwitch, "so@gui@->hiddenlineroot");
   LOCATE_NODE(this->polygonoffsetparent, SoSwitch, "so@gui@->polygonoffsetparent");
@@ -285,7 +268,7 @@ So@Gui@SuperCanvasP::setupNodes()
   LOCATE_NODE(this->drawstyle, SoDrawStyle, "so@gui@->drawstyle");
   LOCATE_NODE(this->lightmodel, SoLightModel, "so@gui@->lightmodel");
   LOCATE_NODE(this->materialbinding, SoMaterialBinding, "so@gui@->materialbinding");
-  LOCATE_NODE(usersg, SoSeparator, "so@gui@->userscenegraphroot");
+  //LOCATE_NODE(usersg, SoSeparator, "soqt->userscenegraphroot");
 #ifdef HAVE_SOPOLYGONOFFSET
   LOCATE_NODE(this->polygonoffset, SoPolygonOffset, "so@gui@->polygonoffset");
   if(this->polygonoffset) this->polygonoffset->setOverride(TRUE);
@@ -302,17 +285,14 @@ So@Gui@SuperCanvasP::setupNodes()
   this->basecolor->rgb.setIgnored(TRUE);
   this->complexity->value = 1.0;
   this->complexity->textureQuality = 1.0;
-  usersg->ref();
-  this->supersg->replaceChild(usersg, this->graphswitch);
-  //SoSeparator * sep = new SoSeparator;
-  //sep->addChild(new SoDirectionalLight);
-  this->graphswitch->addChild(usersg);
   this->bbox = new SoIndexedLineSet;
   this->bboxvertices = new SoVertexProperty;
   this->bboxvertices->vertex.setNum(8);
   this->bbox->vertexProperty = this->bboxvertices;
-  //sep->addChild(this->bbox);
-  this->graphswitch->addChild(this->bbox);
+  this->bboxroot = new SoSwitch;
+  this->bboxroot->addChild(new SoPerspectiveCamera);
+  this->bboxroot->addChild(this->bbox);
+  this->graphswitch->addChild(this->bboxroot);
   this->graphswitch->whichChild = 0;
   this->drawstyle->lineWidth.setIgnored(FALSE);
   this->drawstyle->pointSize.setIgnored(FALSE);
@@ -609,6 +589,26 @@ So@Gui@SuperCanvasP::resetBBox()
 
   delete this->bboxaction;
   this->bboxaction = NULL;
+}
+
+void
+So@Gui@SuperCanvasP::setBBoxCameraType()
+{
+  SbBool persp = TRUE;
+  SoType t = owner->getCameraType();
+
+  SoCamera * newcamera = (SoCamera *)t.createInstance();
+  SoCamera * viewcam = owner->getCamera();
+  this->bboxroot->replaceChild(0, newcamera);
+
+  newcamera->viewportMapping.connectFrom(&viewcam->viewportMapping);
+  newcamera->position.connectFrom(&viewcam->position);
+  newcamera->orientation.connectFrom(&viewcam->orientation);
+  newcamera->aspectRatio.connectFrom(&viewcam->aspectRatio);
+  newcamera->nearDistance.connectFrom(&viewcam->nearDistance);
+  newcamera->farDistance.connectFrom(&viewcam->farDistance);
+  newcamera->focalDistance.connectFrom(&viewcam->focalDistance);
+
 }
 
 void
