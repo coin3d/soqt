@@ -21,11 +21,6 @@
  *
 \**************************************************************************/
 
-#if SOQT_DEBUG
-static const char rcsid[] =
-  "$Id$";
-#endif // SOQT_DEBUG
-
 /*!
   \class SoQtSpaceball SoQtSpaceball.h Inventor/Qt/devices/SoQtSpaceball.h
   \brief The SoQtSpaceball class ...
@@ -125,17 +120,16 @@ SoQtSpaceball::SoQtSpaceball(int mask)
 {
   PRIVATE(this) = new SoQtSpaceballP();
   PRIVATE(this)->eventmask = mask;
-} // SoQtSpaceball()
+}
 
 /*!
   Destructor.
 */
 
-SoQtSpaceball::~SoQtSpaceball(
-  void)
+SoQtSpaceball::~SoQtSpaceball()
 {
   delete PRIVATE(this);
-} // ~SoQtSpaceball()
+}
 
 // *************************************************************************
 
@@ -144,30 +138,28 @@ SoQtSpaceball::~SoQtSpaceball(
 */
 
 void
-SoQtSpaceball::enable(
-  QWidget * widget,
-  SoQtEventHandler *, // handler,
-  void *) // closure)
+SoQtSpaceball::enable(QWidget * widget,
+                      SoQtEventHandler *, // handler,
+                      void *) // closure)
 {
 #ifdef HAVE_X11_AVAILABLE
   if (SPW_CheckForSpaceballX11((void*) widget->x11Display(),
                                widget->winId(), "sbtestx") == TRUE) {
   }
 #endif // HAVE_X11_AVAILABLE
-} // enable()
+}
 
 /*!
   FIXME: write function documentation
 */
 
 void
-SoQtSpaceball::disable(
-  QWidget *, // widget,
-  SoQtEventHandler *, // handler,
-  void *) // closure)
+SoQtSpaceball::disable(QWidget *, // widget,
+                       SoQtEventHandler *, // handler,
+                       void *) // closure)
 {
 // FIXME: SOQT_STUB();
-} // disable()
+}
 
 // *************************************************************************
 
@@ -201,7 +193,7 @@ SoQtSpaceball::translateEvent(QEvent * event)
   }
 #endif // HAVE_X11_AVAILABLE
   return (SoEvent *) NULL;
-} // translateEvent()
+}
 
 // *************************************************************************
 
@@ -210,44 +202,40 @@ SoQtSpaceball::translateEvent(QEvent * event)
 */
 
 void
-SoQtSpaceball::setRotationScaleFactor(
-  float f)
+SoQtSpaceball::setRotationScaleFactor(float f)
 {
   PRIVATE(this)->rotationscale = f;
-} // setRotationScaleFactor()
+}
 
 /*!
   FIXME: write function documentation
 */
 
 float
-SoQtSpaceball::getRotationScaleFactor(
-  void) const
+SoQtSpaceball::getRotationScaleFactor(void) const
 {
   return PRIVATE(this)->rotationscale;
-} // getRotationScaleFactor()
+}
 
 /*!
   FIXME: write function documentation
 */
 
 void
-SoQtSpaceball::setTranslationScaleFactor(
-  float f)
+SoQtSpaceball::setTranslationScaleFactor(float f)
 {
   PRIVATE(this)->translationscale = f;
-} // setTranslationScaleFactor()
+}
 
 /*!
   FIXME: write function documentation
 */
 
 float
-SoQtSpaceball::getTranslationScaleFactor(
-  void) const
+SoQtSpaceball::getTranslationScaleFactor(void) const
 {
   return PRIVATE(this)->translationscale;
-} // getTranslationScaleFactor()
+}
 
 // *************************************************************************
 
@@ -266,7 +254,7 @@ SoQtSpaceball::exists(void)
 #else // ! HAVE_X11_AVAILABLE
   return FALSE;
 #endif // ! HAVE_X11_AVAILABLE
-} // exists()
+}
 
 // *************************************************************************
 
@@ -286,7 +274,7 @@ SbBool
 SoQtSpaceball::isFocusToWindow(void) const
 {
   return PRIVATE(this)->focustowindow;
-} // isFocusToWindow()
+}
 
 SbRotation
 SoQtSpaceballP::makeRotation(const float rx, const float ry, const float rz) const
@@ -307,7 +295,3 @@ SoQtSpaceballP::makeTranslation(const float tx, const float ty, const float tz) 
 
 
 // *************************************************************************
-
-#if SOQT_DEBUG
-static const char * getSoQtSpaceballRCSId(void) { return rcsid; }
-#endif // SOQT_DEBUG

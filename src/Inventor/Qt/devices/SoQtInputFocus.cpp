@@ -21,11 +21,6 @@
  *
 \**************************************************************************/
 
-#if SOQT_DEBUG
-static const char rcsid[] =
-  "$Id$";
-#endif // SOQT_DEBUG
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -77,20 +72,18 @@ SOQT_OBJECT_SOURCE(SoQtInputFocus);
   Constructor.
 */
 
-SoQtInputFocus::SoQtInputFocus(
-  int mask)
+SoQtInputFocus::SoQtInputFocus(int mask)
 {
   this->eventmask = mask;
-} // SoQtInputFocus()
+}
 
 /*!
   Destructor.
 */
 
-SoQtInputFocus::~SoQtInputFocus(
-  void)
+SoQtInputFocus::~SoQtInputFocus()
 {
-} // ~SoQtInputFocus()
+}
 
 // *************************************************************************
 
@@ -99,26 +92,24 @@ SoQtInputFocus::~SoQtInputFocus(
 */
 
 void
-SoQtInputFocus::enable(
-  QWidget *, // widget,
-  SoQtEventHandler *, // handler,
-  void *) // closure)
+SoQtInputFocus::enable(QWidget *, // widget,
+                       SoQtEventHandler *, // handler,
+                       void *) // closure)
 {
   SOQT_STUB();
-} // enable()
+}
 
 /*!
   FIXME: write function documentation
 */
 
 void
-SoQtInputFocus::disable(
-  QWidget *, // widget,
-  SoQtEventHandler *, // handler,
-  void *) // closure)
+SoQtInputFocus::disable(QWidget *, // widget,
+                        SoQtEventHandler *, // handler,
+                        void *) // closure)
 {
   SOQT_STUB();
-} // disable()
+}
 
 // *************************************************************************
 
@@ -127,16 +118,10 @@ SoQtInputFocus::disable(
 */
 
 const SoEvent *
-SoQtInputFocus::translateEvent(
-  QEvent *) // event)
+SoQtInputFocus::translateEvent(QEvent *)
 {
   SOQT_STUB();
   return NULL;
-} // translateEvent()
+}
 
 // *************************************************************************
-
-#if SOQT_DEBUG
-static const char * getSoQtInputFocusRCSId(void) { return rcsid; }
-#endif // SOQT_DEBUG
-

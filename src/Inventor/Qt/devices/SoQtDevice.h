@@ -21,8 +21,6 @@
  *
 \**************************************************************************/
 
-// $Id$
-
 #ifndef SOQT_DEVICE_H
 #define SOQT_DEVICE_H
 
@@ -80,7 +78,7 @@ private:
   // problem vs Xt).
   friend class SoQtRenderArea;
 
-}; // class SoQtDevice
+};
 
 typedef void (*SoQtEventHandlerPtr)(QWidget *, void *, QEvent *, bool *);
 
@@ -110,7 +108,7 @@ private:
   float trans_x, trans_y, trans_z;
   float rot_x, rot_y, rot_z;
 
-}; // class SoQt6dofDevicePressureEvent
+};
 
 class SOQT_DLL_API SoQt6dofDeviceButtonEvent : public QCustomEvent {
   typedef QCustomEvent inherited;
@@ -134,7 +132,7 @@ private:
   unsigned int button;
   unsigned int buttons;
 
-}; // class SoQt6dofDeviceButtonEvent
+};
 
 // *************************************************************************
 

@@ -21,11 +21,6 @@
  *
 \**************************************************************************/
 
-#if SOQT_DEBUG
-static const char rcsid[] =
-  "$Id$";
-#endif // SOQT_DEBUG
-
 #include <qevent.h>
 
 #include <Inventor/errors/SoDebugError.h>
@@ -112,26 +107,24 @@ SoQtMouse::~SoQtMouse()
 */
 
 void
-SoQtMouse::enable(
-  QWidget *, // widget,
-  SoQtEventHandler *, // handler,
-  void *) // closure)
+SoQtMouse::enable(QWidget *, // widget,
+                  SoQtEventHandler *, // handler,
+                  void *) // closure)
 {
 // FIXME: SOQT_STUB();
-} // enable()
+}
 
 /*!
   FIXME: write function documentation
 */
 
 void
-SoQtMouse::disable(
-  QWidget *, // widget,
-  SoQtEventHandler *, // handler,
-  void *) // closure)
+SoQtMouse::disable(QWidget *, // widget,
+                   SoQtEventHandler *, // handler,
+                   void *) // closure)
 {
 // FIXME: SOQT_STUB();
-} // disable()
+}
 
 // *************************************************************************
 
@@ -255,11 +248,6 @@ SoQtMouse::translateEvent(QEvent * event)
   }
 
   return super;
-} // translateEvent()
+}
 
 // *************************************************************************
-
-#if SOQT_DEBUG
-static const char * getSoQtMouseRCSId(void) { return rcsid; }
-#endif // SOQT_DEBUG
-

@@ -21,10 +21,15 @@
  *
 \**************************************************************************/
 
-#if SOQT_DEBUG
-static const char rcsid[] =
-  "$Id$";
-#endif // SOQT_DEBUG
+/*!
+  \class SoQtLinuxJoystick Inventor/Qt/devices/SoQtLinuxJoystick.h
+  \brief The SoQtLinuxJoystick class is for enabling use of joysticks with
+  SoQt through the Linux Joystick driver.
+  \ingroup devices
+
+  This class is not included with Open Inventor, but is an SoQt-specific
+  extension.
+*/
 
 #include <unistd.h>
 #include <stdlib.h>
@@ -58,16 +63,6 @@ static const char rcsid[] =
 #include <linux/joystick.h>
 #endif
 
-/*!
-  \class SoQtLinuxJoystick Inventor/Qt/devices/SoQtLinuxJoystick.h
-  \brief The SoQtLinuxJoystick class is for enabling use of joysticks with
-  SoQt through the Linux Joystick driver.
-  \ingroup devices
-
-  This class is not included with Open Inventor, but is an SoQt-specific
-  extension.
-*/
-
 // *************************************************************************
 
 SOQT_OBJECT_SOURCE(SoQtLinuxJoystick);
@@ -94,8 +89,7 @@ SbBool SoQtLinuxJoystick::enabled = FALSE;
   FIXME: write doc
 */
 
-SoQtLinuxJoystick::SoQtLinuxJoystick(
-  int events)
+SoQtLinuxJoystick::SoQtLinuxJoystick(int events)
 {
   this->events = events;
   this->notifier = NULL;
@@ -111,14 +105,13 @@ SoQtLinuxJoystick::SoQtLinuxJoystick(
   this->translationScaleFactor = M_PI / float(0x10000);
   this->motion3Event = NULL;
   this->buttonEvent = NULL;
-} // SoQtLinuxJoystick()
+}
 
 /*!
   FIXME: write doc
 */
 
-SoQtLinuxJoystick::~SoQtLinuxJoystick(// virtual
-  void)
+SoQtLinuxJoystick::~SoQtLinuxJoystick()
 {
   delete this->notifier;
   if (this->joydev != 0)
@@ -130,7 +123,7 @@ SoQtLinuxJoystick::~SoQtLinuxJoystick(// virtual
 
   delete this->motion3Event;
   delete this->buttonEvent;
-} // ~SoQtLinuxJoystick()
+}
 
 // *************************************************************************
 
@@ -139,10 +132,9 @@ SoQtLinuxJoystick::~SoQtLinuxJoystick(// virtual
 */
 
 void
-SoQtLinuxJoystick::enable(// virtual
-  QWidget * widget,
-  SoQtEventHandler * handler,
-  void * closure)
+SoQtLinuxJoystick::enable(QWidget * widget,
+                          SoQtEventHandler * handler,
+                          void * closure)
 {
   if (! SoQtLinuxJoystick::enabled) {
     const char * devpathname = SoQtLinuxJoystick::getDevicePathName();
@@ -181,8 +173,8 @@ SoQtLinuxJoystick::enable(// virtual
 
 #if SOQT_DEBUG && 0
     SoDebugError::post("SoQtLinuxJoystick::enable",
-      "successfully opened \"%s\" device with %d axes and %d buttons",
-      this->name, this->numaxes, this->numbuttons);
+                       "successfully opened \"%s\" device with %d axes and %d buttons",
+                       this->name, this->numaxes, this->numbuttons);
 #endif // SOQT_DEBUG
 
     int i;
@@ -199,20 +191,19 @@ SoQtLinuxJoystick::enable(// virtual
       this, SLOT(device_event(int)));
   }
   this->addEventHandler(widget, handler, closure);
-} // enable()
+}
 
 /*!
   FIXME: write doc
 */
 
 void
-SoQtLinuxJoystick::disable(// virtual
-  QWidget * widget,
-  SoQtEventHandler * handler,
-  void * closure)
+SoQtLinuxJoystick::disable(QWidget * widget,
+                           SoQtEventHandler * handler,
+                           void * closure)
 {
   this->removeEventHandler(widget, handler, closure);
-} // disable()
+}
 
 // *************************************************************************
 
@@ -223,8 +214,7 @@ SoQtLinuxJoystick::disable(// virtual
 */
 
 const SoEvent *
-SoQtLinuxJoystick::translateEvent(
-  QEvent * event)
+SoQtLinuxJoystick::translateEvent(QEvent * event)
 {
   switch (event->type()) {
   case soqt6dofDeviceButtonPressedEvent:
@@ -239,7 +229,7 @@ SoQtLinuxJoystick::translateEvent(
     break;
   }
   return (SoEvent *) NULL;
-} // translateEvent()
+}
 
 // *************************************************************************
 
@@ -248,44 +238,40 @@ SoQtLinuxJoystick::translateEvent(
 */
 
 void
-SoQtLinuxJoystick::setRotationScaleFactor(
-  const float factor)
+SoQtLinuxJoystick::setRotationScaleFactor(const float factor)
 {
   this->rotationScaleFactor = factor;
-} // setRotationScaleFactor()
+}
 
 /*!
   FIXME: write doc
 */
 
 float
-SoQtLinuxJoystick::getRotationScaleFactor(
-  void) const
+SoQtLinuxJoystick::getRotationScaleFactor(void) const
 {
   return this->rotationScaleFactor;
-} // getRotationScaleFactor()
+}
 
 /*!
   FIXME: write doc
 */
 
 void
-SoQtLinuxJoystick::setTranslationScaleFactor(
-  const float factor)
+SoQtLinuxJoystick::setTranslationScaleFactor(const float factor)
 {
   this->translationScaleFactor = factor;
-} // setTranslationScaleFactor()
+}
 
 /*!
   FIXME: write doc
 */
 
 float
-SoQtLinuxJoystick::getTranslationScaleFactor(
-  void) const
+SoQtLinuxJoystick::getTranslationScaleFactor(void) const
 {
   return this->translationScaleFactor;
-} // getTranslationScaleFactor()
+}
 
 // *************************************************************************
 
@@ -296,8 +282,7 @@ SoQtLinuxJoystick::getTranslationScaleFactor(
 */
 
 SbBool
-SoQtLinuxJoystick::exists(// static
-  void)
+SoQtLinuxJoystick::exists(void)
 {
   if (SoQtLinuxJoystick::enabled)
     return TRUE;
@@ -307,7 +292,7 @@ SoQtLinuxJoystick::exists(// static
     return FALSE;
   close(joydev);
   return TRUE;
-} // exists()
+}
 
 // *************************************************************************
 
@@ -316,10 +301,9 @@ SoQtLinuxJoystick::exists(// static
 */
 
 const char *
-SoQtLinuxJoystick::getDevicePathName(// static, private
-  void)
+SoQtLinuxJoystick::getDevicePathName(void)
 {
-  const char * devicepath = getenv("SOQT_JOYSTICK_DEVICE");
+  const char * devicepath = SoAny::getenv("SOQT_JOYSTICK_DEVICE");
 #ifdef SOQT_JOYSTICK_LINUX_DEVICE
   static const char configured[] = SOQT_JOYSTICK_LINUX_DEVICE;
   if (devicepath == NULL)
@@ -329,7 +313,7 @@ SoQtLinuxJoystick::getDevicePathName(// static, private
   if (devicepath == NULL)
     devicepath = hardcoded;
   return devicepath;
-} // getDevicePathName()
+}
 
 // *************************************************************************
 
@@ -338,19 +322,17 @@ SoQtLinuxJoystick::getDevicePathName(// static, private
 */
 
 int
-SoQtLinuxJoystick::getNumButtons(
-  void) const
+SoQtLinuxJoystick::getNumButtons(void) const
 {
   return this->numbuttons;
-} // getNumButtons()
+}
 
 /*!
   FIXME: write doc
 */
 
 SbBool
-SoQtLinuxJoystick::getButtonValue(
-  const int button) const
+SoQtLinuxJoystick::getButtonValue(const int button) const
 {
   if (button < 0 || button >= this->numbuttons) {
 #if SOQT_DEBUG
@@ -360,26 +342,24 @@ SoQtLinuxJoystick::getButtonValue(
     return FALSE;
   }
   return this->buttonvalues[button];
-} // getButtonValue()
+}
 
 /*!
   FIXME: write doc
 */
 
 int
-SoQtLinuxJoystick::getNumAxes(
-  void) const
+SoQtLinuxJoystick::getNumAxes(void) const
 {
   return this->numaxes;
-} // getNumAxes()
+}
 
 /*!
   FIXME: write doc
 */
 
 float
-SoQtLinuxJoystick::getAxisValue(
-  const int axis) const
+SoQtLinuxJoystick::getAxisValue(const int axis) const
 {
   if (axis < 0 || axis >= this->numaxes) {
 #if SOQT_DEBUG
@@ -389,7 +369,7 @@ SoQtLinuxJoystick::getAxisValue(
     return 0.0f;
   }
   return float(this->axisvalues[axis]) * this->translationScaleFactor;
-} // getAxisValue()
+}
 
 // *************************************************************************
 
@@ -398,23 +378,21 @@ SoQtLinuxJoystick::getAxisValue(
 */
 
 void
-SoQtLinuxJoystick::setFocusToWindow(
-  SbBool enable)
+SoQtLinuxJoystick::setFocusToWindow(SbBool enable)
 {
   this->focusToWindow = enable;
   SOQT_STUB();
-} // setFocusToWindow()
+}
 
 /*!
   FIXME: write doc
 */
 
 SbBool
-SoQtLinuxJoystick::isFocusToWindow(
-  void) const
+SoQtLinuxJoystick::isFocusToWindow(void) const
 {
   return this->focusToWindow;
-} // isFocusToWindow()
+}
 
 // *************************************************************************
 
@@ -423,8 +401,7 @@ SoQtLinuxJoystick::isFocusToWindow(
 */
 
 SoMotion3Event *
-SoQtLinuxJoystick::makeMotion3Event(// private
-  SoQt6dofDevicePressureEvent * event)
+SoQtLinuxJoystick::makeMotion3Event(SoQt6dofDevicePressureEvent * event)
 {
   if (this->motion3Event == NULL)
     this->motion3Event = new SoMotion3Event;
@@ -442,16 +419,15 @@ SoQtLinuxJoystick::makeMotion3Event(// private
   this->motion3Event->setRotation(xrot * yrot * zrot);
 
   return this->motion3Event;
-} // makeMotion3Event()
+}
 
 /*!
   FIXME: write doc
 */
 
 SoSpaceballButtonEvent *
-SoQtLinuxJoystick::makeButtonEvent(
-  SoQt6dofDeviceButtonEvent * event,
-  SoButtonEvent::State state)
+SoQtLinuxJoystick::makeButtonEvent(SoQt6dofDeviceButtonEvent * event,
+                                   SoButtonEvent::State state)
 {
   if (this->buttonEvent == NULL)
     this->buttonEvent = new SoSpaceballButtonEvent;
@@ -490,12 +466,12 @@ SoQtLinuxJoystick::makeButtonEvent(
 
   default:
     break;
-  } // switch (event->getButton())
+  }
 
   this->buttonEvent->setState(state);
 
   return this->buttonEvent;
-} // makeButtonEvent()
+}
 
 // *************************************************************************
 
@@ -507,8 +483,7 @@ SoQtLinuxJoystick::makeButtonEvent(
 */
 
 void
-SoQtLinuxJoystick::device_event(// private, slot
-  int device)
+SoQtLinuxJoystick::device_event(int device)
 {
   struct js_event event;
 
@@ -616,11 +591,6 @@ SoQtLinuxJoystick::device_event(// private, slot
 
     this->invokeHandlers((QEvent *) &qevent);
   }
-} // device_event()
+}
 
 // *************************************************************************
-
-#if SOQT_DEBUG
-static const char * getSoQtLinuxJoystickRCSId(void) { return rcsid; }
-#endif // SOQT_DEBUG
-
