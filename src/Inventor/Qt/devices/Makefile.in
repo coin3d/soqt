@@ -115,6 +115,7 @@ WIDGET = @WIDGET@
 _am_include = @_am_include@
 gui = @gui@
 install_sh = @install_sh@
+path_tag = @path_tag@
 sim_ac_coin_configcmd = @sim_ac_coin_configcmd@
 sim_ac_doxygen_exe = @sim_ac_doxygen_exe@
 sim_ac_perl_exe = @sim_ac_perl_exe@

@@ -180,7 +180,7 @@ soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib: Makefile \
 
 # **************************************************************************
 
-install-exec-local: soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib
+install-exec-local:
 	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
 	for ext in dll pdb; do \
 	  file="$$basename.$$ext"; \
@@ -191,7 +191,7 @@ install-exec-local: soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib
 	  fi \
 	done;
 
-install-data-local: soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib
+install-data-local:
 	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
 	for ext in lib; do \
 	  file="$$basename.$$ext"; \

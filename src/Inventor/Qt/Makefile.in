@@ -115,6 +115,7 @@ WIDGET = @WIDGET@
 _am_include = @_am_include@
 gui = @gui@
 install_sh = @install_sh@
+path_tag = @path_tag@
 sim_ac_coin_configcmd = @sim_ac_coin_configcmd@
 sim_ac_doxygen_exe = @sim_ac_doxygen_exe@
 sim_ac_perl_exe = @sim_ac_perl_exe@
@@ -796,7 +797,7 @@ soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib: Makefile \
 
 # **************************************************************************
 
-install-exec-local: soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib
+install-exec-local:
 	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
 	for ext in dll pdb; do \
 	  file="$$basename.$$ext"; \
@@ -807,7 +808,7 @@ install-exec-local: soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib
 	  fi \
 	done;
 
-install-data-local: soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib
+install-data-local:
 	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
 	for ext in lib; do \
 	  file="$$basename.$$ext"; \
