@@ -4181,12 +4181,7 @@ fi
 
 
 
-GUI="Qt"
-lGUI="qt"
-uGUI="QT"
-WIDGET="QWidget *"
-EVENT="QEvent *"
-COMPONENTHEADER="Q_OBJECT"
+. ${srcdir}/libconfigvars.sh
 
 
 
@@ -4195,23 +4190,7 @@ COMPONENTHEADER="Q_OBJECT"
 
 
 
-# Pass to examples/configure
-export GUI lGUI uGUI WIDGET EVENT COMPONENTHEADER
 
-# Pass to examples/configure
-HAVE_RENDERAREA=true
-HAVE_EXAMINERVIEWER=true
-HAVE_PLANEVIEWER=true
-HAVE_WALKVIEWER=false
-HAVE_FLYVIEWER=false
-export HAVE_RENDERAREA HAVE_EXAMINERVIEWER HAVE_PLANEVIEWER HAVE_WALKVIEWER HAVE_FLYVIEWER
-
-
-# Pass to examples/configure.in
-EXTRA_CPPFLAGS=$SOQT_EXTRA_CPPFLAGS
-EXTRA_LDFLAGS=$SOQT_EXTRA_LDFLAGS
-EXTRA_LIBS=$SOQT_EXTRA_LIBS
-export EXTRA_CPPFLAGS EXTRA_LDFLAGS EXTRA_LIBS
 
 sim_ac_subconfig=examples
 if test x"$sim_ac_ivexamples_available" = xyes; then
