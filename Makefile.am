@@ -26,12 +26,19 @@ bin_SCRIPTS = soqt-config
 
 BUILT_SOURCES = \
 	soqt-config \
+	src/Inventor/Qt/SoQtBasic.h \
 	src/Inventor/Qt/SoQtRenderArea.h \
 	src/Inventor/Qt/SoQtRenderArea.cpp \
 	src/Inventor/Qt/viewers/SoQtViewer.h \
 	src/Inventor/Qt/viewers/SoQtViewer.cpp \
 	src/Inventor/Qt/viewers/SoAnyFullViewer.h \
 	src/Inventor/Qt/viewers/SoAnyFullViewer.cpp \
+	src/Inventor/Qt/viewers/SoAnyExaminerViewer.h \
+	src/Inventor/Qt/viewers/SoAnyExaminerViewer.cpp \
+	src/Inventor/Qt/viewers/SoAnyPlaneViewer.h \
+	src/Inventor/Qt/viewers/SoAnyPlaneViewer.cpp \
+	src/Inventor/Qt/widgets/SoAnyThumbWheel.h \
+	src/Inventor/Qt/widgets/SoAnyThumbWheel.cpp \
 	src/Inventor/Qt/widgets/SoAnyPopupMenu.h \
 	src/Inventor/Qt/widgets/SoAnyPopupMenu.cpp
 
@@ -44,28 +51,94 @@ m4data_DATA = conf-macros/soqt.m4 conf-macros/modifierlist.m4
 
 ############################################################################
 
-src/Inventor/Qt/SoQtRenderArea.h: $(top_srcdir)/src/Inventor/Qt/common/SoGuiRenderArea.h.in
-	@CONFIG_HEADERS= CONFIG_FILES=$@:src/Inventor/Qt/common/SoGuiRenderArea.h.in ./config.status
+src/Inventor/Qt/SoQtBasic.h: \
+  $(top_srcdir)/src/Inventor/Qt/common/SoGuiBasic.h.in
+	@CONFIG_HEADERS=$@:SoQtBasic.h.in CONFIG_FILES=$(top_srcdir)/SoQtBasic.h.in:src/Inventor/Qt/common/SoGuiBasic.h.in ./config.status
+	@echo "removing $(top_srcdir)/SoQtBasic.h.in (temporary file)"
+	@rm $(top_srcdir)/SoQtBasic.h.in
 
-src/Inventor/Qt/SoQtRenderArea.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoGuiRenderArea.cpp.in
-	@CONFIG_HEADERS= CONFIG_FILES=$@:src/Inventor/Qt/common/SoGuiRenderArea.cpp.in ./config.status
+src/Inventor/Qt/SoQtRenderArea.h: \
+  $(top_srcdir)/src/Inventor/Qt/common/SoGuiRenderArea.h.in
+	@CONFIG_HEADERS= \
+	CONFIG_FILES=$@:src/Inventor/Qt/common/SoGuiRenderArea.h.in \
+	./config.status
 
-src/Inventor/Qt/viewers/SoQtViewer.h: $(top_srcdir)/src/Inventor/Qt/common/SoGuiViewer.h.in
-	@CONFIG_HEADERS= CONFIG_FILES=$@:src/Inventor/Qt/common/SoGuiViewer.h.in $(top_builddir)/config.status
+src/Inventor/Qt/SoQtRenderArea.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/common/SoGuiRenderArea.cpp.in
+	@CONFIG_HEADERS= \
+	CONFIG_FILES=$@:src/Inventor/Qt/common/SoGuiRenderArea.cpp.in \
+	./config.status
 
-src/Inventor/Qt/viewers/SoQtViewer.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoGuiViewer.cpp.in
-	@CONFIG_HEADERS= CONFIG_FILES=$@:src/Inventor/Qt/common/SoGuiViewer.cpp.in $(top_builddir)/config.status
+src/Inventor/Qt/viewers/SoQtViewer.h: \
+  $(top_srcdir)/src/Inventor/Qt/common/SoGuiViewer.h.in
+	@CONFIG_HEADERS= \
+	CONFIG_FILES=$@:src/Inventor/Qt/common/SoGuiViewer.h.in \
+	$(top_builddir)/config.status
 
-src/Inventor/Qt/viewers/SoAnyFullViewer.h: $(top_srcdir)/src/Inventor/Qt/common/SoAnyFullViewer.h.in
-	@CONFIG_HEADERS= CONFIG_FILES=$@:src/Inventor/Qt/common/SoAnyFullViewer.h.in $(top_builddir)/config.status
+src/Inventor/Qt/viewers/SoQtViewer.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/common/SoGuiViewer.cpp.in
+	@CONFIG_HEADERS= \
+	CONFIG_FILES=$@:src/Inventor/Qt/common/SoGuiViewer.cpp.in \
+	$(top_builddir)/config.status
 
-src/Inventor/Qt/viewers/SoAnyFullViewer.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoAnyFullViewer.cpp.in
-	@CONFIG_HEADERS= CONFIG_FILES=$@:src/Inventor/Qt/common/SoAnyFullViewer.cpp.in $(top_builddir)/config.status
+src/Inventor/Qt/viewers/SoAnyFullViewer.h: \
+  $(top_srcdir)/src/Inventor/Qt/common/SoAnyFullViewer.h.in
+	@CONFIG_HEADERS= \
+	CONFIG_FILES=$@:src/Inventor/Qt/common/SoAnyFullViewer.h.in \
+	$(top_builddir)/config.status
 
-src/Inventor/Qt/widgets/SoAnyPopupMenu.h: $(top_srcdir)/src/Inventor/Qt/common/SoAnyPopupMenu.h.in
-	@CONFIG_HEADERS= CONFIG_FILES=$@:src/Inventor/Qt/common/SoAnyPopupMenu.h.in $(top_builddir)/config.status
+src/Inventor/Qt/viewers/SoAnyFullViewer.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/common/SoAnyFullViewer.cpp.in
+	@CONFIG_HEADERS= \
+	CONFIG_FILES=$@:src/Inventor/Qt/common/SoAnyFullViewer.cpp.in \
+	$(top_builddir)/config.status
 
-src/Inventor/Qt/widgets/SoAnyPopupMenu.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoAnyPopupMenu.cpp.in
-	@CONFIG_HEADERS= CONFIG_FILES=$@:src/Inventor/Qt/common/SoAnyPopupMenu.cpp.in $(top_builddir)/config.status
+src/Inventor/Qt/viewers/SoAnyExaminerViewer.h: \
+  $(top_srcdir)/src/Inventor/Qt/common/SoAnyExaminerViewer.h.in
+	@CONFIG_HEADERS= \
+	CONFIG_FILES=$@:src/Inventor/Qt/common/SoAnyExaminerViewer.h.in \
+	$(top_builddir)/config.status
+
+src/Inventor/Qt/viewers/SoAnyExaminerViewer.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/common/SoAnyExaminerViewer.cpp.in
+	@CONFIG_HEADERS= \
+	CONFIG_FILES=$@:src/Inventor/Qt/common/SoAnyExaminerViewer.cpp.in \
+	$(top_builddir)/config.status
+
+src/Inventor/Qt/viewers/SoAnyPlaneViewer.h: \
+  $(top_srcdir)/src/Inventor/Qt/common/SoAnyPlaneViewer.h.in
+	@CONFIG_HEADERS= \
+	CONFIG_FILES=$@:src/Inventor/Qt/common/SoAnyPlaneViewer.h.in \
+	$(top_builddir)/config.status
+
+src/Inventor/Qt/viewers/SoAnyPlaneViewer.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/common/SoAnyPlaneViewer.cpp.in
+	@CONFIG_HEADERS= \
+	CONFIG_FILES=$@:src/Inventor/Qt/common/SoAnyPlaneViewer.cpp.in \
+	$(top_builddir)/config.status
+
+src/Inventor/Qt/widgets/SoAnyThumbWheel.h: \
+  $(top_srcdir)/src/Inventor/Qt/common/SoAnyThumbWheel.h.in
+	@CONFIG_HEADERS= \
+	CONFIG_FILES=$@:src/Inventor/Qt/common/SoAnyThumbWheel.h.in \
+	$(top_builddir)/config.status
+
+src/Inventor/Qt/widgets/SoAnyThumbWheel.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/common/SoAnyThumbWheel.cpp.in
+	@CONFIG_HEADERS= \
+	CONFIG_FILES=$@:src/Inventor/Qt/common/SoAnyThumbWheel.cpp.in \
+	$(top_builddir)/config.status
+
+src/Inventor/Qt/widgets/SoAnyPopupMenu.h: \
+  $(top_srcdir)/src/Inventor/Qt/common/SoAnyPopupMenu.h.in
+	@CONFIG_HEADERS= \
+	CONFIG_FILES=$@:src/Inventor/Qt/common/SoAnyPopupMenu.h.in \
+	$(top_builddir)/config.status
+
+src/Inventor/Qt/widgets/SoAnyPopupMenu.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/common/SoAnyPopupMenu.cpp.in
+	@CONFIG_HEADERS= \
+	CONFIG_FILES=$@:src/Inventor/Qt/common/SoAnyPopupMenu.cpp.in \
+	$(top_builddir)/config.status
 
 ############################################################################
