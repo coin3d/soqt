@@ -62,7 +62,7 @@ SoQtGradientDialogP::SoQtGradientDialogP(SoQtGradientDialog * publ)
   this->changeCallBack = NULL;
 }
 
-SoQtGradientDialog::SoQtGradientDialog(Gradient & grad,
+SoQtGradientDialog::SoQtGradientDialog(const Gradient & grad,
                                        QWidget * parent, 
                                        bool modal, 
                                        const char* name)
@@ -109,17 +109,19 @@ SoQtGradientDialog::~SoQtGradientDialog()
   delete this->pimpl;
 }
 
-void SoQtGradientDialog::addGradient(Gradient & grad, QString description)
+void SoQtGradientDialog::addGradient(const Gradient & grad, QString description)
 {
-  if (PRIVATE(this)->changeCallBack)
-    grad.setChangeCallback(PRIVATE(this)->changeCallBack);
+  Gradient gradientcopy = grad;
 
-  PRIVATE(this)->gradients.append(grad);
-  PRIVATE(this)->gradientList->insertItem(grad.getImage(60, 16, 32), description);
+  if (PRIVATE(this)->changeCallBack)
+    gradientcopy.setChangeCallback(PRIVATE(this)->changeCallBack);
+
+  PRIVATE(this)->gradients.append(gradientcopy);
+  PRIVATE(this)->gradientList->insertItem(gradientcopy.getImage(60, 16, 32), description);
   PRIVATE(this)->old_index = PRIVATE(this)->gradientList->count() - 1;
   
   PRIVATE(this)->gradientList->setCurrentItem(PRIVATE(this)->old_index);
-  PRIVATE(this)->gradEdit->setGradient(grad);
+  PRIVATE(this)->gradEdit->setGradient(gradientcopy);
   PRIVATE(this)->gradientList->show();
 }
 

@@ -33,14 +33,14 @@ class SOQT_DLL_API SoQtGradientDialog : public QDialog
   Q_OBJECT
 
 public:
-  SoQtGradientDialog(Gradient & grad = Gradient(),
+  SoQtGradientDialog(const Gradient & grad = Gradient(),
                      QWidget * parent=0,
                      bool modal = FALSE,
                      const char* name=0);
 
   ~SoQtGradientDialog();
   
-  void addGradient(Gradient & grad, QString description = "");
+  void addGradient(const Gradient & grad, QString description = "");
   void setDataLimits(float min, float max);
   const Gradient & getGradient(void) const;
   void setChangeCallback(changeCB * cb);
