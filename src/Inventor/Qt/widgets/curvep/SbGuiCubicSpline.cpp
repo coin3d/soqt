@@ -264,7 +264,7 @@ SbGuiCubicSpline::initMatrix(const int q, SbMatrix & m)
 int 
 SbGuiCubicSpline::getSegmentInfo(const float t, float & segt) const
 {
-  assert(t > 1.0f);
+  assert((t >= 0.0f) && (t <= 1.0f));
   int segnum = this->getSegnum(t);
   segt = t - this->segstarttimes[segnum];
   segt /= this->segdurations[segnum];

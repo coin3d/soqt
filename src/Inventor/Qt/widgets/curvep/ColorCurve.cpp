@@ -28,9 +28,9 @@
 ColorCurve::ColorCurve(CurveType type, const int numcolors)
   : numcolors(numcolors), numpts(256)
 {
+  this->type = type;
   this->curvepts = new SbVec2f[this->numpts];
   this->colormap = new uint8_t[this->numcolors];
-  this->type = type;
   this->curve = new SbGuiCubicSpline(numpts);
   this->curve->setBasisMatrix(SbGuiCubicSpline::CATMULL_ROM);
   this->callBack = NULL;
@@ -189,7 +189,7 @@ ColorCurve::getColors(uint8_t * colors, int num) const
 {
   if (num != this->numcolors) {
     for (int i = 0; i < num; i++) {
-      colors[i] = this->eval(float(i) / float(this->numcolors-1));
+      colors[i] = this->eval(float(i) / float(num-1));
     }
   } else {
     for (int i = 0; i < num; i++) {
@@ -232,7 +232,7 @@ ColorCurve::eval(float x) const
     w1 = (x - x0) / dx;
   }
   const int y = int((w0 * y0 + w1 * y1) * float(this->numcolors-1) + 0.5f);
-  assert((y <= this->numcolors-1) && (y >= 0) && "invalid y value");
+  assert((y <= 255.0f) && (y >= 0.0f) && "invalid y value");
   return y;
 }
 

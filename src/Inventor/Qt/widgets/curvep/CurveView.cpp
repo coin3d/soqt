@@ -47,11 +47,6 @@ CurveView::CurveView(int numcolors,
   this->setHScrollBarMode(QScrollView::AlwaysOff);
 
   this->size = numcolors;
-  // FIXME: this looks like an abomination. As far as I can see, both
-  // size and maxval is set once here, so keeping a separate maxval
-  // should be completely redundant. 20031020 mortene.
-  this->maxval = this->size - 1;
-
   this->initColorCurves();
   this->hideUnselected();
   
@@ -91,10 +86,9 @@ void
 CurveView::initCanvasCurve()
 {
   const uint8_t * curvepts = this->colorcurves[this->colorindex]->getColorMap();
-
   for (int i = 2; i < this->colorcurves[this->colorindex]->getNumColors(); i+=2) {
     QCanvasLine * line = new QCanvasLine(this->canvas);
-    line->setPoints(i-2, this->maxval-curvepts[i-2], i, this->maxval-curvepts[i]);
+    line->setPoints(i-2, float(this->size - 1) - curvepts[i-2], i, float(this->size - 1) - curvepts[i]);
     line->setZ(1); // to make the curve be drawn on top of the grid
     line->show();
     this->curvesegments.append(line);
@@ -108,7 +102,7 @@ void CurveView::initGrid()
 
   for (int i = step; i < this->size; i+=step) {
     QCanvasLine * line = new QCanvasLine(this->canvas);
-    line->setPoints(i, 0, i, this->maxval);
+    line->setPoints(i, 0, i, (this->size - 1));
     line->setPen(pen);
     line->show();
     this->grid.append(line);
@@ -116,7 +110,7 @@ void CurveView::initGrid()
 
   for (int j = step; j < this->size; j+=step) {
     QCanvasLine * line = new QCanvasLine(this->canvas);
-    line->setPoints(0, j, this->maxval, j);
+    line->setPoints(0, j, this->size, j);
     line->setPen(pen);
     line->show();
     this->grid.append(line);
@@ -186,8 +180,8 @@ CurveView::contentsMouseMoveEvent(QMouseEvent* e)
       int x = p.x();
       int y = p.y();
     
-      if (x > this->maxval - this->ptsize) x = this->maxval - this->ptsize;
-      if (y > this->maxval - this->ptsize) y = this->maxval - this->ptsize;
+      if (x > (this->size - 1) - this->ptsize) x = (this->size - 1) - this->ptsize;
+      if (y > (this->size - this->ptsize)) y = this->size  - this->ptsize;
       if (x < this->ptsize) x = this->ptsize;
       if (y < this->ptsize) y = this->ptsize;
 
@@ -202,8 +196,8 @@ CurveView::contentsMouseMoveEvent(QMouseEvent* e)
       int currentx = p.x();
       int currenty = p.y();
 
-      if ((lastx >= 0) && (lastx <= this->maxval) && 
-          (currentx >= 0) && (currentx <= this->maxval)) {
+      if ((lastx >= 0) && (lastx <= (this->size - 1)) && 
+          (currentx >= 0) && (currentx <= (this->size - 1))) {
 
         if (currentx < lastx) { // swap
           currentx ^= lastx ^= currentx ^= lastx;
@@ -222,9 +216,9 @@ CurveView::contentsMouseMoveEvent(QMouseEvent* e)
           float w1 = (float(i) - x0) / dx;
           int y = int(w0 * y0 + w1 * y1 + 0.5f);
           // clamp
-          if (y > this->maxval) y = this->maxval;
+          if (y > (this->size - 1)) y = (this->size - 1);
           if (y < 0) y = 0;
-          this->colorcurves[this->colorindex]->setColorMapping(i, this->maxval-y);
+          this->colorcurves[this->colorindex]->setColorMapping(i, (this->size - 1)-y);
         }
         this->lastpos = p;
         this->updateCurve();
@@ -300,7 +294,7 @@ CurveView::newCanvasCtrlPtList()
   const SbGuiList<SbVec3f> ctrlpts = this->colorcurves[this->colorindex]->getCtrlPoints();
 
   for (int i = 0; i < numpts; i++) {
-    list.append(this->newControlPoint(ctrlpts[i][0] * this->maxval, this->maxval - ctrlpts[i][1] * this->maxval));
+    list.append(this->newControlPoint(ctrlpts[i][0] * (this->size - 1), (this->size - 1) - ctrlpts[i][1] * (this->size - 1)));
   }
   return list;
 }
@@ -336,8 +330,8 @@ CurveView::updateCurve()
     }
     SbGuiList<SbVec3f> ctrlpts;
     for (it =  sortedlist.begin(); it != sortedlist.end(); it++) {
-      float x = ((*it)->x() + float(this->ptsize)) / this->maxval;
-      float y = 1.0f - ((*it)->y() + float(this->ptsize)) / this->maxval;
+      float x = ((*it)->x() + float(this->ptsize)) / (this->size - 1);
+      float y = 1.0f - ((*it)->y() + float(this->ptsize)) / (this->size - 1);
         ctrlpts.append(SbVec3f(x, y, 0.0f));
     }
     this->colorcurves[this->colorindex]->setCtrlPoints(ctrlpts);
@@ -348,7 +342,7 @@ CurveView::updateCurve()
   const uint8_t * curvepts = this->colorcurves[this->colorindex]->getColorMap();
   for (; it != this->curvesegments.end(); it++) {
     QCanvasLine* line = (QCanvasLine*)(*it);
-    line->setPoints(i-2, this->maxval-curvepts[i-2], i, this->maxval-curvepts[i]);
+    line->setPoints(i-2, float(this->size - 1)-curvepts[i-2], i, float(this->size - 1)-curvepts[i]);
     i+=2;
   }    
   emit this->curveChanged();
@@ -426,7 +420,7 @@ CurveView::interpolateFromColors()
     this->canvasctrlpts[i].clear();
     for (int j = 0; j < this->colorcurves[i]->getNumCtrlPoints(); j++) {
       this->canvasctrlpts[i].append(
-        this->newControlPoint(ctrlpts[j][0] * this->maxval, this->maxval - ctrlpts[j][1] * this->maxval));
+        this->newControlPoint(ctrlpts[j][0] * (this->size - 1), (this->size - 1) - ctrlpts[j][1] * (this->size - 1)));
     }
   }
 }
@@ -491,7 +485,7 @@ CurveView::makePixmap(int w, int h, const uint8_t * r, const uint8_t * g, const 
   // we'll split the image in half, making the bottom
   // half show the 1 to 1 color mapping for comparison
   for (int i = 0; i < w; i++) {
-    int org = (int) ((float(i) / float(w)) * this->maxval);
+    int org = (int) ((float(i) / float(w)) * (this->size - 1));
     for (int j = 0; j < h; j++) {
       QRgb pixel = (j < h/2) ? qRgb(r[i], g[i], b[i]) : qRgb(org, org, org);
       img.setPixel(i, j, pixel);
@@ -509,7 +503,7 @@ CurveView::getGradient(int width, int height) const
 
   for (int i = 0; i < height; i++) {
     for (int j = 0; j < width; j++) {
-      img.setPixel(j, i, qRgb(this->maxval-i, this->maxval-i, this->maxval-i));
+      img.setPixel(j, i, qRgb((this->size - 1)-i, (this->size - 1)-i, (this->size - 1)-i));
     }
   }
   return QPixmap(img);

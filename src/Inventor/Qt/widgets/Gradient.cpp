@@ -181,8 +181,8 @@ Gradient::insertTick(float t)
   PRIVATE(this)->parameters.insert(it, t);
   PRIVATE(this)->colors.insert(it2, 2, color);
 
+  if (PRIVATE(this)->callBack) { PRIVATE(this)->callBack(*this, PRIVATE(this)->callBackData); }
   return i;
-
 }
 
 void
