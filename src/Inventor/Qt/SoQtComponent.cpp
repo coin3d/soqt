@@ -312,10 +312,11 @@ SoQtComponent::SoQtComponent(QWidget * const parent,
                                             PRIVATE(this));
 
   if ((parent == NULL) || ! embed) {
-    PRIVATE(this)->parent = (QWidget *) new QMainWindow(parent, name);
+    PRIVATE(this)->parent = (QWidget *) new QMainWindow(NULL, name);
     PRIVATE(this)->embedded = FALSE;
     PRIVATE(this)->shelled = TRUE;
-  } else {
+  }
+  else {
     PRIVATE(this)->parent = parent;
     PRIVATE(this)->embedded = TRUE;
   }
@@ -419,18 +420,13 @@ SoQtComponent::setBaseWidget(QWidget * widget)
 #endif // debug
 
 
-#if 0 // debug
-  if (!PRIVATE(this)->captiontext.isNull()) {
-    SoDebugError::postInfo("SoQtComponent::setBaseWidget",
-                           "setCaption('%s')",
-                           (const char *)PRIVATE(this)->captiontext);
-  }
-#endif // debug
-  if (PRIVATE(this)->captiontext.isNull()) PRIVATE(this)->captiontext = this->getDefaultTitle();
-  SoQt::getShellWidget(this->getWidget())->setCaption(PRIVATE(this)->captiontext);
+  if (!PRIVATE(this)->parent || PRIVATE(this)->parent->isTopLevel()) {
+    if (PRIVATE(this)->captiontext.isNull()) PRIVATE(this)->captiontext = this->getDefaultTitle();
+    this->setTitle((const char *)PRIVATE(this)->captiontext.local8Bit());
 
-  if (PRIVATE(this)->icontext.isNull()) PRIVATE(this)->icontext = this->getDefaultIconTitle();
-  SoQt::getShellWidget(this->getWidget())->setIconText(PRIVATE(this)->icontext);
+    if (PRIVATE(this)->icontext.isNull()) PRIVATE(this)->icontext = this->getDefaultIconTitle();
+    SoQt::getShellWidget(this->getWidget())->setIconText(PRIVATE(this)->icontext);
+  }
 
   if (PRIVATE(this)->widgetname.isNull())
     PRIVATE(this)->widgetname = this->getDefaultWidgetName();
@@ -577,7 +573,7 @@ SoQtComponent::isTopLevelShell(void) const
 #if SOQT_DEBUG && 0
   if (! PRIVATE(this)->widget) {
     SoDebugError::postWarning("SoQtComponent::isTopLevelShell",
-      "Called while no QWidget has been set.");
+                              "Called while no QWidget has been set.");
     return FALSE;
   }
 #endif // SOQT_DEBUG
@@ -596,8 +592,16 @@ void
 SoQtComponent::setTitle(const char * const title)
 {
   PRIVATE(this)->captiontext = title;
-  if (this->getWidget())
-    SoQt::getShellWidget(this->getWidget())->setCaption(title);
+
+  if (this->getWidget()) {
+    QWidget * toplevel = this->getWidget();
+    while (!toplevel->isTopLevel() ) {
+      toplevel = toplevel->parentWidget();
+    }
+    if (toplevel) {
+      toplevel->setCaption(title);
+    }
+  }
 }
 
 // documented in common/SoGuiComponentCommon.cpp.in.
@@ -702,11 +706,11 @@ SoQtComponent::afterRealizeHook(void)
 }
 
 // documented in common/SoGuiComponentCommon.cpp.in.
-SbBool 
+SbBool
 SoQtComponent::setFullScreen(const SbBool onoff)
 {
   if (onoff == PRIVATE(this)->fullscreen) { return TRUE; }
-  
+
   // FIXME: hmm.. this looks suspicious. Shouldn't we just return
   // FALSE if the (base)widget is not a shellwidget? 20010817 mortene.
   QWidget * w = this->getShellWidget();
@@ -737,14 +741,14 @@ SoQtComponent::setFullScreen(const SbBool onoff)
 }
 
 // documented in common/SoGuiComponentCommon.cpp.in.
-SbBool 
+SbBool
 SoQtComponent::isFullScreen(void) const
 {
   return PRIVATE(this)->fullscreen;
 }
 
 // documented in common/SoGuiComponentCommon.cpp.in.
-void 
+void
 SoQtComponent::setComponentCursor(const SoQtCursor & cursor)
 {
   SoQtComponent::setWidgetCursor(this->getWidget(), cursor);
