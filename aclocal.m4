@@ -377,7 +377,10 @@ fi
 
 AC_DEFUN([AM_AUX_DIR_EXPAND], [
 # expand $ac_aux_dir to an absolute path
-am_aux_dir=`CDPATH=:; cd $ac_aux_dir && pwd`
+if test "${CDPATH+set}" = set; then
+  CDPATH=${ZSH_VERSION+.}:   # as recommended in autoconf.texi
+fi
+am_aux_dir=`cd $ac_aux_dir && pwd`
 ])
 
 # AM_PROG_INSTALL_SH
@@ -6011,7 +6014,16 @@ sim_ac_qt_avail=no
 if test x"$with_qt" != xno; then
   sim_ac_path=$PATH
 
-  SIM_AC_DEBACKSLASH(sim_ac_qt_dir, $QTDIR)
+  # Remember over config.status re-runs of configure.
+  AC_SUBST(QTDIR)
+
+  # The Cygwin environment needs to invoke moc with a POSIX-style path.
+  AC_PATH_PROG(sim_ac_qt_cygpath, cygpath, false)
+  if test $sim_ac_qt_cygpath = "false"; then
+    sim_ac_qt_dir=$QTDIR
+  else
+    sim_ac_qt_dir=`$sim_ac_qt_cygpath -u "$QTDIR"`
+  fi
 
   if test x"$with_qt" != xyes; then
     sim_ac_qt_incflags="-I${with_qt}/include"
@@ -6024,8 +6036,13 @@ if test x"$with_qt" != xno; then
       AC_MSG_WARN([QTDIR environment variable not set -- this might be an indication of a problem])
     else
       AC_MSG_RESULT([$sim_ac_qt_dir])
-      # list contents of what's in the qt libdir into config.log...
-      ls -l $sim_ac_qt_dir/lib >&5 2>&1
+
+      # list contents of what's in the qt dev environment into config.log...
+      for i in "" bin lib; do
+        echo "Listing contents of $sim_ac_qt_dir/$i:" >&5
+        ls -l $sim_ac_qt_dir/$i >&5 2>&1
+      done
+
       sim_ac_qt_incflags="-I$sim_ac_qt_dir/include"
       sim_ac_qt_ldflags="-L$sim_ac_qt_dir/lib"
       sim_ac_path=$sim_ac_qt_dir/bin:$PATH
