@@ -1031,7 +1031,7 @@ SoQtFullViewer::openPopupMenu(// protected
   if (this->prefmenu == NULL)
     this->buildPopupMenu();
   int x = 2 + position[0];
-  int y = 2 + this->getGLSize()[1] - position[1];
+  int y = 2 + this->getGLSize()[1] - position[1] - 1;
 
   this->prepareMenu(this->prefmenu);
   this->prefmenu->popUp(this->getGLWidget(), x, y);
