@@ -165,6 +165,11 @@ QGLFormat_eq(const QGLFormat & a, const QGLFormat & b)
 
 class SoQtGLWidgetP {
 public:
+  SoQtGLWidgetP(void)
+    : borderthickness(0)
+  {
+  }
+
   SbVec2s glSize;
   SbBool wasresized;
 
@@ -242,10 +247,7 @@ SoQtGLWidget::SoQtGLWidget(
     return;
   }
 
-  PRIVATE(this)->borderthickness = 0;
-
-  if (! build)
-    return;
+  if (! build) { return; }
 
   this->setClassName("SoQtGLWidget");
   QWidget * parentwidget = this->getParentWidget();
