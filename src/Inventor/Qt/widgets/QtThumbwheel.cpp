@@ -111,7 +111,8 @@ QtThumbwheel::paintEvent(
   this->initWheel( d, w );
 
   int pixmap = this->wheel->GetBitmapForValue( this->tempWheelValue,
-     (this->state == QtThumbwheel::Disabled) ? 0 : THUMBWHEEL_ENABLED );
+     (this->state == QtThumbwheel::Disabled) ?
+        ThumbWheel::DISABLED : ThumbWheel::ENABLED );
 
 
   QRect wheelrect( SHADEBORDERWIDTH, SHADEBORDERWIDTH,
@@ -315,8 +316,8 @@ QtThumbwheel::initWheel(
   this->pixmaps = new QPixmap * [this->numPixmaps];
   QImage image( pwidth, pheight, 32 );
   for ( int i = 0; i < this->numPixmaps; i++ ) {
-    this->wheel->DrawBitmap( i, image.bits(),
-        ((this->orient == Vertical) ? THUMBWHEEL_VERTICAL : 0) );
+    this->wheel->DrawBitmap( i, image.bits(), (this->orient == Vertical) ?
+      ThumbWheel::VERTICAL : ThumbWheel::HORIZONTAL );
     this->pixmaps[i] = new QPixmap( QSize( pwidth, pheight) );
     this->pixmaps[i]->convertFromImage( image );
   }
