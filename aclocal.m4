@@ -2677,8 +2677,14 @@ EOF
     ## Test all known possible combinations of linking against the
     ## Troll Tech Qt library:
     ##
-    ## * "-lqt" should work for all UNIX(-derived) platforms,
-    ##   dynamic and static linking
+    ## * "-lqt-gl" links against the standard Debian version of the
+    ##   Qt library with embedded QGL
+    ##
+    ## * "-lqt" should work for most UNIX(-derived) platforms on
+    ##   dynamic and static linking with the non-mtsafe library
+    ##
+    ## * "-lqt-mt" should work for most UNIX(-derived) platforms on
+    ##   dynamic and static linking with the mtsafe library
     ##
     ## * "-lqt{version} -lqtmain -lgdi32" w/QT_DLL defined should
     ##   cover dynamic Enterprise Edition linking on Win32 platforms
@@ -2691,7 +2697,7 @@ EOF
 
     # FIXME: this link test doesn't detect all link problems...
     for sim_ac_qt_cppflags_loop in "" "-DQT_DLL"; do
-      for sim_ac_qt_libcheck in "-lqt" "-lqt-mt" "-lqt${sim_ac_qt_version} -lqtmain -lgdi32" "-lqt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32"; do
+      for sim_ac_qt_libcheck in "-lqt-gl" "-lqt" "-lqt-mt" "-lqt${sim_ac_qt_version} -lqtmain -lgdi32" "-lqt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32"; do
         if test "x$sim_ac_qt_libs" = "xUNRESOLVED"; then
           CPPFLAGS="$sim_ac_qt_incflags $sim_ac_qt_cppflags_loop $sim_ac_save_cppflags"
           LIBS="$sim_ac_qt_libcheck $sim_ac_save_libs"
