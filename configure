@@ -15729,6 +15729,72 @@ exec_prefix=$sim_ac_save_exec_prefix
 # unset sim_ac_eval_uniq
 
 
+# **************************************************************************
+# Remove gcc system directories includes from the CPPFLAGS.
+
+
+if test x"$GCC" = x"yes"; then
+ sim_ac_save_cpp=$CPP
+ CPP="cpp"
+ case $host_os in
+  darwin*) CPP="cpp3"
+    ;;
+  esac
+  cpp_sys_dirs=`$CPP -v <<EOF 2>&1 | sed -n -e \
+  '/#include <...> search starts here:/,/End of search list./{
+    /#include <...> search starts here:/b
+    /End of search list./b
+    s/ /-I/
+    p
+  }'
+  EOF`
+  result=
+  for inc_path in $CPPFLAGS; do
+    additem=true
+    for sys_dir in $cpp_sys_dirs; do
+      if test x$inc_path = x$sys_dir; then
+        additem=false
+        break
+      fi
+    done
+    $additem && result="$result $inc_path"
+  done
+  CPPFLAGS=$result
+  CPP=$sim_ac_save_cpp
+fi
+
+
+if test x"$GCC" = x"yes"; then
+ sim_ac_save_cpp=$CPP
+ CPP="cpp"
+ case $host_os in
+  darwin*) CPP="cpp3"
+    ;;
+  esac
+  cpp_sys_dirs=`$CPP -v <<EOF 2>&1 | sed -n -e \
+  '/#include <...> search starts here:/,/End of search list./{
+    /#include <...> search starts here:/b
+    /End of search list./b
+    s/ /-I/
+    p
+  }'
+  EOF`
+  result=
+  for inc_path in $SOGUI_EXTRA_CPPFLAGS; do
+    additem=true
+    for sys_dir in $cpp_sys_dirs; do
+      if test x$inc_path = x$sys_dir; then
+        additem=false
+        break
+      fi
+    done
+    $additem && result="$result $inc_path"
+  done
+  SOGUI_EXTRA_CPPFLAGS=$result
+  CPP=$sim_ac_save_cpp
+fi
+
+
 # default value
 SOQT_STATIC=false
 
@@ -15874,7 +15940,9 @@ else
 fi
 
 
-  for arg in $CPPFLAGS $DEFS $LDFLAGS $LIBS; do
+  # -DHAVE_CONFIG_H is set in @DEFS@ in AM_CONFIG_HEADER/AC_OUTPUT
+  # and some include paths are set up in the Makefile.am files
+  for arg in -DHAVE_CONFIG_H -I$soqt_build_dir/src -I$soqt_src_dir/src -I$soqt_src_dir/data $CPPFLAGS $LDFLAGS $LIBS; do
     case $arg in
     -L* )
       # libdir=`echo $arg | cut -c3-`
@@ -17214,19 +17282,21 @@ if test "$no_create" != yes; then
 fi
 
 
-if test x${sim_ac_configuration_settings+set} != xset; then
+if $sim_ac_make_dsp; then :; else
+  if test x${sim_ac_configuration_settings+set} != xset; then
   sim_ac_configuration_settings="Installation Prefix:$prefix"
 else
   sim_ac_configuration_settings="$sim_ac_configuration_settings|Installation Prefix:$prefix"
 fi
 
-if $sim_ac_framework; then
-  if test x${sim_ac_configuration_settings+set} != xset; then
+  if $sim_ac_framework; then
+    if test x${sim_ac_configuration_settings+set} != xset; then
   sim_ac_configuration_settings="Framework Installation Prefix:$sim_ac_framework_prefix"
 else
   sim_ac_configuration_settings="$sim_ac_configuration_settings|Framework Installation Prefix:$sim_ac_framework_prefix"
 fi
 
+  fi
 fi
 
 sim_ac_settings=$sim_ac_configuration_settings

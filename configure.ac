@@ -748,7 +748,9 @@ SOQT_DSP_INCS=
 if $sim_ac_make_dsp; then
   SIM_AC_CONFIGURATION_SETTING([SoQt build type], [msvc .dsp])
 
-  for arg in $CPPFLAGS $DEFS $LDFLAGS $LIBS; do
+  # -DHAVE_CONFIG_H is set in @DEFS@ in AM_CONFIG_HEADER/AC_OUTPUT
+  # and some include paths are set up in the Makefile.am files
+  for arg in -DHAVE_CONFIG_H -I$soqt_build_dir/src -I$soqt_src_dir/src -I$soqt_src_dir/data $CPPFLAGS $LDFLAGS $LIBS; do
     case $arg in
     -L* )
       # libdir=`echo $arg | cut -c3-`
@@ -842,9 +844,11 @@ AC_OUTPUT([
 	html/Makefile
 ])
 
-SIM_AC_CONFIGURATION_SETTING([Installation Prefix], [$prefix])
-if $sim_ac_framework; then
-  SIM_AC_CONFIGURATION_SETTING([Framework Installation Prefix], [$sim_ac_framework_prefix])
+if $sim_ac_make_dsp; then :; else
+  SIM_AC_CONFIGURATION_SETTING([Installation Prefix], [$prefix])
+  if $sim_ac_framework; then
+    SIM_AC_CONFIGURATION_SETTING([Framework Installation Prefix], [$sim_ac_framework_prefix])
+  fi
 fi
 
 SIM_AC_CONFIGURATION_SUMMARY
