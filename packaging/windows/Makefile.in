@@ -1,7 +1,7 @@
 # **************************************************************************
 # Makefile
 #
-# Makefile for creating MS Windows installers for the Coin binary SDK for
+# Makefile for creating MS Windows installers for the SoQt binary SDK for
 # MS Windows.
 #
 # Prerequisites:
@@ -12,17 +12,27 @@
 #   Lars J. Aas <larsa@sim.no>
 # **************************************************************************
 
-sdk_prefix = /tmp/coin3d/coin
+project = soqt
+Project = SoQt
+
+sdk_prefix = /tmp/coin3d/$(project)
 top_srcdir = @top_srcdir@
 
 # default c library option
 libc = md
 
-BUILDS = shared-release shared-debug # static-release static-debug
+ALLCFLAGS = /noBool /WX 
+DBGCFLAGS = $(ALLCFLAGS) /GZ /Zi /Yd
+OPTCFLAGS = $(ALLCFLAGS) /Oitgb1 /Gs
+DLLCFLAGS = /GD
+
+BUILDOPTIONS = --enable-threads --enable-threadsafe # --enable-3ds-import
+
+BUILDS = buildfiles docs shared-release shared-debug # static-release static-debug
 
 # **************************************************************************
 
-all:: $(BUILDS) soqt-$(VERSION)-install.exe
+all:: $(BUILDS) $(project)-v$(VERSION)-install.exe
 
 # **************************************************************************
 
@@ -33,7 +43,7 @@ unix2dos.sed: Makefile
 	@echo -e "s/\$$/\r/;\np;" >unix2dos.sed
 
 LICENSE.TXT: extract.sed unix2dos.sed
-	@cp $(top_srcdir)/LICENSE.LGPL LICENSE.TXT;
+	@cp $(top_srcdir)/LICENSE.GPL LICENSE.TXT;
 	@for process in extract unix2dos; do \
 	  sed -n -f $${process}.sed <LICENSE.TXT >LICENSE.TMP; \
 	  rm -f LICENSE.TXT; \
@@ -41,18 +51,20 @@ LICENSE.TXT: extract.sed unix2dos.sed
 	  rm -f $${process}.sed; \
 	done
 
-soqt-$(VERSION)-install.exe: soqt.nsi LICENSE.TXT soqt-sdk.html
-	makensis soqt.nsi
+# FIXME: use full makensis path (and support spaces in the path)...
+# something like ac_subst $(sim_ac_makensis_exe)
+$(project)-v$(VERSION)-install.exe: $(project).nsi LICENSE.TXT $(project)-sdk.html
+	makensis $(project).nsi
 
-SoQt-$(VERSION): SoQt-$(VERSION).tar.gz
-	tar zxf SoQt-$(VERSION).tar.gz
+$(Project)-$(VERSION): $(Project)-$(VERSION).tar.gz
+	tar zxf $(Project)-$(VERSION).tar.gz
 
-SoQt-$(VERSION).tar.gz:
-	@( cd ..; $(MAKE) dist; mv SoQt-$(VERSION).tar.gz windows/ )
+$(Project)-$(VERSION).tar.gz:
+	@( cd ..; $(MAKE) dist; mv $(Project)-$(VERSION).tar.gz windows/ )
 
 headerlist.nsi: Makefile
 	winpath=`CYGWIN= cygpath -w "$(sdk_prefix)"`; \
-	( prevdir=; cd $(sdk_prefix); for path in `find include/Inventor/Qt -type f`; do \
+	( prevdir=; cd $(sdk_prefix); for path in `find include -type f`; do \
 	  dir=`echo $$path | sed 's/\/[^\/]*$$//'`; \
 	  if test x"$$dir" != x"$$prevdir"; then \
 	    prevdir=$$dir; \
@@ -63,8 +75,8 @@ headerlist.nsi: Makefile
 	  fi; \
 	done ) >headerlist.nsi
 
-sourcelist.nsi: SoQt-$(VERSION) Makefile
-	( prevdir=""; for path in `find SoQt-$(VERSION) -type f`; do \
+sourcelist.nsi: $(Project)-$(VERSION) Makefile
+	( prevdir=""; for path in `find $(Project)-$(VERSION) -type f`; do \
 	  dir=`echo $$path | sed 's/\/[^\/]*$$//'`; \
 	  if test x"$$dir" != x"$$prevdir"; then \
 	    prevdir=$$dir; \
@@ -74,6 +86,22 @@ sourcelist.nsi: SoQt-$(VERSION) Makefile
 	    echo "File $$dir\\*"; \
 	  fi; \
 	done ) >sourcelist.nsi
+
+buildfileslist.nsi: buildfiles Makefile
+	( prevdir=; cd build-files; for path in ./$(project)@SOQT_MAJOR_VERSION@.* `find . -name "*.h"`; do \
+	  dir=`echo $$path | sed 's/\/[^\/]*$$//'`; \
+	  if test x"$$dir" != x"$$prevdir"; then \
+	    prevdir=$$dir; \
+	    file=`echo $$path | sed 's/^.*\///g'`; \
+	    dir=`echo $$dir | sed 's/\//\\\\/g' | cut -c2-`; \
+	    echo "SetOutPath \$$INSTDIR\\build$$dir"; \
+	    echo "File .\\build-files$$dir\\$$file"; \
+	  else \
+	    dir=`echo $$dir | sed 's/\//\\\\/g' | cut -c2-`; \
+	    file=`echo $$path | sed 's/^.*\///g'`; \
+	    echo "File .\\build-files$$dir\\$$file"; \
+	  fi; \
+	done ) >buildfileslist.nsi
 
 uninstall.nsi: Makefile
 	( cd $(sdk_prefix); \
@@ -86,21 +114,39 @@ uninstall.nsi: Makefile
 	  echo "RMDir \$$INSTDIR\\$$dir"; \
 	done ) >uninstall.nsi
 
-soqt.nsi: heading.nsi headerlist.nsi middle.nsi sourcelist.nsi uninstall.nsi footer.nsi unix2dos.sed Makefile
-	cat heading.nsi headerlist.nsi middle.nsi sourcelist.nsi post.nsi uninstall.nsi footer.nsi >soqt.tmp
+$(project).nsi: heading.nsi headerlist.nsi middle.nsi sourcelist.nsi bfheader.nsi buildfileslist.nsi post.nsi uninstall.nsi footer.nsi unix2dos.sed Makefile
+	cat heading.nsi headerlist.nsi middle.nsi sourcelist.nsi bfheader.nsi buildfileslist.nsi post.nsi uninstall.nsi footer.nsi >$(project).tmp
 	winpath=`CYGWIN= cygpath -w "$(sdk_prefix)"`; \
 	winpath=`echo $$winpath | sed -e 's/\\\\/\\\\\\\\/g'`; \
 	sed -e 's/@win_prefix@/'$$winpath'/g' \
-	    -e 's/@sdk_version@/$(VERSION)/g' <soqt.tmp >soqt.tmp2
-	sed -n -f unix2dos.sed <soqt.tmp2 >soqt.nsi
-	rm -f soqt.tmp soqt.tmp2
+	    -e 's/@sdk_version@/$(VERSION)/g' <$(project).tmp >$(project).tmp2
+	sed -n -f unix2dos.sed <$(project).tmp2 >$(project).nsi
+	rm -f $(project).tmp $(project).tmp2
 
 # **************************************************************************
 
-build-shared-release/src/soqt@SOQT_MAJOR_VERSION@.dll: SoQt-$(VERSION)
+build-docs/html/index.html: $(Project)-$(VERSION)
+	@if test -d build-docs; then :; else mkdir build-docs; fi
+	cd build-docs; \
+	../$(Project)-$(VERSION)/configure \
+	  --disable-build \
+	  --enable-html htmldir=html/$(Project) \
+	  --enable-man \
+	  --prefix=$(sdk_prefix)
+	cd build-docs/; \
+	$(MAKE)
+	cd build-docs/; \
+	$(MAKE) install
+
+docs: build-docs/html/index.html
+
+build-shared-release/src/$(project)@SOQT_MAJOR_VERSION@.dll: $(Project)-$(VERSION)
 	@if test -d build-shared-release; then :; else mkdir build-shared-release; fi
 	cd build-shared-release; \
-	../SoQt-$(VERSION)/configure \
+	../$(Project)-$(VERSION)/configure \
+	  CFLAGS="$(OPTCFLAGS) $(DLLCFLAGS)" \
+	  CXXFLAGS="$(OPTCFLAGS) $(DLLCFLAGS)" \
+	  $(BUILDOPTIONS) \
 	  --disable-dependency-tracking \
 	  --disable-debug \
 	  --disable-symbols \
@@ -111,12 +157,15 @@ build-shared-release/src/soqt@SOQT_MAJOR_VERSION@.dll: SoQt-$(VERSION)
 	cd build-shared-release; \
 	$(MAKE) install
 
-shared-release: build-shared-release/src/soqt@SOQT_MAJOR_VERSION@.dll
+shared-release: build-shared-release/src/$(project)@SOQT_MAJOR_VERSION@.dll
 
-build-shared-debug/src/soqt@SOQT_MAJOR_VERSION@d.dll: SoQt-$(VERSION)
+build-shared-debug/src/$(project)@SOQT_MAJOR_VERSION@d.dll: $(Project)-$(VERSION)
 	@if test -d build-shared-debug; then :; else mkdir build-shared-debug; fi
 	cd build-shared-debug; \
-	../SoQt-$(VERSION)/configure \
+	../$(Project)-$(VERSION)/configure \
+	  CFLAGS="$(DBGCFLAGS)" \
+	  CXXFLAGS="$(DBGCFLAGS)" \
+	  $(BUILDOPTIONS) \
 	  --disable-dependency-tracking \
 	  --enable-debug \
 	  --enable-symbols \
@@ -129,12 +178,15 @@ build-shared-debug/src/soqt@SOQT_MAJOR_VERSION@d.dll: SoQt-$(VERSION)
 	cd build-shared-debug; \
 	$(MAKE) install
 
-shared-debug: build-shared-debug/src/soqt@SOQT_MAJOR_VERSION@d.dll
+shared-debug: build-shared-debug/src/$(project)@SOQT_MAJOR_VERSION@d.dll
 
-build-static-release/src/soqt@SOQT_MAJOR_VERSION@d.dll: SoQt-$(VERSION)
+build-static-release/src/$(project)@SOQT_MAJOR_VERSION@d.dll: $(Project)-$(VERSION)
 	@if test -d build-static-release; then :; else mkdir build-static-release; fi
 	cd build-static-release; \
-	../SoQt-$(VERSION)/configure \
+	../$(Project)-$(VERSION)/configure \
+	  CFLAGS="$(OPTCFLAGS)" \
+	  CXXFLAGS="$(OPTCFLAGS)" \
+	  $(BUILDOPTIONS) \
 	  --disable-dependency-tracking \
 	  --disable-shared \
 	  --disable-debug \
@@ -148,12 +200,15 @@ build-static-release/src/soqt@SOQT_MAJOR_VERSION@d.dll: SoQt-$(VERSION)
 	cd build-static-release; \
 	$(MAKE) install
 
-static-release: build-static-release/src/soqt@SOQT_MAJOR_VERSION@d.dll
+static-release: build-static-release/src/$(project)@SOQT_MAJOR_VERSION@d.dll
 
-build-static-debug/src/soqt@SOQT_MAJOR_VERSION@d.dll: SoQt-$(VERSION)
+build-static-debug/src/$(project)@SOQT_MAJOR_VERSION@d.dll: $(Project)-$(VERSION)
 	@if test -d build-static-debug; then :; else mkdir build-static-debug; fi
 	cd build-static-debug; \
-	../SoQt-$(VERSION)/configure \
+	../$(Project)-$(VERSION)/configure \
+	  CFLAGS="$(DBGCFLAGS)" \
+	  CXXFLAGS="$(DBGCFLAGS)" \
+	  $(BUILDOPTIONS) \
 	  --disable-dependency-tracking \
 	  --disable-shared \
 	  --enable-debug \
@@ -167,8 +222,19 @@ build-static-debug/src/soqt@SOQT_MAJOR_VERSION@d.dll: SoQt-$(VERSION)
 	cd build-static-debug; \
 	$(MAKE) install
 
-static-debug: build-static-debug/src/soqt@SOQT_MAJOR_VERSION@d.dll
+static-debug: build-static-debug/src/$(project)@SOQT_MAJOR_VERSION@d.dll
 
-.PHONY: shared-release shared-debug static-release static-debug
+buildfiles: build-files/$(project)@SOQT_MAJOR_VERSION@.dsp
+
+build-files/$(project)@SOQT_MAJOR_VERSION@.dsp: $(Project)-$(VERSION)
+	@if test -d build-files; then :; else mkdir build-files; fi
+	cd build-files; \
+	../$(Project)-$(VERSION)/configure \
+	  $(BUILDOPTIONS) \
+	  --disable-dependency-tracking \
+	  --enable-msvcdsp; \
+	$(MAKE) clean && $(MAKE)
+
+.PHONY: docs shared-release shared-debug static-release static-debug buildfiles
 
 # **************************************************************************
