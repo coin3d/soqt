@@ -24,12 +24,15 @@
 // Most of the class documentation is found within the file
 // common/devices/SoGuiDevice.cpp.in.
 
+// *************************************************************************
+
+#include <Inventor/Qt/devices/SoQtDevice.h>
+
 #if HAVE_CONFIG_H
 #include <config.h>
 #endif // HAVE_CONFIG_H
 
 #include <soqtdefs.h>
-#include <Inventor/Qt/devices/SoQtDevice.h>
 #include <Inventor/Qt/devices/SoQtDeviceP.h>
 
 // *************************************************************************
