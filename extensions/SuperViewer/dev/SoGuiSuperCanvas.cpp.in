@@ -1135,6 +1135,7 @@ So@Gui@SuperCanvas::setSceneGraph(SoNode * scene)
   PRIVATE(this)->findLights();
   PRIVATE(this)->resetCountAction();
   PRIVATE(this)->resetBBox();
+  this->saveHomePosition();
 } // setSceneGraph()
 
 // *************************************************************************
@@ -1143,11 +1144,11 @@ So@Gui@SuperCanvas::setSceneGraph(SoNode * scene)
   FIXME: add docs larsivi 20020606
 */
 
-SoSeparator *
+SoNode *
 So@Gui@SuperCanvas::loadSceneGraphFromFile(const char * filename)
 {
   SoInput in;
-  SoSeparator * newroot;
+  SoNode * newroot;
 
   if (in.openFile(filename)) {
     newroot = SoDB::readAll(&in);
@@ -1166,4 +1167,4 @@ So@Gui@SuperCanvas::loadSceneGraphFromFile(const char * filename)
     return NULL;
   }
 
-} // setSceneGraphFromFile()
+} // loadSceneGraphFromFile()
