@@ -434,7 +434,12 @@ void
 QtNativePopupMenu::popUp(QWidget * inside, int x, int y)
 {
   MenuRecord * rec = this->getMenuRecord(0);
-  rec->menu->popup(inside->mapToGlobal(QPoint(x, y)));
+  // Use exec() and not popup(). popup() doesn't seem to work properly
+  // with a GL widget (the GL-redraw seems to overwrite the popup
+  // widget or something). pederb, 2003-10-01 
+  //
+  // Ignore return value. We use callbacks.
+  (void) rec->menu->exec(inside->mapToGlobal(QPoint(x, y)));
 } // PopUp()
 
 // *************************************************************************
