@@ -180,19 +180,6 @@ SoQtPlaneViewer::setCamera(// virtual
   FIXME: write doc
 */
 
-void
-SoQtPlaneViewer::setCursorEnabled(// virtual
-  SbBool enable)
-{
-  inherited::setCursorEnabled(enable);
-} // setCursorEnabled()
-
-// ************************************************************************
-
-/*!
-  FIXME: write doc
-*/
-
 QWidget *
 SoQtPlaneViewer::buildWidget(
   QWidget * parent)
@@ -252,14 +239,13 @@ SoQtPlaneViewer::getDefaultIconTitle(// virtual
 */
 
 void
-SoQtPlaneViewer::processEvent(// virtual
-  QEvent * event)
+SoQtPlaneViewer::processEvent(QEvent * event)
 {
   if (SoQtViewer::processCommonEvents(event))
     return;
 
   inherited::processEvent(event);
-} // processEvent()
+}
 
 // ************************************************************************
 
@@ -465,82 +451,5 @@ SoQtPlaneViewer::visibilityCB(// static
   }
 */
 } // visibilityCB()
-
-// ************************************************************************
-
-/*!
-  FIXME: write doc
-*/
-
-void
-SoQtPlaneViewer::setModeFromState(// private
-  unsigned int state)
-{
-  PlaneViewerMode mode = IDLE_MODE;
-
-  const unsigned int maskedstate =
-    state & (LeftButton|MidButton|ControlButton);
-
-  switch (maskedstate) {
-  case 0:
-    mode = IDLE_MODE;
-    break;
-
-  case LeftButton:
-    mode = TRANSLATE_MODE;
-    break;
-
-  case MidButton:
-  case (LeftButton|ControlButton):
-    mode = DOLLY_MODE;
-    break;
-
-  case ControlButton:
-    mode = ROTZ_WAIT_MODE;
-    break;
-
-  case (MidButton|ControlButton):
-  case (LeftButton|MidButton|ControlButton):
-    mode = ROTZ_MODE;
-    break;
-
-  default:
-    SoDebugError::postWarning("SoQtPlaneViewer::setModeFromState",
-      "state not handled: %d", maskedstate);
-    break;
-
-  } // switch (maskedstate)
-
-  this->setMode(mode);
-} // setModeFromState()
-
-/*!
-*/
-
-void
-SoQtPlaneViewer::setMode(
-  PlaneViewerMode mode)
-{
-  // FIXME: set cursor...
-
-  switch (mode) {
-  case IDLE_MODE:
-    while (this->getInteractiveCount())
-      this->interactiveCountDec();
-    break;
-
-  case TRANSLATE_MODE:
-  case DOLLY_MODE:
-  case ROTZ_MODE:
-    while (this->getInteractiveCount())
-      this->interactiveCountDec();
-    break;
-
-  default:
-    break;
-  } // switch (mode)
-
-  this->mode = mode;
-} // setMode()
 
 // ************************************************************************
