@@ -153,7 +153,8 @@ QWidget *
 SoQt::init(const char * const appName, const char * const className)
 {
   if (appName) {
-    char buf[1025];
+    // QT will point into this buffer so make it static
+    static char buf[1025];
     (void)strncpy(buf, appName, 1024);
     char * array[1] = { buf };
     // fake argc, argv for QApplication
