@@ -32,14 +32,14 @@
 class SoQtGLArea;
 class QFrame;
 
-enum GLModes {        // remove the GLX ones?
+enum GLModes {
   SO_GL_RGB      = 0x01, SO_GLX_RGB      = SO_GL_RGB,
   SO_GL_DOUBLE   = 0x02, SO_GLX_DOUBLE   = SO_GL_DOUBLE,
   SO_GL_ZBUFFER  = 0x04, SO_GLX_ZBUFFER  = SO_GL_ZBUFFER,
   SO_GL_OVERLAY  = 0x08, SO_GLX_OVERLAY  = SO_GL_OVERLAY,
   SO_GL_STEREO   = 0x10, SO_GLX_STEREO   = SO_GL_STEREO,
   SO_GL_DEFAULT_MODE =
-    (SO_GL_RGB | SO_GL_DOUBLE | SO_GL_ZBUFFER)
+    (SO_GL_RGB | SO_GL_ZBUFFER | SO_GL_DOUBLE | SO_GL_OVERLAY)
 };
 
 // *************************************************************************
@@ -58,13 +58,19 @@ public:
   void setDrawToFrontBufferEnable( const SbBool enable );
   SbBool isDrawToFrontBufferEnable(void) const;
   
-  void setQuadBufferStereo(const SbBool enable);
+  void setQuadBufferStereo( const SbBool enable );
   SbBool isQuadBufferStereo(void) const;
 
+  QWidget * getNormalWidget(void) const;
+  QWidget * getOverlayWidget(void) const;
+
 protected:
-  SoQtGLWidget( QWidget * const parent = NULL, const char * const name = NULL,
-      const SbBool embed = TRUE, const int glmodes = SO_GLX_RGB,
-      const SbBool build = TRUE );
+  SoQtGLWidget(
+    QWidget * const parent = NULL,
+    const char * const name = NULL,
+    const SbBool embed = TRUE,
+    const int glmodes = SO_GL_RGB,
+    const SbBool build = TRUE );
   ~SoQtGLWidget(void);
 
   virtual void processEvent( QEvent * event );
@@ -78,29 +84,32 @@ protected:
   virtual void sizeChanged( const SbVec2s size );
   virtual void widgetChanged( QWidget * w );
 
-  void setGlxSize( const SbVec2s size );
   void setGLSize( const SbVec2s size );
-  SbVec2s getGlxSize(void) const;
   SbVec2s getGLSize(void) const;
-  float getGlxAspectRatio(void) const;
   float getGLAspectRatio(void) const;
+
+  // old aliases
+  void setGlxSize( const SbVec2s size ) { setGLSize( size ); }
+  SbVec2s getGlxSize(void) const { return getGLSize(); }
+  float getGlxAspectRatio(void) const { return getGLAspectRatio(); }
 
   SbBool waitForExpose;
   SbBool drawToFrontBuffer;
 
   virtual bool eventFilter( QObject * obj, QEvent * e );
+  static void eventHandler( QWidget *, void *, QEvent *, bool * );
 
-  int glLockLevel;
   void glLock(void);
   void glUnlock(void);
   void glSwapBuffers(void);
   void glFlushBuffer(void);
 
+  void setOverlayRender( const SbBool enable );
+  SbBool isOverlayRender(void) const;
+
   virtual void glInit(void);
   virtual void glReshape( int width, int height );
   virtual void glRender(void);
-
-  static void eventHandler( QWidget *, void *, QEvent *, bool * );
 
 private slots:
   void gl_init(void);

@@ -135,11 +135,8 @@ public:
   int borderthickness;
   QGLFormat * glformat;
 
-  struct {
-    unsigned int mouseinput    : 1;
-    unsigned int keyboardinput : 1;
-  } properties;
-
+  int glLockLevel;
+  SbBool currentIsNormal;
 };
 
 #define THIS (this->pimpl)
@@ -169,16 +166,21 @@ SoQtGLWidget::SoQtGLWidget(
   THIS = new SoQtGLWidgetP;
 
   THIS->glSize = SbVec2s( 0, 0 );
-  this->glLockLevel = 0;
+  THIS->glLockLevel = 0;
+  THIS->currentIsNormal = TRUE;
 
   THIS->glformat = new QGLFormat;
   THIS->glformat->setDoubleBuffer((glmodes & SO_GL_DOUBLE) ? true : false);
   THIS->glformat->setDepth((glmodes & SO_GL_ZBUFFER) ? true : false);
   THIS->glformat->setRgba((glmodes & SO_GL_RGB) ? true : false);
   THIS->glformat->setStereo((glmodes & SO_GL_STEREO) ? true : false);
-  // FIXME: SoQt overlay handling. 20001121 mortene.
 #if HAVE_QGLFORMAT_SETOVERLAY
-  //    THIS->glformat->setOverlay((glmodes & SO_GL_OVERLAY) ? true : false);
+  THIS->glformat->setOverlay((glmodes & SO_GL_OVERLAY) ? true : false);
+#else
+  if (glmodes & SO_GL_OVERLAY) {
+    SoDebugError::post( "SoQtGLWidget::SoQtGLWidget",
+      "overlay not available!" );
+  }
 #endif // HAVE_QGLFORMAT_SETOVERLAY
 
   THIS->glparent = NULL;
@@ -192,18 +194,15 @@ SoQtGLWidget::SoQtGLWidget(
     return;
   }
 
-
-  // FIXME: this is the only place these variables are used --
-  // something is fishy. 20001208 mortene.
-  THIS->properties.mouseinput = FALSE;
-  THIS->properties.keyboardinput = FALSE;
-
   THIS->borderthickness = 0;
 
-  if ( build ) {
-    QWidget * widget = this->buildWidget( this->getParentWidget() );
-    this->setBaseWidget( widget );
-  }
+  if ( ! build )
+    return;
+
+  this->setClassName( "SoQtGLWidget" );
+  QWidget * parentwidget = this->getParentWidget();
+  QWidget * widget = this->buildWidget( parentwidget );
+  this->setBaseWidget( widget );
 } // SoQtGLWidget()
 
 // *************************************************************************
@@ -475,7 +474,7 @@ SoQtGLWidget::eventFilter(
   SbBool stopevent = FALSE;
 
   SbBool keyboardevent =
-    ( e->type() == Event_KeyPress) || (e->type() == Event_KeyRelease);
+    (e->type() == Event_KeyPress) || (e->type() == Event_KeyRelease);
 
   if (keyboardevent) {
     // Redirect absolutely all keyboard events to the GL canvas
@@ -638,12 +637,12 @@ SoQtGLWidget::setQuadBufferStereo(const SbBool enable)
 /*!
   Returns \c TRUE if quad buffer stereo is enabled for this widget.
 */
+
 SbBool 
 SoQtGLWidget::isQuadBufferStereo(void) const
 {
   return THIS->glformat->stereo();
 }
-
 
 /*!
   If this is set to \c TRUE, rendering will happen in the front buffer
@@ -667,17 +666,33 @@ SoQtGLWidget::isDrawToFrontBufferEnable(void) const
 // *************************************************************************
 
 /*!
-  FIXME: write function documentation
+  At the moment this is just a stub prototype for OIV compatibility.
 */
 
-void
-SoQtGLWidget::setGlxSize(
-  const SbVec2s size )
+QWidget *
+SoQtGLWidget::getNormalWidget(
+  void ) const
 {
-  this->setGLSize( size );
-} // setGlxSize()
+  SOQT_STUB();
+  return NULL;
+}
 
 /*!
+  At the moment this is just a stub prototype for OIV compatibility.
+*/
+
+QWidget *
+SoQtGLWidget::getOverlayWidget(
+  void ) const
+{
+  SOQT_STUB();
+  return NULL;
+}
+
+// *************************************************************************
+
+/*!
+  Sets the size of the GL canvas.
 */
 
 void
@@ -699,19 +714,8 @@ SoQtGLWidget::setGLSize(
   }
 } // setGLSize()
 
-
 /*!
   Return the dimensions of the OpenGL canvas.
-*/
-
-SbVec2s
-SoQtGLWidget::getGlxSize(
-  void ) const
-{
-  return this->getGLSize();
-} // getGlxSize()
-
-/*!
 */
 
 SbVec2s
@@ -726,21 +730,30 @@ SoQtGLWidget::getGLSize(
 */
 
 float
-SoQtGLWidget::getGlxAspectRatio(void) const
-{
-  return this->getGLAspectRatio();
-}
-
-/*!
-*/
-
-float
 SoQtGLWidget::getGLAspectRatio(
   void ) const
 {
   return float(THIS->currentglwidget->width()) /
     float(THIS->currentglwidget->height());
 }  // getGLAspectRatio()
+
+/*!
+  \fn void SoQtGLWidget::setGlxSize( const SbVec2s size )
+  This function has been renamed to the more appropriate setGLSize.
+  \sa setGLSize
+*/
+
+/*!
+  \fn SbVec2s SoQtGLWidget::getGlxSize( void ) const
+  This function has been renamed to the more appropriate getGLSize.
+  \sa getGLSize
+*/
+
+/*!
+  \fn float SoQtGLWidget::getGlxAspectRatio(void) const
+  This function has been renamed to the more appropriate getGLAspectRatio.
+  \sa getGLAspectRatio
+*/
 
 // *************************************************************************
 
@@ -785,7 +798,7 @@ SoQtGLWidget::sizeChanged(
 */
 
 void
-SoQtGLWidget::widgetChanged(
+SoQtGLWidget::widgetChanged( // virtual
   QWidget * w )
 {
 }
@@ -808,25 +821,41 @@ SoQtGLWidget::glLock(
   void )
 {
   assert( THIS->currentglwidget != NULL );
-  this->glLockLevel++;
-  assert( this->glLockLevel < 10 && "must be programming error" );
-  ((SoQtGLArea *)THIS->currentglwidget)->makeCurrent();
+  THIS->glLockLevel++;
+  assert( THIS->glLockLevel < 10 && "must be programming error" );
+  if ( THIS->glLockLevel == 1 ) {
+    if ( THIS->currentIsNormal ) {
+#if SOQT_DEBUG && 0
+      SoDebugError::postInfo( "SoQtGLWidget::glLock", "normal made current" );
+#endif
+      ((SoQtGLArea *)THIS->currentglwidget)->makeCurrent();
+    } else {
+#if SOQT_DEBUG && 0
+      SoDebugError::postInfo( "SoQtGLWidget::glLock", "overlay made current" );
+#endif
+      ((SoQtGLArea *)THIS->currentglwidget)->makeOverlayCurrent();
+    }
+  }
+#if SOQT_DEBUG
+  if ( THIS->glLockLevel > 5 )
+    SoDebugError::postInfo( "SoQtGLWidget::glLock", "excessive locking (lim=5)" );
+#endif
 } // glLock()
 
 void
 SoQtGLWidget::glUnlock(
   void )
 {
-  this->glLockLevel--;
-  assert( this->glLockLevel >= 0 && "programming error" );
+  THIS->glLockLevel--;
+  assert( THIS->glLockLevel >= 0 && "programming error" );
 } // glUnlock()
 
 void
 SoQtGLWidget::glSwapBuffers(
   void )
 {
+  assert( THIS->glLockLevel > 0 );
   assert( THIS->currentglwidget != NULL );
-  assert( this->glLockLevel > 0 );
 #if SOQT_DEBUG && 0 // debug
   SoDebugError::postInfo( "SoQtGLWidget::glSwapBuffers", "start" );
 #endif // debug
@@ -840,7 +869,7 @@ void
 SoQtGLWidget::glFlushBuffer(
   void )
 {
-  assert( this->glLockLevel > 0 );
+  assert( THIS->glLockLevel > 0 );
   glFlush();
 } // glFlushBuffer()
 
@@ -848,11 +877,11 @@ void
 SoQtGLWidget::glInit( // virtual
   void )
 {
+  this->setOverlayRender( FALSE );
   glLock();
   // Need to set this explicitly when running on top of Open Inventor,
   // as it seems to have been forgotten there.
   glEnable( GL_DEPTH_TEST );
-
   glUnlock();
 } // glInit()
 
@@ -866,6 +895,7 @@ SoQtGLWidget::gl_init( // slot
 /*!
   This method will be called whenever the OpenGL canvas changes size.
  */
+
 void
 SoQtGLWidget::glReshape( // virtual
   int width,
@@ -921,6 +951,42 @@ SoQtGLWidget::gl_exposed( // slot
 
   this->glRender();
 } // gl_exposed()
+
+/*!
+  This method sets whether the next GL render action will be drawn to the
+  overlay context or not.
+*/
+
+void
+SoQtGLWidget::setOverlayRender(
+  const SbBool enable )
+{
+#if SOQT_DEBUG
+  if ( THIS->glLockLevel > 0 ) {
+    SoDebugError::postInfo( "SoQtGLWidget::setOverlayRender",
+      "cannot change context while locked" );
+    assert( 0 );
+  }
+#endif
+  if ( enable != THIS->currentIsNormal ) return; // silence the debug message
+  THIS->currentIsNormal = enable ? FALSE : TRUE;
+#if SOQT_DEBUG && 0
+  SoDebugError::postInfo( "SoQtGLWidget::setOverlayRender",
+    "render set to %s", THIS->currentIsNormal ? "normal" : "overlay" );
+#endif
+} // setOverlayRender()
+
+/*!
+  This method returns whether the overlay GL context is made current or
+  not.
+*/
+
+SbBool
+SoQtGLWidget::isOverlayRender(
+  void ) const
+{
+  return THIS->currentIsNormal ? FALSE : TRUE;
+} // isOverlayRender()
 
 // *************************************************************************
 
