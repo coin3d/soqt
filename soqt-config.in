@@ -21,9 +21,9 @@ EOF
 while test $# -gt 0; do
   case $1 in
     --cppflags)
-      # Note: if we for some reason changes this so "includedir" is
-      # not first, we need to fix up the examples/ and ivexamples/
-      # configure.in scripts, as they shift off the first argument.
+      # NOTE: if we for some reason changes this so "includedir" is
+      # not first, we need to fix up configure.in as well, since the
+      # first argument is shifted off.
       echo -I@includedir@ @SOQT_EXTRA_CPPFLAGS@
       ;;
     --ldflags)
@@ -63,9 +63,7 @@ while test $# -gt 0; do
         renderarea)       exit 0 ;;
         examinerviewer)   exit 0 ;;
         planeviewer)      exit 0 ;;
-        *)
-          exit 1
-          ;;
+        *)                exit 1 ;;
       esac
       ;;
     --build)
@@ -74,10 +72,10 @@ while test $# -gt 0; do
       shift
       set -x
       @CXX@ \
-        ${CPPFLAGS} @SOQT_EXTRA_CPPFLAGS@ \
-        ${LDFLAGS} @SOQT_EXTRA_LDFLAGS@ \
+        ${CPPFLAGS} -I@includedir@ @SOQT_EXTRA_CPPFLAGS@ \
+        ${LDFLAGS} -L@libdir@ @SOQT_EXTRA_LDFLAGS@ \
         -o ${program} $@ \
-        ${LIBS} @SOQT_EXTRA_LIBS@
+        ${LIBS} @SOQT_LIBNAME@ @SOQT_EXTRA_LIBS@
       set +x
       ;;
 

@@ -398,6 +398,34 @@ SIM_AC_ISO8601_DATE(soqt_configure_date)
 AC_SUBST(soqt_configure_date)
 
 # **************************************************************************
+# Remove redundant options from certain option lists.
+# We add the first argument ourselves to shift it off because it's added
+# again inside soqt-config.in
+
+SIM_AC_UNIQIFY_LIST(SOQT_EXTRA_CPPFLAGS, -I$includedir $SOQT_EXTRA_CPPFLAGS)
+set : $SOQT_EXTRA_CPPFLAGS
+shift
+shift
+SOQT_EXTRA_CPPFLAGS=$@
+
+SIM_AC_UNIQIFY_LIST(SOQT_EXTRA_LDFLAGS, -L$libdir $SOQT_EXTRA_LDFLAGS)
+set : $SOQT_EXTRA_LDFLAGS
+shift
+shift
+SOQT_EXTRA_LDFLAGS=$@
+
+SIM_AC_UNIQIFY_LIST(SOQT_EXTRA_LIBS, $SOQT_LIBNAME $SOQT_EXTRA_LIBS)
+set : $SOQT_EXTRA_LIBS
+shift
+shift
+SOQT_EXTRA_LIBS=$@
+
+# We don't have to do shift magic on these:
+SIM_AC_UNIQIFY_LIST(CPPFLAGS, $CPPFLAGS)
+SIM_AC_UNIQIFY_LIST(LDFLAGS, $LDFLAGS)
+SIM_AC_UNIQIFY_LIST(LIBS, $LIBS)
+
+# **************************************************************************
 # List all files configure shall automatically generate.
 
 AC_OUTPUT([
