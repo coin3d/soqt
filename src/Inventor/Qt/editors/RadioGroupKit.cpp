@@ -1,4 +1,69 @@
+/**************************************************************************\
+ *
+ *  This file is part of the Coin GUI toolkit libraries.
+ *  Copyright (C) 1998-2002 by Systems in Motion.  All rights reserved.
+ *
+ *  This library is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU Lesser General Public License
+ *  version 2.1 as published by the Free Software Foundation.  See the
+ *  file LICENSE.LGPL at the root directory of this source distribution
+ *  for more details.
+ *
+ *  If you want to use this library with software that is incompatible
+ *  licensewise with the LGPL, and / or you would like to take
+ *  advantage of the additional benefits with regard to our support
+ *  services, please contact Systems in Motion about acquiring a Coin
+ *  Professional Edition License.  See <URL:http://www.coin3d.org> for
+ *  more information.
+ *
+ *  Systems in Motion, Prof Brochs gate 6, 7030 Trondheim, NORWAY
+ *  <URL:http://www.sim.no>, <mailto:support@sim.no>
+ *
+\**************************************************************************/
 
+/*!
+  \class RadioGroupKit RadioGroupKit.h
+  \brief The RadioGroupKit class is a radiobutton group.
+
+  This is a 3D user interface component.
+
+  Example usage:
+
+  \code
+  #include <Inventor/Qt/SoQt.h>
+  #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
+  #include <Inventor/nodes/SoSeparator.h>
+  #include "RadioGroupKit.h"
+  
+  int
+  main(int argc, char ** argv)
+  {
+    QWidget * mainwin = SoQt::init(argc, argv, argv[0]);
+    RadioGroupKit::initClass();
+    
+    SoSeparator * root = new SoSeparator;
+    root->ref();
+  
+    RadioGroupKit * radiogroup = new RadioGroupKit;
+    radiogroup->addRadioButton("Morten");
+    radiogroup->addRadioButton("Tjo");
+    radiogroup->addRadioButton("Bing");
+    root->addChild(radiogroup);
+    
+    SoQtExaminerViewer * viewer = new SoQtExaminerViewer(mainwin);
+    viewer->setSceneGraph(root);
+    viewer->show();
+    
+    SoQt::show(mainwin);
+    SoQt::mainLoop();
+    
+    delete viewer;
+    root->unref();
+    
+    return 0;
+  }
+  \endcode
+*/
 
 #include <Inventor/nodes/SoCone.h>
 #include <Inventor/nodes/SoCube.h>

@@ -21,6 +21,46 @@
  *
 \**************************************************************************/
 
+/*!
+  \class RGBCubeEditorKit RGBCubeEditorKit.h
+  \brief The RGBCubeEditorKit class is an editor for setting a RGB triplet color value.
+
+  This is a 3D user interface component.
+
+  Example usage:
+
+  \code
+  #include <Inventor/Qt/SoQt.h>
+  #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
+  #include <Inventor/nodes/SoSeparator.h>
+  #include "RGBCubeEditorKit.h"
+  
+  int
+  main(int argc, char ** argv)
+  {
+    QWidget * mainwin = SoQt::init(argc, argv, argv[0]);
+    RGBCubeEditorKit::initClass();
+    
+    SoSeparator * root = new SoSeparator;
+    root->ref();
+  
+    root->addChild(new RGBCubeEditorKit);
+    
+    SoQtExaminerViewer * viewer = new SoQtExaminerViewer(mainwin);
+    viewer->setSceneGraph(root);
+    viewer->show();
+    
+    SoQt::show(mainwin);
+    SoQt::mainLoop();
+    
+    delete viewer;
+    root->unref();
+    
+    return 0;
+  }
+  \endcode
+*/
+
 #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
 #include <Inventor/SoPickedPoint.h> 
 
