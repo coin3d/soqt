@@ -216,6 +216,10 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     differently for different sized scenes. Further investigation is
     needed to sort it out.
 
+    UPDATE 20021022 rolvs: Fixed. Bug caused by a coupling of amount
+    of pan and tilt with framerate. Now decoupled, and it feels the
+    same independent of scene size (in #polygons).
+
 =====================================================================
 
 009 Michael Wimmer reported that using SoQt on top of SGI Inventor
