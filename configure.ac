@@ -581,16 +581,19 @@ if $sim_ac_framework && $sim_ac_coin_desired && $sim_ac_coin_avail; then
     sim_ac_coin_frameworkdir=`$sim_ac_coin_configcmd --frameworkdir 2>/dev/null`
   fi
   if test x"$sim_ac_coin_frameworkdir" = x""; then
-    :
-  #  sim_ac_framework=false
+    SIM_AC_CONFIGURATION_WARNING([Coin was not installed as a framework, so SoQt can't be either (option was disabled).])
+    sim_ac_framework=false
+    soqtincludedir=${includedir}/Inventor/Qt
+    ivincludedir=
+  else
+    ivframeworkdir=$sim_ac_coin_frameworkdir
+    ivincludedir=
+    if test x"$ivframeworkdir" != x""; then
+      ivincludedir=$ivframeworkdir/Headers
+    fi
+    frameworkdir=${sim_ac_framework_prefix}/${sim_ac_framework_name}.framework
+    soqtincludedir=${sim_ac_framework_prefix}/${sim_ac_framework_name}.framework/Headers
   fi
-  ivframeworkdir=$sim_ac_coin_frameworkdir
-  ivincludedir=
-  if test x"$ivframeworkdir" != x""; then
-    ivincludedir=$ivframeworkdir/Headers
-  fi
-  frameworkdir=${sim_ac_framework_prefix}/${sim_ac_framework_name}.framework
-  soqtincludedir=${sim_ac_framework_prefix}/${sim_ac_framework_name}.framework/Headers
 else
   sim_ac_framework=false
   soqtincludedir=${includedir}/Inventor/Qt
@@ -747,7 +750,7 @@ else
   SIM_AC_ISO8601_DATE(soqt_configure_date)
   AC_SUBST(soqt_configure_date)
 
-  if $sim_ac_prefer_framework; then
+  if $sim_ac_framework; then
     # setup for SoQt usage
     SOGUI_EXTRA_CPPFLAGS=
     SOGUI_EXTRA_CFLAGS=
