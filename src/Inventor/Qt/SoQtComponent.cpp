@@ -645,6 +645,37 @@ SoQtComponent::getClassName(void) const
 
 // *************************************************************************
 
+// FIXME: the resize handling in SoQtComponent and derived classes is
+// really horrible and has provided us with heaps of "interesting"
+// bugs. Should clean it up properly.
+//
+// One important part of the clean-up is to make a decent set of test
+// cases to check with (and to later use for testing for
+// regressions). The tests should at least cover these usage contexts
+// for SoQt component classes:
+//
+// 
+//   * an SoQt-component viewer embedded in other Qt-widgets
+//   * a top-level (ie "free window") viewer
+//
+//   * an embedded SoQtRenderArea
+//   * a top-level SoQtRenderArea
+//
+//   * viewers with and without sidebar- or bottom-decorations
+//
+//   * changing size for all the above cases by user interaction with
+//     window manager decorations
+//
+//   * changing size programmatically with SoQtComponent::setSize(),
+//     before and after component realization
+//
+// And all the above should be tested with both Qt v2 and Qt v3, on
+// both a UNIX/X11 system and an MSWindows system (Qt is supposed to
+// behave exactly the same on both platforms, but that's not always
+// the case).
+//
+// 20021024 mortene.
+
 // documented in common/SoGuiComponentCommon.cpp.in.
 void
 SoQtComponent::setSize(const SbVec2s size)

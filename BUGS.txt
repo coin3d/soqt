@@ -163,6 +163,9 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     The interior resizes correctly (?), but the exterior does not
     shrink to fit.
 
+    See also the FIXME above SoQtComponent::setSize() in
+    SoQtComponent.cpp.
+
     mortene 20020808.
 
 =====================================================================
