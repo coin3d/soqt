@@ -1124,6 +1124,14 @@ SoQtComponent::setWidgetCursor(QWidget * w, const SoQtCursor & cursor)
       w->setCursor(QCursor(Qt::blankCursor));
       break;
 
+    case SoQtCursor::NORMAL:
+      w->setCursor(QCursor(Qt::arrowCursor));
+      break;
+
+    case SoQtCursor::CROSSHAIR:
+      w->setCursor(QCursor(Qt::crossCursor));
+      break;
+
     default:
       assert(FALSE && "unknown cursor shape type");
       break;
