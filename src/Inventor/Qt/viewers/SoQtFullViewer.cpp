@@ -613,9 +613,13 @@ SoQtFullViewer::setViewing(
 
   inherited::setViewing( enable );
 
-  PRIVATE(this)->getViewerbutton(EXAMINE_BUTTON)->setOn( enable );
-  PRIVATE(this)->getViewerbutton(INTERACT_BUTTON)->setOn( enable ? FALSE : TRUE);
-  PRIVATE(this)->getViewerbutton(SEEK_BUTTON)->setEnabled( enable );
+  // Must check that buttons have been built, in case this viewer
+  // component was made without decorations.
+  if (PRIVATE(this)->viewerbuttons->getLength() > 0) {
+    PRIVATE(this)->getViewerbutton(EXAMINE_BUTTON)->setOn( enable );
+    PRIVATE(this)->getViewerbutton(INTERACT_BUTTON)->setOn( enable ? FALSE : TRUE);
+    PRIVATE(this)->getViewerbutton(SEEK_BUTTON)->setEnabled( enable );
+  }
 } // setViewing()
 
 // *************************************************************************
