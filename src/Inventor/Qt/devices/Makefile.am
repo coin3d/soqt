@@ -12,16 +12,16 @@ INCLUDES = -I$(top_srcdir)/src
 ## headers.
 
 libSoQtDevices_la_SOURCES = \
-	SoQtDevice.cpp \
-	SoQtDevice.h \
-	SoQtInputFocus.cpp \
-	SoQtInputFocus.h \
-	SoQtKeyboard.cpp \
-	SoQtKeyboard.h \
-	SoQtMouse.cpp \
-	SoQtMouse.h \
-	SoQtSpaceball.cpp \
-	SoQtSpaceball.h
+	$(top_srcdir)/src/Inventor/Qt/devices/SoQtDevice.cpp \
+	$(top_srcdir)/src/Inventor/Qt/devices/SoQtDevice.h \
+	$(top_srcdir)/src/Inventor/Qt/devices/SoQtInputFocus.cpp \
+	$(top_srcdir)/src/Inventor/Qt/devices/SoQtInputFocus.h \
+	$(top_srcdir)/src/Inventor/Qt/devices/SoQtKeyboard.cpp \
+	$(top_srcdir)/src/Inventor/Qt/devices/SoQtKeyboard.h \
+	$(top_srcdir)/src/Inventor/Qt/devices/SoQtMouse.cpp \
+	$(top_srcdir)/src/Inventor/Qt/devices/SoQtMouse.h \
+	$(top_srcdir)/src/Inventor/Qt/devices/SoQtSpaceball.cpp \
+	$(top_srcdir)/src/Inventor/Qt/devices/SoQtSpaceball.h
 
 ## Installation information.
 

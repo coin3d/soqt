@@ -110,16 +110,16 @@ LIBS =
 INCLUDES = -I$(top_srcdir)/src
 
 libSoQtDevices_la_SOURCES = \
-	SoQtDevice.cpp \
-	SoQtDevice.h \
-	SoQtInputFocus.cpp \
-	SoQtInputFocus.h \
-	SoQtKeyboard.cpp \
-	SoQtKeyboard.h \
-	SoQtMouse.cpp \
-	SoQtMouse.h \
-	SoQtSpaceball.cpp \
-	SoQtSpaceball.h
+	$(top_srcdir)/src/Inventor/Qt/devices/SoQtDevice.cpp \
+	$(top_srcdir)/src/Inventor/Qt/devices/SoQtDevice.h \
+	$(top_srcdir)/src/Inventor/Qt/devices/SoQtInputFocus.cpp \
+	$(top_srcdir)/src/Inventor/Qt/devices/SoQtInputFocus.h \
+	$(top_srcdir)/src/Inventor/Qt/devices/SoQtKeyboard.cpp \
+	$(top_srcdir)/src/Inventor/Qt/devices/SoQtKeyboard.h \
+	$(top_srcdir)/src/Inventor/Qt/devices/SoQtMouse.cpp \
+	$(top_srcdir)/src/Inventor/Qt/devices/SoQtMouse.h \
+	$(top_srcdir)/src/Inventor/Qt/devices/SoQtSpaceball.cpp \
+	$(top_srcdir)/src/Inventor/Qt/devices/SoQtSpaceball.h
 
 
 libSoQtDevicesincdir = $(includedir)/Inventor/Qt/devices
@@ -215,6 +215,13 @@ clean-libtool:
 distclean-libtool:
 
 maintainer-clean-libtool:
+SoQtDevice.lo: $(top_srcdir)/src/Inventor/Qt/devices/SoQtDevice.cpp
+SoQtInputFocus.lo: \
+	$(top_srcdir)/src/Inventor/Qt/devices/SoQtInputFocus.cpp
+SoQtKeyboard.lo: $(top_srcdir)/src/Inventor/Qt/devices/SoQtKeyboard.cpp
+SoQtMouse.lo: $(top_srcdir)/src/Inventor/Qt/devices/SoQtMouse.cpp
+SoQtSpaceball.lo: \
+	$(top_srcdir)/src/Inventor/Qt/devices/SoQtSpaceball.cpp
 
 libSoQtDevices.la: $(libSoQtDevices_la_OBJECTS) $(libSoQtDevices_la_DEPENDENCIES)
 	$(CXXLINK)  $(libSoQtDevices_la_LDFLAGS) $(libSoQtDevices_la_OBJECTS) $(libSoQtDevices_la_LIBADD) $(LIBS)
