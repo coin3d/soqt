@@ -9157,9 +9157,13 @@ fi
 
 
 
-# **************************************************************************
-# Check to see if fink is installed on the system
 
+# **************************************************************************
+# Check to see if fink is installed on the system.
+# The only reason why we would need fink is for Qt/X11 on Mac OS X, so if
+# we are doing a non-X11 build, ignore it to avoid linking problems.
+
+if test x"$sim_ac_want_x11" = xyes; then
 
 sim_ac_have_fink=false
 echo "$as_me:$LINENO: checking if fink is available" >&5
@@ -9181,16 +9185,15 @@ fi
 
 if $sim_ac_have_fink; then
 
-  SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_fink_cppflags"
-  SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_fink_ldflags"
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_fink_cppflags"
+    SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_fink_ldflags"
 
 else
   :
 fi
 
 
-
-
+fi
 
 # **************************************************************************
 # Search and set up necessary stuff to use Open Inventor or Coin.
