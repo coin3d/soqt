@@ -1914,8 +1914,8 @@ if test "x$enable_profile" = "xyes"; then
 fi
 ])
 
-dnl  Let the user decide if compilation should be done with all compiler
-dnl  warnings turned on.
+dnl  Take care of making a sensible selection of warning messages
+dnl  to turn on or off.
 dnl
 dnl  Note: this macro must be placed after either AC_PROG_CC or AC_PROG_CXX
 dnl  in the configure.in script.
@@ -1923,22 +1923,16 @@ dnl
 dnl  Author: Morten Eriksen, <mortene@sim.no>.
 dnl
 dnl  TODO:
-dnl    * [mortene:19991114] make this work with compilers other than gcc/g++
 dnl    * [mortene:19991114] find out how to get GCC's
 dnl      -Werror-implicit-function-declaration option to work as expected
-dnl    * [larsa:19991126] use -Wno-multichar under BeOS only (BeOS system
-dnl      header files emit lots of warnings due to multichar definitions)
 dnl
 
-
-dnl SIM_COMPILER_WARNINGS( )
 AC_DEFUN(SIM_COMPILER_WARNINGS,
 [
 dnl Autoconf is a developer tool, so don't bother to support older versions.
-AC_PREREQ([2.13])
+AC_PREREQ([2.14])
 AC_ARG_ENABLE(warnings,
-  [  --enable-warnings       (GCC only) turn on warnings when compiling
-                          [default=yes]],
+  AC_HELP_STRING([--enable-warnings], [turn on warnings when compiling [default=yes]]),
   [case "${enableval}" in
     yes) enable_warnings=yes ;;
     no)  enable_warnings=no ;;
@@ -1960,6 +1954,9 @@ if test x"$enable_warnings" = xyes; then
         _warn_flags=
         # Turn on all warnings.
         SIM_COMPILER_OPTION(-fullwarn, _warn_flags="$_warn_flags -fullwarn")
+        # Turn off ``type qualifiers are meaningless in this declaration''
+        # warnings.
+        SIM_COMPILER_OPTION(-woff 3115, _warn_flags="$_warn_flags -woff 3115")
         # Turn off warnings on unused variables.
         SIM_COMPILER_OPTION(-woff 3262, _warn_flags="$_warn_flags -woff 3262")
 

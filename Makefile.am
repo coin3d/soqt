@@ -39,16 +39,16 @@ m4data_DATA = conf-macros/soqt.m4 conf-macros/modifierlist.m4
 ############################################################################
 
 src/Inventor/Qt/SoQtRenderArea.h: $(top_srcdir)/src/Inventor/Qt/common/SoAnyRenderArea.h.in
-	@CONFIG_HEADERS= CONFIG_FILES=$@:$^ $(top_builddir)/config.status
+	@CONFIG_HEADERS= CONFIG_FILES=$@:src/Inventor/Qt/common/SoAnyRenderArea.h.in ./config.status
 
 src/Inventor/Qt/SoQtRenderArea.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoAnyRenderArea.cpp.in
-	@CONFIG_HEADERS= CONFIG_FILES=$@:$^ $(top_builddir)/config.status
+	@CONFIG_HEADERS= CONFIG_FILES=$@:src/Inventor/Qt/common/SoAnyRenderArea.cpp.in ./config.status
 
 src/Inventor/Qt/viewers/SoQtViewer.h: $(top_srcdir)/src/Inventor/Qt/common/SoAnyViewer.h.in
-	@CONFIG_HEADERS= CONFIG_FILES=$@:$^ $(top_builddir)/config.status
+	@CONFIG_HEADERS= CONFIG_FILES=$@:src/Inventor/Qt/common/SoAnyViewer.h.in $(top_builddir)/config.status
 
 src/Inventor/Qt/viewers/SoQtViewer.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoAnyViewer.cpp.in
-	@CONFIG_HEADERS= CONFIG_FILES=$@:$^ $(top_builddir)/config.status
+	@CONFIG_HEADERS= CONFIG_FILES=$@:src/Inventor/Qt/common/SoAnyViewer.cpp.in $(top_builddir)/config.status
 
 examples/components/renderarea.cpp: $(top_srcdir)/examples/components/renderarea.cpp.in
 	@CONFIG_HEADERS= CONFIG_FILES=$@ $(top_builddir)/config.status
