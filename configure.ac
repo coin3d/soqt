@@ -629,6 +629,12 @@ SIM_AC_UNIQIFY_LIST(CPPFLAGS, $CPPFLAGS)
 SIM_AC_UNIQIFY_LIST(LDFLAGS, $LDFLAGS)
 SIM_AC_UNIQIFY_LIST(LIBS, $LIBS)
 
+# **************************************************************************
+# Remove gcc system directories includes from the CPPFLAGS.
+
+CPP_AC_SEARCH_ORDER_FILTER(CPPFLAGS, $CPPFLAGS)
+CPP_AC_SEARCH_ORDER_FILTER(SOGUI_EXTRA_CPPFLAGS, $SOGUI_EXTRA_CPPFLAGS)
+
 # default value
 SOQT_STATIC=false
 
