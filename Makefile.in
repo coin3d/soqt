@@ -385,7 +385,7 @@ EXTRA_DIST = \
 	test-code/README \
 	test-code/components/scrollview.cpp \
 	test-code/components/tripleview.cpp \
-	$(So@Gui@CommonDistFiles)
+	$(SoGuiCommonDistFiles)
 
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -603,7 +603,7 @@ GZIP_ENV = --best
 distdir: $(DISTFILES)
 	-chmod -R a+w $(distdir) >/dev/null 2>&1; rm -rf $(distdir)
 	mkdir $(distdir)
-	$(mkinstalldirs) $(distdir)/build $(distdir)/cfg $(distdir)/cfg/m4 $(distdir)/models $(distdir)/src/Inventor/Qt/common $(distdir)/test-code $(distdir)/test-code/components
+	$(mkinstalldirs) $(distdir)/build $(distdir)/cfg $(distdir)/cfg/m4 $(distdir)/models $(distdir)/src/Inventor/@Gui@/common $(distdir)/src/Inventor/@Gui@/common/pixmaps $(distdir)/src/Inventor/Qt/common $(distdir)/test-code $(distdir)/test-code/components
 	@for file in $(DISTFILES); do \
 	  if test -f $$file; then d=.; else d=$(srcdir); fi; \
 	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \

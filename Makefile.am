@@ -50,7 +50,7 @@ EXTRA_DIST = \
 	test-code/README \
 	test-code/components/scrollview.cpp \
 	test-code/components/tripleview.cpp \
-	$(So@Gui@CommonDistFiles)
+	$(SoGuiCommonDistFiles)
 
 # This is necessary to set up a hook somewhere in the generated Makefile
 # so the sources are actually built.
