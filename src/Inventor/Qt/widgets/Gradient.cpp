@@ -31,7 +31,7 @@
 class GradientP {
 public:
   GradientP(Gradient * publ);
-  void getColorIndex(int & i, SbBool left) const;
+  unsigned int getColorIndex(unsigned int i, SbBool left) const;
   Gradient * pub;
   QValueList<float> parameters;
   QValueList<QRgb> colors;
@@ -43,15 +43,19 @@ GradientP::GradientP(Gradient * publ)
   PUBLIC(this) = publ;
 }
 
-void GradientP::getColorIndex(int & i, SbBool left) const
+unsigned int
+GradientP::getColorIndex(unsigned int i, SbBool left) const
 {
+  unsigned int colidx;
+
+  if (i==0 && left) { colidx = this->colors.size() - 1; } // wrap around
   // there are parameters times two minus one number of colors
-  i = i * 2 - 1;
-  int num = this->colors.size();
-  int maxIndex = this->colors.size() - 1;
-  if (!left) i++;
-  if (i < 0) i += num;
-  if (i > maxIndex) i -= num;
+  else { colidx = i * 2 - (left ? 1 : 0); }
+
+  if (colidx == this->colors.size()) { colidx = 0; } // wrap around
+
+  assert(colidx < this->colors.size() && "border violation");
+  return colidx;
 }
 
 Gradient::Gradient(const QColor& color0, const QColor& color1)
@@ -72,7 +76,7 @@ Gradient::Gradient(const Gradient & grad)
   this->operator=(grad);
 }
 
-Gradient::Gradient(const QString filename)
+Gradient::Gradient(const QString & filename)
 {
   this->pimpl = new GradientP(this);
   PRIVATE(this)->callBack = NULL;
@@ -97,7 +101,8 @@ SbBool Gradient::operator == (const Gradient & grad) const
          (PRIVATE(this)->colors == grad.pimpl->colors);
 }
 
-QRgb Gradient::eval(float t) const
+QRgb
+Gradient::eval(float t) const
 {
   assert(t >= 0.0f && t <= 1.0f && "t must be in the interval [0,1]");
 
@@ -128,17 +133,20 @@ QRgb Gradient::eval(float t) const
   return qRgba(r, g, b, a);
 }
 
-int Gradient::numTicks() const
+unsigned int
+Gradient::numTicks(void) const
 {
   return PRIVATE(this)->parameters.size();
 }
 
-float Gradient::getParameter(int i) const
+float
+Gradient::getParameter(unsigned int i) const
 {
   return PRIVATE(this)->parameters[i];
 }
 
-void Gradient::moveTick(int i, float t)
+void
+Gradient::moveTick(unsigned int i, float t)
 {
   if (PRIVATE(this)->parameters[i] != t) {
     PRIVATE(this)->parameters[i] = t;
@@ -146,7 +154,8 @@ void Gradient::moveTick(int i, float t)
   }
 }
 
-int Gradient::insertTick(float t)
+unsigned int
+Gradient::insertTick(float t)
 {
   // find position to insert before
   int i = 0;
@@ -165,13 +174,14 @@ int Gradient::insertTick(float t)
 
 }
 
-void Gradient::removeTick(int i)
+void
+Gradient::removeTick(unsigned int i)
 {
   QValueList<float>::Iterator it = PRIVATE(this)->parameters.begin();
   QValueList<QRgb>::Iterator it2 = PRIVATE(this)->colors.begin();
   // the += operator wasn't available until Qt 3.1.0. Just iterate
   // and use ++. pederb, 2003-09-22
-  for (int j = 0; j < i; j++) { it++; it2++; it2++; }
+  for (unsigned int j = 0; j < i; j++) { it++; it2++; it2++; }
   it2--;
 
   PRIVATE(this)->parameters.remove(it);
@@ -181,28 +191,32 @@ void Gradient::removeTick(int i)
   if (PRIVATE(this)->callBack) { PRIVATE(this)->callBack(*this); }
 }
 
-SbBool Gradient::leftEqualsRight(int i) const
+SbBool
+Gradient::leftEqualsRight(unsigned int i) const
 {
-  PRIVATE(this)->getColorIndex(i, TRUE);
-  int n =  PRIVATE(this)->colors.size();
+  i = PRIVATE(this)->getColorIndex(i, TRUE);
+  unsigned int n = PRIVATE(this)->colors.size();
   return (PRIVATE(this)->colors[i] == PRIVATE(this)->colors[(i+1) % n]);
 }
 
-void Gradient::setColor(int i, SbBool left, const QRgb color)
+void
+Gradient::setColor(unsigned int i, SbBool left, const QRgb & color)
 {
-  PRIVATE(this)->getColorIndex(i, left);
+  i = PRIVATE(this)->getColorIndex(i, left);
   PRIVATE(this)->colors[i] = color;
 
   if (PRIVATE(this)->callBack) { PRIVATE(this)->callBack(*this); }
 }
 
-QRgb Gradient::getColor(int i, SbBool left) const
+QRgb
+Gradient::getColor(unsigned int i, SbBool left) const
 {
-  PRIVATE(this)->getColorIndex(i, left);
+  i = PRIVATE(this)->getColorIndex(i, left);
   return PRIVATE(this)->colors[i];
 }
 
-void Gradient::setChangeCallback(Gradient::ChangeCB * callBack)
+void
+Gradient::setChangeCallback(Gradient::ChangeCB * callBack)
 {
   PRIVATE(this)->callBack = callBack;
 }
@@ -215,15 +229,16 @@ void Gradient::getColorArray(QRgb * colorArray, int num) const
   }
 }
 
-QImage Gradient::getImage(int width, int height, int depth) const
+QImage
+Gradient::getImage(unsigned int width, unsigned int height, unsigned int depth) const
 {
   QImage gradImage(width, height, depth);
   QRgb * colors = new QRgb[width];
   this->getColorArray(colors, width);
 
-  for (int i = 0; i < width; i ++) {
+  for (unsigned int i = 0; i < width; i ++) {
     float alpha = float(qAlpha(colors[i])) / 255.0f;
-    for (int j = 0; j < height; j++) {
+    for (unsigned int j = 0; j < height; j++) {
       // produces a checkerboard pattern of black and white
       QRgb background = 0;
       if (((i & 0x8) == 0) ^ ((j & 0x8) == 0)) {
@@ -240,7 +255,8 @@ QImage Gradient::getImage(int width, int height, int depth) const
   return gradImage;
 }
 
-void Gradient::save(const QString& filename)
+void
+Gradient::save(const QString & filename) const
 {
   QFile outfile(filename);
   if (outfile.open(IO_WriteOnly)) {
@@ -263,7 +279,8 @@ void Gradient::save(const QString& filename)
   }
 }
 
-void Gradient::load(const QString& filename)
+void
+Gradient::load(const QString & filename)
 {
   PRIVATE(this)->colors.clear();
   PRIVATE(this)->parameters.clear();

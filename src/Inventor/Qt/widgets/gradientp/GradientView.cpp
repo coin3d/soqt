@@ -289,7 +289,7 @@ void GradientView::updateTicks()
 
   this->tickMarks.clear();
 
-  for (int i = 0; i < this->grad.numTicks(); i++) {
+  for (unsigned int i = 0; i < this->grad.numTicks(); i++) {
     float t = this->grad.getParameter(i);
     int x = (int) (t * (float)this->canvas->width() + 0.5f);
     TickMark * tick = this->newTick(x);

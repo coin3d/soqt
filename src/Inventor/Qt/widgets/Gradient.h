@@ -32,28 +32,28 @@
 class SOQT_DLL_API Gradient {
 
 public:
-  Gradient(const QColor& color0 = Qt::red, const QColor& color1 = Qt::blue);
-  Gradient(const Gradient& grad);
-  Gradient(const QString filename);
+  Gradient(const QColor & color0 = Qt::red, const QColor & color1 = Qt::blue);
+  Gradient(const Gradient & grad);
+  Gradient(const QString & filename);
 
   ~Gradient();
 
-  int numTicks(void) const;
-  int insertTick(float t);
-  float getParameter(int i) const;
-  SbBool leftEqualsRight(int i) const;
+  unsigned int numTicks(void) const;
+  unsigned int insertTick(float t);
+  float getParameter(unsigned int i) const;
+  SbBool leftEqualsRight(unsigned int i) const;
   QRgb eval(float t) const;
-  QRgb getColor(int i, SbBool left) const;
+  QRgb getColor(unsigned int i, SbBool left) const;
 
-  void moveTick(int i, float t);
-  void removeTick(int i);
+  void moveTick(unsigned int i, float t);
+  void removeTick(unsigned int i);
 
-  void setColor(int i, SbBool left, const QRgb color);
+  void setColor(unsigned int i, SbBool left, const QRgb & color);
   void getColorArray(QRgb * colors, int num) const;
-  void save(const QString& filename);
-  void load(const QString& filename);
+  void save(const QString & filename) const;
+  void load(const QString & filename);
 
-  QImage getImage(int w, int h, int d) const;
+  QImage getImage(unsigned int w, unsigned int h, unsigned int d) const;
 
   Gradient & operator = (const Gradient & grad);
   SbBool operator == (const Gradient & grad) const;
