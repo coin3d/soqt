@@ -113,16 +113,12 @@ SoQtGLWidget::buildWidget(QWidget * parent)
   this->borderwidget->setLineWidth( SO_BORDER_THICKNESS );
   this->borderwidget->move( 0, 0 );
 
-  this->glwidget = new SoQtGLArea( this->borderwidget, NULL );
-  QRect frameInterior( borderwidget->contentsRect() );
-  this->glwidget->move( frameInterior.topLeft() );
-  this->glwidget->resize( frameInterior.size() );
-
   QGLFormat f;
   f.setDoubleBuffer((this->glmodebits & SO_GLX_DOUBLE) ? TRUE : FALSE);
   f.setDepth((this->glmodebits & SO_GLX_ZBUFFER) ? TRUE : FALSE);
   f.setRgba((this->glmodebits & SO_GLX_RGB) ? TRUE : FALSE);
   f.setStereo((this->glmodebits & SO_GLX_STEREO) ? TRUE : FALSE);
+  f.setOverlay( FALSE ); // at the time being...
 
   // FIXME: the SO_GLX_OVERLAY bit is not considered (Qt doesn't seem
   // to support overlay planes -- check this with the Qt FAQ or
@@ -130,7 +126,10 @@ SoQtGLWidget::buildWidget(QWidget * parent)
 
   // FIXME, update: overlay planes are supported with Qt 2.x. 19991218 mortene.
 
-  this->glwidget->setFormat(f);
+  this->glwidget = new SoQtGLArea( &f, this->borderwidget );
+  QRect frameInterior( borderwidget->contentsRect() );
+  this->glwidget->move( frameInterior.topLeft() );
+  this->glwidget->resize( frameInterior.size() );
 
   if ( ! this->glwidget->isValid() ) {
     SoDebugError::post("SoQtGLWidget::SoQtGLWidget",

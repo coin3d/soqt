@@ -56,9 +56,10 @@ static const char rcsid[] =
 // *************************************************************************
 
 SoQtGLArea::SoQtGLArea(
+  QGLFormat * const format,
   QWidget * const parent,
   const char * const name )
-: inherited( parent, name, 0x0, WResizeNoErase )
+: inherited( *format, parent, name, 0x0, WResizeNoErase )
 {
 #if HAVE_QGLWIDGET_SETAUTOBUFFERSWAP
   // We'll handle the OpenGL buffer swapping ourselves, to support the
