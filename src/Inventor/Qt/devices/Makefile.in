@@ -325,6 +325,7 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/SoGuiObject.h.in \
   src/Inventor/@Gui@/common/SoGuiObject.cpp.in \
   src/Inventor/@Gui@/common/SoGui.h.in \
+  src/Inventor/@Gui@/common/SoGuiP.h.in \
   src/Inventor/@Gui@/common/SoGuiCommon.cpp.in \
   src/Inventor/@Gui@/common/SoGuiComponentCommon.cpp.in \
   src/Inventor/@Gui@/common/SoGuiComponent.h.in \
@@ -447,10 +448,14 @@ libSoQtDevicesConditionalSources = \
 # libtool setup
 libSoQtDevices_la_SOURCES = \
 	SoQtDevice.cpp \
+	SoQtDeviceP.h \
 	SoQtInputFocus.cpp \
 	SoQtKeyboard.cpp \
 	SoQtMouse.cpp \
 	SoQtSpaceball.cpp \
+	SoQtSpaceballP.h \
+	6DOFEvents.cpp \
+	6DOFEvents.h \
 	$(libSoQtDevicesConditionalSources)
 
 
@@ -462,6 +467,7 @@ nodist_libSoQtDevices_la_SOURCES = \
 # all the sources that are conditional
 EXTRA_libSoQtDevices_la_SOURCES = \
 	SoQtLinuxJoystick.h \
+	SoQtLinuxJoystickP.h \
 	SoQtLinuxJoystick.cpp
 
 
@@ -470,10 +476,12 @@ EXTRA_libSoQtDevices_la_SOURCES = \
 # custom setup
 devices_lst_SOURCES = \
 	SoQtDevice.cpp \
+	SoQtDeviceP.h \
 	SoQtInputFocus.cpp \
 	SoQtKeyboard.cpp \
 	SoQtMouse.cpp \
 	SoQtSpaceball.cpp \
+	SoQtSpaceballP.h \
 	6DOFEvents.cpp \
 	6DOFEvents.h \
 	$(libSoQtDevicesConditionalSources)
@@ -517,7 +525,7 @@ LTLIBRARIES = $(noinst_LTLIBRARIES)
 libSoQtDevices_la_LDFLAGS =
 libSoQtDevices_la_LIBADD =
 am_libSoQtDevices_la_OBJECTS = SoQtDevice.lo SoQtInputFocus.lo \
-	SoQtKeyboard.lo SoQtMouse.lo SoQtSpaceball.lo
+	SoQtKeyboard.lo SoQtMouse.lo SoQtSpaceball.lo 6DOFEvents.lo
 nodist_libSoQtDevices_la_OBJECTS = spwinput_x11.lo \
 	So@Gui@DeviceCommon.lo So@Gui@InputFocusCommon.lo \
 	So@Gui@KeyboardCommon.lo So@Gui@MouseCommon.lo \
@@ -530,7 +538,7 @@ DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
-@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/6DOFEvents.Po \
+@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/6DOFEvents.Plo $(DEPDIR)/6DOFEvents.Po \
 @AMDEP_TRUE@	$(DEPDIR)/So@Gui@DeviceCommon.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/So@Gui@DeviceCommon.Po \
 @AMDEP_TRUE@	$(DEPDIR)/So@Gui@InputFocusCommon.Plo \
@@ -638,6 +646,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/6DOFEvents.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/6DOFEvents.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@DeviceCommon.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@DeviceCommon.Po@am__quote@

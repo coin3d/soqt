@@ -325,6 +325,7 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/SoGuiObject.h.in \
   src/Inventor/@Gui@/common/SoGuiObject.cpp.in \
   src/Inventor/@Gui@/common/SoGui.h.in \
+  src/Inventor/@Gui@/common/SoGuiP.h.in \
   src/Inventor/@Gui@/common/SoGuiCommon.cpp.in \
   src/Inventor/@Gui@/common/SoGuiComponentCommon.cpp.in \
   src/Inventor/@Gui@/common/SoGuiComponent.h.in \
@@ -422,7 +423,10 @@ DISTCLEANFILES = \
 libSoQtViewers_la_SOURCES = \
 	PlaneViewer.cpp \
 	FullViewer.cpp \
-	ExaminerViewer.cpp
+	ExaminerViewer.cpp \
+	SoQtFullViewerP.h \
+	SoQtExaminerViewerP.h \
+	SoQtPlaneViewerP.h
 
 
 nodist_libSoQtViewers_la_SOURCES = \
@@ -436,7 +440,10 @@ nodist_libSoQtViewers_la_SOURCES = \
 viewers_lst_SOURCES = \
 	PlaneViewer.cpp \
 	FullViewer.cpp \
-	ExaminerViewer.cpp
+	ExaminerViewer.cpp \
+	SoQtFullViewerP.h \
+	SoQtExaminerViewerP.h \
+	SoQtPlaneViewerP.h
 
 
 nodist_viewers_lst_SOURCES = \
