@@ -44,7 +44,7 @@ static const char rcsid[] =
 // The reason for this is that SoQt _compiled_ against Qt versions
 // 2.0.0 <= X < 2.2.0 should still detect keypad presses when _run_
 // against Qt versions >= 2.2.0.
-#define QT_KEYPAD_MASK_ASSUMED 0x400
+#define QT_KEYPAD_MASK_ASSUMED 0x4000
 
 #if HAVE_QT_KEYPAD_DEFINE
 #define QT_KEYPAD_MASK Qt::Keypad
