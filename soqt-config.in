@@ -1,10 +1,12 @@
 #! /bin/sh
-############################################################################
+# **************************************************************************
+# soqt-config -- a utility for retrieving configuration information about
+# the installed SoQt library.
 
-usage()
-{
-cat <<EOF
-Usage: soqt-config [OPTIONS]
+me=`echo $0 | sed 's,^.*[/\\],,g'`
+
+usage="\
+Usage: $me [OPTIONS]
 Options:
   --cppflags
   --ldflags
@@ -13,34 +15,28 @@ Options:
   --have-feature <feature>
   --build <program> <sourcefile> [<sourcefile>]...
   --version
-  --usage | --help
-EOF
-  exit $1
-}
+  --usage | --help"
 
-while test $# -gt 0; do
+version="@SOQT_VERSION@"
+
+# NOTE: If the first argument is changed in the following variables, it is
+# also necessary to update configure.in, since that argument is shifted off.
+
+cppflags="-I@includedir@ @SOQT_EXTRA_CPPFLAGS@"
+ldflags="-L@libdir@ @SOQT_EXTRA_LDFLAGS@"
+libs="@SOQT_LIBNAME@ @SOQT_EXTRA_LIBS@"
+
+datadir="@soqt_data_dir@"
+
+while test $# -gt 0
+do
   case $1 in
-    --cppflags)
-      # NOTE: if we for some reason changes this so "includedir" is
-      # not first, we need to fix up configure.in as well, since the
-      # first argument is shifted off.
-      echo -I@includedir@ @SOQT_EXTRA_CPPFLAGS@
-      ;;
-    --ldflags)
-      echo -L@libdir@ @SOQT_EXTRA_LDFLAGS@
-      ;;
-    --libs)
-      echo @SOQT_LIBNAME@ @SOQT_EXTRA_LIBS@
-      ;;
-    --datadir)
-      echo @soqt_data_dir@
-      ;;
-    --version)
-      echo @SOQT_VERSION@
-      ;;
-    --usage | --help)
-      usage 0
-      ;;
+    --usage | --help)  echo "$usage"    ;;
+    --version)         echo "$version"  ;;
+    --cppflags)        echo "$cppflags" ;;
+    --ldflags)         echo "$ldflags"  ;;
+    --libs)            echo "$libs"     ;;
+    --datadir)         echo "$datadir"  ;;
     --ac-subst)
       shift
       case $1 in
@@ -52,7 +48,7 @@ while test $# -gt 0; do
         EVENT)            echo "@EVENT@" ;;
         COMPONENTHEADER)  echo "@COMPONENTHEADER@" ;;
         *)
-          echo "Error: no such AC_SUBST: $1" >&2
+          echo >&2 "$me: Invalid AC_SUBST: \"$1\""
           exit 1
           ;;
       esac
@@ -60,28 +56,26 @@ while test $# -gt 0; do
     --have-feature)
       shift
       case $1 in
-        renderarea)       exit 0 ;;
-        examinerviewer)   exit 0 ;;
-        planeviewer)      exit 0 ;;
-        *)                exit 1 ;;
+        renderarea)      exit 0 ;;
+        examinerviewer)  exit 0 ;;
+        planeviewer)     exit 0 ;;
+        *)               exit 1 ;;
       esac
       ;;
     --build)
       shift
       program=$1
       shift
-      set -x
-      @CXX@ \
-        ${CPPFLAGS} -I@includedir@ @SOQT_EXTRA_CPPFLAGS@ \
-        ${LDFLAGS} -L@libdir@ @SOQT_EXTRA_LDFLAGS@ \
-        -o ${program} $@ \
-        ${LIBS} @SOQT_LIBNAME@ @SOQT_EXTRA_LIBS@
-      set +x
+      exec @CXX@ \
+        $CPPFLAGS $cppflags \
+        $LDFLAGS $ldflags \
+        -o $program $@ \
+        $LIBS $libs
       ;;
-
     *)
-      echo "Unknown option: \"$1\"" >&2
-      usage 1 >&2
+      echo >&2 "$me: Invalid option: \"$1\""
+      echo >&2 "$usage"
+      exit 1
       ;;
   esac
   shift
