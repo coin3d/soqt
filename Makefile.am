@@ -18,6 +18,8 @@ BUILT_SOURCES = \
 	src/Inventor/Qt/SoQtBasic.h \
 	src/Inventor/Qt/SoQtCursors.h \
 	src/Inventor/Qt/SoQtCursors.cpp \
+	src/Inventor/Qt/SoQtObject.h \
+	src/Inventor/Qt/SoQtObject.cpp \
 	src/Inventor/Qt/SoQtRenderArea.h \
 	src/Inventor/Qt/SoQtRenderArea.cpp \
 	src/Inventor/Qt/viewers/SoQtViewer.h \
@@ -85,6 +87,14 @@ src/Inventor/Qt/SoQtBasic.h: $(srcdir)/src/Inventor/Qt/common/SoGuiBasic.h.in
 	@./config.status \
 	  --file=-:$(srcdir)/src/Inventor/Qt/common/SoGuiBasic.h.in | \
 	  ./config.status --header=$@:-
+
+src/Inventor/Qt/SoQtObject.h: \
+  $(srcdir)/src/Inventor/Qt/common/SoGuiObject.h.in
+	@./config.status --file=$@:src/Inventor/Qt/common/SoGuiObject.h.in
+
+src/Inventor/Qt/SoQtObject.cpp: \
+  $(srcdir)/src/Inventor/Qt/common/SoGuiObject.cpp.in
+	@./config.status --file=$@:src/Inventor/Qt/common/SoGuiObject.cpp.in
 
 src/Inventor/Qt/SoQtCursors.h: \
   $(srcdir)/src/Inventor/Qt/common/SoGuiCursors.h.in
@@ -168,8 +178,8 @@ src/Inventor/Qt/devices/spwinput_x11.cpp: \
 src/Inventor/Qt/moc_SoQt.cpp: $(srcdir)/src/Inventor/Qt/SoQt.h
 	$(MOC) -o $@ $(srcdir)/src/Inventor/Qt/SoQt.h
 
-src/Inventor/Qt/moc_SoQtObject.cpp: $(srcdir)/src/Inventor/Qt/SoQtObject.h
-	$(MOC) -o $@ $(srcdir)/src/Inventor/Qt/SoQtObject.h
+src/Inventor/Qt/moc_SoQtObject.cpp: $(top_builddir)/src/Inventor/Qt/SoQtObject.h
+	$(MOC) -o $@ $(top_builddir)/src/Inventor/Qt/SoQtObject.h
 
 src/Inventor/Qt/moc_SoQtComponent.cpp: $(srcdir)/src/Inventor/Qt/SoQtComponent.h
 	$(MOC) -o $@ $(srcdir)/src/Inventor/Qt/SoQtComponent.h
