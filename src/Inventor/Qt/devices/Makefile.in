@@ -196,6 +196,8 @@ SoGui_src_Inventor_Gui_common_BuiltFiles = \
 SoGui_src_Inventor_Gui_devices_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/devices/spwinput.h \
   $(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/devices/SoGuiDeviceP.h \
   $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Device.h \
   $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocus.h \
   $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Keyboard.h \
@@ -334,6 +336,8 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/soguidefs.h.in \
   src/Inventor/@Gui@/common/spwinput.h.in \
   src/Inventor/@Gui@/common/spwinput_x11.cpp.in \
+  src/Inventor/@Gui@/common/devices/SoGuiDevice.cpp.in \
+  src/Inventor/@Gui@/common/devices/SoGuiDeviceP.h.in \
   src/Inventor/@Gui@/common/devices/SoGuiDevice.h.in \
   src/Inventor/@Gui@/common/devices/SoGuiInputFocus.h.in \
   src/Inventor/@Gui@/common/devices/SoGuiKeyboard.h.in \
@@ -487,7 +491,8 @@ devices_lst_LIBADD =
 am_devices_lst_OBJECTS = SoQtDevice.$(OBJEXT) SoQtInputFocus.$(OBJEXT) \
 	SoQtKeyboard.$(OBJEXT) SoQtMouse.$(OBJEXT) \
 	SoQtSpaceball.$(OBJEXT) 6DOFEvents.$(OBJEXT)
-nodist_devices_lst_OBJECTS = spwinput_x11.$(OBJEXT)
+nodist_devices_lst_OBJECTS = spwinput_x11.$(OBJEXT) \
+	So@Gui@DeviceCommon.$(OBJEXT)
 devices_lst_OBJECTS = $(am_devices_lst_OBJECTS) \
 	$(nodist_devices_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
@@ -496,7 +501,8 @@ libSoQtDevices_la_LDFLAGS =
 libSoQtDevices_la_LIBADD =
 am_libSoQtDevices_la_OBJECTS = SoQtDevice.lo SoQtInputFocus.lo \
 	SoQtKeyboard.lo SoQtMouse.lo SoQtSpaceball.lo
-nodist_libSoQtDevices_la_OBJECTS = spwinput_x11.lo
+nodist_libSoQtDevices_la_OBJECTS = spwinput_x11.lo \
+	So@Gui@DeviceCommon.lo
 libSoQtDevices_la_OBJECTS = $(am_libSoQtDevices_la_OBJECTS) \
 	$(nodist_libSoQtDevices_la_OBJECTS)
 
@@ -505,8 +511,10 @@ DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
-@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/6DOFEvents.Po $(DEPDIR)/SoQtDevice.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/SoQtDevice.Po \
+@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/6DOFEvents.Po \
+@AMDEP_TRUE@	$(DEPDIR)/So@Gui@DeviceCommon.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/So@Gui@DeviceCommon.Po \
+@AMDEP_TRUE@	$(DEPDIR)/SoQtDevice.Plo $(DEPDIR)/SoQtDevice.Po \
 @AMDEP_TRUE@	$(DEPDIR)/SoQtInputFocus.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/SoQtInputFocus.Po \
 @AMDEP_TRUE@	$(DEPDIR)/SoQtKeyboard.Plo \
@@ -569,11 +577,15 @@ clean-noinstLIBRARIES:
 	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
 spwinput_x11.$(OBJEXT): \
 	$(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp
+So@Gui@DeviceCommon.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp
 
 clean-noinstLTLIBRARIES:
 	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
 spwinput_x11.lo: \
 	$(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp
+So@Gui@DeviceCommon.lo: \
+	$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp
 libSoQtDevices.la: $(libSoQtDevices_la_OBJECTS) $(libSoQtDevices_la_DEPENDENCIES) 
 	$(CXXLINK)  $(libSoQtDevices_la_LDFLAGS) $(libSoQtDevices_la_OBJECTS) $(libSoQtDevices_la_LIBADD) $(LIBS)
 
@@ -584,6 +596,8 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/6DOFEvents.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@DeviceCommon.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@DeviceCommon.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtDevice.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtDevice.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtInputFocus.Plo@am__quote@
@@ -636,6 +650,24 @@ spwinput_x11.lo: $(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp
 @AMDEP_TRUE@	depfile='$(DEPDIR)/spwinput_x11.Plo' tmpdepfile='$(DEPDIR)/spwinput_x11.TPlo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o spwinput_x11.lo `test -f $(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp
+
+So@Gui@DeviceCommon.o: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp' object='So@Gui@DeviceCommon.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@DeviceCommon.Po' tmpdepfile='$(DEPDIR)/So@Gui@DeviceCommon.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@DeviceCommon.o `test -f $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp
+
+So@Gui@DeviceCommon.obj: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp' object='So@Gui@DeviceCommon.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@DeviceCommon.Po' tmpdepfile='$(DEPDIR)/So@Gui@DeviceCommon.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@DeviceCommon.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp`
+
+So@Gui@DeviceCommon.lo: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp' object='So@Gui@DeviceCommon.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@DeviceCommon.Plo' tmpdepfile='$(DEPDIR)/So@Gui@DeviceCommon.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@DeviceCommon.lo `test -f $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp
 CXXDEPMODE = @CXXDEPMODE@
 uninstall-info-am:
 
@@ -878,8 +910,14 @@ $(top_builddir)/src/Inventor/@Gui@/common/gl.h: $(top_srcdir)/src/Inventor/@Gui@
 	fi; \
 	$(SHELL) config.status --file=src/Inventor/@Gui@/common/gl.h:src/Inventor/@Gui@/common/gl.h.in )
 
+$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiDevice.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp:src/Inventor/@Gui@/common/devices/SoGuiDevice.cpp.in )
+
 $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Device.h: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiDevice.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/So@Gui@Device.h:src/Inventor/@Gui@/common/devices/SoGuiDevice.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/devices/SoGuiDeviceP.h: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiDeviceP.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/SoGuiDeviceP.h:src/Inventor/@Gui@/common/devices/SoGuiDeviceP.h.in )
 
 $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocus.h: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiInputFocus.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/So@Gui@InputFocus.h:src/Inventor/@Gui@/common/devices/SoGuiInputFocus.h.in )
