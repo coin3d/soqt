@@ -22,6 +22,8 @@ static const char rcsid[] =
   "$Id$";
 #endif // SOQT_DEBUG
 
+#include <stdlib.h> // atexit
+
 #include <qevent.h>
 #include <qkeycode.h>
 #if QT_VERSION >= 200
@@ -39,7 +41,18 @@ static const char rcsid[] =
 #include <config.h>
 #endif // HAVE_CONFIG_H
 
-#include <stdlib.h> // atexit
+// The reason for this is that SoQt _compiled_ against Qt versions
+// 2.0.0 <= X < 2.2.0 should still detect keypad presses when _run_
+// against Qt versions >= 2.2.0.
+#define QT_KEYPAD_MASK_ASSUMED 0x400
+
+#if HAVE_QT_KEYPAD_DEFINE
+#define QT_KEYPAD_MASK Qt::Keypad
+#else // !HAVE_QT_KEYPAD_DEFINE
+#define QT_KEYPAD_MASK QT_KEYPAD_MASK_ASSUMED
+#endif // !HAVE_QT_KEYPAD_DEFINE
+
+
 
 /*!
   \class SoQtKeyboard SoQtKeyboard.h Inventor/Qt/devices/SoQtKeyboard.h
@@ -404,6 +417,15 @@ SoQtKeyboard::SoQtKeyboard(
 {
   this->eventmask = mask;
   this->kbdevent = NULL;
+
+  // Protect against surprises in future Qt version (> v2.x.x).
+  static bool mask_tested = false;
+  if (!mask_tested) {
+    mask_tested = true;
+    if (QT_KEYPAD_MASK != QT_KEYPAD_MASK_ASSUMED) {
+      assert(false && "value of Qt::Keypad has changed!");
+    }
+  }
 } // SoQtKeyboard()
 
 /*!
@@ -507,12 +529,7 @@ SoQtKeyboard::translateEvent(
 
     // FIXME: check for Key_unknown. 19990212 mortene.
 
-#if 0 // FIXME: tmp disabled, breaks build when using Qt v2.0.x and v2.1.x.
-      // (Qt::Keypad is not defined). 20010323 mortene.
-    SbBool keypad = (keyevent->state() & Qt::Keypad) != 0;
-#else // tmp enabled
-    SbBool keypad = false;
-#endif // tmp enabled
+    SbBool keypad = (keyevent->state() & QT_KEYPAD_MASK) != 0;
 
     // Translate keycode Qt -> So
     void * table;
