@@ -40,7 +40,13 @@ DISTCLEANFILES = \
 
 if BUILD_LIBRARY
 
-bin_SCRIPTS = so@gui@-config
+if MAC_FRAMEWORK
+dynbindir = /usr/local/bin
+else
+dynbindir = $(bindir)
+endif
+
+dynbin_SCRIPTS = so@gui@-config
 
 m4datadir = $(datadir)/aclocal
 dist_m4data_DATA = so@gui@.m4
@@ -78,14 +84,36 @@ built-sources: $(BUILT_SOURCES)
 
 all-local: built-sources
 
+if BUILD_LIBRARY
+if MAC_FRAMEWORK
+## FIXME: this may be better suited in install-data-local  20011205 larsa
+install-exec-local:
+	@$(NORMAL_INSTALL)
+	@echo "Setting up Mac OS X framework"
+	@$(mkinstalldirs) $(DESTDIR)$(prefix)/Versions/$(MAC_FRAMEWORK_VER)
+	@ln -sf $(MAC_FRAMEWORK_VER) $(DESTDIR)$(prefix)/Versions/Current
+	@ln -sf Versions/Current/Headers $(DESTDIR)$(prefix)/Headers
+	@ln -sf Versions/Current/Resources $(DESTDIR)$(prefix)/Resources
+#	@ln -sf Versions/Current/Libraries $(DESTDIR)$(prefix)/Libraries
+	@case "$(ivincludedir)" in \
+	/Library/Frameworks/Inventor.framework/* ) \
+	  echo " ln -sf $(prefix)/Headers $(ivincludedir)/Qt"; \
+	  ln -sf $(prefix)/Headers $(ivincludedir)/Qt; \
+	  ;; \
+	esac
+else
 install-exec-local: built-sources $(srcdir)/cfg/m4/wrapmsvc.exe
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(bindir)
 	@if @BUILD_WITH_MSVC@; then \
 	  p=wrapmsvc.exe; \
-	  echo " $(INSTALL_PROGRAM) $(srcdir)/cfg/m4/$$p $(DESTDIR)$(bindir)/$$p"; \
-	  $(INSTALL_PROGRAM) $(srcdir)/cfg/m4/$$p $(DESTDIR)$(bindir)/$$p; \
+	  if cmp -s "$(srcdir)/cfg/m4/$$p" "$(DESTDIR)$(bindir)/$$p"; then \
+	    echo " $(INSTALL_PROGRAM) $(srcdir)/cfg/m4/$$p $(DESTDIR)$(bindir)/$$p"; \
+	    $(INSTALL_PROGRAM) $(srcdir)/cfg/m4/$$p $(DESTDIR)$(bindir)/$$p; \
+	  fi \
 	fi
+endif
+endif
 
 install-data-local: built-sources
 

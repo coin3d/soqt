@@ -96,7 +96,11 @@ devices.lst: Makefile $(devices_lst_OBJECTS)
 ############################################################################
 ## Header file installation information.
 
+if MAC_FRAMEWORK
+SoQtDevicesincdir = $(includedir)/devices
+else
 SoQtDevicesincdir = $(includedir)/Inventor/Qt/devices
+endif
 SoQtDevicesinc_HEADERS = \
 	SoQtDevice.h
 

@@ -90,7 +90,11 @@ soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
 ############################################################################
 # header installation
 
+if MAC_FRAMEWORK
+SoQtincdir = $(includedir)
+else
 SoQtincdir = $(includedir)/Inventor/Qt
+endif
 SoQtinc_HEADERS = \
 	SoQtLightSliderSet.h \
 	SoQtMaterialSliderSet.h \
@@ -151,6 +155,11 @@ soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib: Makefile \
 
 ############################################################################
 
+if MAC_FRAMEWORK
+install-exec-local:
+	@echo " ln -sf Versions/Current/Libraries/libSoQt.dylib $(DESTDIR)$(prefix)/$(MAC_FRAMEWORK_NAME)"; \
+	ln -sf Versions/Current/Libraries/libSoQt.dylib $(DESTDIR)$(prefix)/$(MAC_FRAMEWORK_NAME);
+else
 install-exec-local:
 	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
 	if @BUILD_WITH_MSVC@; then \
@@ -163,6 +172,7 @@ install-exec-local:
 	    fi \
 	  done; \
 	else :; fi
+endif
 
 install-data-local:
 	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \

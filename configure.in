@@ -129,6 +129,7 @@ AC_EXEEXT
 # Initialize libtool
 if $BUILD_WITH_MSVC; then
   RANLIB=:
+  export RANLIB
 fi
 
 SIM_AC_MAC_CPP_ADJUSTMENTS
@@ -154,6 +155,35 @@ AC_PROG_LIBTOOL
 # fix some mess created by AC_PROG_LIBTOOL
 # AC_LANG(C)
 # AC_LANG(C++)
+
+# **************************************************************************
+# To test the Mac OS X framework setup on non-Mac systems, run configure
+# with the --enable-framework option.  20011029 larsa
+
+AC_ARG_ENABLE([framework],
+  [AC_HELP_STRING([--disable-framework],
+                  [don't try to set up a framework on Mac OS X])],
+  [case $enableval in
+  yes | true ) sim_ac_prefer_framework=true ;;
+  no | false ) sim_ac_prefer_framework=false ;;
+  * ) AC_MSG_ERROR([unknown use of --disable-framework option]) ;;
+  esac], [])
+
+AC_SUBST([MAC_FRAMEWORK_NAME], [SoQt])
+AC_SUBST([MAC_FRAMEWORK_VER], [A])
+
+SIM_AC_MAC_FRAMEWORK([
+  if test x"$prefix" = x"NONE"; then
+    prefix=/Library/Frameworks/${MAC_FRAMEWORK_NAME}.framework
+    includedir="\${prefix}/Versions/${MAC_FRAMEWORK_VER}/Headers"
+    datadir="\${prefix}/Versions/${MAC_FRAMEWORK_VER}/Resources"
+    libdir="\${prefix}/Versions/${MAC_FRAMEWORK_VER}/Libraries"
+  fi
+])
+
+if test x"$prefix" = x"NONE"; then
+  prefix=/usr/local
+fi
 
 # These are used for constructing the soqt-config file.
 AC_SUBST(SOGUI_EXTRA_CPPFLAGS, $CPPFLAGS)
@@ -392,6 +422,8 @@ else
     SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_coin_cppflags"
     SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_coin_ldflags"
     SOGUI_EXTRA_LIBS="$sim_ac_coin_libs $SOGUI_EXTRA_LIBS"
+    ivincludedir="$sim_ac_coin_includedir"
+    AC_SUBST([ivincludedir])
   ], [AC_MSG_ERROR([couldn't compile and link against Coin])])
 
   SIM_AC_CHECK_X11_READY(
@@ -580,55 +612,6 @@ AC_SUBST([WIDGET], ["QWidget *"])
 AC_SUBST([EVENT], ["QEvent *"])
 AC_SUBST([COMPONENTHEADER], [Q_OBJECT])
 
-# **************************************************************************
-# Section for Doxygen
-
-# AC_ARG_WITH(
-#   html,
-#   AC_HELP_STRING([--with-html], [build and install SoQt HTML documentation]),
-#   [case "${withval}" in
-#     yes) want_html=yes ;;
-#     no)  want_html=no ;;
-#     *) AC_MSG_ERROR(bad value "${withval}" for --with-html) ;;
-#   esac],
-#   [want_html=no])
-# 
-# AC_ARG_WITH(
-#   man,
-#   AC_HELP_STRING([--with-man], [build and install SoQt man pages]),
-#   [case "${withval}" in
-#     yes) want_man=yes ;;
-#     no)  want_man=no ;;
-#     *) AC_MSG_ERROR(bad value "${withval}" for --with-man) ;;
-#   esac],
-#   [want_man=no])
-# 
-# SOQT_DOC_HTML=`echo $want_html | tr a-z A-Z`
-# SOQT_DOC_MAN=`echo $want_man | tr a-z A-Z`
-# AC_SUBST(SOQT_DOC_HTML)
-# AC_SUBST(SOQT_DOC_MAN)
-# 
-# soqt_dox_build_dir=`pwd`
-# soqt_dox_src_dir=`cd $srcdir; pwd`
-# 
-# AC_SUBST(soqt_dox_src_dir)
-# AC_SUBST(soqt_dox_build_dir)
-# 
-# if test x"$want_html" != xno -o x"$want_man" != xno; then
-#   SIM_AC_DOXYGEN_TOOL(,
-#     AC_MSG_ERROR([Could not find the doxygen tool -- see http://www.stack.nl/~dimitri/doxygen/]))
-#   # sim_ac_doxygen_our_version=1.1.5
-#   # if test x"$sim_ac_doxygen_avail" != x"$sim_ac_doxygen_our_version"; then
-#   #   AC_MSG_WARN(You are not using Doxygen version $sim_ac_doxygen_our_version)
-#   # fi
-# 
-#   AC_PATH_PROG(sim_ac_perl_exe, perl, false, $PATH)
-#   if test x"$sim_ac_perl_exe" = xfalse; then
-#     AC_MSG_WARN(Could not find the Perl executable)
-#   fi
-#   AC_SUBST(sim_ac_perl_exe)
-# fi
-
 case $host_os in
 darwin*)
   SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS -Wl,-multiply_defined,suppress"
@@ -729,6 +712,29 @@ else
   # For the build/soqt.spec RPM specification file.
   SIM_AC_ISO8601_DATE(soqt_configure_date)
   AC_SUBST(soqt_configure_date)
+
+  if $sim_ac_prefer_framework; then
+    # setup for SoQt usage
+    SOGUI_EXTRA_CPPFLAGS=
+    SOGUI_EXTRA_CFLAGS=
+    SOGUI_EXTRA_CXXFLAGS=
+    SOGUI_EXTRA_LDFLAGS="-Wl,-multiply_defined,suppress -framework SoQt"
+    SOGUI_EXTRA_LIBS=
+    # adjust for Qt usage
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qt_cppflags"
+    SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qt_ldflags"
+    SOGUI_EXTRA_LIBS="$sim_ac_qt_libs $SOGUI_EXTRA_LIBS"
+    # adjust for QGL usage
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qgl_cppflags"
+    SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qgl_ldflags"
+    SOGUI_EXTRA_LIBS="$sim_ac_qgl_libs $SOGUI_EXTRA_LIBS"
+    # adjust for Coin usage
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_coin_ldflags"
+    SOGUI_EXTRA_CFLAGS="$SOGUI_EXTRA_CFLAGS $sim_ac_coin_cflags"
+    SOGUI_EXTRA_CXXFLAGS="$SOGUI_EXTRA_CXXFLAGS $sim_ac_coin_cxxflags"
+    SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_coin_ldflags"
+    SOGUI_EXTRA_LIBS="$sim_ac_coin_libs $SOGUI_EXTRA_LIBS"
+  fi
 fi
 
 AC_SUBST([HTML_DOC_DIR], [`eval echo "$datadir/SoQt/html"`])

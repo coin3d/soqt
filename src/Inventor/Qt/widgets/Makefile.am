@@ -68,7 +68,11 @@ widgets.lst: Makefile $(widgets_lst_OBJECTS)
 ############################################################################
 # header installation
 
+if MAC_FRAMEWORK
+SoQtWidgetsincdir = $(includedir)/widgets
+else
 SoQtWidgetsincdir = $(includedir)/Inventor/Qt/widgets
+endif
 SoQtWidgetsinc_HEADERS = 
 nodist_SoQtWidgetsinc_HEADERS = SoQtPopupMenu.h
 

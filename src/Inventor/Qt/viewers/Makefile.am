@@ -77,7 +77,11 @@ viewers.lst: Makefile $(viewers_lst_OBJECTS)
 ############################################################################
 # header installation
 
+if MAC_FRAMEWORK
+SoQtViewersincdir = $(includedir)/viewers
+else
 SoQtViewersincdir = $(includedir)/Inventor/Qt/viewers
+endif
 SoQtViewersinc_HEADERS = \
 	SoQtFullViewer.h \
 	SoQtExaminerViewer.h \
