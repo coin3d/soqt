@@ -20,7 +20,7 @@ also out the following ChangeLog files:
 
   ./conf-macros/ChangeLog
   ./src/Inventor/$GUI/common/ChangeLog
-  ./examples/components/ChangeLog
+  ./examples/ChangeLog
 
 See http://www.red-bean.com/~kfogel/cvs2cl.shtml for information about the
 cvs2cl script used to generate this file.
@@ -39,7 +39,7 @@ cvs log | $cvs2cl --stdin --header $headerfile --separate-header --prune \
   --ignore 'config\.h\.in$' \
   --ignore 'conf-macros' \
   --ignore "src/Inventor/$GUI/common" \
-  --ignore 'examples/components' 
+  --ignore 'examples' 
 
 rm ChangeLog.bak $headerfile
 
