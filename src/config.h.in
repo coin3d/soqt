@@ -3,6 +3,9 @@
 /* Define if you have the <dlfcn.h> header file. */
 #undef HAVE_DLFCN_H
 
+/* Define if you have the <GL/gl.h> header file. */
+#undef HAVE_GL_GL_H
+
 /* Define if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
 
@@ -14,6 +17,9 @@
 
 /* Define if you have the <netinet/in.h> header file. */
 #undef HAVE_NETINET_IN_H
+
+/* Define if you have the <OpenGL/gl.h> header file. */
+#undef HAVE_OPENGL_GL_H
 
 /* Define this to 1 if operator==(QGLFormat&, QGLFormat&) is available */
 #undef HAVE_QGLFORMAT_EQ_OP

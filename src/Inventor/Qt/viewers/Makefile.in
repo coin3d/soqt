@@ -132,6 +132,10 @@ LIBS =
 
 
 ############################################################################
+EXTRA_DIST = \
+	SoNativeFlyViewer.cpp
+
+
 BUILT_SOURCES = \
 	SoQtViewer.h \
 	SoQtViewer.cpp \
