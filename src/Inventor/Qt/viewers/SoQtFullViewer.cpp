@@ -646,80 +646,7 @@ SoQtFullViewer::eventFilter(QObject *obj, QEvent * e)
 #else
       pos = me->pos();
 #endif
-      int itemid = this->prefmenu->PopUp( pos.x(), pos.y() );
-
-      switch ( itemid ) {
-      case -1:
-        // means no item was selected
-        break;
-
-      case EXAMINING_ITEM:
-        this->selectedViewing();
-        break;
-      case DECORATION_ITEM:
-        this->selectedDecoration();
-        break;
-      case HEADLIGHT_ITEM:
-        this->selectedHeadlight();
-        break;
-      case PREFERENCES_ITEM:
-        this->selectedPrefs();
-        break;
-
-      case HELP_ITEM:
-        this->helpbuttonClicked();
-        break;
-      case HOME_ITEM:
-        this->homebuttonClicked();
-        break;
-      case SET_HOME_ITEM:
-        this->sethomebuttonClicked();
-        break;
-      case VIEW_ALL_ITEM:
-        this->viewallbuttonClicked();
-        break;
-      case SEEK_ITEM:
-        this->seekbuttonClicked();
-        break;
-      case COPY_VIEW_ITEM:
-        this->copyviewSelected();
-        break;
-      case PASTE_VIEW_ITEM:
-        this->pasteviewSelected();
-        break;
-
-      case AS_IS_ITEM:
-      case HIDDEN_LINE_ITEM:
-      case NO_TEXTURE_ITEM:
-      case LOW_RESOLUTION_ITEM:
-      case WIREFRAME_ITEM:
-      case POINTS_ITEM:
-      case BOUNDING_BOX_ITEM:
-        this->drawstyleActivated( itemid );
-        break;
-
-      case MOVE_SAME_AS_STILL_ITEM:
-      case MOVE_NO_TEXTURE_ITEM:
-      case MOVE_LOW_RES_ITEM:
-      case MOVE_WIREFRAME_ITEM:
-      case MOVE_LOW_RES_WIREFRAME_ITEM:
-      case MOVE_POINTS_ITEM:
-      case MOVE_LOW_RES_POINTS_ITEM:
-      case MOVE_BOUNDING_BOX_ITEM:
-        this->drawstyleActivated( itemid );
-        break;
-
-      case SINGLE_BUFFER_ITEM:
-      case DOUBLE_BUFFER_ITEM:
-      case INTERACTIVE_BUFFER_ITEM:
-        this->drawstyleActivated( itemid );
-        break;
-
-      default:
-        SoDebugError::postInfo( "SoQtFullViewer::eventFilter",
-          "popup menu handling for item %d is not implemented", itemid );
-        break;
-      } // switch ( itemid )
+      this->prefmenu->PopUp( this->getGLWidget(), pos.x(), pos.y() );
     }
   }
 
@@ -1024,6 +951,8 @@ SoQtFullViewer::buildPopupMenu(
   void )
 {
   this->prefmenu = SoAnyFullViewer::buildStandardPopupMenu();
+  this->prefmenu->AddMenuSelectionCallback(
+    SoQtFullViewer::menuSelectionCallback, (void *) this );
 
   // Set initial checkmarks on drawstyle menus.
   this->setDrawStyle(
@@ -2718,3 +2647,99 @@ SoQtFullViewer::getThumbwheel(
 } // getThumbwheel()
 
 // *************************************************************************
+
+void
+SoQtFullViewer::menuSelection( // virtual
+  int menuitemid )
+{
+  switch ( menuitemid ) {
+  case -1:
+    // means no item was selected
+#if SOQT_DEBUG
+    SoDebugError::postInfo( "SoQtFullViewer::menuSelection",
+      "-1 not appropriate on callback usage" );
+#endif // SOQT_DEBUG
+    break;
+
+  case EXAMINING_ITEM:
+    this->selectedViewing();
+    break;
+  case DECORATION_ITEM:
+    this->selectedDecoration();
+    break;
+  case HEADLIGHT_ITEM:
+    this->selectedHeadlight();
+    break;
+  case PREFERENCES_ITEM:
+    this->selectedPrefs();
+    break;
+
+  case HELP_ITEM:
+    this->helpbuttonClicked();
+    break;
+  case HOME_ITEM:
+    this->homebuttonClicked();
+    break;
+  case SET_HOME_ITEM:
+    this->sethomebuttonClicked();
+    break;
+  case VIEW_ALL_ITEM:
+    this->viewallbuttonClicked();
+    break;
+  case SEEK_ITEM:
+    this->seekbuttonClicked();
+    break;
+  case COPY_VIEW_ITEM:
+    this->copyviewSelected();
+    break;
+  case PASTE_VIEW_ITEM:
+    this->pasteviewSelected();
+    break;
+
+  case AS_IS_ITEM:
+  case HIDDEN_LINE_ITEM:
+  case NO_TEXTURE_ITEM:
+  case LOW_RESOLUTION_ITEM:
+  case WIREFRAME_ITEM:
+  case POINTS_ITEM:
+  case BOUNDING_BOX_ITEM:
+    this->drawstyleActivated( menuitemid );
+    break;
+
+  case MOVE_SAME_AS_STILL_ITEM:
+  case MOVE_NO_TEXTURE_ITEM:
+  case MOVE_LOW_RES_ITEM:
+  case MOVE_WIREFRAME_ITEM:
+  case MOVE_LOW_RES_WIREFRAME_ITEM:
+  case MOVE_POINTS_ITEM:
+  case MOVE_LOW_RES_POINTS_ITEM:
+  case MOVE_BOUNDING_BOX_ITEM:
+    this->drawstyleActivated( menuitemid );
+    break;
+
+  case SINGLE_BUFFER_ITEM:
+  case DOUBLE_BUFFER_ITEM:
+  case INTERACTIVE_BUFFER_ITEM:
+    this->drawstyleActivated( menuitemid );
+    break;
+
+  default:
+    SoDebugError::postInfo( "SoQtFullViewer::eventFilter",
+      "popup menu handling for item %d is not implemented", menuitemid );
+    break;
+  } // switch ( menuitemid )
+} // menuSelection()
+
+void
+SoQtFullViewer::menuSelectionCallback( // static
+  int menuitemid,
+  void * userdata)
+{
+  SoQtFullViewer * viewer = (SoQtFullViewer *) userdata;
+  viewer->menuSelection( menuitemid );
+} // menuSelectionCallback()
+
+// *************************************************************************
+
+static const char * getSoQtFullViewerRCSId(void) { return rcsid; }
+

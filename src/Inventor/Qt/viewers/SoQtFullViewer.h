@@ -93,6 +93,8 @@ protected:
 
   virtual void buildPopupMenu(void);
   void setPopupMenuString(const char * title);
+  virtual void menuSelection( int menuitemid );
+  static void menuSelectionCallback( int menuitemid, void * userdata );
 
   virtual QWidget * makeSubPreferences(QWidget * parent);
   void setPrefSheetString(const char * title);
