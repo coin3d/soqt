@@ -38,7 +38,7 @@
 #include <soqtdefs.h>
 #include <Inventor/Qt/SoQtBasic.h>
 #include <Inventor/Qt/devices/SoQtKeyboard.h>
-#include <Inventor/Qt/errors/SoDebugError.h>
+#include <Inventor/errors/SoDebugError.h>
 
 #if HAVE_CONFIG_H
 #include <config.h>
