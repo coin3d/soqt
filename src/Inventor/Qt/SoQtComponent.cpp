@@ -865,7 +865,7 @@ SoQtComponent::getSize(
   hierarchy.
 */
 void
-SoQtComponent::sizeChanged(const & SbVec2s)
+SoQtComponent::sizeChanged(const SbVec2s & size)
 {
   // The default implementation does nothing.
 }
