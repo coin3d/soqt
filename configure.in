@@ -203,12 +203,6 @@ AC_DEFINE_UNQUOTED(SOQT_VERSION, "$SOQT_VERSION",
   [Version string for SoQt])
 
 # **************************************************************************
-# Use C++ compiler for configure tests.
-
-AC_PROG_CXX
-AC_LANG_CPLUSPLUS
-
-# **************************************************************************
 # Miscellaneous options and initializations.
 
 AC_CANONICAL_SYSTEM
@@ -234,6 +228,12 @@ SOQT_EXTRA_LIBS=$LIBS
 AC_SUBST(SOQT_EXTRA_CPPFLAGS)
 AC_SUBST(SOQT_EXTRA_LDFLAGS)
 AC_SUBST(SOQT_EXTRA_LIBS)
+
+# **************************************************************************
+# Use C++ compiler for configure tests.
+
+AC_LANG_CPLUSPLUS
+AC_PROG_CXX
 
 # **************************************************************************
 # Header files we might want.

@@ -353,7 +353,7 @@ if test -z "$AMDEP"; then
     if depmode="$depmode" \
        source=conftest.c object=conftest.o \
        depfile=conftest.Po tmpdepfile=conftest.TPo \
-       $SHELL $am_depcomp $depcc -c conftest.c -o conftest.o 2>/dev/null &&
+       $SHELL $am_depcomp $depcc -c conftest.c -o conftest.o >/dev/null 2>&1 &&
        grep conftest.h conftest.Po > /dev/null 2>&1; then
       am_cv_[$1]_dependencies_compiler_type="$depmode"
       break
@@ -913,8 +913,8 @@ AC_DEFUN([AM_MAINTAINER_MODE],
                           (and sometimes confusing) to the casual installer],
       USE_MAINTAINER_MODE=$enableval,
       USE_MAINTAINER_MODE=no)
-  AC_MSG_RESULT($USE_MAINTAINER_MODE)
-  AM_CONDITIONAL(MAINTAINER_MODE, test $USE_MAINTAINER_MODE = yes)
+  AC_MSG_RESULT([$USE_MAINTAINER_MODE])
+  AM_CONDITIONAL(MAINTAINER_MODE, [test $USE_MAINTAINER_MODE = yes])
   MAINT=$MAINTAINER_MODE_TRUE
   AC_SUBST(MAINT)dnl
 ]
