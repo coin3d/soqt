@@ -396,8 +396,8 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/SoGuiGLWidgetCommon.cpp.in \
   src/Inventor/@Gui@/common/SoGuiRenderArea.h.in \
   src/Inventor/@Gui@/common/SoGuiRenderArea.cpp.in \
-  src/Inventor/@Gui@/common/SoGuiColorEditor.h \
-  src/Inventor/@Gui@/common/SoGuiMaterialEditor.h \
+  src/Inventor/@Gui@/common/SoGuiColorEditor.h.in \
+  src/Inventor/@Gui@/common/SoGuiMaterialEditor.h.in \
   src/Inventor/@Gui@/common/SbGuiList.h \
   src/Inventor/@Gui@/common/SoAny.h.in \
   src/Inventor/@Gui@/common/SoAny.cpp.in \
