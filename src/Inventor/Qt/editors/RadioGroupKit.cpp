@@ -1,3 +1,5 @@
+
+
 #include <Inventor/nodes/SoCone.h>
 #include <Inventor/nodes/SoCube.h>
 #include <Inventor/nodes/SoTranslation.h> 
@@ -30,20 +32,21 @@ RadioGroupKit::RadioGroupKit(void)
 {
   SO_KIT_CONSTRUCTOR(RadioGroupKit);
 
-  root = new SoSeparator;
-  root->ref();
-  
+   
   if (SO_KIT_IS_FIRST_INSTANCE()) {
     SoInput input;
     input.setBuffer((void *) RADIOBULLET_radiobulletgeometry, strlen(RADIOBULLET_radiobulletgeometry));
     SoDB::readAll(&input);
   }
-  
-  SO_KIT_ADD_CATALOG_ENTRY(RadioBulletActive, SoTransformSeparator, TRUE, this, , TRUE);
-  SO_KIT_ADD_CATALOG_ENTRY(RadioBullet, SoTransformSeparator, TRUE, this, , TRUE);
-  SO_KIT_ADD_CATALOG_ENTRY(BulletColorActive, SoBaseColor, TRUE, this, , TRUE);
-  SO_KIT_ADD_CATALOG_ENTRY(BulletColor, SoBaseColor, TRUE, this, , TRUE);
 
+  SO_KIT_ADD_CATALOG_ENTRY(radioGroupRoot,SoSeparator,TRUE,this, "",TRUE);
+
+  SO_KIT_ADD_CATALOG_ENTRY(RadioBulletActive, SoTransformSeparator, TRUE, radioGroupRoot, , TRUE);
+  SO_KIT_ADD_CATALOG_ENTRY(RadioBullet, SoTransformSeparator, TRUE, radioGroupRoot, , TRUE);
+  SO_KIT_ADD_CATALOG_ENTRY(BulletColorActive, SoBaseColor, TRUE, radioGroupRoot, , TRUE);
+  SO_KIT_ADD_CATALOG_ENTRY(BulletColor, SoBaseColor, TRUE, radioGroupRoot, , TRUE);
+
+  // FIXME: Are these needed? (handegar)
   //SO_KIT_ADD_FIELD(selected, -1);
   //SO_KIT_ADD_FIELD(labels, "");
 
@@ -65,6 +68,10 @@ RadioGroupKit::RadioGroupKit(void)
   buttonSpacingX->translation.setValue(RADIO_BUTTON_SIZE*1.5,-RADIO_BUTTON_SIZE/2,0);
   buttonSpacingY = new SoTranslation;
   buttonSpacingY->translation.setValue(0,-RADIO_BUTTON_SIZE*2.5,0);
+
+  root = new SoSeparator;
+  setPart("radioGroupRoot",root);
+  
 
 }
 

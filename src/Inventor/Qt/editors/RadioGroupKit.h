@@ -61,6 +61,7 @@ class RadioGroupKit : public SoInteractionKit {
   typedef SoBaseKit inherited;
 
   SO_KIT_HEADER(RadioGroupKit);
+  SO_KIT_CATALOG_ENTRY_HEADER(radioGroupRoot);
   SO_KIT_CATALOG_ENTRY_HEADER(RadioBulletActive);
   SO_KIT_CATALOG_ENTRY_HEADER(RadioBullet);
   SO_KIT_CATALOG_ENTRY_HEADER(BulletColorActive);

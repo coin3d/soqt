@@ -39,6 +39,7 @@ class RGBCubeEditorKit : public SoInteractionKit {
   typedef SoInteractionKit inherited;
 
   SO_KIT_HEADER(RGBCubeEditorKit);
+  SO_KIT_CATALOG_ENTRY_HEADER(RGBCubeRoot);
   SO_KIT_CATALOG_ENTRY_HEADER(DraggerX);
   SO_KIT_CATALOG_ENTRY_HEADER(DraggerY);
   SO_KIT_CATALOG_ENTRY_HEADER(DraggerZ);
@@ -62,7 +63,6 @@ class RGBCubeEditorKit : public SoInteractionKit {
 
 
   // Internal methods
-
   void initCubeFacelist(SoTransformSeparator *root, 
 			SbVec3f *cubeVertices,
 			SoCoordinate3 *colorCubeCoords,
@@ -87,7 +87,7 @@ class RGBCubeEditorKit : public SoInteractionKit {
 
   // --- Methods called by callback statics
   void updateColorValueText(float red, float green, float blue);
-  //void removeCurrentColorCube();
+
 
   // --- Static Callbacks
   static void mouseClickCallback(void *classObject, SoEventCallback *cb);
@@ -98,13 +98,10 @@ class RGBCubeEditorKit : public SoInteractionKit {
 
 public:
 
-
-
- // Constants
+  // Constants
   static const int CUBE_SIZE_X = 2;
   static const int CUBE_SIZE_Y = 2;
   static const int CUBE_SIZE_Z = 2;
-
 
   // Variables
   float draggerXValue;
@@ -114,10 +111,9 @@ public:
 
   SoMFColor rgb;
 
+  // Nodekit methods
   void initRgbCube();
   void draggerCallback();
-
-  // Nodekit methods
   static void initClass();
   virtual SbBool affectsState() const;
 

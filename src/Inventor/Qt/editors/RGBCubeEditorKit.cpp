@@ -42,13 +42,15 @@ SO_KIT_SOURCE(RGBCubeEditorKit);
 RGBCubeEditorKit::RGBCubeEditorKit(void)
 {
   SO_KIT_CONSTRUCTOR(RGBCubeEditorKit);
-  SO_KIT_ADD_CATALOG_ENTRY(DraggerX,SoScale1Dragger,TRUE,this, ,TRUE);
-  SO_KIT_ADD_CATALOG_ENTRY(DraggerY,SoScale1Dragger,TRUE,this, ,TRUE);
-  SO_KIT_ADD_CATALOG_ENTRY(DraggerZ,SoScale1Dragger,TRUE,this, ,TRUE);
+  SO_KIT_ADD_CATALOG_ENTRY(RGBCubeRoot,SoSeparator,TRUE,this, "",TRUE);
+  SO_KIT_ADD_CATALOG_ENTRY(DraggerX,SoScale1Dragger,TRUE,RGBCubeRoot, "",TRUE);
+  SO_KIT_ADD_CATALOG_ENTRY(DraggerY,SoScale1Dragger,TRUE,RGBCubeRoot, "",TRUE);
+  SO_KIT_ADD_CATALOG_ENTRY(DraggerZ,SoScale1Dragger,TRUE,RGBCubeRoot, "",TRUE);
 
-  SoSeparator * draggerRoot = NULL;
+
 
   if (SO_KIT_IS_FIRST_INSTANCE()) {
+    SoSeparator * draggerRoot = NULL;
     SoInput input;
     input.setBuffer((void *) RGBCUBE_draggergeometry, strlen(RGBCUBE_draggergeometry));
     draggerRoot = SoDB::readAll(&input);
@@ -94,6 +96,7 @@ RGBCubeEditorKit::mouseClickCallback(void *classObject, SoEventCallback *cb)
 
   if(mouseEvent->getButton() == SoMouseButtonEvent::BUTTON1 &&
      mouseEvent->getState() == SoButtonEvent::UP) return;
+
   
   RGBCubeEditorKit * rgbCube = (RGBCubeEditorKit *) classObject;  // Fetch caller object
 
@@ -112,11 +115,9 @@ RGBCubeEditorKit::mouseClickCallback(void *classObject, SoEventCallback *cb)
   SbMatrix matrix = matrixAction.getMatrix();
   scenePathCopy->unref();
 
-
   SbVec3f scale, translation;
   SbRotation rotation,scaleo;
   matrix.getTransform(translation, rotation, scale, scaleo);
-
 
   SoRayPickAction rayPickAction(viewport);
   SbVec2s pos(mouseEvent->getPosition());
@@ -129,17 +130,14 @@ RGBCubeEditorKit::mouseClickCallback(void *classObject, SoEventCallback *cb)
     return;  // no object were selected. aborting.
   
 
-  SoPath * path = myPP->getPath();
+  SoFullPath * path = (SoFullPath *)myPP->getPath();
   SoNode * end = path->getTail();
   
-
   if(end == rgbCube->cubeIndexedFacelist){  // Is this the IndexedFaceSet object?
-  
+
     SbVec3f ipoint = myPP->getPoint();
 
-    // Using 'diffusecube' coords since all cubes should be located at the same spot.
     SbVec3f cubeOrigo = rgbCube->colorCubeCoords->point[0];
- 
     cubeOrigo[0] += translation[0]; 
     cubeOrigo[1] += translation[1];
     cubeOrigo[2] += translation[2];
@@ -418,11 +416,17 @@ RGBCubeEditorKit::initCubeFacelist(SoTransformSeparator *root,
   root->addChild(cubeLight);
   root->addChild(cubeCoords);
   root->addChild(cubeIndexedFacelist);
+
+  SoPickStyle *pickStyle = new SoPickStyle;
+  pickStyle->style = SoPickStyle::UNPICKABLE;
   
-  root->addChild(lineCubeCoords);
-  root->addChild(cubeLineMaterial);
-  root->addChild(cubeLineList);
-  
+  SoSeparator *lineRoot = new SoSeparator;
+  lineRoot->addChild(pickStyle);              // Make the linecube unpickable
+  lineRoot->addChild(lineCubeCoords);
+  lineRoot->addChild(cubeLineMaterial);
+  lineRoot->addChild(cubeLineList);  
+  root->addChild(lineRoot);
+
   root->addChild(colorIndicatorRoot);
 
 }
@@ -636,8 +640,9 @@ void
 RGBCubeEditorKit::initRgbCube()
 {
 
-  root = new SoSeparator;
-  root->ref();
+  SoSeparator *root = new SoSeparator;
+  setPart("RGBCubeRoot",root);
+
 
   SoEventCallback *mouseCallback = new SoEventCallback;
   mouseCallback->addEventCallback(SoMouseButtonEvent::getClassTypeId(), &mouseClickCallback, this);
@@ -662,7 +667,6 @@ RGBCubeEditorKit::initRgbCube()
   modifyDraggerWidget(draggerZ);
   
 
-
   // Create 'o' point translation for cube-corner
   colorIndicatorPosition = new SoTranslation;
 
@@ -686,7 +690,7 @@ RGBCubeEditorKit::initRgbCube()
   cubeRoot->addChild(cubeRootDraggers);
   cubeRoot->ref();
 
-
+  
   root->addChild(cubeRoot);
   draggerCallback();
 
