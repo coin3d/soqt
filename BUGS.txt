@@ -325,3 +325,38 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     20021219 mortene.
 
 =====================================================================
+
+017 Tooltips on viewer buttons.
+
+    The functionality of the different viewer pushbuttons is not
+    entirely obvious, so we should add tooltips on the buttons.
+
+    20030114 mortene.
+
+=====================================================================
+
+018 Problems with multi-threading Coin applications.
+
+    larsa and pederb found a problematic case, leading to obscure
+    bugs, when using SoQt in a multi-threading application: if a
+    different thread than the SoQt-init thread causes a notification
+    chain from the Coin scene graph, which again leads to the
+    scheduling a sensor for the SoSensorManager, the callback
+    invocation of the SoSensorManager runs into SoQt code to set up a
+    Qt timersensor. This seems to not be mt-safe in Qt.
+
+    20030204 mortene.
+
+=====================================================================
+
+019 Incompatibilities with TGS Inventor v3.1.
+
+    HitecO reports misc problems running SoQt on top of TGS Inventor
+    3.1, especially when initializing multiple threads through the
+    Inventor library.
+
+    This problem could be related to item #018.
+
+    20030204 mortene.
+
+=====================================================================
