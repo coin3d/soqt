@@ -565,7 +565,7 @@ if test x"$UNIX2WINPATH" = x"false"; then
 else
   UNIX2WINPATH="CYGWIN= $UNIX2WINPATH -w"
 fi
-AC)SUBST([UNIX2WINPATH])
+AC_SUBST([UNIX2WINPATH])
 
 # **************************************************************************
 # Variable substitutions for using libSoQt in the generic code.
