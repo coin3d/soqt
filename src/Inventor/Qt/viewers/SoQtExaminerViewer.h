@@ -38,7 +38,7 @@ class QPixmap;
 class QTimer;
 
 class SoQtThumbWheel;
-class SoQtExaminerViewer;
+class SoAnyExaminerViewer;
 
 // *************************************************************************
 

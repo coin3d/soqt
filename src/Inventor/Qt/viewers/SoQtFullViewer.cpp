@@ -694,7 +694,7 @@ SoQtFullViewer::eventFilter(QObject * obj, QEvent * e)
 #else
       pos = me->pos();
 #endif
-      this->prefmenu->PopUp( this->getGLWidget(), pos.x(), pos.y() );
+//      this->prefmenu->PopUp( this->getGLWidget(), pos.x(), pos.y() );
     }
   }
 

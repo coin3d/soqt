@@ -525,6 +525,7 @@ SoQtExaminerViewer::processEvent(QEvent * event)
 {
   inherited::processEvent( event );
   return;
+} // processEvents()
 
 #if 0
 
@@ -682,8 +683,6 @@ SoQtExaminerViewer::processEvent(QEvent * event)
   common->lastmouseposition = norm_mousepos;
 
 #endif
-
-} // processEvents()
 
 // *************************************************************************
 
