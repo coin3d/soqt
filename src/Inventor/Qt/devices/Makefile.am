@@ -1,6 +1,10 @@
 ## Process this file with automake to generate Makefile.in.
 
+if BUILD_WITH_MSVC
+noinst_LIBRARIES = devices.lst
+else
 noinst_LTLIBRARIES = libSoQtDevices.la
+endif
 
 INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
 LIBS =
@@ -47,6 +51,7 @@ libSoQtDevicesConditionalHeaders = \
         $(libSoQtDevicesLinuxJoystickHeaders)
 
 ############################################################################
+# libtool setup
 
 libSoQtDevices_la_SOURCES = \
 	SoQtDevice.cpp \
@@ -67,6 +72,30 @@ EXTRA_libSoQtDevices_la_SOURCES = \
 	SoQtLinuxJoystick.h \
 	SoQtLinuxJoystick.cpp \
 	moc_SoQtLinuxJoystick.cpp
+
+############################################################################
+# custom setup
+
+devices_lst_SOURCES = \
+	SoQtDevice.cpp \
+	SoQtDevice.h \
+	SoQtInputFocus.cpp \
+	SoQtInputFocus.h \
+	SoQtKeyboard.cpp \
+	SoQtKeyboard.h \
+	SoQtMouse.cpp \
+	SoQtMouse.h \
+	SoQtSpaceball.cpp \
+	SoQtSpaceball.h \
+	$(libSoQtDevicesBuiltSources) \
+	$(libSoQtDevicesConditionalSources)
+
+devices.lst: Makefile $(devices_lst_OBJECTS)
+	@echo "Linking devices.lst..."; \
+	echo $(CC) /LST:devices.lst \
+	  $(devices_lst_OBJECTS); \
+	$(CC) /LST:devices.lst \
+	  $(devices_lst_OBJECTS);
 
 ############################################################################
 ## Header file installation information.

@@ -1,6 +1,10 @@
 ## Process this file with automake to generate Makefile.in.
 
+if BUILD_WITH_MSVC
+noinst_LIBRARIES = widgets.lst
+else
 noinst_LTLIBRARIES = libSoQtWidgets.la
+endif
 
 ## Remove any linklibraries detected by configure, as they are not
 ## needed in the submodules -- only in the toplevel libSoQt build.
@@ -51,9 +55,7 @@ SoAnyThumbWheel.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoAnyThumbWheel.cpp.in
 	   $(MAKE) src/Inventor/Qt/widgets/SoAnyThumbWheel.cpp )
 
 ############################################################################
-
-## All source files used when building this submodule, including all
-## headers.
+# libtool setup
 
 libSoQtWidgets_la_SOURCES = \
 	$(BUILT_SOURCES) \
@@ -64,3 +66,23 @@ libSoQtWidgets_la_SOURCES = \
 	SoQtPopupMenu.cpp \
 	SoQtPopupMenu.h
 
+############################################################################
+# custom setup
+
+widgets_lst_SOURCES = \
+	$(BUILT_SOURCES) \
+	SoQtGLArea.cpp \
+	SoQtGLArea.h \
+	SoQtThumbWheel.cpp \
+	SoQtThumbWheel.h \
+	SoQtPopupMenu.cpp \
+	SoQtPopupMenu.h
+
+widgets.lst: Makefile $(widgets_lst_OBJECTS)
+	@echo "Linking widgets.lst..."; \
+	echo $(CC) /LST:widgets.lst \
+	  $(widgets_lst_OBJECTS); \
+	$(CC) /LST:widgets.lst \
+	  $(widgets_lst_OBJECTS);
+
+# EOF ######################################################################

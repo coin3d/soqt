@@ -6,7 +6,11 @@ SUBDIRS = devices viewers widgets
 
 INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
 
+if BUILD_WITH_MSVC
+lib_LIBRARIES = soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib
+else
 lib_LTLIBRARIES = libSoQt@SUFFIX@.la
+endif
 
 BUILT_SOURCES = \
 	SoAny.h \
@@ -29,9 +33,8 @@ BUILT_SOURCES = \
 	moc_SoQtSliderSetBase.cpp \
 	moc_SoQtTransformSliderSet.cpp
 
-############################################################################
-
-libSoQt@SUFFIX@_la_SOURCES = \
+SOQTSOURCES = \
+	$(BUILT_SOURCES) \
 	SoQt.cpp \
 	SoQt.h \
 	SoQtComponent.cpp \
@@ -47,8 +50,13 @@ libSoQt@SUFFIX@_la_SOURCES = \
 	SoQtSliderSetBase.cpp \
 	SoQtSliderSetBase.h \
 	SoQtTransformSliderSet.cpp \
-	SoQtTransformSliderSet.h \
-	$(BUILT_SOURCES)
+	SoQtTransformSliderSet.h
+
+############################################################################
+# libtool setup
+
+libSoQt@SUFFIX@_la_SOURCES = \
+	$(SOQTSOURCES)
 
 libSoQt@SUFFIX@_la_LIBADD = \
 	devices/libSoQtDevices.la \
@@ -57,6 +65,20 @@ libSoQt@SUFFIX@_la_LIBADD = \
 
 libSoQt@SUFFIX@_la_LDFLAGS = \
         -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
+
+############################################################################
+# custom setup
+
+soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
+	$(SOQTSOURCES)
+
+soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
+	devices/devices.lst \
+	viewers/viewers.lst \
+	widgets/widgets.lst
+
+############################################################################
+# header installation
 
 libSoQt@SUFFIX@incdir = $(includedir)/Inventor/Qt
 
@@ -144,22 +166,17 @@ moc_SoQtTransformSliderSet.cpp: \
 # **************************************************************************
 
 soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib: Makefile \
-  $(libSoQt@SUFFIX@_la_OBJECTS) $(libSoQt@SUFFIX@_la_DEPENDENCIES)
+  $(soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) \
+  $(soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_DEPENDENCIES)
 	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
 	rm -f "$$basename.lib" "$$basename.dll"; \
-	if @BUILD_WITH_MSVC@; then \
 	  echo "Linking $@..." \
 	  echo $(CC) $(LDFLAGS) $(LIBFLAGS) \
-	    `echo $(libSoQt@SUFFIX@_la_OBJECTS) | sed 's%\.lo%.obj%g'` \
-	    $(libSoQt@SUFFIX@_la_LIBADD) $(LIBS); \
+	    $(soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) \
+	    $(soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_LIBADD) $(LIBS); \
 	  $(CC) $(LDFLAGS) $(LIBFLAGS) \
-	    `echo $(libSoQt@SUFFIX@_la_OBJECTS) | sed 's%\.lo%.obj%g'` \
-	    $(libSoQt@SUFFIX@_la_LIBADD) $(LIBS); \
-	else \
-	  touch "$$basename.lib" "$$basename.dll"; \
-	fi
-
-all-local: soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib
+	    $(soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) \
+	    $(soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_LIBADD) $(LIBS);
 
 # **************************************************************************
 
@@ -167,7 +184,7 @@ install-exec-local: soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib
 	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
 	for ext in dll pdb; do \
 	  file="$$basename.$$ext"; \
-	  if test -s "$$file"; then \
+	  if test -f "$$file"; then \
 	    $(mkinstalldirs) "$(DESTDIR)$(bindir)"; \
 	    echo " $(INSTALL_PROGRAM)" "$$file" "$(DESTDIR)$(bindir)/$$file"; \
 	    $(INSTALL_PROGRAM) "$$file" "$(DESTDIR)$(bindir)/$$file"; \
@@ -178,7 +195,7 @@ install-data-local: soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib
 	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
 	for ext in lib; do \
 	  file="$$basename.$$ext"; \
-	  if test -s "$$file"; then \
+	  if test -f "$$file"; then \
 	    $(mkinstalldirs) "$(DESTDIR)$(libdir)"; \
 	    echo " $(INSTALL_DATA)" "$$file" "$(DESTDIR)$(libdir)/$$file"; \
 	    $(INSTALL_DATA) "$$file" "$(DESTDIR)$(libdir)/$$file"; \

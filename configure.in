@@ -238,6 +238,9 @@ AM_MAINTAINER_MODE
 AC_PROG_CXX
 AC_LANG(C++)
 
+AC_OBJEXT
+AC_EXEEXT
+
 if $BUILD_WITH_MSVC; then
   RANLIB=true
   export RANLIB
@@ -249,22 +252,27 @@ if $BUILD_WITH_MSVC; then
 fi
 
 # Initialize libtool
-AC_PROG_LIBTOOL
+if $BUILD_WITH_MSVC; then
+  RANLIB=:
+else
+  AC_PROG_LIBTOOL
 
-case "$host_os" in
-irix*)
-  # should really test if $CC = CC
-  if test x"${AR+set}" != x"set"; then
-    if test x"$CXX" = xCC; then
-      echo "modifying libtool"
-      mv libtool libtool.orig
-      sed -e 's/\\\$AR cru/CC -ar -o/' <libtool.orig >libtool
-      chmod 755 libtool
-      rm -f libtool.orig
+  case "$host_os" in
+  irix*)
+    # should really test if $CC = CC
+    if test x"${AR+set}" != x"set"; then
+      if test x"$CXX" = xCC; then
+        echo "modifying libtool"
+        mv libtool libtool.orig
+        sed -e 's/\\\$AR cru/CC -ar -o/' <libtool.orig >libtool
+        chmod 755 libtool
+        rm -f libtool.orig
+      fi
     fi
-  fi
-  ;;
-esac
+    ;;
+  esac
+fi
+
 
 # fix some mess created by AC_PROG_LIBTOOL
 AC_LANG(C)
@@ -461,6 +469,8 @@ SIM_AC_HAVE_INVENTOR_FEATURE(
 # Check that the Qt installation looks ok and include the
 # necessary paths and link libraries.
 
+AC_PROG_CPP
+
 SIM_AC_CHECK_QT([
   SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS $sim_ac_qt_cppflags"
   SOQT_EXTRA_LDFLAGS="$SOQT_EXTRA_LDFLAGS $sim_ac_qt_ldflags"
@@ -644,6 +654,8 @@ AC_SUBST(LIBFLAGS)
 
 # **************************************************************************
 # Remaining setup based on platform.
+
+AM_CONDITIONAL(BUILD_WITH_MSVC, $BUILD_WITH_MSVC)
 
 if $BUILD_WITH_MSVC; then
   if $SOQT_STATIC; then

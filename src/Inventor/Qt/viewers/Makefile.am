@@ -1,6 +1,10 @@
 ## Process this file with automake to generate Makefile.in.
 
+if BUILD_WITH_MSVC
+noinst_LIBRARIES = viewers.lst
+else
 noinst_LTLIBRARIES = libSoQtViewers.la
+endif
 
 ## Remove any linklibraries detected by configure, as they are not
 ## needed in the submodules -- only in the toplevel libSoQt build.
@@ -104,9 +108,7 @@ moc_SoQtFlyViewer.cpp: $(top_srcdir)/src/Inventor/Qt/viewers/SoQtFlyViewer.h
 	   $(MAKE) src/Inventor/Qt/viewers/moc_SoQtFlyViewer.cpp )
 
 ############################################################################
-
-## All source files used when building this submodule, including all headers.
-## We don't specify the path for these because they should be found in VPATH.
+# libtool setup
 
 libSoQtViewers_la_SOURCES = \
 	$(BUILT_SOURCES) \
@@ -123,7 +125,33 @@ libSoQtViewers_la_SOURCES = \
 	SoQtFlyViewer.cpp \
 	SoQtFlyViewer.h
 
-## Installation information.
+############################################################################
+# custom setup
+
+viewers_lst_SOURCES = \
+	$(BUILT_SOURCES) \
+	SoQtFullViewer.cpp \
+	SoQtFullViewer.h \
+	SoQtExaminerViewer.cpp \
+	SoQtExaminerViewer.h \
+	SoQtPlaneViewer.cpp \
+	SoQtPlaneViewer.h \
+	SoQtConstrainedViewer.cpp \
+	SoQtConstrainedViewer.h \
+	SoQtWalkViewer.cpp \
+	SoQtWalkViewer.h \
+	SoQtFlyViewer.cpp \
+	SoQtFlyViewer.h
+
+viewers.lst: Makefile $(viewers_lst_OBJECTS)
+	@echo "Linking viewers.lst..."; \
+	echo $(CC) /LST:viewers.lst \
+	  $(viewers_lst_OBJECTS); \
+	$(CC) /LST:viewers.lst \
+	  $(viewers_lst_OBJECTS);
+
+############################################################################
+# header installation
 
 libSoQtViewersincdir = $(includedir)/Inventor/Qt/viewers
 
@@ -135,3 +163,4 @@ libSoQtViewersinc_HEADERS = \
 	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtConstrainedViewer.h \
 	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtWalkViewer.h \
 	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtFlyViewer.h
+

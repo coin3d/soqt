@@ -237,37 +237,37 @@ WARN_FORMAT           = "$file:$line: $text"
 # with spaces. 
 
 INPUT                 = \
-	@soqt_dox_build_dir@/src/Inventor/Qt/SoQtBasic.h \
-	@soqt_dox_src_dir@/src/Inventor/Qt/SoQt.cpp \
-	@soqt_dox_src_dir@/src/Inventor/Qt/SoQt.h \
-	@soqt_dox_build_dir@/src/Inventor/Qt/SoQtObject.cpp \
-	@soqt_dox_build_dir@/src/Inventor/Qt/SoQtObject.h \
-	@soqt_dox_src_dir@/src/Inventor/Qt/SoQtComponent.cpp \
-	@soqt_dox_src_dir@/src/Inventor/Qt/SoQtComponent.h \
-	@soqt_dox_src_dir@/src/Inventor/Qt/SoQtGLWidget.cpp \
-	@soqt_dox_src_dir@/src/Inventor/Qt/SoQtGLWidget.h \
-	@soqt_dox_build_dir@/src/Inventor/Qt/SoQtRenderArea.cpp \
-	@soqt_dox_build_dir@/src/Inventor/Qt/SoQtRenderArea.h \
-	@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtDevice.cpp \
-	@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtDevice.h \
-	@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtInputFocus.cpp \
-	@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtInputFocus.h \
-	@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtKeyboard.cpp \
-	@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtKeyboard.h \
-	@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtMouse.cpp \
-	@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtMouse.h \
-	@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtSpaceball.cpp \
-	@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtSpaceball.h \
-	@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtLinuxJoystick.cpp \
-	@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtLinuxJoystick.h \
-	@soqt_dox_build_dir@/src/Inventor/Qt/viewers/SoQtViewer.cpp \
-	@soqt_dox_build_dir@/src/Inventor/Qt/viewers/SoQtViewer.h \
-	@soqt_dox_src_dir@/src/Inventor/Qt/viewers/SoQtFullViewer.cpp \
-	@soqt_dox_src_dir@/src/Inventor/Qt/viewers/SoQtFullViewer.h \
-	@soqt_dox_src_dir@/src/Inventor/Qt/viewers/SoQtExaminerViewer.cpp \
-	@soqt_dox_src_dir@/src/Inventor/Qt/viewers/SoQtExaminerViewer.h \
-	@soqt_dox_src_dir@/src/Inventor/Qt/viewers/SoQtPlaneViewer.cpp \
-	@soqt_dox_src_dir@/src/Inventor/Qt/viewers/SoQtPlaneViewer.h
+	@path_tag@@soqt_dox_build_dir@/src/Inventor/Qt/SoQtBasic.h \
+	@path_tag@@soqt_dox_src_dir@/src/Inventor/Qt/SoQt.cpp \
+	@path_tag@@soqt_dox_src_dir@/src/Inventor/Qt/SoQt.h \
+	@path_tag@@soqt_dox_build_dir@/src/Inventor/Qt/SoQtObject.cpp \
+	@path_tag@@soqt_dox_build_dir@/src/Inventor/Qt/SoQtObject.h \
+	@path_tag@@soqt_dox_src_dir@/src/Inventor/Qt/SoQtComponent.cpp \
+	@path_tag@@soqt_dox_src_dir@/src/Inventor/Qt/SoQtComponent.h \
+	@path_tag@@soqt_dox_src_dir@/src/Inventor/Qt/SoQtGLWidget.cpp \
+	@path_tag@@soqt_dox_src_dir@/src/Inventor/Qt/SoQtGLWidget.h \
+	@path_tag@@soqt_dox_build_dir@/src/Inventor/Qt/SoQtRenderArea.cpp \
+	@path_tag@@soqt_dox_build_dir@/src/Inventor/Qt/SoQtRenderArea.h \
+	@path_tag@@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtDevice.cpp \
+	@path_tag@@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtDevice.h \
+	@path_tag@@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtInputFocus.cpp \
+	@path_tag@@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtInputFocus.h \
+	@path_tag@@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtKeyboard.cpp \
+	@path_tag@@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtKeyboard.h \
+	@path_tag@@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtMouse.cpp \
+	@path_tag@@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtMouse.h \
+	@path_tag@@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtSpaceball.cpp \
+	@path_tag@@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtSpaceball.h \
+	@path_tag@@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtLinuxJoystick.cpp \
+	@path_tag@@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtLinuxJoystick.h \
+	@path_tag@@soqt_dox_build_dir@/src/Inventor/Qt/viewers/SoQtViewer.cpp \
+	@path_tag@@soqt_dox_build_dir@/src/Inventor/Qt/viewers/SoQtViewer.h \
+	@path_tag@@soqt_dox_src_dir@/src/Inventor/Qt/viewers/SoQtFullViewer.cpp \
+	@path_tag@@soqt_dox_src_dir@/src/Inventor/Qt/viewers/SoQtFullViewer.h \
+	@path_tag@@soqt_dox_src_dir@/src/Inventor/Qt/viewers/SoQtExaminerViewer.cpp \
+	@path_tag@@soqt_dox_src_dir@/src/Inventor/Qt/viewers/SoQtExaminerViewer.h \
+	@path_tag@@soqt_dox_src_dir@/src/Inventor/Qt/viewers/SoQtPlaneViewer.cpp \
+	@path_tag@@soqt_dox_src_dir@/src/Inventor/Qt/viewers/SoQtPlaneViewer.h
 
 # If the value of the INPUT tag contains directories, you can use the 
 # FILE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp 
@@ -358,7 +358,7 @@ GENERATE_HTML         = @SOQT_DOC_HTML@
 # If a relative path is entered the value of OUTPUT_DIRECTORY will be 
 # put in front of it. If left blank `html' will be used as the default path. 
 
-HTML_OUTPUT           = @datadir@/SoQt/html
+HTML_OUTPUT           = @path_tag@@datadir@/SoQt/html
 
 # The HTML_HEADER tag can be used to specify a personal HTML header for 
 # each generated HTML page. If it is left blank doxygen will generate a 
@@ -496,7 +496,7 @@ GENERATE_MAN          = @SOQT_DOC_MAN@
 # If a relative path is entered the value of OUTPUT_DIRECTORY will be 
 # put in front of it. If left blank `man' will be used as the default path. 
 
-MAN_OUTPUT            = @mandir@
+MAN_OUTPUT            = @path_tag@@mandir@
 
 # The MAN_EXTENSION tag determines the extension that is added to 
 # the generated man pages (default is the subroutine's section .3) 

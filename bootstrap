@@ -139,5 +139,7 @@ echo "Running autoheader..."
 
 # generate Makefile.in templates, and add missing files in cfg/
 echo "Running automake..."
-( automake $AUTOMAKE_ADD 3>&1 1>&2 2>&3 | grep -v 'directory should not' ) 3>&1 1>&2 2>&3
+( automake $AUTOMAKE_ADD 3>&1 1>&2 2>&3 | \
+  grep -v 'directory should not' | \
+  grep -v 'not a standard library name' ) 3>&1 1>&2 2>&3
 
