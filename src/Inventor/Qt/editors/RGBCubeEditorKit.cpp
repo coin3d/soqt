@@ -34,7 +34,13 @@
   #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
   #include <Inventor/nodes/SoSeparator.h>
   #include "RGBCubeEditorKit.h"
-  
+
+  static void myRgbChangeCallback(void * userData, SoSensor * sensor)
+  {
+    SoFieldSensor * fieldSensor = (SoFieldSensor *) sensor;
+    SoMFColor * color = (SoMFColor *) fieldSensor->getAttachedField();    
+  }
+
   int
   main(int argc, char ** argv)
   {
@@ -43,9 +49,16 @@
     
     SoSeparator * root = new SoSeparator;
     root->ref();
-  
-    root->addChild(new RGBCubeEditorKit);
+
+    // Creating the cube object
+    RGBCubeEditorKit *rgbCube = new RGBCubeEditorKit;
+    root->addChild(rgbCube);
     
+    // Attaching a sensor to the 'rgb' field in the RGBCubeEditorKit
+    SoFieldSensor * rgbCubeSensor = new SoFieldSensor(myRgbChangeCallback,this);
+    rgbCubeSensor->attach(&rgbCube->rgb);
+
+    // Setup scene
     SoQtExaminerViewer * viewer = new SoQtExaminerViewer(mainwin);
     viewer->setSceneGraph(root);
     viewer->show();
@@ -104,13 +117,16 @@ SO_KIT_SOURCE(RGBCubeEditorKit);
 
 // *************************************************************************
 
+static const int CUBE_SIZE_X = 2;
+static const int CUBE_SIZE_Y = 2;
+static const int CUBE_SIZE_Z = 2;
+
 class RGBCubeEditorKitP {
 public:
   RGBCubeEditorKitP(RGBCubeEditorKit * master) {
     this->master = master;
   }
 
-  // Vars
   float draggerXValue;
   float draggerYValue;
   float draggerZValue;
@@ -125,21 +141,15 @@ public:
   SoText2 * textGreenValue;
   SoText2 * textBlueValue;
   SoTranslation * colorIndicatorPosition; // Current color indicator 'o'
-  int32_t cubeVertexIndices[6*5];
+  SbVec3f * cubeVertices;              
+  SoFieldSensor * rgbSensor;
 
-  // Constants
-  static const int CUBE_SIZE_X = 2;
-  static const int CUBE_SIZE_Y = 2;
-  static const int CUBE_SIZE_Z = 2;
-
-  // Internal methods
   void draggerCallback(void);
 
   void initRgbCube(void);
 
   void initCubeFacelist(SoTransformSeparator * root, 
 			SoCoordinate3 * colorCubeCoords,
-			int32_t * cubeVertexIndices,
 			SoMaterial * cubeMaterial);
 
   void initCubeDraggers(SoSeparator * root, 
@@ -157,15 +167,15 @@ public:
 
   void modifyDraggerWidget(SoScale1Dragger * dragger);
 
-
-  // --- Methods called by callback statics
   void updateColorValueText(float red, float green, float blue);
 
-  // --- Static Callbacks
+  static void rgbChangedCallback(void * classObject, SoSensor * sensor);
   static void mouseClickCallback(void *classObject, SoEventCallback * cb);
   static void draggerXCallback(void * classObject, SoDragger * dragger);
   static void draggerYCallback(void * classObject, SoDragger * dragger);
   static void draggerZCallback(void * classObject, SoDragger * dragger);
+
+
 
 private:
   RGBCubeEditorKit * master;
@@ -182,7 +192,7 @@ RGBCubeEditorKit::RGBCubeEditorKit(void)
   PRIVATE(this) = new RGBCubeEditorKitP(this);
 
   SO_KIT_CONSTRUCTOR(RGBCubeEditorKit);
-  SO_KIT_ADD_CATALOG_ENTRY(RGBCubeRoot, SoSeparator, TRUE, this,  "", TRUE);
+  SO_KIT_ADD_CATALOG_ENTRY(RGBCubeRoot, SoSeparator, TRUE, this, "", TRUE);
 
   SO_KIT_ADD_FIELD(rgb, (SbColor(0.8, 0.8, 0.8)));
   SO_KIT_INIT_INSTANCE();
@@ -190,12 +200,18 @@ RGBCubeEditorKit::RGBCubeEditorKit(void)
   PRIVATE(this)->draggerXValue = 0.8;
   PRIVATE(this)->draggerYValue = 0.8;
   PRIVATE(this)->draggerZValue = 0.8;
-  
+ 
   PRIVATE(this)->initRgbCube();
+
+  PRIVATE(this)->rgbSensor = new SoFieldSensor(pimpl->rgbChangedCallback,PRIVATE(this));
+  PRIVATE(this)->rgbSensor->setPriority(0);
+  PRIVATE(this)->rgbSensor->attach(&this->rgb);
+
 }
 
 RGBCubeEditorKit::~RGBCubeEditorKit()
 {
+  delete PRIVATE(this)->rgbSensor;
   delete PRIVATE(this);
 }
 
@@ -211,6 +227,27 @@ RGBCubeEditorKit::affectsState(void) const
   return FALSE;
 }
 
+void 
+RGBCubeEditorKitP::rgbChangedCallback(void * classObject, SoSensor * sensor)
+{
+
+  RGBCubeEditorKitP * rgbCubeP = (RGBCubeEditorKitP *) classObject;  // Fetch caller object
+  
+  rgbCubeP->draggerXValue = rgbCubeP->master->rgb[0][0];
+  rgbCubeP->draggerYValue = rgbCubeP->master->rgb[0][1];
+  rgbCubeP->draggerZValue = rgbCubeP->master->rgb[0][2];
+
+  rgbCubeP->draggerX->scaleFactor.setValue(rgbCubeP->draggerXValue,1,1);
+  rgbCubeP->draggerY->scaleFactor.setValue(rgbCubeP->draggerYValue,1,1);
+  rgbCubeP->draggerZ->scaleFactor.setValue(rgbCubeP->draggerZValue,1,1);
+
+  // Detach sensor to prevent inf. loop. before changing 'rgb' field
+  SoFieldSensor * rgbSensor = (SoFieldSensor *) sensor;
+  rgbSensor->detach();
+  rgbCubeP->draggerCallback();
+  rgbSensor->attach(&rgbCubeP->master->rgb);
+
+}
 
 void 
 RGBCubeEditorKitP::mouseClickCallback(void * classObject, SoEventCallback * cb)
@@ -255,6 +292,7 @@ RGBCubeEditorKitP::mouseClickCallback(void * classObject, SoEventCallback * cb)
 
   SoFullPath * path = (SoFullPath *)myPP->getPath();
   SoNode * end = path->getTail();
+
   
   if(end == rgbCubeP->cubeIndexedFacelist){  // Is this the IndexedFaceSet object?
 
@@ -264,7 +302,6 @@ RGBCubeEditorKitP::mouseClickCallback(void * classObject, SoEventCallback * cb)
     cubeOrigo[0] += translation[0]; 
     cubeOrigo[1] += translation[1];
     cubeOrigo[2] += translation[2];
-
 
     // Find new corner for color cube.
     SbVec3f newPoint;
@@ -300,13 +337,13 @@ RGBCubeEditorKitP::updateColorValueText(float red, float green, float blue)
   char buffer[8];
 
   sprintf(buffer, "[%.2f]", red);
-  textRedValue->string = buffer;
+  this->textRedValue->string = buffer;
 
   sprintf(buffer, "[%.2f]", green);
-  textGreenValue->string = buffer;
+  this->textGreenValue->string = buffer;
 
   sprintf(buffer, "[%.2f]", blue);
-  textBlueValue->string = buffer;
+  this->textBlueValue->string = buffer;
 
 }
 
@@ -334,6 +371,8 @@ RGBCubeEditorKitP::draggerXCallback(void * obj, SoDragger * dragger)
   PRIVATE(rgbCube)->draggerXValue = sd->scaleFactor.getValue()[0];
   if(PRIVATE(rgbCube)->draggerXValue > 1.0)
     PRIVATE(rgbCube)->draggerXValue = 1;
+  if(PRIVATE(rgbCube)->draggerXValue < 0.0001)
+    PRIVATE(rgbCube)->draggerXValue = 0.0001;
   PRIVATE(rgbCube)->draggerCallback();
 }
 
@@ -346,6 +385,8 @@ RGBCubeEditorKitP::draggerYCallback(void * obj, SoDragger * dragger)
   PRIVATE(rgbCube)->draggerYValue = sd->scaleFactor.getValue()[0];
   if(PRIVATE(rgbCube)->draggerYValue > 1.0)
     PRIVATE(rgbCube)->draggerYValue = 1;
+  if(PRIVATE(rgbCube)->draggerYValue < 0.0001)
+    PRIVATE(rgbCube)->draggerYValue = 0.0001;
   PRIVATE(rgbCube)->draggerCallback();
 }
 
@@ -358,6 +399,8 @@ RGBCubeEditorKitP::draggerZCallback(void * obj, SoDragger * dragger)
   PRIVATE(rgbCube)->draggerZValue = sd->scaleFactor.getValue()[0];
   if(PRIVATE(rgbCube)->draggerZValue > 1.0)
     PRIVATE(rgbCube)->draggerZValue = 1;
+  if(PRIVATE(rgbCube)->draggerZValue < 0.0001)
+    PRIVATE(rgbCube)->draggerZValue = 0.0001;
   PRIVATE(rgbCube)->draggerCallback();
 }
 
@@ -369,35 +412,18 @@ RGBCubeEditorKitP::updateCubeVertices(SoCoordinate3 * cubeCoords,
 {
 
   // X-face
-  cubeCoords->point.set1Value(6, x*CUBE_SIZE_X, 
-			      y*CUBE_SIZE_Y, 
-			      z*CUBE_SIZE_Z);
-  cubeCoords->point.set1Value(2, x*CUBE_SIZE_X, 
-			      y*CUBE_SIZE_Y, 
-			      0);
-  cubeCoords->point.set1Value(1, x*CUBE_SIZE_X, 
-			      0,
-			      0);
-  cubeCoords->point.set1Value(5, x*CUBE_SIZE_X, 
-			      0,
-			      z*CUBE_SIZE_Z);
+  cubeCoords->point.set1Value(6, x*CUBE_SIZE_X, y*CUBE_SIZE_Y, z*CUBE_SIZE_Z);
+  cubeCoords->point.set1Value(2, x*CUBE_SIZE_X, y*CUBE_SIZE_Y, 0);
+  cubeCoords->point.set1Value(1, x*CUBE_SIZE_X, 0, 0);
+  cubeCoords->point.set1Value(5, x*CUBE_SIZE_X, 0, z*CUBE_SIZE_Z);
   
   // Y-face
-  cubeCoords->point.set1Value(3, 0, 
-			      y*CUBE_SIZE_Y, 
-			      0);
-  cubeCoords->point.set1Value(7, 0, 
-			      y*CUBE_SIZE_Y, 
-			      z*CUBE_SIZE_Z);
+  cubeCoords->point.set1Value(3, 0, y*CUBE_SIZE_Y, 0);
+  cubeCoords->point.set1Value(7, 0, y*CUBE_SIZE_Y, z*CUBE_SIZE_Z);
   
   // Z-face
-  cubeCoords->point.set1Value(7, 0, 
-			      y*CUBE_SIZE_Y, 
-			      z*CUBE_SIZE_Z);
-  cubeCoords->point.set1Value(4, 0, 
-			      0,
-			      z*CUBE_SIZE_Z);
-
+  cubeCoords->point.set1Value(7, 0, y*CUBE_SIZE_Y, z*CUBE_SIZE_Z);
+  cubeCoords->point.set1Value(4, 0, 0, z*CUBE_SIZE_Z);
 
   cubeMaterial->diffuseColor.set1Value(1, x, 0, 0);
   cubeMaterial->diffuseColor.set1Value(2, x, y, 0);
@@ -415,12 +441,18 @@ RGBCubeEditorKitP::updateCubeVertices(SoCoordinate3 * cubeCoords,
 void 
 RGBCubeEditorKitP::initCubeFacelist(SoTransformSeparator * root, 
 				SoCoordinate3 * cubeCoords,
-				int32_t * cubeVertexIndices,
 				SoMaterial * cubeMaterial)
 {
-  SbVec3f cubeVerts[2*4];
   
-  // BACK
+  SbVec3f cubeVerts[4*2];
+  int32_t cubeVertexIndices[] = {3,2,1,0, SO_END_FACE_INDEX,
+				 5,6,7,4, SO_END_FACE_INDEX,
+				 4,7,3,0, SO_END_FACE_INDEX,
+				 5,1,2,6, SO_END_FACE_INDEX,
+				 7,6,2,3, SO_END_FACE_INDEX,
+				 5,4,0,1, SO_END_FACE_INDEX };
+
+  // Back
   cubeVerts[0].setValue(0, 0, 0);
   cubeVerts[1].setValue(CUBE_SIZE_X, 0, 0);
   cubeVerts[2].setValue(CUBE_SIZE_X, CUBE_SIZE_Y, 0);
@@ -432,44 +464,8 @@ RGBCubeEditorKitP::initCubeFacelist(SoTransformSeparator * root,
   cubeVerts[6].setValue(CUBE_SIZE_X, CUBE_SIZE_Y, CUBE_SIZE_Z);
   cubeVerts[7].setValue(0, CUBE_SIZE_Y, CUBE_SIZE_Z);
  
-  // Indexes
-  cubeVertexIndices[0] = 3;
-  cubeVertexIndices[1] = 2;
-  cubeVertexIndices[2] = 1;
-  cubeVertexIndices[3] = 0;
-  cubeVertexIndices[4] = SO_END_FACE_INDEX;
 
-  cubeVertexIndices[5] = 5;
-  cubeVertexIndices[6] = 6;
-  cubeVertexIndices[7] = 7;
-  cubeVertexIndices[8] = 4;
-  cubeVertexIndices[9] = SO_END_FACE_INDEX;
-
-  cubeVertexIndices[10] = 4;
-  cubeVertexIndices[11] = 7;
-  cubeVertexIndices[12] = 3;
-  cubeVertexIndices[13] = 0;
-  cubeVertexIndices[14] = SO_END_FACE_INDEX;
-
-  cubeVertexIndices[15] = 5;
-  cubeVertexIndices[16] = 1;
-  cubeVertexIndices[17] = 2;
-  cubeVertexIndices[18] = 6;
-  cubeVertexIndices[19] = SO_END_FACE_INDEX;
-
-  cubeVertexIndices[20] = 7;
-  cubeVertexIndices[21] = 6;
-  cubeVertexIndices[22] = 2;
-  cubeVertexIndices[23] = 3;
-  cubeVertexIndices[24] = SO_END_FACE_INDEX;
-  
-  cubeVertexIndices[25] = 5;
-  cubeVertexIndices[26] = 4;
-  cubeVertexIndices[27] = 0;
-  cubeVertexIndices[28] = 1;
-  cubeVertexIndices[29] = SO_END_FACE_INDEX;
-
-   
+  // Vertex colors
   cubeMaterial->diffuseColor.set1Value(0, 0,0,0);
   cubeMaterial->diffuseColor.set1Value(1, 1,0,0);
   cubeMaterial->diffuseColor.set1Value(2, 1,1,0);
@@ -480,7 +476,6 @@ RGBCubeEditorKitP::initCubeFacelist(SoTransformSeparator * root,
   cubeMaterial->diffuseColor.set1Value(6, 1,1,1);
   cubeMaterial->diffuseColor.set1Value(7, 0,1,1);
   
-
  
   // ColorCube + LineCube coordinates
   SoCoordinate3 * lineCubeCoords = new SoCoordinate3;
@@ -509,8 +504,7 @@ RGBCubeEditorKitP::initCubeFacelist(SoTransformSeparator * root,
   SoLightModel * cubeLight = new SoLightModel;
   cubeLight->model = SoLightModel::BASE_COLOR;
 
- 
-  
+   
   // Current color indicator
   SoSeparator * colorIndicatorRoot = new SoSeparator;
 
@@ -518,21 +512,17 @@ RGBCubeEditorKitP::initCubeFacelist(SoTransformSeparator * root,
   colorIndicator->markerIndex = SoMarkerSet::CIRCLE_LINE_9_9;
   colorIndicator->numPoints = 1;
 
-
   SoBaseColor * colorIndicatorColor = new SoBaseColor;
   colorIndicatorColor->rgb.setValue(1,0,0);
   colorIndicatorRoot = new SoSeparator;
   colorIndicatorPosition->translation.setValue(cubeVerts[6].getValue());
  
-
   colorIndicatorRoot->addChild(colorIndicatorPosition);
   colorIndicatorRoot->addChild(colorIndicatorColor);
   colorIndicatorRoot->addChild(colorIndicator);
   
 
-
   // build scenegraph
-
   root->addChild(cubeMatBind);
   root->addChild(cubeMaterial);
   root->addChild(cubeLight);
@@ -619,17 +609,17 @@ RGBCubeEditorKitP::initCubeDraggers(SoSeparator * root,
   textRedSep->addChild(pickStyle);
   textRedSep->addChild(textRedColor);
   textRedSep->addChild(textTrans);
-  textRedSep->addChild(textRedValue);      // Class variables. Initialized in 'initRgbCubeScene'
+  textRedSep->addChild(this->textRedValue);   
   
   textGreenSep->addChild(pickStyle);
   textGreenSep->addChild(textGreenColor);
   textGreenSep->addChild(textTrans);
-  textGreenSep->addChild(textGreenValue);
+  textGreenSep->addChild(this->textGreenValue);
   
   textBlueSep->addChild(pickStyle);
   textBlueSep->addChild(textBlueColor);
   textBlueSep->addChild(textTrans);
-  textBlueSep->addChild(textBlueValue);
+  textBlueSep->addChild(this->textBlueValue);
 
   
   // build scene graph
@@ -683,7 +673,6 @@ RGBCubeEditorKitP::modifyDraggerWidget(SoScale1Dragger * dragger)
   tubeRot->angle = 3.1415/2;
 
   // Passive dragger
-
   SoMaterial * passiveMat = new SoMaterial;
   passiveMat->diffuseColor.setValue(.7,.7,.7);
   newDragger->addChild(passiveMat);
@@ -691,7 +680,6 @@ RGBCubeEditorKitP::modifyDraggerWidget(SoScale1Dragger * dragger)
   newDragger->addChild(tube);
 
   // Active dragger
-
   SoMaterial * activeMat = new SoMaterial;
   activeMat->diffuseColor.setValue(0,1,1);
   newDraggerActive->addChild(activeMat);
@@ -699,7 +687,6 @@ RGBCubeEditorKitP::modifyDraggerWidget(SoScale1Dragger * dragger)
   newDraggerActive->addChild(tube);
 
   // Scaler
-
   SoSeparator * newScaler = new SoSeparator;
   SoMaterial * scaleMat = new SoMaterial;
   scaleMat->diffuseColor.setValue(0,1,0);
@@ -731,7 +718,6 @@ RGBCubeEditorKitP::modifyDraggerWidget(SoScale1Dragger * dragger)
 
   
   // Build scene graph
-
   endPoint1Sep->addChild(endPointTrans1);
   endPoint1Sep->addChild(antiSquish);
   endPoint1Sep->addChild(endPoint);
@@ -749,7 +735,6 @@ RGBCubeEditorKitP::modifyDraggerWidget(SoScale1Dragger * dragger)
 
 
   // Create new draggers
-
   dragger->setPart("feedback",newDragger);
   dragger->setPart("feedbackActive",newDraggerActive);
 
@@ -798,7 +783,6 @@ RGBCubeEditorKitP::initRgbCube(void)
   this->cubeRoot = new SoTransformSeparator;
   this->initCubeFacelist(this->cubeRoot,
                          this->colorCubeCoords,
-                         this->cubeVertexIndices,
                          this->cubeMaterial);
   SoSeparator * cubeRootDraggers = new SoSeparator;
   this->initCubeDraggers(cubeRootDraggers,

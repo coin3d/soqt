@@ -42,6 +42,11 @@ public:
   static void initClass(void);
   virtual SbBool affectsState(void) const;
 
+  // FIXME: This is only temporary
+  static const int CUBE_SIZE_X = 2;
+  static const int CUBE_SIZE_Y = 2;
+  static const int CUBE_SIZE_Z = 2;
+
 protected:
   virtual ~RGBCubeEditorKit();
 
