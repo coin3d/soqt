@@ -640,8 +640,8 @@ if $BUILD_WITH_MSVC; then
 
   debugfile="`pwd`/src/Inventor/Qt/soqt${SOQT_MAJOR_VERSION}${SUFFIX}.pdb"
   debugfile=`cygpath -w "$debugfile" | sed 's,\\\\,\\\\\\\\,g'`
-  CPPFLAGS="/Fd$debugfile $CPPFLAGS"
   if $SOQT_STATIC; then
+    SIM_AC_CONFIGURATION_SETTING([SoQt build type], [static .lib])
     LIBFLAGS="-LIB"
     LIBFLAGS="$LIBFLAGS /OUT:soqt$SOQT_MAJOR_VERSION$SUFFIX.lib"
     SOQT_EXTRA_CPPFLAGS="-I$includedir"
@@ -649,11 +649,15 @@ if $BUILD_WITH_MSVC; then
     SOQT_EXTRA_LIBS=
   else
     LIBFLAGS="-DLL /INCREMENTAL:NO"
-    case $enable_debug in
+    case $enable_symbols in
     no | false)
       LIBFLAGS="$LIBFLAGS /RELEASE"
+      SIM_AC_CONFIGURATION_SETTING([SoQt build type],
+                                   [dynamic .dll, no symbols])
       ;;
     *)
+      SIM_AC_CONFIGURATION_SETTING([SoQt build type], [dynamic .dll + .pdb])
+      CPPFLAGS="/Fd$debugfile $CPPFLAGS"
       LIBFLAGS="$LIBFLAGS /DEBUG /PDB:soqt$SOQT_MAJOR_VERSION$SUFFIX.pdb"
       ;;
     esac

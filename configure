@@ -8552,8 +8552,13 @@ if $BUILD_WITH_MSVC; then
 
   debugfile="`pwd`/src/Inventor/Qt/soqt${SOQT_MAJOR_VERSION}${SUFFIX}.pdb"
   debugfile=`cygpath -w "$debugfile" | sed 's,\\\\,\\\\\\\\,g'`
-  CPPFLAGS="/Fd$debugfile $CPPFLAGS"
   if $SOQT_STATIC; then
+    if test x${sim_ac_configuration_settings+set} != xset; then
+  sim_ac_configuration_settings="SoQt build type:static .lib"
+else
+  sim_ac_configuration_settings="$sim_ac_configuration_settings|SoQt build type:static .lib"
+fi
+
     LIBFLAGS="-LIB"
     LIBFLAGS="$LIBFLAGS /OUT:soqt$SOQT_MAJOR_VERSION$SUFFIX.lib"
     SOQT_EXTRA_CPPFLAGS="-I$includedir"
@@ -8561,11 +8566,24 @@ if $BUILD_WITH_MSVC; then
     SOQT_EXTRA_LIBS=
   else
     LIBFLAGS="-DLL /INCREMENTAL:NO"
-    case $enable_debug in
+    case $enable_symbols in
     no | false)
       LIBFLAGS="$LIBFLAGS /RELEASE"
+      if test x${sim_ac_configuration_settings+set} != xset; then
+  sim_ac_configuration_settings="SoQt build type:dynamic .dll, no symbols"
+else
+  sim_ac_configuration_settings="$sim_ac_configuration_settings|SoQt build type:dynamic .dll, no symbols"
+fi
+
       ;;
     *)
+      if test x${sim_ac_configuration_settings+set} != xset; then
+  sim_ac_configuration_settings="SoQt build type:dynamic .dll + .pdb"
+else
+  sim_ac_configuration_settings="$sim_ac_configuration_settings|SoQt build type:dynamic .dll + .pdb"
+fi
+
+      CPPFLAGS="/Fd$debugfile $CPPFLAGS"
       LIBFLAGS="$LIBFLAGS /DEBUG /PDB:soqt$SOQT_MAJOR_VERSION$SUFFIX.pdb"
       ;;
     esac
@@ -8683,7 +8701,7 @@ DEFS=-DHAVE_CONFIG_H
 : ${CONFIG_STATUS=./config.status}
 ac_clean_files_save=$ac_clean_files
 ac_clean_files="$ac_clean_files $CONFIG_STATUS"
-{ echo "$as_me:8686: creating $CONFIG_STATUS" >&5
+{ echo "$as_me:8704: creating $CONFIG_STATUS" >&5
 echo "$as_me: creating $CONFIG_STATUS" >&6;}
 cat >$CONFIG_STATUS <<\_ACEOF
 #! /bin/sh
@@ -8764,7 +8782,7 @@ if test -x conftest.file >/dev/null 2>&1; then
 elif test -f conftest.file >/dev/null 2>&1; then
   as_executable_p="test -f"
 else
-  { { echo "$as_me:8767: error: cannot check whether a file is executable on this system" >&5
+  { { echo "$as_me:8785: error: cannot check whether a file is executable on this system" >&5
 echo "$as_me: error: cannot check whether a file is executable on this system" >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -8911,7 +8929,7 @@ cat >>$CONFIG_STATUS <<\EOF
     echo "$ac_cs_version"; exit 0 ;;
   --he | --h)
     # Conflict between --help and --header
-    { { echo "$as_me:8914: error: ambiguous option: $1
+    { { echo "$as_me:8932: error: ambiguous option: $1
 Try \`$0 --help' for more information." >&5
 echo "$as_me: error: ambiguous option: $1
 Try \`$0 --help' for more information." >&2;}
@@ -8943,12 +8961,12 @@ Try \`$0 --help' for more information." >&2;}
   'config.h' ) CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
 
   # This is an error.
-  -*) { { echo "$as_me:8946: error: unrecognized option: $1
+  -*) { { echo "$as_me:8964: error: unrecognized option: $1
 Try \`$0 --help' for more information." >&5
 echo "$as_me: error: unrecognized option: $1
 Try \`$0 --help' for more information." >&2;}
    { (exit 1); exit 1; }; } ;;
-  *) { { echo "$as_me:8951: error: invalid argument: $1" >&5
+  *) { { echo "$as_me:8969: error: invalid argument: $1" >&5
 echo "$as_me: error: invalid argument: $1" >&2;}
    { (exit 1); exit 1; }; };;
   esac
@@ -9258,7 +9276,7 @@ done; }
   esac
 
   if test x"$ac_file" != x-; then
-    { echo "$as_me:9261: creating $ac_file" >&5
+    { echo "$as_me:9279: creating $ac_file" >&5
 echo "$as_me: creating $ac_file" >&6;}
     rm -f "$ac_file"
   fi
@@ -9276,7 +9294,7 @@ echo "$as_me: creating $ac_file" >&6;}
       -) echo $tmp/stdin ;;
       [\\/$]* | ?:[\\/]*)
          # Absolute
-         test -f "$f" || { { echo "$as_me:9279: error: cannot find input file: $f" >&5
+         test -f "$f" || { { echo "$as_me:9297: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          echo $f;;
@@ -9289,7 +9307,7 @@ echo "$as_me: error: cannot find input file: $f" >&2;}
            echo $srcdir/$f
          else
            # /dev/null tree
-           { { echo "$as_me:9292: error: cannot find input file: $f" >&5
+           { { echo "$as_me:9310: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          fi;;
@@ -9350,7 +9368,7 @@ for ac_file in : $CONFIG_HEADERS; do test "x$ac_file" = x: && continue
   * )   ac_file_in=$ac_file.in ;;
   esac
 
-  test x"$ac_file" != x- && { echo "$as_me:9353: creating $ac_file" >&5
+  test x"$ac_file" != x- && { echo "$as_me:9371: creating $ac_file" >&5
 echo "$as_me: creating $ac_file" >&6;}
 
   # First look for the input files in the build tree, otherwise in the
@@ -9361,7 +9379,7 @@ echo "$as_me: creating $ac_file" >&6;}
       -) echo $tmp/stdin ;;
       [\\/$]* | ?:[\\/]*)
          # Absolute
-         test -f "$f" || { { echo "$as_me:9364: error: cannot find input file: $f" >&5
+         test -f "$f" || { { echo "$as_me:9382: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          echo $f;;
@@ -9374,7 +9392,7 @@ echo "$as_me: error: cannot find input file: $f" >&2;}
            echo $srcdir/$f
          else
            # /dev/null tree
-           { { echo "$as_me:9377: error: cannot find input file: $f" >&5
+           { { echo "$as_me:9395: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          fi;;
@@ -9491,7 +9509,7 @@ cat >>$CONFIG_STATUS <<\EOF
   rm -f $tmp/in
   if test x"$ac_file" != x-; then
     if cmp -s $ac_file $tmp/config.h 2>/dev/null; then
-      { echo "$as_me:9494: $ac_file is unchanged" >&5
+      { echo "$as_me:9512: $ac_file is unchanged" >&5
 echo "$as_me: $ac_file is unchanged" >&6;}
     else
       ac_dir=`$as_expr X"$ac_file" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
