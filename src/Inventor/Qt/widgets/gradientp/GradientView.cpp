@@ -430,3 +430,9 @@ void GradientView::buildMenu()
   menu->insertItem("Center tick", this, SLOT(centerTick()));
   menu->insertItem("Delete tick", this, SLOT(deleteTick()));
 }
+
+unsigned int GradientView::getQtColor(const unsigned int color)
+{
+  return qRgba(qAlpha(color), qRed(color),
+               qGreen(color), qBlue(color));
+}

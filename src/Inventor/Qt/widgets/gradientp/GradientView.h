@@ -82,7 +82,6 @@ protected:
   void unselectAll(void);
 
 private:
-  inline
   uint32_t getQtColor(const unsigned int color); 
 
   QCanvas * canvas;
@@ -99,13 +98,5 @@ private:
   uint32_t leftcolor;
   uint32_t rightcolor;
 };
-
-inline
-unsigned int GradientView::getQtColor(const unsigned int color)
-{
-  return qRgba(qAlpha(color), qRed(color),
-               qGreen(color), qBlue(color));
-}
-
 
 #endif // GRADIENT_EDITOR_H
