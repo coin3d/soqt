@@ -431,21 +431,12 @@ QtNativePopupMenu::removeMenuItem(
 
 // *************************************************************************
 
-/*!
-  This method invokes the popup menu.
-
-  If -1 is returned, no menu item was selected.  The itemid of the selected
-  item is returned otherwise.
-*/
-
+// Doc in superclass.
 void
-QtNativePopupMenu::popUp(
-  QWidget * inside,
-  int x,
-  int y)
+QtNativePopupMenu::popUp(QWidget * inside, int x, int y)
 {
   MenuRecord * rec = this->getMenuRecord(0);
-  rec->menu->popup(QPoint(x, y));
+  rec->menu->popup(inside->mapToGlobal(QPoint(x, y)));
 } // PopUp()
 
 // *************************************************************************

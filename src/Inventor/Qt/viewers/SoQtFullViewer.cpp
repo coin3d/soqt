@@ -1060,10 +1060,9 @@ SoQtFullViewer::openPopupMenu(// protected
     this->buildPopupMenu();
   int x = 2 + position[0];
   int y = 2 + this->getGLSize()[1] - position[1];
-  QPoint pos = this->getGLWidget()->mapToGlobal(QPoint(x,y));
 
   this->common->prepareMenu(this->prefmenu);
-  this->prefmenu->popUp(this->getGLWidget(), pos.x(), pos.y());
+  this->prefmenu->popUp(this->getGLWidget(), x, y);
 } // openPopupMenu()
 
 // *************************************************************************
