@@ -87,8 +87,7 @@ private:
   ImageItem * gradItem;
   ImageItem * selectionMarker;
   QPopupMenu * menu;
-  TickMark * movingItem;
-  TickMark * selectedMark;
+  int currenttick;
   QValueList<TickMark*> tickMarks;
 
   int startIndex;

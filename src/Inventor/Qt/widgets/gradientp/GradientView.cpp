@@ -66,8 +66,7 @@ GradientView::GradientView(QCanvas * c,
   this->grad = g;
   this->gradItem = NULL;
   this->selectionMarker = NULL;
-  this->selectedMark = NULL;
-  this->movingItem = NULL;
+  this->currenttick = -1;
   this->menu = NULL;
   this->startIndex = 0;
   this->endIndex = 1;
@@ -89,8 +88,6 @@ GradientView::~GradientView()
   delete this->gradItem;
   delete this->selectionMarker;
   delete this->menu;
-  delete this->movingItem;
-  delete this->selectedMark;
 }
 
 void GradientView::viewportResizeEvent(QResizeEvent * e)
@@ -133,19 +130,18 @@ void GradientView::contentsMousePressEvent(QMouseEvent * e)
 {
   QPoint p = inverseWorldMatrix().map(e->pos());
  
-  this->movingItem = NULL;
-
   switch (e->button()) {
   case Qt::LeftButton: 
     {
+      this->currenttick = -1;
+
       QValueList<TickMark *>::Iterator it = this->tickMarks.begin();
-      for (; it != this->tickMarks.end(); ++it) {
-        if ((*it)->hit(p)) {
-          this->movingItem = (*it);
+      for (unsigned int idx = 0; idx < this->tickMarks.size(); idx++) {
+        if (this->tickMarks[idx]->hit(p)) {
           this->moving_start = p;
           this->unselectAll();
-          this->selectedMark = this->movingItem;
-          this->selectedMark->setBrush(Qt::blue);
+          this->currenttick = idx;
+          this->tickMarks[idx]->setBrush(Qt::blue);
           emit this->viewChanged();
         }
         else {
@@ -177,29 +173,23 @@ void GradientView::contentsMouseMoveEvent(QMouseEvent * e)
   QPoint p = inverseWorldMatrix().map(e->pos());
   int x = p.x();
 
-  if (this->movingItem && 
-      (this->movingItem != this->tickMarks[0]) &&  
-      (this->movingItem != this->tickMarks[this->tickMarks.size()-1]))
-  {   
-    int index = this->tickMarks.findIndex(this->movingItem);
-    if (index > 0) {
-      assert((index < (int)this->tickMarks.size() - 1) && (index >= 1));
+  if ((this->currenttick > 0) &&
+      (this->currenttick < (int)(this->tickMarks.size() - 1))) {
+    TickMark * left = this->tickMarks[this->currenttick - 1];
+    TickMark * current = this->tickMarks[this->currenttick];
+    TickMark * right = this->tickMarks[this->currenttick + 1];
 
-      TickMark * left = this->tickMarks[index - 1];
-      TickMark * right = this->tickMarks[index + 1];
-
-      int movex = x - this->moving_start.x();
-      int newpos = (int) (this->movingItem->x() + movex);
-
-      if ((newpos >= left->x()) && newpos <= right->x()) {
-        this->movingItem->moveBy(movex, 0);
-        this->moving_start = QPoint(x, p.y());
-
-        float t = this->movingItem->getPos();
-        this->grad.moveTick(index, t);
+    const int movex = x - this->moving_start.x();
+    const int newpos = (int) (current->x() + movex);
     
-        emit this->viewChanged();
-      }
+    if ((newpos >= left->x()) && newpos <= right->x()) {
+      current->moveBy(movex, 0);
+      this->moving_start = QPoint(x, p.y());
+      
+      const float t = current->getPos();
+      this->grad.moveTick(this->currenttick, t);
+      
+      emit this->viewChanged();
     }
   }
 }
@@ -207,23 +197,20 @@ void GradientView::contentsMouseMoveEvent(QMouseEvent * e)
 void GradientView::keyPressEvent(QKeyEvent * e)
 {
   switch (e->key()) {
-  case Qt::Key_Delete:
-    this->deleteTick();
-    break;
-  default: 
-    break;
+  case Qt::Key_Delete: this->deleteTick(); break;
+  default: break;
   }
 }
 
 float
 GradientView::getSelectedPos(void)
 {
-  if (this->selectedMark) {
-    int i = this->tickMarks.findIndex(this->selectedMark);
-    if (i > 0)
-      return this->grad.getParameter(i);
+  if (this->currenttick > 0) {
+    return this->grad.getParameter(this->currenttick);
   }
-  return 0;
+  // FIXME: does it make sense to call this function without a current
+  // tick selection? If not, use an assert. 20031008 mortene.
+  return 0.0f;
 }
 
 void GradientView::unselectAll()
@@ -232,14 +219,14 @@ void GradientView::unselectAll()
   for (; it != tickMarks.end(); ++it) {
     (*it)->setBrush(Qt::black);
   }
-  this->selectedMark = NULL;
+  this->currenttick = -1;
 }
 
 
 void GradientView::setGradient(const Gradient & grad)
 {
   this->grad = grad;
-  this->selectedMark = NULL;
+  this->currenttick = -1;
   this->startIndex = 0;
   this->endIndex = 1;
   this->updateTicks();
@@ -253,22 +240,21 @@ const Gradient & GradientView::getGradient() const
 
 void GradientView::centerTick()
 {
-  unsigned int i = this->tickMarks.findIndex(this->selectedMark);
-  
-  if ((i > 0) && (i < this->tickMarks.size() - 1)) {
+  if ((this->currenttick > 0) && (this->currenttick < (int)(this->tickMarks.size() - 1))) {
 
-    float left = (float)this->tickMarks[i-1]->x();
-    float right = (float)this->tickMarks[i+1]->x();
-    float center = (right - left) / 2.0f + left;
+    const double left = this->tickMarks[this->currenttick - 1]->x();
+    const double right = this->tickMarks[this->currenttick + 1]->x();
+    const double center = (right - left) / 2.0 + left;
 
-    this->grad.moveTick(i, center / (float)this->canvas->width());
+    this->grad.moveTick(this->currenttick, center / this->canvas->width());
 
     this->updateTicks();
     emit this->viewChanged();
   }
 }
 
-TickMark * GradientView::newTick(int x)
+TickMark *
+GradientView::newTick(int x)
 {
   TickMark* i = new TickMark(this->canvas);
   i->setBrush(QColor(0,0,0));
@@ -324,22 +310,20 @@ void GradientView::updateTicks()
 
 void GradientView::deleteTick()
 {
-  int i = (int) this->tickMarks.findIndex(this->selectedMark);
-  this->selectedMark = NULL;
-
-  // FIXME: this should be an assert(), not an if(). 20031008 mortene.
-  if ((i > 0) && (i < (int) this->tickMarks.size() - 1)) {
-    this->grad.removeTick(i);
+  // FIXME: I believe this should be an assert(), not an
+  // if(). 20031008 mortene.
+  if ((this->currenttick > 0) && (this->currenttick < (int)this->tickMarks.size() - 1)) {
+    this->grad.removeTick(this->currenttick);
     this->updateTicks();
     
-    if (this->endIndex == i) {
-      this->endIndex = i+1;
-      this->startIndex = i;
+    if (this->endIndex == this->currenttick) {
+      this->endIndex = this->currenttick+1;
+      this->startIndex = this->currenttick;
     }
 
-    if (this->startIndex == i) {
-      this->startIndex = i-1;
-      this->endIndex = i;
+    if (this->startIndex == this->currenttick) {
+      this->startIndex = this->currenttick - 1;
+      this->endIndex = this->currenttick;
     }
     emit this->viewChanged();
   }
@@ -420,11 +404,11 @@ void GradientView::buildMenu()
   menu->insertSeparator();
   id = menu->insertItem("Insert new tick", this, SLOT(insertTick()));
 
-  bool tickSelected = (this->selectedMark != NULL);
+  const bool tickselected = (this->currenttick != -1);
 
   id = menu->insertItem("Center tick", this, SLOT(centerTick()));
-  if (!tickSelected) menu->setItemEnabled(id, FALSE);
+  if (!tickselected) menu->setItemEnabled(id, FALSE);
   
   id = menu->insertItem("Delete tick", this, SLOT(deleteTick()));
-  if (!tickSelected) menu->setItemEnabled(id, FALSE);
+  if (!tickselected) menu->setItemEnabled(id, FALSE);
 }
