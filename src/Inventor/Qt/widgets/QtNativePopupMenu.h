@@ -24,16 +24,16 @@
 
 #include <Inventor/Qt/SoQtBasic.h>
 
-#include <Inventor/Qt/widgets/SoAnyPopupMenu.h>
+#include <Inventor/Qt/widgets/SoQtPopupMenu.h>
 
 // *************************************************************************
 
 struct MenuRecord;
 struct ItemRecord;
 
-class QtNativePopupMenu : public QObject, public SoAnyPopupMenu
+class QtNativePopupMenu : public QObject, public SoQtPopupMenu
 {
-  typedef SoAnyPopupMenu inherited;
+  typedef SoQtPopupMenu inherited;
   Q_OBJECT
 
 public:

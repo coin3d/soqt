@@ -46,12 +46,6 @@ static const char rcsid[] =
 // SoQtFullViewerP -- most or all of the private methods, for
 // instance. 20010821 mortene.
 
-// FIXME: I think we should get rid of the "SoAnyPopupMenu * prefmenu"
-// variable in the public API, as there's really no point in exposing
-// it (SoAnyPopupMenu is a private, internal class anyway).  This must
-// be fixed for all So*-toolkits at the same time, though, as it's
-// used from SoAnyFullViewer. 20010821 mortene.
-
 //    FIXME, low priority:
 //     * add tooltips to the widgets?
 //     * trim length of edit fields
@@ -76,7 +70,7 @@ static const char rcsid[] =
 #include <soqtdefs.h>
 #include <Inventor/Qt/SoQt.h>
 #include <Inventor/Qt/widgets/SoQtThumbWheel.h>
-#include <Inventor/Qt/widgets/SoAnyPopupMenu.h>
+#include <Inventor/Qt/widgets/SoQtPopupMenu.h>
 #include <Inventor/Qt/viewers/SoAnyFullViewer.h>
 #include <Inventor/Qt/viewers/SoQtFullViewer.h>
 
@@ -192,7 +186,7 @@ SOQT_OBJECT_ABSTRACT_SOURCE(SoQtFullViewer);
 */
 
 /*!
-  \var SoAnyPopupMenu * SoQtFullViewer::prefmenu
+  \var SoQtPopupMenu * SoQtFullViewer::prefmenu
   FIXME: write doc
 */
 

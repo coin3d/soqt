@@ -30,7 +30,7 @@ class QLabel;
 class QLineEdit;
 class QSlider;
 
-class SoAnyPopupMenu;
+class SoQtPopupMenu;
 class SoQtThumbWheel;
 class SoAnyFullViewer;
 
@@ -150,7 +150,7 @@ protected:
   char * bottomWheelStr;
   float bottomWheelVal;
 
-  SoAnyPopupMenu * prefmenu;
+  SoQtPopupMenu * prefmenu;
 
 
 private:
