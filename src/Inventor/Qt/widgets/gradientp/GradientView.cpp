@@ -73,7 +73,7 @@ GradientView::GradientView(QCanvas * c,
   this->currenttick = -1;
   this->menu = NULL;
   this->segmentidx = 0;
-  this->mousePressed = FALSE;
+  this->mousepressed = FALSE;
   this->min = 0;
   this->max = 255;
 
@@ -153,7 +153,7 @@ GradientView::contentsMousePressEvent(QMouseEvent * e)
   switch (e->button()) {
   case Qt::LeftButton:
     {
-      this->mousePressed = TRUE;
+      this->mousepressed = TRUE;
       this->unselectAll();
 
       this->currenttick = -1;
@@ -194,13 +194,13 @@ GradientView::contentsMousePressEvent(QMouseEvent * e)
 void
 GradientView::contentsMouseReleaseEvent(QMouseEvent * e)
 {
-  this->mousePressed = FALSE;
+  this->mousepressed = FALSE;
 }
 
 void
 GradientView::contentsMouseMoveEvent(QMouseEvent * e)
 {
-  if (this->mousePressed) {
+  if (this->mousepressed) {
     if (this->currenttick == -1) { return; }
     QPoint p = inverseWorldMatrix().map(e->pos());
     int x = p.x();
@@ -232,10 +232,13 @@ GradientView::contentsMouseMoveEvent(QMouseEvent * e)
     }
   } else {
     QPoint p = inverseWorldMatrix().map(e->pos());
-    QRgb col = this->grad.eval((float)p.x() / (float)this->canvas->width());
-    QString s;
-    s.sprintf("RGBA: 0x%02x%02x%02x%02x", qRed(col), qGreen(col), qBlue(col), qAlpha(col));
-    this->statusBar->message(s);
+    float t = (float)p.x() / (float)this->canvas->width();
+    if ((t >= 0.0f) && (t <= 1.0f)) {
+      QRgb col = this->grad.eval(t);
+      QString s;
+      s.sprintf("RGBA: 0x%02x%02x%02x%02x", qRed(col), qGreen(col), qBlue(col), qAlpha(col));
+      this->statusBar->message(s);
+    }
   }
 }
 
@@ -380,7 +383,7 @@ GradientView::deleteTick(void)
   this->grad.removeTick(this->currenttick);
   this->updateTicks();
   this->segmentidx = -1;
-  this->mousePressed = FALSE;
+  this->mousepressed = FALSE;
   emit this->viewChanged();
 }
 
