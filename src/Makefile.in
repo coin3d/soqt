@@ -408,7 +408,7 @@ uninstall-info: uninstall-info-recursive
 	uninstall-info-recursive uninstall-recursive
 
 
-soqtdefs.h: $(srcdir)/soqtdefs.h.in
+soqtdefs.h: $(srcdir)/Inventor/Qt/common/soguidefs.h.in
 	@( cd ..; $(MAKE) built-sources )
 
 install-data-local: soqtdefs.h

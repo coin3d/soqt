@@ -261,6 +261,7 @@ EXTRA_DIST = \
 	src/Inventor/Qt/common/SoAnyMaterialList.h.in \
 	src/Inventor/Qt/common/SoAnyMaterialList.cpp.in \
 	src/Inventor/Qt/common/SoAnyMaterialListBuiltins.cpp.in \
+	src/Inventor/Qt/common/soguidefs.h.in \
 	src/Inventor/Qt/common/spwinput.h.in \
 	src/Inventor/Qt/common/spwinput_x11.cpp.in \
 	src/Inventor/Qt/common/pixmaps/help.xpm \
@@ -671,8 +672,8 @@ built-sources: $(BUILT_SOURCES)
 
 # **************************************************************************
 
-src/soqtdefs.h: $(srcdir)/src/soqtdefs.h.in config.status
-	@$(SHELL) config.status --file=$@:src/soqtdefs.h.in
+src/soqtdefs.h: $(srcdir)/src/Inventor/Qt/common/soguidefs.h.in config.status
+	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/soguidefs.h.in
 
 src/Inventor/Qt/SoAny.h: \
   $(srcdir)/src/Inventor/Qt/common/SoAny.h.in config.status

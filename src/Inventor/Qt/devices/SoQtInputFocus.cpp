@@ -22,6 +22,8 @@ static const char rcsid[] =
   "$Id$";
 #endif // SOQT_DEBUG
 
+#include <Inventor/errors/SoDebugError.h>
+
 #include <soqtdefs.h>
 #include <Inventor/Qt/SoQtBasic.h>
 #include <Inventor/Qt/devices/SoQtInputFocus.h>
