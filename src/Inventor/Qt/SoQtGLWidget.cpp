@@ -1037,6 +1037,36 @@ SoQtGLWidgetP::getOverlayContext(void)
   return NULL;
 }
 
+#if HAVE_GLX
+// There is something in this header file that fools the compiler to
+// run into problems with some of the code in
+// SoQtGLWidgetP::eventFilter(), so we just include it at the bottom
+// like this.
+#include <GL/glx.h> // For glXIsDirect().
+#endif // HAVE_GLX
+
+// Return a flag indicating whether or not OpenGL rendering is
+// happening directly from the CPU(s) to the GPU(s), ie on a local
+// display. With GLX on X11, it is possible to do remote rendering.
+SbBool
+SoQtGLWidgetP::isDirectRendering(void)
+{
+#if defined(Q_WS_X11)
+  PUBLIC(this)->glLockNormal();
+  GLXContext ctx = glXGetCurrentContext();
+  if (!ctx) {
+    SoDebugError::postWarning("SoQtGLWidgetP::isDirectRendering",
+                              "Could not get hold of current context.");
+    return TRUE;
+  }
+  Bool isdirect = glXIsDirect(qt_xdisplay(), ctx);
+  PUBLIC(this)->glUnlockNormal();
+  return isdirect ? TRUE : FALSE;
+#else // ! X11
+  return TRUE; // Neither MSWindows nor Mac OS X is capable of remote display.
+#endif // ! X11
+}
+
 #endif // DOXYGEN_SKIP_THIS
 
 // *************************************************************************

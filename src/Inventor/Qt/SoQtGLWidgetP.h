@@ -63,6 +63,9 @@ public slots:
   void gl_init(void);
   void gl_reshape(int, int);
   void gl_exposed(void);
+
+protected:
+  virtual SbBool isDirectRendering(void);
 };
 
 // ************************************************************************
