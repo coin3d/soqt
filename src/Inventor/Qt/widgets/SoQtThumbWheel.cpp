@@ -109,19 +109,19 @@ SoQtThumbWheel::paintEvent(QPaintEvent * event)
   p.setClipRect(paintRect);
   QColorGroup g = this->colorGroup();
 
-  int w, d;
+  int w, dval;
   if (this->orient == SoQtThumbWheel::Vertical) {
     w = this->width() - 12;
-    d = this->height() - 6;
+    dval = this->height() - 6;
   } else {
     w = this->height() - 12;
-    d = this->width() - 6;
+    dval = this->width() - 6;
   }
 
   // Handle resizing to too small dimensions gracefully.
-  if ((d <= 0) || (w <= 0)) return;
+  if ((dval <= 0) || (w <= 0)) return;
 
-  this->initWheel(d, w);
+  this->initWheel(dval, w);
 
   int pixmap = this->wheel->getBitmapForValue(this->tempWheelValue,
                                               (this->state == SoQtThumbWheel::Disabled) ?
@@ -153,10 +153,10 @@ SoQtThumbWheel::paintEvent(QPaintEvent * event)
 
   if (this->orient == Vertical)
     bitBlt(this, wheelrect.left(), wheelrect.top(), this->pixmaps[pixmap],
-           0, 0, w, d, CopyROP);
+           0, 0, w, dval, CopyROP);
   else
     bitBlt(this, wheelrect.left(), wheelrect.top(), this->pixmaps[pixmap],
-           0, 0, d, w, CopyROP);
+           0, 0, dval, w, CopyROP);
   this->currentPixmap = pixmap;
 }
 
@@ -173,20 +173,20 @@ SoQtThumbWheel::mousePressEvent(QMouseEvent * event)
   if (event->button() != LeftButton)
     return;
 
-  QRect wheel;
+  QRect wheelrect;
   if (this->orient == Vertical) {
-    wheel.setLeft(SHADEBORDERWIDTH + 3);
-    wheel.setTop(SHADEBORDERWIDTH + 6);
-    wheel.setRight(this->width() - SHADEBORDERWIDTH - 3);
-    wheel.setBottom(this->height() - SHADEBORDERWIDTH - 6);
+    wheelrect.setLeft(SHADEBORDERWIDTH + 3);
+    wheelrect.setTop(SHADEBORDERWIDTH + 6);
+    wheelrect.setRight(this->width() - SHADEBORDERWIDTH - 3);
+    wheelrect.setBottom(this->height() - SHADEBORDERWIDTH - 6);
   } else {
-    wheel.setLeft(SHADEBORDERWIDTH + 6);
-    wheel.setTop(SHADEBORDERWIDTH + 3);
-    wheel.setRight(this->width() - SHADEBORDERWIDTH - 6);
-    wheel.setBottom(this->height() - SHADEBORDERWIDTH - 3);
+    wheelrect.setLeft(SHADEBORDERWIDTH + 6);
+    wheelrect.setTop(SHADEBORDERWIDTH + 3);
+    wheelrect.setRight(this->width() - SHADEBORDERWIDTH - 6);
+    wheelrect.setBottom(this->height() - SHADEBORDERWIDTH - 3);
   }
 
-  if (! wheel.contains(event->pos()))
+  if (!wheelrect.contains(event->pos()))
     return;
 
   this->state = SoQtThumbWheel::Dragging;
@@ -299,9 +299,9 @@ SoQtThumbWheel::value(void) const
 void
 SoQtThumbWheel::initWheel(int diameter, int width)
 {
-  int d, w;
-  this->wheel->getSize(d, w);
-  if (d == diameter && w == width) return;
+  int dval, w;
+  this->wheel->getSize(dval, w);
+  if (dval == diameter && w == width) return;
 
   this->wheel->setSize(diameter, width);
 

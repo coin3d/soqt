@@ -105,8 +105,9 @@ void
 SoQtSpaceball::enable(QWidget * widget, SoQtEventHandler * handler, void * closure)
 {
 #ifdef HAVE_X11_AVAILABLE
+  static char sbtestx[] = "sbtestx";
   if (SPW_CheckForSpaceballX11((void*) widget->x11Display(),
-                               widget->winId(), "sbtestx") == TRUE) {
+                               widget->winId(), sbtestx) == TRUE) {
   }
 #endif // HAVE_X11_AVAILABLE
 

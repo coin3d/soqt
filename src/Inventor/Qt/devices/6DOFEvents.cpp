@@ -86,9 +86,9 @@ SoQt6dofDeviceButtonEvent::SoQt6dofDeviceButtonEvent(void)
 }
 
 void
-SoQt6dofDeviceButtonEvent::setButton(unsigned int button)
+SoQt6dofDeviceButtonEvent::setButton(unsigned int buttonarg)
 {
-  this->button = button;
+  this->button = buttonarg;
   if ((1 << this->button) & this->state)
     this->t = (QEvent::Type) soqt6dofDeviceButtonPressedEvent;
   else
@@ -102,9 +102,9 @@ SoQt6dofDeviceButtonEvent::getButton(void) const
 }
 
 void
-SoQt6dofDeviceButtonEvent::setState(unsigned int state)
+SoQt6dofDeviceButtonEvent::setState(unsigned int statearg)
 {
-  this->state = state;
+  this->state = statearg;
   if ((1 << this->button) & this->state)
     this->t = (QEvent::Type) soqt6dofDeviceButtonPressedEvent;
   else
@@ -118,9 +118,9 @@ SoQt6dofDeviceButtonEvent::getState(void) const
 }
 
 void
-SoQt6dofDeviceButtonEvent::setNumButtons(unsigned int buttons)
+SoQt6dofDeviceButtonEvent::setNumButtons(unsigned int buttonsarg)
 {
-  this->buttons = buttons;
+  this->buttons = buttonsarg;
 }
 
 unsigned int
