@@ -83,6 +83,8 @@ private:
 
 }; // class SoQtDevice
 
+typedef void (*SoQtEventHandlerPtr)( QWidget *, void *, QEvent *, bool * );
+
 // *************************************************************************
 
 // temporary hacks for the spaceball/linux joystick support
