@@ -3640,15 +3640,46 @@ fi
 
 if test "x$enable_warnings" = "xyes"; then
   if test "x$GXX" = "xyes" || test "x$GCC" = "xyes"; then
-    CFLAGS="$CFLAGS -W -Wall"
-    CXXFLAGS="$CXXFLAGS -W -Wall"
+    
+
+echo $ac_n "checking whether $CXX accepts -Wno-multichar""... $ac_c" 1>&6
+echo "configure:3647: checking whether $CXX accepts -Wno-multichar" >&5
+_save_cxxflags=$CXXFLAGS
+CXXFLAGS="$CXXFLAGS -Wno-multichar"
+cat > conftest.$ac_ext <<EOF
+#line 3651 "configure"
+#include "confdefs.h"
+
+int main() {
+
+; return 0; }
+EOF
+if { (eval echo configure:3658: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+  rm -rf conftest*
+  _accept_result=yes _warn_flags=-Wno-multichar
+else
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  rm -rf conftest*
+  _accept_result=no 
+fi
+rm -f conftest*
+echo "$ac_t""$_accept_result" 1>&6
+CXXFLAGS=$_save_cxxflags
+unset _accept_result _save_cxxflags
+
+    _warn_flags="-W -Wall -Wno-unused $_warn_flags"
+
+    CFLAGS="$CFLAGS $_warn_flags"
+    CXXFLAGS="$CXXFLAGS $_warn_flags"
+
+    unset _warn_flags
   fi
 else
   if test "x$GXX" != "xyes" && test "x$GCC" != "xyes"; then
     echo "configure: warning: --enable-warnings only has effect when using GNU gcc or g++" 1>&2
   fi
 fi
-
 
 
 
