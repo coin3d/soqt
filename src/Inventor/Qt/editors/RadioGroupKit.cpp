@@ -34,46 +34,50 @@
   #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
   #include <Inventor/nodes/SoSeparator.h>
   #include "RadioGroupKit.h"
-
-
-  static void myRadioButtonCallback(void *userData, SoSensor *sensor)
+  
+  
+  static void
+  myRadioButtonCallback(void * userdata, SoSensor * sensor)
   { 
-    SoFieldSensor *fieldSensor = (SoFieldSensor *) sensor;
-    SoSFInt32 *button = (SoSFInt32 *) fieldSensor->getAttachedField();
-    SoDebugError::postInfo("myRadioButtonCallback","Button '%d' clicked",button->getValue());
+    SoFieldSensor * fieldsensor = (SoFieldSensor *)sensor;
+    SoSFInt32 * button = (SoSFInt32 *)fieldsensor->getAttachedField();
+    SoDebugError::postInfo("myRadioButtonCallback",
+                           "Button '%d' clicked",
+                           button->getValue());
   }
-
+  
   int
   main(int argc, char ** argv)
   {
     QWidget * mainwin = SoQt::init(argc, argv, argv[0]);
     RadioGroupKit::initClass();
-
+  
     SoSeparator * root = new SoSeparator;
     root->ref();
-
+  
     // Creating a basic radiobutton group
     RadioGroupKit * radiogroup = new RadioGroupKit;
     radiogroup->labels.set1Value(0,"Item #1");
     radiogroup->labels.set1Value(1,"Item #2");
     radiogroup->labels.set1Value(2,"Item #3");
     root->addChild(radiogroup);
-
+  
     // Setting up a callback sensor for the radiobuttons
-    SoFieldSensor * radioGroupSensor = new SoFieldSensor(myRadioButtonCallback,this);
+    SoFieldSensor * radioGroupSensor =
+      new SoFieldSensor(myRadioButtonCallback, NULL);
     radioGroupSensor->attach(&radiogroup->selected);
-
+  
     // Setting up scene
     SoQtExaminerViewer * viewer = new SoQtExaminerViewer(mainwin);
     viewer->setSceneGraph(root);
     viewer->show();
-
+  
     SoQt::show(mainwin);
     SoQt::mainLoop();
-
+  
     delete viewer;
     root->unref();
-
+  
     return 0;
   }
   \endcode
@@ -107,13 +111,6 @@
 #include "RadioGroupKit.h"
 
 SO_KIT_SOURCE(RadioGroupKit);
-
-#define RADIO_BUTTON_SIZE .2
-
-typedef struct {
-  class RadioGroupKitP * thisClass;
-  SoSeparator * buttonroot;
-} paramPackage;
 
 static const char RADIOBULLET_radiobulletgeometry[] =
 "#Inventor V2.1 ascii\n"
@@ -303,8 +300,8 @@ RadioGroupKitP::removeAllRadioButtons()
 void
 RadioGroupKitP::reconstructRadioButtons()
 {
-  for(int i=0;i<master->labels.getNum(); ++i){
-    addRadioButton(master->labels[i]);
+  for(int i=0;i<PUBLIC(this)->labels.getNum(); ++i){
+    this->addRadioButton(PUBLIC(this)->labels[i]);
     this->buttonCounter++;
   }
 }
@@ -333,10 +330,10 @@ RadioGroupKitP::addRadioButton(SbString label)
 
   // Make first added button selected as default
   if(buttonCounter == 0){
-    sep = (SoTransformSeparator*) SO_GET_PART(master, "RadioBulletActive",SoTransformSeparator)->copy();
-    master->selected.setValue(0);
+    sep = (SoTransformSeparator*) SO_GET_PART(PUBLIC(this), "RadioBulletActive",SoTransformSeparator)->copy();
+    PUBLIC(this)->selected.setValue(0);
   } else {
-    sep = (SoTransformSeparator*) SO_GET_PART(master, "RadioBullet",SoTransformSeparator)->copy();
+    sep = (SoTransformSeparator*) SO_GET_PART(PUBLIC(this), "RadioBullet",SoTransformSeparator)->copy();
   }
 
   this->buttonList->set(buttonCounter,sep);    // Save the separator node for later changes @ callback
