@@ -358,11 +358,8 @@ SoQtExaminerViewer::makeSubPreferences(QWidget * parent)
 
 // *************************************************************************
 
-/*!
-  Overloaded from parent class so we can append the camera type switch
-  button in the rightside button column.
-*/
-
+// Documented in superclass. Overridden so we can append the camera
+// type switch button in the rightside button column.
 void
 SoQtExaminerViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
 {

@@ -923,10 +923,7 @@ SoQtFullViewer::buildViewerButtons(QWidget * parent)
 
 // *************************************************************************
 
-/*!
-  Set up the viewer buttons with pixmaps and event connections.
-*/
-
+// Documented in common/viewers/SoGuiFullViewer.cpp.in.
 void
 SoQtFullViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
 {

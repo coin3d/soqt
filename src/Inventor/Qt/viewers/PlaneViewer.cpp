@@ -193,9 +193,9 @@ SoQtPlaneViewer::createPrefSheet(void)
 
 // ************************************************************************
 
-/*!
-  FIXME: write doc
-*/
+// Documented in superclass. Overridden so we can append the X/Y/Z
+// buttons and the camera type switch button in the rightside button
+// column.
 void
 SoQtPlaneViewer::createViewerButtons(QWidget * parent,
                                      SbPList * buttons)
