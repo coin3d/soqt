@@ -70,7 +70,7 @@ else
 SoGuiNodesincdir = $(includedir)/Inventor/@Gui@/nodes
 endif
 
-SoGuiNodesinc_HEADERS = \
+SoGuiNodesinc_HEADERS =
 nodist_SoGuiNodesinc_HEADERS = \
 	SoGuiColorEditor.h \
 	SoGuiMaterialEditor.h

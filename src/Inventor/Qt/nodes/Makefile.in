@@ -658,7 +658,7 @@ nodist_nodes_lst_SOURCES = \
 @MAC_FRAMEWORK_TRUE@SoGuiNodesincdir = $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$(MAC_FRAMEWORK_VERSION)/Headers/nodes
 @MAC_FRAMEWORK_FALSE@SoGuiNodesincdir = $(includedir)/Inventor/@Gui@/nodes
 
-SoGuiNodesinc_HEADERS = \
+SoGuiNodesinc_HEADERS = 
 nodist_SoGuiNodesinc_HEADERS = \
 	SoGuiColorEditor.h \
 	SoGuiMaterialEditor.h
@@ -755,7 +755,7 @@ LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 DIST_SOURCES = $(am__nodes_lst_SOURCES_DIST) \
 	$(am__libSoGuiNodes_la_SOURCES_DIST)
-HEADERS = $(SoGuiNodesinc_HEADERS)
+HEADERS = $(SoGuiNodesinc_HEADERS) $(nodist_SoGuiNodesinc_HEADERS)
 
 DIST_COMMON = $(SoGuiNodesinc_HEADERS) \
 	$(srcdir)/../common/Makefile.common Makefile.am Makefile.in
@@ -1453,6 +1453,24 @@ uninstall-SoGuiNodesincHEADERS:
 	  echo " rm -f $(DESTDIR)$(SoGuiNodesincdir)/$$f"; \
 	  rm -f $(DESTDIR)$(SoGuiNodesincdir)/$$f; \
 	done
+nodist_SoGuiNodesincHEADERS_INSTALL = $(INSTALL_HEADER)
+install-nodist_SoGuiNodesincHEADERS: $(nodist_SoGuiNodesinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(SoGuiNodesincdir)
+	@list='$(nodist_SoGuiNodesinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " $(nodist_SoGuiNodesincHEADERS_INSTALL) $$d$$p $(DESTDIR)$(SoGuiNodesincdir)/$$f"; \
+	  $(nodist_SoGuiNodesincHEADERS_INSTALL) $$d$$p $(DESTDIR)$(SoGuiNodesincdir)/$$f; \
+	done
+
+uninstall-nodist_SoGuiNodesincHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(nodist_SoGuiNodesinc_HEADERS)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(SoGuiNodesincdir)/$$f"; \
+	  rm -f $(DESTDIR)$(SoGuiNodesincdir)/$$f; \
+	done
 
 ETAGS = etags
 ETAGSFLAGS =
@@ -1546,7 +1564,7 @@ check: $(BUILT_SOURCES)
 all-am: Makefile $(LIBRARIES) $(LTLIBRARIES) $(HEADERS)
 
 installdirs:
-	$(mkinstalldirs) $(DESTDIR)$(SoGuiNodesincdir)
+	$(mkinstalldirs) $(DESTDIR)$(SoGuiNodesincdir) $(DESTDIR)$(SoGuiNodesincdir)
 install: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) install-am
 install-exec: install-exec-am
@@ -1593,7 +1611,8 @@ info: info-am
 
 info-am:
 
-install-data-am: install-SoGuiNodesincHEADERS
+install-data-am: install-SoGuiNodesincHEADERS \
+	install-nodist_SoGuiNodesincHEADERS
 
 install-exec-am:
 
@@ -1620,7 +1639,8 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-SoGuiNodesincHEADERS uninstall-info-am
+uninstall-am: uninstall-SoGuiNodesincHEADERS uninstall-info-am \
+	uninstall-nodist_SoGuiNodesincHEADERS
 
 .PHONY: CTAGS GTAGS all all-am check check-am clean clean-generic \
 	clean-libtool clean-noinstLIBRARIES clean-noinstLTLIBRARIES \
@@ -1629,11 +1649,12 @@ uninstall-am: uninstall-SoGuiNodesincHEADERS uninstall-info-am
 	dvi-am info info-am install install-SoGuiNodesincHEADERS \
 	install-am install-data install-data-am install-exec \
 	install-exec-am install-info install-info-am install-man \
-	install-strip installcheck installcheck-am installdirs \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-compile mostlyclean-generic mostlyclean-libtool pdf \
-	pdf-am ps ps-am tags uninstall uninstall-SoGuiNodesincHEADERS \
-	uninstall-am uninstall-info-am
+	install-nodist_SoGuiNodesincHEADERS install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags uninstall uninstall-SoGuiNodesincHEADERS uninstall-am \
+	uninstall-info-am uninstall-nodist_SoGuiNodesincHEADERS
 
 
 ############################################################################
