@@ -58,7 +58,7 @@ GradientEditor::GradientEditor(const Gradient & grad,
   topLayout->addWidget(this->gradientWidget);
   topLayout->addLayout(buttonOutputLayout);
   
-  QCanvas * canvas = new QCanvas(450,60);
+  QCanvas * canvas = new QCanvas(500,60);
   this->gradView = new GradientView(canvas, grad, gradientWidget, "GradientView");
   this->gradView->setFrameStyle(QFrame::Sunken);
 
@@ -126,7 +126,8 @@ void GradientEditor::updateValueLabels()
   this->colorLabel->setText(QString(" Color: ") + 
                       QString(" R: ") + QString().setNum(qRed(col)) +
                       QString(" G: ") + QString().setNum(qGreen(col)) +
-                      QString(" B: ") + QString().setNum(qBlue(col)));
+                      QString(" B: ") + QString().setNum(qBlue(col)) +
+                      QString(" A: ") + QString().setNum(qAlpha(col)));
 }
 
 const Gradient& GradientEditor::getGradient() const
