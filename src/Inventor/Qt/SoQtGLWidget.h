@@ -37,7 +37,9 @@ enum GLModes {        // remove the GLX ones?
   SO_GL_DOUBLE   = 0x02, SO_GLX_DOUBLE   = SO_GL_DOUBLE,
   SO_GL_ZBUFFER  = 0x04, SO_GLX_ZBUFFER  = SO_GL_ZBUFFER,
   SO_GL_OVERLAY  = 0x08, SO_GLX_OVERLAY  = SO_GL_OVERLAY,
-  SO_GL_STEREO   = 0x10, SO_GLX_STEREO   = SO_GL_STEREO
+  SO_GL_STEREO   = 0x10, SO_GLX_STEREO   = SO_GL_STEREO,
+  SO_GL_DEFAULT_MODE =
+    (SO_GL_RGB | SO_GL_DOUBLE | SO_GL_ZBUFFER)
 };
 
 // *************************************************************************
