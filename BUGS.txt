@@ -751,3 +751,73 @@ main(void)
     20040921 kintel.
 
 =====================================================================
+
+034 setSize() for anything inheriting SoQtViewer doesn't work as
+    expected.
+
+    For the stand-alone example below, *none* of the 3 "#if 0 // BUG"
+    have the desired effect when enabled -- the window size defaults
+    to ~ 640x400 no matter what:
+
+--------8<------------ [snip] -------------------------------------------
+#include <Inventor/Qt/SoQt.h>
+#include <Inventor/Qt/viewers/SoQtViewer.h>
+#include <Inventor/nodes/SoCone.h>
+
+// *************************************************************************
+
+class MyViewer : public SoQtViewer {
+public:
+  MyViewer(QWidget * parent);
+};
+
+MyViewer::MyViewer(QWidget * parent)
+  : SoQtViewer(parent, NULL, TRUE, SoQtViewer::BROWSER, FALSE)
+{
+#if 0 // BUG
+  this->setSize(SbVec2s(1024, 800));
+#endif
+
+  this->setClassName("MyViewer");
+  QWidget * viewer = this->buildWidget(this->getParentWidget());
+  this->setBaseWidget(viewer);
+}
+
+// *************************************************************************
+
+int
+main(int argc, char ** argv)
+{
+  QWidget * window = SoQt::init(argv[0]);
+
+  MyViewer * viewer = new MyViewer(window);
+  viewer->setSceneGraph(new SoCone);
+
+#if 0 // BUG
+  viewer->setSize(SbVec2s(1024, 800));
+#endif
+
+  viewer->show();
+  SoQt::show(window);
+
+#if 0 // BUG
+  viewer->setSize(SbVec2s(1024, 800));
+#endif
+
+  SoQt::mainLoop();
+
+  delete viewer;
+
+#ifdef __COIN__
+  SoDB::cleanup();
+#endif // __COIN__
+
+  return 0;
+}
+
+// *************************************************************************
+--------8<------------ [snip] -------------------------------------------
+
+    20041130 mortene.
+
+=====================================================================
