@@ -185,9 +185,6 @@ private:
   SoQtThumbWheel * nearclippingwheel, * farclippingwheel;
   QLineEdit * nearclippingedit, * farclippingedit;
 
-  void setDrawStyleMenuActivation(SoQtViewer::DrawType type,
-                                  SoQtViewer::DrawStyle val);
-
   void setEnabledClippingWidgets(SbBool flag);
 
 private slots:
@@ -217,7 +214,6 @@ private slots:
   void selectedHeadlight();
   void copyviewSelected();
   void pasteviewSelected();
-  void drawstyleActivated(int);
   void selectedPrefs();
 
   // Pref sheet.
