@@ -137,6 +137,9 @@ SoQtMouse::translateEvent(QEvent * event)
     // Which button?
     switch (mouseevent->button()) {
     case Qt::LeftButton:
+      // We default to setting BUTTON1 for LMB, but this can be
+      // overridden below by another invocation of
+      // SoButtonEvent::setButton() if modifier keys are used.
       PRIVATE(this)->buttonevent->setButton(SoMouseButtonEvent::BUTTON1);
 
 // Emulate right mouse button on Mac OS X platform by ctrl-click.
