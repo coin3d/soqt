@@ -121,7 +121,7 @@ const SoEvent *
 SoQtSpaceball::translateEvent(QEvent * /*event*/)
 {
   SOQT_STUB();
-  return NULL;
+  return (SoEvent *) NULL;
 } // translateEvent()
 
 // *************************************************************************
