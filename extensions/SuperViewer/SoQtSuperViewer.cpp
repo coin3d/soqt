@@ -1275,7 +1275,7 @@ SoQtSuperViewer::actualRedraw(void)
 
   if (this->isAnimating()) {
     SbRotation deltaRotation = PRIVATE(this)->spinRotation;
-    deltaRotation.scaleAngle((float) secs / 0.2f);
+    deltaRotation.scaleAngle(secs * 5.0);
     PRIVATE(this)->reorientCamera(deltaRotation);
   }
 
@@ -1876,26 +1876,20 @@ SoQtSuperViewer::processSoEvent(const SoEvent * const ev)
               else {
                 SbTime delta = (PRIVATE(this)->log.time[0] - PRIVATE(this)->log.time[2]);
                 float deltatime = (float) delta.getValue();
-                if (deltatime == 0.001f) {
-                  SoDebugError::postInfo("SoQtSuperViewer::processSoEvent", "time[0] = %ld, time[2] = %ld",
-                                          PRIVATE(this)->log.time[0].getValue(), PRIVATE(this)->log.time[2].getValue());
+
+                rot.invert();
+                rot.scaleAngle(0.2f / deltatime);
+                
+                SbVec3f axis;
+                float radians;
+                rot.getValue(axis, radians);
+                if (radians < 0.01f || deltatime > 0.3f) {
                   this->interactiveCountDec();
                 }
                 else {
-                  rot.invert();
-                  rot.scaleAngle(0.2f / deltatime);
-
-                  SbVec3f axis;
-                  float radians;
-                  rot.getValue(axis, radians);
-                  if (radians < 0.01f || deltatime > 0.3f) {
-                    this->interactiveCountDec();
-                  }
-                  else {
-                    PRIVATE(this)->spinRotation = rot;
-                    PRIVATE(this)->spinanimating = TRUE;
-                    this->scheduleRedraw();
-                  }
+                  PRIVATE(this)->spinRotation = rot;
+                  PRIVATE(this)->spinanimating = TRUE;
+                  this->scheduleRedraw();
                 }
               }
             }

@@ -973,7 +973,6 @@ SoQtSuperViewerP::setMode(const ViewerMode mode)
   case FLYMODE:
     break;
   case INTERACT:
-    if (owner->isAnimating()) owner->stopAnimating();
     // FIXME: this looks like someone fixed the symptom instead of
     // fixing the cause? 20010709 mortene.
     while (owner->getInteractiveCount())
@@ -1493,12 +1492,8 @@ SoQtSuperViewerP::yawCamera(const float rad)
 {
   SoCamera * camera = owner->getCamera();
   SbMatrix yawmat;
- (void)printf("yawcam1 camrot[0] = %f, camrot[1] = %f, camrot[2] = %f\n", 
-               this->camerarot[0],this->camerarot[1],camerarot[2]);
   yawmat.setRotate(SbRotation(SbVec3f(1.0f, 0.0f, 0.0f), rad));
   this->camerarot.multLeft(yawmat);
- (void)printf("yawcam2 camrot[0] = %f, camrot[1] = %f, camrot[2] = %f\n", 
-               this->camerarot[0],this->camerarot[1],camerarot[2]);
   this->normalizeCamera();
   camera->orientation = SbRotation(this->camerarot);
   this->resetRoll();
@@ -1515,12 +1510,8 @@ SoQtSuperViewerP::rollCamera(const float rad)
 {
   SoCamera * camera = owner->getCamera();
   SbMatrix rollmat;
- (void)printf("rollcam1 camrot[0] = %f, camrot[1] = %f, camrot[2] = %f\n", 
-               this->camerarot[0],this->camerarot[1],camerarot[2]);
   rollmat.setRotate(SbRotation(SbVec3f(0.0f, 0.0f, 1.0f), rad));
   this->camerarot.multLeft(rollmat);
- (void)printf("rollcam2 camrot[0] = %f, camrot[1] = %f, camrot[2] = %f\n", 
-               this->camerarot[0],this->camerarot[1],camerarot[2]);
   this->normalizeCamera();
   camera->orientation = SbRotation(this->camerarot);
 }
@@ -1535,13 +1526,9 @@ SoQtSuperViewerP::pitchCamera(const float rad)
 {
   SoCamera * camera = owner->getCamera();
   SbMatrix pitchmat;
- (void)printf("pitchcam1 camrot[0] = %f, camrot[1] = %f, camrot[2] = %f\n", 
-               this->camerarot[0],this->camerarot[1],camerarot[2]);
   pitchmat.setRotate(SbRotation(SbVec3f(0.0f, 1.0f, 0.0f), rad));
   this->camerarot.multLeft(pitchmat);
-  (void)printf("pitchcam2 camrot[0] = %f, camrot[1] = %f, camrot[2] = %f\n", 
-               this->camerarot[0],this->camerarot[1],camerarot[2]);
-   this->normalizeCamera();
+  this->normalizeCamera();
   camera->orientation = SbRotation(this->camerarot);
   this->resetRoll();
 }
@@ -1562,9 +1549,6 @@ SoQtSuperViewerP::normalizeCamera(void)
   y[0] = this->camerarot[1][0];
   y[1] = this->camerarot[1][1];
   y[2] = this->camerarot[1][2];
-
-  (void)printf("x[0] = %f, x[1] = %f, x[2] = %f\n", x[0],x[1],x[2]);
-  (void)printf("y[0] = %f, y[1] = %f, y[2] = %f\n", y[0],y[1],y[2]);
 
   x.normalize();
   y.normalize();
@@ -2011,7 +1995,6 @@ SoQtSuperViewerP::snapshotSelected()
   }
   
   while(filters.getLength()){
-    (void)printf("filterlengd %i\n", filters.getLength());
     delete filters[0];
     filters.remove(0);
   }
@@ -2624,6 +2607,7 @@ SoQtSuperViewerP::examineSelected()
 void
 SoQtSuperViewerP::flySelected()
 {
+  if(owner->isAnimating()) owner->stopAnimating();
   this->flying = TRUE;
   this->setMode(FLYMODE);
   this->viewmodesubmenu->setItemChecked(this->viewmodesubmenu->idAt(1), TRUE);
