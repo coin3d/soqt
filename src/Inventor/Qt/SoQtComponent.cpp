@@ -48,6 +48,7 @@ static const char rcsid[] =
 #include <config.h>
 #endif // HAVE_CONFIG_H
 
+#include <qbitmap.h>
 #include <qwidget.h>
 #include <qmainwindow.h>
 #include <qmessagebox.h>
@@ -105,6 +106,8 @@ public:
     }
   }
 
+  static QCursor * getNativeCursor(const SoQtCursor::CustomCursor * cc);
+
   // Variables.
 
   QWidget * parent;
@@ -117,7 +120,6 @@ public:
   SbBool realized;
   SbVec2s storesize;
   SbBool fullscreen;
-  SoQtCursor cursor;
 
   // List of all SoQtComponent instances. Needed for the
   // SoQtComponent::getComponent() function.
@@ -125,9 +127,11 @@ public:
 
 private:
   SoQtComponent * owner;
+  static SbDict * cursordict;
 };
 
 SbPList * SoQtComponentP::soqtcomplist = NULL;
+SbDict * SoQtComponentP::cursordict = NULL;
 
 #define PRIVATE(o) (o->pimpl)
 
@@ -142,8 +146,7 @@ SOQT_OBJECT_ABSTRACT_SOURCE(SoQtComponent);
 */
 
 void
-SoQtComponent::initClasses(
-  void)
+SoQtComponent::initClasses(void)
 {
   SoQtComponent::initClass();
   SoQtGLWidget::initClass();
@@ -978,8 +981,7 @@ SoQtComponent::unregisterWidget(
 */
 
 void
-SoQtComponent::afterRealizeHook(// virtual
-  void)
+SoQtComponent::afterRealizeHook(void)
 {
 }
 
@@ -1039,30 +1041,72 @@ SoQtComponent::isFullScreen(void) const
 void 
 SoQtComponent::setComponentCursor(const SoQtCursor & cursor)
 {
-  PRIVATE(this)->cursor = cursor;
-  switch(cursor.getShape()) {
-  case SoQtCursor::DEFAULT:
-    this->getWidget()->setCursor(QCursor(Qt::arrowCursor));
-    break;
-  case SoQtCursor::BUSY:
-    this->getWidget()->setCursor(QCursor(Qt::waitCursor));
-    break;
-  case SoQtCursor::CUSTOM_BITMAP:
-    assert(0 && "FIXME: not implemented");
-    break;
-  default:
-    assert(0 && "unknown cursor shape type");
-    break;
-  }
+  SoQtComponent::setWidgetCursor(this->getWidget(), cursor);
 }
 
-/*!
-  Returns the current cursor for this component.
-*/
-const SoQtCursor &
-SoQtComponent::getComponentCursor(void) const
+// Converts from the common generic cursor format to a QCursor
+// instance.
+QCursor *
+SoQtComponentP::getNativeCursor(const SoQtCursor::CustomCursor * cc)
 {
-  return PRIVATE(this)->cursor;
+  if (SoQtComponentP::cursordict == NULL) { // first call, initialize
+    SoQtComponentP::cursordict = new SbDict; // FIXME: mem leak. 20011121 mortene.
+  }
+
+  void * qc;
+  SoQtComponentP::cursordict->find((unsigned long)cc, qc);
+  if (qc) { return (QCursor *)qc; }
+
+  // For Qt on MSWin, it is necessary to mask the bitmaps "manually"
+  // before setting up the QBitmaps for the cursors. It doesn't seem
+  // to matter any way under X11. Sounds like a Qt bug to me, which
+  // seems strange -- as this issue has been present for at least a
+  // couple of years. 20000630 mortene.
+
+  // FIXME: tmp disabled -- test under MSWin without this code first.
+  // 20011121 mortene.
+#if 0
+  const int BYTESIZE = (cc.dim[0] + 7) / 2 * cc.dim[1];
+  for (int i = 0; i < BYTESIZE; i++) {
+    cc.bitmap[i] &= cc.mask[i];
+  }
+#endif // tmp disabled
+
+  QBitmap bitmap(cc->dim[0], cc->dim[1], (uchar *)cc->bitmap, TRUE);
+  QBitmap mask(cc->dim[0], cc->dim[1], (uchar *)cc->mask, TRUE);
+
+  // FIXME: currently a memory leak here. 20011121 mortene.
+  QCursor * c = new QCursor(bitmap, mask, cc->hotspot[0], cc->hotspot[1]);
+  SoQtComponentP::cursordict->enter((unsigned long)cc, c);
+  return c;
+}
+
+
+/*!
+  Set cursor for a native widget in the underlying toolkit.
+*/
+void
+SoQtComponent::setWidgetCursor(QWidget * w, const SoQtCursor & cursor)
+{
+  if (cursor.getShape() == SoQtCursor::CUSTOM_BITMAP) {
+    const SoQtCursor::CustomCursor * cc = &cursor.getCustomCursor();
+    w->setCursor(*SoQtComponentP::getNativeCursor(cc));
+  }
+  else {
+    switch (cursor.getShape()) {
+    case SoQtCursor::DEFAULT:
+      w->setCursor(QCursor(Qt::arrowCursor));
+      break;
+
+    case SoQtCursor::BUSY:
+      w->setCursor(QCursor(Qt::waitCursor));
+      break;
+
+    default:
+      assert(FALSE && "unknown cursor shape type");
+      break;
+    }
+  }
 }
 
 // *************************************************************************
