@@ -426,6 +426,26 @@ SoQtGLWidget::setGLSize(const SbVec2s size)
     int frame = this->isBorder() ? PRIVATE(this)->borderthickness : 0;
     PRIVATE(this)->currentglwidget->setGeometry(QRect(frame, frame, PRIVATE(this)->glSize[0], PRIVATE(this)->glSize[1]));
   }
+
+// Due to an internal hack in Qt/Mac 3.1.x, sometimes the OpenGL context
+// is destroyed and re-created (see QGLWidget::macInternalRecreateContext()). 
+// In this case, we must register a new context as well in order to get
+// a new SoGLRenderAction cache context id.
+#if (defined Q_WS_MAC && QT_VERSION >= 0x030100) 
+  static const QGLContext * oldcontext = NULL;
+  QGLWidget * w = (QGLWidget*) this->getGLWidget();
+  if (w && oldcontext != w->context()) { 
+    if (SOQT_DEBUG && 0) { 
+      SoDebugError::postInfo("SoQtGLWidget::setGLSize", 
+                             "OpenGL context recreated by Qt, "
+                             "registering new context.");
+    }
+    SoAny::si()->unregisterGLContext((void *)this);
+    SoAny::si()->registerGLContext((void *)this, 0, 0);  
+  }
+  if (w) oldcontext = w->context();
+#endif
+
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
