@@ -1,0 +1,97 @@
+Systems in Motion is proud to finally release v1.0.0 of the SoQt
+library.
+
+SoQt is our library for gluing the Coin 3D visualization library into
+applications employing the Qt toolkit from Troll Tech to build 2D user
+interfaces.
+
+The SoQt library is also still fully compatible with the
+implementations of the Inventor API from SGI and TGS.
+
+SoQt provides a class-hierarchy of viewer classes that ranges from a
+simple render canvas (the SoQtRenderArea), providing only the basic
+synchronization and device input conversion routines between Qt and
+Coin, up to 3 different full-featured viewer classes
+(SoQtExaminerViewer, SoQtPlaneViewer and SoQtFlyViewer) with input
+device handling logic and user interfaces to let the application
+programmer do Rapid Application Development.
+
+SoQt has been in "beta state" for a long time, during which time we
+have had steady progress with regards to stability, compatibility
+issues, and bug elimination.  We are now confident that we have a
+release-quality codebase for SoQt, with a stable application
+programmer's interface (API) and application binary interface (ABI).
+
+
+SoQt is released under two different licenses:
+
+        1) As Free Software, under the GNU project's General Public
+           License ("GNU GPL").
+
+        2) The Coin Professional Edition License ("Coin PEL"). This is
+           a license granting developers the rights to use SoQt in
+           commercial / proprietary software, in just about any
+           setting they want.
+
+SoQt can of course be freely used under the GNU GPL (within the
+restrictions of the license), while a fee to Systems in Motion is
+involved in granting developers the rights to use the SoQt library
+under the Coin PEL.
+
+Note that holders of the Coin PEL are allowed to freely use *any* of
+the libraries in the Coin family: these currently includes libCoin,
+SoQt, SoWin, SoGtk, SoXt, Dime and Profit.
+
+See <URL:http://www.coin3d.org> for more information about the Coin
+PEL and the Coin family of libraries.
+
+(Note: up until the final 1.0.0 version, the Free Software license for
+SoQt was the GNU Lesser General Public License ("GNU LGPL", and not
+the GNU GPL. This was a change we had to make to better accommodate
+our business model. The older codebase under the GNU LGPL will still
+indeterminently be available from our FTP site. See below.)
+
+
+Below follows the download instructions.  For users of CVS who plan on
+continuing to follow Coin/SoQt development through CVS, there is an
+important change explained below - make sure you don't miss it.
+
+We will regularly package up new bugfix releases of the libraries into
+sourcecode archives for distribution on the FTP site whenever we feel
+this is justified by the number and/or severity of the fixed bugs.
+
+Source Code by FTP:
+  ftp://ftp.coin3d.org/pub/coin/src/SoQt-1.0.0.tar.gz
+
+Source Code by CVS:
+  We have forked off a separate repository for SoQt 1.* instead of
+  making a branch in the development repository.  The new repositories
+  have the module name suffix "-1" ("-" + major version number).  To
+  download the SoQt 1.0 branch, use this cvs command:
+
+    cvs -z3 -d :pserver:cvs@cvs.coin3d.org:/export/cvsroot co SoQt-1
+
+  Login for cvs@cvs.coin3d.org is still done with "cvs" as password.
+
+  The repository "SoQt" will from now on contain our development
+  sourcecode.  This might be occasionally unstable, unportable and are
+  likely to break ABI-compatibility often (meaning those who follow
+  them will have to recompile applications linking against SoQt).
+
+  So, for those whose main interest is not development of the SoQt
+  library itself, but SoQt application development: if you still want
+  to follow CVS we strongly suggest switching to the SoQt-1
+  repository, which is the repository future releases will come from.
+
+We do not yet provide pre-compiled binary packages of the SoQt library
+for any platform. The reason behind this is that the Qt library on
+which SoQt depends can be installed on client systems in so many
+different configurations and under different names, that this task
+seems difficult to do in a way that will be useful for the majority of
+our users.
+
+
+Regards,
+
+  Morten Eriksen,
+  Coin Project Leader, Systems in Motion

@@ -1,0 +1,10 @@
+This document describes the process of making a new release of the
+SoQt library.
+
+The major effort to make is to read through Coin-1/RELEASE and do the
+steps described there that are relevant for SoQt.
+
+Steps specific for SoQt, in no particular order:
+
+   - Build SoQt on top of SGI Inventor to check that we've not broken
+     compatibility.

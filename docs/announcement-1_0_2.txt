@@ -1,0 +1,20 @@
+This is just a short announcement that we have released SoQt v1.0.2.
+It contains a few bugfixes over 1.0.1, but is mostly a maintenance
+release we've done because we now have in place the infrastructure
+to provide MS Developer Studio files with the win32 installer.
+
+Download URLs are provided below.  The source is available now, the
+win32 installer is building now and will be available in a little
+while.
+
+ftp://ftp.coin3d.org/pub/coin/src/SoQt-1.0.2.tar.gz
+ftp://ftp.coin3d.org/pub/coin/bin/win32/soqt-v1.0.2-install.exe
+
+Cheers,
+
+  Lars J
+
+------------------------------------------------------------------------------
+To unsubscribe from coin-announce, email <listserv@sim.no> with the subject
+"unsubscribe coin-announce".  For general help, use "help" as the subject.
+See http://www.coin3d.org/ for additional information.

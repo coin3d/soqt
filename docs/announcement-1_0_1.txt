@@ -1,0 +1,40 @@
+SoQt 1.0.1 Released
+===================
+
+SoQt 1.0.1 is a patchlevel release.  Patchlevel releases contains
+bugfixes, optimizations, documentation improvements, and configure and
+build setup fixes.  It does not extend the library API beyond the
+previous release.
+
+
+NEWS File Excerpt:
+------------------
+
+New in SoQt v1.0.1 (2002-08-13):
+* configure fixes to improve Qt and QGL detection, particularly on MSWin
+* Mac OS X build fix
+* fixes for Debian packaging
+
+
+Download Information:
+---------------------
+
+Source Code by FTP: 
+  ftp://ftp.coin3d.org/pub/coin/src/SoQt-1.0.1.tar.gz 
+
+
+We do not yet provide pre-compiled binary packages of the SoQt library
+for any platform. The reason behind this is that the Qt library on
+which SoQt depends can be installed on client systems in so many
+different configurations and under different names, that this task
+seems difficult to do in a way that will be useful for the majority of
+our users.
+
+There are efforts under way to make SoQt a standard part of the Debian
+GNU/Linux system (just as libCoin already is).
+
+
+Regards,
+
+  Morten Eriksen,
+  Coin Project Leader, Systems in Motion

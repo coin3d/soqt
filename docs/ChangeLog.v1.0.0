@@ -1,0 +1,141 @@
+2002-07-05 16:26  mortene
+
+	* configure.ac:
+	
+	Change version number from 0.19.99 to 1.0.0
+
+2002-07-05 15:51  mortene
+
+	* COPYING, FAQ, packaging/windows/heading.nsi.in,
+	packaging/windows/soqt-sdk.html.in, src/Inventor/Qt/SoQt.cpp,
+	src/Inventor/Qt/SoQtComponent.cpp,
+	src/Inventor/Qt/SoQtComponentP.h, src/Inventor/Qt/SoQtGLWidget.cpp,
+	src/Inventor/Qt/SoQtGLWidgetP.h, src/Inventor/Qt/SoQtInternal.h,
+	src/Inventor/Qt/SoQtP.h, src/Inventor/Qt/devices/6DOFEvents.cpp,
+	src/Inventor/Qt/devices/6DOFEvents.h,
+	src/Inventor/Qt/devices/SoQtDevice.cpp,
+	src/Inventor/Qt/devices/SoQtDeviceP.h,
+	src/Inventor/Qt/devices/SoQtInputFocus.cpp,
+	src/Inventor/Qt/devices/SoQtKeyboard.cpp,
+	src/Inventor/Qt/devices/SoQtMouse.cpp,
+	src/Inventor/Qt/devices/SoQtSpaceball.cpp,
+	src/Inventor/Qt/devices/SoQtSpaceballP.h,
+	src/Inventor/Qt/viewers/ExaminerViewer.cpp,
+	src/Inventor/Qt/viewers/FullViewer.cpp,
+	src/Inventor/Qt/viewers/PlaneViewer.cpp,
+	src/Inventor/Qt/viewers/SoQtExaminerViewerP.h,
+	src/Inventor/Qt/viewers/SoQtFullViewerP.h,
+	src/Inventor/Qt/viewers/SoQtPlaneViewerP.h,
+	src/Inventor/Qt/widgets/QtNativePopupMenu.cpp,
+	src/Inventor/Qt/widgets/QtNativePopupMenu.h,
+	src/Inventor/Qt/widgets/SoQtGLArea.cpp,
+	src/Inventor/Qt/widgets/SoQtGLArea.h,
+	src/Inventor/Qt/widgets/SoQtThumbWheel.cpp,
+	src/Inventor/Qt/widgets/SoQtThumbWheel.h,
+	test-code/assertdbg/crash.cpp, test-code/widgets/thumbwheel.cpp:
+	
+	LGPL -> GPL.
+
+2002-07-05 15:23  mortene
+
+	* LICENSE.GPL, LICENSE.LGPL:
+	
+	Switch from LGPL to GPL.
+
+2002-07-05 14:27  mortene
+
+	* RELEASE:
+	
+	Minor additions.
+
+2002-07-05 14:16  mortene
+
+	* src/Inventor/Qt/devices/SoQtDevice.cpp:
+	
+	Reshuffle order of header-file inclusion to try to humour GCC 3.1.
+
+2002-07-05 13:50  mortene
+
+	* packaging/windows/: heading.nsi.in, middle.nsi.in:
+	
+	Do not include HTML and man pages in installation package.
+
+2002-07-03 15:58  mortene
+
+	* HACKING:
+	
+	Bootstrap
+
+2002-07-03 15:57  mortene
+
+	* models/: coin_soqt.iv, coin_soqt.wrl:
+	
+	Copied from dev-repository.
+
+2002-07-03 15:56  mortene
+
+	* Makefile.am, configure.ac:
+	
+	Don't bother with obsoleted RPM spec file.
+
+2002-07-03 15:53  mortene
+
+	* ChangeLog.sh:
+	
+	Adds root-level ChangeLog-generator script.
+
+2002-07-03 13:29  mortene
+
+	* configure.ac:
+	
+	Change version number to 0.19.99, which is going to be the last
+	LGPL version.
+
+2002-07-03 13:07  mortene
+
+	* .cvsignore, AUTHORS, COPYING, FAQ, INSTALL, INSTALL.GNU,
+	Info.plist, LICENSE.LGPL, Makefile.am, NEWS, README, README.DLL,
+	README.IRIX, README.MAC, README.WIN32, RELEASE, bootstrap,
+	configure.ac, cfg/README, cfg/depcomp, cfg/install-header,
+	html/.cvsignore, html/Makefile.am, man/.cvsignore, man/Makefile.am,
+	man/man1/.cvsignore, man/man1/Makefile.am, man/man3/.cvsignore,
+	man/man3/Makefile.am, packaging/windows/footer.nsi.in,
+	packaging/windows/heading.nsi.in, packaging/windows/middle.nsi.in,
+	packaging/windows/post.nsi.in, packaging/windows/soqt-sdk.html.in,
+	src/.cvsignore, src/Makefile.am, src/Inventor/Makefile.am,
+	src/Inventor/Qt/Makefile.am, src/Inventor/Qt/SoQt.cpp,
+	src/Inventor/Qt/SoQtComponent.cpp,
+	src/Inventor/Qt/SoQtComponentP.h, src/Inventor/Qt/SoQtGLWidget.cpp,
+	src/Inventor/Qt/SoQtGLWidgetP.h, src/Inventor/Qt/SoQtInternal.h,
+	src/Inventor/Qt/SoQtP.h, src/Inventor/Qt/devices/6DOFEvents.cpp,
+	src/Inventor/Qt/devices/6DOFEvents.h,
+	src/Inventor/Qt/devices/Makefile.am,
+	src/Inventor/Qt/devices/SoQtDevice.cpp,
+	src/Inventor/Qt/devices/SoQtDeviceP.h,
+	src/Inventor/Qt/devices/SoQtInputFocus.cpp,
+	src/Inventor/Qt/devices/SoQtKeyboard.cpp,
+	src/Inventor/Qt/devices/SoQtMouse.cpp,
+	src/Inventor/Qt/devices/SoQtSpaceball.cpp,
+	src/Inventor/Qt/devices/SoQtSpaceballP.h,
+	src/Inventor/Qt/viewers/ExaminerViewer.cpp,
+	src/Inventor/Qt/viewers/FullViewer.cpp,
+	src/Inventor/Qt/viewers/Makefile.am,
+	src/Inventor/Qt/viewers/PlaneViewer.cpp,
+	src/Inventor/Qt/viewers/SoQtExaminerViewerP.h,
+	src/Inventor/Qt/viewers/SoQtFullViewerP.h,
+	src/Inventor/Qt/viewers/SoQtPlaneViewerP.h,
+	src/Inventor/Qt/widgets/Makefile.am,
+	src/Inventor/Qt/widgets/QtNativePopupMenu.cpp,
+	src/Inventor/Qt/widgets/QtNativePopupMenu.h,
+	src/Inventor/Qt/widgets/SoQtGLArea.cpp,
+	src/Inventor/Qt/widgets/SoQtGLArea.h,
+	src/Inventor/Qt/widgets/SoQtThumbWheel.cpp,
+	src/Inventor/Qt/widgets/SoQtThumbWheel.h, test-code/README,
+	test-code/assertdbg/crash.cpp, test-code/components/.cvsignore,
+	test-code/components/embeddedexaminer.cpp,
+	test-code/components/scrollview.cpp,
+	test-code/components/tripleview.cpp,
+	test-code/widgets/thumbwheel.cpp:
+	
+	Copied from development directory.
+
