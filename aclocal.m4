@@ -9580,7 +9580,6 @@ if $sim_ac_with_qt; then
     AC_MSG_CHECKING([value of the QTDIR environment variable])
     if test x"$sim_ac_qtdir" = x""; then
       AC_MSG_RESULT([empty])
-      AC_MSG_WARN([QTDIR environment variable not set -- this might be an indication of a problem])
     else
       AC_MSG_RESULT([$sim_ac_qtdir])
 
@@ -9613,6 +9612,9 @@ if $sim_ac_with_qt; then
 
   AC_PATH_PROG([$1], $2, false, $sim_ac_path)
   if test x"$$1" = x"false"; then
+    if test -z "$QTDIR"; then
+      AC_MSG_WARN([QTDIR environment variable not set -- this might be an indication of a problem])
+    fi
     AC_MSG_WARN([the ``$2'' Qt pre-processor tool not found])
   fi
 else
@@ -9891,6 +9893,9 @@ recommend you to upgrade.])
     LIBS="$sim_ac_qt_libs $sim_ac_save_libs"
     $1
   else
+    if test -z "$QTDIR"; then
+      AC_MSG_WARN([QTDIR environment variable not set -- this might be an indication of a problem])
+    fi
     CPPFLAGS=$sim_ac_save_cppflags
     LDFLAGS=$sim_ac_save_ldflags
     LIBS=$sim_ac_save_libs
