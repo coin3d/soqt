@@ -27,26 +27,195 @@
 
 // *************************************************************************
 
+// FIXME: share the relevant parts of the mainpage-doc with the other
+// So* libraries. (Doxygen supports conditional inclusion / exclusion
+// of doc parts.) 20020806 mortene.
+
 /*!
   \mainpage
 
-  %SoQt is a C++ GUI toolkit for using Coin with the Qt library.  It
-  can also be used on top of Open Inventor from SGI and TGS.  The API
-  is based on the InventorXt API originally from SGI.
+  %SoQt is a library which provides the glue between Systems in
+  Motion's \COIN high-level 3D visualization library and Troll Tech's
+  \QT 2D user interface library.
 
-  For a small and simple example on how it is used, see the example
-  code in the class documentation of the SoQt class.
+  \QT is a C++ toolkit for multiplatform development of 2D user
+  interfaces, and also includes other functionality to help
+  programmers write multiplatform applications. \QT is currently
+  available on X11-based systems (UNIX, Linux and BSDs), MSWindows,
+  Mac OS X and embedded systems.
 
-  Qt is a C++ toolkit for primarily the GUI parts of application
-  development. Qt is a multi-platform library, available for X11-based
-  systems (UNIX, Linux and *BSDs, for instance), MSWindows, Mac OS X
-  and embedded systems.
+  For more information on the \QT toolkit, see the web site for Troll
+  Tech (makers of \QT): <http://www.trolltech.com>.
 
-  For more information on the Qt GUI toolkit, see the web site for
-  Troll Tech (makers of Qt): <http://www.trolltech.com>.
+  By using the combination of \COIN, \QT and %SoQt for your 3D
+  applications, you have a framework for writing completely portable
+  software across the whole range of UNIX, Linux, Microsoft Windows
+  and Mac OS X operating systems. \COIN, \QT and %SoQt makes this
+  possible from a 100% common codebase, which means there is a minimum
+  of hassle for developers when working on multiplatform software,
+  with the resulting large gains in productivity.
 
-  The corresponding documentation for Coin is located 
-  <a href="http://doc.coin3d.org/Coin/">here</a>.
+  %SoQt, like \COIN and \QT, provides the programmer with a high-level
+  application programmer's interface (API) in C++. The library
+  primarily includes a class-hierarchy of viewer components of varying
+  functionality and complexity, with various modes for the end-user to
+  control the 3D-scene camera interaction.
+
+  For a small, completely stand-alone usage example on how to
+  initialize the library and set up an viewer instance window, see the
+  following code:
+
+  \code
+  #include <Inventor/Qt/SoQt.h>
+  #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
+  #include <Inventor/nodes/SoBaseColor.h>
+  #include <Inventor/nodes/SoCone.h>
+  #include <Inventor/nodes/SoSeparator.h>
+  
+  int
+  main(int argc, char ** argv)
+  {
+    // Initializes SoQt library (and implicitly also the Coin and Qt
+    // libraries). Returns a top-level / shell Qt window to use.
+    QWidget * mainwin = SoQt::init(argc, argv, argv[0]);
+  
+    // Make a dead simple scene graph by using the Coin library, only
+    // containing a single yellow cone under the scenegraph root.
+    SoSeparator * root = new SoSeparator;
+    root->ref();
+
+    SoBaseColor * col = new SoBaseColor;
+    col->rgb = SbColor(1, 1, 0);
+    root->addChild(col);
+
+    root->addChild(new SoCone);
+  
+    // Use one of the convenient SoQt viewer classes.
+    SoQtExaminerViewer * eviewer = new SoQtExaminerViewer(mainwin);
+    eviewer->setSceneGraph(root);
+    eviewer->show();
+  
+    // Pop up the main window.
+    SoQt::show(mainwin);
+    // Loop until exit.
+    SoQt::mainLoop();
+
+    // Clean up resources.
+    delete eviewer;
+    root->unref();
+
+    return 0;
+  }
+  \endcode
+
+  As compiled and run, this example provides the end-user with a full
+  fledged 3D viewer. The viewer automatically contains mouse
+  interaction handling logic to let the end-user "examine" the
+  3D-model / scene (since this is the SoQtExaminerViewer class), plus
+  toolbar controls on the right-side decorations border for often used
+  controls:
+
+  <center>
+  <img src="http://doc.coin3d.org/images/SoLibs/general/sogui-class-example.png">
+  </center>
+
+  The %SoQt library contains several such high-level classes as the
+  SoQtExaminerViewer used in the above example. These are primarily
+  used for doing Rapid Application Development (RAD) of new concepts
+  and ideas for your 3D system.  The "real" application will typically
+  use one of the lower-complexity classes higher up in the inheritance
+  hierarchy, such as the SoQtRenderArea, which provides the
+  application programmer with full control over the user interface
+  components and general layout to present for the end-user, as
+  suitable for the specific application needs.
+
+  This is how the %SoQt library fits in with the other system
+  components:
+
+  <center>
+  <img src="http://doc.coin3d.org/images/SoLibs/mainpage/soqt-boxology.png">
+  </center>
+
+  As can be seen from the above figure, %SoQt builds on Systems in
+  Motion's \COIN library for the 3D graphics, and Troll Tech's \QT
+  library for the 2D user interface components and the OpenGL canvas
+  binding.
+
+  The additional functionality provided by %SoQt over \COIN and \QT
+  is:
+
+  <ul>
+
+  <li>The most convenient management of OpenGL context types, such as
+  singlebuffered versus doublebuffered rendering, the use of overlay
+  planes, stereo rendering, etc. This is handled through the
+  SoQtGLWidget class, which builds on Qt's QGLWidget class, and
+  through the SoQtRenderArea class (which contains the main binding
+  into the \COIN library's main data structures).</li>
+
+  <li>The translation of native \QT interaction device events (from
+  e.g. the mouse or the keyboard) into the \COIN library's event
+  types. The translation is done by the SoQtDevice classes, controlled
+  by the SoQtRenderArea.
+
+  These "generic" \COIN events are then passed into the 3D scenegraph
+  for further processing, for instance by \COIN's 3D user interaction
+  components -- like this "trackball manipulator" attached to a simple
+  cone:
+
+  <center>
+  <img src="http://doc.coin3d.org/images/Coin/draggers/trackball.png">
+  </center>
+  </li>
+
+  <li>Some abstract viewer classes, like the SoQtViewer and
+  SoQtFullViewer, which provides additional services on top of the
+  SoQtRenderArea for assisting the application programmer in
+  convenient handling of cameras and lightsources in the 3D scene (by
+  the SoQtViewer), plus adding the basic, common user interface
+  components (by the SoQtFullViewer).</li>
+
+  <li>A set of high-level viewer classes, as has been presented by the
+  SoQtExaminerViewer in the above sourcecode example. There are
+  currently three different non-abstract viewer classes to choose
+  from: the SoQtExaminerViewer (a plain model viewer), the
+  SoQtFlyViewer (for fly-throughs in larger 3D scenes) and the
+  SoQtPlaneViewer (for CAD-style viewing and interaction along the 3
+  principal axes).</li>
+
+  </ul>
+
+  The %SoQt library is "dual-licensed", which means it's available
+  either under a Free Software license (specifically the <a
+  href="http://www.fsf.org/copyleft/gpl.html">GNU General Public
+  License</a>), or a license better suited for the development of
+  proprietary / commercial applications: our <a
+  href="http://www.coin3d.org">Coin Professional Edition License</a>.
+
+  Note that to use %SoQt under the GNU General Public License, you
+  have to comply with that license's restrictions. These restrictions
+  are \e not well suited for the development of non-Free software, so
+  the availability of %SoQt under the GNU GPL is primarily meant to be
+  a service to the Free Software community. We \e strongly advise you
+  to invest in the Coin Professional Edition License for using %SoQt
+  in proprietary development projects. As a Coin Professional Edition
+  License holder, you gain the rights to use the %SoQt library in just
+  about any way you like. See the Coin web site at
+  <http://www.coin3d.org> for more information on the advantages of
+  the Coin Professional Edition License, and how to become a license
+  holder.
+
+  For those who are using the implementations of the Inventor API from
+  either SGI or TGS, we would like to point out that %SoQt can also be
+  used on top of either of those libraries instead the \COIN library
+  from Systems in Motion.
+
+  The %SoQt API is based on and closely matches the InventorXt library
+  API, originally developed by SGI. This should make it
+  straigthforward to port InventorXt code over to %SoQt, for instance
+  to gain greater portability.
+
+  \sa The documentation for the \COIN library: <http://doc.coin3d.org/Coin>.
 */
 
 // *************************************************************************
@@ -327,6 +496,8 @@ SoQt::init(int & argc, char ** argv, const char * appname, const char * classnam
     return SoQtP::mainwidget;
   }
 
+  // "qApp" is a global variable from the Qt library, pointing to the
+  // single QApplication instance in a Qt-application.
   if (qApp == NULL) {
     // Set up the QApplication instance which we have derived into a
     // subclass to catch spaceball events.
