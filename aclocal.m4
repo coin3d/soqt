@@ -5061,27 +5061,6 @@ fi
 ]) # SIM_AC_HAVE_LIBX11_IFELSE
 
 
-# Usage:
-#  SIM_AC_CHECK_OPENGL([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
-#
-#  Try to find an OpenGL development system, either a native
-#  implementation or the OpenGL-compatible Mesa library. If
-#  it is found, these shell variables are set:
-#
-#    $sim_ac_gl_cppflags (extra flags the preprocessor needs for OpenGL/Mesa)
-#    $sim_ac_gl_ldflags  (extra flags the linker needs for OpenGL/Mesa)
-#    $sim_ac_gl_libs     (link libraries the linker needs for OpenGL/Mesa)
-#
-#  In addition, the variable $sim_ac_gl_avail is set to "yes" if an
-#  OpenGL-compatible development system is found.
-#
-# TODO:
-#   these macros are ripe for a complete rewrite...
-#
-# Authors:
-#   Morten Eriksen <mortene@sim.no>
-#   Lars J. Aas <larsa@sim.no>
-
 # **************************************************************************
 # SIM_AC_CHECK_HEADER_SILENT([header], [if-found], [if-not-found], [includes])
 # 
@@ -5118,6 +5097,13 @@ if test x"$with_opengl" != x"no"; then
   if test x"$with_opengl" != xyes && test x"$with_opengl" != x""; then
     sim_ac_gl_cppflags="-I${with_opengl}/include"
     CPPFLAGS="$CPPFLAGS $sim_ac_gl_cppflags"
+  else
+    # On HP-UX platforms, OpenGL headers and libraries are usually installed
+    # at this location.
+    sim_ac_gl_hpux=/opt/graphics/OpenGL
+    if test -d $sim_ac_gl_hpux; then
+      sim_ac_gl_cppflags=-I$sim_ac_gl_hpux/include
+    fi
   fi
   SIM_AC_CHECK_HEADER_SILENT([GL/gl.h], [
     sim_ac_gl_header_avail=true
@@ -5130,22 +5116,7 @@ if test x"$with_opengl" != x"no"; then
       AC_DEFINE([HAVE_OPENGL_GL_H], 1, [define if the GL header should be included as OpenGL/gl.h])
     ])
   ])
-  sim_ac_gl_hpux=/opt/graphics/OpenGL
-  if test x$sim_ac_gl_header_avail = xfalse && test -d $sim_ac_gl_hpux; then
-    sim_ac_gl_cppflags=-I$sim_ac_gl_hpux/include
-    CPPFLAGS="$CPPFLAGS $sim_ac_gl_cppflags"
-    SIM_AC_CHECK_HEADER_SILENT([GL/gl.h], [
-      sim_ac_gl_header_avail=true
-      sim_ac_gl_header=GL/gl.h
-      AC_DEFINE([HAVE_GL_GL_H], 1, [define if the GL header should be included as GL/gl.h])
-    ], [
-      SIM_AC_CHECK_HEADER_SILENT([OpenGL/gl.h], [
-        sim_ac_gl_header_avail=true
-        sim_ac_gl_header=OpenGL/gl.h
-        AC_DEFINE([HAVE_OPENGL_GL_H], 1, [define if the GL header should be included as OpenGL/gl.h])
-      ])
-    ])
-  fi
+
   CPPFLAGS="$sim_ac_gl_save_CPPFLAGS"
   if $sim_ac_gl_header_avail; then
     if test x"$sim_ac_gl_cppflags" = x""; then
@@ -5286,14 +5257,28 @@ else
 fi
 ])# SIM_AC_CHECK_HEADER_GLEXT
 
+
 # **************************************************************************
+# SIM_AC_CHECK_OPENGL([IF-FOUND], [IF-NOT-FOUND])
+#
+# This macro detects whether or not it's possible to link against OpenGL
+# (or Mesa), and gives you the necessary modifications to the
+# pre-processor, compiler and linker environment in the envvars
+#
+#                $sim_ac_ogl_cppflags
+#                $sim_ac_ogl_ldflags
+#                $sim_ac_ogl_libs
+#
+# The necessary extra options are also automatically added to CPPFLAGS,
+# LDFLAGS and LIBS.
+#
+# Authors: <larsa@sim.no>, <mortene@sim.no>.
 
 AC_DEFUN(SIM_AC_CHECK_OPENGL, [
 
-sim_ac_gl_cppflags=
-sim_ac_gl_ldflags=
-sim_ac_gl_libs=
-sim_ac_gl_avail=no
+sim_ac_ogl_cppflags=
+sim_ac_ogl_ldflags=
+sim_ac_ogl_libs=
 
 AC_ARG_WITH(
   [mesa],
@@ -5303,15 +5288,15 @@ AC_ARG_WITH(
   [with_mesa=yes])
 
 
-sim_ac_gl_glnames="-lGL -lopengl32"
-sim_ac_gl_mesaglnames=-lMesaGL
+sim_ac_ogl_glnames="-lGL -lopengl32"
+sim_ac_ogl_mesaglnames=-lMesaGL
 
 if test "x$with_mesa" = "xyes"; then
-  sim_ac_gl_first=$sim_ac_gl_mesaglnames
-  sim_ac_gl_second=$sim_ac_gl_glnames
+  sim_ac_ogl_first=$sim_ac_ogl_mesaglnames
+  sim_ac_ogl_second=$sim_ac_ogl_glnames
 else
-  sim_ac_gl_first=$sim_ac_gl_glnames
-  sim_ac_gl_second=$sim_ac_gl_mesaglnames
+  sim_ac_ogl_first=$sim_ac_ogl_glnames
+  sim_ac_ogl_second=$sim_ac_ogl_mesaglnames
 fi
 
 AC_ARG_WITH(
@@ -5322,6 +5307,20 @@ AC_ARG_WITH(
   [with_opengl=yes])
 
 if test x"$with_opengl" != xno; then
+
+  if test x"$with_opengl" != xyes && test x"$with_opengl" != x""; then
+    sim_ac_ogl_ldflags=-I$with_opengl/lib
+    # $sim_ac_ogl_cppflags is set up in the SIM_AC_CHECK_HEADER_GL
+    # invocation further below.
+  else
+    # On HP-UX platforms, OpenGL headers and libraries are usually installed
+    # at this location.
+    sim_ac_gl_hpux=/opt/graphics/OpenGL
+    if test -d $sim_ac_gl_hpux; then
+      sim_ac_ogl_ldflags=-I$sim_ac_gl_hpux/lib
+    fi
+  fi
+
   sim_ac_use_framework_option=false;
   case $host_os in
   darwin*)
@@ -5333,18 +5332,22 @@ if test x"$with_opengl" != xno; then
 
   if $sim_ac_use_framework_option; then
     # hopefully, this is the default behavior and not needed. 20011005 larsa
-    # sim_ac_gl_cppflags="-F/System/Library/Frameworks/OpenGL.framework/"
-    sim_ac_gl_ldflags="-Wl,-framework,OpenGL"
+    # sim_ac_ogl_cppflags="-F/System/Library/Frameworks/OpenGL.framework/"
+    sim_ac_ogl_ldflags="-Wl,-framework,OpenGL"
   fi
 
   sim_ac_save_cppflags=$CPPFLAGS
   sim_ac_save_ldflags=$LDFLAGS
   sim_ac_save_libs=$LIBS
 
-  CPPFLAGS="$CPPFLAGS $sim_ac_gl_cppflags"
-  LDFLAGS="$LDFLAGS $sim_ac_gl_ldflags"
+  CPPFLAGS="$CPPFLAGS $sim_ac_ogl_cppflags"
+  LDFLAGS="$LDFLAGS $sim_ac_ogl_ldflags"
 
-  SIM_AC_CHECK_HEADER_GL(, [AC_MSG_ERROR([could not find gl.h])])
+  SIM_AC_CHECK_HEADER_GL([
+    CPPFLAGS="$CPPFLAGS $sim_ac_gl_cppflags"
+  ], [
+    AC_MSG_WARN([could not find gl.h])
+  ])
 
   AC_CACHE_CHECK(
     [whether OpenGL library is available],
@@ -5352,9 +5355,9 @@ if test x"$with_opengl" != xno; then
     [sim_cv_lib_gl=UNRESOLVED
 
     # Mac OS X uses nada, which is why "" was set first
-    for sim_ac_gl_libcheck in "" $sim_ac_gl_first $sim_ac_gl_second; do
+    for sim_ac_ogl_libcheck in "" $sim_ac_ogl_first $sim_ac_ogl_second; do
       if test "x$sim_cv_lib_gl" = "xUNRESOLVED"; then
-        LIBS="$sim_ac_gl_libcheck $sim_ac_save_libs"
+        LIBS="$sim_ac_ogl_libcheck $sim_ac_save_libs"
         AC_TRY_LINK([
 #ifdef HAVE_WINDOWS_H
 #include <windows.h>
@@ -5371,31 +5374,30 @@ if test x"$with_opengl" != xno; then
                     [
 glPointSize(1.0f);
 ], [
-          if test x"$sim_ac_gl_libcheck" = x""; then
-            sim_cv_lib_gl="$sim_ac_gl_ldflags"
+          if test x"$sim_ac_ogl_libcheck" = x""; then
+            sim_cv_lib_gl="$sim_ac_ogl_ldflags"
           else
-            sim_cv_lib_gl="$sim_ac_gl_libcheck"
+            sim_cv_lib_gl="$sim_ac_ogl_libcheck"
           fi])
       fi
     done
   ])
 
-  LIBS="$sim_ac_save_libs"
-
   case $sim_cv_lib_gl in
   -Wl,-framework,OpenGL)
-    sim_ac_gl_libs=
-    sim_ac_gl_ldflags="$sim_cv_lib_gl"
+    sim_ac_ogl_libs=
+    sim_ac_ogl_ldflags="$sim_cv_lib_gl"
     ;;
   -l*)
-    sim_ac_gl_libs="$sim_cv_lib_gl"
+    sim_ac_ogl_libs="$sim_cv_lib_gl"
     ;;
   *)
     AC_MSG_WARN([couldn't compile or link with OpenGL library -- trying with pthread library in place...])
+    LIBS="$sim_ac_save_libs"
 
     SIM_AC_CHECK_PTHREAD([
-      sim_ac_gl_cppflags="$sim_ac_gl_cppflags $sim_ac_pthread_cppflags"
-      sim_ac_gl_ldflags="$sim_ac_gl_ldflags $sim_ac_pthread_ldflags"],
+      sim_ac_ogl_cppflags="$sim_ac_ogl_cppflags $sim_ac_pthread_cppflags"
+      sim_ac_ogl_ldflags="$sim_ac_ogl_ldflags $sim_ac_pthread_ldflags"],
       [AC_MSG_WARN([couldn't compile or link with pthread library])])
 
     if test "x$sim_ac_pthread_avail" = "xyes"; then
@@ -5404,9 +5406,9 @@ glPointSize(1.0f);
         sim_cv_lib_gl_pthread,
         [sim_cv_lib_gl_pthread=UNRESOLVED
 
-        for sim_ac_gl_libcheck in $sim_ac_gl_first $sim_ac_gl_second; do
+        for sim_ac_ogl_libcheck in $sim_ac_ogl_first $sim_ac_ogl_second; do
           if test "x$sim_cv_lib_gl_pthread" = "xUNRESOLVED"; then
-            LIBS="$sim_ac_gl_libcheck $sim_ac_pthread_libs $sim_ac_save_libs"
+            LIBS="$sim_ac_ogl_libcheck $sim_ac_pthread_libs $sim_ac_save_libs"
             AC_TRY_LINK([
 #ifdef HAVE_GL_GL_H
 #include <GL/gl.h>
@@ -5419,27 +5421,27 @@ glPointSize(1.0f);
                         [
 glPointSize(1.0f);
 ],
-                        [sim_cv_lib_gl_pthread="$sim_ac_gl_libcheck"])
+                        [sim_cv_lib_gl_pthread="$sim_ac_ogl_libcheck"])
           fi
         done
       ])
 
       if test "x$sim_cv_lib_gl_pthread" != "xUNRESOLVED"; then
-        sim_ac_gl_libs="$sim_cv_lib_gl_pthread $sim_ac_pthread_libs"
+        sim_ac_ogl_libs="$sim_cv_lib_gl_pthread $sim_ac_pthread_libs"
       fi
     fi
     ;;
   esac
 
 
-  # MacOS will have empty sim_ac_gl_libs, so don't check if it is empty...
+  # MacOS will have empty sim_ac_ogl_libs, so don't check if it is empty...
   if test x"$sim_cv_gl_libs" != x"UNRESOLVED"; then
-    sim_ac_gl_avail=yes
+    LIBS="$sim_ac_ogl_libs $sim_ac_save_libs"
     $1
   else
-    CPPFLAGS=$sim_ac_save_cppflags
-    LDFLAGS=$sim_ac_save_ldflags
-    LIBS=$sim_ac_save_libs
+    CPPFLAGS="$sim_ac_save_cppflags"
+    LDFLAGS="$sim_ac_save_ldflags"
+    LIBS="$sim_ac_save_libs"
     $2
   fi
 fi
@@ -6468,69 +6470,85 @@ recommend you to upgrade.])
   if test x"$MOC" != xfalse; then
     # Do not cache the result, as we might need to play tricks with
     # CPPFLAGS under MSWin.
-    AC_MSG_CHECKING([for Qt library devkit])
 
-    ## Test all known possible combinations of linking against the
-    ## Troll Tech Qt library:
-    ##
-    ## * "-lqt-gl" links against the standard Debian version of the
-    ##   Qt library with embedded QGL
-    ##
-    ## * "-lqt" should work for most UNIX(-derived) platforms on
-    ##   dynamic and static linking with the non-mtsafe library
-    ##
-    ## * "-lqt-mt" should work for most UNIX(-derived) platforms on
-    ##   dynamic and static linking with the mtsafe library
-    ##
-    ## * "-lqt{version} -lqtmain -lgdi32" w/QT_DLL defined should
-    ##   cover dynamic Enterprise Edition linking on Win32 platforms
-    ##
-    ## * "-lqt-mt{version} -lqtmain -lgdi32" w/QT_DLL defined should
-    ##   cover dynamic multi-thread Enterprise Edition linking on Win32
-    ##   platforms
-    ##
-    ## * "-lqt-mt{version}nc -lqtmain -lgdi32" w/QT_DLL defined should
-    ##   cover dynamic Non-Commercial Edition linking on Win32 platforms
-    ##
-    ## * "-lqt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32" should cover static
-    ##   linking on Win32 platforms
-    ##
-    ## * "-lqt-mt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32 -lwinspool -lwinmm"; do
-    ##   added for the benefit of the Qt 3.0.0 Evaliation Version
-    ##
-
-    # FIXME: it would be extremely helpful if one could override the cppflags
-    # and libs-checking with environment variables. Then people wouldn't get
-    # completely stuck when the check fails -- we can just take a look at the
+    # It should be helpful to be able to override the libs-checking with
+    # environment variables. Then people won't get completely stuck
+    # when the check fails -- we can just take a look at the
     # config.log and give them advice on how to proceed with no updates
-    # necessary. 20020311 mortene.
+    # necessary.
+    #
+    # (Note also that this makes it possible to select whether to use the
+    # mt-safe or the "standard" Qt library if both are installed on the
+    # user's system.)
+    #
+    # mortene.
+  
+    if test x"$CONFIG_QTLIBS" != x""; then
+      AC_MSG_CHECKING([for Qt linking with $CONFIG_QTLIBS])
 
-    # FIXME: it should be possible to select whether to use the mt-safe or
-    # the "standard" Qt library if both are installed on the user's system.
-    # 20020311 mortene.
-
-    # FIXME: this link test doesn't detect all link problems...
-    # (UPDATE 20020311 mortene: jeez, that was a very helpful FIXME. Lars?)
-    for sim_ac_qt_cppflags_loop in "" "-DQT_DLL"; do
-      for sim_ac_qt_libcheck in "-lqt-gl" "-lqt" "-lqt-mt" \
-          "-lqt${sim_ac_qt_version} -lqtmain -lgdi32" \
-          "-lqt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32" \
-          "-lqt-mt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32 -lwinspool -lwinmm"; do
-        if test "x$sim_ac_qt_libs" = "xUNRESOLVED"; then
-          CPPFLAGS="$sim_ac_qt_incflags $sim_ac_qt_cppflags_loop $sim_ac_save_cppflags"
-          LIBS="$sim_ac_qt_libcheck $sim_ac_save_libs"
-          AC_TRY_LINK([#include <qapplication.h>],
-                      [int dummy=0;
-                       qApp->exit(0);],
-                      [sim_ac_qt_libs="$sim_ac_qt_libcheck"
-                       sim_ac_qt_cppflags="$sim_ac_qt_incflags $sim_ac_qt_cppflags_loop"])
-        fi
+      for sim_ac_qt_cppflags_loop in "" "-DQT_DLL"; do
+        CPPFLAGS="$sim_ac_qt_incflags $sim_ac_qt_cppflags_loop $sim_ac_save_cppflags"
+        LIBS="$CONFIG_QTLIBS $sim_ac_save_libs"
+        AC_TRY_LINK([#include <qapplication.h>],
+                    [int dummy=0;
+                     qApp->exit(0);],
+                    [sim_ac_qt_libs="$CONFIG_QTLIBS"
+                     sim_ac_qt_cppflags="$sim_ac_qt_incflags $sim_ac_qt_cppflags_loop"])
       done
-    done
 
-    if test "x$sim_ac_qt_libs" = "xUNRESOLVED"; then
-      for sim_ac_qt_cppflags_loop in "-DQT_DLL"; do
-        for sim_ac_qt_libcheck in "-lqt-mt${sim_ac_qt_version} -lqtmain -lgdi32" "-lqt-mt${sim_ac_qt_version}nc -lqtmain -lgdi32"; do
+      if test "x$sim_ac_qt_libs" = "xUNRESOLVED"; then
+        AC_MSG_RESULT([failed!])
+      else
+        AC_MSG_RESULT([ok])
+      fi
+
+    else
+      AC_MSG_CHECKING([for Qt library devkit])
+
+      ## Test all known possible combinations of linking against the
+      ## Troll Tech Qt library:
+      ##
+      ## * "-lqt-gl": links against the standard Debian version of the
+      ##   Qt library with embedded QGL
+      ##
+      ## * "-lqt": should work for most UNIX(-derived) platforms on
+      ##   dynamic and static linking with the non-mtsafe library
+      ##
+      ## * "-lqt-mt": should work for most UNIX(-derived) platforms on
+      ##   dynamic and static linking with the mtsafe library
+      ##
+      ## * "-lqt{version} -lqtmain -lgdi32": w/QT_DLL defined should
+      ##   cover dynamic Enterprise Edition linking on Win32 platforms
+      ##
+      ## * "-lqt -lqtmain -lgdi32": ...unless the {version} suffix is missing,
+      ##   which we've had reports about
+      ##
+      ## * "-lqt-mt{version} -lqtmain -lgdi32": w/QT_DLL defined should
+      ##   cover dynamic multi-thread Enterprise Edition linking on Win32
+      ##   platforms
+      ##
+      ## * "-lqt-mt{version}nc -lqtmain -lgdi32": w/QT_DLL defined should
+      ##   cover dynamic Non-Commercial Edition linking on Win32 platforms
+      ##
+      ## * "-lqt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32": should cover
+      ##   static linking on Win32 platforms
+      ##
+      ## * "-lqt-mt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32 -lwinspool -lwinmm":
+      ##   added for the benefit of the Qt 3.0.0 Evaluation Version
+      ##
+
+      for sim_ac_qt_cppflags_loop in "" "-DQT_DLL"; do
+        for sim_ac_qt_libcheck in \
+            "-lqt-gl" \
+            "-lqt" \
+            "-lqt-mt" \
+            "-lqt -lqtmain -lgdi32" \
+            "-lqt${sim_ac_qt_version} -lqtmain -lgdi32" \
+            "-lqt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32" \
+            "-lqt-mt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32 -lwinspool -lwinmm" \
+            "-lqt-mt${sim_ac_qt_version} -lqtmain -lgdi32" \
+            "-lqt-mt${sim_ac_qt_version}nc -lqtmain -lgdi32"
+        do
           if test "x$sim_ac_qt_libs" = "xUNRESOLVED"; then
             CPPFLAGS="$sim_ac_qt_incflags $sim_ac_qt_cppflags_loop $sim_ac_save_cppflags"
             LIBS="$sim_ac_qt_libcheck $sim_ac_save_libs"
@@ -6542,9 +6560,9 @@ recommend you to upgrade.])
           fi
         done
       done
-    fi
 
-    AC_MSG_RESULT($sim_ac_qt_cppflags $sim_ac_qt_libs)
+      AC_MSG_RESULT($sim_ac_qt_cppflags $sim_ac_qt_libs)
+    fi
   fi
 
   fi # sim_ac_qglobal = TRUE

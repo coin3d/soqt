@@ -373,7 +373,7 @@ SIM_AC_CHECK_QT([
   SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qt_ldflags"
   SOGUI_EXTRA_LIBS="$sim_ac_qt_libs $SOGUI_EXTRA_LIBS"
 ], [
-  AC_MSG_ERROR([can't compile and link against Qt development kit])
+  SIM_AC_ERROR([no-qt])
 ])
 
 SIM_AC_CHECK_QGL([
