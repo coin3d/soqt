@@ -542,9 +542,8 @@ soqtdefs.h: $(top_srcdir)/soqtdefs.h.in
 
 src/Inventor/Qt/SoQtBasic.h: \
   $(top_srcdir)/src/Inventor/Qt/common/SoGuiBasic.h.in
-	@CONFIG_HEADERS=$@:SoQtBasic.h.in CONFIG_FILES=$(top_srcdir)/SoQtBasic.h.in:src/Inventor/Qt/common/SoGuiBasic.h.in ./config.status
-	@echo "removing $(top_srcdir)/SoQtBasic.h.in (temporary file)"
-	@rm $(top_srcdir)/SoQtBasic.h.in
+	@CONFIG_FILES=-:src/Inventor/Qt/common/SoGuiBasic.h.in CONFIG_HEADERS= \
+	./config.status | CONFIG_FILES= CONFIG_HEADERS=$@:- ./config.status
 
 src/Inventor/Qt/SoQtRenderArea.h: \
   $(top_srcdir)/src/Inventor/Qt/common/SoGuiRenderArea.h.in

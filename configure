@@ -5721,10 +5721,6 @@ libdir="`eval echo $libdir`"
 datadir="`eval echo $datadir`"
 
 
-test -d src              || mkdir src
-test -d src/Inventor     || mkdir src/Inventor
-test -d src/Inventor/Qt  || mkdir src/Inventor/Qt
-
 # Set soqt_build_dir so we can change soqt.dsp
 soqt_current_dir=`pwd`
 
@@ -6062,7 +6058,8 @@ while $ac_more_lines; do
     (echo ':t
 /@[a-zA-Z_][a-zA-Z_0-9]*@/!b' && cat $ac_cs_root.sfrag) >$ac_cs_root.s$ac_sed_frag
     if test -z "$ac_sed_cmds"; then
-      ac_sed_cmds="sed -f $ac_cs_root.s$ac_sed_frag"
+      ac_sed_cmds="tr -d \"
+\" | sed -f $ac_cs_root.s$ac_sed_frag"
     else
       ac_sed_cmds="$ac_sed_cmds | sed -f $ac_cs_root.s$ac_sed_frag"
     fi
@@ -6072,7 +6069,8 @@ while $ac_more_lines; do
   fi
 done
 if test -z "$ac_sed_cmds"; then
-  ac_sed_cmds=cat
+  ac_sed_cmds="tr -d \"
+\""
 fi
 
 EOF
@@ -6091,8 +6089,19 @@ for ac_file in .. $CONFIG_FILES; do if test "x$ac_file" != x..; then
   # Remove last slash and all that follows it.  Not all systems have dirname.
   ac_dir=`echo $ac_file|sed 's%/[^/][^/]*$%%'`
   if test "$ac_dir" != "$ac_file" && test "$ac_dir" != .; then
-    # The file is in a subdirectory.
-    test ! -d "$ac_dir" && mkdir "$ac_dir"
+    # The file is in a subdirectory.  Create subdir, including missing parents.
+    if test ! -d "$ac_dir"; then
+      save_IFS=$IFS
+      IFS="/"
+      set $ac_dir
+      IFS=$save_IFS
+      ac_workdir="$1"
+      while test $# -gt 0; do
+        test ! -d "$ac_workdir" && mkdir "$ac_workdir"
+        shift
+        ac_workdir="$ac_workdir/$1"
+      done
+    fi
     ac_dir_suffix="/`echo $ac_dir|sed 's%^\./%%'`"
     # A "../" for each directory in $ac_dir_suffix.
     ac_dots=`echo $ac_dir_suffix|sed 's%/[^/]*%../%g'`
@@ -6115,9 +6124,17 @@ for ac_file in .. $CONFIG_FILES; do if test "x$ac_file" != x..; then
   *) INSTALL="$ac_dots$ac_given_INSTALL" ;;
   esac
 
-  echo creating "$ac_file"
-  rm -f "$ac_file"
-  configure_input="Generated automatically from `echo $ac_file_in|sed 's%.*/%%'` by configure."
+  if test x"$ac_file" != x-; then
+    echo creating "$ac_file"
+    rm -f "$ac_file"
+  fi
+
+  if test x"$ac_file_in" != x-; then
+    configure_input="Generated automatically from `echo $ac_file_in|sed 's%.*/%%'` by configure."
+  else
+    configure_input="Generated automatically from stdin by configure."
+  fi
+
   case "$ac_file" in
   *[Mm]akefile*) ac_comsub="1i\\
 # $configure_input" ;;
@@ -6126,7 +6143,11 @@ for ac_file in .. $CONFIG_FILES; do if test "x$ac_file" != x..; then
 
 # Don't redirect the output to AC_FILE directly: use `mv' so that updating
 # is atomic, and doesn't need trapping.
-  ac_file_inputs=`echo $ac_file_in | sed -e "s%^%$ac_given_srcdir/%" -e "s%:% $ac_given_srcdir/%g"`
+  if test x"$ac_file_in" != x-; then
+    ac_file_inputs=`echo $ac_file_in | sed -e "s%^%$ac_given_srcdir/%" -e "s%:% $ac_given_srcdir/%g"`
+  else
+    ac_file_inputs=-
+  fi
 EOF
 cat >>$CONFIG_STATUS <<EOF
   sed -e "$ac_comsub
@@ -6141,7 +6162,12 @@ s%@srcdir@%$srcdir%;t t
 s%@top_srcdir@%$top_srcdir%;t t
 s%@INSTALL@%$INSTALL%;t t
 " $ac_file_inputs | (eval "$ac_sed_cmds") >$ac_cs_root.out
-  mv $ac_cs_root.out $ac_file
+  if test x"$ac_file" != x-; then
+    mv $ac_cs_root.out $ac_file
+  else
+    cat $ac_cs_root.out
+    rm -f $ac_cs_root.out
+  fi
 
 fi; done
 rm -f $ac_cs_root.s*
@@ -6174,10 +6200,16 @@ for ac_file in .. $CONFIG_HEADERS; do if test "x$ac_file" != x..; then
   *) ac_file_in="${ac_file}.in" ;;
   esac
 
-  echo creating $ac_file
+  if test x"$ac_file" != x-; then
+    echo creating $ac_file
+  fi
 
   rm -f $ac_cs_root.frag $ac_cs_root.in $ac_cs_root.out
-  ac_file_inputs=`echo $ac_file_in|sed -e "s%^%$ac_given_srcdir/%" -e "s%:% $ac_given_srcdir/%g"`
+  if test x"$ac_file_in" != x-; then
+    ac_file_inputs=`echo $ac_file_in|sed -e "s%^%$ac_given_srcdir/%" -e "s%:% $ac_given_srcdir/%g"`
+  else
+    ac_file_inputs=-
+  fi
   # Remove the trailing spaces.
   sed -e 's/[ 	]*$//' $ac_file_inputs >$ac_cs_root.in
 
@@ -6270,21 +6302,42 @@ rm -f conftest.undefs
 
 cat >>$CONFIG_STATUS <<\EOF
   rm -f $ac_cs_root.frag $ac_cs_root.h
-  echo "/* $ac_file.  Generated automatically by configure.  */" >$ac_cs_root.h
+  if test x"$ac_file" != x-; then
+    echo "/* $ac_file.  Generated automatically by configure.  */" >$ac_cs_root.h
+  else
+    echo "/* Generated automatically from stdin by configure.  */" >$ac_cs_root.h
+  fi
+
   cat $ac_cs_root.in >>$ac_cs_root.h
   rm -f $ac_cs_root.in
-  if cmp -s $ac_file $ac_cs_root.h 2>/dev/null; then
+  if test x"$ac_file" != x- && cmp -s $ac_file $ac_cs_root.h 2>/dev/null; then
     echo "$ac_file is unchanged"
     rm -f $ac_cs_root.h
   else
-    # Remove last slash and all that follows it.  Not all systems have dirname.
-      ac_dir=`echo $ac_file|sed 's%/[^/][^/]*$%%'`
-      if test "$ac_dir" != "$ac_file" && test "$ac_dir" != .; then
-      # The file is in a subdirectory.
-      test ! -d "$ac_dir" && mkdir "$ac_dir"
+    if test x"$ac_file" = x-; then
+      cat $ac_cs_root.h
+      rm -f $ac_cs_root.h
+    else
+      # Remove last slash and trailing text.  Not all systems have dirname.
+        ac_dir=`echo $ac_file|sed 's%/[^/][^/]*$%%'`
+        if test "$ac_dir" != "$ac_file" && test "$ac_dir" != .; then
+        # The file is in a subdirectory.  Create subdir, including parents.
+        if test ! -d "$ac_dir"; then
+          save_IFS=$IFS
+          IFS="/"
+          set $ac_dir
+          IFS=$save_IFS
+          ac_workdir="$1"
+          while test $# -gt 0; do
+            test ! -d "$ac_workdir" && mkdir "$ac_workdir"
+            shift
+            ac_workdir="$ac_workdir/$1"
+          done
+        fi
+      fi
+      rm -f $ac_file
+      mv $ac_cs_root.h $ac_file
     fi
-    rm -f $ac_file
-    mv $ac_cs_root.h $ac_file
   fi
 fi; done
 EOF

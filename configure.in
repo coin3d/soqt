@@ -349,11 +349,6 @@ AC_CONFIG_SUBDIRS($sim_ac_subconfig)
 
 SIM_EXPAND_DIR_VARS
 
-dnl * automake bugfix
-test -d src              || mkdir src
-test -d src/Inventor     || mkdir src/Inventor
-test -d src/Inventor/Qt  || mkdir src/Inventor/Qt
-
 # Set soqt_build_dir so we can change soqt.dsp
 soqt_current_dir=`pwd`
 SIM_AC_DOBACKSLASH(soqt_build_dir,$soqt_current_dir)
