@@ -72,7 +72,6 @@ static const char rcsid[] =
 #include <Inventor/Qt/widgets/SoQtThumbWheel.h>
 #include <Inventor/Qt/widgets/SoAnyPopupMenu.h>
 #include <Inventor/Qt/viewers/SoAnyFullViewer.h>
-
 #include <Inventor/Qt/viewers/SoQtFullViewer.h>
 
 // Button icons.
@@ -166,7 +165,7 @@ SoQtFullViewer::SoQtFullViewer(
   SoQtViewer::Type t,
   SbBool buildNow )
 : inherited( parent, name, buildInsideParent, t, FALSE )
-, SoAnyFullViewer( this )
+, common( new SoAnyFullViewer( this ) )
 {
   this->viewerwidget = NULL;
   this->canvas = NULL;
@@ -490,7 +489,8 @@ SoQtFullViewer::setDrawStyle(SoQtViewer::DrawType type,
                              SoQtViewer::DrawStyle style)
 {
   inherited::setDrawStyle(type, style);
-  if (this->prefmenu) this->setDrawStyleMenuActivation(type, style);
+  if (this->prefmenu)
+    common->setDrawStyleMenuActivation(type, style);
 } // setDrawStyle()
 
 // *************************************************************************
@@ -951,7 +951,7 @@ void
 SoQtFullViewer::buildPopupMenu(
   void )
 {
-  this->prefmenu = setupStandardPopupMenu();
+  this->prefmenu = common->setupStandardPopupMenu();
 
   // Set initial checkmarks on drawstyle menus.
   this->setDrawStyle(

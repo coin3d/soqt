@@ -42,10 +42,7 @@ class SoQtThumbWheel;
 
 // *************************************************************************
 
-class SoQtExaminerViewer :
-  public SoQtFullViewer,
-  public SoAnyExaminerViewer // common code
-{
+class SoQtExaminerViewer : public SoQtFullViewer {
   typedef SoQtFullViewer inherited;
   friend class SoAnyExaminerViewer;
 
@@ -106,7 +103,8 @@ private:
 
   QPixmap * orthopixmap, * perspectivepixmap;
 
-  void constructor(SbBool buildNow);
+  void constructor( SbBool buildNow );
+  void visibilityCallback( SbBool visible );
   static void visibilityCB(void * data, SbBool visible);
 
   QTimer * spindetecttimer;
@@ -133,6 +131,9 @@ private slots:
 
 // viewer buttons row:
   void cameratoggleClicked(void);
+
+private:
+  SoAnyExaminerViewer * const common;
 
 }; // class SoQtExaminerViewer
 

@@ -23,7 +23,6 @@
 #define SOQT_FULLVIEWER_H
 
 #include <Inventor/Qt/viewers/SoQtViewer.h>
-#include <Inventor/Qt/viewers/SoAnyFullViewer.h>
 
 class QPushButton;
 class QLayout;
@@ -33,13 +32,11 @@ class QSlider;
 
 class SoAnyPopupMenu;
 class SoQtThumbWheel;
+class SoAnyFullViewer;
 
 // *************************************************************************
 
-class SoQtFullViewer :
-  public SoQtViewer,
-  public SoAnyFullViewer
-{
+class SoQtFullViewer : public SoQtViewer {
   typedef SoQtViewer inherited;
   friend class SoAnyFullViewer;
 
@@ -239,6 +236,9 @@ private slots:
   // Generic slots.
   void increaseInteractiveCount();
   void decreaseInteractiveCount();
+
+private:
+  SoAnyFullViewer * const common;
 
 }; // class SoQtFullViewer
 
