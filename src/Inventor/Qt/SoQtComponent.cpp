@@ -211,9 +211,13 @@ SoQtComponent::~SoQtComponent()
 
   delete PRIVATE(this)->visibilitychangeCBs;
 
+  // Had to disable this code, as it caused seg-faults.  FIXME: does
+  // that mean there's a leak now? 20020524 mortene.
+#if 0
   // If we've got a toplevel widget on our hands it won't
   // automatically be deallocated (there's no real parent widget).
   if (PRIVATE(this)->widget && !PRIVATE(this)->widget->parentWidget()) delete PRIVATE(this)->widget;
+#endif
 
   delete PRIVATE(this);
 }
