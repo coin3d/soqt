@@ -111,13 +111,13 @@ SoQt::init(const char * const appName, const char * const className)
 {
   if (appName) {
     char buf[1025];
-    strncpy(buf, appName, 1024);
-    char *array[1] = { buf };
+    (void)strncpy(buf, appName, 1024);
+    char * array[1] = { buf };
     // fake argc, argv for QApplication
     return SoQt::init(1, array, appName, className);
   }
   else {
-    return SoQt::init(0, NULL, appName, className);
+    return SoQt::init(0, NULL, NULL, className);
   }
 }
 
@@ -217,6 +217,9 @@ SoQt::sensorQueueChanged(void *)
   SbTime t;
   if (sm->isTimerSensorPending(t)) {
     SbTime interval = t - SbTime::getTimeOfDay();
+    // Qt v2.1.1 (at least) on MSWindows will fail to trigger the
+    // timer if the interval is < 0.0.
+    if (interval.getValue() < 0.0) interval.setValue(0.0);
 
 #if SOQT_DEBUG && 0 // debug
     SoDebugError::postInfo("SoQt::sensorQueueChanged",
@@ -237,7 +240,7 @@ SoQt::sensorQueueChanged(void *)
   // Set up idle notification for delay queue processing if necessary.
 
   if (sm->isDelaySensorPending()) {
-#if 0 // debug
+#if SOQT_DEBUG && 0 // debug
     SoDebugError::postInfo("SoQt::sensorQueueChanged",
                            "delaysensor pending");
 #endif // debug
@@ -630,4 +633,3 @@ SoQt::slot_delaytimeoutSensor()
   // explicitly trigger it ourselves here.
   SoQt::sensorQueueChanged(NULL);
 }
-
