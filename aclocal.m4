@@ -1,14 +1,134 @@
-dnl aclocal.m4 generated automatically by aclocal 1.4a
+# aclocal.m4 generated automatically by aclocal 1.4a
 
-dnl Copyright (C) 1994, 1995-9, 2000 Free Software Foundation, Inc.
-dnl This file is free software; the Free Software Foundation
-dnl gives unlimited permission to copy and/or distribute it,
-dnl with or without modifications, as long as this notice is preserved.
+# Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000
+# Free Software Foundation, Inc.
+# This file is free software; the Free Software Foundation
+# gives unlimited permission to copy and/or distribute it,
+# with or without modifications, as long as this notice is preserved.
 
-dnl This program is distributed in the hope that it will be useful,
-dnl but WITHOUT ANY WARRANTY, to the extent permitted by law; without
-dnl even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-dnl PARTICULAR PURPOSE.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY, to the extent permitted by law; without
+# even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE.
+
+# **************************************************************************
+# SIM_AC_CVS_CHANGES( SIM_AC_CVS_CHANGE-MACROS )
+#
+# This macro is just an envelope macro for SIM_AC_CVS_CHANGE invokations.
+# It performs necessary initializations and finalizing.  All the
+# SIM_AC_CVS_CHANGE invokations should be preformed inside the same
+# SIM_AC_CVS_CHANGES macro.
+#
+# Authors:
+#   Lars J. Aas <larsa@sim.no>
+#
+
+AC_DEFUN([SIM_AC_CVS_CHANGES], [
+pushdef([sim_ac_cvs_changes], 1)
+sim_ac_do_cvs_update=false
+sim_ac_cvs_changed=false
+sim_ac_cvs_problem=false
+sim_ac_cvs_save_builddir=`pwd`
+AC_ARG_ENABLE(
+  [cvs-auto-update],
+  AC_HELP_STRING([--enable-cvs-auto-update],
+                 [auto-update CVS repository if possible]),
+  [case "$enableval" in
+  yes) sim_ac_do_cvs_update=true ;;
+  no)  sim_ac_do_cvs_update=false ;;
+  *)   AC_MSG_ERROR(["$enableval" given to --enable-cvs-update]) ;;
+  esac])
+if test -d $srcdir/CVS; then
+  ifelse([$1], , :, [$1])
+  if $sim_ac_cvs_problem; then
+    cat <<"CVS_CHANGES_EOF"
+To make the above listed procedure be executed automatically, run configure
+again with "--enable-cvs-auto-update" added to the configure options.
+CVS_CHANGES_EOF
+  fi
+fi
+$sim_ac_cvs_problem && echo "" && echo "Aborting..." && exit 1
+popdef([sim_ac_cvs_changes])
+]) # SIM_AC_CVS_CHANGES
+
+# **************************************************************************
+# SIM_AC_CVS_CHANGE( UPDATE-PROCEDURE, UPDATE-TEST, UPDATE-TEST, ... )
+#
+# This macro is used to ensure that CVS source repository changes that need
+# manual intervention on all the build systems are executed before the
+# configure script is run.
+#
+# UPDATE-PROCEDURE is the procedure needed to update the source repository.
+# UPDATE-TEST is a command that returns failure if the update procedure
+# hasn't been executed, and success afterwards.  You can have as many test
+# as you like.  All tests must pass for the macro to believe the source
+# repository is up-to-date.
+#
+# All commands (the update procedure and the tests) are executed from the
+# CVS repository root.
+#
+# SIM_AC_CVS_CHANGE must be invoked inside SIM_AC_CVS_CHANGES.
+#
+# Authors:
+#   Lars J. Aas <larsa@sim.no>
+#
+
+AC_DEFUN([SIM_AC_CVS_CHANGE], [
+ifdef([sim_ac_cvs_changes], ,
+      [AC_MSG_ERROR([[SIM_AC_CVS_CHANGE invoked outside SIM_AC_CVS_CHANGES]])])
+cd $srcdir;
+m4_foreach([testcommand], [m4_shift($@)], [testcommand
+if test $? -ne 0; then sim_ac_cvs_changed=true; fi
+])
+cd $sim_ac_cvs_save_builddir
+if $sim_ac_cvs_changed; then
+  if $sim_ac_do_cvs_update; then
+    echo "Performing repository update:"
+    cd $srcdir;
+    ( set -x
+$1 )
+    sim_ac_cvs_unfixed=false
+m4_foreach([testcommand], [m4_shift($@)],
+[    testcommand
+    if test $? -ne 0; then sim_ac_cvs_unfixed=true; fi
+])
+    cd $sim_ac_cvs_save_builddir
+    if $sim_ac_cvs_unfixed; then
+      cat <<"CVS_CHANGE_EOF"
+
+The following update procedure does not seem to have produced the desired
+effect:
+
+$1
+
+You should investigate what went wrong and alert the relevant software
+developers about it.
+
+Aborting...
+CVS_CHANGE_EOF
+      exit 1
+    fi
+  else
+    $sim_ac_cvs_problem || {
+    cat <<"CVS_CHANGE_EOF"
+
+The configure script has detected source hierachy inconsistencies between
+your source repository and the master source repository.  This needs to be
+fixed before you can proceed.
+
+The suggested update procedure is to execute the following set of commands
+in the root source directory:
+CVS_CHANGE_EOF
+    }
+    cat <<"CVS_CHANGE_EOF"
+$1
+CVS_CHANGE_EOF
+    sim_ac_cvs_problem=true
+  fi
+fi
+]) # SIM_AC_CVS_CHANGE
+
+# EOF **********************************************************************
 
 # Do all the work for Automake.  This macro actually does too much --
 # some checks are only needed if your package does certain things.
@@ -38,7 +158,7 @@ AC_DEFUN([AM_INIT_AUTOMAKE],
 [dnl We require 2.13 because we rely on SHELL being computed by configure.
 AC_REQUIRE([AC_PROG_INSTALL])dnl
 # test to see if srcdir already configured
-if test "`CDPATH=: && cd $srcdir && pwd`" != "`pwd`" &&
+if test "`CDPATH=:; cd $srcdir && pwd`" != "`pwd`" &&
    test -f $srcdir/config.status; then
   AC_MSG_ERROR([source directory already configured; run "make distclean" there first])
 fi
@@ -146,7 +266,7 @@ AC_SUBST(install_sh)])
 # If it does, set am_missing_run to use it, otherwise, to nothing.
 AC_DEFUN([AM_MISSING_HAS_RUN], [
 test x"${MISSING+set}" = xset || \
-  MISSING="\${SHELL} `CDPATH=: && cd $ac_aux_dir && pwd`/missing"
+  MISSING="\${SHELL} `CDPATH=:; cd $ac_aux_dir && pwd`/missing"
 # Use eval to expand $SHELL
 if eval "$MISSING --run :"; then
   am_missing_run="$MISSING --run "
@@ -1366,21 +1486,16 @@ AC_ARG_WITH(
   [],
   [with_mesa=yes])
 
-if test x"$sim_ac_linking_style" = xmswin; then
-  sim_ac_gl_glname=opengl32.lib
-  # FIXME: is this name correct? Probably not. 20000602 mortene.
-  sim_ac_gl_mesaglname=mesagl.lib
-else
-  sim_ac_gl_glname=-lGL
-  sim_ac_gl_mesaglname=-lMesaGL
-fi
+# It's usually libGL.so on UNIX systems and opengl32.lib on MSWindows.
+sim_ac_gl_glnames="-lGL -lopengl32"
+sim_ac_gl_mesaglnames=-lMesaGL
 
 if test "x$with_mesa" = "xyes"; then
-  sim_ac_gl_first=$sim_ac_gl_mesaglname
-  sim_ac_gl_second=$sim_ac_gl_glname
+  sim_ac_gl_first=$sim_ac_gl_mesaglnames
+  sim_ac_gl_second=$sim_ac_gl_glnames
 else
-  sim_ac_gl_first=$sim_ac_gl_glname
-  sim_ac_gl_second=$sim_ac_gl_mesaglname
+  sim_ac_gl_first=$sim_ac_gl_glnames
+  sim_ac_gl_second=$sim_ac_gl_mesaglnames
 fi
 
 AC_ARG_WITH(
@@ -1419,9 +1534,9 @@ if test x"$with_opengl" != xno; then
       if test "x$sim_cv_lib_gl" = "xUNRESOLVED"; then
         LIBS="$sim_ac_gl_libcheck $sim_ac_save_libs"
         AC_TRY_LINK([
-#ifdef _WIN32
+#if HAVE_WINDOWS_H
 #include <windows.h>
-#endif
+#endif /* HAVE_WINDOWS_H */
 #include <GL/gl.h>
 ],
                     [
@@ -1509,22 +1624,17 @@ unset sim_ac_glu_ldflags
 unset sim_ac_glu_libs
 sim_ac_glu_avail=no
 
-if test x"$sim_ac_linking_style" = xmswin; then
-  sim_ac_glu_name=glu32.lib
-  # FIXME: is this name correct? Probably not. 20000928 mortene.
-  sim_ac_glu_mesaname=mesaglu.lib
-else
-  sim_ac_glu_name=-lGLU
-  sim_ac_glu_mesaname=-lMesaGLU
-fi
+# It's usually libGLU.so on UNIX systems and glu32.lib on MSWindows.
+sim_ac_glu_names="-lGLU -lglu32"
+sim_ac_glu_mesanames=-lMesaGLU
 
 # with_mesa is set from the SIM_AC_CHECK_OPENGL macro.
 if test "x$with_mesa" = "xyes"; then
-  sim_ac_glu_first=$sim_ac_glu_mesaname
-  sim_ac_glu_second=$sim_ac_glu_name
+  sim_ac_glu_first=$sim_ac_glu_mesanames
+  sim_ac_glu_second=$sim_ac_glu_names
 else
-  sim_ac_glu_first=$sim_ac_glu_name
-  sim_ac_glu_second=$sim_ac_glu_mesaname
+  sim_ac_glu_first=$sim_ac_glu_names
+  sim_ac_glu_second=$sim_ac_glu_mesanames
 fi
 
 AC_ARG_WITH(
@@ -1554,13 +1664,13 @@ if test x"$with_glu" != xno; then
 
     # Some platforms (like BeOS) have the GLU functionality in the GL
     # library (and no GLU library present).
-    for sim_ac_glu_libcheck in "" "$sim_ac_glu_first"  "$sim_ac_glu_second"; do
+    for sim_ac_glu_libcheck in "" $sim_ac_glu_first $sim_ac_glu_second; do
       if test "x$sim_cv_lib_glu" = "xUNRESOLVED"; then
         LIBS="$sim_ac_glu_libcheck $sim_ac_save_libs"
         AC_TRY_LINK([
-#ifdef _WIN32
+#if HAVE_WINDOWS_H
 #include <windows.h>
-#endif
+#endif /* HAVE_WINDOWS_H */
 #include <GL/gl.h>
 #include <GL/glu.h>
 ],
@@ -1598,7 +1708,7 @@ AC_DEFUN([SIM_AC_GLU_READY_IFELSE],
   [sim_cv_glu_ready],
   [AC_TRY_LINK(
     [
-#ifdef HAVE_WINDOWS_H
+#if HAVE_WINDOWS_H
 #include <windows.h>
 #endif /* HAVE_WINDOWS_H */
 #include <GL/gl.h>
@@ -1637,11 +1747,12 @@ AC_CACHE_CHECK(
   [sim_cv_func_glu_nurbsobject=NONE
    for sim_ac_glu_structname in GLUnurbs GLUnurbsObj; do
     if test "$sim_cv_func_glu_nurbsobject" = NONE; then
-      AC_TRY_LINK([#ifdef _WIN32
-                  #include <windows.h>
-                  #endif
-                  #include <GL/gl.h>
-                  #include <GL/glu.h>],
+      AC_TRY_LINK([
+#if HAVE_WINDOWS_H
+#include <windows.h>
+#endif /* HAVE_WINDOWS_H */
+#include <GL/gl.h>
+#include <GL/glu.h>],
                   [$sim_ac_glu_structname * hepp = gluNewNurbsRenderer();
                    gluDeleteNurbsRenderer(hepp)],
                   [sim_cv_func_glu_nurbsobject=$sim_ac_glu_structname])
@@ -1739,63 +1850,10 @@ fi
 # Author: Morten Eriksen, <mortene@sim.no>.
 #
 
-AC_DEFUN([SIM_AC_HAVE_INVENTOR_IMAGE_IFELSE], [
-
-sim_ac_oiv_image_avail=false
-
-if test x"$with_inventor" != xno; then
-  if test x"$with_inventor" != xyes; then
-    sim_ac_oiv_image_cppflags="-I${with_inventor}/include"
-    sim_ac_oiv_image_ldflags="-L${with_inventor}/lib"
-  else
-    AC_MSG_CHECKING(value of the OIVHOME environment variable)
-    if test x"$OIVHOME" = x; then
-      AC_MSG_RESULT([empty])
-      AC_MSG_WARN([OIVHOME environment variable not set -- this might be an indication of a problem])
-    else
-      AC_MSG_RESULT([$OIVHOME])
-      sim_ac_oiv_image_cppflags="-I$OIVHOME/include"
-      sim_ac_oiv_image_ldflags="-L$OIVHOME/lib"
-    fi
-  fi
-  sim_ac_oiv_image_libs="-limage"
-
-  AC_LANG_PUSH(C)
-  sim_ac_save_cppflags=$CPPFLAGS
-  sim_ac_save_ldflags=$LDFLAGS
-  sim_ac_save_libs=$LIBS
-  CPPFLAGS="$sim_ac_oiv_image_cppflags $CPPFLAGS"
-  LDFLAGS="$sim_ac_oiv_image_ldflags $LDFLAGS"
-  LIBS="$sim_ac_oiv_image_libs $LIBS"
-  AC_MSG_CHECKING([for the Open Inventor image library])
-  AC_TRY_LINK(,
-    [img_read();],
-    [sim_ac_oiv_image_avail=true],
-    [sim_ac_oiv_image_avail=false])
-  if $sim_ac_oiv_image_avail; then
-    AC_MSG_RESULT([found])
-  else
-    AC_MSG_RESULT([not found])
-  fi
-  CPPFLAGS=$sim_ac_save_cppflags
-  LDFLAGS=$sim_ac_save_ldflags
-  LIBS=$sim_ac_save_libs
-  AC_LANG_POP
-fi
-
-if $sim_ac_oiv_image_avail; then
-  ifelse([$1], , :, [$1])
-else
-  ifelse([$2], , :, [$2])
-fi
-
-])
-
 AC_DEFUN([SIM_CHECK_INVENTOR], [
-AC_ARG_WITH(
-  [inventor],
-  AC_HELP_STRING([--with-inventor=DIR],
-                 [use the Open Inventor library [default=no]]),
+AC_ARG_WITH([inventor],
+  AC_HELP_STRING([--with-inventor], [use another Inventor than Coin [default=no]])
+AC_HELP_STRING([--with-inventor=PATH], [specify where the Inventor implementation resides]),
   [],
   [with_inventor=yes])
 
@@ -1903,74 +1961,179 @@ fi
 ])
 
 # **************************************************************************
-# SIM_AC_HAVE_SOPOLYGONOFFSET( [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]] )
-#
-# Check whether or not the SoPolygonOffset node is part of the
-# Open Inventor development system. If it is found, the
-# HAVE_SOPOLYGONOFFSET define is set.
-#
-# Author: Morten Eriksen, <mortene@sim.no>.
-#
-# TODO:
-#
-#     [20001002:mortene]   make a macro SIM_AC_HAVE_INVENTOR_NODE to replace
-#                          this macro and the SIM_AC_HAVE_SOEXTSELECTION
-#                          macro.
+# SIM_AC_WITH_INVENTOR
+# This macro just ensures the --with-inventor option is used.
 
-AC_DEFUN([SIM_AC_HAVE_SOPOLYGONOFFSET],
-[AC_CACHE_CHECK([for the SoPolygonOffset node],
-  sim_cv_sopolygonoffset,
-  [AC_TRY_LINK([#include <Inventor/nodes/SoPolygonOffset.h>],
-               [SoPolygonOffset * p = new SoPolygonOffset;],
-               [sim_cv_sopolygonoffset=yes],
-               [sim_cv_sopolygonoffset=no])])
-
-if test x"$sim_cv_sopolygonoffset" = xyes; then
-  AC_DEFINE(HAVE_SOPOLYGONOFFSET, 1,
-    [Define to enable use of the SoPolygonOffset node])
-  $1
-else
-  ifelse([$2], , :, [$2])
-fi
-]) # SIM_AC_HAVE_SOPOLYGONOFFSET
+AC_DEFUN([SIM_AC_WITH_INVENTOR], [
+: ${sim_ac_want_inventor=false}
+AC_ARG_WITH([inventor],
+  AC_HELP_STRING([--with-inventor], [use another Open Inventor than Coin [[default=no]]])
+AC_HELP_STRING([--with-inventor=PATH], [specify where Open Inventor resides]),
+  [case "$withval" in
+  no)  sim_ac_want_inventor=false ;;
+  yes) sim_ac_want_inventor=true
+       test -n "$OIVHOME" && sim_ac_inventor_path="$OIVHOME" ;;
+  *)   sim_ac_want_inventor=true; sim_ac_inventor_path="$withval" ;;
+  esac])
+]) # SIM_AC_WITH_INVENTOR
 
 # **************************************************************************
-# SIM_AC_HAVE_SOEXTSELECTION( [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]] )
-#
-# Check whether or not the SoExtSelection node is part of the
-# Open Inventor development system. If it is found, the
-# HAVE_SOEXTSELECTION define is set.
-#
-# Author: Morten Eriksen, <mortene@sim.no>.
-#
-# TODO:
-#
-#     [20001002:mortene]   make a macro SIM_AC_HAVE_INVENTOR_NODE to replace
-#                          this macro and the SIM_AC_HAVE_SOPOLYGONOFFSET
-#                          macro.
+# SIM_AC_HAVE_INVENTOR_IMAGE_IFELSE
 
-AC_DEFUN([SIM_AC_HAVE_SOEXTSELECTION],
-[AC_CACHE_CHECK([for the SoExtSelection node],
-  sim_cv_soextselection,
-  [AC_TRY_LINK([#include <Inventor/nodes/SoExtSelection.h>],
-               [SoExtSelection * p = new SoExtSelection;],
-               [sim_cv_soextselection=yes],
-               [sim_cv_soextselection=no])])
+AC_DEFUN([SIM_AC_HAVE_INVENTOR_IMAGE_IFELSE], [
+AC_REQUIRE([SIM_AC_WITH_INVENTOR])
 
-if test x"$sim_cv_soextselection" = xyes; then
-  AC_DEFINE(HAVE_SOEXTSELECTION, 1,
-    [Define to enable use of the SoExtSelection node])
-  $1
+if $sim_ac_want_inventor; then
+  sim_ac_inventor_image_save_CPPFLAGS="$CPPFLAGS"
+  sim_ac_inventor_image_save_LDFLAGS="$LDFLAGS"
+  sim_ac_inventor_image_save_LIBS="$LIBS"
+
+  if test s${sim_ac_inventor_path+et} = set; then
+    sim_ac_inventor_image_cppflags="-I${sim_ac_inventor_path}/include"
+    sim_ac_inventor_image_ldflags="-L${sim_ac_inventor_path}/lib"
+  fi
+  sim_ac_inventor_image_libs="-limage"
+
+  AC_CACHE_CHECK(
+    [if linking with libimage is possible],
+    sim_cv_have_inventor_image,
+    [AC_LANG_PUSH(C)
+    CPPFLAGS="$sim_ac_inventor_image_cppflags $CPPFLAGS"
+    LDFLAGS="$sim_ac_inventor_image_ldflags $LDFLAGS"
+    LIBS="$sim_ac_inventor_image_libs $LIBS"
+    AC_TRY_LINK(
+      [],
+      [img_read();],
+      [sim_cv_have_inventor_image=true],
+      [sim_cv_have_inventor_image=false])
+    CPPFLAGS="$sim_ac_inventor_image_save_CPPFLAGS"
+    LDFLAGS="$sim_ac_inventor_image_save_LDFLAGS"
+    LIBS="$sim_ac_inventor_image_save_LIBS"
+    AC_LANG_POP])
+
+  if $sim_cv_have_inventor_image; then
+    ifelse([$1], , :, [$1])
+  else
+    ifelse([$2], , :, [$2])
+  fi
 else
   ifelse([$2], , :, [$2])
 fi
-]) # SIM_AC_HAVE_SOEXTSELECTION
+]) # SIM_AC_HAVE_INVENTOR_IMAGE_IFELSE
+
+# **************************************************************************
+# SIM_AC_HAVE_INVENTOR_IFELSE
+
+AC_DEFUN([SIM_AC_HAVE_INVENTOR_IFELSE], [
+AC_REQUIRE([SIM_AC_WITH_INVENTOR])
+
+if $sim_ac_want_inventor; then
+  sim_ac_inventor_save_CPPFLAGS="$CPPFLAGS";
+  sim_ac_inventor_save_LDFLAGS="$LDFLAGS";
+  sim_ac_inventor_save_LIBS="$LIBS";
+
+  SIM_AC_HAVE_INVENTOR_IMAGE_IFELSE([
+    sim_ac_inventor_cppflags="$sim_ac_inventor_image_cppflags"
+    sim_ac_inventor_ldflags="$sim_ac_inventor_image_ldflags"
+    sim_ac_inventor_libs="-lInventor $sim_ac_inventor_image_libs"
+  ], [
+    if test s${sim_ac_inventor_path+et} = set; then
+      sim_ac_inventor_cppflags="-I${sim_ac_inventor_path}/include"
+      sim_ac_inventor_ldflags="-L${sim_ac_inventor_path}/lib"
+    fi
+    sim_ac_inventor_libs="-lInventor"
+  ])
+
+# temporarily disabled
+#  if test x"$sim_ac_linking_style" = xmswin; then
+#    cat <<EOF > conftest.c
+#include <Inventor/SbBasic.h>
+#PeekInventorVersion: TGS_VERSION
+#EOF
+#    iv_version=`$CXX -E conftest.c 2>/dev/null | grep "^PeekInventorVersion" | sed 's/.* //g'`
+#    if test x"$iv_version" = xTGS_VERSION; then
+#      AC_MSG_ERROR([SbBasic.h does not define TGS_VERSION.  Maybe it's a Coin file?])
+#    fi
+#    iv_version=`echo $iv_version | sed 's/.$//'`
+#    rm -f conftest.c
+#    sim_ac_inventor_libs="inv${iv_version}.lib"
+#    sim_ac_inventor_enter="#include <SoWinEnterScope.h>"
+#    sim_ac_inventor_leave="#include <SoWinLeaveScope.h>"
+#  else
+#    sim_ac_inventor_libs="-lInventor"
+#  fi
+
+  AC_CACHE_CHECK([for Open Inventor developer kit],
+    sim_cv_have_inventor,
+    [CPPFLAGS="$CPPFLAGS $sim_ac_inventor_cppflags"
+    LDFLAGS="$LDFLAGS $sim_ac_inventor_ldflags"
+    LIBS="$sim_ac_inventor_libs $LIBS"
+    AC_TRY_LINK([$sim_ac_inventor_enter
+                 #include <Inventor/SoDB.h>],
+                 [SoDB::init();],
+                 [sim_cv_have_inventor=true],
+                 [sim_cv_have_inventor=false])
+    CPPFLAGS="$sim_ac_inventor_save_CPPFLAGS"
+    LDFLAGS="$sim_ac_inventor_save_LDFLAGS"
+    LIBS="$sim_ac_inventor_save_LIBS"])
+
+  if $sim_cv_have_inventor; then
+    ifelse([$1], , :, [$1])
+  else
+    ifelse([$2], , :, [$2])
+  fi
+else
+  ifelse([$2], , :, [$2])
+fi
+]) # SIM_AC_HAVE_INVENTOR_IFELSE
+
+# **************************************************************************
+
+# utility macros:
+AC_DEFUN([AC_TOUPPER], [translit([$1], [[a-z]], [[A-Z]])])
+AC_DEFUN([AC_TOLOWER], [translit([$1], [[A-Z]], [[a-z]])])
+
+# **************************************************************************
+# SIM_AC_HAVE_INVENTOR_NODE( NODE, [ACTION-IF-FOUND] [, ACTION-IF-NOT-FOUND])
+#
+# Check whether or not the given NODE is available in the Open Inventor
+# development system.  If so, the HAVE_<NODE> define is set.
+#
+# Authors:
+#   Lars J. Aas  <larsa@sim.no>
+#   Morten Eriksen  <mortene@sim.no>
+
+AC_DEFUN([SIM_AC_HAVE_INVENTOR_NODE], 
+[m4_do([pushdef([cache_variable], sim_cv_have_oiv_[]AC_TOLOWER([$1])_node)],
+       [pushdef([DEFINE_VARIABLE], HAVE_[]AC_TOUPPER([$1]))])
+AC_CACHE_CHECK(
+  [if the Open Inventor $1 node is available],
+  cache_variable,
+  [AC_TRY_LINK(
+    [#include <Inventor/nodes/$1.h>],
+    [$1 * p = new $1;],
+    cache_variable=true,
+    cache_variable=false)])
+
+if $cache_variable; then
+  AC_DEFINE(DEFINE_VARIABLE, 1, [Define to enable use of the Open Inventor $1 node])
+  $2
+else
+  ifelse([$3], , :, [$3])
+fi
+m4_do([popdef([cache_variable])],
+      [popdef([DEFINE_VARIABLE])])
+]) # SIM_AC_HAVE_INVENTOR_NODE
 
 # **************************************************************************
 # SIM_AC_HAVE_SOMOUSEBUTTONEVENT_BUTTONS
 #
 # Authors:
 #   Lars J. Aas <larsa@sim.no>
+#
+# TODO:
+#   Check for enums generically instead.
+#
 
 AC_DEFUN([SIM_AC_HAVE_SOMOUSEBUTTONEVENT_BUTTONS],
 [AC_CACHE_CHECK(
@@ -2034,10 +2197,9 @@ sim_ac_coin_version=
 : ${sim_ac_coin_desired=true}
 sim_ac_coin_extrapath=
 
-AC_ARG_WITH([coin], AC_HELP_STRING([--without-coin], [disable use of Coin]))
-AC_ARG_WITH([coin], AC_HELP_STRING([--with-coin], [enable use of Coin]))
 AC_ARG_WITH([coin],
-  AC_HELP_STRING([--with-coin=DIR], [give prefix location of Coin]),
+AC_HELP_STRING([--with-coin], [enable use of Coin [[default=yes]]])
+AC_HELP_STRING([--with-coin=DIR], [give prefix location of Coin]),
   [ case $withval in
     no)  sim_ac_coin_desired=false ;;
     yes) sim_ac_coin_desired=true ;;
@@ -2986,6 +3148,37 @@ else
   if test x"$GXX" != x"yes" && test x"$GCC" != x"yes"; then
     AC_MSG_WARN([--enable-warnings only has effect when using GNU gcc or g++])
   fi
+fi
+])
+
+
+# conf-macros/sogui.m4
+#
+# Common macros for the various GUI toolkit libraries for Coin.
+#
+# Authors:
+#   Lars J. Aas <larsa@sim.no>
+
+# SIM_AC_SOGUI_STATIC_DEFAULTS
+# ============================
+# If --disable-static-defaults is used, do not define WITH_STATIC_DEFAULTS.
+
+AC_DEFUN([SIM_AC_SOGUI_STATIC_DEFAULTS],
+[
+sim_ac_static_defaults=true;
+AC_ARG_ENABLE(
+  [static-defaults],
+  AC_HELP_STRING([--disable-static-defaults], [Disable defaults from being statically linked in]),
+  [case ${enable_static_defaults} in
+   no)  sim_ac_static_defaults=false ;;
+   yes) ;;
+   *)   echo "Option '--enable-static-defaults=${enable_static_defaults}' ignored" ;;
+  esac],
+  [])
+
+if $sim_ac_static_defaults; then
+  AC_DEFINE(WITH_STATIC_DEFAULTS, ,
+    [Define this if you want defaults to be linked into SoXt])
 fi
 ])
 
