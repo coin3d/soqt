@@ -602,6 +602,7 @@ fi
 
 AC_SUBST([ivframeworkdir])
 AC_SUBST([frameworkdir])
+AC_SUBST([ivincludedir])
 AC_SUBST([soqtincludedir])
 
 AC_SUBST([MAC_FRAMEWORK], [$sim_ac_framework])
