@@ -251,9 +251,9 @@ Gradient::getImage(unsigned int width, unsigned int height, unsigned int depth) 
         background = 255;
       }
       int bg = int((1.0f - alpha) * float(background));
-      int r = (int) (alpha * float(qRed(colors[i]) + bg));
-      int g = (int) (alpha * float(qGreen(colors[i]) + bg));
-      int b = (int) (alpha * float(qBlue(colors[i]) + bg));
+      int r = (int) (alpha * float(qRed(colors[i])) + bg);
+      int g = (int) (alpha * float(qGreen(colors[i])) + bg);
+      int b = (int) (alpha * float(qBlue(colors[i])) + bg);
       gradImage.setPixel(i, j, qRgb(r, g, b));
     }
   }
