@@ -2,24 +2,16 @@ NAME
 SoQt
 
 BRIEF
-Qt GUI widgets for Coin.
+Qt GUI widgets for Coin / Open Inventor.
 
 FULL
 Qt GUI widgets for Coin. The components are also compatible with Open
-Inventor, and the API is (somewhat loosely) based on the API of the Xt/Motif
-toolkit which comes with Open Inventor.
+Inventor, and the API is (somewhat loosely) based on the API of the
+Xt/Motif toolkit which comes with Open Inventor.
 
 The library is released publicly under the Q Public License for
 developers of free software and is also available for commercial use
 under a "professional edition" license.
 
-STATUS
-In development.
+SoQt is supported on both UNIX and Win32 platforms.
 
-DEVELOPERS
-Morten Eriksen <mortene@sim.no>
-
-NOTES
-<blockquote>
-Fully functional, but only 1 viewer implemented (and none of the editors).
-</blockquote>

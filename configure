@@ -5663,6 +5663,18 @@ eval "soqt_src_dir=\"`echo $srcdir | sed -e 's%\\/%\\\\%g'`\""
 
 
 
+# Set soqt_include_dir so we can change CoinSDK_SoQt.iwz
+
+eval "soqt_include_dir=\"`echo $includedir | sed -e 's%\\/%\\\\%g'`\""
+
+
+
+# Set soqt_lib_dir so we can change CoinSDK_SoQt.iwz
+
+eval "soqt_lib_dir=\"`echo $libdir | sed -e 's%\\/%\\\\%g'`\""
+
+
+
 # **************************************************************************
 # List all files configure shall automatically generate.
 
@@ -5753,7 +5765,8 @@ config_files="\\
     src/Inventor/Qt/devices/Makefile src/Inventor/Qt/viewers/Makefile
     src/Inventor/Qt/widgets/Makefile test-code/Makefile
     test-code/components/Makefile test-code/widgets/Makefile build/soqt.dsp
-    build/soqt.mak build/soqt_dll.dsp build/soqt_dll.mak"
+    build/soqt.mak build/soqt_dll.dsp build/soqt_dll.mak
+    build/CoinSDK_SoQt.iwz.in"
 config_headers="\\
     config.h"
 
@@ -5810,6 +5823,7 @@ do
   'build/soqt.mak' ) CONFIG_FILES="\$CONFIG_FILES build/soqt.mak" ;;
   'build/soqt_dll.dsp' ) CONFIG_FILES="\$CONFIG_FILES build/soqt_dll.dsp" ;;
   'build/soqt_dll.mak' ) CONFIG_FILES="\$CONFIG_FILES build/soqt_dll.mak" ;;
+  'build/CoinSDK_SoQt.iwz.in' ) CONFIG_FILES="\$CONFIG_FILES build/CoinSDK_SoQt.iwz.in" ;;
   'config.h' ) CONFIG_HEADERS="\$CONFIG_HEADERS config.h" ;;
   # This is an error.
   *) echo "$CONFIG_STATUS: invalid argument: \$ac_option"; exit 1 ;;
@@ -5941,6 +5955,8 @@ s%@COMPONENTHEADER@%$COMPONENTHEADER%;t t
 s%@subdirs@%$subdirs%;t t
 s%@soqt_build_dir@%$soqt_build_dir%;t t
 s%@soqt_src_dir@%$soqt_src_dir%;t t
+s%@soqt_include_dir@%$soqt_include_dir%;t t
+s%@soqt_lib_dir@%$soqt_lib_dir%;t t
 CEOF
 
 EOF
@@ -6367,14 +6383,22 @@ fi
 # **************************************************************************
 # do some extra stuff for Windows system
 
+pf="build/soqt";
+sim_ac_winfiles="${pf}.dsp ${pf}.mak ${pf}_dll.dsp ${pf}_dll.mak"
+sim_ac_winfiles="${sim_ac_winfiles} build/CoinSDK_SoQt.iwz.in";
+
 if test x"$sim_ac_linking_style" = xmswin; then
-  for sim_ac_winfile in build/soqt.dsp build/soqt.mak build/soqt_dll.dsp build/soqt_dll.mak; do
+  for sim_ac_winfile in $sim_ac_winfiles; do
     mv $sim_ac_winfile $sim_ac_winfile.bak
     echo "(Win)DOS-ifying $sim_ac_winfile"
     sed -e 's/$/
 /' < $sim_ac_winfile.bak > $sim_ac_winfile
     rm $sim_ac_winfile.bak
   done
+  sed -e 's/$/
+/' < ${srcdir}/LICENSE.QPL > build/qpl.txt
+  sed -e 's/$/
+/' < ${srcdir}/info.cvs > build/info.txt
 fi
 
 if test x"$sim_ac_linking_style" = xmswin; then
