@@ -37,7 +37,7 @@
 #include "gradientp/SoQtGradientDialogP.h"
 #include "SoQtGradientDialog.h"
 
-//#include <Inventor/Qt/widgets/moc_SoQtGradientDialog.icc>
+#include <Inventor/Qt/widgets/moc_SoQtGradientDialogP.icc>
 
 SbBool SoQtGradientDialogP::updateContinuously = FALSE;
 Gradient::ChangeCB * SoQtGradientDialogP::changeCallBack = NULL;

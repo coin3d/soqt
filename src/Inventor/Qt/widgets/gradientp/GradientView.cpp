@@ -222,8 +222,8 @@ GradientView::contentsMouseMoveEvent(QMouseEvent * e)
 
       float value = t * (this->max - this->min);
       QString s;
-      s.sprintf("%f", value);
-      this->statusBar->message("Data Value: " + s);
+      s.sprintf("Color table index: %d", (int)(value + 0.5f));
+      this->statusBar->message(s);
       
       emit this->viewChanged();
     }
@@ -231,9 +231,8 @@ GradientView::contentsMouseMoveEvent(QMouseEvent * e)
     QPoint p = inverseWorldMatrix().map(e->pos());
     QRgb col = this->grad.eval((float)p.x() / (float)this->canvas->width());
     QString s;
-    s.sprintf("0x%02x%02x%02x%02x", qRed(col), qGreen(col), qBlue(col), qAlpha(col));
-    this->statusBar->message(QString("RBGA: ") + s);
-
+    s.sprintf("RGBA: 0x%02x%02x%02x%02x", qRed(col), qGreen(col), qBlue(col), qAlpha(col));
+    this->statusBar->message(s);
   }
 }
 
