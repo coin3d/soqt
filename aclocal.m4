@@ -5897,9 +5897,9 @@ AC_DEFUN([SIM_AC_HAVE_INVENTOR_IFELSE], [
 AC_REQUIRE([SIM_AC_WITH_INVENTOR])
 
 if $sim_ac_want_inventor; then
-  sim_ac_save_CPPFLAGS="$CPPFLAGS";
-  sim_ac_save_LDFLAGS="$LDFLAGS";
-  sim_ac_save_LIBS="$LIBS";
+  sim_ac_save_CPPFLAGS="$CPPFLAGS"
+  sim_ac_save_LDFLAGS="$LDFLAGS"
+  sim_ac_save_LIBS="$LIBS"
 
   SIM_AC_HAVE_INVENTOR_IMAGE_IFELSE([
     sim_ac_inventor_cppflags="$sim_ac_inventor_image_cppflags"
@@ -5914,7 +5914,16 @@ if $sim_ac_want_inventor; then
 
   # Let's at least test for "libInventor".
   sim_ac_inventor_chk_libs="-lInventor"
+  sim_ac_inventor_libs=UNRESOLVED
 
+  CPPFLAGS="$sim_ac_inventor_cppflags $CPPFLAGS"
+
+  AC_CHECK_HEADER([Inventor/SbBasic.h],
+                  [sim_ac_sbbasic=true],
+                  [AC_MSG_WARN([header file Inventor/SbBasic.h not found])
+                   sim_ac_sbbasic=false])
+
+  if $sim_ac_sbbasic; then
   AC_MSG_CHECKING([the Open Inventor version])
   # See if we can get the TGS_VERSION number for including a
   # check for inv{ver}.lib.
@@ -5930,12 +5939,12 @@ EOF
   if test x"$CPP" = x; then
     AC_MSG_ERROR([cpp not detected - aborting.  notify maintainer at coin-support@coin3d.org.])
   fi
-  echo "$CPP $sim_ac_inventor_cppflags $CPPFLAGS conftest.c" >&AS_MESSAGE_LOG_FD
-  tgs_version_line=`$CPP $sim_ac_inventor_cppflags $CPPFLAGS conftest.c 2>&AS_MESSAGE_LOG_FD | grep "^PeekInventorVersion"`
+  echo "$CPP $CPPFLAGS conftest.c" >&AS_MESSAGE_LOG_FD
+  tgs_version_line=`$CPP $CPPFLAGS conftest.c 2>&AS_MESSAGE_LOG_FD | grep "^PeekInventorVersion"`
   if test x"$tgs_version_line" = x; then
     echo "second try..." >&AS_MESSAGE_LOG_FD
-    echo "$CPP -DWIN32 $sim_ac_inventor_cppflags $CPPFLAGS conftest.c" >&AS_MESSAGE_LOG_FD
-    tgs_version_line=`$CPP -DWIN32 $sim_ac_inventor_cppflags $CPPFLAGS conftest.c 2>&AS_MESSAGE_LOG_FD | grep "^PeekInventorVersion"`
+    echo "$CPP -DWIN32 $CPPFLAGS conftest.c" >&AS_MESSAGE_LOG_FD
+    tgs_version_line=`$CPP -DWIN32 $CPPFLAGS conftest.c 2>&AS_MESSAGE_LOG_FD | grep "^PeekInventorVersion"`
   fi
   rm -f conftest.c
   tgs_version=`echo $tgs_version_line | cut -c22-24`
@@ -5953,7 +5962,6 @@ EOF
   fi
 
   AC_MSG_CHECKING([for Open Inventor library])
-  sim_ac_inventor_libs=UNRESOLVED
 
   for sim_ac_iv_cppflags_loop in "" "-DWIN32"; do
     for sim_ac_iv_libcheck in $sim_ac_inventor_chk_libs; do
@@ -5969,15 +5977,23 @@ EOF
     done
   done
 
+  if test "x$sim_ac_inventor_libs" != "xUNRESOLVED"; then
+    AC_MSG_RESULT($sim_ac_inventor_cppflags $sim_ac_inventor_ldflags $sim_ac_inventor_libs)
+  else
+    AC_MSG_RESULT([unavailable])
+  fi
+
+  fi # sim_ac_sbbasic = TRUE
+
   CPPFLAGS="$sim_ac_save_CPPFLAGS"
   LDFLAGS="$sim_ac_save_LDFLAGS"
   LIBS="$sim_ac_save_LIBS"
 
   if test "x$sim_ac_inventor_libs" != "xUNRESOLVED"; then
-    AC_MSG_RESULT($sim_ac_inventor_cppflags $sim_ac_inventor_ldflags $sim_ac_inventor_libs)
+    :
     $1
   else
-    AC_MSG_RESULT([unavailable])
+    :
     $2
   fi
 else

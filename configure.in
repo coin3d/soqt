@@ -629,6 +629,12 @@ AC_SUBST([COMPONENTHEADER], [Q_OBJECT])
 #   AC_SUBST(sim_ac_perl_exe)
 # fi
 
+case $host_os in
+darwin*)
+  SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS -Wl,-multiply_defined,suppress"
+  ;;
+esac
+
 # **************************************************************************
 # Remove redundant options from certain option lists.
 
