@@ -27982,7 +27982,7 @@ echo "$as_me:$LINENO: checking whether $CC accepts /noBool" >&5
 echo $ECHO_N "checking whether $CC accepts /noBool... $ECHO_C" >&6
 
 sim_ac_save_cppflags=$CPPFLAGS
-CPPFLAGS="$CPPFLAGS /noBool"
+CPPFLAGS="$CPPFLAGS"
 cat >conftest.$ac_ext <<_ACEOF
 #line $LINENO "configure"
 /* confdefs.h.  */
@@ -28024,7 +28024,7 @@ echo "${ECHO_T}$sim_ac_accept_result" >&6
 CPPFLAGS=$sim_ac_save_cppflags
 # This need to go last, in case CPPFLAGS is modified in sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS /noBool" or .
 if test $sim_ac_accept_result = yes; then
-  sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS /noBool"
+  sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS"
 else
   :
 fi
@@ -28049,7 +28049,7 @@ echo "$as_me:$LINENO: checking whether $CXX accepts /noBool" >&5
 echo $ECHO_N "checking whether $CXX accepts /noBool... $ECHO_C" >&6
 
 sim_ac_save_cppflags=$CPPFLAGS
-CPPFLAGS="$CPPFLAGS /noBool"
+CPPFLAGS="$CPPFLAGS"
 cat >conftest.$ac_ext <<_ACEOF
 #line $LINENO "configure"
 /* confdefs.h.  */
@@ -28091,7 +28091,7 @@ echo "${ECHO_T}$sim_ac_accept_result" >&6
 CPPFLAGS=$sim_ac_save_cppflags
 # This need to go last, in case CPPFLAGS is modified in sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS /noBool" or .
 if test $sim_ac_accept_result = yes; then
-  sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS /noBool"
+  sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS"
 else
   :
 fi
