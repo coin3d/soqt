@@ -69,7 +69,7 @@ public:
   int getFeedbackSize(void) const;
 
   virtual void setViewing( SbBool enable );
-  virtual void setCamera( SoCamera * const camera );
+  virtual void setCamera( SoCamera * camera );
   virtual void setCursorEnabled( SbBool enable );
   virtual void resetToHomePosition(void);
   virtual void viewAll(void);
