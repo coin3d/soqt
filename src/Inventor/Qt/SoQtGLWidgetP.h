@@ -51,6 +51,7 @@ public:
 
   SbVec2s glSize;
   SbBool wasresized;
+  const QGLContext * oldcontext;
 
   class SoQtGLArea * currentglwidget;
   class SoQtGLArea * previousglwidget;

@@ -432,9 +432,8 @@ SoQtGLWidget::setGLSize(const SbVec2s size)
 // In this case, we must register a new context as well in order to get
 // a new SoGLRenderAction cache context id.
 #if (defined Q_WS_MAC && QT_VERSION >= 0x030100) 
-  static const QGLContext * oldcontext = NULL;
   QGLWidget * w = (QGLWidget*) this->getGLWidget();
-  if (w && oldcontext != w->context()) { 
+  if (w && PRIVATE(this)->oldcontext != w->context()) { 
     if (SOQT_DEBUG && 0) { 
       SoDebugError::postInfo("SoQtGLWidget::setGLSize", 
                              "OpenGL context recreated by Qt, "
@@ -443,7 +442,7 @@ SoQtGLWidget::setGLSize(const SbVec2s size)
     SoAny::si()->unregisterGLContext((void *)this);
     SoAny::si()->registerGLContext((void *)this, 0, 0);  
   }
-  if (w) oldcontext = w->context();
+  if (w) PRIVATE(this)->oldcontext = w->context();
 #endif
 
 }
@@ -660,6 +659,7 @@ SoQtGLWidgetP::SoQtGLWidgetP(SoQtGLWidget * o)
   : SoGuiGLWidgetP(o)
 {
   this->borderthickness = 0;
+  this->oldcontext = NULL;
 }
 
 SoQtGLWidgetP::~SoQtGLWidgetP()
