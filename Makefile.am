@@ -135,4 +135,15 @@ windows-files:
 windows-packages: windows-files
 	@( cd windows; $(MAKE) VERSION=$(VERSION) )
 
+# **************************************************************************
+
+# FIXME: this should somehow be enabled to make sure the archive is
+# bootstrappable, but since distcheck isn't run on our bootstrap server
+# it is disabled for now.  Also, bootstrap needs to return a useful
+# return code before it can be enabled.
+#
+# distcheck-hook:
+# 	@cd $(distdir); \
+# 	./bootstrap
+
 # EOF ######################################################################
