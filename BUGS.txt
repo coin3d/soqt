@@ -247,4 +247,17 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
 
 =====================================================================
 
+011 There is something fishy about the up-vector in the So*FlyViewer.
 
+    The up-vector doesn't seem to be "kept straight" at all
+    times. I've been able to reproduce this occasionally by flying at
+    high speed in a sharp curve towards either the left or right
+    side.
+
+    The up-vector should always stay the same, unless it is explicitly
+    changed by the user when hitting 'u'. If the up-vector changes
+    during flight, the FlyViewer gets more or less unusable.
+
+    20021015 mortene.
+
+=====================================================================
