@@ -113,7 +113,7 @@ BSC32_FLAGS=/nologo /o"$(OUTDIR)\soqt_dll.bsc"
 BSC32_SBRS= \
 	
 LINK32=link.exe
-LINK32_FLAGS=msvcrt.lib opengl32.lib qgl.lib qmain.lib qt@qt_version@.lib coin@coin_version@.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /incremental:no /pdb:"Release/soqt@SOQT_VERSION@.pdb" /machine:I386 /nodefaultlib /out:"Release/soqt@SOQT_VERSION@.dll" /implib:"$(OUTDIR)\soqt@SOQT_VERSION@.lib" 
+LINK32_FLAGS=msvcrt.lib opengl32.lib qgl.lib qtmain.lib qt@qt_version@.lib coin@coin_version@.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /incremental:no /pdb:"Release/soqt@SOQT_VERSION@.pdb" /machine:I386 /nodefaultlib /out:"Release/soqt@SOQT_VERSION@.dll" /implib:"$(OUTDIR)\soqt@SOQT_VERSION@.lib" 
 LINK32_OBJS= \
 	"$(INTDIR)\moc_SoQt.obj" \
 	"$(INTDIR)\moc_SoQtComponent.obj" \
@@ -265,7 +265,7 @@ BSC32_FLAGS=/nologo /o"$(OUTDIR)\soqt_dll.bsc"
 BSC32_SBRS= \
 	
 LINK32=link.exe
-LINK32_FLAGS=msvcrt.lib opengl32.lib qgl.lib qmain.lib qt@qt_version@.lib coin@coin_version@d.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /incremental:yes /pdb:"Debug/soqt@SOQT_VERSION@d.pdb" /debug /machine:I386 /nodefaultlib /out:"Debug/soqt@SOQT_VERSION@d.dll" /implib:"$(OUTDIR)\soqt@SOQT_VERSION@d.lib" /pdbtype:sept 
+LINK32_FLAGS=msvcrt.lib opengl32.lib qgl.lib qtmain.lib qt@qt_version@.lib coin@coin_version@d.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /incremental:yes /pdb:"Debug/soqt@SOQT_VERSION@d.pdb" /debug /machine:I386 /nodefaultlib /out:"Debug/soqt@SOQT_VERSION@d.dll" /implib:"$(OUTDIR)\soqt@SOQT_VERSION@d.lib" /pdbtype:sept 
 LINK32_OBJS= \
 	"$(INTDIR)\moc_SoQt.obj" \
 	"$(INTDIR)\moc_SoQtComponent.obj" \
