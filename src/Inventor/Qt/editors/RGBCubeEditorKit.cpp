@@ -98,36 +98,36 @@ public:
 
   void initRgbCube(void);
 
-  void initCubeFacelist(SoTransformSeparator *root, 
-			SbVec3f *cubeVertices,
-			SoCoordinate3 *colorCubeCoords,
-			int32_t *cubeVertexIndices,
-			SoMaterial *cubeMaterial);
+  void initCubeFacelist(SoTransformSeparator * root, 
+			SbVec3f * cubeVertices,
+			SoCoordinate3 * colorCubeCoords,
+			int32_t * cubeVertexIndices,
+			SoMaterial * cubeMaterial);
 
-  void initCubeDraggers(SoSeparator *root, 
-			SoScale1Dragger *draggerX,
-			SoScale1Dragger *draggerY,
-			SoScale1Dragger *draggerZ,
-			SoDraggerCB *cb1, 
-			SoDraggerCB *cb2, 
-			SoDraggerCB *cb3,
+  void initCubeDraggers(SoSeparator * root, 
+			SoScale1Dragger * draggerX,
+			SoScale1Dragger * draggerY,
+			SoScale1Dragger * draggerZ,
+			SoDraggerCB * cb1, 
+			SoDraggerCB * cb2, 
+			SoDraggerCB * cb3,
 			float value1, float value2, float value3);
 
-  void updateCubeVertices(SoCoordinate3 *colorCubeCoords, 
-			  SoMaterial *cubeMaterial,
+  void updateCubeVertices(SoCoordinate3 * colorCubeCoords, 
+			  SoMaterial * cubeMaterial,
 			  float x, float y, float z); 
 
-  void modifyDraggerWidget(SoScale1Dragger *dragger);
+  void modifyDraggerWidget(SoScale1Dragger * dragger);
 
 
   // --- Methods called by callback statics
   void updateColorValueText(float red, float green, float blue);
 
   // --- Static Callbacks
-  static void mouseClickCallback(void *classObject, SoEventCallback *cb);
-  static void draggerXCallback(void * classObject, SoDragger *dragger);
-  static void draggerYCallback(void * classObject, SoDragger *dragger);
-  static void draggerZCallback(void * classObject, SoDragger *dragger);
+  static void mouseClickCallback(void *classObject, SoEventCallback * cb);
+  static void draggerXCallback(void * classObject, SoDragger * dragger);
+  static void draggerYCallback(void * classObject, SoDragger * dragger);
+  static void draggerZCallback(void * classObject, SoDragger * dragger);
 
 private:
   RGBCubeEditorKit * master;
@@ -175,7 +175,7 @@ RGBCubeEditorKit::affectsState(void) const
 
 
 void 
-RGBCubeEditorKitP::mouseClickCallback(void *classObject, SoEventCallback *cb)
+RGBCubeEditorKitP::mouseClickCallback(void * classObject, SoEventCallback * cb)
 {
 
   SoMouseButtonEvent * mouseEvent = (SoMouseButtonEvent *) (cb->getEvent());
@@ -193,7 +193,7 @@ RGBCubeEditorKitP::mouseClickCallback(void *classObject, SoEventCallback *cb)
 
 
   // Fetch translation of this cube
-  SoPath *scenePathCopy = scenePath->copy();
+  SoPath * scenePathCopy = scenePath->copy();
   scenePathCopy->ref();
   SoGetMatrixAction matrixAction(viewport);
   matrixAction.apply(scenePathCopy);
@@ -289,7 +289,7 @@ RGBCubeEditorKitP::draggerCallback(void)
 
 
 void 
-RGBCubeEditorKitP::draggerXCallback(void * obj, SoDragger *dragger)
+RGBCubeEditorKitP::draggerXCallback(void * obj, SoDragger * dragger)
 {
   RGBCubeEditorKit * rgbCube = (RGBCubeEditorKit *)obj;
   SoScale1Dragger * sd = (SoScale1Dragger *)dragger;
@@ -301,7 +301,7 @@ RGBCubeEditorKitP::draggerXCallback(void * obj, SoDragger *dragger)
 
 
 void 
-RGBCubeEditorKitP::draggerYCallback(void * obj, SoDragger *dragger)
+RGBCubeEditorKitP::draggerYCallback(void * obj, SoDragger * dragger)
 {
   RGBCubeEditorKit * rgbCube = (RGBCubeEditorKit *)obj;
   SoScale1Dragger * sd = (SoScale1Dragger *)dragger;
@@ -313,7 +313,7 @@ RGBCubeEditorKitP::draggerYCallback(void * obj, SoDragger *dragger)
 
 
 void 
-RGBCubeEditorKitP::draggerZCallback(void * obj, SoDragger *dragger)
+RGBCubeEditorKitP::draggerZCallback(void * obj, SoDragger * dragger)
 {
   RGBCubeEditorKit * rgbCube = (RGBCubeEditorKit *)obj;
   SoScale1Dragger * sd = (SoScale1Dragger *)dragger;
@@ -325,8 +325,8 @@ RGBCubeEditorKitP::draggerZCallback(void * obj, SoDragger *dragger)
 
 
 void 
-RGBCubeEditorKitP::updateCubeVertices(SoCoordinate3 *cubeCoords,
-				  SoMaterial *cubeMaterial,
+RGBCubeEditorKitP::updateCubeVertices(SoCoordinate3 * cubeCoords,
+				  SoMaterial * cubeMaterial,
 				  float x, float y, float z)
 {
 
@@ -375,11 +375,11 @@ RGBCubeEditorKitP::updateCubeVertices(SoCoordinate3 *cubeCoords,
 
 
 void 
-RGBCubeEditorKitP::initCubeFacelist(SoTransformSeparator *root, 
-				SbVec3f *cubeVerts,
-				SoCoordinate3 *cubeCoords,
-				int32_t *cubeVertexIndices,
-				SoMaterial *cubeMaterial)
+RGBCubeEditorKitP::initCubeFacelist(SoTransformSeparator * root, 
+				SbVec3f * cubeVerts,
+				SoCoordinate3 * cubeCoords,
+				int32_t * cubeVertexIndices,
+				SoMaterial * cubeMaterial)
 {
   
   // Back
@@ -445,7 +445,7 @@ RGBCubeEditorKitP::initCubeFacelist(SoTransformSeparator *root,
 
  
   // ColorCube + LineCube coordinates
-  SoCoordinate3 *lineCubeCoords = new SoCoordinate3;
+  SoCoordinate3 * lineCubeCoords = new SoCoordinate3;
   lineCubeCoords->point.setValues(0,4*2,cubeVerts);
   cubeCoords->point.setValues(0,4*2,cubeVerts);
 
@@ -456,32 +456,32 @@ RGBCubeEditorKitP::initCubeFacelist(SoTransformSeparator *root,
 
 
   // Cube lineset
-  SoIndexedLineSet *cubeLineList = new SoIndexedLineSet;
+  SoIndexedLineSet * cubeLineList = new SoIndexedLineSet;
   cubeLineList->coordIndex.setValues(0, 6*5, cubeVertexIndices);
-  SoMaterial *cubeLineMaterial = new SoMaterial;
+  SoMaterial * cubeLineMaterial = new SoMaterial;
   cubeLineMaterial->diffuseColor.set1Value(0,1,1,1);
 
 
   // Cube material
-  SoMaterialBinding *cubeMatBind = new SoMaterialBinding;
+  SoMaterialBinding * cubeMatBind = new SoMaterialBinding;
   cubeMatBind->value = SoMaterialBinding::PER_VERTEX_INDEXED;
 
   
   // No lighting of color-cube
-  SoLightModel *cubeLight = new SoLightModel;
+  SoLightModel * cubeLight = new SoLightModel;
   cubeLight->model = SoLightModel::BASE_COLOR;
 
  
   
   // Current color indicator
-  SoSeparator *colorIndicatorRoot = new SoSeparator;
+  SoSeparator * colorIndicatorRoot = new SoSeparator;
 
-  SoMarkerSet *colorIndicator = new SoMarkerSet;
+  SoMarkerSet * colorIndicator = new SoMarkerSet;
   colorIndicator->markerIndex = SoMarkerSet::CIRCLE_LINE_9_9;
   colorIndicator->numPoints = 1;
 
 
-  SoBaseColor *colorIndicatorColor = new SoBaseColor;
+  SoBaseColor * colorIndicatorColor = new SoBaseColor;
   colorIndicatorColor->rgb.setValue(1,0,0);
   colorIndicatorRoot = new SoSeparator;
   colorIndicatorPosition->translation.setValue(cubeVerts[6].getValue());
@@ -501,10 +501,10 @@ RGBCubeEditorKitP::initCubeFacelist(SoTransformSeparator *root,
   root->addChild(cubeCoords);
   root->addChild(cubeIndexedFacelist);
 
-  SoPickStyle *pickStyle = new SoPickStyle;
+  SoPickStyle * pickStyle = new SoPickStyle;
   pickStyle->style = SoPickStyle::UNPICKABLE;
   
-  SoSeparator *lineRoot = new SoSeparator;
+  SoSeparator * lineRoot = new SoSeparator;
   lineRoot->addChild(pickStyle);              // Make the linecube unpickable
   lineRoot->addChild(lineCubeCoords);
   lineRoot->addChild(cubeLineMaterial);
@@ -517,13 +517,13 @@ RGBCubeEditorKitP::initCubeFacelist(SoTransformSeparator *root,
 
 
 void 
-RGBCubeEditorKitP::initCubeDraggers(SoSeparator *root,
-				   SoScale1Dragger *draggerX,
-				   SoScale1Dragger *draggerY,
-				   SoScale1Dragger *draggerZ,
-				   SoDraggerCB *cb1, 
-				   SoDraggerCB *cb2, 
-				   SoDraggerCB *cb3, 
+RGBCubeEditorKitP::initCubeDraggers(SoSeparator * root,
+				   SoScale1Dragger * draggerX,
+				   SoScale1Dragger * draggerY,
+				   SoScale1Dragger * draggerZ,
+				   SoDraggerCB * cb1, 
+				   SoDraggerCB * cb2, 
+				   SoDraggerCB * cb3, 
 				   float value1,float value2, float value3)
 {
 
@@ -536,15 +536,15 @@ RGBCubeEditorKitP::initCubeDraggers(SoSeparator *root,
   draggerZ->addMotionCallback(cb3, PUBLIC(this));
 
 
-  SoTranslation *draggerXTrans = new SoTranslation;  
-  SoTranslation *draggerYTrans = new SoTranslation;  
-  SoTranslation *draggerZTrans = new SoTranslation;
+  SoTranslation * draggerXTrans = new SoTranslation;  
+  SoTranslation * draggerYTrans = new SoTranslation;  
+  SoTranslation * draggerZTrans = new SoTranslation;
 
-  SoSeparator *sep = new SoSeparator;
+  SoSeparator * sep = new SoSeparator;
 
-  SoRotation *draggerXRotation = new SoRotation;
-  SoRotation *draggerYRotation = new SoRotation;
-  SoRotation *draggerZRotation = new SoRotation;
+  SoRotation * draggerXRotation = new SoRotation;
+  SoRotation * draggerYRotation = new SoRotation;
+  SoRotation * draggerZRotation = new SoRotation;
 
   draggerXRotation->rotation.setValue(0,1,1,0);
   draggerYRotation->rotation.setValue(1,0,1,0);
@@ -556,26 +556,26 @@ RGBCubeEditorKitP::initCubeDraggers(SoSeparator *root,
 
 
   // Axis - Text
-  SoFont *font = new SoFont;
+  SoFont * font = new SoFont;
   font->name.setValue("Times-Roman");
   font->size.setValue(24.0);
   root->addChild(font);
 
-  SoPickStyle *pickStyle = new SoPickStyle;
+  SoPickStyle * pickStyle = new SoPickStyle;
   pickStyle->style = SoPickStyle::UNPICKABLE;
 
-  SoTranslation *textTrans = new SoTranslation;
+  SoTranslation * textTrans = new SoTranslation;
   textTrans->translation.setValue(0,.3,-.2);
 
-  SoSeparator *textRedSep = new SoSeparator;
-  SoSeparator *textGreenSep = new SoSeparator;
-  SoSeparator *textBlueSep = new SoSeparator;
+  SoSeparator * textRedSep = new SoSeparator;
+  SoSeparator * textGreenSep = new SoSeparator;
+  SoSeparator * textBlueSep = new SoSeparator;
 
-  SoBaseColor *textRedColor = new SoBaseColor;
+  SoBaseColor * textRedColor = new SoBaseColor;
   textRedColor->rgb.setValue(1,.4,.4);
-  SoBaseColor *textGreenColor = new SoBaseColor;
+  SoBaseColor * textGreenColor = new SoBaseColor;
   textGreenColor->rgb.setValue(.4,1,.4);
-  SoBaseColor *textBlueColor = new SoBaseColor;
+  SoBaseColor * textBlueColor = new SoBaseColor;
   textBlueColor->rgb.setValue(.4,.4,1);
 
   textRedSep->addChild(pickStyle);
@@ -621,32 +621,32 @@ RGBCubeEditorKitP::initCubeDraggers(SoSeparator *root,
 
 
 void 
-RGBCubeEditorKitP::modifyDraggerWidget(SoScale1Dragger *dragger)
+RGBCubeEditorKitP::modifyDraggerWidget(SoScale1Dragger * dragger)
 {
   
-  SoSeparator *newDragger = new SoSeparator;
+  SoSeparator * newDragger = new SoSeparator;
   newDragger->ref();
 
-  SoSeparator *newDraggerActive = new SoSeparator;
+  SoSeparator * newDraggerActive = new SoSeparator;
   newDraggerActive->ref();
 
   // Optimize all drawing
-  SoShapeHints *draggerHint = new SoShapeHints;
+  SoShapeHints * draggerHint = new SoShapeHints;
   draggerHint->vertexOrdering = SoShapeHints::COUNTERCLOCKWISE;
   draggerHint->shapeType = SoShapeHints::SOLID;
   newDragger->addChild(draggerHint);
   newDraggerActive->addChild(draggerHint);
 
 
-  SoCylinder *tube = new SoCylinder;
+  SoCylinder * tube = new SoCylinder;
   tube->radius=.05;
-  SoRotationXYZ *tubeRot = new SoRotationXYZ;
+  SoRotationXYZ * tubeRot = new SoRotationXYZ;
   tubeRot->axis = SoRotationXYZ::Z;
   tubeRot->angle = 3.1415/2;
 
   // Passive dragger
 
-  SoMaterial *passiveMat = new SoMaterial;
+  SoMaterial * passiveMat = new SoMaterial;
   passiveMat->diffuseColor.setValue(.7,.7,.7);
   newDragger->addChild(passiveMat);
   newDragger->addChild(tubeRot);
@@ -654,7 +654,7 @@ RGBCubeEditorKitP::modifyDraggerWidget(SoScale1Dragger *dragger)
 
   // Active dragger
 
-  SoMaterial *activeMat = new SoMaterial;
+  SoMaterial * activeMat = new SoMaterial;
   activeMat->diffuseColor.setValue(0,1,1);
   newDraggerActive->addChild(activeMat);
   newDraggerActive->addChild(tubeRot);
@@ -662,12 +662,12 @@ RGBCubeEditorKitP::modifyDraggerWidget(SoScale1Dragger *dragger)
 
   // Scaler
 
-  SoSeparator *newScaler = new SoSeparator;
-  SoMaterial *scaleMat = new SoMaterial;
+  SoSeparator * newScaler = new SoSeparator;
+  SoMaterial * scaleMat = new SoMaterial;
   scaleMat->diffuseColor.setValue(0,1,0);
 
-  SoCube *cube1 = new SoCube; // Axis cross
-  SoCube *cube2 = new SoCube;
+  SoCube * cube1 = new SoCube; // Axis cross
+  SoCube * cube2 = new SoCube;
   
   cube1->width = 0.0;
   cube1->height = .5;
@@ -677,19 +677,19 @@ RGBCubeEditorKitP::modifyDraggerWidget(SoScale1Dragger *dragger)
   cube2->depth = .5;
 
 
-  SoSphere *endPoint = new SoSphere;  // Endpoint ball
+  SoSphere * endPoint = new SoSphere;  // Endpoint ball
   endPoint->radius = .05;
 
-  SoAntiSquish *antiSquish = new SoAntiSquish; // Keep aspect ratio!
+  SoAntiSquish * antiSquish = new SoAntiSquish; // Keep aspect ratio!
   antiSquish->sizing = SoAntiSquish::Y;
 
-  SoTranslation *endPointTrans1 = new SoTranslation;
+  SoTranslation * endPointTrans1 = new SoTranslation;
   endPointTrans1->translation.setValue(-1,0,0);
-  SoTranslation *endPointTrans2 = new SoTranslation;
+  SoTranslation * endPointTrans2 = new SoTranslation;
   endPointTrans2->translation.setValue(1,0,0);
 
-  SoSeparator *endPoint1Sep = new SoSeparator;
-  SoSeparator *endPoint2Sep = new SoSeparator;
+  SoSeparator * endPoint1Sep = new SoSeparator;
+  SoSeparator * endPoint2Sep = new SoSeparator;
 
   
   // Build scene graph
@@ -724,7 +724,7 @@ RGBCubeEditorKitP::modifyDraggerWidget(SoScale1Dragger *dragger)
 void 
 RGBCubeEditorKitP::initRgbCube(void)
 {
-  SoSeparator *root = new SoSeparator;
+  SoSeparator * root = new SoSeparator;
   PUBLIC(this)->setPart("RGBCubeRoot",root);
 
 
@@ -756,6 +756,7 @@ RGBCubeEditorKitP::initRgbCube(void)
   this->colorIndicatorPosition = new SoTranslation;
 
   this->cubeMaterial = new SoMaterial;
+  // FIXME: memory leak. 20020625 mortene.
   this->cubeVertices = new SbVec3f[4*2];
   this->colorCubeCoords = new SoCoordinate3;
   this->cubeRoot = new SoTransformSeparator;
@@ -764,7 +765,7 @@ RGBCubeEditorKitP::initRgbCube(void)
                          this->colorCubeCoords,
                          this->cubeVertexIndices,
                          this->cubeMaterial);
-  SoSeparator *cubeRootDraggers = new SoSeparator;
+  SoSeparator * cubeRootDraggers = new SoSeparator;
   this->initCubeDraggers(cubeRootDraggers,
                          this->draggerX,
                          this->draggerY,
