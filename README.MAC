@@ -23,5 +23,32 @@ The first Qt/Mac releases contained a number of serious bugs that also
 affect SoQt. If you encounter strange behaviour, it might very well be
 that upgrading to the latest version of Qt/Mac will fix the problem. 
 
+
+Qt/Mac 3.1 problems
+-------------------
+
+Qt/Mac 3.1.x contained major improvements vs. Qt/Mac 3.0.x. Unfortunately, 
+it also introduced a number of bugs. SoQt/Mac contains workarounds for
+the relevant problems. Every time that one of these is used, a warning will 
+be displayed. You can disable these warning messages by setting the 
+environment variable SOQT_NO_QTMAC_BUG_WARNINGS=1.
+
+
+o If the OpenGL context overlaps the QSizeGrip in the lower right corner
+  of the window (present in all Mac OS X windows by default), resizing of 
+  the OpenGL context does not work. Therefore, in SoQtRenderArea and 
+  SoQtExaminerViewer without decorations, we have to leave 15 pixel at the 
+  bottom blank. 
+
+  This bug is present in Qt/Mac 3.1.0 and 3.1.1, and is supposed to be 
+  fixed in Qt/Mac 3.1.2. 
+
+
+o Custom cursors do not work in Qt/Mac 3.1.x. Therefore, we display a
+  standard "arrow" cursor. 
+
+  This bug is present in Qt/Mac 3.1.0 and 3.1.1, and is hopefully going
+  to be fixed in Qt/Mac 3.1.2. 
+
 --
 kyrah@sim.no
