@@ -6185,7 +6185,7 @@ for ac_file in .. $CONFIG_FILES; do if test "x$ac_file" != x..; then
   if test x"$ac_file_in" != x-; then
     ac_file_inputs=`echo $ac_file_in | sed -e "s%^%$ac_given_srcdir/%" -e "s%:% $ac_given_srcdir/%g"`
   else
-    ac_file_inputs=-
+    ac_file_inputs=
   fi
 EOF
 cat >>$CONFIG_STATUS <<EOF
@@ -6247,7 +6247,7 @@ for ac_file in .. $CONFIG_HEADERS; do if test "x$ac_file" != x..; then
   if test x"$ac_file_in" != x-; then
     ac_file_inputs=`echo $ac_file_in|sed -e "s%^%$ac_given_srcdir/%" -e "s%:% $ac_given_srcdir/%g"`
   else
-    ac_file_inputs=-
+    ac_file_inputs=
   fi
   # Remove the trailing spaces.
   sed -e 's/[ 	]*$//' $ac_file_inputs >$ac_cs_root.in
