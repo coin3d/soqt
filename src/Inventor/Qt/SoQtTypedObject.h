@@ -27,7 +27,7 @@
 #include <qobject.h>
 
 #include <Inventor/SbBasic.h>
-#include <Inventor/SbName.h>
+#include <Inventor/SbString.h>
 #include <Inventor/SoType.h>
 
 #include <Inventor/Qt/SoQtBasic.h>
