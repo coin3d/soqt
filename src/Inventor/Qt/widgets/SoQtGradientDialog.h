@@ -43,10 +43,10 @@ public:
   void addGradient(const Gradient & grad, QString description = "");
   void setDataLimits(float min, float max);
   const Gradient & getGradient(void) const;
-  void setChangeCallback(changeCB * cb);
+  void setChangeCallback(Gradient::ChangeCB * cb);
 
-// FIXME: implement these slots in the 
-// private implementation. frodo, 20030927
+  // FIXME: implement these slots in the private
+  // implementation. frodo, 20030927
 private slots:
   void loadGradient(void);
   void saveGradient(void);

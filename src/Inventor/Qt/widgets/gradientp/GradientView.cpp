@@ -351,13 +351,13 @@ void GradientView::chooseColorRight()
   }
 }
 
-void GradientView::setChangeCallback(changeCB * cb)
+void GradientView::setChangeCallback(Gradient::ChangeCB * cb)
 {
   this->grad.setChangeCallback(cb);
 }
 
-// FIXME: instead of building the menu each time, simply use QPopupMenu::changeItem
-// to change the color pixmaps. 20030925 frodo.
+// FIXME: instead of building the menu each time, simply use
+// QPopupMenu::changeItem to change the color pixmaps. 20030925 frodo.
 void GradientView::buildMenu()
 {
   if (!this->menu)

@@ -35,7 +35,7 @@ public:
   Gradient * pub;
   QValueList<float> parameters;
   QValueList<QRgb> colors;
-  changeCB * callBack;
+  Gradient::ChangeCB * callBack;
 };
 
 GradientP::GradientP(Gradient * publ)
@@ -142,8 +142,7 @@ void Gradient::moveTick(int i, float t)
 {
   if (PRIVATE(this)->parameters[i] != t) {
     PRIVATE(this)->parameters[i] = t;
-    if (PRIVATE(this)->callBack) 
-      PRIVATE(this)->callBack(this);
+    if (PRIVATE(this)->callBack) { PRIVATE(this)->callBack(*this); }
   }
 }
 
@@ -179,7 +178,7 @@ void Gradient::removeTick(int i)
   it2 = PRIVATE(this)->colors.remove(it2);
   PRIVATE(this)->colors.remove(it2);
 
-  if (PRIVATE(this)->callBack) PRIVATE(this)->callBack(this);
+  if (PRIVATE(this)->callBack) { PRIVATE(this)->callBack(*this); }
 }
 
 SbBool Gradient::leftEqualsRight(int i) const
@@ -203,7 +202,7 @@ void Gradient::setColor(int i, SbBool left, const QRgb color)
   PRIVATE(this)->getColorIndex(i, left);
   PRIVATE(this)->colors[i] = color;
 
-  if (PRIVATE(this)->callBack) PRIVATE(this)->callBack(this);
+  if (PRIVATE(this)->callBack) { PRIVATE(this)->callBack(*this); }
 }
 
 QRgb Gradient::getColor(int i, SbBool left) const
@@ -212,16 +211,15 @@ QRgb Gradient::getColor(int i, SbBool left) const
   return PRIVATE(this)->colors[i];
 }
 
-void Gradient::setChangeCallback(changeCB * callBack)
+void Gradient::setChangeCallback(Gradient::ChangeCB * callBack)
 {
   PRIVATE(this)->callBack = callBack;
 }
 
-void Gradient::handleChange()
-{
-  if (PRIVATE(this)->callBack)
-    PRIVATE(this)->callBack(this);
-}
+// void Gradient::handleChange(void)
+// {
+//   if (PRIVATE(this)->callBack) { PRIVATE(this)->callBack(*this); }
+// }
 
 void Gradient::getColorArray(QRgb * colorArray, int num) const
 {

@@ -42,7 +42,7 @@ public:
   SoQtGradientDialog * pub;
   GradientEditor * gradEdit;
   QValueList<Gradient> gradients;
-  changeCB * changeCallBack;
+  Gradient::ChangeCB * changeCallBack;
   QComboBox * gradientList;
   int old_index;
   void saveCurrent();
@@ -174,7 +174,7 @@ void SoQtGradientDialog::setDataLimits(float min, float max)
   PRIVATE(this)->gradEdit->setMax(max);
 }
 
-void SoQtGradientDialog::setChangeCallback(changeCB * cb)
+void SoQtGradientDialog::setChangeCallback(Gradient::ChangeCB * cb)
 {
   PRIVATE(this)->changeCallBack = cb;
   PRIVATE(this)->gradEdit->setChangeCallback(cb);

@@ -47,7 +47,7 @@ public:
   void setGradient(const Gradient & grad);
   const Gradient& getGradient(void) const;
   void resizeEvent(QResizeEvent *);
-  void setChangeCallback(changeCB * cb);
+  void setChangeCallback(Gradient::ChangeCB * cb);
 
 signals:
   void accepted(void);

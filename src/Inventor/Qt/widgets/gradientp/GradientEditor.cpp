@@ -145,7 +145,7 @@ void GradientEditor::updateAll()
   this->gradView->updateView();
 }
 
-void GradientEditor::setChangeCallback(changeCB * cb)
+void GradientEditor::setChangeCallback(Gradient::ChangeCB * cb)
 {
   this->gradView->setChangeCallback(cb);
 }

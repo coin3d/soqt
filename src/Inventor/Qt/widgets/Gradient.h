@@ -29,8 +29,6 @@
 #include <Inventor/Qt/SoQtBasic.h>
 #include <Inventor/SbBasic.h>
 
-typedef void changeCB(void * grad);
- 
 class SOQT_DLL_API Gradient {
 
 public:
@@ -49,21 +47,24 @@ public:
 
   void moveTick(int i, float t);
   void removeTick(int i);
-  void setChangeCallback(changeCB * callBack);
+
   void setColor(int i, SbBool left, const QRgb color);
   void getColorArray(QRgb * colors, int num) const;
   void save(const QString& filename);
   void load(const QString& filename);
-  void handleChange(void);
+//   void handleChange(void);
   void swapLeftAndRight(int i);
 
   QImage getImage(int w, int h, int d) const;
 
   Gradient & operator = (const Gradient & grad);
   SbBool operator == (const Gradient & grad) const;
+
+  typedef void ChangeCB(const Gradient & grad);
+  void setChangeCallback(Gradient::ChangeCB * callBack);
   
 private:
   class GradientP * pimpl;
 };
 
-#endif // GRADIENT_H
+#endif // ! GRADIENT_H
