@@ -22,7 +22,7 @@ LIBS =
 
 BUILT_SOURCES = \
 	$(SoGuiAllBuiltFiles) \
-	moc_SoQtGradientDialog.icc \
+	moc_SoQtGradientDialogP.icc \
 	moc_GradientView.icc
 
 CLEANFILES = \
@@ -116,10 +116,10 @@ install-nodist_SoQtWidgetsincHEADERS: $(nodist_SoQtWidgetsinc_HEADERS)
 # **************************************************************************
 # auto-generated Qt moc files.
 
-moc_SoQtGradientDialog.icc: $(srcdir)/SoQtGradientDialog.h
+moc_SoQtGradientDialogP.icc: $(srcdir)/gradientp/SoQtGradientDialogP.h
 	@( \
-	echo " $(MOC) -i -o moc_SoQtGradientDialog.icc $(srcdir)/SoQtGradientDialog.h"; \
-	$(MOC) -i -o moc_SoQtGradientDialog.icc `$(UNIX2WINPATH) $(srcdir)/SoQtGradientDialog.h` )
+	echo " $(MOC) -i -o moc_SoQtGradientDialogP.icc $(srcdir)/gradientp/SoQtGradientDialogP.h"; \
+	$(MOC) -i -o moc_SoQtGradientDialogP.icc `$(UNIX2WINPATH) $(srcdir)/gradientp/SoQtGradientDialogP.h` )
 
 moc_GradientView.icc: $(srcdir)/gradientp/GradientView.h
 	@( \
