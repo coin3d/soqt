@@ -2349,7 +2349,7 @@ EOF
 
   if test ! x"$sim_ac_qt_libs" = xUNRESOLVED; then
     sim_ac_qt_avail=yes
-    CPPFLAGS="$sim_ac_qt_incflags $sim_ac_qt_cppflags_loop $sim_ac_save_cppflags"
+    CPPFLAGS="$sim_ac_qt_cppflags $sim_ac_save_cppflags"
     LIBS="$sim_ac_qt_libs $sim_ac_save_libs"
     $1
   else
