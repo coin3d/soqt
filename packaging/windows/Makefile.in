@@ -15,6 +15,8 @@
 project = soqt
 Project = SoQt
 
+major = @SOQT_MAJOR_VERSION@
+
 sdk_prefix = /tmp/coin3d/$(project)
 top_srcdir = @top_srcdir@
 
@@ -26,7 +28,8 @@ DBGCFLAGS = $(ALLCFLAGS) /GZ /Zi /Yd
 OPTCFLAGS = $(ALLCFLAGS) /Oitgb1 /Gs
 DLLCFLAGS = /GD
 
-BUILDOPTIONS = 
+CONFIGUREOPTIONS =
+BUILDOPTIONS = --disable-dependency-tracking
 
 BUILDS = buildfiles docs shared-release shared-debug # static-release static-debug
 
@@ -88,7 +91,7 @@ sourcelist.nsi: $(Project)-$(VERSION) Makefile
 	done ) >sourcelist.nsi
 
 buildfileslist.nsi: buildfiles Makefile
-	( prevdir=; cd build-files; for path in ./$(project)@SOQT_MAJOR_VERSION@.* `find . -name "*.h"`; do \
+	( prevdir=; cd build-files; for path in ./$(project)$(major).* `find . -name "*.h"`; do \
 	  dir=`echo $$path | sed 's/\/[^\/]*$$//'`; \
 	  if test x"$$dir" != x"$$prevdir"; then \
 	    prevdir=$$dir; \
@@ -140,14 +143,14 @@ build-docs/html/index.html: $(Project)-$(VERSION)
 
 docs: build-docs/html/index.html
 
-build-shared-release/src/Inventor/Qt/$(project)@SOQT_MAJOR_VERSION@.dll: $(Project)-$(VERSION)
+build-shared-release/src/Inventor/Qt/$(project)$(major).dll: $(Project)-$(VERSION)
 	@if test -d build-shared-release; then :; else mkdir build-shared-release; fi
 	cd build-shared-release; \
 	../$(Project)-$(VERSION)/configure \
 	  CFLAGS="$(OPTCFLAGS) $(DLLCFLAGS)" \
 	  CXXFLAGS="$(OPTCFLAGS) $(DLLCFLAGS)" \
+	  $(CONFIGUREOPTIONS) \
 	  $(BUILDOPTIONS) \
-	  --disable-dependency-tracking \
 	  --disable-debug \
 	  --disable-symbols \
 	  --with-msvcrt=$(libc) \
@@ -157,16 +160,16 @@ build-shared-release/src/Inventor/Qt/$(project)@SOQT_MAJOR_VERSION@.dll: $(Proje
 	cd build-shared-release; \
 	$(MAKE) install
 
-shared-release: build-shared-release/src/Inventor/Qt/$(project)@SOQT_MAJOR_VERSION@.dll
+shared-release: build-shared-release/src/Inventor/Qt/$(project)$(major).dll
 
-build-shared-debug/src/Inventor/Qt/$(project)@SOQT_MAJOR_VERSION@d.dll: $(Project)-$(VERSION)
+build-shared-debug/src/Inventor/Qt/$(project)$(major)d.dll: $(Project)-$(VERSION)
 	@if test -d build-shared-debug; then :; else mkdir build-shared-debug; fi
 	cd build-shared-debug; \
 	../$(Project)-$(VERSION)/configure \
 	  CFLAGS="$(DBGCFLAGS)" \
 	  CXXFLAGS="$(DBGCFLAGS)" \
+	  $(CONFIGUREOPTIONS) \
 	  $(BUILDOPTIONS) \
-	  --disable-dependency-tracking \
 	  --enable-debug \
 	  --enable-symbols \
 	  --with-msvcrt=$(libc)d \
@@ -178,16 +181,16 @@ build-shared-debug/src/Inventor/Qt/$(project)@SOQT_MAJOR_VERSION@d.dll: $(Projec
 	cd build-shared-debug; \
 	$(MAKE) install
 
-shared-debug: build-shared-debug/src/Inventor/Qt/$(project)@SOQT_MAJOR_VERSION@d.dll
+shared-debug: build-shared-debug/src/Inventor/Qt/$(project)$(major)d.dll
 
-build-static-release/src/Inventor/Qt/$(project)@SOQT_MAJOR_VERSION@d.dll: $(Project)-$(VERSION)
+build-static-release/src/Inventor/Qt/$(project)$(major)d.dll: $(Project)-$(VERSION)
 	@if test -d build-static-release; then :; else mkdir build-static-release; fi
 	cd build-static-release; \
 	../$(Project)-$(VERSION)/configure \
 	  CFLAGS="$(OPTCFLAGS)" \
 	  CXXFLAGS="$(OPTCFLAGS)" \
+	  $(CONFIGUREOPTIONS) \
 	  $(BUILDOPTIONS) \
-	  --disable-dependency-tracking \
 	  --disable-shared \
 	  --disable-debug \
 	  --disable-symbols \
@@ -200,16 +203,16 @@ build-static-release/src/Inventor/Qt/$(project)@SOQT_MAJOR_VERSION@d.dll: $(Proj
 	cd build-static-release; \
 	$(MAKE) install
 
-static-release: build-static-release/src/Inventor/Qt/$(project)@SOQT_MAJOR_VERSION@d.dll
+static-release: build-static-release/src/Inventor/Qt/$(project)$(major)d.dll
 
-build-static-debug/src/Inventor/Qt/$(project)@SOQT_MAJOR_VERSION@d.dll: $(Project)-$(VERSION)
+build-static-debug/src/Inventor/Qt/$(project)$(major)d.dll: $(Project)-$(VERSION)
 	@if test -d build-static-debug; then :; else mkdir build-static-debug; fi
 	cd build-static-debug; \
 	../$(Project)-$(VERSION)/configure \
 	  CFLAGS="$(DBGCFLAGS)" \
 	  CXXFLAGS="$(DBGCFLAGS)" \
+	  $(CONFIGUREOPTIONS) \
 	  $(BUILDOPTIONS) \
-	  --disable-dependency-tracking \
 	  --disable-shared \
 	  --enable-debug \
 	  --enable-symbols \
@@ -222,16 +225,16 @@ build-static-debug/src/Inventor/Qt/$(project)@SOQT_MAJOR_VERSION@d.dll: $(Projec
 	cd build-static-debug; \
 	$(MAKE) install
 
-static-debug: build-static-debug/src/Inventor/Qt/$(project)@SOQT_MAJOR_VERSION@d.dll
+static-debug: build-static-debug/src/Inventor/Qt/$(project)$(major)d.dll
 
-buildfiles: build-files/$(project)@SOQT_MAJOR_VERSION@.dsp
+buildfiles: build-files/$(project)$(major).dsp
 
-build-files/$(project)@SOQT_MAJOR_VERSION@.dsp: $(Project)-$(VERSION)
+build-files/$(project)$(major).dsp: $(Project)-$(VERSION)
 	@if test -d build-files; then :; else mkdir build-files; fi
 	cd build-files; \
 	../$(Project)-$(VERSION)/configure \
+	  $(CONFIGUREOPTIONS) \
 	  $(BUILDOPTIONS) \
-	  --disable-dependency-tracking \
 	  --enable-msvcdsp; \
 	$(MAKE) clean && $(MAKE)
 

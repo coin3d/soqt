@@ -6554,7 +6554,7 @@ if test x"$with_qt" != xno; then
   # FIXME: this doesn't work unless QTDIR is part of the configure
   # argument line. We should be able to grab it from the
   # environment settings. 20011018 mortene. 
-  AC_SUBST(QTDIR)
+  AC_SUBST([QTDIR], [$QTDIR])
 
   # The Cygwin environment needs to invoke moc with a POSIX-style path.
   AC_PATH_PROG(sim_ac_qt_cygpath, cygpath, false)

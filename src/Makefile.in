@@ -314,6 +314,9 @@ SoGuiCommonDistFiles = \
   \
   cfg/m4/errors.txt \
   cfg/m4/doxy4win.pl \
+  cfg/m4/gendsp.m4 \
+  cfg/m4/gendsp.sh \
+  cfg/m4/wrapmsvc.m4 \
   cfg/m4/wrapmsvc.cpp \
   cfg/m4/wrapmsvc.exe \
   \
