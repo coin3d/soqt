@@ -253,15 +253,13 @@ INPUT                 = \
 	@path_tag@@soqt_src_dir@/src/Inventor/@Gui@/devices/So@Gui@Device.cpp \
 	@path_tag@@soqt_src_dir@/src/Inventor/@Gui@/devices/So@Gui@Device.h \
 	@path_tag@@soqt_src_dir@/src/Inventor/@Gui@/devices/So@Gui@InputFocus.cpp \
-	@path_tag@@soqt_src_dir@/src/Inventor/@Gui@/devices/So@Gui@InputFocus.h \
+	@path_tag@@soqt_build_dir@/src/Inventor/@Gui@/devices/So@Gui@InputFocus.h \
 	@path_tag@@soqt_src_dir@/src/Inventor/@Gui@/devices/So@Gui@Keyboard.cpp \
-	@path_tag@@soqt_src_dir@/src/Inventor/@Gui@/devices/So@Gui@Keyboard.h \
+	@path_tag@@soqt_build_dir@/src/Inventor/@Gui@/devices/So@Gui@Keyboard.h \
 	@path_tag@@soqt_src_dir@/src/Inventor/@Gui@/devices/So@Gui@Mouse.cpp \
-	@path_tag@@soqt_src_dir@/src/Inventor/@Gui@/devices/So@Gui@Mouse.h \
+	@path_tag@@soqt_build_dir@/src/Inventor/@Gui@/devices/So@Gui@Mouse.h \
 	@path_tag@@soqt_src_dir@/src/Inventor/@Gui@/devices/So@Gui@Spaceball.cpp \
-	@path_tag@@soqt_src_dir@/src/Inventor/@Gui@/devices/So@Gui@Spaceball.h \
-	@path_tag@@soqt_src_dir@/src/Inventor/@Gui@/devices/So@Gui@LinuxJoystick.cpp \
-	@path_tag@@soqt_src_dir@/src/Inventor/@Gui@/devices/So@Gui@LinuxJoystick.h \
+	@path_tag@@soqt_build_dir@/src/Inventor/@Gui@/devices/So@Gui@Spaceball.h \
 	@path_tag@@soqt_build_dir@/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp \
 	@path_tag@@soqt_build_dir@/src/Inventor/@Gui@/viewers/So@Gui@Viewer.h \
 	@path_tag@@soqt_src_dir@/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.cpp \
@@ -274,6 +272,9 @@ INPUT                 = \
 	@path_tag@@soqt_build_dir@/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.h \
 	@path_tag@@soqt_build_dir@/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp \
 	@path_tag@@soqt_build_dir@/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.h
+
+#	@path_tag@@soqt_src_dir@/src/Inventor/@Gui@/devices/So@Gui@LinuxJoystick.cpp
+#	@path_tag@@soqt_build_dir@/src/Inventor/@Gui@/devices/So@Gui@LinuxJoystick.h
 
 # If the value of the INPUT tag contains directories, you can use the 
 # FILE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp 
