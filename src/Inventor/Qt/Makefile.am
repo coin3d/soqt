@@ -108,8 +108,7 @@ SoQtincdir = $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$(
 else
 SoQtincdir = $(includedir)/Inventor/Qt
 endif
-SoQtinc_HEADERS =  \
-	SoQtColorEditor.h
+SoQtinc_HEADERS =
 
 nodist_SoQtinc_HEADERS = \
 	SoQt.h \
@@ -118,6 +117,7 @@ nodist_SoQtinc_HEADERS = \
 	SoQtCursor.h \
 	SoQtComponent.h \
 	SoQtGLWidget.h \
+	SoQtColorEditor.h \
 	SoQtRenderArea.h
 
 install-SoQtincHEADERS: $(SoQtinc_HEADERS)

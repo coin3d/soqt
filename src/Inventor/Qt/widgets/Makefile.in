@@ -600,12 +600,16 @@ SoQt_ExtraBuiltMetaFiles = \
 
 DEFAULT_INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
 
+#	$(SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles)
 BUILT_SOURCES = \
-	$(SoGuiAllBuiltFiles) \
+	$(SoGui_src_Inventor_Gui_widgets_BuiltFiles) \
 	moc_SoQtGradientDialogP.icc \
 	moc_GradientView.icc \
 	moc_SoQtColorTableEditorP.icc \
-	moc_CurveView.icc
+	moc_CurveView.icc \
+	moc_QtNativePopupMenu.icc \
+	moc_SoQtThumbWheel.icc \
+	moc_SoQtGLArea.icc
 
 
 CLEANFILES = \
@@ -619,18 +623,16 @@ DISTCLEANFILES = \
 
 
 ############################################################################
-SOURCES = \
+SoQtWidgetsSources = \
 	SoQtGLArea.cpp SoQtGLArea.h \
 	\
-	SoQtThumbWheel.cpp SoQtThumbWheel.h \
-	\
 	QtNativePopupMenu.cpp QtNativePopupMenu.h \
-	\
 	Gradient.cpp Gradient.h \
 	GradientDialog.cpp SoQtGradientDialog.h \
 	gradientp/GradientView.cpp gradientp/GradientView.h \
 	gradientp/ImageItem.cpp gradientp/ImageItem.h \
 	gradientp/TickMark.cpp gradientp/TickMark.h \
+	gradientp/SoQtGradientDialogP.h \
 	\
 	curvep/ColorTableEditor.cpp SoQtColorTableEditor.h curvep/SoQtColorTableEditorP.h \
 	curvep/ColorCurve.cpp curvep/ColorCurve.h \
@@ -641,20 +643,21 @@ SOURCES = \
 
 ############################################################################
 # libtool setup
-libSoQtWidgets_la_SOURCES = $(SOURCES)
+libSoQtWidgets_la_SOURCES = $(SoQtWidgetsSources)
 
 nodist_libSoQtWidgets_la_SOURCES = \
-	$(SoGui_src_Inventor_Gui_widgets_BuiltFiles)
+	$(BUILT_SOURCES)
+
 
 
 #	$(SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles)
 
 ############################################################################
 # custom setup for Microsoft Visual C++ build
-widgets_lst_SOURCES = $(SOURCES)
+widgets_lst_SOURCES = $(SoQtWidgetsSources)
 
 nodist_widgets_lst_SOURCES = \
-	$(SoGui_src_Inventor_Gui_widgets_BuiltFiles)
+	$(BUILT_SOURCES)
 
 
 
@@ -663,8 +666,12 @@ nodist_widgets_lst_SOURCES = \
 @MAC_FRAMEWORK_TRUE@SoQtWidgetsincdir = $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$(MAC_FRAMEWORK_VERSION)/Headers/widgets
 @MAC_FRAMEWORK_FALSE@SoQtWidgetsincdir = $(includedir)/Inventor/@Gui@/widgets
 SoQtWidgetsinc_HEADERS = \
-	SoQtPopupMenu.h SoQtThumbWheel.h SoQtGradientDialog.h Gradient.h \
+	SoQtThumbWheel.h SoQtGradientDialog.h Gradient.h \
 	SoQtColorTableEditor.h
+
+
+nodist_SoQtWidgetsinc_HEADERS = \
+	SoQtPopupMenu.h
 
 subdir = src/Inventor/Qt/widgets
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -675,28 +682,29 @@ LIBRARIES = $(noinst_LIBRARIES)
 
 widgets_lst_AR = $(AR) cru
 widgets_lst_LIBADD =
-am__objects_1 = SoQtGLArea.$(OBJEXT) SoQtThumbWheel.$(OBJEXT) \
-	QtNativePopupMenu.$(OBJEXT) Gradient.$(OBJEXT) \
-	GradientDialog.$(OBJEXT) GradientView.$(OBJEXT) \
-	ImageItem.$(OBJEXT) TickMark.$(OBJEXT) \
+am__objects_1 = SoQtGLArea.$(OBJEXT) QtNativePopupMenu.$(OBJEXT) \
+	Gradient.$(OBJEXT) GradientDialog.$(OBJEXT) \
+	GradientView.$(OBJEXT) ImageItem.$(OBJEXT) TickMark.$(OBJEXT) \
 	ColorTableEditor.$(OBJEXT) ColorCurve.$(OBJEXT) \
 	CurveView.$(OBJEXT) SbGuiCubicSpline.$(OBJEXT)
 am_widgets_lst_OBJECTS = $(am__objects_1)
 am__objects_2 = SoAnyThumbWheel.$(OBJEXT) So@Gui@PopupMenu.$(OBJEXT)
-nodist_widgets_lst_OBJECTS = $(am__objects_2)
+am__objects_3 = $(am__objects_2)
+nodist_widgets_lst_OBJECTS = $(am__objects_3)
 widgets_lst_OBJECTS = $(am_widgets_lst_OBJECTS) \
 	$(nodist_widgets_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
 libSoQtWidgets_la_LDFLAGS =
 libSoQtWidgets_la_LIBADD =
-am__objects_3 = SoQtGLArea.lo SoQtThumbWheel.lo QtNativePopupMenu.lo \
-	Gradient.lo GradientDialog.lo GradientView.lo ImageItem.lo \
-	TickMark.lo ColorTableEditor.lo ColorCurve.lo CurveView.lo \
+am__objects_4 = SoQtGLArea.lo QtNativePopupMenu.lo Gradient.lo \
+	GradientDialog.lo GradientView.lo ImageItem.lo TickMark.lo \
+	ColorTableEditor.lo ColorCurve.lo CurveView.lo \
 	SbGuiCubicSpline.lo
-am_libSoQtWidgets_la_OBJECTS = $(am__objects_3)
-am__objects_4 = SoAnyThumbWheel.lo So@Gui@PopupMenu.lo
-nodist_libSoQtWidgets_la_OBJECTS = $(am__objects_4)
+am_libSoQtWidgets_la_OBJECTS = $(am__objects_4)
+am__objects_5 = SoAnyThumbWheel.lo So@Gui@PopupMenu.lo
+am__objects_6 = $(am__objects_5)
+nodist_libSoQtWidgets_la_OBJECTS = $(am__objects_6)
 libSoQtWidgets_la_OBJECTS = $(am_libSoQtWidgets_la_OBJECTS) \
 	$(nodist_libSoQtWidgets_la_OBJECTS)
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
@@ -721,10 +729,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/SoAnyThumbWheel.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SoAnyThumbWheel.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/SoQtGLArea.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/SoQtGLArea.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/SoQtThumbWheel.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/SoQtThumbWheel.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/TickMark.Plo ./$(DEPDIR)/TickMark.Po
+@AMDEP_TRUE@	./$(DEPDIR)/SoQtGLArea.Po ./$(DEPDIR)/TickMark.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/TickMark.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -741,28 +747,11 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 DIST_SOURCES = $(widgets_lst_SOURCES) $(libSoQtWidgets_la_SOURCES)
-HEADERS = $(SoQtWidgetsinc_HEADERS)
+HEADERS = $(SoQtWidgetsinc_HEADERS) $(nodist_SoQtWidgetsinc_HEADERS)
 
 DIST_COMMON = $(SoQtWidgetsinc_HEADERS) \
 	$(srcdir)/../common/Makefile.common Makefile.am Makefile.in
-SOURCES = \
-	SoQtGLArea.cpp SoQtGLArea.h \
-	\
-	SoQtThumbWheel.cpp SoQtThumbWheel.h \
-	\
-	QtNativePopupMenu.cpp QtNativePopupMenu.h \
-	\
-	Gradient.cpp Gradient.h \
-	GradientDialog.cpp SoQtGradientDialog.h \
-	gradientp/GradientView.cpp gradientp/GradientView.h \
-	gradientp/ImageItem.cpp gradientp/ImageItem.h \
-	gradientp/TickMark.cpp gradientp/TickMark.h \
-	\
-	curvep/ColorTableEditor.cpp SoQtColorTableEditor.h curvep/SoQtColorTableEditorP.h \
-	curvep/ColorCurve.cpp curvep/ColorCurve.h \
-	curvep/CurveView.cpp curvep/CurveView.h \
-	curvep/SbGuiCubicSpline.cpp curvep/SbGuiCubicSpline.h
-
+SOURCES = $(widgets_lst_SOURCES) $(nodist_widgets_lst_SOURCES) $(libSoQtWidgets_la_SOURCES) $(nodist_libSoQtWidgets_la_SOURCES)
 
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-am
@@ -819,8 +808,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoAnyThumbWheel.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQtGLArea.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQtGLArea.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQtThumbWheel.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQtThumbWheel.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/TickMark.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/TickMark.Po@am__quote@
 
@@ -1175,6 +1162,15 @@ uninstall-SoQtWidgetsincHEADERS:
 	  echo " rm -f $(DESTDIR)$(SoQtWidgetsincdir)/$$f"; \
 	  rm -f $(DESTDIR)$(SoQtWidgetsincdir)/$$f; \
 	done
+nodist_SoQtWidgetsincHEADERS_INSTALL = $(INSTALL_HEADER)
+
+uninstall-nodist_SoQtWidgetsincHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(nodist_SoQtWidgetsinc_HEADERS)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(SoQtWidgetsincdir)/$$f"; \
+	  rm -f $(DESTDIR)$(SoQtWidgetsincdir)/$$f; \
+	done
 
 ETAGS = etags
 ETAGSFLAGS =
@@ -1268,7 +1264,7 @@ check: $(BUILT_SOURCES)
 all-am: Makefile $(LIBRARIES) $(LTLIBRARIES) $(HEADERS)
 
 installdirs:
-	$(mkinstalldirs) $(DESTDIR)$(SoQtWidgetsincdir)
+	$(mkinstalldirs) $(DESTDIR)$(SoQtWidgetsincdir) $(DESTDIR)$(SoQtWidgetsincdir)
 install: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) install-am
 install-exec: install-exec-am
@@ -1315,7 +1311,8 @@ info: info-am
 
 info-am:
 
-install-data-am: install-SoQtWidgetsincHEADERS
+install-data-am: install-SoQtWidgetsincHEADERS \
+	install-nodist_SoQtWidgetsincHEADERS
 
 install-exec-am:
 
@@ -1342,7 +1339,8 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-SoQtWidgetsincHEADERS uninstall-info-am
+uninstall-am: uninstall-SoQtWidgetsincHEADERS uninstall-info-am \
+	uninstall-nodist_SoQtWidgetsincHEADERS
 
 .PHONY: CTAGS GTAGS all all-am check check-am clean clean-generic \
 	clean-libtool clean-noinstLIBRARIES clean-noinstLTLIBRARIES \
@@ -1351,11 +1349,12 @@ uninstall-am: uninstall-SoQtWidgetsincHEADERS uninstall-info-am
 	dvi-am info info-am install install-SoQtWidgetsincHEADERS \
 	install-am install-data install-data-am install-exec \
 	install-exec-am install-info install-info-am install-man \
-	install-strip installcheck installcheck-am installdirs \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-compile mostlyclean-generic mostlyclean-libtool pdf \
-	pdf-am ps ps-am tags uninstall uninstall-SoQtWidgetsincHEADERS \
-	uninstall-am uninstall-info-am
+	install-nodist_SoQtWidgetsincHEADERS install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags uninstall uninstall-SoQtWidgetsincHEADERS uninstall-am \
+	uninstall-info-am uninstall-nodist_SoQtWidgetsincHEADERS
 
 
 ############################################################################
@@ -1735,22 +1734,23 @@ $(top_builddir)/man/man1/so@gui@-config.1: $(top_srcdir)/src/Inventor/@Gui@/comm
 @BUILD_METAFILES_TRUE@	echo " $(MOC) -i -o src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@PlaneViewerP.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewerP.h`"; \
 @BUILD_METAFILES_TRUE@	$(MOC) -i -o src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@PlaneViewerP.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewerP.h` )
 
-@BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@ThumbWheel.icc: $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@ThumbWheel.h $(top_builddir)/config.status
-@BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
-@BUILD_METAFILES_TRUE@	echo " $(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@ThumbWheel.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@ThumbWheel.h`"; \
-@BUILD_METAFILES_TRUE@	$(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@ThumbWheel.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@ThumbWheel.h` )
-
-@BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@GLArea.icc: $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@GLArea.h $(top_builddir)/config.status
-@BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
-@BUILD_METAFILES_TRUE@	echo " $(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@GLArea.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@GLArea.h`"; \
-@BUILD_METAFILES_TRUE@	$(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@GLArea.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@GLArea.h` )
-
-@BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/widgets/@meta_prefix@@Gui@NativePopupMenu.icc: $(top_srcdir)/src/Inventor/@Gui@/widgets/@Gui@NativePopupMenu.h $(top_builddir)/config.status
-@BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
-@BUILD_METAFILES_TRUE@	echo " $(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@@Gui@NativePopupMenu.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/@Gui@NativePopupMenu.h`"; \
-@BUILD_METAFILES_TRUE@	$(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@@Gui@NativePopupMenu.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/@Gui@NativePopupMenu.h` )
+# $(top_builddir)/src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@ThumbWheel.icc: $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@ThumbWheel.h $(top_builddir)/config.status
+# 	@( cd $(top_builddir); \
+# 	echo " $(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@ThumbWheel.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@ThumbWheel.h`"; \
+# 	$(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@ThumbWheel.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@ThumbWheel.h` )
+# 
+# $(top_builddir)/src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@GLArea.icc: $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@GLArea.h $(top_builddir)/config.status
+# 	@( cd $(top_builddir); \
+# 	echo " $(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@GLArea.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@GLArea.h`"; \
+# 	$(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@GLArea.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@GLArea.h` )
+# 
+# $(top_builddir)/src/Inventor/@Gui@/widgets/@meta_prefix@@Gui@NativePopupMenu.icc: $(top_srcdir)/src/Inventor/@Gui@/widgets/@Gui@NativePopupMenu.h $(top_builddir)/config.status
+# 	@( cd $(top_builddir); \
+# 	echo " $(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@@Gui@NativePopupMenu.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/@Gui@NativePopupMenu.h`"; \
+# 	$(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@@Gui@NativePopupMenu.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/@Gui@NativePopupMenu.h` )
 
 ############################################################################
+
 #	$(SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles)
 
 widgets.lst: Makefile $(widgets_lst_OBJECTS)
@@ -1788,24 +1788,32 @@ install-nodist_SoQtWidgetsincHEADERS: $(nodist_SoQtWidgetsinc_HEADERS)
 # auto-generated Qt moc files.
 
 moc_SoQtGradientDialogP.icc: $(srcdir)/gradientp/SoQtGradientDialogP.h
-	@( \
-	echo " $(MOC) -i -o moc_SoQtGradientDialogP.icc $(srcdir)/gradientp/SoQtGradientDialogP.h"; \
-	$(MOC) -i -o moc_SoQtGradientDialogP.icc `$(UNIX2WINPATH) $(srcdir)/gradientp/SoQtGradientDialogP.h` )
-
-moc_GradientView.icc: $(srcdir)/gradientp/GradientView.h
-	@( \
-	echo " $(MOC) -i -o moc_GradientView.icc $(srcdir)/gradientp/GradientView.h"; \
-	$(MOC) -i -o moc_GradientView.icc `$(UNIX2WINPATH) $(srcdir)/gradientp/GradientView.h` )
+	( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Qt/widgets/$@ )
 
 moc_SoQtColorTableEditorP.icc: $(srcdir)/curvep/SoQtColorTableEditorP.h
-	@( \
-	echo " $(MOC) -i -o moc_SoQtColorTableEditorP.icc $(srcdir)/curvep/SoQtColorTableEditorP.h"; \
-	$(MOC) -i -o moc_SoQtColorTableEditorP.icc `$(UNIX2WINPATH) $(srcdir)/curvep/SoQtColorTableEditorP.h` )
+	( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Qt/widgets/$@ )
+
+moc_GradientView.icc: $(srcdir)/gradientp/GradientView.h
+	( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Qt/widgets/$@ )
 
 moc_CurveView.icc: $(srcdir)/curvep/CurveView.h
-	@( \
-	echo " $(MOC) -i -o moc_CurveView.icc $(srcdir)/curvep/CurveView.h"; \
-	$(MOC) -i -o moc_CurveView.icc `$(UNIX2WINPATH) $(srcdir)/curvep/CurveView.h` )
+	( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Qt/widgets/$@ )
+
+moc_QtNativePopupMenu.icc: $(srcdir)/QtNativePopupMenu.h
+	( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Qt/widgets/$@ )
+
+moc_SoQtThumbWheel.icc: $(srcdir)/SoQtThumbWheel.h
+	( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Qt/widgets/$@ )
+
+moc_SoQtGLArea.icc: $(srcdir)/SoQtGLArea.h
+	( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Qt/widgets/$@ )
 
 # EOF ######################################################################
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

@@ -31,8 +31,19 @@ DOCDIRS = man $(HTMLDIR) $(HTMLHELPDIR)
 
 SUBDIRS = . $(LIBDIR) $(DOCDIRS)
 
+SoQtBuiltFiles = \
+	src/Inventor/Qt/widgets/moc_CurveView.icc \
+	src/Inventor/Qt/widgets/moc_GradientView.icc \
+	src/Inventor/Qt/widgets/moc_QtNativePopupMenu.icc \
+	src/Inventor/Qt/widgets/moc_SoQtColorTableEditorP.icc \
+	src/Inventor/Qt/widgets/moc_SoQtGLArea.icc \
+	src/Inventor/Qt/widgets/moc_SoQtGradientDialogP.icc \
+	src/Inventor/Qt/widgets/moc_SoQtThumbWheel.icc
+
+
 BUILT_SOURCES = \
-	$(SoGuiAllBuiltFiles)
+	$(SoGuiAllBuiltFiles) \
+	$(SoQtBuiltFiles)
 
 CLEANFILES = \
 	$(SoGui_BuiltMetaFiles)
@@ -40,7 +51,8 @@ CLEANFILES = \
 DISTCLEANFILES = \
 	libtool \
 	$(SoGui_BuiltFiles) \
-	$(SoGui_BuiltMetaFiles)
+	$(SoGui_BuiltMetaFiles) \
+	$(SoQtBuiltFiles)
 
 if BUILD_LIBRARY
 if MAC_FRAMEWORK
@@ -71,7 +83,6 @@ EXTRA_DIST = \
 	README.WIN32 \
 	README.MAC \
 	Info.plist \
-	bootstrap \
 	cfg/soqt.m4 \
 	docs/announcement-1_0_0.txt \
 	docs/announcement-1_0_1.txt \
@@ -150,6 +161,27 @@ windows-files:
 
 windows-packages: windows-files
 	@( cd windows; $(MAKE) VERSION=$(VERSION) )
+
+src/Inventor/Qt/widgets/moc_SoQtGradientDialogP.icc: $(srcdir)/src/Inventor/Qt/widgets/gradientp/SoQtGradientDialogP.h
+	$(MOC) -i -o $@ $<
+
+src/Inventor/Qt/widgets/moc_GradientView.icc: $(srcdir)/src/Inventor/Qt/widgets/gradientp/GradientView.h
+	$(MOC) -i -o $@ $<
+
+src/Inventor/Qt/widgets/moc_SoQtColorTableEditorP.icc: $(srcdir)/src/Inventor/Qt/widgets/SoQtColorTableEditor.h
+	$(MOC) -i -o $@ $<
+
+src/Inventor/Qt/widgets/moc_CurveView.icc: $(srcdir)/src/Inventor/Qt/widgets/curvep/CurveView.h
+	$(MOC) -i -o $@ $<
+
+src/Inventor/Qt/widgets/moc_QtNativePopupMenu.icc: $(srcdir)/src/Inventor/Qt/widgets/QtNativePopupMenu.h
+	$(MOC) -i -o $@ $<
+
+src/Inventor/Qt/widgets/moc_SoQtThumbWheel.icc: $(srcdir)/src/Inventor/Qt/widgets/SoQtThumbWheel.h
+	$(MOC) -i -o $@ $<
+
+src/Inventor/Qt/widgets/moc_SoQtGLArea.icc: $(srcdir)/src/Inventor/Qt/widgets/SoQtGLArea.h
+	$(MOC) -i -o $@ $<
 
 # **************************************************************************
 

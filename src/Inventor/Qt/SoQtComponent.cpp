@@ -117,6 +117,10 @@ SoQtComponentP::getNativeCursor(const SoQtCursor::CustomCursor * cc)
   (void)memset(cursorbitmap, 0x00, MAXBITMAPBYTES);
   (void)memset(cursormask, 0x00, MAXBITMAPBYTES);
 
+  if ( !(cc->dim[0] <= MAXBITMAPWIDTH) )
+    printf("cursor bitmap width too large: %d\n", cc->dim[0]);
+  if ( !(cc->dim[1] <= MAXBITMAPHEIGHT) )
+    printf("cursor bitmap height too large: %d\n", cc->dim[1]);
   assert(cc->dim[0] <= MAXBITMAPWIDTH && "internal bitmap too large");
   assert(cc->dim[1] <= MAXBITMAPHEIGHT && "internal bitmap too large");
 
