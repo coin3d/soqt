@@ -483,7 +483,7 @@ SoQtExaminerViewer::processEvent(QEvent * event)
   if (this->processCommonEvents(event)) return;
 
   QWidget * canvas = this->getRenderAreaWidget();
-  SbVec2s canvassize = this->getGlxSize();
+  SbVec2s canvassize = this->getGLSize();
   SbVec2s mousepos(canvas->mapFromGlobal(QCursor::pos()).x(),
                    canvas->mapFromGlobal(QCursor::pos()).y());
   // Convert from Qt coordinate system to OpenGL coordinate system.
