@@ -24,52 +24,33 @@ static const char rcsid[] =
 
 // *************************************************************************
 
+// Class documentation in common/SoGuiCommon.cpp.in.
+
 /*!
-  \class SoQt SoQt.h Inventor/Qt/SoQt.h
-  \brief The SoQt class takes care of Qt initialization and event dispatching.
-  \ingroup misc
+  \mainpage
 
-  This is the "application-wide" class with solely static methods
-  handling initialization and event processing tasks. You must use this
-  class in any application built on top of the SoQt library. Typical usage
-  is as follows (complete application code):
+  %SoQt is a C++ GUI toolkit for using Coin with the Qt library.  It
+  can also be used on top of Open Inventor from SGI and TGS.  The API
+  is based on the InventorXt API originally from SGI.
 
-  \code
-#include <qwidget.h>
+  Qt is a C++ toolkit for primarily the GUI parts of application
+  development. Qt is a multi-platform library, available for X11-based
+  systems (UNIX, Linux and *BSDs, for instance), MSWindows, Mac OS X
+  and embedded systems.
 
-#include <Inventor/nodes/SoCube.h>
+  For more information on the Qt GUI toolkit, see the web site for
+  Troll Tech (makers of Qt): <http://www.trolltech.com>.
 
-#include <Inventor/Qt/SoQt.h>
-#include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
-
-int
-main(int argc, char **argv)
-{
-  // Initialize SoQt and Open Inventor libraries. This returns a main
-  // window to use.
-  QWidget * mainwin = SoQt::init(argv[0]);
-
-   // Make a dead simple scene graph, only containing a single cube.
-  SoCube * cube = new SoCube;
-
-  // Use one of the convenient viewer classes.
-  SoQtExaminerViewer * eviewer = new SoQtExaminerViewer(mainwin);
-  eviewer->setSceneGraph(cube);
-  eviewer->show();
-
-  // Pop up the main window.
-  SoQt::show(mainwin);
-  // Loop until exit.
-  SoQt::mainLoop();
-  return 0;
-}
-  \endcode
-
-  For general information on the Qt GUI toolkit, see the web site for
-  Troll Tech (makers of Qt): <http://www.troll.no>.
-
-  \sa SoQtComponent
+  The corresponding documentation for Coin is located at
+  <URL:http://doc.coin3d.org/Coin/>.
 */
+
+// *************************************************************************
+
+// FIXME: should we set up a private default constructor and
+// destructor to avoid attempts at instantiating this class? From a
+// support inquiry on coin-support, it looks like at least one app
+// programmer has attempted this.. 20011122 mortene.
 
 // *************************************************************************
 
