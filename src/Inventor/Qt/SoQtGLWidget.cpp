@@ -217,7 +217,9 @@ SoQtGLWidget::SoQtGLWidget(
   bool enableoverlay = (glmodes & SO_GL_OVERLAY) ? true : false;
   QGLFormat_setOverlay(THIS->glformat, enableoverlay);
 
-#if SOQT_DEBUG
+#if SOQT_DEBUG && 0
+  // people ask if this warning is a problem - it is harmless, so we don't
+  // display it anymore [2001-05-18 larsa]
   if (enableoverlay && !QGLFormat_hasOverlay(THIS->glformat)) {
     SoDebugError::postWarning( "SoQtGLWidget::SoQtGLWidget",
                                "your Qt/QGL library has no support "
