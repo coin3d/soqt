@@ -53,13 +53,13 @@ Gradient::Gradient(SbColor4f * color0, SbColor4f * color1)
 
 Gradient::Gradient(const Gradient & grad)
 {
-  this->ticks = grad.getTicks();
-  this->changeCB = NULL;
+  this->operator=(grad);
 }
 
 Gradient::Gradient(const SbString filename)
 {
   this->load(filename);
+  this->changeCB = NULL;
 }
 
 Gradient::~Gradient()
@@ -152,21 +152,18 @@ void Gradient::setColor(int i, SbBool left, const SbColor4f & color)
     this->ticks[i].right = color;
     this->ticks[i].left = this->ticks[maxIndex].left;
     this->ticks[maxIndex].right = color;
-    this->changeCB();
-    return;
   } 
-  if (i == maxIndex) {
+  else if (i == maxIndex) {
     this->ticks[i].left = color;
     this->ticks[i].right = this->ticks[0].right;
     this->ticks[0].left = color;
-    this->changeCB();
-    return;
   }
-  
-  if (left) this->ticks[i].left = color;
-  else      this->ticks[i].right = color;
+  else {
+    if (left) this->ticks[i].left = color;
+    else this->ticks[i].right = color;
+  }
 
-  this->changeCB();
+  if (this->changeCB) this->changeCB();
 }
 
 unsigned int Gradient::getColor(int i, SbBool left) const
