@@ -61,7 +61,7 @@ nodist_widgets_lst_SOURCES = \
 #	$(SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles)
 
 widgets.lst: Makefile $(widgets_lst_OBJECTS)
-	@echo "Linking widgets.lst..."; \
+	@echo "Linking $@..."; \
 	rm -f $@; \
 	for i in $(widgets_lst_OBJECTS); do echo $$i >>$@; done
 
@@ -71,7 +71,7 @@ widgets.lst: Makefile $(widgets_lst_OBJECTS)
 if MAC_FRAMEWORK
 SoQtWidgetsincdir = $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$(MAC_FRAMEWORK_VERSION)/Headers/widgets
 else
-SoQtWidgetsincdir = $(includedir)/Inventor/Qt/widgets
+SoQtWidgetsincdir = $(includedir)/Inventor/@Gui@/widgets
 endif
 SoQtWidgetsinc_HEADERS = 
 nodist_SoQtWidgetsinc_HEADERS = SoQtPopupMenu.h

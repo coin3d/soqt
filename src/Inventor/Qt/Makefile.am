@@ -15,7 +15,7 @@ else
 SoQt_ExtraDistClean = 
 endif
 
-SUBDIRS = devices viewers widgets
+SUBDIRS = devices editors nodes viewers widgets
 
 DEFAULT_INCLUDES = -I$(top_builddir)/src -I$(top_builddir)/data -I$(top_srcdir)/src
 
@@ -67,6 +67,8 @@ nodist_libSoQt@SUFFIX@_la_SOURCES = \
 
 libSoQt@SUFFIX@_la_LIBADD = \
 	devices/libSoQtDevices.la \
+	editors/libSoQtEditors.la \
+	nodes/libSoGuiNodes.la \
 	viewers/libSoQtViewers.la \
 	widgets/libSoQtWidgets.la
 
@@ -91,6 +93,8 @@ nodist_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
 
 soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
 	devices/devices.lst \
+	editors/editors.lst \
+	nodes/nodes.lst \
 	viewers/viewers.lst \
 	widgets/widgets.lst
 
@@ -102,7 +106,8 @@ SoQtincdir = $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$(
 else
 SoQtincdir = $(includedir)/Inventor/Qt
 endif
-SoQtinc_HEADERS = 
+SoQtinc_HEADERS =  \
+	SoQtColorEditor.h
 
 nodist_SoQtinc_HEADERS = \
 	SoQt.h \

@@ -765,6 +765,8 @@ AC_OUTPUT([
 	src/Inventor/Makefile
 	src/Inventor/Qt/Makefile
 	src/Inventor/Qt/devices/Makefile
+	src/Inventor/Qt/editors/Makefile
+	src/Inventor/Qt/nodes/Makefile
 	src/Inventor/Qt/viewers/Makefile
 	src/Inventor/Qt/widgets/Makefile
 	man/Makefile

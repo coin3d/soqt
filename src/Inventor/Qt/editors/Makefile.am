@@ -1,0 +1,84 @@
+############################################################################
+## SoQt/src/Inventor/Qt/editors/Makefile.am
+
+include ../common/Makefile.common
+
+if BUILD_WITH_MSVC
+noinst_LIBRARIES = editors.lst
+else
+noinst_LTLIBRARIES = libSoQtEditors.la
+endif
+
+DEFAULT_INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
+LIBS =
+
+BUILT_SOURCES = \
+	$(SoGuiAllBuiltFiles)
+
+CLEANFILES = \
+	$(SoGui_src_Inventor_Gui_editors_BuiltMetaFiles)
+
+DISTCLEANFILES = \
+	$(SoGui_src_Inventor_Gui_editors_BuiltFiles) \
+	$(SoGui_src_Inventor_Gui_editors_BuiltMetaFiles)
+
+############################################################################
+
+# libSoQtEditors_la_SOURCES =
+
+nodist_libSoQtEditors_la_SOURCES = \
+	$(SoGui_src_Inventor_Gui_editors_BuiltFiles) \
+	$(SoGui_src_Inventor_Gui_editors_BuiltMetaFiles)
+
+############################################################################
+
+nodist_editors_lst_SOURCES = \
+	$(SoGui_src_Inventor_Gui_editors_BuiltFiles) \
+	$(SoGui_src_Inventor_Gui_editors_BuiltMetaFiles)
+
+editors.lst: Makefile $(editors_lst_OBJECTS)
+	@echo "Linking $@..."; \
+	rm -f $@; \
+	for i in $(editors_lst_OBJECTS); do echo $$i >>$@; done
+
+############################################################################
+# header installation
+
+if MAC_FRAMEWORK
+SoQtEditorsincdir = $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$(MAC_FRAMEWORK_VERSION)/Headers/editors
+else
+SoQtEditorsincdir = $(includedir)/Inventor/@Gui@/editors
+endif
+SoQtEditorsinc_HEADERS =
+
+nodist_SoQtEditorsinc_HEADERS = \
+	So@Gui@ColorEditor.h
+
+install-SoQtEditorsincHEADERS: $(SoQtEditorsinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(SoQtEditorsincdir)
+	@list='$(SoQtEditorsinc_HEADERS)'; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoQtEditorsincdir)/$$f"; \
+	  if cmp -s "$$src" "$$dst"; then :; else \
+	    echo " $(INSTALL_HEADER) $$src $$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	  fi; \
+	done
+
+install-nodist_SoQtEditorsincHEADERS: $(nodist_SoQtEditorsinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(SoQtEditorsincdir)
+	@list='$(nodist_SoQtEditorsinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoQtEditorsincdir)/$$f"; \
+	  if cmp -s "$$src" "$$dst"; then :; else \
+	    echo " $(INSTALL_HEADER) $$src $$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	  fi; \
+	done
+
+# EOF ######################################################################

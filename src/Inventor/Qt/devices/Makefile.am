@@ -97,7 +97,7 @@ nodist_devices_lst_SOURCES = \
 #	$(SoGui_src_Inventor_Gui_devices_BuiltMetaFiles)
 
 devices.lst: Makefile $(devices_lst_OBJECTS)
-	@echo "Linking devices.lst..."; \
+	@echo "Linking $@..."; \
 	rm -f $@; \
 	for i in $(devices_lst_OBJECTS); do echo $$i >>$@; done
 
@@ -107,7 +107,7 @@ devices.lst: Makefile $(devices_lst_OBJECTS)
 if MAC_FRAMEWORK
 SoQtDevicesincdir = $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$(MAC_FRAMEWORK_VERSION)/Headers/devices
 else
-SoQtDevicesincdir = $(includedir)/Inventor/Qt/devices
+SoQtDevicesincdir = $(includedir)/Inventor/@Gui@/devices
 endif
 SoQtDevicesinc_HEADERS =
 

@@ -63,7 +63,7 @@ nodist_viewers_lst_SOURCES = \
 #	$(SoGui_src_Inventor_Gui_viewers_BuiltMetaFiles)
 
 viewers.lst: Makefile $(viewers_lst_OBJECTS)
-	@echo "Linking viewers.lst..."; \
+	@echo "Linking $@..."; \
 	rm -f $@; \
 	for i in $(viewers_lst_OBJECTS); do echo $$i >>$@; done
 
@@ -73,7 +73,7 @@ viewers.lst: Makefile $(viewers_lst_OBJECTS)
 if MAC_FRAMEWORK
 SoQtViewersincdir = $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$(MAC_FRAMEWORK_VERSION)/Headers/viewers
 else
-SoQtViewersincdir = $(includedir)/Inventor/Qt/viewers
+SoQtViewersincdir = $(includedir)/Inventor/@Gui@/viewers
 endif
 SoQtViewersinc_HEADERS =
 
