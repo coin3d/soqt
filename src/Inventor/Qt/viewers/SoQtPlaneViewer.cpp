@@ -340,8 +340,8 @@ SoQtPlaneViewer::processEvent( // virtual
       case ROTZ_MODE:
         if ( (norm_mousepos[0] != this->prevMousePosition[0]) ||
              (norm_mousepos[1] != this->prevMousePosition[1]) )
-          common->rotZ( norm_mousepos, this->prevMousePosition,
-            this->getGlxAspectRatio(), this->getCamera() );
+          common->setPointerLocation( mousepos );
+          common->rotateZ( common->getPointerOrigoMotionAngle() );
         break;
 
       default: // include default to avoid compiler warnings.
@@ -428,9 +428,8 @@ void
 SoQtPlaneViewer::leftWheelMotion( // virtual
   float value )
 {
-  inherited::leftWheelMotion(
-    common->transYWheelMotion( value, this->getLeftWheelValue(),
-                                         this->getCamera() ) );
+  common->translateY( value - this->getLeftWheelValue() );
+  inherited::leftWheelMotion( value );
 } // leftWheelMotion()
 
 /*!
@@ -440,9 +439,8 @@ void
 SoQtPlaneViewer::bottomWheelMotion( // virtual
   float value )
 {
-  inherited::bottomWheelMotion(
-    common->transXWheelMotion( value, this->getBottomWheelValue(),
-                                         this->getCamera() ) );
+  common->translateX( value - this->getBottomWheelValue() );
+  inherited::bottomWheelMotion( value );
 } // bottomWheelMotion()
 
 /*!
