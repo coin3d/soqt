@@ -144,15 +144,15 @@ SoQtMouse::disable(
   SoMouseButtonEvent events will be done as follows:
 
   <ul>
-  <li>left mousebutton: SoButtonEvent::BUTTON1
-  <li>right mousebutton: SoButtonEvent::BUTTON2
-  <li>middle mousebutton, if available: SoButtonEvent::BUTTON3
-  <li>forward motion on a wheel mouse: SoButtonEvent::BUTTON4
-  <li>backward motion on a wheel mouse: SoButtonEvent::BUTTON5
+  <li>left mousebutton: SoMouseButtonEvent::BUTTON1
+  <li>right mousebutton: SoMouseButtonEvent::BUTTON2
+  <li>middle mousebutton, if available: SoMouseButtonEvent::BUTTON3
+  <li>forward motion on a wheel mouse: SoMouseButtonEvent::BUTTON4
+  <li>backward motion on a wheel mouse: SoMouseButtonEvent::BUTTON5
   </ul>
 
   Note that right mousebutton will always map to
-  SoButtonEvent::BUTTON2, even on a 3-button mouse.
+  SoMouseButtonEvent::BUTTON2, even on a 3-button mouse.
 */
 const SoEvent *
 SoQtMouse::translateEvent(QEvent * event)
