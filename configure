@@ -19227,8 +19227,7 @@ esac
 
 
 
-
-for ac_header in windows.h tlhelp32.h unistd.h sys/types.h sys/time.h netinet/in.h
+for ac_header in windows.h unistd.h sys/types.h sys/time.h netinet/in.h
 do
 as_ac_Header=`echo "ac_cv_header_$ac_header" | $as_tr_sh`
 if eval "test \"\${$as_ac_Header+set}\" = set"; then
@@ -19368,6 +19367,66 @@ _ACEOF
 fi
 
 done
+
+
+
+# At least with MSVC++, these headers needs windows.h to have been included first.
+
+for ac_header in tlhelp32.h
+do
+as_ac_Header=`echo "ac_cv_header_$ac_header" | $as_tr_sh`
+echo "$as_me:$LINENO: checking for $ac_header" >&5
+echo $ECHO_N "checking for $ac_header... $ECHO_C" >&6
+if eval "test \"\${$as_ac_Header+set}\" = set"; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+#ifdef HAVE_WINDOWS_H
+#include <windows.h>
+#endif
+
+
+#include <$ac_header>
+_ACEOF
+rm -f conftest.$ac_objext
+if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
+  (eval $ac_compile) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest.$ac_objext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  eval "$as_ac_Header=yes"
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+eval "$as_ac_Header=no"
+fi
+rm -f conftest.$ac_objext conftest.$ac_ext
+fi
+echo "$as_me:$LINENO: result: `eval echo '${'$as_ac_Header'}'`" >&5
+echo "${ECHO_T}`eval echo '${'$as_ac_Header'}'`" >&6
+if test `eval echo '${'$as_ac_Header'}'` = yes; then
+  cat >>confdefs.h <<_ACEOF
+#define `echo "HAVE_$ac_header" | $as_tr_cpp` 1
+_ACEOF
+
+fi
+
+done
+
 
 
 if test x"$sim_ac_want_x11" = xyes; then
@@ -19516,6 +19575,79 @@ fi
 done
 
 fi
+
+# *******************************************************************
+
+
+sim_ac_have_win32_api=false
+echo "$as_me:$LINENO: checking if the Win32 API is available" >&5
+echo $ECHO_N "checking if the Win32 API is available... $ECHO_C" >&6
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+#include <windows.h>
+
+int
+main ()
+{
+
+  /* These need to be as basic as possible. I.e. they should be
+     available on all Windows versions. That means NT 3.1 and later,
+     Win95 and later, WinCE 1.0 and later), their definitions should
+     be available from windows.h, and should be linked in from kernel32.
+
+     The ones below are otherwise rather random picks.
+  */
+  (void)CreateDirectory(NULL, NULL);
+  (void)RemoveDirectory(NULL);
+  SetLastError(0);
+  (void)GetLastError();
+  (void)LocalAlloc(0, 1);
+  (void)LocalFree(NULL);
+  return 0;
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext
+if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
+  (eval $ac_compile) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest.$ac_objext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  sim_ac_have_win32_api=true
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+fi
+rm -f conftest.$ac_objext conftest.$ac_ext
+
+if $sim_ac_have_win32_api; then
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_WIN32_API 1
+_ACEOF
+
+  echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+fi
+
 
 # *******************************************************************
 # Instead of getenv() on most Win32 platforms (not Windows CE).
@@ -26936,8 +27068,6 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
     ## 1174: "The function was declared but never referenced."
     ## 1209: "The controlling expression is constant." (kill warning on
     ##       if (0), assert(FALSE), etc).
-    ## 1355: Kill warnings on extra semicolons (which happens with some
-    ##       of the Coin macros).
     ## 1375: Non-virtual destructors in base classes.
     ## 3201: Unused argument to a function.
     ## 1110: "Statement is not reachable" (the Lex/Flex generated code in
@@ -26949,7 +27079,7 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
     ## 1169: External/internal linkage conflicts with a previous declaration.
     ##       We get this for the "friend operators" in SbString.h
 
-    sim_ac_bogus_warnings="-woff 3115,3262,1174,1209,1355,1375,3201,1110,1506,1169,1210"
+    sim_ac_bogus_warnings="-woff 3115,3262,1174,1209,1375,3201,1110,1506,1169,1210"
 
     case $CC in
     cc | "cc "* | CC | "CC "* )

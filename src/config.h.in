@@ -132,6 +132,9 @@
    name */
 #undef HAVE_VAR___func__
 
+/* Define if the Win32 API is available */
+#undef HAVE_WIN32_API
+
 /* Define to use Win32 LoadLibrary() */
 #undef HAVE_WIN32_LOADLIBRARY
 
