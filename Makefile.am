@@ -87,10 +87,6 @@ dist_m4data_DATA = cfg/m4/so@gui@.m4
 cfgdatadir = $(datadir)/Coin/conf
 cfgdata_DATA = so@gui@-@CONFIG@.cfg
 
-# now generated in configure because of data/configure dependency
-# so@gui@-@CONFIG@.cfg: Makefile config.status $(srcdir)/src/Inventor/@Gui@/common/sogui.cfg.in
-#	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/sogui.cfg.in
-
 so@gui@-config: Makefile config.status $(srcdir)/src/Inventor/@Gui@/common/sogui-config.in
 	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/sogui-config.in
 
