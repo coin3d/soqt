@@ -2117,6 +2117,7 @@ m4_do([popdef([cache_variable])],
       [popdef([DEFINE_VARIABLE])])
 ]) # SIM_AC_HAVE_INVENTOR_FEATURE
 
+
 # Convenience macros SIM_AC_DEBACKSLASH and SIM_AC_DOBACKSLASH for
 # converting to and from MSWin/MS-DOS style paths.
 #

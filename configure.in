@@ -358,6 +358,13 @@ SIM_AC_HAVE_INVENTOR_FEATURE(
      c->setStereoMode(SoCamera::MONOSCOPIC);],
     HAVE_SOCAMERA_SETSTEREOMODE)
 
+SIM_AC_HAVE_INVENTOR_FEATURE(
+  [for usable SoKeyboardEvent::DELETE enum],
+  [#include <Inventor/events/SoKeyboardEvent.h>], [
+   /* This is either DELETE or KEY_DELETE */
+   SoKeyboardEvent::Key key = SoKeyboardEvent::DELETE;],
+  [HAVE_SOKEYBOARDEVENT_DELETE])
+
 # **************************************************************************
 # Check that the Qt installation looks ok and include the
 # necessary paths and link libraries.
@@ -366,6 +373,9 @@ SIM_AC_CHECK_QT([
   SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS $sim_ac_qt_cppflags"
   SOQT_EXTRA_LDFLAGS="$SOQT_EXTRA_LDFLAGS $sim_ac_qt_ldflags"
   SOQT_EXTRA_LIBS="$sim_ac_qt_libs $SOQT_EXTRA_LIBS"
+  CPPFLAGS="$CPPFLAGS $sim_ac_qt_cppflags"
+  LDFLAGS="$LDFLAGS $sim_ac_qt_ldflags"
+  LIBS="$sim_ac_qt_libs $LIBS"
 ], AC_MSG_ERROR(can't compile and link against Qt development kit))
 
 if test x"$sim_ac_x11mu_avail" != xyes; then

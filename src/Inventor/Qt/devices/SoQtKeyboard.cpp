@@ -38,6 +38,10 @@ static const char rcsid[] =
 #include <Inventor/Qt/SoQtBasic.h>
 #include <Inventor/Qt/devices/SoQtKeyboard.h>
 
+#if HAVE_CONFIG_H
+#include <config.h>
+#endif // HAVE_CONFIG_H
+
 /*!
   \class SoQtKeyboard SoQtKeyboard.h Inventor/Qt/devices/SoQtKeyboard.h
   \brief The SoQtKeyboard class ...
@@ -211,10 +215,10 @@ static struct key1map QtToSoMapping[] = {
   {Key_Return, SoKeyboardEvent::RETURN},
   {Key_Enter, SoKeyboardEvent::ENTER},
   {Key_Insert, SoKeyboardEvent::INSERT},
-#ifdef _WIN32
-  {Key_Delete, SoKeyboardEvent::KEY_DELETE},
-#else
+#ifdef HAVE_SOKEYBOARDEVENT_DELETE
   {Key_Delete, SoKeyboardEvent::DELETE},
+#else
+  {Key_Delete, SoKeyboardEvent::KEY_DELETE},
 #endif
   {Key_Pause, SoKeyboardEvent::PAUSE},
   {Key_Print, SoKeyboardEvent::PRINT},
