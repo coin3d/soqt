@@ -72,6 +72,7 @@ static const char rcsid[] =
 #include <Inventor/Qt/widgets/QtThumbwheel.h>
 #include <Inventor/Qt/SoQtCursors.h>
 
+#include <Inventor/Qt/common/SoAnyExaminerViewer.h>
 #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
 
 // Icon graphic for the camera button.
@@ -417,16 +418,16 @@ SoQtExaminerViewer::setCursorEnabled(SbBool on)
 */
 
 void
-SoQtExaminerViewer::leftWheelMotion(float val)
+SoQtExaminerViewer::leftWheelMotion(
+  float value )
 {
   if ( this->isAnimating() )
     this->stopAnimating();
-  this->reorientCamera(SbRotation(SbVec3f(1.0f, 0.0f, 0.0f),
-                                  val - this->getLeftWheelValue()));
-  inherited::leftWheelMotion(val);
-} // leftWheelMotion()
 
-// *************************************************************************
+  inherited::leftWheelMotion(
+    SoAnyExaminerViewer::rotXWheelMotion( value, this->getLeftWheelValue(),
+                                          this->getCamera() ) );
+} // leftWheelMotion()
 
 /*!
   Overloaded to provide the examiner viewer functionality on the bottom
@@ -434,16 +435,16 @@ SoQtExaminerViewer::leftWheelMotion(float val)
 */
 
 void
-SoQtExaminerViewer::bottomWheelMotion(float val)
+SoQtExaminerViewer::bottomWheelMotion(
+  float value )
 {
   if ( this->isAnimating() )
     this->stopAnimating();
-  this->reorientCamera(SbRotation(SbVec3f(0.0f, 1.0f, 0.0f),
-                                  this->getBottomWheelValue() - val));
-  inherited::bottomWheelMotion(val);
-} // bottomWheelMotion()
 
-// *************************************************************************
+  inherited::bottomWheelMotion(
+    SoAnyExaminerViewer::rotYWheelMotion( value, this->getBottomWheelValue(),
+                                          this->getCamera() ) );
+} // bottomWheelMotion()
 
 /*!
   Overloaded to provide the examiner viewer functionality on the left
@@ -451,10 +452,11 @@ SoQtExaminerViewer::bottomWheelMotion(float val)
 */
 
 void
-SoQtExaminerViewer::rightWheelMotion(float val)
+SoQtExaminerViewer::rightWheelMotion(
+  float value )
 {
-  this->zoom(val - this->getRightWheelValue());
-  inherited::rightWheelMotion(val);
+  this->zoom( value - this->getRightWheelValue() );
+  inherited::rightWheelMotion( value );
 } // rightWheelMotion()
 
 // *************************************************************************
