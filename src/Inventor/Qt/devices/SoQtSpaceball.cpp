@@ -41,6 +41,12 @@
 #include <Inventor/Qt/devices/spwinput.h>
 #endif // HAVE_X11_AVAILABLE
 
+#ifdef HAVE_WIN32_API
+#include <windows.h>
+#include <Inventor/Qt/devices/spwinput_win32.h>
+#endif // HAVE_WIN32_API
+
+
 // *************************************************************************
 
 #ifndef DOXYGEN_SKIP_THIS
@@ -103,6 +109,13 @@ SoQtSpaceball::enable(QWidget * widget, SoQtEventHandler * handler, void * closu
                                widget->winId(), "sbtestx") == TRUE) {
   }
 #endif // HAVE_X11_AVAILABLE
+
+#ifdef HAVE_WIN32_API
+  if (SPW_CheckForSpaceballWin32(widget->winId()) == TRUE) {
+    
+  }
+#endif // HAVE_WIN32_API
+
 }
 
 void
@@ -116,7 +129,7 @@ SoQtSpaceball::disable(QWidget * widget, SoQtEventHandler * handler, void * clos
 const SoEvent *
 SoQtSpaceball::translateEvent(QEvent * event)
 {
-#ifdef HAVE_X11_AVAILABLE
+#if defined(HAVE_X11_AVAILABLE) || defined(HAVE_WIN32_API)
   if (event->type() == (QEvent::Type) SoQtInternal::SPACEBALL_EVENT) {
     SPW_InputEvent * sbEvent = (SPW_InputEvent*) ((QCustomEvent*)event)->data();
 
@@ -137,7 +150,8 @@ SoQtSpaceball::translateEvent(QEvent * event)
       return (SoEvent*) NULL;
     }
   }
-#endif // HAVE_X11_AVAILABLE
+#endif // HAVE_X11_AVAILABLE OR HAVE_WIN32_API
+
   return (SoEvent *) NULL;
 }
 
@@ -146,11 +160,11 @@ SoQtSpaceball::translateEvent(QEvent * event)
 SbBool
 SoQtSpaceball::exists(void)
 {
-#ifdef HAVE_X11_AVAILABLE
+#if defined(HAVE_X11_AVAILABLE) || defined(HAVE_WIN32_API)
   return TRUE;
-#else // ! HAVE_X11_AVAILABLE
+#else // ! HAVE_X11_AVAILABLE || HAVE_WIN32_API
   return FALSE;
-#endif // ! HAVE_X11_AVAILABLE
+#endif // ! HAVE_X11_AVAILABLE || HAVE_WIN32_API
 }
 
 // *************************************************************************
