@@ -49,6 +49,9 @@ static const char rcsid[] =
 
 #include <Inventor/Qt/common/pixmaps/ortho.xpm>
 #include <Inventor/Qt/common/pixmaps/perspective.xpm>
+#include <Inventor/Qt/common/pixmaps/x.xpm>
+#include <Inventor/Qt/common/pixmaps/y.xpm>
+#include <Inventor/Qt/common/pixmaps/z.xpm>
 
 // ************************************************************************
 
@@ -475,21 +478,21 @@ SoQtPlaneViewer::createViewerButtons( // virtual
   this->buttons.x = new QPushButton( parent );
   this->buttons.x->setFocusPolicy( QWidget::NoFocus );
   this->buttons.x->setToggleButton( FALSE );
-  this->buttons.x->setText( QString( "X" ) );
+  this->buttons.x->setPixmap( QPixmap( (const char **) x_xpm ) );
   QObject::connect( this->buttons.x, SIGNAL(clicked()),
                     this, SLOT(xClicked()) );
   buttons->append( this->buttons.x );
   this->buttons.y = new QPushButton( parent );
   this->buttons.y->setFocusPolicy( QWidget::NoFocus );
   this->buttons.y->setToggleButton( FALSE );
-  this->buttons.y->setText( QString( "Y" ) );
+  this->buttons.y->setPixmap( QPixmap( (const char **) y_xpm ) );
   QObject::connect( this->buttons.y, SIGNAL(clicked()),
                     this, SLOT(yClicked()) );
   buttons->append( this->buttons.y );
   this->buttons.z = new QPushButton( parent );
   this->buttons.z->setFocusPolicy( QWidget::NoFocus );
   this->buttons.z->setToggleButton( FALSE );
-  this->buttons.z->setText( QString( "Z" ) );
+  this->buttons.z->setPixmap( QPixmap( (const char **) z_xpm ) );
   QObject::connect( this->buttons.z, SIGNAL(clicked()),
                     this, SLOT(zClicked()) );
   buttons->append( this->buttons.z );
