@@ -63,7 +63,7 @@ public:
   QLabel * contupdatelabel;
   QPushButton * applybutton;
   QString filetype;
-  static QString defaultdir;
+  static QString * defaultdir;
   
 
 public slots:
