@@ -3,7 +3,7 @@
 
 include ../common/Makefile.common
 
-INCLUDES = -I$(top_srcdir)/src
+DEFAULT_INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
 
 LIBS =
 

@@ -28,7 +28,7 @@
 #error this is a private header file
 #endif /* !SOQT_INTERNAL */
 
-#include "SoGuiFullViewerP.h"
+#include <Inventor/Qt/viewers/SoGuiFullViewerP.h>
 #include <qobject.h>
 
 class QLabel;

@@ -30,7 +30,7 @@
 
 #include <qobject.h>
 #include <Inventor/SbBasic.h>
-#include "SoGuiExaminerViewerP.h"
+#include <Inventor/Qt/viewers/SoGuiExaminerViewerP.h>
 
 class SoQtExaminerViewer;
 

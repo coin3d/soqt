@@ -30,7 +30,7 @@
 
 #include <qobject.h>
 #include <Inventor/SbBasic.h>
-#include "SoGuiPlaneViewerP.h"
+#include <Inventor/Qt/viewers/SoGuiPlaneViewerP.h>
 
 class SoQtPlaneViewer;
 

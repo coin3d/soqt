@@ -17,7 +17,7 @@ endif
 
 SUBDIRS = devices viewers widgets
 
-INCLUDES = -I$(top_srcdir)/src -I$(top_builddir)/data
+DEFAULT_INCLUDES = -I$(top_builddir)/src -I$(top_builddir)/data -I$(top_srcdir)/src
 
 BUILT_SOURCES = \
 	$(SoGuiAllBuiltFiles)

@@ -14,7 +14,7 @@ endif
 ## Remove any linklibraries detected by configure, as they are not
 ## needed in the submodules -- only in the toplevel libSoQt build.
 
-INCLUDES = -I$(top_srcdir)/src
+DEFAULT_INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
 
 LIBS = 
 

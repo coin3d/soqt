@@ -406,7 +406,7 @@ SoQt_ExtraBuiltMetaFiles = \
 @BUILD_WITH_MSVC_TRUE@noinst_LIBRARIES = widgets.lst
 @BUILD_WITH_MSVC_FALSE@noinst_LTLIBRARIES = libSoQtWidgets.la
 
-INCLUDES = -I$(top_srcdir)/src
+DEFAULT_INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
 LIBS = 
 
 BUILT_SOURCES = \
@@ -488,7 +488,6 @@ libSoQtWidgets_la_OBJECTS = $(am_libSoQtWidgets_la_OBJECTS) \
 	$(nodist_libSoQtWidgets_la_OBJECTS)
 
 DEFS = @DEFS@
-DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
