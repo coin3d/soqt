@@ -166,7 +166,7 @@ libSoQtViewersinc_HEADERS = \
 	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtFlyViewer.h
 
 nodist_libSoQtViewersinc_HEADERS = \
-	$(top_builddir)/src/Inventor/Qt/viewers/SoQtViewer.h \
+	$(top_builddir)/src/Inventor/Qt/viewers/SoQtViewer.h
 
 install-libSoQtViewersincHEADERS: $(libSoQtViewersinc_HEADERS)
 	@$(NORMAL_INSTALL)

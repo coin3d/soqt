@@ -209,6 +209,10 @@ libSoQtViewersinc_HEADERS = \
 	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtWalkViewer.h \
 	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtFlyViewer.h
 
+
+nodist_libSoQtViewersinc_HEADERS = \
+	$(top_builddir)/src/Inventor/Qt/viewers/SoQtViewer.h
+
 subdir = src/Inventor/Qt/viewers
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/src/config.h
@@ -262,7 +266,8 @@ LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $
 CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 DIST_SOURCES = $(viewers_lst_SOURCES) $(libSoQtViewers_la_SOURCES)
-HEADERS = $(libSoQtViewersinc_HEADERS)
+HEADERS = $(libSoQtViewersinc_HEADERS) \
+$(nodist_libSoQtViewersinc_HEADERS)
 
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 @AMDEP@DEP_FILES = $(DEPDIR)/SoAnyExaminerViewer.Plo \
@@ -334,6 +339,14 @@ libSoQtViewers.la: $(libSoQtViewers_la_OBJECTS) $(libSoQtViewers_la_DEPENDENCIES
 uninstall-libSoQtViewersincHEADERS:
 	@$(NORMAL_UNINSTALL)
 	@list='$(libSoQtViewersinc_HEADERS)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(libSoQtViewersincdir)/$$f"; \
+	  rm -f $(DESTDIR)$(libSoQtViewersincdir)/$$f; \
+	done
+
+uninstall-nodist_libSoQtViewersincHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(nodist_libSoQtViewersinc_HEADERS)'; for p in $$list; do \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
 	  echo " rm -f $(DESTDIR)$(libSoQtViewersincdir)/$$f"; \
 	  rm -f $(DESTDIR)$(libSoQtViewersincdir)/$$f; \
@@ -453,7 +466,7 @@ check: check-am
 all-am: Makefile $(LIBRARIES) $(LTLIBRARIES) $(HEADERS)
 
 installdirs:
-	$(mkinstalldirs) $(DESTDIR)$(libSoQtViewersincdir)
+	$(mkinstalldirs) $(DESTDIR)$(libSoQtViewersincdir) $(DESTDIR)$(libSoQtViewersincdir)
 
 install: install-am
 install-exec: install-exec-am
@@ -500,7 +513,8 @@ info:
 
 info-am:
 
-install-data-am: install-libSoQtViewersincHEADERS
+install-data-am: install-libSoQtViewersincHEADERS \
+	install-nodist_libSoQtViewersincHEADERS
 
 install-exec-am:
 
@@ -519,7 +533,8 @@ mostlyclean: mostlyclean-am
 mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
-uninstall-am: uninstall-libSoQtViewersincHEADERS
+uninstall-am: uninstall-libSoQtViewersincHEADERS \
+	uninstall-nodist_libSoQtViewersincHEADERS
 
 .PHONY: all all-am check check-am clean clean-generic clean-libtool \
 	clean-noinstLIBRARIES clean-noinstLTLIBRARIES distclean \
@@ -527,11 +542,13 @@ uninstall-am: uninstall-libSoQtViewersincHEADERS
 	distclean-libtool distclean-tags distdir dvi dvi-am info \
 	info-am install install-am install-data install-data-am \
 	install-exec install-exec-am install-info \
-	install-libSoQtViewersincHEADERS install-man install-strip \
+	install-libSoQtViewersincHEADERS install-man \
+	install-nodist_libSoQtViewersincHEADERS install-strip \
 	installcheck installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool tags uninstall \
-	uninstall-am uninstall-libSoQtViewersincHEADERS
+	uninstall-am uninstall-libSoQtViewersincHEADERS \
+	uninstall-nodist_libSoQtViewersincHEADERS
 
 
 ############################################################################
