@@ -645,10 +645,10 @@ SoQtGLWidget::isBorder(void) const
 /*!
   Turn on or off the use of overlay planes.
 
-  \sa isOverlayPlanes()
+  \sa isOverlayRender()
 */
 void
-SoQtGLWidget::setOverlayPlanes(const SbBool onoff)
+SoQtGLWidget::setOverlayRender(const SbBool onoff)
 {
   SbBool ison = QGLFormat_hasOverlay(PRIVATE(this)->glformat);
   if ((onoff && ison) || (!onoff && !ison)) { return; }
@@ -657,7 +657,7 @@ SoQtGLWidget::setOverlayPlanes(const SbBool onoff)
 
   ison = QGLFormat_hasOverlay(PRIVATE(this)->glformat);
   if (onoff && !ison) {
-    SoDebugError::postWarning("SoQtGLWidget::setOverlayPlanes",
+    SoDebugError::postWarning("SoQtGLWidget::setOverlayRender",
                               "overlay planes not supported");
     return;
   }
@@ -670,10 +670,10 @@ SoQtGLWidget::setOverlayPlanes(const SbBool onoff)
   Returns a flag indicating whether or not overplay planes are
   currently used.
 
-  \sa setOverlayPlanes()
+  \sa setOverlayRender()
  */
 SbBool
-SoQtGLWidget::isOverlayPlanes(void) const
+SoQtGLWidget::isOverlayRender(void) const
 {
   return QGLFormat_hasOverlay(PRIVATE(this)->glformat);
 }
