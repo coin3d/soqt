@@ -171,6 +171,10 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
 
     20020923 mortene.
 
+    UPDATE 20021017 rolvs: 'Like in a miracle, this bug seems to have
+    dissapeared', or the description of how to reproduce the bug is
+    buggy. The notes on the event-processing is still valid though.
+
 =====================================================================
 
 007 We have a problem report from Radu Ursu on coin-discuss on using
@@ -253,6 +257,10 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     UPDATE 20021016 rolvs: The 'hanging behind' behaviour is now
     fixed. But the way which speeds and rotations is calculated is
     still fishy (work-in-progress).
+
+    UPDATE 20021017 rolvs: The inverted vertical tilt item is now
+    fixed. Try out how it 'feels', and swap it back if the new
+    behaviour feels awkward.
 
 =====================================================================
 
