@@ -598,7 +598,7 @@ SoQtGLWidget::widgetChanged(
 void
 SoQtGLWidget::processEvent(QEvent * /*anyevent*/)
 {
-  SoDebugError::postInfo( "processEvent", "called" );
+//  SoDebugError::postInfo( "processEvent", "called" );
   // FIXME: anything to do here? 981029 mortene.
 }
 
