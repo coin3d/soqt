@@ -45,7 +45,7 @@ static const char rcsid[] =
 /*!
   \class SoQtKeyboard SoQtKeyboard.h Inventor/Qt/devices/SoQtKeyboard.h
   \brief The SoQtKeyboard class ...
-  \ingroup qtdevices
+  \ingroup devices
 
   FIXME: write class doc
 */
@@ -53,6 +53,28 @@ static const char rcsid[] =
 // *************************************************************************
 
 SOQT_OBJECT_SOURCE(SoQtKeyboard);
+
+// *************************************************************************
+
+/*!
+  \enum SoQtKeyboard::Events
+  FIXME: write doc
+*/
+
+/*!
+  \var SoQtKeyboard::Events SoQtKeyboard::KEY_PRESS
+  FIXME: write doc
+*/
+
+/*!
+  \var SoQtKeyboard::Events SoQtKeyboard::KEY_RELEASE
+  FIXME: write doc
+*/
+
+/*!
+  \var SoQtKeyboard::Events SoQtKeyboard::ALL_EVENTS
+  FIXME: write doc
+*/
 
 // *************************************************************************
 
@@ -465,7 +487,7 @@ SbDict * SoQtKeyboard::translatetable = NULL;
 */
 
 SoQtKeyboard::SoQtKeyboard(
-  soqtEventMask mask )
+  int mask )
 {
   this->eventmask = mask;
   this->kbdevent = NULL;

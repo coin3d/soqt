@@ -55,7 +55,7 @@ static const char rcsid[] =
   \class SoQtLinuxJoystick Inventor/Qt/devices/SoQtLinuxJoystick.h
   \brief The SoQtLinuxJoystick class is for enabling use of joysticks with
   SoQt through the Linux Joystick driver.
-  \ingroup qtdevices
+  \ingroup devices
 
   This class is not included with Open Inventor, but is an SoQt-specific
   extension.
@@ -68,6 +68,18 @@ SOQT_OBJECT_SOURCE(SoQtLinuxJoystick);
 // *************************************************************************
 
 SbBool SoQtLinuxJoystick::enabled = FALSE;
+
+// *************************************************************************
+
+/*!
+  \enum SoQtLinuxJoystick::Events
+  FIXME: write doc
+*/
+
+/*!
+  \var SoQtLinuxJoystick::Events SoQtLinuxJoystick::ALL_EVENTS
+  FIXME: write doc
+*/
 
 // *************************************************************************
 
@@ -225,6 +237,7 @@ SoQtLinuxJoystick::translateEvent(
 // *************************************************************************
 
 /*!
+  FIXME: write doc
 */
 
 void
@@ -235,6 +248,7 @@ SoQtLinuxJoystick::setRotationScaleFactor(
 } // setRotationScaleFactor()
 
 /*!
+  FIXME: write doc
 */
 
 float
@@ -245,6 +259,7 @@ SoQtLinuxJoystick::getRotationScaleFactor(
 } // getRotationScaleFactor()
 
 /*!
+  FIXME: write doc
 */
 
 void
@@ -255,6 +270,7 @@ SoQtLinuxJoystick::setTranslationScaleFactor(
 } // setTranslationScaleFactor()
 
 /*!
+  FIXME: write doc
 */
 
 float
@@ -289,6 +305,7 @@ SoQtLinuxJoystick::exists( // static
 // *************************************************************************
 
 /*!
+  FIXME: write doc
 */
 
 const char *
@@ -310,6 +327,7 @@ SoQtLinuxJoystick::getDevicePathName( // static, private
 // *************************************************************************
 
 /*!
+  FIXME: write doc
 */
 
 int
@@ -320,6 +338,7 @@ SoQtLinuxJoystick::getNumButtons(
 } // getNumButtons()
 
 /*!
+  FIXME: write doc
 */
 
 SbBool
@@ -337,6 +356,7 @@ SoQtLinuxJoystick::getButtonValue(
 } // getButtonValue()
 
 /*!
+  FIXME: write doc
 */
 
 int
@@ -347,6 +367,7 @@ SoQtLinuxJoystick::getNumAxes(
 } // getNumAxes()
 
 /*!
+  FIXME: write doc
 */
 
 float
@@ -366,6 +387,7 @@ SoQtLinuxJoystick::getAxisValue(
 // *************************************************************************
 
 /*!
+  FIXME: write doc
 */
 
 void
@@ -377,6 +399,7 @@ SoQtLinuxJoystick::setFocusToWindow(
 } // setFocusToWindow()
 
 /*!
+  FIXME: write doc
 */
 
 SbBool
@@ -389,6 +412,7 @@ SoQtLinuxJoystick::isFocusToWindow(
 // *************************************************************************
 
 /*!
+  FIXME: write doc
 */
 
 SoMotion3Event *
@@ -414,6 +438,7 @@ SoQtLinuxJoystick::makeMotion3Event( // private
 } // makeMotion3Event()
 
 /*!
+  FIXME: write doc
 */
 
 SoSpaceballButtonEvent *

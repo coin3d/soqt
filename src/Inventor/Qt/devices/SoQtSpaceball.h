@@ -32,14 +32,14 @@ class SOQT_DLL_API SoQtSpaceball : public SoQtDevice {
   Q_OBJECT
 
 public:
-  enum EventMask {
-    MOTION = 0x01,
-    PRESS = 0x02,
-    RELEASE = 0x04,
-    ALL_EVENTS = 0x07
+  enum Events {
+    MOTION      = 0x01,
+    PRESS       = 0x02,
+    RELEASE     = 0x04,
+    ALL_EVENTS  = 0x07
   };
 
-  SoQtSpaceball(int mask = ALL_EVENTS);
+  SoQtSpaceball(int events = ALL_EVENTS);
   virtual ~SoQtSpaceball(void);
 
   virtual void enable( QWidget * widget, SoQtEventHandler * handler,

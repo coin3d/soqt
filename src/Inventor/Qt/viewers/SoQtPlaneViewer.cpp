@@ -97,6 +97,7 @@ SoQtPlaneViewer::SoQtPlaneViewer(
 // ************************************************************************
 
 /*!
+  FIXME: write doc
 */
 
 void
@@ -143,6 +144,7 @@ SoQtPlaneViewer::~SoQtPlaneViewer(
 // ************************************************************************
 
 /*!
+  FIXME: write doc
 */
 
 void
@@ -155,6 +157,7 @@ SoQtPlaneViewer::setViewing( // virtual
 // ************************************************************************
 
 /*!
+  FIXME: write doc
 */
 
 void
@@ -177,6 +180,7 @@ SoQtPlaneViewer::setCamera( // virtual
 // ************************************************************************
 
 /*!
+  FIXME: write doc
 */
 
 void
@@ -189,6 +193,7 @@ SoQtPlaneViewer::setCursorEnabled( // virtual
 // ************************************************************************
 
 /*!
+  FIXME: write doc
 */
 
 QWidget *
@@ -204,6 +209,7 @@ SoQtPlaneViewer::buildWidget(
 // ************************************************************************
 
 /*!
+  FIXME: write doc
 */
 
 const char *
@@ -217,6 +223,7 @@ SoQtPlaneViewer::getDefaultWidgetName( // virtual
 // ************************************************************************
 
 /*!
+  FIXME: write doc
 */
 
 const char *
@@ -230,6 +237,7 @@ SoQtPlaneViewer::getDefaultTitle( // virtual
 // ************************************************************************
 
 /*!
+  FIXME: write doc
 */
 
 const char *
@@ -243,6 +251,7 @@ SoQtPlaneViewer::getDefaultIconTitle( // virtual
 // ************************************************************************
 
 /*!
+  FIXME: write doc
 */
 
 SbBool
@@ -256,6 +265,7 @@ SoQtPlaneViewer::processSoEvent( // virtual, protected
 } // processSoEvent()
 
 /*!
+  FIXME: write doc
 */
 
 void
@@ -271,6 +281,7 @@ SoQtPlaneViewer::processEvent( // virtual
 // ************************************************************************
 
 /*!
+  FIXME: write doc
 */
 
 void
@@ -283,6 +294,7 @@ SoQtPlaneViewer::setSeekMode( // virtual
 // ************************************************************************
 
 /*!
+  FIXME: write doc
 */
 
 void
@@ -296,6 +308,7 @@ SoQtPlaneViewer::actualRedraw( // virtual
 // ************************************************************************
 
 /*!
+  FIXME: write doc
 */
 
 void
@@ -307,6 +320,7 @@ SoQtPlaneViewer::leftWheelMotion( // virtual
 } // leftWheelMotion()
 
 /*!
+  FIXME: write doc
 */
 
 void
@@ -318,6 +332,7 @@ SoQtPlaneViewer::bottomWheelMotion( // virtual
 } // bottomWheelMotion()
 
 /*!
+  FIXME: write doc
 */
 
 void
@@ -331,6 +346,7 @@ SoQtPlaneViewer::rightWheelMotion( // virtual
 // ************************************************************************
 
 /*!
+  FIXME: write doc
 */
 
 void
@@ -342,6 +358,7 @@ SoQtPlaneViewer::createPrefSheet( // virtual
 // ************************************************************************
 
 /*!
+  FIXME: write doc
 */
 
 void
@@ -399,6 +416,7 @@ SoQtPlaneViewer::createViewerButtons( // virtual
 // ************************************************************************
 
 /*!
+  FIXME: write doc
 */
 
 void
@@ -411,6 +429,7 @@ SoQtPlaneViewer::openViewerHelpCard( // virtual
 // ************************************************************************
 
 /*!
+  FIXME: write doc
 */
 
 void
@@ -492,6 +511,7 @@ SoQtPlaneViewer::visibilityCB( // static
 // ************************************************************************
 
 /*!
+  FIXME: write doc
 */
 
 void

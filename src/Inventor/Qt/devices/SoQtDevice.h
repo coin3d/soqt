@@ -22,10 +22,6 @@
 #ifndef SOQT_DEVICE_H
 #define SOQT_DEVICE_H
 
-/*!
-  \defgroup qtdevices Qt Device Classes
-*/
-
 #include <Inventor/SbLinear.h>
 
 #include <Inventor/Qt/SoQtObject.h>
@@ -35,8 +31,6 @@ class QWidget;
 
 class SbPList;
 class SoEvent;
-
-typedef int soqtEventMask;
 
 // *************************************************************************
 

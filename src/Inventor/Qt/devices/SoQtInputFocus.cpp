@@ -29,14 +29,34 @@ static const char rcsid[] =
 /*!
   \class SoQtInputFocus SoQtInputFocus.h Inventor/Qt/devices/SoQtInputFocus.h
   \brief The SoQtInputFocus class ...
-  \ingroup qtdevices
+  \ingroup devices
 
   FIXME: write class doc
 */
 
+SOQT_OBJECT_SOURCE(SoQtInputFocus);
+
 // *************************************************************************
 
-SOQT_OBJECT_SOURCE(SoQtInputFocus);
+/*!
+  \enum SoQtInputFocus::Events
+  FIXME: write doc
+*/
+
+/*!
+  \var SoQtInputFocus::Events SoQtInputFocus::ENTER_WINDOW
+  FIXME: write doc
+*/
+
+/*!
+  \var SoQtInputFocus::Events SoQtInputFocus::LEAVE_WINDOW
+  FIXME: write doc
+*/
+
+/*!
+  \var SoQtInputFocus::Events SoQtInputFocus::ALL_EVENTS
+  FIXME: write doc
+*/
 
 // *************************************************************************
 

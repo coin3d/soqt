@@ -47,7 +47,7 @@ static const char rcsid[] =
 /*!
   \class SoQtDevice SoQtDevice.h Inventor/Qt/devices/SoQtDevice.h
   \brief The SoQtDevice class ...
-  \ingroup qtdevices
+  \ingroup devices
 
   FIXME: write class doc
 */
@@ -55,6 +55,12 @@ static const char rcsid[] =
 // *************************************************************************
 
 SOQT_OBJECT_ABSTRACT_SOURCE(SoQtDevice);
+
+/*!
+  \internal
+  This function initializes the type system for all the SoQt device
+  classes.  It is called indirectly when calling SoQt::init().
+*/
 
 void
 SoQtDevice::initClasses(

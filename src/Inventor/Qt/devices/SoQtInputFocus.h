@@ -36,10 +36,10 @@ class SOQT_DLL_API SoQtInputFocus : public SoQtDevice {
   Q_OBJECT
 
 public:
-  enum EventMask {
+  enum Events {
     ENTER_WINDOW = 0x01,
     LEAVE_WINDOW = 0x02,
-    ALL_EVENTS = 0x03
+    ALL_EVENTS   = 0x03
   };
 
   SoQtInputFocus( int mask = ALL_EVENTS );

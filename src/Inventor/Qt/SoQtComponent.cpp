@@ -131,6 +131,12 @@ SbPList * SoQtComponentP::soqtcomplist = NULL;
 
 SOQT_OBJECT_ABSTRACT_SOURCE(SoQtComponent);
 
+/*!
+  \internal
+  This function initializes the type system for all the component classes.
+  It is called indirectly when you call SoQt::init().
+*/
+
 void
 SoQtComponent::initClasses(
   void )
@@ -151,21 +157,6 @@ SoQtComponent::initClasses(
   SoQtMaterialSliderSet::initClass();
   SoQtTransformSliderSet::initClass();
 } // initClasses()
-
-// *************************************************************************
-
-/*!
-  \fn virtual const char * SoQtComponent::componentClassName(void) const
-
-  Returns class name of the component.
- */
-
-/*!
-  \var QWidget * SoQtComponent::widget
-
-  Pointer to the Qt widget. This member must be set from all component
-  classes which inherits SoQtComponent directly.
-*/
 
 // *************************************************************************
 
@@ -943,7 +934,7 @@ SoQtComponent::widgetClosed(
   Finds and returns the SoQtComponent corresponding to the given
   QWidget, if any. If no SoQtComponent is the "owner" of the widget,
   \c NULL will be returned.
- */
+*/
 
 SoQtComponent *
 SoQtComponent::getComponent(
@@ -960,6 +951,7 @@ SoQtComponent::getComponent(
 // *************************************************************************
 
 /*!
+  FIXME: write doc
 */
 
 void
@@ -970,6 +962,7 @@ SoQtComponent::registerWidget(
 } // registerWidget()
 
 /*!
+  FIXME: write doc
 */
 
 void
@@ -980,6 +973,10 @@ SoQtComponent::unregisterWidget(
 } // unregisterWidget()
 
 // *************************************************************************
+
+/*!
+  FIXME: write doc
+*/
 
 void
 SoQtComponent::afterRealizeHook( // virtual

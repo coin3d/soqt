@@ -37,12 +37,12 @@ class SOQT_DLL_API SoQtKeyboard : public SoQtDevice {
 
 public:
   enum Events {
-    KEY_PRESS = 0x01,
-    KEY_RELEASE = 0x02,
-    ALL = 0x03
+    KEY_PRESS    = 0x01,
+    KEY_RELEASE  = 0x02,
+    ALL_EVENTS   = 0x03
   };
 
-  SoQtKeyboard( int eventmask = ALL );
+  SoQtKeyboard( int eventmask = ALL_EVENTS );
   virtual ~SoQtKeyboard(void);
 
   virtual void enable( QWidget * widget, SoQtEventHandler * handler,

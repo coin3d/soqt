@@ -504,6 +504,7 @@ SoQtExaminerViewer::openViewerHelpCard(void)
 // *************************************************************************
 
 /*!
+  FIXME: write doc
 */
 
 SbBool
@@ -823,6 +824,10 @@ SoQtExaminerViewer::cameratoggleClicked()
 
 // *************************************************************************
 
+/*!
+  FIXME: write doc
+*/
+
 void
 SoQtExaminerViewer::setAnimationEnabled(
   const SbBool enable )
@@ -831,12 +836,20 @@ SoQtExaminerViewer::setAnimationEnabled(
   // FIXME: set spinanimtoggle state
 } // setAnimationEnabled()
 
+/*!
+  FIXME: write doc
+*/
+
 SbBool
 SoQtExaminerViewer::isAnimationEnabled(
   void ) const
 {
   return common->isAnimationEnabled();
 } // isAnimationEnabled()
+
+/*!
+  FIXME: write doc
+*/
 
 void
 SoQtExaminerViewer::stopAnimating(
@@ -845,12 +858,20 @@ SoQtExaminerViewer::stopAnimating(
   common->stopAnimating();
 } // stopAnimating()
 
+/*!
+  FIXME: write doc
+*/
+
 SbBool
 SoQtExaminerViewer::isAnimating(
   void ) const
 {
   return common->isAnimating();
 } // isAnimating()
+
+/*!
+  FIXME: write doc
+*/
 
 void
 SoQtExaminerViewer::setFeedbackVisibility(
@@ -859,6 +880,10 @@ SoQtExaminerViewer::setFeedbackVisibility(
   common->setFeedbackVisibility( enable );
 } // setFeedbackVisibility()
 
+/*!
+  FIXME: write doc
+*/
+
 SbBool
 SoQtExaminerViewer::isFeedbackVisible(
   void ) const
@@ -866,12 +891,20 @@ SoQtExaminerViewer::isFeedbackVisible(
   return common->isFeedbackVisible();
 } // isFeedbackVisible()
 
+/*!
+  FIXME: write doc
+*/
+
 void
 SoQtExaminerViewer::setFeedbackSize(
    const int size )
 {
   common->setFeedbackSize( size );
 } // setFeedbackSize()
+
+/*!
+  FIXME: write doc
+*/
 
 int
 SoQtExaminerViewer::getFeedbackSize(
@@ -883,6 +916,7 @@ SoQtExaminerViewer::getFeedbackSize(
 // *************************************************************************
 
 /*!
+  FIXME: write doc
 */
 
 void

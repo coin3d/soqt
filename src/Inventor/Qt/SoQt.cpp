@@ -100,6 +100,18 @@ main(int argc, char **argv)
 
 // *************************************************************************
 
+/*!
+  \enum SoQt::CustomEventId
+  FIXME: write doc
+*/
+
+/*!
+  \var SoQt::CustomEventId SoQt::SPACEBALL_EVENT
+  FIXME: write doc
+*/
+
+// *************************************************************************
+
 QWidget * SoQt::mainWidget = NULL;
 QApplication * SoQt::appobject = NULL;
 QTimer * SoQt::idletimer = NULL;

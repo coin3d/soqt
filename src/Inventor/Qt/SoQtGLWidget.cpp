@@ -897,6 +897,7 @@ SoQtGLWidget::glUnlock(
 } // glUnlock()
 
 /*!
+  FIXME: write doc
 */
 
 void
@@ -915,6 +916,7 @@ SoQtGLWidget::glSwapBuffers(
 } // glSwapBuffers()
 
 /*!
+  FIXME: write doc
 */
 
 void
@@ -926,6 +928,7 @@ SoQtGLWidget::glFlushBuffer(
 } // glFlushBuffer()
 
 /*!
+  FIXME: write doc
 */
 
 void
@@ -942,6 +945,7 @@ SoQtGLWidget::glInit( // virtual
 } // glInit()
 
 /*!
+  FIXME: write doc
 */
 
 void
@@ -968,6 +972,7 @@ SoQtGLWidget::glReshape( // virtual
 } // glReshape()
 
 /*!
+  FIXME: write doc
 */
 
 void
@@ -984,6 +989,7 @@ SoQtGLWidget::gl_reshape( // slot
 } // gl_reshape()
 
 /*!
+  FIXME: write doc
 */
 
 void
@@ -997,6 +1003,7 @@ SoQtGLWidget::glRender( // virtual
 } // glRender()
 
 /*!
+  FIXME: write doc
 */
 
 void
@@ -1061,6 +1068,7 @@ SoQtGLWidget::isOverlayRender(
 // *************************************************************************
 
 /*!
+  FIXME: write doc
 */
 
 void

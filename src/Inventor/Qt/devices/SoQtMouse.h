@@ -34,13 +34,13 @@ class SOQT_DLL_API SoQtMouse : public SoQtDevice {
   Q_OBJECT
 
 public:
-  enum EventMask {
+  enum Events {
     BUTTON_PRESS    = 0x01,
     BUTTON_RELEASE  = 0x02,
     POINTER_MOTION  = 0x04,
     BUTTON_MOTION   = 0x08,
 
-    ALL_EVENTS = 0x0f
+    ALL_EVENTS      = 0x0f
   };
 
   SoQtMouse( int eventmask = ALL_EVENTS );

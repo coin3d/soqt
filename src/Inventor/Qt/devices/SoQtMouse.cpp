@@ -44,7 +44,7 @@ static const char rcsid[] =
 /*!
   \class SoQtMouse SoQtMouse.h Inventor/Qt/devices/SoQtMouse.h
   \brief The SoQtMouse class ...
-  \ingroup qtdevices
+  \ingroup devices
 
   FIXME: write class doc
 */
@@ -56,27 +56,27 @@ SOQT_OBJECT_SOURCE(SoQtMouse);
 // *************************************************************************
 
 /*!
-  \enum SoQtMouse::SoQtMouseEventMask
+  \enum SoQtMouse::Events
   FIXME: write documentation for enum
 */
 /*!
-  \var SoQtMouse::SoQtMouseEventMask SoQtMouse::ButtonPressMask
+  \var SoQtMouse::Events SoQtMouse::BUTTON_PRESS
   FIXME: write documentation for enum definition
 */
 /*!
-  \var SoQtMouse::SoQtMouseEventMask SoQtMouse::ButtonReleaseMask
+  \var SoQtMouse::Events SoQtMouse::BUTTON_RELEASE
   FIXME: write documentation for enum definition
 */
 /*!
-  \var SoQtMouse::SoQtMouseEventMask SoQtMouse::PointerMotionMask
+  \var SoQtMouse::Events SoQtMouse::POINTER_MOTION
   FIXME: write documentation for enum definition
 */
 /*!
-  \var SoQtMouse::SoQtMouseEventMask SoQtMouse::ButtonMotionMask
+  \var SoQtMouse::Events SoQtMouse::BUTTON_MOTION
   FIXME: write documentation for enum definition
 */
 /*!
-  \var SoQtMouse::SoQtMouseEventMask SoQtMouse::SO_QT_ALL_MOUSE_EVENTS
+  \var SoQtMouse::Events SoQtMouse::ALL_EVENTS
   FIXME: write documentation for enum definition
 */
 

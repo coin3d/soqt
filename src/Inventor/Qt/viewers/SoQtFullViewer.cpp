@@ -111,7 +111,82 @@ SOQT_OBJECT_ABSTRACT_SOURCE(SoQtFullViewer);
   FIXME: write documentation for enum definition
 */
 
+/*!
+  \var QWidget * SoQtFullViewer::leftDecoration
+  FIXME: write doc
+*/
 
+/*!
+  \var QWidget * SoQtFullViewer::leftWheel
+  FIXME: write doc
+*/
+
+/*!
+  \var QWidget * SoQtFullViewer::leftWheelLabel
+  FIXME: write doc
+*/
+
+/*!
+  \var char * SoQtFullViewer::leftWheelStr
+  FIXME: write doc
+*/
+
+/*!
+  \var float SoQtFullViewer::leftWheelVal
+  FIXME: write doc
+*/
+
+/*!
+  \var QWidget * SoQtFullViewer::bottomDecoration
+  FIXME: write doc
+*/
+
+/*!
+  \var QWidget * SoQtFullViewer::bottomWheel
+  FIXME: write doc
+*/
+
+/*!
+  \var QWidget * SoQtFullViewer::bottomWheelLabel
+  FIXME: write doc
+*/
+
+/*!
+  \var char * SoQtFullViewer::bottomWheelStr
+  FIXME: write doc
+*/
+
+/*!
+  \var float SoQtFullViewer::bottomWheelVal
+  FIXME: write doc
+*/
+
+/*!
+  \var QWidget * SoQtFullViewer::rightDecoration
+  FIXME: write doc
+*/
+
+/*!
+  \var QWidget * SoQtFullViewer::rightWheel
+  FIXME: write doc
+*/
+
+/*!
+  \var QWidget * SoQtFullViewer::rightWheelLabel
+  FIXME: write doc
+*/
+
+/*!
+  \var char * SoQtFullViewer::rightWheelStr
+  FIXME: write doc
+*/
+
+/*!
+  \var float SoQtFullViewer::rightWheelVal
+  FIXME: write doc
+*/
+
+// *************************************************************************
 
 static const int VIEWERBORDER = 2;
 static const int ZOOMSLIDERRESOLUTION = 200;
@@ -1008,6 +1083,10 @@ SoQtFullViewer::getLeftWheelValue(
   return this->leftWheelVal;
 } // getLeftWheelValue()
 
+/*!
+  FIXME: write doc
+*/
+
 void
 SoQtFullViewer::setLeftWheelValue(
   const float value )
@@ -1077,6 +1156,10 @@ SoQtFullViewer::getBottomWheelValue(
   return this->bottomWheelVal;
 } // getBottomWheelValue()
 
+/*!
+  FIXME: write doc
+*/
+
 void
 SoQtFullViewer::setBottomWheelValue(
   const float value )
@@ -1145,6 +1228,10 @@ SoQtFullViewer::getRightWheelValue(
 {
   return this->rightWheelVal;
 } // getRightWheelValue()
+
+/*!
+  FIXME: write doc
+*/
 
 void
 SoQtFullViewer::setRightWheelValue(

@@ -42,7 +42,7 @@ static const char rcsid[] =
 /*!
   \class SoQtSpaceball SoQtSpaceball.h Inventor/Qt/devices/SoQtSpaceball.h
   \brief The SoQtSpaceball class ...
-  \ingroup qtdevices
+  \ingroup devices
 
   FIXME: write class doc
 */
@@ -54,23 +54,23 @@ SOQT_OBJECT_SOURCE(SoQtSpaceball);
 // *************************************************************************
 
 /*!
-  \enum SoQtSpaceball::Mask
+  \enum SoQtSpaceball::Events
   FIXME: write documentation for enum
 */
 /*!
-  \var SoQtSpaceball::Mask SoQtSpaceball::MOTION
+  \var SoQtSpaceball::Events SoQtSpaceball::MOTION
   FIXME: write documentation for enum definition
 */
 /*!
-  \var SoQtSpaceball::Mask SoQtSpaceball::PRESS
+  \var SoQtSpaceball::Events SoQtSpaceball::PRESS
   FIXME: write documentation for enum definition
 */
 /*!
-  \var SoQtSpaceball::Mask SoQtSpaceball::RELEASE
+  \var SoQtSpaceball::Events SoQtSpaceball::RELEASE
   FIXME: write documentation for enum definition
 */
 /*!
-  \var SoQtSpaceball::Mask SoQtSpaceball::ALL
+  \var SoQtSpaceball::Events SoQtSpaceball::ALL_EVENTS
   FIXME: write documentation for enum definition
 */
 
