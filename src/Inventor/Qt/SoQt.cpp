@@ -77,6 +77,8 @@ main(int argc, char **argv)
 #include <config.h>
 #endif // HAVE_CONFIG_H
 
+#include <stdlib.h>
+
 #if ! X_DISPLAY_MISSING
 #include <Inventor/Qt/devices/spwinput.h>
 #endif // ! X_DISPLAY_MISSING
