@@ -47,13 +47,6 @@ static const char rcsid[] =
 
 // *************************************************************************
 
-// FIXME: should we set up a private default constructor and
-// destructor to avoid attempts at instantiating this class? From a
-// support inquiry on coin-support, it looks like at least one app
-// programmer has attempted this.. 20011122 mortene.
-
-// *************************************************************************
-
 #if HAVE_CONFIG_H
 #include <config.h>
 #endif // HAVE_CONFIG_H
