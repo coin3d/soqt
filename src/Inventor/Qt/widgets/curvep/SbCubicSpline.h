@@ -24,7 +24,7 @@
  *
 \**************************************************************************/
 
-#include <Inventor/lists/SbList.h>
+#include <Inventor/Qt/common/SbGuiList.h>
 #include <Inventor/SbMatrix.h>
 #include <Inventor/SbVec3f.h>
 #include <Inventor/SbVec4f.h>
@@ -64,10 +64,10 @@ private:
   int getSegnum(const float time) const;
   int clampSegnum(const int q) const;
 
-  SbList <SbVec4f> ctrlpts;
-  SbList <float> segstarttimes;
-  SbList <float> segdurations;
-  SbList <float> seglens;
+  SbGuiList <SbVec4f> ctrlpts;
+  SbGuiList <float> segstarttimes;
+  SbGuiList <float> segdurations;
+  SbGuiList <float> seglens;
 
   SbBool needinit;
   SbBool loop;

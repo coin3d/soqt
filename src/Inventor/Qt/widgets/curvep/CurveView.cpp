@@ -217,6 +217,7 @@ CurveView::contentsMouseMoveEvent(QMouseEvent* e)
           float w0 = (x1 - float(i)) / dx;
           float w1 = (float(i) - x0) / dx;
           int y = int(w0 * y0 + w1 * y1 + 0.5f);
+          // clamp
           if (y > this->maxval) y = this->maxval;
           if (y < 0) y = 0;
           this->colorcurves[this->colorindex]->setColorMapping(i, this->maxval-y);
@@ -307,7 +308,7 @@ CurveView::newControlPoint(int x, int y)
     = new QCanvasRectangle(x-this->ptsize, y-this->ptsize,
                            this->ptsize*2, this->ptsize*2,
                            this->canvas);
-  rect->setZ(2); // the control points will be on top of the curve
+  rect->setZ(2); // the control points will be drawn on top of the curve
   rect->show();
   return rect;
 }
@@ -421,8 +422,7 @@ CurveView::interpolateFromColors()
     this->canvasctrlpts[i].clear();
     for (int j = 0; j < this->colorcurves[i]->getNumCtrlPoints(); j++) {
       this->canvasctrlpts[i].append(
-        this->newControlPoint(ctrlpts[j][0] * this->maxval, this->maxval - ctrlpts[j][1] * this->maxval)
-        );
+        this->newControlPoint(ctrlpts[j][0] * this->maxval, this->maxval - ctrlpts[j][1] * this->maxval));
     }
   }
 }

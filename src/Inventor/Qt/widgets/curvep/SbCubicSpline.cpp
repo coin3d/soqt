@@ -196,9 +196,9 @@ SbCubicSpline::initialize(void)
           "point [\n");
           
 
-  for (int i = 0; i < 400; i++) {
+  for (int i = 0; i < this->approxcount; i++) {
             
-    SbVec3f p = this->getPoint(float(i)/float(400));
+    SbVec3f p = this->getPoint(float(i)/float(this->approxcount));
     myfprintf(stdout, "%g %g %g,\n", p[0], p[1], p[2]); 
     myfprintf(stderr,"currseg: %d\n", this->currsegment);
   }
@@ -264,9 +264,7 @@ SbCubicSpline::initMatrix(const int q, SbMatrix & m)
 int 
 SbCubicSpline::getSegmentInfo(const float t, float & segt) const
 {
-  if (t > 1.0f) {
-    assert(0);
-  }
+  assert(t > 1.0f);
   int segnum = this->getSegnum(t);
   segt = t - this->segstarttimes[segnum];
   segt /= this->segdurations[segnum];

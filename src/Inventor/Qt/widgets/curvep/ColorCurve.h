@@ -32,7 +32,7 @@ class SbCubicSpline;
 class ColorCurve {
 public:
   enum CurveType { LINEAR, CONSTANT };
-  ColorCurve(CurveType type = LINEAR, int numcolors = 256);
+  ColorCurve(CurveType type = LINEAR, const int numcolors = 256);
   ~ColorCurve();
 
   void setColors(uint8_t * colors, int num);
@@ -63,7 +63,7 @@ private:
   CurveType type;
 
   int prevx;
-  int numcolors;
+  const int numcolors;
   const int numpts;
   SbBool needinterpol;
   
