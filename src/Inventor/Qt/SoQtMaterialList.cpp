@@ -17,10 +17,10 @@
  *
  **************************************************************************/
 
-#if SOXT_DEBUG
+#if SOQT_DEBUG
 static const char rcsid[] =
   "$Id$";
-#endif // SOXT_DEBUG
+#endif // SOQT_DEBUG
 
 #include <qmetaobject.h>
 #include <moc_SoQtMaterialList.cpp>
@@ -419,7 +419,7 @@ SoQtMaterialList::buildPulldownMenu(// protected
 
 // *************************************************************************
 
-#if SOXT_DEBUG
+#if SOQT_DEBUG
 static const char * getSoQtMaterialListRCSId(void) { return rcsid; }
-#endif // SOXT_DEBUG
+#endif // SOQT_DEBUG
 
