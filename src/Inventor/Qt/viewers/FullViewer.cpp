@@ -762,11 +762,6 @@ SoQtFullViewer::sizeChanged(const SbVec2s & size)
 
 #endif 
 
-// Remember to test if the problem above has been fixed in next Qt version(s)
-#if (defined Q_WS_MAC && QT_VERSION > 0x030101) 
-#error Qt/Mac 3.1.1 OpenGL canvas bug fixed in this version? Need to check. 
-#endif   
-
   newsize = SbVec2s(SoQtMax(newsize[0], (short)1),
                     SoQtMax(newsize[1], (short)1));
 
