@@ -1131,6 +1131,20 @@ SoQtComponent::setWidgetCursor(QWidget * w, const SoQtCursor & cursor)
       break;
     }
   }
+
+  // QWidget::setCursor() doesn't have an immediate effect with Qt/Win
+  // if the cursor is already positioned over the widget -- and won't
+  // change until the cursor position is moved. This is at least true
+  // for Qt version 2.1.1.
+  //
+  // The code below is a simple work-around for this problem -- we
+  // just offset the cursor position by a single pixel. There might be
+  // a better way to get around the problem, but this seems easy
+  // enough.
+  //                                                        mortene
+  QPoint p = w->cursor().pos();
+  p.setX(p.x() + 1);
+  w->cursor().setPos(p);
 }
 
 // *************************************************************************
