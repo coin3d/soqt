@@ -308,7 +308,7 @@ SoQtP::soqt_instance(void)
 int
 SoQtP::X11Errorhandler(void * d, void * ee)
 {
-#ifdef Q_WS_X11
+#if defined(Q_WS_X11)
 
   // This is a hack provided for one of our Coin PEL holders, to
   // silence X11 error output from some erroneous Qt code.
@@ -341,6 +341,7 @@ SoQtP::X11Errorhandler(void * d, void * ee)
 
   SbString instructions = "";
   if (! SoQtP::DEBUG_X11SYNC) {
+#ifdef __COIN__
     instructions.sprintf("Set environment variable %s to \"1\" and "
                          "re-run the application in a debugger with a "
                          "breakpoint set on SoQtP::X11Errorhandler() to get a "
@@ -349,6 +350,15 @@ SoQtP::X11Errorhandler(void * d, void * ee)
                      "e-mail to <coin-bugs@coin3d.org> along with the "
                      "backtrace. ",
                          SoQtP::SOQT_XSYNC);
+#else // __COIN__
+    instructions = "Set environment variable SOQT_XSYNC to \"1\" and "
+                         "re-run the application in a debugger with a "
+                         "breakpoint set on SoQtP::X11Errorhandler() to get a "
+                         "valid backtrace. "
+                     "Then please forward the following information in an "
+                     "e-mail to <coin-bugs@coin3d.org> along with the "
+                     "backtrace. ";
+#endif // ! __COIN__
   }
 
   SoDebugError::post("SoQtP::X11Errorhandler",
