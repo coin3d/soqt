@@ -87,6 +87,9 @@
 /* Define if you have the <windows.h> header file. */
 #undef HAVE_WINDOWS_H
 
+/* define if it is possible to build against X11 */
+#undef HAVE_X11_AVAILABLE
+
 /* Define if you have the <X11/extensions/SGIMisc.h> header file. */
 #undef HAVE_X11_EXTENSIONS_SGIMISC_H
 

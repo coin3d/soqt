@@ -2,8 +2,8 @@
 # SoQt/configure.in
 
 m4_define([MAJOR_VERSION], [0])
-m4_define([MINOR_VERSION], [9])
-m4_define([MICRO_VERSION], [99])
+m4_define([MINOR_VERSION], [10])
+m4_define([MICRO_VERSION], [0])
 m4_define([VERSION_STRING], [MAJOR_VERSION.MINOR_VERSION.MICRO_VERSION])
 
 AC_INIT([SoQt], [VERSION_STRING])
@@ -189,9 +189,9 @@ SIM_AC_SETUP_MSVC_IFELSE([], [
 #
 # **************************************************************************
 
-SOQT_MAJOR_VERSION=0
-SOQT_MINOR_VERSION=9
-SOQT_MICRO_VERSION=99
+SOQT_MAJOR_VERSION=MAJOR_VERSION
+SOQT_MINOR_VERSION=MINOR_VERSION
+SOQT_MICRO_VERSION=MICRO_VERSION
 SOQT_VERSION=$SOQT_MAJOR_VERSION.$SOQT_MINOR_VERSION.$SOQT_MICRO_VERSION
 VERSION=$SOQT_VERSION
 
@@ -201,9 +201,9 @@ AC_SUBST(SOQT_MICRO_VERSION)
 AC_SUBST(SOQT_VERSION)
 
 # Libtool versioning
-LT_CURRENT=$SOQT_MAJOR_VERSION
-LT_AGE=0
-LT_REVISION=`expr $SOQT_MINOR_VERSION \* 100 + $SOQT_MICRO_VERSION`
+LT_CURRENT=`expr $SOQT_MAJOR_VERSION \* 20 + $SOQT_MINOR_VERSION`
+LT_AGE=$SOQT_MINOR_VERSION
+LT_REVISION=$SOQT_MICRO_VERSION
 
 AC_SUBST(LT_CURRENT)
 AC_SUBST(LT_REVISION)
@@ -250,23 +250,24 @@ if $BUILD_WITH_MSVC; then
   RANLIB=:
 else
   AC_PROG_LIBTOOL
-
-  case "$host_os" in
-  irix*)
-    # should really test if $CC = CC
-    if test x"${AR+set}" != x"set"; then
-      if test x"$CXX" = xCC; then
-        echo "modifying libtool"
-        mv libtool libtool.orig
-        sed -e 's/\\\$AR cru/CC -ar -o/' <libtool.orig >libtool
-        chmod 755 libtool
-        rm -f libtool.orig
-      fi
-    fi
-    ;;
-  esac
 fi
 
+# #   case "$host_os" in
+#   irix*)
+#     # should really test if $CC = CC
+#     if test x"${AR+set}" != x"set"; then
+#       if test x"$CXX" = xCC; then
+#         echo "modifying libtool"
+#         mv libtool libtool.orig
+#         sed -e 's/\\\$AR cru/CC -ar -o/' <libtool.orig >libtool
+#         chmod 755 libtool
+#         rm -f libtool.orig
+#       fi
+#     fi
+#     ;;
+#   esac
+# fi
+# 
 
 # fix some mess created by AC_PROG_LIBTOOL
 AC_LANG(C)
