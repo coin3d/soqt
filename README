@@ -9,5 +9,5 @@ The library is released publicly under the GNU Lesser General Public
 License and is also available for proprietary use under a Professional
 Edition license.
 
-SoQt is supported on both UNIX and Win32 platforms.
+SoQt is supported on UNIX, Win32 and Mac OS X platforms.
 
