@@ -149,9 +149,7 @@ sogui_build_dir = @sogui_build_dir@
 sogui_html_dir = @sogui_html_dir@
 sogui_man_dir = @sogui_man_dir@
 sogui_src_dir = @sogui_src_dir@
-soqt_configure_date = @soqt_configure_date@
 soqtincludedir = @soqtincludedir@
-win_srcdir = @win_srcdir@
 
 SoGui_BuiltFiles = \
   $(top_builddir)/sogui.doxygen \
@@ -305,7 +303,7 @@ SoGuiAllBuiltFiles = \
 
 
 SoGuiCommonDistFiles = \
-  LICENSE.LGPL \
+  LICENSE.GPL \
   HACKING \
   \
   cfg/m4/errors.txt \
@@ -375,7 +373,6 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/viewers/SoGuiPlaneViewerP.h.in \
   src/Inventor/@Gui@/common/viewers/SoGuiViewer.cpp.in \
   src/Inventor/@Gui@/common/viewers/SoGuiViewer.h.in \
-  src/Inventor/@Gui@/common/pixmaps/help.xpm \
   src/Inventor/@Gui@/common/pixmaps/home.xpm \
   src/Inventor/@Gui@/common/pixmaps/ortho.xpm \
   src/Inventor/@Gui@/common/pixmaps/perspective.xpm \
@@ -425,7 +422,6 @@ CLEANFILES = \
 
 DISTCLEANFILES = \
 	libtool \
-	build/so@gui@.spec \
 	$(SoGui_BuiltFiles) \
 	$(SoGui_BuiltMetaFiles)
 
@@ -451,7 +447,6 @@ EXTRA_DIST = \
 	README.WIN32 \
 	README.MAC \
 	Info.plist \
-	build/soqt.spec.in \
 	cfg/m4/soqt.m4 \
 	models/coin_soqt.iv \
 	models/coin_soqt.wrl \
@@ -470,7 +465,7 @@ subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/src/config.h
-CONFIG_CLEAN_FILES = soqt-$CONFIG.cfg build/soqt.spec
+CONFIG_CLEAN_FILES = soqt-$CONFIG.cfg
 SCRIPTS = $(bin_SCRIPTS)
 
 DIST_SOURCES =
@@ -517,8 +512,6 @@ $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ configure.ac cfg/m4/changesonly.m4 cfg/m4/
 	cd $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 soqt-$CONFIG.cfg: $(top_builddir)/config.status $(top_srcdir)/src/Inventor/Qt/common/sogui.cfg.in
 	cd $(top_builddir) && CONFIG_FILES=$@:src/Inventor/Qt/common/sogui.cfg.in CONFIG_HEADERS= CONFIG_LINKS= $(SHELL) ./config.status
-build/soqt.spec: $(top_builddir)/config.status $(top_srcdir)/build/soqt.spec.in
-	cd $(top_builddir) && CONFIG_FILES=$@ CONFIG_HEADERS= CONFIG_LINKS= $(SHELL) ./config.status
 install-binSCRIPTS: $(bin_SCRIPTS)
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(bindir)
@@ -696,7 +689,7 @@ GZIP_ENV = --best
 distdir: $(DISTFILES)
 	-chmod -R a+w $(distdir) >/dev/null 2>&1; rm -rf $(distdir)
 	mkdir $(distdir)
-	$(mkinstalldirs) $(distdir)/build $(distdir)/cfg $(distdir)/cfg/m4 $(distdir)/models $(distdir)/packaging/windows $(distdir)/src/Inventor/@Gui@/common $(distdir)/src/Inventor/@Gui@/common/devices $(distdir)/src/Inventor/@Gui@/common/pixmaps $(distdir)/src/Inventor/@Gui@/common/viewers $(distdir)/src/Inventor/@Gui@/common/widgets $(distdir)/src/Inventor/Qt/common $(distdir)/test-code $(distdir)/test-code/components
+	$(mkinstalldirs) $(distdir)/cfg $(distdir)/cfg/m4 $(distdir)/models $(distdir)/packaging/windows $(distdir)/src/Inventor/@Gui@/common $(distdir)/src/Inventor/@Gui@/common/devices $(distdir)/src/Inventor/@Gui@/common/pixmaps $(distdir)/src/Inventor/@Gui@/common/viewers $(distdir)/src/Inventor/@Gui@/common/widgets $(distdir)/src/Inventor/Qt/common $(distdir)/test-code $(distdir)/test-code/components
 	@for file in $(DISTFILES); do \
 	  if test -f $$file; then d=.; else d=$(srcdir); fi; \
 	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \

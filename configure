@@ -10855,6 +10855,7 @@ if test x"$with_pthread" != xno; then
     sim_ac_pthread_cppflags="-I${with_pthread}/include"
     sim_ac_pthread_ldflags="-L${with_pthread}/lib"
   fi
+  sim_ac_pthread_cppflags="-D_REENTRANT ${sim_ac_pthread_cppflags}"
   sim_ac_pthread_libs="-lpthread"
 
   sim_ac_save_cppflags=$CPPFLAGS
@@ -15291,19 +15292,8 @@ fi
   # also use them from "parent" code (remember that their interfaces
   # is not exposed from the DLL) without any fuss.
   SOGUI_EXTRA_LIBS="-lsoqt$SOQT_MAJOR_VERSION$SUFFIX $SOGUI_EXTRA_LIBS"
-
-  # For build/soqt.nsi
-  win_srcdir=`cd $srcdir; pwd`
-  win_srcdir=`cygpath -w "$srcdir" | sed 's,\\\\,\\\\\\\\,g'`
-
 else
   SOGUI_EXTRA_LIBS="-lSoQt$SUFFIX $SOGUI_EXTRA_LIBS"
-
-  # For the build/soqt.spec RPM specification file.
-
-  eval "soqt_configure_date=\"`date +%Y%m%d`\""
-
-
 
   if $sim_ac_framework; then
     # setup for SoQt usage
@@ -15343,7 +15333,7 @@ fi
 # script -- not just from the Makefile -- as the data/configure script
 # depends on it. (data/configure is temporarily disabled, BTW, but anyway..)
 
-ac_config_files="$ac_config_files soqt-$CONFIG.cfg:src/Inventor/Qt/common/sogui.cfg.in Makefile src/Makefile src/Inventor/Makefile src/Inventor/Qt/Makefile src/Inventor/Qt/devices/Makefile src/Inventor/Qt/viewers/Makefile src/Inventor/Qt/widgets/Makefile man/Makefile man/man1/Makefile man/man3/Makefile html/Makefile build/soqt.spec"
+ac_config_files="$ac_config_files soqt-$CONFIG.cfg:src/Inventor/Qt/common/sogui.cfg.in Makefile src/Makefile src/Inventor/Makefile src/Inventor/Qt/Makefile src/Inventor/Qt/devices/Makefile src/Inventor/Qt/viewers/Makefile src/Inventor/Qt/widgets/Makefile man/Makefile man/man1/Makefile man/man3/Makefile html/Makefile"
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
 # tests run on this system so they can be shared between configure
@@ -15838,7 +15828,6 @@ do
   "man/man1/Makefile" ) CONFIG_FILES="$CONFIG_FILES man/man1/Makefile" ;;
   "man/man3/Makefile" ) CONFIG_FILES="$CONFIG_FILES man/man3/Makefile" ;;
   "html/Makefile" ) CONFIG_FILES="$CONFIG_FILES html/Makefile" ;;
-  "build/soqt.spec" ) CONFIG_FILES="$CONFIG_FILES build/soqt.spec" ;;
   "default-1" ) CONFIG_COMMANDS="$CONFIG_COMMANDS default-1" ;;
   "src/config.h" ) CONFIG_HEADERS="$CONFIG_HEADERS src/config.h" ;;
   *) { { echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5
@@ -16049,8 +16038,6 @@ s,@COMPONENTHEADER@,$COMPONENTHEADER,;t t
 s,@LIBFLAGS@,$LIBFLAGS,;t t
 s,@BUILD_WITH_MSVC_TRUE@,$BUILD_WITH_MSVC_TRUE,;t t
 s,@BUILD_WITH_MSVC_FALSE@,$BUILD_WITH_MSVC_FALSE,;t t
-s,@win_srcdir@,$win_srcdir,;t t
-s,@soqt_configure_date@,$soqt_configure_date,;t t
 CEOF
 
 _ACEOF

@@ -5860,6 +5860,7 @@ if test x"$with_pthread" != xno; then
     sim_ac_pthread_cppflags="-I${with_pthread}/include"
     sim_ac_pthread_ldflags="-L${with_pthread}/lib"
   fi
+  sim_ac_pthread_cppflags="-D_REENTRANT ${sim_ac_pthread_cppflags}"
   sim_ac_pthread_libs="-lpthread"
 
   sim_ac_save_cppflags=$CPPFLAGS
@@ -5888,8 +5889,7 @@ if test x"$with_pthread" != xno; then
     $2
   fi
 fi
-])
-
+]) # SIM_AC_CHECK_PTHREAD
 
 
 # Usage:
@@ -7259,31 +7259,5 @@ exec_prefix=$sim_ac_save_exec_prefix
 # unset sim_ac_eval_item
 # unset sim_ac_eval_uniq
 ]) # SIM_AC_UNIQIFY_LIST
-
-
-# Usage:
-#  SIM_AC_DATE_ISO8601([variable])
-#  SIM_AC_DATE_RFC822([variable])
-#
-# Description:
-#   This macro sets the given variable to a strings representing
-#   the current date in the ISO8601-compliant format "YYYYMMDD" or in
-#   the RFC822-compliant format "Day, DD Mon YYYY HH:MM:SS +0X00".
-#
-# Authors:
-#   Morten Eriksen <mortene@sim.no>
-#   Lars J. Aas <larsa@sim.no>
-
-AC_DEFUN([SIM_AC_DATE_ISO8601], [
-  eval "$1=\"`date +%Y%m%d`\""
-])
-
-AC_DEFUN([SIM_AC_DATE_RFC822], [
-  eval "$1=\"`date '+%a, %d %b %Y %X %z'`\""
-])
-
-# old alias
-# AU_DEFUN([SIM_AC_ISO8601_DATE], [SIM_AC_DATE_ISO8601])
-AC_DEFUN([SIM_AC_ISO8601_DATE], [SIM_AC_DATE_ISO8601([$1])])
 
 

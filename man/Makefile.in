@@ -139,9 +139,7 @@ sogui_build_dir = @sogui_build_dir@
 sogui_html_dir = @sogui_html_dir@
 sogui_man_dir = @sogui_man_dir@
 sogui_src_dir = @sogui_src_dir@
-soqt_configure_date = @soqt_configure_date@
 soqtincludedir = @soqtincludedir@
-win_srcdir = @win_srcdir@
 
 @BUILD_MANPAGES_TRUE@MAN3DIR = man3
 @BUILD_MANPAGES_FALSE@MAN3DIR = 
