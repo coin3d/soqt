@@ -56,9 +56,12 @@ static const char RADIOBULLET_radiobulletgeometry[] =
 "\n";
 
 
-
 class RadioGroupKit : public SoInteractionKit {
   typedef SoBaseKit inherited;
+
+  friend class RadioGroupKitP;
+  class RadioGroupKitP * pimpl;
+
 
   SO_KIT_HEADER(RadioGroupKit);
   SO_KIT_CATALOG_ENTRY_HEADER(radioGroupRoot);
@@ -67,30 +70,22 @@ class RadioGroupKit : public SoInteractionKit {
   SO_KIT_CATALOG_ENTRY_HEADER(BulletColorActive);
   SO_KIT_CATALOG_ENTRY_HEADER(BulletColor);
 
-  int buttonCounter;
-  SbPList *buttonList;
-
-  static void buttonClickedCallback(void *userData, SoPath *node);
-
-
 public:
 
-  SoSeparator *root;
-
+  // Vars
   SoSFInt32 selected;
   SoMFString *labels;
-
   SoTranslation *buttonSpacingX;
   SoTranslation *buttonSpacingY;
 
   // Methods
   void addRadioButton(SbString label);
   
-  
   // Nodekit functions
   static void initClass();
   virtual SbBool affectsState() const;
-  
+
+  // Constructor
   RadioGroupKit(void);  
 
 

@@ -38,63 +38,15 @@ static const char RGBCUBE_draggergeometry[] =
 class RGBCubeEditorKit : public SoInteractionKit {
   typedef SoInteractionKit inherited;
 
+  friend class RGBCubeEditorKitP;
+  class RGBCubeEditorKitP * pimpl;
+
+
   SO_KIT_HEADER(RGBCubeEditorKit);
   SO_KIT_CATALOG_ENTRY_HEADER(RGBCubeRoot);
   SO_KIT_CATALOG_ENTRY_HEADER(DraggerX);
   SO_KIT_CATALOG_ENTRY_HEADER(DraggerY);
   SO_KIT_CATALOG_ENTRY_HEADER(DraggerZ);
-
-
-
-  // Vars
-  SoScale1Dragger *draggerX;             // RGB draggers
-  SoScale1Dragger *draggerY;
-  SoScale1Dragger *draggerZ;
-  SoMaterial *cubeMaterial;              // Rgb cube material
-  SoCoordinate3 *colorCubeCoords; 
-  SoIndexedFaceSet *cubeIndexedFacelist;
-  SoTransformSeparator *cubeRoot;
-  SoText2 *textRedValue;                 // Text on axis 
-  SoText2 *textGreenValue;
-  SoText2 *textBlueValue;
-  SoTranslation *colorIndicatorPosition; // Current color indicator 'o'
-  SbVec3f *cubeVertices;              
-  int32_t cubeVertexIndices[6*5];
-
-
-  // Internal methods
-  void initCubeFacelist(SoTransformSeparator *root, 
-			SbVec3f *cubeVertices,
-			SoCoordinate3 *colorCubeCoords,
-			int32_t *cubeVertexIndices,
-			SoMaterial *cubeMaterial);
-
-  void initCubeDraggers(SoSeparator *root, 
-			SoScale1Dragger *draggerX,
-			SoScale1Dragger *draggerY,
-			SoScale1Dragger *draggerZ,
-			SoDraggerCB *cb1, 
-			SoDraggerCB *cb2, 
-			SoDraggerCB *cb3,
-			float value1,float value2,float value3);
-
-  void updateCubeVertices(SoCoordinate3 *colorCubeCoords, 
-			  SoMaterial *cubeMaterial,
-			  float x,float y,float z); 
-
-  void modifyDraggerWidget(SoScale1Dragger *dragger);
-
-
-  // --- Methods called by callback statics
-  void updateColorValueText(float red, float green, float blue);
-
-
-  // --- Static Callbacks
-  static void mouseClickCallback(void *classObject, SoEventCallback *cb);
-  static void draggerXCallback(void *classObject,SoDragger *dragger);
-  static void draggerYCallback(void *classObject,SoDragger *dragger);
-  static void draggerZCallback(void *classObject,SoDragger *dragger);
-
 
 public:
 
@@ -107,11 +59,9 @@ public:
   float draggerXValue;
   float draggerYValue;
   float draggerZValue;
-  SoSeparator *root;                  // The root for this RgbCube
-
   SoMFColor rgb;
 
-  // Nodekit methods
+  // Methods
   void initRgbCube();
   void draggerCallback();
   static void initClass();
