@@ -218,7 +218,7 @@ dnl * do we want to compile the example programs?
 dnl *******************************************************************
 
 want_tests=no
-if "x${with_test_code+set}" = "xset"; then
+if test "x${with_test_code+set}" = "xset"; then
   want_tests=yes
 fi
 AM_CONDITIONAL(BUILD_TESTS, test x"$want_tests" = xyes)

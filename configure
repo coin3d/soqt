@@ -4049,7 +4049,7 @@ fi
 
 
 want_tests=no
-if "x${with_test_code+set}" = "xset"; then
+if test "x${with_test_code+set}" = "xset"; then
   want_tests=yes
 fi
 
