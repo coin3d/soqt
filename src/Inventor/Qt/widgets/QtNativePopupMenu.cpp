@@ -310,6 +310,8 @@ QtNativePopupMenu::_setMenuItemMarked(
     rec->flags &= ~ITEM_MARKED;
   if (rec->parent != NULL)
     rec->parent->setItemChecked(rec->itemid, marked ? true : false);
+  if (marked)
+    this->setRadioGroupMarkedItem(itemid);
 } // _setMenuItemMarked()
 
 /*!
