@@ -43,6 +43,11 @@ o If the OpenGL context overlaps the QSizeGrip in the lower right corner
   This bug is present in Qt/Mac 3.1.0 and 3.1.1, and is supposed to be 
   fixed in Qt/Mac 3.1.2. 
 
+  If you are using a newer snapshot of Qt/Mac 3.1.1 (after 20030121),
+  the problem should be fixed there. In this case, you can override the
+  workaround by setting the environment variable
+  FORCE_NO_QTMAC_31_RESIZE_WORKAROUND=1.  
+
 
 o Custom cursors do not work in Qt/Mac 3.1.x. Therefore, we display a
   standard "arrow" cursor. 
