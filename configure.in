@@ -222,6 +222,18 @@ AM_MAINTAINER_MODE
 AC_LANG_CPLUSPLUS
 AC_PROG_CXX
 
+case "$host_os" in
+  irix*)
+    if test x"${AR+set}" != x"set"; then
+      AR="CC -ar"
+      AR_FLAGS=
+      export AR AR_FLAGS
+    fi
+    echo "overriding the libtool '\$AR' setting with 'CC -ar'"
+    ;;
+  *) ;;
+esac
+
 # Initialize libtool
 AC_PROG_LIBTOOL
 
