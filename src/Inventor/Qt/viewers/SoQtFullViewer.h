@@ -148,6 +148,9 @@ protected:
   char * bottomWheelStr;
   float bottomWheelVal;
 
+  SoAnyPopupMenu * prefmenu;
+
+
 private:
   QWidget * makePreferencesWindow(void);
   QWidget * makeSeekPreferences(QWidget * parent);
@@ -155,43 +158,14 @@ private:
   QWidget * makeZoomPreferences(QWidget * parent);
   QWidget * makeAutoclipPreferences(QWidget * parent);
 
-  QWidget * viewerwidget, * canvas;
-  QWidget * interactbutton, * viewbutton;
-
-  SbBool decorations;
-
-  SbString menutitle;
-  SoAnyPopupMenu * prefmenu;
-  SbBool menuenabled;
-
-  QLayout * mainlayout;
   void showDecorationWidgets(SbBool onOff);
 
-  QLayout * appbuttonlayout;
-  QWidget * appbuttonform;
-  SbPList * appbuttonlist;
   void layoutAppButtons(QWidget * form);
-
-  SbPList * viewerbuttons;
-
-  QWidget * prefwindow;
-  SbString prefwindowtitle;
-
-  QSlider * zoomslider;
-  QLineEdit * zoomfield, * zoomrangefrom, * zoomrangeto;
-  SbVec2f zoomrange;
 
   void setCameraZoom(const float zoom);
   float getCameraZoom(void);
   void setZoomSliderPosition(float zoom);
   void setZoomFieldString(float zoom);
-
-  SoQtThumbWheel * seekdistancewheel;
-  QLineEdit * seekdistancefield;
-
-  QLabel * nearclippinglabel, * farclippinglabel;
-  SoQtThumbWheel * nearclippingwheel, * farclippingwheel;
-  QLineEdit * nearclippingedit, * farclippingedit;
 
   void setEnabledClippingWidgets(SbBool flag);
 
@@ -249,7 +223,8 @@ private slots:
   void decreaseInteractiveCount();
 
 private:
-  SoAnyFullViewer * const common;
+  SoAnyFullViewer * common;
+  class SoQtFullViewerP * pimpl;
 
 }; // class SoQtFullViewer
 
