@@ -45,10 +45,14 @@ SoQtViewer::processCommonEvents(
     return TRUE;
 
   SbBool keypress = (event->type() == Event_KeyPress);
-#if QT_VERSION >= 200
-  keypress = keypress || (event->type() == QEvent::Accel);
-#endif // Qt v2.0
 
+#if QT_VERSION >= 200
+  // Qt 2 introduced "accelerator" type keyboard events. They should
+  // be handled by SoQtGLWidget (that is: ignored), so we should
+  // never see any accelerator events here.
+  assert(event->type() != QEvent::Accel &&
+         event->type() != QEvent::AccelAvailable);
+#endif // Qt v2.0
 
   // ESC => toggle viewer between interact and examine mode
   if ( keypress && ((QKeyEvent *) event)->key() == Key_Escape ) {

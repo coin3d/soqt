@@ -177,56 +177,83 @@ bool
 SoQtGLWidget::eventFilter(QObject * obj, QEvent * e)
 {
 
-#if 0 // debug
+#if 1 // debug
   SoDebugError::postInfo("SoQtGLWidget::eventFilter", "obj: %p", obj);
+
+  const char eventnaming[][50] = {
+    "None", // 0
+    "Timer",
+    "MouseButtonPress",
+    "MouseButtonRelease",
+    "MouseButtonDblClick",
+    "MouseMove",
+    "KeyPress",
+    "KeyRelease",
+    "FocusIn",
+    "FocusOut",
+    "Enter",
+    "Leave",
+    "Paint",
+    "Move",
+    "Resize",
+    "Create",
+    "Destroy",
+    "Show",
+    "Hide",
+    "Close",
+    "Quit", // 20
+    "*error*", "*error*", "*error*", "*error*", "*error*",
+    "*error*", "*error*", "*error*", "*error*",
+    "Accel", // 30
+    "Wheel",
+    "AccelAvailable", // 32
+    "*error*", "*error*", "*error*", "*error*",
+    "*error*", "*error*", "*error*",
+    "Clipboard", // 40
+    "*error*", "*error*", "*error*", "*error*", "*error*",
+    "*error*", "*error*", "*error*", "*error*",
+    "SockAct", // 50
+    "*error*", "*error*", "*error*", "*error*", "*error*",
+    "*error*", "*error*", "*error*", "*error*",
+    "DragEnter", // 60
+    "DragMove",
+    "DragLeave",
+    "Drop",
+    "DragResponse", // 64
+    "*error*", "*error*", "*error*", "*error*", "*error*",
+    "ChildInserted", // 70
+    "ChildRemoved",
+    "LayoutHint", // 72
+    "*error*", "*error*", "*error*", "*error*", "*error*",
+    "*error*", "*error*",
+    "ActivateControl", // 80
+    "DeactivateControl"
+  };
+  
+  SoDebugError::postInfo("SoQtGLWidget::eventFilter", "%s",
+                         eventnaming[e->type()]);
 #endif // debug
 
-#if 0 // debug
-  switch (e->type()) {
-  case Event_MouseButtonPress:
-//      SoDebugError::postInfo("SoQtGLWidget::eventFilter", "button press");
-    break;
-  case Event_MouseButtonRelease:
-//      SoDebugError::postInfo("SoQtGLWidget::eventFilter", "button release");
-    break;
-  case Event_MouseButtonDblClick:
-//      SoDebugError::postInfo("SoQtGLWidget::eventFilter", "dbl click");
-    break;
-  case Event_MouseMove:
-//      SoDebugError::postInfo("SoQtGLWidget::eventFilter", "mousemove");
-    break;
-  case Event_Paint:
-    SoDebugError::postInfo("SoQtGLWidget::eventFilter", "paint");
-    break;
-  case Event_Resize:
-    SoDebugError::postInfo("SoQtGLWidget::eventFilter", "resize");
-    break;
-  case Event_FocusIn:
-  case Event_FocusOut:
-  case Event_Enter:
-  case Event_Leave:
-  case Event_Move:
-  case Event_LayoutHint:
-  case Event_ChildInserted:
-  case Event_ChildRemoved:
-    // ignored
-    break;
-  default:
-    SoDebugError::postInfo("SoQtGLWidget::eventFilter", "type %d", e->type());
-    break;
+#if QT_VERSION >= 200
+  // Qt 2 introduced "accelerator" type keyboard events, which should
+  // simply be ignored (all keyboard events are first attempted passed
+  // by the Qt event engine as accelerator events, before they are
+  // re-sent as "ordinary" keyboard events).
+  if (e->type() == QEvent::Accel || e->type() == QEvent::AccelAvailable) {
+    ((QKeyEvent *)e)->ignore();
+    // It might not matter whether we return TRUE or FALSE here, but
+    // it seems more natural to return FALSE according to the
+    // semantics of the eventFilter() method (FALSE means Qt should
+    // re-dispatch "normally").
+    return FALSE;
   }
-#endif // debug
+#endif // Qt v2.0
+
 
   SbBool stopevent = FALSE;
 
-
   SbBool keyboardevent =
     ( e->type() == Event_KeyPress) || (e->type() == Event_KeyRelease);
-#if QT_VERSION >= 200
-  // Qt 2 introduced "accelerator" type keyboard events.
-  keyboardevent = keyboardevent ||
-    (e->type() == QEvent::Accel) || (e->type() == QEvent::AccelAvailable);
-#endif // Qt v2.0
 
   if (keyboardevent) {
     // Redirect absolutely all keyboard events to the GL canvas

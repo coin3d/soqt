@@ -597,11 +597,17 @@ SoQtExaminerViewer::processEvent(QEvent * event)
     }
     break;
 
-  case Event_KeyPress:
 #if QT_VERSION >= 200
-  // Qt 2 introduced "accelerator" type keyboard events.
   case QEvent::Accel:
+  case QEvent::AccelAvailable:
+    // Qt 2 introduced "accelerator" type keyboard events. They should
+    // be handled by SoQtGLWidget (that is: ignored), so we should
+    // never see any accelerator events here.
+    assert(FALSE && "got accelerator event");
+    break;
 #endif // Qt v2.0
+
+  case Event_KeyPress:
     {
       QKeyEvent * ke = (QKeyEvent *)event;
       if (ke->key() == Key_Control)
@@ -610,10 +616,6 @@ SoQtExaminerViewer::processEvent(QEvent * event)
     break;
 
   case Event_KeyRelease:
-#if QT_VERSION >= 200
-  // Qt 2 introduced "accelerator" type keyboard events.
-  case QEvent::AccelAvailable:
-#endif // Qt v2.0
     {
       QKeyEvent * ke = (QKeyEvent *)event;
       if (ke->key() == Key_Control)

@@ -351,10 +351,17 @@ SoQtPlaneViewer::processEvent( // virtual
       break;
     }
 
-    case Event_KeyPress:
 #if QT_VERSION >= 200
-    case QEvent::Accel:
-#endif // Qt 2.0
+  case QEvent::Accel:
+  case QEvent::AccelAvailable:
+    // Qt 2 introduced "accelerator" type keyboard events. They should
+    // be handled by SoQtGLWidget (that is: ignored), so we should
+    // never see any accelerator events here.
+    assert(FALSE && "got accelerator event");
+    break;
+#endif // Qt v2.0
+
+    case Event_KeyPress:
       do {
         QKeyEvent * keyevent = (QKeyEvent *) event;
         if ( keyevent->key() == Key_Control ) {
@@ -365,9 +372,6 @@ SoQtPlaneViewer::processEvent( // virtual
       break;
 
     case Event_KeyRelease:
-#if QT_VERSION >= 200
-    case QEvent::AccelAvailable:
-#endif // Qt 2.0
       do {
         QKeyEvent * keyevent = (QKeyEvent *) event;
         if ( keyevent->key() == Key_Control ) {
