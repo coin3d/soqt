@@ -1,3 +1,6 @@
+#ifndef SOQT_DEVICEP_H
+#define SOQT_DEVICEP_H
+
 /**************************************************************************\
  *
  *  This file is part of the Coin family of 3D visualization libraries.
@@ -21,8 +24,9 @@
  *
 \**************************************************************************/
 
-#ifndef SOQT_DEVICEP_H
-#define SOQT_DEVICEP_H
+#ifndef SOQT_INTERNAL
+#error this is a private header file
+#endif /* !SOQT_INTERNAL */
 
 // *************************************************************************
 

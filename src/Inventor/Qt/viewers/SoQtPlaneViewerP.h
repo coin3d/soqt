@@ -1,3 +1,6 @@
+#ifndef SOQTPLANEVIEWERP_H
+#define SOQTPLANEVIEWERP_H
+
 /**************************************************************************\
  *
  *  This file is part of the Coin family of 3D visualization libraries.
@@ -21,8 +24,9 @@
  *
 \**************************************************************************/
 
-#ifndef SOQTPLANEVIEWERP_H
-#define SOQTPLANEVIEWERP_H
+#ifndef SOQT_INTERNAL
+#error this is a private header file
+#endif /* !SOQT_INTERNAL */
 
 #include <qobject.h>
 #include <Inventor/SbBasic.h>

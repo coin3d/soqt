@@ -1,3 +1,6 @@
+#ifndef SOQT_LINUXJOYSTICKP_H
+#define SOQT_LINUXJOYSTICKP_H
+
 /**************************************************************************\
  *
  *  This file is part of the Coin family of 3D visualization libraries.
@@ -21,8 +24,9 @@
  *
 \**************************************************************************/
 
-#ifndef SOQT_LINUXJOYSTICKP_H
-#define SOQT_LINUXJOYSTICKP_H
+#ifndef SOQT_INTERNAL
+#error this is a private header file
+#endif /* !SOQT_INTERNAL */
 
 #include <Inventor/SbBasic.h>
 #include <Inventor/events/SoButtonEvent.h>

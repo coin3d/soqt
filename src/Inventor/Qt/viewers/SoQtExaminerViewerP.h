@@ -1,3 +1,6 @@
+#ifndef SOQTEXAMINERVIEWERP_H
+#define SOQTEXAMINERVIEWERP_H
+
 /**************************************************************************\
  *
  *  This file is part of the Coin family of 3D visualization libraries.
@@ -21,8 +24,9 @@
  *
 \**************************************************************************/
 
-#ifndef SOQTEXAMINERVIEWERP_H
-#define SOQTEXAMINERVIEWERP_H
+#ifndef SOQT_INTERNAL
+#error this is a private header file
+#endif /* !SOQT_INTERNAL */
 
 #include <qobject.h>
 #include <Inventor/SbBasic.h>

@@ -1,3 +1,6 @@
+#ifndef SOQTFULLVIEWERP_H
+#define SOQTFULLVIEWERP_H
+
 /**************************************************************************\
  *
  *  This file is part of the Coin family of 3D visualization libraries.
@@ -21,8 +24,9 @@
  *
 \**************************************************************************/
 
-#ifndef SOQTFULLVIEWERP_H
-#define SOQTFULLVIEWERP_H
+#ifndef SOQT_INTERNAL
+#error this is a private header file
+#endif /* !SOQT_INTERNAL */
 
 #include "SoGuiFullViewerP.h"
 #include <qobject.h>
