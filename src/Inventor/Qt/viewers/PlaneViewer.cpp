@@ -156,18 +156,6 @@ SoQtPlaneViewer::~SoQtPlaneViewer()
 */
 
 void
-SoQtPlaneViewer::setViewing(SbBool enable)
-{
-  inherited::setViewing(enable);
-}
-
-// ************************************************************************
-
-/*!
-  FIXME: write doc
-*/
-
-void
 SoQtPlaneViewer::setCamera(SoCamera * camera)
 {
   if (camera) {
