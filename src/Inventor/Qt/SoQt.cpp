@@ -293,7 +293,7 @@ SoQt::mainLoop(void)
   // global QApplication object.
   qApp->installEventFilter(SoQt::soqt_instance());
 
-  qApp->exec();
+  (void) qApp->exec();
 }
 
 /*!
