@@ -25,6 +25,7 @@
 \**************************************************************************/
 
 #include <qwidget.h>
+#include "Gradient.h"
 
 class Gradient;
 class GradientView;
@@ -35,10 +36,10 @@ class GradientEditor : public QWidget
 {
   Q_OBJECT
 public:
-  GradientEditor(Gradient * grad = NULL, QWidget* parent=0, bool modal = FALSE, const char* name=0, WFlags f=0);
+  GradientEditor(const Gradient & grad, QWidget* parent=0, bool modal = FALSE, const char* name=0, WFlags f=0);
   ~GradientEditor();
 
-  void setGradient(Gradient * grad);
+  void setGradient(const Gradient & grad);
   const Gradient& getGradient(void) const;
   void resizeEvent(QResizeEvent *);
 
@@ -47,8 +48,8 @@ signals:
   void rejected(void);
 
 public slots:
-  void setMin(float min);
-  void setMax(float max);
+  void setMin(int min);
+  void setMax(int max);
   void updateValueLabels(void);
   void updateAll(void);
   void accept(void);
@@ -57,8 +58,7 @@ public slots:
 private:
   GradientView * gradView;
   QWidget * gradientWidget;
-  Gradient * grad;
-  QLabel * paramValue;
+  Gradient grad;
   QLabel * dataValue;
   QLabel * colorLabel;
   float min, max;
