@@ -171,6 +171,7 @@ AC_ARG_WITH(
 
 AC_SUBST(SUFFIX)
 
+# FIXME: what's this? *Comment* disabled code, for f*ck's sake! 20011011 mortene.
 # INSTALL_HEADER="\
 # INSTALL='\$(INSTALL_DATA)' \$(SHELL) \$(top_srcdir)/cfg/install-header"
 # AC_SUBST(INSTALL_HEADER)
@@ -617,8 +618,13 @@ AC_SUBST([HTML_DOC_DIR])
 
 # **************************************************************************
 # List all files configure shall automatically generate.
+#
+# Note that soxt-$CONFIG.cfg needs to be generated from the configure
+# script -- not just from the Makefile -- as the data/configure script
+# depends on it.
 
 AC_OUTPUT([
+	soqt-$CONFIG.cfg:src/Inventor/Qt/common/sogui.cfg.in
 	Makefile
 	src/Makefile
 	src/Inventor/Makefile

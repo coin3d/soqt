@@ -9,36 +9,36 @@ SUFFIXES = .cpp .h .m4 .in .o .lo .Plo .TPlo
 
 SUBDIRS = . src
 
-SoQtBuiltSources = \
-	src/soqtdefs.h \
-        src/Inventor/Qt/SoAny.h \
-        src/Inventor/Qt/SoAny.cpp \
-	src/Inventor/Qt/SoQtBasic.h \
-	src/Inventor/Qt/SoQtCursors.h \
-	src/Inventor/Qt/SoQtCursors.cpp \
-	src/Inventor/Qt/SoQtObject.h \
-	src/Inventor/Qt/SoQtObject.cpp \
-	src/Inventor/Qt/SoQtRenderArea.h \
-	src/Inventor/Qt/SoQtRenderArea.cpp \
-	src/Inventor/Qt/common/gl.h \
-	src/Inventor/Qt/devices/spwinput.h \
-	src/Inventor/Qt/devices/spwinput_x11.cpp \
-	src/Inventor/Qt/viewers/SoQtViewer.h \
-	src/Inventor/Qt/viewers/SoQtViewer.cpp \
-	src/Inventor/Qt/viewers/SoQtConstrainedViewer.h \
-	src/Inventor/Qt/viewers/SoQtConstrainedViewer.cpp \
-	src/Inventor/Qt/viewers/SoQtFlyViewer.h \
-	src/Inventor/Qt/viewers/SoQtFlyViewer.cpp \
-	src/Inventor/Qt/viewers/SoAnyFullViewer.h \
-	src/Inventor/Qt/viewers/SoAnyFullViewer.cpp \
-	src/Inventor/Qt/viewers/SoAnyExaminerViewer.h \
-	src/Inventor/Qt/viewers/SoAnyExaminerViewer.cpp \
-	src/Inventor/Qt/viewers/SoAnyPlaneViewer.h \
-	src/Inventor/Qt/viewers/SoAnyPlaneViewer.cpp \
-	src/Inventor/Qt/widgets/SoAnyThumbWheel.h \
-	src/Inventor/Qt/widgets/SoAnyThumbWheel.cpp \
-	src/Inventor/Qt/widgets/SoAnyPopupMenu.h \
-	src/Inventor/Qt/widgets/SoAnyPopupMenu.cpp
+So@Gui@BuiltSources = \
+	src/so@gui@defs.h \
+        src/Inventor/@Gui@/SoAny.h \
+        src/Inventor/@Gui@/SoAny.cpp \
+	src/Inventor/@Gui@/So@Gui@Basic.h \
+	src/Inventor/@Gui@/So@Gui@Cursors.h \
+	src/Inventor/@Gui@/So@Gui@Cursors.cpp \
+	src/Inventor/@Gui@/So@Gui@Object.h \
+	src/Inventor/@Gui@/So@Gui@Object.cpp \
+	src/Inventor/@Gui@/So@Gui@RenderArea.h \
+	src/Inventor/@Gui@/So@Gui@RenderArea.cpp \
+	src/Inventor/@Gui@/common/gl.h \
+	src/Inventor/@Gui@/devices/spwinput.h \
+	src/Inventor/@Gui@/devices/spwinput_x11.cpp \
+	src/Inventor/@Gui@/viewers/So@Gui@Viewer.h \
+	src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp \
+	src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.h \
+	src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp \
+	src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.h \
+	src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp \
+	src/Inventor/@Gui@/viewers/SoAnyFullViewer.h \
+	src/Inventor/@Gui@/viewers/SoAnyFullViewer.cpp \
+	src/Inventor/@Gui@/viewers/SoAnyExaminerViewer.h \
+	src/Inventor/@Gui@/viewers/SoAnyExaminerViewer.cpp \
+	src/Inventor/@Gui@/viewers/SoAnyPlaneViewer.h \
+	src/Inventor/@Gui@/viewers/SoAnyPlaneViewer.cpp \
+	src/Inventor/@Gui@/widgets/SoAnyThumbWheel.h \
+	src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp \
+	src/Inventor/@Gui@/widgets/SoAnyPopupMenu.h \
+	src/Inventor/@Gui@/widgets/SoAnyPopupMenu.cpp
 
 SoQtMocSources = \
 	src/Inventor/Qt/moc_SoQt.cpp \
@@ -69,90 +69,94 @@ SoQtMocSources = \
 	src/Inventor/Qt/widgets/moc_SoQtThumbWheel.cpp
 
 BUILT_SOURCES = \
-	$(SoQtBuiltSources) \
-	$(SoQtMocSources)
+	$(So@Gui@BuiltSources) \
+	$(So@Gui@MocSources)
 
 DISTCLEANFILES = \
 	libtool \
-	build/soqt.doxygen \
-	soqt-*.cfg
+	build/so@gui@.doxygen \
+	so@gui@-*.cfg
 
-dist_bin_SCRIPTS = soqt-config
+dist_bin_SCRIPTS = so@gui@-config
 
 m4datadir = $(datadir)/aclocal
-dist_m4data_DATA = cfg/m4/soqt.m4
+dist_m4data_DATA = cfg/m4/so@gui@.m4
 
 cfgdatadir = $(datadir)/Coin/conf
-cfgdata_DATA = soqt-@CONFIG@.cfg
+cfgdata_DATA = so@gui@-@CONFIG@.cfg
 
-soqt-@CONFIG@.cfg: $(srcdir)/soqt.cfg.in Makefile config.status
-	@$(SHELL) config.status --file=$@:soqt.cfg.in
+so@gui@-@CONFIG@.cfg: Makefile config.status $(srcdir)/src/Inventor/@Gui@/common/sogui.cfg.in
+	@$(SHELL) config.status --file=$@:$(srcdir)/src/Inventor/@Gui@/common/sogui.cfg.in
+
+so@gui@-config: Makefile config.status $(srcdir)/src/Inventor/@Gui@/common/sogui-config.in
+	@$(SHELL) config.status --file=$@:$(srcdir)/src/Inventor/@Gui@/common/sogui-config.in
 
 EXTRA_DIST = \
 	LICENSE.LGPL \
 	README.DLL \
 	README.IRIX \
 	README.WIN32 \
-	soqt.cfg.in \
-	build/soqt.doxygen.in \
-	build/soqt.spec.in \
+	$(srcdir)/src/Inventor/@Gui@/common/sogui.cfg.in \
+	$(srcdir)/src/Inventor/@Gui@/common/sogui-config.in \
+	build/so@gui@.doxygen.in \
+	build/so@gui@.spec.in \
 	cfg/ltconfig \
 	cfg/doxy4win.pl \
 	cfg/m4/wrapmsvc.cpp \
 	cfg/m4/wrapmsvc.exe \
 	models/coin_soqt.iv \
 	models/coin_soqt.wrl \
-	src/Inventor/Qt/common/ChangeLog \
-	src/Inventor/Qt/common/SoGuiBasic.h.in \
-	src/Inventor/Qt/common/SoGuiCursors.h.in \
-	src/Inventor/Qt/common/SoGuiCursors.cpp.in \
-	src/Inventor/Qt/common/SoGuiObject.h.in \
-	src/Inventor/Qt/common/SoGuiObject.cpp.in \
-	src/Inventor/Qt/common/SoGuiRenderArea.h.in \
-	src/Inventor/Qt/common/SoGuiRenderArea.cpp.in \
-	src/Inventor/Qt/common/SoGuiViewer.h.in \
-	src/Inventor/Qt/common/SoGuiViewer.cpp.in \
-	src/Inventor/Qt/common/SoGuiConstrainedViewer.h.in \
-	src/Inventor/Qt/common/SoGuiConstrainedViewer.cpp.in \
-	src/Inventor/Qt/common/SoGuiFlyViewer.h.in \
-	src/Inventor/Qt/common/SoGuiFlyViewer.cpp.in \
-	src/Inventor/Qt/common/SoAny.h.in \
-	src/Inventor/Qt/common/SoAny.cpp.in \
-	src/Inventor/Qt/common/SoAnyPopupMenu.h.in \
-	src/Inventor/Qt/common/SoAnyPopupMenu.cpp.in \
-	src/Inventor/Qt/common/SoAnyThumbWheel.h.in \
-	src/Inventor/Qt/common/SoAnyThumbWheel.cpp.in \
-	src/Inventor/Qt/common/SoAnyFullViewer.h.in \
-	src/Inventor/Qt/common/SoAnyFullViewer.cpp.in \
-	src/Inventor/Qt/common/SoAnyExaminerViewer.h.in \
-	src/Inventor/Qt/common/SoAnyExaminerViewer.cpp.in \
-	src/Inventor/Qt/common/SoAnyPlaneViewer.h.in \
-	src/Inventor/Qt/common/SoAnyPlaneViewer.cpp.in \
-	src/Inventor/Qt/common/SoAnyConstrainedViewer.h.in \
-	src/Inventor/Qt/common/SoAnyConstrainedViewer.cpp.in \
-	src/Inventor/Qt/common/SoAnyWalkViewer.h.in \
-	src/Inventor/Qt/common/SoAnyWalkViewer.cpp.in \
-	src/Inventor/Qt/common/SoAnyFlyViewer.h.in \
-	src/Inventor/Qt/common/SoAnyFlyViewer.cpp.in \
-	src/Inventor/Qt/common/SoAnyMaterialList.h.in \
-	src/Inventor/Qt/common/SoAnyMaterialList.cpp.in \
-	src/Inventor/Qt/common/SoAnyMaterialListBuiltins.cpp.in \
-	src/Inventor/Qt/common/gl.h.in \
-	src/Inventor/Qt/common/soguidefs.h.in \
-	src/Inventor/Qt/common/spwinput.h.in \
-	src/Inventor/Qt/common/spwinput_x11.cpp.in \
-	src/Inventor/Qt/common/pixmaps/help.xpm \
-	src/Inventor/Qt/common/pixmaps/home.xpm \
-	src/Inventor/Qt/common/pixmaps/ortho.xpm \
-	src/Inventor/Qt/common/pixmaps/perspective.xpm \
-	src/Inventor/Qt/common/pixmaps/pick.xpm \
-	src/Inventor/Qt/common/pixmaps/seek.xpm \
-	src/Inventor/Qt/common/pixmaps/set_home.xpm \
-	src/Inventor/Qt/common/pixmaps/view.xpm \
-	src/Inventor/Qt/common/pixmaps/view_all.xpm \
-	src/Inventor/Qt/common/pixmaps/x.xpm \
-	src/Inventor/Qt/common/pixmaps/y.xpm \
-	src/Inventor/Qt/common/pixmaps/z.xpm \
+	src/Inventor/@Gui@/common/ChangeLog \
+	src/Inventor/@Gui@/common/SoGuiBasic.h.in \
+	src/Inventor/@Gui@/common/SoGuiCursors.h.in \
+	src/Inventor/@Gui@/common/SoGuiCursors.cpp.in \
+	src/Inventor/@Gui@/common/SoGuiObject.h.in \
+	src/Inventor/@Gui@/common/SoGuiObject.cpp.in \
+	src/Inventor/@Gui@/common/SoGuiRenderArea.h.in \
+	src/Inventor/@Gui@/common/SoGuiRenderArea.cpp.in \
+	src/Inventor/@Gui@/common/SoGuiViewer.h.in \
+	src/Inventor/@Gui@/common/SoGuiViewer.cpp.in \
+	src/Inventor/@Gui@/common/SoGuiConstrainedViewer.h.in \
+	src/Inventor/@Gui@/common/SoGuiConstrainedViewer.cpp.in \
+	src/Inventor/@Gui@/common/SoGuiFlyViewer.h.in \
+	src/Inventor/@Gui@/common/SoGuiFlyViewer.cpp.in \
+	src/Inventor/@Gui@/common/SoAny.h.in \
+	src/Inventor/@Gui@/common/SoAny.cpp.in \
+	src/Inventor/@Gui@/common/SoAnyPopupMenu.h.in \
+	src/Inventor/@Gui@/common/SoAnyPopupMenu.cpp.in \
+	src/Inventor/@Gui@/common/SoAnyThumbWheel.h.in \
+	src/Inventor/@Gui@/common/SoAnyThumbWheel.cpp.in \
+	src/Inventor/@Gui@/common/SoAnyFullViewer.h.in \
+	src/Inventor/@Gui@/common/SoAnyFullViewer.cpp.in \
+	src/Inventor/@Gui@/common/SoAnyExaminerViewer.h.in \
+	src/Inventor/@Gui@/common/SoAnyExaminerViewer.cpp.in \
+	src/Inventor/@Gui@/common/SoAnyPlaneViewer.h.in \
+	src/Inventor/@Gui@/common/SoAnyPlaneViewer.cpp.in \
+	src/Inventor/@Gui@/common/SoAnyConstrainedViewer.h.in \
+	src/Inventor/@Gui@/common/SoAnyConstrainedViewer.cpp.in \
+	src/Inventor/@Gui@/common/SoAnyWalkViewer.h.in \
+	src/Inventor/@Gui@/common/SoAnyWalkViewer.cpp.in \
+	src/Inventor/@Gui@/common/SoAnyFlyViewer.h.in \
+	src/Inventor/@Gui@/common/SoAnyFlyViewer.cpp.in \
+	src/Inventor/@Gui@/common/SoAnyMaterialList.h.in \
+	src/Inventor/@Gui@/common/SoAnyMaterialList.cpp.in \
+	src/Inventor/@Gui@/common/SoAnyMaterialListBuiltins.cpp.in \
+	src/Inventor/@Gui@/common/gl.h.in \
+	src/Inventor/@Gui@/common/soguidefs.h.in \
+	src/Inventor/@Gui@/common/spwinput.h.in \
+	src/Inventor/@Gui@/common/spwinput_x11.cpp.in \
+	src/Inventor/@Gui@/common/pixmaps/help.xpm \
+	src/Inventor/@Gui@/common/pixmaps/home.xpm \
+	src/Inventor/@Gui@/common/pixmaps/ortho.xpm \
+	src/Inventor/@Gui@/common/pixmaps/perspective.xpm \
+	src/Inventor/@Gui@/common/pixmaps/pick.xpm \
+	src/Inventor/@Gui@/common/pixmaps/seek.xpm \
+	src/Inventor/@Gui@/common/pixmaps/set_home.xpm \
+	src/Inventor/@Gui@/common/pixmaps/view.xpm \
+	src/Inventor/@Gui@/common/pixmaps/view_all.xpm \
+	src/Inventor/@Gui@/common/pixmaps/x.xpm \
+	src/Inventor/@Gui@/common/pixmaps/y.xpm \
+	src/Inventor/@Gui@/common/pixmaps/z.xpm \
 	test-code/README \
 	test-code/components/scrollview.cpp \
 	test-code/components/tripleview.cpp
@@ -161,7 +165,7 @@ EXTRA_DIST = \
 # so the sources are actually built.
 
 # this messes up "make distclean"
-# Makefile: $(SoQtBuiltSources)
+# Makefile: $(So@Gui@BuiltSources)
 
 # Target which is present to make it simple to only generate all the source
 # files from the common sources.
@@ -170,128 +174,128 @@ built-sources: $(BUILT_SOURCES)
 
 # **************************************************************************
 
-src/soqtdefs.h: $(srcdir)/src/Inventor/Qt/common/soguidefs.h.in config.status
-	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/soguidefs.h.in
+src/so@gui@defs.h: $(srcdir)/src/Inventor/@Gui@/common/soguidefs.h.in config.status
+	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/soguidefs.h.in
 
-src/Inventor/Qt/SoAny.h: \
-  $(srcdir)/src/Inventor/Qt/common/SoAny.h.in config.status
-	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoAny.h.in
+src/Inventor/@Gui@/SoAny.h: \
+  $(srcdir)/src/Inventor/@Gui@/common/SoAny.h.in config.status
+	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/SoAny.h.in
 
-src/Inventor/Qt/SoAny.cpp: \
-  $(srcdir)/src/Inventor/Qt/common/SoAny.cpp.in config.status
-	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoAny.cpp.in
+src/Inventor/@Gui@/SoAny.cpp: \
+  $(srcdir)/src/Inventor/@Gui@/common/SoAny.cpp.in config.status
+	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/SoAny.cpp.in
 
-src/Inventor/Qt/SoQtBasic.h: $(srcdir)/src/Inventor/Qt/common/SoGuiBasic.h.in config.status
-	@$(SHELL) config.status --file=-:src/Inventor/Qt/common/SoGuiBasic.h.in | \
+src/Inventor/@Gui@/So@Gui@Basic.h: $(srcdir)/src/Inventor/@Gui@/common/SoGuiBasic.h.in config.status
+	@$(SHELL) config.status --file=-:src/Inventor/@Gui@/common/SoGuiBasic.h.in | \
 	  $(SHELL) config.status --header=$@:-
 
-src/Inventor/Qt/SoQtObject.h: \
-  $(srcdir)/src/Inventor/Qt/common/SoGuiObject.h.in config.status
-	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoGuiObject.h.in
+src/Inventor/@Gui@/So@Gui@Object.h: \
+  $(srcdir)/src/Inventor/@Gui@/common/SoGuiObject.h.in config.status
+	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/SoGuiObject.h.in
 
-src/Inventor/Qt/SoQtObject.cpp: \
-  $(srcdir)/src/Inventor/Qt/common/SoGuiObject.cpp.in config.status
-	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoGuiObject.cpp.in
+src/Inventor/@Gui@/So@Gui@Object.cpp: \
+  $(srcdir)/src/Inventor/@Gui@/common/SoGuiObject.cpp.in config.status
+	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/SoGuiObject.cpp.in
 
-src/Inventor/Qt/SoQtCursors.h: \
-  $(srcdir)/src/Inventor/Qt/common/SoGuiCursors.h.in config.status
-	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoGuiCursors.h.in
+src/Inventor/@Gui@/So@Gui@Cursors.h: \
+  $(srcdir)/src/Inventor/@Gui@/common/SoGuiCursors.h.in config.status
+	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/SoGuiCursors.h.in
 
-src/Inventor/Qt/SoQtCursors.cpp: \
-  $(srcdir)/src/Inventor/Qt/common/SoGuiCursors.cpp.in config.status
-	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoGuiCursors.cpp.in
+src/Inventor/@Gui@/So@Gui@Cursors.cpp: \
+  $(srcdir)/src/Inventor/@Gui@/common/SoGuiCursors.cpp.in config.status
+	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/SoGuiCursors.cpp.in
 
-src/Inventor/Qt/SoQtRenderArea.h: \
-  $(srcdir)/src/Inventor/Qt/common/SoGuiRenderArea.h.in config.status
-	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoGuiRenderArea.h.in
+src/Inventor/@Gui@/So@Gui@RenderArea.h: \
+  $(srcdir)/src/Inventor/@Gui@/common/SoGuiRenderArea.h.in config.status
+	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/SoGuiRenderArea.h.in
 
-src/Inventor/Qt/SoQtRenderArea.cpp: \
-  $(srcdir)/src/Inventor/Qt/common/SoGuiRenderArea.cpp.in config.status
-	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoGuiRenderArea.cpp.in
+src/Inventor/@Gui@/So@Gui@RenderArea.cpp: \
+  $(srcdir)/src/Inventor/@Gui@/common/SoGuiRenderArea.cpp.in config.status
+	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/SoGuiRenderArea.cpp.in
 
-src/Inventor/Qt/common/gl.h: \
-  $(srcdir)/src/Inventor/Qt/common/gl.h.in config.status
-	@if test -d src/Inventor/Qt/common; then :; else \
-	  echo " mkdir src/Inventor/Qt/common"; \
-	  mkdir src/Inventor/Qt/common; \
+src/Inventor/@Gui@/common/gl.h: \
+  $(srcdir)/src/Inventor/@Gui@/common/gl.h.in config.status
+	@if test -d src/Inventor/@Gui@/common; then :; else \
+	  echo " mkdir src/Inventor/@Gui@/common"; \
+	  mkdir src/Inventor/@Gui@/common; \
 	fi
-	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/gl.h.in
+	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/gl.h.in
 
-src/Inventor/Qt/viewers/SoQtViewer.h: \
-  $(srcdir)/src/Inventor/Qt/common/SoGuiViewer.h.in config.status
-	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoGuiViewer.h.in
+src/Inventor/@Gui@/viewers/So@Gui@Viewer.h: \
+  $(srcdir)/src/Inventor/@Gui@/common/SoGuiViewer.h.in config.status
+	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/SoGuiViewer.h.in
 
-src/Inventor/Qt/viewers/SoQtViewer.cpp: \
-  $(srcdir)/src/Inventor/Qt/common/SoGuiViewer.cpp.in config.status
-	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoGuiViewer.cpp.in
+src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp: \
+  $(srcdir)/src/Inventor/@Gui@/common/SoGuiViewer.cpp.in config.status
+	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/SoGuiViewer.cpp.in
 
-src/Inventor/Qt/viewers/SoQtConstrainedViewer.h: \
-  $(srcdir)/src/Inventor/Qt/common/SoGuiConstrainedViewer.h.in config.status
-	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoGuiConstrainedViewer.h.in
+src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.h: \
+  $(srcdir)/src/Inventor/@Gui@/common/SoGuiConstrainedViewer.h.in config.status
+	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/SoGuiConstrainedViewer.h.in
 
-src/Inventor/Qt/viewers/SoQtConstrainedViewer.cpp: \
-  $(srcdir)/src/Inventor/Qt/common/SoGuiConstrainedViewer.cpp.in config.status
-	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoGuiConstrainedViewer.cpp.in
+src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp: \
+  $(srcdir)/src/Inventor/@Gui@/common/SoGuiConstrainedViewer.cpp.in config.status
+	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/SoGuiConstrainedViewer.cpp.in
 
-src/Inventor/Qt/viewers/SoQtFlyViewer.h: \
-  $(srcdir)/src/Inventor/Qt/common/SoGuiFlyViewer.h.in config.status
-	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoGuiFlyViewer.h.in
+src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.h: \
+  $(srcdir)/src/Inventor/@Gui@/common/SoGuiFlyViewer.h.in config.status
+	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/SoGuiFlyViewer.h.in
 
-src/Inventor/Qt/viewers/SoQtFlyViewer.cpp: \
-  $(srcdir)/src/Inventor/Qt/common/SoGuiFlyViewer.cpp.in config.status
-	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoGuiFlyViewer.cpp.in
+src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp: \
+  $(srcdir)/src/Inventor/@Gui@/common/SoGuiFlyViewer.cpp.in config.status
+	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/SoGuiFlyViewer.cpp.in
 
-src/Inventor/Qt/viewers/SoAnyFullViewer.h: \
-  $(srcdir)/src/Inventor/Qt/common/SoAnyFullViewer.h.in config.status
-	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoAnyFullViewer.h.in
+src/Inventor/@Gui@/viewers/SoAnyFullViewer.h: \
+  $(srcdir)/src/Inventor/@Gui@/common/SoAnyFullViewer.h.in config.status
+	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/SoAnyFullViewer.h.in
 
-src/Inventor/Qt/viewers/SoAnyFullViewer.cpp: \
-  $(srcdir)/src/Inventor/Qt/common/SoAnyFullViewer.cpp.in config.status
-	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoAnyFullViewer.cpp.in
+src/Inventor/@Gui@/viewers/SoAnyFullViewer.cpp: \
+  $(srcdir)/src/Inventor/@Gui@/common/SoAnyFullViewer.cpp.in config.status
+	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/SoAnyFullViewer.cpp.in
 
-src/Inventor/Qt/viewers/SoAnyExaminerViewer.h: \
-  $(srcdir)/src/Inventor/Qt/common/SoAnyExaminerViewer.h.in config.status
+src/Inventor/@Gui@/viewers/SoAnyExaminerViewer.h: \
+  $(srcdir)/src/Inventor/@Gui@/common/SoAnyExaminerViewer.h.in config.status
 	@$(SHELL) config.status \
-	  --file=$@:src/Inventor/Qt/common/SoAnyExaminerViewer.h.in
+	  --file=$@:src/Inventor/@Gui@/common/SoAnyExaminerViewer.h.in
 
-src/Inventor/Qt/viewers/SoAnyExaminerViewer.cpp: \
-  $(srcdir)/src/Inventor/Qt/common/SoAnyExaminerViewer.cpp.in config.status
+src/Inventor/@Gui@/viewers/SoAnyExaminerViewer.cpp: \
+  $(srcdir)/src/Inventor/@Gui@/common/SoAnyExaminerViewer.cpp.in config.status
 	@$(SHELL) config.status \
-	  --file=$@:src/Inventor/Qt/common/SoAnyExaminerViewer.cpp.in
+	  --file=$@:src/Inventor/@Gui@/common/SoAnyExaminerViewer.cpp.in
 
-src/Inventor/Qt/viewers/SoAnyPlaneViewer.h: \
-  $(srcdir)/src/Inventor/Qt/common/SoAnyPlaneViewer.h.in config.status
+src/Inventor/@Gui@/viewers/SoAnyPlaneViewer.h: \
+  $(srcdir)/src/Inventor/@Gui@/common/SoAnyPlaneViewer.h.in config.status
 	@$(SHELL) config.status \
-	  --file=$@:src/Inventor/Qt/common/SoAnyPlaneViewer.h.in
+	  --file=$@:src/Inventor/@Gui@/common/SoAnyPlaneViewer.h.in
 
-src/Inventor/Qt/viewers/SoAnyPlaneViewer.cpp: \
-  $(srcdir)/src/Inventor/Qt/common/SoAnyPlaneViewer.cpp.in config.status
+src/Inventor/@Gui@/viewers/SoAnyPlaneViewer.cpp: \
+  $(srcdir)/src/Inventor/@Gui@/common/SoAnyPlaneViewer.cpp.in config.status
 	@$(SHELL) config.status \
-	  --file=$@:src/Inventor/Qt/common/SoAnyPlaneViewer.cpp.in
+	  --file=$@:src/Inventor/@Gui@/common/SoAnyPlaneViewer.cpp.in
 
-src/Inventor/Qt/widgets/SoAnyThumbWheel.h: \
-  $(srcdir)/src/Inventor/Qt/common/SoAnyThumbWheel.h.in config.status
-	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoAnyThumbWheel.h.in
+src/Inventor/@Gui@/widgets/SoAnyThumbWheel.h: \
+  $(srcdir)/src/Inventor/@Gui@/common/SoAnyThumbWheel.h.in config.status
+	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/SoAnyThumbWheel.h.in
 
-src/Inventor/Qt/widgets/SoAnyThumbWheel.cpp: \
-  $(srcdir)/src/Inventor/Qt/common/SoAnyThumbWheel.cpp.in config.status
-	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoAnyThumbWheel.cpp.in
+src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp: \
+  $(srcdir)/src/Inventor/@Gui@/common/SoAnyThumbWheel.cpp.in config.status
+	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/SoAnyThumbWheel.cpp.in
 
-src/Inventor/Qt/widgets/SoAnyPopupMenu.h: \
-  $(srcdir)/src/Inventor/Qt/common/SoAnyPopupMenu.h.in config.status
-	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoAnyPopupMenu.h.in
+src/Inventor/@Gui@/widgets/SoAnyPopupMenu.h: \
+  $(srcdir)/src/Inventor/@Gui@/common/SoAnyPopupMenu.h.in config.status
+	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/SoAnyPopupMenu.h.in
 
-src/Inventor/Qt/widgets/SoAnyPopupMenu.cpp: \
-  $(srcdir)/src/Inventor/Qt/common/SoAnyPopupMenu.cpp.in config.status
-	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoAnyPopupMenu.cpp.in
+src/Inventor/@Gui@/widgets/SoAnyPopupMenu.cpp: \
+  $(srcdir)/src/Inventor/@Gui@/common/SoAnyPopupMenu.cpp.in config.status
+	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/SoAnyPopupMenu.cpp.in
 
-src/Inventor/Qt/devices/spwinput.h: \
-  $(srcdir)/src/Inventor/Qt/common/spwinput.h.in config.status
-	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/spwinput.h.in
+src/Inventor/@Gui@/devices/spwinput.h: \
+  $(srcdir)/src/Inventor/@Gui@/common/spwinput.h.in config.status
+	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/spwinput.h.in
 
-src/Inventor/Qt/devices/spwinput_x11.cpp: \
-  $(srcdir)/src/Inventor/Qt/common/spwinput_x11.cpp.in config.status
-	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/spwinput_x11.cpp.in
+src/Inventor/@Gui@/devices/spwinput_x11.cpp: \
+  $(srcdir)/src/Inventor/@Gui@/common/spwinput_x11.cpp.in config.status
+	@$(SHELL) config.status --file=$@:src/Inventor/@Gui@/common/spwinput_x11.cpp.in
 
 # **************************************************************************
 # auto-generated Qt moc files.
@@ -402,10 +406,10 @@ src/Inventor/Qt/widgets/moc_SoQtPopupMenu.cpp: \
 all-local: built-sources
 
 doxygen-doc: built-sources
-	@( cd build; @sim_ac_doxygen_exe@ soqt.doxygen )
+	@( cd build; @sim_ac_doxygen_exe@ so@gui@.doxygen )
 
 doxygen-docs: built-sources
-	@( cd build; @sim_ac_doxygen_exe@ soqt.doxygen )
+	@( cd build; @sim_ac_doxygen_exe@ so@gui@.doxygen )
 
 install-exec-local: built-sources $(srcdir)/cfg/m4/wrapmsvc.exe
 	@$(NORMAL_INSTALL)
