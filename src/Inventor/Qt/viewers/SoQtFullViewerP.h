@@ -85,9 +85,6 @@ public:
 
   void layoutAppButtons(QWidget * form);
 
-  void setCameraZoom(const float zoom);
-  float getCameraZoom(void);
-
   // Return pointer to pushbutton in right-side decoration bar.
   QPushButton * getViewerbutton(const int idx)
   {

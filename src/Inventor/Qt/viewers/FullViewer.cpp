@@ -1045,55 +1045,6 @@ SoQtFullViewerP::layoutAppButtons(QWidget * form)
 
 // *************************************************************************
 
-/*!
-  Set camera zoom value.
-*/
-
-void
-SoQtFullViewerP::setCameraZoom(const float val)
-{
-  SoCamera * cam = PUBLIC(this)->getCamera();
-  if (! cam) return; // can happen for empty scenegraph
-
-  SoType t = cam->getTypeId();
-
-  if (t.isDerivedFrom(SoPerspectiveCamera::getClassTypeId()))
-    ((SoPerspectiveCamera *)cam)->heightAngle = val * 2.0f * M_PI / 360.0f;
-  else if (t.isDerivedFrom(SoOrthographicCamera::getClassTypeId()))
-    ((SoOrthographicCamera *)cam)->height = val;
-#if SOQT_DEBUG
-  else assert(0);
-#endif // SOQT_DEBUG
-}
-
-// *************************************************************************
-
-/*!
-  Return camera zoom value.
-*/
-
-float
-SoQtFullViewerP::getCameraZoom(void)
-{
-  SoCamera * cam = PUBLIC(this)->getCamera();
-  if (! cam) return 0.0f; // can happen for empty scenegraph
-
-  SoType t = cam->getTypeId();
-
-  if (t.isDerivedFrom(SoPerspectiveCamera::getClassTypeId()))
-    return ((SoPerspectiveCamera *)cam)->heightAngle.getValue() /
-      2.0f * 360.0f / M_PI;
-  else if (t.isDerivedFrom(SoOrthographicCamera::getClassTypeId()))
-    return ((SoOrthographicCamera *)cam)->height.getValue();
-
-#if SOQT_DEBUG
-  assert(0);
-#endif // SOQT_DEBUG
-  return 0.0f;
-}
-
-// *************************************************************************
-
 // doc in super
 void
 SoQtFullViewer::sizeChanged(const SbVec2s & size)
