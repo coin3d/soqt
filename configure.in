@@ -64,6 +64,7 @@ if $sim_ac_try_msvc; then
       # sim_ac_msvcrt_LIBLDFLAGS is set up at the end
       LDFLAGS="$LDFLAGS $sim_ac_msvcrt_LIBLDFLAGS"
       LIBS="$LIBS $sim_ac_msvcrt_LIBLIBS"
+      AC_SUBST([SOGUI_MSVC_LIBC], [$sim_ac_msvcrt])
     ])
   fi
 fi
