@@ -3,7 +3,7 @@
 
 include ../common/Makefile.common
 
-## Process this file with automake to generate Makefile.in.
+############################################################################
 
 if BUILD_WITH_MSVC
 noinst_LIBRARIES = widgets.lst
@@ -31,30 +31,29 @@ DISTCLEANFILES = \
 	$(SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles)
 
 ############################################################################
-# libtool setup
 
-libSoQtWidgets_la_SOURCES = \
+SOURCES = \
 	SoQtGLArea.cpp \
 	SoQtGLArea.h \
 	SoQtThumbWheel.cpp \
 	SoQtThumbWheel.h \
 	QtNativePopupMenu.cpp \
 	QtNativePopupMenu.h
+
+############################################################################
+# libtool setup
+
+libSoQtWidgets_la_SOURCES = $(SOURCES)
+
 
 nodist_libSoQtWidgets_la_SOURCES = \
 	$(SoGui_src_Inventor_Gui_widgets_BuiltFiles)
 #	$(SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles)
 
 ############################################################################
-# custom setup
+# custom setup for Microsoft Visual C++ build
 
-widgets_lst_SOURCES = \
-	SoQtGLArea.cpp \
-	SoQtGLArea.h \
-	SoQtThumbWheel.cpp \
-	SoQtThumbWheel.h \
-	QtNativePopupMenu.cpp \
-	QtNativePopupMenu.h
+widgets_lst_SOURCES = $(SOURCES)
 
 nodist_widgets_lst_SOURCES = \
 	$(SoGui_src_Inventor_Gui_widgets_BuiltFiles)
