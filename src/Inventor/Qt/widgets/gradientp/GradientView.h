@@ -57,15 +57,6 @@ public slots:
   void updateTicks(void);
   void updateView(void);
   
-private slots:
-  void setColorRight(void);
-  void setColorLeft(void);
-  void chooseColorLeft(void);
-  void chooseColorRight(void);
-  void insertTick(void);
-  void centerTick(void);
-  void deleteTick(void);
-  
 signals:
   void viewChanged(void);
   void tickSelected(void);
@@ -80,7 +71,24 @@ protected:
   void buildMenu();
   void unselectAll(void);
 
+private slots:
+  void copySegmentColorRight(void);
+  void copySegmentColorLeft(void);
+  void chooseSegmentColorLeft(void);
+  void chooseSegmentColorRight(void);
+  void chooseTickColorLeft(void);
+  void chooseTickColorRight(void);
+  void copyTickColorLeft(void);
+  void copyTickColorRight(void);
+  void insertTick(void);
+  void centerTick(void);
+  void deleteTick(void);
+  
 private:
+  void setGradientColor(unsigned int tickmarkidx, Gradient::TickSide side, QRgb col);
+  void setGradientColor(unsigned int tickmarkidx, Gradient::TickSide side);
+
+
   TickMark * newTick(int x);
   QCanvas * canvas;
   Gradient grad;
@@ -93,8 +101,6 @@ private:
   int segmentidx;
 
   QPoint moving_start;
-  QRgb leftcolor;
-  QRgb rightcolor;
 };
 
 #endif // ! GRADIENT_VIEW_H

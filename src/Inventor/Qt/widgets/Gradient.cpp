@@ -31,7 +31,7 @@
 class GradientP {
 public:
   GradientP(Gradient * publ);
-  unsigned int getColorIndex(unsigned int i, SbBool left) const;
+  unsigned int getColorIndex(unsigned int i, Gradient::TickSide s) const;
   Gradient * pub;
   QValueList<float> parameters;
   QValueList<QRgb> colors;
@@ -45,13 +45,13 @@ GradientP::GradientP(Gradient * publ)
 }
 
 unsigned int
-GradientP::getColorIndex(unsigned int i, SbBool left) const
+GradientP::getColorIndex(unsigned int i, Gradient::TickSide s) const
 {
   unsigned int colidx;
 
-  if (i==0 && left) { colidx = this->colors.size() - 1; } // wrap around
+  if (i==0 && s==Gradient::LEFT) { colidx = this->colors.size() - 1; } // wrap around
   // there are parameters times two minus one number of colors
-  else { colidx = i * 2 - (left ? 1 : 0); }
+  else { colidx = i * 2 - ((s==Gradient::LEFT) ? 1 : 0); }
 
   if (colidx == this->colors.size()) { colidx = 0; } // wrap around
 
@@ -199,24 +199,35 @@ Gradient::removeTick(unsigned int i)
 SbBool
 Gradient::leftEqualsRight(unsigned int i) const
 {
-  i = PRIVATE(this)->getColorIndex(i, TRUE);
+  i = PRIVATE(this)->getColorIndex(i, Gradient::LEFT);
   unsigned int n = PRIVATE(this)->colors.size();
   return (PRIVATE(this)->colors[i] == PRIVATE(this)->colors[(i+1) % n]);
 }
 
+/*!
+  See Gradient::getColor() for documentation of input arguments.
+*/
 void
-Gradient::setColor(unsigned int i, SbBool left, const QRgb & color)
+Gradient::setColor(unsigned int i, TickSide s, const QRgb & color)
 {
-  i = PRIVATE(this)->getColorIndex(i, left);
+  i = PRIVATE(this)->getColorIndex(i, s);
   PRIVATE(this)->colors[i] = color;
 
   if (PRIVATE(this)->callBack) { PRIVATE(this)->callBack(*this, PRIVATE(this)->callBackData); }
 }
 
+/*!
+  Specify tickmark number for \a i, and either Gradient::LEFT or
+  Gradient::RIGHT for \a s to indicate which side of tickmark to read
+  the color from.
+
+  Note that tickmark 0 is the invisible tickmark on the far left side,
+  and ditto the last tickmark is invisible on the far right side.
+*/
 QRgb
-Gradient::getColor(unsigned int i, SbBool left) const
+Gradient::getColor(unsigned int i, TickSide s) const
 {
-  i = PRIVATE(this)->getColorIndex(i, left);
+  i = PRIVATE(this)->getColorIndex(i, s);
   return PRIVATE(this)->colors[i];
 }
 

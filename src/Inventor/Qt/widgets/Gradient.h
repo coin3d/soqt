@@ -43,12 +43,14 @@ public:
   float getParameter(unsigned int i) const;
   SbBool leftEqualsRight(unsigned int i) const;
   QRgb eval(float t) const;
-  QRgb getColor(unsigned int i, SbBool left) const;
+
+  enum TickSide { LEFT, RIGHT };
+  QRgb getColor(unsigned int i, TickSide s) const;
+  void setColor(unsigned int i, TickSide s, const QRgb & color);
 
   void moveTick(unsigned int i, float t);
   void removeTick(unsigned int i);
 
-  void setColor(unsigned int i, SbBool left, const QRgb & color);
   void getColorArray(QRgb * colors, unsigned int num) const;
   void save(const QString & filename) const;
   void load(const QString & filename);

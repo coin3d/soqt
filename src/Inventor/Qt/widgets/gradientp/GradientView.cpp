@@ -39,17 +39,19 @@
 
 #include <stdlib.h>
 #include <assert.h>
+
 #include <qimage.h>
 #include <qpixmap.h>
 #include <qpainter.h>
 #include <qvaluelist.h>
 #include <qpopupmenu.h>
 #include <qcolordialog.h>
+#include <qlabel.h>
+
 #include <Inventor/Qt/widgets/Gradient.h>
 #include "GradientView.h"
 #include "TickMark.h"
 #include "ImageItem.h"
-
 #include <Inventor/Qt/widgets/moc_GradientView.icc>
 
 // *************************************************************************
@@ -301,6 +303,16 @@ GradientView::insertTick(void)
   emit this->viewChanged();
 }
 
+// FIXME: this is _not_ good design -- it's potentially inefficient
+// and bugridden. As an example, consider the synchronization problem
+// if some other code adds or removes tickmarks in the Gradient
+// object.
+//
+// We should probably rather just let the tickmarks be stored
+// canonically in the Gradient class, and set up what we need to do
+// around in the GradientView code on demand.
+//
+// 20031008 mortene.
 void
 GradientView::updateTicks(void)
 {
@@ -319,6 +331,25 @@ GradientView::updateTicks(void)
   this->tickMarks[this->tickMarks.size()-1]->setVisible(FALSE);
 }
 
+// *************************************************************************
+
+void
+GradientView::setGradientColor(unsigned int tickmarkidx, Gradient::TickSide side, QRgb col)
+{
+  this->grad.setColor(tickmarkidx, side, col);
+  emit this->viewChanged();
+}
+
+void
+GradientView::setGradientColor(unsigned int tickmarkidx, Gradient::TickSide side)
+{
+  const QRgb initial = this->grad.getColor(tickmarkidx, side);
+  const QRgb newcol = QColorDialog::getRgba(initial);
+  if (newcol != initial) {
+    this->setGradientColor(tickmarkidx, side, newcol);
+  }
+}
+
 void
 GradientView::deleteTick(void)
 {
@@ -333,36 +364,58 @@ GradientView::deleteTick(void)
 }
 
 void
-GradientView::setColorRight(void)
+GradientView::copySegmentColorRight(void)
 {
-  this->grad.setColor(this->segmentidx + 1, TRUE, this->rightcolor);
-  emit this->viewChanged();
+  this->setGradientColor(this->segmentidx + 1, Gradient::LEFT,
+                         this->grad.getColor(this->segmentidx + 1, Gradient::RIGHT));
 }
 
 void
-GradientView::setColorLeft(void)
+GradientView::copySegmentColorLeft(void)
 {
-  this->grad.setColor(this->segmentidx, FALSE, this->leftcolor);
-  emit this->viewChanged();
+  this->setGradientColor(this->segmentidx + 1, Gradient::RIGHT,
+                         this->grad.getColor(this->segmentidx + 1, Gradient::LEFT));
 }
 
 void
-GradientView::chooseColorLeft(void)
+GradientView::chooseSegmentColorLeft(void)
 {  
-  const QRgb initial = this->grad.getColor(this->segmentidx, FALSE);
-  this->leftcolor = QColorDialog::getRgba(initial);
-  if (this->leftcolor != initial) { this->setColorLeft(); }
+  this->setGradientColor(this->segmentidx, Gradient::RIGHT);
 }
 
 void
-GradientView::chooseColorRight(void)
+GradientView::chooseSegmentColorRight(void)
 {  
-  QRgb initial = this->grad.getColor(this->segmentidx + 1, TRUE);
-  this->rightcolor = QColorDialog::getRgba(initial);
-  if (this->rightcolor != initial) {
-    this->setColorRight();
-  }
+  this->setGradientColor(this->segmentidx + 1, Gradient::LEFT);
 }
+
+void
+GradientView::chooseTickColorLeft(void)
+{  
+  this->setGradientColor(this->currenttick, Gradient::LEFT);
+}
+
+void
+GradientView::chooseTickColorRight(void)
+{  
+  this->setGradientColor(this->currenttick, Gradient::RIGHT);
+}
+
+void
+GradientView::copyTickColorLeft(void)
+{  
+  this->setGradientColor(this->currenttick, Gradient::RIGHT,
+                         this->grad.getColor(this->currenttick, Gradient::LEFT));
+}
+
+void
+GradientView::copyTickColorRight(void)
+{  
+  this->setGradientColor(this->currenttick, Gradient::LEFT,
+                         this->grad.getColor(this->currenttick, Gradient::RIGHT));
+}
+
+// *************************************************************************
 
 // FIXME: callback is not really used from this class, just passed on
 // to the Gradient class. Should look into design to see if we can
@@ -373,6 +426,8 @@ GradientView::setChangeCallback(Gradient::ChangeCB * cb, void * userdata)
   this->grad.setChangeCallback(cb, userdata);
 }
 
+// *************************************************************************
+
 void
 GradientView::buildMenu(void)
 {
@@ -382,41 +437,59 @@ GradientView::buildMenu(void)
   this->menu = new QPopupMenu(this);
 
   int id;
+
+  // FIXME: use menu titles. 20031008 mortene.
   
   if (this->segmentidx != -1) {
-    QPixmap left(16,16);
-    left.fill(this->grad.getColor(this->segmentidx, FALSE));
-    id = menu->insertItem(left, "Left endpoint's color", this, SLOT(chooseColorLeft()));
+    QPixmap pm(16,16);
+    pm.fill(this->grad.getColor(this->segmentidx, Gradient::RIGHT));
+    id = menu->insertItem(pm, "Change left-side color", this, SLOT(chooseSegmentColorLeft()));
 
-    QPixmap pmleft(16,16);
-    this->leftcolor = grad.getColor(this->segmentidx, TRUE);
- 
-    pmleft.fill(this->leftcolor);
-    id = menu->insertItem(pmleft, "Same as left neighbor's right endpoint", this, SLOT(setColorLeft()));
+    pm.fill(grad.getColor(this->segmentidx, Gradient::LEFT));
+    id = menu->insertItem(pm, "Copy color from left neighbor", this, SLOT(copySegmentColorLeft()));
     if (this->grad.leftEqualsRight(this->segmentidx)) menu->setItemEnabled(id, FALSE);
 
     menu->insertSeparator();
 
-    QPixmap right(16,16);
-    right.fill(this->grad.getColor(this->segmentidx + 1, TRUE));
-    id = menu->insertItem(right, "Right endpoint's color", this, SLOT(chooseColorRight()));
+    pm.fill(this->grad.getColor(this->segmentidx + 1, Gradient::LEFT));
+    id = menu->insertItem(pm, "Change right-side color", this, SLOT(chooseSegmentColorRight()));
 
-    QPixmap pmright(16,16);
-    this->rightcolor = this->grad.getColor(this->segmentidx + 1, FALSE);
-
-    pmright.fill(this->rightcolor);
-    id = menu->insertItem(pmright, "Same as right neighbor's left endpoint", this, SLOT(setColorRight()));
+    pm.fill(this->grad.getColor(this->segmentidx + 1, Gradient::RIGHT));
+    id = menu->insertItem(pm, "Copy color from right neighbor", this, SLOT(copySegmentColorRight()));
     if (this->grad.leftEqualsRight(this->segmentidx + 1)) menu->setItemEnabled(id, FALSE);
 
     menu->insertSeparator();
+
     id = menu->insertItem("Insert new tick", this, SLOT(insertTick()));
   }
   else if (this->currenttick != -1) {
-    // FIXME: more functionality, like: "change left color", "change
-    // right color", "copy left color to right", "copy right color to
-    // left", etc. 20031008 mortene.
+    QLabel * title = new QLabel(" Tick menu", this->menu);
+    (void)menu->insertItem(title);
 
-    id = menu->insertItem("Center tick", this, SLOT(centerTick()));
+    menu->insertSeparator();
+
+    QPixmap pm(16,16);
+    pm.fill(this->grad.getColor(this->currenttick, Gradient::LEFT));
+    (void)menu->insertItem(pm, "Change left color", this, SLOT(chooseTickColorLeft()));
+
+    pm.fill(this->grad.getColor(this->currenttick, Gradient::RIGHT));
+    (void)menu->insertItem(pm, "Change right color", this, SLOT(chooseTickColorRight()));
+
+    menu->insertSeparator();
+
+    const bool lefteqright = this->grad.leftEqualsRight(this->currenttick);
+
+    pm.fill(this->grad.getColor(this->currenttick, Gradient::LEFT));
+    id = menu->insertItem(pm, "Copy left color to right", this, SLOT(copyTickColorLeft()));
+    if (lefteqright) { menu->setItemEnabled(id, FALSE); }
+
+    pm.fill(this->grad.getColor(this->currenttick, Gradient::RIGHT));
+    id = menu->insertItem(pm, "Copy right color to left", this, SLOT(copyTickColorRight()));
+    if (lefteqright) { menu->setItemEnabled(id, FALSE); }
+
+    menu->insertSeparator();
+
     id = menu->insertItem("Delete tick", this, SLOT(deleteTick()));
+    id = menu->insertItem("Center tick", this, SLOT(centerTick()));
   }
 }

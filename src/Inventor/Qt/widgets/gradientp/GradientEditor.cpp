@@ -63,7 +63,6 @@ GradientEditor::GradientEditor(const Gradient & grad,
   this->gradView->setFrameStyle(QFrame::Sunken);
 
   QGroupBox * dataValues = new QGroupBox(this, "dataValues");
-  dataValues->setTitle("Data Values");
   dataValues->setColumns(3);
   dataValues->setOrientation(Qt::Vertical);
   outputLayout->addWidget(dataValues);
@@ -124,13 +123,11 @@ void GradientEditor::updateValueLabels()
   Gradient grad = this->gradView->getGradient();
   QRgb col = grad.eval(t);
 
-  this->dataValue->setText(QString(" Data value: ") + QString().setNum(value));
+  this->dataValue->setText(QString(" Colortable index: ") + QString().setNum(value));
 
-  this->colorLabel->setText(QString(" Color: ") + 
-                      QString(" R: ") + QString().setNum(qRed(col)) +
-                      QString(" G: ") + QString().setNum(qGreen(col)) +
-                      QString(" B: ") + QString().setNum(qBlue(col)) +
-                      QString(" A: ") + QString().setNum(qAlpha(col)));
+  QString s;
+  s.sprintf("0x%02x%02x%02x%02x", qRed(col), qGreen(col), qBlue(col), qAlpha(col));
+  this->colorLabel->setText(QString(" RBGA: ") + s);
 }
 
 const Gradient& GradientEditor::getGradient() const
