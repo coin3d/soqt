@@ -6312,7 +6312,7 @@ if test x"$with_qt" != xno; then
 #include <qglobal.h>
 int VerQt = QT_VERSION;
 EOF
-  sim_ac_qt_version=`$CPP $CPPFLAGS conftest.c | grep '^int VerQt' | sed 's%^int VerQt = %%' | sed 's%;$%%'`
+  sim_ac_qt_version=`$CXXCPP $CPPFLAGS conftest.c | grep '^int VerQt' | sed 's%^int VerQt = %%' | sed 's%;$%%'`
   rm -f conftest.c
   AC_MSG_RESULT($sim_ac_qt_version)
 
@@ -6361,7 +6361,18 @@ upgrade. (See README.MAC for details.)])
     ##   added for the benefit of the Qt 3.0.0 Evaliation Version
     ##
 
+    # FIXME: it would be extremely helpful if one could override the cppflags
+    # and libs-checking with environment variables. Then people wouldn't get
+    # completely stuck when the check fails -- we can just take a look at the
+    # config.log and give them advice on how to proceed with no updates
+    # necessary. 20020311 mortene.
+
+    # FIXME: it should be possible to select whether to use the mt-safe or
+    # the "standard" Qt library if both are installed on the user's system.
+    # 20020311 mortene.
+
     # FIXME: this link test doesn't detect all link problems...
+    # (UPDATE 20020311 mortene: jeez, that was a very helpful FIXME. Lars?)
     for sim_ac_qt_cppflags_loop in "" "-DQT_DLL"; do
       for sim_ac_qt_libcheck in "-lqt-gl" "-lqt" "-lqt-mt" \
           "-lqt${sim_ac_qt_version} -lqtmain -lgdi32" \
