@@ -108,20 +108,23 @@ class SoQtSuperViewerP : QObject{
   SbBool settingsmenuenabled;
   SbBool cameramenuenabled;
   SbBool lightsmenuenabled;
+  SbBool defaultoverride;
 
   struct menuItem {
-    SbString ID;
+    SbString text;
     SbBool build;
     SbBool enabled;
+    SbBool checked;
     int index;
   };
 
-  /*  menuItem[6] menus;
-  menuItem[8] filemenuItems;
-  menuItem[12] viewmenuItems;
-  menuItem[9] settingsmenuItems;
-  menuItem[5] cameramenuItems;
- */
+  menuItem menus[6];
+  menuItem bars[2];
+  menuItem filemenuItems[8];
+  menuItem viewmenuItems[12];
+  menuItem settingsmenuItems[9];
+  menuItem cameramenuItems[5];
+
   int movingitemchk, transparencyitemchk, cameraitemchk, flymodeitemchk;
   SbBool mt, mf, mv, mw, mb;
 
@@ -191,7 +194,6 @@ class SoQtSuperViewerP : QObject{
   // Variables used by the fly mode
   SbVec2s mousedownpos;
   SbVec2s mousepos;
-  SbTime prevtime;
   SbBool shouldscheduleredraw;
   SbBool flying;
   SbBool pause;
@@ -213,6 +215,7 @@ class SoQtSuperViewerP : QObject{
 
  public:
 
+  void actualInit();
   void setupNodes();
   void initializeMenus(SbBool buildFlag);
   void drawInformation();

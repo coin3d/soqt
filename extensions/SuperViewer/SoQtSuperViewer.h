@@ -29,16 +29,21 @@ class SoQtSuperViewer : public SoQtViewer {
   SOQT_OBJECT_HEADER(SoQtSuperViewer, SoQtViewer);
 
   enum BuildFlag {
-    BUILD_NONE       = 0x00,
+    BUILD_NOTHING    = 0x00,
     BUILD_MENUBAR    = 0x01,
-    FILE_MENU        = 0x02,
-    VIEW_MENU        = 0x04,
-    SETTINGS_MENU    = 0x08,
-    CAMERA_MENU      = 0x10,
-    LIGHTS_MENU      = 0x20,
-    BUILD_ALL        = (BUILD_MENUBAR | FILE_MENU | VIEW_MENU | 
-                        SETTINGS_MENU | CAMERA_MENU | LIGHTS_MENU)
+    BUILD_TOOLBAR    = 0x02,
+    BUILD_ALL        = (BUILD_MENUBAR | BUILD_TOOLBAR)
   };
+
+  enum BuildMenus {
+    FILE_MENU        = 0x00,
+    VIEW_MENU        = 0x01,
+    SETTINGS_MENU    = 0x02,
+    CAMERA_MENU      = 0x04,
+    LIGHTS_MENU      = 0x08,
+    BUILD_ALL        = (FILE_MENU | VIEW_MENU | SETTINGS_MENU | 
+                        CAMERA_MENU | LIGHTS_MENU)
+
 
   enum BuildFileMenu {
     OPEN_MODEL       = 0x00,
@@ -54,6 +59,10 @@ class SoQtSuperViewer : public SoQtViewer {
                         SNAPSHOT | EXIT)
   };
 
+  enum BuildViewMenu {
+
+  };
+
  public:
   SoQtSuperViewer(
     QWidget * parent = NULL,
@@ -63,6 +72,8 @@ class SoQtSuperViewer : public SoQtViewer {
     SoQtViewer::Type type = BROWSER,
     SbBool build = TRUE);
   ~SoQtSuperViewer(void);
+
+  void init(void);
 
   void setMenuBar(const SbBool on);
   SbBool isMenuBar(void) const;

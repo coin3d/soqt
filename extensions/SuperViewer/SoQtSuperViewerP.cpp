@@ -240,6 +240,125 @@ SoQtSuperViewerP::SoQtSuperViewerP(
 SoQtSuperViewerP::~SoQtSuperViewerP()
 {}
 
+SoQtSuperViewerP::actualInit()
+{
+  if(this->defaultoverride){
+
+  }
+  else{
+    int i = 0;
+    //setup menubar and toolbars (2 elements)
+    for(;i < 2; i++){
+      this->bars[i].index = i;
+      this->bars[i].on = TRUE;
+      this->bars[i].enabled = TRUE;
+      this->bars[i].checked = FALSE;
+    }
+    //until the toolbar is made
+    this->bars[0].on = FALSE;
+    this->bars[1].index = 0;
+    //the rest should stay when the toolbar is finished
+    this->bars[0].text = "Toolbar";
+    this->bars[1].text = "Menubar";
+
+    i = 0;
+    //setup menus (5 elements)
+    for(;i < 5; i++){
+      this->menus[i].index = i;
+      this->menus[i].on = TRUE;
+      this->menus[i].enabled = i < 1 ? TRUE : FALSE;
+      this->menus[i].checked = FALSE;
+    }
+    this->menus[0].text = "File";
+    this->menus[1].text = "View"; 
+    this->menus[2].text = "Settings"; 
+    this->menus[3].text = "Camera"; 
+    this->menus[4].text = "Lights";
+
+    i = 0;
+    //setup filemenu (8 elements)
+    for(;i < 8; i++){
+      if(i < 3) this->filemenuItems[i].index = i;
+      else if(i < 7) this->filemenuItems[i].index = i + 1;
+      else this->filemenuItems[i].index = i + 2;
+      this->filemenuItems[i].on = TRUE;
+      this->filemenuItems[i].enabled = i < 1 || i > 6 ? TRUE : FALSE;
+      this->filemenuItems[i].checked = FALSE;
+    }
+
+    this->filemenuItems[i].text = "Open model";
+    this->filemenuItems[i].text = "Close model";
+    this->filemenuItems[i].text = "Close all models";
+    this->filemenuItems[i].text = "Next model";
+    this->filemenuItems[i].text = "Previous model";
+    this->filemenuItems[i].text = "Refresh model";
+    this->filemenuItems[i].text = "Snapshot";
+    this->filemenuItems[i].text = "Exit";
+    
+    i = 0;
+    //setup viewmenu (12 elements)
+    for(;i < 12; i++){
+      if(i < 2) this->viewmenuItems[i].index = i;
+      else if(i < 8) this->viewmenuItems[i].index = i + 1;
+      else this->viewmenuItems[i].index = i + 2;
+      this->viewmenuItems[i].on = TRUE;
+      this->viewmenuItems[i].enabled = (i == 6) ? FALSE : TRUE;
+      this->viewmenuItems[i].checked = (i == 2 || i == 10) ? FALSE : TRUE;
+    }
+
+    this->viewmenuItems[i].text = "Information";
+    this->viewmenuItems[i].text = "Flatshading";
+    this->viewmenuItems[i].text = "Filled";
+    this->viewmenuItems[i].text = "Boundingboxes";
+    this->viewmenuItems[i].text = "Wireframe";
+    this->viewmenuItems[i].text = "Vertices";
+    this->viewmenuItems[i].text = "Hidden parts";
+    this->viewmenuItems[i].text = "Textures";
+    this->viewmenuItems[i].text = "One boundingbox while moving";
+    this->viewmenuItems[i].text = "Boundingboxes while moving";
+    this->viewmenuItems[i].text = "Full model while moving";
+    this->viewmenuItems[i].text = "No textures while moving";
+
+ PRIVATE(this)->viewmenu = new QPopupMenu(PRIVATE(this)->menubar);
+  PRIVATE(this)->viewmenu->insertItem("Information", 
+                                      PRIVATE(this), SLOT(informationSelected()));
+  PRIVATE(this)->viewmenu->insertItem("Flatshading", 
+                                      PRIVATE(this), SLOT(flatshadingSelected()));
+  PRIVATE(this)->viewmenu->insertSeparator();
+  PRIVATE(this)->viewmenu->insertItem("Filled", 
+                                      PRIVATE(this), SLOT(filledSelected()));
+  PRIVATE(this)->viewmenu->setItemChecked(
+                           PRIVATE(this)->viewmenu->idAt(3), TRUE);
+  PRIVATE(this)->viewmenu->insertItem("Boundingboxes", 
+                                      PRIVATE(this), SLOT(boundingboxesSelected()));
+  PRIVATE(this)->viewmenu->insertItem("Wireframe",
+                                      PRIVATE(this), SLOT(wireframeSelected()));
+  PRIVATE(this)->viewmenu->insertItem("Vertices", 
+                                      PRIVATE(this), SLOT(verticesSelected()));
+  PRIVATE(this)->viewmenu->insertItem("Hidden parts",
+                                      PRIVATE(this), SLOT(hiddenpartsSelected()));
+  PRIVATE(this)->viewmenu->setItemEnabled(
+                           PRIVATE(this)->viewmenu->idAt(7), FALSE);
+  PRIVATE(this)->viewmenu->insertItem("Textures",
+                                      PRIVATE(this), SLOT(texturesSelected()));
+  PRIVATE(this)->viewmenu->insertSeparator();
+  PRIVATE(this)->viewmenu->insertItem("One boundingbox while moving",
+                                      PRIVATE(this), SLOT(oneBBoxMovingSelected()));
+  PRIVATE(this)->viewmenu->insertItem("Boundingboxes while moving",
+                                      PRIVATE(this), SLOT(bBoxesMovingSelected()));
+  PRIVATE(this)->viewmenu->insertItem("Full model while moving",
+                                      PRIVATE(this), SLOT(fullMovingSelected()));
+  PRIVATE(this)->viewmenu->setItemChecked(
+                           PRIVATE(this)->viewmenu->idAt(12), TRUE);
+  PRIVATE(this)->viewmenu->insertItem("No textures while moving",
+                                      PRIVATE(this), SLOT(noTexturesMovingSelected()));
+
+  PRIVATE(this)->menubar->insertItem("View", PRIVATE(this)->viewmenu);
+  PRIVATE(this)->menubar->setItemEnabled(
+                                         PRIVATE(this)->menubar->idAt(1), FALSE);
+  }
+}
+
 void
 SoQtSuperViewerP::setupNodes()
 {
@@ -1114,7 +1233,7 @@ SoQtSuperViewerP::processMouseEvent(const SoEvent * const event)
     this->mousedownpos = mousepos;
     this->flydirection = DIRECTION_NONE;
     this->currentmode = WAITING_FOR_FLY;
-    this->prevtime = SbTime::getTimeOfDay();
+    this->prevRedrawTime = SbTime::getTimeOfDay();
     return FALSE;
   }
   else if (mousereleaseevent) {
@@ -1126,7 +1245,7 @@ SoQtSuperViewerP::processMouseEvent(const SoEvent * const event)
     this->mousepos = mousepos;
     if (this->currentmode == WAITING_FOR_FLY) {
       this->currentmode = this->flymode;
-      this->prevtime = SbTime::getTimeOfDay();
+      this->prevRedrawTime = SbTime::getTimeOfDay();
     }
   }
   return FALSE;
@@ -1238,7 +1357,7 @@ SoQtSuperViewerP::pulse(void)
     owner->scheduleRedraw();
     this->shouldscheduleredraw = FALSE;
   }
-  this->prevtime = SbTime::getTimeOfDay();
+  this->prevRedrawTime = SbTime::getTimeOfDay();
 }
 
 
@@ -1523,7 +1642,7 @@ SoQtSuperViewerP::moveCamera(const SbVec3f &vec, const SbBool dorotate)
     this->glidespeed*this->relspeedglide :
     this->flyspeed*this->relspeedfly;
 
-  SbTime difftime = SbTime::getTimeOfDay() - this->prevtime;
+  SbTime difftime = SbTime::getTimeOfDay() - this->prevRedrawTime;
   float diffval = (float) difftime.getValue();
   // if slower than 10fps, ignore difftime. This avoids large jumps in terrain
   float dist = SbMin(diffval, 0.1f) * speed;

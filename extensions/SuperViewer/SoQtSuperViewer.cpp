@@ -167,6 +167,8 @@ SoQtSuperViewer::SoQtSuperViewer(
   PRIVATE(this)->cameramenuenabled = buildFlag & SoQtSuperViewer::CAMERA_MENU;
   PRIVATE(this)->lightsmenuenabled = buildFlag & SoQtSuperViewer::LIGHTS_MENU;
   
+  PRIVATE(this)->defaultoverride = FALSE;
+
   PRIVATE(this)->movingitemchk = 12;
   PRIVATE(this)->transparencyitemchk = 0;
   PRIVATE(this)->cameraitemchk = 6;
@@ -260,6 +262,19 @@ SoQtSuperViewer::~SoQtSuperViewer(
   delete PRIVATE(this)->log.time;
   delete PRIVATE(this);
 } // ~SoQtSuperViewer()
+
+// *************************************************************************
+
+/*!
+  Must be called after the viewer instance has been created. If one needs
+  to build the viewer with other settings than the default settings, those
+  must be set before init() is called.
+*/
+
+SoQtSuperViewer::init()
+{
+  PRIVATE(this)->actualInit();
+} // init()
 
 // *************************************************************************
 
@@ -1248,10 +1263,11 @@ SoQtSuperViewer::actualRedraw(void)
     if(changedComplexitySettings)
       PRIVATE(this)->complexity->textureQuality = PRIVATE(this)->texturequality;
   }
- 
+
   SbTime thisRedrawTime = SbTime::getTimeOfDay();
-  unsigned long msecs =
-    thisRedrawTime.getMsecValue() - PRIVATE(this)->prevRedrawTime.getMsecValue();
+  double secs =
+    thisRedrawTime.getValue() - PRIVATE(this)->prevRedrawTime.getValue();
+
   PRIVATE(this)->prevRedrawTime = thisRedrawTime;
 
   if (this->isAnimating()) {
@@ -1851,25 +1867,25 @@ SoQtSuperViewer::processSoEvent(const SoEvent * const ev)
               SbRotation rot = PRIVATE(this)->spinprojector->getRotation(from, to);
 
               SbTime stoptime = (event->getTime() - PRIVATE(this)->log.time[0]);
-              if (stoptime.getMsecValue() > 100) {
+              if (stoptime.getValue() > 0.1) {
                 this->interactiveCountDec();
               }
               else {
                 SbTime delta = (PRIVATE(this)->log.time[0] - PRIVATE(this)->log.time[2]);
-                float deltatime = (float) delta.getMsecValue();
-                if (deltatime == 1.0f) {
+                float deltatime = (float) delta.getValue();
+                if (deltatime == 0.001f) {
                   SoDebugError::postInfo("SoQtSuperViewer::processSoEvent", "time[0] = %ld, time[2] = %ld",
-                                          PRIVATE(this)->log.time[0].getMsecValue(), PRIVATE(this)->log.time[2].getMsecValue());
+                                          PRIVATE(this)->log.time[0].getValue(), PRIVATE(this)->log.time[2].getValue());
                   this->interactiveCountDec();
                 }
                 else {
                   rot.invert();
-                  rot.scaleAngle(200.0f / deltatime);
+                  rot.scaleAngle(0.2f / deltatime);
 
                   SbVec3f axis;
                   float radians;
                   rot.getValue(axis, radians);
-                  if (radians < 0.01f || deltatime > 300.0f) {
+                  if (radians < 0.01f || deltatime > 0.3f) {
                     this->interactiveCountDec();
                   }
                   else {
@@ -2036,9 +2052,9 @@ SoQtSuperViewer::openModel(SbString * const filename, SbBool show){
   filename->findAll("/", slashes);
   (void)printf("filename %s\n", filename->getString());
   PRIVATE(this)->pathtomodels.append(filename);
- (void)printf("filename igjen %s\n", filename->getSubString(slashes[slashes.getLength() - 1] + 1).getString());
+  (void)printf("filename igjen %s\n", filename->getSubString(slashes[slashes.getLength() - 1] + 1).getString());
   PRIVATE(this)->modelnames.append(&(filename->getSubString(slashes[slashes.getLength() - 1] + 1)));
-   (void)printf("caption 1 %s\n", ((SbString *)PRIVATE(this)->modelnames[0])->getString());
+  (void)printf("caption 1 %s\n", ((SbString *)PRIVATE(this)->modelnames[0])->getString());
   PRIVATE(this)->openmodels->addChild(newroot);
   PRIVATE(this)->currentroot = newroot;
   //search for textures
@@ -2058,7 +2074,7 @@ SoQtSuperViewer::openModel(SbString * const filename, SbBool show){
 
 } // openModel()
 
-
+// *************************************************************************
 
 /*!
   Sets the model given by \c index as the current model and sets up the
