@@ -106,11 +106,17 @@ uGUI = @uGUI@
 @BUILD_EXAMPLES_TRUE@EXAMPLEDIR = @BUILD_EXAMPLES_TRUE@examples
 @BUILD_EXAMPLES_FALSE@EXAMPLEDIR = 
 
-SUBDIRS = src/Inventor/Qt $(EXAMPLEDIR)
+SUBDIRS = . src/Inventor/Qt $(EXAMPLEDIR)
 
 bin_SCRIPTS = soqt-config
 
-BUILT_SOURCES = soqt-config
+BUILT_SOURCES = \
+	soqt-config \
+	src/Inventor/Qt/SoQtRenderArea.h \
+	src/Inventor/Qt/SoQtRenderArea.cpp \
+	src/Inventor/Qt/viewers/SoQtViewer.cpp \
+	src/Inventor/Qt/viewers/SoQtViewer.cpp
+
 
 EXTRA_DIST = conf-macros/soqt.m4
 
@@ -135,7 +141,7 @@ install-sh ltconfig ltmain.sh missing mkinstalldirs soqt-config.in
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
 GZIP_ENV = --best
-DIST_SUBDIRS =  src/Inventor/Qt examples
+DIST_SUBDIRS =  . src/Inventor/Qt examples
 all: all-redirect
 .SUFFIXES:
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
@@ -473,6 +479,22 @@ maintainer-clean
 
 
 soqt-config: soqt-config.in
+
+############################################################################
+
+src/Inventor/Qt/SoQtRenderArea.h: $(top_srcdir)/src/Inventor/Qt/common/SoAnyRenderArea.h.in
+	$(top_builddir)/config.status $@
+
+src/Inventor/Qt/SoQtRenderArea.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoAnyRenderArea.cpp.in
+	$(top_builddir)/config.status $@
+
+src/Inventor/Qt/viewers/SoQtViewer.h: $(top_srcdir)/src/Inventor/Qt/common/SoAnyViewer.h.in
+	$(top_builddir)/config.status $@
+
+src/Inventor/Qt/viewers/SoQtViewer.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoAnyViewer.cpp.in
+	$(top_builddir)/config.status $@
+
+############################################################################
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

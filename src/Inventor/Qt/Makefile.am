@@ -45,19 +45,17 @@ libSoQt_la_SOURCES = \
 	SoQtTransformSliderSet.h \
 	$(BUILT_SOURCES)
 
-
 libSoQt_la_LIBADD = \
 	common/libSoCommon.la \
 	devices/libSoQtDevices.la \
 	viewers/libSoQtViewers.la \
 	widgets/libSoQtWidgets.la
 
-
-libSoQtincdir = $(includedir)/Inventor/Qt
-
 libSoQt_la_LDFLAGS = \
         -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE) \
         -release $(LT_RELEASE)
+
+libSoQtincdir = $(includedir)/Inventor/Qt
 
 libSoQtinc_HEADERS = \
 	$(top_srcdir)/src/Inventor/Qt/SoQt.h \
