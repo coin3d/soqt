@@ -65,4 +65,37 @@ widgets.lst: Makefile $(widgets_lst_OBJECTS)
 	rm -f $@; \
 	for i in $(widgets_lst_OBJECTS); do echo $$i >>$@; done
 
+############################################################################
+# header installation
+
+SoQtWidgetsincdir = $(includedir)/Inventor/Qt/widgets
+SoQtWidgetsinc_HEADERS = 
+nodist_SoQtWidgetsinc_HEADERS = SoQtPopupMenu.h
+
+install-SoQtWidgetsincHEADERS: $(SoQtWidgetsinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(SoQtWidgetsincdir)
+	@list='$(SoQtWidgetsinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoQtWidgetsincdir)/$$f"; \
+	  if cmp -s "$$src" "$$dst"; then :; else \
+	    echo " $(INSTALL_HEADER) $$src $$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	  fi; \
+	done
+
+install-nodist_SoQtWidgetsincHEADERS: $(nodist_SoQtWidgetsinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(SoQtWidgetsincdir)
+	@list='$(nodist_SoQtWidgetsinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoQtWidgetsincdir)/$$f"; \
+	  if cmp -s "$$src" "$$dst"; then :; else \
+	    echo " $(INSTALL_HEADER) $$src $$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	  fi; \
+	done
+
 # EOF ######################################################################
