@@ -679,8 +679,23 @@ SoQtGLWidget::hasNormalGLArea(void) const
 
 // *************************************************************************
 
-#ifndef DOXYGEN_SKIP_THIS
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
+void
+SoQtGLWidget::setStealFocus(SbBool enable)
+{
+  // FIXME: implement properly. 20041208 mortene.
+  SOQT_STUB_ONCE();
+}
 
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
+SbBool
+SoQtGLWidget::isStealFocus(void) const
+{
+  // FIXME: implement properly. 20041208 mortene.
+  return TRUE;
+}
+
+// *************************************************************************
 // The private data and code for the SoQtGLWidget.
 
 SoQtGLWidgetP::SoQtGLWidgetP(SoQtGLWidget * o)
@@ -1213,8 +1228,6 @@ SoQtGLWidgetP::isDirectRendering(void)
   return TRUE; // Neither MSWindows nor Mac OS X is capable of remote display.
 #endif // ! X11
 }
-
-#endif // DOXYGEN_SKIP_THIS
 
 // *************************************************************************
 
