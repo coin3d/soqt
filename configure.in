@@ -290,6 +290,8 @@ esac
 
 AC_SUBST(path_tag)
 
+SIM_AC_MAC_CPP_ADJUSTMENTS
+
 # **************************************************************************
 
 AC_ARG_WITH(
