@@ -4,3 +4,5 @@ stuff
 ivexamples
 autom4te.cache
 SoQt-*.tar.gz
+libtool
+soqt-*.cfg

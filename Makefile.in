@@ -197,6 +197,12 @@ BUILT_SOURCES = \
 	$(SoQtMocSources)
 
 
+DISTCLEANFILES = \
+	libtool \
+	build/soqt.doxygen \
+	soqt-*.cfg
+
+
 dist_bin_SCRIPTS = soqt-config
 
 noinst_SCRIPTS = \
@@ -294,6 +300,11 @@ all: $(BUILT_SOURCES)
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
 	cd $(top_srcdir) && \
 	  $(AUTOMAKE) --gnu  Makefile
+
+Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.status
+	cd $(top_builddir) && \
+	  CONFIG_HEADERS= CONFIG_LINKS= \
+	  CONFIG_FILES=$@ $(SHELL) ./config.status
 $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ configure.in  \
 		cfg/m4/changesonly.m4 cfg/m4/check_be.m4 \
 		cfg/m4/check_dl.m4 cfg/m4/check_inventor.m4 \
@@ -584,6 +595,7 @@ clean-generic:
 distclean-generic:
 	-rm -f Makefile $(CONFIG_CLEAN_FILES)
 	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
+	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -656,7 +668,8 @@ soqt-@CONFIG@.cfg: Makefile $(srcdir)/soqt.cfg.in
 # This is necessary to set up a hook somewhere in the generated Makefile
 # so the sources are actually built.
 
-Makefile: $(SoQtBuiltSources)
+# this messes up "make distclean"
+# Makefile: $(SoQtBuiltSources)
 
 # Target which is present to make it simple to only generate all the source
 # files from the common sources.

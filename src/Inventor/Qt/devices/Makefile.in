@@ -144,6 +144,10 @@ BUILT_SOURCES = \
 	spwinput.h
 
 
+DISTCLEANFILES = \
+	$(BUILT_SOURCES)
+
+
 # built sourcefiles that are to be included in any case
 libSoQtDevicesBuiltSources = \
 	moc_SoQtDevice.cpp \
@@ -477,6 +481,7 @@ clean-generic:
 distclean-generic:
 	-rm -f Makefile $(CONFIG_CLEAN_FILES)
 	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
+	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"

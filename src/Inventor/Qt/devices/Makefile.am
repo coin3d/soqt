@@ -20,6 +20,9 @@ BUILT_SOURCES = \
 	spwinput_x11.cpp \
 	spwinput.h
 
+DISTCLEANFILES = \
+	$(BUILT_SOURCES)
+
 # built sourcefiles that are to be included in any case
 libSoQtDevicesBuiltSources = \
 	moc_SoQtDevice.cpp \

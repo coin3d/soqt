@@ -126,10 +126,14 @@ soqt_dox_src_dir = @soqt_dox_src_dir@
 win_srcdir = @win_srcdir@
 
 
-SUBDIRS = Inventor
+SUBDIRS = . Inventor
 
 BUILT_SOURCES = \
 	soqtdefs.h
+
+
+DISTCLEANFILES = \
+	$(BUILT_SOURCES)
 
 
 EXTRA_DIST = \
@@ -336,6 +340,7 @@ clean-generic:
 distclean-generic:
 	-rm -f Makefile $(CONFIG_CLEAN_FILES)
 	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
+	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -358,7 +363,7 @@ info:
 
 info-am:
 
-install-data-am:
+install-data-am: install-data-local
 
 install-exec-am:
 
@@ -380,19 +385,22 @@ mostlyclean-am: mostlyclean-generic
 	clean-generic clean-recursive distclean distclean-generic \
 	distclean-hdr distclean-recursive distclean-tags distdir dvi \
 	dvi-am dvi-recursive info info-am info-recursive install \
-	install-am install-data install-data-am install-data-recursive \
-	install-exec install-exec-am install-exec-recursive \
-	install-info install-info-recursive install-man \
-	install-recursive install-strip installcheck installcheck-am \
-	installcheck-recursive installdirs installdirs-am \
-	installdirs-recursive maintainer-clean maintainer-clean-generic \
-	maintainer-clean-recursive mostlyclean mostlyclean-generic \
-	mostlyclean-recursive tags tags-recursive uninstall \
-	uninstall-am uninstall-info-recursive uninstall-recursive
+	install-am install-data install-data-am install-data-local \
+	install-data-recursive install-exec install-exec-am \
+	install-exec-recursive install-info install-info-recursive \
+	install-man install-recursive install-strip installcheck \
+	installcheck-am installcheck-recursive installdirs \
+	installdirs-am installdirs-recursive maintainer-clean \
+	maintainer-clean-generic maintainer-clean-recursive mostlyclean \
+	mostlyclean-generic mostlyclean-recursive tags tags-recursive \
+	uninstall uninstall-am uninstall-info-recursive \
+	uninstall-recursive
 
 
 soqtdefs.h: $(srcdir)/soqtdefs.h.in
-	@( cd ..; $(MAKE) src/soqtdefs.h )
+	@( cd ..; $(MAKE) built-sources )
+
+install-data-local: soqtdefs.h
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

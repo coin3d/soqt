@@ -142,6 +142,10 @@ BUILT_SOURCES = \
 	moc_SoQtThumbWheel.cpp
 
 
+DISTCLEANFILES = \
+	$(BUILT_SOURCES)
+
+
 ############################################################################
 # libtool setup
 
@@ -389,6 +393,7 @@ clean-generic:
 distclean-generic:
 	-rm -f Makefile $(CONFIG_CLEAN_FILES)
 	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
+	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"

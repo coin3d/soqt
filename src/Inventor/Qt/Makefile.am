@@ -33,6 +33,9 @@ BUILT_SOURCES = \
 	moc_SoQtSliderSetBase.cpp \
 	moc_SoQtTransformSliderSet.cpp
 
+DISTCLEANFILES = \
+	$(BUILT_SOURCES)
+
 ############################################################################
 # libtool setup
 

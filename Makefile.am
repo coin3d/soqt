@@ -67,6 +67,11 @@ BUILT_SOURCES = \
 	$(SoQtBuiltSources) \
 	$(SoQtMocSources)
 
+DISTCLEANFILES = \
+	libtool \
+	build/soqt.doxygen \
+	soqt-*.cfg
+
 dist_bin_SCRIPTS = soqt-config
 
 noinst_SCRIPTS = \
@@ -144,7 +149,8 @@ EXTRA_DIST = \
 # This is necessary to set up a hook somewhere in the generated Makefile
 # so the sources are actually built.
 
-Makefile: $(SoQtBuiltSources)
+# this messes up "make distclean"
+# Makefile: $(SoQtBuiltSources)
 
 # Target which is present to make it simple to only generate all the source
 # files from the common sources.

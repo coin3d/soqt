@@ -24,6 +24,9 @@ BUILT_SOURCES = \
 	moc_SoQtGLArea.cpp \
 	moc_SoQtThumbWheel.cpp
 
+DISTCLEANFILES = \
+	$(BUILT_SOURCES)
+
 ############################################################################
 
 moc_SoQtThumbWheel.cpp: $(top_srcdir)/src/Inventor/Qt/widgets/SoQtThumbWheel.h
