@@ -300,6 +300,7 @@ void
 SoQtRenderArea::setColorMap(const int startIndex, const int num, const
 			    SbColor * const colors)
 {
+  delete [] this->colormap;
   this->cmStartIndex = startIndex;
   this->cmNum = num;
   this->colormap = new SbColor[num];
@@ -315,6 +316,7 @@ void
 SoQtRenderArea::setOverlayColorMap(const int startIndex, const int num,
 				   const SbColor * const colors)
 {
+  delete [] this->overlayColormap;
   this->ocmStartIndex = startIndex;
   this->ocmNum = num;
   this->overlayColormap = new SbColor[num];
