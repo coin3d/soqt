@@ -285,5 +285,5 @@ src/Inventor/Qt/widgets/moc_SoQtPopupMenu.cpp: \
 ############################################################################
 
 doxygen-docs:
-	@( cd build; @sim_ac_doxygen_exe@ sogtk.doxygen )
+	@( cd build; @sim_ac_doxygen_exe@ soqt.doxygen )
 

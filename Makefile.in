@@ -782,7 +782,7 @@ src/Inventor/Qt/widgets/moc_SoQtPopupMenu.cpp: \
 ############################################################################
 
 doxygen-docs:
-	@( cd build; @sim_ac_doxygen_exe@ sogtk.doxygen )
+	@( cd build; @sim_ac_doxygen_exe@ soqt.doxygen )
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
