@@ -194,7 +194,8 @@ SoQtGLWidget::buildWidget(
   this->borderwidget->setMargin( 0 );
   this->borderwidget->move( 0, 0 );
 
-  // what's this then?
+  // Remember our parent widget so we can use it in tests in the
+  // eventFilter().
   this->glparent = parent;
 
   this->buildGLWidget();
@@ -304,7 +305,10 @@ SoQtGLWidget::buildGLWidget(void)
 
   *this->glformat = this->currentglwidget->format();
 
-  this->currentglwidget->setGeometry( borderwidget->contentsRect() );
+  int frame = this->isBorder() ? this->borderthickness : 0;
+  this->currentglwidget->setGeometry( frame, frame,
+                                      this->glSize[0] - 2*frame,
+                                      this->glSize[1] - 2*frame);
 
   QObject::connect( this->currentglwidget, SIGNAL(init_sig()),
                     this, SLOT(gl_init()));
@@ -395,15 +399,10 @@ SoQtGLWidget::eventFilter(
   QObject * obj,
   QEvent * e )
 {
-#if SOQT_DEBUG && 0
-  SoDebugError::postInfo( "SoQtGLWidget::eventFilter", "[invoked]" );
-#endif // SOQT_DEBUG
-
-#if 0 // debug
-  SoDebugError::postInfo("SoQtGLWidget::eventFilter", "obj: %p", obj);
-
-  
-  SoDebugError::postInfo("SoQtGLWidget::eventFilter", "%s",
+#if SOQT_DEBUG && 0 // debug
+  SoDebugError::postInfo("SoQtGLWidget::eventFilter",
+                         "[invoked] obj: %p %s",
+                         obj,
                          eventnaming[e->type()]);
 #endif // debug
 
@@ -440,13 +439,14 @@ SoQtGLWidget::eventFilter(
 
 
   if ( obj == (QObject *) this->glparent ) {
+    // If this hits, the this->glparent QWidget is a toplevelshell, so
+    // we resize the GL widget along with it.
     if (e->type() == Event_Resize) {
-//      SoDebugError::postInfo( "", "event_resize: glparent" );
       QResizeEvent * r = (QResizeEvent *)e;
-#if 0  // debug
+#if SOQT_DEBUG && 0  // debug
       SoDebugError::postInfo("SoQtGLWidget::eventFilter",
-                             "resize %p: (%d, %d)",
-                             this->currentglwidget,
+                             "resize parent %p: (%d, %d)",
+                             this->glparent,
                              r->size().width(), r->size().height());
 #endif // debug
 
@@ -480,6 +480,7 @@ SoQtGLWidget::eventFilter(
         "glwidget event (%d, %d)",
         (int) r->size().width(), (int) r->size().height() );
 #endif
+      // Do not redispatch.
       return true;
     }
 #endif // debug
@@ -716,7 +717,7 @@ SoQtGLWidget::sizeChanged(
 //  int sub = this->borderwidget->frameWidth() * 2;
 //  geometry = QRect( geometry.left(), geometry.top(),
 //    geometry.width() - sub, geometry.height() - sub );
-  int frame = this->isBorder() ? SO_BORDER_THICKNESS : 0;
+  int frame = this->isBorder() ? this->borderthickness : 0;
   this->glSize = SbVec2s( size[0] - 2 * frame, size[1] - 2 * frame );
   if ( this->currentglwidget ) {
     this->currentglwidget->setGeometry( QRect( frame, frame, this->glSize[0], this->glSize[1] ) );
@@ -847,10 +848,9 @@ void
 SoQtGLWidget::glRender( // virtual
   void )
 {
-#if 0 // SOQT_DEBUG
+#if SOQT_DEBUG && 0 // debug
   SoDebugError::postInfo( "SoQtGLWidget::glRender", "called" );
-#endif // 0 was SOQT_DEBUG
-  // nada
+#endif // debug
   this->redraw();
 } // glRender()
 
