@@ -599,11 +599,11 @@ SoQtKeyboard::translateEvent(
     this->kbdevent->setCtrlDown(state & ControlButton);
     this->kbdevent->setAltDown(state & AltButton);
 
-    this->setEventPosition(this->kbdevent,
-                           // FIXME: read QCursor::position() instead,
-                           // and clean up this mess. 990222 mortene.
-                           SoQtDevice::getLastEventPosition().x(),
-                           SoQtDevice::getLastEventPosition().y());
+    // FIXME: read QCursor::position() instead,
+    // and clean up this mess. 990222 mortene.
+    this->setEventPosition( this->kbdevent,
+                            SoQtDevice::getLastEventPosition().x(),
+                            SoQtDevice::getLastEventPosition().y() );
 
     // FIXME: wrong -- should be the time the Qt event happened. Can't
     // find support for getting hold of that information in Qt. 990211

@@ -145,6 +145,12 @@ QPoint
 SoQtDevice::getLastEventPosition(
   void ) // static
 {
+  if ( SoQtDevice::lasteventposition == NULL ) {
+#if SOQT_DEBUG && 0
+    SoDebugError::postInfo( "SoQtDevice::getLastEventPosition", "not initialized" );
+#endif // SOQT_DEBUG
+    SoQtDevice::lasteventposition = new QPoint( -1, -1 );
+  }
   return *SoQtDevice::lasteventposition;
 } // getLastEventPosition()
 
