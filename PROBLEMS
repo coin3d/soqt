@@ -1,3 +1,5 @@
+CVS users:
+
 The SoQt/conf-macros/ directory does not exist
 
   It's a separate CVS module, added after you took a "cvs checkout" on SoQt.

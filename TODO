@@ -15,7 +15,7 @@ ToDo
   the Coin library.
 
 * [mortene:19990917] write information in NEWS, README, HACKING,
-  AUTHORS, ChangeLog, COPYING.
+  AUTHORS, COPYING.
 
 * [mortene:19990917] write non-generic info in INSTALL.
 
@@ -126,7 +126,7 @@ ToDo
 * [mortene:1999????] start the SoQt/examples/examinerviewer example
   without any modelfile as argument (to get one of the random shapes),
   drag the left rotate wheel a bit up or down -- leads to major
-  rendering fuckups.
+  rendering fuckups. [seems to be gone - larsa:20000112]
 
 * [mortene:1999????] pick/view togglebuttons doesn't work correctly:
   clicking on a button already pressed down shouldn't have any effect.
@@ -147,9 +147,6 @@ ToDo
 * [mortene:1999????] add the generic part of the support for stereo
   mode, if possible with Qt.
 
-* [mortene:1999????] the thumbwheels looks pretty shoddy. Should fix
-  both the general appearance and the animation gfx.
-
 * [mortene:1999????] something is wrong with the signal-slot mechanism
   set up in the preference window.
 
@@ -161,6 +158,9 @@ Done
 ====
 
 (format is: "* [author:conceived-date][implementer:finished-date] item")
+
+* [mortene:1999????][larsa:20000110] the thumbwheels looks pretty shoddy.
+  Should fix both the general appearance and the animation gfx.
 
 * [mortene:19991117][mortene:19991219] click seek, miss with the ray,
   click seek again -- mode is still "grab". Click seek again to into
