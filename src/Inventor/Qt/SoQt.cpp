@@ -310,10 +310,26 @@ void
 SoQtP::slot_idleSensor()
 {
   if (SOQT_DEBUG && 0) { // debug
-    SoDebugError::postInfo("SoQt::idleSensor", "processing delay queue");
+    SoDebugError::postInfo("SoQt::idleSensor",
+                           "processing delay queue, "
+                           "QApplication::hasPendingEvents()==%d",
+                           SoQtP::appobject->hasPendingEvents());
     SoDebugError::postInfo("SoQt::idleSensor", "is %s",
                            SoQtP::idletimer->isActive() ? "active" : "inactive");
   }
+
+  // FIXME: tmp disabled, as I'm not sure if this really
+  // helps. Investigate further the actual semantics of "idle trigger
+  // timers" in Qt. 20020910 mortene.
+#if 0
+  // If there are still events in the Qt event queue, push the
+  // idle-timer at the end of the queue again.
+  if (SoQtP::appobject->hasPendingEvents()) {
+    if (SoQtP::idletimer->isActive()) SoQtP::idletimer->stop();
+    SoQtP::idletimer->start(0, TRUE);
+    return;
+  }
+#endif
 
   SoDB::getSensorManager()->processTimerQueue();
   SoDB::getSensorManager()->processDelayQueue(TRUE);
@@ -325,7 +341,8 @@ SoQtP::slot_idleSensor()
 }
 
 // The delay sensor timeout point has been reached, so process the
-// delay queue even though the system is not idle.
+// delay queue even though the system is not idle (to avoid
+// starvation).
 void
 SoQtP::slot_delaytimeoutSensor()
 {
@@ -352,16 +369,20 @@ SoQtP::slot_delaytimeoutSensor()
 void
 SoGuiP::sensorQueueChanged(void *)
 {
-  // We need three different mechanisms to interface Coin with Qt, 
-  // which are:
-  // 1. detect when application is idle (and then empty the delay-queue
-  //    completely for delay-sensors) -- handled by SoQtP::idletimer;
-  // 2. detect when one or more timer-sensors are ripe and trigger those
-  //    -- handled by SoQtP::timerqueuetimer;
-  // 3. on the "delay-sensor timeout interval, empty all highest
-  //    priority delay-queue sensors to avoid complete starvation in
-  //    continually busy applications -- handled by
-  //    SoQTP::delaytimeouttimer
+  // We need three different mechanisms to interface Coin sensor
+  // handling with Qt event handling, which are:
+  //
+  // 1. Detect when the application is idle and then empty the
+  // delay-queue completely for delay-sensors -- handled by
+  // SoQtP::idletimer.
+  //
+  // 2. Detect when one or more timer-sensors are ripe and trigger
+  // those -- handled by SoQtP::timerqueuetimer.
+  //
+  // 3. On the "delay-sensor timeout interval", empty all highest
+  // priority delay-queue sensors to avoid complete starvation in
+  // continually busy applications -- handled by
+  // SoQtP::delaytimeouttimer.
 
 
   // Allocate Qt timers on first call.
@@ -479,6 +500,9 @@ COIN_IV_EXTENSIONS
 void
 SoQt::init(QWidget * toplevelwidget)
 {
+  assert(qApp && "you must set up a QApplication instance");
+  SoQtP::appobject = qApp;
+
   // This init()-method is called by the other 2 init()'s, so place
   // common code here.
 
@@ -570,6 +594,13 @@ SoQt::exitMainLoop(void)
 void
 SoQt::done(void)
 {
+  // To avoid getting any further invokations of
+  // SoGuiP::sensorQueueChanged() (which would re-allocate the timers
+  // we destruct below). This could for instance happen when
+  // de-coupling the scenegraph camera, triggering a notification
+  // chain through the scenegraph.
+  SoDB::getSensorManager()->setChangedCallback(NULL, NULL);
+
   delete SoQtP::timerqueuetimer; SoQtP::timerqueuetimer = NULL;
   delete SoQtP::idletimer; SoQtP::idletimer = NULL;
   delete SoQtP::delaytimeouttimer; SoQtP::delaytimeouttimer = NULL;
