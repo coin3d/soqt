@@ -20,32 +20,63 @@
  *  <URL:http://www.sim.no>.
  *
 \**************************************************************************/
+#define PRIVATE(p) (p->pimpl)
+#define PUBLIC(p) (p->pub)
 
 #include <assert.h>
 #include <qfile.h>
 #include <qimage.h>
-#include "Gradient.h"
+#include <Inventor/Qt/widgets/Gradient.h>
+
+class GradientP {
+public:
+  GradientP(Gradient * publ);
+  void getColorIndex(int & i, SbBool left) const;
+  Gradient * pub;
+  QValueList<float> parameters;
+  QValueList<QRgb> colors;
+  changeCB * callBack;
+};
+
+GradientP::GradientP(Gradient * publ)
+{
+  PUBLIC(this) = publ;
+}
+
+void GradientP::getColorIndex(int & i, SbBool left) const
+{
+  // there are parameters times two minus one number of colors
+  i = i * 2 - 1;
+  int num = this->colors.size();
+  int maxIndex = this->colors.size() - 1;
+  if (!left) i++;
+  if (i < 0) i += num;
+  if (i > maxIndex) i -= num;
+}
 
 Gradient::Gradient(const QColor& color0, const QColor& color1)
 {
+  this->pimpl = new GradientP(this);
+  PRIVATE(this)->callBack = NULL;
+  
   // parameter values will be in the range [0 - 1]
-  this->parameters.append(0.0f);
-  this->parameters.append(1.0f);
-  this->colors.append(color0.rgb());
-  this->colors.append(color1.rgb());
-
-  this->changeCB = NULL;
+  PRIVATE(this)->parameters.append(0.0f);
+  PRIVATE(this)->parameters.append(1.0f);
+  PRIVATE(this)->colors.append(color0.rgb());
+  PRIVATE(this)->colors.append(color1.rgb());
 }
 
 Gradient::Gradient(const Gradient & grad)
 {
+  this->pimpl = new GradientP(this);
   this->operator=(grad);
 }
 
 Gradient::Gradient(const QString filename)
 {
+  this->pimpl = new GradientP(this);
+  PRIVATE(this)->callBack = NULL;
   this->load(filename);
-  this->changeCB = NULL;
 }
 
 Gradient::~Gradient()
@@ -54,16 +85,16 @@ Gradient::~Gradient()
 
 Gradient & Gradient::operator = (const Gradient & grad)
 {
-  this->changeCB = grad.changeCB;
-  this->parameters = grad.parameters;
-  this->colors = grad.colors;
+  PRIVATE(this)->callBack = grad.pimpl->callBack;
+  PRIVATE(this)->parameters = grad.pimpl->parameters;
+  PRIVATE(this)->colors = grad.pimpl->colors;
   return *this;
 }
 
 SbBool Gradient::operator == (const Gradient & grad) const
 {
-  return (this->parameters == grad.parameters) &&
-         (this->colors == grad.colors);
+  return (PRIVATE(this)->parameters == grad.pimpl->parameters) &&
+         (PRIVATE(this)->colors == grad.pimpl->colors);
 }
 
 QRgb Gradient::eval(float t) const
@@ -73,10 +104,12 @@ QRgb Gradient::eval(float t) const
 
   int i = 0;
   // find the interval to evaluate in
-  while (this->parameters[++i] < t);
+  while (PRIVATE(this)->parameters[++i] < t);
 
-  float t0 = this->parameters[i-1];
-  float t1 = this->parameters[i];
+  int j = (i-1)*2;
+
+  float t0 = PRIVATE(this)->parameters[i-1];
+  float t1 = PRIVATE(this)->parameters[i];
 
   float dt = t1 - t0;
 
@@ -84,51 +117,51 @@ QRgb Gradient::eval(float t) const
   float w0 = (t1 - t) / dt;
   float w1 = (t - t0) / dt;
 
-  int j = (i-1)*2;
+  const QRgb color0 =  PRIVATE(this)->colors[j];
+  const QRgb color1 = PRIVATE(this)->colors[j+1];
 
-  const QRgb color0 =  this->colors[j];
-  const QRgb color1 = this->colors[j+1];
-
-  int r = int ((w0 * float(qRed(color0)) + w1 * float(qRed(color1)) + 0.5f));
-  int g = int ((w0 * float(qGreen(color0)) + w1 * float(qGreen(color1)) + 0.5f));
-  int b = int ((w0 * float(qBlue(color0)) + w1 * float(qBlue(color1)) + 0.5f));
-  int a = int ((w0 * float(qAlpha(color0)) + w1 * float(qAlpha(color1)) + 0.5f));
+  // add 0.5 to get rounding
+  int r = int(w0 * float(qRed(color0)) + w1 * float(qRed(color1)) + 0.5f);
+  int g = int(w0 * float(qGreen(color0)) + w1 * float(qGreen(color1)) + 0.5f);
+  int b = int(w0 * float(qBlue(color0)) + w1 * float(qBlue(color1)) + 0.5f);
+  int a = int(w0 * float(qAlpha(color0)) + w1 * float(qAlpha(color1)) + 0.5f);
 
   return qRgba(r, g, b, a);
 }
 
 int Gradient::numTicks() const
 {
-  return this->parameters.size();
+  return PRIVATE(this)->parameters.size();
 }
 
 float Gradient::getParameter(int i) const
 {
-  return this->parameters[i];
+  return PRIVATE(this)->parameters[i];
 }
 
 void Gradient::moveTick(int i, float t)
 {
-  if (this->parameters[i] != t) {
-    this->parameters[i] = t;
-    if (this->changeCB) this->changeCB();
+  if (PRIVATE(this)->parameters[i] != t) {
+    PRIVATE(this)->parameters[i] = t;
+    if (PRIVATE(this)->callBack) 
+      PRIVATE(this)->callBack(this);
   }
 }
 
 int Gradient::insertTick(float t)
 {
-  // we use the color of the gradient at this parameter value
-  QRgb color = this->eval(t);
-  
-  // find the interval to evaluate in
+  // find position to insert before
   int i = 0;
-  QValueList<float>::Iterator it = this->parameters.begin();
-  QValueList<QRgb>::Iterator it2 = this->colors.begin();
+  QValueList<float>::Iterator it = PRIVATE(this)->parameters.begin();
+  QValueList<QRgb>::Iterator it2 = PRIVATE(this)->colors.begin();
+  // it2 = it * 2 - 1, (+= operator wasnt available until Qt 3.1.0)
   while ((*it) < t) { i++; it++; it2++; it2++; }
   it2--;
 
-  this->parameters.insert(it, t);
-  this->colors.insert(it2, 2, color);
+  // we use the color of the gradient at this parameter value
+  QRgb color = this->eval(t);
+  PRIVATE(this)->parameters.insert(it, t);
+  PRIVATE(this)->colors.insert(it2, 2, color);
 
   return i;
 
@@ -136,72 +169,59 @@ int Gradient::insertTick(float t)
 
 void Gradient::removeTick(int i)
 {
-  QValueList<float>::Iterator it = this->parameters.begin();
-  QValueList<QRgb>::Iterator it2 = this->colors.begin();
+  QValueList<float>::Iterator it = PRIVATE(this)->parameters.begin();
+  QValueList<QRgb>::Iterator it2 = PRIVATE(this)->colors.begin();
   // the += operator wasn't available until Qt 3.1.0. Just iterate
   // and use ++. pederb, 2003-09-22
   for (int j = 0; j < i; j++) { it++; it2++; it2++; }
-  this->parameters.remove(it);
-  it2 = this->colors.remove(--it2);
-  this->colors.remove(it2);
+  it2--;
 
-  if (this->changeCB) this->changeCB();
+  PRIVATE(this)->parameters.remove(it);
+  it2 = PRIVATE(this)->colors.remove(it2);
+  PRIVATE(this)->colors.remove(it2);
+
+  if (PRIVATE(this)->callBack) PRIVATE(this)->callBack(this);
 }
 
 SbBool Gradient::leftEqualsRight(int i) const
 {
-  int maxIndex = this->colors.size() - 1;
-  int colorIndex = i * 2 - 1;
-
-  if (colorIndex < 0) colorIndex = maxIndex;
-
-  return (this->colors[colorIndex] == this->colors[(colorIndex+1) % maxIndex]);
+  PRIVATE(this)->getColorIndex(i, TRUE);
+  int n =  PRIVATE(this)->colors.size();
+  return (PRIVATE(this)->colors[i] == PRIVATE(this)->colors[(i+1) % n]);
 }
 
 void Gradient::swapLeftAndRight(int i)
 {
-  
+  PRIVATE(this)->getColorIndex(i, TRUE);
+  int n = PRIVATE(this)->colors.size();
+
+  PRIVATE(this)->colors[i] ^= PRIVATE(this)->colors[(i+1)%n] ^= 
+  PRIVATE(this)->colors[i] ^= PRIVATE(this)->colors[(i+1)%n];
 }
 
 void Gradient::setColor(int i, SbBool left, const QRgb color)
 {
-  int colorIndex = i * 2 - 1;
+  PRIVATE(this)->getColorIndex(i, left);
+  PRIVATE(this)->colors[i] = color;
 
-  if (!left) colorIndex++;
-
-  int maxIndex = this->colors.size() - 1;
-
-  if (colorIndex > maxIndex) colorIndex = 0;
-  if (colorIndex < 0) colorIndex = maxIndex;
-
-  this->colors[colorIndex] = color;
-
-  if (this->changeCB) this->changeCB();
+  if (PRIVATE(this)->callBack) PRIVATE(this)->callBack(this);
 }
 
 QRgb Gradient::getColor(int i, SbBool left) const
 {
-  int colorIndex = i * 2 - 1;
-
-  if (!left) colorIndex++;
-
-  int maxIndex = this->colors.size() - 1;
-  
-  if (colorIndex > maxIndex) colorIndex = 0;
-  if (colorIndex < 0) colorIndex = maxIndex;
-
-  return this->colors[colorIndex];
+  PRIVATE(this)->getColorIndex(i, left);
+  return PRIVATE(this)->colors[i];
 }
 
-void Gradient::setChangeCallback(void (*changeCB)(void))
+void Gradient::setChangeCallback(changeCB * callBack)
 {
-  this->changeCB = changeCB;
+  PRIVATE(this)->callBack = callBack;
 }
 
-void Gradient::handleChange() const
+void Gradient::handleChange()
 {
-  if (this->changeCB)
-    this->changeCB();
+  if (PRIVATE(this)->callBack)
+    PRIVATE(this)->callBack(this);
 }
 
 void Gradient::getColorArray(QRgb * colorArray, int num) const
@@ -243,17 +263,17 @@ void Gradient::save(const QString& filename)
   if (outfile.open(IO_WriteOnly)) {
     QTextStream stream(&outfile);
 
-    stream << this->parameters.size() << " ";
+    stream << PRIVATE(this)->parameters.size() << " ";
 
-    QValueList<float>::Iterator it = this->parameters.begin();
-    for (; it != this->parameters.end(); it++) {
+    QValueList<float>::Iterator it = PRIVATE(this)->parameters.begin();
+    for (; it != PRIVATE(this)->parameters.end(); it++) {
       stream << (*it) << " ";
     }
 
-    stream << this->colors.size() << " ";
+    stream << PRIVATE(this)->colors.size() << " ";
 
-    QValueList<QRgb>::Iterator it2 = this->colors.begin();
-    for (; it2 != this->colors.end(); it2++) {
+    QValueList<QRgb>::Iterator it2 = PRIVATE(this)->colors.begin();
+    for (; it2 != PRIVATE(this)->colors.end(); it2++) {
       stream << (*it2) << " ";
     }
     outfile.close();
@@ -262,8 +282,8 @@ void Gradient::save(const QString& filename)
 
 void Gradient::load(const QString& filename)
 {
-  this->colors.clear();
-  this->parameters.clear();
+  PRIVATE(this)->colors.clear();
+  PRIVATE(this)->parameters.clear();
 
   QFile infile(filename);
   if (infile.open(IO_ReadOnly)) {
@@ -277,7 +297,7 @@ void Gradient::load(const QString& filename)
     for (i = 0; i < numParameters; i++) {
       float t;
       stream >> t;
-      this->parameters.append(t);
+      PRIVATE(this)->parameters.append(t);
     }
 
     int numColors;
@@ -286,10 +306,11 @@ void Gradient::load(const QString& filename)
     for (i = 0; i < numColors; i++) {
       QRgb clr;
       stream >> clr;
-      this->colors.append(clr);
+      PRIVATE(this)->colors.append(clr);
     }
     infile.close();
   }
 }
 
-
+#undef PRIVATE
+#undef PUBLIC
