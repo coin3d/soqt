@@ -95,7 +95,7 @@ SoQtPlaneViewer::constructor( // private
   vv.ortho(-1, 1, -1, 1, -1, 1);
   this->projector->setViewVolume(vv);
 
-/*  this->addVisibilityChangeCallback(SoQtPlaneViewer::visibilityCB, this); */
+  this->addVisibilityChangeCallback( SoQtPlaneViewer::visibilityCB, this );
 
   this->setClassName("SoQtPlaneViewer");
   this->setLeftWheelString( "transY" );
@@ -331,7 +331,7 @@ SoQtPlaneViewer::processEvent( // virtual
         break;
 */
 
-      default: /* include default to avoid compiler warnings. */
+      default: // include default to avoid compiler warnings.
         break;
 
       } // switch ( this->planeViewerMode )
@@ -437,16 +437,26 @@ SoQtPlaneViewer::createViewerButtons( // virtual
   inherited::createViewerButtons( parent, buttons );
   this->buttons.x = new QPushButton( parent );
   this->buttons.x->setFocusPolicy( QWidget::NoFocus );
+  this->buttons.x->setToggleButton( FALSE );
   this->buttons.x->setText( QString( "X" ) );
+  QObject::connect( this->buttons.x, SIGNAL(clicked()),
+                    this, SLOT(xClicked()) );
   buttons->append( this->buttons.x );
   this->buttons.y = new QPushButton( parent );
   this->buttons.y->setFocusPolicy( QWidget::NoFocus );
+  this->buttons.y->setToggleButton( FALSE );
   this->buttons.y->setText( QString( "Y" ) );
+  QObject::connect( this->buttons.y, SIGNAL(clicked()),
+                    this, SLOT(yClicked()) );
   buttons->append( this->buttons.y );
   this->buttons.z = new QPushButton( parent );
   this->buttons.z->setFocusPolicy( QWidget::NoFocus );
+  this->buttons.z->setToggleButton( FALSE );
   this->buttons.z->setText( QString( "Z" ) );
+  QObject::connect( this->buttons.z, SIGNAL(clicked()),
+                    this, SLOT(zClicked()) );
   buttons->append( this->buttons.z );
+
   // add camera toggle button
   assert( this->pixmaps.perspective != NULL );
   assert( this->pixmaps.orthogonal != NULL );
@@ -467,7 +477,7 @@ SoQtPlaneViewer::createViewerButtons( // virtual
   buttons->append( this->buttons.camera );
 
   QObject::connect( this->buttons.camera, SIGNAL(clicked()),
-                    this, SLOT(cameratoggleClicked()) );
+                    this, SLOT(cameraToggleClicked()) );
 
 } // createViewerButtons()
 
@@ -530,9 +540,66 @@ SoQtPlaneViewer::zoom(
 */
 
 void
-SoQtPlaneViewer::cameratoggleClicked()
+SoQtPlaneViewer::xClicked(
+  void )
+{
+  SoAnyPlaneViewer::viewPlaneX( this->getCamera() );
+} // xClicked()
+
+/*!
+  \internal
+*/
+
+void
+SoQtPlaneViewer::yClicked(
+  void )
+{
+  SoAnyPlaneViewer::viewPlaneY( this->getCamera() );
+} // yClicked()
+
+/*!
+  \internal
+*/
+
+void
+SoQtPlaneViewer::zClicked(
+  void )
+{
+  SoAnyPlaneViewer::viewPlaneZ( this->getCamera() );
+} // zClicked()
+
+/*!
+  \internal
+*/
+
+void
+SoQtPlaneViewer::cameraToggleClicked(
+  void )
 {
   this->toggleCameraType();
-} // cameratoggleClicked()
+} // cameraToggleClicked()
+
+// ************************************************************************
+
+/*!
+  \internal
+*/
+
+void
+SoQtPlaneViewer::visibilityCB( // static
+  void * data,
+  SbBool visible )
+{
+  SoQtPlaneViewer * thisp = (SoQtPlaneViewer *) data;
+
+/* examiner viewer does this:
+  if ( thisp->isAnimating() ) {
+    if ( visible )
+      thisp->timerTrigger->schedule();
+    else
+      thisp->timerTrigger->unschedule();
+  }
+*/
+} // visibilityCB()
 
 // ************************************************************************

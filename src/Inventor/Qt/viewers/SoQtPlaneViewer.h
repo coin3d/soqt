@@ -107,8 +107,13 @@ private:
     QPixmap * orthogonal, * perspective;
   } pixmaps;
 
+  static void SoQtPlaneViewer::visibilityCB( void * data, SbBool visible );
+
 private slots:
-  void cameratoggleClicked(void);
+  void xClicked(void);
+  void yClicked(void);
+  void zClicked(void);
+  void cameraToggleClicked(void);
 
 }; // class SoQtPlaneViewer
 
