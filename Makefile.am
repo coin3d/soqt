@@ -52,6 +52,7 @@ endif
 
 EXTRA_DIST = \
 	LICENSE.LGPL \
+	FAQ \
 	HACKING \
 	README.DLL \
 	README.IRIX \
