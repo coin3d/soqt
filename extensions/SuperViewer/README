@@ -23,8 +23,6 @@ There are couple of known bugs which are listed below.
      caused by the lack of a real build system.
      Hopefully these will be solved soon.
  * The fly mode doesn't work satisfactory.
- * Its impossible to get the model to spin for now. Bug was
-     introduced as a millisecond overflow problem was fixed.
 
      At the moment, the SuperViewer is developed against Qt 2.3.0,
      but it is reported to compile correctly against Qt 3.0.0 too. 

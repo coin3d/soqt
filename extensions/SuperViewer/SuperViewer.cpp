@@ -12,7 +12,7 @@ int
 main(int argc, char **argv)
 {
   QWidget * svWindow = SoQt::init(argv[0]);
-  //if (myWindow == NULL) exit(1);
+  if (svWindow == NULL) exit(1);
   
   SoSeparator * root = new SoSeparator;
 

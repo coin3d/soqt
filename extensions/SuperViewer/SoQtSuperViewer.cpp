@@ -1739,7 +1739,7 @@ SoQtSuperViewer::setSeekMode(SbBool on)
   inherited::setSeekMode(on);
   PRIVATE(this)->setMode(on ?
                         SoQtSuperViewerP::WAITING_FOR_SEEK :
-                        SoQtSuperViewerP::INTERACT);
+                        SoQtSuperViewerP::EXAMINE);
 } // setSeekMode()
 
 // *************************************************************************
@@ -2173,7 +2173,7 @@ SoQtSuperViewer::processSoEvent(const SoEvent * const ev)
 
     switch (stateflags) {
     case 0:
-      mode = SoQtSuperViewerP::INTERACT;
+      mode = SoQtSuperViewerP::EXAMINE;
       break;
 
     case STATE_LMB:

@@ -259,6 +259,7 @@ class SoQtSuperViewerP : QObject{
   enum ViewerMode {
     IDLE,
     INTERACT,
+    EXAMINE,
     DRAGGING,
     WAITING_FOR_SEEK,
     ZOOMING,
@@ -339,6 +340,7 @@ class SoQtSuperViewerP : QObject{
   void cameraSelected( int );
   void frontSelected();
   void examineSelected();
+  void interactSelected();
   void flySelected();
   void flymodeSelected( int );
 

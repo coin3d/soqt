@@ -894,6 +894,9 @@ SoQtSuperViewerP::buildCameraMenu(SbBool build,
                                         this, SLOT(examineSelected()));
       this->viewmodesubmenu->setItemChecked(
                                             this->viewmodesubmenu->idAt(0), TRUE);
+      this->viewmodesubmenu->insertItem("Interact",
+                                        this, SLOT(interactSelected()));
+      
       this->viewmodesubmenu->insertItem("Fly",
                                         this, SLOT(flySelected()));
       idx++;
@@ -1571,6 +1574,9 @@ SoQtSuperViewerP::setMode(const ViewerMode mode)
   case FLYMODE:
     break;
   case INTERACT:
+
+    break;
+  case EXAMINE:
     // FIXME: this looks like someone fixed the symptom instead of
     // fixing the cause? 20010709 mortene.
     while (owner->getInteractiveCount())
@@ -1629,9 +1635,9 @@ SoQtSuperViewerP::setCursorRepresentation(int mode)
   switch (mode) {
   case SoQtSuperViewerP::FLYMODE:
   case SoQtSuperViewerP::INTERACT:
+  case SoQtSuperViewerP::EXAMINE:
     owner->setComponentCursor(SoQtCursor(SoQtCursor::DEFAULT));
     break;
-
   case SoQtSuperViewerP::DRAGGING:
     owner->setComponentCursor(SoQtCursor::getRotateCursor());
     break;
@@ -1945,6 +1951,7 @@ SoQtSuperViewerP::pulse(void)
     switch (this->currentmode) {
     case IDLE:
     case WAITING_FOR_FLY:
+    case EXAMINE:
     case INTERACT:
     case DRAGGING:
     case WAITING_FOR_SEEK:
@@ -3184,12 +3191,37 @@ SoQtSuperViewerP::lightSelected(int id)
 void
 SoQtSuperViewerP::examineSelected()
 {
+  if(!owner->isViewing()) owner->setViewing(TRUE);
   this->flying = FALSE;
-  this->setMode(INTERACT);
+  this->setMode(EXAMINE);
   this->viewmodesubmenu->setItemChecked(this->viewmodesubmenu->idAt(0), TRUE);
   this->viewmodesubmenu->setItemChecked(this->viewmodesubmenu->idAt(1), FALSE);
+  this->viewmodesubmenu->setItemChecked(this->viewmodesubmenu->idAt(2), FALSE);
   this->cameramenu->setItemEnabled(this->cameramenu->idAt(4), FALSE);
-  this->timersensor->unschedule();
+  if(this->timersensor->isScheduled()) this->timersensor->unschedule();
+  this->flyCameraSetup();
+} // examineSelected()
+
+// *************************************************************************
+
+/*!
+  \internal slot
+
+  Turns interact mode on.
+*/
+
+void
+SoQtSuperViewerP::interactSelected()
+{
+  owner->setViewing(FALSE);
+  if(owner->isAnimating()) owner->stopAnimating();
+  this->flying = FALSE;
+  this->setMode(INTERACT);
+  this->viewmodesubmenu->setItemChecked(this->viewmodesubmenu->idAt(1), TRUE);
+  this->viewmodesubmenu->setItemChecked(this->viewmodesubmenu->idAt(0), FALSE);
+  this->viewmodesubmenu->setItemChecked(this->viewmodesubmenu->idAt(2), FALSE);
+  this->cameramenu->setItemEnabled(this->cameramenu->idAt(4), FALSE);
+    if(this->timersensor->isScheduled())this->timersensor->unschedule();
   this->flyCameraSetup();
 } // examineSelected()
 
@@ -3204,11 +3236,13 @@ SoQtSuperViewerP::examineSelected()
 void
 SoQtSuperViewerP::flySelected()
 {
+  if(!owner->isViewing()) owner->setViewing(TRUE);
   if(owner->isAnimating()) owner->stopAnimating();
   this->flying = TRUE;
   this->setMode(FLYMODE);
-  this->viewmodesubmenu->setItemChecked(this->viewmodesubmenu->idAt(1), TRUE);
+  this->viewmodesubmenu->setItemChecked(this->viewmodesubmenu->idAt(2), TRUE);
   this->viewmodesubmenu->setItemChecked(this->viewmodesubmenu->idAt(0), FALSE);
+  this->viewmodesubmenu->setItemChecked(this->viewmodesubmenu->idAt(1), FALSE);
   this->cameramenu->setItemEnabled(this->cameramenu->idAt(4), TRUE);
   this->timersensor->schedule();
   this->flyCameraSetup();
