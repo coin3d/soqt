@@ -49,6 +49,10 @@ static const char rcsid[] =
 #include <Inventor/Qt/widgets/SoQtGLArea.h>
 #include <Inventor/Qt/SoQtGLWidget.h>
 
+#if HAVE_CONFIG_H
+#include <config.h>
+#endif // HAVE_CONFIG_H
+
 
 /*!
   \fn virtual void SoQtGLWidget::redraw(void)
@@ -118,7 +122,9 @@ SoQtGLWidget::buildWidget(QWidget * parent)
   f.setDepth((this->glmodebits & SO_GLX_ZBUFFER) ? TRUE : FALSE);
   f.setRgba((this->glmodebits & SO_GLX_RGB) ? TRUE : FALSE);
   f.setStereo((this->glmodebits & SO_GLX_STEREO) ? TRUE : FALSE);
+#if HAVE_QGLFORMAT_SETOVERLAY
   f.setOverlay( FALSE ); // at the time being...
+#endif // HAVE_QGLFORMAT_SETOVERLAY
 
   // FIXME: the SO_GLX_OVERLAY bit is not considered (Qt doesn't seem
   // to support overlay planes -- check this with the Qt FAQ or

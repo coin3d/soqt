@@ -27,6 +27,9 @@
 /* Define if you have the `socket' library (-lsocket). */
 #undef HAVE_LIBSOCKET
 
+/* Define this to 1 if QGLFormat::setOverlay() is available */
+#undef HAVE_QGLFORMAT_SETOVERLAY
+
 /* Define this to 1 if QGLWidget::setAutoBufferSwap() is available */
 #undef HAVE_QGLWIDGET_SETAUTOBUFFERSWAP
 

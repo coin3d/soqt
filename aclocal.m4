@@ -1921,6 +1921,33 @@ if test x"$sim_cv_func_qglwidget_setautobufferswap" = xyes; then
 fi
 ])
 
+
+# Usage:
+#  SIM_AC_QGLFORMAT_SETOVERLAY
+#
+# Use the macro for its side-effect: it defines
+#
+#       HAVE_QGLFORMAT_SETOVERLAY
+#
+# to 1 in config.h if QGLFormat::setOverlay() is available.
+#
+# Author: Morten Eriksen, <mortene@sim.no>.
+
+AC_DEFUN([SIM_AC_QGLFORMAT_SETOVERLAY], [
+AC_CACHE_CHECK(
+  [whether the QGLFormat method setOverlay() is available],
+  sim_cv_func_qglformat_setoverlay,
+  [AC_TRY_LINK([#include <qgl.h>],
+               [QGLFormat f; f.setOverlay(TRUE);],
+               [sim_cv_func_qglformat_setoverlay=yes],
+               [sim_cv_func_qglformat_setoverlay=no])])
+
+if test x"$sim_cv_func_qglformat_setoverlay" = xyes; then
+  AC_DEFINE([HAVE_QGLFORMAT_SETOVERLAY], 1,
+    [Define this to 1 if QGLFormat::setOverlay() is available])
+fi
+])
+
 # Usage:
 #   SIM_COMPILE_DEBUG( ACTION-IF-DEBUG, ACTION-IF-NOT-DEBUG )
 #
