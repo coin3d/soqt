@@ -11,6 +11,9 @@
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 
+@SET_MAKE@
+
+
 SHELL = @SHELL@
 
 srcdir = @srcdir@
@@ -63,9 +66,6 @@ host_alias = @host_alias@
 host_triplet = @host@
 target_alias = @target_alias@
 target_triplet = @target@
-
-@SET_MAKE@
-AMDEP = @AMDEP@
 AMTAR = @AMTAR@
 AS = @AS@
 AWK = @AWK@
@@ -80,7 +80,6 @@ DSUFFIX = @DSUFFIX@
 EVENT = @EVENT@
 GUI = @GUI@
 Gui = @Gui@
-INSTALL_HEADER = @INSTALL_HEADER@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 INSTALL_STRIP_PROGRAM_ENV = @INSTALL_STRIP_PROGRAM_ENV@
 LIBFLAGS = @LIBFLAGS@
@@ -111,6 +110,7 @@ UNIX2WINPATH = @UNIX2WINPATH@
 VERSION = @VERSION@
 WIDGET = @WIDGET@
 _am_include = @_am_include@
+_am_quote = @_am_quote@
 gui = @gui@
 install_sh = @install_sh@
 sim_ac_coin_configcmd = @sim_ac_coin_configcmd@
@@ -121,14 +121,13 @@ soqt_dox_build_dir = @soqt_dox_build_dir@
 soqt_dox_src_dir = @soqt_dox_src_dir@
 win_srcdir = @win_srcdir@
 
-
 noinst_LTLIBRARIES = libSoQtViewers.la
 
 INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
 LIBS = 
 
-############################################################################
 
+############################################################################
 BUILT_SOURCES = \
 	SoQtViewer.h \
 	SoQtViewer.cpp \
@@ -147,8 +146,8 @@ BUILT_SOURCES = \
 	moc_SoQtFlyViewer.cpp
 
 
-############################################################################
 
+############################################################################
 libSoQtViewers_la_SOURCES = \
 	$(BUILT_SOURCES) \
 	SoQtFullViewer.cpp \
@@ -184,6 +183,32 @@ CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
+libSoQtViewers_la_LDFLAGS =
+libSoQtViewers_la_LIBADD =
+am_libSoQtViewers_la_OBJECTS = SoQtViewer.lo SoAnyFullViewer.lo \
+	SoAnyExaminerViewer.lo SoAnyPlaneViewer.lo moc_SoQtViewer.lo \
+	moc_SoQtFullViewer.lo moc_SoQtExaminerViewer.lo \
+	moc_SoQtPlaneViewer.lo moc_SoQtConstrainedViewer.lo \
+	moc_SoQtWalkViewer.lo moc_SoQtFlyViewer.lo SoQtFullViewer.lo \
+	SoQtExaminerViewer.lo SoQtPlaneViewer.lo \
+	SoQtConstrainedViewer.lo SoQtWalkViewer.lo SoQtFlyViewer.lo
+libSoQtViewers_la_OBJECTS = $(am_libSoQtViewers_la_OBJECTS)
+CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+	$(AM_CXXFLAGS) $(CXXFLAGS)
+LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+CXXFLAGS = @CXXFLAGS@
+CXXLD = $(CXX)
+CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+CFLAGS = @CFLAGS@
+COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+	$(AM_CFLAGS) $(CFLAGS)
+LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+CCLD = $(CC)
+LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 
 DEFS = @DEFS@ -I. -I$(srcdir) -I$(top_builddir)
 CPPFLAGS = @CPPFLAGS@
@@ -192,42 +217,28 @@ X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libSoQtViewers_la_LDFLAGS = 
-libSoQtViewers_la_LIBADD = 
-am_libSoQtViewers_la_OBJECTS = SoQtViewer.lo SoAnyFullViewer.lo \
-SoAnyExaminerViewer.lo SoAnyPlaneViewer.lo moc_SoQtViewer.lo \
-moc_SoQtFullViewer.lo moc_SoQtExaminerViewer.lo moc_SoQtPlaneViewer.lo \
-moc_SoQtConstrainedViewer.lo moc_SoQtWalkViewer.lo moc_SoQtFlyViewer.lo \
-SoQtFullViewer.lo SoQtExaminerViewer.lo SoQtPlaneViewer.lo \
-SoQtConstrainedViewer.lo SoQtWalkViewer.lo SoQtFlyViewer.lo
-libSoQtViewers_la_OBJECTS = $(am_libSoQtViewers_la_OBJECTS)
-CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
-LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
-CXXFLAGS = @CXXFLAGS@
-CXXLD = $(CXX)
-CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-CFLAGS = @CFLAGS@
-COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-CCLD = $(CC)
-LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 DIST_SOURCES = $(libSoQtViewers_la_SOURCES)
 HEADERS = $(libSoQtViewersinc_HEADERS)
 
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
-@AMDEP@DEP_FILES = $(DEPDIR)/SoAnyExaminerViewer.Plo \
-@AMDEP@ $(DEPDIR)/SoAnyFullViewer.Plo $(DEPDIR)/SoAnyPlaneViewer.Plo \
-@AMDEP@ $(DEPDIR)/SoQtConstrainedViewer.Plo \
-@AMDEP@ $(DEPDIR)/SoQtExaminerViewer.Plo $(DEPDIR)/SoQtFlyViewer.Plo \
-@AMDEP@ $(DEPDIR)/SoQtFullViewer.Plo $(DEPDIR)/SoQtPlaneViewer.Plo \
-@AMDEP@ $(DEPDIR)/SoQtViewer.Plo $(DEPDIR)/SoQtWalkViewer.Plo \
-@AMDEP@ $(DEPDIR)/moc_SoQtConstrainedViewer.Plo \
-@AMDEP@ $(DEPDIR)/moc_SoQtExaminerViewer.Plo \
-@AMDEP@ $(DEPDIR)/moc_SoQtFlyViewer.Plo $(DEPDIR)/moc_SoQtFullViewer.Plo \
-@AMDEP@ $(DEPDIR)/moc_SoQtPlaneViewer.Plo $(DEPDIR)/moc_SoQtViewer.Plo \
-@AMDEP@ $(DEPDIR)/moc_SoQtWalkViewer.Plo
+@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/SoAnyExaminerViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoAnyFullViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoAnyPlaneViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoQtConstrainedViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoQtExaminerViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoQtFlyViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoQtFullViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoQtPlaneViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoQtViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoQtWalkViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/moc_SoQtConstrainedViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/moc_SoQtExaminerViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/moc_SoQtFlyViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/moc_SoQtFullViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/moc_SoQtPlaneViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/moc_SoQtViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/moc_SoQtWalkViewer.Plo
 DIST_COMMON = $(libSoQtViewersinc_HEADERS) Makefile.am Makefile.in
-
 SOURCES = $(libSoQtViewers_la_SOURCES)
 OBJECTS = $(am_libSoQtViewers_la_OBJECTS)
 
@@ -235,7 +246,7 @@ all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
 .SUFFIXES:
-.SUFFIXES: .c .cpp .h .lo .o .obj
+.SUFFIXES: .cpp .lo .o .obj
 
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
 	cd $(top_srcdir) && \
@@ -248,6 +259,9 @@ Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.s
 
 clean-noinstLTLIBRARIES:
 	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
+
+libSoQtViewers.la: $(libSoQtViewers_la_OBJECTS) $(libSoQtViewers_la_DEPENDENCIES)
+	$(CXXLINK)  $(libSoQtViewers_la_LDFLAGS) $(libSoQtViewers_la_OBJECTS) $(libSoQtViewers_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
@@ -263,9 +277,6 @@ clean-libtool:
 
 distclean-libtool:
 	-rm -f libtool
-
-libSoQtViewers.la: $(libSoQtViewers_la_OBJECTS) $(libSoQtViewers_la_DEPENDENCIES)
-	$(CXXLINK)  $(libSoQtViewers_la_LDFLAGS) $(libSoQtViewers_la_OBJECTS) $(libSoQtViewers_la_LIBADD) $(LIBS)
 install-libSoQtViewersincHEADERS: $(libSoQtViewersinc_HEADERS)
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(libSoQtViewersincdir)
@@ -295,7 +306,7 @@ ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	       END { for (i in files) print i; }'`; \
 	mkid -fID $$unique $(LISP)
 
-TAGS: $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
+TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
 		$(TAGS_FILES) $(LISP)
 	tags=; \
 	here=`pwd`; \
@@ -316,45 +327,45 @@ GTAGS:
 distclean-tags:
 	-rm -f TAGS ID
 
-@AMDEP@@_am_include@ $(DEPDIR)/SoAnyExaminerViewer.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/SoAnyFullViewer.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/SoAnyPlaneViewer.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/SoQtConstrainedViewer.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/SoQtExaminerViewer.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/SoQtFlyViewer.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/SoQtFullViewer.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/SoQtPlaneViewer.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/SoQtViewer.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/SoQtWalkViewer.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtConstrainedViewer.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtExaminerViewer.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtFlyViewer.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtFullViewer.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtPlaneViewer.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtViewer.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtWalkViewer.Plo
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoAnyExaminerViewer.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoAnyFullViewer.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoAnyPlaneViewer.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoQtConstrainedViewer.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoQtExaminerViewer.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoQtFlyViewer.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoQtFullViewer.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoQtPlaneViewer.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoQtViewer.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoQtWalkViewer.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/moc_SoQtConstrainedViewer.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/moc_SoQtExaminerViewer.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/moc_SoQtFlyViewer.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/moc_SoQtFullViewer.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/moc_SoQtPlaneViewer.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/moc_SoQtViewer.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/moc_SoQtWalkViewer.Plo@_am_quote@
 
 distclean-depend:
 	-rm -rf $(DEPDIR)
 
-@AMDEP@CXXDEPMODE = @CXXDEPMODE@
+CXXDEPMODE = @CXXDEPMODE@
 
 .cpp.o:
-@AMDEP@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
-@AMDEP@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
-@AMDEP@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
+	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 	$(CXXCOMPILE) -c -o $@ `test -f $< || echo '$(srcdir)/'`$<
 
 .cpp.lo:
-@AMDEP@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
-@AMDEP@	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' @AMDEPBACKSLASH@
-@AMDEP@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
+	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' @AMDEPBACKSLASH@
+	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 	$(LTCXXCOMPILE) -c -o $@ `test -f $< || echo '$(srcdir)/'`$<
 
 .cpp.obj:
-@AMDEP@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
-@AMDEP@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
-@AMDEP@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
+	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 	$(CXXCOMPILE) -c -o $@ `cygpath -w $<`
 
 

@@ -11,6 +11,11 @@
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 
+@SET_MAKE@
+
+############################################################################
+
+
 SHELL = @SHELL@
 
 srcdir = @srcdir@
@@ -63,9 +68,6 @@ host_alias = @host_alias@
 host_triplet = @host@
 target_alias = @target_alias@
 target_triplet = @target@
-
-@SET_MAKE@
-AMDEP = @AMDEP@
 AMTAR = @AMTAR@
 AS = @AS@
 AWK = @AWK@
@@ -80,7 +82,6 @@ DSUFFIX = @DSUFFIX@
 EVENT = @EVENT@
 GUI = @GUI@
 Gui = @Gui@
-INSTALL_HEADER = @INSTALL_HEADER@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 INSTALL_STRIP_PROGRAM_ENV = @INSTALL_STRIP_PROGRAM_ENV@
 LIBFLAGS = @LIBFLAGS@
@@ -111,6 +112,7 @@ UNIX2WINPATH = @UNIX2WINPATH@
 VERSION = @VERSION@
 WIDGET = @WIDGET@
 _am_include = @_am_include@
+_am_quote = @_am_quote@
 gui = @gui@
 install_sh = @install_sh@
 sim_ac_coin_configcmd = @sim_ac_coin_configcmd@
@@ -121,13 +123,10 @@ soqt_dox_build_dir = @soqt_dox_build_dir@
 soqt_dox_src_dir = @soqt_dox_src_dir@
 win_srcdir = @win_srcdir@
 
-############################################################################
-
-
 SUBDIRS = devices viewers widgets
 
-############################################################################
 
+############################################################################
 INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
 
 lib_LTLIBRARIES = libSoQt@SUFFIX@.la
@@ -152,8 +151,8 @@ BUILT_SOURCES = \
 	moc_SoQtTransformSliderSet.cpp
 
 
-############################################################################
 
+############################################################################
 libSoQt@SUFFIX@_la_SOURCES = \
 	SoQt.cpp \
 	SoQt.h \
@@ -208,6 +207,33 @@ CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 LTLIBRARIES = $(lib_LTLIBRARIES)
 
+libSoQt@SUFFIX@_la_DEPENDENCIES = devices/libSoQtDevices.la \
+	viewers/libSoQtViewers.la widgets/libSoQtWidgets.la
+am_libSoQt@SUFFIX@_la_OBJECTS = SoQt.lo SoQtComponent.lo SoQtGLWidget.lo \
+	SoQtLightSliderSet.lo SoQtMaterialSliderSet.lo SoQtSliderSet.lo \
+	SoQtSliderSetBase.lo SoQtTransformSliderSet.lo SoQtObject.lo \
+	SoQtCursors.lo SoQtRenderArea.lo moc_SoQt.lo moc_SoQtObject.lo \
+	moc_SoQtComponent.lo moc_SoQtGLWidget.lo \
+	moc_SoQtLightSliderSet.lo moc_SoQtMaterialSliderSet.lo \
+	moc_SoQtRenderArea.lo moc_SoQtSliderSet.lo \
+	moc_SoQtSliderSetBase.lo moc_SoQtTransformSliderSet.lo
+libSoQt@SUFFIX@_la_OBJECTS = $(am_libSoQt@SUFFIX@_la_OBJECTS)
+CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+	$(AM_CXXFLAGS) $(CXXFLAGS)
+LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+CXXFLAGS = @CXXFLAGS@
+CXXLD = $(CXX)
+CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+CFLAGS = @CFLAGS@
+COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+	$(AM_CFLAGS) $(CFLAGS)
+LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+CCLD = $(CC)
+LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 
 DEFS = @DEFS@ -I. -I$(srcdir) -I$(top_builddir)
 CPPFLAGS = @CPPFLAGS@
@@ -217,46 +243,35 @@ X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libSoQt@SUFFIX@_la_DEPENDENCIES = devices/libSoQtDevices.la \
-viewers/libSoQtViewers.la widgets/libSoQtWidgets.la
-am_libSoQt@SUFFIX@_la_OBJECTS = SoQt.lo SoQtComponent.lo SoQtGLWidget.lo \
-SoQtLightSliderSet.lo SoQtMaterialSliderSet.lo SoQtSliderSet.lo \
-SoQtSliderSetBase.lo SoQtTransformSliderSet.lo SoQtObject.lo \
-SoQtCursors.lo SoQtRenderArea.lo moc_SoQt.lo moc_SoQtObject.lo \
-moc_SoQtComponent.lo moc_SoQtGLWidget.lo moc_SoQtLightSliderSet.lo \
-moc_SoQtMaterialSliderSet.lo moc_SoQtRenderArea.lo moc_SoQtSliderSet.lo \
-moc_SoQtSliderSetBase.lo moc_SoQtTransformSliderSet.lo
-libSoQt@SUFFIX@_la_OBJECTS = $(am_libSoQt@SUFFIX@_la_OBJECTS)
-CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
-LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
-CXXFLAGS = @CXXFLAGS@
-CXXLD = $(CXX)
-CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-CFLAGS = @CFLAGS@
-COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-CCLD = $(CC)
-LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 DIST_SOURCES = $(libSoQt@SUFFIX@_la_SOURCES)
 HEADERS = $(libSoQt@SUFFIX@inc_HEADERS)
 
-depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
-@AMDEP@DEP_FILES = $(DEPDIR)/SoQt.Plo $(DEPDIR)/SoQtComponent.Plo \
-@AMDEP@ $(DEPDIR)/SoQtCursors.Plo $(DEPDIR)/SoQtGLWidget.Plo \
-@AMDEP@ $(DEPDIR)/SoQtLightSliderSet.Plo \
-@AMDEP@ $(DEPDIR)/SoQtMaterialSliderSet.Plo $(DEPDIR)/SoQtObject.Plo \
-@AMDEP@ $(DEPDIR)/SoQtRenderArea.Plo $(DEPDIR)/SoQtSliderSet.Plo \
-@AMDEP@ $(DEPDIR)/SoQtSliderSetBase.Plo \
-@AMDEP@ $(DEPDIR)/SoQtTransformSliderSet.Plo $(DEPDIR)/moc_SoQt.Plo \
-@AMDEP@ $(DEPDIR)/moc_SoQtComponent.Plo $(DEPDIR)/moc_SoQtGLWidget.Plo \
-@AMDEP@ $(DEPDIR)/moc_SoQtLightSliderSet.Plo \
-@AMDEP@ $(DEPDIR)/moc_SoQtMaterialSliderSet.Plo \
-@AMDEP@ $(DEPDIR)/moc_SoQtObject.Plo $(DEPDIR)/moc_SoQtRenderArea.Plo \
-@AMDEP@ $(DEPDIR)/moc_SoQtSliderSet.Plo \
-@AMDEP@ $(DEPDIR)/moc_SoQtSliderSetBase.Plo \
-@AMDEP@ $(DEPDIR)/moc_SoQtTransformSliderSet.Plo
-DIST_COMMON = $(libSoQt@SUFFIX@inc_HEADERS) Makefile.am Makefile.in
 
+RECURSIVE_TARGETS = all-recursive install-data-recursive \
+	install-exec-recursive installdirs-recursive install-recursive \
+	uninstall-recursive check-recursive installcheck-recursive
+depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
+@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/SoQt.Plo $(DEPDIR)/SoQtComponent.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoQtCursors.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoQtGLWidget.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoQtLightSliderSet.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoQtMaterialSliderSet.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoQtObject.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoQtRenderArea.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoQtSliderSet.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoQtSliderSetBase.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoQtTransformSliderSet.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/moc_SoQt.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/moc_SoQtComponent.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/moc_SoQtGLWidget.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/moc_SoQtLightSliderSet.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/moc_SoQtMaterialSliderSet.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/moc_SoQtObject.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/moc_SoQtRenderArea.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/moc_SoQtSliderSet.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/moc_SoQtSliderSetBase.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/moc_SoQtTransformSliderSet.Plo
+DIST_COMMON = $(libSoQt@SUFFIX@inc_HEADERS) Makefile.am Makefile.in
 DIST_SUBDIRS = $(SUBDIRS)
 SOURCES = $(libSoQt@SUFFIX@_la_SOURCES)
 OBJECTS = $(am_libSoQt@SUFFIX@_la_OBJECTS)
@@ -265,7 +280,7 @@ all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
 .SUFFIXES:
-.SUFFIXES: .c .cpp .h .lo .o .obj
+.SUFFIXES: .cpp .lo .o .obj
 
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
 	cd $(top_srcdir) && \
@@ -295,6 +310,9 @@ uninstall-libLTLIBRARIES:
 clean-libLTLIBRARIES:
 	-test -z "$(lib_LTLIBRARIES)" || rm -f $(lib_LTLIBRARIES)
 
+libSoQt@SUFFIX@.la: $(libSoQt@SUFFIX@_la_OBJECTS) $(libSoQt@SUFFIX@_la_DEPENDENCIES)
+	$(CXXLINK) -rpath $(libdir) $(libSoQt@SUFFIX@_la_LDFLAGS) $(libSoQt@SUFFIX@_la_OBJECTS) $(libSoQt@SUFFIX@_la_LIBADD) $(LIBS)
+
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
 
@@ -309,9 +327,6 @@ clean-libtool:
 
 distclean-libtool:
 	-rm -f libtool
-
-libSoQt@SUFFIX@.la: $(libSoQt@SUFFIX@_la_OBJECTS) $(libSoQt@SUFFIX@_la_DEPENDENCIES)
-	$(CXXLINK) -rpath $(libdir) $(libSoQt@SUFFIX@_la_LDFLAGS) $(libSoQt@SUFFIX@_la_OBJECTS) $(libSoQt@SUFFIX@_la_LIBADD) $(LIBS)
 install-libSoQt@SUFFIX@incHEADERS: $(libSoQt@SUFFIX@inc_HEADERS)
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(libSoQt@SUFFIX@incdir)
@@ -336,10 +351,7 @@ uninstall-libSoQt@SUFFIX@incHEADERS:
 # (1) if the variable is set in `config.status', edit `config.status'
 #     (which will cause the Makefiles to be regenerated when you run `make');
 # (2) otherwise, pass the desired values on the `make' command line.
-all-recursive install-data-recursive install-exec-recursive \
-installdirs-recursive install-recursive uninstall-recursive \
-install-info-recursive uninstall-info-recursive \
-check-recursive installcheck-recursive info-recursive dvi-recursive:
+$(RECURSIVE_TARGETS):
 	@set fnord $(MAKEFLAGS); amf=$$2; \
 	dot_seen=no; \
 	target=`echo $@ | sed s/-recursive//`; \
@@ -404,9 +416,9 @@ TAGS: tags-recursive $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
 	tags=; \
 	here=`pwd`; \
 	list='$(SUBDIRS)'; for subdir in $$list; do \
-   if test "$$subdir" = .; then :; else \
+	  if test "$$subdir" = .; then :; else \
 	    test -f $$subdir/TAGS && tags="$$tags -i $$here/$$subdir/TAGS"; \
-   fi; \
+	  fi; \
 	done; \
 	list='$(SOURCES) $(HEADERS) $(TAGS_FILES)'; \
 	unique=`for i in $$list; do \
@@ -425,49 +437,49 @@ GTAGS:
 distclean-tags:
 	-rm -f TAGS ID
 
-@AMDEP@@_am_include@ $(DEPDIR)/SoQt.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/SoQtComponent.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/SoQtCursors.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/SoQtGLWidget.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/SoQtLightSliderSet.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/SoQtMaterialSliderSet.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/SoQtObject.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/SoQtRenderArea.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/SoQtSliderSet.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/SoQtSliderSetBase.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/SoQtTransformSliderSet.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQt.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtComponent.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtGLWidget.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtLightSliderSet.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtMaterialSliderSet.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtObject.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtRenderArea.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtSliderSet.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtSliderSetBase.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtTransformSliderSet.Plo
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoQt.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoQtComponent.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoQtCursors.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoQtGLWidget.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoQtLightSliderSet.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoQtMaterialSliderSet.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoQtObject.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoQtRenderArea.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoQtSliderSet.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoQtSliderSetBase.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoQtTransformSliderSet.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/moc_SoQt.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/moc_SoQtComponent.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/moc_SoQtGLWidget.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/moc_SoQtLightSliderSet.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/moc_SoQtMaterialSliderSet.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/moc_SoQtObject.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/moc_SoQtRenderArea.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/moc_SoQtSliderSet.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/moc_SoQtSliderSetBase.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/moc_SoQtTransformSliderSet.Plo@_am_quote@
 
 distclean-depend:
 	-rm -rf $(DEPDIR)
 
-@AMDEP@CXXDEPMODE = @CXXDEPMODE@
+CXXDEPMODE = @CXXDEPMODE@
 
 .cpp.o:
-@AMDEP@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
-@AMDEP@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
-@AMDEP@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
+	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 	$(CXXCOMPILE) -c -o $@ `test -f $< || echo '$(srcdir)/'`$<
 
 .cpp.lo:
-@AMDEP@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
-@AMDEP@	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' @AMDEPBACKSLASH@
-@AMDEP@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
+	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' @AMDEPBACKSLASH@
+	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 	$(LTCXXCOMPILE) -c -o $@ `test -f $< || echo '$(srcdir)/'`$<
 
 .cpp.obj:
-@AMDEP@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
-@AMDEP@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
-@AMDEP@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
+	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 	$(CXXCOMPILE) -c -o $@ `cygpath -w $<`
 
 
@@ -576,26 +588,23 @@ mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 uninstall-am: uninstall-libLTLIBRARIES \
 	uninstall-libSoQt@SUFFIX@incHEADERS uninstall-local
 
-.PHONY: all all-am all-local all-recursive check check-am \
-	check-recursive clean clean-generic clean-libLTLIBRARIES \
-	clean-libtool clean-recursive distclean distclean-compile \
-	distclean-depend distclean-generic distclean-libtool \
-	distclean-recursive distclean-tags distdir dvi dvi-am \
-	dvi-recursive info info-am info-recursive install install-am \
-	install-data install-data-am install-data-local \
+.PHONY: $(RECURSIVE_TARGETS) all all-am all-local check check-am clean \
+	clean-generic clean-libLTLIBRARIES clean-libtool \
+	clean-recursive distclean distclean-compile distclean-depend \
+	distclean-generic distclean-libtool distclean-recursive \
+	distclean-tags distdir dvi dvi-am info info-am install \
+	install-am install-data install-data-am install-data-local \
 	install-data-recursive install-exec install-exec-am \
 	install-exec-local install-exec-recursive install-info \
-	install-info-recursive install-libLTLIBRARIES \
-	install-libSoQt@SUFFIX@incHEADERS install-man install-recursive \
-	install-strip installcheck installcheck-am \
-	installcheck-recursive installdirs installdirs-am \
+	install-libLTLIBRARIES install-libSoQt@SUFFIX@incHEADERS \
+	install-man install-recursive install-strip installcheck \
+	installcheck-am installdirs installdirs-am \
 	installdirs-recursive maintainer-clean maintainer-clean-generic \
 	maintainer-clean-recursive mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool mostlyclean-recursive \
 	tags tags-recursive uninstall uninstall-am \
-	uninstall-info-recursive uninstall-libLTLIBRARIES \
-	uninstall-libSoQt@SUFFIX@incHEADERS uninstall-local \
-	uninstall-recursive
+	uninstall-libLTLIBRARIES uninstall-libSoQt@SUFFIX@incHEADERS \
+	uninstall-local uninstall-recursive
 
 
 ############################################################################

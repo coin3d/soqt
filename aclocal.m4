@@ -357,7 +357,7 @@ AC_DEFUN([AM_MISSING_HAS_RUN],
 [test x"${MISSING+set}" = xset ||
   MISSING="\${SHELL} `CDPATH=:; cd $ac_aux_dir && pwd`/missing"
 # Use eval to expand $SHELL
-if eval "$MISSING --run :"; then
+if eval "$MISSING --run true"; then
   am_missing_run="$MISSING --run "
 else
   am_missing_run=
@@ -555,22 +555,11 @@ AC_DEFUN([AM_DEP_TRACK],
 [AC_ARG_ENABLE(dependency-tracking,
 [  --disable-dependency-tracking Speeds up one-time builds
   --enable-dependency-tracking  Do not reject slow dependency extractors])
-if test "x$enable_dependency_tracking" = xno; then
-  AMDEP="#"
-else
+if test "x$enable_dependency_tracking" != xno; then
   am_depcomp="$ac_aux_dir/depcomp"
-  if test ! -f "$am_depcomp"; then
-    AMDEP="#"
-  else
-    AMDEP=
-  fi
-fi
-AC_SUBST(AMDEP)
-if test -z "$AMDEP"; then
   AMDEPBACKSLASH='\'
-else
-  AMDEPBACKSLASH=
 fi
+AM_CONDITIONAL([AMDEP], [test "x$enable_dependency_tracking" != xno])
 pushdef([subst], defn([AC_SUBST]))
 subst(AMDEPBACKSLASH)
 popdef([subst])
@@ -632,7 +621,6 @@ ac_aux_dir="$ac_aux_dir"])])
 # Check to see how make treats includes.
 AC_DEFUN([AM_MAKE_INCLUDE],
 [am_make=${MAKE-make}
-# BSD make uses .include
 cat > confinc << 'END'
 doit:
 	@echo done
@@ -640,17 +628,56 @@ END
 # If we don't find an include directive, just comment out the code.
 AC_MSG_CHECKING([for style of include used by $am_make])
 _am_include='#'
-for am_inc in include .include; do
-   echo "$am_inc confinc" > confmf
-   if test "`$am_make -f confmf 2> /dev/null`" = "done"; then
-      _am_include=$am_inc
-      break
+_am_quote=
+_am_result=none
+# First try GNU make style include.
+echo "include confinc" > confmf
+if test "`$am_make -s -f confmf 2> /dev/null`" = "done"; then
+   _am_include=include
+   _am_quote=
+   _am_result=GNU
+fi
+# Now try BSD make style include.
+if test "$_am_include" = "#"; then
+   echo '.include "confinc"' > confmf
+   if test "`$am_make -s -f confmf 2> /dev/null`" = "done"; then
+      _am_include=.include
+      _am_quote='"'
+      _am_result=BSD
    fi
-done
+fi
 AC_SUBST(_am_include)
-AC_MSG_RESULT($_am_include)
+AC_SUBST(_am_quote)
+AC_MSG_RESULT($_am_result)
 rm -f confinc confmf
 ])
+
+# serial 3
+
+# AM_CONDITIONAL(NAME, SHELL-CONDITION)
+# -------------------------------------
+# Define a conditional.
+#
+# FIXME: Once using 2.50, use this:
+# m4_match([$1], [^TRUE\|FALSE$], [AC_FATAL([$0: invalid condition: $1])])dnl
+AC_DEFUN([AM_CONDITIONAL],
+[ifelse([$1], [TRUE],
+        [errprint(__file__:__line__: [$0: invalid condition: $1
+])dnl
+m4exit(1)])dnl
+ifelse([$1], [FALSE],
+       [errprint(__file__:__line__: [$0: invalid condition: $1
+])dnl
+m4exit(1)])dnl
+AC_SUBST([$1_TRUE])
+AC_SUBST([$1_FALSE])
+if $2; then
+  $1_TRUE=
+  $1_FALSE='#'
+else
+  $1_TRUE='#'
+  $1_FALSE=
+fi])
 
 # Like AC_CONFIG_HEADER, but automatically create stamp file.
 
@@ -1113,22 +1140,6 @@ AC_DEFUN([AM_MAINTAINER_MODE],
   AC_SUBST(MAINT)dnl
 ]
 )
-
-# serial 2
-
-# AM_CONDITIONAL(NAME, SHELL-CONDITION)
-# -------------------------------------
-# Define a conditional.
-AC_DEFUN([AM_CONDITIONAL],
-[AC_SUBST([$1_TRUE])
-AC_SUBST([$1_FALSE])
-if $2; then
-  $1_TRUE=
-  $1_FALSE='#'
-else
-  $1_TRUE='#'
-  $1_FALSE=
-fi])
 
 # Usage:
 #  SIM_AC_CHECK_DL([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
@@ -2538,12 +2549,12 @@ EOF
   sim_ac_qt_version=`$CPP $sim_ac_qt_incflags $CPPFLAGS conftest.c | grep '^int VerQt' | sed 's%^int VerQt = %%' | sed 's%;$%%'`
   rm -f conftest.c
 
+  sim_ac_qt_libs=UNRESOLVED
+  sim_ac_qt_cppflags=
   if test x"$MOC" != xfalse; then
     # Do not cache the result, as we might need to play tricks with
     # CPPFLAGS under MSWin.
     AC_MSG_CHECKING([for Qt library devkit])
-    sim_ac_qt_libs=UNRESOLVED
-    sim_ac_qt_cppflags=
 
     ## Test all known possible combinations of linking against the
     ## Troll Tech Qt library:
@@ -2554,11 +2565,11 @@ EOF
     ## * "-lqt{version} -lqtmain -lgdi32" w/QT_DLL defined should
     ##   cover dynamic linking on Win32 platforms
     ##
-    ## * "-lqt -lole32 -limm32 -lcomdlg32 -lgdi32" should cover static
+    ## * "-lqt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32" should cover static
     ##   linking on Win32 platforms
 
     for sim_ac_qt_cppflags_loop in "" "-DQT_DLL"; do
-      for sim_ac_qt_libcheck in "-lqt" "-lqt$sim_ac_qt_version -lqtmain -lgdi32" "-lqt -lole32 -limm32 -lcomdlg32 -lgdi32"; do
+      for sim_ac_qt_libcheck in "-lqt" "-lqt$sim_ac_qt_version -lqtmain -lgdi32" "-lqt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32"; do
         if test "x$sim_ac_qt_libs" = "xUNRESOLVED"; then
           CPPFLAGS="$sim_ac_qt_incflags $sim_ac_qt_cppflags_loop $sim_ac_save_cppflags"
           LIBS="$sim_ac_qt_libcheck $sim_ac_save_libs"
@@ -2853,12 +2864,15 @@ AC_SUBST(DSUFFIX)
 #
 # Side-Effects:
 #   config.h:
+#     HAVE_VAR___func__              (1 if exists)
 #     HAVE_VAR___PRETTY_FUNCTION__   (1 if exists)
-#     HAVE_VAR___FUNCTION__          (always 0 if __PRETTY_FUNCTION__ exists)
+#     HAVE_VAR___FUNCTION__          (1 if exists)
+#
+# (Note that only one of these will be defined.)
 #
 # Authors:
 #   Lars J. Aas <larsa@sim.no>
-#
+#   Morten Eriksen <mortene@sim.no>
 
 AC_DEFUN([SIM_AC_CHECK_VAR_FUNCTIONNAME], [
 AC_CACHE_CHECK([for function name variable],
@@ -2885,6 +2899,9 @@ AC_CACHE_CHECK([for function name variable],
       [sim_cv_var_functionname=__FUNCTION__],
       [sim_cv_var_functionname=none])
   fi])
+
+# FIXME: these can probably be contracted to a single test inside a loop.
+# 20010330 mortene.
 
 if test x"$sim_cv_var_functionname" = x"__func__"; then
   AC_DEFINE([HAVE_VAR___func__], 1,

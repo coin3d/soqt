@@ -11,6 +11,9 @@
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 
+@SET_MAKE@
+
+
 SHELL = @SHELL@
 
 srcdir = @srcdir@
@@ -63,9 +66,6 @@ host_alias = @host_alias@
 host_triplet = @host@
 target_alias = @target_alias@
 target_triplet = @target@
-
-@SET_MAKE@
-AMDEP = @AMDEP@
 AMTAR = @AMTAR@
 AS = @AS@
 AWK = @AWK@
@@ -80,7 +80,6 @@ DSUFFIX = @DSUFFIX@
 EVENT = @EVENT@
 GUI = @GUI@
 Gui = @Gui@
-INSTALL_HEADER = @INSTALL_HEADER@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 INSTALL_STRIP_PROGRAM_ENV = @INSTALL_STRIP_PROGRAM_ENV@
 LIBFLAGS = @LIBFLAGS@
@@ -111,6 +110,7 @@ UNIX2WINPATH = @UNIX2WINPATH@
 VERSION = @VERSION@
 WIDGET = @WIDGET@
 _am_include = @_am_include@
+_am_quote = @_am_quote@
 gui = @gui@
 install_sh = @install_sh@
 sim_ac_coin_configcmd = @sim_ac_coin_configcmd@
@@ -120,7 +120,6 @@ soqt_configure_date = @soqt_configure_date@
 soqt_dox_build_dir = @soqt_dox_build_dir@
 soqt_dox_src_dir = @soqt_dox_src_dir@
 win_srcdir = @win_srcdir@
-
 
 noinst_LTLIBRARIES = libSoQtWidgets.la
 
@@ -137,8 +136,8 @@ BUILT_SOURCES = \
 	moc_SoQtThumbWheel.cpp
 
 
-############################################################################
 
+############################################################################
 libSoQtWidgets_la_SOURCES = \
 	$(BUILT_SOURCES) \
 	SoQtGLArea.cpp \
@@ -156,6 +155,28 @@ CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
+libSoQtWidgets_la_LDFLAGS =
+libSoQtWidgets_la_LIBADD =
+am_libSoQtWidgets_la_OBJECTS = SoAnyPopupMenu.lo SoAnyThumbWheel.lo \
+	moc_SoQtPopupMenu.lo moc_SoQtGLArea.lo moc_SoQtThumbWheel.lo \
+	SoQtGLArea.lo SoQtThumbWheel.lo SoQtPopupMenu.lo
+libSoQtWidgets_la_OBJECTS = $(am_libSoQtWidgets_la_OBJECTS)
+CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+	$(AM_CXXFLAGS) $(CXXFLAGS)
+LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+CXXFLAGS = @CXXFLAGS@
+CXXLD = $(CXX)
+CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+CFLAGS = @CFLAGS@
+COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+	$(AM_CFLAGS) $(CFLAGS)
+LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+CCLD = $(CC)
+LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 
 DEFS = @DEFS@ -I. -I$(srcdir) -I$(top_builddir)
 CPPFLAGS = @CPPFLAGS@
@@ -164,31 +185,17 @@ X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libSoQtWidgets_la_LDFLAGS = 
-libSoQtWidgets_la_LIBADD = 
-am_libSoQtWidgets_la_OBJECTS = SoAnyPopupMenu.lo SoAnyThumbWheel.lo \
-moc_SoQtPopupMenu.lo moc_SoQtGLArea.lo moc_SoQtThumbWheel.lo \
-SoQtGLArea.lo SoQtThumbWheel.lo SoQtPopupMenu.lo
-libSoQtWidgets_la_OBJECTS = $(am_libSoQtWidgets_la_OBJECTS)
-CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
-LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
-CXXFLAGS = @CXXFLAGS@
-CXXLD = $(CXX)
-CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-CFLAGS = @CFLAGS@
-COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-CCLD = $(CC)
-LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 DIST_SOURCES = $(libSoQtWidgets_la_SOURCES)
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
-@AMDEP@DEP_FILES = $(DEPDIR)/SoAnyPopupMenu.Plo \
-@AMDEP@ $(DEPDIR)/SoAnyThumbWheel.Plo $(DEPDIR)/SoQtGLArea.Plo \
-@AMDEP@ $(DEPDIR)/SoQtPopupMenu.Plo $(DEPDIR)/SoQtThumbWheel.Plo \
-@AMDEP@ $(DEPDIR)/moc_SoQtGLArea.Plo $(DEPDIR)/moc_SoQtPopupMenu.Plo \
-@AMDEP@ $(DEPDIR)/moc_SoQtThumbWheel.Plo
+@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/SoAnyPopupMenu.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoAnyThumbWheel.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoQtGLArea.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoQtPopupMenu.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoQtThumbWheel.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/moc_SoQtGLArea.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/moc_SoQtPopupMenu.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/moc_SoQtThumbWheel.Plo
 DIST_COMMON = Makefile.am Makefile.in
-
 SOURCES = $(libSoQtWidgets_la_SOURCES)
 OBJECTS = $(am_libSoQtWidgets_la_OBJECTS)
 
@@ -196,7 +203,7 @@ all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
 .SUFFIXES:
-.SUFFIXES: .c .cpp .h .lo .o .obj
+.SUFFIXES: .cpp .lo .o .obj
 
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
 	cd $(top_srcdir) && \
@@ -209,6 +216,9 @@ Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.s
 
 clean-noinstLTLIBRARIES:
 	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
+
+libSoQtWidgets.la: $(libSoQtWidgets_la_OBJECTS) $(libSoQtWidgets_la_DEPENDENCIES)
+	$(CXXLINK)  $(libSoQtWidgets_la_LDFLAGS) $(libSoQtWidgets_la_OBJECTS) $(libSoQtWidgets_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
@@ -225,9 +235,6 @@ clean-libtool:
 distclean-libtool:
 	-rm -f libtool
 
-libSoQtWidgets.la: $(libSoQtWidgets_la_OBJECTS) $(libSoQtWidgets_la_DEPENDENCIES)
-	$(CXXLINK)  $(libSoQtWidgets_la_LDFLAGS) $(libSoQtWidgets_la_OBJECTS) $(libSoQtWidgets_la_LIBADD) $(LIBS)
-
 tags: TAGS
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
@@ -239,7 +246,7 @@ ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	       END { for (i in files) print i; }'`; \
 	mkid -fID $$unique $(LISP)
 
-TAGS: $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
+TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
 		$(TAGS_FILES) $(LISP)
 	tags=; \
 	here=`pwd`; \
@@ -260,36 +267,36 @@ GTAGS:
 distclean-tags:
 	-rm -f TAGS ID
 
-@AMDEP@@_am_include@ $(DEPDIR)/SoAnyPopupMenu.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/SoAnyThumbWheel.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/SoQtGLArea.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/SoQtPopupMenu.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/SoQtThumbWheel.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtGLArea.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtPopupMenu.Plo
-@AMDEP@@_am_include@ $(DEPDIR)/moc_SoQtThumbWheel.Plo
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoAnyPopupMenu.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoAnyThumbWheel.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoQtGLArea.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoQtPopupMenu.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/SoQtThumbWheel.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/moc_SoQtGLArea.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/moc_SoQtPopupMenu.Plo@_am_quote@
+@AMDEP_TRUE@@_am_include@ @_am_quote@$(DEPDIR)/moc_SoQtThumbWheel.Plo@_am_quote@
 
 distclean-depend:
 	-rm -rf $(DEPDIR)
 
-@AMDEP@CXXDEPMODE = @CXXDEPMODE@
+CXXDEPMODE = @CXXDEPMODE@
 
 .cpp.o:
-@AMDEP@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
-@AMDEP@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
-@AMDEP@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
+	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 	$(CXXCOMPILE) -c -o $@ `test -f $< || echo '$(srcdir)/'`$<
 
 .cpp.lo:
-@AMDEP@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
-@AMDEP@	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' @AMDEPBACKSLASH@
-@AMDEP@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
+	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' @AMDEPBACKSLASH@
+	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 	$(LTCXXCOMPILE) -c -o $@ `test -f $< || echo '$(srcdir)/'`$<
 
 .cpp.obj:
-@AMDEP@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
-@AMDEP@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
-@AMDEP@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
+	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 	$(CXXCOMPILE) -c -o $@ `cygpath -w $<`
 
 
