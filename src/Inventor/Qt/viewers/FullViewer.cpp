@@ -71,7 +71,6 @@ static const char rcsid[] =
 #include <Inventor/Qt/SoQt.h>
 #include <Inventor/Qt/widgets/SoQtThumbWheel.h>
 #include <Inventor/Qt/widgets/SoQtPopupMenu.h>
-#include <Inventor/Qt/viewers/SoAnyFullViewer.h>
 #include <Inventor/Qt/viewers/SoQtFullViewer.h>
 
 // Button icons.
@@ -296,7 +295,6 @@ SoQtFullViewer::SoQtFullViewer(
   SoQtViewer::Type type,
   SbBool build)
 : inherited(parent, name, embed, type, FALSE)
-, common(new SoAnyFullViewer(this))
 {
   PRIVATE(this) = new SoQtFullViewerP(this);
 
@@ -1016,20 +1014,8 @@ void
 SoQtFullViewer::buildPopupMenu(
   void)
 {
-  this->prefmenu = this->common->setupStandardPopupMenu();
+  this->prefmenu = this->setupStandardPopupMenu();
 } // buildPopupMenu()
-
-// *************************************************************************
-
-/*!
-  Set title of popup menu.
-*/
-
-void
-SoQtFullViewer::setPopupMenuString(const char * str)
-{
-  this->common->setPopupMenuString(str);
-} // setPopupMenuString()
 
 // *************************************************************************
 
@@ -1047,7 +1033,7 @@ SoQtFullViewer::openPopupMenu(// protected
   int x = 2 + position[0];
   int y = 2 + this->getGLSize()[1] - position[1];
 
-  this->common->prepareMenu(this->prefmenu);
+  this->prepareMenu(this->prefmenu);
   this->prefmenu->popUp(this->getGLWidget(), x, y);
 } // openPopupMenu()
 
@@ -2587,21 +2573,6 @@ SoQtFullViewer::sizeChanged(const SbVec2s & size)
     inherited::sizeChanged(size);
   }
 } // sizeChanged()
-
-// *************************************************************************
-
-/*!
-*/
-
-SbBool
-SoQtFullViewer::processSoEvent(
-  const SoEvent * const event)
-{
-  if (common->processSoEvent(event) ||
-       inherited::processSoEvent(event))
-    return TRUE;
-  return FALSE;
-} // processSoEvent()
 
 // *************************************************************************
 
