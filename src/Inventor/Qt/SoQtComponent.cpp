@@ -222,8 +222,9 @@ SoQtComponent::SoQtComponent(QWidget * const parent,
 // documented in common/SoGuiComponentCommon.cpp.in.
 SoQtComponent::~SoQtComponent()
 {
-  if (! PRIVATE(this)->embedded)
-    this->unregisterWidget(PRIVATE(this)->parent);
+  if (PRIVATE(this)->widget) {
+    this->unregisterWidget(PRIVATE(this)->widget);
+  }
 
   int idx = SoQtComponentP::soqtcomplist->find((void *) this);
   assert(idx != -1);
@@ -303,7 +304,10 @@ SoQtComponent::setBaseWidget(QWidget * widget)
   if (PRIVATE(this)->widget)
     PRIVATE(this)->widget->removeEventFilter(this);
 
+  if (PRIVATE(this)->widget) { this->unregisterWidget(PRIVATE(this)->widget); }
   PRIVATE(this)->widget = widget;
+  this->registerWidget(PRIVATE(this)->widget);
+
 //  PRIVATE(this)->parent = widget->parentWidget();
 
 #if 0 // debug
@@ -452,7 +456,7 @@ SoQtComponent::eventFilter(QObject * obj, QEvent * e)
   }
 
   return FALSE;
-} // eventFilter()
+}
 
 // *************************************************************************
 
@@ -473,7 +477,7 @@ SoQtComponent::subclassInitialized(
     return;
   }
 #endif // SOQT_DEBUG
-} // subclassInitialized()
+}
 */
 
 // *************************************************************************
@@ -709,44 +713,6 @@ SoQtComponent::widgetClosed(void)
   if (PRIVATE(this)->closeCB)
     PRIVATE(this)->closeCB(PRIVATE(this)->closeCBdata, this);
 }
-
-// *************************************************************************
-
-// documented in common/SoGuiComponentCommon.cpp.in.
-SoQtComponent *
-SoQtComponent::getComponent(QWidget * const widget)
-{
-  for (int i = 0; i < SoQtComponentP::soqtcomplist->getLength(); i++) {
-    SoQtComponent * c = (SoQtComponent *) (*SoQtComponentP::soqtcomplist)[i];
-    if (c->getWidget() == widget) return c;
-  }
-
-  return NULL;
-}
-
-// *************************************************************************
-
-/*!
-  FIXME: write doc
-*/
-
-void
-SoQtComponent::registerWidget(
-  QWidget * widget)
-{
-  // nada yet
-} // registerWidget()
-
-/*!
-  FIXME: write doc
-*/
-
-void
-SoQtComponent::unregisterWidget(
-  QWidget * widget)
-{
-  // nada yet
-} // unregisterWidget()
 
 // *************************************************************************
 

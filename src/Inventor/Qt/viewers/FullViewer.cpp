@@ -314,6 +314,10 @@ SoQtFullViewer::SoQtFullViewer(QWidget * parent,
 
 SoQtFullViewer::~SoQtFullViewer()
 {
+  if (PRIVATE(this)->viewerwidget) {
+    this->unregisterWidget(PRIVATE(this)->viewerwidget);
+  }
+
   delete PRIVATE(this)->viewerbuttons;
   delete PRIVATE(this)->appbuttonlist;
 
@@ -567,8 +571,11 @@ SoQtFullViewer::buildWidget(QWidget * parent)
 #if SOQT_DEBUG && 0
   SoDebugError::postInfo("SoQtFullViewer::buildWidget", "[invoked]");
 #endif // SOQT_DEBUG
+
   PRIVATE(this)->viewerwidget = new QWidget(parent);
   this->registerWidget(PRIVATE(this)->viewerwidget);
+
+
 //  PRIVATE(this)->viewerwidget->installEventFilter(this);
 
   PRIVATE(this)->viewerwidget->move(0, 0);
@@ -585,9 +592,8 @@ SoQtFullViewer::buildWidget(QWidget * parent)
   PRIVATE(this)->canvas = inherited::buildWidget(PRIVATE(this)->viewerwidget);
   if (PRIVATE(this)->decorations) {
     PRIVATE(this)->canvas->move(30, 0);
-    PRIVATE(this)->canvas->resize(
-      QSize(PRIVATE(this)->viewerwidget->size().width() - 60,
-             PRIVATE(this)->viewerwidget->size().height() - 30));
+    PRIVATE(this)->canvas->resize(QSize(PRIVATE(this)->viewerwidget->size().width() - 60,
+                                        PRIVATE(this)->viewerwidget->size().height() - 30));
   } else {
     PRIVATE(this)->canvas->move(0, 0);
     PRIVATE(this)->canvas->resize(PRIVATE(this)->viewerwidget->size());

@@ -252,6 +252,8 @@ SoQtGLWidget::SoQtGLWidget(QWidget * const parent,
 */
 SoQtGLWidget::~SoQtGLWidget()
 {
+  this->unregisterWidget(PRIVATE(this)->borderwidget);
+
   // Don't delete the widgets we've allocated, as they are destructed
   // implicitly when their parent widgets die. (Destructing "our"
   // child widgets in this destructor can in fact lead to crashes due
@@ -308,6 +310,10 @@ SoQtGLWidget::buildWidget(QWidget * parent)
 void
 SoQtGLWidget::buildGLWidget(void)
 {
+  // FIXME: use SoQtComponent registerWidget() and unregisterWidget()
+  // as appropriate when setting up new or deleting old
+  // GL-widgets. 20020612 mortene.
+
   if (SOQT_DEBUG && 0) { // debug
     SoDebugError::postInfo("SoQtGLWidget::buildGLWidget",
                            "%s, %s, %s, %s, %s",
