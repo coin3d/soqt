@@ -245,6 +245,12 @@ SoQtExaminerViewerP::constructor(SbBool build)
   }
 }
 
+void
+SoQtExaminerViewerP::cameratoggleClicked()
+{
+  if (PUBLIC(this)->getCamera()) PUBLIC(this)->toggleCameraType();
+}
+
 // *************************************************************************
 
 #endif // DOXYGEN_SKIP_THIS
