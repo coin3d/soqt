@@ -263,26 +263,32 @@ QtNativePopupMenu::getMenuItemTitle(
 */
 
 void
-QtNativePopupMenu::setMenuItemEnabled(
-  int itemid,
-  SbBool enabled)
+QtNativePopupMenu::setMenuItemEnabled(int itemid,
+                                      SbBool enabled)
 {
   ItemRecord * rec = this->getItemRecord(itemid);
-  assert(rec && "no such menu");
-  assert(rec->parent && "a menuitem must have a parent to be enabled/disabled");
-  rec->parent->setItemEnabled(rec->itemid, enabled ? true : false);
+  if (rec) rec->parent->setItemEnabled(rec->itemid, enabled ? true : false);
+  
+  MenuRecord * mrec = this->getMenuRecord(itemid);
+  assert(mrec && "no such menu");
+  assert(mrec->parent && "a menuitem must have a parent to be enabled/disabled");
+  mrec->parent->setItemEnabled(mrec->menuid, enabled ? true : false);
 } // setMenuItemEnabled()
 
 /*!
 */
 
 SbBool
-QtNativePopupMenu::getMenuItemEnabled(
-  int itemid)
+QtNativePopupMenu::getMenuItemEnabled(int itemid) 
 {
   ItemRecord * rec = this->getItemRecord(itemid);
-  assert(rec && "no such menu");
-  return rec->parent->isItemEnabled(rec->itemid) ? TRUE : FALSE;
+  if (rec) return rec->parent->isItemEnabled(rec->itemid) ? TRUE : FALSE;
+
+  MenuRecord * mrec = this->getMenuRecord(itemid);
+  assert(mrec && "no such menu");
+  assert(mrec->parent && "a menuitem must have a parent to be enabled/disabled");
+  
+  return mrec->parent->isItemEnabled(mrec->menuid) ? TRUE : FALSE;
 } // getMenuItemEnabled()
 
 /*!
@@ -324,10 +330,9 @@ QtNativePopupMenu::getMenuItemMarked(
 */
 
 void
-QtNativePopupMenu::addMenu(
-  int menuid,
-  int submenuid,
-  int pos)
+QtNativePopupMenu::addMenu(int menuid,
+                           int submenuid,
+                           int pos)
 {
   MenuRecord * super = this->getMenuRecord(menuid);
   MenuRecord * sub = this->getMenuRecord(submenuid);
@@ -345,10 +350,9 @@ QtNativePopupMenu::addMenu(
 */
 
 void
-QtNativePopupMenu::addMenuItem(
-  int menuid,
-  int itemid,
-  int pos)
+QtNativePopupMenu::addMenuItem(int menuid,
+                               int itemid,
+                               int pos)
 {
   MenuRecord * menu = this->getMenuRecord(menuid);
   ItemRecord * item = this->getItemRecord(itemid);
@@ -364,9 +368,8 @@ QtNativePopupMenu::addMenuItem(
 } // addMenuItem()
 
 void
-QtNativePopupMenu::addSeparator(
-  int menuid,
-  int pos)
+QtNativePopupMenu::addSeparator(int menuid,
+                                int pos)
 {
   MenuRecord * menu = this->getMenuRecord(menuid);
   assert(menu && "no such menu");
@@ -385,8 +388,7 @@ QtNativePopupMenu::addSeparator(
 */
 
 void
-QtNativePopupMenu::removeMenu(
-  int menuid)
+QtNativePopupMenu::removeMenu(int menuid)
 {
   MenuRecord * rec = this->getMenuRecord(menuid);
   assert(rec && "no such menu");
@@ -415,8 +417,7 @@ QtNativePopupMenu::removeMenu(
 */
 
 void
-QtNativePopupMenu::removeMenuItem(
-  int itemid)
+QtNativePopupMenu::removeMenuItem(int itemid)
 {
   ItemRecord * rec = this->getItemRecord(itemid);
   assert(rec && "no such item");
