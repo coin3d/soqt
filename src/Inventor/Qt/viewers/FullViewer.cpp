@@ -714,31 +714,16 @@ void
 SoQtFullViewer::sizeChanged(const SbVec2s & size)
 {
 #if SOQT_DEBUG && 0
-  SoDebugError::postInfo("SoQtFullViewer::sizeChanged", "[invoked (%d, %d)]",
+  SoDebugError::postInfo("SoQtFullViewer::sizeChanged", "(%d, %d)",
                          size[0], size[1]);
 #endif // SOQT_DEBUG
 
-  if (PRIVATE(this)->decorations) {
-    if (size[0] <= 60 || size[1] <= 30) return; // bogus
-    if (PRIVATE(this)->viewerwidget) {
-      // SoDebugError::postInfo("SoQtFullViewer::sizeChanged", "[resizing]");
-      PRIVATE(this)->viewerwidget->setGeometry(0, 0, size[0], size[1]);
-      PRIVATE(this)->canvas->setGeometry(30, 0, size[0] - 60, size[1] - 30);
-      this->leftDecoration->resize(30, size[1] - 30);
-      this->rightDecoration->setGeometry(size[0]-30, 0, size[0], size[1] - 30);
-      this->bottomDecoration->setGeometry(0, size[1]-30, size[0], size[1]);
-    }
-    const SbVec2s rasize = SbVec2s(size[0] - 60, size[1] - 30);
-    inherited::sizeChanged(rasize);
-  } else {
-    if (size[0] <= 0 || size[1] <= 0) return;
-    if (PRIVATE(this)->viewerwidget && PRIVATE(this)->canvas) {
-      // SoDebugError::postInfo("SoQtFullViewer::sizeChanged", "[resizing]");
-      PRIVATE(this)->viewerwidget->setGeometry(0, 0, size[0], size[1]);
-      PRIVATE(this)->canvas->setGeometry(0, 0, size[0], size[1]);
-    }
-    inherited::sizeChanged(size);
-  }
+  SbVec2s newsize(size);
+  if (PRIVATE(this)->decorations) { newsize -= SbVec2s(2 * 30, 30); }
+  newsize = SbVec2s(SoQtMax(newsize[0], (short)1),
+                    SoQtMax(newsize[1], (short)1));
+
+  inherited::sizeChanged(newsize);
 }
 
 // *************************************************************************
