@@ -107,16 +107,16 @@ bool SoQtP::didcreatemainwidget = FALSE;
 void
 SoQtP::clean(void)
 {
+  delete SoQtP::timerqueuetimer; SoQtP::timerqueuetimer = NULL;
+  delete SoQtP::idletimer; SoQtP::idletimer = NULL;
+  delete SoQtP::delaytimeouttimer; SoQtP::delaytimeouttimer = NULL;
+
   if (SoQtP::didcreatemainwidget) {
     delete SoQtP::mainwidget;
     SoQtP::mainwidget = NULL;
     SoQtP::didcreatemainwidget = FALSE;
   }
   delete SoQtP::appobject; SoQtP::appobject = NULL;
-
-  delete SoQtP::timerqueuetimer; SoQtP::timerqueuetimer = NULL;
-  delete SoQtP::idletimer; SoQtP::idletimer = NULL;
-  delete SoQtP::delaytimeouttimer; SoQtP::delaytimeouttimer = NULL;
 
   delete SoQtP::slotobj; SoQtP::slotobj = NULL;
 }
@@ -384,7 +384,7 @@ SoQt::mainLoop(void)
 }
 
 /*!
-  This funtcion will make the main event loop finish looping.
+  This function will make the main event loop finish looping.
 
   NOTE: exitMainLoop() is not present in the original API for SGI's
   InventorXt library.
