@@ -32,7 +32,7 @@
 #include <Inventor/nodes/SoAntiSquish.h> 
 #include <Inventor/nodes/SoTransformation.h> 
 #include <Inventor/nodes/SoPickStyle.h> 
-
+#include <Inventor/actions/SoGetMatrixAction.h> 
 
 #include "RGBCubeEditorKit.h"
 
@@ -65,9 +65,7 @@ RGBCubeEditorKit::RGBCubeEditorKit(void)
   draggerYValue = 0.8;
   draggerZValue = 0.8;
 
-  offsetPosition[0] = 0;
-  offsetPosition[1] = 0;
-  offsetPosition[2] = 0;
+  initRgbCube();
 
 }
 
@@ -94,31 +92,36 @@ RGBCubeEditorKit::mouseClickCallback(void *classObject, SoEventCallback *cb)
 
   SoMouseButtonEvent * mouseEvent = (SoMouseButtonEvent *) (cb->getEvent());
 
-  // FIXME: use code like this instead of the hacks below.
-//   SoHandleEventAction * handleaction = cb->getAction();
-//   const SbViewportRegion vp = handleaction->getViewportRegion();
-
-//   const SoPath * path = handleaction->getCurPath();
-//   SoNode * root = path->getHead();
-
-// SoGetMatrixAction gma(vp);
-// gma.apply(myrootnode);
-// SbMatrix m = gma.getMatrix();
-// m.getTransform(t, r, s, so);
-  
   if(mouseEvent->getButton() == SoMouseButtonEvent::BUTTON1 &&
      mouseEvent->getState() == SoButtonEvent::UP) return;
   
-  
   RGBCubeEditorKit * rgbCube = (RGBCubeEditorKit *) classObject;  // Fetch caller object
 
+  // Fetch viewport and scenegraph
+  SoHandleEventAction * handleaction = cb->getAction();
+  const SbViewportRegion viewport = handleaction->getViewportRegion();
+  const SoPath * scenePath = handleaction->getCurPath();
+  SoNode * sceneRoot = scenePath->getHead();
 
-  SbViewportRegion vpr(rgbCube->examinerViewer->getViewportRegion());
-  SoRayPickAction rayPickAction(rgbCube->examinerViewer->getViewportRegion());
 
+  // Fetch translation of this cube
+  SoPath *scenePathCopy = scenePath->copy();
+  scenePathCopy->ref();
+  SoGetMatrixAction matrixAction(viewport);
+  matrixAction.apply(scenePathCopy);
+  SbMatrix matrix = matrixAction.getMatrix();
+  scenePathCopy->unref();
+
+
+  SbVec3f scale, translation;
+  SbRotation rotation,scaleo;
+  matrix.getTransform(translation, rotation, scale, scaleo);
+
+
+  SoRayPickAction rayPickAction(viewport);
   SbVec2s pos(mouseEvent->getPosition());
   rayPickAction.setPoint(mouseEvent->getPosition());
-  rayPickAction.apply(rgbCube->examinerViewer->getSceneManager()->getSceneGraph());
+  rayPickAction.apply(sceneRoot);
 
 
   SoPickedPoint * myPP = rayPickAction.getPickedPoint();
@@ -126,23 +129,20 @@ RGBCubeEditorKit::mouseClickCallback(void *classObject, SoEventCallback *cb)
     return;  // no object were selected. aborting.
   
 
-  SoFaceDetail * faceDetail = (SoFaceDetail *) myPP->getDetail();
   SoPath * path = myPP->getPath();
   SoNode * end = path->getTail();
   
 
-//   if(end->getTypeId() == SoIndexedFaceSet::getClassTypeId()){  // Is this the IndexedFaceSet object?
-  if (end == this->myifsnode){  // Is this the IndexedFaceSet object?
+  if(end == rgbCube->cubeIndexedFacelist){  // Is this the IndexedFaceSet object?
   
     SbVec3f ipoint = myPP->getPoint();
 
     // Using 'diffusecube' coords since all cubes should be located at the same spot.
     SbVec3f cubeOrigo = rgbCube->colorCubeCoords->point[0];
  
-    // ** INCREDIBLE UGLY ** Have to compensate for the 'translation' in the scenegraph
-    cubeOrigo[0] += rgbCube->offsetPosition[0];  // This is a classvariabel.
-    cubeOrigo[1] += rgbCube->offsetPosition[1];
-    cubeOrigo[2] += rgbCube->offsetPosition[2];
+    cubeOrigo[0] += translation[0]; 
+    cubeOrigo[1] += translation[1];
+    cubeOrigo[2] += translation[2];
 
 
     // Find new corner for color cube.
@@ -239,17 +239,6 @@ RGBCubeEditorKit::draggerZCallback(void *classObject,SoDragger *dragger)
   if(rgbCube->draggerZValue > 1.0)
     rgbCube->draggerZValue = 1;
   rgbCube->draggerCallback();
-}
-
-
-void 
-RGBCubeEditorKit::setCubeOffsetPosition(float x,float y,float z)
-{
-
-  offsetPosition[0] = x;
-  offsetPosition[1] = y;
-  offsetPosition[2] = z;
-
 }
 
 
@@ -380,7 +369,7 @@ RGBCubeEditorKit::initCubeFacelist(SoTransformSeparator *root,
 
 
   // Cube faceset
-  SoIndexedFaceSet *cubeIndexedFacelist = new SoIndexedFaceSet;
+  cubeIndexedFacelist = new SoIndexedFaceSet;
   cubeIndexedFacelist->coordIndex.setValues(0, 6*5, cubeVertexIndices);
 
 
@@ -644,18 +633,15 @@ RGBCubeEditorKit::modifyDraggerWidget(SoScale1Dragger *dragger)
 
 
 void 
-RGBCubeEditorKit::initRgbCube(SoQtExaminerViewer *viewer)
+RGBCubeEditorKit::initRgbCube()
 {
 
   root = new SoSeparator;
   root->ref();
 
-  examinerViewer = viewer; // Make this viewport global for this
-
   SoEventCallback *mouseCallback = new SoEventCallback;
   mouseCallback->addEventCallback(SoMouseButtonEvent::getClassTypeId(), &mouseClickCallback, this);
   root->addChild(mouseCallback);
-  rayPickAction = new SoRayPickAction(viewer->getViewportRegion());
 
 
   // Creating dragger-text objects
@@ -703,5 +689,5 @@ RGBCubeEditorKit::initRgbCube(SoQtExaminerViewer *viewer)
 
   root->addChild(cubeRoot);
   draggerCallback();
-  
+
 }

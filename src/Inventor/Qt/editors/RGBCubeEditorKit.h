@@ -51,15 +51,12 @@ class RGBCubeEditorKit : public SoInteractionKit {
   SoScale1Dragger *draggerZ;
   SoMaterial *cubeMaterial;              // Rgb cube material
   SoCoordinate3 *colorCubeCoords; 
+  SoIndexedFaceSet *cubeIndexedFacelist;
   SoTransformSeparator *cubeRoot;
-  SoQtExaminerViewer *examinerViewer;    // Viewer containing camera
-  SoRayPickAction *rayPickAction;        // Used for mouse-color-picking 
   SoText2 *textRedValue;                 // Text on axis 
   SoText2 *textGreenValue;
   SoText2 *textBlueValue;
   SoTranslation *colorIndicatorPosition; // Current color indicator 'o'
-  SbVec3f offsetPosition;                // Cube offset from Origo. Needed by the RayPick method for
-                                         // correct scaling when choosing color point.
   SbVec3f *cubeVertices;              
   int32_t cubeVertexIndices[6*5];
 
@@ -101,6 +98,8 @@ class RGBCubeEditorKit : public SoInteractionKit {
 
 public:
 
+
+
  // Constants
   static const int CUBE_SIZE_X = 2;
   static const int CUBE_SIZE_Y = 2;
@@ -113,11 +112,9 @@ public:
   float draggerZValue;
   SoSeparator *root;                  // The root for this RgbCube
 
-  SoSFColor rgb;
+  SoMFColor rgb;
 
-  void setCubeOffsetPosition(float x,float y,float z);
-  void initRgbCube(SoQtExaminerViewer *viewer);
-  //void initRgbCube(const SbViewportRegion viewerRegion,SoSceneManager *sceneManager);
+  void initRgbCube();
   void draggerCallback();
 
   // Nodekit methods
