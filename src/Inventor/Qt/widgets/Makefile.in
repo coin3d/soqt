@@ -586,7 +586,7 @@ distclean-depend:
 @AMDEP_TRUE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXXCOMPILE) -c -o $@ `cygpath -w $<`
+	$(CXXCOMPILE) -c -o $@ `( test -f $< || echo -n '$(srcdir)/'; echo -n $< ) | xargs cygpath -w`
 
 .cpp.lo:
 @AMDEP_TRUE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
@@ -604,7 +604,7 @@ SoAnyThumbWheel.obj: $(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp' object='SoAnyThumbWheel.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@	depfile='$(DEPDIR)/SoAnyThumbWheel.Po' tmpdepfile='$(DEPDIR)/SoAnyThumbWheel.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o SoAnyThumbWheel.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp`
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o SoAnyThumbWheel.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp ) | xargs cygpath -w`
 
 SoAnyThumbWheel.lo: $(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp' object='SoAnyThumbWheel.lo' libtool=yes @AMDEPBACKSLASH@
@@ -622,7 +622,7 @@ So@Gui@PopupMenu.obj: $(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMen
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp' object='So@Gui@PopupMenu.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@PopupMenu.Po' tmpdepfile='$(DEPDIR)/So@Gui@PopupMenu.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@PopupMenu.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp`
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@PopupMenu.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp ) | xargs cygpath -w`
 
 So@Gui@PopupMenu.lo: $(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp' object='So@Gui@PopupMenu.lo' libtool=yes @AMDEPBACKSLASH@

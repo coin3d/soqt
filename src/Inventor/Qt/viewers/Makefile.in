@@ -632,7 +632,7 @@ distclean-depend:
 @AMDEP_TRUE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXXCOMPILE) -c -o $@ `cygpath -w $<`
+	$(CXXCOMPILE) -c -o $@ `( test -f $< || echo -n '$(srcdir)/'; echo -n $< ) | xargs cygpath -w`
 
 .cpp.lo:
 @AMDEP_TRUE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
@@ -650,7 +650,7 @@ So@Gui@Viewer.obj: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp' object='So@Gui@Viewer.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@Viewer.Po' tmpdepfile='$(DEPDIR)/So@Gui@Viewer.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@Viewer.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp`
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@Viewer.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp ) | xargs cygpath -w`
 
 So@Gui@Viewer.lo: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp' object='So@Gui@Viewer.lo' libtool=yes @AMDEPBACKSLASH@
@@ -668,7 +668,7 @@ So@Gui@ConstrainedViewer.obj: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp' object='So@Gui@ConstrainedViewer.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@ConstrainedViewer.Po' tmpdepfile='$(DEPDIR)/So@Gui@ConstrainedViewer.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@ConstrainedViewer.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp`
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@ConstrainedViewer.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp ) | xargs cygpath -w`
 
 So@Gui@ConstrainedViewer.lo: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp' object='So@Gui@ConstrainedViewer.lo' libtool=yes @AMDEPBACKSLASH@
@@ -686,7 +686,7 @@ So@Gui@FlyViewer.obj: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewe
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp' object='So@Gui@FlyViewer.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@FlyViewer.Po' tmpdepfile='$(DEPDIR)/So@Gui@FlyViewer.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@FlyViewer.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp`
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@FlyViewer.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp ) | xargs cygpath -w`
 
 So@Gui@FlyViewer.lo: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp' object='So@Gui@FlyViewer.lo' libtool=yes @AMDEPBACKSLASH@
@@ -704,7 +704,7 @@ So@Gui@FullViewer.obj: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FullVie
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.cpp' object='So@Gui@FullViewer.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@FullViewer.Po' tmpdepfile='$(DEPDIR)/So@Gui@FullViewer.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@FullViewer.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.cpp`
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@FullViewer.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.cpp ) | xargs cygpath -w`
 
 So@Gui@FullViewer.lo: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.cpp
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.cpp' object='So@Gui@FullViewer.lo' libtool=yes @AMDEPBACKSLASH@
@@ -722,7 +722,7 @@ So@Gui@ExaminerViewer.obj: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Exa
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ExaminerViewer.cpp' object='So@Gui@ExaminerViewer.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@ExaminerViewer.Po' tmpdepfile='$(DEPDIR)/So@Gui@ExaminerViewer.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@ExaminerViewer.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ExaminerViewer.cpp`
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@ExaminerViewer.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ExaminerViewer.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ExaminerViewer.cpp ) | xargs cygpath -w`
 
 So@Gui@ExaminerViewer.lo: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ExaminerViewer.cpp
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ExaminerViewer.cpp' object='So@Gui@ExaminerViewer.lo' libtool=yes @AMDEPBACKSLASH@
@@ -740,7 +740,7 @@ So@Gui@PlaneViewer.obj: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneV
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewer.cpp' object='So@Gui@PlaneViewer.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@PlaneViewer.Po' tmpdepfile='$(DEPDIR)/So@Gui@PlaneViewer.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@PlaneViewer.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewer.cpp`
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@PlaneViewer.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewer.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewer.cpp ) | xargs cygpath -w`
 
 So@Gui@PlaneViewer.lo: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewer.cpp
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewer.cpp' object='So@Gui@PlaneViewer.lo' libtool=yes @AMDEPBACKSLASH@

@@ -685,7 +685,7 @@ distclean-depend:
 @AMDEP_TRUE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXXCOMPILE) -c -o $@ `cygpath -w $<`
+	$(CXXCOMPILE) -c -o $@ `( test -f $< || echo -n '$(srcdir)/'; echo -n $< ) | xargs cygpath -w`
 
 .cpp.lo:
 @AMDEP_TRUE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
@@ -703,7 +703,7 @@ spwinput_x11.obj: $(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp' object='spwinput_x11.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@	depfile='$(DEPDIR)/spwinput_x11.Po' tmpdepfile='$(DEPDIR)/spwinput_x11.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o spwinput_x11.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp`
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o spwinput_x11.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp ) | xargs cygpath -w`
 
 spwinput_x11.lo: $(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp' object='spwinput_x11.lo' libtool=yes @AMDEPBACKSLASH@
@@ -721,7 +721,7 @@ So@Gui@DeviceCommon.obj: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Devic
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp' object='So@Gui@DeviceCommon.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@DeviceCommon.Po' tmpdepfile='$(DEPDIR)/So@Gui@DeviceCommon.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@DeviceCommon.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp`
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@DeviceCommon.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp ) | xargs cygpath -w`
 
 So@Gui@DeviceCommon.lo: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp' object='So@Gui@DeviceCommon.lo' libtool=yes @AMDEPBACKSLASH@
@@ -739,7 +739,7 @@ So@Gui@InputFocusCommon.obj: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@I
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp' object='So@Gui@InputFocusCommon.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@InputFocusCommon.Po' tmpdepfile='$(DEPDIR)/So@Gui@InputFocusCommon.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@InputFocusCommon.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp`
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@InputFocusCommon.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp ) | xargs cygpath -w`
 
 So@Gui@InputFocusCommon.lo: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp' object='So@Gui@InputFocusCommon.lo' libtool=yes @AMDEPBACKSLASH@
@@ -757,7 +757,7 @@ So@Gui@KeyboardCommon.obj: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Key
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp' object='So@Gui@KeyboardCommon.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@KeyboardCommon.Po' tmpdepfile='$(DEPDIR)/So@Gui@KeyboardCommon.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@KeyboardCommon.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp`
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@KeyboardCommon.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp ) | xargs cygpath -w`
 
 So@Gui@KeyboardCommon.lo: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp' object='So@Gui@KeyboardCommon.lo' libtool=yes @AMDEPBACKSLASH@
@@ -775,7 +775,7 @@ So@Gui@MouseCommon.obj: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseC
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp' object='So@Gui@MouseCommon.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@MouseCommon.Po' tmpdepfile='$(DEPDIR)/So@Gui@MouseCommon.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@MouseCommon.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp`
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@MouseCommon.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp ) | xargs cygpath -w`
 
 So@Gui@MouseCommon.lo: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp' object='So@Gui@MouseCommon.lo' libtool=yes @AMDEPBACKSLASH@
@@ -793,7 +793,7 @@ So@Gui@SpaceballCommon.obj: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Sp
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpaceballCommon.cpp' object='So@Gui@SpaceballCommon.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@SpaceballCommon.Po' tmpdepfile='$(DEPDIR)/So@Gui@SpaceballCommon.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@SpaceballCommon.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpaceballCommon.cpp`
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@SpaceballCommon.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpaceballCommon.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpaceballCommon.cpp ) | xargs cygpath -w`
 
 So@Gui@SpaceballCommon.lo: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpaceballCommon.cpp
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpaceballCommon.cpp' object='So@Gui@SpaceballCommon.lo' libtool=yes @AMDEPBACKSLASH@

@@ -11249,7 +11249,7 @@ else
 cat >conftest.$ac_ext <<_ACEOF
 #line $LINENO "configure"
 #include "confdefs.h"
-#include <OpenGL/gl.h>
+#include <OpenGL/glu.h>
 _ACEOF
 if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
   (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
@@ -11268,14 +11268,14 @@ else
   ac_cpp_err=yes
 fi
 if test -z "$ac_cpp_err"; then
-  ac_cv_header_OpenGL_gl_h=yes
+  ac_cv_header_OpenGL_glu_h=yes
 else
   echo "$as_me: failed program was:" >&5
   cat conftest.$ac_ext >&5
-  ac_cv_header_OpenGL_gl_h=no
+  ac_cv_header_OpenGL_glu_h=no
 fi
 rm -f conftest.err conftest.$ac_ext
-if test $ac_cv_header_OpenGL_gl_h = yes; then
+if test $ac_cv_header_OpenGL_glu_h = yes; then
 
       sim_ac_glu_header_avail=true
       sim_ac_glu_header=OpenGL/glu.h
@@ -13645,17 +13645,24 @@ echo $ECHO_N "checking for Qt library devkit... $ECHO_C" >&6
         sim_ac_qt_suffix=d
       fi
 
+      # Note that we need to always check for -lqt-mt before -lqt, because
+      # at least the most recent Debian platforms (as of 2003-02-20) comes
+      # with a -lqt which is missing QGL support, while it also has a
+      # -lqt-mt *with* QGL support. The reason for this is because the
+      # default GL (Mesa) library on Debian is built in mt-safe mode,
+      # so a non-mt-safe Qt can't use it.
+
       for sim_ac_qt_cppflags_loop in "" "-DQT_DLL"; do
         for sim_ac_qt_libcheck in \
             "-lqt-gl" \
-            "-lqt" \
             "-lqt-mt" \
-            "-lqt -lqtmain -lgdi32" \
-            "-lqt${sim_ac_qt_version}${sim_ac_qt_suffix} -lqtmain -lgdi32" \
-            "-lqt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32" \
+            "-lqt" \
             "-lqt-mt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32 -lwinspool -lwinmm -ladvapi32" \
             "-lqt-mt${sim_ac_qt_version}${sim_ac_qt_suffix} -lqtmain -lgdi32" \
-            "-lqt-mt${sim_ac_qt_version}nc${sim_ac_qt_suffix} -lqtmain -lgdi32"
+            "-lqt-mt${sim_ac_qt_version}nc${sim_ac_qt_suffix} -lqtmain -lgdi32" \
+            "-lqt -lqtmain -lgdi32" \
+            "-lqt${sim_ac_qt_version}${sim_ac_qt_suffix} -lqtmain -lgdi32" \
+            "-lqt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32"
         do
           if test "x$sim_ac_qt_libs" = "xUNRESOLVED"; then
             CPPFLAGS="$sim_ac_qt_incflags $sim_ac_qt_cppflags_loop $sim_ac_save_cppflags"
@@ -13767,8 +13774,8 @@ sim_ac_qgl_libs=
 
 if test x"$with_qt" != xno; then
   # first check if we can link with the QGL widget already
-  echo "$as_me:$LINENO: checking whether the QGL widget is part of libqt" >&5
-echo $ECHO_N "checking whether the QGL widget is part of libqt... $ECHO_C" >&6
+  echo "$as_me:$LINENO: checking whether the QGL widget is part of main Qt library" >&5
+echo $ECHO_N "checking whether the QGL widget is part of main Qt library... $ECHO_C" >&6
 if test "${sim_cv_lib_qgl_integrated+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
