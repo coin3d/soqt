@@ -652,17 +652,8 @@ if $BUILD_WITH_MSVC; then
   # also use them from "parent" code (remember that their interfaces
   # is not exposed from the DLL) without any fuss.
   SOGUI_EXTRA_LIBS="-lsoqt$SOQT_MAJOR_VERSION$SUFFIX $SOGUI_EXTRA_LIBS"
-
-  # For build/soqt.nsi
-  win_srcdir=`cd $srcdir; pwd`
-  win_srcdir=`cygpath -w "$srcdir" | sed 's,\\\\,\\\\\\\\,g'`
-  AC_SUBST(win_srcdir)
 else
   SOGUI_EXTRA_LIBS="-lSoQt$SUFFIX $SOGUI_EXTRA_LIBS"
-
-  # For the build/soqt.spec RPM specification file.
-  SIM_AC_ISO8601_DATE(soqt_configure_date)
-  AC_SUBST(soqt_configure_date)
 
   if $sim_ac_framework; then
     # setup for SoQt usage
@@ -715,7 +706,6 @@ AC_OUTPUT([
 	man/man1/Makefile
 	man/man3/Makefile
 	html/Makefile
-        build/soqt.spec
 ])
 
 SIM_AC_CONFIGURATION_SETTING([Installation Prefix], [$prefix])
