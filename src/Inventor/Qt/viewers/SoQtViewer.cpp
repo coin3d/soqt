@@ -1419,8 +1419,15 @@ SoQtViewer::processCommonEvents(QEvent * e)
   // Check if the application wants to "steal" the event.
   if (inherited::invokeAppCB(e)) return TRUE;
 
+  SbBool keypress = (e->type() == Event_KeyPress);
+#if QT_VERSION >= 200
+  // Qt 2 introduced "accelerator" type keyboard events.
+  keypress = keypress || (e->type() == QEvent::Accel);
+#endif // Qt v2.0
+
+
   // Hit Escape to toggle between interact and examine viewer modes.
-  if (e->type() == Event_KeyPress) {
+  if (keypress) {
     QKeyEvent * ke = (QKeyEvent *)e;
     if (ke->key() == Key_Escape) {
       this->setViewing(this->isViewing() ? FALSE : TRUE);
@@ -1435,7 +1442,7 @@ SoQtViewer::processCommonEvents(QEvent * e)
     return TRUE;
   }
 
-  if (e->type() == Event_KeyPress) {
+  if (keypress) {
     QKeyEvent * ke = (QKeyEvent *)e;
     SbVec2f pos(0.0f, 0.0f);
 
@@ -1883,7 +1890,7 @@ SoQtViewer::moveCameraScreen(const SbVec2f & screenpos)
   SoCamera * cam = this->getCamera();
   assert(cam);
 
-#if 1 // debug
+#if SOQT_DEBUG && 0 // debug
   SoDebugError::postInfo("SoQtViewer::moveCameraScreen",
                          "screenpos: <%f, %f>, campos: <%f, %f, %f>",
                          screenpos[0], screenpos[1],
@@ -1907,7 +1914,7 @@ SoQtViewer::moveCameraScreen(const SbVec2f & screenpos)
   // projected points.
   cam->position = cam->position.getValue() - (current_planept - old_planept);
 
-#if 1 // debug
+#if SOQT_DEBUG && 0 // debug
   SoDebugError::postInfo("SoQtViewer::moveCameraScreen",
                          "newcampos: <%f, %f, %f>",
                          cam->position.getValue()[0],

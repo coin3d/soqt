@@ -85,8 +85,9 @@ dnl * Search and set up necessary stuff to use Open Inventor or Coin.
 dnl *******************************************************************
 
 # $with_inventor is from within SIM_CHECK_INVENTOR(), and can be used
-# here since the default value is "no" and must therefore be overridden
-# to have any effect.
+# here since the value is empty when it reaches this point unless
+# it has been explicitly set.
+
 if test x"$with_inventor" = xyes; then
   # For Open Inventor linkage, we need to check for a shitload of libraries.
 

@@ -110,6 +110,7 @@ ToDo
   problems which doesn't show up with Qt1.x:
 
    a) should remove the focus indicator on the top-most right-row button
+      [fixed by mortene:20000129]
 
    b) something is wrong with the drag->spin mechanism, looks like we
       get too few mouseposition events to get a good idea of the spin
@@ -125,6 +126,7 @@ ToDo
       operations. Might be related to the problem in d).
 
    f) key presses are not redirected to the GL canvas widget.
+      [fixed by mortene:20000129]
 
 * [mortene:19991218] we get too many redraw events on resizing the
   window, but only when it has decorations -- and _not_ if you remove

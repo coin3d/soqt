@@ -496,6 +496,7 @@ SoQtExaminerViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
   inherited::createViewerButtons(parent, buttonlist);
 
   this->cameratogglebutton = new QPushButton(parent);
+  this->cameratogglebutton->setFocusPolicy(QWidget::NoFocus);
   assert(this->perspectivepixmap);
   assert(this->orthopixmap);
   // Doesn't really matter which pixmap, this is just to make sure
@@ -666,16 +667,26 @@ SoQtExaminerViewer::processEvent(QEvent * event)
     break;
 
   case Event_KeyPress:
-  case Event_KeyRelease:
+#if QT_VERSION >= 200
+  // Qt 2 introduced "accelerator" type keyboard events.
+  case QEvent::Accel:
+#endif // Qt v2.0
     {
       QKeyEvent * ke = (QKeyEvent *)event;
+      if (ke->key() == Key_Control)
+        this->setModeFromState(ke->state() | ControlButton);
+    }
+    break;
 
-      if (ke->key() == Key_Control) {
-        if (ke->type() == Event_KeyPress)
-          this->setModeFromState(ke->state() | ControlButton);
-        else
-          this->setModeFromState(ke->state() & ~ControlButton);
-      }
+  case Event_KeyRelease:
+#if QT_VERSION >= 200
+  // Qt 2 introduced "accelerator" type keyboard events.
+  case QEvent::AccelAvailable:
+#endif // Qt v2.0
+    {
+      QKeyEvent * ke = (QKeyEvent *)event;
+      if (ke->key() == Key_Control)
+        this->setModeFromState(ke->state() & ~ControlButton);
     }
     break;
 

@@ -505,9 +505,18 @@ SoQtKeyboard::makeTranslationTable(void)
 const SoEvent *
 SoQtKeyboard::translateEvent(QEvent * event)
 {
-  if (((event->type() == Event_KeyPress) ||
-       (event->type() == Event_KeyRelease)) &&
-      (this->eventmask & (soqtKeyPressMask | soqtKeyReleaseMask))) {
+  SbBool keypress = event->type() == Event_KeyPress;
+  SbBool keyrelease = event->type() == Event_KeyRelease;
+
+#if QT_VERSION >= 200
+  // Qt 2 introduced "accelerator" type keyboard events.
+  keypress = keypress || (event->type() == QEvent::Accel);
+  keyrelease = keyrelease || (event->type() == QEvent::AccelAvailable);
+#endif // Qt v2.0
+
+  SbBool keyevent = keypress || keyrelease;
+
+  if (keyevent && (this->eventmask & (soqtKeyPressMask|soqtKeyReleaseMask))) {
 
     if (!SoQtKeyboard::madetable) SoQtKeyboard::makeTranslationTable();
 
@@ -536,16 +545,14 @@ SoQtKeyboard::translateEvent(QEvent * event)
     }
 
     // Press or release?
-    if (keyevent->type() == Event_KeyRelease)
-      this->kbdevent->setState(SoButtonEvent::UP);
-    else
-      this->kbdevent->setState(SoButtonEvent::DOWN);
+    if (keyrelease) this->kbdevent->setState(SoButtonEvent::UP);
+    else this->kbdevent->setState(SoButtonEvent::DOWN);
 
     // Need to mask in or out modifiers to get the correct state, as
     // the state() function gives us the situation immediately
     // _before_ the event happened.
     int state = keyevent->state();
-    if (keyevent->type() == Event_KeyPress) {
+    if (keypress) {
       switch (keyevent->key()) {
       case Key_Shift: state |= ShiftButton; break;
       case Key_Control: state |= ControlButton; break;

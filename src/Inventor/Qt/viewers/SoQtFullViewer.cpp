@@ -432,10 +432,10 @@ void
 SoQtFullViewer::setViewing(SbBool on)
 {
   if ((on && this->isViewing()) || (!on && !this->isViewing())) {
-#if SOQT_DEBUG
+#if SOQT_DEBUG && 0 // debug
     SoDebugError::postWarning("SoQtFullViewer::setViewing",
                               "view mode already %s", on ? "on" : "off");
-#endif // SOQT_DEBUG
+#endif // debug
     return;
   }
 
@@ -811,6 +811,9 @@ SoQtFullViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
 {
   for (int i=0; i <= SEEK_BUTTON; i++) {
     QPushButton * p = new QPushButton(parent);
+    // Button focus doesn't really make sense in the way we're using
+    // the pushbuttons.
+    p->setFocusPolicy(QWidget::NoFocus);
 
     switch (i) {
     case INTERACT_BUTTON:

@@ -191,10 +191,25 @@ SoQtGLWidget::eventFilter(QObject * obj, QEvent * e)
 
   SbBool stopevent = FALSE;
 
-  // Redirect keyboard events to the GL canvas widget (workaround for
-  // problems with Qt focus policy).
-  if ((e->type() == Event_KeyPress) || (e->type() == Event_KeyRelease))
+
+  SbBool keyboardevent =
+    (e->type() == Event_KeyPress) || (e->type() == Event_KeyRelease);
+#if QT_VERSION >= 200
+  // Qt 2 introduced "accelerator" type keyboard events.
+  keyboardevent = keyboardevent ||
+    (e->type() == QEvent::Accel) || (e->type() == QEvent::AccelAvailable);
+#endif // Qt v2.0
+
+  if (keyboardevent) {
+    // Redirect absolutely all keyboard events to the GL canvas
+    // widget, ignoring the current focus setting.
     obj = this->glwidget;
+    // isAccepted() usually defaults to TRUE, but we need to manually
+    // set this (probably due to the way we intercept all events
+    // through this eventfilter).
+    ((QKeyEvent *)e)->accept();
+  }
+
 
   if (obj == (QObject *)this->glparent) {
     if (e->type() == Event_Resize) {
