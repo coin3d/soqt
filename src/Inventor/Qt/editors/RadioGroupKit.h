@@ -26,6 +26,8 @@
 
 #include <Inventor/nodekits/SoSubKit.h>
 #include <Inventor/nodekits/SoInteractionKit.h>
+#include <Inventor/fields/SoSFInt32.h>
+#include <Inventor/fields/SoMFString.h>
 
 
 #define RADIO_BUTTON_SIZE .2
