@@ -747,7 +747,7 @@ AC_CONFIG_SUBDIRS(data)
 # **************************************************************************
 # List all files configure shall automatically generate.
 #
-# Note that soxt-$CONFIG.cfg needs to be generated from the configure
+# Note that soqt-$CONFIG.cfg needs to be generated from the configure
 # script -- not just from the Makefile -- as the data/configure script
 # depends on it.
 

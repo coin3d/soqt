@@ -34,6 +34,7 @@ CLEANFILES = \
 
 DISTCLEANFILES = \
 	libtool \
+	build/so@gui@.spec \
 	build/so@gui@.doxygen \
 	$(SoGui_BuiltFiles) \
 	$(SoGui_BuiltMetaFiles)
@@ -51,7 +52,7 @@ dynbin_SCRIPTS = so@gui@-config
 m4datadir = $(datadir)/aclocal
 # Don't replace "qt" with "@gui@" here, is it will pøkk up
 # for ``make dist''.
-dist_m4data_DATA = soqt.m4
+dist_m4data_DATA = cfg/m4/soqt.m4
 
 cfgdatadir = $(datadir)/Coin/conf
 cfgdata_DATA = so@gui@-@CONFIG@.cfg
@@ -65,9 +66,10 @@ EXTRA_DIST = \
 	README.DLL \
 	README.IRIX \
 	README.WIN32 \
-	build/so@gui@.spec.in \
-	build/so@gui@.doxygen.in \
-	cfg/doxy4win.pl \
+	build/soqt.spec.in \
+	build/soqt.doxygen.in \
+	cfg/m4/doxy4win.pl \
+	cfg/m4/soqt.m4 \
 	cfg/m4/wrapmsvc.cpp \
 	cfg/m4/wrapmsvc.exe \
 	models/coin_soqt.iv \

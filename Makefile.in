@@ -397,6 +397,7 @@ CLEANFILES = \
 
 DISTCLEANFILES = \
 	libtool \
+	build/so@gui@.spec \
 	build/so@gui@.doxygen \
 	$(SoGui_BuiltFiles) \
 	$(SoGui_BuiltMetaFiles)
@@ -410,7 +411,7 @@ DISTCLEANFILES = \
 @BUILD_LIBRARY_TRUE@m4datadir = $(datadir)/aclocal
 # Don't replace "qt" with "@gui@" here, is it will pøkk up
 # for ``make dist''.
-@BUILD_LIBRARY_TRUE@dist_m4data_DATA = soqt.m4
+@BUILD_LIBRARY_TRUE@dist_m4data_DATA = cfg/m4/soqt.m4
 
 @BUILD_LIBRARY_TRUE@cfgdatadir = $(datadir)/Coin/conf
 @BUILD_LIBRARY_TRUE@cfgdata_DATA = so@gui@-@CONFIG@.cfg
@@ -422,9 +423,10 @@ EXTRA_DIST = \
 	README.DLL \
 	README.IRIX \
 	README.WIN32 \
-	build/so@gui@.spec.in \
-	build/so@gui@.doxygen.in \
-	cfg/doxy4win.pl \
+	build/soqt.spec.in \
+	build/soqt.doxygen.in \
+	cfg/m4/doxy4win.pl \
+	cfg/m4/soqt.m4 \
 	cfg/m4/wrapmsvc.cpp \
 	cfg/m4/wrapmsvc.exe \
 	models/coin_soqt.iv \
@@ -968,7 +970,7 @@ $(top_builddir)/build/so@gui@.doxygen: $(top_srcdir)/build/so@gui@.doxygen.in $(
 	@( cd $(top_builddir); \
 	   if test -d build; then :; else mkdir build; fi; \
 	   ./config.status --file=build/so@gui@.doxygen:build/so@gui@.doxygen.in; \
-	   $(srcdir)/cfg/doxy4win.pl build/so@gui@.doxygen )
+	   $(srcdir)/cfg/m4/doxy4win.pl build/so@gui@.doxygen )
 
 $(top_builddir)/man/man1/so@gui@-config.1: $(top_srcdir)/src/Inventor/@Gui@/common/sogui-config.1.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=man/man1/so@gui@-config.1:src/Inventor/@Gui@/common/sogui-config.1.in )
