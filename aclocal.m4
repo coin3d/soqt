@@ -2738,6 +2738,30 @@ if $sim_cv_func_qglformat_eq_op; then
 fi
 ])
 
+
+# SIM_AC_QT_KEYPAD_DEFINE
+# -----------------------
+#
+# Use the macro for its side-effect: it defines HAVE_QT_KEYPAD_DEFINE
+# to 1 in config.h if Qt::Keypad is available.
+#
+# Author: Morten Eriksen, <mortene@sim.no>.
+
+AC_DEFUN([SIM_AC_QT_KEYPAD_DEFINE], [
+AC_CACHE_CHECK(
+  [whether Qt::Keypad is defined],
+  sim_cv_def_qt_keypad,
+  [AC_TRY_LINK([#include <qkeyevent.h>],
+               [Qt::ButtonState s = Qt::Keypad;],
+               [sim_cv_def_qt_keypad=true],
+               [sim_cv_def_qt_keypad=false])])
+
+if $sim_cv_def_qt_keypad; then
+  AC_DEFINE([HAVE_QT_KEYPAD_DEFINE], 1,
+            [Define this if Qt::Keypad is available])
+fi
+]) # SIM_AC_QT_KEYPAD_DEFINE
+
 # **************************************************************************
 # CHECK_LINUX.M4
 # ==============

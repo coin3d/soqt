@@ -1,4 +1,4 @@
-# Makefile.in generated automatically by automake 1.4e from Makefile.am
+# Makefile.in generated automatically by automake 1.4e from Makefile.am.
 
 # Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
 # Free Software Foundation, Inc.
@@ -47,7 +47,6 @@ INSTALL = @INSTALL@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
-INSTALL_STRIP_FLAG =
 INSTALL_HEADER = $(INSTALL_DATA)
 transform = @program_transform_name@
 
@@ -58,13 +57,14 @@ NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
 
-@SET_MAKE@
 build_alias = @build_alias@
 build_triplet = @build@
 host_alias = @host_alias@
 host_triplet = @host@
 target_alias = @target_alias@
 target_triplet = @target@
+
+@SET_MAKE@
 AMDEP = @AMDEP@
 AMTAR = @AMTAR@
 AS = @AS@
@@ -176,14 +176,16 @@ libSoQtViewersinc_HEADERS = \
 	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtWalkViewer.h \
 	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtFlyViewer.h
 
+EXEEXT =
+OBJEXT = o
 subdir = src/Inventor/Qt/viewers
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
-CONFIG_HEADER = ../../../../config.h
-CONFIG_CLEAN_FILES = 
-LTLIBRARIES =  $(noinst_LTLIBRARIES)
+CONFIG_HEADER = $(top_builddir)/config.h
+CONFIG_CLEAN_FILES =
+LTLIBRARIES = $(noinst_LTLIBRARIES)
 
 
-DEFS = @DEFS@ -I. -I$(srcdir) -I../../../..
+DEFS = @DEFS@ -I. -I$(srcdir) -I$(top_builddir)
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 X_CFLAGS = @X_CFLAGS@
@@ -192,13 +194,13 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libSoQtViewers_la_LDFLAGS = 
 libSoQtViewers_la_LIBADD = 
-am_libSoQtViewers_la_OBJECTS =  SoQtViewer.lo SoAnyFullViewer.lo \
+am_libSoQtViewers_la_OBJECTS = SoQtViewer.lo SoAnyFullViewer.lo \
 SoAnyExaminerViewer.lo SoAnyPlaneViewer.lo moc_SoQtViewer.lo \
 moc_SoQtFullViewer.lo moc_SoQtExaminerViewer.lo moc_SoQtPlaneViewer.lo \
 moc_SoQtConstrainedViewer.lo moc_SoQtWalkViewer.lo moc_SoQtFlyViewer.lo \
 SoQtFullViewer.lo SoQtExaminerViewer.lo SoQtPlaneViewer.lo \
 SoQtConstrainedViewer.lo SoQtWalkViewer.lo SoQtFlyViewer.lo
-libSoQtViewers_la_OBJECTS =  $(am_libSoQtViewers_la_OBJECTS)
+libSoQtViewers_la_OBJECTS = $(am_libSoQtViewers_la_OBJECTS)
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 CXXFLAGS = @CXXFLAGS@
@@ -209,52 +211,46 @@ COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CF
 LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES =  $(libSoQtViewers_la_SOURCES)
-HEADERS =  $(libSoQtViewersinc_HEADERS)
+DIST_SOURCES = $(libSoQtViewers_la_SOURCES)
+HEADERS = $(libSoQtViewersinc_HEADERS)
 
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
-@AMDEP@DEP_FILES =  $(DEPDIR)/SoAnyExaminerViewer.Plo \
-@AMDEP@$(DEPDIR)/SoAnyFullViewer.Plo $(DEPDIR)/SoAnyPlaneViewer.Plo \
-@AMDEP@$(DEPDIR)/SoQtConstrainedViewer.Plo \
-@AMDEP@$(DEPDIR)/SoQtExaminerViewer.Plo $(DEPDIR)/SoQtFlyViewer.Plo \
-@AMDEP@$(DEPDIR)/SoQtFullViewer.Plo $(DEPDIR)/SoQtPlaneViewer.Plo \
-@AMDEP@$(DEPDIR)/SoQtViewer.Plo $(DEPDIR)/SoQtWalkViewer.Plo \
-@AMDEP@$(DEPDIR)/moc_SoQtConstrainedViewer.Plo \
-@AMDEP@$(DEPDIR)/moc_SoQtExaminerViewer.Plo \
-@AMDEP@$(DEPDIR)/moc_SoQtFlyViewer.Plo $(DEPDIR)/moc_SoQtFullViewer.Plo \
-@AMDEP@$(DEPDIR)/moc_SoQtPlaneViewer.Plo $(DEPDIR)/moc_SoQtViewer.Plo \
-@AMDEP@$(DEPDIR)/moc_SoQtWalkViewer.Plo
-DIST_COMMON =  $(libSoQtViewersinc_HEADERS) Makefile.am Makefile.in
+@AMDEP@DEP_FILES = $(DEPDIR)/SoAnyExaminerViewer.Plo \
+@AMDEP@ $(DEPDIR)/SoAnyFullViewer.Plo $(DEPDIR)/SoAnyPlaneViewer.Plo \
+@AMDEP@ $(DEPDIR)/SoQtConstrainedViewer.Plo \
+@AMDEP@ $(DEPDIR)/SoQtExaminerViewer.Plo $(DEPDIR)/SoQtFlyViewer.Plo \
+@AMDEP@ $(DEPDIR)/SoQtFullViewer.Plo $(DEPDIR)/SoQtPlaneViewer.Plo \
+@AMDEP@ $(DEPDIR)/SoQtViewer.Plo $(DEPDIR)/SoQtWalkViewer.Plo \
+@AMDEP@ $(DEPDIR)/moc_SoQtConstrainedViewer.Plo \
+@AMDEP@ $(DEPDIR)/moc_SoQtExaminerViewer.Plo \
+@AMDEP@ $(DEPDIR)/moc_SoQtFlyViewer.Plo $(DEPDIR)/moc_SoQtFullViewer.Plo \
+@AMDEP@ $(DEPDIR)/moc_SoQtPlaneViewer.Plo $(DEPDIR)/moc_SoQtViewer.Plo \
+@AMDEP@ $(DEPDIR)/moc_SoQtWalkViewer.Plo
+DIST_COMMON = $(libSoQtViewersinc_HEADERS) Makefile.am Makefile.in
 
-
-DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-
-GZIP_ENV = --best
 SOURCES = $(libSoQtViewers_la_SOURCES)
 OBJECTS = $(am_libSoQtViewers_la_OBJECTS)
 
-all: all-redirect
+all: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) all-am
+
 .SUFFIXES:
-.SUFFIXES: .c .cpp .h .lo .o
-$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu src/Inventor/Qt/viewers/Makefile
+.SUFFIXES: .c .cpp .h .lo .o .obj
 
-Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
-	cd $(top_builddir) \
-	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= CONFIG_LINKS= $(SHELL) ./config.status
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
+	cd $(top_srcdir) && \
+	  $(AUTOMAKE) --gnu  src/Inventor/Qt/viewers/Makefile
 
-
-mostlyclean-noinstLTLIBRARIES:
+Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.status
+	cd $(top_builddir) && \
+	  CONFIG_HEADERS= CONFIG_LINKS= \
+	  CONFIG_FILES=$(subdir)/$@ $(SHELL) ./config.status
 
 clean-noinstLTLIBRARIES:
 	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
 
-distclean-noinstLTLIBRARIES:
-
-maintainer-clean-noinstLTLIBRARIES:
-
 mostlyclean-compile:
-	-rm -f *.o core *.core
+	-rm -f *.$(OBJEXT) core *.core
 
 distclean-compile:
 	-rm -f *.tab.c
@@ -270,7 +266,6 @@ distclean-libtool:
 
 libSoQtViewers.la: $(libSoQtViewers_la_OBJECTS) $(libSoQtViewers_la_DEPENDENCIES)
 	$(CXXLINK)  $(libSoQtViewers_la_LDFLAGS) $(libSoQtViewers_la_OBJECTS) $(libSoQtViewers_la_LIBADD) $(LIBS)
-
 install-libSoQtViewersincHEADERS: $(libSoQtViewersinc_HEADERS)
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(libSoQtViewersincdir)
@@ -356,12 +351,20 @@ distclean-depend:
 @AMDEP@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 	$(LTCXXCOMPILE) -c -o $@ `test -f $< || echo '$(srcdir)/'`$<
 
+.cpp.obj:
+@AMDEP@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
+@AMDEP@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXXCOMPILE) -c -o $@ `cygpath -w $<`
 
-distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
+DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+
+top_distdir = ../../../..
+distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
-	$(mkinstalldirs) $(distdir)/$(top_builddir)/src/Inventor/Qt/viewers $(distdir)/$(top_srcdir)/src/Inventor/Qt/viewers $(top_builddir)/src/Inventor/Qt/viewers $(top_srcdir)/src/Inventor/Qt/viewers
+	$(mkinstalldirs) $(distdir)/$(top_builddir)/src/Inventor/Qt/viewers $(distdir)/$(top_srcdir)/src/Inventor/Qt/viewers
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
@@ -373,35 +376,26 @@ distdir: $(DISTFILES)
 	    || exit 1; \
 	  fi; \
 	done
-info-am:
-info: info-am
-dvi-am:
-dvi: dvi-am
 check-am: all-am
 check: check-am
-installcheck-am:
-installcheck: installcheck-am
-all-redirect: $(BUILT_SOURCES)
-	$(MAKE) $(AM_MAKEFLAGS) all-am
+all-am: Makefile $(LTLIBRARIES) $(HEADERS)
 
-install-exec-am:
+installdirs:
+	$(mkinstalldirs) $(DESTDIR)$(libSoQtViewersincdir)
+
+install: install-am
 install-exec: install-exec-am
-
-install-data-am: install-libSoQtViewersincHEADERS
 install-data: install-data-am
+uninstall: uninstall-am
 
 install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
-install: install-am
-uninstall-am: uninstall-libSoQtViewersincHEADERS
-uninstall: uninstall-am
-all-am: Makefile $(LTLIBRARIES) $(HEADERS)
+
+installcheck: installcheck-am
+
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) INSTALL_PROGRAM="$(INSTALL_STRIP_PROGRAM)" \
 	  INSTALL_PROGRAM_ENV='$(INSTALL_STRIP_PROGRAM_ENV)' install
-installdirs:
-	$(mkinstalldirs)  $(DESTDIR)$(libSoQtViewersincdir)
-
 
 mostlyclean-generic:
 
@@ -424,31 +418,48 @@ clean-am: clean-generic clean-libtool clean-noinstLTLIBRARIES \
 distclean: distclean-am
 
 distclean-am: clean-am distclean-compile distclean-depend \
-	distclean-generic distclean-libtool distclean-noinstLTLIBRARIES \
-	distclean-tags
+	distclean-generic distclean-libtool distclean-tags
+
+dvi:
+
+dvi-am:
+
+info:
+
+info-am:
+
+install-data-am: install-libSoQtViewersincHEADERS
+
+install-exec-am:
+
+install-info:
+
+install-man:
+
+installcheck-am:
 
 maintainer-clean: maintainer-clean-am
 
-maintainer-clean-am: distclean-am maintainer-clean-generic \
-	maintainer-clean-noinstLTLIBRARIES
+maintainer-clean-am: distclean-am maintainer-clean-generic
 
 mostlyclean: mostlyclean-am
 
 mostlyclean-am: mostlyclean-compile mostlyclean-generic \
-	mostlyclean-libtool mostlyclean-noinstLTLIBRARIES
+	mostlyclean-libtool
 
-.PHONY: all all-am all-redirect check check-am clean clean-generic \
-	clean-libtool clean-noinstLTLIBRARIES distclean \
-	distclean-compile distclean-depend distclean-generic \
-	distclean-libtool distclean-noinstLTLIBRARIES distclean-tags \
-	distdir dvi dvi-am info info-am install install-am install-data \
-	install-data-am install-exec install-exec-am \
-	install-libSoQtViewersincHEADERS install-strip installcheck \
-	installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic maintainer-clean-noinstLTLIBRARIES \
+uninstall-am: uninstall-libSoQtViewersincHEADERS
+
+.PHONY: all all-am check check-am clean clean-generic clean-libtool \
+	clean-noinstLTLIBRARIES distclean distclean-compile \
+	distclean-depend distclean-generic distclean-libtool \
+	distclean-tags distdir dvi dvi-am info info-am install \
+	install-am install-data install-data-am install-exec \
+	install-exec-am install-info install-libSoQtViewersincHEADERS \
+	install-man install-strip installcheck installcheck-am \
+	installdirs maintainer-clean maintainer-clean-generic \
 	mostlyclean mostlyclean-compile mostlyclean-generic \
-	mostlyclean-libtool mostlyclean-noinstLTLIBRARIES tags \
-	uninstall uninstall-am uninstall-libSoQtViewersincHEADERS
+	mostlyclean-libtool tags uninstall uninstall-am \
+	uninstall-libSoQtViewersincHEADERS
 
 
 ############################################################################
