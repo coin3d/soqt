@@ -24,55 +24,33 @@
 #ifndef COIN_RGBCUBEEDITORKIT_H
 #define COIN_RGBCUBEEDITORKIT_H
 
-#include <Inventor/nodekits/SoSubKit.h>
 #include <Inventor/nodekits/SoInteractionKit.h>
-
-static const char RGBCUBE_draggergeometry[] =
-"#Inventor V2.1 ascii\n"
-"\n"
-" DEF DraggerX Scale1Dragger { }\n"
-" DEF DraggerY Scale1Dragger { }\n"
-" DEF DraggerZ Scale1Dragger { }\n";
+#include <Inventor/fields/SoMFColor.h>
 
 
 class RGBCubeEditorKit : public SoInteractionKit {
   typedef SoInteractionKit inherited;
 
-  friend class RGBCubeEditorKitP;
-  class RGBCubeEditorKitP * pimpl;
-
-
   SO_KIT_HEADER(RGBCubeEditorKit);
+
   SO_KIT_CATALOG_ENTRY_HEADER(RGBCubeRoot);
   SO_KIT_CATALOG_ENTRY_HEADER(DraggerX);
   SO_KIT_CATALOG_ENTRY_HEADER(DraggerY);
   SO_KIT_CATALOG_ENTRY_HEADER(DraggerZ);
 
 public:
-
-  // Constants
-  static const int CUBE_SIZE_X = 2;
-  static const int CUBE_SIZE_Y = 2;
-  static const int CUBE_SIZE_Z = 2;
-
-  // Variables
-  float draggerXValue;
-  float draggerYValue;
-  float draggerZValue;
   SoMFColor rgb;
 
-  // Methods
-  void initRgbCube();
-  void draggerCallback();
-  static void initClass();
-  virtual SbBool affectsState() const;
-
-  // Constructor
   RGBCubeEditorKit(void);
-
+  static void initClass(void);
+  virtual SbBool affectsState(void) const;
 
 protected:
   virtual ~RGBCubeEditorKit();
+
+private:
+  friend class RGBCubeEditorKitP;
+  class RGBCubeEditorKitP * pimpl;
 };
 
 #endif // !COIN_RGBCUBEEDITORKIT_H
