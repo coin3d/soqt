@@ -5094,9 +5094,10 @@ AC_DEFUN([SIM_AC_CHECK_HEADER_GL],
 AC_MSG_CHECKING([how to include gl.h])
 if test x"$with_opengl" != x"no"; then
   sim_ac_gl_save_CPPFLAGS=$CPPFLAGS
+  sim_ac_gl_cppflags=
+
   if test x"$with_opengl" != xyes && test x"$with_opengl" != x""; then
     sim_ac_gl_cppflags="-I${with_opengl}/include"
-    CPPFLAGS="$CPPFLAGS $sim_ac_gl_cppflags"
   else
     # On HP-UX platforms, OpenGL headers and libraries are usually installed
     # at this location.
@@ -5105,6 +5106,9 @@ if test x"$with_opengl" != x"no"; then
       sim_ac_gl_cppflags=-I$sim_ac_gl_hpux/include
     fi
   fi
+
+  CPPFLAGS="$CPPFLAGS $sim_ac_gl_cppflags"
+
   SIM_AC_CHECK_HEADER_SILENT([GL/gl.h], [
     sim_ac_gl_header_avail=true
     sim_ac_gl_header=GL/gl.h
@@ -5147,10 +5151,21 @@ AC_DEFUN([SIM_AC_CHECK_HEADER_GLU],
 AC_MSG_CHECKING([how to include glu.h])
 if test x"$with_opengl" != x"no"; then
   sim_ac_glu_save_CPPFLAGS=$CPPFLAGS
+  sim_ac_glu_cppflags=
+
   if test x"$with_opengl" != xyes && test x"$with_opengl" != x""; then
     sim_ac_glu_cppflags="-I${with_opengl}/include"
-    CPPFLAGS="$CPPFLAGS $sim_ac_glu_cppflags"
+  else
+    # On HP-UX platforms, OpenGL headers and libraries are usually installed
+    # at this location.
+    sim_ac_gl_hpux=/opt/graphics/OpenGL
+    if test -d $sim_ac_gl_hpux; then
+      sim_ac_glu_cppflags=-I$sim_ac_gl_hpux/include
+    fi
   fi
+
+  CPPFLAGS="$CPPFLAGS $sim_ac_glu_cppflags"
+
   SIM_AC_CHECK_HEADER_SILENT([GL/glu.h], [
     sim_ac_glu_header_avail=true
     sim_ac_glu_header=GL/glu.h
@@ -5162,22 +5177,7 @@ if test x"$with_opengl" != x"no"; then
       AC_DEFINE([HAVE_OPENGL_GLU_H], 1, [define if the GLU header should be included as OpenGL/glu.h])
     ])
   ])
-  sim_ac_gl_hpux=/opt/graphics/OpenGL
-  if test x$sim_ac_glu_header_avail = xfalse && test -d $sim_ac_gl_hpux; then
-    sim_ac_glu_cppflags=-I$sim_ac_gl_hpux/include
-    CPPFLAGS="$CPPFLAGS $sim_ac_glu_cppflags"
-    SIM_AC_CHECK_HEADER_SILENT([GL/glu.h], [
-      sim_ac_glu_header_avail=true
-      sim_ac_glu_header=GL/glu.h
-      AC_DEFINE([HAVE_GL_GLU_H], 1, [define if the GLU header should be included as GL/glu.h])
-    ], [
-      SIM_AC_CHECK_HEADER_SILENT([OpenGL/glu.h], [
-        sim_ac_glu_header_avail=true
-        sim_ac_glu_header=OpenGL/glu.h
-        AC_DEFINE([HAVE_OPENGL_GLU_H], 1, [define if the GLU header should be included as OpenGL/glu.h])
-      ])
-    ])
-  fi
+
   CPPFLAGS="$sim_ac_glu_save_CPPFLAGS"
   if $sim_ac_glu_header_avail; then
     if test x"$sim_ac_glu_cppflags" = x""; then
@@ -5208,10 +5208,21 @@ AC_DEFUN([SIM_AC_CHECK_HEADER_GLEXT],
 AC_MSG_CHECKING([how to include glext.h])
 if test x"$with_opengl" != x"no"; then
   sim_ac_glext_save_CPPFLAGS=$CPPFLAGS
+  sim_ac_glext_cppflags=
+
   if test x"$with_opengl" != xyes && test x"$with_opengl" != x""; then
     sim_ac_glext_cppflags="-I${with_opengl}/include"
-    CPPFLAGS="$CPPFLAGS $sim_ac_glext_cppflags"
+  else
+    # On HP-UX platforms, OpenGL headers and libraries are usually installed
+    # at this location.
+    sim_ac_gl_hpux=/opt/graphics/OpenGL
+    if test -d $sim_ac_gl_hpux; then
+      sim_ac_glext_cppflags=-I$sim_ac_gl_hpux/include
+    fi
   fi
+
+  CPPFLAGS="$CPPFLAGS $sim_ac_glext_cppflags"
+
   SIM_AC_CHECK_HEADER_SILENT([GL/glext.h], [
     sim_ac_glext_header_avail=true
     sim_ac_glext_header=GL/glext.h
@@ -5223,22 +5234,7 @@ if test x"$with_opengl" != x"no"; then
       AC_DEFINE([HAVE_OPENGL_GLEXT_H], 1, [define if the GLEXT header should be included as OpenGL/glext.h])
     ])
   ])
-  sim_ac_gl_hpux=/opt/graphics/OpenGL
-  if test x$sim_ac_glext_header_avail = xfalse && test -d $sim_ac_gl_hpux; then
-    sim_ac_glext_cppflags=-I$sim_ac_gl_hpux/include
-    CPPFLAGS="$CPPFLAGS $sim_ac_glext_cppflags"
-    SIM_AC_CHECK_HEADER_SILENT([GL/glext.h], [
-      sim_ac_glext_header_avail=true
-      sim_ac_glext_header=GL/glext.h
-      AC_DEFINE([HAVE_GL_GLEXT_H], 1, [define if the GLEXT header should be included as GL/glext.h])
-    ], [
-      SIM_AC_CHECK_HEADER_SILENT([OpenGL/glext.h], [
-        sim_ac_glext_header_avail=true
-        sim_ac_glext_header=OpenGL/glext.h
-        AC_DEFINE([HAVE_OPENGL_GLEXT_H], 1, [define if the GLEXT header should be included as OpenGL/glext.h])
-      ])
-    ])
-  fi
+
   CPPFLAGS="$sim_ac_glext_save_CPPFLAGS"
   if $sim_ac_glext_header_avail; then
     if test x"$sim_ac_glext_cppflags" = x""; then
@@ -5309,7 +5305,7 @@ AC_ARG_WITH(
 if test x"$with_opengl" != xno; then
 
   if test x"$with_opengl" != xyes && test x"$with_opengl" != x""; then
-    sim_ac_ogl_ldflags=-I$with_opengl/lib
+    sim_ac_ogl_ldflags=-L$with_opengl/lib
     # $sim_ac_ogl_cppflags is set up in the SIM_AC_CHECK_HEADER_GL
     # invocation further below.
   else
@@ -5317,7 +5313,7 @@ if test x"$with_opengl" != xno; then
     # at this location.
     sim_ac_gl_hpux=/opt/graphics/OpenGL
     if test -d $sim_ac_gl_hpux; then
-      sim_ac_ogl_ldflags=-I$sim_ac_gl_hpux/lib
+      sim_ac_ogl_ldflags=-L$sim_ac_gl_hpux/lib
     fi
   fi
 
@@ -6415,10 +6411,16 @@ if test x"$with_qt" != xno; then
     AC_MSG_WARN([the ``moc'' Qt pre-processor tool not found])
   else
 
-  AC_CHECK_HEADER([qglobal.h],
-                  [sim_ac_qglobal=true],
-                  [AC_MSG_WARN([header file qglobal.h not found])
-                   sim_ac_qglobal=false])
+  sim_ac_qglobal=false
+  SIM_AC_CHECK_HEADER_SILENT([qglobal.h],
+    [sim_ac_qglobal=true],
+    # Debian Linux has the Qt-dev installation headers in a separate subdir.
+    [sim_ac_debian_qtheaders=/usr/include/qt
+     if test -d $sim_ac_debian_qtheaders; then
+       sim_ac_qt_incflags="-I$sim_ac_debian_qtheaders $sim_ac_qt_incflags"
+       CPPFLAGS="-I$sim_ac_debian_qtheaders $CPPFLAGS"
+       SIM_AC_CHECK_HEADER_SILENT([qglobal.h], [sim_ac_qglobal=true])
+     fi])
 
   if $sim_ac_qglobal; then
 
@@ -6565,7 +6567,9 @@ recommend you to upgrade.])
     fi
   fi
 
-  fi # sim_ac_qglobal = TRUE
+  else # sim_ac_qglobal = false
+   AC_MSG_WARN([header file qglobal.h not found, can not compile Qt code])
+  fi
   fi # MOC = false
 
   if test ! x"$sim_ac_qt_libs" = xUNRESOLVED; then
