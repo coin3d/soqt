@@ -18,7 +18,7 @@
 ############################################################################
 
 TARGET		=	CoinQtDebug
-CONFIG		=	sharedlib
+CONFIG		+=	sharedlib
 INCLUDEPATH	+=	$(COINDIR)/include
 DEFINES		+=	SOQT_DEBUG=1
 LIBS		=	-L$(QTDIR)/lib -lqgl -lqt
