@@ -263,6 +263,7 @@
 #include <Inventor/Qt/SoQtInternal.h>
 
 #include <Inventor/Qt/nodes/SoGuiNodes.h>
+#include <Inventor/Qt/nodes/SoGuiEngines.h>
 
 #include <soqtdefs.h>
 
@@ -600,6 +601,7 @@ SoQt::init(QWidget * toplevelwidget)
 #endif
 
   SoGuiNodes::initClasses();
+  SoGuiEngines::initClasses();
 
   // This is _extremely_ useful for debugging X errors: activate this
   // code (set the SOQT_XSYNC environment variable on your system to
