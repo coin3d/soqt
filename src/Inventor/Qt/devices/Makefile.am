@@ -11,7 +11,7 @@ BUILT_SOURCES = \
 	$(SoGuiAllBuiltFiles)
 
 CLEANFILES = \
-	$(SoGui_src_Inventor_Gui_devices_BuiltFiles)
+	$(SoGui_src_Inventor_Gui_devices_BuiltMetaFiles)
 
 DISTCLEANFILES = \
 	$(SoGui_src_Inventor_Gui_devices_BuiltFiles) \
