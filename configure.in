@@ -88,7 +88,6 @@ dnl *******************************************************************
 
 SIM_INCLUDE_INVENTOR_LIB
 
-
 dnl *******************************************************************
 dnl * Check that the Qt installation looks ok and include the
 dnl * necessary paths and link libraries.
@@ -96,7 +95,6 @@ dnl *******************************************************************
 
 SIM_INCLUDE_QT_LIB
 SIM_INCLUDE_QGL_LIB
-
 
 dnl *******************************************************************
 dnl * Compiler control.

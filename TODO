@@ -7,8 +7,8 @@ ToDo
 
 *** BUILD ITEMS ***
 
-* [larsa:20000113] snatch compilation-rules from Coin (adapt for moc) to
-  avoid the excessively verbose libtool-output during compilation.
+* [larsa:20000113] tune the compilation process to avoid the excessively
+  verbose libtool-output during compilation.
 
 * [mortene:20000112] replace SIM_CHECK_MATHLIB with the one
   which comes with libtool (AC_CHECK_LIBM).

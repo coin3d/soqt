@@ -767,19 +767,124 @@ dnl    * [mortene:19991114] should have AC_REQUIREs on detection of the
 dnl      OpenGL and GLU libraries.
 dnl
 
-AC_DEFUN(SIM_INCLUDE_INVENTOR_LIB,
+AC_DEFUN(SIM_CHECK_INVENTOR,
 [
 dnl Autoconf is a developer tool, so don't bother to support older versions.
 AC_PREREQ([2.13])
 
-dnl FIXME: this won't work under MSWindows. 19991114 mortene.
+dnl FIXME: this'll probably fail under MSWindows. 19991114 mortene.
 AC_REQUIRE([AC_PATH_XTRA])
 
-dnl Inventor and Coin are C++ libraries.
+dnl Open Inventor is a C++ library.
 AC_REQUIRE([AC_PROG_CXX])
 AC_LANG_SAVE
 AC_LANG_CPLUSPLUS
 
+AC_MSG_CHECKING(value of the OIVHOME environment variable)
+if test x"$OIVHOME" = x; then
+  AC_MSG_RESULT(empty!)
+  AC_MSG_WARN(OIVHOME environment variable not set -- this might be an indication of a problem)
+else
+  AC_MSG_RESULT($OIVHOME)
+  CXXFLAGS="$CXXFLAGS -I$OIVHOME/include"
+  LDFLAGS="$LDFLAGS -L$OIVHOME/lib"
+fi
+
+sim_oivtsts_savelibs=$LIBS
+
+dnl FIXME: "ugly hack"-alert! Should clean this up by finding
+dnl out which libraries are _really_ needed. 19991107 mortene.
+LIBS="$LIBS -lInventor -limage -lMesaGLU -lMesaGL $X_LIBS $X_PRE_LIBS -lX11 $X_EXTRA_LIBS -lXmu -lXext -ldl"
+
+AC_CACHE_CHECK([for Open Inventor developer kit installation],
+  sim_cv_lib_oiv_avail,
+  [AC_TRY_LINK([#include <Inventor/SoDB.h>],
+               [SoDB::init();],
+               sim_cv_lib_oiv_avail=yes,
+               sim_cv_lib_oiv_avail=no)])
+
+if test x"$sim_cv_lib_oiv_avail" = xno; then
+  LIBS=$sim_oivtsts_savelibs
+  dnl FIXME: don't exit here -- let the caller take care of
+  dnl handling the situation. 20000118 mortene.
+  AC_MSG_ERROR(Open Inventor development kit not found!)
+fi
+
+AC_LANG_RESTORE
+])
+
+
+dnl *************************************************************************
+
+dnl FIXME: convert to SIM_CHECK_COIN(possible_locations,
+dnl [ACTION-IF-FOUND][,ACTION-IF-NOT-FOUND]). 20000118 mortene.
+
+AC_DEFUN(SIM_CHECK_COIN,
+[
+dnl Autoconf is a developer tool, so don't bother to support older versions.
+AC_PREREQ([2.13])
+
+dnl FIXME: this'll probably fail under MSWindows. 19991114 mortene.
+AC_REQUIRE([AC_PATH_XTRA])
+
+dnl Coin is a C++ library.
+AC_REQUIRE([AC_PROG_CXX])
+AC_LANG_SAVE
+AC_LANG_CPLUSPLUS
+
+
+AC_MSG_CHECKING(for Coin header files)
+dnl First try standard system locations.
+AC_TRY_CPP([#include <Inventor/SbBasic.h>], coin_dev=yes, coin_dev=no)
+
+dnl Not found in any of the standard system locations, try
+dnl installation directory.
+if test "x$coin_dev" = "xno"; then
+  _PREFIX=$prefix
+  test "x$_PREFIX" = xNONE && _PREFIX=$ac_default_prefix
+  _EPREFIX=$exec_prefix
+  test "x$_EPREFIX" = xNONE && _EPREFIX=$_PREFIX
+  _SAVECPPFLAGS=$CPPFLAGS
+  CPPFLAGS="-I$_PREFIX/include $CPPFLAGS"
+  AC_TRY_CPP([#include <Inventor/SbBasic.h>], coin_dev=yes, coin_dev=no)
+  CPPFLAGS=$_SAVECPPFLAGS
+  if test "x$coin_dev" = "xyes"; then
+    CPPFLAGS="-I$_PREFIX/include $CPPFLAGS"
+    LDFLAGS="-L$_EPREFIX/lib $LDFLAGS"
+  fi
+fi
+
+AC_MSG_RESULT($coin_dev)
+
+sim_cointsts_savelibs=$LIBS
+
+dnl FIXME: "ugly hack"-alert! Should clean this up by finding
+dnl out which libraries are _really_ needed. 19991107 mortene.
+LIBS="$LIBS -lCoin -lsimage $X_LIBS -lXmu"
+
+AC_CACHE_CHECK([for Coin developer kit installation],
+  sim_cv_lib_coin_avail,
+  [AC_TRY_LINK([#include <Inventor/SoDB.h>],
+               [SoDB::init();],
+               sim_cv_lib_coin_avail=yes,
+               sim_cv_lib_coin_avail=no)])
+
+if test x"$sim_cv_lib_coin_avail" = xno; then
+  LIBS=$sim_cointsts_savelibs
+  dnl FIXME: don't exit here -- let the caller take care of
+  dnl handling the situation. 20000118 mortene.
+  AC_MSG_ERROR(Coin development kit not found!)
+fi
+
+AC_LANG_RESTORE
+])
+
+
+dnl *************************************************************************
+
+
+AC_DEFUN(SIM_INCLUDE_INVENTOR_LIB,
+[
 dnl *******************************************************************
 dnl * Check if we want to build on top of Open Inventor (if available).
 dnl *******************************************************************
@@ -793,88 +898,12 @@ AC_ARG_WITH(inventor,
   esac],
   [want_inventor=no])
 
-dnl *******************************************************************
-dnl * Check if Open Inventor development system is installed (if necessary).
-dnl *******************************************************************
 
-if test "x$want_inventor" = "xyes"; then
-  AC_MSG_CHECKING(value of the OIVHOME environment variable)
-  if test "x$OIVHOME" = "x"; then
-    AC_MSG_RESULT(empty!)
-    AC_MSG_WARN(OIVHOME environment variable not set -- this might be an indication of a problem)
-  else
-    AC_MSG_RESULT($OIVHOME)
-    CXXFLAGS="$CXXFLAGS -I$OIVHOME/include"
-    LDFLAGS="$LDFLAGS -L$OIVHOME/lib"
-  fi
-
-  AC_MSG_CHECKING(for Open Inventor header files)
-  AC_TRY_COMPILE([#include <Inventor/SbBasic.h>], [], inventor_dev=yes, inventor_dev=no)
-  AC_MSG_RESULT($inventor_dev)
-  if test "x$inventor_dev" = "xno"; then
-    AC_MSG_ERROR(could not find the Open Inventor include files -- we need them to build!)
-  fi
-
-  dnl FIXME: do an AC_CHECK_LIB on libimage before
-  dnl libInventor. 19991114 mortene.
-
-  inventortest_save_LIBS=$LIBS
-  AC_CHECK_LIB(Inventor, main, , inventor_dev=no, -limage -lMesaGLU -lMesaGL $X_LIBS $X_PRE_LIBS -lX11 $X_EXTRA_LIBS -lXext -ldl)
-  if test "x$inventor_dev" = "xno"; then
-    AC_MSG_ERROR(libInventor development system not found -- can't build on top of Open Inventor!)
-  fi
-  LIBS=$inventortest_save_LIBS
-
-  dnl FIXME: "ugly hack"-alert! Should really clean this up. 19991107 mortene.
-  LIBS="$LIBS -lInventor -limage -lMesaGLU -lMesaGL $X_LIBS $X_PRE_LIBS -lX11 $X_EXTRA_LIBS -lXmu -lXext -ldl"
-
+if test x"$want_inventor" = xyes; then
+  SIM_CHECK_INVENTOR
 else
-
-  dnl *******************************************************************
-  dnl * Check if libCoin is installed.
-  dnl *******************************************************************
-  
-  AC_MSG_CHECKING(for Coin header files)
-
-  dnl First try standard system locations.
-  AC_TRY_CPP([#include <Inventor/SbBasic.h>], coin_dev=yes, coin_dev=no)
-
-  dnl Not found in any of the standard system locations, try
-  dnl installation directory.
-  if test "x$coin_dev" = "xno"; then
-    _PREFIX=$prefix
-    test "x$_PREFIX" = xNONE && _PREFIX=$ac_default_prefix
-    _EPREFIX=$exec_prefix
-    test "x$_EPREFIX" = xNONE && _EPREFIX=$_PREFIX
-    _SAVECPPFLAGS=$CPPFLAGS
-    CPPFLAGS="-I$_PREFIX/include $CPPFLAGS"
-    AC_TRY_CPP([#include <Inventor/SbBasic.h>], coin_dev=yes, coin_dev=no)
-    CPPFLAGS=$_SAVECPPFLAGS
-    if test "x$coin_dev" = "xyes"; then
-      CPPFLAGS="-I$_PREFIX/include $CPPFLAGS"
-      LDFLAGS="-L$_EPREFIX/lib $LDFLAGS"
-    fi
-  fi
-
-  AC_MSG_RESULT($coin_dev)
-
-  if test "x$coin_dev" = "xyes"; then
-    dnl FIXME: this doesn't work, as the AC_CHECK_LIB only can check against
-    dnl functions in a C library. Add a new macro AC_CHECK_CXXLIB? Ask on the
-    dnl autoconf list. 19990918 mortene.
-    dnl AC_CHECK_LIB(Coin, SoDB::init, , coin_dev=no)
-    AC_CHECK_LIB(Coin, main, , coin_dev=no)
-  fi
-  if test "x$coin_dev" = "xno"; then
-    AC_MSG_ERROR(libCoin development system not found)
-  fi
-
-  dnl FIXME: "ugly hack"-alert! Should really clean this up. 19991107 mortene.
-  LIBS="$LIBS $X_LIBS -lXmu"
+  SIM_CHECK_COIN
 fi
-
-
-AC_LANG_RESTORE
 ])
 
 dnl  Check that the Qt installation looks ok and include the
@@ -932,22 +961,25 @@ if test "x$MOC" = "x"; then
   AC_MSG_ERROR(could not find the moc tool -- we need a complete Qt installation to build!)
 fi
 
-dnl *** find Qt header files ***
 
-AC_MSG_CHECKING(for Qt header files)
-AC_TRY_COMPILE([#include <qapplication.h>], [], qt_dev=yes, qt_dev=no)
-AC_MSG_RESULT($qt_dev)
-if test "x$qt_dev" = "xno"; then
-  AC_MSG_ERROR(could not find the Qt include files -- we need a complete Qt installation to build!)
+sim_qttsts_savelibs=$LIBS
+dnl FIXME: "ugly hack"-alert! Should clean this up by finding
+dnl out which libraries are _really_ needed. 19991107 mortene.
+LIBS="-lqt $LIBS $X_LIBS $X_PRE_LIBS -lX11 $X_EXTRA_LIBS"
+
+AC_CACHE_CHECK([for Qt developer kit installation],
+  sim_cv_lib_qt_avail,
+  [AC_TRY_LINK([#include <qapplication.h>],
+               [int dummy=0; QApplication a(dummy, 0L);],
+               sim_cv_lib_qt_avail=yes,
+               sim_cv_lib_qt_avail=no)])
+
+if test x"$sim_cv_lib_qt_avail" = xno; then
+  LIBS=$sim_qttsts_savelibs
+  dnl FIXME: don't exit here -- let the caller take care of
+  dnl handling the situation. 20000118 mortene.
+  AC_MSG_ERROR(Qt development kit not found!)
 fi
-
-dnl *** find Qt link library ***
-
-dnl FIXME: this doesn't work, as the AC_CHECK_LIB only can check against
-dnl functions in a C library. Add a new macro AC_CHECK_CXXLIB? Ask on the
-dnl autoconf list. 19990918 mortene.
-dnl AC_CHECK_LIB(qt, qVersion, , AC_MSG_ERROR(could not find the Qt library!), $X_LIBS $X_PRE_LIBS -lX11 $X_EXTRA_LIBS)
-AC_CHECK_LIB(qt, main, , AC_MSG_ERROR(could not find the Qt library!), $X_LIBS $X_PRE_LIBS -lX11 $X_EXTRA_LIBS)
 
 AC_LANG_RESTORE
 ])
@@ -966,22 +998,24 @@ AC_REQUIRE([SIM_INCLUDE_QT_LIB])
 AC_LANG_SAVE
 AC_LANG_CPLUSPLUS
 
-dnl *** find QGL extension, header file ***
+sim_qgltsts_savelibs=$LIBS
+dnl FIXME: "ugly hack"-alert! Should clean this up by finding
+dnl out which libraries are _really_ needed. 19991107 mortene.
+LIBS="-lqgl $LIBS"
 
-AC_MSG_CHECKING(for QGL header files)
-AC_TRY_COMPILE([#include <qgl.h>], [], qgl_dev=yes, qgl_dev=no)
-AC_MSG_RESULT($qgl_dev)
-if test "x$qgl_dev" = "xno"; then
-  AC_MSG_ERROR(could not find the QGL include file -- you must compile and install the QGLWidget library found in \$QTDIR/extensions/opengl to build!)
+AC_CACHE_CHECK([for QGL library installation],
+  sim_cv_lib_qgl_avail,
+  [AC_TRY_LINK([#include <qgl.h>],
+               [(void)qGLVersion();],
+               sim_cv_lib_qgl_avail=yes,
+               sim_cv_lib_qgl_avail=no)])
+
+if test x"$sim_cv_lib_qgl_avail" = xno; then
+  LIBS=$sim_qgltsts_savelibs
+  dnl FIXME: don't exit here -- let the caller take care of
+  dnl handling the situation. 20000118 mortene.
+  AC_MSG_ERROR(QGL library not found!)
 fi
-
-dnl *** find QGL extension, link library ***
-
-dnl FIXME: this doesn't work, as the AC_CHECK_LIB only can check against
-dnl functions in a C library. Add a new macro AC_CHECK_CXXLIB? Ask on the
-dnl autoconf list. 19990918 mortene.
-dnl AC_CHECK_LIB(qgl, qGLVersion, , AC_MSG_ERROR(could not find the QGL library!))
-AC_CHECK_LIB(qgl, main, , AC_MSG_ERROR(could not find the QGL library!))
 
 AC_LANG_RESTORE
 ])

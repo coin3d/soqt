@@ -1,8 +1,5 @@
 /* config.h.in.  Generated automatically from configure.in by autoheader.  */
 
-/* Define if you have the `Coin' library (-lCoin). */
-#undef HAVE_LIBCOIN
-
 /* Define if you have the `dnet' library (-ldnet). */
 #undef HAVE_LIBDNET
 
@@ -12,9 +9,6 @@
 /* Define if you have the `ICE' library (-lICE). */
 #undef HAVE_LIBICE
 
-/* Define if you have the `Inventor' library (-lInventor). */
-#undef HAVE_LIBINVENTOR
-
 /* Define if you have the `ipc' library (-lipc). */
 #undef HAVE_LIBIPC
 
@@ -23,12 +17,6 @@
 
 /* Define if you have the `posix' library (-lposix). */
 #undef HAVE_LIBPOSIX
-
-/* Define if you have the `qgl' library (-lqgl). */
-#undef HAVE_LIBQGL
-
-/* Define if you have the `qt' library (-lqt). */
-#undef HAVE_LIBQT
 
 /* Define if you have the `socket' library (-lsocket). */
 #undef HAVE_LIBSOCKET
