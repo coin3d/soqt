@@ -203,6 +203,8 @@ SoGui_src_Inventor_Gui_viewers_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp \
   $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.h \
   $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.h \
+  $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.cpp \
   $(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyFullViewer.h \
   $(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyFullViewer.cpp \
   $(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyExaminerViewer.h \
@@ -359,6 +361,8 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/viewers/SoGuiConstrainedViewer.h.in \
   src/Inventor/@Gui@/common/viewers/SoGuiFlyViewer.cpp.in \
   src/Inventor/@Gui@/common/viewers/SoGuiFlyViewer.h.in \
+  src/Inventor/@Gui@/common/viewers/SoGuiFullViewer.cpp.in \
+  src/Inventor/@Gui@/common/viewers/SoGuiFullViewer.h.in \
   src/Inventor/@Gui@/common/viewers/SoGuiViewer.cpp.in \
   src/Inventor/@Gui@/common/viewers/SoGuiViewer.h.in \
   src/Inventor/@Gui@/common/pixmaps/help.xpm \
@@ -916,6 +920,12 @@ $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.h: $(top_srcdir)/src
 $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/viewers/SoGuiFlyViewer.cpp.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp:src/Inventor/@Gui@/common/viewers/SoGuiFlyViewer.cpp.in )
 
+$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.h: $(top_srcdir)/src/Inventor/@Gui@/common/viewers/SoGuiFullViewer.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/viewers/So@Gui@FullViewer.h:src/Inventor/@Gui@/common/viewers/SoGuiFullViewer.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/viewers/SoGuiFullViewer.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/viewers/So@Gui@FullViewer.cpp:src/Inventor/@Gui@/common/viewers/SoGuiFullViewer.cpp.in )
+
 $(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyFullViewer.h: $(top_srcdir)/src/Inventor/@Gui@/common/viewers/SoAnyFullViewer.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/viewers/SoAnyFullViewer.h:src/Inventor/@Gui@/common/viewers/SoAnyFullViewer.h.in )
 
@@ -1053,10 +1063,10 @@ $(top_builddir)/man/man1/so@gui@-config.1: $(top_srcdir)/src/Inventor/@Gui@/comm
 @BUILD_METAFILES_TRUE@	echo "$(MOC) -o src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@Viewer.cpp src/Inventor/@Gui@/viewers/So@Gui@Viewer.h"; \
 @BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@Viewer.cpp src/Inventor/@Gui@/viewers/So@Gui@Viewer.h )
 
-@BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FullViewer.cpp: $(top_srcdir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.h $(top_builddir)/config.status
+@BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FullViewer.cpp: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.h $(top_builddir)/config.status
 @BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
-@BUILD_METAFILES_TRUE@	echo "$(MOC) -o src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FullViewer.cpp `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.h`"; \
-@BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FullViewer.cpp `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.h` )
+@BUILD_METAFILES_TRUE@	echo "$(MOC) -o src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FullViewer.cpp `$(UNIX2WINPATH) $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.h`"; \
+@BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FullViewer.cpp `$(UNIX2WINPATH) $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewer.h` )
 
 @BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@ExaminerViewer.cpp: $(top_srcdir)/src/Inventor/@Gui@/viewers/So@Gui@ExaminerViewer.h $(top_builddir)/config.status
 @BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
