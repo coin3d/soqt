@@ -15,7 +15,7 @@ else
 SoQt_ExtraDistClean = 
 endif
 
-SUBDIRS = devices editors nodes viewers widgets
+SUBDIRS = devices editors engines nodes viewers widgets
 
 DEFAULT_INCLUDES = -I$(top_builddir)/src -I$(top_builddir)/data -I$(top_srcdir)/src
 
@@ -68,6 +68,7 @@ nodist_libSoQt@SUFFIX@_la_SOURCES = \
 libSoQt@SUFFIX@_la_LIBADD = \
 	devices/libSoQtDevices.la \
 	editors/libSoQtEditors.la \
+	engines/libSoGuiEngines.la \
 	nodes/libSoGuiNodes.la \
 	viewers/libSoQtViewers.la \
 	widgets/libSoQtWidgets.la
@@ -94,6 +95,7 @@ nodist_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
 soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
 	devices/devices.lst \
 	editors/editors.lst \
+	engines/engines.lst \
 	nodes/nodes.lst \
 	viewers/viewers.lst \
 	widgets/widgets.lst

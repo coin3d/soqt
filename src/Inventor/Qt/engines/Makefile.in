@@ -485,8 +485,10 @@ SoQt_ExtraBuiltMetaFiles = \
   $(top_builddir)/src/Inventor/Qt/widgets/moc_SoQtGLArea.cpp
 
 
-DEFAULT_INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
+@BUILD_WITH_MSVC_TRUE@noinst_LIBRARIES = engines.lst
+@BUILD_WITH_MSVC_FALSE@noinst_LTLIBRARIES = libSoGuiEngines.la
 
+DEFAULT_INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
 LIBS = 
 
 BUILT_SOURCES = \
@@ -494,161 +496,56 @@ BUILT_SOURCES = \
 
 
 CLEANFILES = \
-	$(SoGui_src_Inventor_Gui_devices_BuiltMetaFiles)
+	$(SoGui_src_Inventor_Gui_engines_BuiltMetaFiles)
 
 
 DISTCLEANFILES = \
-	$(SoGui_src_Inventor_Gui_devices_BuiltFiles) \
-	$(SoGui_src_Inventor_Gui_devices_BuiltMetaFiles) \
-	SoQtDevice.h \
-	SoQtInputFocus.h \
-	SoQtKeyboard.h \
-	SoQtMouse.h \
-	SoQtSpaceball.h
-
-
-@BUILD_WITH_MSVC_TRUE@noinst_LIBRARIES = devices.lst
-@BUILD_WITH_MSVC_FALSE@noinst_LTLIBRARIES = libSoQtDevices.la
-
-############################################################################
-# automake conditional stuff
-
-# if HAVE_JOYSTICK_LINUX
-# libSoQtDevicesLinuxJoystickHeaders = \
-#         SoQtLinuxJoystick.h
-# 
-# libSoQtDevicesLinuxJoystickSources = \
-#         SoQtLinuxJoystick.cpp \
-# 	moc_SoQtLinuxJoystick.icc \
-#         $(libSoQtDevicesLinuxJoystickHeaders)
-# else
-libSoQtDevicesLinuxJoystickHeaders = 
-libSoQtDevicesLinuxJoystickSources = 
-
-# endif
-libSoQtDevicesConditionalSources = \
-        $(libSoQtDevicesLinuxJoystickSources)
-
-
-
-# libSoQtDevicesConditionalHeaders = \
-#         $(libSoQtDevicesLinuxJoystickHeaders)
-
-############################################################################
-# libtool setup
-libSoQtDevices_la_SOURCES = \
-	SoQtDevice.cpp \
-	SoQtDeviceP.h \
-	SoQtInputFocus.cpp \
-	SoQtKeyboard.cpp \
-	SoQtMouse.cpp \
-	SoQtSpaceball.cpp \
-	SoQtSpaceballP.h \
-	6DOFEvents.cpp \
-	6DOFEvents.h \
-	$(libSoQtDevicesConditionalSources)
-
-
-nodist_libSoQtDevices_la_SOURCES = \
-	$(SoGui_src_Inventor_Gui_devices_BuiltFiles)
-
-#	$(SoGui_src_Inventor_Gui_devices_BuiltMetaFiles)
-
-# all the sources that are conditional
-EXTRA_libSoQtDevices_la_SOURCES = \
-	SoQtLinuxJoystick.h \
-	SoQtLinuxJoystickP.h \
-	SoQtLinuxJoystick.cpp
+	$(SoGui_src_Inventor_Gui_engines_BuiltFiles) \
+	$(SoGui_src_Inventor_Gui_engines_BuiltMetaFiles)
 
 
 
 ############################################################################
-# custom setup
-devices_lst_SOURCES = \
-	SoQtDevice.cpp \
-	SoQtDeviceP.h \
-	SoQtInputFocus.cpp \
-	SoQtKeyboard.cpp \
-	SoQtMouse.cpp \
-	SoQtSpaceball.cpp \
-	SoQtSpaceballP.h \
-	6DOFEvents.cpp \
-	6DOFEvents.h \
-	$(libSoQtDevicesConditionalSources)
+
+# libSoGuiEngines_la_SOURCES =
+nodist_libSoGuiEngines_la_SOURCES = \
+	$(SoGui_src_Inventor_Gui_engines_BuiltFiles)
 
 
-nodist_devices_lst_SOURCES = \
-	$(SoGui_src_Inventor_Gui_devices_BuiltFiles)
+nodist_engines_lst_SOURCES = \
+	$(SoGui_src_Inventor_Gui_engines_BuiltFiles)
 
 
 
 ############################################################################
-@MAC_FRAMEWORK_TRUE@SoQtDevicesincdir = $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$(MAC_FRAMEWORK_VERSION)/Headers/devices
-@MAC_FRAMEWORK_FALSE@SoQtDevicesincdir = $(includedir)/Inventor/@Gui@/devices
-SoQtDevicesinc_HEADERS = 
+@MAC_FRAMEWORK_TRUE@SoGuiEnginesincdir = $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$(MAC_FRAMEWORK_VERSION)/Headers/engines
+@MAC_FRAMEWORK_FALSE@SoGuiEnginesincdir = $(includedir)/Inventor/@Gui@/engines
 
-nodist_SoQtDevicesinc_HEADERS = \
-	SoQtDevice.h \
-	SoQtKeyboard.h \
-	SoQtMouse.h \
-	SoQtSpaceball.h
-
-subdir = src/Inventor/Qt/devices
+SoGuiEnginesinc_HEADERS = 
+nodist_SoGuiEnginesinc_HEADERS = 
+subdir = src/Inventor/Qt/engines
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/src/config.h
 CONFIG_CLEAN_FILES =
 LIBRARIES = $(noinst_LIBRARIES)
 
-devices_lst_AR = $(AR) cru
-devices_lst_LIBADD =
-am_devices_lst_OBJECTS = SoQtDevice.$(OBJEXT) SoQtInputFocus.$(OBJEXT) \
-	SoQtKeyboard.$(OBJEXT) SoQtMouse.$(OBJEXT) \
-	SoQtSpaceball.$(OBJEXT) 6DOFEvents.$(OBJEXT)
-nodist_devices_lst_OBJECTS = spwinput_x11.$(OBJEXT) \
-	So@Gui@DeviceCommon.$(OBJEXT) So@Gui@InputFocusCommon.$(OBJEXT) \
-	So@Gui@KeyboardCommon.$(OBJEXT) So@Gui@MouseCommon.$(OBJEXT) \
-	So@Gui@SpaceballCommon.$(OBJEXT)
-devices_lst_OBJECTS = $(am_devices_lst_OBJECTS) \
-	$(nodist_devices_lst_OBJECTS)
+engines_lst_AR = $(AR) cru
+engines_lst_LIBADD =
+nodist_engines_lst_OBJECTS = Engines.$(OBJEXT) RadioGroup.$(OBJEXT)
+engines_lst_OBJECTS = $(nodist_engines_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
-libSoQtDevices_la_LDFLAGS =
-libSoQtDevices_la_LIBADD =
-am_libSoQtDevices_la_OBJECTS = SoQtDevice.lo SoQtInputFocus.lo \
-	SoQtKeyboard.lo SoQtMouse.lo SoQtSpaceball.lo 6DOFEvents.lo
-nodist_libSoQtDevices_la_OBJECTS = spwinput_x11.lo \
-	So@Gui@DeviceCommon.lo So@Gui@InputFocusCommon.lo \
-	So@Gui@KeyboardCommon.lo So@Gui@MouseCommon.lo \
-	So@Gui@SpaceballCommon.lo
-libSoQtDevices_la_OBJECTS = $(am_libSoQtDevices_la_OBJECTS) \
-	$(nodist_libSoQtDevices_la_OBJECTS)
+libSoGuiEngines_la_LDFLAGS =
+libSoGuiEngines_la_LIBADD =
+nodist_libSoGuiEngines_la_OBJECTS = Engines.lo RadioGroup.lo
+libSoGuiEngines_la_OBJECTS = $(nodist_libSoGuiEngines_la_OBJECTS)
 
 DEFS = @DEFS@
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
-@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/6DOFEvents.Plo $(DEPDIR)/6DOFEvents.Po \
-@AMDEP_TRUE@	$(DEPDIR)/So@Gui@DeviceCommon.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/So@Gui@DeviceCommon.Po \
-@AMDEP_TRUE@	$(DEPDIR)/So@Gui@InputFocusCommon.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/So@Gui@InputFocusCommon.Po \
-@AMDEP_TRUE@	$(DEPDIR)/So@Gui@KeyboardCommon.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/So@Gui@KeyboardCommon.Po \
-@AMDEP_TRUE@	$(DEPDIR)/So@Gui@MouseCommon.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/So@Gui@MouseCommon.Po \
-@AMDEP_TRUE@	$(DEPDIR)/So@Gui@SpaceballCommon.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/So@Gui@SpaceballCommon.Po \
-@AMDEP_TRUE@	$(DEPDIR)/SoQtDevice.Plo $(DEPDIR)/SoQtDevice.Po \
-@AMDEP_TRUE@	$(DEPDIR)/SoQtInputFocus.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/SoQtInputFocus.Po \
-@AMDEP_TRUE@	$(DEPDIR)/SoQtKeyboard.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/SoQtKeyboard.Po \
-@AMDEP_TRUE@	$(DEPDIR)/SoQtLinuxJoystick.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/SoQtMouse.Plo $(DEPDIR)/SoQtMouse.Po \
-@AMDEP_TRUE@	$(DEPDIR)/SoQtSpaceball.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/SoQtSpaceball.Po \
-@AMDEP_TRUE@	$(DEPDIR)/spwinput_x11.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/spwinput_x11.Po
+@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/Engines.Plo $(DEPDIR)/Engines.Po \
+@AMDEP_TRUE@	$(DEPDIR)/RadioGroup.Plo $(DEPDIR)/RadioGroup.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -666,12 +563,11 @@ LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) \
 CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES = $(devices_lst_SOURCES) $(libSoQtDevices_la_SOURCES) \
-	$(EXTRA_libSoQtDevices_la_SOURCES)
-HEADERS = $(SoQtDevicesinc_HEADERS) $(nodist_SoQtDevicesinc_HEADERS)
+DIST_SOURCES =
+HEADERS = $(SoGuiEnginesinc_HEADERS) $(nodist_SoGuiEnginesinc_HEADERS)
 
-DIST_COMMON = $(SoQtDevicesinc_HEADERS) Makefile.am Makefile.in
-SOURCES = $(devices_lst_SOURCES) $(nodist_devices_lst_SOURCES) $(libSoQtDevices_la_SOURCES) $(EXTRA_libSoQtDevices_la_SOURCES) $(nodist_libSoQtDevices_la_SOURCES)
+DIST_COMMON = $(SoGuiEnginesinc_HEADERS) Makefile.am Makefile.in
+SOURCES = $(nodist_engines_lst_SOURCES) $(nodist_libSoGuiEngines_la_SOURCES)
 
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-am
@@ -689,7 +585,7 @@ distclean-libtool:
 	-rm -f libtool
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(srcdir)/../common/Makefile.common $(top_srcdir)/configure.ac $(ACLOCAL_M4)
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu  src/Inventor/Qt/devices/Makefile
+	  $(AUTOMAKE) --gnu  src/Inventor/Qt/engines/Makefile
 Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && \
 	  CONFIG_HEADERS= CONFIG_LINKS= \
@@ -699,35 +595,17 @@ AR = ar
 
 clean-noinstLIBRARIES:
 	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
-spwinput_x11.$(OBJEXT): \
-	$(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp
-So@Gui@DeviceCommon.$(OBJEXT): \
-	$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp
-So@Gui@InputFocusCommon.$(OBJEXT): \
-	$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp
-So@Gui@KeyboardCommon.$(OBJEXT): \
-	$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp
-So@Gui@MouseCommon.$(OBJEXT): \
-	$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp
-So@Gui@SpaceballCommon.$(OBJEXT): \
-	$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpaceballCommon.cpp
+Engines.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp
+RadioGroup.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp
 
 clean-noinstLTLIBRARIES:
 	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
-spwinput_x11.lo: \
-	$(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp
-So@Gui@DeviceCommon.lo: \
-	$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp
-So@Gui@InputFocusCommon.lo: \
-	$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp
-So@Gui@KeyboardCommon.lo: \
-	$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp
-So@Gui@MouseCommon.lo: \
-	$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp
-So@Gui@SpaceballCommon.lo: \
-	$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpaceballCommon.cpp
-libSoQtDevices.la: $(libSoQtDevices_la_OBJECTS) $(libSoQtDevices_la_DEPENDENCIES) 
-	$(CXXLINK)  $(libSoQtDevices_la_LDFLAGS) $(libSoQtDevices_la_OBJECTS) $(libSoQtDevices_la_LIBADD) $(LIBS)
+Engines.lo: $(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp
+RadioGroup.lo: $(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp
+libSoGuiEngines.la: $(libSoGuiEngines_la_OBJECTS) $(libSoGuiEngines_la_DEPENDENCIES) 
+	$(CXXLINK)  $(libSoGuiEngines_la_LDFLAGS) $(libSoGuiEngines_la_OBJECTS) $(libSoGuiEngines_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
@@ -735,31 +613,10 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/6DOFEvents.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/6DOFEvents.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@DeviceCommon.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@DeviceCommon.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@InputFocusCommon.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@InputFocusCommon.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@KeyboardCommon.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@KeyboardCommon.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@MouseCommon.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@MouseCommon.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@SpaceballCommon.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@SpaceballCommon.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtDevice.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtDevice.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtInputFocus.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtInputFocus.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtKeyboard.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtKeyboard.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtLinuxJoystick.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtMouse.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtMouse.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtSpaceball.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtSpaceball.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/spwinput_x11.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/spwinput_x11.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Engines.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Engines.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/RadioGroup.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/RadioGroup.Po@am__quote@
 
 distclean-depend:
 	-rm -rf $(DEPDIR)
@@ -782,130 +639,76 @@ distclean-depend:
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 	$(LTCXXCOMPILE) -c -o $@ `test -f $< || echo '$(srcdir)/'`$<
 
-spwinput_x11.o: $(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp
-@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp' object='spwinput_x11.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/spwinput_x11.Po' tmpdepfile='$(DEPDIR)/spwinput_x11.TPo' @AMDEPBACKSLASH@
+Engines.o: $(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp' object='Engines.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Engines.Po' tmpdepfile='$(DEPDIR)/Engines.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o spwinput_x11.o `test -f $(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Engines.o `test -f $(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp
 
-spwinput_x11.obj: $(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp
-@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp' object='spwinput_x11.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/spwinput_x11.Po' tmpdepfile='$(DEPDIR)/spwinput_x11.TPo' @AMDEPBACKSLASH@
+Engines.obj: $(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp' object='Engines.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Engines.Po' tmpdepfile='$(DEPDIR)/Engines.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o spwinput_x11.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp ) | xargs cygpath -w`
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Engines.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp ) | xargs cygpath -w`
 
-spwinput_x11.lo: $(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp
-@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp' object='spwinput_x11.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/spwinput_x11.Plo' tmpdepfile='$(DEPDIR)/spwinput_x11.TPlo' @AMDEPBACKSLASH@
+Engines.lo: $(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp' object='Engines.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Engines.Plo' tmpdepfile='$(DEPDIR)/Engines.TPlo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o spwinput_x11.lo `test -f $(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Engines.lo `test -f $(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp
 
-So@Gui@DeviceCommon.o: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp
-@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp' object='So@Gui@DeviceCommon.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@DeviceCommon.Po' tmpdepfile='$(DEPDIR)/So@Gui@DeviceCommon.TPo' @AMDEPBACKSLASH@
+RadioGroup.o: $(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp' object='RadioGroup.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/RadioGroup.Po' tmpdepfile='$(DEPDIR)/RadioGroup.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@DeviceCommon.o `test -f $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o RadioGroup.o `test -f $(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp
 
-So@Gui@DeviceCommon.obj: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp
-@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp' object='So@Gui@DeviceCommon.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@DeviceCommon.Po' tmpdepfile='$(DEPDIR)/So@Gui@DeviceCommon.TPo' @AMDEPBACKSLASH@
+RadioGroup.obj: $(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp' object='RadioGroup.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/RadioGroup.Po' tmpdepfile='$(DEPDIR)/RadioGroup.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@DeviceCommon.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp ) | xargs cygpath -w`
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o RadioGroup.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp ) | xargs cygpath -w`
 
-So@Gui@DeviceCommon.lo: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp
-@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp' object='So@Gui@DeviceCommon.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@DeviceCommon.Plo' tmpdepfile='$(DEPDIR)/So@Gui@DeviceCommon.TPlo' @AMDEPBACKSLASH@
+RadioGroup.lo: $(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp' object='RadioGroup.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/RadioGroup.Plo' tmpdepfile='$(DEPDIR)/RadioGroup.TPlo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@DeviceCommon.lo `test -f $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp
-
-So@Gui@InputFocusCommon.o: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp
-@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp' object='So@Gui@InputFocusCommon.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@InputFocusCommon.Po' tmpdepfile='$(DEPDIR)/So@Gui@InputFocusCommon.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@InputFocusCommon.o `test -f $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp
-
-So@Gui@InputFocusCommon.obj: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp
-@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp' object='So@Gui@InputFocusCommon.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@InputFocusCommon.Po' tmpdepfile='$(DEPDIR)/So@Gui@InputFocusCommon.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@InputFocusCommon.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp ) | xargs cygpath -w`
-
-So@Gui@InputFocusCommon.lo: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp
-@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp' object='So@Gui@InputFocusCommon.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@InputFocusCommon.Plo' tmpdepfile='$(DEPDIR)/So@Gui@InputFocusCommon.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@InputFocusCommon.lo `test -f $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocusCommon.cpp
-
-So@Gui@KeyboardCommon.o: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp
-@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp' object='So@Gui@KeyboardCommon.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@KeyboardCommon.Po' tmpdepfile='$(DEPDIR)/So@Gui@KeyboardCommon.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@KeyboardCommon.o `test -f $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp
-
-So@Gui@KeyboardCommon.obj: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp
-@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp' object='So@Gui@KeyboardCommon.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@KeyboardCommon.Po' tmpdepfile='$(DEPDIR)/So@Gui@KeyboardCommon.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@KeyboardCommon.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp ) | xargs cygpath -w`
-
-So@Gui@KeyboardCommon.lo: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp
-@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp' object='So@Gui@KeyboardCommon.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@KeyboardCommon.Plo' tmpdepfile='$(DEPDIR)/So@Gui@KeyboardCommon.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@KeyboardCommon.lo `test -f $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp
-
-So@Gui@MouseCommon.o: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp
-@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp' object='So@Gui@MouseCommon.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@MouseCommon.Po' tmpdepfile='$(DEPDIR)/So@Gui@MouseCommon.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@MouseCommon.o `test -f $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp
-
-So@Gui@MouseCommon.obj: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp
-@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp' object='So@Gui@MouseCommon.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@MouseCommon.Po' tmpdepfile='$(DEPDIR)/So@Gui@MouseCommon.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@MouseCommon.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp ) | xargs cygpath -w`
-
-So@Gui@MouseCommon.lo: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp
-@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp' object='So@Gui@MouseCommon.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@MouseCommon.Plo' tmpdepfile='$(DEPDIR)/So@Gui@MouseCommon.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@MouseCommon.lo `test -f $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp
-
-So@Gui@SpaceballCommon.o: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpaceballCommon.cpp
-@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpaceballCommon.cpp' object='So@Gui@SpaceballCommon.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@SpaceballCommon.Po' tmpdepfile='$(DEPDIR)/So@Gui@SpaceballCommon.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@SpaceballCommon.o `test -f $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpaceballCommon.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpaceballCommon.cpp
-
-So@Gui@SpaceballCommon.obj: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpaceballCommon.cpp
-@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpaceballCommon.cpp' object='So@Gui@SpaceballCommon.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@SpaceballCommon.Po' tmpdepfile='$(DEPDIR)/So@Gui@SpaceballCommon.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@SpaceballCommon.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpaceballCommon.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpaceballCommon.cpp ) | xargs cygpath -w`
-
-So@Gui@SpaceballCommon.lo: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpaceballCommon.cpp
-@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpaceballCommon.cpp' object='So@Gui@SpaceballCommon.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@SpaceballCommon.Plo' tmpdepfile='$(DEPDIR)/So@Gui@SpaceballCommon.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@SpaceballCommon.lo `test -f $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpaceballCommon.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpaceballCommon.cpp
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o RadioGroup.lo `test -f $(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp
 CXXDEPMODE = @CXXDEPMODE@
 uninstall-info-am:
-
-uninstall-SoQtDevicesincHEADERS:
-	@$(NORMAL_UNINSTALL)
-	@list='$(SoQtDevicesinc_HEADERS)'; for p in $$list; do \
+install-SoGuiEnginesincHEADERS: $(SoGuiEnginesinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(SoGuiEnginesincdir)
+	@list='$(SoGuiEnginesinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " rm -f $(DESTDIR)$(SoQtDevicesincdir)/$$f"; \
-	  rm -f $(DESTDIR)$(SoQtDevicesincdir)/$$f; \
+	  echo " $(INSTALL_HEADER) $$d$$p $(DESTDIR)$(SoGuiEnginesincdir)/$$f"; \
+	  $(INSTALL_HEADER) $$d$$p $(DESTDIR)$(SoGuiEnginesincdir)/$$f; \
 	done
 
-uninstall-nodist_SoQtDevicesincHEADERS:
+uninstall-SoGuiEnginesincHEADERS:
 	@$(NORMAL_UNINSTALL)
-	@list='$(nodist_SoQtDevicesinc_HEADERS)'; for p in $$list; do \
+	@list='$(SoGuiEnginesinc_HEADERS)'; for p in $$list; do \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " rm -f $(DESTDIR)$(SoQtDevicesincdir)/$$f"; \
-	  rm -f $(DESTDIR)$(SoQtDevicesincdir)/$$f; \
+	  echo " rm -f $(DESTDIR)$(SoGuiEnginesincdir)/$$f"; \
+	  rm -f $(DESTDIR)$(SoGuiEnginesincdir)/$$f; \
+	done
+install-nodist_SoGuiEnginesincHEADERS: $(nodist_SoGuiEnginesinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(SoGuiEnginesincdir)
+	@list='$(nodist_SoGuiEnginesinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " $(INSTALL_HEADER) $$d$$p $(DESTDIR)$(SoGuiEnginesincdir)/$$f"; \
+	  $(INSTALL_HEADER) $$d$$p $(DESTDIR)$(SoGuiEnginesincdir)/$$f; \
+	done
+
+uninstall-nodist_SoGuiEnginesincHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(nodist_SoGuiEnginesinc_HEADERS)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(SoGuiEnginesincdir)/$$f"; \
+	  rm -f $(DESTDIR)$(SoGuiEnginesincdir)/$$f; \
 	done
 
 tags: TAGS
@@ -966,7 +769,7 @@ check: check-am
 all-am: Makefile $(LIBRARIES) $(LTLIBRARIES) $(HEADERS)
 
 installdirs:
-	$(mkinstalldirs) $(DESTDIR)$(SoQtDevicesincdir) $(DESTDIR)$(SoQtDevicesincdir)
+	$(mkinstalldirs) $(DESTDIR)$(SoGuiEnginesincdir) $(DESTDIR)$(SoGuiEnginesincdir)
 
 install: install-am
 install-exec: install-exec-am
@@ -1012,8 +815,8 @@ info: info-am
 
 info-am:
 
-install-data-am: install-SoQtDevicesincHEADERS \
-	install-nodist_SoQtDevicesincHEADERS
+install-data-am: install-SoGuiEnginesincHEADERS \
+	install-nodist_SoGuiEnginesincHEADERS
 
 install-exec-am:
 
@@ -1032,22 +835,22 @@ mostlyclean: mostlyclean-am
 mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
-uninstall-am: uninstall-SoQtDevicesincHEADERS uninstall-info-am \
-	uninstall-nodist_SoQtDevicesincHEADERS
+uninstall-am: uninstall-SoGuiEnginesincHEADERS uninstall-info-am \
+	uninstall-nodist_SoGuiEnginesincHEADERS
 
 .PHONY: GTAGS all all-am check check-am clean clean-generic \
 	clean-libtool clean-noinstLIBRARIES clean-noinstLTLIBRARIES \
 	distclean distclean-compile distclean-depend distclean-generic \
 	distclean-libtool distclean-tags distdir dvi dvi-am info \
-	info-am install install-SoQtDevicesincHEADERS install-am \
+	info-am install install-SoGuiEnginesincHEADERS install-am \
 	install-data install-data-am install-exec install-exec-am \
 	install-info install-info-am install-man \
-	install-nodist_SoQtDevicesincHEADERS install-strip installcheck \
-	installcheck-am installdirs maintainer-clean \
+	install-nodist_SoGuiEnginesincHEADERS install-strip \
+	installcheck installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool tags uninstall \
-	uninstall-SoQtDevicesincHEADERS uninstall-am uninstall-info-am \
-	uninstall-nodist_SoQtDevicesincHEADERS
+	uninstall-SoGuiEnginesincHEADERS uninstall-am uninstall-info-am \
+	uninstall-nodist_SoGuiEnginesincHEADERS
 
 
 ############################################################################
@@ -1401,37 +1204,36 @@ $(top_builddir)/man/man1/so@gui@-config.1: $(top_srcdir)/src/Inventor/@Gui@/comm
 @BUILD_METAFILES_TRUE@	$(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@@Gui@NativePopupMenu.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/@Gui@NativePopupMenu.h` )
 
 ############################################################################
-#	$(SoGui_src_Inventor_Gui_devices_BuiltMetaFiles)
 
-devices.lst: Makefile $(devices_lst_OBJECTS)
+engines.lst: Makefile $(engines_lst_OBJECTS)
 	@echo "Linking $@..."; \
 	rm -f $@; \
-	for i in $(devices_lst_OBJECTS); do echo $$i >>$@; done
+	for i in $(engines_lst_OBJECTS); do echo $$i >>$@; done
 
-install-SoQtDevicesincHEADERS: $(SoQtDevicesinc_HEADERS)
+install-SoQtEnginesincHEADERS: $(SoQtEnginesinc_HEADERS)
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(SoQtDevicesincdir)
-	@list='$(SoQtDevicesinc_HEADERS)'; for p in $$list; do \
+	$(mkinstalldirs) $(DESTDIR)$(SoQtEnginesincdir)
+	@list='$(SoQtEnginesinc_HEADERS)'; for p in $$list; do \
 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  src="$$d$$p"; dst="$(DESTDIR)$(SoQtDevicesincdir)/$$f"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoQtEnginesincdir)/$$f"; \
 	  if cmp -s "$$src" "$$dst"; then :; else \
 	    echo " $(INSTALL_HEADER) $$src $$dst"; \
 	    $(INSTALL_HEADER) "$$src" "$$dst"; \
-	  fi \
+	  fi; \
 	done
 
-install-nodist_SoQtDevicesincHEADERS: $(nodist_SoQtDevicesinc_HEADERS)
+install-nodist_SoQtEnginesincHEADERS: $(nodist_SoQtEnginesinc_HEADERS)
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(SoQtDevicesincdir)
-	@list='$(nodist_SoQtDevicesinc_HEADERS)'; for p in $$list; do \
+	$(mkinstalldirs) $(DESTDIR)$(SoQtEnginesincdir)
+	@list='$(nodist_SoQtEnginesinc_HEADERS)'; for p in $$list; do \
 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  src="$$d$$p"; dst="$(DESTDIR)$(SoQtDevicesincdir)/$$f"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoQtEnginesincdir)/$$f"; \
 	  if cmp -s "$$src" "$$dst"; then :; else \
 	    echo " $(INSTALL_HEADER) $$src $$dst"; \
 	    $(INSTALL_HEADER) "$$src" "$$dst"; \
-	  fi \
+	  fi; \
 	done
 
 # EOF ######################################################################
