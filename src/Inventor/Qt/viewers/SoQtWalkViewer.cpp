@@ -20,9 +20,19 @@
 static const char rcsid[] =
   "$Id$";
 
-#include <Inventor/Qt/viewers/SoQtWalkViewers.h>
+/*!
+  \class SoQtWalkViewer Inventor/Qt/viewers/SoQtWalkViewers.h
+  \brief The SoQtWalkViewer class is yet to be documented...
+  \ingroup soqtviewers
+*/
+
+#include <Inventor/Qt/viewers/SoQtWalkViewer.h>
 
 // ************************************************************************
+
+/*!
+  The public constructor.
+*/
 
 SoQtWalkViewer::SoQtWalkViewer(
   QWidget * parent,
@@ -30,106 +40,199 @@ SoQtWalkViewer::SoQtWalkViewer(
   SbBool buildInsideParent,
   SoQtFullViewer::BuildFlag flag,
   SoQtViewer::Type type )
+: inherited( parent, name, buildInsideParent, flag, type, TRUE )
 {
-}
-
-SoQtWalkViewer::~SoQtWalkViewer(
-  void )
-{
-}
-
-void
-SoQtWalkViewer::setViewing( // virtual
-  SbBool enable )
-{
-}
-
-void
-SoQtWalkViewer::setCamera( // virtual
-  SoCamera * camera )
-{
-}
-
-void
-SoQtWalkViewer::setCursorEnabled( // virtual
-  SbBool enable )
-{
-}
-
-void
-SoQtWalkViewer::setCameraType( // virtual
-  SoType type )
-{
-}
+//  this->constructor( TRUE );
+} // SoQtWalkViewer()
 
 // ************************************************************************
 
-SoQtWalkViewer::SoQtWalkViewer(
+/*!
+  A protected constructor.
+*/
+
+SoQtWalkViewer::SoQtWalkViewer( // protected
   QWidget * parent,
   const char * name,
   SbBool buildInsideParent,
   SoQtFullViewer::BuildFlag flag,
   SoQtViewer::Type type,
   SbBool buildNow )
+: inherited( parent, name, buildInsideParent, flag, type, FALSE )
 {
-}
+//  this->constructor( buildNow );
+} // SoQtWalkViewer()
+
+// ************************************************************************
+
+/*!
+  The destructor.
+*/
+
+SoQtWalkViewer::~SoQtWalkViewer(
+  void )
+{
+} // ~SoQtWalkViewer()
+
+// ************************************************************************
+
+/*!
+*/
+
+void
+SoQtWalkViewer::setViewing( // virtual
+  SbBool enable )
+{
+} // setViewing()
+
+// ************************************************************************
+
+/*!
+*/
+
+void
+SoQtWalkViewer::setCamera( // virtual
+  SoCamera * camera )
+{
+} // setCamera()
+
+// ************************************************************************
+
+/*!
+*/
+
+void
+SoQtWalkViewer::setCursorEnabled( // virtual
+  SbBool enable )
+{
+} // setCursorEnabled()
+
+// ************************************************************************
+
+/*!
+*/
+
+void
+SoQtWalkViewer::setCameraType( // virtual
+  SoType type )
+{
+} // setCameraType()
+
+// ************************************************************************
+
+/*!
+*/
 
 const char *
 SoQtWalkViewer::getDefaultWidgetName( // virtual
   void ) const
 {
-}
+  static const char defaultWidgetName[] = "";
+  return defaultWidgetName;
+} // getDefaultWidgetName()
+
+// ************************************************************************
+
+/*!
+*/
 
 const char *
 SoQtWalkViewer::getDefaultTitle( // virtual
   void ) const
 {
-}
+  static const char defaultTitle[] = "Walk Viewer";
+  return defaultTitle;
+} // getDefaultTitle()
+
+// ************************************************************************
+
+/*!
+*/
 
 const char *
 SoQtWalkViewer::getDefaultIconTitle( // virtual
   void ) const
 {
-}
+  static const char defaultIconTitle[] = "";
+  return defaultIconTitle;
+} // getDefaultIconTitle()
+
+// ************************************************************************
+
+/*!
+*/
 
 void
 SoQtWalkViewer::processEvent( // virtual
   QEvent * event )
 {
-}
+} // processEvent()
+
+// ************************************************************************
+
+/*!
+*/
 
 void
 SoQtWalkViewer::setSeekMode( // virtual
   SbBool enable )
 {
-}
+} // setSeekMode()
+
+// ************************************************************************
+
+/*!
+*/
 
 void
 SoQtWalkViewer::actualRedraw( // virtual
   void )
 {
-}
+} // actualRedraw()
+
+// ************************************************************************
+
+/*!
+*/
 
 void
 SoQtWalkViewer::rightWheelMotion( // virtual
   float value )
 {
-}
+} // rightWheelMotion()
+
+// ************************************************************************
+
+/*!
+*/
 
 QWidget *
 SoQtWalkViewer::buildLeftTrim( // virtual
   QWidget * parent )
 {
-}
+  return NULL;
+} // buildLeftTrim()
+
+// ************************************************************************
+
+/*!
+*/
 
 void
 SoQtWalkViewer::createPrefSheet( // virtual
   void )
 {
-}
+} // createPrefSheet()
+
+// ************************************************************************
+
+/*!
+*/
 
 void
 SoQtWalkViewer::openViewerHelpCard( // virtual
   void )
 {
-}
+} // openViewerHelpCard()
+
+// ************************************************************************

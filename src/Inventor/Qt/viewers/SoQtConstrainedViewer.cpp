@@ -20,45 +20,19 @@
 static const char rcsid[] =
   "$Id$";
 
+/*!
+  \class SoQtConstrainedViewer Inventor/Qt/viewers/SoQtConstrainedViewer.h
+  \brief The SoQtConstrainedViewer class is yet to be documented...
+  \ingroup soqtviewers
+*/
+
 #include <Inventor/Qt/viewers/SoQtConstrainedViewer.h>
 
 // ************************************************************************
 
-void
-SoQtConstrainedViewer::setUpDirection(
-  const SbVec3f & upDirection )
-{
-}
-
-const SbVec3f &
-SoQtConstrainedViewer::getUpDirection(
-  void )
-{
-}
-
-void
-SoQtConstrainedViewer::setCamera( // virtual
-  SoCamera * newCamera )
-{
-}
-
-void
-SoQtConstrainedViewer::saveHomePosition( // virtual
-  void )
-{
-}
-
-void
-SoQtConstrainedViewer::resetToHomePosition( // virtual
-  void )
-{
-}
-
-void
-SoQtConstrainedViewer::recomputeSceneSize( // virtual
-  void )
-{
-}
+/*!
+  Constructor.
+*/
 
 SoQtConstrainedViewer::SoQtConstrainedViewer( // protected
   QWidget * parent,
@@ -67,52 +41,165 @@ SoQtConstrainedViewer::SoQtConstrainedViewer( // protected
   SoQtFullViewer::BuildFlag flag, 
   SoQtViewer::Type type, 
   SbBool buildNow )
+: inherited( parent, name, buildInsideParent, flag, type, FALSE )
 {
-}
+} // SoQtConstainedViewer()
 
-SoQtConstrainedViewer::~SoQtConstrainedViewer(
+// ************************************************************************
+
+/*!
+  Destructor
+*/
+
+SoQtConstrainedViewer::~SoQtConstrainedViewer( // virtual
   void )
 {
-}
+} // ~SoQtConstarinedViewer()
   
+// ************************************************************************
+
+/*!
+*/
+
+void
+SoQtConstrainedViewer::setUpDirection(
+  const SbVec3f & upDirection )
+{
+} // setUpDirection()
+
+// ************************************************************************
+
+/*!
+*/
+
+const SbVec3f &
+SoQtConstrainedViewer::getUpDirection(
+  void )
+{
+  /* FIXME */
+  static SbVec3f null( 0, 0, 0 );
+  return null;
+} // getUpDirection()
+
+// ************************************************************************
+
+/*!
+*/
+
+void
+SoQtConstrainedViewer::setCamera( // virtual
+  SoCamera * newCamera )
+{
+} // setCamera()
+
+// ************************************************************************
+
+/*!
+*/
+
+void
+SoQtConstrainedViewer::saveHomePosition( // virtual
+  void )
+{
+} // saveHomePosition()
+
+// ************************************************************************
+
+/*!
+*/
+
+void
+SoQtConstrainedViewer::resetToHomePosition( // virtual
+  void )
+{
+} // resetToHomePosition()
+
+// ************************************************************************
+
+/*!
+*/
+
+void
+SoQtConstrainedViewer::recomputeSceneSize( // virtual
+  void )
+{
+} // recomputeSceneGraph()
+
+// ************************************************************************
+
+/*!
+*/
+
 void
 SoQtConstrainedViewer::tiltCamera( // virtual
   float delta )
 {
-}
+} // tiltCamera()
+
+// ************************************************************************
+
+/*!
+*/
 
 void
 SoQtConstrainedViewer::bottomWheelMotion( // virtual
   float value )
 {
-}
+} // bottomWheelMotion()
+
+// ************************************************************************
+
+/*!
+*/
 
 void
 SoQtConstrainedViewer::leftWheelMotion( // virtual
   float value )
 {
-}
+} // leftWheelMotion()
+
+// ************************************************************************
+
+/*!
+*/
 
 void
 SoQtConstrainedViewer::changeCameraValues( // virtual
   SoCamera * newCamera )
 {
-}
+} // changeCameraValues()
+
+// ************************************************************************
+
+/*!
+*/
 
 void
 SoQtConstrainedViewer::findUpDirection(
-  SbVec2s mouseLocation );
+  SbVec2s mouseLocation )
 {
-}
+} // findUpDirection()
+
+// ************************************************************************
+
+/*!
+*/
 
 void
 SoQtConstrainedViewer::checkForCameraUpConstrain(
   void )
 {
-}
+} // checkForCameraUpConstrain()
+
+// ************************************************************************
+
+/*!
+*/
 
 void
 SoQtConstrainedViewer::computeSeekFinalOrientation( // virtual
   void )
 {
-}
+} // computeSeekFinalOrientation()
+
+// ************************************************************************

@@ -1,6 +1,6 @@
 /**************************************************************************\
  *
- *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
+ *  Copyright (C) 1998-2000 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
  *
@@ -19,8 +19,8 @@
 
 //  $Id$
 
-#ifndef __SOQTEXAMINERVIEWER_H__
-#define __SOQTEXAMINERVIEWER_H__
+#ifndef __SOQT_EXAMINERVIEWER_H__
+#define __SOQT_EXAMINERVIEWER_H__
 
 #include <Inventor/Qt/viewers/SoQtFullViewer.h>
 #include <Inventor/SbLinear.h>
@@ -39,6 +39,7 @@ class QtThumbwheel;
 class QPixmap;
 class QTimer;
 
+// *************************************************************************
 
 class SoQtExaminerViewer : public SoQtFullViewer {
   typedef SoQtFullViewer inherited;
@@ -51,7 +52,7 @@ public:
                      SbBool buildInsideParent = TRUE,
                      SoQtFullViewer::BuildFlag flag = BUILD_ALL,
                      SoQtViewer::Type type = BROWSER);
-  ~SoQtExaminerViewer();
+  ~SoQtExaminerViewer(void);
 
   void setFeedbackVisibility(const SbBool on);
   SbBool isFeedbackVisible(void) const;
@@ -158,6 +159,9 @@ private slots:
   void feedbackWheelReleased();
   // Button row.
   void cameratoggleClicked();
-};
 
-#endif // !__SOQTEXAMINERVIEWER_H__
+}; // class SoQtExaminerViewer
+
+// *************************************************************************
+
+#endif // ! __SOQT_EXAMINERVIEWER_H__

@@ -1,6 +1,6 @@
 /**************************************************************************\
  *
- *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
+ *  Copyright (C) 1998-2000 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
  *
@@ -24,7 +24,7 @@ static const char rcsid[] =
   \class SoQtExaminerViewer SoQtExaminerViewer.h Inventor/Qt/viewers/SoQtExaminerViewer.h
   \brief The SoQtExaminerViewer class is a full-fledged model viewer
   with functionality for rotation, pan, zoom, etc.
-  \ingroup qtviewers
+  \ingroup soqtviewers
 
   TODO: more doc
   ...overview of what this class provides over parent class...
@@ -98,12 +98,14 @@ extern void expandSize(QSize & result, const QSize & addend,
                        LayoutOrientation o);
 ///////// FIXME end ////////////////////////////////////////////////////
 
+// *************************************************************************
 
 /*!
   Constructor. See parent class for explanation of arguments.
   Calling this constructor will make sure the examiner viewer widget
   will be built immediately.
- */
+*/
+
 SoQtExaminerViewer::SoQtExaminerViewer(QWidget * parent, const char * name,
                                        SbBool buildInsideParent,
                                        SoQtFullViewer::BuildFlag b,
@@ -111,11 +113,14 @@ SoQtExaminerViewer::SoQtExaminerViewer(QWidget * parent, const char * name,
   : inherited(parent, name, buildInsideParent, b, t, FALSE)
 {
   this->constructor(TRUE);
-}
+} // SoQtExaminerViewer()
+
+// *************************************************************************
 
 /*!
   Constructor. See parent class for explanation of arguments.
- */
+*/
+
 SoQtExaminerViewer::SoQtExaminerViewer(QWidget * parent, const char * name,
                                        SbBool buildInsideParent,
                                        SoQtFullViewer::BuildFlag b,
@@ -124,14 +129,17 @@ SoQtExaminerViewer::SoQtExaminerViewer(QWidget * parent, const char * name,
   : inherited(parent, name, buildInsideParent, b, t, FALSE)
 {
   this->constructor(buildNow);
-}
+} // SoQtExaminerViewer()
+
+// *************************************************************************
 
 /*!
   \internal
 
   This contains the real constructor code (the two constructors are only
   entry points for this method).
- */
+*/
+
 void
 SoQtExaminerViewer::constructor(SbBool buildNow)
 {
@@ -176,12 +184,16 @@ SoQtExaminerViewer::constructor(SbBool buildNow)
   this->axiscrossSize = 25;
 
   if(buildNow) this->setBaseWidget(this->buildWidget(this->getParentWidget()));
-}
+} // constructor()
+
+// *************************************************************************
 
 /*!
   Destructor.
- */
-SoQtExaminerViewer::~SoQtExaminerViewer()
+*/
+
+SoQtExaminerViewer::~SoQtExaminerViewer(
+  void )
 {
   // Cursors.
   delete this->zoomcursor;
@@ -197,13 +209,16 @@ SoQtExaminerViewer::~SoQtExaminerViewer()
   delete this->timertrigger;
   delete this->spindetecttimer;
   delete this->projector;
-}
+} // ~SoQtExaminerViewer()
+
+// *************************************************************************
 
 /*!
   Set the flag deciding whether or not to show the axis cross.
 
   \sa isFeedbackVisible, getFeedbackSize, setFeedbackSize
- */
+*/
+
 void
 SoQtExaminerViewer::setFeedbackVisibility(const SbBool on)
 {
@@ -217,25 +232,31 @@ SoQtExaminerViewer::setFeedbackVisibility(const SbBool on)
 #endif // SOQT_DEBUG
   this->axiscrossOn = on;
   if (this->isViewing()) this->scheduleRedraw();
-}
+} // setFeedbackVisibility()
+
+// *************************************************************************
 
 /*!
   Check if the feedback axis cross is visible.
 
   \sa setFeedbackVisibility, getFeedbackSize, setFeedbackSize
- */
+*/
+
 SbBool
 SoQtExaminerViewer::isFeedbackVisible(void) const
 {
   return this->axiscrossOn;
-}
+} // isFeedbackVisibility()
+
+// *************************************************************************
 
 /*!
   Set the size of the feedback axiscross. The value is interpreted as
   an approximate percentage chunk of the dimensions of the total canvas.
 
   \sa getFeedbackSize, isFeedbackVisible, setFeedbackVisibility
- */
+*/
+
 void
 SoQtExaminerViewer::setFeedbackSize(const int size)
 {
@@ -249,18 +270,23 @@ SoQtExaminerViewer::setFeedbackSize(const int size)
 
   this->axiscrossSize = size;
   if (this->isFeedbackVisible() && this->isViewing()) this->scheduleRedraw();
-}
+} // setFeedbackSize()
+
+// *************************************************************************
 
 /*!
   Return the size of the feedback axis cross. Default is 25.
 
   \sa setFeedbackSize, isFeedbackVisible, setFeedbackVisibility
- */
+*/
+
 int
 SoQtExaminerViewer::getFeedbackSize(void) const
 {
   return this->axiscrossSize;
-}
+} // getFeedbackSize()
+
+// *************************************************************************
 
 /*!
   Decide if it should be possible to start a spin animation of the model in
@@ -270,29 +296,36 @@ SoQtExaminerViewer::getFeedbackSize(void) const
   will be stopped.
 
   \sa isAnimationEnabled
- */
+*/
+
 void
 SoQtExaminerViewer::setAnimationEnabled(SbBool on)
 {
   this->animatingallowed = on;
   if (!on && this->isAnimating()) this->stopAnimating();
-}
+} // setAnimationEnabled()
+
+// *************************************************************************
 
 /*!
   Query whether or not it is possible to start a spinning animation by
   releasing the left mouse button while dragging the mouse.
 
   \sa setAnimationEnabled
- */
+*/
+
 SbBool
 SoQtExaminerViewer::isAnimationEnabled(void)
 {
   return this->animatingallowed;
-}
+} // isAnimationEnabled()
+
+// *************************************************************************
 
 /*!
   Stop the model from spinning.
- */
+*/
+
 void
 SoQtExaminerViewer::stopAnimating(void)
 {
@@ -307,33 +340,42 @@ SoQtExaminerViewer::stopAnimating(void)
                               "not animating");
   }
 #endif // SOT_DEBUG
-}
+} // stopAnimating()
+
+// *************************************************************************
 
 /*!
   Query whether the model in the viewer is currently in spinning mode after
   a user drag.
- */
+*/
+
 SbBool
 SoQtExaminerViewer::isAnimating(void)
 {
   return this->spinanimating;
-}
+} // isAnimating()
+
+// *************************************************************************
 
 /*!
   This method overloaded from parent class to make sure the mouse
   pointer cursor is updated.
- */
+*/
+
 void
 SoQtExaminerViewer::setViewing(SbBool on)
 {
   this->setMode(on ? EXAMINE : INTERACT);
   inherited::setViewing(on);
-}
+} // setViewing()
+
+// *************************************************************************
 
 /*!
   This method overloaded from parent class to toggle the camera type
   selection button pixmap and string of the zoom/dolly thumbwheel.
- */
+*/
+
 void
 SoQtExaminerViewer::setCamera(SoCamera * newCamera)
 {
@@ -351,59 +393,78 @@ SoQtExaminerViewer::setCamera(SoCamera * newCamera)
   }
 
   inherited::setCamera(newCamera);
-}
+} // setCamera()
+
+// *************************************************************************
 
 /*!
   Decide whether or not the mouse pointer cursor should be visible in the
   rendering canvas.
- */
+*/
+
 void
 SoQtExaminerViewer::setCursorEnabled(SbBool on)
 {
   inherited::setCursorEnabled(on);
   this->setCursorRepresentation(this->currentmode);
-}
+} // setcursorEnabled()
+
+// *************************************************************************
 
 /*!
   Overloaded to provide the examiner viewer functionality on the left
   thumbwheel (x axis rotation).
- */
+*/
+
 void
 SoQtExaminerViewer::leftWheelMotion(float val)
 {
+  if ( this->isAnimating() )
+    this->stopAnimating();
   this->reorientCamera(SbRotation(SbVec3f(1.0f, 0.0f, 0.0f),
                                   val - this->getLeftWheelValue()));
   inherited::leftWheelMotion(val);
-}
+} // leftWheelMotion()
+
+// *************************************************************************
 
 /*!
   Overloaded to provide the examiner viewer functionality on the bottom
   thumbwheel (y axis rotation).
- */
+*/
+
 void
 SoQtExaminerViewer::bottomWheelMotion(float val)
 {
+  if ( this->isAnimating() )
+    this->stopAnimating();
   this->reorientCamera(SbRotation(SbVec3f(0.0f, 1.0f, 0.0f),
                                   this->getBottomWheelValue() - val));
   inherited::bottomWheelMotion(val);
-}
+} // bottomWheelMotion()
+
+// *************************************************************************
 
 /*!
   Overloaded to provide the examiner viewer functionality on the left
   thumbwheel (dolly/zoom).
- */
+*/
+
 void
 SoQtExaminerViewer::rightWheelMotion(float val)
 {
   this->zoom(val - this->getRightWheelValue());
   inherited::rightWheelMotion(val);
-}
+} // rightWheelMotion()
+
+// *************************************************************************
 
 /*!
   Overloaded to add preferences settings for examiner viewer
   specific stuff (enable/disable possible spin animation,
   enable/disable/configure axis cross graphics).
- */
+*/
+
 QWidget *
 SoQtExaminerViewer::makeSubPreferences(QWidget * parent)
 {
@@ -484,12 +545,15 @@ SoQtExaminerViewer::makeSubPreferences(QWidget * parent)
   this->setEnableFeedbackControls(this->isFeedbackVisible());
 
   return w;
-}
+} // makeSubPreferences()
+
+// *************************************************************************
 
 /*!
   Overloaded from parent class so we can append the camera type switch
   button in the rightside button column.
- */
+*/
+
 void
 SoQtExaminerViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
 {
@@ -519,48 +583,63 @@ SoQtExaminerViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
                    this, SLOT(cameratoggleClicked()));
 
   buttonlist->append(this->cameratogglebutton);
-}
+} // createViewerButtons()
+
+// *************************************************************************
 
 /*!
   Overloaded to provide name of class.
- */
+*/
+
 const char *
 SoQtExaminerViewer::getDefaultWidgetName(void) const
 {
   return "SoQtExaminerViewer";
-}
+} // getDefaultWidgetName()
+
+// *************************************************************************
 
 /*!
   Overloaded to provide ``title'' of class.
- */
+*/
+
 const char *
 SoQtExaminerViewer::getDefaultTitle(void) const
 {
   return "Examiner Viewer";
-}
+} // getDefaultTitle()
+
+// *************************************************************************
 
 /*!
   Overloaded to provide ``title'' of class.
- */
+*/
+
 const char *
 SoQtExaminerViewer::getDefaultIconTitle(void) const
 {
   return "Examiner Viewer";
-}
+} // getDefaultIconTitle()
+
+// *************************************************************************
 
 /*!
   Pops up the examiner viewer help card.
- */
+*/
+
 void
 SoQtExaminerViewer::openViewerHelpCard(void)
 {
   this->openHelpCard("SoQtExaminerViewer.help");
-}
+} // openViewerHelpCard()
+
+// *************************************************************************
 
 /*!
   Overloaded from parent class to take care of any model interaction
   events.
- */
+*/
+
 void
 SoQtExaminerViewer::processEvent(QEvent * event)
 {
@@ -695,12 +774,15 @@ SoQtExaminerViewer::processEvent(QEvent * event)
   }
 
   this->lastmouseposition = norm_mousepos;
-}
+} // processEvents()
+
+// *************************************************************************
 
 /*!
   Overload this method to make sure any animations are stopped before
   we go into seek mode.
- */
+*/
+
 void
 SoQtExaminerViewer::setSeekMode(SbBool on)
 {
@@ -715,24 +797,30 @@ SoQtExaminerViewer::setSeekMode(SbBool on)
   if (this->isAnimating()) this->stopAnimating();
   inherited::setSeekMode(on);
   this->setMode(on ? WAITING_FOR_SEEK : EXAMINE);
-}
+} // setSeekMode()
+
+// *************************************************************************
 
 /*!
   Overload this method to be able to draw the axis cross if selected
   in the preferences sheet.
- */
+*/
+
 void
 SoQtExaminerViewer::actualRedraw(void)
 {
   inherited::actualRedraw();
   if (this->isFeedbackVisible()) this->drawAxisCross();
-}
+} // actualRedraw()
+
+// *************************************************************************
 
 /*!
   \internal
 
   Set the viewer mode based on the given mouse and keyboard state setting.
- */
+*/
+
 void
 SoQtExaminerViewer::setModeFromState(const unsigned int state)
 {
@@ -768,14 +856,17 @@ SoQtExaminerViewer::setModeFromState(const unsigned int state)
   }
 
   this->setMode(mode);
-}
+} // setModeFromState()
+
+// *************************************************************************
 
 /*!
   \internal
 
   The viewer is a state machine, and all changes to the current state
   are made through this call.
- */
+*/
+
 void
 SoQtExaminerViewer::setMode(const ViewerMode mode)
 {
@@ -807,13 +898,16 @@ SoQtExaminerViewer::setMode(const ViewerMode mode)
   }
 
   this->currentmode = mode;
-}
+} // setMode()
+
+// *************************************************************************
 
 /*!
   \internal
 
   Set cursor graphics according to mode.
- */
+*/
+
 void
 SoQtExaminerViewer::setCursorRepresentation(const ViewerMode mode)
 {
@@ -876,13 +970,16 @@ SoQtExaminerViewer::setCursorRepresentation(const ViewerMode mode)
 
   default: assert(0); break;
   }
-}
+} // setCursorRepresentation()
+
+// *************************************************************************
 
 /*!
   \internal
 
   Draw an arrow for the axis representation directly through OpenGL.
- */
+*/
+
 void
 SoQtExaminerViewer::drawArrow(void)
 {
@@ -905,13 +1002,16 @@ SoQtExaminerViewer::drawArrow(void)
   glVertex3f(1.0-1.0/3, -0.5/4, 0);
   glVertex3f(1.0-1.0/3, 0, -0.5/4);
   glEnd();
-}
+} // drawArrow()
+
+// *************************************************************************
 
 /*!
   \internal
 
   Draw an axis cross directly through OpenGL.
- */
+*/
+
 void
 SoQtExaminerViewer::drawAxisCross(void)
 {
@@ -1073,7 +1173,9 @@ SoQtExaminerViewer::drawAxisCross(void)
   glMatrixMode(GL_PROJECTION);
   glLoadMatrixd(projectionmatrix);
   glPopAttrib();
-}
+} // drawAxisCross()
+
+// *************************************************************************
 
 /*!
   \internal
@@ -1081,6 +1183,7 @@ SoQtExaminerViewer::drawAxisCross(void)
   Rotate the camera by the given amount, then reposition it so we're still
   pointing at the same focal point.
 */
+
 void
 SoQtExaminerViewer::reorientCamera(const SbRotation & rot)
 {
@@ -1100,14 +1203,17 @@ SoQtExaminerViewer::reorientCamera(const SbRotation & rot)
   // point.
   cam->orientation.getValue().multVec(SbVec3f(0, 0, -1), direction);
   cam->position = focalpoint - cam->focalDistance.getValue() * direction;
-}
+} // reorientCamera()
+
+// *************************************************************************
 
 /*!
   \internal
 
   Move scene parallel with the plane orthogonal to the camera
   direction vector.
- */
+*/
+
 void
 SoQtExaminerViewer::pan(const SbVec2f & mousepos)
 {
@@ -1128,14 +1234,17 @@ SoQtExaminerViewer::pan(const SbVec2f & mousepos)
   // Reposition camera according to the vector difference between the
   // projected points.
   cam->position = cam->position.getValue() - (current_planept - old_planept);
-}
+} // pan()
+
+// *************************************************************************
 
 /*!
   \internal
 
   Uses the sphere sheet projector to map the mouseposition unto
   a 3D point and find a rotation from this and the last calculated point.
- */
+*/
+
 void
 SoQtExaminerViewer::spin(const SbVec2f & mousepos)
 {
@@ -1175,7 +1284,9 @@ SoQtExaminerViewer::spin(const SbVec2f & mousepos)
   // when the user quickly trigger (as in "click-drag-release") a spin
   // animation.
   if (this->spinsamplecounter > 3) this->spinsamplecounter = 3;
-}
+} // spin()
+
+// *************************************************************************
 
 /*!
   \internal
@@ -1183,7 +1294,8 @@ SoQtExaminerViewer::spin(const SbVec2f & mousepos)
   Dependent on the camera type this will either shrink or expand
   the height of the viewport (orthogonal camera) or move the
   camera closer or further away from the focal point in the scene.
- */
+*/
+
 void
 SoQtExaminerViewer::zoom(const float diffvalue)
 {
@@ -1211,25 +1323,31 @@ SoQtExaminerViewer::zoom(const float diffvalue)
   else {
     assert(0);
   }
-}
+} // zoom()
+
+// *************************************************************************
 
 /*!
   \internal
 
   Calculate a zoom/dolly factor from the difference of the current
   cursor position and the last.
- */
+*/
+
 void
 SoQtExaminerViewer::zoomByCursor(const SbVec2f & mousepos)
 {
   // There is no "geometrically correct" value, 20 just seems to give
   // about the right "feel".
   this->zoom((mousepos[1] - this->lastmouseposition[1]) * 20.0f);
-}
+} // zoomByCursor()
+
+// *************************************************************************
 
 /*!
   \internal
- */
+*/
+
 void
 SoQtExaminerViewer::setEnableFeedbackControls(const SbBool flag)
 {
@@ -1237,13 +1355,16 @@ SoQtExaminerViewer::setEnableFeedbackControls(const SbBool flag)
   this->feedbacklabel2->setEnabled(flag);
   this->feedbackwheel->setEnabled(flag);
   this->feedbackedit->setEnabled(flag);
-}
+} // setEnabledFeedbackControls()
+
+// *************************************************************************
 
 /*!
   \internal
 
   This is the regularly called code which makes the spin animation run.
- */
+*/
+
 void
 SoQtExaminerViewer::timertriggeredCB(void * data, SoSensor *)
 {
@@ -1267,15 +1388,17 @@ SoQtExaminerViewer::timertriggeredCB(void * data, SoSensor *)
   }
 
   thisp->reorientCamera(thisp->spinincrement);
-}
+} // timertriggeredCB()
 
+// *************************************************************************
 
 /*!
   \internal
 
   This gets called whenever the visibility status of the viewer widget
   changes (for instance on iconization/deiconization).
- */
+*/
+
 void
 SoQtExaminerViewer::visibilityCB(void * data, SbBool visible)
 {
@@ -1285,33 +1408,44 @@ SoQtExaminerViewer::visibilityCB(void * data, SbBool visible)
     if (visible) thisp->timertrigger->schedule();
     else thisp->timertrigger->unschedule();
   }
-}
+} // visibilityCB()
+
+// *************************************************************************
 
 /*!
   \internal
+
   Pref sheet slot.
- */
+*/
+
 void
 SoQtExaminerViewer::spinAnimationToggled(bool flag)
 {
   this->setAnimationEnabled(flag);
-}
+} // spinAnimationToggled()
+
+// *************************************************************************
 
 /*!
   \internal
   Pref sheet slot.
- */
+*/
+
 void
 SoQtExaminerViewer::feedbackVisibilityToggle(bool flag)
 {
   this->setFeedbackVisibility(flag);
   this->setEnableFeedbackControls(flag);
-}
+} // feedbackVisibilityToggle()
+
+// *************************************************************************
 
 /*!
   \internal
+
   Pref sheet slot.
- */
+*/
+
 void
 SoQtExaminerViewer::feedbackEditPressed()
 {
@@ -1325,32 +1459,41 @@ SoQtExaminerViewer::feedbackEditPressed()
     s.setNum(this->getFeedbackSize());
     this->feedbackedit->setText(s);
   }
-}
+} // feedbackEditPressed()
+
+// *************************************************************************
 
 /*!
   \internal
   Pref sheet slot.
- */
+*/
+
 void
 SoQtExaminerViewer::feedbackWheelPressed()
 {
   this->interactiveCountInc();
-}
+} // feedbackWheelPressed()
+
+// *************************************************************************
 
 /*!
   \internal
   Pref sheet slot.
- */
+*/
+
 void
 SoQtExaminerViewer::feedbackWheelReleased()
 {
   this->interactiveCountDec();
-}
+} // feedbackWheelReleased()
+
+// *************************************************************************
 
 /*!
   \internal
   Pref sheet slot.
- */
+*/
+
 void
 SoQtExaminerViewer::feedbackSizeChanged(float val)
 {
@@ -1364,7 +1507,9 @@ SoQtExaminerViewer::feedbackSizeChanged(float val)
   QString s;
   s.setNum(this->getFeedbackSize());
   this->feedbackedit->setText(s);
-}
+} // feedbackSizeChanged()
+
+// *************************************************************************
 
 /*!
   \internal
@@ -1375,5 +1520,6 @@ void
 SoQtExaminerViewer::cameratoggleClicked()
 {
   this->toggleCameraType();
-}
+} // cameratoggleClicked()
 
+// *************************************************************************

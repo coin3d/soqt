@@ -29,6 +29,8 @@
 class SoQtWalkViewer : public SoQtConstrainedViewer {
   typedef SoQtConstrainedViewer inherited;
 
+  Q_OBJECT
+
 public:
   SoQtWalkViewer(
     QWidget * parent = NULL,

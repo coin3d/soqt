@@ -1,6 +1,6 @@
 /**************************************************************************\
  *
- *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
+ *  Copyright (C) 1998-2000 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
  *
@@ -19,8 +19,8 @@
 
 //  $Id$
 
-#ifndef __SOQTVIEWER_H__
-#define __SOQTVIEWER_H__
+#ifndef __SOQT_VIEWER_H__
+#define __SOQT_VIEWER_H__
 
 // Workaround for OIV problem on Linux in SbBasic.h.
 #include <math.h>
@@ -30,8 +30,8 @@
 #include <Inventor/SoType.h>
 
 /*!
-  \defgroup qtviewers Qt Viewer Components
- */
+  \defgroup soqtviewers SoQt Viewer Components
+*/
 
 class SoCallbackList;
 class SoBaseColor;
@@ -52,11 +52,12 @@ class SoTimerSensor;
 
 class SoQtViewer;
 
-typedef void SoQtViewerCB(void * data, SoQtViewer * viewer);
-typedef void SoQtViewerFPSCB(float fps, void * data, SoQtViewer * viewer);
-typedef void SoQtViewerDecimationPercentageCB(float percentage, void * data,
-                                              SoQtViewer * viewer);
+typedef void SoQtViewerCB( void * data, SoQtViewer * viewer );
+typedef void SoQtViewerFPSCB( float fps, void * data, SoQtViewer * viewer );
+typedef void SoQtViewerDecimationPercentageCB( float percentage, void * data,
+                                               SoQtViewer * viewer );
 
+// *************************************************************************
 
 class SoQtViewer : public SoQtRenderArea {
   typedef SoQtRenderArea inherited;
@@ -190,7 +191,7 @@ public:
 protected:
   SoQtViewer(QWidget * parent, const char * name, SbBool buildInsideParent,
              Type type, SbBool buildNow);
-  ~SoQtViewer();
+  ~SoQtViewer(void);
 
   virtual void setSeekMode(SbBool on);
   SbBool isSeekMode(void) const;
@@ -269,7 +270,9 @@ private:
 
   SoSeparator * viewerroot;
   SoNode * userroot;
-};
 
+}; // class SoQtViewer
 
-#endif // !__SOQTVIEWER_H__
+// *************************************************************************
+
+#endif // ! __SOQT_VIEWER_H__

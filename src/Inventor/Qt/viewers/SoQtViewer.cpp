@@ -1,6 +1,6 @@
 /**************************************************************************\
  *
- *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
+ *  Copyright (C) 1998-2000 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
  *
@@ -23,7 +23,7 @@ static const char rcsid[] =
 /*!
   \class SoQtViewer SoQtViewer.h Inventor/Qt/viewers/SoQtViewer.h
   \brief The SoQtViewer class is the top level base viewer class.
-  \ingroup qtviewers
+  \ingroup soqtviewers
 
   TODO: more doc
   ...overview of what this class provides over parent class...
@@ -189,15 +189,14 @@ static const char rcsid[] =
 */
 
 
-
-
 /*!
   \internal
 
   Return the parent node in the scene graph of the given \a node.
   NB: this is just a quick'n'dirty thing for often executed code,
   and doesn't cover cases where nodes have multiple parents.
- */
+*/
+
 static inline SoGroup *
 getParentOfNode(SoNode * root, SoNode * node)
 {
@@ -210,15 +209,21 @@ getParentOfNode(SoNode * root, SoNode * node)
   return (SoGroup *) ((SoFullPath *)search.getPath())->getNodeFromTail(1);
 }
 
+// *************************************************************************
+
 /*!
   Constructor. \a parent, \a name and \a buildInsideParent are passed on
   to SoQtRenderArea, so see the documentation for that constructor for
   for more information on those.
 */
-SoQtViewer::SoQtViewer(QWidget * parent, const char * name,
-                       SbBool buildInsideParent, SoQtViewer::Type t,
-                       SbBool buildNow)
-  : inherited(parent, name, buildInsideParent, TRUE, TRUE, FALSE)
+
+SoQtViewer::SoQtViewer(
+  QWidget * parent,
+  const char * name,
+  SbBool buildInsideParent,
+  SoQtViewer::Type t,
+  SbBool buildNow )
+: inherited( parent, name, buildInsideParent, TRUE, TRUE, FALSE )
 {
   this->viewertype = t;
   this->viewmode = TRUE;
@@ -310,12 +315,16 @@ SoQtViewer::SoQtViewer(QWidget * parent, const char * name,
   this->autoclipbox = NULL;
 
   if(buildNow) this->setBaseWidget(this->buildWidget(this->getParentWidget()));
-}
+} // SoQtViewer()
+
+// *************************************************************************
 
 /*!
   Destructor.
- */
-SoQtViewer::~SoQtViewer()
+*/
+
+SoQtViewer::~SoQtViewer(
+  void )
 {
   delete this->autoclipbox;
 
@@ -327,7 +336,9 @@ SoQtViewer::~SoQtViewer()
   if (this->userroot) this->setSceneGraph(NULL);
   if (this->lightroot) this->lightroot->unref();
   this->viewerroot->unref();
-}
+} // ~SoQtViewer()
+
+// *************************************************************************
 
 /*!
   Set the camera we want to view the scene with. This will
@@ -335,7 +346,8 @@ SoQtViewer::~SoQtViewer()
   (from getCamera()) and subsequent use.
 
   \sa getCamera()
- */
+*/
+
 void
 SoQtViewer::setCamera(SoCamera * cam)
 {
@@ -364,19 +376,24 @@ SoQtViewer::setCamera(SoCamera * cam)
     this->saveHomePosition();
     if (headlightflag) this->setHeadlight(TRUE);
   }
-}
+} // setCamera()
+
+// *************************************************************************
 
 /*!
   Returns the camera currently used by the viewer for rendering
   the scene.
 
   \sa setCamera()
- */
+*/
+
 SoCamera *
 SoQtViewer::getCamera(void) const
 {
   return this->camera;
-}
+} // getCamera()
+
+// *************************************************************************
 
 /*!
   When the viewer has to make its own camera as a result of the graph
@@ -386,7 +403,8 @@ SoQtViewer::getCamera(void) const
   Default is to use an SoPerspectiveCamera.
 
   \sa getCameraType()
- */
+*/
+
 void
 SoQtViewer::setCameraType(SoType t)
 {
@@ -409,7 +427,9 @@ SoQtViewer::setCameraType(SoType t)
 #endif // SOQT_DEBUG
 
   this->cameratype = t;
-}
+} // setCameraType()
+
+// *************************************************************************
 
 /*!
   Returns camera type which will be used when the viewer has to make its
@@ -419,29 +439,36 @@ SoQtViewer::setCameraType(SoType t)
   might expect. Use getCamera() and SoType::getTypeId() for that inquiry.
 
   \sa setCameraType()
- */
+*/
+
 SoType
 SoQtViewer::getCameraType(void) const
 {
   return this->cameratype;
-}
+} // getCameraType()
+
+// *************************************************************************
 
 /*!
   Reposition the current camera so we can see the complete scene.
- */
+*/
+
 void
 SoQtViewer::viewAll(void)
 {
   assert(this->camera);
   this->camera->viewAll(this->userroot, this->getViewportRegion());
-}
+} // viewAll()
+
+// *************************************************************************
 
 /*!
   Store the current camera settings for later retrieval with
   resetToHomePosition().
 
   \sa resetToHomePosition()
- */
+*/
+
 void
 SoQtViewer::saveHomePosition(void)
 {
@@ -459,13 +486,16 @@ SoQtViewer::saveHomePosition(void)
     this->storedheightval =
       ((SoPerspectiveCamera *)this->camera)->heightAngle.getValue();
   }
-}
+} // saveHomePosition()
+
+// *************************************************************************
 
 /*!
   Restore the saved camera settings.
 
   \sa saveHomePosition()
- */
+*/
+
 void
 SoQtViewer::resetToHomePosition(void)
 {
@@ -484,7 +514,9 @@ SoQtViewer::resetToHomePosition(void)
   this->camera->focalDistance =
     (this->camera->farDistance.getValue() +
      this->camera->nearDistance.getValue())/2;
-}
+} // resetToHomePosition()
+
+// *************************************************************************
 
 /*!
   Turn the camera headlight on or off.
@@ -492,7 +524,8 @@ SoQtViewer::resetToHomePosition(void)
   Default is to have a headlight turned on.
 
   \sa isHeadlight(), getHeadlight()
- */
+*/
+
 void
 SoQtViewer::setHeadlight(SbBool on)
 {
@@ -537,7 +570,9 @@ SoQtViewer::setHeadlight(SbBool on)
   }
 
   this->lighton = on;
-}
+} // setHeadlight()
+
+// *************************************************************************
 
 /*!
   Returns status of the viewer headlight, whether it is on or off.
@@ -547,12 +582,15 @@ SoQtViewer::setHeadlight(SbBool on)
   whether or not a headlight is part of the scene graph.
 
   \sa setHeadlight(), getHeadlight()
- */
+*/
+
 SbBool
 SoQtViewer::isHeadlight(void) const
 {
   return this->lighton;
-}
+} // isheadlight()
+
+// *************************************************************************
 
 /*!
   Returns the a pointer to the directional light node which is the
@@ -561,7 +599,8 @@ SoQtViewer::isHeadlight(void) const
   The fields of the node is available for user editing.
 
   \sa isHeadlight(), setHeadlight()
- */
+*/
+
 SoDirectionalLight *
 SoQtViewer::getHeadlight(void) const
 {
@@ -571,7 +610,9 @@ SoQtViewer::getHeadlight(void) const
     (SoDirectionalLight *) this->lightroot->getChild(1);
   assert(dl->isOfType(SoDirectionalLight::getClassTypeId()));
   return dl;
-}
+} // getHeadlight()
+
+// *************************************************************************
 
 /*!
   Set up a drawing style. The \a type argument specifies if the given
@@ -585,7 +626,8 @@ SoQtViewer::getHeadlight(void) const
   information.
 
   \sa getDrawStyle()
- */
+*/
+
 void
 SoQtViewer::setDrawStyle(SoQtViewer::DrawType type,
                          SoQtViewer::DrawStyle style)
@@ -617,14 +659,17 @@ SoQtViewer::setDrawStyle(SoQtViewer::DrawType type,
 
   this->drawstyles[type] = style;
   this->changeDrawStyle(this->currentDrawStyle());
-}
+} // setDrawStyle()
+
+// *************************************************************************
 
 /*!
   Return current drawstyles for the given type (\a STILL or
   \a INTERACTIVE).
 
   \sa setDrawStyle()
- */
+*/
+
 SoQtViewer::DrawStyle
 SoQtViewer::getDrawStyle(const SoQtViewer::DrawType type) const
 {
@@ -636,7 +681,9 @@ SoQtViewer::getDrawStyle(const SoQtViewer::DrawType type) const
   }
 #endif // SOQT_DEBUG
   return this->drawstyles[type];
-}
+} // getDrawStyle()
+
+// *************************************************************************
 
 /*!
   Set the viewer's buffer type.
@@ -644,7 +691,8 @@ SoQtViewer::getDrawStyle(const SoQtViewer::DrawType type) const
   Default is to use a double buffering scheme.
 
   \sa getBufferingType()
- */
+*/
+
 void
 SoQtViewer::setBufferingType(SoQtViewer::BufferType type)
 {
@@ -666,18 +714,23 @@ SoQtViewer::setBufferingType(SoQtViewer::BufferType type)
 
   this->buffertype = type;
   inherited::setDoubleBuffer(type == BUFFER_DOUBLE ? TRUE : FALSE);
-}
+} // setBufferingType()
+
+// *************************************************************************
 
 /*!
   Return the viewer's buffer type.
 
   \sa setBufferingType()
- */
+*/
+
 SoQtViewer::BufferType
 SoQtViewer::getBufferingType(void) const
 {
   return this->buffertype;
-}
+} // getBufferingType()
+
+// *************************************************************************
 
 /*!
   Set view mode.
@@ -690,7 +743,8 @@ SoQtViewer::getBufferingType(void) const
   Default is to have the view mode active.
 
   \sa getViewing()
- */
+*/
+
 void
 SoQtViewer::setViewing(SbBool on)
 {
@@ -709,18 +763,23 @@ SoQtViewer::setViewing(SbBool on)
   }
 
   this->viewmode = on;
-}
+} // setViewing()
+
+// *************************************************************************
 
 /*!
   Return state of view mode.
 
   \sa setViewing()
- */
+*/
+
 SbBool
 SoQtViewer::isViewing(void) const
 {
   return this->viewmode;
-}
+} // isViewing()
+
+// *************************************************************************
 
 /*!
   Set whether or not the mouse cursor representation should be visible
@@ -729,23 +788,29 @@ SoQtViewer::isViewing(void) const
   Default value is on.
 
   \sa getCursorEnabled()
- */
+*/
+
 void
 SoQtViewer::setCursorEnabled(SbBool on)
 {
   this->cursoron = on;
-}
+} // setCursorEnabled()
+
+// *************************************************************************
 
 /*!
   Returns visibility status of mouse cursor.
 
   \sa setCursorEnabled()
- */
+*/
+
 SbBool
 SoQtViewer::isCursorEnabled(void) const
 {
   return this->cursoron;
-}
+} // isCursorEnabled()
+
+// *************************************************************************
 
 /*!
   Turn on or off continuous automatic adjustments of the near
@@ -754,7 +819,8 @@ SoQtViewer::isCursorEnabled(void) const
   Automatic clipping is on as default.
 
   \sa getAutoClipping()
- */
+*/
+
 void
 SoQtViewer::setAutoClipping(SbBool on)
 {
@@ -767,18 +833,23 @@ SoQtViewer::setAutoClipping(SbBool on)
 #endif // SOQT_DEBUG
   this->adjustclipplanes = on;
   if (on) this->scheduleRedraw();
-}
+} // setAutoClipping()
+
+// *************************************************************************
 
 /*!
   Return value of the automatic near/far clipplane adjustment indicator.
 
   \sa setAutoClipping()
- */
+*/
+
 SbBool
 SoQtViewer::isAutoClipping(void) const
 {
   return this->adjustclipplanes;
-}
+} // isAutoClipping()
+
+// *************************************************************************
 
 /*!
   Turn stereo viewing on. Default is off.
@@ -788,26 +859,32 @@ SoQtViewer::isAutoClipping(void) const
 
   \sa isStereoViewing()
 */
+
 void
 SoQtViewer::setStereoViewing(SbBool /*on*/)
 {
   // FIXME: implement. 990507 mortene.
   SoDebugError::postInfo("SoQtViewer::setStereoViewing",
                          "stereo viewing not implemented yet");
-}
+} // setStereoViewing()
+
+// *************************************************************************
 
 /*!
   Returns a boolean indicating whether or not we're in stereo viewing
   mode.
 
   \sa setStereoViewing()
- */
+*/
+
 SbBool
 SoQtViewer::isStereoViewing(void) const
 {
   // FIXME: implement. 990507 mortene.
   return FALSE;
-}
+} // setStereoViewing()
+
+// *************************************************************************
 
 /*!
   Set the offset between the two viewpoints when in stereo mode.
@@ -816,26 +893,30 @@ SoQtViewer::isStereoViewing(void) const
   yet.
 
   \sa getStereoOffset()
- */
+*/
+
 void
 SoQtViewer::setStereoOffset(const float /*dist*/)
 {
   // FIXME: implement. 990507 mortene.
   SoDebugError::postInfo("SoQtViewer::setStereoOffset",
                          "stereo viewing not implemented yet");
-}
+} // setStereoOffset()
 
 /*!
   Return the offset distance between the two viewpoints when in stereo mode.
 
   \sa setStereoOffset()
- */
+*/
+
 float
 SoQtViewer::getStereoOffset(void) const
 {
   // FIXME: implement. 990507 mortene.
   return 0.0f;
-}
+} // getStereoOffset()
+
+// *************************************************************************
 
 /*!
   Toggle between seeking to a point or seeking to an object.
@@ -843,7 +924,8 @@ SoQtViewer::getStereoOffset(void) const
   Default is to seek to a point.
 
   \sa isDetailSeek()
- */
+*/
+
 void
 SoQtViewer::setDetailSeek(const SbBool on)
 {
@@ -855,19 +937,24 @@ SoQtViewer::setDetailSeek(const SbBool on)
   }
 #endif // SOQT_DEBUG
   this->seektopoint = on;
-}
+} // setDetailSeek()
+
+// *************************************************************************
 
 /*!
   Returns a value indicating whether or not seeks will be performed
   to the exact point of picking or just towards the picked object.
 
   \sa setDetailSeek()
- */
+*/
+
 SbBool
 SoQtViewer::isDetailSeek(void) const
 {
   return this->seektopoint;
-}
+} // isDetailSeek()
+
+// *************************************************************************
 
 /*!
   Set the duration of animating the camera repositioning
@@ -877,7 +964,8 @@ SoQtViewer::isDetailSeek(void) const
   Default value is 2 seconds.
 
   \sa getSeekTime()
- */
+*/
+
 void
 SoQtViewer::setSeekTime(const float seconds)
 {
@@ -890,66 +978,83 @@ SoQtViewer::setSeekTime(const float seconds)
   }
 #endif SOQT_DEBUG
   this->seekperiod = seconds;
-}
+} // setSeekTime()
+
+// *************************************************************************
 
 /*!
   Returns the camera repositioning duration following a seek action.
 
   \sa setSeekTime()
- */
+*/
+
 float
 SoQtViewer::getSeekTime(void) const
 {
   return this->seekperiod;
-}
+} // getSeekTime()
+
+// *************************************************************************
 
 /*!
   Add a function to call when user interaction with the scene starts.
 
   \sa removeStartCallback(), addFinishCallback()
- */
+*/
+
 void
 SoQtViewer::addStartCallback(SoQtViewerCB * func, void * data)
 {
   this->interactionstartCallbacks->addCallback((SoCallbackListCB *)func, data);
-}
+} // addStartCallback()
+
+// *************************************************************************
 
 /*!
   Add a function to call when user interaction with the scene ends.
 
   \sa removeFinishCallback(), addStartCallback()
- */
+*/
+
 void
 SoQtViewer::addFinishCallback(SoQtViewerCB * func, void * data)
 {
   this->interactionendCallbacks->addCallback((SoCallbackListCB *)func, data);
-}
+} // addFinishCallback()
+
+// *************************************************************************
 
 /*!
   Remove one of the functions which has been set up to be called when user
   interaction with the scene starts.
 
   \sa addStartCallback(), removeFinishCallback()
- */
+*/
+
 void
 SoQtViewer::removeStartCallback(SoQtViewerCB * func, void * data)
 {
   this->interactionstartCallbacks->removeCallback((SoCallbackListCB *)func,
                                                   data);
-}
+} // removeStartCallback()
+
+// *************************************************************************
 
 /*!
   Remove one of the functions which has been set up to be called when user
   interaction with the scene ends.
 
   \sa addFinishCallback(), removeStartCallback()
- */
+*/
+
 void
 SoQtViewer::removeFinishCallback(SoQtViewerCB * func, void * data)
 {
   this->interactionendCallbacks->removeCallback((SoCallbackListCB *)func,
                                                 data);
-}
+} // removeFinishCallback()
+
+// *************************************************************************
 
 /*!
   Copy the current camera to the system clipboard. This makes it
@@ -958,7 +1063,8 @@ SoQtViewer::removeFinishCallback(SoQtViewerCB * func, void * data)
   Note: has not been implemented yet.
 
   \sa pasteView()
- */
+*/
+
 void
 SoQtViewer::copyView(const SbTime /*eventTime*/)
 {
@@ -967,7 +1073,9 @@ SoQtViewer::copyView(const SbTime /*eventTime*/)
 
   SoDebugError::postInfo("SoQtViewer::copyView",
                          "clipboard support not implemented yet");
-}
+} // copyView()
+
+// *************************************************************************
 
 /*!
   Set a new camera from the system clipboard.
@@ -975,7 +1083,8 @@ SoQtViewer::copyView(const SbTime /*eventTime*/)
   Note: has not been implemented yet.
 
   \sa copyView()
- */
+*/
+
 void
 SoQtViewer::pasteView(const SbTime /*eventTime*/)
 {
@@ -984,32 +1093,41 @@ SoQtViewer::pasteView(const SbTime /*eventTime*/)
 
   SoDebugError::postInfo("SoQtViewer::pasteView",
                          "clipboard support not implemented yet");
-}
+} // pasteView()
+
+// *************************************************************************
 
 /*!
   Not used, only included for compatibility reasons.
- */
+*/
+
 void
 SoQtViewer::recomputeSceneSize(void)
 {
   SoDebugError::postInfo("SoQtViewer::recomputeSceneSize",
                          "this method is obsoleted, don't use it");
-}
+} // recomputeSceneSize()
+
+// *************************************************************************
 
 /*!
   Large Model Visualization; not implemented yet.
- */
+*/
+
 void
 SoQtViewer::setDecimationStrategy(const SoQtViewer::DecimationStrategy /*strategy*/)
 {
   // FIXME: implement. 990508 mortene.
   SoDebugError::postInfo("SoQtViewer::setDecimationStrategy",
                          "not implemented yet");
-}
+} // setDecimationStrategy()
+
+// *************************************************************************
 
 /*!
   Large Model Visualization; not implemented yet.
- */
+*/
+
 SoQtViewer::DecimationStrategy
 SoQtViewer::getDecimationStrategy(void) const
 {
@@ -1019,21 +1137,26 @@ SoQtViewer::getDecimationStrategy(void) const
   return NORMAL;
 }
 
+// *************************************************************************
 
 /*!
   Large Model Visualization; not implemented yet.
- */
+*/
+
 void
 SoQtViewer::setGoalNumberOfTriangles(const int32_t /*goal*/)
 {
   // FIXME: implement. 990508 mortene.
   SoDebugError::postInfo("SoQtViewer::setGoalNumberOfTriangles",
                          "not implemented yet");
-}
+} // setGoalNumberOfTriangles()
+
+// *************************************************************************
 
 /*!
   Large Model Visualization; not implemented yet.
- */
+*/
+
 int32_t
 SoQtViewer::getGoalNumberOfTriangles(void) const
 {
@@ -1041,23 +1164,28 @@ SoQtViewer::getGoalNumberOfTriangles(void) const
   SoDebugError::postInfo("SoQtViewer::getGoalNumberOfTriangles",
                          "not implemented yet");
   return -1;
-}
+} // getGoalNumberOfTriangles()
 
+// *************************************************************************
 
 /*!
   Large Model Visualization; not implemented yet.
- */
+*/
+
 void
 SoQtViewer::setGoalFramesPerSecond(const float /*goal*/)
 {
   // FIXME: implement. 990508 mortene.
   SoDebugError::postInfo("SoQtViewer::setGoalFramesPerSecond",
                          "not implemented yet");
-}
+} // setGoalFramesPerSecond()
+
+// *************************************************************************
 
 /*!
   Large Model Visualization; not implemented yet.
- */
+*/
+
 float
 SoQtViewer::getGoalFramesPerSecond(void) const
 {
@@ -1065,23 +1193,28 @@ SoQtViewer::getGoalFramesPerSecond(void) const
   SoDebugError::postInfo("SoQtViewer::getGoalFramesPerSecond",
                          "not implemented yet");
   return 72.0f;
-}
+} // getGoalFramesPerSecond()
 
+// *************************************************************************
 
 /*!
   Large Model Visualization; not implemented yet.
- */
+*/
+
 void
 SoQtViewer::setFixedPercentage(const float /*percent*/)
 {
   // FIXME: implement. 990508 mortene.
   SoDebugError::postInfo("SoQtViewer::setFixedPercentage",
                          "not implemented yet");
-}
+} // setFixedPercentage()
+
+// *************************************************************************
 
 /*!
   Large Model Visualization; not implemented yet.
- */
+*/
+
 float
 SoQtViewer::getFixedPercentage(void) const
 {
@@ -1089,23 +1222,28 @@ SoQtViewer::getFixedPercentage(void) const
   SoDebugError::postInfo("SoQtViewer::getFixedPercentage",
                          "not implemented yet");
   return 100.0f;
-}
+} // getFixedPercentage()
 
+// *************************************************************************
 
 /*!
   Large Model Visualization; not implemented yet.
- */
+*/
+
 void
 SoQtViewer::enableFullRenderingWhenStill(const SbBool /*on*/)
 {
   // FIXME: implement. 990508 mortene.
   SoDebugError::postInfo("SoQtViewer::enableFullRenderingWhenStill",
                          "not implemented yet");
-}
+} // enableFullRendering()
+
+// *************************************************************************
 
 /*!
   Large Model Visualization; not implemented yet.
- */
+*/
+
 SbBool
 SoQtViewer::isFullRenderingWhenStill(void) const
 {
@@ -1113,11 +1251,12 @@ SoQtViewer::isFullRenderingWhenStill(void) const
   SoDebugError::postInfo("SoQtViewer::isFullRenderingWhenStill",
                          "not implemented yet");
   return TRUE;
-}
+} // isFullRendering()
 
 /*!
   Large Model Visualization; not implemented yet.
- */
+*/
+
 SbBool
 SoQtViewer::isStillNow(void) const
 {
@@ -1125,35 +1264,42 @@ SoQtViewer::isStillNow(void) const
   SoDebugError::postInfo("SoQtViewer::isStillNow",
                          "not implemented yet");
   return this->getInteractiveCount() == 0;
-}
+} // isStillNow()
 
+// *************************************************************************
 
 /*!
   Large Model Visualization; not implemented yet.
- */
+*/
+
 void
 SoQtViewer::setFramesPerSecondCallback(SoQtViewerFPSCB * /*callback*/, void * /*data*/)
 {
   // FIXME: implement. 990508 mortene.
   SoDebugError::postInfo("SoQtViewer::setFramesPerSecondCallback",
                          "not implemented yet");
-}
+} // setFramesPerSecond()
 
+// *************************************************************************
 
 /*!
   Large Model Visualization; not implemented yet.
- */
+*/
+
 void
 SoQtViewer::setNumSamples(const int /*numFrames*/)
 {
   // FIXME: implement. 990508 mortene.
   SoDebugError::postInfo("SoQtViewer::setNumSamples",
                          "not implemented yet");
-}
+} // setNumSamples()
+
+// *************************************************************************
 
 /*!
   Large Model Visualization; not implemented yet.
- */
+*/
+
 int
 SoQtViewer::getNumSamples(void) const
 {
@@ -1161,23 +1307,28 @@ SoQtViewer::getNumSamples(void) const
   SoDebugError::postInfo("SoQtViewer::getNumSamples",
                          "not implemented yet");
   return 10;
-}
+} // getNumSamples()
 
+// *************************************************************************
 
 /*!
   Large Model Visualization; not implemented yet.
- */
+*/
+
 void
 SoQtViewer::setDecimationPercentageCallback(SoQtViewerDecimationPercentageCB * /*cb*/, void * /*data*/)
 {
   // FIXME: implement. 990508 mortene.
   SoDebugError::postInfo("SoQtViewer::setDecimationPercentageCallback",
                          "not implemented yet");
-}
+} // setDecimationPercentageCallback()
+
+// *************************************************************************
 
 /*!
   Large Model Visualization; not implemented yet.
- */
+*/
+
 float
 SoQtViewer::getCurrentDecimationPercentage(void) const
 {
@@ -1185,19 +1336,24 @@ SoQtViewer::getCurrentDecimationPercentage(void) const
   SoDebugError::postInfo("SoQtViewer::getCurrentDecimationPercentage",
                          "not implemented yet");
   return 100.0f;
-}
+} // getCurrentDecimateionPercentage()
+
+// *************************************************************************
 
 /*!
   Overloaded to update the local bufferingtype variable.
 
   \sa setBufferingType(), getBufferingType()
- */
+*/
+
 void
 SoQtViewer::setDoubleBuffer(SbBool on)
 {
   this->buffertype = on ? BUFFER_DOUBLE : BUFFER_SINGLE;
   inherited::setDoubleBuffer(on);
-}
+} // setDoubleBuffer()
+
+// *************************************************************************
 
 /*!
   Give the viewer a scenegraph to render and interact with. Overloaded
@@ -1212,7 +1368,8 @@ SoQtViewer::setDoubleBuffer(SbBool on)
   added automatically.
 
   \sa getSceneGraph(), setCameraType()
- */
+*/
+
 void
 SoQtViewer::setSceneGraph(SoNode * root)
 {
@@ -1270,7 +1427,9 @@ SoQtViewer::setSceneGraph(SoNode * root)
 
   // This will set up the headlight
   this->setCamera(scenecamera);
-}
+} // setSceneGraph()
+
+// *************************************************************************
 
 /*!
   Overloaded from parent class to return the root of the scene graph
@@ -1278,12 +1437,15 @@ SoQtViewer::setSceneGraph(SoNode * root)
   rendering.
 
   \sa setSceneGraph()
- */
+*/
+
 SoNode *
 SoQtViewer::getSceneGraph(void)
 {
   return this->userroot;
-}
+} // getSceneGraph()
+
+// *************************************************************************
 
 /*!
   Put the viewer in or out of seek mode.
@@ -1293,7 +1455,8 @@ SoQtViewer::getSceneGraph(void)
   on the point of the geometry under the mouse cursor.
 
   \sa isSeekMode(), setDetailSeek()
- */
+*/
+
 void
 SoQtViewer::setSeekMode(SbBool on)
 {
@@ -1305,18 +1468,23 @@ SoQtViewer::setSeekMode(SbBool on)
   }
 
   this->inseekmode = on;
-}
+} // setSeekMode()
+
+// *************************************************************************
 
 /*!
   Return a flag which indicates whether or not the viewer is in seek mode.
 
   \sa setSeekMode()
- */
+*/
+
 SbBool
 SoQtViewer::isSeekMode(void) const
 {
   return this->inseekmode;
-}
+} // isSeekMode()
+
+// *************************************************************************
 
 /*!
   Call this method to initiate a seek action towards the 3D intersection
@@ -1325,7 +1493,8 @@ SoQtViewer::isSeekMode(void) const
 
   Returns \a TRUE if the ray from the \a screenpos position intersect with
   any parts of the onscreen geometry, otherwise FALSE.
- */
+*/
+
 SbBool
 SoQtViewer::seekToPoint(const SbVec2s & screenpos)
 {
@@ -1371,12 +1540,15 @@ SoQtViewer::seekToPoint(const SbVec2s & screenpos)
   }
 
   return TRUE;
-}
+} // seeekToPoint()
+
+// *************************************************************************
 
 /*!
   Overloaded from parent class to be able to do the necessary two-pass
   rendering if the drawing style is \e hidden \e line.
- */
+*/
+
 void
 SoQtViewer::actualRedraw(void)
 {
@@ -1407,12 +1579,15 @@ SoQtViewer::actualRedraw(void)
   SbBool clearzbuffer =
     (style & (VIEW_LOW_RES_LINE|VIEW_LOW_RES_POINT|VIEW_BBOX)) ? FALSE : TRUE;
   this->getSceneManager()->render(isClearBeforeRender(), clearzbuffer);
-}
+} // actualRedraw()
+
+// *************************************************************************
 
 /*!
   This method should be called from subclasses to handle events
   with common interpretation for all viewer classes.
- */
+*/
+
 SbBool
 SoQtViewer::processCommonEvents(QEvent * e)
 {
@@ -1479,7 +1654,9 @@ SoQtViewer::processCommonEvents(QEvent * e)
   }
 
   return FALSE;
-}
+} // processCommonEvents()
+
+// *************************************************************************
 
 /*!
   To be able to trigger callback functions when user interaction starts
@@ -1494,7 +1671,8 @@ SoQtViewer::processCommonEvents(QEvent * e)
   \sa addStartCallback(), addFinishCallback()
   \sa removeStartCallback(), removeFinishCallback()
   \sa setDrawStyle(), setBufferingType()
- */
+*/
+
 void
 SoQtViewer::interactiveCountInc(void)
 {
@@ -1509,7 +1687,9 @@ SoQtViewer::interactiveCountInc(void)
                          this->interactionnesting - 1,
                          this->interactionnesting);
 #endif // debug
-}
+} // interactiveCountInc()
+
+// *************************************************************************
 
 /*!
   To be able to trigger callback functions when user interaction starts
@@ -1524,7 +1704,8 @@ SoQtViewer::interactiveCountInc(void)
   \sa addStartCallback(), addFinishCallback()
   \sa removeStartCallback(), removeFinishCallback()
   \sa setDrawStyle(), setBufferingType()
- */
+*/
+
 void
 SoQtViewer::interactiveCountDec(void)
 {
@@ -1547,19 +1728,24 @@ SoQtViewer::interactiveCountDec(void)
                          this->interactionnesting + 1,
                          this->interactionnesting);
 #endif // debug
-}
+} // interactiveCountDec()
+
+// *************************************************************************
 
 /*!
   Return current interaction count nesting. If equal to zero, the viewer
   is in animation mode, otherwise the camera is still.
 
   \sa interactiveCountInc(), interactiveCountDec()
- */
+*/
+
 int
 SoQtViewer::getInteractiveCount(void) const
 {
   return this->interactionnesting;
-}
+} // getInteractiveCount()
+
+// *************************************************************************
 
 /*!
   Set the value used for calculating how close the camera and intersection
@@ -1575,7 +1761,8 @@ SoQtViewer::getInteractiveCount(void) const
   Default value is 50 (absolute distance or percent).
 
   \sa getSeekDistance(), setSeekValueAsPercentage(), setSeekTime()
- */
+*/
+
 void
 SoQtViewer::setSeekDistance(const float distance)
 {
@@ -1588,7 +1775,9 @@ SoQtViewer::setSeekDistance(const float distance)
   }
 #endif // SOQT_DEBUG
   this->seekdistance = distance;
-}
+} // setSeekDistance()
+
+// *************************************************************************
 
 /*!
   Returns the current seek distance. Value given as an absolute scalar
@@ -1596,12 +1785,15 @@ SoQtViewer::setSeekDistance(const float distance)
   the hitpoint and the camera starting position.
 
   \sa setSeekDistance(), isSeekValueAsPercentage()
- */
+*/
+
 float
 SoQtViewer::getSeekDistance(void) const
 {
   return this->seekdistance;
-}
+} // getSeekDistance()
+
+// *************************************************************************
 
 /*!
   Control whether or not the seek distance value should be interpreted as
@@ -1609,7 +1801,8 @@ SoQtViewer::getSeekDistance(void) const
   setSeekDistance() for more information.
 
   \sa setSeekDistance(), isSeekValueAsPercentage()
- */
+*/
+
 void
 SoQtViewer::setSeekValueAsPercentage(const SbBool on)
 {
@@ -1623,7 +1816,9 @@ SoQtViewer::setSeekValueAsPercentage(const SbBool on)
   }
 #endif // SOQT_DEBUG
   this->seekdistanceabs = on ? FALSE : TRUE;
-}
+} // setSeekValkueAsPercentage()
+
+// *************************************************************************
 
 /*!
   Returns an boolean which indicates if the seek distance value from
@@ -1631,17 +1826,21 @@ SoQtViewer::setSeekValueAsPercentage(const SbBool on)
   as an absolute value.
 
   \sa setSeekValuePercentage(), getSeekDistance()
- */
+*/
+
 SbBool
 SoQtViewer::isSeekValuePercentage(void) const
 {
   return this->seekdistanceabs ? FALSE : TRUE;
-}
+} // isSeekValuePercentage()
+
+// *************************************************************************
 
 /*!
   If the current camera is of perspective type, switch to orthographic,
   and vice versa.
- */
+*/
+
 void
 SoQtViewer::toggleCameraType(void)
 {
@@ -1679,14 +1878,17 @@ SoQtViewer::toggleCameraType(void)
   this->setCamera(newcamera);
   this->deletecamera = TRUE;
   if (oldcamera) cameraparent->removeChild(oldcamera);
-}
+} // toggleCameraType()
+
+// *************************************************************************
 
 /*!
   \internal
 
   Returns a boolean to indicate if the dynamic drawstyle equals
   the static drawstyle.
- */
+*/
+
 SbBool
 SoQtViewer::drawInteractiveAsStill(void) const
 {
@@ -1698,13 +1900,16 @@ SoQtViewer::drawInteractiveAsStill(void) const
       this->drawstyles[INTERACTIVE] == VIEW_NO_TEXTURE &&
       this->drawstyles[STILL] != VIEW_AS_IS;
   return moveasstill;
-}
+} // drawInteractiveAsStill()
+
+// *************************************************************************
 
 /*!
   \internal
 
   Returns the current drawing style.
- */
+*/
+
 SoQtViewer::DrawStyle
 SoQtViewer::currentDrawStyle(void) const
 {
@@ -1714,19 +1919,24 @@ SoQtViewer::currentDrawStyle(void) const
     return this->drawstyles[STILL];
   else
     return this->drawstyles[INTERACTIVE];
-}
+} // currentDrawStyle()
+
+// *************************************************************************
 
 /*!
   \internal
 
   Returns a boolean to indicate if the current drawstyle settings implies
   hidden line rendering.
- */
+*/
+
 SbBool
 SoQtViewer::drawAsHiddenLine(void) const
 {
   return ((this->currentDrawStyle() == VIEW_HIDDEN_LINE) ? TRUE : FALSE);
-}
+} // drawAsHiddenLine()
+
+// *************************************************************************
 
 /*!
   \internal
@@ -1734,7 +1944,8 @@ SoQtViewer::drawAsHiddenLine(void) const
   Use the given style setting to set the correct states in the
   rendering control nodes. This will affect the way the scene is
   currently rendered.
- */
+*/
+
 void
 SoQtViewer::changeDrawStyle(SoQtViewer::DrawStyle style)
 {
@@ -1821,7 +2032,9 @@ SoQtViewer::changeDrawStyle(SoQtViewer::DrawStyle style)
                          this->socomplexity->value.getValue(),
                          this->socomplexity->value.isIgnored() ? "T" : "F");
 #endif // debug
-}
+} // changeDrawStyle()
+
+// *************************************************************************
 
 /*!
   \internal
@@ -1829,7 +2042,8 @@ SoQtViewer::changeDrawStyle(SoQtViewer::DrawStyle style)
   Position the near and far clipping planes just in front of and behind
   the scene's bounding box. This will give us the optimal utilization of
   the z buffer resolution by shrinking it to its minimum depth.
- */
+*/
+
 void
 SoQtViewer::setClippingPlanes(void)
 {
@@ -1876,14 +2090,17 @@ SoQtViewer::setClippingPlanes(void)
                          nearval, this->camera->nearDistance.getValue(),
                          farval, this->camera->farDistance.getValue());
 #endif // debug
-}
+} // setClippingPlanes()
+
+// *************************************************************************
 
 /*!
   \internal
 
   Translate camera a distance equal to the difference in projected,
   normalized screen coordinates given by the argument.
- */
+*/
+
 void
 SoQtViewer::moveCameraScreen(const SbVec2f & screenpos)
 {
@@ -1921,13 +2138,16 @@ SoQtViewer::moveCameraScreen(const SbVec2f & screenpos)
                          cam->position.getValue()[1],
                          cam->position.getValue()[2]);
 #endif // debug
-}
+} // moveCameraScreen()
+
+// *************************************************************************
 
 /*!
   \internal
 
   Called when viewer enters interactive mode (animation, drag, ...).
- */
+*/
+
 void
 SoQtViewer::interactivestartCB(void *, SoQtViewer * thisp)
 {
@@ -1938,14 +2158,17 @@ SoQtViewer::interactivestartCB(void *, SoQtViewer * thisp)
   // Use the dynamic drawstyle.
   if (!thisp->drawInteractiveAsStill())
     thisp->changeDrawStyle(thisp->drawstyles[INTERACTIVE]);
-}
+} // interactivestartCB()
+
+// *************************************************************************
 
 /*!
   \internal
 
   Called when viewer goes out of interactive mode and into
   "frozen" mode.
- */
+*/
+
 void
 SoQtViewer::interactiveendCB(void *, SoQtViewer * thisp)
 {
@@ -1957,13 +2180,16 @@ SoQtViewer::interactiveendCB(void *, SoQtViewer * thisp)
   // Back to static drawstyle.
   if (!thisp->drawInteractiveAsStill())
     thisp->changeDrawStyle(thisp->drawstyles[STILL]);
-}
+} // interactiveendCB()
+
+// *************************************************************************
 
 /*!
   \internal
 
   Called repeatedly during the seek animation.
- */
+*/
+
 void
 SoQtViewer::seeksensorCB(void * data, SoSensor * s)
 {
@@ -1982,4 +2208,6 @@ SoQtViewer::seeksensorCB(void * data, SoSensor * s)
     (thisp->cameraendposition - thisp->camerastartposition) * t;
 
   if (end) thisp->setSeekMode(FALSE);
-}
+} // seeksensorCB()
+
+// *************************************************************************

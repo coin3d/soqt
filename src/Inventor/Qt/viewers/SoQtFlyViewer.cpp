@@ -20,114 +20,213 @@
 static const char rcsid[] =
   "$Id$";
 
+/*!
+  \class SoQtFlyViewer Inventor/Qt/viewers/SoQtFlyViewer.h
+  \brief The SoQtFlyViewer class is yet to be documented.
+  \ingroup soqtviewers
+*/
+
 #include <Inventor/Qt/viewers/SoQtFlyViewer.h>
 
 // ************************************************************************
 
-SoQtFlyViewer::SoQtFlyViewer(
+/*!
+*/
+
+SoQtFlyViewer::SoQtFlyViewer( // protected
   QWidget * parent,
   const char * name, 
   SbBool buildInsideParent, 
   SoQtFullViewer::BuildFlag flag,
   SoQtViewer::Type type )
+: inherited( parent, name, buildInsideParent, flag, type, TRUE )
 {
-}
+} // SoQtFlyViewer()
 
-SoQtFlyViewer::~SoQtFlyViewer(
-  void )
-{
-}
+// ************************************************************************
 
-void
-SoQtFlyViewer::setViewing( // virtual
-  SbBool enable )
-{
-}
+/*!
+*/
 
-void
-SoQtFlyViewer::resetToHomePosition( // virtual
-  void )
-{
-}
-
-void
-SoQtFlyViewer::setCamera( // virtual
-  SoCamera * camera )
-{
-}
-
-void
-SoQtFlyViewer::setCursorEnabled( // virtual
-  SbBool enable )
-{
-}
-
-void
-SoQtFlyViewer::setCameraType( // virtual
-  SoType type )
-{
-}
-
-SoQtFlyViewer::SoQtFlyViewer(
+SoQtFlyViewer::SoQtFlyViewer( // protected
   QWidget * parent,
   const char * const name,
   SbBool buildInsideParent, 
   SoQtFullViewer::BuildFlag flag, 
   SoQtViewer::Type type, 
   SbBool buildNow )
+: inherited( parent, name, buildInsideParent, flag, type, FALSE )
 {
-}
+} // SoQtFlyViewer()
+
+// ************************************************************************
+
+/*!
+*/
+
+SoQtFlyViewer::~SoQtFlyViewer(
+  void )
+{
+} // ~SoQtFlyViewer()
+
+// ************************************************************************
+
+/*!
+*/
+
+void
+SoQtFlyViewer::setViewing( // virtual
+  SbBool enable )
+{
+} // setViewing()
+
+// ************************************************************************
+
+/*!
+*/
+
+void
+SoQtFlyViewer::resetToHomePosition( // virtual
+  void )
+{
+} // resetToHomePosition()
+
+// ************************************************************************
+
+/*!
+*/
+
+void
+SoQtFlyViewer::setCamera( // virtual
+  SoCamera * camera )
+{
+} // setCamera()
+
+// ************************************************************************
+
+/*!
+*/
+
+void
+SoQtFlyViewer::setCursorEnabled( // virtual
+  SbBool enable )
+{
+} // setCursorEnabled()
+
+// ************************************************************************
+
+/*!
+*/
+
+void
+SoQtFlyViewer::setCameraType( // virtual
+  SoType type )
+{
+} // setCameraType()
+
+// ************************************************************************
+
+/*!
+*/
 
 const char *
 SoQtFlyViewer::getDefaultWidgetName( // virtual
   void ) const
 {
-}
+  static const char defaultWidgetName[] = "";
+  return defaultWidgetName;
+} // getDefaultWidgetName()
+
+// ************************************************************************
+
+/*!
+*/
 
 const char *
 SoQtFlyViewer::getDefaultTitle( // virtual
   void ) const
 {
-}
+  static const char defaultTitle[] = "Fly Viewer";
+  return defaultTitle;
+} // getDefaultTitle()
+
+// ************************************************************************
+
+/*!
+*/
 
 const char *
 SoQtFlyViewer::getDefaultIconTitle( // virtual
   void ) const
 {
-}
+  static const char defaultIconTitle[] = "";
+  return defaultIconTitle;
+} // getDefaultIconTitle()
+
+// ************************************************************************
+
+/*!
+*/
 
 void
 SoQtFlyViewer::processEvent( // virtual
   QEvent * event )
 {
-}
+} // processEvent()
+
+// ************************************************************************
+
+/*!
+*/
 
 void
 SoQtFlyViewer::setSeekMode( // virtual
   SbBool enable )
 {
-}
+} // setSeekMode()
+
+// ************************************************************************
+
+/*!
+*/
 
 void
 SoQtFlyViewer::actualRedraw( // virtual
   void )
 {
-}
+} // actualRedraw()
+
+// ************************************************************************
+
+/*!
+*/
 
 void
 SoQtFlyViewer::rightWheelMotion( // virtual
   float value )
 {
-}
+} // rightWheelMotion()
+
+// ************************************************************************
+
+/*!
+*/
 
 void
-SoQtFlyViewer::createPrefSheet( // virtual
+SoQtFlyViewer::createPrefSheet( // virtual
   void )
 {
-}
+} // createPrefSheet()
+
+// ************************************************************************
+
+/*!
+*/
 
 void
 SoQtFlyViewer::openViewerHelpCard( // virtual
   void )
 {
-}
+} // openViewerHelpCard()
+
+// ************************************************************************

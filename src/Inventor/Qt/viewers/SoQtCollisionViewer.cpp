@@ -20,6 +20,12 @@
 static const char rcsid[] =
   "$Id$";
 
+/*!
+  \class SoQtCollisionViewer Inventor/Qt/viewers/SoQtCollisionViewer.h
+  \brief The SoQtCollisionViewer class is yet to be documented...
+  \ingroup soqtviewers
+*/
+
 #include <Inventor/Qt/viewers/SoQtCollisionViewer.h>
 
 // ************************************************************************

@@ -29,6 +29,8 @@
 class SoQtFlyViewer : public SoQtConstrainedViewer {
   typedef SoQtConstrainedViewer inherited;
 
+  Q_OBJECT
+
 public:
   SoQtFlyViewer(
     QWidget * parent,

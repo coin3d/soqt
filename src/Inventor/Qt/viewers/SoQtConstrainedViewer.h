@@ -29,6 +29,8 @@
 class SoQtConstrainedViewer : public SoQtFullViewer {
   typedef SoQtFullViewer inherited;
 
+  Q_OBJECT
+
 public:
   void setUpDirection( const SbVec3f & upDirection );
   const SbVec3f & getUpDirection(void);
