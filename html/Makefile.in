@@ -200,8 +200,12 @@ SoGui_src_Inventor_Gui_devices_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/devices/SoGuiDeviceP.h \
   $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Device.h \
   $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocus.h \
+  $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp \
   $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Keyboard.h \
+  $(top_builddir)/src/Inventor/@Gui@/devices/SoGuiKeyboardP.h \
+  $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp \
   $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Mouse.h \
+  $(top_builddir)/src/Inventor/@Gui@/devices/SoGuiMouseP.h \
   $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Spaceball.h
 
 
@@ -340,8 +344,12 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/devices/SoGuiDeviceP.h.in \
   src/Inventor/@Gui@/common/devices/SoGuiDevice.h.in \
   src/Inventor/@Gui@/common/devices/SoGuiInputFocus.h.in \
+  src/Inventor/@Gui@/common/devices/SoGuiKeyboard.cpp.in \
   src/Inventor/@Gui@/common/devices/SoGuiKeyboard.h.in \
+  src/Inventor/@Gui@/common/devices/SoGuiKeyboardP.h.in \
+  src/Inventor/@Gui@/common/devices/SoGuiMouse.cpp.in \
   src/Inventor/@Gui@/common/devices/SoGuiMouse.h.in \
+  src/Inventor/@Gui@/common/devices/SoGuiMouseP.h.in \
   src/Inventor/@Gui@/common/devices/SoGuiSpaceball.h.in \
   src/Inventor/@Gui@/common/viewers/SoGuiConstrainedViewer.cpp.in \
   src/Inventor/@Gui@/common/viewers/SoGuiConstrainedViewer.h.in \
@@ -599,11 +607,23 @@ $(top_builddir)/src/Inventor/@Gui@/devices/SoGuiDeviceP.h: $(top_srcdir)/src/Inv
 $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocus.h: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiInputFocus.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/So@Gui@InputFocus.h:src/Inventor/@Gui@/common/devices/SoGuiInputFocus.h.in )
 
+$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiKeyboard.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp:src/Inventor/@Gui@/common/devices/SoGuiKeyboard.cpp.in )
+
 $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Keyboard.h: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiKeyboard.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/So@Gui@Keyboard.h:src/Inventor/@Gui@/common/devices/SoGuiKeyboard.h.in )
 
+$(top_builddir)/src/Inventor/@Gui@/devices/SoGuiKeyboardP.h: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiKeyboardP.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/SoGuiKeyboardP.h:src/Inventor/@Gui@/common/devices/SoGuiKeyboardP.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiMouse.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp:src/Inventor/@Gui@/common/devices/SoGuiMouse.cpp.in )
+
 $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Mouse.h: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiMouse.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/So@Gui@Mouse.h:src/Inventor/@Gui@/common/devices/SoGuiMouse.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/devices/SoGuiMouseP.h: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiMouseP.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/SoGuiMouseP.h:src/Inventor/@Gui@/common/devices/SoGuiMouseP.h.in )
 
 $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Spaceball.h: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiSpaceball.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/So@Gui@Spaceball.h:src/Inventor/@Gui@/common/devices/SoGuiSpaceball.h.in )

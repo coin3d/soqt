@@ -200,8 +200,12 @@ SoGui_src_Inventor_Gui_devices_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/devices/SoGuiDeviceP.h \
   $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Device.h \
   $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocus.h \
+  $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp \
   $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Keyboard.h \
+  $(top_builddir)/src/Inventor/@Gui@/devices/SoGuiKeyboardP.h \
+  $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp \
   $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Mouse.h \
+  $(top_builddir)/src/Inventor/@Gui@/devices/SoGuiMouseP.h \
   $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Spaceball.h
 
 
@@ -340,8 +344,12 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/devices/SoGuiDeviceP.h.in \
   src/Inventor/@Gui@/common/devices/SoGuiDevice.h.in \
   src/Inventor/@Gui@/common/devices/SoGuiInputFocus.h.in \
+  src/Inventor/@Gui@/common/devices/SoGuiKeyboard.cpp.in \
   src/Inventor/@Gui@/common/devices/SoGuiKeyboard.h.in \
+  src/Inventor/@Gui@/common/devices/SoGuiKeyboardP.h.in \
+  src/Inventor/@Gui@/common/devices/SoGuiMouse.cpp.in \
   src/Inventor/@Gui@/common/devices/SoGuiMouse.h.in \
+  src/Inventor/@Gui@/common/devices/SoGuiMouseP.h.in \
   src/Inventor/@Gui@/common/devices/SoGuiSpaceball.h.in \
   src/Inventor/@Gui@/common/viewers/SoGuiConstrainedViewer.cpp.in \
   src/Inventor/@Gui@/common/viewers/SoGuiConstrainedViewer.h.in \
@@ -492,7 +500,8 @@ am_devices_lst_OBJECTS = SoQtDevice.$(OBJEXT) SoQtInputFocus.$(OBJEXT) \
 	SoQtKeyboard.$(OBJEXT) SoQtMouse.$(OBJEXT) \
 	SoQtSpaceball.$(OBJEXT) 6DOFEvents.$(OBJEXT)
 nodist_devices_lst_OBJECTS = spwinput_x11.$(OBJEXT) \
-	So@Gui@DeviceCommon.$(OBJEXT)
+	So@Gui@DeviceCommon.$(OBJEXT) So@Gui@KeyboardCommon.$(OBJEXT) \
+	So@Gui@MouseCommon.$(OBJEXT)
 devices_lst_OBJECTS = $(am_devices_lst_OBJECTS) \
 	$(nodist_devices_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
@@ -502,7 +511,8 @@ libSoQtDevices_la_LIBADD =
 am_libSoQtDevices_la_OBJECTS = SoQtDevice.lo SoQtInputFocus.lo \
 	SoQtKeyboard.lo SoQtMouse.lo SoQtSpaceball.lo
 nodist_libSoQtDevices_la_OBJECTS = spwinput_x11.lo \
-	So@Gui@DeviceCommon.lo
+	So@Gui@DeviceCommon.lo So@Gui@KeyboardCommon.lo \
+	So@Gui@MouseCommon.lo
 libSoQtDevices_la_OBJECTS = $(am_libSoQtDevices_la_OBJECTS) \
 	$(nodist_libSoQtDevices_la_OBJECTS)
 
@@ -514,6 +524,10 @@ depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 @AMDEP_TRUE@DEP_FILES = $(DEPDIR)/6DOFEvents.Po \
 @AMDEP_TRUE@	$(DEPDIR)/So@Gui@DeviceCommon.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/So@Gui@DeviceCommon.Po \
+@AMDEP_TRUE@	$(DEPDIR)/So@Gui@KeyboardCommon.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/So@Gui@KeyboardCommon.Po \
+@AMDEP_TRUE@	$(DEPDIR)/So@Gui@MouseCommon.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/So@Gui@MouseCommon.Po \
 @AMDEP_TRUE@	$(DEPDIR)/SoQtDevice.Plo $(DEPDIR)/SoQtDevice.Po \
 @AMDEP_TRUE@	$(DEPDIR)/SoQtInputFocus.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/SoQtInputFocus.Po \
@@ -579,6 +593,10 @@ spwinput_x11.$(OBJEXT): \
 	$(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp
 So@Gui@DeviceCommon.$(OBJEXT): \
 	$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp
+So@Gui@KeyboardCommon.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp
+So@Gui@MouseCommon.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp
 
 clean-noinstLTLIBRARIES:
 	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
@@ -586,6 +604,10 @@ spwinput_x11.lo: \
 	$(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp
 So@Gui@DeviceCommon.lo: \
 	$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp
+So@Gui@KeyboardCommon.lo: \
+	$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp
+So@Gui@MouseCommon.lo: \
+	$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp
 libSoQtDevices.la: $(libSoQtDevices_la_OBJECTS) $(libSoQtDevices_la_DEPENDENCIES) 
 	$(CXXLINK)  $(libSoQtDevices_la_LDFLAGS) $(libSoQtDevices_la_OBJECTS) $(libSoQtDevices_la_LIBADD) $(LIBS)
 
@@ -598,6 +620,10 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/6DOFEvents.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@DeviceCommon.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@DeviceCommon.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@KeyboardCommon.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@KeyboardCommon.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@MouseCommon.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@MouseCommon.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtDevice.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtDevice.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtInputFocus.Plo@am__quote@
@@ -668,6 +694,42 @@ So@Gui@DeviceCommon.lo: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Device
 @AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@DeviceCommon.Plo' tmpdepfile='$(DEPDIR)/So@Gui@DeviceCommon.TPlo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@DeviceCommon.lo `test -f $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@DeviceCommon.cpp
+
+So@Gui@KeyboardCommon.o: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp' object='So@Gui@KeyboardCommon.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@KeyboardCommon.Po' tmpdepfile='$(DEPDIR)/So@Gui@KeyboardCommon.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@KeyboardCommon.o `test -f $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp
+
+So@Gui@KeyboardCommon.obj: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp' object='So@Gui@KeyboardCommon.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@KeyboardCommon.Po' tmpdepfile='$(DEPDIR)/So@Gui@KeyboardCommon.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@KeyboardCommon.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp`
+
+So@Gui@KeyboardCommon.lo: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp' object='So@Gui@KeyboardCommon.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@KeyboardCommon.Plo' tmpdepfile='$(DEPDIR)/So@Gui@KeyboardCommon.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@KeyboardCommon.lo `test -f $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp
+
+So@Gui@MouseCommon.o: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp' object='So@Gui@MouseCommon.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@MouseCommon.Po' tmpdepfile='$(DEPDIR)/So@Gui@MouseCommon.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@MouseCommon.o `test -f $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp
+
+So@Gui@MouseCommon.obj: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp' object='So@Gui@MouseCommon.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@MouseCommon.Po' tmpdepfile='$(DEPDIR)/So@Gui@MouseCommon.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@MouseCommon.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp`
+
+So@Gui@MouseCommon.lo: $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp' object='So@Gui@MouseCommon.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@MouseCommon.Plo' tmpdepfile='$(DEPDIR)/So@Gui@MouseCommon.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@MouseCommon.lo `test -f $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp
 CXXDEPMODE = @CXXDEPMODE@
 uninstall-info-am:
 
@@ -922,11 +984,23 @@ $(top_builddir)/src/Inventor/@Gui@/devices/SoGuiDeviceP.h: $(top_srcdir)/src/Inv
 $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@InputFocus.h: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiInputFocus.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/So@Gui@InputFocus.h:src/Inventor/@Gui@/common/devices/SoGuiInputFocus.h.in )
 
+$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiKeyboard.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/So@Gui@KeyboardCommon.cpp:src/Inventor/@Gui@/common/devices/SoGuiKeyboard.cpp.in )
+
 $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Keyboard.h: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiKeyboard.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/So@Gui@Keyboard.h:src/Inventor/@Gui@/common/devices/SoGuiKeyboard.h.in )
 
+$(top_builddir)/src/Inventor/@Gui@/devices/SoGuiKeyboardP.h: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiKeyboardP.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/SoGuiKeyboardP.h:src/Inventor/@Gui@/common/devices/SoGuiKeyboardP.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiMouse.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp:src/Inventor/@Gui@/common/devices/SoGuiMouse.cpp.in )
+
 $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Mouse.h: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiMouse.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/So@Gui@Mouse.h:src/Inventor/@Gui@/common/devices/SoGuiMouse.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/devices/SoGuiMouseP.h: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiMouseP.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/SoGuiMouseP.h:src/Inventor/@Gui@/common/devices/SoGuiMouseP.h.in )
 
 $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Spaceball.h: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiSpaceball.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/So@Gui@Spaceball.h:src/Inventor/@Gui@/common/devices/SoGuiSpaceball.h.in )
