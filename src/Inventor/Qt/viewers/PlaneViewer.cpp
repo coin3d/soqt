@@ -192,20 +192,6 @@ SoQtPlaneViewer::buildWidget(QWidget * parent)
   FIXME: write doc
 */
 void
-SoQtPlaneViewer::processEvent(QEvent * event)
-{
-  if (SoQtViewer::processCommonEvents(event))
-    return;
-
-  inherited::processEvent(event);
-}
-
-// ************************************************************************
-
-/*!
-  FIXME: write doc
-*/
-void
 SoQtPlaneViewer::createPrefSheet(void)
 {
   SOQT_STUB();
