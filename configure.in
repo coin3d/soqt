@@ -147,6 +147,11 @@ if test x"$with_inventor" = xyes; then
     SOQT_EXTRA_LIBS="$sim_ac_gl_libs $SOQT_EXTRA_LIBS"
   ], AC_MSG_ERROR(needs an OpenGL-compatible development system installation))
 
+  SIM_AC_CHECK_GLU([
+    SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS $sim_ac_glu_cppflags"
+    SOQT_EXTRA_LDFLAGS="$SOQT_EXTRA_LDFLAGS $sim_ac_glu_ldflags"
+    SOQT_EXTRA_LIBS="$sim_ac_glu_libs $SOQT_EXTRA_LIBS"
+  ], AC_MSG_ERROR(needs the OpenGL utility library))
 
   SIM_CHECK_INVENTOR([
     SOQT_EXTRA_CPPFLAGS="$sim_ac_oiv_cppflags $SOQT_EXTRA_CPPFLAGS"
