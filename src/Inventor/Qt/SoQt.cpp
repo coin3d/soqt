@@ -615,7 +615,7 @@ SoQt::init(QWidget * toplevelwidget)
   // This should prove helpful for debugging the pervasive problem
   // under Win32 with loading multiple instances of the same library.
   if (SoQtP::DEBUG_LISTMODULES == ENVVAR_NOT_INITED) {
-    const char * env = SoAny::si()->getenv("SOQT_DEBUG_LISTMODULES");
+    const char * env = SoAny::si()->getenv("SOGUI_DEBUG_LISTMODULES");
     SoQtP::DEBUG_LISTMODULES = env ? atoi(env) : 0;
     if (SoQtP::DEBUG_LISTMODULES) { SoAny::listWin32ProcessModules(); }
   }
