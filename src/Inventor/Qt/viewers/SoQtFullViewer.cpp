@@ -243,6 +243,10 @@ SoQtFullViewer::~SoQtFullViewer(
 {
   delete this->viewerbuttons;
   delete this->appbuttonlist;
+
+  delete [] this->leftWheelStr;
+  delete [] this->rightWheelStr;
+  delete [] this->bottomWheelStr;
 } // ~SoQtFullViewer()
 
 // *************************************************************************
@@ -1173,11 +1177,10 @@ void
 SoQtFullViewer::setLeftWheelString(
   const char * const string )
 {
-  if ( this->leftWheelStr ) {
-    delete [] this->leftWheelStr;
-    this->leftWheelStr = NULL;
-  }
-  if ( string ) // FIXME: this leads to a memory leak. 20001102 mortene.
+  delete [] this->leftWheelStr;
+  this->leftWheelStr = NULL;
+
+  if ( string )
     this->leftWheelStr = strcpy( new char [strlen(string)+1], string );
   if ( this->leftWheelLabel )
     ((QLabel *)this->leftWheelLabel)->setText( string ? string : "" );
@@ -1193,11 +1196,10 @@ void
 SoQtFullViewer::setBottomWheelString(
   const char * const string )
 {
-  if ( this->bottomWheelStr ) {
-    delete [] this->bottomWheelStr;
-    this->bottomWheelStr = NULL;
-  }
-  if ( string ) // FIXME: this leads to a memory leak. 20001102 mortene.
+  delete [] this->bottomWheelStr;
+  this->bottomWheelStr = NULL;
+
+  if ( string )
     this->bottomWheelStr = strcpy( new char [strlen(string)+1], string );
   if ( this->bottomWheelLabel )
     ((QLabel *)this->bottomWheelLabel)->setText( string ? string : "" );
@@ -1213,11 +1215,10 @@ void
 SoQtFullViewer::setRightWheelString(
   const char * const string )
 {
-  if ( this->rightWheelStr ) {
-    delete [] this->rightWheelStr;
-    this->rightWheelStr = NULL;
-  }
-  if ( string ) // FIXME: this leads to a memory leak. 20001102 mortene.
+  delete [] this->rightWheelStr;
+  this->rightWheelStr = NULL;
+
+  if ( string )
     this->rightWheelStr = strcpy( new char [strlen(string)+1], string );
   if ( this->rightWheelLabel )
     ((QLabel *)this->rightWheelLabel)->setText( string ? string : "" );
