@@ -616,9 +616,11 @@ SoQt::init(QWidget * toplevelwidget)
   if (qApp == NULL) {
     // Set up the QApplication instance which we have derived into a
     // subclass to catch spaceball events.
-    char * dummy[1];
-    dummy[0] = "SoQt";
-    SoQtP::appobject = new SoQtApplication(1, dummy);
+
+    // use a static char array to store the dummy argv parameters
+    static char * dummyargv[1];
+    dummyargv[0] = "SoQt";
+    SoQtP::appobject = new SoQtApplication(1, dummyargv);
   }
   else {
     // The user already set one up for us.
