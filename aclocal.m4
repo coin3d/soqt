@@ -1347,7 +1347,10 @@ if test x"$with_opengl" != xno; then
     for sim_ac_gl_libcheck in $sim_ac_gl_first_gl "$sim_ac_gl_first_gl $sim_ac_gl_first_glu"  $sim_ac_gl_second_gl "$sim_ac_gl_second_gl $sim_ac_gl_second_glu"; do
       if test "x$sim_cv_lib_gl" = "xUNRESOLVED"; then
         LIBS="$sim_ac_gl_libcheck $sim_ac_save_libs"
-        AC_TRY_LINK([#include <GL/gl.h>
+        AC_TRY_LINK([#ifdef _WIN32
+                    #include <windows.h>
+                    #endif
+                    #include <GL/gl.h>
                     #include <GL/glu.h>],
                     [glPointSize(1.0f);
                     gluSphere(0L, 1.0, 1, 1);],
@@ -1911,7 +1914,28 @@ if test x"$with_qt" != xno; then
 
   # if we have to use mswin link style (.lib)
   if test x"$sim_ac_linking_style" = xmswin; then
-    sim_ac_qt_libs="qt.lib gdi32.lib ole32.lib imm32.lib comdlg32.lib"
+    # if we have to use static link library (.lib)
+    sim_ac_tmp_libs="$LIBS"
+    LIBS="qt.lib gdi32.lib ole32.lib imm32.lib comdlg32.lib"
+    AC_TRY_LINK([ #include <qapplication.h>],
+                   [int dummy=0;
+                   QApplication a(dummy, 0L);],
+                   [sim_ac_qt_lib_style=static],
+                   [sim_ac_qt_lib_style=dynamic])
+    LIBS="$sim_ac_tmp_libs"
+    if test x"$sim_ac_qt_lib_style" = xstatic; then
+      sim_ac_qt_libs="qt.lib"
+    else
+      cat <<EOF > conftest.c
+#include <qglobal.h>
+SoQt qt-version: QT_VERSION
+EOF
+      qt_version=`$CXX -E conftest.c 2>/dev/null | grep "^SoQt" | sed -e 's/.* //g'`
+      rm -f conftest.c
+      sim_ac_qt_dll_def="#define QT_DLL"
+      sim_ac_qt_libs="qt${qt_version}.lib qtmain.lib"
+    fi
+    sim_ac_qt_libs="$sim_ac_qt_libs gdi32.lib ole32.lib imm32.lib comdlg32.lib"
   else
     sim_ac_qt_libs=-lqt
   fi
@@ -1929,7 +1953,8 @@ if test x"$with_qt" != xno; then
   if test x"$MOC" != xfalse; then
     AC_CACHE_CHECK([whether the Qt library is available],
       sim_cv_lib_qt_avail,
-      [AC_TRY_LINK([#include <qapplication.h>],
+      [AC_TRY_LINK([$sim_ac_qt_dll_def
+                   #include <qapplication.h>],
                    [int dummy=0;
                    QApplication a(dummy, 0L);],
                    [sim_cv_lib_qt_avail=yes],
