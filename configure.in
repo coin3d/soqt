@@ -204,6 +204,8 @@ dnl *******************************************************************
 dnl * List all makefiles configure must automatically generate.
 dnl *******************************************************************
 
+SIM_EXPAND_DIR_VARS
+
 test -d src              || mkdir src
 test -d src/Inventor     || mkdir src/Inventor
 test -d src/Inventor/Qt  || mkdir src/Inventor/Qt

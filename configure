@@ -4086,6 +4086,13 @@ else
 fi
 
 
+
+test "x$prefix" = xNONE && prefix=$ac_default_prefix
+test "x$exec_prefix" = xNONE && exec_prefix=${prefix}
+includedir=`eval echo $includedir`
+libdir=`eval echo $libdir`
+
+
 test -d src              || mkdir src
 test -d src/Inventor     || mkdir src/Inventor
 test -d src/Inventor/Qt  || mkdir src/Inventor/Qt

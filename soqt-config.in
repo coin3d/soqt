@@ -29,10 +29,10 @@ while test $# -gt 0; do
       echo @SOQT_VERSION@
       ;;
     --cppflags)
-      echo -I@prefix@@includedir@ @SOQT_EXTRA_CPPFLAGS@
+      echo -I@includedir@ @SOQT_EXTRA_CPPFLAGS@
       ;;
     --ldflags)
-      echo -L@prefix@@libdir@ @SOQT_EXTRA_LDFLAGS@
+      echo -L@libdir@ @SOQT_EXTRA_LDFLAGS@
       ;;
     --libs)
       echo -lSoQt @SOQT_EXTRA_LIBS@
