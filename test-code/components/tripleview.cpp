@@ -29,6 +29,7 @@
 #include <Inventor/nodes/SoSphere.h>
 #include <Inventor/nodes/SoTranslation.h>
 #include <Inventor/sensors/SoTimerSensor.h>
+#include <Inventor/actions/SoGLRenderAction.h>
 #include <qgroupbox.h>
 #include <qlayout.h>
 
@@ -64,6 +65,15 @@ add_view(QWidget * viewparent, SoGroup * common, SbRotation cameraorientation)
   
   SoQtRenderArea * area = new SoQtRenderArea(viewparent);
   area->setSceneGraph(root);
+  
+  // IMPORTANT:
+  // make sure each GL context has a unique cache context id.  this is
+  // needed for TGS/SGI Inventor, and also for Coin when your scene
+  // graph contains textures, or when you've explicitely enabled
+  // render caching.
+  static uint32_t contextcnt = 0;
+  area->getGLRenderAction()->setCacheContext(contextcnt++);
+
   camera->viewAll(root, area->getViewportRegion());
 }
 
