@@ -46,6 +46,9 @@ static const char rcsid[] =
 #include <Inventor/Qt/SoQtBasic.h>
 #include <Inventor/Qt/devices/SoQtMouse.h>
 
+#if HAVE_CONFIG_H
+#include <config.h>
+#endif // HAVE_CONFIG_H
 
 /*!
   \enum SoQtMouse::SoQtMouseEventMask
@@ -138,7 +141,6 @@ SoQtMouse::translateEvent(
   SoEvent * super = NULL;
   QMouseEvent * mouseevent = (QMouseEvent *)event;
 
-
   // Check for mousebutton press/release. Note that mousebutton
   // doubleclick events are ignored, as double clicks also generate 2
   // pairs of press and release events. In other words: it's the
@@ -168,16 +170,16 @@ SoQtMouse::translateEvent(
     case RightButton:
       this->buttonevent->setButton(SoMouseButtonEvent::BUTTON2);
       break;
-/*
-    case 4:
+#ifdef HAVE_SOMOUSEBUTTONEVENT_BUTTONS
+    case (1 << 4):
       this->buttonevent->setButton(SoMouseButtonEvent::BUTTON4);
       break;
-    case 5:
+    case (1 << 5):
       this->buttonevent->setButton(SoMouseButtonEvent::BUTTON5);
       break;
-*/
+#endif // HAVE_SOMOUSEBUTTONEVENT_BUTTONS
     default:
-      assert(0);
+      assert(0 && "no such SoQtMouse button");
       break;
     }
 

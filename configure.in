@@ -180,6 +180,7 @@ fi
 # line rendering), which is not part of older Inventor implementations.
 
 SIM_AC_HAVE_SOPOLYGONOFFSET
+SIM_AC_HAVE_SOMOUSEBUTTONEVENT_BUTTONS
 
 # **************************************************************************
 # Check that the Qt installation looks ok and include the

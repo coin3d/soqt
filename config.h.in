@@ -38,6 +38,9 @@
 /* Define this to 1 if QGLWidget::setAutoBufferSwap() is available */
 #undef HAVE_QGLWIDGET_SETAUTOBUFFERSWAP
 
+/* Define to enable use of SoMouseButtonEvent::BUTTON5 */
+#undef HAVE_SOMOUSEBUTTONEVENT_BUTTONS
+
 /* Define this to true if the __FUNCTION__ variable contains the current
    function name */
 #undef HAVE_VAR___FUNCTION__
