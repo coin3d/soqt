@@ -578,19 +578,10 @@ SoQtFullViewer::getRenderAreaWidget(void) const
 
 // *************************************************************************
 
-// FIXME: there's common documentation for setViewing() in our
-// superclass -- move the relevant parts of this doc up. 20020104 mortene.
-/*!
-  Set a flag to indicate whether we're in viewing mode (where the user
-  can drag the model or scene around), or in interaction mode (where
-  all window events from mouse, keyboard, etc are sent to the scene
-  graph).
-
-  Overridden from parent class to correctly set the user interface
-  indicators on the current state, i.e. to flip the examine and
-  interact pushbuttons and to grey out the seek mode activation button
-  iff in interact mode.
-*/
+// Documented in superclass. Overridden from parent class to correctly
+// set the user interface indicators on the current state, i.e. to
+// flip the examine and interact pushbuttons and to grey out the seek
+// mode activation button iff in interact mode.
 void
 SoQtFullViewer::setViewing(SbBool enable)
 {
@@ -1321,18 +1312,6 @@ SoQtFullViewer::setRightWheelString(const char * const string)
     this->rightWheelStr = strcpy(new char [strlen(string)+1], string);
   if (this->rightWheelLabel)
     ((QLabel *)this->rightWheelLabel)->setText(string ? string : "");
-}
-
-// *************************************************************************
-
-/*!
-  Override this method to provide functionality when the user clicks
-  the Help button. Default implementation does nothing.
-*/
-
-void
-SoQtFullViewer::openViewerHelpCard(void)
-{
 }
 
 // *************************************************************************

@@ -248,14 +248,3 @@ SoQtPlaneViewer::createViewerButtons(QWidget * parent,
 }
 
 // ************************************************************************
-
-/*!
-  FIXME: write doc
-*/
-void
-SoQtPlaneViewer::openViewerHelpCard(void)
-{
-  this->openHelpCard("SoQtPlaneViewer.help");
-}
-
-// ************************************************************************

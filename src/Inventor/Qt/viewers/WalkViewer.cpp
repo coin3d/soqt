@@ -192,14 +192,11 @@ SoQtWalkViewer::setSeekMode(// virtual
 
 // ************************************************************************
 
-/*!
-*/
-
+// Documented in superclass.
 void
-SoQtWalkViewer::actualRedraw(// virtual
-  void)
+SoQtWalkViewer::actualRedraw(void)
 {
-} // actualRedraw()
+}
 
 // ************************************************************************
 
