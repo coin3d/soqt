@@ -102,3 +102,44 @@
     mortene 20020702.
 
 =====================================================================
+
+004 When turning on decorations (use the RMB popup-menu to do this)
+    with a small viewer window, the decorations layout will initially
+    be erroneous. Just a small interactive resize in any direction
+    will automatically correct the layout again.
+
+    Found by kintel. Looks like a Qt bug. Very low priority on fixing
+    this one, as it's just a very small blemish in a boundary-kind-of
+    condition anyway.
+
+    ----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] ---
+    #include <Inventor/Qt/SoQt.h>
+    #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
+    #include <Inventor/nodes/SoCone.h>
+    #include <qwidget.h>
+    
+    int
+    main(int argc, char ** argv)
+    {
+      QWidget * window = SoQt::init(argv[0]);
+    
+      SoQtExaminerViewer * viewer = new SoQtExaminerViewer(window);
+      viewer->setSceneGraph(new SoCone);
+      viewer->setDecoration(FALSE);
+    
+      viewer->show();
+      SoQt::show(window);
+    
+      window->resize(100, 100);
+    
+      SoQt::mainLoop();
+    
+      delete viewer;
+      return 0;
+    }
+    
+    ----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] ---
+
+    mortene 20020703.
+
+=====================================================================
