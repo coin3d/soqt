@@ -22,18 +22,6 @@ static const char rcsid[] =
   "$Id$";
 #endif // SOQT_DEBUG
 
-/*!
-  \class SoQtGLWidget SoQtGLWidget.h Inventor/Qt/SoQtGLWidget.h
-  \brief The SoQtGLWidget class contains an OpenGL canvas.
-
-  TODO:
-  - doc on how this needs Qt OpenGL extension library, w/html links to Qt doc
-  - use the add/removeVisibilityCB methods in SoQtComponent?
-  - there's a heap of methods missing from SoXtGLWidget, none (or few)
-    of which seems relevant for the Qt implementation -- check the truth of
-    this statement
- */
-
 #include <assert.h>
 
 // FIXME: get rid of this before 1.0 release by converting everything
@@ -56,6 +44,25 @@ static const char rcsid[] =
 #include <config.h>
 #endif // HAVE_CONFIG_H
 
+// *************************************************************************
+
+/*!
+  \class SoQtGLWidget SoQtGLWidget.h Inventor/Qt/SoQtGLWidget.h
+  \brief The SoQtGLWidget class contains an OpenGL canvas.
+
+  TODO:
+  - doc on how this needs Qt OpenGL extension library, w/html links to Qt doc
+  - use the add/removeVisibilityCB methods in SoQtComponent?
+  - there's a heap of methods missing from SoXtGLWidget, none (or few)
+    of which seems relevant for the Qt implementation -- check the truth of
+    this statement
+*/
+
+// *************************************************************************
+
+SOQT_TYPED_ABSTRACT_OBJECT_SOURCE(SoQtGLWidget, SoQtComponent);
+
+// *************************************************************************
 
 /*!
   \fn virtual void SoQtGLWidget::redraw(void)

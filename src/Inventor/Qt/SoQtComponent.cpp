@@ -17,29 +17,10 @@
  *
 \**************************************************************************/
 
+#if SOQT_DEBUG
 static const char rcsid[] =
   "$Id$";
-
-/*!
-  \class SoQtComponent SoQtComponent.h Inventor/Qt/SoQtComponent.h
-  \brief The SoQtComponent class is the base class for all GUI components.
-
-  Components in the SoQt component library all inherit this abstract base
-  class. It provides basic methods for setting and querying about the
-  relationship between the component object and its underlying Qt object(s).
-
-  Users should not need to interface any code against this class, unless
-  they want to extend the SoQt library in entirely new directions. For
-  making new viewer components, for instance, other classes further down
-  the inheritance hierarchy would be better suited for subclassing.
-
-  Note that the relationship between all SoQtComponent derived classes and
-  Qt widgets is one of "has-A", \e not "is-A" -- i.e. SoQtComponent does
-  not inherit QWidget. It \e does however inherit QObject, which sole
-  purpose is to provide the necessary support for Qt's signal and slot
-  mechanisms (which is needed for some internal operations).
-
-*/
+#endif // SOQT_DEBUG
 
 #include <assert.h>
 
@@ -59,12 +40,50 @@ static const char rcsid[] =
 #include <soqtdefs.h>
 #include <Inventor/Qt/SoQt.h>
 #include <Inventor/Qt/SoQtComponent.h>
+#include <Inventor/Qt/SoQtGLWidget.h>
+#include <Inventor/Qt/SoQtRenderArea.h>
+#include <Inventor/Qt/viewers/SoQtViewer.h>
 
 // debug
 #define SOQTCOMP_RESIZE_DEBUG 0
 
-
 static const char nullstring[] = "(null)";
+
+// *************************************************************************
+
+/*!
+  \class SoQtComponent SoQtComponent.h Inventor/Qt/SoQtComponent.h
+  \brief The SoQtComponent class is the base class for all GUI components.
+
+  Components in the SoQt component library all inherit this abstract base
+  class. It provides basic methods for setting and querying about the
+  relationship between the component object and its underlying Qt object(s).
+
+  Users should not need to interface any code against this class, unless
+  they want to extend the SoQt library in entirely new directions. For
+  making new viewer components, for instance, other classes further down
+  the inheritance hierarchy would be better suited for subclassing.
+
+  Note that the relationship between all SoQtComponent derived classes and
+  Qt widgets is one of "has-A", \e not "is-A" -- i.e. SoQtComponent does
+  not inherit QWidget. It \e does however inherit QObject, which sole
+  purpose is to provide the necessary support for Qt's signal and slot
+  mechanisms (which is needed for some internal operations).
+*/
+
+// *************************************************************************
+
+SOQT_TYPED_ABSTRACT_OBJECT_SOURCE(SoQtComponent, SoQtTypedObject);
+
+void
+SoQtComponent::initClasses(
+  void )
+{
+  SoQtComponent::initClass();
+  SoQtGLWidget::initClass();
+  SoQtRenderArea::initClass();
+  SoQtViewer::initClass();
+} // initClasses()
 
 // *************************************************************************
 

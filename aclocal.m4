@@ -1739,6 +1739,58 @@ fi
 # Author: Morten Eriksen, <mortene@sim.no>.
 #
 
+AC_DEFUN([SIM_AC_HAVE_INVENTOR_IMAGE_IFELSE], [
+
+sim_ac_oiv_image_avail=false
+
+if test x"$with_inventor" != xno; then
+  if test x"$with_inventor" != xyes; then
+    sim_ac_oiv_image_cppflags="-I${with_inventor}/include"
+    sim_ac_oiv_image_ldflags="-L${with_inventor}/lib"
+  else
+    AC_MSG_CHECKING(value of the OIVHOME environment variable)
+    if test x"$OIVHOME" = x; then
+      AC_MSG_RESULT([empty])
+      AC_MSG_WARN([OIVHOME environment variable not set -- this might be an indication of a problem])
+    else
+      AC_MSG_RESULT([$OIVHOME])
+      sim_ac_oiv_image_cppflags="-I$OIVHOME/include"
+      sim_ac_oiv_image_ldflags="-L$OIVHOME/lib"
+    fi
+  fi
+  sim_ac_oiv_image_libs="-limage"
+
+  AC_LANG_PUSH(C)
+  sim_ac_save_cppflags=$CPPFLAGS
+  sim_ac_save_ldflags=$LDFLAGS
+  sim_ac_save_libs=$LIBS
+  CPPFLAGS="$sim_ac_oiv_image_cppflags $CPPFLAGS"
+  LDFLAGS="$sim_ac_oiv_image_ldflags $LDFLAGS"
+  LIBS="$sim_ac_oiv_image_libs $LIBS"
+  AC_MSG_CHECKING([for the Open Inventor image library])
+  AC_TRY_LINK(,
+    [img_read();],
+    [sim_ac_oiv_image_avail=true],
+    [sim_ac_oiv_image_avail=false])
+  if $sim_ac_oiv_image_avail; then
+    AC_MSG_RESULT([found])
+  else
+    AC_MSG_RESULT([not found])
+  fi
+  CPPFLAGS=$sim_ac_save_cppflags
+  LDFLAGS=$sim_ac_save_ldflags
+  LIBS=$sim_ac_save_libs
+  AC_LANG_POP
+fi
+
+if $sim_ac_oiv_image_avail; then
+  ifelse([$1], , :, [$1])
+else
+  ifelse([$2], , :, [$2])
+fi
+
+])
+
 AC_DEFUN([SIM_CHECK_INVENTOR], [
 AC_ARG_WITH(
   [inventor],
@@ -1780,7 +1832,7 @@ EOF
     sim_ac_oiv_enter="#include <SoWinEnterScope.h>"
     sim_ac_oiv_leave="#include <SoWinLeaveScope.h>"
   else
-    sim_ac_oiv_libs="-lInventor -limage"
+    sim_ac_oiv_libs="-lInventor"
   fi
 
   sim_ac_save_cppflags=$CPPFLAGS
@@ -2348,7 +2400,7 @@ fi
 
 
 # Usage:
-#  SIM_CHECK_ZLIB([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+#  SIM_AC_CHECK_ZLIB([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 #
 #  Try to find the ZLIB development system. If it is found, these
 #  shell variables are set:
@@ -2364,7 +2416,7 @@ fi
 #
 # Author: Morten Eriksen, <mortene@sim.no>.
 
-AC_DEFUN([SIM_CHECK_ZLIB], [
+AC_DEFUN([SIM_AC_CHECK_ZLIB], [
 
 AC_ARG_WITH(
   [zlib],
@@ -2381,30 +2433,30 @@ if test x"$with_zlib" != xno; then
     sim_ac_zlib_ldflags="-L${with_zlib}/lib"
   fi
 
-  if test x"$sim_ac_linking_style" = xmswin; then
-    sim_ac_zlib_libs=zlib.lib
-  else
-    sim_ac_zlib_libs=-lz
-  fi
-
   sim_ac_save_cppflags=$CPPFLAGS
   sim_ac_save_ldflags=$LDFLAGS
   sim_ac_save_libs=$LIBS
 
   CPPFLAGS="$CPPFLAGS $sim_ac_zlib_cppflags"
   LDFLAGS="$LDFLAGS $sim_ac_zlib_ldflags"
-  LIBS="$sim_ac_zlib_libs $LIBS"
 
-  AC_CACHE_CHECK(
-    [whether the zlib development system is available],
-    sim_cv_lib_zlib_avail,
-    [AC_TRY_LINK([#include <zlib.h>],
-                 [(void)zlibVersion();],
-                 [sim_cv_lib_zlib_avail=yes],
-                 [sim_cv_lib_zlib_avail=no])])
+  AC_CACHE_CHECK([whether the zlib development system is available],
+    sim_cv_zlib,
+    [sim_cv_zlib=UNRESOLVED
+     for sim_ac_zlib_libcheck in "-lz" "-lzlib"; do
+       if test "x$sim_cv_zlib" = "xUNRESOLVED"; then
+         LIBS="$sim_ac_zlib_libcheck $sim_ac_save_libs"
+         AC_TRY_LINK([#include <zlib.h>],
+                     [(void)zlibVersion();],
+                     [sim_cv_zlib="$sim_ac_zlib_libcheck"])
+       fi
+     done
+    ]
+  )
 
-  if test x"$sim_cv_lib_zlib_avail" = xyes; then
+  if test ! x"$sim_cv_zlib" = "xUNRESOLVED"; then
     sim_ac_zlib_avail=yes
+    sim_ac_zlib_libs="$sim_cv_zlib"
     $1
   else
     CPPFLAGS=$sim_ac_save_cppflags
@@ -2441,7 +2493,7 @@ fi
 ])
 
 # Usage:
-#   SIM_CHECK_PNGLIB([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+#   SIM_AC_CHECK_PNGLIB([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 #
 # Description:
 #  Try to find the PNG development system. If it is found, these
@@ -2457,12 +2509,12 @@ fi
 #
 # Author: Morten Eriksen, <mortene@sim.no>.
 
-AC_DEFUN([SIM_CHECK_PNGLIB], [
+AC_DEFUN([SIM_AC_CHECK_PNGLIB], [
 
 AC_ARG_WITH(
   [png],
   AC_HELP_STRING([--with-png=DIR],
-                 [include support for PNG images [default=yes]]),
+                 [include support for PNG images [[default=yes]]]),
   [],
   [with_png=yes])
 
@@ -2474,12 +2526,7 @@ if test x"$with_png" != xno; then
     sim_ac_pngdev_ldflags="-L${with_png}/lib"
   fi
 
-
-  if test x"$sim_ac_linking_style" = xmswin; then
-    sim_ac_pngdev_libs=png.lib
-  else
-    sim_ac_pngdev_libs=-lpng
-  fi
+  sim_ac_pngdev_libs=-lpng
 
   sim_ac_save_cppflags=$CPPFLAGS
   sim_ac_save_ldflags=$LDFLAGS

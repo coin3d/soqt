@@ -42,10 +42,9 @@ enum GLModes {        // remove the GLX ones?
 
 // *************************************************************************
 
-class SOQT_DLL_EXPORT SoQtGLWidget : public SoQtComponent
-{
+class SOQT_DLL_EXPORT SoQtGLWidget : public SoQtComponent {
+  SOQT_TYPED_ABSTRACT_OBJECT_HEADER(SoQtGLWidget);
   typedef SoQtComponent inherited;
-
   Q_OBJECT
 
 public:

@@ -27,6 +27,8 @@ BUILT_SOURCES = \
 libSoQt_la_SOURCES = \
 	SoQt.cpp \
 	SoQt.h \
+	SoQtTypedObject.cpp \
+	SoQtTypedObject.h \
 	SoQtComponent.cpp \
 	SoQtComponent.h \
 	SoQtCursors.cpp \

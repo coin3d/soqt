@@ -61,6 +61,8 @@ public:
   void setWindowSize( const SbVec2s size );
   SbVec2s getWindowSize(void) const;
 
+  static void initClasses(void);
+
 protected:
   void setEventPosition( SoEvent * event, int x, int y ) const;
   static QPoint getLastEventPosition(void);

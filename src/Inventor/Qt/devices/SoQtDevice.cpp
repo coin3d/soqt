@@ -55,6 +55,12 @@ static const char rcsid[] =
   FIXME: write doc
 */
 
+void
+SoQtDevice::initClasses(
+  void )
+{
+} // initClasses()
+
 // *************************************************************************
 // static variables
 
