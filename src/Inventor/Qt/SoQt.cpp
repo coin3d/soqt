@@ -102,8 +102,8 @@ QTimer * SoQtP::delaytimeouttimer = NULL;
 SoQtP * SoQtP::slotobj = NULL;
 bool SoQtP::didcreatemainwidget = FALSE;
 
-// This is provided for convenience when debugging the library. Should
-// make it easier to find memory leaks.
+// Clean up properly -- even though the data below are all one-time
+// stuff, to avoid reports of memory leaks.
 void
 SoQtP::clean(void)
 {
@@ -248,11 +248,6 @@ SoQt::internal_init(QWidget * toplevelwidget)
 
   SoDB::getSensorManager()->setChangedCallback(SoQt::sensorQueueChanged, NULL);
   SoQtP::mainwidget = toplevelwidget;
-
-  if (SOQT_DEBUG) {
-    int ret = atexit(SoQtP::clean);
-    assert(ret == 0 && "couldn't set exit hook!?");
-  }
 }
 
 // documented as
@@ -380,6 +375,12 @@ void
 SoQt::mainLoop(void)
 {
   (void) qApp->exec();
+
+  // The invocation of SoQtP::clean() used to be triggered from
+  // atexit(), but this was changed as we were getting mysterious
+  // crashes. No wonder, perhaps, as for all we know the Qt library is
+  // cleaned up _before_ our atexit() methods are invoked.
+  SoQtP::clean();
 }
 
 /*!
