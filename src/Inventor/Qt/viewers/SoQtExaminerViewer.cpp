@@ -520,6 +520,7 @@ SoQtExaminerViewer::makeSubPreferences(QWidget * parent)
   expandSize(tmpsize, this->feedbacklabel1->size(), LayoutHorizontal);
 
   this->feedbackwheel = new SoQtThumbWheel(SoQtThumbWheel::Horizontal, w);
+  this->feedbackwheel->setRangeBoundaryHandling( SoQtThumbWheel::ACCUMULATE );
   QObject::connect(this->feedbackwheel, SIGNAL(wheelMoved(float)),
                    this, SLOT(feedbackSizeChanged(float)));
   this->feedbackwheel->setValue(float(this->getFeedbackSize())/10.0f);
@@ -1528,7 +1529,7 @@ SoQtExaminerViewer::feedbackWheelReleased()
 void
 SoQtExaminerViewer::feedbackSizeChanged(float val)
 {
-  if (val <= 0.0f) {
+  if (val < 0.1f) {
     val = 0.1f;
     this->feedbackwheel->setValue(val);
   }
