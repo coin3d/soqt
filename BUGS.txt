@@ -547,10 +547,25 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     Make SoHandleEventAction, SoGLRenderAction et al set the a window-
     specific window id element before traversing the scene graph.
 
+    20040831 larsa.
+
 =====================================================================
 
 030 SoQtRenderArea::setRedrawPriority(0) bug
 
     Does not work as expected.
+
+    20040831 larsa.
+
+=====================================================================
+
+031 Generated .DSP/.DSW files for MSVC IDE-based build have
+    dependencies on the Qt version number they were made with.
+
+    This is a fairly large generator of support requests and
+    frustration among external users and first-time testers of Coin,
+    so consider this a high priority item.
+
+    20040901 mortene.
 
 =====================================================================
