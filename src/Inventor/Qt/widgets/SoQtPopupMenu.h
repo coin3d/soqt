@@ -38,31 +38,32 @@ class SOQT_DLL_EXPORT SoQtPopupMenu : public QObject, public SoAnyPopupMenu
 
 public:
   SoQtPopupMenu(void);
-  ~SoQtPopupMenu(void);
+  virtual ~SoQtPopupMenu(void);
 
-  int NewMenu( char * name, int menuid = -1 );
-  int GetMenu( char * name );
-  void SetMenuTitle( int id, char * title );
-  char * GetMenuTitle( int id );
+  virtual int NewMenu( char * name, int menuid = -1 );
+  virtual int GetMenu( char * name );
+  virtual void SetMenuTitle( int id, char * title );
+  virtual char * GetMenuTitle( int id );
 
-  int NewMenuItem( char * name, int itemid = -1 );
-  int GetMenuItem( char * name );
-  void SetMenuItemTitle( int itemid, char * title );
-  char * GetMenuItemTitle( int itemid );
-  void SetMenuItemEnabled( int itemid, SbBool enabled );
-  SbBool GetMenuItemEnabled( int itemid );
-  void SetMenuItemMarked( int itemid, SbBool marked );
-  SbBool GetMenuItemMarked( int itemid );
+  virtual int NewMenuItem( char * name, int itemid = -1 );
+  virtual int GetMenuItem( char * name );
+  virtual void SetMenuItemTitle( int itemid, char * title );
+  virtual char * GetMenuItemTitle( int itemid );
+  virtual void SetMenuItemEnabled( int itemid, SbBool enabled );
+  virtual SbBool GetMenuItemEnabled( int itemid );
+  virtual SbBool GetMenuItemMarked( int itemid );
 
-  void AddMenu( int menuid, int submenuid, int pos = -1 );
-  void AddMenuItem( int menuid, int itemid, int pos = -1 );
-  void AddSeparator( int menuid, int pos = -1 );
-  void RemoveMenu( int menuid );
-  void RemoveMenuItem( int itemid );
+  virtual void AddMenu( int menuid, int submenuid, int pos = -1 );
+  virtual void AddMenuItem( int menuid, int itemid, int pos = -1 );
+  virtual void AddSeparator( int menuid, int pos = -1 );
+  virtual void RemoveMenu( int menuid );
+  virtual void RemoveMenuItem( int itemid );
 
-  void PopUp( QWidget * inside, int x, int y );
+  virtual void PopUp( QWidget * inside, int x, int y );
 
 protected:
+  virtual void _setMenuItemMarked( int itemid, SbBool marked );
+
   MenuRecord * getMenuRecord( int menuid );
   ItemRecord * getItemRecord( int itemid );
   MenuRecord * createMenuRecord( char * name );

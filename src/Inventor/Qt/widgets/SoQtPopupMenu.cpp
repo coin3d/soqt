@@ -139,9 +139,11 @@ SoQtPopupMenu::GetMenu(
 {
   const int numMenus = this->menus->getLength();
   int i;
-  for ( i = 0; i < numMenus; i++ )
-    if ( strcmp( ((MenuRecord *) (*this->menus)[i])->name, name ) == 0 )
-      return ((MenuRecord *) (*this->menus)[i])->menuid;
+  for ( i = 0; i < numMenus; i++ ) {
+    MenuRecord * rec = (MenuRecord *) (*this->menus)[i];
+    if ( strcmp( rec->name, name ) == 0 )
+      return rec->menuid;
+  }
   return -1;
 } // GetMenu()
 
@@ -223,9 +225,11 @@ SoQtPopupMenu::GetMenuItem(
 {
   const int numItems = this->items->getLength();
   int i;
-  for ( i = 0; i < numItems; i++ )
-    if ( strcmp( ((ItemRecord *) (*this->items)[i])->name, name ) == 0 )
-      return ((ItemRecord *) (*this->items)[i])->itemid;
+  for ( i = 0; i < numItems; i++ ) {
+    ItemRecord * rec = (ItemRecord *) (*this->items)[i];
+    if ( strcmp( rec->name, name ) == 0 )
+      return rec->itemid;
+  }
   return -1;
 } // GetMenuItem()
 
@@ -296,7 +300,7 @@ SoQtPopupMenu::GetMenuItemEnabled(
 */
 
 void
-SoQtPopupMenu::SetMenuItemMarked(
+SoQtPopupMenu::_setMenuItemMarked(
   int itemid,
   SbBool marked )
 {
@@ -312,7 +316,7 @@ SoQtPopupMenu::SetMenuItemMarked(
   rec->parent->setItemChecked( rec->itemid, marked ? true : false );
   if ( marked )
     this->SetRadioGroupMarkedItem( itemid );
-} // SetMenuItemMarked()
+} // _setMenuItemMarked()
 
 /*!
 */
@@ -391,8 +395,10 @@ SoQtPopupMenu::AddSeparator(
 {
   MenuRecord * menu = this->getMenuRecord( menuid );
   if ( menu == NULL ) {
+#if SOQT_DEBUG
     SoDebugError::postWarning( "SoQtPopupMenu::AddSeparator",
       "no such menu (%d)", menuid );
+#endif // SOQT_DEBUG
     return;
   }
   ItemRecord * rec = createItemRecord( "separator" );
@@ -479,6 +485,7 @@ SoQtPopupMenu::PopUp(
   int y )
 {
   MenuRecord * rec = this->getMenuRecord( 0 );
+  
   rec->menu->popup( QPoint( x, y ) );
 } // PopUp()
 
