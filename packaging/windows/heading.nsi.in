@@ -30,7 +30,7 @@ SetCompress auto
 SetOverwrite on
 
 SetOutPath $INSTDIR\bin
-File @win_prefix@\bin\soqt0.dll
+File @win_prefix@\bin\soqt@SOQT_MAJOR_VERSION@.dll
 
 SetOutPath $INSTDIR\html
 File soqt-sdk.html
@@ -44,11 +44,11 @@ SetCompress auto
 SetOverwrite on
 
 SetOutPath $INSTDIR\bin
-File @win_prefix@\bin\soqt0.dll
-File @win_prefix@\bin\soqt0d.dll
-File @win_prefix@\bin\soqt0d.pdb
+File @win_prefix@\bin\soqt@SOQT_MAJOR_VERSION@.dll
+File @win_prefix@\bin\soqt@SOQT_MAJOR_VERSION@d.dll
+File @win_prefix@\bin\soqt@SOQT_MAJOR_VERSION@d.pdb
 
 SetOutPath $INSTDIR\lib
-File @win_prefix@\lib\soqt0.lib
-File @win_prefix@\lib\soqt0d.lib
+File @win_prefix@\lib\soqt@SOQT_MAJOR_VERSION@.lib
+File @win_prefix@\lib\soqt@SOQT_MAJOR_VERSION@d.lib
 
