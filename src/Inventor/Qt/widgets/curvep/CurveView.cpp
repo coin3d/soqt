@@ -46,12 +46,13 @@ CurveView::CurveView(int numcolors,
   this->setVScrollBarMode(QScrollView::AlwaysOff);
   this->setHScrollBarMode(QScrollView::AlwaysOff);
 
+  this->curvemode = CurveView::SMOOTH;
+  this->mousepressed = FALSE;
+  this->movingitem = NULL;
+  
   this->size = numcolors;
   this->initColorCurves();
   this->hideUnselected();
-  
-  this->curvemode = CurveView::SMOOTH;
-  this->mousepressed = FALSE;
   
   this->initGrid();
   this->initCanvasCurve();
