@@ -1092,9 +1092,15 @@ Optional Packages:
   --with-opengl=DIR       OpenGL/Mesa installation directory
   --with-pthread=DIR      pthread installation directory
   --with-glu=DIR          use the OpenGL utility library [default=yes]
-  --with-inventor         use another Open Inventor than Coin [default=no],
-                          with InventorXt
-  --with-inventor=PATH    specify where Open Inventor and InventorXt resides
+  --with-inventor         use SGI or TGS Open Inventor rather than Coin
+                          [default=no]
+  --with-inventor=PATH    specify where SGI or TGS Open Inventor resides
+  --with-inventor-xt      use InventorXt when using SGI or TGS Open Inventor
+                          [default=yes]
+  --with-inventor-xt=PATH specify where InventorXt resides
+  --with-inventor-qt      use InventorQt when using SGI or TGS Open Inventor
+                          [default=yes]
+  --with-inventor-qt=PATH specify where InventorQt resides
   --with-coin             enable use of Coin [default=yes]
   --with-coin=DIR         give prefix location of Coin
   --with-iv-extensions=extensions
@@ -4187,6 +4193,17 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 
+case $enable_static in
+yes | true) SOQT_STATIC=true
+            enable_shared=no ;; # fix for Autoconf --enable-static problem
+*)          SOQT_STATIC=false ;;
+esac
+
+case $enable_shared in
+yes | true) SOQT_STATIC=false ;;
+*)          SOQT_STATIC=true ;;
+esac
+
 # moved below AC_PROG_CC so -g is preserved in $C[XX]FLAGS - 20020110 larsa
 if $BUILD_WITH_MSVC; then
   sim_ac_msvcrt_LDFLAGS=""
@@ -4281,7 +4298,6 @@ echo "${ECHO_T}$sim_ac_msvcrt" >&6
 
 
 fi
-
 
 # Detect Mac OS X in general
 case $host_os in
@@ -4934,7 +4950,7 @@ ia64-*-hpux*)
   ;;
 *-*-irix6*)
   # Find out which ABI we are using.
-  echo '#line 4937 "configure"' > conftest.$ac_ext
+  echo '#line 4953 "configure"' > conftest.$ac_ext
   if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
@@ -5545,7 +5561,7 @@ fi
 
 
 # Provide some information about the compiler.
-echo "$as_me:5548:" \
+echo "$as_me:5564:" \
      "checking for Fortran 77 compiler version" >&5
 ac_compiler=`set X $ac_compile; echo $2`
 { (eval echo "$as_me:$LINENO: \"$ac_compiler --version </dev/null >&5\"") >&5
@@ -6556,11 +6572,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:6559: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:6575: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:6563: \$? = $ac_status" >&5
+   echo "$as_me:6579: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings
@@ -6788,11 +6804,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:6791: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:6807: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:6795: \$? = $ac_status" >&5
+   echo "$as_me:6811: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings
@@ -6855,11 +6871,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:6858: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:6874: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:6862: \$? = $ac_status" >&5
+   echo "$as_me:6878: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -8867,7 +8883,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 8870 "configure"
+#line 8886 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -8965,7 +8981,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 8968 "configure"
+#line 8984 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -11099,11 +11115,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:11102: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:11118: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:11106: \$? = $ac_status" >&5
+   echo "$as_me:11122: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings
@@ -11166,11 +11182,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:11169: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:11185: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:11173: \$? = $ac_status" >&5
+   echo "$as_me:11189: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -12409,7 +12425,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 12412 "configure"
+#line 12428 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -12507,7 +12523,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 12510 "configure"
+#line 12526 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -13329,11 +13345,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:13332: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:13348: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:13336: \$? = $ac_status" >&5
+   echo "$as_me:13352: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings
@@ -13396,11 +13412,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:13399: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:13415: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:13403: \$? = $ac_status" >&5
+   echo "$as_me:13419: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -15336,11 +15352,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:15339: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:15355: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:15343: \$? = $ac_status" >&5
+   echo "$as_me:15359: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings
@@ -15568,11 +15584,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:15571: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:15587: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:15575: \$? = $ac_status" >&5
+   echo "$as_me:15591: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings
@@ -15635,11 +15651,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:15638: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:15654: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:15642: \$? = $ac_status" >&5
+   echo "$as_me:15658: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -17647,7 +17663,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 17650 "configure"
+#line 17666 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -17745,7 +17761,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 17748 "configure"
+#line 17764 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -23805,12 +23821,50 @@ eval "sim_ac_inventor_path=\"`echo "$OIVHOME" | sed -e 's%\\\\%\\/%g'`\""
 fi;
 
 
+: ${sim_ac_want_inventorxt=true}
+
+# Check whether --with-inventor-xt or --without-inventor-xt was given.
+if test "${with_inventor_xt+set}" = set; then
+  withval="$with_inventor_xt"
+  case "$withval" in
+  no)  sim_ac_want_inventorxt=false ;;
+  yes) sim_ac_want_inventorxt=true
+       test -n "$OIVHOME" &&
+
+eval "sim_ac_inventorxt_path=\"`echo "$OIVHOME" | sed -e 's%\\\\%\\/%g'`\""
+ ;;
+  *)   sim_ac_want_inventorxt=true; sim_ac_inventorxt_path="$withval" ;;
+  esac
+fi;
+
+
+: ${sim_ac_want_inventorqt=false}
+
+# Check whether --with-inventor-qt or --without-inventor-qt was given.
+if test "${with_inventor_qt+set}" = set; then
+  withval="$with_inventor_qt"
+  case "$withval" in
+  no)  sim_ac_want_inventorqt=false ;;
+  yes) sim_ac_want_inventorqt=true
+       test -n "$OIVHOME" &&
+
+eval "sim_ac_inventorqt_path=\"`echo "$OIVHOME" | sed -e 's%\\\\%\\/%g'`\""
+ ;;
+  *)   sim_ac_want_inventorqt=true; sim_ac_inventorqt_path="$withval" ;;
+  esac
+fi;
+
+
+
+
 
 
 if $sim_ac_want_inventor; then
   sim_ac_save_CPPFLAGS="$CPPFLAGS"
   sim_ac_save_LDFLAGS="$LDFLAGS"
   sim_ac_save_LIBS="$LIBS"
+
+
 
 
 
@@ -24178,6 +24232,7 @@ echo "$as_me: error: couldn't compile and link against Open Inventor" >&2;}
 fi
 
 
+  sim_ac_inventor_brand=sgi
 
 if test x"${sim_ac_configuration_settings+set}" = x"set"; then
   sim_ac_configuration_settings="$sim_ac_configuration_settings|Open Inventor brand:SGI/TGS Inventor"
@@ -24572,8 +24627,17 @@ fi
 if $sim_ac_coin_avail; then
 
       CPPFLAGS="$CPPFLAGS $sim_ac_coin_cppflags"
-      LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
-      LIBS="$sim_ac_coin_libs $LIBS"
+      if $SOQT_STATIC; then
+        if $BUILD_WITH_MSVC; then
+          :
+        else
+          LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
+          LIBS="$sim_ac_coin_libs $LIBS"
+        fi
+      else
+        LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
+        LIBS="$sim_ac_coin_libs $LIBS"
+      fi
       SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_coin_cppflags"
       SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_coin_ldflags"
       SOGUI_EXTRA_LIBS="$sim_ac_coin_libs $SOGUI_EXTRA_LIBS"
@@ -25024,6 +25088,7 @@ fi
 
   fi
 
+  sim_ac_inventor_brand=coin
 
 if test x"${sim_ac_configuration_settings+set}" = x"set"; then
   sim_ac_configuration_settings="$sim_ac_configuration_settings|Open Inventor brand:Coin"
@@ -25158,6 +25223,15 @@ else
   :
 fi
 
+fi
+
+# static builds on windows: we don't want the coin libs on the final link line,
+# but we need them for these tests.  20041022 larsa
+sim_ac_configure_save_ldflags=$LDFLAGS
+sim_ac_configure_save_libs=$LIBS
+if test $sim_ac_inventor_brand = coin && $SOQT_STATIC && $BUILD_WITH_MSVC; then
+  LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
+  LIBS="$sim_ac_coin_libs $LIBS"
 fi
 
 # Check for the availability of this node (it is used in the hidden
@@ -25843,6 +25917,10 @@ LIBS=$sim_ac_iv_extension_save_LIBS
 
 
 
+# remove libs we don't want to link into library again
+LDFLAGS=$sim_ac_configure_save_ldflags
+LIBS=$sim_ac_configure_save_libs
+
 # **************************************************************************
 # Check that the Qt installation looks ok and include the
 # necessary paths and link libraries.
@@ -26172,6 +26250,9 @@ echo "$as_me: error: aborting" >&2;}
    { (exit 1); exit 1; }; }
 
 fi
+
+sim_ac_configure_save_ldflags=$LDFLAGS
+sim_ac_configure_save_libs=$LIBS
 
 if $sim_ac_build_library; then
 
@@ -26819,23 +26900,28 @@ echo "${ECHO_T}ok" >&6
     ;;
   esac
 
+  # We should only *test* availability, not mutate the LIBS/CPPFLAGS
+  # variables ourselves inside this macro. 20041021 larsa
+  CPPFLAGS=$sim_ac_save_cppflags
+  LDFLAGS=$sim_ac_save_ldflags
+  LIBS=$sim_ac_save_libs
   if test ! x"$sim_ac_qt_libs" = xUNRESOLVED; then
     sim_ac_qt_avail=yes
-    CPPFLAGS="$sim_ac_qt_cppflags $sim_ac_save_cppflags"
-    LIBS="$sim_ac_qt_libs $sim_ac_save_libs"
+    #CPPFLAGS="$sim_ac_qt_cppflags $sim_ac_save_cppflags"
+    #LIBS="$sim_ac_qt_libs $sim_ac_save_libs"
 
     SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qt_cppflags"
     SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qt_ldflags"
     SOGUI_EXTRA_LIBS="$sim_ac_qt_libs $SOGUI_EXTRA_LIBS"
+    CPPFLAGS="$CPPFLAGS $sim_ac_qt_cppflags"
+    LDFLAGS="$LDFLAGS $sim_ac_qt_ldflags"
+    LIBS="$sim_ac_qt_libs $LIBS"
 
   else
     if test -z "$QTDIR"; then
       { echo "$as_me:$LINENO: WARNING: QTDIR environment variable not set -- this might be an indication of a problem" >&5
 echo "$as_me: WARNING: QTDIR environment variable not set -- this might be an indication of a problem" >&2;}
     fi
-    CPPFLAGS=$sim_ac_save_cppflags
-    LDFLAGS=$sim_ac_save_ldflags
-    LIBS=$sim_ac_save_libs
 
 
 echo >&2 ""
@@ -26931,6 +27017,9 @@ echo "${ECHO_T}$sim_cv_lib_qgl_integrated" >&6
     SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qgl_cppflags"
     SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qgl_ldflags"
     SOGUI_EXTRA_LIBS="$sim_ac_qgl_libs $SOGUI_EXTRA_LIBS"
+    CPPFLAGS="$CPPFLAGS $sim_ac_qgl_cppflags"
+    LDFLAGS="$LDFLAGS $sim_ac_qgl_ldflags"
+    LIBS="$sim_ac_qgl_libs $LIBS"
 
   else
     sim_ac_save_LIBS=$LIBS
@@ -26989,6 +27078,9 @@ echo "${ECHO_T}$sim_ac_qgl_libs" >&6
     SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qgl_cppflags"
     SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qgl_ldflags"
     SOGUI_EXTRA_LIBS="$sim_ac_qgl_libs $SOGUI_EXTRA_LIBS"
+    CPPFLAGS="$CPPFLAGS $sim_ac_qgl_cppflags"
+    LDFLAGS="$LDFLAGS $sim_ac_qgl_ldflags"
+    LIBS="$sim_ac_qgl_libs $LIBS"
 
     else
       echo "$as_me:$LINENO: result: unavailable" >&5
@@ -27556,6 +27648,11 @@ done
 
 
 fi # sim_ac_build_library
+
+if test $sim_ac_inventor_brand=coin && $SOQT_STATIC && $BUILD_WITH_MSVC; then
+  LDFLAGS=$sim_ac_configure_save_ldflags
+  LIBS=$sim_ac_configure_save_libs
+fi
 
 # **************************************************************************
 # Spaceball support through Linux Joystick driver
@@ -30294,23 +30391,6 @@ if test x"$GCC" = x"yes"; then
   CPP=$sim_ac_save_cpp
 fi
 
-
-# default value
-SOQT_STATIC=false
-
-if test x${enable_shared+set} = xset; then
-  case $enable_shared in
-  yes | true)  SOQT_STATIC=false ;;
-  *)           SOQT_STATIC=true ;;
-  esac
-fi
-
-if test x${enable_static+set} = xset; then
-  case $enable_static in
-  yes | true)  SOQT_STATIC=true ;;
-  *)           SOQT_STATIC=false ;;
-  esac
-fi
 
 
 
