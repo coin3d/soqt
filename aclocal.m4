@@ -390,7 +390,10 @@ fi
 
 AC_DEFUN([AM_AUX_DIR_EXPAND], [
 # expand $ac_aux_dir to an absolute path
-am_aux_dir=`CDPATH=:; cd $ac_aux_dir && pwd`
+if test "${CDPATH+set}" = set; then
+  CDPATH=${ZSH_VERSION+.}:   # as recommended in autoconf.texi
+fi
+am_aux_dir=`cd $ac_aux_dir && pwd`
 ])
 
 # AM_PROG_INSTALL_SH
@@ -4393,25 +4396,17 @@ AC_ARG_ENABLE(man,
 
 # Used in the Doxygen parameter file.
 AC_SUBST([SOGUI_DOC_HTML], [`echo $want_html | tr '[a-z]' '[A-Z]'`])
-AC_SUBST([sogui_html_dir], [`pwd`/html])
 AC_SUBST([SOGUI_DOC_MAN], [`echo $want_man | tr '[a-z]' '[A-Z]'`])
+
+AC_SUBST([sogui_build_dir], [`pwd`])
+AC_SUBST([sogui_src_dir], [`cd $srcdir; pwd`])
+AC_SUBST([sogui_html_dir], [`pwd`/html])
 AC_SUBST([sogui_man_dir], [`pwd`/man])
-
-sogui_build_dir=`pwd`
-sogui_src_dir=`cd $srcdir; pwd`
-
-AC_SUBST(sogui_build_dir)
-AC_SUBST(sogui_src_dir)
 
 AM_CONDITIONAL(BUILD_MANPAGES, test x"$want_man" = x"yes")
 AM_CONDITIONAL(BUILD_HTMLPAGES, test x"$want_html" = x"yes")
 
 if test x"$want_man" = x"yes"; then
-  # Stop any attempts at using Doxygen under MSWin, as it's not working yet.
-  case $host in
-  *-cygwin) AC_MSG_ERROR([Sorry, Doxygen-generation of documentation does not work under Cygwin yet.]) ;;
-  esac
-
   SIM_AC_CONFIGURATION_SETTING([manpage installation], [$mandir])
 fi
 
