@@ -1,6 +1,6 @@
 ## Process this file with automake to generate Makefile.in.
 
-noinst_LTLIBRARIES = libSoQtwidgets.la
+noinst_LTLIBRARIES = libSoQtWidgets.la
 
 ## Remove any linklibraries detected by configure, as they are not
 ## needed in the submodules -- only in the toplevel libSoQt build.
@@ -19,6 +19,8 @@ moc_QtThumbwheel.cpp: $(top_srcdir)/src/Inventor/Qt/widgets/QtThumbwheel.h
 ## All source files used when building this submodule, including all
 ## headers.
 
-libSoQtwidgets_la_SOURCES = \
-	QtThumbwheel.cpp QtThumbwheel.h \
+libSoQtWidgets_la_SOURCES = \
+	QtThumbwheel.cpp \
+	QtThumbwheel.h \
 	$(BUILT_SOURCES)
+

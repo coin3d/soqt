@@ -100,13 +100,13 @@ install_sh = @install_sh@
 sim_ac_conf_cmd = @sim_ac_conf_cmd@
 
 
-noinst_LTLIBRARIES = libSoQtdevices.la
+noinst_LTLIBRARIES = libSoQtDevices.la
 
 LIBS = 
 
 INCLUDES = -I$(top_srcdir)/src
 
-libSoQtdevices_la_SOURCES = \
+libSoQtDevices_la_SOURCES = \
 	SoQtDevice.cpp \
 	SoQtDevice.h \
 	SoQtInputFocus.cpp \
@@ -119,9 +119,9 @@ libSoQtdevices_la_SOURCES = \
 	SoQtSpaceball.h
 
 
-libSoQtdevicesincdir = $(includedir)/Inventor/Qt/devices
+libSoQtDevicesincdir = $(includedir)/Inventor/Qt/devices
 
-libSoQtdevicesinc_HEADERS = \
+libSoQtDevicesinc_HEADERS = \
 	$(top_srcdir)/src/Inventor/Qt/devices/SoQtDevice.h \
 	$(top_srcdir)/src/Inventor/Qt/devices/SoQtInputFocus.h \
 	$(top_srcdir)/src/Inventor/Qt/devices/SoQtKeyboard.h \
@@ -142,11 +142,11 @@ X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libSoQtdevices_la_LDFLAGS = 
-libSoQtdevices_la_LIBADD = 
-am_libSoQtdevices_la_OBJECTS =  SoQtDevice.lo SoQtInputFocus.lo \
+libSoQtDevices_la_LDFLAGS = 
+libSoQtDevices_la_LIBADD = 
+am_libSoQtDevices_la_OBJECTS =  SoQtDevice.lo SoQtInputFocus.lo \
 SoQtKeyboard.lo SoQtMouse.lo SoQtSpaceball.lo
-libSoQtdevices_la_OBJECTS =  $(am_libSoQtdevices_la_OBJECTS)
+libSoQtDevices_la_OBJECTS =  $(am_libSoQtDevices_la_OBJECTS)
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 CXXFLAGS = @CXXFLAGS@
@@ -157,10 +157,10 @@ COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CF
 LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES =  $(libSoQtdevices_la_SOURCES)
-HEADERS =  $(libSoQtdevicesinc_HEADERS)
+DIST_SOURCES =  $(libSoQtDevices_la_SOURCES)
+HEADERS =  $(libSoQtDevicesinc_HEADERS)
 
-DIST_COMMON =  $(libSoQtdevicesinc_HEADERS) Makefile.am Makefile.in
+DIST_COMMON =  $(libSoQtDevicesinc_HEADERS) Makefile.am Makefile.in
 
 
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -170,8 +170,8 @@ depcomp = $(SHELL) $(top_srcdir)/depcomp
 DEP_FILES =  @AMDEP@ $(DEPDIR)/SoQtDevice.Plo \
 $(DEPDIR)/SoQtInputFocus.Plo $(DEPDIR)/SoQtKeyboard.Plo \
 $(DEPDIR)/SoQtMouse.Plo $(DEPDIR)/SoQtSpaceball.Plo
-SOURCES = $(libSoQtdevices_la_SOURCES)
-OBJECTS = $(am_libSoQtdevices_la_OBJECTS)
+SOURCES = $(libSoQtDevices_la_SOURCES)
+OBJECTS = $(am_libSoQtDevices_la_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
@@ -213,8 +213,8 @@ distclean-libtool:
 
 maintainer-clean-libtool:
 
-libSoQtdevices.la: $(libSoQtdevices_la_OBJECTS) $(libSoQtdevices_la_DEPENDENCIES)
-	$(CXXLINK)  $(libSoQtdevices_la_LDFLAGS) $(libSoQtdevices_la_OBJECTS) $(libSoQtdevices_la_LIBADD) $(LIBS)
+libSoQtDevices.la: $(libSoQtDevices_la_OBJECTS) $(libSoQtDevices_la_DEPENDENCIES)
+	$(CXXLINK)  $(libSoQtDevices_la_LDFLAGS) $(libSoQtDevices_la_OBJECTS) $(libSoQtDevices_la_LIBADD) $(LIBS)
 
 tags: TAGS
 
@@ -304,20 +304,20 @@ installcheck: installcheck-am
 install-exec-am:
 install-exec: install-exec-am
 
-install-data-am: install-libSoQtdevicesincHEADERS
+install-data-am: install-libSoQtDevicesincHEADERS
 install-data: install-data-am
 
 install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
 install: install-am
-uninstall-am: uninstall-libSoQtdevicesincHEADERS
+uninstall-am: uninstall-libSoQtDevicesincHEADERS
 uninstall: uninstall-am
 all-am: Makefile $(LTLIBRARIES) $(HEADERS)
 all-redirect: all-am
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) INSTALL_STRIP_FLAG=-s install
 installdirs:
-	$(mkinstalldirs)  $(DESTDIR)$(libSoQtdevicesincdir)
+	$(mkinstalldirs)  $(DESTDIR)$(libSoQtDevicesincdir)
 
 
 mostlyclean-generic:
@@ -362,7 +362,7 @@ clean-noinstLTLIBRARIES maintainer-clean-noinstLTLIBRARIES \
 mostlyclean-compile distclean-compile clean-compile \
 maintainer-clean-compile mostlyclean-libtool distclean-libtool \
 clean-libtool maintainer-clean-libtool \
-uninstall-libSoQtdevicesincHEADERS install-libSoQtdevicesincHEADERS \
+uninstall-libSoQtDevicesincHEADERS install-libSoQtDevicesincHEADERS \
 tags mostlyclean-tags distclean-tags clean-tags maintainer-clean-tags \
 distdir mostlyclean-depend distclean-depend clean-depend \
 maintainer-clean-depend info-am info dvi-am dvi check check-am \
@@ -373,22 +373,22 @@ distclean-generic clean-generic maintainer-clean-generic clean \
 mostlyclean distclean maintainer-clean
 
 
-install-libSoQtdevicesincHEADERS: $(libSoQtdevicesinc_HEADERS)
+install-libSoQtDevicesincHEADERS: $(libSoQtDevicesinc_HEADERS)
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(libSoQtdevicesincdir)
-	@list='$(libSoQtdevicesinc_HEADERS)'; for p in $$list; do \
+	$(mkinstalldirs) $(DESTDIR)$(libSoQtDevicesincdir)
+	@list='$(libSoQtDevicesinc_HEADERS)'; for p in $$list; do \
 	  if test -f "$$p"; then d= ; else d="$(srcdir)/"; fi; \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libSoQtdevicesincdir)/$$f"; \
-	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libSoQtdevicesincdir)/$$f; \
+	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libSoQtDevicesincdir)/$$f"; \
+	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libSoQtDevicesincdir)/$$f; \
 	done
 
-uninstall-libSoQtdevicesincHEADERS:
+uninstall-libSoQtDevicesincHEADERS:
 	@$(NORMAL_UNINSTALL)
-	@list='$(libSoQtdevicesinc_HEADERS)'; for p in $$list; do \
+	@list='$(libSoQtDevicesinc_HEADERS)'; for p in $$list; do \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " rm -f $(DESTDIR)$(libSoQtdevicesincdir)/$$f"; \
-	  rm -f $(DESTDIR)$(libSoQtdevicesincdir)/$$f; \
+	  echo " rm -f $(DESTDIR)$(libSoQtDevicesincdir)/$$f"; \
+	  rm -f $(DESTDIR)$(libSoQtDevicesincdir)/$$f; \
 	done
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

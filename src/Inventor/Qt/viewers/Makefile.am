@@ -1,6 +1,6 @@
 ## Process this file with automake to generate Makefile.in.
 
-noinst_LTLIBRARIES = libSoQtviewers.la
+noinst_LTLIBRARIES = libSoQtViewers.la
 
 ## Remove any linklibraries detected by configure, as they are not
 ## needed in the submodules -- only in the toplevel libSoQt build.
@@ -12,7 +12,13 @@ INCLUDES = -I$(top_srcdir)/src
 ## signal-slot mechanisms of Qt working).
 
 BUILT_SOURCES = \
-	moc_SoQtViewer.cpp moc_SoQtFullViewer.cpp moc_SoQtExaminerViewer.cpp
+	moc_SoQtViewer.cpp \
+	moc_SoQtFullViewer.cpp \
+	moc_SoQtExaminerViewer.cpp \
+	moc_SoQtPlaneViewer.cpp \
+	moc_SoQtConstrainedViewer.cpp \
+	moc_SoQtWalkViewer.cpp \
+	moc_SoQtFlyViewer.cpp
 
 moc_SoQtViewer.cpp: $(top_srcdir)/src/Inventor/Qt/viewers/SoQtViewer.h
 	$(MOC) -o moc_SoQtViewer.cpp $(top_srcdir)/src/Inventor/Qt/viewers/SoQtViewer.h
@@ -23,46 +29,71 @@ moc_SoQtFullViewer.cpp: $(top_srcdir)/src/Inventor/Qt/viewers/SoQtFullViewer.h
 moc_SoQtExaminerViewer.cpp: $(top_srcdir)/src/Inventor/Qt/viewers/SoQtExaminerViewer.h
 	$(MOC) -o moc_SoQtExaminerViewer.cpp $(top_srcdir)/src/Inventor/Qt/viewers/SoQtExaminerViewer.h
 
+moc_SoQtPlaneViewer.cpp: $(top_srcdir)/src/Inventor/Qt/viewers/SoQtPlaneViewer.h
+	$(MOC) -o moc_SoQtPlaneViewer.cpp $(top_srcdir)/src/Inventor/Qt/viewers/SoQtPlaneViewer.h
+
+moc_SoQtConstrainedViewer.cpp: $(top_srcdir)/src/Inventor/Qt/viewers/SoQtConstrainedViewer.h
+	$(MOC) -o moc_SoQtConstrainedViewer.cpp $(top_srcdir)/src/Inventor/Qt/viewers/SoQtConstrainedViewer.h
+
+moc_SoQtWalkViewer.cpp: $(top_srcdir)/src/Inventor/Qt/viewers/SoQtWalkViewer.h
+	$(MOC) -o moc_SoQtWalkViewer.cpp $(top_srcdir)/src/Inventor/Qt/viewers/SoQtWalkViewer.h
+
+moc_SoQtFlyViewer.cpp: $(top_srcdir)/src/Inventor/Qt/viewers/SoQtFlyViewer.h
+	$(MOC) -o moc_SoQtFlyViewer.cpp $(top_srcdir)/src/Inventor/Qt/viewers/SoQtFlyViewer.h
+
 ## All source files used when building this submodule, including all
 ## headers.
 
-libSoQtviewers_la_SOURCES = \
+libSoQtViewers_la_SOURCES = \
 	SoQtViewer.cpp \
 	SoQtViewer.h \
 	SoQtFullViewer.cpp \
 	SoQtFullViewer.h \
 	SoQtExaminerViewer.cpp \
 	SoQtExaminerViewer.h \
+	SoQtPlaneViewer.cpp \
+	SoQtPlaneViewer.h \
+	SoQtConstrainedViewer.cpp \
+	SoQtConstrainedViewer.h \
+	SoQtWalkViewer.cpp \
+	SoQtWalkViewer.h \
+	SoQtFlyViewer.cpp \
+	SoQtFlyViewer.h \
 	$(BUILT_SOURCES)
 
 ## Installation information.
 
-libSoQtviewersincdir = $(includedir)/Inventor/Qt/viewers
+libSoQtViewersincdir = $(includedir)/Inventor/Qt/viewers
 
-libSoQtviewersinc_HEADERS = \
+libSoQtViewersinc_HEADERS = \
 	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtViewer.h \
 	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtFullViewer.h \
-	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtExaminerViewer.h
+	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtExaminerViewer.h \
+	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtPlaneViewer.h \
+	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtConstrainedViewer.h \
+	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtWalkViewer.h \
+	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtFlyViewer.h
 
 
 ## FIXME: this is a temporary workaround for a bug in Automake. The
 ## bug is fixed in the latest Automake CVS, but not in any "official"
 ## release (?). Last checked with Automake 1.4a. 19990912 mortene.
 
-install-libSoQtviewersincHEADERS: $(libSoQtviewersinc_HEADERS)
+install-libSoQtViewersincHEADERS: $(libSoQtViewersinc_HEADERS)
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(libSoQtviewersincdir)
-	@list='$(libSoQtviewersinc_HEADERS)'; for p in $$list; do \
+	$(mkinstalldirs) $(DESTDIR)$(libSoQtViewersincdir)
+	@list='$(libSoQtViewersinc_HEADERS)'; for p in $$list; do \
 	  if test -f "$$p"; then d= ; else d="$(srcdir)/"; fi; \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libSoQtviewersincdir)/$$f"; \
-	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libSoQtviewersincdir)/$$f; \
+	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libSoQtViewersincdir)/$$f"; \
+	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libSoQtViewersincdir)/$$f; \
 	done
 
-uninstall-libSoQtviewersincHEADERS:
+uninstall-libSoQtViewersincHEADERS:
 	@$(NORMAL_UNINSTALL)
-	@list='$(libSoQtviewersinc_HEADERS)'; for p in $$list; do \
+	@list='$(libSoQtViewersinc_HEADERS)'; for p in $$list; do \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " rm -f $(DESTDIR)$(libSoQtviewersincdir)/$$f"; \
-	  rm -f $(DESTDIR)$(libSoQtviewersincdir)/$$f; \
+	  echo " rm -f $(DESTDIR)$(libSoQtViewersincdir)/$$f"; \
+	  rm -f $(DESTDIR)$(libSoQtViewersincdir)/$$f; \
 	done
+

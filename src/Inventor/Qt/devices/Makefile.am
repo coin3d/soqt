@@ -1,6 +1,6 @@
 ## Process this file with automake to generate Makefile.in.
 
-noinst_LTLIBRARIES = libSoQtdevices.la
+noinst_LTLIBRARIES = libSoQtDevices.la
 
 ## Remove any linklibraries detected by configure, as they are not
 ## needed in the submodules -- only in the toplevel libSoQt build.
@@ -11,7 +11,7 @@ INCLUDES = -I$(top_srcdir)/src
 ## All source files used when building this submodule, including all
 ## headers.
 
-libSoQtdevices_la_SOURCES = \
+libSoQtDevices_la_SOURCES = \
 	SoQtDevice.cpp \
 	SoQtDevice.h \
 	SoQtInputFocus.cpp \
@@ -25,9 +25,9 @@ libSoQtdevices_la_SOURCES = \
 
 ## Installation information.
 
-libSoQtdevicesincdir = $(includedir)/Inventor/Qt/devices
+libSoQtDevicesincdir = $(includedir)/Inventor/Qt/devices
 
-libSoQtdevicesinc_HEADERS = \
+libSoQtDevicesinc_HEADERS = \
 	$(top_srcdir)/src/Inventor/Qt/devices/SoQtDevice.h \
 	$(top_srcdir)/src/Inventor/Qt/devices/SoQtInputFocus.h \
 	$(top_srcdir)/src/Inventor/Qt/devices/SoQtKeyboard.h \
@@ -39,20 +39,21 @@ libSoQtdevicesinc_HEADERS = \
 ## bug is fixed in the latest Automake CVS, but not in any "official"
 ## release (?). Last checked with Automake 1.4a. 19990912 mortene.
 
-install-libSoQtdevicesincHEADERS: $(libSoQtdevicesinc_HEADERS)
+install-libSoQtDevicesincHEADERS: $(libSoQtDevicesinc_HEADERS)
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(libSoQtdevicesincdir)
-	@list='$(libSoQtdevicesinc_HEADERS)'; for p in $$list; do \
+	$(mkinstalldirs) $(DESTDIR)$(libSoQtDevicesincdir)
+	@list='$(libSoQtDevicesinc_HEADERS)'; for p in $$list; do \
 	  if test -f "$$p"; then d= ; else d="$(srcdir)/"; fi; \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libSoQtdevicesincdir)/$$f"; \
-	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libSoQtdevicesincdir)/$$f; \
+	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libSoQtDevicesincdir)/$$f"; \
+	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libSoQtDevicesincdir)/$$f; \
 	done
 
-uninstall-libSoQtdevicesincHEADERS:
+uninstall-libSoQtDevicesincHEADERS:
 	@$(NORMAL_UNINSTALL)
-	@list='$(libSoQtdevicesinc_HEADERS)'; for p in $$list; do \
+	@list='$(libSoQtDevicesinc_HEADERS)'; for p in $$list; do \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " rm -f $(DESTDIR)$(libSoQtdevicesincdir)/$$f"; \
-	  rm -f $(DESTDIR)$(libSoQtdevicesincdir)/$$f; \
+	  echo " rm -f $(DESTDIR)$(libSoQtDevicesincdir)/$$f"; \
+	  rm -f $(DESTDIR)$(libSoQtDevicesincdir)/$$f; \
 	done
+

@@ -987,6 +987,153 @@ else
 fi
 ])
 
+
+
+dnl Usage:
+dnl  SIM_CHECK_X11XID([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+dnl
+dnl  Try to find the X11 extension device library. Sets this
+dnl  shell variable:
+dnl
+dnl    $sim_ac_x11xid_libs   (link libraries the linker needs for X11 XID)
+dnl
+dnl  The LIBS flag will also be modified accordingly. In addition, the
+dnl  variable $sim_ac_x11xid_avail is set to "yes" if the X11 extension
+dnl  device library is found.
+dnl
+dnl
+dnl Author: Morten Eriksen, <mortene@sim.no>.
+dnl
+dnl TODO:
+dnl    * [mortene:20000122] make sure this work on MSWin (with
+dnl      Cygwin installation)
+dnl
+
+AC_DEFUN(SIM_CHECK_X11XID,[
+dnl Autoconf is a developer tool, so don't bother to support older versions.
+AC_PREREQ([2.14.1])
+
+sim_ac_x11xid_avail=no
+sim_ac_x11xid_libs="-lXi"
+sim_ac_save_libs=$LIBS
+LIBS="$sim_ac_x11xid_libs $LIBS"
+
+AC_CACHE_CHECK([whether the X11 extension device library is available],
+  sim_cv_lib_x11xid_avail,
+  [AC_TRY_LINK([#include <X11/extensions/XInput.h>],
+               [(void)XOpenDevice(0L, 0);],
+               sim_cv_lib_x11xid_avail=yes,
+               sim_cv_lib_x11xid_avail=no)])
+
+if test x"$sim_cv_lib_x11xid_avail" = xyes; then
+  sim_ac_x11xid_avail=yes
+  ifelse($1, , :, $1)
+else
+  LIBS=$sim_ac_save_libs
+  ifelse($2, , :, $2)
+fi
+])
+
+
+
+dnl ************************************************************************
+
+dnl Usage:
+dnl  SIM_CHECK_MOTIF([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+dnl
+dnl  Try to compile and link against the Motif library. Sets these
+dnl  shell variables:
+dnl
+dnl    $sim_ac_motif_cppflags (extra flags the compiler needs for Motif)
+dnl    $sim_ac_motif_ldflags  (extra flags the linker needs for Motif)
+dnl    $sim_ac_motif_libs     (link libraries the linker needs for Motif)
+dnl
+dnl  The CPPFLAGS, LDFLAGS and LIBS flags will also be modified accordingly.
+dnl  In addition, the variable $sim_ac_motif_avail is set to "yes" if
+dnl  the Motif library development installation is ok.
+dnl
+dnl
+dnl Author: Morten Eriksen, <mortene@sim.no>.
+dnl
+
+AC_DEFUN(SIM_CHECK_MOTIF,[
+dnl Autoconf is a developer tool, so don't bother to support older versions.
+AC_PREREQ([2.14.1])
+
+AC_ARG_WITH(motif, AC_HELP_STRING([--with-motif=DIR], [use the Motif library [default=yes]]), , [with_motif=yes])
+
+sim_ac_motif_avail=no
+
+if test x"$with_motif" != xno; then
+  if test x"$with_motif" != xyes; then
+    sim_ac_motif_cppflags="-I${with_motif}/include"
+    sim_ac_motif_ldflags="-L${with_motif}/lib"
+  fi
+
+  sim_ac_motif_libs="-lXm"
+
+  sim_ac_save_cppflags=$CPPFLAGS
+  sim_ac_save_ldflags=$LDFLAGS
+  sim_ac_save_libs=$LIBS
+
+  CPPFLAGS="$sim_ac_motif_cppflags $CPPFLAGS"
+  LDFLAGS="$sim_ac_motif_ldflags $LDFLAGS"
+  LIBS="$sim_ac_motif_libs $LIBS"
+
+  AC_CACHE_CHECK([for Motif development kit],
+    sim_cv_lib_motif_avail,
+    [AC_TRY_LINK([#include <Xm/Xm.h>],
+                 [XmUpdateDisplay(0L);],
+                 sim_cv_lib_motif_avail=yes,
+                 sim_cv_lib_motif_avail=no)])
+
+  if test x"$sim_cv_lib_motif_avail" = xyes; then
+    sim_ac_motif_avail=yes
+    ifelse($1, , :, $1)
+  else
+    CPPFLAGS=$sim_ac_save_cppflags
+    LDFLAGS=$sim_ac_save_ldflags
+    LIBS=$sim_ac_save_libs
+    ifelse($2, , :, $2)
+  fi
+fi
+])
+
+
+dnl ************************************************************************
+
+dnl Usage:
+dnl  SIM_CHECK_XMEDRAWSHADOWS([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+dnl
+dnl  Try to compile and link code with the XmeDrawShadows() function
+dnl  from Motif 2.0 (which is used by the InventorXt library). Sets the
+dnl  variable $sim_ac_xmedrawshadows_avail to either "yes" or "no".
+dnl
+dnl
+dnl Author: Morten Eriksen, <mortene@sim.no>.
+dnl
+
+AC_DEFUN(SIM_CHECK_XMEDRAWSHADOWS,[
+dnl Autoconf is a developer tool, so don't bother to support older versions.
+AC_PREREQ([2.14.1])
+
+sim_ac_xmedrawshadows_avail=no
+
+AC_CACHE_CHECK([for XmeDrawShadows() function in Motif library],
+  sim_cv_lib_xmedrawshadows_avail,
+  [AC_TRY_LINK([#include <Xm/Xm.h>],
+               [XmeDrawShadows(0L, 0L, 0L, 0L, 0, 0, 0, 0, 0, 0);],
+               sim_cv_lib_xmedrawshadows_avail=yes,
+               sim_cv_lib_xmedrawshadows_avail=no)])
+
+if test x"$sim_cv_lib_xmedrawshadows_avail" = xyes; then
+  sim_ac_xmedrawshadows_avail=yes
+  ifelse($1, , :, $1)
+else
+  ifelse($2, , :, $2)
+fi
+])
+
 dnl Usage:
 dnl  SIM_CHECK_OPENGL([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 dnl
@@ -1105,16 +1252,12 @@ dnl
 dnl
 dnl Author: Morten Eriksen, <mortene@sim.no>.
 dnl
-dnl TODO:
-dnl    * [mortene:20000122] make sure this work on MSWin (with
-dnl      Cygwin installation)
-dnl
 
 AC_DEFUN(SIM_CHECK_INVENTOR,[
 dnl Autoconf is a developer tool, so don't bother to support older versions.
 AC_PREREQ([2.14.1])
 
-AC_ARG_WITH(inventor, AC_HELP_STRING([--with-inventor=DIR], [use the Open Inventor library [default=no]]), , [with_inventor=no])
+AC_ARG_WITH(inventor, AC_HELP_STRING([--with-inventor=DIR], [use the Open Inventor library [default=no]]), , [with_inventor=yes])
 
 sim_ac_oiv_avail=no
 
@@ -1160,6 +1303,53 @@ if test x"$with_inventor" != xno; then
     LIBS=$sim_ac_save_libs
     ifelse($2, , :, $2)
   fi
+fi
+])
+
+
+
+dnl ************************************************************************
+
+dnl Usage:
+dnl  SIM_CHECK_OIV_XT([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+dnl
+dnl  Try to compile and link against the Xt GUI glue library for
+dnl  the Open Inventor development system. Sets this shell
+dnl  variable:
+dnl
+dnl    $sim_ac_oivxt_libs     (link libraries the linker needs for InventorXt)
+dnl
+dnl  The LIBS variable will also be modified accordingly. In addition,
+dnl  the variable $sim_ac_oivxt_avail is set to "yes" if the Xt glue
+dnl  library for the Open Inventor development system is found.
+dnl
+dnl
+dnl Author: Morten Eriksen, <mortene@sim.no>.
+dnl
+
+AC_DEFUN(SIM_CHECK_OIV_XT,[
+dnl Autoconf is a developer tool, so don't bother to support older versions.
+AC_PREREQ([2.14.1])
+
+sim_ac_oivxt_avail=no
+
+sim_ac_oivxt_libs="-lInventorXt"
+sim_ac_save_libs=$LIBS
+LIBS="$sim_ac_oivxt_libs $LIBS"
+
+AC_CACHE_CHECK([for Xt glue library in the Open Inventor developer kit],
+  sim_cv_lib_oivxt_avail,
+  [AC_TRY_LINK([#include <Inventor/Xt/SoXt.h>],
+               [(void)SoXt::init(0L, 0L);],
+               sim_cv_lib_oivxt_avail=yes,
+               sim_cv_lib_oivxt_avail=no)])
+
+if test x"$sim_cv_lib_oivxt_avail" = xyes; then
+  sim_ac_oivxt_avail=yes
+  ifelse($1, , :, $1)
+else
+  LIBS=$sim_ac_save_libs
+  ifelse($2, , :, $2)
 fi
 ])
 

@@ -77,9 +77,9 @@ libSoQt_la_SOURCES = \
 
 libSoQt_la_LIBADD = \
 	common/libSoCommon.la \
-	devices/libSoQtdevices.la \
-	viewers/libSoQtviewers.la \
-	widgets/libSoQtwidgets.la
+	devices/libSoQtDevices.la \
+	viewers/libSoQtViewers.la \
+	widgets/libSoQtWidgets.la
 
 ## Installation information.
 

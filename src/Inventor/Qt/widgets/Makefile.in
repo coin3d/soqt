@@ -100,7 +100,7 @@ install_sh = @install_sh@
 sim_ac_conf_cmd = @sim_ac_conf_cmd@
 
 
-noinst_LTLIBRARIES = libSoQtwidgets.la
+noinst_LTLIBRARIES = libSoQtWidgets.la
 
 LIBS = 
 
@@ -108,8 +108,9 @@ INCLUDES = -I$(top_srcdir)/src
 
 BUILT_SOURCES = moc_QtThumbwheel.cpp
 
-libSoQtwidgets_la_SOURCES = \
-	QtThumbwheel.cpp QtThumbwheel.h \
+libSoQtWidgets_la_SOURCES = \
+	QtThumbwheel.cpp \
+	QtThumbwheel.h \
 	$(BUILT_SOURCES)
 
 subdir = src/Inventor/Qt/widgets
@@ -126,10 +127,10 @@ X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libSoQtwidgets_la_LDFLAGS = 
-libSoQtwidgets_la_LIBADD = 
-am_libSoQtwidgets_la_OBJECTS =  QtThumbwheel.lo moc_QtThumbwheel.lo
-libSoQtwidgets_la_OBJECTS =  $(am_libSoQtwidgets_la_OBJECTS)
+libSoQtWidgets_la_LDFLAGS = 
+libSoQtWidgets_la_LIBADD = 
+am_libSoQtWidgets_la_OBJECTS =  QtThumbwheel.lo moc_QtThumbwheel.lo
+libSoQtWidgets_la_OBJECTS =  $(am_libSoQtWidgets_la_OBJECTS)
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 CXXFLAGS = @CXXFLAGS@
@@ -140,7 +141,7 @@ COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CF
 LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES =  $(libSoQtwidgets_la_SOURCES)
+DIST_SOURCES =  $(libSoQtWidgets_la_SOURCES)
 DIST_COMMON =  Makefile.am Makefile.in
 
 
@@ -150,8 +151,8 @@ GZIP_ENV = --best
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 DEP_FILES =  @AMDEP@ $(DEPDIR)/QtThumbwheel.Plo \
 $(DEPDIR)/moc_QtThumbwheel.Plo
-SOURCES = $(libSoQtwidgets_la_SOURCES)
-OBJECTS = $(am_libSoQtwidgets_la_OBJECTS)
+SOURCES = $(libSoQtWidgets_la_SOURCES)
+OBJECTS = $(am_libSoQtWidgets_la_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
@@ -193,8 +194,8 @@ distclean-libtool:
 
 maintainer-clean-libtool:
 
-libSoQtwidgets.la: $(libSoQtwidgets_la_OBJECTS) $(libSoQtwidgets_la_DEPENDENCIES)
-	$(CXXLINK)  $(libSoQtwidgets_la_LDFLAGS) $(libSoQtwidgets_la_OBJECTS) $(libSoQtwidgets_la_LIBADD) $(LIBS)
+libSoQtWidgets.la: $(libSoQtWidgets_la_OBJECTS) $(libSoQtWidgets_la_DEPENDENCIES)
+	$(CXXLINK)  $(libSoQtWidgets_la_LDFLAGS) $(libSoQtWidgets_la_OBJECTS) $(libSoQtWidgets_la_LIBADD) $(LIBS)
 
 tags: TAGS
 
