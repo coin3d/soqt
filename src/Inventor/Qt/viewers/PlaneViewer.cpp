@@ -57,8 +57,6 @@
 #define PUBLIC(ptr) (ptr->pub)
 #define PRIVATE(ptr) (ptr->pimpl)
 
-#define THIS (PRIVATE(this))
-
 SoQtPlaneViewerP::SoQtPlaneViewerP(SoQtPlaneViewer * publ)
   : SoGuiPlaneViewerP(publ)
 {
