@@ -1,0 +1,1888 @@
+ChangeLog
+=========
+
+This is the ChangeLog file for the SoQt module.  This file is supposed to
+be automatically generated every night.  Entries are in reversed chronological
+order.  Check also out the following ChangeLog files:
+
+  docs/ChangeLog.v1.0.0
+  docs/ChangeLog.v1.0.1
+  docs/ChangeLog.v1.0.2
+  src/Inventor/Qt/common/ChangeLog
+  src/Inventor/Qt/common/ChangeLog.sh
+  data/ChangeLog
+  data/ChangeLog.sh
+
+See http://www.red-bean.com/~kfogel/cvs2cl.shtml for information about the
+cvs2cl script used to generate this file.
+
+============================================================================
+
+2004-08-27 15:40  larsa
+
+	* src/Inventor/Qt/: SoQt.cpp, SoQtColorEditor.h, SoQtComponent.cpp,
+	SoQtComponentP.h, SoQtGLWidget.cpp, SoQtGLWidgetP.h,
+	SoQtInternal.h, SoQtLightSliderSet.cpp, SoQtLightSliderSet.h,
+	SoQtMaterialList.cpp, SoQtMaterialSliderSet.cpp,
+	SoQtMaterialSliderSet.h, SoQtP.h, SoQtSliderSet.cpp,
+	SoQtSliderSet.h, SoQtSliderSetBase.cpp, SoQtSliderSetBase.h,
+	SoQtTransformSliderSet.cpp, SoQtTransformSliderSet.h,
+	all-soqt-cpp.cpp, all-soqt2-cpp.cpp, devices/6DOFEvents.cpp,
+	devices/6DOFEvents.h, devices/SoQtDevice.cpp,
+	devices/SoQtDeviceP.h, devices/SoQtInputFocus.cpp,
+	devices/SoQtKeyboard.cpp, devices/SoQtLinuxJoystick.cpp,
+	devices/SoQtLinuxJoystick.h, devices/SoQtLinuxJoystickP.h,
+	devices/SoQtMouse.cpp, devices/SoQtSpaceball.cpp,
+	devices/SoQtSpaceballP.h, devices/all-devices-cpp.cpp,
+	devices/all-devices2-cpp.cpp, editors/RGBCubeEditorKit.cpp,
+	editors/RGBCubeEditorKit.h, editors/RadioGroupKit.cpp,
+	editors/RadioGroupKit.h, editors/SoQtMaterialEditor.cpp,
+	editors/SoQtMaterialEditor.h, editors/old/QColorSelection.cpp,
+	editors/old/QColorSelection.h, editors/old/SoGLMaterialSphere.cpp,
+	editors/old/SoGLMaterialSphere.h, editors/old/SoQtColorSlider.cpp,
+	editors/old/SoQtColorSlider.h, editors/old/SoQtMaterialEditor.cpp,
+	editors/old/SoQtMaterialEditor.h, editors/old/SoQtMaterialList.cpp,
+	editors/old/SoQtMaterialList.h, engines/all-engines-cpp.cpp,
+	nodes/all-nodes-cpp.cpp, viewers/ExaminerViewer.cpp,
+	viewers/FullViewer.cpp, viewers/PlaneViewer.cpp,
+	viewers/SoQtExaminerViewerP.h, viewers/SoQtFullViewerP.h,
+	viewers/SoQtPlaneViewerP.h, viewers/WalkViewer.cpp,
+	viewers/all-viewers-cpp.cpp, widgets/QtNativePopupMenu.cpp,
+	widgets/QtNativePopupMenu.h, widgets/SoQtGLArea.cpp,
+	widgets/SoQtGLArea.h, widgets/SoQtThumbWheel.cpp,
+	widgets/SoQtThumbWheel.h, widgets/all-widgets-cpp.cpp:
+	
+	copyright headers
+
+2004-08-27 15:05  larsa
+
+	* src/Inventor/Qt/Makefile.am:
+	
+	distcheck fix
+
+2004-08-26 20:06  kyrah
+
+	* src/Inventor/Qt/Makefile.am:
+	
+	Mac OS 10.1 build fix: Don't use -headerpad_max_install_names
+	(which was introduced in 10.2).
+
+2004-08-25 18:13  larsa
+
+	* Makefile.am, configure.ac, src/Inventor/Qt/Makefile.am,
+	src/Inventor/Qt/SoQt.cpp, src/Inventor/Qt/SoQtComponent.cpp,
+	src/Inventor/Qt/SoQtGLWidget.cpp, src/Inventor/Qt/all-soqt-cpp.cpp,
+	src/Inventor/Qt/all-soqt2-cpp.cpp,
+	src/Inventor/Qt/devices/6DOFEvents.cpp,
+	src/Inventor/Qt/devices/Makefile.am,
+	src/Inventor/Qt/devices/SoQtDevice.cpp,
+	src/Inventor/Qt/devices/SoQtKeyboard.cpp,
+	src/Inventor/Qt/devices/SoQtMouse.cpp,
+	src/Inventor/Qt/devices/SoQtSpaceball.cpp,
+	src/Inventor/Qt/devices/all-devices-cpp.cpp,
+	src/Inventor/Qt/devices/all-devices2-cpp.cpp,
+	src/Inventor/Qt/editors/Makefile.am,
+	src/Inventor/Qt/editors/all-editors-cpp.cpp,
+	src/Inventor/Qt/engines/Makefile.am,
+	src/Inventor/Qt/engines/all-engines-cpp.cpp,
+	src/Inventor/Qt/nodes/Makefile.am,
+	src/Inventor/Qt/nodes/all-nodes-cpp.cpp,
+	src/Inventor/Qt/viewers/FullViewer.cpp,
+	src/Inventor/Qt/viewers/Makefile.am,
+	src/Inventor/Qt/viewers/PlaneViewer.cpp,
+	src/Inventor/Qt/viewers/WalkViewer.cpp,
+	src/Inventor/Qt/viewers/all-viewers-cpp.cpp,
+	src/Inventor/Qt/widgets/Gradient.cpp,
+	src/Inventor/Qt/widgets/Gradient.h,
+	src/Inventor/Qt/widgets/GradientDialog.cpp,
+	src/Inventor/Qt/widgets/Makefile.am,
+	src/Inventor/Qt/widgets/SoQtColorTableEditor.h,
+	src/Inventor/Qt/widgets/SoQtGLArea.cpp,
+	src/Inventor/Qt/widgets/SoQtGradientDialog.h,
+	src/Inventor/Qt/widgets/all-widgets-cpp.cpp,
+	src/Inventor/Qt/widgets/curvep/ColorCurve.cpp,
+	src/Inventor/Qt/widgets/curvep/ColorCurve.h,
+	src/Inventor/Qt/widgets/curvep/ColorTableEditor.cpp,
+	src/Inventor/Qt/widgets/curvep/CurveView.cpp,
+	src/Inventor/Qt/widgets/curvep/CurveView.h,
+	src/Inventor/Qt/widgets/curvep/SbGuiCubicSpline.cpp,
+	src/Inventor/Qt/widgets/curvep/SbGuiCubicSpline.h,
+	src/Inventor/Qt/widgets/curvep/SoQtColorTableEditorP.h,
+	src/Inventor/Qt/widgets/gradientp/GradientView.cpp,
+	src/Inventor/Qt/widgets/gradientp/GradientView.h,
+	src/Inventor/Qt/widgets/gradientp/ImageItem.cpp,
+	src/Inventor/Qt/widgets/gradientp/ImageItem.h,
+	src/Inventor/Qt/widgets/gradientp/SoQtGradientDialogP.h,
+	src/Inventor/Qt/widgets/gradientp/TickMark.cpp,
+	src/Inventor/Qt/widgets/gradientp/TickMark.h,
+	src/Inventor/Qt/widgets/gradientp/gradients/test1.grad,
+	src/Inventor/Qt/widgets/gradientp/gradients/test2.grad,
+	src/Inventor/Qt/widgets/gradientp/gradients/test3.grad:
+	
+	remove non-SoQt-related components, enable --enable-compact builds
+
+2004-08-24 13:41  mortene
+
+	* src/Inventor/Qt/widgets/SoQtColorTableEditor.h:
+	
+	Class should not be part of SoQt.
+
+2004-08-24 10:31  larsa
+
+	* src/Inventor/Qt/viewers/ExaminerViewer.cpp:
+	
+	compile fixes
+
+2004-08-24 10:23  larsa
+
+	* src/Inventor/Qt/devices/: SoQtDevice.cpp, SoQtInputFocus.cpp,
+	SoQtKeyboard.cpp, SoQtMouse.cpp, SoQtSpaceball.cpp:
+	
+	compile fixes
+
+2004-08-05 10:01  mortene
+
+	* BUGS.txt:
+	
+	Bootstrap, now includes check for latest Qt nc. New bug list item.
+
+2004-07-29 23:10  mortene
+
+	* configure.ac, src/Inventor/Qt/widgets/Gradient.h,
+	src/Inventor/Qt/widgets/SoQtGradientDialog.h:
+	
+	Reminder: remove the Qt gradient editors before releasing.
+
+2004-07-26 20:19  mortene
+
+	* BUGS.txt:
+	
+	pederb fixed #028.
+
+2004-07-21 11:29  pederb
+
+	* src/Inventor/Qt/SoQt.cpp:
+	
+	fix comment.
+
+2004-07-21 11:12  pederb
+
+	* src/Inventor/Qt/SoQt.cpp:
+	
+	Workaround for Qt timer bug/problem.
+
+2004-07-21 10:58  mortene
+
+	* cfg/errors.txt:
+	
+	Bootstrap.
+
+2004-07-21 10:54  mortene
+
+	* configure.ac:
+	
+	Bugfix: we're using the HAVE_WIN32_API define, but it was never set
+	up.
+
+2004-07-20 16:45  mortene
+
+	* BUGS.txt:
+	
+	New item.
+
+2004-07-08 13:06  mortene
+
+	* configure.ac:
+	
+	MSVC configure fix.
+
+2004-07-08 12:08  mortene
+
+	* BUGS.txt:
+	
+	New item.
+
+2004-07-07 09:54  mortene
+
+	* src/Inventor/Qt/widgets/SoQtGLArea.cpp:
+	
+	Work-around for probable Qt bug.
+
+2004-07-01 11:27  mortene
+
+	* configure.ac:
+	
+	Simple optimization: don't bother checking for Qt features when
+	we're not actually building the library.
+
+2004-07-01 10:41  mortene
+
+	* src/Inventor/Qt/SoQt.cpp:
+	
+	Clarify code comment.
+
+2004-06-24 15:47  kyrah
+
+	* BUGS.txt:
+	
+	Added yet unverified bug report. Just putting this into the bug
+	list now so I don't forget about it while being away for WWDC
+
+2004-06-24 15:15  mortene
+
+	* src/Inventor/Qt/SoQt.cpp:
+	
+	Compile fix: returned reference is const.
+
+2004-06-24 15:05  kintel
+
+	* src/Inventor/Qt/SoQt.cpp:
+	
+	Bugfix: zero timeout should mean disable timer
+
+2004-06-24 13:03  mortene
+
+	* src/Inventor/Qt/SoQtGLWidget.cpp:
+	
+	FIXME notice update.
+
+2004-06-24 12:57  pederb
+
+	* src/Inventor/Qt/SoQtComponent.cpp:
+	
+	Explain why setWindowState() is prefered to showFullScreen().
+
+2004-06-24 12:31  pederb
+
+	* src/Inventor/Qt/SoQtComponent.cpp:
+	
+	Compile fix (use correct/supported function to enable/disable full
+	screen).
+
+2004-06-24 11:56  larsa
+
+	* cfg/soqt.m4:
+	
+	bootstrap
+
+2004-06-24 11:56  larsa
+
+	* configure.ac:
+	
+	add test for QWidget->setWindowState
+
+2004-06-22 14:18  mortene
+
+	* src/Inventor/Qt/: SoQt.cpp, SoQtP.h:
+	
+	Make X11 error handler opt-in instead of opt-out, due to false
+	negatives.
+
+2004-06-22 09:34  thammer
+
+	* src/Inventor/Qt/SoQtComponent.cpp:
+	
+	Preserve window state when switching fullscreen mode on and off.
+	This avoids a Qt bug with incorrect window size when going to
+	fullscreen mode and back for windows that are maximized (before
+	going fullscreen).
+
+2004-06-16 12:46  mortene
+
+	* src/Inventor/Qt/SoQtComponent.cpp:
+	
+	Bugfix: avoid NULL-ptr dereferencing.
+
+2004-06-15 11:32  mortene
+
+	* src/Inventor/Qt/: SoQt.cpp, SoQtP.h:
+	
+	Leak-fix: make it possible to get the QApplication deleted. Mostly
+	useful for debugging purposes.
+
+2004-03-25 18:08  kyrah
+
+	* configure.ac, src/Inventor/Qt/Makefile.am:
+	
+	Pad the install_name to maximum install path length, to make it
+	possible to change it later (e.g. to include the library in an app
+	bundle).
+
+2004-03-18 16:21  larsa
+
+	* src/Inventor/Qt/SoQt.cpp:
+	
+	Intel compiler fix
+
+2004-03-17 15:03  larsa
+
+	* src/Inventor/Qt/widgets/curvep/: SbGuiCubicSpline.cpp,
+	SbGuiCubicSpline.h:
+	
+	don't use Coin-.specific features
+
+2004-03-16 12:45  larsa
+
+	* src/Inventor/Qt/widgets/SoQtColorTableEditor.h:
+	
+	don't include Coin-only headers directly
+
+2004-03-15 14:50  pederb
+
+	* BUGS.txt:
+	
+	Bug now fixed.
+
+2004-03-15 14:19  pederb
+
+	* src/Inventor/Qt/SoQt.cpp:
+	
+	gcc 3.3 compile fix.
+
+2004-03-15 10:34  mortene
+
+	* BUGS.txt:
+	
+	New item.
+
+2004-03-12 18:25  larsa
+
+	* src/Inventor/Qt/: SoQt.cpp, devices/6DOFEvents.cpp,
+	devices/SoQtSpaceball.cpp, widgets/SoQtThumbWheel.cpp:
+	
+	Solaris Forte CC warning fixes
+
+2004-03-12 13:34  larsa
+
+	* Makefile.am:
+	
+	Solaris make fixes?
+
+2004-03-08 15:12  mortene
+
+	* Makefile.am, cfg/errors.txt:
+	
+	Build fixes for Cygwin. Bootstrap.
+
+2004-03-08 08:10  mortene
+
+	* src/Inventor/Qt/widgets/: GradientDialog.cpp,
+	gradientp/SoQtGradientDialogP.h:
+	
+	Avoid invoking the user callback when the gradient has not changed.
+
+2004-03-08 08:07  mortene
+
+	* src/Inventor/Qt/widgets/: Gradient.cpp, Gradient.h:
+	
+	Makes it easier to set up a previously written gradient from a
+	memory buffer.
+
+2004-03-04 18:38  larsa
+
+	* src/Inventor/Qt/widgets/QtNativePopupMenu.cpp:
+	
+	update radiogroup when marking item as in SoXt
+
+2004-02-26 13:04  pederb
+
+	* Makefile.am:
+	
+	ColorTableEditor moc fix.
+
+2004-02-26 12:18  pederb
+
+	* src/Inventor/Qt/widgets/Makefile.am:
+	
+	Link in missing SoQtThumbwhell again.
+
+2004-02-25 23:22  kyrah
+
+	* Makefile.am, README.MAC, README.MACOSX:
+	
+	Renamed README.MAC to README.MACOSX.
+
+2004-02-24 22:04  larsa
+
+	* Makefile.am, bootstrap, src/Inventor/Qt/Makefile.am,
+	src/Inventor/Qt/SoQtComponent.cpp,
+	src/Inventor/Qt/widgets/Makefile.am:
+	
+	misc tweaks to get make dist working
+
+2004-02-20 13:07  pederb
+
+	* configure.ac:
+	
+	Fix for SORTED_LAYERS_BLEND test.
+
+2004-02-18 21:07  larsa
+
+	* BUGS.txt:
+	
+	SoQt/Coin wishlist item
+
+2004-02-17 14:07  larsa
+
+	* configure.ac:
+	
+	check for SORTED_LAYERS_BLEND transparency type
+
+2004-02-17 10:31  mortene
+
+	* src/Inventor/Qt/widgets/QtNativePopupMenu.cpp:
+	
+	Tiny improvement to error detection and reporting.
+
+2004-02-16 18:18  larsa
+
+	* RELEASE.txt:
+	
+	we want the dir-entries Release and Debug to be free for MSVC++
+	builds
+
+2004-02-11 18:18  kyrah
+
+	* BUGS.txt:
+	
+	Added entry about Mac OS X redraw problem.
+
+2004-02-11 18:11  kyrah
+
+	* src/Inventor/Qt/SoQtComponent.cpp:
+	
+	Workaround for Qt/Mac 3.3.x problem: Force repaint by calling
+	QWidget::raise() an extra time.
+	
+	Note: This is really quite ugly, and should be investigated and
+	fixed properly, but since without this workaround SoQt/Mac is
+	basically unusable, I'll for once commit an atrocity like this, and
+	may the Power That Be forgive me.
+
+2004-02-11 15:57  kyrah
+
+	* configure.ac, src/Inventor/Qt/Makefile.am:
+	
+	Build two-level namespace library also on 10.3.
+
+2004-02-10 11:06  pederb
+
+	* src/Inventor/Qt/widgets/GradientDialog.cpp:
+	
+	Call change callback after loading a new Gradient.
+
+2004-01-09 15:37  pederb
+
+	* src/Inventor/Qt/SoQt.cpp:
+	
+	Use hasPendingEvents() to better remove false idles.
+
+2004-01-09 15:34  pederb
+
+	* configure.ac:
+	
+	configure test for QApplication::hadPendingEvents(). Bootstrap.
+
+2003-12-18 11:54  mortene
+
+	* src/Inventor/Qt/SoQtGLWidget.cpp:
+	
+	FIXME note about serious problem with GL context handling.
+
+2003-12-10 11:40  thammer
+
+	* html/Makefile.am:
+	
+	Copy coin logo to html dir
+
+2003-12-09 22:12  thammer
+
+	* Makefile.am:
+	
+	Added support for building docs in htmlhelp format
+
+2003-12-09 22:01  thammer
+
+	* configure.ac:
+	
+	Added support for building docs in htmlhelp format
+
+2003-12-09 21:51  thammer
+
+	* htmlhelp/Makefile.am:
+	
+	Added support for building docs in htmlhelp format
+
+2003-12-03 18:20  handegar
+
+	* src/Inventor/Qt/widgets/: curvep/CurveView.cpp,
+	gradientp/GradientView.cpp:
+	
+	Removed compile warnings for GCC 3.3.2
+
+2003-12-02 15:11  handegar
+
+	* src/Inventor/Qt/SoQtGLWidget.cpp:
+	
+	Added alphachannel support.
+
+2003-12-02 12:57  mortene
+
+	* BUGS.txt:
+	
+	Describe ugly fullscreen mode bug.
+
+2003-11-18 16:26  mortene
+
+	* src/Inventor/Qt/devices/SoQtSpaceball.cpp:
+	
+	FIXME comments about the checking for (non-)presence of spaceball.
+
+2003-10-31 16:18  mortene
+
+	* src/Inventor/Qt/Makefile.am:
+	
+	Build fix for UNIX systems. Bootstrap.
+
+2003-10-30 17:29  mortene
+
+	* src/Inventor/Qt/Makefile.am:
+	
+	Bugfix: DLL would be installed before re-linking operations.
+
+2003-10-29 16:02  mortene
+
+	* src/Inventor/Qt/widgets/curvep/ColorTableEditor.cpp:
+	
+	Bugfix: client code would crash and burn upon setColors(), as wrong
+	userdata would be passed back to callback.
+
+2003-10-29 13:44  mortene
+
+	* src/Inventor/Qt/widgets/curvep/CurveView.cpp:
+	
+	Bugfix: variable initialization was missing.
+
+2003-10-29 13:44  mortene
+
+	* src/Inventor/Qt/widgets/curvep/SbGuiCubicSpline.cpp:
+	
+	Avoid reading uninitialized variable.
+
+2003-10-29 02:53  mortene
+
+	* src/Inventor/Qt/widgets/: SoQtColorTableEditor.h,
+	curvep/ColorTableEditor.cpp, curvep/SoQtColorTableEditorP.h:
+	
+	Better callback function signature.
+
+2003-10-28 14:45  larsa
+
+	* src/Inventor/Qt/widgets/curvep/ColorCurve.cpp:
+	
+	it was stdlib, not math that declared abs()
+
+2003-10-28 14:41  frodo
+
+	* src/Inventor/Qt/widgets/SoQtColorTableEditor.h:
+	
+	remove comment
+
+2003-10-28 14:40  frodo
+
+	* src/Inventor/Qt/widgets/: SoQtColorTableEditor.h,
+	curvep/ColorCurve.cpp, curvep/CurveView.cpp, curvep/CurveView.h:
+	
+	get rid of compile warning
+
+2003-10-28 14:25  frodo
+
+	* src/Inventor/Qt/widgets/curvep/: CurveView.h,
+	SbGuiCubicSpline.cpp:
+	
+	get rid of compile warning
+
+2003-10-28 14:00  larsa
+
+	* configure.ac:
+	
+	some compiler flag detection code
+
+2003-10-27 07:01  mortene
+
+	* cfg/errors.txt:
+	
+	re-bootstrap with up-to-date simacros
+
+2003-10-24 16:16  larsa
+
+	* cfg/errors.txt, src/Inventor/Qt/Makefile.am,
+	src/Inventor/Qt/devices/Makefile.am,
+	src/Inventor/Qt/editors/Makefile.am,
+	src/Inventor/Qt/engines/Makefile.am,
+	src/Inventor/Qt/nodes/Makefile.am,
+	src/Inventor/Qt/viewers/Makefile.am,
+	src/Inventor/Qt/widgets/Makefile.am:
+	
+	catch some install problems, bootstrap
+
+2003-10-22 17:47  mortene
+
+	* BUGS.txt:
+	
+	Loosely prioritize.
+
+2003-10-22 17:46  mortene
+
+	* BUGS.txt:
+	
+	New item.
+
+2003-10-22 17:22  frodo
+
+	* src/Inventor/Qt/widgets/curvep/SbGuiCubicSpline.cpp:
+	
+	get rid of compile warning
+
+2003-10-22 15:42  frodo
+
+	* src/Inventor/Qt/widgets/curvep/CurveView.cpp:
+	
+	small cosmetic fix
+
+2003-10-22 13:32  pederb
+
+	* src/Inventor/Qt/widgets/QtNativePopupMenu.cpp:
+	
+	Fix recently introduced bug.
+
+2003-10-22 13:25  pederb
+
+	* configure.ac:
+	
+	Increment micro edition to be able to detect new popup menu fix.
+
+2003-10-22 13:18  pederb
+
+	* src/Inventor/Qt/widgets/QtNativePopupMenu.cpp:
+	
+	Add support for enabling/disabling menu groups.
+
+2003-10-22 13:18  frodo
+
+	* src/Inventor/Qt/widgets/: Gradient.cpp, curvep/ColorCurve.cpp,
+	curvep/CurveView.cpp, curvep/SbGuiCubicSpline.cpp:
+	
+	misc. fixes
+
+2003-10-20 12:50  mortene
+
+	* src/Inventor/Qt/widgets/curvep/ColorTableEditor.cpp:
+	
+	Compilation fix: replace ALT-SPACE character with real space (ASCII
+	0x20).
+
+2003-10-20 12:47  mortene
+
+	* cfg/errors.txt:
+	
+	Sync with simacros. Bootstrap.
+
+2003-10-20 12:46  mortene
+
+	* src/Inventor/Qt/widgets/curvep/ColorTableEditor.cpp:
+	
+	Bugfix: don't use callback-ptr if it is NULL.
+
+2003-10-20 12:45  mortene
+
+	* configure.ac:
+	
+	Typo fix.
+
+2003-10-20 12:44  mortene
+
+	* src/Inventor/Qt/widgets/: Makefile.am, SoQtColorTableEditor.h,
+	SoQtCurveWidget.h, curvep/ColorTableEditor.cpp,
+	curvep/CurveView.cpp, curvep/CurveView.h, curvep/CurveWidget.cpp,
+	curvep/SoQtColorTableEditorP.h, curvep/SoQtCurveWidgetP.h:
+	
+	Rename SoQtCurveWidget -> SoQtColorTableEditor.
+
+2003-10-20 12:36  mortene
+
+	* src/Inventor/Qt/widgets/: Makefile.am, SoQtCurveWidget.h,
+	curvep/ColorCurve.cpp, curvep/CurveView.cpp, curvep/CurveView.h,
+	curvep/CurveWidget.cpp, gradientp/GradientView.cpp:
+	
+	Add the colortable editor into the configure-based build system.
+
+2003-10-17 20:06  mortene
+
+	* configure.ac:
+	
+	Match new setup for Qt detection.
+
+2003-10-17 18:21  frodo
+
+	* src/Inventor/Qt/widgets/curvep/: ColorCurve.cpp, ColorCurve.h,
+	SbGuiCubicSpline.cpp, SbGuiCubicSpline.h, SoGuiSpline.cpp,
+	SoGuiSpline.h:
+	
+	renamed the class SbCubicSpline to SbGuiCubicSpline
+
+2003-10-17 18:00  frodo
+
+	* src/Inventor/Qt/widgets/curvep/SoGuiSpline.cpp:
+	
+	include the new header
+
+2003-10-17 17:54  frodo
+
+	* src/Inventor/Qt/widgets/curvep/: ColorCurve.cpp,
+	SbCubicSpline.cpp, SbCubicSpline.h, SoGuiSpline.cpp, SoGuiSpline.h:
+	
+	renamed SbCubicSpline to SoGuiSpline
+
+2003-10-17 17:46  frodo
+
+	* src/Inventor/Qt/widgets/curvep/: ColorCurve.cpp, ColorCurve.h,
+	CurveView.cpp, SbCubicSpline.cpp, SbCubicSpline.h:
+	
+	misc fixes, the SbCubicSpline now uses SbGuiList instead of SbList
+
+2003-10-17 16:34  frodo
+
+	* src/Inventor/Qt/widgets/curvep/: ColorCurve.cpp, ColorCurve.h,
+	CurveView.cpp, CurveView.h, CurveWidget.cpp, SoQtCurveWidgetP.h:
+	
+	misc cleanup
+
+2003-10-17 14:22  frodo
+
+	* src/Inventor/Qt/widgets/: GradientDialog.cpp,
+	gradientp/SoQtGradientDialogP.h:
+	
+	fix loss of callback when reset is clicked + continuous update
+	label is now clickable
+
+2003-10-17 14:20  frodo
+
+	* src/Inventor/Qt/widgets/curvep/: ColorCurve.cpp, ColorCurve.h:
+	
+	some minor changes
+
+2003-10-17 13:20  frodo
+
+	* src/Inventor/Qt/widgets/: SoQtCurveWidget.h,
+	curvep/ColorCurve.cpp, curvep/ColorCurve.h, curvep/CurveView.cpp,
+	curvep/CurveView.h, curvep/CurveWidget.cpp:
+	
+	256 color limitation removed, use SbGuiList
+
+2003-10-16 17:46  frodo
+
+	* src/Inventor/Qt/widgets/: SoQtCurveWidget.h,
+	curvep/ColorCurve.cpp, curvep/CurveView.cpp, curvep/CurveView.h,
+	curvep/CurveWidget.cpp, curvep/SoQtCurveWidgetP.h:
+	
+	only channels in the selected mode is shown, some redesign in the
+	CurveView class
+
+2003-10-16 12:38  frodo
+
+	* src/Inventor/Qt/widgets/curvep/: SbCubicSpline.cpp,
+	SbCubicSpline.h:
+	
+	added SbCubicSpline to avoid dependency on smallchange
+
+2003-10-16 12:35  frodo
+
+	* src/Inventor/Qt/widgets/: SoQtCurveWidget.h,
+	SoQtGradientDialog.h, curvep/ColorCurve.cpp, curvep/ColorCurve.h,
+	curvep/CurveView.cpp, curvep/CurveView.h, curvep/CurveWidget.cpp,
+	curvep/SoQtCurveWidgetP.h:
+	
+	added copyright headers
+
+2003-10-16 12:19  frodo
+
+	* src/Inventor/Qt/widgets/Gradient.h:
+	
+	did not intend to commit those comments, sorry
+
+2003-10-16 12:15  frodo
+
+	* src/Inventor/Qt/: devices/SoQtSpaceball.cpp,
+	devices/SoQtSpaceballP.h, widgets/Gradient.h,
+	widgets/SoQtGradientDialog.h, widgets/gradientp/GradientEditor.cpp,
+	widgets/gradientp/GradientEditor.h,
+	widgets/gradientp/GradientView.cpp, widgets/gradientp/TickMark.cpp,
+	widgets/gradientp/TickMark.h:
+	
+	here is the reason why that assert never trigged on my computer; i
+	did not commit my own fix for it...
+
+2003-10-16 12:02  frodo
+
+	* src/Inventor/Qt/widgets/curvep/: moc_ColorCurve.cpp,
+	moc_CurveView.cpp, moc_SoQtCurveWidgetP.cpp:
+	
+	removed the moc files
+
+2003-10-16 11:57  frodo
+
+	* src/Inventor/Qt/widgets/SoQtCurveWidget.h:
+	
+	the only header file that need to be exposed in the api
+
+2003-10-14 11:21  mortene
+
+	* src/Inventor/Qt/widgets/gradientp/GradientView.cpp:
+	
+	Fixes 2 bugs and a compile warning. The two bugs were: 1) crash on
+	clicking near the borders, as the invisible tickmarks were
+	selected, 2) multiple tickmarks close to each other could all be
+	selected and colored as such.
+
+2003-10-14 11:10  mortene
+
+	* src/Inventor/Qt/widgets/gradientp/SoQtGradientDialogP.h:
+	
+	Compilation fix. (frodo, please keep your commits synchronized.)
+
+2003-10-13 17:28  frodo
+
+	* src/Inventor/Qt/widgets/GradientDialog.cpp:
+	
+	default directory allocated on demand (hopefully this will be
+	portable then.
+
+2003-10-13 16:22  frodo
+
+	* src/Inventor/Qt/widgets/GradientDialog.cpp:
+	
+	fix for lost contupdate flag when pressing reset, default directory
+	string dynamically allocated
+
+2003-10-13 15:54  mortene
+
+	* src/Inventor/Qt/widgets/GradientDialog.cpp:
+	
+	Compilation fix.
+
+2003-10-13 15:39  frodo
+
+	* src/Inventor/Qt/widgets/: SoQtGradientDialog.h,
+	GradientDialog.cpp:
+	
+	resizeEvent method removed
+
+2003-10-13 15:38  frodo
+
+	* src/Inventor/Qt/widgets/gradientp/: GradientView.cpp,
+	GradientView.h:
+	
+	sizeHint implemented, variables to lowercase
+
+2003-10-13 14:47  frodo
+
+	* src/Inventor/Qt/widgets/gradientp/SoQtGradientDialogP.h:
+	
+	added new variable and slot
+
+2003-10-13 14:47  frodo
+
+	* src/Inventor/Qt/widgets/GradientDialog.cpp:
+	
+	load / save default directory, send callback when pressing done if
+	update continuously not set
+
+2003-10-13 11:39  frodo
+
+	* src/Inventor/Qt/widgets/gradientp/GradientView.cpp:
+	
+	bug trigging assert in Gradient::eval() fixed
+
+2003-10-12 13:53  mortene
+
+	* src/Inventor/Qt/widgets/QtNativePopupMenu.cpp:
+	
+	FIXME note.
+
+2003-10-12 13:49  mortene
+
+	* src/Inventor/Qt/widgets/QtNativePopupMenu.cpp:
+	
+	Bugfix: newMenu() passed the wrong argument to getMenuRecord(),
+	causing a neverending loop when invoked with -1 as its second
+	argument. Also renovated getItemRecord() a little in the debugging
+	process.
+
+2003-10-12 12:52  mortene
+
+	* src/Inventor/Qt/widgets/: GradientDialog.cpp,
+	gradientp/SoQtGradientDialogP.h:
+	
+	Bugfixes: code was using static data where it should have been
+	per-instance.
+
+2003-10-12 12:40  mortene
+
+	* src/Inventor/Qt/widgets/Gradient.cpp:
+	
+	Compilation fix: function signature did not match class
+	declaration.
+
+2003-10-12 12:39  mortene
+
+	* src/Inventor/Qt/widgets/gradientp/SoQtGradientDialogP.h:
+	
+	Compilation fixes: add in missing variables.
+
+2003-10-10 18:35  frodo
+
+	* src/Inventor/Qt/widgets/GradientDialog.cpp:
+	
+	nicer layout + filename as description for gradients
+
+2003-10-10 17:55  frodo
+
+	* src/Inventor/Qt/widgets/gradientp/GradientView.cpp:
+	
+	resize handle on statusbar removed
+
+2003-10-10 17:55  frodo
+
+	* src/Inventor/Qt/widgets/GradientDialog.cpp:
+	
+	nicer layout
+
+2003-10-10 17:27  frodo
+
+	* src/Inventor/Qt/widgets/gradientp/GradientView.h:
+	
+	unused functionality removed
+
+2003-10-10 17:27  frodo
+
+	* src/Inventor/Qt/widgets/gradientp/GradientView.cpp:
+	
+	bug causing both tickmark and segment to be selected at the same
+	time is fixed
+
+2003-10-10 17:05  frodo
+
+	* src/Inventor/Qt/widgets/Gradient.cpp:
+	
+	copying of gradientp data moved inside the class
+
+2003-10-10 16:50  frodo
+
+	* src/Inventor/Qt/widgets/gradientp/GradientView.cpp:
+	
+	small fix on the statusbar
+
+2003-10-10 16:37  frodo
+
+	* src/Inventor/Qt/widgets/: GradientDialog.cpp,
+	SoQtGradientDialog.h:
+	
+	some useful methods added
+
+2003-10-10 15:52  mortene
+
+	* src/Inventor/Qt/widgets/Makefile.am:
+	
+	Updated to match new setup.
+
+2003-10-10 15:41  mortene
+
+	* src/Inventor/Qt/widgets/: GradientDialog.cpp,
+	gradientp/GradientView.cpp:
+	
+	Minor fixes.
+
+2003-10-10 15:24  frodo
+
+	* src/Inventor/Qt/widgets/SoQtGradientDialog.h:
+	
+	forgot to remove a comment
+
+2003-10-10 15:17  frodo
+
+	* src/Inventor/Qt/widgets/Makefile.am:
+	
+	references to GradientEditor removed
+
+2003-10-10 15:16  frodo
+
+	* src/Inventor/Qt/widgets/gradientp/: ImageItem.h, ImageItem.cpp:
+	
+	method added for more efficient use
+
+2003-10-10 15:15  frodo
+
+	* src/Inventor/Qt/widgets/gradientp/SoQtGradientDialogP.h:
+	
+	header for private implementation of SoQtGradientDialog
+
+2003-10-10 15:14  frodo
+
+	* src/Inventor/Qt/widgets/GradientDialog.cpp:
+	
+	private slots removed, misc fixes
+
+2003-10-10 15:13  frodo
+
+	* src/Inventor/Qt/widgets/SoQtGradientDialog.h:
+	
+	private slots removed
+
+2003-10-10 15:12  frodo
+
+	* src/Inventor/Qt/widgets/gradientp/: GradientView.cpp,
+	GradientView.h:
+	
+	statusbar added
+
+2003-10-10 12:02  larsa
+
+	* src/Inventor/Qt/widgets/gradientp/TickMark.h:
+	
+	use supported header file
+
+2003-10-09 18:51  mortene
+
+	* src/Inventor/Qt/widgets/gradientp/GradientView.cpp:
+	
+	Bugfix: fetch and set color on correct segment.
+
+2003-10-09 11:03  frodo
+
+	* src/Inventor/Qt/widgets/GradientDialog.cpp:
+	
+	save/cancel bug fixed
+
+2003-10-08 19:55  mortene
+
+	* src/Inventor/Qt/widgets/gradientp/GradientView.cpp:
+	
+	Minor fix: don't use menu title.
+
+2003-10-08 19:54  mortene
+
+	* src/Inventor/Qt/widgets/: Gradient.cpp, Gradient.h,
+	gradientp/GradientEditor.cpp, gradientp/GradientView.cpp,
+	gradientp/GradientView.h:
+	
+	Separate tickmark and segment menus. Many code clean-ups and misc
+	fixes.
+
+2003-10-08 17:43  mortene
+
+	* src/Inventor/Qt/widgets/gradientp/: GradientEditor.cpp,
+	GradientView.cpp, GradientView.h:
+	
+	Use only a single index to keep track of the current segment. Don't
+	allow both a tick and a segment to be active at the same time. Make
+	menus context-dependent on what is selected.
+
+2003-10-08 16:29  mortene
+
+	* src/Inventor/Qt/widgets/gradientp/: GradientView.cpp,
+	GradientView.h:
+	
+	Clean up code: we only need to store a single tracker for the
+	current tick mark index.
+
+2003-10-08 15:54  mortene
+
+	* src/Inventor/Qt/widgets/: Gradient.cpp, Gradient.h,
+	SoQtThumbWheel.cpp, gradientp/GradientView.cpp,
+	gradientp/TickMark.h:
+	
+	Minor fixes.
+
+2003-10-08 15:18  frodo
+
+	* src/Inventor/Qt/widgets/gradientp/GradientEditor.cpp:
+	
+	shows alpha
+
+2003-10-08 15:14  frodo
+
+	* src/Inventor/Qt/widgets/Gradient.cpp:
+	
+	alpha blending bug fixed
+
+2003-10-08 14:42  mortene
+
+	* src/Inventor/Qt/widgets/: Gradient.cpp, Gradient.h,
+	GradientDialog.cpp, SoQtGradientDialog.h,
+	gradientp/GradientEditor.cpp, gradientp/GradientEditor.h,
+	gradientp/GradientView.cpp, gradientp/GradientView.h:
+	
+	Fix callback interface to include a user data pointer.
+
+2003-10-01 13:03  mortene
+
+	* src/Inventor/Qt/widgets/QtNativePopupMenu.cpp:
+	
+	More information on the popup-menu issue, try to avoid an obvious
+	booby-trap for any future changes.
+
+2003-10-01 12:29  pederb
+
+	* src/Inventor/Qt/widgets/QtNativePopupMenu.cpp:
+	
+	Fix for disappearing popup menu.
+
+2003-09-30 22:39  mortene
+
+	* src/Inventor/Qt/widgets/: Gradient.cpp, Gradient.h,
+	gradientp/GradientView.cpp:
+	
+	Interface improvements on Gradient class (signedness, constness,
+	reference transfer over value transfer, etc).
+
+2003-09-30 21:36  mortene
+
+	* src/Inventor/Qt/widgets/: Gradient.cpp, Gradient.h:
+	
+	Remove unused and seemingly unnecessary functionality.
+
+2003-09-30 21:30  mortene
+
+	* src/Inventor/Qt/widgets/: Gradient.cpp, Gradient.h:
+	
+	Remove unneeded method.
+
+2003-09-30 21:29  mortene
+
+	* src/Inventor/Qt/widgets/: Gradient.cpp, Gradient.h,
+	GradientDialog.cpp, SoQtGradientDialog.h,
+	gradientp/GradientEditor.cpp, gradientp/GradientEditor.h,
+	gradientp/GradientView.cpp, gradientp/GradientView.h:
+	
+	Remove typedef pollution of global namespace.
+
+2003-09-30 21:13  mortene
+
+	* src/Inventor/Qt/widgets/: Gradient.cpp, Gradient.h:
+	
+	Function name will automatically be part of assert info.
+
+2003-09-30 21:11  mortene
+
+	* src/Inventor/Qt/widgets/: GradientDialog.cpp,
+	SoQtGradientDialog.h:
+	
+	Corrects value-transfer of Gradient instances.
+
+2003-09-30 18:44  mortene
+
+	* src/Inventor/Qt/: SoQt.cpp, SoQtComponent.cpp:
+	
+	Two an*l-retentive fixes.
+
+2003-09-30 16:33  frodo
+
+	* src/Inventor/Qt/widgets/gradientp/: GradientEditor.h,
+	GradientEditor.cpp:
+	
+	method setChangeCallback added
+
+2003-09-30 14:00  kyrah
+
+	* src/Inventor/Qt/devices/SoQtMouse.cpp:
+	
+	Use QEvent::type() to determine whether button is up or down.
+	
+	Fixes Mac OS X bug reported by kintel: When using control-click to
+	emulate right mouse button click, mouse release was not detected,
+	since "state() & button()" evaluated to 0 both for mouse press and
+	release.
+
+2003-09-30 10:36  frodo
+
+	* src/Inventor/Qt/widgets/: SoQtGradientDialog.h, Gradient.h:
+	
+	forgot to remove comment
+
+2003-09-30 10:31  frodo
+
+	* src/Inventor/Qt/widgets/: Gradient.h, Gradient.cpp:
+	
+	use of pimpl pointer
+
+2003-09-30 10:30  frodo
+
+	* src/Inventor/Qt/widgets/: GradientDialog.cpp,
+	SoQtGradientDialog.h, gradientp/GradientView.h,
+	gradientp/GradientView.cpp:
+	
+	method setChangeCallback added
+
+2003-09-29 12:29  pederb
+
+	* src/Inventor/Qt/widgets/: Gradient.cpp, Gradient.h,
+	GradientDialog.cpp, SoQtGradientDialog.h,
+	gradientp/GradientEditor.cpp, gradientp/GradientEditor.h,
+	gradientp/GradientView.cpp, gradientp/GradientView.h:
+	
+	compile fixes.
+
+2003-09-29 12:22  pederb
+
+	* cfg/errors.txt, src/Inventor/Qt/widgets/Gradient.cpp,
+	src/Inventor/Qt/widgets/Gradient.h,
+	src/Inventor/Qt/widgets/Makefile.am,
+	src/Inventor/Qt/widgets/gradientp/Gradient.cpp,
+	src/Inventor/Qt/widgets/gradientp/Gradient.h:
+	
+	Moved public class Gradient.
+
+2003-09-29 11:49  frodo
+
+	* src/Inventor/Qt/widgets/SoQtGradientDialog.h:
+	
+	forgot to remove a comment
+
+2003-09-29 11:40  frodo
+
+	* src/Inventor/Qt/widgets/gradientp/GradientEditor.cpp:
+	
+	possible fix to a graphics bug
+
+2003-09-29 11:39  frodo
+
+	* src/Inventor/Qt/widgets/gradientp/: GradientView.h,
+	GradientView.cpp:
+	
+	some cleanup
+
+2003-09-29 11:38  frodo
+
+	* src/Inventor/Qt/widgets/gradientp/: Gradient.h, Gradient.cpp:
+	
+	no longer use of fstream
+
+2003-09-29 11:38  frodo
+
+	* src/Inventor/Qt/widgets/: SoQtGradientDialog.h,
+	GradientDialog.cpp:
+	
+	now use of pimpl pointer
+
+2003-09-26 14:51  frodo
+
+	* src/Inventor/Qt/widgets/gradientp/: GradientEditor.cpp,
+	GradientEditor.h:
+	
+	misc. cleanup
+
+2003-09-26 14:50  frodo
+
+	* src/Inventor/Qt/widgets/gradientp/: Gradient.h, Gradient.cpp:
+	
+	method added: leftEqualsRight()
+
+2003-09-26 14:50  frodo
+
+	* src/Inventor/Qt/widgets/gradientp/GradientView.cpp:
+	
+	grey out of invalid menu choices
+
+2003-09-26 14:49  frodo
+
+	* src/Inventor/Qt/widgets/gradientp/GradientView.h:
+	
+	misc cleanup
+
+2003-09-26 12:09  frodo
+
+	* src/Inventor/Qt/widgets/gradientp/: GradientEditor.h,
+	GradientEditor.cpp:
+	
+	misc cleanup
+
+2003-09-26 12:04  frodo
+
+	* src/Inventor/Qt/widgets/: SoQtGradientDialog.h,
+	GradientDialog.cpp:
+	
+	const Gradient & instead og Gradient * to constructor
+
+2003-09-23 17:35  kyrah
+
+	* configure.ac:
+	
+	Use "-Wl,-framework,SoQt" instead of "-framework SoQt" to make it
+	possible to use soqt-config --ldflags output directly as libtool
+	input.
+
+2003-09-23 02:29  kyrah
+
+	* src/Inventor/Qt/widgets/gradientp/Gradient.cpp:
+	
+	gcc 3 include fix.
+
+2003-09-22 15:08  frodo
+
+	* src/Inventor/Qt/widgets/: SoQtGradientDialog.h,
+	GradientDialog.cpp:
+	
+	setMin() og setMax() replaced by setDataLimits()
+
+2003-09-22 14:04  pederb
+
+	* src/Inventor/Qt/widgets/SoQtGradientDialog.h:
+	
+	Compile fix.
+
+2003-09-22 14:03  frodo
+
+	* src/Inventor/Qt/widgets/gradientp/gradients/: test1.grad,
+	test2.grad, test3.grad:
+	
+	new format
+
+2003-09-22 14:01  pederb
+
+	* src/Inventor/Qt/widgets/gradientp/: Gradient.cpp,
+	GradientView.cpp:
+	
+	Compile fix.
+
+2003-09-22 13:57  frodo
+
+	* src/Inventor/Qt/widgets/GradientDialog.cpp:
+	
+	crash bug when using default constructor fixed
+
+2003-09-22 12:24  pederb
+
+	* src/Inventor/Qt/widgets/gradientp/: Gradient.cpp,
+	GradientView.cpp:
+	
+	More compile fixes.
+
+2003-09-22 12:17  frodo
+
+	* src/Inventor/Qt/widgets/gradientp/: GradientView.cpp,
+	GradientView.h:
+	
+	Coin dependencies removed
+
+2003-09-22 12:14  frodo
+
+	* src/Inventor/Qt/widgets/: SoQtGradientDialog.h,
+	GradientDialog.cpp:
+	
+	Coin dependencies removed, some cleanup
+
+2003-09-22 12:12  frodo
+
+	* src/Inventor/Qt/widgets/gradientp/: GradientEditor.cpp,
+	GradientEditor.h, Gradient.cpp, Gradient.h:
+	
+	Coin dependencies removed
+
+2003-09-22 12:01  pederb
+
+	* src/Inventor/Qt/widgets/gradientp/: GradientView.cpp,
+	GradientView.h:
+	
+	Misc. compile fixes.
+
+2003-09-22 11:48  frodo
+
+	* src/Inventor/Qt/widgets/gradientp/: TickMark.h, TickMark.cpp:
+	
+	method hit() added
+
+2003-09-19 14:04  frodo
+
+	* src/Inventor/Qt/widgets/gradientp/: GradientView.cpp,
+	GradientView.h:
+	
+	rtti identification removed altogether
+
+2003-09-19 11:37  frodo
+
+	* src/Inventor/Qt/widgets/gradientp/GradientView.cpp:
+	
+	pseudo RTTI removed, used inherited rtti() instead.
+
+2003-09-19 11:32  frodo
+
+	* src/Inventor/Qt/widgets/gradientp/: TickMark.h, TickMark.cpp,
+	ImageItem.h:
+	
+	pseudo RTTI removed, used inherited rtti() instead.
+
+2003-09-18 11:10  mortene
+
+	* src/Inventor/Qt/widgets/Makefile.am:
+	
+	Simplifications, by larsa.
+
+2003-09-17 19:20  mortene
+
+	* src/Inventor/Qt/widgets/gradientp/: GradientView.cpp,
+	GradientView.h:
+	
+	Don't use inline functions unnecessary.
+
+2003-09-17 19:12  mortene
+
+	* src/Inventor/Qt/widgets/gradientp/GradientView.cpp:
+	
+	assert() catches memory corruption (?).
+
+2003-09-17 18:57  mortene
+
+	* src/Inventor/Qt/widgets/gradientp/Gradient.cpp:
+	
+	Bugfixes: do not attempt to invoke callback when it is NULL.
+
+2003-09-17 18:49  mortene
+
+	* src/Inventor/Qt/widgets/: GradientDialog.cpp,
+	SoQtGradientDialog.h, gradientp/Gradient.cpp, gradientp/Gradient.h,
+	gradientp/GradientEditor.cpp, gradientp/GradientEditor.h,
+	gradientp/GradientView.cpp, gradientp/GradientView.h,
+	gradientp/ImageItem.cpp, gradientp/ImageItem.h,
+	gradientp/TickMark.cpp, gradientp/TickMark.h:
+	
+	Copyright headers.
+
+2003-09-17 18:05  mortene
+
+	* src/Inventor/Qt/widgets/gradientp/: moc_GradientEditor.cpp,
+	moc_GradientView.cpp:
+	
+	These are of course auto-generated, and should not have been added.
+
+2003-09-17 18:04  mortene
+
+	* src/Inventor/Qt/widgets/: GradientDialog.cpp, Makefile.am,
+	SoQtGradientDialog.h, gradientp/Gradient.cpp, gradientp/Gradient.h,
+	gradientp/GradientEditor.cpp, gradientp/GradientEditor.h,
+	gradientp/GradientView.cpp, gradientp/GradientView.h,
+	gradientp/ImageItem.cpp, gradientp/ImageItem.h,
+	gradientp/TickMark.cpp, gradientp/TickMark.h,
+	gradientp/moc_GradientEditor.cpp, gradientp/moc_GradientView.cpp,
+	gradientp/gradients/test1.grad, gradientp/gradients/test2.grad,
+	gradientp/gradients/test3.grad:
+	
+	Gradient editor implementation, by frodo.
+
+2003-09-17 15:47  mortene
+
+	* src/Inventor/Qt/widgets/Makefile.am:
+	
+	Collect common list in variable.
+
+2003-09-01 17:10  mortene
+
+	* src/Inventor/Qt/: SoQt.cpp, SoQtComponent.cpp:
+	
+	Bugfix: don't crash when setSize() is called before widget is set
+	up. Reported by Tamer Fahmy.
+
+2003-08-27 15:12  pederb
+
+	* configure.ac, cfg/errors.txt:
+	
+	Test for some VRML nodes. bootstrap.
+
+2003-08-20 18:44  larsa
+
+	* src/Inventor/Qt/editors/Makefile.am:
+	
+	forgotten file
+
+2003-08-19 18:35  larsa
+
+	* cfg/wrapmsvc.exe:
+	
+	bootstrap
+
+2003-08-19 18:31  larsa
+
+	* src/Inventor/Qt/widgets/: Makefile.am, SoQtThumbWheel.h:
+	
+	make SoQtThumbWheel public on next release
+
+2003-08-14 16:43  frodo
+
+	* src/Inventor/Qt/devices/SoQtSpaceball.cpp:
+	
+	Some code cleanup, exists() implemented
+
+2003-08-14 16:42  frodo
+
+	* src/Inventor/Qt/SoQt.cpp:
+	
+	extern C declaration removed
+
+2003-08-13 14:44  frodo
+
+	* src/Inventor/Qt/SoQt.cpp:
+	
+	QApplication::winEventFilter(MSG * msg) is overridden to filter out
+	spaceball events on windows
+
+2003-08-13 14:43  frodo
+
+	* src/Inventor/Qt/devices/SoQtSpaceball.cpp:
+	
+	spaceball support for win32 added
+
+2003-08-06 12:14  kyrah
+
+	* configure.ac:
+	
+	sim_ac_macosx_10_2 must be set before libtool initialization.
+
+2003-07-31 14:20  larsa
+
+	* Makefile.am:
+	
+	dist fix
+
+2003-07-16 18:29  kyrah
+
+	* configure.ac:
+	
+	Libtool/Mac OS X fix.
+
+2003-06-30 21:36  mortene
+
+	* BUGS.txt:
+	
+	Bugs both ways..
+
+2003-06-30 21:32  mortene
+
+	* BUGS.txt:
+	
+	New bug.
+
+2003-06-27 15:12  mortene
+
+	* configure.ac:
+	
+	Make name of subst variable toolkit neutral.
+
+2003-06-26 08:37  mortene
+
+	* src/Inventor/Qt/SoQt.cpp:
+	
+	Minor API doc fixes.
+
+2003-06-25 21:37  mortene
+
+	* FAQ, Makefile.am, NEWS:
+	
+	Merge updates from SoQt-1 repository (which is about to be
+	whacked).
+
+2003-06-25 21:06  mortene
+
+	* docs/: ChangeLog.v1.0.0, ChangeLog.v1.0.1, ChangeLog.v1.0.2,
+	announcement-1_0_0.txt, announcement-1_0_1.txt,
+	announcement-1_0_2.txt:
+	
+	Transfer files from SoQt-1 CVS repository (which is about to be
+	obsoleted).
+
+2003-06-25 20:50  mortene
+
+	* cfg/gendsp.sh:
+	
+	Bootstrap and sync.
+
+2003-06-25 20:47  mortene
+
+	* configure.ac:
+	
+	Next release from this branch will be 1.1.0.
+
+2003-06-04 14:11  larsa
+
+	* cfg/: errors.txt, gendsp.sh:
+	
+	bootstrap
+
+2003-06-02 10:19  mortene
+
+	* configure.ac:
+	
+	Fixes for documentation builds, to accommodate upgrade of
+	Autotools.
+
+2003-05-30 11:52  pederb
+
+	* cfg/: depcomp, errors.txt:
+	
+	bootstrap to build win32 spaceball support.
+
+2003-05-22 16:05  kyrah
+
+	* cfg/errors.txt:
+	
+	Error message when trying to build SoQt/X11 without X11 on Mac OS
+	X.
+
+2003-05-10 15:51  pederb
+
+	* src/Inventor/Qt/SoQt.cpp:
+	
+	SGI Inventor compile fix.
+
+2003-05-09 17:08  pederb
+
+	* src/Inventor/Qt/SoQt.cpp:
+	
+	Use a static array to store argv pointers since Qt might use the
+	array pointer directly.
+
+2003-05-09 17:01  pederb
+
+	* src/Inventor/Qt/SoQt.cpp:
+	
+	Bugfix to receive spaceball events even when SoQt::init(int argc,
+	char ** argv) isn't used. Bug reported by Daniel Soto Alvarez.
+
+2003-05-08 14:39  mortene
+
+	* src/Inventor/Qt/viewers/FullViewer.cpp:
+	
+	Keep viewer buttons on the right trim at fixed distances to each
+	other. Patch by Tamer Fahmy.
+
+2003-04-28 15:54  mortene
+
+	* Makefile.am, bootstrap, cfg/doxy4win.pl, cfg/errors.txt,
+	cfg/gendsp.sh, cfg/soqt.m4, cfg/wrapmsvc.exe:
+	
+	Convert from conf-macros to simacros. Bootstrap.
+
+2003-04-28 15:02  mortene
+
+	* src/Inventor/Qt/: SoQt.cpp, SoQtColorEditor.h, SoQtComponent.cpp,
+	SoQtComponentP.h, SoQtGLWidget.cpp, SoQtGLWidgetP.h,
+	SoQtInternal.h, SoQtLightSliderSet.cpp, SoQtLightSliderSet.h,
+	SoQtMaterialList.cpp, SoQtMaterialSliderSet.cpp,
+	SoQtMaterialSliderSet.h, SoQtP.h, SoQtSliderSet.cpp,
+	SoQtSliderSet.h, SoQtSliderSetBase.cpp, SoQtSliderSetBase.h,
+	SoQtTransformSliderSet.cpp, SoQtTransformSliderSet.h,
+	devices/6DOFEvents.cpp, devices/6DOFEvents.h,
+	devices/SoQtDevice.cpp, devices/SoQtDeviceP.h,
+	devices/SoQtInputFocus.cpp, devices/SoQtKeyboard.cpp,
+	devices/SoQtLinuxJoystick.cpp, devices/SoQtLinuxJoystick.h,
+	devices/SoQtLinuxJoystickP.h, devices/SoQtMouse.cpp,
+	devices/SoQtSpaceball.cpp, devices/SoQtSpaceballP.h,
+	editors/RGBCubeEditorKit.cpp, editors/RGBCubeEditorKit.h,
+	editors/RadioGroupKit.cpp, editors/RadioGroupKit.h,
+	editors/SoQtMaterialEditor.cpp, editors/SoQtMaterialEditor.h,
+	editors/old/QColorSelection.cpp, editors/old/QColorSelection.h,
+	editors/old/SoGLMaterialSphere.cpp,
+	editors/old/SoGLMaterialSphere.h, editors/old/SoQtColorSlider.cpp,
+	editors/old/SoQtColorSlider.h, editors/old/SoQtMaterialEditor.cpp,
+	editors/old/SoQtMaterialEditor.h, editors/old/SoQtMaterialList.cpp,
+	editors/old/SoQtMaterialList.h, viewers/ExaminerViewer.cpp,
+	viewers/FullViewer.cpp, viewers/PlaneViewer.cpp,
+	viewers/SoQtExaminerViewerP.h, viewers/SoQtFullViewerP.h,
+	viewers/SoQtPlaneViewerP.h, viewers/WalkViewer.cpp,
+	widgets/QtNativePopupMenu.cpp, widgets/QtNativePopupMenu.h,
+	widgets/SoQtGLArea.cpp, widgets/SoQtGLArea.h,
+	widgets/SoQtThumbWheel.cpp, widgets/SoQtThumbWheel.h:
+	
+	Update copyright header.
+
+2003-04-28 15:00  mortene
+
+	* src/Inventor/Qt/devices/SoQtMouse.cpp:
+	
+	Code comment.
+
+2003-04-28 14:59  mortene
+
+	* src/Inventor/Qt/: SoQt.cpp, SoQtP.h:
+	
+	Make it possible to turn off the X11 error catcher.
+
+2003-04-24 12:46  mortene
+
+	* src/Inventor/Qt/viewers/ExaminerViewer.cpp:
+	
+	Collects common API doc.
+
+2003-04-22 14:41  kyrah
+
+	* src/Inventor/Qt/devices/SoQtMouse.cpp:
+	
+	Bugfix: Interpret meta-click as right-click only on Mac
+
+2003-04-11 14:46  mortene
+
+	* src/Inventor/Qt/SoQt.cpp:
+	
+	Toolkit-generic doc collected in common file.
+
+2003-04-10 15:42  kyrah
+
+	* configure.ac:
+	
+	Avoid conflicts between Qt/Mac and Qt/X11 - include Fink-libraries
+	only if we are using X11.
+
+2003-04-09 15:15  kyrah
+
+	* README.MAC:
+	
+	bash/Mac OS X does not read .bashrc by default, so QTDIR might not
+	be set.  Explain what's going on, and how to work around it.
+	Problem reported by Richard Rowe.
+
+2003-04-08 15:05  larsa
+
+	* configure.ac:
+	
+	test for existence of the SoVRMLMaterial node
+
+2003-04-02 15:12  pederb
+
+	* src/Inventor/Qt/SoQt.cpp:
+	
+	Compile fix.
+
+2003-04-02 14:51  larsa
+
+	* src/Inventor/Qt/Makefile.am:
+	
+	bootstrap
+
+2003-04-02 14:51  larsa
+
+	* configure.ac, src/Inventor/Qt/SoQt.cpp,
+	src/Inventor/Qt/engines/Makefile.am:
+	
+	additional nodes and engines
+
+2003-04-02 14:44  kyrah
+
+	* README.MAC:
+	
+	Added setup instructions for X11-based installation.
+
+2003-04-02 10:57  kyrah
+
+	* src/Inventor/Qt/devices/: SoQtKeyboard.cpp, SoQtMouse.cpp:
+	
+	Qt/X11 on Mac support:	 Right-click emulation fixes.
+
+2003-04-02 10:56  kyrah
+
+	* configure.ac:
+	
+	Qt/X11 on Mac support:	 Adds --enable-x11 option to force use of
+	X11 on Mac OS X systems.    Don't check for X11 on Mac OS X if we
+	don't specifically request it.	  Check for fink.
+
+2003-03-28 20:20  kyrah
+
+	* README.MAC:
+	
+	Problem report moved from Coin/README.MAC
+
+2003-03-28 14:44  larsa
+
+	* src/Inventor/Qt/nodes/Makefile.am:
+	
+	custom header install rule
+
+2003-03-19 16:33  larsa
+
+	* src/Inventor/Qt/nodes/Makefile.am:
+	
+	win32 fix
+
+2003-03-19 15:52  larsa
+
+	* src/Inventor/Qt/SoQt.cpp:
+	
+	dsp auto-moc test
+
+2003-03-19 13:12  larsa
+
+	* src/Inventor/Qt/SoQt.cpp:
+	
+	initialize nodes, don't initialize nodekit/interaction multiple
+	places
+
+2003-03-19 13:11  larsa
+
+	* configure.ac, src/Inventor/Qt/Makefile.am,
+	src/Inventor/Qt/devices/Makefile.am,
+	src/Inventor/Qt/editors/Makefile.am,
+	src/Inventor/Qt/nodes/Makefile.am,
+	src/Inventor/Qt/viewers/Makefile.am,
+	src/Inventor/Qt/widgets/Makefile.am:
+	
+	build nodes and editors
+
+2003-03-19 13:09  larsa
+
+	* src/Inventor/Qt/SoQtColorEditor.h:
+	
+	forwarding header
+
+2003-03-19 13:07  larsa
+
+	* Makefile.am:
+	
+	check bootstrappability in the future
+
+2003-03-17 18:37  kyrah
+
+	* configure.ac:
+	
+	Use GCC detection done by configure, instead of re-doing it.
+
+2003-03-16 13:51  kyrah
+
+	* README.MAC:
+	
+	Mention that you need the CoinTools.pkg. Update on Qt/Mac bugs.
+
+2003-03-12 16:36  kyrah
+
+	* configure.ac, src/Inventor/Qt/Makefile.am:
+	
+	Build two-level namespace library on Mac OS 10.2.  Prebind SoQt
+	library on Mac OS 10.2.
+
+2003-03-12 11:09  mortene
+
+	* BUGS.txt:
+	
+	Killed bug.
+
+2003-03-11 13:53  larsa
+
+	* BUGS.txt:
+	
+	new bug
+
+2003-03-09 13:52  mortene
+
+	* configure.ac:
+	
+	Simplifies MSVC++ selection and setup. Also kills a bug where
+	BUILD_WITH_MSVC could end up not being AC_SUBSTed.
+
