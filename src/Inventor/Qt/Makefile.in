@@ -712,7 +712,7 @@ distclean-depend:
 @AMDEP_TRUE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXXCOMPILE) -c -o $@ `cygpath -w $<`
+	$(CXXCOMPILE) -c -o $@ `( test -f $< || echo -n '$(srcdir)/'; echo -n $< ) | xargs cygpath -w`
 
 .cpp.lo:
 @AMDEP_TRUE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
@@ -730,7 +730,7 @@ SoAny.obj: $(top_builddir)/src/Inventor/@Gui@/SoAny.cpp
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp' object='SoAny.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@	depfile='$(DEPDIR)/SoAny.Po' tmpdepfile='$(DEPDIR)/SoAny.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o SoAny.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/SoAny.cpp`
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o SoAny.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/SoAny.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/SoAny.cpp ) | xargs cygpath -w`
 
 SoAny.lo: $(top_builddir)/src/Inventor/@Gui@/SoAny.cpp
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp' object='SoAny.lo' libtool=yes @AMDEPBACKSLASH@
@@ -748,7 +748,7 @@ So@Gui@Cursor.obj: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp' object='So@Gui@Cursor.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@Cursor.Po' tmpdepfile='$(DEPDIR)/So@Gui@Cursor.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@Cursor.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp`
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@Cursor.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp ) | xargs cygpath -w`
 
 So@Gui@Cursor.lo: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp' object='So@Gui@Cursor.lo' libtool=yes @AMDEPBACKSLASH@
@@ -766,7 +766,7 @@ So@Gui@Object.obj: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp' object='So@Gui@Object.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@Object.Po' tmpdepfile='$(DEPDIR)/So@Gui@Object.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@Object.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp`
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@Object.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp ) | xargs cygpath -w`
 
 So@Gui@Object.lo: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp' object='So@Gui@Object.lo' libtool=yes @AMDEPBACKSLASH@
@@ -784,7 +784,7 @@ So@Gui@Common.obj: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp' object='So@Gui@Common.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@Common.Po' tmpdepfile='$(DEPDIR)/So@Gui@Common.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@Common.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp`
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@Common.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp ) | xargs cygpath -w`
 
 So@Gui@Common.lo: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp' object='So@Gui@Common.lo' libtool=yes @AMDEPBACKSLASH@
@@ -802,7 +802,7 @@ So@Gui@ComponentCommon.obj: $(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentC
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp' object='So@Gui@ComponentCommon.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@ComponentCommon.Po' tmpdepfile='$(DEPDIR)/So@Gui@ComponentCommon.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@ComponentCommon.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp`
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@ComponentCommon.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp ) | xargs cygpath -w`
 
 So@Gui@ComponentCommon.lo: $(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp' object='So@Gui@ComponentCommon.lo' libtool=yes @AMDEPBACKSLASH@
@@ -820,7 +820,7 @@ So@Gui@GLWidgetCommon.obj: $(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCom
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp' object='So@Gui@GLWidgetCommon.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@GLWidgetCommon.Po' tmpdepfile='$(DEPDIR)/So@Gui@GLWidgetCommon.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@GLWidgetCommon.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp`
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@GLWidgetCommon.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp ) | xargs cygpath -w`
 
 So@Gui@GLWidgetCommon.lo: $(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp' object='So@Gui@GLWidgetCommon.lo' libtool=yes @AMDEPBACKSLASH@
@@ -838,7 +838,7 @@ So@Gui@RenderArea.obj: $(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp' object='So@Gui@RenderArea.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@RenderArea.Po' tmpdepfile='$(DEPDIR)/So@Gui@RenderArea.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@RenderArea.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp`
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@RenderArea.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp ) | xargs cygpath -w`
 
 So@Gui@RenderArea.lo: $(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp' object='So@Gui@RenderArea.lo' libtool=yes @AMDEPBACKSLASH@
