@@ -76,8 +76,8 @@ static const char rcsid[] =
 #include <Inventor/Qt/viewers/SoAnyExaminerViewer.h>
 
 // Icon graphic for the camera button.
-#include "icons/ortho.xpm"
-#include "icons/perspective.xpm"
+#include <Inventor/Qt/common/pixmaps/ortho.xpm>
+#include <Inventor/Qt/common/pixmaps/perspective.xpm>
 
 ///////// FIXME start //////////////////////////////////////////////////
 // Do something clever about this Qt layout assistant code.. (the code

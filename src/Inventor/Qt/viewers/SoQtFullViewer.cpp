@@ -75,13 +75,13 @@ static const char rcsid[] =
 #include <Inventor/Qt/viewers/SoQtFullViewer.h>
 
 // Button icons.
-#include "icons/pick.xpm"
-#include "icons/view.xpm"
-#include "icons/help.xpm"
-#include "icons/home.xpm"
-#include "icons/set_home.xpm"
-#include "icons/view_all.xpm"
-#include "icons/seek.xpm"
+#include <Inventor/Qt/common/pixmaps/pick.xpm>
+#include <Inventor/Qt/common/pixmaps/view.xpm>
+#include <Inventor/Qt/common/pixmaps/help.xpm>
+#include <Inventor/Qt/common/pixmaps/home.xpm>
+#include <Inventor/Qt/common/pixmaps/set_home.xpm>
+#include <Inventor/Qt/common/pixmaps/view_all.xpm>
+#include <Inventor/Qt/common/pixmaps/seek.xpm>
 
 /*!
   \enum SoQtFullViewer::BuildFlag
