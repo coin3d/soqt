@@ -36,7 +36,8 @@
 #include <qtimer.h>
 #include <qcursor.h>
 #include <qmetaobject.h>
-#include <moc_SoQtExaminerViewer.cpp>
+#include <moc_SoQtExaminerViewerP.cpp>
+#include <SoQtExaminerViewerP.h>
 
 #include <Inventor/nodes/SoPerspectiveCamera.h>
 #include <Inventor/nodes/SoOrthographicCamera.h>
@@ -56,6 +57,24 @@
 // Icon graphic for the camera button.
 #include <Inventor/Qt/common/pixmaps/ortho.xpm>
 #include <Inventor/Qt/common/pixmaps/perspective.xpm>
+
+// *************************************************************************
+
+// SoQtExaminerViewerP "private implementation" class.
+
+SoQtExaminerViewerP::SoQtExaminerViewerP(SoQtExaminerViewer * publ)
+  : SoGuiExaminerViewerP(publ)
+{
+}
+
+SoQtExaminerViewerP::~SoQtExaminerViewerP()
+{
+  // Button pixmaps.
+  delete this->orthopixmap;
+  delete this->perspectivepixmap;
+
+  this->genericDestructor();
+}
 
 // *************************************************************************
 
@@ -86,7 +105,8 @@ SoQtExaminerViewer::SoQtExaminerViewer(QWidget * parent,
                                        SoQtViewer::Type type)
   : inherited(parent, name, embed, flag, type, FALSE)
 {
-  this->constructor(TRUE);
+  PRIVATE(this) = new SoQtExaminerViewerP(this);
+  PRIVATE(this)->constructor(TRUE);
 }
 
 // *************************************************************************
@@ -103,7 +123,8 @@ SoQtExaminerViewer::SoQtExaminerViewer(QWidget * parent,
                                        SbBool build)
   : inherited(parent, name, embed, flag, type, FALSE)
 {
-  this->constructor(build);
+  PRIVATE(this) = new SoQtExaminerViewerP(this);
+  PRIVATE(this)->constructor(build);
 }
 
 // *************************************************************************
@@ -116,7 +137,7 @@ SoQtExaminerViewer::SoQtExaminerViewer(QWidget * parent,
 */
 
 void
-SoQtExaminerViewer::constructor(SbBool build)
+SoQtExaminerViewerP::constructor(SbBool build)
 {
   this->genericConstructor();
 
@@ -130,19 +151,16 @@ SoQtExaminerViewer::constructor(SbBool build)
   this->perspectivepixmap = new QPixmap((const char **)perspective_xpm);
   assert(this->orthopixmap->size() == this->perspectivepixmap->size());
 
-  this->spindetecttimer = NULL;
-  this->setClassName("SoQtExaminerViewer");
+  PUBLIC(this)->setClassName("SoQtExaminerViewer");
 
-  this->addVisibilityChangeCallback(SoQtExaminerViewer::visibilityCB, this);
-
-  this->setPopupMenuString("Examiner Viewer");
-  this->setPrefSheetString("Examiner Viewer Preference Sheet");
-  this->setLeftWheelString("Rotx");
-  this->setBottomWheelString("Roty");
+  PUBLIC(this)->setPopupMenuString("Examiner Viewer");
+  PUBLIC(this)->setPrefSheetString("Examiner Viewer Preference Sheet");
+  PUBLIC(this)->setLeftWheelString("Rotx");
+  PUBLIC(this)->setBottomWheelString("Roty");
 
   if (build) {
-    QWidget * widget = this->buildWidget(this->getParentWidget());
-    this->setBaseWidget(widget);
+    QWidget * widget = PUBLIC(this)->buildWidget(PUBLIC(this)->getParentWidget());
+    PUBLIC(this)->setBaseWidget(widget);
   }
 }
 
@@ -154,14 +172,7 @@ SoQtExaminerViewer::constructor(SbBool build)
 
 SoQtExaminerViewer::~SoQtExaminerViewer()
 {
-  // Button pixmaps.
-  delete this->orthopixmap;
-  delete this->perspectivepixmap;
-
-  // Variables used in the spin animation code.
-  delete this->spindetecttimer;
-
-  this->genericDestructor();
+  delete PRIVATE(this);
 }
 
 // *************************************************************************
@@ -180,10 +191,10 @@ SoQtExaminerViewer::setCamera(SoCamera * newCamera)
       camtype.isDerivedFrom(SoOrthographicCamera::getClassTypeId());
 
     this->setRightWheelString(orthotype ? "Zoom" : "Dolly");
-    if (this->cameratogglebutton) {
-      this->cameratogglebutton->setPixmap(orthotype ?
-                                          * (this->orthopixmap) :
-                                          * (this->perspectivepixmap));
+    if (PRIVATE(this)->cameratogglebutton) {
+      PRIVATE(this)->cameratogglebutton->setPixmap(orthotype ?
+                                                   * (PRIVATE(this)->orthopixmap) :
+                                                   * (PRIVATE(this)->perspectivepixmap));
     }
   }
 
@@ -215,7 +226,7 @@ SoQtExaminerViewer::makeSubPreferences(QWidget * parent)
   c1->adjustSize();
   c1->setChecked(this->isAnimationEnabled());
   QObject::connect(c1, SIGNAL(toggled(bool)),
-                   this, SLOT(spinAnimationToggled(bool)));
+                   PRIVATE(this), SLOT(spinAnimationToggled(bool)));
 
   // Layout row 1.
   toplayout->addWidget(c1, c1->height());
@@ -227,7 +238,7 @@ SoQtExaminerViewer::makeSubPreferences(QWidget * parent)
   c2->adjustSize();
   c2->setChecked(this->isFeedbackVisible());
   QObject::connect(c2, SIGNAL(toggled(bool)),
-                   this, SLOT(feedbackVisibilityToggle(bool)));
+                   PRIVATE(this), SLOT(feedbackVisibilityToggle(bool)));
 
   // Layout row 2.
   toplayout->addWidget(c2, c2->height());
@@ -239,44 +250,44 @@ SoQtExaminerViewer::makeSubPreferences(QWidget * parent)
 
   QSize tmpsize = QSize(0, 0);
 
-  this->feedbacklabel1 = new QLabel("axes size", w);
-  this->feedbacklabel1->adjustSize();
-  expandSize(tmpsize, this->feedbacklabel1->size(), LayoutHorizontal);
+  PRIVATE(this)->feedbacklabel1 = new QLabel("axes size", w);
+  PRIVATE(this)->feedbacklabel1->adjustSize();
+  expandSize(tmpsize, PRIVATE(this)->feedbacklabel1->size(), LayoutHorizontal);
 
-  this->feedbackwheel = new SoQtThumbWheel(SoQtThumbWheel::Horizontal, w);
-  this->feedbackwheel->setRangeBoundaryHandling(SoQtThumbWheel::ACCUMULATE);
-  QObject::connect(this->feedbackwheel, SIGNAL(wheelMoved(float)),
-                   this, SLOT(feedbackSizeChanged(float)));
-  this->feedbackwheel->setValue(float(this->getFeedbackSize())/10.0f);
-  this->feedbackwheel->adjustSize();
-  expandSize(tmpsize, this->feedbackwheel->size(), LayoutHorizontal);
+  PRIVATE(this)->feedbackwheel = new SoQtThumbWheel(SoQtThumbWheel::Horizontal, w);
+  PRIVATE(this)->feedbackwheel->setRangeBoundaryHandling(SoQtThumbWheel::ACCUMULATE);
+  QObject::connect(PRIVATE(this)->feedbackwheel, SIGNAL(wheelMoved(float)),
+                   PRIVATE(this), SLOT(feedbackSizeChanged(float)));
+  PRIVATE(this)->feedbackwheel->setValue(float(this->getFeedbackSize())/10.0f);
+  PRIVATE(this)->feedbackwheel->adjustSize();
+  expandSize(tmpsize, PRIVATE(this)->feedbackwheel->size(), LayoutHorizontal);
 
-  this->feedbackedit = new QLineEdit(w);
-  QObject::connect(this->feedbackedit, SIGNAL(returnPressed()),
-                   this, SLOT(feedbackEditPressed()));
+  PRIVATE(this)->feedbackedit = new QLineEdit(w);
+  QObject::connect(PRIVATE(this)->feedbackedit, SIGNAL(returnPressed()),
+                   PRIVATE(this), SLOT(feedbackEditPressed()));
   QString s;
   s.setNum(this->getFeedbackSize());
-  this->feedbackedit->setText(s);
-  this->feedbackedit->adjustSize();
-  expandSize(tmpsize, this->feedbackedit->size(), LayoutHorizontal);
+  PRIVATE(this)->feedbackedit->setText(s);
+  PRIVATE(this)->feedbackedit->adjustSize();
+  expandSize(tmpsize, PRIVATE(this)->feedbackedit->size(), LayoutHorizontal);
 
-  this->feedbacklabel2 = new QLabel("size", w);
-  this->feedbacklabel2->adjustSize();
-  expandSize(tmpsize, this->feedbacklabel2->size(), LayoutHorizontal);
+  PRIVATE(this)->feedbacklabel2 = new QLabel("size", w);
+  PRIVATE(this)->feedbacklabel2->adjustSize();
+  expandSize(tmpsize, PRIVATE(this)->feedbacklabel2->size(), LayoutHorizontal);
 
   // Layout row 3.
   QHBoxLayout * layout = new QHBoxLayout;
   toplayout->addLayout(layout, tmpsize.height());
-  layout->addWidget(this->feedbacklabel1, this->feedbacklabel1->width());
-  layout->addWidget(this->feedbackwheel, this->feedbackwheel->width());
-  layout->addWidget(this->feedbackedit, this->feedbackedit->width());
-  layout->addWidget(this->feedbacklabel2, this->feedbacklabel2->width());
+  layout->addWidget(PRIVATE(this)->feedbacklabel1, PRIVATE(this)->feedbacklabel1->width());
+  layout->addWidget(PRIVATE(this)->feedbackwheel, PRIVATE(this)->feedbackwheel->width());
+  layout->addWidget(PRIVATE(this)->feedbackedit, PRIVATE(this)->feedbackedit->width());
+  layout->addWidget(PRIVATE(this)->feedbacklabel2, PRIVATE(this)->feedbacklabel2->width());
   expandSize(totalsize, tmpsize, LayoutVertical);
 
   w->resize(totalsize);
   toplayout->activate();
 
-  this->setEnableFeedbackControls(this->isFeedbackVisible());
+  PRIVATE(this)->setEnableFeedbackControls(this->isFeedbackVisible());
 
   return w;
 }
@@ -290,26 +301,26 @@ SoQtExaminerViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
 {
   inherited::createViewerButtons(parent, buttonlist);
 
-  this->cameratogglebutton = new QPushButton(parent);
-  this->cameratogglebutton->setFocusPolicy(QWidget::NoFocus);
-  assert(this->perspectivepixmap);
-  assert(this->orthopixmap);
+  PRIVATE(this)->cameratogglebutton = new QPushButton(parent);
+  PRIVATE(this)->cameratogglebutton->setFocusPolicy(QWidget::NoFocus);
+  assert(PRIVATE(this)->perspectivepixmap);
+  assert(PRIVATE(this)->orthopixmap);
 
   QPixmap * p = NULL;
   SoType t = this->getCameraType();
   if (t.isDerivedFrom(SoOrthographicCamera::getClassTypeId()))
-    p = this->orthopixmap;
+    p = PRIVATE(this)->orthopixmap;
   else if (t.isDerivedFrom(SoPerspectiveCamera::getClassTypeId()))
-    p = this->perspectivepixmap;
+    p = PRIVATE(this)->perspectivepixmap;
   else assert(0 && "unsupported cameratype");
 
-  this->cameratogglebutton->setPixmap(*p);
-  this->cameratogglebutton->adjustSize();
+  PRIVATE(this)->cameratogglebutton->setPixmap(*p);
+  PRIVATE(this)->cameratogglebutton->adjustSize();
 
-  QObject::connect(this->cameratogglebutton, SIGNAL(clicked()),
-                   this, SLOT(cameratoggleClicked()));
+  QObject::connect(PRIVATE(this)->cameratogglebutton, SIGNAL(clicked()),
+                   PRIVATE(this), SLOT(cameratoggleClicked()));
 
-  buttonlist->append(this->cameratogglebutton);
+  buttonlist->append(PRIVATE(this)->cameratogglebutton);
 }
 
 // *************************************************************************
@@ -319,7 +330,7 @@ SoQtExaminerViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
 */
 
 void
-SoQtExaminerViewer::setEnableFeedbackControls(const SbBool flag)
+SoQtExaminerViewerP::setEnableFeedbackControls(const SbBool flag)
 {
   this->feedbacklabel1->setEnabled(flag);
   this->feedbacklabel2->setEnabled(flag);
@@ -329,46 +340,20 @@ SoQtExaminerViewer::setEnableFeedbackControls(const SbBool flag)
 
 // *************************************************************************
 
-/*!
-  \internal
-
-  This gets called whenever the visibility status of the viewer widget
-  changes (for instance on iconization/deiconization).
-*/
-
-void
-SoQtExaminerViewer::visibilityCallback(SbBool visible)
-{
-  if (this->isAnimating()) {
-//    if (visible)
-//      this->spintimertrigger->schedule();
-//    else
-//      this->spintimertrigger->unschedule();
-  }
-}
-
-void
-SoQtExaminerViewer::visibilityCB(void * data, SbBool visible)
-{
-  ((SoQtExaminerViewer *) data)->visibilityCallback(visible);
-}
-
-// *************************************************************************
-
 //  Pref sheet slot.
 void
-SoQtExaminerViewer::spinAnimationToggled(bool flag)
+SoQtExaminerViewerP::spinAnimationToggled(bool flag)
 {
-  this->setAnimationEnabled(flag ? TRUE : FALSE);
+  PUBLIC(this)->setAnimationEnabled(flag ? TRUE : FALSE);
 }
 
 // *************************************************************************
 
 // Pref sheet slot.
 void
-SoQtExaminerViewer::feedbackVisibilityToggle(bool flag)
+SoQtExaminerViewerP::feedbackVisibilityToggle(bool flag)
 {
-  this->setFeedbackVisibility(flag ? TRUE : FALSE);
+  PUBLIC(this)->setFeedbackVisibility(flag ? TRUE : FALSE);
   this->setEnableFeedbackControls(flag);
 }
 
@@ -376,16 +361,16 @@ SoQtExaminerViewer::feedbackVisibilityToggle(bool flag)
 
 //  Pref sheet slot.
 void
-SoQtExaminerViewer::feedbackEditPressed()
+SoQtExaminerViewerP::feedbackEditPressed()
 {
   int val;
   if ((sscanf(this->feedbackedit->text(), "%d", &val) == 1) && (val > 0.0f)) {
     this->feedbackwheel->setValue(float(val)/10.0f);
-    this->setFeedbackSize(val);
+    PUBLIC(this)->setFeedbackSize(val);
   }
   else {
     QString s;
-    s.setNum(this->getFeedbackSize());
+    s.setNum(PUBLIC(this)->getFeedbackSize());
     this->feedbackedit->setText(s);
   }
 }
@@ -394,35 +379,35 @@ SoQtExaminerViewer::feedbackEditPressed()
 
 // Pref sheet slot.
 void
-SoQtExaminerViewer::feedbackWheelPressed()
+SoQtExaminerViewerP::feedbackWheelPressed()
 {
-  this->interactiveCountInc();
+  PUBLIC(this)->interactiveCountInc();
 }
 
 // *************************************************************************
 
 // Pref sheet slot.
 void
-SoQtExaminerViewer::feedbackWheelReleased()
+SoQtExaminerViewerP::feedbackWheelReleased()
 {
-  this->interactiveCountDec();
+  PUBLIC(this)->interactiveCountDec();
 }
 
 // *************************************************************************
 
 // Pref sheet slot.
 void
-SoQtExaminerViewer::feedbackSizeChanged(float val)
+SoQtExaminerViewerP::feedbackSizeChanged(float val)
 {
   if (val < 0.1f) {
     val = 0.1f;
     this->feedbackwheel->setValue(val);
   }
 
-  this->setFeedbackSize(int(val * 10));
+  PUBLIC(this)->setFeedbackSize(int(val * 10));
 
   QString s;
-  s.setNum(this->getFeedbackSize());
+  s.setNum(PUBLIC(this)->getFeedbackSize());
   this->feedbackedit->setText(s);
 }
 
@@ -430,9 +415,9 @@ SoQtExaminerViewer::feedbackSizeChanged(float val)
 
 // Pref sheet slot.
 void
-SoQtExaminerViewer::cameratoggleClicked()
+SoQtExaminerViewerP::cameratoggleClicked()
 {
-  if (this->getCamera()) this->toggleCameraType();
+  if (PUBLIC(this)->getCamera()) PUBLIC(this)->toggleCameraType();
 }
 
 // *************************************************************************
@@ -445,7 +430,7 @@ void
 SoQtExaminerViewer::setAnimationEnabled(const SbBool enable)
 {
   // FIXME: update pref-sheet widget with the value. 20020603 mortene.
-  this->setGenericAnimationEnabled(enable);
+  PRIVATE(this)->setGenericAnimationEnabled(enable);
 }
 
 
@@ -457,7 +442,7 @@ void
 SoQtExaminerViewer::setFeedbackSize(const int size)
 {
   // FIXME: update pref-sheet widget with the value. 20020603 mortene.
-  this->setGenericFeedbackSize(size);
+  PRIVATE(this)->setGenericFeedbackSize(size);
 }
 
 // *************************************************************************
