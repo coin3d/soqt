@@ -179,6 +179,16 @@ SoQtExaminerViewer::~SoQtExaminerViewer()
 
 // Documented in superclass.
 void
+SoQtExaminerViewer::createPrefSheet(void)
+{
+  // FIXME: not implemented according to correct API yet. 20020603 mortene.
+  inherited::createPrefSheet();
+}
+
+// *************************************************************************
+
+// Documented in superclass.
+void
 SoQtExaminerViewer::setCamera(SoCamera * newCamera)
 {
   // This method overridden from parent class to toggle the camera
