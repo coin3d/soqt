@@ -264,3 +264,50 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     20021118 mortene.
     
 =====================================================================
+
+015 Can't change viewer embedded within a Qt widget on-the-fly.
+
+    The following code shows how to reproduce the problem, and was
+    written by Gatien Mellion and posted to coin-discuss:
+
+    ----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] ---
+
+    #include "config.h"
+    #include <qapplication.h>
+    #include "SoQt.h"
+    #include "SoQtExaminerViewer.h"
+    #include "SoQtPlaneViewer.h"
+    #include <Inventor/nodes/SoBaseColor.h>
+    #include <Inventor/nodes/SoCone.h>
+    #include <Inventor/nodes/SoSeparator.h>
+    
+    int main(int argc, char ** argv)
+    {
+       QApplication app(argc, argv);
+       SoQt::init("");
+    
+       QWidget * parent = new QWidget;  
+       app.setMainWidget(parent);
+    
+        SoSeparator * root = new SoSphere;
+        root->ref();
+        root->addChild(new SoCone());
+      
+        SoQtExaminerViewer * viewer = new SoQtExaminerViewer(parent);
+        viewer->setSceneGraph(root);
+        viewer->show();
+        delete viewer;
+    
+        SoQtPlaneViewer* planeviewer = new SoQtPlaneViewer(parent); 
+        planeviewer->setSceneGraph(root);
+        planeviewer->show();
+    	
+        app.exec();
+    
+        return 0;
+    }
+    ----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] ---
+
+    20021122 mortene.
+
+=====================================================================
