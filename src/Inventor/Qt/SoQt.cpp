@@ -293,6 +293,32 @@ QTimer * SoQtP::delaytimeouttimer = NULL;
 SoQtP * SoQtP::slotobj = NULL;
 bool SoQtP::didcreatemainwidget = FALSE;
 
+#ifdef HAVE_WIN32_API
+// Qt 3.3 seems to use simple timers by default. Since simple timers
+// causes idle sensors to trigger only 100 times per second, we set
+// this variable to true in SoQt::init(). pederb, 2004-07-21
+
+// The global qt_win_use_simple_timers variable is defined in Qt 3.0.5
+// and 3.3.1. If linking fails for some version of Qt, we'll add a
+// configure test to test for this variable. Reading the Qt interest
+// archive, it seems like it's ok for application code to modify
+// it though.
+Q_EXPORT extern bool qt_win_use_simple_timers;
+#endif // HAVE_WIN32_API
+
+static void soqt_reset_simple_timers(void)
+{
+#ifdef HAVE_WIN32_API
+  const char * env = SoAny::si()->getenv("SOQT_USE_SIMPLE_TIMERS");
+  if (env) {
+    qt_win_use_simple_timers = (bool) atoi(env);
+  }
+  else {
+    qt_win_use_simple_timers = false;
+  }
+#endif // HAVE_WIN32_API
+}
+
 #define ENVVAR_NOT_INITED INT_MAX
 
 int SoQtP::DEBUG_X11SYNC = ENVVAR_NOT_INITED;
@@ -651,6 +677,9 @@ COIN_IV_EXTENSIONS
 void
 SoQt::init(QWidget * toplevelwidget)
 {
+  // workaround for Qt bug under Windows. See above for comments
+  soqt_reset_simple_timers();
+
   // "qApp" is a global variable from the Qt library, pointing to the
   // single QApplication instance in a Qt-application.
   if (qApp == NULL) {
