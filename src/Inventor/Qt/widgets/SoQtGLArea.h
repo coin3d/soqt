@@ -19,21 +19,21 @@
 
 //  $Id$
 
-#ifndef QT_GLAREA_H
-#define QT_GLAREA_H
+#ifndef SOQT_GLAREA_H
+#define SOQT_GLAREA_H
 
 #include <qgl.h>
 
 // *************************************************************************
 
-class QtGLArea : public QGLWidget {
+class SoQtGLArea : public QGLWidget {
   typedef QGLWidget inherited;
 
   Q_OBJECT
 
 public:
-  QtGLArea( QWidget * const parent, const char * const name = "QtGLArea" );
-  ~QtGLArea(void);
+  SoQtGLArea( QWidget * const parent, const char * const name = "QtGLArea" );
+  ~SoQtGLArea(void);
 
 signals:
   void init_sig(void);
@@ -45,8 +45,8 @@ protected:
   virtual void resizeGL( int width, int height );
   virtual void initializeGL(void);
 
-}; // class QtGLArea
+}; // class SoQtGLArea
 
 // *************************************************************************
 
-#endif // ! QT_GLAREA_H
+#endif // ! SOQT_GLAREA_H

@@ -46,7 +46,7 @@ static const char rcsid[] =
 #include <Inventor/misc/SoBasic.h>
 
 #include <Inventor/Qt/common/soguidefs.h>
-#include <Inventor/Qt/widgets/QtGLArea.h>
+#include <Inventor/Qt/widgets/SoQtGLArea.h>
 #include <Inventor/Qt/SoQtGLWidget.h>
 
 
@@ -113,7 +113,7 @@ SoQtGLWidget::buildWidget(QWidget * parent)
   this->borderwidget->setLineWidth( SO_BORDER_THICKNESS );
   this->borderwidget->move( 0, 0 );
 
-  this->glwidget = new QtGLArea( this->borderwidget, NULL );
+  this->glwidget = new SoQtGLArea( this->borderwidget, NULL );
   QRect frameInterior( borderwidget->contentsRect() );
   this->glwidget->move( frameInterior.topLeft() );
   this->glwidget->resize( frameInterior.size() );
@@ -424,10 +424,10 @@ SoQtGLWidget::getGLAspectRatio(
 /*!
   Returns a pointer to the Qt QGLWidget.
  */
-QtGLArea *
+SoQtGLArea *
 SoQtGLWidget::getQtGLArea(void)
 {
-  return (QtGLArea *) this->glwidget;
+  return (SoQtGLArea *) this->glwidget;
 }
 
 /*!
@@ -470,7 +470,7 @@ SoQtGLWidget::glLock(
   assert( this->glwidget != NULL );
   this->glLockLevel++;
   assert( this->glLockLevel < 10 && "must be programming error" );
-  ((QtGLArea *)this->glwidget)->makeCurrent();
+  ((SoQtGLArea *)this->glwidget)->makeCurrent();
 } // glLock()
 
 void
@@ -490,7 +490,7 @@ SoQtGLWidget::glSwapBuffers(
 #if SOQT_DEBUG && 0 // debug
   SoDebugError::postInfo( "SoQtGLWidget::glSwapBuffers", "start" );
 #endif // debug
-  ((QtGLArea *)this->glwidget)->swapBuffers();
+  ((SoQtGLArea *)this->glwidget)->swapBuffers();
 #if SOQT_DEBUG && 0 // debug
   SoDebugError::postInfo( "SoQtGLWidget::glSwapBuffers", "done" );
 #endif // debug

@@ -24,8 +24,9 @@ static const char rcsid[] =
 // do our own initialization and event handling on resizes and expose
 // events.
 
-#include <Inventor/Qt/widgets/QtGLArea.h>
 #include <assert.h>
+
+#include <Inventor/Qt/widgets/SoQtGLArea.h>
 
 #if SOQT_DEBUG
 #include <Inventor/errors/SoDebugError.h>
@@ -35,26 +36,26 @@ static const char rcsid[] =
 
 #if SOQT_DEBUG && 0 // switch 0<->1 to toggle debugging info on/off
 
-#define QTGLAREA_DEBUG_INFO(_funcname_, _infostr_) \
+#define SOQT_GLAREA_DEBUG_INFO(_funcname_, _infostr_) \
   do { \
     SbString s("QtGLArea::"); \
     s += SO__QUOTE(_funcname_); \
     SoDebugError::postInfo(s.getString(), _infostr_); \
   } while (0)
 
-#define QTGLAREA_DEBUG_START(_funcname_)  QTGLAREA_DEBUG_INFO(_funcname_, "start")
-#define QTGLAREA_DEBUG_DONE(_funcname_)  QTGLAREA_DEBUG_INFO(_funcname_, "done")
+#define SOQT_GLAREA_DEBUG_START(_funcname_)  SOQT_GLAREA_DEBUG_INFO(_funcname_, "start")
+#define SOQT_GLAREA_DEBUG_DONE(_funcname_)  SOQT_GLAREA_DEBUG_INFO(_funcname_, "done")
 
 #else // !debug
 
-#define QTGLAREA_DEBUG_START(_funcname_)
-#define QTGLAREA_DEBUG_DONE(_funcname_)
+#define SOQT_GLAREA_DEBUG_START(_funcname_)
+#define SOQT_GLAREA_DEBUG_DONE(_funcname_)
 
 #endif // !debug
 
 // *************************************************************************
 
-QtGLArea::QtGLArea(
+SoQtGLArea::SoQtGLArea(
   QWidget * const parent,
   const char * const name )
 : inherited( parent, name, 0x0, WResizeNoErase )
@@ -64,25 +65,25 @@ QtGLArea::QtGLArea(
   // the "DrawToFront" flag is for instance hard to do within the
   // QGLWidget model).
   this->setAutoBufferSwap( FALSE );
-} // QtGLArea()
+} // SoQtGLArea()
 
-QtGLArea::~QtGLArea(
+SoQtGLArea::~SoQtGLArea(
   void )
 {
-} // ~QtGLArea()
+} // ~SoQtGLArea()
 
 /*
   Overloaded from QGLWidget to emit a signal.
 */
 
 void
-QtGLArea::initializeGL(
+SoQtGLArea::initializeGL(
   void )
 {
-  QTGLAREA_DEBUG_START(initializeGL);
+  SOQT_GLAREA_DEBUG_START(initializeGL);
   this->setBackgroundMode(QWidget::NoBackground); // Avoid unnecessary flicker.
   emit this->init_sig();
-  QTGLAREA_DEBUG_DONE(initializeGL);
+  SOQT_GLAREA_DEBUG_DONE(initializeGL);
 } // initializeGL()
 
 /*
@@ -90,13 +91,13 @@ QtGLArea::initializeGL(
 */
 
 void
-QtGLArea::resizeGL(
+SoQtGLArea::resizeGL(
   int width,
   int height )
 {
-  QTGLAREA_DEBUG_START(resizeGL);
+  SOQT_GLAREA_DEBUG_START(resizeGL);
   emit this->reshape_sig( width, height );
-  QTGLAREA_DEBUG_DONE(resizeGL);
+  SOQT_GLAREA_DEBUG_DONE(resizeGL);
 } // resizeGL()
 
 /*
@@ -104,12 +105,12 @@ QtGLArea::resizeGL(
 */
 
 void
-QtGLArea::paintGL(
+SoQtGLArea::paintGL(
   void )
 {
-  QTGLAREA_DEBUG_START(paintGL);
+  SOQT_GLAREA_DEBUG_START(paintGL);
   emit this->expose_sig();
-  QTGLAREA_DEBUG_DONE(paintGL);
+  SOQT_GLAREA_DEBUG_DONE(paintGL);
 } // paintGL()
 
 // *************************************************************************

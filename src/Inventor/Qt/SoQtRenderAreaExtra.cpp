@@ -34,7 +34,7 @@ static const char rcsid[] =
 
 #include <Inventor/Qt/devices/SoQtMouse.h>
 #include <Inventor/Qt/devices/SoQtKeyboard.h>
-#include <Inventor/Qt/widgets/QtGLArea.h>
+#include <Inventor/Qt/widgets/SoQtGLArea.h>
 
 #include <Inventor/Qt/SoQtRenderArea.h>
 
@@ -51,7 +51,7 @@ SoQtRenderArea::processEvent(
   // any event on this level will have to be interaction with the scene...
   const SoEvent * sceneEvent = NULL;
 
-  QtGLArea * widget = this->getQtGLArea();
+  SoQtGLArea * widget = this->getQtGLArea();
   SoQtDevice::setLastEventPosition( widget->mapFromGlobal( QCursor::pos() ) );
 
   if ( this->devices.extra != NULL ) {

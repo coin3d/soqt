@@ -376,13 +376,12 @@ SoQtPopupMenu::AddSeparator(
   if ( menu == NULL ) {
     SoDebugError::postWarning( "SoQtPopupMenu::AddSeparator",
       "no such menu (%d)", menuid );
-    return -1;
+    return;
   }
   ItemRecord * rec = ItemRecord::create( "separator" );
   menu->menu->insertSeparator( pos );
   rec->flags |= ITEM_SEPARATOR;
   this->items->append( rec );
-  return rec->itemid;
 } // AddSeparator()
 
 /*!

@@ -28,7 +28,7 @@
 
 #include <Inventor/Qt/SoQtComponent.h>
 
-class QtGLArea;
+class SoQtGLArea;
 class QFrame;
 
 enum GLModes {        // remove the GLX ones?
@@ -66,7 +66,7 @@ protected:
 
   QWidget * buildWidget( QWidget * parent );
 
-  QtGLArea * getQtGLArea(void);
+  SoQtGLArea * getQtGLArea(void);
 
   virtual void redraw(void) = 0;
 
@@ -101,7 +101,7 @@ private slots:
   void gl_exposed(void);
 
 private:
-  QtGLArea * glwidget;
+  SoQtGLArea * glwidget;
   QWidget * glparent;
   QFrame * borderwidget;
   int borderthickness, glmodebits;
