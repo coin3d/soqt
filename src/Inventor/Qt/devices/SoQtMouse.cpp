@@ -35,10 +35,14 @@
 
 // *************************************************************************
 
+#ifndef DOXYGEN_SKIP_THIS
+
 class SoQtMouseP : public SoGuiMouseP {
 public:
   SoQtMouseP(SoQtMouse * p) : SoGuiMouseP(p) { }
 };
+
+#endif // !DOXYGEN_SKIP_THIS
 
 // *************************************************************************
 

@@ -52,13 +52,25 @@
 #error Qt version too old!
 #endif // QT_VERSION < 200
 
-struct key1map {
-  int from;                // Qt val
-  SoKeyboardEvent::Key to; // So val
-  char printable;
+// *************************************************************************
+
+#ifndef DOXYGEN_SKIP_THIS
+
+class SoQtKeyboardP : public SoGuiKeyboardP {
+public:
+  struct key1map {
+    int from;                // Qt val
+    SoKeyboardEvent::Key to; // So val
+    char printable;
+  };
+
+  static struct key1map QtToSoMapping[];
+  static struct key1map QtToSoMapping_kp[];
+  static SbDict * translatetable;
+  static SbDict * kp_translatetable;
 };
 
-static struct key1map QtToSoMapping[] = {
+struct SoQtKeyboardP::key1map SoQtKeyboardP::QtToSoMapping[] = {
   {Qt::Key_Escape, SoKeyboardEvent::ESCAPE, '.'},
   {Qt::Key_Tab, SoKeyboardEvent::TAB, '.'},
   {Qt::Key_Backspace, SoKeyboardEvent::BACKSPACE, '.'},
@@ -176,7 +188,7 @@ static struct key1map QtToSoMapping[] = {
   {Qt::Key_unknown, SoKeyboardEvent::ANY, 0}
 };
 
-static struct key1map QtToSoMapping_kp[] = {
+struct SoQtKeyboardP::key1map SoQtKeyboardP::QtToSoMapping_kp[] = {
   {Qt::Key_Home, SoKeyboardEvent::PAD_7, '.'},
   {Qt::Key_End, SoKeyboardEvent::PAD_1, '.'},
   {Qt::Key_Left, SoKeyboardEvent::PAD_4, '.'},
@@ -212,20 +224,17 @@ static struct key1map QtToSoMapping_kp[] = {
   {Qt::Key_unknown, SoKeyboardEvent::ANY, 0} // Ends table
 };
 
-static SbDict * translatetable = NULL;
-static SbDict * kp_translatetable = NULL;
+SbDict * SoQtKeyboardP::translatetable = NULL;
+SbDict * SoQtKeyboardP::kp_translatetable = NULL;
+
+#endif // !DOXYGEN_SKIP_THIS
 
 static void
 soqtkeyboard_cleanup(void)
 {
-  delete translatetable;
-  delete kp_translatetable;
+  delete SoQtKeyboardP::translatetable;
+  delete SoQtKeyboardP::kp_translatetable;
 }
-
-// *************************************************************************
-
-class SoQtKeyboardP : public SoGuiKeyboardP {
-};
 
 // *************************************************************************
 
@@ -270,21 +279,21 @@ SoQtKeyboard::disable(QWidget * widget, SoQtEventHandler * handler, void * closu
 static void
 make_translation_table(void)
 {
-  assert(translatetable == NULL);
-  translatetable = new SbDict;
-  kp_translatetable = new SbDict;
+  assert(SoQtKeyboardP::translatetable == NULL);
+  SoQtKeyboardP::translatetable = new SbDict;
+  SoQtKeyboardP::kp_translatetable = new SbDict;
 
   int i = 0;
-  while (QtToSoMapping[i].from != Qt::Key_unknown) {
-    translatetable->enter((unsigned long)QtToSoMapping[i].from,
-                          (void *)&QtToSoMapping[i]);
+  while (SoQtKeyboardP::QtToSoMapping[i].from != Qt::Key_unknown) {
+    SoQtKeyboardP::translatetable->enter((unsigned long)SoQtKeyboardP::QtToSoMapping[i].from,
+                                         (void *)&SoQtKeyboardP::QtToSoMapping[i]);
     i++;
   }
 
   i = 0;
-  while (QtToSoMapping_kp[i].from != Qt::Key_unknown) {
-    kp_translatetable->enter((unsigned long)QtToSoMapping_kp[i].from,
-                             (void *)&QtToSoMapping_kp[i]);
+  while (SoQtKeyboardP::QtToSoMapping_kp[i].from != Qt::Key_unknown) {
+    SoQtKeyboardP::kp_translatetable->enter((unsigned long)SoQtKeyboardP::QtToSoMapping_kp[i].from,
+                                            (void *)&SoQtKeyboardP::QtToSoMapping_kp[i]);
     i++;
   }
 }
@@ -364,7 +373,7 @@ SoQtKeyboard::translateEvent(QEvent * event)
 
   if (keyevent && (PRIVATE(this)->eventmask & (KEY_PRESS|KEY_RELEASE))) {
 
-    if (!translatetable) make_translation_table();
+    if (!SoQtKeyboardP::translatetable) make_translation_table();
 
     QKeyEvent * keyevent = (QKeyEvent *)event;
     int key = keyevent->key();
@@ -380,15 +389,15 @@ SoQtKeyboard::translateEvent(QEvent * event)
 
     // Translate keycode Qt -> So
     void * table;
-    if (keypad && kp_translatetable->find(key, table)) {
-      struct key1map * map = (struct key1map*) table;
+    if (keypad && SoQtKeyboardP::kp_translatetable->find(key, table)) {
+      struct SoQtKeyboardP::key1map * map = (struct SoQtKeyboardP::key1map *)table;
       PRIVATE(this)->kbdevent->setKey(map->to);
 #if 0 // disabled. Breaks build when compiling against OIV
       if (map->printable) PRIVATE(this)->kbdevent->setPrintableCharacter(map->printable);
 #endif // disabled
     } 
-    else if (!keypad && translatetable->find(key, table)) {
-      struct key1map * map = (struct key1map*) table;
+    else if (!keypad && SoQtKeyboardP::translatetable->find(key, table)) {
+      struct SoQtKeyboardP::key1map * map = (struct SoQtKeyboardP::key1map *)table;
       PRIVATE(this)->kbdevent->setKey(map->to);
 #if 0 // disabled. Breaks build when compiling against OIV
       if (map->printable) PRIVATE(this)->kbdevent->setPrintableCharacter(map->printable);

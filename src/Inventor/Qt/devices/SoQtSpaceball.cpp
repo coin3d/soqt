@@ -43,6 +43,8 @@
 
 // *************************************************************************
 
+#ifndef DOXYGEN_SKIP_THIS
+
 SoQtSpaceballP::SoQtSpaceballP(SoQtSpaceball * p)
   : SoGuiSpaceballP(p)
 {
@@ -58,6 +60,25 @@ SoQtSpaceballP::~SoQtSpaceballP()
   delete this->motion3event;
   delete this->buttonevent;
 }
+
+SbRotation
+SoQtSpaceballP::makeRotation(const float rx, const float ry, const float rz) const
+{
+  SbRotation xrot(SbVec3f(1, 0, 0), rx * this->rotationscale);
+  SbRotation yrot(SbVec3f(0, 1, 0), ry * this->rotationscale);
+  SbRotation zrot(SbVec3f(0, 0, 1), - rz * this->rotationscale);
+  return xrot * yrot * zrot;
+}
+
+SbVec3f
+SoQtSpaceballP::makeTranslation(const float tx, const float ty, const float tz) const
+{
+  return SbVec3f(tx * this->translationscale,
+                 ty * this->translationscale,
+                 - tz * this->translationscale);
+}
+
+#endif // !DOXYGEN_SKIP_THIS
 
 // *************************************************************************
 
@@ -145,25 +166,5 @@ SoQtSpaceball::isFocusToWindow(void) const
 {
   return PRIVATE(this)->focustowindow;
 }
-
-// *************************************************************************
-
-SbRotation
-SoQtSpaceballP::makeRotation(const float rx, const float ry, const float rz) const
-{
-  SbRotation xrot(SbVec3f(1, 0, 0), rx * this->rotationscale);
-  SbRotation yrot(SbVec3f(0, 1, 0), ry * this->rotationscale);
-  SbRotation zrot(SbVec3f(0, 0, 1), - rz * this->rotationscale);
-  return xrot * yrot * zrot;
-}
-
-SbVec3f
-SoQtSpaceballP::makeTranslation(const float tx, const float ty, const float tz) const
-{
-  return SbVec3f(tx * this->translationscale,
-                 ty * this->translationscale,
-                 - tz * this->translationscale);
-}
-
 
 // *************************************************************************
