@@ -77,6 +77,7 @@ static const char rcsid[] =
 #include <Inventor/Qt/SoQtMaterialSliderSet.h>
 #include <Inventor/Qt/SoQtTransformSliderSet.h>
 #include <Inventor/Qt/SoQtCursor.h>
+#include <Inventor/Qt/SoAny.h>
 
 // debug
 #define SOQTCOMP_RESIZE_DEBUG 0
@@ -108,6 +109,9 @@ public:
 
   static QCursor * getNativeCursor(const SoQtCursor::CustomCursor * cc);
 
+  static void fatalerrorHandler(void * userdata);
+  void cleanupQtReferences(void);
+
   // Variables.
 
   QWidget * parent;
@@ -134,6 +138,7 @@ SbPList * SoQtComponentP::soqtcomplist = NULL;
 SbDict * SoQtComponentP::cursordict = NULL;
 
 #define PRIVATE(o) (o->pimpl)
+#define PUBLIC(o) (o->owner)
 
 // *************************************************************************
 
@@ -175,11 +180,9 @@ SoQtComponent::initClasses(void)
 
   \a name is mostly interesting for debugging purposes.
 
-  \a buildInsideParent specifies whether or not we should make a new
-  toplevel window for the component even when we've got a non-NULL \a
-  parent.
+  \a embed specifies whether or not we should make a new toplevel
+  window for the component even when we've got a non-NULL \a parent.
 */
-
 SoQtComponent::SoQtComponent(
   QWidget * const parent,
   const char * const name,
@@ -203,6 +206,9 @@ SoQtComponent::SoQtComponent(
 
   PRIVATE(this)->storesize.setValue(-1, -1);
 
+  SoAny::si()->addInternalFatalErrorHandler(SoQtComponentP::fatalerrorHandler,
+                                            PRIVATE(this));
+
   if ((parent == NULL) || ! embed) {
     PRIVATE(this)->parent = (QWidget *) new QMainWindow(parent, name);
     this->registerWidget(parent);
@@ -212,6 +218,7 @@ SoQtComponent::SoQtComponent(
     PRIVATE(this)->parent = parent;
     PRIVATE(this)->embedded = TRUE;
   }
+
   PRIVATE(this)->parent->installEventFilter(this);
 } // SoQtComponent()
 
@@ -237,6 +244,24 @@ SoQtComponent::~SoQtComponent(
 
   delete PRIVATE(this);
 } // ~SoQtComponent()
+
+void
+SoQtComponentP::fatalerrorHandler(void * userdata)
+{
+  SoQtComponentP * that = (SoQtComponentP *)userdata;
+  that->cleanupQtReferences();
+}
+
+void
+SoQtComponentP::cleanupQtReferences(void)
+{
+  // Kill the forwarding of messages to the eventFilter() method, as
+  // that can lead to all kinds of problems if a fatal-error triggers
+  // during construction of the component (like for instance in the
+  // case where no valid OpenGL canvas can be set up for the
+  // SoQtGLWidget).
+  this->parent->removeEventFilter(PUBLIC(this));
+}
 
 /*!
   Add a callback which will be called whenever the widget component

@@ -363,10 +363,15 @@ SoQtGLWidget::buildGLWidget(void)
     delete wasprevious;
   }
 
-  if (! PRIVATE(this)->currentglwidget->isValid()) {
-    SoDebugError::post("SoQtGLWidget::SoQtGLWidget",
-                       "Your graphics hardware is weird! Can't use it.");
-    // FIXME: trigger fatal error handler. 20011112 mortene.
+  // XXX
+  if (PRIVATE(this)->currentglwidget->isValid()) {
+    SbString s =
+      "Can't set up a valid OpenGL canvas, "
+      "something is seriously wrong with your system!";
+    SbBool handled =
+      SoAny::si()->invokeFatalErrorHandler(s, SoQt::NO_OPENGL_CANVAS);
+    if (handled) { return; }
+    exit(1);
   }
 
   if (SOQT_DEBUG) { // Warn about requested features that we didn't get.
