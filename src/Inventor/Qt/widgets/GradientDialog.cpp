@@ -162,7 +162,7 @@ SoQtGradientDialog::SoQtGradientDialog(const Gradient & grad,
   PRIVATE(this) = new SoQtGradientDialogP(this);
 
   QSizePolicy sizepolicy;
-  sizepolicy.setVerData(QSizePolicy::SizeType::MinimumExpanding);
+  sizepolicy.setVerData(QSizePolicy::MinimumExpanding);
   this->setSizePolicy(sizepolicy);
 
   PRIVATE(this)->filetype = ".grad";
