@@ -50,13 +50,11 @@ public:
   QComboBox * gradientList;
   QCheckBox * contupdate;
   Gradient gradientcopy;
-  static Gradient::ChangeCB * changeCallBack;
+  Gradient::ChangeCB * changeCallBack;
   void * changeCallBackData;
   int old_index;
   void * callBackData;
-  // FIXME: static? This looks fishy, as it's a per-instance
-  // setting. 20031012 mortene.
-  static SbBool updateContinuously;
+  SbBool updateContinuously;
 
   QLabel * contupdateLabel;
   QPushButton * applyButton;

@@ -39,34 +39,32 @@
 
 #include <Inventor/Qt/widgets/moc_SoQtGradientDialogP.icc>
 
-SbBool SoQtGradientDialogP::updateContinuously = FALSE;
-Gradient::ChangeCB * SoQtGradientDialogP::changeCallBack = NULL;
-
 SoQtGradientDialogP::SoQtGradientDialogP(SoQtGradientDialog * publ)
 {
   PUBLIC(this) = publ;
+  this->updateContinuously = FALSE;
 }
 
 void
 SoQtGradientDialogP::contupdateClicked()
 {
-  SoQtGradientDialogP::updateContinuously = this->contupdate->isChecked();
+  this->updateContinuously = this->contupdate->isChecked();
 }
 
 void
 SoQtGradientDialogP::callGradientUpdate()
 {  
-  if (SoQtGradientDialogP::changeCallBack) {
-    SoQtGradientDialogP::changeCallBack(this->gradView->getGradient(), 
-                                        this->changeCallBackData);
+  if (this->changeCallBack) {
+    this->changeCallBack(this->gradView->getGradient(), this->changeCallBackData);
   }
 }
 
 void
-SoQtGradientDialogP::gradientCallBack(const Gradient & thisp, void * userData)
+SoQtGradientDialogP::gradientCallBack(const Gradient & g, void * userData)
 {
-  if (SoQtGradientDialogP::updateContinuously) {
-    SoQtGradientDialogP::changeCallBack(thisp, userData);
+  SoQtGradientDialogP * thisp = (SoQtGradientDialogP *)userData;
+  if (thisp->updateContinuously) {
+    if (thisp->changeCallBack) { thisp->changeCallBack(g, thisp->changeCallBackData); }
   }
 }
 
@@ -230,7 +228,7 @@ void SoQtGradientDialog::addGradient(const Gradient & grad, QString description)
 
   if (PRIVATE(this)->changeCallBack) {
     PRIVATE(this)->gradientcopy.setChangeCallback(PRIVATE(this)->gradientCallBack,
-                                                  PRIVATE(this)->changeCallBackData);
+                                                  PRIVATE(this));
   }
 
   PRIVATE(this)->gradients.append(PRIVATE(this)->gradientcopy);
@@ -256,26 +254,26 @@ void SoQtGradientDialog::setChangeCallback(Gradient::ChangeCB * cb, void * userd
 {
   PRIVATE(this)->changeCallBack = cb;
   PRIVATE(this)->changeCallBackData = userdata;
-  PRIVATE(this)->gradView->setChangeCallback(PRIVATE(this)->gradientCallBack, userdata);
+  PRIVATE(this)->gradView->setChangeCallback(PRIVATE(this)->gradientCallBack, PRIVATE(this));
 }
 
 void 
 SoQtGradientDialog::setContinuousNotification(SbBool yes)
 {
   PRIVATE(this)->contupdate->setChecked(yes);
-  SoQtGradientDialogP::updateContinuously = yes;
+  PRIVATE(this)->updateContinuously = yes;
 }
 
 SbBool 
 SoQtGradientDialog::getContinuousNotification(void) const
 {
-  return SoQtGradientDialogP::updateContinuously; 
+  return PRIVATE(this)->updateContinuously; 
 }
 
 void 
 SoQtGradientDialog::alwaysContinuousUpdates(SbBool yes)
 {
-  SoQtGradientDialogP::updateContinuously = yes;
+  PRIVATE(this)->updateContinuously = yes;
   if (yes) { 
     PRIVATE(this)->contupdate->hide(); 
     PRIVATE(this)->contupdateLabel->hide();
