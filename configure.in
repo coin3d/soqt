@@ -235,6 +235,8 @@ AM_DISABLE_STATIC
 AM_MAINTAINER_MODE
 
 # Use C++ for configure tests and Libtool.
+AC_PROG_CC
+AC_PROG_CPP
 AC_PROG_CXX
 AC_LANG(C++)
 
