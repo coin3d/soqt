@@ -590,7 +590,6 @@ SoQtExaminerViewer::setCursorRepresentation(int mode)
     this->defaultcursor = new QCursor(w->cursor());
   }
 
-
   if (!this->isCursorEnabled()) {
     this->setComponentCursor(SoQtCursor(SoQtCursor::BLANK));
     return;
@@ -598,7 +597,7 @@ SoQtExaminerViewer::setCursorRepresentation(int mode)
 
   switch (mode) {
   case SoAnyExaminerViewer::INTERACT:
-    w->setCursor(arrowCursor);
+    this->setComponentCursor(SoQtCursor(SoQtCursor::NORMAL));
     break;
 
   case SoAnyExaminerViewer::EXAMINE:
@@ -611,7 +610,7 @@ SoQtExaminerViewer::setCursorRepresentation(int mode)
     break;
 
   case SoAnyExaminerViewer::WAITING_FOR_SEEK:
-    w->setCursor(crossCursor);
+    this->setComponentCursor(SoQtCursor(SoQtCursor::CROSSHAIR));
     break;
 
   case SoAnyExaminerViewer::WAITING_FOR_PAN:
