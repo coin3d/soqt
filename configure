@@ -4857,6 +4857,107 @@ fi
 
 
 # **************************************************************************
+# Strip off zlib and libpng from the set of link libraries if they are
+# not needed (they might already be linked in implicitly through Qt,
+# which will give us trouble with an MSWin soqt.dll).
+#
+# FIXME: should probably do the same check for libungif and libjpeg aswell?
+# 20000616 mortene.
+
+# snipped from SIM_CHECK_ZLIB
+if test x"$sim_ac_linking_style" = xmswin; then
+  sim_ac_zlib_libs=zlib.lib
+else
+  sim_ac_zlib_libs=-lz
+fi
+
+sim_ac_strip_libs=`echo $LIBS | sed s%\ ${sim_ac_zlib_libs}%%`
+if test x"$sim_ac_strip_libs" != x"$LIBS"; then
+  
+echo $ac_n "checking if we can use zlib without explicit linkage... $ac_c" 1>&6
+echo "configure:4879: checking if we can use zlib without explicit linkage" 1>&5
+sim_ac_zlib_ready=
+
+cat >conftest.$ac_ext <<EOF
+#line 4883 "configure"
+#include "confdefs.h"
+#include <zlib.h>
+int main() {
+(void)zlibVersion();
+; return 0; }
+EOF
+if { (eval echo configure:4890: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+  rm -rf conftest*
+  sim_ac_zlib_ready=true
+else
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  rm -rf conftest*
+  sim_ac_zlib_ready=false
+fi
+rm -f conftest*
+
+if $sim_ac_zlib_ready; then
+  echo "$ac_t""yes" 1>&6
+  
+    LIBS=$sim_ac_strip_libs
+    SOQT_EXTRA_LIBS=`echo $SOQT_EXTRA_LIBS | sed s%\ ${sim_ac_zlib_libs}%%`
+  
+else
+  echo "$ac_t""no" 1>&6
+  
+fi
+
+fi
+
+if test x"$sim_ac_linking_style" = xmswin; then
+  sim_ac_pngdev_libs=png.lib
+else
+  sim_ac_pngdev_libs=-lpng
+fi
+
+sim_ac_strip_libs=`echo $LIBS | sed s%\ ${sim_ac_pngdev_libs}%%`
+if test x"$sim_ac_strip_libs" != x"$LIBS"; then
+  
+echo $ac_n "checking if we can use libpng without explicit linkage... $ac_c" 1>&6
+echo "configure:4924: checking if we can use libpng without explicit linkage" 1>&5
+sim_ac_png_ready=
+
+cat >conftest.$ac_ext <<EOF
+#line 4928 "configure"
+#include "confdefs.h"
+#include <png.h>
+int main() {
+(void)png_read_info(0L, 0L);
+; return 0; }
+EOF
+if { (eval echo configure:4935: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+  rm -rf conftest*
+  sim_ac_png_ready=true
+else
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  rm -rf conftest*
+  sim_ac_png_ready=false
+fi
+rm -f conftest*
+
+if $sim_ac_png_ready; then
+  echo "$ac_t""yes" 1>&6
+  
+    LIBS=$sim_ac_strip_libs
+    SOQT_EXTRA_LIBS=`echo $SOQT_EXTRA_LIBS | sed s%\ ${sim_ac_pngdev_libs}%%`
+  
+else
+  echo "$ac_t""no" 1>&6
+  
+fi
+
+fi
+
+
+
+# **************************************************************************
 # Compiler control.
 
 
@@ -4891,20 +4992,20 @@ fi
 
 
 echo $ac_n "checking for function name variable... $ac_c" 1>&6
-echo "configure:4895: checking for function name variable" 1>&5
+echo "configure:4996: checking for function name variable" 1>&5
 if test "${sim_cv_var_functionname+set}" = set; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   
   cat >conftest.$ac_ext <<EOF
-#line 4901 "configure"
+#line 5002 "configure"
 #include "confdefs.h"
 #include <stdio.h>
 int main() {
 (void)printf("%s\n",__PRETTY_FUNCTION__)
 ; return 0; }
 EOF
-if { (eval echo configure:4908: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:5009: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
   sim_cv_var_functionname=__PRETTY_FUNCTION__
 else
@@ -4916,14 +5017,14 @@ fi
 rm -f conftest*
   if test x"$sim_cv_pretty_function" = x"none"; then
     cat >conftest.$ac_ext <<EOF
-#line 4920 "configure"
+#line 5021 "configure"
 #include "confdefs.h"
 #include <stdio.h>
 int main() {
 (void)printf("%s\n",__FUNCTION__)
 ; return 0; }
 EOF
-if { (eval echo configure:4927: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:5028: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
   sim_cv_var_functionname=__FUNCTION__
 else
@@ -5027,19 +5128,19 @@ ac_link='${CXX-g++} -o conftest${ac_exeext} $CXXFLAGS $CPPFLAGS $LDFLAGS conftes
 cross_compiling=$ac_cv_prog_cxx_cross
 
 echo $ac_n "checking whether $CXX accepts -fno-exceptions... $ac_c" 1>&6
-echo "configure:5031: checking whether $CXX accepts -fno-exceptions" 1>&5
+echo "configure:5132: checking whether $CXX accepts -fno-exceptions" 1>&5
 
 sim_ac_save_cppflags=$CPPFLAGS
 CPPFLAGS="$CPPFLAGS -fno-exceptions"
 cat >conftest.$ac_ext <<EOF
-#line 5036 "configure"
+#line 5137 "configure"
 #include "confdefs.h"
 
 int main() {
 
 ; return 0; }
 EOF
-if { (eval echo configure:5043: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:5144: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
   sim_ac_accept_result=yes
 else
@@ -5077,19 +5178,19 @@ ac_link='${CXX-g++} -o conftest${ac_exeext} $CXXFLAGS $CPPFLAGS $LDFLAGS conftes
 cross_compiling=$ac_cv_prog_cxx_cross
 
 echo $ac_n "checking whether $CXX accepts -fno-handle-exceptions... $ac_c" 1>&6
-echo "configure:5081: checking whether $CXX accepts -fno-handle-exceptions" 1>&5
+echo "configure:5182: checking whether $CXX accepts -fno-handle-exceptions" 1>&5
 
 sim_ac_save_cppflags=$CPPFLAGS
 CPPFLAGS="$CPPFLAGS -fno-handle-exceptions"
 cat >conftest.$ac_ext <<EOF
-#line 5086 "configure"
+#line 5187 "configure"
 #include "confdefs.h"
 
 int main() {
 
 ; return 0; }
 EOF
-if { (eval echo configure:5093: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:5194: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
   sim_ac_accept_result=yes
 else
@@ -5185,19 +5286,19 @@ ac_link='${CXX-g++} -o conftest${ac_exeext} $CXXFLAGS $CPPFLAGS $LDFLAGS conftes
 cross_compiling=$ac_cv_prog_cxx_cross
 
 echo $ac_n "checking whether $CXX accepts -Wno-multichar... $ac_c" 1>&6
-echo "configure:5189: checking whether $CXX accepts -Wno-multichar" 1>&5
+echo "configure:5290: checking whether $CXX accepts -Wno-multichar" 1>&5
 
 sim_ac_save_cppflags=$CPPFLAGS
 CPPFLAGS="$CPPFLAGS -Wno-multichar"
 cat >conftest.$ac_ext <<EOF
-#line 5194 "configure"
+#line 5295 "configure"
 #include "confdefs.h"
 
 int main() {
 
 ; return 0; }
 EOF
-if { (eval echo configure:5201: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:5302: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
   sim_ac_accept_result=yes
 else
@@ -5236,19 +5337,19 @@ ac_link='${CC-cc} -o conftest${ac_exeext} $CFLAGS $CPPFLAGS $LDFLAGS conftest.$a
 cross_compiling=$ac_cv_prog_cc_cross
 
 echo $ac_n "checking whether $CC accepts -Wno-multichar... $ac_c" 1>&6
-echo "configure:5240: checking whether $CC accepts -Wno-multichar" 1>&5
+echo "configure:5341: checking whether $CC accepts -Wno-multichar" 1>&5
 
 sim_ac_save_cppflags=$CPPFLAGS
 CPPFLAGS="$CPPFLAGS -Wno-multichar"
 cat >conftest.$ac_ext <<EOF
-#line 5245 "configure"
+#line 5346 "configure"
 #include "confdefs.h"
 
 int main() {
 
 ; return 0; }
 EOF
-if { (eval echo configure:5252: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:5353: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
   sim_ac_accept_result=yes
 else
@@ -5286,19 +5387,19 @@ ac_link='${CXX-g++} -o conftest${ac_exeext} $CXXFLAGS $CPPFLAGS $LDFLAGS conftes
 cross_compiling=$ac_cv_prog_cxx_cross
 
 echo $ac_n "checking whether $CXX accepts -Wno-multichar... $ac_c" 1>&6
-echo "configure:5290: checking whether $CXX accepts -Wno-multichar" 1>&5
+echo "configure:5391: checking whether $CXX accepts -Wno-multichar" 1>&5
 
 sim_ac_save_cppflags=$CPPFLAGS
 CPPFLAGS="$CPPFLAGS -Wno-multichar"
 cat >conftest.$ac_ext <<EOF
-#line 5295 "configure"
+#line 5396 "configure"
 #include "confdefs.h"
 
 int main() {
 
 ; return 0; }
 EOF
-if { (eval echo configure:5302: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:5403: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
   sim_ac_accept_result=yes
 else
@@ -5343,19 +5444,19 @@ ac_link='${CC-cc} -o conftest${ac_exeext} $CFLAGS $CPPFLAGS $LDFLAGS conftest.$a
 cross_compiling=$ac_cv_prog_cc_cross
 
 echo $ac_n "checking whether $CC accepts -fullwarn... $ac_c" 1>&6
-echo "configure:5347: checking whether $CC accepts -fullwarn" 1>&5
+echo "configure:5448: checking whether $CC accepts -fullwarn" 1>&5
 
 sim_ac_save_cppflags=$CPPFLAGS
 CPPFLAGS="$CPPFLAGS -fullwarn"
 cat >conftest.$ac_ext <<EOF
-#line 5352 "configure"
+#line 5453 "configure"
 #include "confdefs.h"
 
 int main() {
 
 ; return 0; }
 EOF
-if { (eval echo configure:5359: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:5460: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
   sim_ac_accept_result=yes
 else
@@ -5412,19 +5513,19 @@ ac_link='${CC-cc} -o conftest${ac_exeext} $CFLAGS $CPPFLAGS $LDFLAGS conftest.$a
 cross_compiling=$ac_cv_prog_cc_cross
 
 echo $ac_n "checking whether $CC accepts $sim_ac_bogus_warnings... $ac_c" 1>&6
-echo "configure:5416: checking whether $CC accepts $sim_ac_bogus_warnings" 1>&5
+echo "configure:5517: checking whether $CC accepts $sim_ac_bogus_warnings" 1>&5
 
 sim_ac_save_cppflags=$CPPFLAGS
 CPPFLAGS="$CPPFLAGS $sim_ac_bogus_warnings"
 cat >conftest.$ac_ext <<EOF
-#line 5421 "configure"
+#line 5522 "configure"
 #include "confdefs.h"
 
 int main() {
 
 ; return 0; }
 EOF
-if { (eval echo configure:5428: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:5529: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
   sim_ac_accept_result=yes
 else
@@ -5536,7 +5637,7 @@ subdirs="$sim_ac_subconfig"
 
 
 # **************************************************************************
-# List all makefiles configure must automatically generate.
+# Misc set-up.
 
 
 test x"$prefix" = x"NONE" && prefix="$ac_default_prefix"
@@ -5561,6 +5662,9 @@ eval "soqt_build_dir=\"`echo $soqt_current_dir | sed -e 's%\\/%\\\\%g'`\""
 eval "soqt_src_dir=\"`echo $srcdir | sed -e 's%\\/%\\\\%g'`\""
 
 
+
+# **************************************************************************
+# List all files configure shall automatically generate.
 
 trap '' 1 2 15
 cat >confcache <<\EOF

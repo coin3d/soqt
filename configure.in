@@ -235,6 +235,45 @@ SIM_AC_QGLFORMAT_SETOVERLAY
 SIM_AC_QGLWIDGET_SETAUTOBUFFERSWAP
 
 # **************************************************************************
+# Strip off zlib and libpng from the set of link libraries if they are
+# not needed (they might already be linked in implicitly through Qt,
+# which will give us trouble with an MSWin soqt.dll).
+#
+# FIXME: should probably do the same check for libungif and libjpeg aswell?
+# 20000616 mortene.
+
+# snipped from SIM_CHECK_ZLIB
+if test x"$sim_ac_linking_style" = xmswin; then
+  sim_ac_zlib_libs=zlib.lib
+else
+  sim_ac_zlib_libs=-lz
+fi
+
+sim_ac_strip_libs=`echo $LIBS | sed s%\ ${sim_ac_zlib_libs}%%`
+if test x"$sim_ac_strip_libs" != x"$LIBS"; then
+  SIM_AC_CHECK_ZLIB_READY([
+    LIBS=$sim_ac_strip_libs
+    SOQT_EXTRA_LIBS=`echo $SOQT_EXTRA_LIBS | sed s%\ ${sim_ac_zlib_libs}%%`
+  ])
+fi
+
+if test x"$sim_ac_linking_style" = xmswin; then
+  sim_ac_pngdev_libs=png.lib
+else
+  sim_ac_pngdev_libs=-lpng
+fi
+
+sim_ac_strip_libs=`echo $LIBS | sed s%\ ${sim_ac_pngdev_libs}%%`
+if test x"$sim_ac_strip_libs" != x"$LIBS"; then
+  SIM_AC_CHECK_PNG_READY([
+    LIBS=$sim_ac_strip_libs
+    SOQT_EXTRA_LIBS=`echo $SOQT_EXTRA_LIBS | sed s%\ ${sim_ac_pngdev_libs}%%`
+  ])
+fi
+
+
+
+# **************************************************************************
 # Compiler control.
 
 SIM_COMPILE_DEBUG
@@ -297,7 +336,7 @@ fi
 AC_CONFIG_SUBDIRS($sim_ac_subconfig)
 
 # **************************************************************************
-# List all makefiles configure must automatically generate.
+# Misc set-up.
 
 SIM_EXPAND_DIR_VARS
 
@@ -314,6 +353,9 @@ AC_SUBST(soqt_build_dir)
 # Set soqt_src_dir so we can change soqt.dsp
 SIM_AC_DOBACKSLASH(soqt_src_dir,$srcdir)
 AC_SUBST(soqt_src_dir)
+
+# **************************************************************************
+# List all files configure shall automatically generate.
 
 AC_OUTPUT([
 	soqt-config

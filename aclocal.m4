@@ -2083,6 +2083,194 @@ eval "$1=\"`echo $2 | sed -e 's%\\/%\\\\%g'`\""
 ])
 
 # Usage:
+#  SIM_CHECK_ZLIB([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+#
+#  Try to find the ZLIB development system. If it is found, these
+#  shell variables are set:
+#
+#    $sim_ac_zlib_cppflags (extra flags the compiler needs for zlib)
+#    $sim_ac_zlib_ldflags  (extra flags the linker needs for zlib)
+#    $sim_ac_zlib_libs     (link libraries the linker needs for zlib)
+#
+#  The CPPFLAGS, LDFLAGS and LIBS flags will also be modified accordingly.
+#  In addition, the variable $sim_ac_zlib_avail is set to "yes" if the
+#  zlib development system is found.
+#
+#
+# Author: Morten Eriksen, <mortene@sim.no>.
+
+AC_DEFUN([SIM_CHECK_ZLIB], [
+
+AC_ARG_WITH(
+  [zlib],
+  AC_HELP_STRING([--with-zlib=DIR],
+                 [zlib installation directory]),
+  [],
+  [with_zlib=yes])
+
+sim_ac_zlib_avail=no
+
+if test x"$with_zlib" != xno; then
+  if test x"$with_zlib" != xyes; then
+    sim_ac_zlib_cppflags="-I${with_zlib}/include"
+    sim_ac_zlib_ldflags="-L${with_zlib}/lib"
+  fi
+
+  if test x"$sim_ac_linking_style" = xmswin; then
+    sim_ac_zlib_libs=zlib.lib
+  else
+    sim_ac_zlib_libs=-lz
+  fi
+
+  sim_ac_save_cppflags=$CPPFLAGS
+  sim_ac_save_ldflags=$LDFLAGS
+  sim_ac_save_libs=$LIBS
+
+  CPPFLAGS="$CPPFLAGS $sim_ac_zlib_cppflags"
+  LDFLAGS="$LDFLAGS $sim_ac_zlib_ldflags"
+  LIBS="$sim_ac_zlib_libs $LIBS"
+
+  AC_CACHE_CHECK(
+    [whether the zlib development system is available],
+    sim_cv_lib_zlib_avail,
+    [AC_TRY_LINK([#include <zlib.h>],
+                 [(void)zlibVersion();],
+                 [sim_cv_lib_zlib_avail=yes],
+                 [sim_cv_lib_zlib_avail=no])])
+
+  if test x"$sim_cv_lib_zlib_avail" = xyes; then
+    sim_ac_zlib_avail=yes
+    $1
+  else
+    CPPFLAGS=$sim_ac_save_cppflags
+    LDFLAGS=$sim_ac_save_ldflags
+    LIBS=$sim_ac_save_libs
+    $2
+  fi
+fi
+])
+
+# Usage:
+#  SIM_AC_CHECK_ZLIB_READY([ACTION-IF-READY[, ACTION-IF-NOT-READY]])
+#
+#  Try to link code which needs the ZLIB development system.
+#
+# Author: Morten Eriksen, <mortene@sim.no>.
+
+AC_DEFUN([SIM_AC_CHECK_ZLIB_READY], [
+AC_MSG_CHECKING(if we can use zlib without explicit linkage)
+sim_ac_zlib_ready=
+
+AC_TRY_LINK([#include <zlib.h>],
+            [(void)zlibVersion();],
+            sim_ac_zlib_ready=true,
+            sim_ac_zlib_ready=false)
+
+if $sim_ac_zlib_ready; then
+  AC_MSG_RESULT(yes)
+  $1
+else
+  AC_MSG_RESULT(no)
+  $2
+fi
+])
+
+# Usage:
+#   SIM_CHECK_PNGLIB([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+#
+# Description:
+#  Try to find the PNG development system. If it is found, these
+#  shell variables are set:
+#
+#    $sim_ac_pngdev_cppflags (extra flags the compiler needs for png lib)
+#    $sim_ac_pngdev_ldflags  (extra flags the linker needs for png lib)
+#    $sim_ac_pngdev_libs     (link libraries the linker needs for png lib)
+#
+#  The CPPFLAGS, LDFLAGS and LIBS flags will also be modified accordingly.
+#  In addition, the variable $sim_ac_pngdev_avail is set to "yes" if the
+#  png development system is found.
+#
+# Author: Morten Eriksen, <mortene@sim.no>.
+
+AC_DEFUN([SIM_CHECK_PNGLIB], [
+
+AC_ARG_WITH(
+  [png],
+  AC_HELP_STRING([--with-png=DIR],
+                 [include support for PNG images [default=yes]]),
+  [],
+  [with_png=yes])
+
+sim_ac_pngdev_avail=no
+
+if test x"$with_png" != xno; then
+  if test x"$with_png" != xyes; then
+    sim_ac_pngdev_cppflags="-I${with_png}/include"
+    sim_ac_pngdev_ldflags="-L${with_png}/lib"
+  fi
+
+
+  if test x"$sim_ac_linking_style" = xmswin; then
+    sim_ac_pngdev_libs=png.lib
+  else
+    sim_ac_pngdev_libs=-lpng
+  fi
+
+  sim_ac_save_cppflags=$CPPFLAGS
+  sim_ac_save_ldflags=$LDFLAGS
+  sim_ac_save_libs=$LIBS
+
+  CPPFLAGS="$CPPFLAGS $sim_ac_pngdev_cppflags"
+  LDFLAGS="$LDFLAGS $sim_ac_pngdev_ldflags"
+  LIBS="$sim_ac_pngdev_libs $LIBS"
+
+  AC_CACHE_CHECK(
+    [whether the libpng development system is available],
+    sim_cv_lib_pngdev_avail,
+    [AC_TRY_LINK([#include <png.h>],
+                 [(void)png_read_info(0L, 0L);],
+                 [sim_cv_lib_pngdev_avail=yes],
+                 [sim_cv_lib_pngdev_avail=no])])
+
+  if test x"$sim_cv_lib_pngdev_avail" = x"yes"; then
+    sim_ac_pngdev_avail=yes
+    $1
+  else
+    CPPFLAGS=$sim_ac_save_cppflags
+    LDFLAGS=$sim_ac_save_ldflags
+    LIBS=$sim_ac_save_libs
+    $2
+  fi
+fi
+])
+
+
+# Usage:
+#  SIM_AC_CHECK_PNG_READY([ACTION-IF-READY[, ACTION-IF-NOT-READY]])
+#
+#  Try to link code which needs the PNG development system.
+#
+# Author: Morten Eriksen, <mortene@sim.no>.
+
+AC_DEFUN([SIM_AC_CHECK_PNG_READY], [
+AC_MSG_CHECKING(if we can use libpng without explicit linkage)
+sim_ac_png_ready=
+
+AC_TRY_LINK([#include <png.h>],
+            [(void)png_read_info(0L, 0L);],
+            sim_ac_png_ready=true,
+            sim_ac_png_ready=false)
+
+if $sim_ac_png_ready; then
+  AC_MSG_RESULT(yes)
+  $1
+else
+  AC_MSG_RESULT(no)
+  $2
+fi
+])
+
+# Usage:
 #   SIM_COMPILE_DEBUG( ACTION-IF-DEBUG, ACTION-IF-NOT-DEBUG )
 #
 # Description:
