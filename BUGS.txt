@@ -170,19 +170,6 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
 
 =====================================================================
 
-007 We have a problem report from Radu Ursu on coin-discuss on using
-    SoQt with a static Qt library, built with Microsoft Visual C++ v7:
-    if Qt is added to the link-line for the final executable, it seems
-    like two different Qt-instances are used. If not, there's a lot of
-    complaints about missing symbols.
-
-    Investigate with VC6 and see if it's the same there. If not, try
-    to resolve when we install VC7.
-
-    mortene 20020926.
-
-=====================================================================
-
 009 Michael Wimmer reported that using SoQt on top of SGI Inventor
     causes one particular scene he had to run veeeeeery slow, both
     compared to SoQt-on-Coin and InventorXt-on-Inventor.
@@ -261,8 +248,12 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     likely to include several instances of either Qt or Coin, which
     results in various sorts of difficult to understand problems.
 
+    (Can typically be detected through a warning message from Qt,
+    something like this: "you must set up a QApplication before
+    calling QPaintDevice".)
+
     20021118 mortene.
-    
+
 =====================================================================
 
 015 Can't change viewer embedded within a Qt widget on-the-fly.
@@ -309,5 +300,28 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     ----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] ---
 
     20021122 mortene.
+
+=====================================================================
+
+016 SoQtExaminerViewer pref menu needs two RMB presses to pop up.
+
+    This problem was reported by Scott Toelly. Happens both when the
+    SoQtExaminerViewer is embedded within a QMainWindow, aswell as
+    from the SoGuiExample/components/examinerviewer example.
+
+    Scott is seeing this on Windows 2000 Pro + Visual C++ .NET Pro +
+    Qt 3.0.6. I am not able to reproduce it with SoQt-1 on NT 4 + MSVC
+    v6 + Qt 3.0.1, nor on Linux.
+
+    Should try more local MSWin platform configurations to see if we
+    can reproduce it locally.
+
+    A generally nice thing to do for debugging event-handling problems
+    would be to insert tracing code in the processEvent() /
+    processSoEvent() methods that could be turned on at run-time with
+    an environment variable. This could even help us debug remote
+    problems.
+
+    20021219 mortene.
 
 =====================================================================
