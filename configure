@@ -1028,6 +1028,7 @@ Optional Features:
   --enable-html           build and install SoQt HTML documentation
   --enable-man            build and install SoQt man pages
   --enable-inventor-debug use debug version of TGS inventor
+  --enable-qt-debug       win32: link with debug versions of Qt libraries
   --enable-debug          compile in debug mode [default=yes]
   --enable-symbols        include symbol debug information [default=yes]
   --enable-rtti           (g++ only) compile with RTTI [default=yes]
@@ -5137,7 +5138,7 @@ test "x$enable_libtool_lock" != xno && enable_libtool_lock=yes
 case $host in
 *-*-irix6*)
   # Find out which ABI we are using.
-  echo '#line 5140 "configure"' > conftest.$ac_ext
+  echo '#line 5141 "configure"' > conftest.$ac_ext
   if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
@@ -5673,7 +5674,7 @@ chmod -w .
 save_CFLAGS="$CFLAGS"
 CFLAGS="$CFLAGS -o out/conftest2.$ac_objext"
 compiler_c_o=no
-if { (eval echo configure:5676: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>out/conftest.err; } && test -s out/conftest2.$ac_objext; then
+if { (eval echo configure:5677: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>out/conftest.err; } && test -s out/conftest2.$ac_objext; then
   # The compiler can only warn and ignore the option if not recognized
   # So say no if there are warnings
   if test -s out/conftest.err; then
@@ -7466,7 +7467,7 @@ else
     lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 7469 "configure"
+#line 7470 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -7564,7 +7565,7 @@ else
     lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 7567 "configure"
+#line 7568 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -12755,6 +12756,17 @@ else
   with_qt=yes
 fi;
 
+# Check whether --enable-qt-debug or --disable-qt-debug was given.
+if test "${enable_qt_debug+set}" = set; then
+  enableval="$enable_qt_debug"
+  case $enableval in
+  yes | true ) sim_ac_qt_debug=true ;;
+  *) sim_ac_qt_debug=false ;;
+  esac
+else
+  sim_ac_qt_debug=false
+fi;
+
 sim_ac_qt_avail=no
 
 if test x"$with_qt" != xno; then
@@ -13183,17 +13195,22 @@ echo $ECHO_N "checking for Qt library devkit... $ECHO_C" >&6
       ##   added for the benefit of the Qt 3.0.0 Evaluation Version
       ##
 
+      sim_ac_qt_suffix=
+      if $sim_ac_qt_debug; then
+        sim_ac_qt_suffix=d
+      fi
+
       for sim_ac_qt_cppflags_loop in "" "-DQT_DLL"; do
         for sim_ac_qt_libcheck in \
             "-lqt-gl" \
             "-lqt" \
             "-lqt-mt" \
             "-lqt -lqtmain -lgdi32" \
-            "-lqt${sim_ac_qt_version} -lqtmain -lgdi32" \
+            "-lqt${sim_ac_qt_version}${sim_ac_qt_suffix} -lqtmain -lgdi32" \
             "-lqt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32" \
             "-lqt-mt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32 -lwinspool -lwinmm" \
-            "-lqt-mt${sim_ac_qt_version} -lqtmain -lgdi32" \
-            "-lqt-mt${sim_ac_qt_version}nc -lqtmain -lgdi32"
+            "-lqt-mt${sim_ac_qt_version}${sim_ac_qt_suffix} -lqtmain -lgdi32" \
+            "-lqt-mt${sim_ac_qt_version}nc${sim_ac_qt_suffix} -lqtmain -lgdi32"
         do
           if test "x$sim_ac_qt_libs" = "xUNRESOLVED"; then
             CPPFLAGS="$sim_ac_qt_incflags $sim_ac_qt_cppflags_loop $sim_ac_save_cppflags"

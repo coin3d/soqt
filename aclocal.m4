@@ -6352,6 +6352,15 @@ AC_ARG_WITH(
   [],
   [with_qt=yes])
 
+AC_ARG_ENABLE(
+  [qt-debug],
+  AC_HELP_STRING([--enable-qt-debug], [win32: link with debug versions of Qt libraries]),
+  [case $enableval in
+  yes | true ) sim_ac_qt_debug=true ;;
+  *) sim_ac_qt_debug=false ;;
+  esac],
+  [sim_ac_qt_debug=false])
+
 sim_ac_qt_avail=no
 
 if test x"$with_qt" != xno; then
@@ -6548,17 +6557,22 @@ recommend you to upgrade.])
       ##   added for the benefit of the Qt 3.0.0 Evaluation Version
       ##
 
+      sim_ac_qt_suffix=
+      if $sim_ac_qt_debug; then
+        sim_ac_qt_suffix=d
+      fi
+
       for sim_ac_qt_cppflags_loop in "" "-DQT_DLL"; do
         for sim_ac_qt_libcheck in \
             "-lqt-gl" \
             "-lqt" \
             "-lqt-mt" \
             "-lqt -lqtmain -lgdi32" \
-            "-lqt${sim_ac_qt_version} -lqtmain -lgdi32" \
+            "-lqt${sim_ac_qt_version}${sim_ac_qt_suffix} -lqtmain -lgdi32" \
             "-lqt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32" \
             "-lqt-mt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32 -lwinspool -lwinmm" \
-            "-lqt-mt${sim_ac_qt_version} -lqtmain -lgdi32" \
-            "-lqt-mt${sim_ac_qt_version}nc -lqtmain -lgdi32"
+            "-lqt-mt${sim_ac_qt_version}${sim_ac_qt_suffix} -lqtmain -lgdi32" \
+            "-lqt-mt${sim_ac_qt_version}nc${sim_ac_qt_suffix} -lqtmain -lgdi32"
         do
           if test "x$sim_ac_qt_libs" = "xUNRESOLVED"; then
             CPPFLAGS="$sim_ac_qt_incflags $sim_ac_qt_cppflags_loop $sim_ac_save_cppflags"
