@@ -216,6 +216,30 @@ So@Gui@SuperCanvas::isInformation(void) const
 */
 
 void
+So@Gui@SuperCanvas::enableMouse(SbBool enable)
+{
+  PRIVATE(this)->mouseenabled = enable;
+} // enableMouse()
+
+// *************************************************************************
+
+/*!
+  FIXME: More doc. larsivi 20020603
+*/
+
+SbBool
+So@Gui@SuperCanvas::isMouseEnabled(void) const
+{
+  return PRIVATE(this)->mouseenabled;
+} // isMouseEnabled()
+
+// *************************************************************************
+
+/*!
+  FIXME: More doc. larsivi 20020603
+*/
+
+void
 So@Gui@SuperCanvas::setDistance(SbBool enable)
 {
   PRIVATE(this)->distanceenabled = enable;
@@ -798,6 +822,8 @@ So@Gui@SuperCanvas::processSoEvent(const SoEvent * const ev)
   // Events while in INTERACT mode are sent to So@Gui@Viewer
   if (!this->isViewing()) { return inherited::processSoEvent(ev); }
     
+  if(!PRIVATE(this)->mouseenabled) return TRUE;
+
   // Events during seeks are ignored, except those which influence the
   // seek mode itself -- these are handled further up the inheritance
   // hierarchy.

@@ -85,6 +85,7 @@ class So@Gui@SuperCanvasP {
   SbBool hiddenpartsenabled;
   SbBool texturesenabled;
   SbBool notmovingfull;
+  SbBool mouseenabled;
 
   SbBool mf, mt, mv, mw, mb;
 

@@ -32,8 +32,6 @@ class SoLight;
 // *************************************************************************
 
 class So@Gui@SuperCanvas : public So@Gui@Viewer {
-  //  SO@GUI@_OBJECT_HEADER(So@Gui@SuperCanvas, So@Gui@Viewer);
-  //@COMPONENTHEADER@
 
 public:
 

@@ -61,6 +61,7 @@ So@Gui@SuperCanvasP::So@Gui@SuperCanvasP(So@Gui@SuperCanvas * o)
   this->texturesenabled = FALSE;
   this->informationenabled = FALSE;
   this->notmovingfull = FALSE;
+  this->mouseenabled = TRUE;
 
   this->distanceenabled = FALSE;
   this->flatshadingenabled = FALSE;
