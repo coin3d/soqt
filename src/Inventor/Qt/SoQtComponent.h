@@ -103,8 +103,8 @@ private:
   SbPList * visibilitychangeCBs;
 
   // Could probably improve code by using an SbDict here. 990205 mortene.
-  static SbPList soqtcomplist;
-  static SbPList qtwidgetlist;
+  static SbPList * soqtcomplist;
+  static SbPList * qtwidgetlist;
 
   SbVec2s storesize;
 

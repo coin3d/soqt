@@ -52,7 +52,7 @@ SoQtRenderArea::processEvent(
   const SoEvent * sceneEvent = NULL;
 
   QtGLArea * widget = this->getQtGLArea();
-  SoQtDevice::lasteventposition = widget->mapFromGlobal( QCursor::pos() );
+  SoQtDevice::setLastEventPosition( widget->mapFromGlobal( QCursor::pos() ) );
 
   if ( this->devices.extra != NULL ) {
     for ( int i = 0; i < this->devices.extra->getLength() && ! sceneEvent; i++ )

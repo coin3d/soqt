@@ -45,12 +45,11 @@ public:
   virtual const SoEvent * translateEvent(QEvent * event);
 
 private:
+  static void makeTranslationTable(void);
+
   soqtEventMask eventmask;
   SoKeyboardEvent * kbdevent;
-
-  static void makeTranslationTable(void);
-  static SbDict translatetable;
-  static SbBool madetable;
+  static SbDict * translatetable;
 
 }; // class SoQtKeyboard
 

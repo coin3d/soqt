@@ -28,6 +28,7 @@ static const char rcsid[] =
   FIXME: write class doc
 */
 
+#include <assert.h>
 #include <qevent.h>
 #include <qkeycode.h>
 #if QT_VERSION >= 200
@@ -442,9 +443,8 @@ static struct key1map QtToSoMapping[] = {
 };
 
 
-// FIXME: use a dict class from Qt instead. 990213 mortene.
-SbDict SoQtKeyboard::translatetable;
-SbBool SoQtKeyboard::madetable = FALSE;
+// FIXME: use a dict class from Qt instead? 19990213 mortene.
+SbDict * SoQtKeyboard::translatetable = NULL;
 
 /*!
   Constructor.
@@ -487,16 +487,18 @@ SoQtKeyboard::disable(QWidget * /*w*/, SoQtEventHandler /*f*/, void * /*data*/)
 void
 SoQtKeyboard::makeTranslationTable(void)
 {
+  assert(SoQtKeyboard::translatetable == NULL);
+  // FIXME: deallocate on exit. 20000311 mortene.
+  SoQtKeyboard::translatetable = new SbDict;
+
   int i=0;
   while (QtToSoMapping[i].from != Key_unknown) {
     // FIXME: nasty casting going on -- design broken, should be
     // repaired somehow. 990212 mortene.
-    SoQtKeyboard::translatetable.enter(QtToSoMapping[i].from,
-                                       (void *)QtToSoMapping[i].to);
+    SoQtKeyboard::translatetable->enter(QtToSoMapping[i].from,
+                                        (void *)QtToSoMapping[i].to);
     i++;
   }
-
-  SoQtKeyboard::madetable = TRUE;
 }
 
 /*!
@@ -518,7 +520,7 @@ SoQtKeyboard::translateEvent(QEvent * event)
 
   if (keyevent && (this->eventmask & (soqtKeyPressMask|soqtKeyReleaseMask))) {
 
-    if (!SoQtKeyboard::madetable) SoQtKeyboard::makeTranslationTable();
+    if (!SoQtKeyboard::translatetable) SoQtKeyboard::makeTranslationTable();
 
     QKeyEvent * keyevent = (QKeyEvent *)event;
 
@@ -530,7 +532,7 @@ SoQtKeyboard::translateEvent(QEvent * event)
 
     // Translate keycode Qt -> So
     void * sokey;
-    if (SoQtKeyboard::translatetable.find(keyevent->key(), sokey)) {
+    if (SoQtKeyboard::translatetable->find(keyevent->key(), sokey)) {
       this->kbdevent->setKey((SoKeyboardEvent::Key)(int)sokey);
     }
     else {

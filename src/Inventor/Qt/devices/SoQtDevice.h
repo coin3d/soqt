@@ -54,7 +54,8 @@ protected:
   static QPoint getLastEventPosition(void);
 
 private:
-  static QPoint lasteventposition;
+  static void setLastEventPosition(QPoint p);
+  static QPoint * lasteventposition;
   SbVec2s widgetsize;
 
   // For setting SoQtDevice::lasteventposition in

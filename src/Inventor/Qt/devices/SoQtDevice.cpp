@@ -52,7 +52,7 @@ static const char rcsid[] =
 */
 
 
-QPoint SoQtDevice::lasteventposition;
+QPoint * SoQtDevice::lasteventposition = NULL;
 
 /*!
   FIXME: write function documentation
@@ -93,6 +93,16 @@ QPoint
 SoQtDevice::getLastEventPosition(
   void ) // static
 {
-  return SoQtDevice::lasteventposition;
+  return *SoQtDevice::lasteventposition;
 }
 
+
+void
+SoQtDevice::setLastEventPosition( QPoint p ) // static
+{
+  if (!SoQtDevice::lasteventposition) {
+    // FIXME: deallocate on exit. 20000311 mortene.
+    SoQtDevice::lasteventposition = new QPoint;
+  }
+  *SoQtDevice::lasteventposition = p;
+}
