@@ -186,6 +186,7 @@ else
     default searchprefix
   ])
 
+  coin_version=$sim_ac_coin_version
   AC_SUBST(coin_version)
 
   SIM_AC_CHECK_X11_READY(

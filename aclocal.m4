@@ -1714,7 +1714,6 @@ if test "x$with_coin" != "xno"; then
     CPPFLAGS="$CPPFLAGS $sim_ac_coin_cppflags"
     LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
     LIBS="$sim_ac_coin_libs $LIBS"
-    coin_version=`echo $sim_ac_coin_version | tr -d .`
     $1
   else
     ifelse([$2], , :, [$2])

@@ -3723,7 +3723,6 @@ echo "$ac_t""$sim_cv_lib_coin_avail" 1>&6
     CPPFLAGS="$CPPFLAGS $sim_ac_coin_cppflags"
     LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
     LIBS="$sim_ac_coin_libs $LIBS"
-    coin_version=`echo $sim_ac_coin_version | tr -d .`
     
     SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS $sim_ac_coin_cppflags"
     SOQT_EXTRA_LDFLAGS="$SOQT_EXTRA_LDFLAGS $sim_ac_coin_ldflags"
@@ -3741,6 +3740,7 @@ else
 fi
 
 
+  coin_version=$sim_ac_coin_version
   
 
   echo $ac_n "checking if X11 linkage is ready... $ac_c" 1>&6
