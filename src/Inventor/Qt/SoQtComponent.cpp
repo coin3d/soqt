@@ -740,10 +740,7 @@ SoQtComponent::unregisterWidget(
 
 // *************************************************************************
 
-/*!
-  FIXME: write doc
-*/
-
+// Documented in common/SoGuiComponentCommon.cpp.in.
 void
 SoQtComponent::afterRealizeHook(void)
 {
