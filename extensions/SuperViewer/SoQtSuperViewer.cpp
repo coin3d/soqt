@@ -45,6 +45,7 @@
 #include <Inventor/nodes/SoVertexProperty.h>
 #include <Inventor/nodes/SoIndexedLineSet.h>
 #include <Inventor/nodes/SoNormal.h>
+#include <Inventor/nodes/SoNormalBinding.h>
 #include <Inventor/projectors/SbSphereSheetProjector.h>
 #include <Inventor/actions/SoSearchAction.h>
 #include <Inventor/actions/SoGetPrimitiveCountAction.h>
@@ -138,6 +139,8 @@ SoQtSuperViewer::SoQtSuperViewer(
   PRIVATE(this)->lightmodel = NULL;
   PRIVATE(this)->materialbinding = NULL;
   PRIVATE(this)->shapehints = NULL;
+  PRIVATE(this)->emptynormal = NULL;
+  PRIVATE(this)->emptynormalbinding = NULL;
   PRIVATE(this)->bbox = NULL;
   PRIVATE(this)->bboxvertices = NULL;
   PRIVATE(this)->searchaction = NULL;
@@ -685,87 +688,41 @@ SoQtSuperViewer::toggleFlatshading()
     PRIVATE(this)->flatshadingenabled = FALSE : 
     PRIVATE(this)->flatshadingenabled = TRUE;
 
+
   // FIXME: flatshading only works as long as the models viewed has no normals
   // This cannot be remedied until Coin makes it possible to disable said
   // normals by external users. larsivi 20020314
 
   if(PRIVATE(this)->flatshadingenabled){
+    
     if(PRIVATE(this)->shapehints == NULL) 
       PRIVATE(this)->shapehints = new SoShapeHints;
     PRIVATE(this)->shapehints->creaseAngle = 0.0;
     PRIVATE(this)->shapehints->setOverride(TRUE);
     ((SoSeparator *)this->getSceneManager()->getSceneGraph())
-     ->insertChild(PRIVATE(this)->shapehints, 0);
+      ->insertChild(PRIVATE(this)->shapehints, 0);
 
-    if(!PRIVATE(this)->searchaction)
-      PRIVATE(this)->searchaction = new SoSearchAction;
-    PRIVATE(this)->searchaction->reset();
-    PRIVATE(this)->searchaction->setInterest(SoSearchAction::ALL);
-    PRIVATE(this)->searchaction->setType(SoNormal::getClassTypeId(), TRUE);
-    PRIVATE(this)->searchaction->apply(PRIVATE(this)->currentroot);
+    PRIVATE(this)->emptynormal = new SoNormal;
+    PRIVATE(this)->emptynormal->setOverride(TRUE);
+    ((SoSeparator *)this->getSceneManager()->getSceneGraph())
+      ->insertChild(PRIVATE(this)->emptynormal, 0);
 
-    SoNode * node;
-    SoNormal * normal;
-    SoGroup * group;
-    SoSwitch * switch1;
-    SoPathList paths = PRIVATE(this)->searchaction->getPaths();
-
-    for(int i = 0; i < paths.getLength(); i++){
-      node = paths[i]->getTail();
-      assert(node != NULL); 
-      if(node->isOfType(SoNormal::getClassTypeId())){
-        normal = (SoNormal *) node;
-        node = paths[i]->getNodeFromTail(1);
-        assert(node != NULL); 
-        if(node->isOfType(SoGroup::getClassTypeId())){
-          group = (SoGroup *) node; 
-          switch1 = new SoSwitch;
-          switch1->setName(SbName("normalswitch"));
-          switch1->addChild(normal); 
-          group->replaceChild(normal, switch1); 
-        }
-      }
-    }
-    delete PRIVATE(this)->searchaction;
-    PRIVATE(this)->searchaction = NULL;
+    PRIVATE(this)->emptynormalbinding = new SoNormalBinding;
+    PRIVATE(this)->emptynormalbinding->setOverride(TRUE);
+    ((SoSeparator *)this->getSceneManager()->getSceneGraph())
+      ->insertChild(PRIVATE(this)->emptynormalbinding, 0);
   }
   else{
+
     ((SoSeparator *)this->getSceneManager()->getSceneGraph())
       ->removeChild(PRIVATE(this)->shapehints);
     PRIVATE(this)->shapehints = NULL;
-    
-    if(!PRIVATE(this)->searchaction)
-      PRIVATE(this)->searchaction = new SoSearchAction;
-    PRIVATE(this)->searchaction->reset();
-    PRIVATE(this)->searchaction->setInterest(SoSearchAction::ALL);
-    PRIVATE(this)->searchaction->setName(SbName("normalswitch"));
-    PRIVATE(this)->searchaction->apply(PRIVATE(this)->currentroot);
-
-    SoNode * node;
-    SoNormal * normal;
-    SoGroup * group;
-    SoSwitch * switch1;
-    SoPathList paths = PRIVATE(this)->searchaction->getPaths();
-
-    for(int i = 0; i < paths.getLength(); i++){
-      node = paths[i]->getTail();
-      assert(node != NULL);
-      if(node->isOfType(SoSwitch::getClassTypeId())){
-        switch1 = (SoSwitch *) node;
-        node = switch1->getChild(0);
-        assert(node != NULL);
-        if(node->isOfType(SoNormal::getClassTypeId())){
-          normal = (SoNormal *) node;
-          node = paths[i]->getNodeFromTail(1);
-          if(node->isOfType(SoGroup::getClassTypeId())){
-            group = (SoGroup *) node;
-            group->replaceChild(switch1, normal);
-          }
-        }
-      }
-    }
-    delete PRIVATE(this)->searchaction;
-    PRIVATE(this)->searchaction = NULL;
+    ((SoSeparator *)this->getSceneManager()->getSceneGraph())
+      ->removeChild(PRIVATE(this)->emptynormal);
+    PRIVATE(this)->emptynormal = NULL;
+    ((SoSeparator *)this->getSceneManager()->getSceneGraph())
+      ->removeChild(PRIVATE(this)->emptynormalbinding);
+    PRIVATE(this)->emptynormalbinding = NULL;
   }
 } //toggleFlatshading()
 

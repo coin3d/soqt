@@ -35,6 +35,8 @@ class SoDrawStyle;
 class SoLightModel;
 class SoBaseColor;
 class SoMaterialBinding;
+class SoNormal;
+class SoNormalBinding;
 class SoSwitch;
 class SoLight;
 class SoPolygonOffset;
@@ -88,6 +90,8 @@ class SoQtSuperViewerP : QObject{
   SoIndexedLineSet * bbox;
   SoVertexProperty * bboxvertices;
   SoShapeHints * shapehints;
+  SoNormal * emptynormal;
+  SoNormalBinding * emptynormalbinding;
   SoSearchAction * searchaction;
   SoGetPrimitiveCountAction * countaction;
   SoGetBoundingBoxAction * bboxaction;
