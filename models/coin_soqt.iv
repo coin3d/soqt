@@ -1,0 +1,209 @@
+#Inventor V2.1 ascii
+
+Separator {
+  ShapeHints {
+    vertexOrdering COUNTERCLOCKWISE
+    shapeType SOLID
+  }
+
+  DEF HW Separator {
+    BaseColor {
+      rgb 1 0 0
+    }
+    Scale {
+      scaleFactor 10 2 1
+    }
+    DEF UnitCube Separator {
+      Coordinate3 {
+        point [
+          0 0 0
+          1 0 0
+          1 1 0
+          0 1 0
+          0 0 1
+          1 0 1
+          1 1 1
+          0 1 1
+        ]
+      }
+      SoIndexedFaceSet {
+        coordIndex [
+          0 1 5 4 -1
+          0 3 2 1 -1
+          0 4 7 3 -1
+          1 2 6 5 -1
+          2 3 7 6 -1
+          4 5 6 7 -1
+        ]
+      }
+    }
+  }
+  DEF OS Separator {
+    BaseColor {
+      rgb 0 0 1
+    }
+    Translation {
+      translation 0 2 0
+    }
+    Scale {
+      scaleFactor 10 8 1
+    }
+    USE UnitCube
+  }
+  DEF GL Separator {
+    BaseColor {
+      rgb 0 1 0
+    }
+    Translation {
+      translation 1 1 1
+    }
+    Scale {
+      scaleFactor 4 8 1
+    }
+    USE UnitCube
+  }
+  DEF QT Separator {
+    BaseColor {
+      rgb 1 0 1
+    }
+    Translation {
+      translation 5 1 1
+    }
+    Scale {
+      scaleFactor 4 8 1
+    }
+    USE UnitCube
+  }
+  DEF Coin Separator {
+    BaseColor {
+      rgb 1 1 0
+    }
+    Translation {
+      translation 2 2 2
+    }
+    Scale {
+      scaleFactor 3 5 1
+    }
+    USE UnitCube
+  }
+  DEF SoQt Separator {
+    BaseColor {
+      rgb 0 1 1
+    }
+    Separator {
+      Translation {
+        translation 5 4 2
+      }
+      Scale {
+        scaleFactor 3 3 1
+      }
+      USE UnitCube
+    }
+    Separator {
+      Translation {
+        translation 2 7 2
+      }
+      Scale {
+        scaleFactor 6 1 1
+      }
+      USE UnitCube
+    }
+  }
+
+  Separator {
+#    PolygonOffset {
+#      styles FILLED
+#      units 10
+#    }
+    BaseColor {
+#     rgb 1 1 1
+      rgb 0 0 0
+    }
+    RotationXYZ {
+      axis Z
+      angle 4.712
+    }
+    Separator {
+      Translation {
+        translation -9 0.25 1.02
+      }
+      Scale {
+        scaleFactor 0.08 0.08 1
+      }
+      Text3 {
+        parts ALL
+        string "Operating System"
+      }
+    }
+    Separator {
+      Translation {
+        translation -1.7 0.25 1.02
+      }
+      Scale {
+        scaleFactor 0.08 0.08 1
+      }
+      Text3 {
+        parts ALL
+        string "HW"
+      }
+    }
+    Separator {
+      Translation {
+        translation -6.5 1.25 2.02
+      }
+      Scale {
+        scaleFactor 0.08 0.08 1
+      }
+      Text3 {
+        parts ALL
+        string "OpenGL"
+      }
+    }
+    Separator {
+      Translation {
+        translation -3.0 6.75 2.02
+      }
+      Scale {
+        scaleFactor 0.08 0.08 1
+      }
+      Text3 {
+        parts ALL
+        string "Qt"
+      }
+    }
+    Separator {
+      Translation {
+        translation -5.3 3.25 3.02
+      }
+      Scale {
+        scaleFactor 0.08 0.08 1
+      }
+      Text3 {
+        parts ALL
+        string "Coin"
+      }
+    }
+    Separator {
+      Translation {
+        translation -6.8 6.25 3.02
+      }
+      Scale {
+        scaleFactor 0.08 0.08 1
+      }
+      Text3 {
+        parts ALL
+        string "SoQt"
+      }
+    }
+  }
+
+  Separator {
+    Material {
+      transparency 0.4
+    }
+    Scale {
+      scaleFactor 10 10 4
+    }
+    USE UnitCube
+  }
+}
