@@ -92,8 +92,8 @@ private:
   TickMark * selectedMark;
   QValueList<TickMark*> tickMarks;
 
-  unsigned int startIndex;
-  unsigned int endIndex;
+  int startIndex;
+  int endIndex;
   QPoint moving_start;
   uint32_t leftcolor;
   uint32_t rightcolor;

@@ -115,8 +115,8 @@ void GradientView::updateView()
 
   this->gradItem->show();
 
-  int selectStart = this->tickMarks[this->startIndex]->x();
-  int selectEnd = this->tickMarks[this->endIndex]->x();
+  int selectStart = (int) this->tickMarks[this->startIndex]->x();
+  int selectEnd = (int) this->tickMarks[this->endIndex]->x();
 
   QImage selectedImage(selectEnd - selectStart, 10, 32);
   selectedImage.fill(QColor(100,100,245).rgb());
@@ -136,41 +136,44 @@ void GradientView::contentsMousePressEvent(QMouseEvent * e)
   QPoint p = inverseWorldMatrix().map(e->pos());
  
   switch (e->button()) {
-  case Qt::LeftButton: {
-    QValueList<TickMark *>::Iterator it = this->tickMarks.begin();
-    for (; it != this->tickMarks.end(); ++it) {
-      if ((*it)->hit(p)) {
-        this->movingItem = (*it);
-        this->moving_start = p;
-        SbBool selected = this->movingItem->isSelected();
-        this->unselectAll();
-        this->movingItem->setZ(3);
-        this->selectedMark = this->movingItem;
-        this->selectedMark->setSelected(selected ? FALSE : TRUE);
-        this->selectedMark->setBrush(QColor(0,0,255));
-        this->canvas->update();
-        return;
-      } else {
-        this->startIndex = -1;
-        while (this->tickMarks[++this->startIndex]->x() < p.x());
-        this->startIndex--;
-        this->endIndex = this->startIndex + 1;
-
-        this->tickMarks[this->startIndex]->isStart = TRUE;
-        this->tickMarks[this->endIndex]->isEnd = TRUE;
-        emit this->viewChanged();
+  case Qt::LeftButton: 
+    {
+      QValueList<TickMark *>::Iterator it = this->tickMarks.begin();
+      for (; it != this->tickMarks.end(); ++it) {
+        if ((*it)->hit(p)) {
+          this->movingItem = (*it);
+          this->moving_start = p;
+          SbBool selected = this->movingItem->isSelected();
+          this->unselectAll();
+          this->movingItem->setZ(3);
+          this->selectedMark = this->movingItem;
+          this->selectedMark->setSelected(selected ? FALSE : TRUE);
+          this->selectedMark->setBrush(QColor(0,0,255));
+          this->canvas->update();
+          return;
+        } else {
+          this->startIndex = -1;
+          while (this->tickMarks[++this->startIndex]->x() < p.x());
+          this->startIndex--;
+          this->endIndex = this->startIndex + 1;
+          
+          this->tickMarks[this->startIndex]->isStart = TRUE;
+          this->tickMarks[this->endIndex]->isEnd = TRUE;
+          emit this->viewChanged();
+        }
       }
+      break;
     }
-    break;
-  }
-  case Qt::RightButton: {
+  case Qt::RightButton: 
     this->buildMenu();
     if (this->menu->exec(e->globalPos())) {
       delete this->menu;
       this->menu = NULL;
     }
     break;
-  }
+  default:
+    // do nothing
+    break;
   }
   this->movingItem = 0;
 }
@@ -202,7 +205,7 @@ void GradientView::contentsMouseMoveEvent(QMouseEvent * e)
         TickMark * right = this->tickMarks[index + 1];
 
         int movex = x - this->moving_start.x();
-        int newpos = this->movingItem->x() + movex;
+        int newpos = (int) (this->movingItem->x() + movex);
 
         if ((newpos >= left->x()) && newpos <= right->x()) {
           this->movingItem->moveBy(movex, 0);
@@ -296,7 +299,14 @@ void GradientView::insertTick()
   unsigned int i = this->grad->insertTick(t);
 
   QValueList<TickMark *>::Iterator it = this->tickMarks.begin();
+#if QT_VERSION >= 310
   it += i;
+#else // QT_VERSION >= 3.1
+  // the += operator wasn't available until Qt 3.1.0.
+  for (unsigned int j = 0; j < i; j++) {
+    it++;
+  }
+#endif // QT_VERSION < 3.1
   this->tickMarks.insert(it, this->getTick(x));
 
   this->endIndex = i;
@@ -316,7 +326,7 @@ void GradientView::updateTicks()
 
   for (int i = 0; i < this->grad->numTicks(); i++) {
     float t = this->grad->getParameter(i);
-    int x = t * (float)this->canvas->width() + 0.5f;
+    int x = (int) (t * (float)this->canvas->width() + 0.5f);
     TickMark * tick = this->getTick(x);
     this->tickMarks.append(tick);
   }
@@ -324,7 +334,7 @@ void GradientView::updateTicks()
 
 void GradientView::deleteTick()
 {
-  unsigned int i = this->tickMarks.findIndex(this->selectedMark);
+  int i = (int) this->tickMarks.findIndex(this->selectedMark);
   this->selectedMark = NULL;
 
   if ((i > 0) && (i < this->tickMarks.size() - 1)) {
