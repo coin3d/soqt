@@ -19,7 +19,7 @@
 
 TARGET		=	CoinQtDebug
 CONFIG		=	sharedlib
-INCLUDEPATH	=	$(COINDIR)/include
+INCLUDEPATH	+=	$(COINDIR)/include
 DEFINES		+=	SOQT_DEBUG=1
 LIBS		=	-L$(QTDIR)/lib -lqgl -lqt
 MOC_DIR		=	coinqtobjects

@@ -19,7 +19,7 @@
 
 TEMPLATE	=	lib
 CONFIG		+=	opengl qt
-INCLUDEPATH	+=	../include;$(QTDIR)/include
+INCLUDEPATH	+=	../include;$(QTDIR)/include;
 
 HEADERS = \
 	../include/Inventor/Qt/SoQt.h \
