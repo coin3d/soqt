@@ -15512,6 +15512,7 @@ fi
 
 COIN_COMPILER="$CXX"
 
+
 if $BUILD_WITH_MSVC; then
   # don't use wrapmsvc from source hierarchy when later using soqt-config.
   COIN_COMPILER="wrapmsvc"
@@ -16107,7 +16108,7 @@ fi
 
   # -DHAVE_CONFIG_H is set up in $DEFS too late for use to use, and some
   # include directives are usually set up in the Makefile.am files
-  for arg in -DHAVE_CONFIG_H -I$soqt_build_dir/src -I$soqt_src_dir/src -I$soqt_src_dir/data $CPPFLAGS $LDFLAGS $LIBS; do
+  for arg in -DHAVE_CONFIG_H -I$soqt_build_dir/src -I$soqt_build_dir/data -I$soqt_src_dir/src $CPPFLAGS $LDFLAGS $LIBS; do
     case $arg in
     -L* )
       libdir=`echo $arg | cut -c3-`

@@ -486,6 +486,7 @@ fi
 # **************************************************************************
 
 AC_SUBST([COIN_COMPILER], ["$CXX"])
+AC_SUBST([BUILD_WITH_MSVC])
 if $BUILD_WITH_MSVC; then
   # don't use wrapmsvc from source hierarchy when later using soqt-config.
   COIN_COMPILER="wrapmsvc"
@@ -739,7 +740,7 @@ if $sim_ac_build_library; then
   fi
 fi
 
-SIM_AC_MSVC_DSP_SETUP([SOQT], [SoQt], [soqt], [-I$soqt_build_dir/src -I$soqt_src_dir/src -I$soqt_src_dir/data])
+SIM_AC_MSVC_DSP_SETUP([SOQT], [SoQt], [soqt], [-I$soqt_build_dir/src -I$soqt_build_dir/data -I$soqt_src_dir/src])
 
 # **************************************************************************
 # Submodules that needs to be configured...
