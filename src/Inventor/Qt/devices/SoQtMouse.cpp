@@ -83,25 +83,23 @@ SOQT_OBJECT_SOURCE(SoQtMouse);
 /*!
   Constructor.
 */
-
-SoQtMouse::SoQtMouse(
-  int mask)
+SoQtMouse::SoQtMouse(int mask)
 {
   this->eventmask = mask;
-  this->buttonevent = NULL;
-  this->locationevent = NULL;
-} // SoQtMouse()
+
+  // Allocate system-neutral event objects once and reuse.
+  this->buttonevent = new SoMouseButtonEvent;
+  this->locationevent = new SoLocation2Event;
+}
 
 /*!
   Destructor.
 */
-
-SoQtMouse::~SoQtMouse(
-  void)
+SoQtMouse::~SoQtMouse()
 {
   delete this->buttonevent;
   delete this->locationevent;
-} // ~SoQtMouse()
+}
 
 // *************************************************************************
 
@@ -134,12 +132,30 @@ SoQtMouse::disable(
 // *************************************************************************
 
 /*!
-  FIXME: write function documentation
-*/
+  Translates a native event from the underlying Qt toolkit into a
+  generic event.
 
+  This is then returned in the form of an instance of a subclass of
+  the Inventor API's SoEvent class, either an SoMouseButtonEvent or an
+  SoLocation2Event, depending on whether the native event is a
+  mousebutton press or release, or a mousecursor movement event.
+
+  The mapping of the mousebuttons upon generation of
+  SoMouseButtonEvent events will be done as follows:
+
+  <ul>
+  <li>left mousebutton: SoButtonEvent::BUTTON1
+  <li>right mousebutton: SoButtonEvent::BUTTON2
+  <li>middle mousebutton, if available: SoButtonEvent::BUTTON3
+  <li>forward motion on a wheel mouse: SoButtonEvent::BUTTON4
+  <li>backward motion on a wheel mouse: SoButtonEvent::BUTTON5
+  </ul>
+
+  Note that right mousebutton will always map to
+  SoButtonEvent::BUTTON2, even on a 3-button mouse.
+*/
 const SoEvent *
-SoQtMouse::translateEvent(
-  QEvent * event)
+SoQtMouse::translateEvent(QEvent * event)
 {
   SoEvent * super = NULL;
   QMouseEvent * mouseevent = (QMouseEvent *)event;
@@ -149,8 +165,6 @@ SoQtMouse::translateEvent(
 
 #ifdef HAVE_SOMOUSEBUTTONEVENT_BUTTON5
   if (event->type() == QEvent::Wheel) {
-    if (!this->buttonevent)
-      this->buttonevent = new SoMouseButtonEvent;
     QWheelEvent * const wevent = (QWheelEvent *) event;
     if (wevent->delta() > 0)
       this->buttonevent->setButton(SoMouseButtonEvent::BUTTON4);
@@ -159,7 +173,7 @@ SoQtMouse::translateEvent(
 #if SOQT_DEBUG
     else
       SoDebugError::postInfo("SoQtMouse::translateEvent",
-        "event, but no movement");
+                             "event, but no movement");
 #endif // SOQT_DEBUG
     this->buttonevent->setState(SoButtonEvent::DOWN);
     super = this->buttonevent;
@@ -185,9 +199,6 @@ SoQtMouse::translateEvent(
        (event->type() == QEvent::MouseButtonPress) ||
        (event->type() == QEvent::MouseButtonRelease)) &&
       (this->eventmask & (BUTTON_PRESS | BUTTON_RELEASE))) {
-
-    // Allocate system-neutral event object once and reuse.
-    if (!this->buttonevent) this->buttonevent = new SoMouseButtonEvent;
 
     // Which button?
     switch (mouseevent->button()) {
@@ -223,9 +234,6 @@ SoQtMouse::translateEvent(
   // Check for mouse movement.
   if ((event->type() == QEvent::MouseMove) &&
       (this->eventmask & (POINTER_MOTION | BUTTON_MOTION))) {
-    // Allocate system-neutral event object once and reuse.
-    if (!this->locationevent) this->locationevent = new SoLocation2Event;
-
     super = this->locationevent;
   }
 
