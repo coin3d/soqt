@@ -9,6 +9,9 @@
 /* Define to use GetEnvironmentVariable() instead of getenv() */
 #undef HAVE_GETENVIRONMENTVARIABLE
 
+/* define if you have GLX X11 OpenGL bindings */
+#undef HAVE_GLX
+
 /* define if the GLU header should be included as GL/glu.h */
 #undef HAVE_GL_GLU_H
 

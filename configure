@@ -10722,113 +10722,30 @@ echo "${ECHO_T}#include <$sim_ac_gl_header>" >&6
       echo "$as_me:$LINENO: result: $sim_ac_gl_cppflags, #include <$sim_ac_gl_header>" >&5
 echo "${ECHO_T}$sim_ac_gl_cppflags, #include <$sim_ac_gl_header>" >&6
     fi
-
     CPPFLAGS="$CPPFLAGS $sim_ac_gl_cppflags"
-
   else
     echo "$as_me:$LINENO: result: not found" >&5
 echo "${ECHO_T}not found" >&6
-
     { echo "$as_me:$LINENO: WARNING: could not find gl.h" >&5
 echo "$as_me: WARNING: could not find gl.h" >&2;}
-
   fi
 else
   echo "$as_me:$LINENO: result: disabled" >&5
 echo "${ECHO_T}disabled" >&6
-
-    { echo "$as_me:$LINENO: WARNING: could not find gl.h" >&5
+  { echo "$as_me:$LINENO: WARNING: could not find gl.h" >&5
 echo "$as_me: WARNING: could not find gl.h" >&2;}
-
 fi
 
 
-  echo "$as_me:$LINENO: checking whether OpenGL library is available" >&5
-echo $ECHO_N "checking whether OpenGL library is available... $ECHO_C" >&6
-if test "${sim_cv_lib_gl+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  sim_cv_lib_gl=UNRESOLVED
+  sim_ac_glchk_hit=false
+  for sim_ac_tmp_outerloop in barebones withpthreads; do
+    if ! $sim_ac_glchk_hit; then
 
-    # Mac OS X uses nada, which is why "" was set first
-    for sim_ac_ogl_libcheck in "" $sim_ac_ogl_first $sim_ac_ogl_second; do
-      if test "x$sim_cv_lib_gl" = "xUNRESOLVED"; then
-        LIBS="$sim_ac_ogl_libcheck $sim_ac_save_libs"
-        cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-#include "confdefs.h"
-
-#ifdef HAVE_WINDOWS_H
-#include <windows.h>
-#endif /* HAVE_WINDOWS_H */
-#ifdef HAVE_GL_GL_H
-#include <GL/gl.h>
-#else
-#ifdef HAVE_OPENGL_GL_H
-/* Mac OS X */
-#include <OpenGL/gl.h>
-#endif
-#endif
-
-#ifdef F77_DUMMY_MAIN
-#  ifdef __cplusplus
-     extern "C"
-#  endif
-   int F77_DUMMY_MAIN() { return 1; }
-#endif
-int
-main ()
-{
-
-glPointSize(1.0f);
-
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext conftest$ac_exeext
-if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
-  (eval $ac_link) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-         { ac_try='test -s conftest$ac_exeext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-
-          if test x"$sim_ac_ogl_libcheck" = x""; then
-            sim_cv_lib_gl="$sim_ac_ogl_ldflags"
-          else
-            sim_cv_lib_gl="$sim_ac_ogl_libcheck"
-          fi
-else
-  echo "$as_me: failed program was:" >&5
-cat conftest.$ac_ext >&5
-fi
-rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
-      fi
-    done
-
-fi
-echo "$as_me:$LINENO: result: $sim_cv_lib_gl" >&5
-echo "${ECHO_T}$sim_cv_lib_gl" >&6
-
-  case $sim_cv_lib_gl in
-  -Wl,-framework,OpenGL)
-    sim_ac_ogl_libs=
-    sim_ac_ogl_ldflags="$sim_cv_lib_gl"
-    ;;
-  -l*)
-    sim_ac_ogl_libs="$sim_cv_lib_gl"
-    ;;
-  *)
-    { echo "$as_me:$LINENO: WARNING: couldn't compile or link with OpenGL library -- trying with pthread library in place..." >&5
+      sim_ac_oglchk_pthreadslib=""
+      if test "$sim_ac_tmp_outerloop" = "withpthreads"; then
+        { echo "$as_me:$LINENO: WARNING: couldn't compile or link with OpenGL library -- trying with pthread library in place..." >&5
 echo "$as_me: WARNING: couldn't compile or link with OpenGL library -- trying with pthread library in place..." >&2;}
-    LIBS="$sim_ac_save_libs"
-
+        LIBS="$sim_ac_save_libs"
 
 
 
@@ -10907,40 +10824,41 @@ echo "${ECHO_T}$sim_cv_lib_pthread_avail" >&6
   if $sim_cv_lib_pthread_avail; then
     sim_ac_pthread_avail=yes
 
-      sim_ac_ogl_cppflags="$sim_ac_ogl_cppflags $sim_ac_pthread_cppflags"
-      sim_ac_ogl_ldflags="$sim_ac_ogl_ldflags $sim_ac_pthread_ldflags"
+          sim_ac_ogl_cppflags="$sim_ac_ogl_cppflags $sim_ac_pthread_cppflags"
+          sim_ac_ogl_ldflags="$sim_ac_ogl_ldflags $sim_ac_pthread_ldflags"
+          sim_ac_oglchk_pthreadslib="$sim_ac_pthread_libs"
+
   else
     CPPFLAGS=$sim_ac_save_cppflags
     LDFLAGS=$sim_ac_save_ldflags
     LIBS=$sim_ac_save_libs
     { echo "$as_me:$LINENO: WARNING: couldn't compile or link with pthread library" >&5
 echo "$as_me: WARNING: couldn't compile or link with pthread library" >&2;}
+
   fi
 fi
 
+      fi
 
-    if test "x$sim_ac_pthread_avail" = "xyes"; then
-      echo "$as_me:$LINENO: checking whether OpenGL library can be linked with pthread library" >&5
-echo $ECHO_N "checking whether OpenGL library can be linked with pthread library... $ECHO_C" >&6
-if test "${sim_cv_lib_gl_pthread+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  sim_cv_lib_gl_pthread=UNRESOLVED
-
-        for sim_ac_ogl_libcheck in $sim_ac_ogl_first $sim_ac_ogl_second; do
-          if test "x$sim_cv_lib_gl_pthread" = "xUNRESOLVED"; then
-            LIBS="$sim_ac_ogl_libcheck $sim_ac_pthread_libs $sim_ac_save_libs"
-            cat >conftest.$ac_ext <<_ACEOF
+      echo "$as_me:$LINENO: checking for OpenGL library dev-kit" >&5
+echo $ECHO_N "checking for OpenGL library dev-kit... $ECHO_C" >&6
+      # Mac OS X uses nada (only LDFLAGS), which is why "" was set first
+      for sim_ac_ogl_libcheck in "" $sim_ac_ogl_first $sim_ac_ogl_second; do
+        if ! $sim_ac_glchk_hit; then
+          LIBS="$sim_ac_ogl_libcheck $sim_ac_oglchk_pthreadslib $sim_ac_save_libs"
+          cat >conftest.$ac_ext <<_ACEOF
 #line $LINENO "configure"
 #include "confdefs.h"
-
-#ifdef HAVE_GL_GL_H
-#include <GL/gl.h>
-#else
-#ifdef HAVE_OPENGL_GL_H
-#include <OpenGL/gl.h>
-#endif
-#endif
+#ifdef HAVE_WINDOWS_H
+             #include <windows.h>
+             #endif
+             #ifdef HAVE_GL_GL_H
+             #include <GL/gl.h>
+             #endif
+             #ifdef HAVE_OPENGL_GL_H
+             /* Mac OS X */
+             #include <OpenGL/gl.h>
+             #endif
 
 #ifdef F77_DUMMY_MAIN
 #  ifdef __cplusplus
@@ -10951,9 +10869,7 @@ else
 int
 main ()
 {
-
 glPointSize(1.0f);
-
   ;
   return 0;
 }
@@ -10970,29 +10886,29 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
-  sim_cv_lib_gl_pthread="$sim_ac_ogl_libcheck"
+
+             sim_ac_glchk_hit=true
+             sim_ac_ogl_libs="$sim_ac_ogl_libcheck $sim_ac_oglchk_pthreadslib"
+
+
 else
   echo "$as_me: failed program was:" >&5
 cat conftest.$ac_ext >&5
 fi
 rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
-          fi
-        done
-
-fi
-echo "$as_me:$LINENO: result: $sim_cv_lib_gl_pthread" >&5
-echo "${ECHO_T}$sim_cv_lib_gl_pthread" >&6
-
-      if test "x$sim_cv_lib_gl_pthread" != "xUNRESOLVED"; then
-        sim_ac_ogl_libs="$sim_cv_lib_gl_pthread $sim_ac_pthread_libs"
+        fi
+      done
+      if $sim_ac_glchk_hit; then
+        echo "$as_me:$LINENO: result: $sim_ac_ogl_cppflags $sim_ac_ogl_ldflags $sim_ac_ogl_libs" >&5
+echo "${ECHO_T}$sim_ac_ogl_cppflags $sim_ac_ogl_ldflags $sim_ac_ogl_libs" >&6
+      else
+        echo "$as_me:$LINENO: result: unresolved" >&5
+echo "${ECHO_T}unresolved" >&6
       fi
     fi
-    ;;
-  esac
+  done
 
-
-  # MacOS will have empty sim_ac_ogl_libs, so don't check if it is empty...
-  if test x"$sim_cv_gl_libs" != x"UNRESOLVED"; then
+  if $sim_ac_glchk_hit; then
     LIBS="$sim_ac_ogl_libs $sim_ac_save_libs"
 
     SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_ogl_cppflags"
@@ -11579,6 +11495,9 @@ echo "${ECHO_T}probably SGI or older TGS Open Inventor" >&6
 echo $ECHO_N "checking for Open Inventor library... $ECHO_C" >&6
 
   for sim_ac_iv_cppflags_loop in "" "-DWIN32"; do
+    # FIXME: should try with no libraries first, as TGS Inventor
+    # uses pragmas in a header file to notify MSVC of what to link with.
+    # 20020828 mortene.
     for sim_ac_iv_libcheck in $sim_ac_inventor_chk_libs; do
       if test "x$sim_ac_inventor_libs" = "xUNRESOLVED"; then
         CPPFLAGS="$sim_ac_iv_cppflags_loop $sim_ac_inventor_cppflags $sim_ac_save_CPPFLAGS"
@@ -12352,6 +12271,74 @@ else
 fi
 
 fi
+
+
+echo "$as_me:$LINENO: checking whether GLX is on the system" >&5
+echo $ECHO_N "checking whether GLX is on the system... $ECHO_C" >&6
+if test "${sim_cv_have_glx+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+#include "confdefs.h"
+
+#include <GL/glx.h>
+#include <GL/gl.h>
+
+#ifdef F77_DUMMY_MAIN
+#  ifdef __cplusplus
+     extern "C"
+#  endif
+   int F77_DUMMY_MAIN() { return 1; }
+#endif
+int
+main ()
+{
+
+(void)glXChooseVisual(0L, 0, 0L);
+/* Defect JAGad01283 of HP's aCC compiler causes a link failure unless
+   there is at least one "pure" OpenGL call along with GLU calls. */
+glEnd();
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  sim_cv_have_glx=true
+else
+  echo "$as_me: failed program was:" >&5
+cat conftest.$ac_ext >&5
+sim_cv_have_glx=false
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+fi
+echo "$as_me:$LINENO: result: $sim_cv_have_glx" >&5
+echo "${ECHO_T}$sim_cv_have_glx" >&6
+
+if ${sim_cv_have_glx=false}; then
+
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_GLX 1
+_ACEOF
+
+
+else
+  :
+fi
+
 
 ## We need this extra, final X11 check to set up the HAVE_X11_AVAILABLE
 ## define -- the X_DISPLAY_MISSING define provided by the built-in
@@ -13140,7 +13127,7 @@ EOF
   # The " *"-parts of the last sed-expression on the next line are necessary
   # because at least the Solaris/CC preprocessor adds extra spaces before and
   # after the trailing semicolon.
-  sim_ac_qt_version=`$CXXCPP $CPPFLAGS conftest.c | grep '^int VerQt' | sed 's%^int VerQt = %%' | sed 's% *; *$%%'`
+  sim_ac_qt_version=`$CXXCPP $CPPFLAGS conftest.c 2>/dev/null | grep '^int VerQt' | sed 's%^int VerQt = %%' | sed 's% *; *$%%'`
 
   case $sim_ac_qt_version in
   0x* )
