@@ -177,6 +177,11 @@ else
   ])
 fi
 
+dnl Check for the availability of this node (it is used in the hidden
+dnl line rendering), which is not part of older Inventor implementations.
+SIM_HAVE_SOPOLYGONOFFSET
+
+
 dnl *******************************************************************
 dnl * Check that the Qt installation looks ok and include the
 dnl * necessary paths and link libraries.
