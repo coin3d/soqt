@@ -83,29 +83,29 @@ AC_ARG_WITH([msvcrt],
     ;;
   multithread-static | mt | /mt | libcmt | libcmt\.lib )
     sim_ac_msvcrt=multithread-static
-    sim_ac_msvcrt_CFLAGS="/MT"
-    sim_ac_msvcrt_CXXFLAGS="/MT"
+    sim_ac_msvcrt_CFLAGS="/MT -D_MT -D_DLL"
+    sim_ac_msvcrt_CXXFLAGS="/MT -D_MT -D_DLL"
     sim_ac_msvcrt_LIBLDFLAGS="/LINK /NODEFAULTLIB:libc"
     sim_ac_msvcrt_LIBLIBS="-llibcmt"
     ;;
   multithread-static-debug | mtd | /mtd | libcmtd | libcmtd\.lib )
     sim_ac_msvcrt=multithread-static-debug
-    sim_ac_msvcrt_CFLAGS="/MTd"
-    sim_ac_msvcrt_CXXFLAGS="/MTd"
+    sim_ac_msvcrt_CFLAGS="/MTd -D_MT -D_DLL"
+    sim_ac_msvcrt_CXXFLAGS="/MTd -D_MT -D_DLL"
     sim_ac_msvcrt_LIBLDFLAGS="/NODEFAULTLIB:libc"
     sim_ac_msvcrt_LIBLIBS="-llibcmtd"
     ;;
   multithread-dynamic | md | /md | msvcrt | msvcrt\.lib )
     sim_ac_msvcrt=multithread-dynamic
-    sim_ac_msvcrt_CFLAGS=""
-    sim_ac_msvcrt_CXXFLAGS=""
+    sim_ac_msvcrt_CFLAGS="/MD -D_DLL"
+    sim_ac_msvcrt_CXXFLAGS="/MD -D_DLL"
     sim_ac_msvcrt_LIBLDFLAGS="/LINK /NODEFAULTLIB:libc"
     sim_ac_msvcrt_LIBLIBS="-lmsvcrt"
     ;;
   multithread-dynamic-debug | mdd | /mdd | msvcrtd | msvcrtd\.lib )
     sim_ac_msvcrt=multithread-dynamic-debug
-    sim_ac_msvcrt_CFLAGS="/MDd"
-    sim_ac_msvcrt_CXXFLAGS="/MDd"
+    sim_ac_msvcrt_CFLAGS="/MDd -D_DLL"
+    sim_ac_msvcrt_CXXFLAGS="/MDd -D_DLL"
     sim_ac_msvcrt_LIBLDFLAGS="/LINK /NODEFAULTLIB:libc"
     sim_ac_msvcrt_LIBLIBS="-lmsvcrtd"
     ;;
@@ -5940,8 +5940,8 @@ fi
 AC_DEFUN([SIM_AC_WITH_INVENTOR], [
 : ${sim_ac_want_inventor=false}
 AC_ARG_WITH([inventor],
-  AC_HELP_STRING([--with-inventor], [use another Open Inventor than Coin [[default=no]]])
-AC_HELP_STRING([--with-inventor=PATH], [specify where Open Inventor resides]),
+  AC_HELP_STRING([--with-inventor], [use another Open Inventor than Coin [[default=no]], with InventorXt])
+AC_HELP_STRING([--with-inventor=PATH], [specify where Open Inventor and InventorXt resides]),
   [case "$withval" in
   no)  sim_ac_want_inventor=false ;;
   yes) sim_ac_want_inventor=true
@@ -6146,6 +6146,38 @@ fi
 m4_do([popdef([cache_variable])],
       [popdef([DEFINE_VARIABLE])])
 ]) # SIM_AC_HAVE_INVENTOR_NODE
+
+# **************************************************************************
+# SIM_AC_HAVE_INVENTOR_VRMLNODE( VRLMNODE, [ACTION-IF-FOUND] [, ACTION-IF-NOT-FOUND])
+#
+# Check whether or not the given VRMLNODE is available in the Open Inventor
+# development system.  If so, the HAVE_<VRMLNODE> define is set.
+#
+# Authors:
+#   Lars J. Aas  <larsa@sim.no>
+#   Morten Eriksen  <mortene@sim.no>
+
+AC_DEFUN([SIM_AC_HAVE_INVENTOR_VRMLNODE], 
+[m4_do([pushdef([cache_variable], sim_cv_have_oiv_[]AC_TOLOWER([$1])_vrmlnode)],
+       [pushdef([DEFINE_VARIABLE], HAVE_[]AC_TOUPPER([$1]))])
+AC_CACHE_CHECK(
+  [if the Open Inventor $1 VRML node is available],
+  cache_variable,
+  [AC_TRY_LINK(
+    [#include <Inventor/VRMLnodes/$1.h>],
+    [$1 * p = new $1;],
+    cache_variable=true,
+    cache_variable=false)])
+
+if $cache_variable; then
+  AC_DEFINE(DEFINE_VARIABLE, 1, [Define to enable use of the Open Inventor $1 VRML node])
+  $2
+else
+  ifelse([$3], , :, [$3])
+fi
+m4_do([popdef([cache_variable])],
+      [popdef([DEFINE_VARIABLE])])
+]) # SIM_AC_HAVE_INVENTOR_VRMLNODE
 
 # **************************************************************************
 # SIM_AC_HAVE_INVENTOR_FEATURE(MESSAGE, HEADERS, BODY, DEFINE

@@ -166,6 +166,7 @@ SoGui_build_BuiltFiles =
 SoGui_src_Inventor_BuiltFiles = 
 
 SoGui_src_Inventor_Gui_BuiltFiles = \
+  $(top_builddir)/src/Inventor/@Gui@/SoGuiIntList.h \
   $(top_builddir)/src/Inventor/@Gui@/SoAny.h \
   $(top_builddir)/src/Inventor/@Gui@/SoAny.cpp \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@Basic.h \
@@ -333,6 +334,7 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/SoGuiGLWidgetCommon.cpp.in \
   src/Inventor/@Gui@/common/SoGuiRenderArea.h.in \
   src/Inventor/@Gui@/common/SoGuiRenderArea.cpp.in \
+  src/Inventor/@Gui@/common/SoGuiIntList.h.in \
   src/Inventor/@Gui@/common/SoAny.h.in \
   src/Inventor/@Gui@/common/SoAny.cpp.in \
   src/Inventor/@Gui@/common/widgets/SoGuiPopupMenu.h.in \
@@ -923,6 +925,9 @@ $(top_builddir)/src/config.h: $(top_srcdir)/src/config.h.in $(top_builddir)/conf
 
 $(top_builddir)/src/so@gui@defs.h: $(top_srcdir)/src/Inventor/@Gui@/common/soguidefs.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/so@gui@defs.h:src/Inventor/@Gui@/common/soguidefs.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/SoGuiIntList.h: $(top_srcdir)/src/Inventor/@Gui@/common/SoGuiIntList.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/SoGuiIntList.h:src/Inventor/@Gui@/common/SoGuiIntList.h.in )
 
 $(top_builddir)/src/Inventor/@Gui@/SoAny.h: $(top_srcdir)/src/Inventor/@Gui@/common/SoAny.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/SoAny.h:src/Inventor/@Gui@/common/SoAny.h.in )
