@@ -540,6 +540,9 @@ SoQtExaminerViewer::processEvent(QEvent * event)
 void
 SoQtExaminerViewer::setSeekMode(SbBool on)
 {
+  // Note: this method is almost identical to the setSeekMode() in the
+  // SoQtFlyViewer, so migrate any changes.
+
 #if SOQT_DEBUG
   if (on == this->isSeekMode()) {
     SoDebugError::postWarning("SoQtExaminerViewer::setSeekMode",
@@ -918,12 +921,9 @@ SoQtExaminerViewer::getFeedbackSize(
 
 // *************************************************************************
 
-/*!
-  FIXME: write doc
-*/
-
+// doc in super
 void
-SoQtExaminerViewer::afterRealizeHook( // virtual
+SoQtExaminerViewer::afterRealizeHook( // protected virtual
   void )
 {
   this->setCursorRepresentation( this->common->currentmode );
