@@ -22,6 +22,14 @@ static const char rcsid[] =
   "$Id$";
 #endif // SOQT_DEBUG
 
+/*!
+  \class SoQtSpaceball SoQtSpaceball.h Inventor/Qt/devices/SoQtSpaceball.h
+  \brief The SoQtSpaceball class ...
+  \ingroup devices
+
+  FIXME: write class doc
+*/
+
 #include <soqtdefs.h>
 #include <Inventor/Qt/SoQt.h>
 #include <Inventor/Qt/SoQtBasic.h>
@@ -39,17 +47,41 @@ static const char rcsid[] =
 #include <Inventor/Qt/devices/spwinput.h>
 #endif // ! X_DISPLAY_MISSING
 
-/*!
-  \class SoQtSpaceball SoQtSpaceball.h Inventor/Qt/devices/SoQtSpaceball.h
-  \brief The SoQtSpaceball class ...
-  \ingroup devices
-
-  FIXME: write class doc
-*/
-
 // *************************************************************************
 
 SOQT_OBJECT_SOURCE(SoQtSpaceball);
+
+// *************************************************************************
+
+// The private data for the SoQtComponent.
+
+class SoQtSpaceballP {
+public:
+  SoQtSpaceballP(void)
+    : rotationscale(.006f), translationscale(.006f), focustowindow(FALSE)
+  {
+    this->motion3event = new SoMotion3Event;
+    this->buttonevent = new SoSpaceballButtonEvent;
+  }
+
+  ~SoQtSpaceballP()
+  {
+    delete this->motion3event;
+    delete this->buttonevent;
+  }
+
+
+  SbRotation makeRotation(const float rx, const float ry, const float rz) const;
+  SbVec3f makeTranslation(const float tx, const float ty, const float tz) const;
+  int eventmask;  // FIXME: not in use? 20011013 mortene.
+  float rotationscale, translationscale;
+  SbBool focustowindow; // FIXME: not really in use. 20011018 mortene.
+
+  SoMotion3Event * motion3event;
+  SoSpaceballButtonEvent * buttonevent; // FIXME: not in use? 20011013 mortene.
+};
+
+#define PRIVATE(o) (o->pimpl)
 
 // *************************************************************************
 
@@ -79,16 +111,10 @@ SOQT_OBJECT_SOURCE(SoQtSpaceball);
 /*!
   Constructor.
 */
-
-SoQtSpaceball::SoQtSpaceball(
-  int mask)
+SoQtSpaceball::SoQtSpaceball(int mask)
 {
-  this->eventmask = mask;
-  this->rotationscale = .006f;
-  this->translationscale = .006f;
-  this->focustowindow = FALSE;
-  this->motion3Event = new SoMotion3Event;
-  this->buttonEvent = new SoSpaceballButtonEvent; 
+  PRIVATE(this) = new SoQtSpaceballP();
+  PRIVATE(this)->eventmask = mask;
 } // SoQtSpaceball()
 
 /*!
@@ -98,8 +124,7 @@ SoQtSpaceball::SoQtSpaceball(
 SoQtSpaceball::~SoQtSpaceball(
   void)
 {
-  delete this->motion3Event;
-  delete this->buttonEvent;
+  delete PRIVATE(this);
 } // ~SoQtSpaceball()
 
 // *************************************************************************
@@ -115,7 +140,7 @@ SoQtSpaceball::enable(
   void *) // closure)
 {
 #ifndef X_DISPLAY_MISSING
-  if (SPW_CheckForSpaceballX11((void*) widget->x11Display(), 
+  if (SPW_CheckForSpaceballX11((void*) widget->x11Display(),
                                widget->winId(), "sbtestx") == TRUE) {
   }
 #endif // !X_DISPLAY_MISSING
@@ -146,16 +171,16 @@ SoQtSpaceball::translateEvent(QEvent * event)
 #ifndef X_DISPLAY_MISSING
   if (event->type() == (QEvent::Type) SoQt::SPACEBALL_EVENT) {
     SPW_InputEvent * sbEvent = (SPW_InputEvent*) ((QCustomEvent*)event)->data();
-    
+
     switch (sbEvent->type) {
     case SPW_InputMotionEvent:
-      this->motion3Event->setTranslation(this->makeTranslation(sbEvent->sData[0],
-                                                               sbEvent->sData[1],
-                                                               sbEvent->sData[2]));
-      this->motion3Event->setRotation(this->makeRotation(sbEvent->sData[3],
-                                                         sbEvent->sData[4],
-                                                         sbEvent->sData[5]));
-      return this->motion3Event;
+      PRIVATE(this)->motion3event->setTranslation(PRIVATE(this)->makeTranslation(sbEvent->sData[0],
+                                                                                 sbEvent->sData[1],
+                                                                                 sbEvent->sData[2]));
+      PRIVATE(this)->motion3event->setRotation(PRIVATE(this)->makeRotation(sbEvent->sData[3],
+                                                                           sbEvent->sData[4],
+                                                                           sbEvent->sData[5]));
+      return PRIVATE(this)->motion3event;
     case SPW_InputButtonPressEvent:
       return (SoEvent*) NULL;
     case SPW_InputButtonReleaseEvent:
@@ -178,7 +203,7 @@ void
 SoQtSpaceball::setRotationScaleFactor(
   float f)
 {
-  this->rotationscale = f;
+  PRIVATE(this)->rotationscale = f;
 } // setRotationScaleFactor()
 
 /*!
@@ -189,7 +214,7 @@ float
 SoQtSpaceball::getRotationScaleFactor(
   void) const
 {
-  return this->rotationscale;
+  return PRIVATE(this)->rotationscale;
 } // getRotationScaleFactor()
 
 /*!
@@ -200,7 +225,7 @@ void
 SoQtSpaceball::setTranslationScaleFactor(
   float f)
 {
-  this->translationscale = f;
+  PRIVATE(this)->translationscale = f;
 } // setTranslationScaleFactor()
 
 /*!
@@ -211,7 +236,7 @@ float
 SoQtSpaceball::getTranslationScaleFactor(
   void) const
 {
-  return this->translationscale;
+  return PRIVATE(this)->translationscale;
 } // getTranslationScaleFactor()
 
 // *************************************************************************
@@ -232,7 +257,7 @@ SoQtSpaceball::exists(
   return FALSE;
 #else // ! X_DISPLAY_MISSING
   return TRUE;
-#endif // X_DISPLAY_MISSING 
+#endif // X_DISPLAY_MISSING
 } // exists()
 
 // *************************************************************************
@@ -240,27 +265,23 @@ SoQtSpaceball::exists(
 /*!
   FIXME: write function documentation
 */
-
 void
-SoQtSpaceball::setFocusToWindow(
-  SbBool flag)
+SoQtSpaceball::setFocusToWindow(SbBool flag)
 {
-  this->focustowindow = flag;
+  PRIVATE(this)->focustowindow = flag;
 }
 
 /*!
   FIXME: write function documentation
 */
-
 SbBool
-SoQtSpaceball::isFocusToWindow(
-  void) const
+SoQtSpaceball::isFocusToWindow(void) const
 {
-  return this->focustowindow;
+  return PRIVATE(this)->focustowindow;
 } // isFocusToWindow()
 
-SbRotation 
-SoQtSpaceball::makeRotation(const float rx, const float ry, const float rz) const
+SbRotation
+SoQtSpaceballP::makeRotation(const float rx, const float ry, const float rz) const
 {
   SbRotation xrot(SbVec3f(1, 0, 0), rx * this->rotationscale);
   SbRotation yrot(SbVec3f(0, 1, 0), ry * this->rotationscale);
@@ -268,12 +289,12 @@ SoQtSpaceball::makeRotation(const float rx, const float ry, const float rz) cons
   return xrot * yrot * zrot;
 }
 
-SbVec3f 
-SoQtSpaceball::makeTranslation(const float tx, const float ty, const float tz) const
+SbVec3f
+SoQtSpaceballP::makeTranslation(const float tx, const float ty, const float tz) const
 {
-  return SbVec3f(tx*this->translationscale,
-                 ty*this->translationscale,
-                 - tz*this->translationscale);
+  return SbVec3f(tx * this->translationscale,
+                 ty * this->translationscale,
+                 - tz * this->translationscale);
 }
 
 
@@ -282,4 +303,3 @@ SoQtSpaceball::makeTranslation(const float tx, const float ty, const float tz) c
 #if SOQT_DEBUG
 static const char * getSoQtSpaceballRCSId(void) { return rcsid; }
 #endif // SOQT_DEBUG
-
