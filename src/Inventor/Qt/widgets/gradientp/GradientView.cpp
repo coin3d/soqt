@@ -31,14 +31,14 @@
 #include <qcolordialog.h>
 #include "Gradient.h"
 #include "GradientView.h"
-#include "ImageItem.h"
 #include "TickMark.h"
+#include "ImageItem.h"
 
 #include <Inventor/Qt/widgets/moc_GradientView.icc>
 
 
-GradientView::GradientView(QCanvas * c, 
-                           const Gradient & g, 
+GradientView::GradientView(QCanvas * c,
+                           const Gradient & g,
                            QWidget * parent, 
                            const char * name,
                            WFlags f)
@@ -85,39 +85,15 @@ void GradientView::updateView()
   int width = this->canvas->width();
   int height = this->canvas->height();
 
-  QImage gradImage(width, height-10, 32);
-  gradImage.fill(0);
-
-  // FIXME: this can be made more efficient, but i'll leave it
-  // for now since the performance seems to be acceptable. 20030925 frodo.
-
-  QRgb * colors = new QRgb[width];
-  this->grad.getColorArray(colors, width);
-  for (int i = 0; i < width; i ++) {
-    float alpha = float(qAlpha(colors[i])) / 255.0f;
-    for (int j = 0; j < height - 10; j++) {
-      // produces a checkerboard pattern of black and white
-      QRgb background = 0;
-      if (((i & 0x8) == 0) ^ ((j & 0x8) == 0)) {
-        background = 255;
-      }
-      int bg = int((1.0f - alpha) * float(background));
-      int r = (int) (alpha * float(qRed(colors[i]) + bg));
-      int g = (int) (alpha * float(qGreen(colors[i]) + bg));
-      int b = (int) (alpha * float(qBlue(colors[i]) + bg));
-      gradImage.setPixel(i, j, qRgb(r, g, b));
-    }
-  }
-  delete [] colors;
+  QImage gradImage = this->grad.getImage(width, height-10, 32);
 
   if (this->gradItem)
     delete this->gradItem;
   this->gradItem = new ImageItem(gradImage, this->canvas);
-
   this->gradItem->show();
 
-  int selectStart = (int) this->tickMarks[this->startIndex]->x();
-  int selectEnd = (int) this->tickMarks[this->endIndex]->x();
+  int selectStart = this->tickMarks[this->startIndex]->x();
+  int selectEnd = this->tickMarks[this->endIndex]->x();
 
   QImage selectedImage(selectEnd - selectStart, 10, 32);
   selectedImage.fill(QColor(100,100,245).rgb());
@@ -127,11 +103,22 @@ void GradientView::updateView()
 
   this->selectionMarker = new ImageItem(selectedImage, this->canvas);
   this->selectionMarker->moveBy(selectStart, height-10);
+  this->selectionMarker->setZ(2);
   this->selectionMarker->show();
 
   this->canvas->update();
 }
 
+/*
+void GradientView::drawContents(QPainter * p, int clipx, int clipy, int clipw, int cliph)
+{
+  QCanvasItemList list = this->canvas->allItems();
+  QCanvasItemList::Iterator iter = list.begin();
+  for (; iter != list.end(); iter++) {
+    (*iter)->draw(*p);
+  }
+}
+*/
 void GradientView::contentsMousePressEvent(QMouseEvent * e)
 {
   QPoint p = inverseWorldMatrix().map(e->pos());
@@ -144,24 +131,16 @@ void GradientView::contentsMousePressEvent(QMouseEvent * e)
         if ((*it)->hit(p)) {
           this->movingItem = (*it);
           this->moving_start = p;
-          if (this->selectedMark)
-            this->selectedMark->setBrush(Qt::black);
+          this->unselectAll();
           this->selectedMark = this->movingItem;
           this->selectedMark->setBrush(Qt::blue);
-          this->canvas->update();
+          emit this->viewChanged();
           return;
         } else {
           this->startIndex = -1;
           while (this->tickMarks[++this->startIndex]->x() < p.x());
           this->startIndex--;
           this->endIndex = this->startIndex + 1;
-          
-          this->tickMarks[this->startIndex]->isStart = TRUE;
-          this->tickMarks[this->endIndex]->isEnd = TRUE;
-          if (this->selectedMark) {
-            this->selectedMark->setBrush(Qt::black);
-            this->selectedMark = NULL;
-          }
           emit this->viewChanged();
         }
       }
@@ -189,28 +168,28 @@ void GradientView::contentsMouseMoveEvent(QMouseEvent * e)
   if (this->movingItem && 
       (this->movingItem != this->tickMarks[0]) &&  
       (this->movingItem != this->tickMarks[this->tickMarks.size()-1]))
-    {   
-      int index = this->tickMarks.findIndex(this->movingItem);
-      if (index > 0) {
-        assert((index < (int)this->tickMarks.size() - 1) && (index >= 1));
+  {   
+    int index = this->tickMarks.findIndex(this->movingItem);
+    if (index > 0) {
+      assert((index < (int)this->tickMarks.size() - 1) && (index >= 1));
 
-        TickMark * left = this->tickMarks[index - 1];
-        TickMark * right = this->tickMarks[index + 1];
+      TickMark * left = this->tickMarks[index - 1];
+      TickMark * right = this->tickMarks[index + 1];
 
-        int movex = x - this->moving_start.x();
-        int newpos = (int) (this->movingItem->x() + movex);
+      int movex = x - this->moving_start.x();
+      int newpos = (int) (this->movingItem->x() + movex);
 
-        if ((newpos >= left->x()) && newpos <= right->x()) {
-          this->movingItem->moveBy(movex, 0);
-          this->moving_start = QPoint(x, p.y());
+      if ((newpos >= left->x()) && newpos <= right->x()) {
+        this->movingItem->moveBy(movex, 0);
+        this->moving_start = QPoint(x, p.y());
 
-          float t = this->movingItem->getPos();
-          this->grad.moveTick(index, t);
-      
-          emit this->viewChanged();
-        }
+        float t = this->movingItem->getPos();
+        this->grad.moveTick(index, t);
+    
+        emit this->viewChanged();
       }
     }
+  }
 }
 
 void GradientView::keyPressEvent(QKeyEvent * e)
@@ -241,12 +220,16 @@ void GradientView::unselectAll()
     (*it)->setBrush(Qt::black);
   }
   this->selectedMark = NULL;
-}    
+}
 
 
 void GradientView::setGradient(const Gradient & grad)
 {
   this->grad = grad;
+  this->selectedMark = NULL;
+  this->startIndex = 0;
+  this->endIndex = 1;
+  this->updateTicks();
   emit this->viewChanged();
 }
 
@@ -272,12 +255,12 @@ void GradientView::centerTick()
   }
 }
 
-TickMark * GradientView::getTick(int x)
+TickMark * GradientView::newTick(int x)
 {
   TickMark* i = new TickMark(this->canvas);
   i->setBrush(QColor(0,0,0));
   i->move(0, this->canvas->height()-15);
-  i->setZ(2);
+  i->setZ(3);
   i->setX(x);
   i->show();
   return i;
@@ -295,16 +278,14 @@ void GradientView::insertTick()
   float t = x / (float)this->canvas->width();
   int i = this->grad.insertTick(t);
 
-  QValueList<TickMark *>::Iterator it = this->tickMarks.begin();
+  QValueList<TickMark*>::Iterator it = this->tickMarks.begin();
   // the += operator wasn't available until Qt 3.1.0. Just iterate
   // and use ++. pederb, 2003-09-22
   for (int j = 0; j < i; j++) {
     it++;
   }
-  this->tickMarks.insert(it, this->getTick(x));
-
+  this->tickMarks.insert(it, this->newTick(x));
   this->endIndex = i;
-
   this->updateTicks();
   emit this->viewChanged();
 }
@@ -321,9 +302,11 @@ void GradientView::updateTicks()
   for (int i = 0; i < this->grad.numTicks(); i++) {
     float t = this->grad.getParameter(i);
     int x = (int) (t * (float)this->canvas->width() + 0.5f);
-    TickMark * tick = this->getTick(x);
+    TickMark * tick = this->newTick(x);
     this->tickMarks.append(tick);
   }
+  this->tickMarks[0]->setVisible(FALSE);
+  this->tickMarks[this->tickMarks.size()-1]->setVisible(FALSE);
 }
 
 void GradientView::deleteTick()
@@ -344,7 +327,6 @@ void GradientView::deleteTick()
       this->startIndex = i-1;
       this->endIndex = i;
     }
-
     emit this->viewChanged();
   }
 }
