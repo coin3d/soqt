@@ -256,6 +256,7 @@
    configure.in for all relevant projects. */
 #ifdef HAVE_X11_AVAILABLE
 #include <Inventor/Qt/devices/spwinput.h>
+#include <X11/Xlib.h>
 #endif // HAVE_X11_AVAILABLE
 
 #include <Inventor/Qt/SoQtComponent.h>
@@ -546,12 +547,15 @@ SoGuiP::sensorQueueChanged(void *)
 // spaceball devices.)
 class SoQtApplication : public QApplication {
 public:
-  SoQtApplication(int argc, char ** argv) : QApplication(argc, argv) { }
+  SoQtApplication(int argc, char ** argv) : QApplication(argc, argv) { 
+#ifdef HAVE_X11_AVAILABLE
+    this->display = NULL;
+#endif // HAVE_X11_AVAILABLE
+  }
 #ifdef HAVE_X11_AVAILABLE
   virtual bool x11EventFilter(XEvent * e) {
     SPW_InputEvent sbEvent;
-    QWidget * topw = SoQt::getTopLevelWidget();
-    if (topw && SPW_TranslateEventX11(topw->x11Display(), e, &sbEvent)) {
+    if (SPW_TranslateEventX11(this->getDisplay(), e, &sbEvent)) {
       QWidget * focus = this->focusWidget();
       if (!focus) focus = this->activeWindow();
       if (focus) {
@@ -562,6 +566,29 @@ public:
     }
     return QApplication::x11EventFilter(e);
   }
+  Display * getDisplay(void) {
+    QWidget * topw = SoQt::getTopLevelWidget();
+    if (topw) return topw->x11Display();
+    if (this->display == NULL) {
+      // Keep a single display-ptr.
+      // 
+      // This resource is never deallocated explicitly (but of course
+      // implicitly by the system on application close-down). This to
+      // work around some strange problems with the NVidia-driver 29.60
+      // on XFree86 v4 when using XCloseDisplay() -- like doublebuffered
+      // visuals not working correctly.
+      //
+      // Also, XCloseDisplay() has been known to cause crashes when
+      // running remotely from some old Mesa version on Red Hat Linux
+      // 6.2 onto an IRIX6.5 display. It seems likely that this was
+      // caused by a bug in that particular old Mesa version.
+      //
+      // mortene@sim.no
+      this->display = XOpenDisplay(NULL);
+    }
+    return this->display;
+  }
+  Display * display;
 #endif // HAVE_X11_AVAILABLE
 };
 
@@ -584,8 +611,22 @@ COIN_IV_EXTENSIONS
 void
 SoQt::init(QWidget * toplevelwidget)
 {
-  assert(qApp && "you must set up a QApplication instance");
-  SoQtP::appobject = qApp;
+  // "qApp" is a global variable from the Qt library, pointing to the
+  // single QApplication instance in a Qt-application.
+  if (qApp == NULL) {
+    // Set up the QApplication instance which we have derived into a
+    // subclass to catch spaceball events.
+    char * dummy[1];
+    dummy[0] = "SoQt";
+    SoQtP::appobject = new SoQtApplication(1, dummy);
+  }
+  else {
+    // The user already set one up for us.
+    //
+    // FIXME: should somehow warn about the fact that spaceball events
+    // will not be caught, if a spaceball is attempted used. 20020619 mortene.
+    SoQtP::appobject = qApp;
+  }
 
   // This init()-method is called by the other 2 init()'s, so place
   // common code here.
