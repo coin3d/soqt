@@ -39,6 +39,7 @@ static const char rcsid[] =
 #include <q1xcompatibility.h>
 #endif // Qt v2.x
 
+#include <Inventor/errors/SoDebugError.h>
 #include <Inventor/events/SoMouseButtonEvent.h>
 #include <Inventor/events/SoLocation2Event.h>
 
@@ -151,6 +152,26 @@ SoQtMouse::translateEvent(
   // sends this series of events upon dblclick:
   // press,release,dblclick,release. Reported to Troll Tech as a
   // possible bug. 19991001 mortene.
+
+#ifdef HAVE_SOMOUSEBUTTONEVENT_BUTTONS
+  if ( event->type() == QEvent::Wheel ) {
+    if ( !this->buttonevent )
+      this->buttonevent = new SoMouseButtonEvent;
+    QWheelEvent * const wevent = (QWheelEvent *) event;
+    if ( wevent->delta() > 0 )
+      this->buttonevent->setButton(SoMouseButtonEvent::BUTTON4);
+    else if ( wevent->delta() < 0 )
+      this->buttonevent->setButton(SoMouseButtonEvent::BUTTON5);
+#if SOQT_DEBUG
+    else
+      SoDebugError::postInfo( "SoQtMouse::translateEvent",
+        "event, but no movement" );
+#endif // SOQT_DEBUG
+    this->buttonevent->setState(SoButtonEvent::DOWN);
+    super = this->buttonevent;
+  }
+#endif // HAVE_SOMOUSEBUTTONEVENT_BUTTONS
+
   if (((event->type() == Event_MouseButtonPress) ||
        (event->type() == Event_MouseButtonRelease)) &&
       (this->eventmask & (SoQtMouse::ButtonPressMask |
@@ -164,20 +185,12 @@ SoQtMouse::translateEvent(
     case LeftButton:
       this->buttonevent->setButton(SoMouseButtonEvent::BUTTON1);
       break;
-    case MidButton:
-      this->buttonevent->setButton(SoMouseButtonEvent::BUTTON3);
-      break;
     case RightButton:
       this->buttonevent->setButton(SoMouseButtonEvent::BUTTON2);
       break;
-#ifdef HAVE_SOMOUSEBUTTONEVENT_BUTTONS
-    case (1 << 4):
-      this->buttonevent->setButton(SoMouseButtonEvent::BUTTON4);
+    case MidButton:
+      this->buttonevent->setButton(SoMouseButtonEvent::BUTTON3);
       break;
-    case (1 << 5):
-      this->buttonevent->setButton(SoMouseButtonEvent::BUTTON5);
-      break;
-#endif // HAVE_SOMOUSEBUTTONEVENT_BUTTONS
     default:
       assert(0 && "no such SoQtMouse button");
       break;
