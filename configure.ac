@@ -39,13 +39,7 @@ AC_CANONICAL_SYSTEM
 
 # **************************************************************************
 
-AC_ARG_ENABLE([msvcdsp],
-  [AC_HELP_STRING([--enable-msvcdsp], [build .dsp, not library])],
-  [case $enableval in
-  no | false) sim_ac_make_dsp=false ;;
-  *)          sim_ac_make_dsp=true ;;
-  esac],
-  [sim_ac_make_dsp=false])
+SIM_AC_MSVC_DSP_ENABLE_OPTION
 
 AC_ARG_ENABLE([msvc],
   [AC_HELP_STRING([--disable-msvc], [don't require MS Visual C++ on Cygwin])],
@@ -745,87 +739,7 @@ if $sim_ac_build_library; then
   fi
 fi
 
-# **************************************************************************
-# Microsoft Developer Studio Project files section
-
-SOQT_DSP_LIBDIRS=
-SOQT_DSP_LIBS=
-SOQT_DSP_DEFS=
-SOQT_DSP_INCS=
-
-if $sim_ac_make_dsp; then
-  SIM_AC_CONFIGURATION_SETTING([SoQt build type], [msvc .dsp])
-
-  # -DHAVE_CONFIG_H is set in @DEFS@ in AM_CONFIG_HEADER/AC_OUTPUT
-  # and some include paths are set up in the Makefile.am files
-  for arg in -DHAVE_CONFIG_H -I$soqt_build_dir/src -I$soqt_src_dir/src -I$soqt_src_dir/data $CPPFLAGS $LDFLAGS $LIBS; do
-    case $arg in
-    -L* )
-      libdir=`echo $arg | cut -c3-`
-      SOQT_DSP_LIBDIRS="$SOQT_DSP_LIBDIRS $libdir"
-      ;;
-    -l* )
-      libname=`echo $arg | cut -c3-`
-      for libdir in $SOQT_DSP_LIBDIRS; do
-        if test -f $libdir/$libname.lib; then
-          # lib is not in any standard location - use full path
-          libname=`cygpath -w "$libdir/$libname" 2>/dev/null || echo "$libdir/$libname"`
-          break
-        fi
-      done
-      if test x"$SOQT_DSP_LIBS" = x""; then
-        SOQT_DSP_LIBS="$libname.lib"
-      else
-        SOQT_DSP_LIBS="$SOQT_DSP_LIBS $libname.lib"
-      fi
-      ;;
-    -I* )
-      incdir=`echo $arg | cut -c3-`
-      incdir=`cygpath -w "$incdir" 2>/dev/null || echo "$incdir"`
-      if test x"$SOQT_DSP_INCS" = x""; then
-        SOQT_DSP_INCS="/I \"$incdir\""
-      else
-        SOQT_DSP_INCS="$SOQT_DSP_INCS /I \"$incdir\""
-      fi
-      ;;
-    -DSOQT_DEBUG* | -DNDEBUG )
-      # Defines that vary between release/debug configurations can't be
-      # set up dynamically in SOQT_DSP_DEFS - they must be static in the
-      # gendsp.sh script.  We therefore catche them here so we can ignore
-      # checking for them below.
-      ;;
-    -D*=* | -D* )
-      define=`echo $arg | cut -c3-`
-      if test x"$SOQT_DSP_DEFS" = x""; then
-        SOQT_DSP_DEFS="/D \"$define\""
-      else
-        SOQT_DSP_DEFS="$SOQT_DSP_DEFS /D \"$define\""
-      fi
-      ;;
-    esac
-  done
-
-  CC=$soqt_src_dir/cfg/m4/gendsp.sh
-  CXX=$soqt_src_dir/cfg/m4/gendsp.sh
-  CXXLD=$soqt_src_dir/cfg/m4/gendsp.sh
-  # Yes, this is totally bogus stuff, but don't worry about it.  As long
-  # as gendsp.sh recognizes it...  20030219 larsa
-  CPPFLAGS="$CPPFLAGS -Ddspfile=$soqt_build_dir/soqt$SOQT_MAJOR_VERSION.dsp"
-  LDFLAGS="$LDFLAGS -Wl,-Ddspfile=$soqt_build_dir/soqt$SOQT_MAJOR_VERSION.dsp"
-  LIBFLAGS="$LIBFLAGS -o soqt$SOQT_MAJOR_VERSION.so.0"
-
-  # this can't be set up at the point the libtool script is generated
-  mv libtool libtool.bak
-  sed -e "s%^CC=\"gcc\"%CC=\"$soqt_src_dir/cfg/m4/gendsp.sh\"%" \
-      -e "s%^CC=\".*/wrapmsvc.exe\"%CC=\"$soqt_src_dir/cfg/m4/gendsp.sh\"%" \
-      <libtool.bak >libtool
-  rm -f libtool.bak
-  chmod 755 libtool
-fi
-
-AC_SUBST([SOQT_DSP_DEFS])
-AC_SUBST([SOQT_DSP_INCS])
-AC_SUBST([SOQT_DSP_LIBS])
+SIM_AC_MSVC_DSP_SETUP([SOQT], [SoQt], [soqt], [-I$soqt_build_dir/src -I$soqt_src_dir/src -I$soqt_src_dir/data])
 
 # **************************************************************************
 # Submodules that needs to be configured...
