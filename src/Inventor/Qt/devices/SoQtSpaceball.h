@@ -23,8 +23,7 @@
 #define SOQT_SPACEBALL_H
 
 #include <Inventor/Qt/devices/SoQtDevice.h>
-#include <Inventor/SbRotation.h>
-#include <Inventor/SbVec3f.h>
+#include <Inventor/SbLinear.h>
 
 // *************************************************************************
 
