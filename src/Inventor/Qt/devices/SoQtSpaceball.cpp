@@ -35,7 +35,7 @@ static const char rcsid[] =
 #endif // HAVE_CONFIG_H
 
 
-#if ! X_DISPLAY_MISSING
+#ifndef X_DISPLAY_MISSING
 #include <Inventor/Qt/devices/spwinput.h>
 #endif // ! X_DISPLAY_MISSING
 
@@ -114,7 +114,7 @@ SoQtSpaceball::enable(
   SoQtEventHandler *, // handler,
   void * ) // closure )
 {
-#if !X_DISPLAY_MISSING
+#ifndef X_DISPLAY_MISSING
   if (SPW_CheckForSpaceballX11((void*) widget->x11Display(), 
                                widget->winId(), "sbtestx") == TRUE) {
   }
@@ -143,7 +143,7 @@ SoQtSpaceball::disable(
 const SoEvent *
 SoQtSpaceball::translateEvent(QEvent * event)
 {
-#if ! X_DISPLAY_MISSING
+#ifndef X_DISPLAY_MISSING
   if (event->type() == (QEvent::Type) SoQt::SPACEBALL_EVENT) {
     SPW_InputEvent * sbEvent = (SPW_InputEvent*) ((QCustomEvent*)event)->data();
     
@@ -228,7 +228,7 @@ SbBool
 SoQtSpaceball::exists(
   void )
 {
-#if X_DISPLAY_MISSING
+#ifdef X_DISPLAY_MISSING
   return FALSE;
 #else // ! X_DISPLAY_MISSING
   return TRUE;

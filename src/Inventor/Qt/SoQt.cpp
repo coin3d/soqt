@@ -79,7 +79,7 @@ main(int argc, char **argv)
 
 #include <stdlib.h>
 
-#if ! X_DISPLAY_MISSING
+#ifndef X_DISPLAY_MISSING
 #include <Inventor/Qt/devices/spwinput.h>
 #endif // ! X_DISPLAY_MISSING
 
@@ -131,7 +131,7 @@ SoQt * SoQt::slotobj = NULL;
 class SoQtApplication : public QApplication {
 public:
   SoQtApplication(int argc, char ** argv) : QApplication(argc, argv) { }
-#if ! X_DISPLAY_MISSING
+#ifndef X_DISPLAY_MISSING
   virtual bool x11EventFilter(XEvent * e) {
     SPW_InputEvent sbEvent;
     QWidget * topw = SoQt::getTopLevelWidget();
