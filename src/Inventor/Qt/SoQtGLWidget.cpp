@@ -843,6 +843,22 @@ SoQtGLWidget::processEvent(QEvent * /* anyevent */)
 
 // *************************************************************************
 
+/*!
+  Returns the number of times glLock() has been invoked.
+*/
+
+int
+SoQtGLWidget::getLockLevel(
+  void ) const
+{
+  return THIS->glLockLevel;
+} // getLockLevel()
+
+/*!
+  This method calls make-current on the correct context and ups the lock
+  level.
+*/
+
 void
 SoQtGLWidget::glLock(
   void )
@@ -868,6 +884,10 @@ SoQtGLWidget::glLock(
 #endif
 } // glLock()
 
+/*!
+  This method drops the lock level.
+*/
+
 void
 SoQtGLWidget::glUnlock(
   void )
@@ -875,6 +895,9 @@ SoQtGLWidget::glUnlock(
   THIS->glLockLevel--;
   assert( THIS->glLockLevel >= 0 && "programming error" );
 } // glUnlock()
+
+/*!
+*/
 
 void
 SoQtGLWidget::glSwapBuffers(
@@ -891,6 +914,9 @@ SoQtGLWidget::glSwapBuffers(
 #endif // debug
 } // glSwapBuffers()
 
+/*!
+*/
+
 void
 SoQtGLWidget::glFlushBuffer(
   void )
@@ -898,6 +924,9 @@ SoQtGLWidget::glFlushBuffer(
   assert( THIS->glLockLevel > 0 );
   glFlush();
 } // glFlushBuffer()
+
+/*!
+*/
 
 void
 SoQtGLWidget::glInit( // virtual
@@ -907,9 +936,13 @@ SoQtGLWidget::glInit( // virtual
   glLock();
   // Need to set this explicitly when running on top of Open Inventor,
   // as it seems to have been forgotten there.
+  // This code should be invoked from SoQtRenderArea::initGraphics()
   glEnable( GL_DEPTH_TEST );
   glUnlock();
 } // glInit()
+
+/*!
+*/
 
 void
 SoQtGLWidget::gl_init( // slot
@@ -920,7 +953,7 @@ SoQtGLWidget::gl_init( // slot
 
 /*!
   This method will be called whenever the OpenGL canvas changes size.
- */
+*/
 
 void
 SoQtGLWidget::glReshape( // virtual
@@ -933,6 +966,9 @@ SoQtGLWidget::glReshape( // virtual
 #endif // SOQT_DEBUG
   THIS->glSize = SbVec2s( (short) width, (short) height );
 } // glReshape()
+
+/*!
+*/
 
 void
 SoQtGLWidget::gl_reshape( // slot
@@ -947,6 +983,9 @@ SoQtGLWidget::gl_reshape( // slot
   this->glReshape( width, height );
 } // gl_reshape()
 
+/*!
+*/
+
 void
 SoQtGLWidget::glRender( // virtual
   void )
@@ -956,6 +995,9 @@ SoQtGLWidget::glRender( // virtual
 #endif // debug
   this->redraw();
 } // glRender()
+
+/*!
+*/
 
 void
 SoQtGLWidget::gl_exposed( // slot
@@ -1016,6 +1058,9 @@ SoQtGLWidget::isOverlayRender(
 } // isOverlayRender()
 
 // *************************************************************************
+
+/*!
+*/
 
 void
 SoQtGLWidget::eventHandler(

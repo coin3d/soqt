@@ -99,6 +99,7 @@ protected:
   virtual bool eventFilter( QObject * obj, QEvent * e );
   static void eventHandler( QWidget *, void *, QEvent *, bool * );
 
+  int getLockLevel(void) const;
   void glLock(void);
   void glUnlock(void);
   void glSwapBuffers(void);
