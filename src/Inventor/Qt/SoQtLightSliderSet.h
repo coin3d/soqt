@@ -21,8 +21,6 @@
  *
 \**************************************************************************/
 
-//  $Id$
-
 #ifndef SOQT_LIGHTSLIDERSET_H
 #define SOQT_LIGHTSLIDERSET_H
 

@@ -21,8 +21,6 @@
  *
 \**************************************************************************/
 
-//  $Id$
-
 #ifndef SOQT_MATERIALEDITOR_H
 #define SOQT_MATERIALEDITOR_H
 

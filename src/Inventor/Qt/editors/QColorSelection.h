@@ -21,8 +21,6 @@
  *
 \**************************************************************************/
 
-//  $Id$
-
 #ifndef SOQT_QCOLORSELECTION_H
 #define SOQT_QCOLORSELECTION_H
 

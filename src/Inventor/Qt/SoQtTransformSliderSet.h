@@ -21,8 +21,6 @@
  *
 \**************************************************************************/
 
-// $Id$
-
 #ifndef SOQT_TRANSFORMSLIDERSET_H
 #define SOQT_TRANSFORMSLIDERSET_H
 

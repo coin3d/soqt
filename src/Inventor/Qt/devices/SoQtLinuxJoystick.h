@@ -21,8 +21,6 @@
  *
 \**************************************************************************/
 
-// $Id$
-
 #ifndef SOQT_LINUXJOYSTICK_H
 #define SOQT_LINUXJOYSTICK_H
 

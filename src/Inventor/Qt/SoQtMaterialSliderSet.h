@@ -21,8 +21,6 @@
  *
 \**************************************************************************/
 
-// $Id$
-
 #ifndef SOQT_MATERIALSLIDERSET_H
 #define SOQT_MATERIALSLIDERSET_H
 

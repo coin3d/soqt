@@ -21,8 +21,6 @@
  *
 \**************************************************************************/
 
-//  $Id$
-
 #ifndef SOQT_QTNATIVEPOPUPMENU_H
 #define SOQT_QTNATIVEPOPUPMENU_H
 

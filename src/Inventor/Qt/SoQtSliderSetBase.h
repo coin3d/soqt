@@ -21,8 +21,6 @@
  *
 \**************************************************************************/
 
-// $Id$
-
 #ifndef SOQT_SLIDERSETBASE_H
 #define SOQT_SLIDERSETBASE_H
 

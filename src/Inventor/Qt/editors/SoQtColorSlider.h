@@ -21,8 +21,6 @@
  *
 \**************************************************************************/
 
-//  $Id$
-
 #ifndef SOQT_COLORSLIDER_H
 #define SOQT_COLORSLIDER_H
 

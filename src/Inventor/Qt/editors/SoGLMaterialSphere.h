@@ -21,8 +21,6 @@
  *
 \**************************************************************************/
 
-//  $Id$
-
 #ifndef SOQT_GLMATERIALSPHERE_H
 #define SOQT_GLMATERIALSPHERE_H
 

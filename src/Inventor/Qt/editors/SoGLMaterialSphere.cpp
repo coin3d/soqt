@@ -21,9 +21,6 @@
  *
 \**************************************************************************/
 
-static const char rcsid[] =
-  "$Id$";
-
 // FIXME: not in use yet. 19990620 mortene.
 
 #include <math.h>

@@ -21,11 +21,6 @@
  *
 \**************************************************************************/
 
-#if SOQT_DEBUG
-static const char rcsid[] =
-  "$Id$";
-#endif // SOQT_DEBUG
-
 #include <qmetaobject.h>
 #include <moc_SoQtMaterialSliderSet.cpp>
 

@@ -21,8 +21,6 @@
  *
 \**************************************************************************/
 
-//  $Id$
-
 #ifndef SOQT_MATERIALLIST_H
 #define SOQT_MATERIALLIST_H
 

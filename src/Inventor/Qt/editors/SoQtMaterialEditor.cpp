@@ -21,9 +21,6 @@
  *
 \**************************************************************************/
 
-static const char rcsid[] =
-  "$Id$";
-
 #include <qlayout.h>
 #include <qbutton.h>
 #include <qchkbox.h>
