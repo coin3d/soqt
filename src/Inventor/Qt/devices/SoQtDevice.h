@@ -43,12 +43,10 @@ public:
   typedef void SoQtEventHandler(QWidget *, void *, QEvent *, bool *);
 
   SoQtDevice(void);
-  virtual ~SoQtDevice(void);
+  virtual ~SoQtDevice();
 
-  virtual void enable(QWidget * widget, SoQtEventHandler * handler,
-    void * closure) = 0;
-  virtual void disable(QWidget * w, SoQtEventHandler * handler,
-    void * closure) = 0;
+  virtual void enable(QWidget * w, SoQtEventHandler * handler, void * closure) = 0;
+  virtual void disable(QWidget * w, SoQtEventHandler * handler, void * closure) = 0;
 
   virtual const SoEvent * translateEvent(QEvent * event) = 0;
 
@@ -71,67 +69,9 @@ private:
   SbVec2s widgetsize;
 
   SbPList * handlers;
-
-  // For setting SoQtDevice::lasteventposition in
-  // SoQtRenderArea::processEvents() (as a workaround for a Qt design
-  // problem vs Xt).
-  friend class SoQtRenderArea;
-
 };
 
 typedef void (*SoQtEventHandlerPtr)(QWidget *, void *, QEvent *, bool *);
-
-// *************************************************************************
-
-// temporary hacks for the spaceball/linux joystick support
-
-enum SoQtCustomEvents {
-  soqt6dofDeviceButtonPressedEvent   = (QEvent::User + 1),
-  soqt6dofDeviceButtonReleasedEvent,
-  soqt6dofDevicePressureEvent
-};
-
-class SOQT_DLL_API SoQt6dofDevicePressureEvent : public QCustomEvent {
-  typedef QCustomEvent inherited;
-
-public:
-  SoQt6dofDevicePressureEvent(void);
-
-  void setTranslation(float x, float y, float z);
-  void getTranslation(float & x, float & y, float & z) const;
-
-  void setRotation(float x, float y, float z);
-  void getRotation(float & x, float & y, float & z) const;
-
-private:
-  float trans_x, trans_y, trans_z;
-  float rot_x, rot_y, rot_z;
-
-};
-
-class SOQT_DLL_API SoQt6dofDeviceButtonEvent : public QCustomEvent {
-  typedef QCustomEvent inherited;
-
-public:
-  SoQt6dofDeviceButtonEvent(void);
-
-  void setButton(unsigned int button);
-  unsigned int getButton(void) const;
-
-  void setState(unsigned int state);
-  unsigned int getState(void) const;
-
-  void setNumButtons(unsigned int buttons);
-  unsigned int getNumButtons(void) const;
-
-  int isButtonPress(void) const;
-
-private:
-  unsigned int state;
-  unsigned int button;
-  unsigned int buttons;
-
-};
 
 // *************************************************************************
 

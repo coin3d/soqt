@@ -268,6 +268,8 @@ SoQtDevice::invokeHandlers(QEvent * event)
 
 // *************************************************************************
 
+#include <6dofEvents.h>
+
 SoQt6dofDevicePressureEvent::SoQt6dofDevicePressureEvent(void)
   : inherited(QEvent::User, NULL)
 {
