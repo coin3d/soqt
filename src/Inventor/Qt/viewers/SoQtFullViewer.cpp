@@ -891,6 +891,12 @@ SoQtFullViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
     // the pushbuttons.
     p->setFocusPolicy(QWidget::NoFocus);
 
+    // FIXME: its wrong to cast xpm data to (const char **), it
+    // _should_ be (const char * const []), but this is not valid ANSI
+    // C++. Not sure what to do about this (and the wrong cast can
+    // (and has) in fact lead to bugs, so the situation should be
+    // resolved). 20000505 mortene.
+
     switch (i) {
     case INTERACT_BUTTON:
       p->setToggleButton(TRUE);
