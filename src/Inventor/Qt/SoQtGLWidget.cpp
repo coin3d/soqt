@@ -537,6 +537,15 @@ SoQtGLWidget::eventFilter(
   }
 #endif // Qt v2.0
 
+  // FIXME: Under Qt 3.0.0 we got buggy mouse event handling, since
+  // mouse events were routed to the gl widget, even if it was
+  // supposed to go somewhere else. I'm not sure if this is the
+  // correct fix though. pederb, 2001-10-16
+  if ((e->type() == QEvent::MouseButtonPress ||
+       e->type() == QEvent::MouseButtonRelease ||
+       e->type() == QEvent::MouseButtonDblClick ||
+       e->type() == QEvent::MouseMove) &&
+      (obj != PRIVATE(this)->currentglwidget)) return FALSE;
 
   SbBool stopevent = FALSE;
 
