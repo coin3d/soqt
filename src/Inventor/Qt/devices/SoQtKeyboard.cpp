@@ -21,13 +21,9 @@
  *
 \**************************************************************************/
 
-/*!
-  \class SoQtKeyboard SoQtKeyboard.h Inventor/Qt/devices/SoQtKeyboard.h
-  \brief The SoQtKeyboard class ...
-  \ingroup devices
-
-  FIXME: write class doc
-*/
+#if HAVE_CONFIG_H
+#include <config.h>
+#endif // HAVE_CONFIG_H
 
 #include <qevent.h>
 #include <qkeycode.h>
@@ -35,14 +31,9 @@
 #include <Inventor/SbDict.h>
 #include <Inventor/events/SoKeyboardEvent.h>
 
-#include <soqtdefs.h>
-#include <Inventor/Qt/SoQtBasic.h>
 #include <Inventor/Qt/devices/SoQtKeyboard.h>
+#include <Inventor/Qt/devices/SoGuiKeyboardP.h>
 #include <Inventor/errors/SoDebugError.h>
-
-#if HAVE_CONFIG_H
-#include <config.h>
-#endif // HAVE_CONFIG_H
 
 // The reason for this is that SoQt _compiled_ against Qt versions
 // 2.0.0 <= X < 2.2.0 should still detect keypad presses when _run_
@@ -54,32 +45,6 @@
 #else // !HAVE_QT_KEYPAD_DEFINE
 #define QT_KEYPAD_MASK QT_KEYPAD_MASK_ASSUMED
 #endif // !HAVE_QT_KEYPAD_DEFINE
-
-// *************************************************************************
-
-SOQT_OBJECT_SOURCE(SoQtKeyboard);
-
-// *************************************************************************
-
-/*!
-  \enum SoQtKeyboard::Events
-  FIXME: write doc
-*/
-
-/*!
-  \var SoQtKeyboard::Events SoQtKeyboard::KEY_PRESS
-  FIXME: write doc
-*/
-
-/*!
-  \var SoQtKeyboard::Events SoQtKeyboard::KEY_RELEASE
-  FIXME: write doc
-*/
-
-/*!
-  \var SoQtKeyboard::Events SoQtKeyboard::ALL_EVENTS
-  FIXME: write doc
-*/
 
 // *************************************************************************
 
@@ -259,14 +224,16 @@ soqtkeyboard_cleanup(void)
 
 // *************************************************************************
 
-/*!
-  Constructor. The \a mask specifies which keyboard-related events
-  to handle. Others will just be ignored.
-*/
+class SoQtKeyboardP : public SoGuiKeyboardP {
+};
+
+// *************************************************************************
+
 SoQtKeyboard::SoQtKeyboard(int mask)
 {
-  this->eventmask = mask;
-  this->kbdevent = NULL;
+  PRIVATE(this) = new SoQtKeyboardP;
+
+  PRIVATE(this)->eventmask = mask;
 
   // Protect against surprises in future Qt version (>= v3).
   static bool mask_tested = false;
@@ -277,40 +244,25 @@ SoQtKeyboard::SoQtKeyboard(int mask)
   }
 }
 
-/*!
-  Destructor.
-*/
 SoQtKeyboard::~SoQtKeyboard()
 {
-  delete this->kbdevent;
+  delete PRIVATE(this);
 }
 
 // *************************************************************************
 
-/*!
-  FIXME: write function documentation
-*/
-
 void
-SoQtKeyboard::enable(
-  QWidget *, // widget,
-  SoQtEventHandler *, // handler,
-  void *) // closure)
+SoQtKeyboard::enable(QWidget * widget, SoQtEventHandler * handler, void * closure)
 {
-// FIXME: SOQT_STUB();
+  // FIXME: should add some magic here so Qt events are actually
+  // enabled or disabled for the widget in question. 20020625 mortene.
 }
 
-/*!
-  FIXME: write function documentation
-*/
-
 void
-SoQtKeyboard::disable(
-  QWidget *, // widget,
-  SoQtEventHandler *, // handler,
-  void *) // closure)
+SoQtKeyboard::disable(QWidget * widget, SoQtEventHandler * handler, void * closure)
 {
-// FIXME: SOQT_STUB();
+  // FIXME: should add some magic here so Qt events are actually
+  // enabled or disabled for the widget in question. 20020625 mortene.
 }
 
 // *************************************************************************
@@ -338,10 +290,6 @@ make_translation_table(void)
 }
 
 // *************************************************************************
-
-/*!
-  FIXME: write function documentation
-*/
 
 const SoEvent *
 SoQtKeyboard::translateEvent(QEvent * event)
@@ -414,7 +362,7 @@ SoQtKeyboard::translateEvent(QEvent * event)
 
   SbBool keyevent = keypress || keyrelease;
 
-  if (keyevent && (this->eventmask & (KEY_PRESS|KEY_RELEASE))) {
+  if (keyevent && (PRIVATE(this)->eventmask & (KEY_PRESS|KEY_RELEASE))) {
 
     if (!translatetable) make_translation_table();
 
@@ -424,7 +372,7 @@ SoQtKeyboard::translateEvent(QEvent * event)
     if (key == 0) return NULL;
 
     // Allocate system-neutral event object once and reuse.
-    if (!this->kbdevent) this->kbdevent = new SoKeyboardEvent;
+    if (!PRIVATE(this)->kbdevent) PRIVATE(this)->kbdevent = new SoKeyboardEvent;
 
     // FIXME: check for Qt::Key_unknown. 19990212 mortene.
 
@@ -434,30 +382,30 @@ SoQtKeyboard::translateEvent(QEvent * event)
     void * table;
     if (keypad && kp_translatetable->find(key, table)) {
       struct key1map * map = (struct key1map*) table;
-      this->kbdevent->setKey(map->to);
+      PRIVATE(this)->kbdevent->setKey(map->to);
 #if 0 // disabled. Breaks build when compiling against OIV
-      if (map->printable) this->kbdevent->setPrintableCharacter(map->printable);
+      if (map->printable) PRIVATE(this)->kbdevent->setPrintableCharacter(map->printable);
 #endif // disabled
     } 
     else if (!keypad && translatetable->find(key, table)) {
       struct key1map * map = (struct key1map*) table;
-      this->kbdevent->setKey(map->to);
+      PRIVATE(this)->kbdevent->setKey(map->to);
 #if 0 // disabled. Breaks build when compiling against OIV
-      if (map->printable) this->kbdevent->setPrintableCharacter(map->printable);
+      if (map->printable) PRIVATE(this)->kbdevent->setPrintableCharacter(map->printable);
 #endif // disabled
     }
     else {
 #if 0 // disabled. Breaks build when compiling against OIV
-      this->kbdevent->setKey(SoKeyboardEvent::UNDEFINED);
-      this->kbdevent->setPrintableCharacter((char) keyevent->ascii());
+      PRIVATE(this)->kbdevent->setKey(SoKeyboardEvent::UNDEFINED);
+      PRIVATE(this)->kbdevent->setPrintableCharacter((char) keyevent->ascii());
 #else // disabled
       return NULL;
 #endif
     }
 
     // Press or release?
-    if (keyrelease) this->kbdevent->setState(SoButtonEvent::UP);
-    else this->kbdevent->setState(SoButtonEvent::DOWN);
+    if (keyrelease) PRIVATE(this)->kbdevent->setState(SoButtonEvent::UP);
+    else PRIVATE(this)->kbdevent->setState(SoButtonEvent::DOWN);
 
     // Need to mask in or out modifiers to get the correct state, as
     // the state() function gives us the situation immediately
@@ -481,21 +429,21 @@ SoQtKeyboard::translateEvent(QEvent * event)
     }
 
     // Modifiers
-    this->kbdevent->setShiftDown(state & Qt::ShiftButton);
-    this->kbdevent->setCtrlDown(state & Qt::ControlButton);
-    this->kbdevent->setAltDown(state & Qt::AltButton);
+    PRIVATE(this)->kbdevent->setShiftDown(state & Qt::ShiftButton);
+    PRIVATE(this)->kbdevent->setCtrlDown(state & Qt::ControlButton);
+    PRIVATE(this)->kbdevent->setAltDown(state & Qt::AltButton);
 
     // FIXME: read QCursor::position() instead,
     // and clean up this mess. 19990222 mortene.
-    this->setEventPosition(this->kbdevent,
+    this->setEventPosition(PRIVATE(this)->kbdevent,
                            SoQtDevice::getLastEventPosition()[0],
                            SoQtDevice::getLastEventPosition()[1]);
 
     // FIXME: wrong -- should be the time the Qt event happened. Can't
     // find support for getting hold of that information in
     // Qt. 19990211 mortene.
-    this->kbdevent->setTime(SbTime::getTimeOfDay());
-    return this->kbdevent;
+    PRIVATE(this)->kbdevent->setTime(SbTime::getTimeOfDay());
+    return PRIVATE(this)->kbdevent;
   }
 
   return NULL;

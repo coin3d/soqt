@@ -21,133 +21,54 @@
  *
 \**************************************************************************/
 
+#if HAVE_CONFIG_H
+#include <config.h>
+#endif // HAVE_CONFIG_H
+
 #include <qevent.h>
 
 #include <Inventor/errors/SoDebugError.h>
 #include <Inventor/events/SoMouseButtonEvent.h>
 #include <Inventor/events/SoLocation2Event.h>
-
-#if HAVE_CONFIG_H
-#include <config.h>
-#endif // HAVE_CONFIG_H
-
-#include <soqtdefs.h>
-#include <Inventor/Qt/SoQtBasic.h>
 #include <Inventor/Qt/devices/SoQtMouse.h>
-
-/*!
-  \class SoQtMouse SoQtMouse.h Inventor/Qt/devices/SoQtMouse.h
-  \brief The SoQtMouse class ...
-  \ingroup devices
-
-  FIXME: write class doc
-*/
+#include <Inventor/Qt/devices/SoGuiMouseP.h>
 
 // *************************************************************************
 
-SOQT_OBJECT_SOURCE(SoQtMouse);
+class SoQtMouseP : public SoGuiMouseP {
+};
 
 // *************************************************************************
 
-/*!
-  \enum SoQtMouse::Events
-  FIXME: write documentation for enum
-*/
-/*!
-  \var SoQtMouse::Events SoQtMouse::BUTTON_PRESS
-  FIXME: write documentation for enum definition
-*/
-/*!
-  \var SoQtMouse::Events SoQtMouse::BUTTON_RELEASE
-  FIXME: write documentation for enum definition
-*/
-/*!
-  \var SoQtMouse::Events SoQtMouse::POINTER_MOTION
-  FIXME: write documentation for enum definition
-*/
-/*!
-  \var SoQtMouse::Events SoQtMouse::BUTTON_MOTION
-  FIXME: write documentation for enum definition
-*/
-/*!
-  \var SoQtMouse::Events SoQtMouse::ALL_EVENTS
-  FIXME: write documentation for enum definition
-*/
-
-// *************************************************************************
-
-/*!
-  Constructor.
-*/
 SoQtMouse::SoQtMouse(int mask)
 {
-  this->eventmask = mask;
-
-  // Allocate system-neutral event objects once and reuse.
-  this->buttonevent = new SoMouseButtonEvent;
-  this->locationevent = new SoLocation2Event;
+  PRIVATE(this) = new SoQtMouseP;
+  PRIVATE(this)->eventmask = mask;
 }
 
-/*!
-  Destructor.
-*/
 SoQtMouse::~SoQtMouse()
 {
-  delete this->buttonevent;
-  delete this->locationevent;
+  delete PRIVATE(this);
 }
 
 // *************************************************************************
 
-/*!
-  FIXME: write function documentation
-*/
-
 void
-SoQtMouse::enable(QWidget *, // widget,
-                  SoQtEventHandler *, // handler,
-                  void *) // closure)
+SoQtMouse::enable(QWidget * widget, SoQtEventHandler * handler, void * closure)
 {
-// FIXME: SOQT_STUB();
+  // FIXME: should add some magic here so Qt events are actually
+  // enabled or disabled for the widget in question. 20020625 mortene.
 }
 
-/*!
-  FIXME: write function documentation
-*/
-
 void
-SoQtMouse::disable(QWidget *, // widget,
-                   SoQtEventHandler *, // handler,
-                   void *) // closure)
+SoQtMouse::disable(QWidget * widget, SoQtEventHandler * handler, void * closure)
 {
-// FIXME: SOQT_STUB();
+  // FIXME: should add some magic here so Qt events are actually
+  // enabled or disabled for the widget in question. 20020625 mortene.
 }
 
 // *************************************************************************
 
-/*!
-  Translates a native event from the underlying Qt toolkit into a
-  generic event.
-
-  This is then returned in the form of an instance of a subclass of
-  the Inventor API's SoEvent class, either an SoMouseButtonEvent or an
-  SoLocation2Event, depending on whether the native event is a
-  mousebutton press or release, or a mousecursor movement event.
-
-  The mapping of the mousebuttons upon generation of
-  SoMouseButtonEvent events will be done as follows:
-
-  <ul>
-  <li>left mousebutton: SoMouseButtonEvent::BUTTON1
-  <li>right mousebutton: SoMouseButtonEvent::BUTTON2
-  <li>middle mousebutton, if available: SoMouseButtonEvent::BUTTON3
-  <li>forward motion on a wheel mouse: SoMouseButtonEvent::BUTTON4
-  <li>backward motion on a wheel mouse: SoMouseButtonEvent::BUTTON5
-  </ul>
-
-  Note that right mousebutton will always map to
-  SoMouseButtonEvent::BUTTON2, even on a 3-button mouse.
-*/
 const SoEvent *
 SoQtMouse::translateEvent(QEvent * event)
 {
@@ -161,16 +82,16 @@ SoQtMouse::translateEvent(QEvent * event)
   if (event->type() == QEvent::Wheel) {
     QWheelEvent * const wevent = (QWheelEvent *) event;
     if (wevent->delta() > 0)
-      this->buttonevent->setButton(SoMouseButtonEvent::BUTTON4);
+      PRIVATE(this)->buttonevent->setButton(SoMouseButtonEvent::BUTTON4);
     else if (wevent->delta() < 0)
-      this->buttonevent->setButton(SoMouseButtonEvent::BUTTON5);
+      PRIVATE(this)->buttonevent->setButton(SoMouseButtonEvent::BUTTON5);
 #if SOQT_DEBUG
     else
       SoDebugError::postInfo("SoQtMouse::translateEvent",
                              "event, but no movement");
 #endif // SOQT_DEBUG
-    this->buttonevent->setState(SoButtonEvent::DOWN);
-    super = this->buttonevent;
+    PRIVATE(this)->buttonevent->setState(SoButtonEvent::DOWN);
+    super = PRIVATE(this)->buttonevent;
   }
 #endif // HAVE_SOMOUSEBUTTONEVENT_BUTTON5
 
@@ -192,23 +113,23 @@ SoQtMouse::translateEvent(QEvent * event)
   if (((event->type() == QEvent::MouseButtonDblClick) ||
        (event->type() == QEvent::MouseButtonPress) ||
        (event->type() == QEvent::MouseButtonRelease)) &&
-      (this->eventmask & (BUTTON_PRESS | BUTTON_RELEASE))) {
+      (PRIVATE(this)->eventmask & (BUTTON_PRESS | BUTTON_RELEASE))) {
 
     // Which button?
     switch (mouseevent->button()) {
     case Qt::LeftButton:
-      this->buttonevent->setButton(SoMouseButtonEvent::BUTTON1);
+      PRIVATE(this)->buttonevent->setButton(SoMouseButtonEvent::BUTTON1);
 // emulate right mouse button on MacIntosh platform by ctrl-click
 #ifdef Q_WS_MAC
       if (mouseevent->state() & ControlButton)
-        this->buttonevent->setButton(SoMouseButtonEvent::BUTTON2);
+        PRIVATE(this)->buttonevent->setButton(SoMouseButtonEvent::BUTTON2);
 #endif // Q_WS_MAC
       break;
     case Qt::RightButton:
-      this->buttonevent->setButton(SoMouseButtonEvent::BUTTON2);
+      PRIVATE(this)->buttonevent->setButton(SoMouseButtonEvent::BUTTON2);
       break;
     case Qt::MidButton:
-      this->buttonevent->setButton(SoMouseButtonEvent::BUTTON3);
+      PRIVATE(this)->buttonevent->setButton(SoMouseButtonEvent::BUTTON3);
       break;
     default:
       assert(0 && "no such SoQtMouse button");
@@ -217,18 +138,20 @@ SoQtMouse::translateEvent(QEvent * event)
 
     // Press or release?
     if (mouseevent->button() & mouseevent->state())
-      this->buttonevent->setState(SoButtonEvent::UP);
+      PRIVATE(this)->buttonevent->setState(SoButtonEvent::UP);
     else
-      this->buttonevent->setState(SoButtonEvent::DOWN);
+      PRIVATE(this)->buttonevent->setState(SoButtonEvent::DOWN);
 
-    super = this->buttonevent;
+    super = PRIVATE(this)->buttonevent;
   }
 
 
   // Check for mouse movement.
   if ((event->type() == QEvent::MouseMove) &&
-      (this->eventmask & (POINTER_MOTION | BUTTON_MOTION))) {
-    super = this->locationevent;
+      // FIXME: is this correct? BUTTON_MOTION means "motion with
+      // buttons down". 20020625 mortene.
+      (PRIVATE(this)->eventmask & (POINTER_MOTION | BUTTON_MOTION))) {
+    super = PRIVATE(this)->locationevent;
   }
 
 
