@@ -17,7 +17,7 @@
  *
  **************************************************************************/
 
-//  $Id$
+// $Id$
 
 #ifndef SOQT_SLIDERSETBASE_H
 #define SOQT_SLIDERSETBASE_H
@@ -26,9 +26,10 @@
 
 class SoNode;
 
+// *************************************************************************
+
 class SOQT_DLL_EXPORT SoQtSliderSetBase : public SoQtComponent {
-  SOQT_TYPED_ABSTRACT_OBJECT_HEADER(SoQtSliderSetBase);
-  typedef SoQtComponent inherited;
+  SOQT_OBJECT_ABSTRACT_HEADER(SoQtSliderSetBase, SoQtComponent);
   Q_OBJECT
 
 public:
@@ -38,13 +39,15 @@ public:
 protected:
   SoQtSliderSetBase(QWidget * parent = NULL,
                     const char * name = NULL,
-                    SbBool buildInsideParent = TRUE,
+                    SbBool embed = TRUE,
                     SoNode * editnode = NULL);
   ~SoQtSliderSetBase();
 
 private:
   SoNode * node;
 
-};
+}; // class SoQtSliderSetBase
+
+// *************************************************************************
 
 #endif // ! SOQT_SLIDERSETBASE_H

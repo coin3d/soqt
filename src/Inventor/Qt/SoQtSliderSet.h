@@ -24,9 +24,10 @@
 
 #include <Inventor/Qt/SoQtSliderSetBase.h>
 
+// *************************************************************************
+
 class SOQT_DLL_EXPORT SoQtSliderSet : public SoQtSliderSetBase {
-  SOQT_TYPED_ABSTRACT_OBJECT_HEADER(SoQtSliderSet);
-  typedef SoQtSliderSetBase inherited;
+  SOQT_OBJECT_ABSTRACT_HEADER(SoQtSliderSet, SoQtSliderSetBase);
   Q_OBJECT
 
 public:
@@ -34,9 +35,12 @@ public:
 protected:
   SoQtSliderSet(QWidget * parent,
                 const char * name,
-                SbBool buildInsideParent,
+                SbBool embed,
                 SoNode * editnode);
   ~SoQtSliderSet();
-};
+
+}; // class SoQtSliderSet
+
+// *************************************************************************
 
 #endif // ! SOQT_SLIDERSET_H

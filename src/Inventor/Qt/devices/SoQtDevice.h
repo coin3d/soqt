@@ -17,7 +17,7 @@
  *
  **************************************************************************/
 
-//  $Id$
+// $Id$
 
 #ifndef SOQT_DEVICE_H
 #define SOQT_DEVICE_H
@@ -28,7 +28,7 @@
 
 #include <Inventor/SbLinear.h>
 
-#include <Inventor/Qt/SoQtTypedObject.h>
+#include <Inventor/Qt/SoQtObject.h>
 
 class QEvent;
 class QWidget;
@@ -40,8 +40,8 @@ typedef int soqtEventMask;
 
 // *************************************************************************
 
-class SOQT_DLL_EXPORT SoQtDevice : public SoQtTypedObject {
-  SOQT_TYPED_ABSTRACT_OBJECT_HEADER(SoQtDevice);
+class SOQT_DLL_EXPORT SoQtDevice : public SoQtObject {
+  SOQT_OBJECT_ABSTRACT_HEADER(SoQtDevice, SoQtObject);
   Q_OBJECT
 
 public:

@@ -17,7 +17,7 @@
  *
  **************************************************************************/
 
-//  $Id$
+// $Id$
 
 #ifndef SOQT_EXAMINERVIEWER_H
 #define SOQT_EXAMINERVIEWER_H
@@ -43,8 +43,7 @@ class SoQtExaminerViewer;
 // *************************************************************************
 
 class SOQT_DLL_EXPORT SoQtExaminerViewer : public SoQtFullViewer {
-  SOQT_TYPED_OBJECT_HEADER(SoQtExaminerViewer);
-  typedef SoQtFullViewer inherited;
+  SOQT_OBJECT_HEADER(SoQtExaminerViewer, SoQtFullViewer);
   friend class SoAnyExaminerViewer;
   Q_OBJECT
 

@@ -17,7 +17,7 @@
  *
  **************************************************************************/
 
-//  $Id$
+// $Id$
 
 #ifndef SOQT_MOUSE_H
 #define SOQT_MOUSE_H
@@ -27,23 +27,23 @@
 class SoMouseButtonEvent;
 class SoLocation2Event;
 
+// *************************************************************************
+
 class SOQT_DLL_EXPORT SoQtMouse : public SoQtDevice {
-  SOQT_TYPED_OBJECT_HEADER(SoQtMouse);
-  typedef SoQtDevice inherited;
+  SOQT_OBJECT_HEADER(SoQtMouse, SoQtDevice);
   Q_OBJECT
 
 public:
-  // FIXME: remove "SoQtMouse" in name, as its redundant. 19990620 mortene.
-  enum SoQtMouseEventMask {
-    ButtonPressMask = 0x01,
-    ButtonReleaseMask = 0x02,
-    PointerMotionMask = 0x04,
-    ButtonMotionMask = 0x08,
+  enum EventMask {
+    BUTTON_PRESS    = 0x01,
+    BUTTON_RELEASE  = 0x02,
+    POINTER_MOTION  = 0x04,
+    BUTTON_MOTION   = 0x08,
 
-    SO_QT_ALL_MOUSE_EVENTS = 0x0f
+    ALL_EVENTS = 0x0f
   };
 
-  SoQtMouse(SoQtMouseEventMask mask = SO_QT_ALL_MOUSE_EVENTS);
+  SoQtMouse( int eventmask = ALL_EVENTS );
   virtual ~SoQtMouse(void);
 
   virtual void enable( QWidget * widget, SoQtEventHandler * handler,
@@ -56,8 +56,10 @@ public:
 private:
   SoMouseButtonEvent * buttonevent;
   SoLocation2Event * locationevent;
-  SoQtMouseEventMask eventmask;
+  int eventmask;
 
 }; // class SoQtMouse
+
+// *************************************************************************
 
 #endif // ! SOQT_MOUSE_H

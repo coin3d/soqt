@@ -22,7 +22,6 @@ static const char rcsid[] =
   "$Id$";
 #endif // SOQT_DEBUG
 
-#include <assert.h>
 #include <qevent.h>
 #include <qkeycode.h>
 #if QT_VERSION >= 200
@@ -32,6 +31,7 @@ static const char rcsid[] =
 #if SOQT_DEBUG
 #include <Inventor/errors/SoDebugError.h>
 #endif // SOQT_DEBUG
+#include <Inventor/SbDict.h>
 #include <Inventor/events/SoKeyboardEvent.h>
 
 #include <soqtdefs.h>
@@ -48,7 +48,7 @@ static const char rcsid[] =
 
 // *************************************************************************
 
-SOQT_TYPED_OBJECT_SOURCE(SoQtKeyboard, SoQtDevice);
+SOQT_OBJECT_SOURCE(SoQtKeyboard);
 
 // *************************************************************************
 
@@ -546,7 +546,7 @@ SoQtKeyboard::translateEvent(
 
   SbBool keyevent = keypress || keyrelease;
 
-  if (keyevent && (this->eventmask & (soqtKeyPressMask|soqtKeyReleaseMask))) {
+  if (keyevent && (this->eventmask & (KEY_PRESS|KEY_RELEASE))) {
 
     if (!SoQtKeyboard::translatetable) SoQtKeyboard::makeTranslationTable();
 

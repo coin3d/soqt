@@ -17,7 +17,7 @@
  *
  **************************************************************************/
 
-//  $Id$
+// $Id$
 
 #ifndef SOQT_PLANEVIEWER_H
 #define SOQT_PLANEVIEWER_H
@@ -32,8 +32,7 @@ class SoAnyPlaneViewer;
 // ************************************************************************
 
 class SOQT_DLL_EXPORT SoQtPlaneViewer : public SoQtFullViewer {
-  SOQT_TYPED_OBJECT_HEADER(SoQtPlaneViewer);
-  typedef SoQtFullViewer inherited;
+  SOQT_OBJECT_HEADER(SoQtPlaneViewer, SoQtFullViewer);
   friend class SoAnyPlaneViewer;
   Q_OBJECT
 

@@ -17,25 +17,29 @@
  *
  **************************************************************************/
 
-//  $Id$
+// $Id$
 
 #ifndef SOQT_MATERIALSLIDERSET_H
 #define SOQT_MATERIALSLIDERSET_H
 
 #include <Inventor/Qt/SoQtSliderSet.h>
 
+// *************************************************************************
+
 class SOQT_DLL_EXPORT SoQtMaterialSliderSet : public SoQtSliderSet {
-  SOQT_TYPED_OBJECT_HEADER(SoQtMaterialSliderSet);
-  typedef SoQtSliderSet inherited;
+  SOQT_OBJECT_HEADER(SoQtMaterialSliderSet, SoQtSliderSet);
   Q_OBJECT
 
 public:
   SoQtMaterialSliderSet(QWidget * parent = NULL,
                         const char * name = NULL,
-                        SbBool buildInsideParent = TRUE,
+                        SbBool embed = TRUE,
                         SoNode * editnode = NULL);
 
   ~SoQtMaterialSliderSet(void);
-};
+
+}; // class SoQtMaterialSliderSet
+
+// *************************************************************************
 
 #endif // ! SOQT_MATERIALSLIDERSET_H

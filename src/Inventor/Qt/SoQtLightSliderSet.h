@@ -24,18 +24,22 @@
 
 #include <Inventor/Qt/SoQtSliderSet.h>
 
+// *************************************************************************
+
 class SOQT_DLL_EXPORT SoQtLightSliderSet : public SoQtSliderSet {
-  SOQT_TYPED_OBJECT_HEADER(SoQtLightSliderSet);
-  typedef SoQtSliderSet inherited;
+  SOQT_OBJECT_HEADER(SoQtLightSliderSet, SoQtSliderSet);
   Q_OBJECT
 
 public:
   SoQtLightSliderSet(QWidget * parent = NULL,
                      const char * name = NULL,
-                     SbBool buildInsideParent = TRUE,
+                     SbBool embed = TRUE,
                      SoNode * editnode = NULL);
 
   ~SoQtLightSliderSet(void);
-};
+
+}; // class SoQtLightSliderSet
+
+// *************************************************************************
 
 #endif // ! SOQT_LIGHTSLIDERSET_H

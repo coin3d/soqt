@@ -22,8 +22,6 @@ static const char rcsid[] =
   "$Id$";
 #endif // SOQT_DEBUG
 
-#include <assert.h>
-
 // FIXME: get rid of this before 1.0 release by converting everything
 // to Qt version 2.x API? 19990630 mortene.
 #include <qevent.h>
@@ -60,7 +58,7 @@ static const char rcsid[] =
 
 // *************************************************************************
 
-SOQT_TYPED_ABSTRACT_OBJECT_SOURCE(SoQtGLWidget, SoQtComponent);
+SOQT_OBJECT_ABSTRACT_SOURCE(SoQtGLWidget);
 
 // *************************************************************************
 

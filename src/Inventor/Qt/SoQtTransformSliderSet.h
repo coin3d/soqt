@@ -17,25 +17,29 @@
  *
  **************************************************************************/
 
-//  $Id$
+// $Id$
 
 #ifndef SOQT_TRANSFORMSLIDERSET_H
 #define SOQT_TRANSFORMSLIDERSET_H
 
 #include <Inventor/Qt/SoQtSliderSet.h>
 
+// *************************************************************************
+
 class SOQT_DLL_EXPORT SoQtTransformSliderSet : public SoQtSliderSet {
-  SOQT_TYPED_OBJECT_HEADER(SoQtTransformSliderSet);
-  typedef SoQtSliderSet inherited;
+  SOQT_OBJECT_HEADER(SoQtTransformSliderSet, SoQtSliderSet);
   Q_OBJECT
 
 public:
   SoQtTransformSliderSet(QWidget * parent = NULL,
                          const char * name = NULL,
-                         SbBool buildInsideParent = TRUE,
+                         SbBool embed = TRUE,
                          SoNode * editnode = NULL);
 
   ~SoQtTransformSliderSet(void);
-};
+
+}; // class SoQtTransformSliderSet
+
+// *************************************************************************
 
 #endif // ! SOQT_TRANSFORMSLIDERSET_H

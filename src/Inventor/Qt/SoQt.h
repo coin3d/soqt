@@ -17,7 +17,7 @@
  *
  **************************************************************************/
 
-//  $Id$
+// $Id$
 
 #ifndef SOQT_H
 #define SOQT_H
@@ -36,10 +36,8 @@ class SoSensor;
 
 // *************************************************************************
 
-class SOQT_DLL_EXPORT SoQt : public QObject
-{
+class SOQT_DLL_EXPORT SoQt : public QObject {
   typedef QObject inherited;
-
   Q_OBJECT
 
 public:

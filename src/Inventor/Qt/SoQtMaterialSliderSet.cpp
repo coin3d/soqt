@@ -32,7 +32,7 @@ static const char rcsid[] =
   TODO: doc
 */
 
-SOQT_TYPED_OBJECT_SOURCE(SoQtMaterialSliderSet, SoQtSliderSet);
+SOQT_OBJECT_SOURCE(SoQtMaterialSliderSet);
 
 /*!
   TODO: doc

@@ -22,8 +22,6 @@ static const char rcsid[] =
   "$Id$";
 #endif // SOQT_DEBUG
 
-#include <assert.h>
-
 #include <qpushbutton.h>
 #include <qkeycode.h>
 #include <qlabel.h>
@@ -84,7 +82,7 @@ static const char rcsid[] =
 
 // *************************************************************************
 
-SOQT_TYPED_OBJECT_SOURCE(SoQtExaminerViewer, SoQtFullViewer);
+SOQT_OBJECT_SOURCE(SoQtExaminerViewer);
 
 // *************************************************************************
 

@@ -17,10 +17,12 @@
  *
  **************************************************************************/
 
-//  $Id$
+// $Id$
 
 #ifndef SOQT_CURSORS_H
 #define SOQT_CURSORS_H
+
+// *************************************************************************
 
 #define so_qt_zoom_width 32
 #define so_qt_zoom_height 32
@@ -42,5 +44,7 @@ extern unsigned char so_qt_pan_mask_bitmap[];
 #define so_qt_rotate_y_hot 8
 extern unsigned char so_qt_rotate_bitmap[];
 extern unsigned char so_qt_rotate_mask_bitmap[];
+
+// *************************************************************************
 
 #endif // ! SOQT_CURSORS_H

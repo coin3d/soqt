@@ -17,25 +17,32 @@
  *
  **************************************************************************/
 
-//  $Id$
+// $Id$
 
 #ifndef SOQT_INPUTFOCUS_H
 #define SOQT_INPUTFOCUS_H
 
 #include <Inventor/Qt/devices/SoQtDevice.h>
 
+// *************************************************************************
+
 #define soqtEnterWindowMask 0x01
 #define soqtLeaveWindowMask 0x02
 
-#define SO_QT_ALL_FOCUS_EVENTS (soqtEnterWindowMask | soqtLeaveWindowMask)
+#define SO_QT_ALL_FOCUS_EVENTS SoQtInputFocus::ALL_EVENTS;
 
 class SOQT_DLL_EXPORT SoQtInputFocus : public SoQtDevice {
-  SOQT_TYPED_OBJECT_HEADER(SoQtInputFocus);
-  typedef SoQtDevice inherited;
+  SOQT_OBJECT_HEADER(SoQtInputFocus, SoQtDevice);
   Q_OBJECT
 
 public:
-  SoQtInputFocus(soqtEventMask mask = SO_QT_ALL_FOCUS_EVENTS);
+  enum EventMask {
+    ENTER_WINDOW = 0x01,
+    LEAVE_WINDOW = 0x02,
+    ALL_EVENTS = 0x03
+  };
+
+  SoQtInputFocus( int mask = ALL_EVENTS );
   virtual ~SoQtInputFocus(void);
 
   virtual void enable( QWidget * widget, SoQtEventHandler * handler,
@@ -46,7 +53,10 @@ public:
   virtual const SoEvent * translateEvent( QEvent * event );
 
 private:
-  soqtEventMask mask;
+  int eventmask;
+
 }; // class SoQtInputFocus
+
+// *************************************************************************
 
 #endif // ! SOQT_INPUTFOCUS_H

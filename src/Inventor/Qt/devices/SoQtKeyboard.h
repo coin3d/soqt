@@ -17,28 +17,32 @@
  *
  **************************************************************************/
 
-//  $Id$
+// $Id$
 
 #ifndef SOQT_KEYBOARD_H
 #define SOQT_KEYBOARD_H
 
 #include <Inventor/Qt/devices/SoQtDevice.h>
-#include <Inventor/SbDict.h>
 
+class SbDict;
 class SoKeyboardEvent;
 
-#define soqtKeyPressMask   0x01
-#define soqtKeyReleaseMask 0x02
+// *************************************************************************
 
-#define SO_QT_ALL_KEYBOARD_EVENTS (soqtKeyPressMask | soqtKeyReleaseMask)
+#define SO_QT_ALL_KEYBOARD_EVENTS SoQtKeyboard::ALL
 
 class SOQT_DLL_EXPORT SoQtKeyboard : public SoQtDevice {
-  SOQT_TYPED_OBJECT_HEADER(SoQtKeyboard);
-  typedef SoQtDevice inherited;
+  SOQT_OBJECT_HEADER(SoQtKeyboard, SoQtDevice);
   Q_OBJECT
 
 public:
-  SoQtKeyboard(soqtEventMask mask = SO_QT_ALL_KEYBOARD_EVENTS);
+  enum Events {
+    KEY_PRESS = 0x01,
+    KEY_RELEASE = 0x02,
+    ALL = 0x03
+  };
+
+  SoQtKeyboard( int eventmask = ALL );
   virtual ~SoQtKeyboard(void);
 
   virtual void enable( QWidget * widget, SoQtEventHandler * handler,
@@ -51,10 +55,12 @@ public:
 private:
   static void makeTranslationTable(void);
 
-  soqtEventMask eventmask;
+  int eventmask;
   SoKeyboardEvent * kbdevent;
   static SbDict * translatetable;
 
 }; // class SoQtKeyboard
+
+// *************************************************************************
 
 #endif // ! SOQT_KEYBOARD_H

@@ -22,20 +22,8 @@ static const char rcsid[] =
   "$Id$";
 #endif // SOQT_DEBUG
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif // HAVE_CONFIG_H
-
-#ifndef HAVE_JOYSTICK_LINUX
-#error Trying to compile unsupported device.
-#endif // HAVE_JOYSTICK_LINUX
-
-#include <assert.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include <fcntl.h>
-#include <sys/ioctl.h>
-#include <linux/joystick.h>
 
 #include <qsocketnotifier.h>
 
@@ -49,6 +37,20 @@ static const char rcsid[] =
 
 #include <Inventor/Qt/devices/SoQtLinuxJoystick.h>
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif // HAVE_CONFIG_H
+
+#ifndef HAVE_JOYSTICK_LINUX
+#error Trying to compile unsupported device.
+#endif // HAVE_JOYSTICK_LINUX
+
+#ifdef HAVE_JOYSTICK_LINUX
+#include <fcntl.h>
+#include <sys/ioctl.h>
+#include <linux/joystick.h>
+#endif
+
 /*!
   \class SoQtLinuxJoystick Inventor/Qt/devices/SoQtLinuxJoystick.h
   \brief The SoQtLinuxJoystick class is for enabling use of joysticks with
@@ -61,7 +63,7 @@ static const char rcsid[] =
 
 // *************************************************************************
 
-SOQT_TYPED_OBJECT_SOURCE(SoQtLinuxJoystick, SoQtDevice);
+SOQT_OBJECT_SOURCE(SoQtLinuxJoystick);
 
 // *************************************************************************
 

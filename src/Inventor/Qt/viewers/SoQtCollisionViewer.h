@@ -17,7 +17,7 @@
  *
  **************************************************************************/
 
-//  $Id$
+// $Id$
 
 #ifndef SOQT_COLLISIONVIEWER_H
 #define SOQT_COLLISIONVIEWER_H

@@ -33,7 +33,7 @@ static const char rcsid[] =
 
 // ************************************************************************
 
-SOQT_TYPED_OBJECT_SOURCE(SoQtWalkViewer, SoQtConstrainedViewer);
+SOQT_OBJECT_SOURCE(SoQtWalkViewer);
 
 // ************************************************************************
 

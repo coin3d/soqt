@@ -47,7 +47,7 @@ static const char rcsid[] =
 
 // *************************************************************************
 
-SOQT_TYPED_ABSTRACT_OBJECT_SOURCE(SoQtDevice, SoQtTypedObject);
+SOQT_OBJECT_ABSTRACT_SOURCE(SoQtDevice);
 
 void
 SoQtDevice::initClasses(

@@ -17,7 +17,7 @@
  *
  **************************************************************************/
 
-//  $Id$
+// $Id$
 
 #ifndef SOQT_CONSTRAINEDVIEWER_H
 #define SOQT_CONSTRAINEDVIEWER_H
@@ -27,8 +27,7 @@
 // ************************************************************************
 
 class SOQT_DLL_EXPORT SoQtConstrainedViewer : public SoQtFullViewer {
-  SOQT_TYPED_ABSTRACT_OBJECT_HEADER(SoQtConstrainedViewer);
-  typedef SoQtFullViewer inherited;
+  SOQT_OBJECT_ABSTRACT_HEADER(SoQtConstrainedViewer, SoQtFullViewer);
   Q_OBJECT
 
 public:

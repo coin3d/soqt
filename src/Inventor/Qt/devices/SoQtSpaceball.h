@@ -17,27 +17,28 @@
  *
  **************************************************************************/
 
-//  $Id$
+// $Id$
 
 #ifndef SOQT_SPACEBALL_H
 #define SOQT_SPACEBALL_H
 
 #include <Inventor/Qt/devices/SoQtDevice.h>
 
+// *************************************************************************
+
 class SOQT_DLL_EXPORT SoQtSpaceball : public SoQtDevice {
-  SOQT_TYPED_OBJECT_HEADER(SoQtSpaceball);
-  typedef SoQtDevice inherited;
+  SOQT_OBJECT_HEADER(SoQtSpaceball, SoQtDevice);
   Q_OBJECT
 
 public:
-  enum Mask {
+  enum EventMask {
     MOTION = 0x01,
     PRESS = 0x02,
     RELEASE = 0x04,
-    ALL = 0x07
+    ALL_EVENTS = 0x07
   };
 
-  SoQtSpaceball(Mask mask = SoQtSpaceball::ALL);
+  SoQtSpaceball(int mask = ALL_EVENTS);
   virtual ~SoQtSpaceball(void);
 
   virtual void enable( QWidget * widget, SoQtEventHandler * handler,
@@ -58,10 +59,12 @@ public:
   SbBool isFocusToWindow(void) const;
 
 private:
+  int eventmask;
   float rotationscale, translationscale;
   SbBool focustowindow;
-  Mask mask;
 
 }; // class SoQtSpaceball
+
+// *************************************************************************
 
 #endif // ! SOQT_SPACEBALL_H

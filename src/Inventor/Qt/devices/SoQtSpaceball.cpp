@@ -36,7 +36,7 @@ static const char rcsid[] =
 
 // *************************************************************************
 
-SOQT_TYPED_OBJECT_SOURCE(SoQtSpaceball, SoQtDevice);
+SOQT_OBJECT_SOURCE(SoQtSpaceball);
 
 // *************************************************************************
 
@@ -68,9 +68,9 @@ SOQT_TYPED_OBJECT_SOURCE(SoQtSpaceball, SoQtDevice);
 */
 
 SoQtSpaceball::SoQtSpaceball(
-  SoQtSpaceball::Mask mask )
+  int mask )
 {
-  this->mask = mask;
+  this->eventmask = mask;
   this->rotationscale = .006f;
   this->translationscale = .006f;
   this->focustowindow = FALSE;

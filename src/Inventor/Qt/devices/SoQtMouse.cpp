@@ -22,8 +22,6 @@ static const char rcsid[] =
   "$Id$";
 #endif // SOQT_DEBUG
 
-#include <assert.h>
-
 #include <qevent.h>
 // FIXME: get rid of this before 1.0 release (convert everything to Qt
 // version 2.x API). 19990630 mortene.
@@ -53,7 +51,7 @@ static const char rcsid[] =
 
 // *************************************************************************
 
-SOQT_TYPED_OBJECT_SOURCE(SoQtMouse, SoQtDevice);
+SOQT_OBJECT_SOURCE(SoQtMouse);
 
 // *************************************************************************
 
@@ -89,7 +87,7 @@ SOQT_TYPED_OBJECT_SOURCE(SoQtMouse, SoQtDevice);
 */
 
 SoQtMouse::SoQtMouse(
-  SoQtMouseEventMask mask )
+  int mask )
 {
   this->eventmask = mask;
   this->buttonevent = NULL;
@@ -180,8 +178,7 @@ SoQtMouse::translateEvent(
 
   if (((event->type() == Event_MouseButtonPress) ||
        (event->type() == Event_MouseButtonRelease)) &&
-      (this->eventmask & (SoQtMouse::ButtonPressMask |
-                          SoQtMouse::ButtonReleaseMask))) {
+      (this->eventmask & (BUTTON_PRESS | BUTTON_RELEASE))) {
 
     // Allocate system-neutral event object once and reuse.
     if (!this->buttonevent) this->buttonevent = new SoMouseButtonEvent;
@@ -214,8 +211,7 @@ SoQtMouse::translateEvent(
 
   // Check for mouse movement.
   if ((event->type() == Event_MouseMove) &&
-      (this->eventmask & (SoQtMouse::PointerMotionMask |
-                          SoQtMouse::ButtonMotionMask))) {
+      (this->eventmask & (POINTER_MOTION | BUTTON_MOTION))) {
     // Allocate system-neutral event object once and reuse.
     if (!this->locationevent) this->locationevent = new SoLocation2Event;
 

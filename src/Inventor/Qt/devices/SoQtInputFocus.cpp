@@ -36,7 +36,7 @@ static const char rcsid[] =
 
 // *************************************************************************
 
-SOQT_TYPED_OBJECT_SOURCE(SoQtInputFocus, SoQtDevice);
+SOQT_OBJECT_SOURCE(SoQtInputFocus);
 
 // *************************************************************************
 
@@ -45,9 +45,9 @@ SOQT_TYPED_OBJECT_SOURCE(SoQtInputFocus, SoQtDevice);
 */
 
 SoQtInputFocus::SoQtInputFocus(
-  soqtEventMask mask )
+  int mask )
 {
-  this->mask = mask;
+  this->eventmask = mask;
 } // SoQtInputFocus()
 
 /*!

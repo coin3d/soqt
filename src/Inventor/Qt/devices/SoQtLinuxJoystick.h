@@ -17,7 +17,7 @@
  *
  **************************************************************************/
 
-//  $Id$
+// $Id$
 
 #ifndef SOQT_LINUXJOYSTICK_H
 #define SOQT_LINUXJOYSTICK_H
@@ -34,17 +34,18 @@ class SoSpaceballButtonEvent;
 
 // *************************************************************************
 
+#define SO_QT_ALL_LINUX_JOYSTICK_EVENTS SoQtLinuxJoystick::ALL_EVENTS
+
 class SOQT_DLL_EXPORT SoQtLinuxJoystick : public SoQtDevice {
-  SOQT_TYPED_OBJECT_HEADER(SoQtLinuxJoystick);
-  typedef SoQtDevice inherited;
+  SOQT_OBJECT_HEADER(SoQtLinuxJoystick, SoQtDevice);
   Q_OBJECT
 
 public:
-  enum LinuxJoystickEvents {
+  enum Events {
     ALL_EVENTS = 0
   };
 
-  SoQtLinuxJoystick( int events = SoQtLinuxJoystick::ALL_EVENTS );
+  SoQtLinuxJoystick( int events = ALL_EVENTS );
   virtual ~SoQtLinuxJoystick(void);
 
   virtual void enable( QWidget * widget, SoQtEventHandler * handler,
@@ -101,8 +102,6 @@ private slots:
   void device_event(int);
 
 }; // class SoQtLinuxJoystick
-
-#define SO_QT_ALL_LINUX_JOYSTICK_EVENTS SoQtLinuxJoystick::ALL_EVENTS
 
 // *************************************************************************
 

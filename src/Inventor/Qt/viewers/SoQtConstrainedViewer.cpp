@@ -35,7 +35,7 @@ static const char rcsid[] =
 
 // ************************************************************************
 
-SOQT_TYPED_ABSTRACT_OBJECT_SOURCE(SoQtConstrainedViewer, SoQtFullViewer);
+SOQT_OBJECT_ABSTRACT_SOURCE(SoQtConstrainedViewer);
 
 // ************************************************************************
 

@@ -17,7 +17,7 @@
  *
  **************************************************************************/
 
-//  $Id$
+// $Id$
 
 #ifndef SOQT_GLWIDGET_H
 #define SOQT_GLWIDGET_H
@@ -43,8 +43,7 @@ enum GLModes {        // remove the GLX ones?
 // *************************************************************************
 
 class SOQT_DLL_EXPORT SoQtGLWidget : public SoQtComponent {
-  SOQT_TYPED_ABSTRACT_OBJECT_HEADER(SoQtGLWidget);
-  typedef SoQtComponent inherited;
+  SOQT_OBJECT_ABSTRACT_HEADER(SoQtGLWidget, SoQtComponent);
   Q_OBJECT
 
 public:
@@ -59,7 +58,7 @@ public:
 
 protected:
   SoQtGLWidget( QWidget * const parent = NULL, const char * const name = NULL,
-      const SbBool inParent = TRUE, const int glModes = SO_GLX_RGB,
+      const SbBool embed = TRUE, const int glModes = SO_GLX_RGB,
       const SbBool build = TRUE );
 
   virtual void processEvent( QEvent * event );

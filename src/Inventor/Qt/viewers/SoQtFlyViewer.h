@@ -17,7 +17,7 @@
  *
  **************************************************************************/
 
-//  $Id$
+// $Id$
 
 #ifndef SOQT_FLYVIEWER_H
 #define SOQT_FLYVIEWER_H
@@ -27,8 +27,7 @@
 // ************************************************************************
 
 class SOQT_DLL_EXPORT SoQtFlyViewer : public SoQtConstrainedViewer {
-  SOQT_TYPED_OBJECT_HEADER(SoQtFlyViewer);
-  typedef SoQtConstrainedViewer inherited;
+  SOQT_OBJECT_HEADER(SoQtFlyViewer, SoQtConstrainedViewer);
   Q_OBJECT
 
 public:

@@ -17,7 +17,7 @@
  *
  **************************************************************************/
 
-//  $Id$
+// $Id$
 
 #ifndef SOQT_WALKVIEWER_H
 #define SOQT_WALKVIEWER_H
@@ -27,8 +27,7 @@
 // ************************************************************************
 
 class SOQT_DLL_EXPORT SoQtWalkViewer : public SoQtConstrainedViewer {
-  SOQT_TYPED_OBJECT_HEADER(SoQtWalkViewer);
-  typedef SoQtConstrainedViewer inherited;
+  SOQT_OBJECT_HEADER(SoQtWalkViewer, SoQtConstrainedViewer);
   Q_OBJECT
 
 public:

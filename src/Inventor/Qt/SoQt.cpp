@@ -86,6 +86,7 @@ main(int argc, char **argv)
 #endif // SOQT_DEBUG
 
 #include <soqtdefs.h>
+#include <Inventor/Qt/SoQtObject.h>
 #include <Inventor/Qt/SoQt.h>
 
 // *************************************************************************
@@ -140,6 +141,7 @@ SoQt::init(QWidget * const topLevelWidget)
   SoDB::init();
   SoNodeKit::init();
   SoInteraction::init();
+  SoQtObject::init();
 
   SoDB::getSensorManager()->setChangedCallback(SoQt::sensorQueueChanged, NULL);
   SoQt::mainWidget = topLevelWidget;
