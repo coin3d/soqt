@@ -8,7 +8,6 @@ SetOverwrite on
 
 SetOutPath $INSTDIR\bin
 File @win_prefix@\bin\soqt-config
-File @win_prefix@\bin\wrapmsvc.exe
 
 SetOutPath $INSTDIR\man\man1
 File @win_prefix@\man\man1\*.1
@@ -35,29 +34,33 @@ SectionEnd
 # 
 # SectionEnd
 # **************************************************************************
-Section "HTML API Documentation"
-SectionIn 1,3
-
-SetCompress auto
-SetOverwrite on
-
-SetOutPath $INSTDIR\html\SoQt
-File @win_prefix@\html\SoQt\*.html
-File @win_prefix@\html\SoQt\*.gif
-File @win_prefix@\html\SoQt\*.css
-
-SectionEnd
+# Disabled, Doxygen set-up for generating documentation doesn't
+# work under MSWindows yet. 20020705 mortene.
+#Section "HTML API Documentation"
+#SectionIn 1,3
+#
+#SetCompress auto
+#SetOverwrite on
+#
+#SetOutPath $INSTDIR\html\SoQt
+#File @win_prefix@\html\SoQt\*.html
+#File @win_prefix@\html\SoQt\*.gif
+#File @win_prefix@\html\SoQt\*.css
+#
+#SectionEnd
 # **************************************************************************
-Section "Man-page API Documentation"
-SectionIn 3
-
-SetCompress auto
-SetOverwrite on
-
-SetOutPath $INSTDIR\man\man3
-File @win_prefix@\man\man3\*.3
-
-SectionEnd
+# Disabled, Doxygen set-up for generating documentation doesn't
+# work under MSWindows yet. 20020705 mortene.
+#Section "Man-page API Documentation"
+#SectionIn 3
+#
+#SetCompress auto
+#SetOverwrite on
+#
+#SetOutPath $INSTDIR\man\man3
+#File @win_prefix@\man\man3\*.3
+#
+#SectionEnd
 # **************************************************************************
 Section "Source Code"
 SectionIn 3

@@ -52,6 +52,4 @@ File @win_prefix@\bin\soqt0d.pdb
 SetOutPath $INSTDIR\lib
 File @win_prefix@\lib\soqt0.lib
 File @win_prefix@\lib\soqt0d.lib
-# File @win_prefix@\lib\soqt0s.lib
-# File @win_prefix@\lib\soqt0sd.lib
 

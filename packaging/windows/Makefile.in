@@ -18,7 +18,7 @@ top_srcdir = @top_srcdir@
 # default c library option
 libc = md
 
-BUILDS = docs shared-release shared-debug # static-release static-debug
+BUILDS = shared-release shared-debug # static-release static-debug
 
 # **************************************************************************
 
@@ -97,22 +97,7 @@ soqt.nsi: heading.nsi headerlist.nsi middle.nsi sourcelist.nsi uninstall.nsi foo
 
 # **************************************************************************
 
-build-docs/html/index.html: SoQt-$(VERSION)
-	@if test -d build-docs; then :; else mkdir build-docs; fi
-	cd build-docs; \
-	../SoQt-$(VERSION)/configure \
-	  --disable-build \
-	  --enable-html htmldir=html/SoQt \
-	  --enable-man \
-	  --prefix=$(sdk_prefix)
-	cd build-docs/; \
-	$(MAKE)
-	cd build-docs/; \
-	$(MAKE) install
-	
-docs: build-docs/html/index.html
-
-build-shared-release/src/soqt0.dll: SoQt-$(VERSION)
+build-shared-release/src/soqt@SOQT_MAJOR_VERSION@.dll: SoQt-$(VERSION)
 	@if test -d build-shared-release; then :; else mkdir build-shared-release; fi
 	cd build-shared-release; \
 	../SoQt-$(VERSION)/configure \
@@ -126,9 +111,9 @@ build-shared-release/src/soqt0.dll: SoQt-$(VERSION)
 	cd build-shared-release; \
 	$(MAKE) install
 
-shared-release: build-shared-release/src/soqt0.dll
+shared-release: build-shared-release/src/soqt@SOQT_MAJOR_VERSION@.dll
 
-build-shared-debug/src/soqt0d.dll: SoQt-$(VERSION)
+build-shared-debug/src/soqt@SOQT_MAJOR_VERSION@d.dll: SoQt-$(VERSION)
 	@if test -d build-shared-debug; then :; else mkdir build-shared-debug; fi
 	cd build-shared-debug; \
 	../SoQt-$(VERSION)/configure \
@@ -144,9 +129,9 @@ build-shared-debug/src/soqt0d.dll: SoQt-$(VERSION)
 	cd build-shared-debug; \
 	$(MAKE) install
 
-shared-debug: build-shared-debug/src/soqt0d.dll
+shared-debug: build-shared-debug/src/soqt@SOQT_MAJOR_VERSION@d.dll
 
-build-static-release/src/soqt0d.dll: SoQt-$(VERSION)
+build-static-release/src/soqt@SOQT_MAJOR_VERSION@d.dll: SoQt-$(VERSION)
 	@if test -d build-static-release; then :; else mkdir build-static-release; fi
 	cd build-static-release; \
 	../SoQt-$(VERSION)/configure \
@@ -163,9 +148,9 @@ build-static-release/src/soqt0d.dll: SoQt-$(VERSION)
 	cd build-static-release; \
 	$(MAKE) install
 
-static-release: build-static-release/src/soqt0d.dll
+static-release: build-static-release/src/soqt@SOQT_MAJOR_VERSION@d.dll
 
-build-static-debug/src/soqt0d.dll: SoQt-$(VERSION)
+build-static-debug/src/soqt@SOQT_MAJOR_VERSION@d.dll: SoQt-$(VERSION)
 	@if test -d build-static-debug; then :; else mkdir build-static-debug; fi
 	cd build-static-debug; \
 	../SoQt-$(VERSION)/configure \
@@ -182,8 +167,8 @@ build-static-debug/src/soqt0d.dll: SoQt-$(VERSION)
 	cd build-static-debug; \
 	$(MAKE) install
 
-static-debug: build-static-debug/src/soqt0d.dll
+static-debug: build-static-debug/src/soqt@SOQT_MAJOR_VERSION@d.dll
 
-.PHONY: docs shared-release shared-debug static-release static-debug
+.PHONY: shared-release shared-debug static-release static-debug
 
 # **************************************************************************
