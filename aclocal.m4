@@ -296,6 +296,7 @@ if (
       # -L didn't work.
       set X `ls -t $srcdir/configure conftest.file`
    fi
+   rm -f conftest.file
    if test "$[*]" != "X $srcdir/configure conftest.file" \
       && test "$[*]" != "X conftest.file $srcdir/configure"; then
 
@@ -316,7 +317,6 @@ else
    AC_MSG_ERROR([newly created file is older than distributed files!
 Check your system clock])
 fi
-rm -f conftest*
 AC_MSG_RESULT(yes)])
 
 
@@ -458,6 +458,7 @@ AC_SUBST([INSTALL_STRIP_PROGRAM_ENV])])
 AC_DEFUN([AM_DEPENDENCIES],
 [AC_REQUIRE([AM_SET_DEPDIR])dnl
 AC_REQUIRE([AM_OUTPUT_DEPENDENCY_COMMANDS])dnl
+am_compiler_list=
 ifelse([$1], CC,
        [AC_REQUIRE([AC_PROG_][CC])dnl
 AC_REQUIRE([AC_PROG_][CPP])
@@ -467,16 +468,22 @@ depcpp="$CPP"],
 AC_REQUIRE([AC_PROG_][CXXCPP])
 depcc="$CXX"
 depcpp="$CXXCPP"],
-       [$1], OBJC, [am_cv_OBJC_dependencies_compiler_type=gcc],
+       [$1], OBJC, [am_compiler_list='gcc3 gcc'
+depcc="$OBJC"
+depcpp=""],
+       [$1], GCJ,  [am_compiler_list='gcc3 gcc'
+depcc="$GCJ"
+depcpp=""],
        [AC_REQUIRE([AC_PROG_][$1])dnl
 depcc="$$1"
 depcpp=""])
 
 AC_REQUIRE([AM_MAKE_INCLUDE])
+AC_REQUIRE([AM_DEP_TRACK])
 
 AC_CACHE_CHECK([dependency style of $depcc],
                [am_cv_$1_dependencies_compiler_type],
-[if test -z "$AMDEP"; then
+[if test -z "$AMDEP_TRUE"; then
   # We make a subdir and do the tests there.  Otherwise we can end up
   # making bogus files that we don't know about and never remove.  For
   # instance it was reported that on HP-UX the gcc test will end up
@@ -489,7 +496,10 @@ AC_CACHE_CHECK([dependency style of $depcc],
   cd confdir
 
   am_cv_$1_dependencies_compiler_type=none
-  for depmode in `sed -n ['s/^#*\([a-zA-Z0-9]*\))$/\1/p'] < "./depcomp"`; do
+  if test "$am_compiler_list" = ""; then
+     am_compiler_list="`sed -n ['s/^#*\([a-zA-Z0-9]*\))$/\1/p'] < ./depcomp`"
+  fi
+  for depmode in $am_compiler_list; do
     # We need to recreate these files for each test, as the compiler may
     # overwrite some of them when testing with obscure command lines.
     # This happens at least with the AIX C compiler.
@@ -576,7 +586,7 @@ popdef([subst])
 # need in order to bootstrap the dependency handling code.
 AC_DEFUN([AM_OUTPUT_DEPENDENCY_COMMANDS],[
 AC_OUTPUT_COMMANDS([
-test x"$AMDEP" != x"" ||
+test x"$AMDEP_TRUE" != x"" ||
 for mf in $CONFIG_FILES; do
   case "$mf" in
   Makefile) dirpart=.;;
@@ -613,7 +623,7 @@ for mf in $CONFIG_FILES; do
     echo '# dummy' > "$dirpart/$file"
   done
 done
-], [AMDEP="$AMDEP"
+], [AMDEP_TRUE="$AMDEP_TRUE"
 ac_aux_dir="$ac_aux_dir"])])
 
 # AM_MAKE_INCLUDE()
@@ -3157,6 +3167,8 @@ fi
 # 
 #   * [larsa:20000607] don't check all -woff options to SGI MIPSpro CC,
 #     just put all of them on the same line, to check if the syntax is ok.
+#   * [larsa:20010504] rename to SIM_AC_COMPILER_WARNINGS and clean up
+#     the macro
 
 AC_DEFUN([SIM_COMPILER_WARNINGS], [
 AC_ARG_ENABLE(
@@ -3187,7 +3199,7 @@ if test x"$enable_warnings" = x"yes"; then
   else
     case $host in
     *-*-irix*) 
-      if test x"$CC" = xcc || test x"$CXX" = xCC; then
+      if test x"$CC" = xcc || x"$CC" = xCC || test x"$CXX" = xCC; then
         _warn_flags=
         _woffs=""
         ### Turn on all warnings ######################################

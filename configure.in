@@ -496,14 +496,19 @@ fi
 # **************************************************************************
 # Spaceball support through Linux Joystick driver
 
-SIM_AC_CHECK_JOYSTICK_LINUX([
-  AC_DEFINE(HAVE_JOYSTICK_LINUX, ,
-    [Define to enable Linux Joystick driver support])
-  AC_DEFINE_UNQUOTED(SOXT_LINUX_JOYSTICK_DEVICE,
-    "$sim_ac_joystick_linux_device",
-    [Define this to device handle to fallback on])
-])
-AM_CONDITIONAL(HAVE_JOYSTICK_LINUX, $sim_ac_joystick_linux_avail)
+if false; then
+  SIM_AC_CHECK_JOYSTICK_LINUX([
+    AC_DEFINE(HAVE_JOYSTICK_LINUX, ,
+      [Define to enable Linux Joystick driver support])
+    AC_DEFINE_UNQUOTED(SOXT_LINUX_JOYSTICK_DEVICE,
+      "$sim_ac_joystick_linux_device",
+      [Define this to device handle to fallback on])
+  ])
+  AM_CONDITIONAL(HAVE_JOYSTICK_LINUX, $sim_ac_joystick_linux_avail)
+else
+  AM_CONDITIONAL(HAVE_JOYSTICK_LINUX, false)
+  SIM_AC_CONFIGURATION_SETTING([Joystick Device], [Disabled])
+fi
 
 # **************************************************************************
 # Compiler control.

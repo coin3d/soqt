@@ -27,18 +27,18 @@ libSoQtDevicesBuiltSources = \
 ############################################################################
 # automake conditional stuff
 
-if HAVE_JOYSTICK_LINUX
-libSoQtDevicesLinuxJoystickHeaders = \
-        SoQtLinuxJoystick.h
-
-libSoQtDevicesLinuxJoystickSources = \
-        SoQtLinuxJoystick.cpp \
-	moc_SoQtLinuxJoystick.cpp \
-        $(libSoQtDevicesLinuxJoystickHeaders)
-else
+# if HAVE_JOYSTICK_LINUX
+# libSoQtDevicesLinuxJoystickHeaders = \
+#         SoQtLinuxJoystick.h
+# 
+# libSoQtDevicesLinuxJoystickSources = \
+#         SoQtLinuxJoystick.cpp \
+# 	moc_SoQtLinuxJoystick.cpp \
+#         $(libSoQtDevicesLinuxJoystickHeaders)
+# else
 libSoQtDevicesLinuxJoystickHeaders =
 libSoQtDevicesLinuxJoystickSources =
-endif
+# endif
 
 libSoQtDevicesConditionalSources = \
         $(libSoQtDevicesLinuxJoystickSources)
