@@ -694,6 +694,8 @@ SoQtExaminerViewer::processEvent(QEvent * event)
       SoDebugError::postInfo( "press", "" );
       _pressed = 1;
 #endif
+      this->lastmouseposition = norm_mousepos;
+      this->spinsaveposition = norm_mousepos;
       QMouseEvent * be = (QMouseEvent *)event;
       if (be->button() != LeftButton && be->button() != MidButton) break;
 
