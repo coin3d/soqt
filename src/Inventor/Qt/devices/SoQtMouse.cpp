@@ -153,14 +153,30 @@ SoQtMouse::translateEvent(QEvent * event)
 #endif
 #endif // Q_WS_MAC
       break;
+
     case Qt::RightButton:
       PRIVATE(this)->buttonevent->setButton(SoMouseButtonEvent::BUTTON2);
       break;
+
     case Qt::MidButton:
       PRIVATE(this)->buttonevent->setButton(SoMouseButtonEvent::BUTTON3);
       break;
+
+      // Not sure if this can actually happen.
+    case Qt::NoButton:
+      PRIVATE(this)->buttonevent->setButton(SoMouseButtonEvent::ANY);
+      break;
+
     default:
-      assert(0 && "no such SoQtMouse button");
+      // There used to be an assert here, but in Qt 3.1.1, at least,
+      // QMouseEvent::button() can return with a value 0x0010 or
+      // 0x0020 -- values that are not covered in the Qt::ButtonState
+      // enum. This is reported to happen for an IntelliMouse with a
+      // button 4 and 5 (for up/down navigation).
+      //
+      // Update: according to Troll Tech, the enums will be added to
+      // the official API for the next release.
+      PRIVATE(this)->buttonevent->setButton(SoMouseButtonEvent::ANY);
       break;
     }
 
