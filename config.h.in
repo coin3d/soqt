@@ -12,7 +12,7 @@
 /* Define to enable use of SoMouseButtonEvent::BUTTON5 */
 #undef HAVE_SOMOUSEBUTTONEVENT_BUTTONS
 
-/* Define to enable use of the SoPolygonOffset node */
+/* Define to enable use of the Open Inventor SoPolygonOffset node */
 #undef HAVE_SOPOLYGONOFFSET
 
 /* Define this to true if the __FUNCTION__ variable contains the current
