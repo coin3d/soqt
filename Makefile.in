@@ -148,6 +148,8 @@ SoQtBuiltSources = \
 	src/Inventor/Qt/devices/spwinput_x11.cpp \
 	src/Inventor/Qt/viewers/SoQtViewer.h \
 	src/Inventor/Qt/viewers/SoQtViewer.cpp \
+	src/Inventor/Qt/viewers/SoQtConstrainedViewer.h \
+	src/Inventor/Qt/viewers/SoQtConstrainedViewer.cpp \
 	src/Inventor/Qt/viewers/SoAnyFullViewer.h \
 	src/Inventor/Qt/viewers/SoAnyFullViewer.cpp \
 	src/Inventor/Qt/viewers/SoAnyExaminerViewer.h \
@@ -232,6 +234,8 @@ EXTRA_DIST = \
 	src/Inventor/Qt/common/SoGuiRenderArea.cpp.in \
 	src/Inventor/Qt/common/SoGuiViewer.h.in \
 	src/Inventor/Qt/common/SoGuiViewer.cpp.in \
+	src/Inventor/Qt/common/SoGuiConstrainedViewer.h.in \
+	src/Inventor/Qt/common/SoGuiConstrainedViewer.cpp.in \
 	src/Inventor/Qt/common/SoAny.h.in \
 	src/Inventor/Qt/common/SoAny.cpp.in \
 	src/Inventor/Qt/common/SoAnyPopupMenu.h.in \
@@ -710,6 +714,14 @@ src/Inventor/Qt/viewers/SoQtViewer.cpp: \
   $(srcdir)/src/Inventor/Qt/common/SoGuiViewer.cpp.in config.status
 	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoGuiViewer.cpp.in
 
+src/Inventor/Qt/viewers/SoQtConstrainedViewer.h: \
+  $(srcdir)/src/Inventor/Qt/common/SoGuiConstrainedViewer.h.in config.status
+	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoGuiConstrainedViewer.h.in
+
+src/Inventor/Qt/viewers/SoQtConstrainedViewer.cpp: \
+  $(srcdir)/src/Inventor/Qt/common/SoGuiConstrainedViewer.cpp.in config.status
+	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoGuiConstrainedViewer.cpp.in
+
 src/Inventor/Qt/viewers/SoAnyFullViewer.h: \
   $(srcdir)/src/Inventor/Qt/common/SoAnyFullViewer.h.in config.status
 	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoAnyFullViewer.h.in
@@ -843,8 +855,8 @@ src/Inventor/Qt/viewers/moc_SoQtPlaneViewer.cpp: \
 	$(MOC) -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/viewers/SoQtPlaneViewer.h`
 
 src/Inventor/Qt/viewers/moc_SoQtConstrainedViewer.cpp: \
-  $(srcdir)/src/Inventor/Qt/viewers/SoQtConstrainedViewer.h
-	$(MOC) -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/viewers/SoQtConstrainedViewer.h`
+  $(top_builddir)/src/Inventor/Qt/viewers/SoQtConstrainedViewer.h
+	$(MOC) -o $@ $(top_builddir)/src/Inventor/Qt/viewers/SoQtConstrainedViewer.h
 
 src/Inventor/Qt/viewers/moc_SoQtWalkViewer.cpp: \
   $(srcdir)/src/Inventor/Qt/viewers/SoQtWalkViewer.h
