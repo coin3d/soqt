@@ -126,10 +126,16 @@ static inline void QGLFormat_setOverlay(QGLFormat * f, bool enable)
 { f->setOverlay( enable ); }
 static inline void QGLFormat_makeOverlayCurrent(QGLWidget * w)
 { w->makeOverlayCurrent(); }
+static inline const QGLContext * QGLWidget_overlayContext(QGLWidget * w)
+{ return w->overlayContext(); }
+static inline const QColor QGLContext_overlayTransparentColor(const QGLContext * c)
+{ return c->overlayTransparentColor(); }
 #else // !HAVE_QGLFORMAT_SETOVERLAY
 static inline bool QGLFormat_hasOverlay(const QGLFormat * f) { return false; }
 static inline void QGLFormat_setOverlay(QGLFormat * f, bool enable) { }
 static inline void QGLFormat_makeOverlayCurrent(QGLWidget * w) { }
+static inline const QGLContext * QGLWidget_overlayContext(QGLWidget * w) { return NULL; }
+static inline const QColor QGLContext_overlayTransparentColor(const QGLContext * c) { return QColor(0, 0, 0); }
 #endif // !HAVE_QGLFORMAT_SETOVERLAY
 
 
@@ -979,22 +985,22 @@ SoQtGLWidget::eventHandler(
 /*!
   Returns the normal GL context.
 */
-QGLContext * 
+const QGLContext * 
 SoQtGLWidget::getNormalContext(void)
 {
   QGLWidget * w = (QGLWidget*) this->getGLWidget();
-  if (w) return (QGLContext*) w->context();
+  if (w) return w->context();
   return NULL;
 }
 
 /*!
   Returns the overlay GL context.
 */
-QGLContext * 
+const QGLContext * 
 SoQtGLWidget::getOverlayContext(void)
 {
   QGLWidget * w = (QGLWidget*) this->getGLWidget();
-  if (w) return (QGLContext*) w->overlayContext();
+  if (w) { return QGLWidget_overlayContext(w); }
   return NULL;
 }
 
@@ -1004,9 +1010,9 @@ SoQtGLWidget::getOverlayContext(void)
 unsigned long 
 SoQtGLWidget::getOverlayTransparentPixel(void)
 {
-  QGLContext * ctx = this->getOverlayContext();
+  const QGLContext * ctx = this->getOverlayContext();
   if (ctx) {
-    QColor color = ctx->overlayTransparentColor();
+    QColor color = QGLContext_overlayTransparentColor(ctx);
     return color.pixel();
   }
   return 0;

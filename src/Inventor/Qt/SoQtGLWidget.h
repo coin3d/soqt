@@ -65,8 +65,8 @@ public:
   QWidget * getNormalWidget(void) const;
   QWidget * getOverlayWidget(void) const;
 
-  QGLContext * getNormalContext(void);
-  QGLContext * getOverlayContext(void);
+  const QGLContext * getNormalContext(void);
+  const QGLContext * getOverlayContext(void);
 
   // these two methods must be supplied by all So* toolkits
   SbBool hasOverlayGLArea(void) const;
