@@ -313,6 +313,7 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/SoGuiConstrainedViewer.cpp.in \
   src/Inventor/@Gui@/common/SoGuiFlyViewer.h.in \
   src/Inventor/@Gui@/common/SoGuiFlyViewer.cpp.in \
+  src/Inventor/@Gui@/common/SoGuiMaterialList.h.in \
   src/Inventor/@Gui@/common/SoAny.h.in \
   src/Inventor/@Gui@/common/SoAny.cpp.in \
   src/Inventor/@Gui@/common/SoAnyPopupMenu.h.in \

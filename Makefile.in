@@ -313,6 +313,7 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/SoGuiConstrainedViewer.cpp.in \
   src/Inventor/@Gui@/common/SoGuiFlyViewer.h.in \
   src/Inventor/@Gui@/common/SoGuiFlyViewer.cpp.in \
+  src/Inventor/@Gui@/common/SoGuiMaterialList.h.in \
   src/Inventor/@Gui@/common/SoAny.h.in \
   src/Inventor/@Gui@/common/SoAny.cpp.in \
   src/Inventor/@Gui@/common/SoAnyPopupMenu.h.in \
@@ -393,6 +394,7 @@ CLEANFILES = \
 
 DISTCLEANFILES = \
 	libtool \
+	build/so@gui@.doxygen \
 	$(SoGui_BuiltFiles) \
 	$(SoGui_BuiltMetaFiles)
 
@@ -412,6 +414,7 @@ EXTRA_DIST = \
 	README.IRIX \
 	README.WIN32 \
 	build/so@gui@.spec.in \
+	build/so@gui@.doxygen.in \
 	cfg/doxy4win.pl \
 	cfg/m4/wrapmsvc.cpp \
 	cfg/m4/wrapmsvc.exe \
