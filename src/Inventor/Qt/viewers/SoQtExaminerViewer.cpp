@@ -614,18 +614,18 @@ SoQtExaminerViewer::setCursorRepresentation( int mode )
     }
 
     QBitmap zoomBtm(so_qt_zoom_width, so_qt_zoom_height,
-                    (uchar*)so_qt_zoom_bitmap, FALSE);
+                    (uchar*)so_qt_zoom_bitmap, TRUE);
     QBitmap zoomMask(so_qt_zoom_width, so_qt_zoom_height,
-                     (uchar*)so_qt_zoom_mask_bitmap, FALSE);
+                     (uchar*)so_qt_zoom_mask_bitmap, TRUE);
     QBitmap panBtm(so_qt_pan_width, so_qt_pan_height,
-                   (uchar*)so_qt_pan_bitmap, FALSE);
+                   (uchar*)so_qt_pan_bitmap, TRUE);
     QBitmap panMask(so_qt_pan_width, so_qt_pan_height,
-                    (uchar*)so_qt_pan_mask_bitmap, FALSE);
+                    (uchar*)so_qt_pan_mask_bitmap, TRUE);
 
     QBitmap rotateBtm(so_qt_rotate_width, so_qt_rotate_height,
-                      (uchar*)so_qt_rotate_bitmap, FALSE);
+                      (uchar*)so_qt_rotate_bitmap, TRUE);
     QBitmap rotateMask(so_qt_rotate_width, so_qt_rotate_height,
-                       (uchar*)so_qt_rotate_mask_bitmap, FALSE);
+                       (uchar*)so_qt_rotate_mask_bitmap, TRUE);
 
     this->zoomcursor = new QCursor(zoomBtm, zoomMask,
                                    so_qt_zoom_x_hot, so_qt_zoom_y_hot);
