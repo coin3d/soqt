@@ -66,9 +66,9 @@ SoQtThumbWheel::constructor( // private
   this->state = SoQtThumbWheel::Idle;
   this->wheelValue = this->tempWheelValue = 0.0f;
   this->wheel = new SoAnyThumbWheel;
-  this->wheel->SetWheelMotionMethod( SoAnyThumbWheel::UNIFORM );
-  this->wheel->SetGraphicsByteOrder( SoAnyThumbWheel::ARGB );
-  this->wheel->SetWheelRangeBoundaryHandling( SoAnyThumbWheel::MODULATE );
+  this->wheel->setMovement( SoAnyThumbWheel::UNIFORM );
+  this->wheel->setGraphicsByteOrder( SoAnyThumbWheel::ARGB );
+  this->wheel->setBoundaryHandling( SoAnyThumbWheel::MODULATE );
   this->pixmaps = NULL;
   this->numPixmaps = 0;
   this->currentPixmap = -1;
@@ -116,7 +116,7 @@ SoQtThumbWheel::paintEvent(
 
   this->initWheel( d, w );
 
-  int pixmap = this->wheel->GetBitmapForValue( this->tempWheelValue,
+  int pixmap = this->wheel->getBitmapForValue( this->tempWheelValue,
      (this->state == SoQtThumbWheel::Disabled) ?
         SoAnyThumbWheel::DISABLED : SoAnyThumbWheel::ENABLED );
 
@@ -217,7 +217,7 @@ SoQtThumbWheel::mouseMoveEvent(
     this->mouseLastPos = event->pos().x() - SHADEBORDERWIDTH - 6;
  
 
-  this->tempWheelValue = this->wheel->CalculateValue( this->wheelValue,
+  this->tempWheelValue = this->wheel->calculateValue( this->wheelValue,
       this->mouseDownPos, this->mouseLastPos - this->mouseDownPos );
 
   emit wheelMoved( this->tempWheelValue );
@@ -303,10 +303,10 @@ SoQtThumbWheel::initWheel(
   int width )
 {
   int d, w;
-  this->wheel->GetWheelSize( d, w );
+  this->wheel->getSize( d, w );
   if ( d == diameter && w == width ) return;
 
-  this->wheel->SetWheelSize( diameter, width );
+  this->wheel->setSize( diameter, width );
 
   int pwidth = width;
   int pheight = diameter;
@@ -321,11 +321,11 @@ SoQtThumbWheel::initWheel(
     delete [] this->pixmaps;
   }
 
-  this->numPixmaps = this->wheel->BitmapsRequired();
+  this->numPixmaps = this->wheel->getNumBitmaps();
   this->pixmaps = new QPixmap * [this->numPixmaps];
   QImage image( pwidth, pheight, 32, 0 );
   for ( int i = 0; i < this->numPixmaps; i++ ) {
-    this->wheel->DrawBitmap( i, image.bits(), (this->orient == Vertical) ?
+    this->wheel->drawBitmap( i, image.bits(), (this->orient == Vertical) ?
       SoAnyThumbWheel::VERTICAL : SoAnyThumbWheel::HORIZONTAL );
     this->pixmaps[i] = new QPixmap( QSize( pwidth, pheight) );
     this->pixmaps[i]->convertFromImage( image );
@@ -369,13 +369,13 @@ SoQtThumbWheel::setRangeBoundaryHandling(
 {
   switch ( handling ) {
   case CLAMP:
-    this->wheel->SetWheelRangeBoundaryHandling( SoAnyThumbWheel::CLAMP );
+    this->wheel->setBoundaryHandling( SoAnyThumbWheel::CLAMP );
     break;
   case MODULATE:
-    this->wheel->SetWheelRangeBoundaryHandling( SoAnyThumbWheel::MODULATE );
+    this->wheel->setBoundaryHandling( SoAnyThumbWheel::MODULATE );
     break;
   case ACCUMULATE:
-    this->wheel->SetWheelRangeBoundaryHandling( SoAnyThumbWheel::ACCUMULATE );
+    this->wheel->setBoundaryHandling( SoAnyThumbWheel::ACCUMULATE );
     break;
   default:
     assert( 0 && "impossible" );
@@ -388,7 +388,7 @@ SoQtThumbWheel::boundaryHandling
 SoQtThumbWheel::getRangeBoundaryHandling(
   void ) const
 {
-  switch ( this->wheel->GetWheelRangeBoundaryHandling() ) {
+  switch ( this->wheel->getBoundaryHandling() ) {
   case SoAnyThumbWheel::CLAMP:
     return CLAMP;
   case SoAnyThumbWheel::MODULATE:
