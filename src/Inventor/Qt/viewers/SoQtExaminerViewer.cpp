@@ -509,10 +509,10 @@ SbBool
 SoQtExaminerViewer::processSoEvent(
   const SoEvent * const event )
 {
-  if ( common->processSoEvent(event) ||
-       inherited::processSoEvent(event) )
+  if ( common->processSoEvent(event) )
     return TRUE;
-  return FALSE;
+
+  return inherited::processSoEvent(event);
 } // processSoEvent()
 
 /*!
@@ -1124,3 +1124,7 @@ SoQtExaminerViewer::getFeedbackSize(
 } // getFeedbackSize()
 
 // *************************************************************************
+
+#if SOQT_DEBUG
+static const char * getSoQtExaminerViewerRCSID(void) { return rcsid; }
+#endif
