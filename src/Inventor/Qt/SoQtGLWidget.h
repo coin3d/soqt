@@ -108,7 +108,8 @@ private slots:
 private:
   SbVec2s glSize;
 
-  SoQtGLArea * glwidget;
+  SoQtGLArea * currentglwidget;
+  SoQtGLArea * previousglwidget;
   QWidget * glparent;
   QFrame * borderwidget;
   int borderthickness;
