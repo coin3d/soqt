@@ -30,6 +30,9 @@
 // FIXME: share the relevant parts of the mainpage-doc with the other
 // So* libraries. (Doxygen supports conditional inclusion / exclusion
 // of doc parts.) 20020806 mortene.
+//
+// UPDATE 20030509 mortene: the mainpage documentation below is now
+// duplicated for SoWin.
 
 /*!
   \mainpage
@@ -62,7 +65,7 @@
   control the 3D-scene camera interaction.
 
   For a small, completely stand-alone usage example on how to
-  initialize the library and set up an viewer instance window, see the
+  initialize the library and set up a viewer instance window, see the
   following code:
 
   \code
@@ -176,7 +179,7 @@
   components (by the SoQtFullViewer).</li>
 
   <li>A set of high-level viewer classes, as has been presented by the
-  SoQtExaminerViewer in the above sourcecode example. There are
+  SoQtExaminerViewer in the above source code example. There are
   currently three different non-abstract viewer classes to choose
   from: the SoQtExaminerViewer (a plain model viewer), the
   SoQtFlyViewer (for fly-throughs in larger 3D scenes) and the
