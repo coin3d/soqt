@@ -2437,16 +2437,13 @@ EOF
 	none) ;;
 
 	irix)
+          # irix require that -set_version be used if libtool built libraries
+          # are able to be linked at all, but according to Morten Eriksen
+          # <morten@sim.no> minor version numbers are ignored by default
+          # when it comes to determining interface compatibility.  Thus
+          # listing the major version number is sufficient.
 	  major=`expr $current - $age + 1`
-	  verstring="sgi$major.$revision"
-
-	  # Add in all the interfaces that we are compatible with.
-	  loop=$revision
-	  while test $loop != 0; do
-	    iface=`expr $revision - $loop`
-	    loop=`expr $loop - 1`
-	    verstring="sgi$major.$iface:$verstring"
-	  done
+          verstring="sgi$major"
 
 	  # Before this point, $major must not contain `.'.
 	  major=.$major

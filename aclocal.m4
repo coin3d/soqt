@@ -501,8 +501,8 @@ dnl immediately, otherwise, hook it in at the end of AC_PROG_CXX.
     [define([AC_PROG_CXX], defn([AC_PROG_CXX])[AC_LIBTOOL_CXX
 ])])
 
-dnl Quote A[]M_PROG_GCJ so that aclocal doesn't bring it in needlessly.
-dnl If either AC_PROG_GCJ or A[]M_PROG_GCJ have already been expanded, run
+dnl Quote A][M_PROG_GCJ so that aclocal doesn't bring it in needlessly.
+dnl If either AC_PROG_GCJ or A][M_PROG_GCJ have already been expanded, run
 dnl AC_LIBTOOL_GCJ immediately, otherwise, hook it in at the end of both.
   AC_PROVIDE_IFELSE([AC_PROG_GCJ],
     [AC_LIBTOOL_GCJ],
