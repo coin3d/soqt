@@ -341,6 +341,58 @@ AC_SUBST(EVENT)
 AC_SUBST(COMPONENTHEADER)
 
 # **************************************************************************
+# Section for Doxygen
+
+AC_ARG_WITH(
+  html,
+  AC_HELP_STRING([--with-html], [build and install SoQt HTML documentation]),
+  [case "${withval}" in
+    yes) want_html=yes ;;
+    no)  want_html=no ;;
+    *) AC_MSG_ERROR(bad value \"${withval}\" for --with-html) ;;
+  esac],
+  [want_html=no])
+
+AC_ARG_WITH(
+  man,
+  AC_HELP_STRING([--with-man], [build and install SoQt man pages]),
+  [case "${withval}" in
+    yes) want_man=yes ;;
+    no)  want_man=no ;;
+    *) AC_MSG_ERROR(bad value \"${withval}\" for --with-man) ;;
+  esac],
+  [want_man=no])
+
+SOQT_DOC_HTML=`echo $want_html | tr a-z A-Z`
+SOQT_DOC_MAN=`echo $want_man | tr a-z A-Z`
+AC_SUBST(SOQT_DOC_HTML)
+AC_SUBST(SOQT_DOC_MAN)
+
+soqt_build_dir=`pwd`
+cd $srcdir
+soqt_src_dir=`pwd`
+cd $soqt_build_dir
+
+AC_SUBST(soqt_src_dir)
+AC_SUBST(soqt_build_dir)
+
+if test x"$want_html" != xno -o x"$want_man" != xno; then
+  SIM_AC_DOXYGEN_TOOL(,
+    [AC_MSG_ERROR([Could not find the doxygen tool -- see http://www.stack.nl/~d
+imitri/doxygen/])])
+  sim_ac_doxygen_our_version=1.1.5
+  if test x"$sim_ac_doxygen_avail" != x"$sim_ac_doxygen_our_version"; then
+    AC_MSG_WARN(You are not using Doxygen version $sim_ac_doxygen_our_version)
+  fi
+
+  AC_PATH_PROG(sim_ac_perl_exe, perl, false, $PATH)
+  if test x"$sim_ac_perl_exe" = xfalse; then
+    AC_MSG_WARN(Could not find the Perl executable)
+  fi
+  AC_SUBST(sim_ac_perl_exe)
+fi
+
+# **************************************************************************
 # Configure the submodule with the examples.
 
 sim_ac_subconfig=examples
@@ -393,6 +445,7 @@ AC_OUTPUT([
         build/soqt_dll.dsp
         build/soqt_dll.mak
         build/soqt.spec
+	build/soqt.doxygen
 ],[
 	chmod a+x soqt-config
 ])
