@@ -5014,16 +5014,22 @@ int main() {
 EOF
 if { (eval echo configure:5016: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
-  sim_ac_accept_result=yes _exception_flag=-fno-exceptions
+  sim_ac_accept_result=yes
 else
   echo "configure: failed program was:" >&5
   cat conftest.$ac_ext >&5
   rm -rf conftest*
-  sim_ac_accept_result=no 
+  sim_ac_accept_result=no
 fi
 rm -f conftest*
 echo "$ac_t""$sim_ac_accept_result" 1>&6
 CPPFLAGS=$sim_ac_save_cppflags
+# This need to go last, in case CPPFLAGS is modified in _exception_flag=-fno-exceptions or .
+if test $sim_ac_accept_result = yes; then
+  _exception_flag=-fno-exceptions
+else
+  :
+fi
 
 ac_ext=cxx
 # CXXFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
@@ -5044,30 +5050,36 @@ ac_link='${CXX-g++} -o conftest${ac_exeext} $CXXFLAGS $CPPFLAGS $LDFLAGS conftes
 cross_compiling=$ac_cv_prog_cxx_cross
 
 echo $ac_n "checking whether $CXX accepts -fno-handle-exceptions... $ac_c" 1>&6
-echo "configure:5048: checking whether $CXX accepts -fno-handle-exceptions" 1>&5
+echo "configure:5054: checking whether $CXX accepts -fno-handle-exceptions" 1>&5
 
 sim_ac_save_cppflags=$CPPFLAGS
 CPPFLAGS="$CPPFLAGS -fno-handle-exceptions"
 cat >conftest.$ac_ext <<EOF
-#line 5053 "configure"
+#line 5059 "configure"
 #include "confdefs.h"
 
 int main() {
 
 ; return 0; }
 EOF
-if { (eval echo configure:5060: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:5066: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
-  sim_ac_accept_result=yes _exception_flag=-fno-handle-exceptions
+  sim_ac_accept_result=yes
 else
   echo "configure: failed program was:" >&5
   cat conftest.$ac_ext >&5
   rm -rf conftest*
-  sim_ac_accept_result=no 
+  sim_ac_accept_result=no
 fi
 rm -f conftest*
 echo "$ac_t""$sim_ac_accept_result" 1>&6
 CPPFLAGS=$sim_ac_save_cppflags
+# This need to go last, in case CPPFLAGS is modified in _exception_flag=-fno-handle-exceptions or .
+if test $sim_ac_accept_result = yes; then
+  _exception_flag=-fno-handle-exceptions
+else
+  :
+fi
 
 ac_ext=cxx
 # CXXFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
@@ -5146,30 +5158,36 @@ ac_link='${CXX-g++} -o conftest${ac_exeext} $CXXFLAGS $CPPFLAGS $LDFLAGS conftes
 cross_compiling=$ac_cv_prog_cxx_cross
 
 echo $ac_n "checking whether $CXX accepts -Wno-multichar... $ac_c" 1>&6
-echo "configure:5150: checking whether $CXX accepts -Wno-multichar" 1>&5
+echo "configure:5162: checking whether $CXX accepts -Wno-multichar" 1>&5
 
 sim_ac_save_cppflags=$CPPFLAGS
 CPPFLAGS="$CPPFLAGS -Wno-multichar"
 cat >conftest.$ac_ext <<EOF
-#line 5155 "configure"
+#line 5167 "configure"
 #include "confdefs.h"
 
 int main() {
 
 ; return 0; }
 EOF
-if { (eval echo configure:5162: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:5174: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
-  sim_ac_accept_result=yes CPPFLAGS="$CPPFLAGS -Wno-multichar"
+  sim_ac_accept_result=yes
 else
   echo "configure: failed program was:" >&5
   cat conftest.$ac_ext >&5
   rm -rf conftest*
-  sim_ac_accept_result=no 
+  sim_ac_accept_result=no
 fi
 rm -f conftest*
 echo "$ac_t""$sim_ac_accept_result" 1>&6
 CPPFLAGS=$sim_ac_save_cppflags
+# This need to go last, in case CPPFLAGS is modified in CPPFLAGS="$CPPFLAGS -Wno-multichar" or .
+if test $sim_ac_accept_result = yes; then
+  CPPFLAGS="$CPPFLAGS -Wno-multichar"
+else
+  :
+fi
 
 ac_ext=cxx
 # CXXFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
@@ -5191,30 +5209,36 @@ ac_link='${CC-cc} -o conftest${ac_exeext} $CFLAGS $CPPFLAGS $LDFLAGS conftest.$a
 cross_compiling=$ac_cv_prog_cc_cross
 
 echo $ac_n "checking whether $CC accepts -Wno-multichar... $ac_c" 1>&6
-echo "configure:5195: checking whether $CC accepts -Wno-multichar" 1>&5
+echo "configure:5213: checking whether $CC accepts -Wno-multichar" 1>&5
 
 sim_ac_save_cppflags=$CPPFLAGS
 CPPFLAGS="$CPPFLAGS -Wno-multichar"
 cat >conftest.$ac_ext <<EOF
-#line 5200 "configure"
+#line 5218 "configure"
 #include "confdefs.h"
 
 int main() {
 
 ; return 0; }
 EOF
-if { (eval echo configure:5207: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:5225: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
-  sim_ac_accept_result=yes CFLAGS="$CFLAGS -Wno-multichar"
+  sim_ac_accept_result=yes
 else
   echo "configure: failed program was:" >&5
   cat conftest.$ac_ext >&5
   rm -rf conftest*
-  sim_ac_accept_result=no 
+  sim_ac_accept_result=no
 fi
 rm -f conftest*
 echo "$ac_t""$sim_ac_accept_result" 1>&6
 CPPFLAGS=$sim_ac_save_cppflags
+# This need to go last, in case CPPFLAGS is modified in CFLAGS="$CFLAGS -Wno-multichar" or .
+if test $sim_ac_accept_result = yes; then
+  CFLAGS="$CFLAGS -Wno-multichar"
+else
+  :
+fi
 
 ac_ext=cxx
 # CXXFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
@@ -5235,30 +5259,36 @@ ac_link='${CXX-g++} -o conftest${ac_exeext} $CXXFLAGS $CPPFLAGS $LDFLAGS conftes
 cross_compiling=$ac_cv_prog_cxx_cross
 
 echo $ac_n "checking whether $CXX accepts -Wno-multichar... $ac_c" 1>&6
-echo "configure:5239: checking whether $CXX accepts -Wno-multichar" 1>&5
+echo "configure:5263: checking whether $CXX accepts -Wno-multichar" 1>&5
 
 sim_ac_save_cppflags=$CPPFLAGS
 CPPFLAGS="$CPPFLAGS -Wno-multichar"
 cat >conftest.$ac_ext <<EOF
-#line 5244 "configure"
+#line 5268 "configure"
 #include "confdefs.h"
 
 int main() {
 
 ; return 0; }
 EOF
-if { (eval echo configure:5251: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:5275: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
-  sim_ac_accept_result=yes CXXFLAGS="$CXXFLAGS -Wno-multichar"
+  sim_ac_accept_result=yes
 else
   echo "configure: failed program was:" >&5
   cat conftest.$ac_ext >&5
   rm -rf conftest*
-  sim_ac_accept_result=no 
+  sim_ac_accept_result=no
 fi
 rm -f conftest*
 echo "$ac_t""$sim_ac_accept_result" 1>&6
 CPPFLAGS=$sim_ac_save_cppflags
+# This need to go last, in case CPPFLAGS is modified in CXXFLAGS="$CXXFLAGS -Wno-multichar" or .
+if test $sim_ac_accept_result = yes; then
+  CXXFLAGS="$CXXFLAGS -Wno-multichar"
+else
+  :
+fi
 
 ac_ext=cxx
 # CXXFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
@@ -5286,30 +5316,36 @@ ac_link='${CC-cc} -o conftest${ac_exeext} $CFLAGS $CPPFLAGS $LDFLAGS conftest.$a
 cross_compiling=$ac_cv_prog_cc_cross
 
 echo $ac_n "checking whether $CC accepts -fullwarn... $ac_c" 1>&6
-echo "configure:5290: checking whether $CC accepts -fullwarn" 1>&5
+echo "configure:5320: checking whether $CC accepts -fullwarn" 1>&5
 
 sim_ac_save_cppflags=$CPPFLAGS
 CPPFLAGS="$CPPFLAGS -fullwarn"
 cat >conftest.$ac_ext <<EOF
-#line 5295 "configure"
+#line 5325 "configure"
 #include "confdefs.h"
 
 int main() {
 
 ; return 0; }
 EOF
-if { (eval echo configure:5302: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:5332: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
-  sim_ac_accept_result=yes _warn_flags="$_warn_flags -fullwarn"
+  sim_ac_accept_result=yes
 else
   echo "configure: failed program was:" >&5
   cat conftest.$ac_ext >&5
   rm -rf conftest*
-  sim_ac_accept_result=no 
+  sim_ac_accept_result=no
 fi
 rm -f conftest*
 echo "$ac_t""$sim_ac_accept_result" 1>&6
 CPPFLAGS=$sim_ac_save_cppflags
+# This need to go last, in case CPPFLAGS is modified in CPPFLAGS="$CPPFLAGS -fullwarn" or .
+if test $sim_ac_accept_result = yes; then
+  CPPFLAGS="$CPPFLAGS -fullwarn"
+else
+  :
+fi
 
 ac_ext=cxx
 # CXXFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
@@ -5317,16 +5353,28 @@ ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='${CXX-g++} -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext 1>&5'
 ac_link='${CXX-g++} -o conftest${ac_exeext} $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS 1>&5'
 cross_compiling=$ac_cv_prog_cxx_cross
-
 
 
 
         ### Turn off specific (bogus) warnings ########################
 
-        ### SGI MipsPro v?.?? (our compiler on IRIX 6.2) ##############
+        ## SGI MipsPro v?.?? (our compiler on IRIX 6.2) ##############
+        # 3115: ``type qualifiers are meaningless in this declaration''.
+        # 3262: unused variables.
+        ## SGI MipsPro v7.30 #########################################
+	# 1174: "The function was declared but never referenced."
+        # 1209: "The controlling expression is constant." (kill warning on
+        #       if (0), assert(FALSE), etc).
+        # 1355: Kill warnings on extra semicolons (which happens with some
+        #       of the Coin macros).
+        # 1375: Non-virtual destructors in base classes.
+        # 3201: Unused argument to a function.
+        # 3303: "Meaningless type qualifier on return type" (happens with the
+        #       SoField macros in Coin because of use of const in the macros).
+        # 1110: "Statement is not reachable" (the Lex/Flex generated code in
+        #       Coin/src/engines has lots of shitty code which needs this).
 
-        # Turn off ``type qualifiers are meaningless in this declaration''
-        # warnings.
+        sim_ac_bogus_warnings="-woff 3115,3262,1174,1209,1355,1375,3201,3303,1110"
         
 
 ac_ext=c
@@ -5336,31 +5384,37 @@ ac_compile='${CC-cc} -c $CFLAGS $CPPFLAGS conftest.$ac_ext 1>&5'
 ac_link='${CC-cc} -o conftest${ac_exeext} $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS 1>&5'
 cross_compiling=$ac_cv_prog_cc_cross
 
-echo $ac_n "checking whether $CC accepts -woff 3115... $ac_c" 1>&6
-echo "configure:5341: checking whether $CC accepts -woff 3115" 1>&5
+echo $ac_n "checking whether $CC accepts $sim_ac_bogus_warnings... $ac_c" 1>&6
+echo "configure:5389: checking whether $CC accepts $sim_ac_bogus_warnings" 1>&5
 
 sim_ac_save_cppflags=$CPPFLAGS
-CPPFLAGS="$CPPFLAGS -woff 3115"
+CPPFLAGS="$CPPFLAGS $sim_ac_bogus_warnings"
 cat >conftest.$ac_ext <<EOF
-#line 5346 "configure"
+#line 5394 "configure"
 #include "confdefs.h"
 
 int main() {
 
 ; return 0; }
 EOF
-if { (eval echo configure:5353: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:5401: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
-  sim_ac_accept_result=yes _woffs="$_woffs 3115"
+  sim_ac_accept_result=yes
 else
   echo "configure: failed program was:" >&5
   cat conftest.$ac_ext >&5
   rm -rf conftest*
-  sim_ac_accept_result=no 
+  sim_ac_accept_result=no
 fi
 rm -f conftest*
 echo "$ac_t""$sim_ac_accept_result" 1>&6
 CPPFLAGS=$sim_ac_save_cppflags
+# This need to go last, in case CPPFLAGS is modified in CPPFLAGS="$CPPFLAGS $sim_ac_bogus_warnings" or .
+if test $sim_ac_accept_result = yes; then
+  CPPFLAGS="$CPPFLAGS $sim_ac_bogus_warnings"
+else
+  :
+fi
 
 ac_ext=cxx
 # CXXFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
@@ -5370,379 +5424,6 @@ ac_link='${CXX-g++} -o conftest${ac_exeext} $CXXFLAGS $CPPFLAGS $LDFLAGS conftes
 cross_compiling=$ac_cv_prog_cxx_cross
 
 
-        # Turn off warnings on unused variables.
-        
-
-ac_ext=c
-# CFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='${CC-cc} -c $CFLAGS $CPPFLAGS conftest.$ac_ext 1>&5'
-ac_link='${CC-cc} -o conftest${ac_exeext} $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS 1>&5'
-cross_compiling=$ac_cv_prog_cc_cross
-
-echo $ac_n "checking whether $CC accepts -woff 3262... $ac_c" 1>&6
-echo "configure:5385: checking whether $CC accepts -woff 3262" 1>&5
-
-sim_ac_save_cppflags=$CPPFLAGS
-CPPFLAGS="$CPPFLAGS -woff 3262"
-cat >conftest.$ac_ext <<EOF
-#line 5390 "configure"
-#include "confdefs.h"
-
-int main() {
-
-; return 0; }
-EOF
-if { (eval echo configure:5397: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
-  rm -rf conftest*
-  sim_ac_accept_result=yes _woffs="$_woffs 3262"
-else
-  echo "configure: failed program was:" >&5
-  cat conftest.$ac_ext >&5
-  rm -rf conftest*
-  sim_ac_accept_result=no 
-fi
-rm -f conftest*
-echo "$ac_t""$sim_ac_accept_result" 1>&6
-CPPFLAGS=$sim_ac_save_cppflags
-
-ac_ext=cxx
-# CXXFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
-ac_cpp='$CXXCPP $CPPFLAGS'
-ac_compile='${CXX-g++} -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext 1>&5'
-ac_link='${CXX-g++} -o conftest${ac_exeext} $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS 1>&5'
-cross_compiling=$ac_cv_prog_cxx_cross
-
-
-
-        ### SGI MipsPro v7.30 #########################################
-
-	# "The function was declared but never referenced."
-        
-
-ac_ext=c
-# CFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='${CC-cc} -c $CFLAGS $CPPFLAGS conftest.$ac_ext 1>&5'
-ac_link='${CC-cc} -o conftest${ac_exeext} $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS 1>&5'
-cross_compiling=$ac_cv_prog_cc_cross
-
-echo $ac_n "checking whether $CC accepts -woff 1174... $ac_c" 1>&6
-echo "configure:5432: checking whether $CC accepts -woff 1174" 1>&5
-
-sim_ac_save_cppflags=$CPPFLAGS
-CPPFLAGS="$CPPFLAGS -woff 1174"
-cat >conftest.$ac_ext <<EOF
-#line 5437 "configure"
-#include "confdefs.h"
-
-int main() {
-
-; return 0; }
-EOF
-if { (eval echo configure:5444: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
-  rm -rf conftest*
-  sim_ac_accept_result=yes _woffs="$_woffs 1174"
-else
-  echo "configure: failed program was:" >&5
-  cat conftest.$ac_ext >&5
-  rm -rf conftest*
-  sim_ac_accept_result=no 
-fi
-rm -f conftest*
-echo "$ac_t""$sim_ac_accept_result" 1>&6
-CPPFLAGS=$sim_ac_save_cppflags
-
-ac_ext=cxx
-# CXXFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
-ac_cpp='$CXXCPP $CPPFLAGS'
-ac_compile='${CXX-g++} -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext 1>&5'
-ac_link='${CXX-g++} -o conftest${ac_exeext} $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS 1>&5'
-cross_compiling=$ac_cv_prog_cxx_cross
-
-
-        # "The controlling expression is constant." (kill warning on
-        # if (0), assert(FALSE), etc).
-        
-
-ac_ext=c
-# CFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='${CC-cc} -c $CFLAGS $CPPFLAGS conftest.$ac_ext 1>&5'
-ac_link='${CC-cc} -o conftest${ac_exeext} $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS 1>&5'
-cross_compiling=$ac_cv_prog_cc_cross
-
-echo $ac_n "checking whether $CC accepts -woff 1209... $ac_c" 1>&6
-echo "configure:5477: checking whether $CC accepts -woff 1209" 1>&5
-
-sim_ac_save_cppflags=$CPPFLAGS
-CPPFLAGS="$CPPFLAGS -woff 1209"
-cat >conftest.$ac_ext <<EOF
-#line 5482 "configure"
-#include "confdefs.h"
-
-int main() {
-
-; return 0; }
-EOF
-if { (eval echo configure:5489: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
-  rm -rf conftest*
-  sim_ac_accept_result=yes _woffs="$_woffs 1209"
-else
-  echo "configure: failed program was:" >&5
-  cat conftest.$ac_ext >&5
-  rm -rf conftest*
-  sim_ac_accept_result=no 
-fi
-rm -f conftest*
-echo "$ac_t""$sim_ac_accept_result" 1>&6
-CPPFLAGS=$sim_ac_save_cppflags
-
-ac_ext=cxx
-# CXXFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
-ac_cpp='$CXXCPP $CPPFLAGS'
-ac_compile='${CXX-g++} -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext 1>&5'
-ac_link='${CXX-g++} -o conftest${ac_exeext} $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS 1>&5'
-cross_compiling=$ac_cv_prog_cxx_cross
-
-
-        # Kill warnings on extra semicolons (which happens with some
-        # of the Coin macros).
-        
-
-ac_ext=c
-# CFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='${CC-cc} -c $CFLAGS $CPPFLAGS conftest.$ac_ext 1>&5'
-ac_link='${CC-cc} -o conftest${ac_exeext} $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS 1>&5'
-cross_compiling=$ac_cv_prog_cc_cross
-
-echo $ac_n "checking whether $CC accepts -woff 1355... $ac_c" 1>&6
-echo "configure:5522: checking whether $CC accepts -woff 1355" 1>&5
-
-sim_ac_save_cppflags=$CPPFLAGS
-CPPFLAGS="$CPPFLAGS -woff 1355"
-cat >conftest.$ac_ext <<EOF
-#line 5527 "configure"
-#include "confdefs.h"
-
-int main() {
-
-; return 0; }
-EOF
-if { (eval echo configure:5534: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
-  rm -rf conftest*
-  sim_ac_accept_result=yes _woffs="$_woffs 1355"
-else
-  echo "configure: failed program was:" >&5
-  cat conftest.$ac_ext >&5
-  rm -rf conftest*
-  sim_ac_accept_result=no 
-fi
-rm -f conftest*
-echo "$ac_t""$sim_ac_accept_result" 1>&6
-CPPFLAGS=$sim_ac_save_cppflags
-
-ac_ext=cxx
-# CXXFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
-ac_cpp='$CXXCPP $CPPFLAGS'
-ac_compile='${CXX-g++} -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext 1>&5'
-ac_link='${CXX-g++} -o conftest${ac_exeext} $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS 1>&5'
-cross_compiling=$ac_cv_prog_cxx_cross
-
-
-        # Non-virtual destructors in base classes.
-        
-
-ac_ext=c
-# CFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='${CC-cc} -c $CFLAGS $CPPFLAGS conftest.$ac_ext 1>&5'
-ac_link='${CC-cc} -o conftest${ac_exeext} $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS 1>&5'
-cross_compiling=$ac_cv_prog_cc_cross
-
-echo $ac_n "checking whether $CC accepts -woff 1375... $ac_c" 1>&6
-echo "configure:5566: checking whether $CC accepts -woff 1375" 1>&5
-
-sim_ac_save_cppflags=$CPPFLAGS
-CPPFLAGS="$CPPFLAGS -woff 1375"
-cat >conftest.$ac_ext <<EOF
-#line 5571 "configure"
-#include "confdefs.h"
-
-int main() {
-
-; return 0; }
-EOF
-if { (eval echo configure:5578: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
-  rm -rf conftest*
-  sim_ac_accept_result=yes _woffs="$_woffs 1375"
-else
-  echo "configure: failed program was:" >&5
-  cat conftest.$ac_ext >&5
-  rm -rf conftest*
-  sim_ac_accept_result=no 
-fi
-rm -f conftest*
-echo "$ac_t""$sim_ac_accept_result" 1>&6
-CPPFLAGS=$sim_ac_save_cppflags
-
-ac_ext=cxx
-# CXXFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
-ac_cpp='$CXXCPP $CPPFLAGS'
-ac_compile='${CXX-g++} -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext 1>&5'
-ac_link='${CXX-g++} -o conftest${ac_exeext} $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS 1>&5'
-cross_compiling=$ac_cv_prog_cxx_cross
-
-
-        # Unused argument to a function.
-        
-
-ac_ext=c
-# CFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='${CC-cc} -c $CFLAGS $CPPFLAGS conftest.$ac_ext 1>&5'
-ac_link='${CC-cc} -o conftest${ac_exeext} $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS 1>&5'
-cross_compiling=$ac_cv_prog_cc_cross
-
-echo $ac_n "checking whether $CC accepts -woff 3201... $ac_c" 1>&6
-echo "configure:5610: checking whether $CC accepts -woff 3201" 1>&5
-
-sim_ac_save_cppflags=$CPPFLAGS
-CPPFLAGS="$CPPFLAGS -woff 3201"
-cat >conftest.$ac_ext <<EOF
-#line 5615 "configure"
-#include "confdefs.h"
-
-int main() {
-
-; return 0; }
-EOF
-if { (eval echo configure:5622: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
-  rm -rf conftest*
-  sim_ac_accept_result=yes _woffs="$_woffs 3201"
-else
-  echo "configure: failed program was:" >&5
-  cat conftest.$ac_ext >&5
-  rm -rf conftest*
-  sim_ac_accept_result=no 
-fi
-rm -f conftest*
-echo "$ac_t""$sim_ac_accept_result" 1>&6
-CPPFLAGS=$sim_ac_save_cppflags
-
-ac_ext=cxx
-# CXXFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
-ac_cpp='$CXXCPP $CPPFLAGS'
-ac_compile='${CXX-g++} -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext 1>&5'
-ac_link='${CXX-g++} -o conftest${ac_exeext} $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS 1>&5'
-cross_compiling=$ac_cv_prog_cxx_cross
-
-
-        # Meaningless type qualifier on return type (happens with the
-        # SoField macros in Coin).
-        
-
-ac_ext=c
-# CFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='${CC-cc} -c $CFLAGS $CPPFLAGS conftest.$ac_ext 1>&5'
-ac_link='${CC-cc} -o conftest${ac_exeext} $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS 1>&5'
-cross_compiling=$ac_cv_prog_cc_cross
-
-echo $ac_n "checking whether $CC accepts -woff 3303... $ac_c" 1>&6
-echo "configure:5655: checking whether $CC accepts -woff 3303" 1>&5
-
-sim_ac_save_cppflags=$CPPFLAGS
-CPPFLAGS="$CPPFLAGS -woff 3303"
-cat >conftest.$ac_ext <<EOF
-#line 5660 "configure"
-#include "confdefs.h"
-
-int main() {
-
-; return 0; }
-EOF
-if { (eval echo configure:5667: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
-  rm -rf conftest*
-  sim_ac_accept_result=yes _woffs="$_woffs 3303"
-else
-  echo "configure: failed program was:" >&5
-  cat conftest.$ac_ext >&5
-  rm -rf conftest*
-  sim_ac_accept_result=no 
-fi
-rm -f conftest*
-echo "$ac_t""$sim_ac_accept_result" 1>&6
-CPPFLAGS=$sim_ac_save_cppflags
-
-ac_ext=cxx
-# CXXFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
-ac_cpp='$CXXCPP $CPPFLAGS'
-ac_compile='${CXX-g++} -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext 1>&5'
-ac_link='${CXX-g++} -o conftest${ac_exeext} $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS 1>&5'
-cross_compiling=$ac_cv_prog_cxx_cross
-
-
-        # Statement is not reachable (the Lex/Flex generated code in
-        # Coin/src/engines makes lots of shitty code which needs this).
-        
-
-ac_ext=c
-# CFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='${CC-cc} -c $CFLAGS $CPPFLAGS conftest.$ac_ext 1>&5'
-ac_link='${CC-cc} -o conftest${ac_exeext} $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS 1>&5'
-cross_compiling=$ac_cv_prog_cc_cross
-
-echo $ac_n "checking whether $CC accepts -woff 1110... $ac_c" 1>&6
-echo "configure:5700: checking whether $CC accepts -woff 1110" 1>&5
-
-sim_ac_save_cppflags=$CPPFLAGS
-CPPFLAGS="$CPPFLAGS -woff 1110"
-cat >conftest.$ac_ext <<EOF
-#line 5705 "configure"
-#include "confdefs.h"
-
-int main() {
-
-; return 0; }
-EOF
-if { (eval echo configure:5712: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
-  rm -rf conftest*
-  sim_ac_accept_result=yes _woffs="$_woffs 1110"
-else
-  echo "configure: failed program was:" >&5
-  cat conftest.$ac_ext >&5
-  rm -rf conftest*
-  sim_ac_accept_result=no 
-fi
-rm -f conftest*
-echo "$ac_t""$sim_ac_accept_result" 1>&6
-CPPFLAGS=$sim_ac_save_cppflags
-
-ac_ext=cxx
-# CXXFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
-ac_cpp='$CXXCPP $CPPFLAGS'
-ac_compile='${CXX-g++} -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext 1>&5'
-ac_link='${CXX-g++} -o conftest${ac_exeext} $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS 1>&5'
-cross_compiling=$ac_cv_prog_cxx_cross
-
-
-
-        ###############################################################
-
-        # Convert to a comma-separated list behind the "-woff" option.
-        if test x"$_woffs" != x; then
-                _woffs=`echo $_woffs | sed "s%^ %%"`
-                _woffs=`echo $_woffs | sed "s% %,%g"`
-                _woffs=`echo $_woffs | sed "s%^%\-woff %"`
-                _warn_flags="$_warn_flags $_woffs"
-        fi
-
-        ###############################################################
-
-        CPPFLAGS="$CPPFLAGS $_warn_flags"
       fi
     ;;
     esac
