@@ -134,6 +134,7 @@ SoQtDevice::setEventPosition(
    int x,
    int y ) const
 {
+  this->setLastEventPosition( QPoint(x, y) );
   event->setPosition(SbVec2s(x, this->widgetsize[1] - y - 1));
 } // setEventPosition()
 
