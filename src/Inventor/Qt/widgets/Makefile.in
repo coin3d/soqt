@@ -625,6 +625,7 @@ DISTCLEANFILES = \
 ############################################################################
 SoQtWidgetsSources = \
 	SoQtGLArea.cpp SoQtGLArea.h \
+	SoQtThumbWheel.cpp SoQtThumbWheel.h \
 	\
 	QtNativePopupMenu.cpp QtNativePopupMenu.h \
 	Gradient.cpp Gradient.h \
@@ -682,9 +683,10 @@ LIBRARIES = $(noinst_LIBRARIES)
 
 widgets_lst_AR = $(AR) cru
 widgets_lst_LIBADD =
-am__objects_1 = SoQtGLArea.$(OBJEXT) QtNativePopupMenu.$(OBJEXT) \
-	Gradient.$(OBJEXT) GradientDialog.$(OBJEXT) \
-	GradientView.$(OBJEXT) ImageItem.$(OBJEXT) TickMark.$(OBJEXT) \
+am__objects_1 = SoQtGLArea.$(OBJEXT) SoQtThumbWheel.$(OBJEXT) \
+	QtNativePopupMenu.$(OBJEXT) Gradient.$(OBJEXT) \
+	GradientDialog.$(OBJEXT) GradientView.$(OBJEXT) \
+	ImageItem.$(OBJEXT) TickMark.$(OBJEXT) \
 	ColorTableEditor.$(OBJEXT) ColorCurve.$(OBJEXT) \
 	CurveView.$(OBJEXT) SbGuiCubicSpline.$(OBJEXT)
 am_widgets_lst_OBJECTS = $(am__objects_1)
@@ -697,9 +699,9 @@ LTLIBRARIES = $(noinst_LTLIBRARIES)
 
 libSoQtWidgets_la_LDFLAGS =
 libSoQtWidgets_la_LIBADD =
-am__objects_4 = SoQtGLArea.lo QtNativePopupMenu.lo Gradient.lo \
-	GradientDialog.lo GradientView.lo ImageItem.lo TickMark.lo \
-	ColorTableEditor.lo ColorCurve.lo CurveView.lo \
+am__objects_4 = SoQtGLArea.lo SoQtThumbWheel.lo QtNativePopupMenu.lo \
+	Gradient.lo GradientDialog.lo GradientView.lo ImageItem.lo \
+	TickMark.lo ColorTableEditor.lo ColorCurve.lo CurveView.lo \
 	SbGuiCubicSpline.lo
 am_libSoQtWidgets_la_OBJECTS = $(am__objects_4)
 am__objects_5 = SoAnyThumbWheel.lo So@Gui@PopupMenu.lo
@@ -729,8 +731,10 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/SoAnyThumbWheel.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SoAnyThumbWheel.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/SoQtGLArea.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/SoQtGLArea.Po ./$(DEPDIR)/TickMark.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/TickMark.Po
+@AMDEP_TRUE@	./$(DEPDIR)/SoQtGLArea.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/SoQtThumbWheel.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/SoQtThumbWheel.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/TickMark.Plo ./$(DEPDIR)/TickMark.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -808,6 +812,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoAnyThumbWheel.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQtGLArea.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQtGLArea.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQtThumbWheel.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQtThumbWheel.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/TickMark.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/TickMark.Po@am__quote@
 

@@ -43,6 +43,7 @@ DISTCLEANFILES = \
 
 SoQtWidgetsSources = \
 	SoQtGLArea.cpp SoQtGLArea.h \
+	SoQtThumbWheel.cpp SoQtThumbWheel.h \
 	\
 	QtNativePopupMenu.cpp QtNativePopupMenu.h \
 	Gradient.cpp Gradient.h \
