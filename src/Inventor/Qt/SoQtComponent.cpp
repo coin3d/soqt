@@ -1083,7 +1083,8 @@ SoQtComponentP::getNativeCursor(const SoQtCursor::CustomCursor * cc)
   }
 
   // Always 32x32 because that's what is recommended in the Qt
-  // documentation for QCursor.
+  // documentation for QCursor.  At least WinNT 4 will give us
+  // "interesting" bugs for other cursor sizes.
   QBitmap bitmap(32, 32, cursorbitmap, TRUE);
   QBitmap mask(32, 32, cursormask, TRUE);
 
@@ -1124,16 +1125,16 @@ SoQtComponent::setWidgetCursor(QWidget * w, const SoQtCursor & cursor)
       w->setCursor(QCursor(Qt::blankCursor));
       break;
 
-    case SoQtCursor::NORMAL:
-      w->setCursor(QCursor(Qt::arrowCursor));
-      break;
-
     case SoQtCursor::CROSSHAIR:
       w->setCursor(QCursor(Qt::crossCursor));
       break;
 
+    case SoQtCursor::UPARROW:
+      w->setCursor(QCursor(Qt::upArrowCursor));
+      break;
+
     default:
-      assert(FALSE && "unknown cursor shape type");
+      assert(FALSE && "unsupported cursor shape type");
       break;
     }
   }
