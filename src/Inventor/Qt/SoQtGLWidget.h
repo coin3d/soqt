@@ -72,7 +72,7 @@ protected:
   virtual void redraw(void) = 0;
 
   virtual void sizeChanged( const SbVec2s size );
-  virtual void widgetChanged(void);
+  virtual void widgetChanged( QWidget * w );
 
   void setGlxSize( const SbVec2s size );
   void setGLSize( const SbVec2s size );

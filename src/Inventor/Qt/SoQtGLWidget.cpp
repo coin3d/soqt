@@ -459,7 +459,8 @@ SoQtGLWidget::sizeChanged(
   \sa sizeChanged()
  */
 void
-SoQtGLWidget::widgetChanged(void)
+SoQtGLWidget::widgetChanged(
+  QWidget * w )
 {
 }
 
