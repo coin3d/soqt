@@ -4,6 +4,9 @@ ToDo
 
 (format is: "* [author:conceived-date] item", listed in no particular order)
 
+* [mortene:19990924] check for Coin in the --prefix installation
+  directory.
+
 * [mortene:19990917] write information in NEWS, README, HACKING,
   AUTHORS, ChangeLog, COPYING.
 
