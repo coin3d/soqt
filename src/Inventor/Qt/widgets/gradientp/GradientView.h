@@ -53,6 +53,7 @@ public:
   void insertTick(float t);
   void setChangeCallback(Gradient::ChangeCB * cb, void * userdata);
   void setDataLimits(float min, float max);
+  QSize sizeHint(void) const;
 
 public slots:
   void updateTicks(void);
@@ -93,18 +94,18 @@ private:
   TickMark * newTick(int x);
   QCanvas * canvas;
   Gradient grad;
-  ImageItem * gradItem;
-  ImageItem * selectionMarker;
+  ImageItem * graditem;
+  ImageItem * selectionmarker;
   QPopupMenu * menu;
-  QValueList<TickMark*> tickMarks;
-  QStatusBar * statusBar;
+  QValueList<TickMark*> tickmarks;
+  QStatusBar * statusbar;
 
   int currenttick;
   int segmentidx;
   float min, max;
 
   QPoint moving_start;
-  SbBool mousePressed;
+  SbBool mousepressed;
 };
 
 #endif // ! GRADIENT_VIEW_H
