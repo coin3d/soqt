@@ -25429,7 +25429,14 @@ echo $ECHO_N "checking for Qt library devkit... $ECHO_C" >&6
       ##   (update: "ws2_32.lib" seems to be a new dependency for Qt 3.1.2)
       ##
       ## * "-lqt-mt-eval": the Qt/Mac evaluation version
+      ##
+      ## * "-lqt-mtnc{version}": the non-commercial Qt version that
+      ##   comes on the CD with the book "C++ Gui Programming with Qt 3"
+      ##   (version==321 there)
 
+      ## FIXME: could probably improve check to not have to go through
+      ## all of the above. See bug item #028 in SoQt/BUGS.txt.
+      ## 20040805 mortene.
 
       sim_ac_qt_suffix=
       if $sim_ac_qt_debug; then
@@ -25455,7 +25462,8 @@ echo $ECHO_N "checking for Qt library devkit... $ECHO_C" >&6
             "-lqt -lqtmain -lgdi32" \
             "-lqt${sim_ac_qt_version}${sim_ac_qt_suffix} -lqtmain -lgdi32" \
             "-lqt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32" \
-            "-lqt-mt-eval"
+            "-lqt-mt-eval" \
+            "-lqt-mtnc${sim_ac_qt_version}"
         do
           if test "x$sim_ac_qt_libs" = "xUNRESOLVED"; then
             CPPFLAGS="$sim_ac_qt_incflags $sim_ac_qt_cppflags_loop $sim_ac_save_cppflags"

@@ -528,3 +528,16 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     20040708 mortene
 
 =====================================================================
+
+028 Could improve check to pick up Qt libraries needed for linking.
+
+    An idea from kintel: use ''qmake'' to generate a Makefile from a
+    simplest possible .pro-file, and grep for link libraries (and
+    other compiler and/or linker option?) in the generated Makefile.
+
+    (I.e. modify simacros/cfg/m4/qt.m4 to use this strategy instead of
+    running through a list of known library names, like we do now.)
+
+    20040805 mortene.
+
+=====================================================================
