@@ -9,6 +9,8 @@
 #define COLOR_PATCH_CUBE     1
 #define COLOR_PATCH_CONE     2
 
+#define RADIO_BUTTON_SIZE .2
+
 class cRgbCube {
   
 
@@ -132,5 +134,40 @@ public:
 			  float x,float y,float z); 
 
   void modifyDraggerWidget(SoScale1Dragger *dragger);
+
+
+  // --- Methods called by callback statics
+
+  void updateColorValueText(float red, float green, float blue);
+
+  void draggerCallbackDiffuse();
+  void draggerCallbackSpecular();
+  void draggerCallbackAmbient();
+  void draggerCallbackEmissive();
+
+  void removeCurrentColorCube();
+
+  // --- Static Callbacks
+
+  static void colorPatchToggleCallback(void *classObject,SoPath *selectionPath);
+  static void mouseClickCallback(void *classObject, SoEventCallback *cb);
+
+  static void draggerShininessCallback(void *classObject,SoDragger *dragger);
+
+  static void draggerXCallbackDiffuse(void *classObject,SoDragger *dragger);
+  static void draggerYCallbackDiffuse(void *classObject,SoDragger *dragger);
+  static void draggerZCallbackDiffuse(void *classObject,SoDragger *dragger);
+
+  static void draggerXCallbackAmbient(void *classObject,SoDragger *dragger);
+  static void draggerYCallbackAmbient(void *classObject,SoDragger *dragger);
+  static void draggerZCallbackAmbient(void *classObject,SoDragger *dragger);
+
+  static void draggerXCallbackSpecular(void *classObject,SoDragger *dragger);
+  static void draggerYCallbackSpecular(void *classObject,SoDragger *dragger);
+  static void draggerZCallbackSpecular(void *classObject,SoDragger *dragger);
+
+  static void draggerXCallbackEmissive(void *classObject,SoDragger *dragger);
+  static void draggerYCallbackEmissive(void *classObject,SoDragger *dragger);
+  static void draggerZCallbackEmissive(void *classObject,SoDragger *dragger);
 
 };
