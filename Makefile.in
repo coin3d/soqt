@@ -728,11 +728,11 @@ src/Inventor/Qt/viewers/SoQtConstrainedViewer.cpp: \
 
 src/Inventor/Qt/viewers/SoQtFlyViewer.h: \
   $(srcdir)/src/Inventor/Qt/common/SoGuiFlyViewer.h.in config.status
-	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoGuiFlyViewer.h.in
+	@$(SHELL) config.status --file=$@:$(srcdir)/src/Inventor/Qt/common/SoGuiFlyViewer.h.in
 
 src/Inventor/Qt/viewers/SoQtFlyViewer.cpp: \
   $(srcdir)/src/Inventor/Qt/common/SoGuiFlyViewer.cpp.in config.status
-	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoGuiFlyViewer.cpp.in
+	@$(SHELL) config.status --file=$@:$(srcdir)/src/Inventor/Qt/common/SoGuiFlyViewer.cpp.in
 
 src/Inventor/Qt/viewers/SoAnyFullViewer.h: \
   $(srcdir)/src/Inventor/Qt/common/SoAnyFullViewer.h.in config.status
