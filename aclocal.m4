@@ -1418,96 +1418,118 @@ dnl
 dnl   MODIFIER-LIST is a description-list of all the valid modifiers that
 dnl   can be used in the MODIFIER-LIST-STRING argument.  They must come in
 dnl   tuples of three and three words (same word-definition as above) where
-dnl   the first word is the modifier, the second word is the variable that
-dnl   is to be set by the modifier, and last the value the modifier variable
-dnl   should be set to.
+dnl   the first word is the modifier, the second word is the variable
+dnl   that is to be set by the modifier, and last the value the modifier
+dnl   variable should be set to.
 dnl
 dnl   ACTION-ON-SUCCESS is the expansion of the macro if all the modifiers
 dnl   in MODIFIER-LIST-STRING pass through without problem.  The default
 dnl   expansion is nothing.
 dnl
-dnl   ACTION-ON-FAILURE is the expansion of the macro if some of the modifiers
-dnl   in MODIFIER-LIST-STRING doesn't pass through.  The default expansion is
-dnl   nothing, but warnings are printed to stderr on the modifiers causing
-dnl   the problem.
+dnl   ACTION-ON-FAILURE is the expansion of the macro if some of the
+dnl   modifiers in MODIFIER-LIST-STRING doesn't pass through.  The default
+dnl   expansion is nothing, but warnings are printed to stderr on the
+dnl   modifiers causing the problem.
 dnl
-dnl Example of Usage:
+dnl Sample Usage:
 dnl   [to come later]
 dnl
 dnl Authors:
-dnl   Lars J. Aas <larsa:sim.no>
+dnl   Lars J. Aas <larsa@sim.no>
 dnl
 dnl TODO:
 dnl * [larsa:20000222] warn on creating modifiers for unknown variables
 dnl
 
 define([$IM_STRING_COMPACT],[dnl
-patsubst(patsubst(translit([$1],[
-	], [  ]), [\b +\b], [ ]), [^ \| $], [])])dnl
+patsubst(patsubst([$1],[[
+	 ]+],[ ]),[^ \| $],[])])
 
 define([$IM_STRING_WORDCOUNT_COMPACT],[dnl
-builtin([eval],(1+len(patsubst([$1],[[^ ]+],[_])))/2)])dnl
+builtin([eval],(1+len(patsubst([$1],[[^ ]+],[_])))/2)])
 
 define([$IM_STRING_WORDCOUNT],[dnl
-indir([$IM_STRING_WORDCOUNT_COMPACT],[indir([$IM_STRING_COMPACT],[$1])])])dnl
+indir([$IM_STRING_WORDCOUNT_COMPACT],indir([$IM_STRING_COMPACT],[$1]))])
+
+define([$IM_DEFINE_VARIABLE],[dnl
+dnl errprint([define( $1, $2 )
+dnl ])dnl
+define([$1],[$2])
+])
 
 define([$IM_DEFINE_VARIABLES],[dnl
-ifelse( indir([$IM_STRING_WORDCOUNT_COMPACT],[$1]),
-        2,
-        [patsubst([$1],[^\([^ ]+\) \([^ ]+\)\b],[define([\1],[\2])])],
-        [patsubst([$1],[^\([^ ]+\) \([^ ]+\) \(.*\)$],
-                  [define([\1],[\2])indir([$IM_DEFINE_VARIABLES],\3)])])dnl
-])dnl
+ifelse(indir([$IM_STRING_WORDCOUNT_COMPACT],[$1]),
+       2,
+       [patsubst([$1],[^\([^ ]+\) \([^ ]+\)],
+                 [indir([$IM_DEFINE_VARIABLE],[\1],[\2])])],
+       [patsubst([$1],[^\([^ ]+\) \([^ ]+\) \(.*\)],
+                 [indir([$IM_DEFINE_VARIABLE],[\1],[\2])indir([$IM_DEFINE_VARIABLES],[\3])])])dnl
+])
+
+define([$IM_PUSHDEF_MODIFIER],[dnl
+dnl errprint([modifier( $1, $2, $3 )
+dnl ])dnl
+ifelse(defn([$2]),
+       [],
+       [errprint([SIM_PARSE_MODIFIER_LIST: invalid variable (arg 3): "$2"
+])],
+       [pushdef([$1],[define([$2],[$3])])])dnl
+])
+
+dnl [pushdef([$1],[define([$2],[$3])])]
 
 define([$IM_PUSHDEF_MODIFIERS],[dnl
-ifelse( indir([$IM_STRING_WORDCOUNT_COMPACT],[$1]),
-        3,
-        [patsubst([$1],[^\([^ ]+\) \([^ ]+\) \([^ ]+\)\b],
-                  [pushdef([\1],[define([\2],[\3])])])],
-        [patsubst([$1],[^\([^ ]+\) \([^ ]+\) \([^ ]+\) \(.*\)$],
-                  [pushdef([\1],[define([\2],[\3])])indir([$IM_PUSHDEF_MODIFIERS],[\4])])])dnl
+ifelse(indir([$IM_STRING_WORDCOUNT_COMPACT],[$1]),
+       3,
+       [patsubst([$1],[^\([^ ]+\) \([^ ]+\) \([^ ]+\)],
+                 [indir([$IM_PUSHDEF_MODIFIER],[\1],[\2],[\3])])],
+       [patsubst([$1],[^\([^ ]+\) \([^ ]+\) \([^ ]+\) \(.*\)],
+                 [indir([$IM_PUSHDEF_MODIFIER],[\1],[\2],[\3])indir([$IM_PUSHDEF_MODIFIERS],[\4])])dnl
 ])dnl
+])
+
+define([$IM_POPDEF_MODIFIER],[dnl
+dnl errprint([popdef( $1 )
+dnl ])rnl
+popdef([$1])dnl
+])
 
 define([$IM_POPDEF_MODIFIERS],[dnl
-ifelse( indir([$IM_STRING_WORDCOUNT_COMPACT],[$1]),
-        3,
-        [patsubst([$1],[^\([^ ]+\) \([^ ]+\) \([^ ]+\)\b],
-                  [popdef([\1])])],
-        [patsubst([$1],[^\([^ ]+\) \([^ ]+\) \([^ ]+\) \(.*\)$],
-                  [popdef([\1])indir([$IM_POPDEF_MODIFIERS],[\4])])])dnl
-])dnl
-
-dnl && (indir([$IM_STRING_WORDCOUNT],[$2]) > 0) != 0)],
+ifelse(indir([$IM_STRING_WORDCOUNT_COMPACT],[$1]),
+       3,
+       [patsubst([$1],[^\([^ ]+\) \([^ ]+\) \([^ ]+\)],
+                 [indir([$IM_POPDEF_MODIFIER],[\1])])],
+       [patsubst([$1],[^\([^ ]+\) \([^ ]+\) \([^ ]+\) \(.*\)],
+                 [indir([$IM_POPDEF_MODIFIER],[\1])indir([$IM_POPDEF_MODIFIERS],[\4])])])dnl
+])
 
 define([$IM_PARSE_MODIFIER_LIST],[dnl
-pushdef([wordcount],[builtin([eval],(indir([$IM_STRING_WORDCOUNT],[$2])))])dnl
-ifelse( builtin([eval], (wordcount % 2) == 0 && wordcount > 0),
-        1,
-	[],
-        [errprint([[SIM_PARSE_MODIFIER_LIST]: invalid word count (arg 2): "]indir([$IM_STRING_COMPACT],[$2])["
+pushdef([wordcount],builtin([eval],(indir([$IM_STRING_WORDCOUNT],[$2]))))dnl
+ifelse(builtin([eval], (wordcount % 2) == 0 && wordcount > 0),
+       1,
+       [],
+       [errprint([SIM_PARSE_MODIFIER_LIST: invalid word count (arg 2): "]indir([$IM_STRING_COMPACT],[$2])["
 ])])dnl
 popdef([wordcount])dnl
 indir([$IM_DEFINE_VARIABLES],[$2])dnl
-pushdef([wordcount],[builtin([eval],(indir([$IM_STRING_WORDCOUNT],[$3])))])dnl
-ifelse( builtin([eval], (wordcount % 3) == 0 && wordcount > 0),
-        1,
-        [],
-        [errprint([SIM_PARSE_MODIFIER_LIST: invalid word count (arg 3): "$3"
+pushdef([wordcount],builtin([eval],(indir([$IM_STRING_WORDCOUNT],[$3]))))dnl
+ifelse(builtin([eval], (wordcount % 3) == 0 && wordcount > 0),
+       1,
+       [],
+       [errprint([SIM_PARSE_MODIFIER_LIST: invalid word count (arg 3): "$3"
 ])])dnl
 popdef([wordcount])dnl
 indir([$IM_PUSHDEF_MODIFIERS],[$3])dnl
-pushdef([string],[indir([$IM_STRING_COMPACT],[$1])])dnl
-ifelse(string,
+ifelse(indir([$IM_STRING_COMPACT],[$1]),
        [],
        [ifelse($4, , , $4)],
-       [ifelse($5, , [errprint([SIM_PARSE_MODIFIER_LIST parse error on modifier(s): ]"string"[
+       [ifelse($5, , [errprint([SIM_PARSE_MODIFIER_LIST: modifier(s) parse error: ]"indir([$IM_STRING_COMPACT],[$1])"[
 ])], $5)])dnl
-popdef([string])
 indir([$IM_POPDEF_MODIFIERS],[$3])dnl
 ])
 
 AC_DEFUN([SIM_PARSE_MODIFIER_LIST],[dnl
-indir($IM_PARSE_MODIFIER_LIST,
+indir([$IM_PARSE_MODIFIER_LIST],
       indir([$IM_STRING_COMPACT],[$1]),
       indir([$IM_STRING_COMPACT],[$2]),
       indir([$IM_STRING_COMPACT],[$3]),

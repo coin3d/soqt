@@ -1,12 +1,18 @@
 ## Process this file with automake to generate Makefile.in.
 
+if BUILD_TESTS
+TESTDIR = test-code
+else
+TESTDIR =
+endif
+
 if BUILD_EXAMPLES
 EXAMPLEDIR = examples
 else
 EXAMPLEDIR = 
 endif
 
-SUBDIRS = . src/Inventor/Qt $(EXAMPLEDIR)
+SUBDIRS = . src/Inventor/Qt $(TESTDIR) $(EXAMPLEDIR)
 
 bin_SCRIPTS = soqt-config
 

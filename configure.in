@@ -1,6 +1,51 @@
 dnl  This can be any file in the package.
 AC_INIT(src/Inventor/Qt/SoQt.h)
 
+sim_ac_cvs_syncproblem=false;
+
+if test ! -f ${srcdir}/examples/ChangeLog; then
+  if test "x${with_auto_cvs_update+set}" = "xset"; then
+    echo "Trying to honour the --with-auto-cvs-update option."
+    sim_ac_save_cwd="`pwd`"
+    cd ${srcdir}
+    if test ! -d ./examples -o ! -f ./CVS/Entries; then
+      AC_MSG_ERROR(
+        [something failed horribly - can't do --with-auto-cvs-update])
+    fi
+    grep -v "^D/examples/" CVS/Entries > /tmp/SoQt-CVS-Entries.$$
+    cp /tmp/SoQt-CVS-Entries.$$ CVS/Entries
+    rm /tmp/SoQt-CVS-Entries.$$
+    rm -rf examples
+    cvs co SoQtExamples
+    cd ${sim_ac_save_cwd}
+    echo "Done.  Proceeding..."
+  fi
+fi
+
+if test ! -f ${srcdir}/examples/ChangeLog; then
+  echo ""
+  echo "  You appear to have an old setup of the SoQe source repository."
+  echo "  Parts of it have changed structurally, and you need to do the"
+  echo "  following in the SoQt source directory:"
+  echo ""
+  echo "    \$ grep -V "^D/examples/" CVS/Entries > /tmp/SoQt-CVS-Entries"
+  echo "    \$ cp /tmp/SoQt-CVS-Entries CVS/Entries"
+  echo "    \$ rm /tmp/SoQt-CVS-Entries"
+  echo "    \$ rm -rf examples"
+  echo "    \$ cvs co SoQtExamples"
+  echo ""
+  echo "  You can also run configure with the option --with-auto-cvs-update"
+  echo "  to allow the configure script to try to take care of this.  This"
+  echo "  option is very experimental and should not be used if you run"
+  echo "  configure some \"weird\" way."
+  echo ""
+  sim_ac_cvs_syncproblem=true
+fi
+
+if test "x$sim_ac_cvs_syncproblem" = "xtrue"; then
+  exit
+fi
+
 dnl  Locate C++ compiler and set C++ as the default compiler to run
 dnl  in tests.
 AC_PROG_CXX
@@ -172,6 +217,12 @@ dnl *******************************************************************
 dnl * do we want to compile the example programs?
 dnl *******************************************************************
 
+want_tests=no
+if "x${with_test_code+set}" = "xset"; then
+  want_tests=yes
+fi
+AM_CONDITIONAL(BUILD_TESTS, test x"$want_tests" = xyes)
+
 AC_ARG_WITH(examples,
   AC_HELP_STRING([--with-examples], [build example programs [default=yes]]),
   [case "${withval}" in
@@ -234,8 +285,9 @@ src/Inventor/Qt/viewers/Makefile
 src/Inventor/Qt/viewers/SoQtViewer.h:src/Inventor/Qt/common/SoAnyViewer.h.in
 src/Inventor/Qt/viewers/SoQtViewer.cpp:src/Inventor/Qt/common/SoAnyViewer.cpp.in
 src/Inventor/Qt/widgets/Makefile
+test-code/Makefile
+test-code/widgets/Makefile
 examples/Makefile
-examples/widgets/Makefile
 examples/components/Makefile
 examples/components/renderarea.cpp
 examples/components/examinerviewer.cpp
