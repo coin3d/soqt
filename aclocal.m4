@@ -1946,7 +1946,6 @@ EOF
       rm -f conftest.c
       sim_ac_qt_dll_def="#define QT_DLL"
       sim_ac_qt_libs="qt${qt_version}.lib qtmain.lib"
-      AC_SUBST(qt_version)
     fi
     sim_ac_qt_libs="$sim_ac_qt_libs gdi32.lib ole32.lib imm32.lib comdlg32.lib"
   else
@@ -2040,8 +2039,6 @@ if test x"$with_qt" != xno; then
   fi
 fi
 ])
-
-
 
 # Usage:
 #  SIM_AC_QGLWIDGET_SETAUTOBUFFERSWAP
