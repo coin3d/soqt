@@ -3590,7 +3590,70 @@ fi
 
 if test "x$enable_exceptions" = "xno"; then
   if test "x$GXX" = "xyes"; then
-            CXXFLAGS="$CXXFLAGS -fno-exceptions"
+    unset _exception_flag
+        
+
+echo $ac_n "checking whether $CXX accepts -Wno-exceptions""... $ac_c" 1>&6
+echo "configure:3598: checking whether $CXX accepts -Wno-exceptions" >&5
+_save_cxxflags=$CXXFLAGS
+CXXFLAGS="$CXXFLAGS -Wno-exceptions"
+cat > conftest.$ac_ext <<EOF
+#line 3602 "configure"
+#include "confdefs.h"
+
+int main() {
+
+; return 0; }
+EOF
+if { (eval echo configure:3609: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+  rm -rf conftest*
+  _accept_result=yes _exception_flag=-Wno-exceptions
+else
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  rm -rf conftest*
+  _accept_result=no 
+fi
+rm -f conftest*
+echo "$ac_t""$_accept_result" 1>&6
+CXXFLAGS=$_save_cxxflags
+unset _accept_result _save_cxxflags
+
+    if test "x$_exception_flag" = "x"; then
+            
+
+echo $ac_n "checking whether $CXX accepts -Wno-handle-exceptions""... $ac_c" 1>&6
+echo "configure:3627: checking whether $CXX accepts -Wno-handle-exceptions" >&5
+_save_cxxflags=$CXXFLAGS
+CXXFLAGS="$CXXFLAGS -Wno-handle-exceptions"
+cat > conftest.$ac_ext <<EOF
+#line 3631 "configure"
+#include "confdefs.h"
+
+int main() {
+
+; return 0; }
+EOF
+if { (eval echo configure:3638: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+  rm -rf conftest*
+  _accept_result=yes _exception_flag=-Wno-handle-exceptions
+else
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  rm -rf conftest*
+  _accept_result=no 
+fi
+rm -f conftest*
+echo "$ac_t""$_accept_result" 1>&6
+CXXFLAGS=$_save_cxxflags
+unset _accept_result _save_cxxflags
+
+    fi
+    if test "x$_exception_flag" = "x"; then
+      echo "configure: warning: couldn't find a valid option for avoiding exception handling" 1>&2
+    else
+      CXXFLAGS="$CXXFLAGS $_exception_flag"
+    fi
   fi
 else
   if test "x$GXX" != "xyes"; then
@@ -3643,18 +3706,18 @@ if test "x$enable_warnings" = "xyes"; then
     
 
 echo $ac_n "checking whether $CXX accepts -Wno-multichar""... $ac_c" 1>&6
-echo "configure:3647: checking whether $CXX accepts -Wno-multichar" >&5
+echo "configure:3710: checking whether $CXX accepts -Wno-multichar" >&5
 _save_cxxflags=$CXXFLAGS
 CXXFLAGS="$CXXFLAGS -Wno-multichar"
 cat > conftest.$ac_ext <<EOF
-#line 3651 "configure"
+#line 3714 "configure"
 #include "confdefs.h"
 
 int main() {
 
 ; return 0; }
 EOF
-if { (eval echo configure:3658: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:3721: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
   _accept_result=yes _warn_flags=-Wno-multichar
 else
