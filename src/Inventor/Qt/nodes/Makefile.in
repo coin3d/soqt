@@ -562,10 +562,6 @@ Translation.$(OBJEXT): \
 	$(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp
 Frame.$(OBJEXT): $(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp
 Slider1.$(OBJEXT): $(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp
-nodes.lst: $(nodes_lst_OBJECTS) $(nodes_lst_DEPENDENCIES) 
-	-rm -f nodes.lst
-	$(nodes_lst_AR) nodes.lst $(nodes_lst_OBJECTS) $(nodes_lst_LIBADD)
-	$(RANLIB) nodes.lst
 
 clean-noinstLTLIBRARIES:
 	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
@@ -1190,7 +1186,7 @@ $(top_builddir)/man/man1/so@gui@-config.1: $(top_srcdir)/src/Inventor/@Gui@/comm
 
 ############################################################################
 
-viewers.lst: Makefile $(viewers_lst_OBJECTS)
+nodes.lst: Makefile $(nodes_lst_OBJECTS)
 	@echo "Linking $@..."; \
 	rm -f $@; \
 	for i in $(nodes_lst_OBJECTS); do echo $$i >>$@; done

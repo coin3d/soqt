@@ -32,7 +32,7 @@ nodist_libSoGuiNodes_la_SOURCES = \
 nodist_nodes_lst_SOURCES = \
 	$(SoGui_src_Inventor_Gui_nodes_BuiltFiles)
 
-viewers.lst: Makefile $(viewers_lst_OBJECTS)
+nodes.lst: Makefile $(nodes_lst_OBJECTS)
 	@echo "Linking $@..."; \
 	rm -f $@; \
 	for i in $(nodes_lst_OBJECTS); do echo $$i >>$@; done
