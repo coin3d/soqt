@@ -503,14 +503,13 @@ SoQtGLWidget::glFlushBuffer(
   COIN_STUB();
 } // glFlushBuffer()
 
-
 void
 SoQtGLWidget::glInit( // virtual
   void )
 {
-#if SOQT_DEBUG
+#if 0 // SOQT_DEBUG
   SoDebugError::postInfo( "SoQtGLWidget::glInit", "called" );
-#endif // SOQT_DEBUG
+#endif // 0 was SOQT_DEBUG
   glLock();
   glEnable( GL_DEPTH_TEST );
   glUnlock();
@@ -521,16 +520,16 @@ SoQtGLWidget::gl_init( // slot
   void )
 {
   this->glInit();
-}
+} // gl_init()
 
 void
 SoQtGLWidget::glReshape( // virtual
   int width,
   int height )
 {
-#if SOQT_DEBUG
+#if 0 // SOQT_DEBUG
   SoDebugError::postInfo( "SoQtGLWidget::glReshape", "called" );
-#endif // SOQT_DEBUG
+#endif // 0 was SOQT_DEBUG
   this->sizeChanged( SbVec2s( width, height ) );
 } // glReshape()
 
@@ -540,15 +539,15 @@ SoQtGLWidget::gl_reshape( // slot
   int height )
 {
   this->glReshape( width, height );
-}
+} // gl_reshape()
 
 void
 SoQtGLWidget::glRender( // virtual
   void )
 {
-#if SOQT_DEBUG
+#if 0 // SOQT_DEBUG
   SoDebugError::postInfo( "SoQtGLWidget::glRender", "called" );
-#endif // SOQT_DEBUG
+#endif // 0 was SOQT_DEBUG
   // nada
   this->redraw();
 } // glRender()
@@ -558,6 +557,6 @@ SoQtGLWidget::gl_render( // slot
   void )
 {
   this->glRender();
-}
+} // gl_render()
 
 // *************************************************************************
