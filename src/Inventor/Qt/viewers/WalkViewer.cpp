@@ -37,7 +37,7 @@ SOQT_OBJECT_SOURCE(SoQtWalkViewer);
 
 // ************************************************************************
 
-class SoQtWalkViewerP : SoGuiWalkViewerP {
+class SoQtWalkViewerP : public SoGuiWalkViewerP {
 public:
   SoQtWalkViewerP(SoQtWalkViewer * o)
     : SoGuiWalkViewerP(o)
