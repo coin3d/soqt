@@ -217,6 +217,33 @@ SoQtGLWidget::buildGLWidget(void)
     SoDebugError::post("SoQtGLWidget::SoQtGLWidget",
                        "Your graphics hardware is weird! Can't use it.");
 
+#if SOQT_DEBUG // Warn about requested features that we didn't get.
+  QGLFormat * w = this->glformat; // w(anted)
+  QGLFormat g = this->glwidget->format(); // g(ot)
+
+#define GLWIDGET_FEATURECMP(_glformatfunc_, _truestr_, _falsestr_) \
+  do { \
+    if (w->_glformatfunc_() != g._glformatfunc_()) { \
+      SoDebugError::postWarning("SoQtGLWidget::buildGLWidget", \
+                                "wanted %s, but that is not supported " \
+                                "by the OpenGL driver", \
+                                w->_glformatfunc_() ? _truestr_ : _falsestr_); \
+    } \
+  } while (0)
+
+  GLWIDGET_FEATURECMP(doubleBuffer, "doublebuffer visual", "singlebuffer visual");
+  GLWIDGET_FEATURECMP(depth, "visual with depthbuffer", "visual without depthbuffer");
+  GLWIDGET_FEATURECMP(rgba, "RGBA buffer", "colorindex buffer");
+  GLWIDGET_FEATURECMP(stereo, "stereo buffers", "mono buffer");
+#if HAVE_QGLFORMAT_SETOVERLAY
+  GLWIDGET_FEATURECMP(hasOverlay, "overlay plane(s)", "visual without overlay plane(s)");
+#endif // HAVE_QGLFORMAT_SETOVERLAY
+
+#undef GLWIDGET_FEATURECMP
+
+#endif // SOQT_DEBUG
+
+
   *this->glformat = this->glwidget->format();
 
   QRect temp = borderwidget->contentsRect();
