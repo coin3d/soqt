@@ -611,6 +611,27 @@ main(int argc, char ** argv)
     level) when solved.
 
     20040921 mortene.
+
+    UPDATE 20040921 mortene: note that the bug in question should be
+    considered a bug in *Qt*, BTW: they are deallocating an instance
+    which they don't know for sure that they allocated -- which spells
+    b-a-d. This problem could easily be fixed by Troll Tech by using a
+    flag to remember whether or not the global QApplication was
+    instantiated inside of Qt or not, then only deallocate it on exit
+    if this flag was "true".
+
+    UPDATE 20040922 mortene: as noted by pederb, this may not be the
+    cause. It seems like memory allocated through the C++ "new"
+    operator for new class instances is done within the DLL of the
+    class's implementation. I.e. when calling "new QApplication", the
+    memory allocation actually happens within the Qt DLL's heap, and
+    not the one in SoQt.
+ 
+    (If it were not like this, we would run into trouble with
+    e.g. SoQt or application code new'ing a Coin node -- as Coin nodes
+    are always deallocated from within the Coin DLL by "delete this".)
+
+    So I'm a bit baffled about what the exact reason for this bug is.
  
 =====================================================================
 
