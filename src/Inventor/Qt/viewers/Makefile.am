@@ -36,10 +36,8 @@ DISTCLEANFILES = \
 # libtool setup
 
 libSoQtViewers_la_SOURCES = \
-	SoQtPlaneViewer.cpp \
-	SoQtPlaneViewer.h \
-	SoQtWalkViewer.cpp \
-	SoQtWalkViewer.h \
+	PlaneViewer.cpp \
+	WalkViewer.cpp \
 	FullViewer.cpp \
 	ExaminerViewer.cpp
 
@@ -51,10 +49,8 @@ nodist_libSoQtViewers_la_SOURCES = \
 # custom setup
 
 viewers_lst_SOURCES = \
-	SoQtPlaneViewer.cpp \
-	SoQtPlaneViewer.h \
-	SoQtWalkViewer.cpp \
-	SoQtWalkViewer.h \
+	PlaneViewer.cpp \
+	WalkViewer.cpp \
 	FullViewer.cpp \
 	ExaminerViewer.cpp
 
@@ -75,16 +71,16 @@ SoQtViewersincdir = $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Vers
 else
 SoQtViewersincdir = $(includedir)/Inventor/Qt/viewers
 endif
-SoQtViewersinc_HEADERS = \
-	SoQtPlaneViewer.h \
-	SoQtWalkViewer.h
+SoQtViewersinc_HEADERS =
 
 nodist_SoQtViewersinc_HEADERS = \
 	SoQtViewer.h \
 	SoQtConstrainedViewer.h \
 	SoQtFullViewer.h \
 	SoQtExaminerViewer.h \
-	SoQtFlyViewer.h
+	SoQtFlyViewer.h \
+	SoQtPlaneViewer.h \
+	SoQtWalkViewer.h
 
 install-SoQtViewersincHEADERS: $(SoQtViewersinc_HEADERS)
 	@$(NORMAL_INSTALL)
