@@ -40,6 +40,7 @@ static const char rcsid[] =
 #endif // SOGUI_DEBUG
 #include <Inventor/events/SoKeyboardEvent.h>
 
+#include <Inventor/Qt/SoQtBasic.h>
 #include <Inventor/Qt/devices/SoQtKeyboard.h>
 
 
@@ -469,7 +470,7 @@ SoQtKeyboard::~SoQtKeyboard()
 void
 SoQtKeyboard::enable(QWidget * /*w*/, SoQtEventHandler /*f*/, void * /*data*/)
 {
-  // TODO: implement
+  SOQT_STUB();
 }
 
 /*!
@@ -478,7 +479,7 @@ SoQtKeyboard::enable(QWidget * /*w*/, SoQtEventHandler /*f*/, void * /*data*/)
 void
 SoQtKeyboard::disable(QWidget * /*w*/, SoQtEventHandler /*f*/, void * /*data*/)
 {
-  // TODO: implement
+  SOQT_STUB();
 }
 
 /*!
@@ -592,3 +593,8 @@ SoQtKeyboard::translateEvent(QEvent * event)
 
   return NULL;
 }
+
+// *************************************************************************
+
+static const char * getSoQtKeyboardRCSId(void) { return rcsid; }
+

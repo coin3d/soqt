@@ -28,6 +28,7 @@ static const char rcsid[] =
   FIXME: write class doc
 */
 
+#include <Inventor/Qt/SoQtBasic.h>
 #include <Inventor/Qt/devices/SoQtInputFocus.h>
 
 
@@ -52,7 +53,7 @@ SoQtInputFocus::~SoQtInputFocus()
 void
 SoQtInputFocus::enable(QWidget * /*w*/, SoQtEventHandler /*f*/, void * /*data*/)
 {
-  // TODO: implement
+  SOQT_STUB();
 }
 
 /*!
@@ -61,7 +62,7 @@ SoQtInputFocus::enable(QWidget * /*w*/, SoQtEventHandler /*f*/, void * /*data*/)
 void
 SoQtInputFocus::disable(QWidget * /*w*/, SoQtEventHandler /*f*/, void * /*data*/)
 {
-  // TODO: implement
+  SOQT_STUB();
 }
 
 /*!
@@ -70,5 +71,11 @@ SoQtInputFocus::disable(QWidget * /*w*/, SoQtEventHandler /*f*/, void * /*data*/
 const SoEvent *
 SoQtInputFocus::translateEvent(QEvent * /*event*/)
 {
+  SOQT_STUB();
   return NULL;
 }
+
+// *************************************************************************
+
+static const char * getSoQtInputFocusRCSId(void) { return rcsid; }
+

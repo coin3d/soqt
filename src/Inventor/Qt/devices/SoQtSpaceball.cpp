@@ -36,6 +36,7 @@ static const char rcsid[] =
   PC equipment? wheel mice, joysticks, ....
 */
 
+#include <Inventor/Qt/SoQtBasic.h>
 #include <Inventor/Qt/devices/SoQtSpaceball.h>
 
 
@@ -85,25 +86,27 @@ SoQtSpaceball::~SoQtSpaceball()
 void
 SoQtSpaceball::enable(QWidget * /*w*/, SoQtEventHandler /*f*/, void * /*data*/)
 {
-  // TODO: implement
+  SOQT_STUB();
 }
 
 /*!
   FIXME: write function documentation
 */
+
 void
 SoQtSpaceball::disable(QWidget * /*w*/, SoQtEventHandler /*f*/, void * /*data*/)
 {
-  // TODO: implement
+  SOQT_STUB();
 }
 
 /*!
   FIXME: write function documentation
 */
+
 const SoEvent *
 SoQtSpaceball::translateEvent(QEvent * /*event*/)
 {
-  // TODO: implement
+  SOQT_STUB();
   return NULL;
 }
 
@@ -149,7 +152,7 @@ SoQtSpaceball::getTranslationScaleFactor(void) const
 SbBool
 SoQtSpaceball::exists(void)
 {
-  // TODO: implement
+  SOQT_STUB();
   return FALSE;
 }
 
@@ -170,3 +173,4 @@ SoQtSpaceball::isFocusToWindow(void) const
 {
   return this->focustowindow;
 }
+

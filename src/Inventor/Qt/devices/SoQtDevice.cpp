@@ -106,3 +106,8 @@ SoQtDevice::setLastEventPosition( QPoint p ) // static
   }
   *SoQtDevice::lasteventposition = p;
 }
+
+// *************************************************************************
+
+static const char * getSoQtDeviceRCSId(void) { return rcsid; }
+

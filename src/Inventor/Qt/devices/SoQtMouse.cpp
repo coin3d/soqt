@@ -40,6 +40,7 @@ static const char rcsid[] =
 #include <Inventor/events/SoMouseButtonEvent.h>
 #include <Inventor/events/SoLocation2Event.h>
 
+#include <Inventor/Qt/SoQtBasic.h>
 #include <Inventor/Qt/devices/SoQtMouse.h>
 
 
@@ -94,7 +95,7 @@ SoQtMouse::~SoQtMouse()
 void
 SoQtMouse::enable(QWidget * /*w*/, SoQtEventHandler /*f*/, void * /*data*/)
 {
-  // TODO: implement
+  SOQT_STUB();
 }
 
 /*!
@@ -103,7 +104,7 @@ SoQtMouse::enable(QWidget * /*w*/, SoQtEventHandler /*f*/, void * /*data*/)
 void
 SoQtMouse::disable(QWidget * /*w*/, SoQtEventHandler /*f*/, void * /*data*/)
 {
-  // TODO: implement
+  SOQT_STUB();
 }
 
 /*!
@@ -193,3 +194,8 @@ SoQtMouse::translateEvent(QEvent * event)
 
   return super;
 }
+
+// *************************************************************************
+
+static const char * getSoQtMouseRCSId(void) { return rcsid; }
+
