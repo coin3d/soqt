@@ -21,6 +21,7 @@
  *
 \**************************************************************************/
 
+#include <iostream.h>
 #include <fstream.h>
 #include <assert.h>
 #include "Gradient.h"
