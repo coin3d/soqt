@@ -149,7 +149,7 @@ SoQtMouse::translateEvent(
 
   // Convert wheel mouse events to Coin SoMouseButtonEvents.
 
-#ifdef HAVE_SOMOUSEBUTTONEVENT_BUTTONS
+#ifdef HAVE_SOMOUSEBUTTONEVENT_BUTTON5
   if ( event->type() == QEvent::Wheel ) {
     if ( !this->buttonevent )
       this->buttonevent = new SoMouseButtonEvent;
@@ -166,7 +166,7 @@ SoQtMouse::translateEvent(
     this->buttonevent->setState(SoButtonEvent::DOWN);
     super = this->buttonevent;
   }
-#endif // HAVE_SOMOUSEBUTTONEVENT_BUTTONS
+#endif // HAVE_SOMOUSEBUTTONEVENT_BUTTON5
 
 
   // Check for mousebutton press/release. Note that mousebutton
