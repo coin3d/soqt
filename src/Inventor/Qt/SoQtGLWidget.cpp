@@ -165,11 +165,12 @@ SoQtGLWidget::SoQtGLWidget(
 
 SoQtGLWidget::~SoQtGLWidget(void)
 {
-  delete this->previousglwidget;
-  delete this->currentglwidget;
-  delete this->glformat;
+  // Don't delete the widgets we've allocated, as they are destructed
+  // implicitly when their parent widgets die. (Destructing "our"
+  // child widgets in this destructor can in fact lead to crashes due
+  // to the widgets being deallocated multiple times.)
 
-  delete this->borderwidget;
+  delete this->glformat;
 }
 
 // *************************************************************************
