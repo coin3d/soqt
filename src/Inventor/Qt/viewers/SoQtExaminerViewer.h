@@ -57,7 +57,7 @@ public:
     SoQtViewer::Type type = BROWSER );
   ~SoQtExaminerViewer(void);
 
-  virtual void setViewing( const SbBool enable );
+  virtual void setViewing( SbBool enable );
   virtual void setCamera( SoCamera * const camera );
   virtual void setCursorEnabled( const SbBool enable );
 
