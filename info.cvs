@@ -1,0 +1,21 @@
+NAME
+SoQt
+
+BRIEF
+Qt GUI widgets for Coin.
+
+FULL
+Qt GUI widgets for Coin. The components are also compatible with Open
+Inventor, and the API is loosely based on the API of the Xt/Motif
+toolkit which comes with Open Inventor.
+
+STATUS
+In development.
+
+DEVELOPERS
+Morten Eriksen <mortene@sim.no>
+
+NOTES
+<blockquote>
+Fully functional, but only 1 viewer implemented (and none of the editors).
+</blockquote>

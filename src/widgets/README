@@ -1,0 +1,10 @@
+QtThumbwheel.cpp:
+	source for widget class which extends the Qt library with
+	a thumbwheel widget
+
+thumbwheel.cpp, thumbwheel.pro, Makefile:
+	these files make up a small testapplication for the thumbwheel widget
+
+
+-- 
+19990418 mortene
