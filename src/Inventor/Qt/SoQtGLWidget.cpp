@@ -956,6 +956,10 @@ SoQtGLWidget::glFlushBuffer(void)
   // QMAC_OPENGL_DOUBLEBUFFER ifdef (in qgl.h) and it will not use the
   // technique, and I think you will get acceleration as well.»
 
+  // UPDATE: testing shows that this works in window mode, but that it
+  // fails miserably in full screen mode (with lots of Core Graphics
+  // Services errors). 20011201 kyrah (writeup by mortene).
+
 #endif // Q_WS_MAC
 }
 
