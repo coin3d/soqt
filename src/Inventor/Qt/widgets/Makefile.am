@@ -21,7 +21,10 @@ LIBS =
 ## (necessary to get the signal-slot mechanisms of Qt working).
 
 BUILT_SOURCES = \
-	$(SoGuiAllBuiltFiles)
+	$(SoGuiAllBuiltFiles) \
+	$(top_builddir)/src/Inventor/Qt/widgets/moc_SoQtGradientDialog.icc \
+	$(top_builddir)/src/Inventor/Qt/widgets/moc_GradientEditor.icc \
+	$(top_builddir)/src/Inventor/Qt/widgets/moc_GradientView.icc
 
 CLEANFILES = \
 	$(SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles)
@@ -38,7 +41,19 @@ SOURCES = \
 	SoQtThumbWheel.cpp \
 	SoQtThumbWheel.h \
 	QtNativePopupMenu.cpp \
-	QtNativePopupMenu.h
+	QtNativePopupMenu.h \
+	GradientDialog.cpp \
+	SoQtGradientDialog.h \
+	gradientp/GradientEditor.cpp \
+	gradientp/GradientEditor.h \
+	gradientp/GradientView.cpp \
+	gradientp/GradientView.h \
+	gradientp/Gradient.cpp \
+	gradientp/Gradient.h \
+	gradientp/ImageItem.cpp \
+	gradientp/ImageItem.h \
+	gradientp/TickMark.cpp \
+	gradientp/TickMark.h
 
 ############################################################################
 # libtool setup
@@ -73,7 +88,7 @@ else
 SoQtWidgetsincdir = $(includedir)/Inventor/@Gui@/widgets
 endif
 SoQtWidgetsinc_HEADERS = 
-nodist_SoQtWidgetsinc_HEADERS = SoQtPopupMenu.h SoQtThumbWheel.h
+nodist_SoQtWidgetsinc_HEADERS = SoQtPopupMenu.h SoQtThumbWheel.h SoQtGradientDialog.h
 
 install-SoQtWidgetsincHEADERS: $(SoQtWidgetsinc_HEADERS)
 	@$(NORMAL_INSTALL)
@@ -100,5 +115,23 @@ install-nodist_SoQtWidgetsincHEADERS: $(nodist_SoQtWidgetsinc_HEADERS)
 	    $(INSTALL_HEADER) "$$src" "$$dst"; \
 	  fi; \
 	done
+
+# **************************************************************************
+# auto-generated Qt moc files.
+
+$(top_builddir)/src/Inventor/Qt/widgets/moc_SoQtGradientDialog.icc: $(top_srcdir)/src/Inventor/Qt/widgets/SoQtGradientDialog.h
+	@( \
+	echo " $(MOC) -i -o moc_SoQtGradientDialog.icc $(top_srcdir)/src/Inventor/Qt/widgets/SoQtGradientDialog.h"; \
+	$(MOC) -i -o moc_SoQtGradientDialog.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/Qt/widgets/SoQtGradientDialog.h` )
+
+$(top_builddir)/src/Inventor/Qt/widgets/moc_GradientEditor.icc: $(top_srcdir)/src/Inventor/Qt/widgets/gradientp/GradientEditor.h
+	@( \
+	echo " $(MOC) -i -o moc_GradientEditor.icc $(top_srcdir)/src/Inventor/Qt/widgets/gradientp/GradientEditor.h"; \
+	$(MOC) -i -o moc_GradientEditor.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/Qt/widgets/gradientp/GradientEditor.h` )
+
+$(top_builddir)/src/Inventor/Qt/widgets/moc_GradientView.icc: $(top_srcdir)/src/Inventor/Qt/widgets/gradientp/GradientView.h
+	@( \
+	echo " $(MOC) -i -o moc_GradientView.icc $(top_srcdir)/src/Inventor/Qt/widgets/gradientp/GradientView.h"; \
+	$(MOC) -i -o moc_GradientView.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/Qt/widgets/gradientp/GradientView.h` )
 
 # EOF ######################################################################
