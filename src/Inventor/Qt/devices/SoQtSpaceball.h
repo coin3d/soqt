@@ -1,6 +1,6 @@
 /**************************************************************************\
  *
- *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
+ *  Copyright (C) 1998-2000 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
  *
@@ -19,8 +19,8 @@
 
 //  $Id$
 
-#ifndef __SOQT_SPACEBALL_H__
-#define __SOQT_SPACEBALL_H__
+#ifndef SOQT_SPACEBALL_H
+#define SOQT_SPACEBALL_H
 
 #include <Inventor/Qt/devices/SoQtDevice.h>
 
@@ -35,7 +35,7 @@ public:
   };
 
   SoQtSpaceball(Mask mask = SoQtSpaceball::ALL);
-  virtual ~SoQtSpaceball();
+  virtual ~SoQtSpaceball(void);
 
   virtual void enable(QWidget * w, SoQtEventHandler f, void * data);
   virtual void disable(QWidget * w, SoQtEventHandler f, void * data);
@@ -56,6 +56,7 @@ private:
   float rotationscale, translationscale;
   SbBool focustowindow;
   Mask mask;
-};
 
-#endif // ! __SOQT_SPACEBALL_H__
+}; // class SoQtSpaceball
+
+#endif // ! SOQT_SPACEBALL_H

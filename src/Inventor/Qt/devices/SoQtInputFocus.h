@@ -1,6 +1,6 @@
 /**************************************************************************\
  *
- *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
+ *  Copyright (C) 1998-2000 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
  *
@@ -19,8 +19,8 @@
 
 //  $Id$
 
-#ifndef __SOQT_INPUTFOCUS_H__
-#define __SOQT_INPUTFOCUS_H__
+#ifndef SOQT_INPUTFOCUS_H
+#define SOQT_INPUTFOCUS_H
 
 #include <Inventor/Qt/devices/SoQtDevice.h>
 
@@ -33,15 +33,15 @@ class SoQtInputFocus : public SoQtDevice
 {
 public:
   SoQtInputFocus(soqtEventMask mask = SO_QT_ALL_FOCUS_EVENTS);
-  virtual ~SoQtInputFocus();
+  virtual ~SoQtInputFocus(void);
 
-  virtual void enable(QWidget * w, SoQtEventHandler f, void * data);
-  virtual void disable(QWidget * w, SoQtEventHandler f, void * data);
+  virtual void enable( QWidget * w, SoQtEventHandler f, void * data );
+  virtual void disable( QWidget * w, SoQtEventHandler f, void * data );
 
-  virtual const SoEvent * translateEvent(QEvent * event);
+  virtual const SoEvent * translateEvent( QEvent * event );
 
 private:
   soqtEventMask mask;
-};
+}; // class SoQtInputFocus
 
-#endif // ! __SOQT_INPUTFOCUS_H__
+#endif // ! SOQT_INPUTFOCUS_H

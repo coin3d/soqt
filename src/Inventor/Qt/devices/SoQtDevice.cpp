@@ -1,6 +1,6 @@
 /**************************************************************************\
  *
- *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
+ *  Copyright (C) 1998-2000 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
  *
@@ -58,7 +58,8 @@ QPoint SoQtDevice::lasteventposition;
   FIXME: write function documentation
 */
 void
-SoQtDevice::setWindowSize(const SbVec2s & size)
+SoQtDevice::setWindowSize(
+  const SbVec2s size )
 {
   this->widgetsize = size;
 }
@@ -67,7 +68,8 @@ SoQtDevice::setWindowSize(const SbVec2s & size)
 /*!
   FIXME: write function documentation
 */
-const SbVec2s &
+
+SbVec2s
 SoQtDevice::getWindowSize(void) const
 {
   return this->widgetsize;
@@ -76,8 +78,9 @@ SoQtDevice::getWindowSize(void) const
 /*!
   FIXME: write function documentation
 */
+
 void
-SoQtDevice::setEventPosition(SoEvent * event, int x, int y) const
+SoQtDevice::setEventPosition( SoEvent * event, int x, int y ) const
 {
   event->setPosition(SbVec2s(x, this->widgetsize[1] - y - 1));
 }
@@ -85,8 +88,11 @@ SoQtDevice::setEventPosition(SoEvent * event, int x, int y) const
 /*!
   FIXME: write function documentation
 */
+
 QPoint
-SoQtDevice::getLastEventPosition(void)
+SoQtDevice::getLastEventPosition(
+  void ) // static
 {
   return SoQtDevice::lasteventposition;
 }
+

@@ -1,6 +1,6 @@
 /**************************************************************************\
  *
- *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
+ *  Copyright (C) 1998-2000 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
  *
@@ -19,15 +19,16 @@
 
 //  $Id$
 
-#ifndef __SOQT_DEVICE_H__
-#define __SOQT_DEVICE_H__
+#ifndef SOQT_DEVICE_H
+#define SOQT_DEVICE_H
 
 /*!
   \defgroup qtdevices Qt Device Classes
- */
+*/
+
+#include <qpoint.h>
 
 #include <Inventor/SbLinear.h>
-#include <qpoint.h>
 
 class QWidget;
 class QEvent;
@@ -35,21 +36,21 @@ class SoEvent;
 
 typedef int soqtEventMask;
 
+// *************************************************************************
 
-class SoQtDevice
-{
+class SoQtDevice {
 public:
-  typedef void (*SoQtEventHandler)(QWidget *, void *, QEvent *, bool *);
+  typedef void (*SoQtEventHandler)( QWidget *, void *, QEvent *, bool * );
 
-  virtual void enable(QWidget * w, SoQtEventHandler f, void * data) = 0;
-  virtual void disable(QWidget * w, SoQtEventHandler f, void * data) = 0;
+  virtual void enable( QWidget * w, SoQtEventHandler f, void * data ) = 0;
+  virtual void disable( QWidget * w, SoQtEventHandler f, void * data ) = 0;
 
   virtual const SoEvent * translateEvent(QEvent * event) = 0;
-  void setWindowSize(const SbVec2s & s);
-  const SbVec2s & getWindowSize(void) const;
+  void setWindowSize( const SbVec2s size );
+  SbVec2s getWindowSize(void) const;
 
 protected:
-  void setEventPosition(SoEvent * event, int x, int y) const;
+  void setEventPosition( SoEvent * event, int x, int y ) const;
   static QPoint getLastEventPosition(void);
 
 private:
@@ -60,6 +61,9 @@ private:
   // SoQtRenderArea::processEvents() (as a workaround for a Qt design
   // problem vs Xt).
   friend class SoQtRenderArea;
-};
 
-#endif // ! __SOQT_DEVICE_H__
+}; // class SoQtDevice
+
+// *************************************************************************
+
+#endif // ! SOQT_DEVICE_H

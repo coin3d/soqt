@@ -1,6 +1,6 @@
 /**************************************************************************\
  *
- *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
+ *  Copyright (C) 1998-2000 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
  *
@@ -19,17 +19,15 @@
 
 //  $Id$
 
-#ifndef __SOQT_MOUSE_H__
-#define __SOQT_MOUSE_H__
+#ifndef SOQT_MOUSE_H
+#define SOQT_MOUSE_H
 
 #include <Inventor/Qt/devices/SoQtDevice.h>
 
 class SoMouseButtonEvent;
 class SoLocation2Event;
 
-
-class SoQtMouse : public SoQtDevice
-{
+class SoQtMouse : public SoQtDevice {
   typedef SoQtDevice inherited;
 
 public:
@@ -44,7 +42,7 @@ public:
   };
 
   SoQtMouse(SoQtMouseEventMask mask = SO_QT_ALL_MOUSE_EVENTS);
-  virtual ~SoQtMouse();
+  virtual ~SoQtMouse(void);
 
   virtual void enable(QWidget * w, SoQtEventHandler f, void * data);
   virtual void disable(QWidget * w, SoQtEventHandler f, void * data);
@@ -55,6 +53,6 @@ private:
   SoMouseButtonEvent * buttonevent;
   SoLocation2Event * locationevent;
   SoQtMouseEventMask eventmask;
-};
+}; // class SoQtMouse
 
-#endif // ! __SOQT_MOUSE_H__
+#endif // ! SOQT_MOUSE_H

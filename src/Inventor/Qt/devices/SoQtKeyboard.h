@@ -1,6 +1,6 @@
 /**************************************************************************\
  *
- *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
+ *  Copyright (C) 1998-2000 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
  *
@@ -19,8 +19,8 @@
 
 //  $Id$
 
-#ifndef __SOQT_KEYBOARD_H__
-#define __SOQT_KEYBOARD_H__
+#ifndef SOQT_KEYBOARD_H
+#define SOQT_KEYBOARD_H
 
 #include <Inventor/Qt/devices/SoQtDevice.h>
 #include <Inventor/SbDict.h>
@@ -32,14 +32,12 @@ class SoKeyboardEvent;
 
 #define SO_QT_ALL_KEYBOARD_EVENTS (soqtKeyPressMask | soqtKeyReleaseMask)
 
-
-class SoQtKeyboard : public SoQtDevice
-{
+class SoQtKeyboard : public SoQtDevice {
   typedef SoQtDevice inherited;
 
 public:
   SoQtKeyboard(soqtEventMask mask = SO_QT_ALL_KEYBOARD_EVENTS);
-  virtual ~SoQtKeyboard();
+  virtual ~SoQtKeyboard(void);
 
   virtual void enable(QWidget * w, SoQtEventHandler f, void * data);
   virtual void disable(QWidget * w, SoQtEventHandler f, void * data);
@@ -53,6 +51,7 @@ private:
   static void makeTranslationTable(void);
   static SbDict translatetable;
   static SbBool madetable;
-};
 
-#endif // ! __SOQT_KEYBOARD_H__
+}; // class SoQtKeyboard
+
+#endif // ! SOQT_KEYBOARD_H

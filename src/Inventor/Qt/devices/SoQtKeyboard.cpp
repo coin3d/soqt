@@ -34,9 +34,9 @@ static const char rcsid[] =
 #include <q1xcompatibility.h>
 #endif // Qt v2.0
 
-#if SOQT_DEBUG
+#if SOGUI_DEBUG
 #include <Inventor/errors/SoDebugError.h>
-#endif // SOQT_DEBUG
+#endif // SOGUI_DEBUG
 #include <Inventor/events/SoKeyboardEvent.h>
 
 #include <Inventor/Qt/devices/SoQtKeyboard.h>
@@ -534,13 +534,13 @@ SoQtKeyboard::translateEvent(QEvent * event)
       this->kbdevent->setKey((SoKeyboardEvent::Key)(int)sokey);
     }
     else {
-#if SOQT_DEBUG
+#if SOGUI_DEBUG
       SoDebugError::postWarning("SoQtKeyboard::translateEvent",
                                 "couldn't translate key 0x%04x '%c' from "
                                 "Qt -- please report",
                                 keyevent->key(),
                                 keyevent->ascii());
-#endif // SOQT_DEBUG
+#endif // SOGUI_DEBUG
       return NULL;
     }
 
