@@ -23,7 +23,7 @@ cppflags="@SOQT_EXTRA_CPPFLAGS@"
 ldflags="@SOQT_EXTRA_LDFLAGS@"
 libs="@SOQT_EXTRA_LIBS@"
 
-datadir="@soqt_data_dir@"
+datadir="@datadir@"
 
 while test $# -gt 0
 do

@@ -367,8 +367,6 @@ SIM_AC_CHECK_QT([
   SOQT_EXTRA_LIBS="$sim_ac_qt_libs $SOQT_EXTRA_LIBS"
 ], AC_MSG_ERROR(can't compile and link against Qt development kit))
 
-AC_SUBST(qt_version)
-
 if test x"$sim_ac_x11mu_avail" != xyes; then
   SIM_AC_CHECK_X11MU(SOQT_EXTRA_LIBS="$sim_ac_x11mu_libs $SOQT_EXTRA_LIBS")
 fi
@@ -435,6 +433,11 @@ AC_SUBST(EVENT)
 AC_SUBST(COMPONENTHEADER)
 
 # **************************************************************************
+# Misc set-up.
+
+SIM_EXPAND_DIR_VARS
+
+# **************************************************************************
 # Section for Doxygen
 
 AC_ARG_WITH(
@@ -462,21 +465,8 @@ SOQT_DOC_MAN=`echo $want_man | tr a-z A-Z`
 AC_SUBST(SOQT_DOC_HTML)
 AC_SUBST(SOQT_DOC_MAN)
 
-soqt_build_dir=`pwd`
-cd $srcdir
-soqt_src_dir=`pwd`
-cd $soqt_build_dir
-soqt_data_dir=/usr/local/share/Coin
-test x"$exec_prefix" != xNONE && soqt_data_dir=$exec_prefix/share/Coin
-
-AC_SUBST(soqt_src_dir)
-AC_SUBST(soqt_build_dir)
-AC_SUBST(soqt_data_dir)
-
 soqt_dox_build_dir=`pwd`
-cd $srcdir
-soqt_dox_src_dir=`pwd`
-cd $soqt_dox_build_dir
+soqt_dox_src_dir=`cd $srcdir; pwd`
 
 AC_SUBST(soqt_dox_src_dir)
 AC_SUBST(soqt_dox_build_dir)
@@ -496,11 +486,6 @@ imitri/doxygen/))
   fi
   AC_SUBST(sim_ac_perl_exe)
 fi
-
-# **************************************************************************
-# Misc set-up.
-
-SIM_EXPAND_DIR_VARS
 
 # **************************************************************************
 # Remove redundant options from certain option lists.
