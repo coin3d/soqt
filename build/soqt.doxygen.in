@@ -358,7 +358,7 @@ GENERATE_HTML         = @SOQT_DOC_HTML@
 # If a relative path is entered the value of OUTPUT_DIRECTORY will be 
 # put in front of it. If left blank `html' will be used as the default path. 
 
-HTML_OUTPUT           = @path_tag@@datadir@/SoQt/html
+HTML_OUTPUT           = @path_tag@@HTML_DOC_DIR@
 
 # The HTML_HEADER tag can be used to specify a personal HTML header for 
 # each generated HTML page. If it is left blank doxygen will generate a 

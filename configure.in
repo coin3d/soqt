@@ -647,8 +647,8 @@ yes | true)  SOQT_STATIC=true;;
 esac
 
 case $enable_shared in
-yes | true)  SOQT_SHARED=true;;
-*)           SOQT_SHARED=false;;
+yes | true)  SOQT_STATIC=false;;
+*)           SOQT_STATIC=true;;
 esac
 
 LIBFLAGS=
@@ -715,6 +715,9 @@ else
   SIM_AC_ISO8601_DATE(soqt_configure_date)
   AC_SUBST(soqt_configure_date)
 fi
+
+HTML_DOC_DIR=$datadir/share/SoQt/html
+AC_SUBST([HTML_DOC_DIR])
 
 # **************************************************************************
 # Submodules that needs to be configured...
