@@ -58,7 +58,6 @@ public slots:
 private:
   GradientView * gradView;
   QWidget * gradientWidget;
-  Gradient grad;
   QLabel * dataValue;
   QLabel * colorLabel;
   float min, max;

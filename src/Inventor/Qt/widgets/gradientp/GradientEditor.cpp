@@ -45,8 +45,6 @@ GradientEditor::GradientEditor(const Gradient & grad,
   this->min = 0;
   this->max = 255;
 
-  this->grad = grad;
-
   QVBoxLayout * topLayout = new QVBoxLayout(this);
   QHBoxLayout * buttonOutputLayout = new QHBoxLayout();
   QVBoxLayout * outputLayout = new QVBoxLayout();
@@ -61,7 +59,7 @@ GradientEditor::GradientEditor(const Gradient & grad,
   topLayout->addLayout(buttonOutputLayout);
 
   QCanvas * canvas = new QCanvas(450,58);
-  this->gradView = new GradientView(canvas, &this->grad, gradientWidget, "GradientView");
+  this->gradView = new GradientView(canvas, grad, gradientWidget, "GradientView");
   this->gradView->setMargin(10);
   this->gradView->setFrameStyle(QFrame::Sunken);
 
@@ -104,7 +102,6 @@ void GradientEditor::resizeEvent(QResizeEvent * e)
   this->gradView->resize(QSize(e->size().width(), 80));
   this->repaint();
 }
-
 void GradientEditor::setMin(int min)
 {
   this->min = min;
@@ -120,7 +117,8 @@ void GradientEditor::updateValueLabels()
   float t = this->gradView->getSelectedPos();
   float value = t * (this->max - this->min) + this->min;
 
-  QRgb col = this->grad.eval(t);
+  Gradient grad = this->gradView->getGradient();
+  QRgb col = grad.eval(t);
 
   this->dataValue->setText(QString(" Data value: ") + QString().setNum(value));
 
@@ -132,14 +130,12 @@ void GradientEditor::updateValueLabels()
 
 const Gradient& GradientEditor::getGradient() const
 {
-  return this->grad;
+  return this->gradView->getGradient();
 }
 
 void GradientEditor::setGradient(const Gradient & grad)
 {
-  this->grad = grad;
-  this->gradView->updateTicks();
-  this->gradView->updateView();
+  this->gradView->setGradient(grad);
 }
 
 void GradientEditor::updateAll()
