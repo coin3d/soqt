@@ -633,12 +633,12 @@ DISTCLEANFILES = \
 @BUILD_WITH_MSVC_TRUE@lib_LIBRARIES = soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib
 @BUILD_WITH_MSVC_FALSE@lib_LTLIBRARIES = libSoQt@SUFFIX@.la
 
-@MACOSX_FALSE@LibtoolLinkArgs = -no-undefined 
-# On Mac OS X, pad the install_name to make it possible to change it
-# later (e.g. to include the library in an app bundle).On Mac OS 10.2
-# or later, also create two-level namespace binaries and use prebinding.
-@MACOSX_10_2FF_TRUE@@MACOSX_TRUE@LibtoolLinkArgs = -Wl,-twolevel_namespace -Wl,-undefined,error -Wl,-prebind -Wl,-seg1addr,0x30000000 -Wl,-headerpad_max_install_names 
-@MACOSX_10_2FF_FALSE@@MACOSX_TRUE@LibtoolLinkArgs = 
+
+# On Mac OS 10.2 or later, create two-level namespace binaries and use
+# prebinding. Also pad the install_name to make it possible to change it
+# later (e.g. to include the library in an app bundle).
+@MACOSX_10_2FF_TRUE@LibtoolLinkArgs = -no-undefined -Wl,-twolevel_namespace -Wl,-undefined,error -Wl,-prebind -Wl,-seg1addr,0x30000000 -Wl,-headerpad_max_install_names 
+@MACOSX_10_2FF_FALSE@LibtoolLinkArgs = -no-undefined
 
 # hack to change libdir value when installing Mac OS X compiler framework
 @MAC_FRAMEWORK_TRUE@lib@nop@dir = $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$(MAC_FRAMEWORK_VERSION)/Libraries
