@@ -81,7 +81,9 @@ private:
 
   static QWidget * mainWidget;
   static QApplication * appobject;
-  static QTimer * timerqueuetimer, * idletimer, * delaytimeouttimer;
+  static QTimer * timerqueuetimer;
+  static QTimer * idletimer;
+  static QTimer * delaytimeouttimer;
 
   static SoQt * soqt_instance(void);
   static SoQt * slotobj;
