@@ -1926,30 +1926,30 @@ SoQtViewer::setClippingPlanes(void)
   // Bounding box was calculated in camera space, so we need to "flip"
   // the box (because camera is pointing in the (0,0,-1) direction
   // from origo.
-  float near = -box.getMax()[2];
-  float far = -box.getMin()[2];
+  float nearval = -box.getMax()[2];
+  float farval = -box.getMin()[2];
 
   // This factor should really be made dependent on the underlying
   // hardware or software Z buffer resolution.
   const float SLACK = 1.0f/1000.0f;
 
   // Scene is completely behind us.
-  if (far < SLACK) return;
+  if (farval < SLACK) return;
 
   // Disallow negative near clipping plane distance, and make sure the
   // z-buffer depth utilization is kept below a certain threshold.
-  near = QMAX(SLACK * far, near);
+  nearval = QMAX(SLACK * farval, nearval);
     
   // Give a bit of slack to avoid artifacts when scene fits exactly
   // inside bounding box.
-  this->camera->nearDistance = near * (1.0f - SLACK);
-  this->camera->farDistance = far * (1.0f + SLACK);
+  this->camera->nearDistance = nearval * (1.0f - SLACK);
+  this->camera->farDistance = farval * (1.0f + SLACK);
 
 #if 0 // debug
   SoDebugError::postInfo("SoQtViewer::setClippingPlanes",
 			 "near, far: %f (%f), %f (%f)",
-			 near, this->camera->nearDistance.getValue(),
-			 far, this->camera->farDistance.getValue());
+			 nearval, this->camera->nearDistance.getValue(),
+			 farval, this->camera->farDistance.getValue());
 #endif // debug
 }
 

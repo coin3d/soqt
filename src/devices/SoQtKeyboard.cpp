@@ -516,7 +516,7 @@ SoQtKeyboard::translateEvent(QEvent * event)
     // Translate keycode Qt -> So
     void * sokey;
     if (SoQtKeyboard::translatetable.find(keyevent->key(), sokey)) {
-      this->kbdevent->setKey((SoKeyboardEvent::Key)sokey);
+      this->kbdevent->setKey((SoKeyboardEvent::Key)(int)sokey);
     }
     else {
 #if SOQT_DEBUG

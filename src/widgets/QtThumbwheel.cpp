@@ -18,6 +18,7 @@
 \**************************************************************************/
 
 #include <Inventor/Qt/widgets/QtThumbwheel.h>
+#include <Inventor/SbBasic.h>
 
 #include "qpainter.h"
 #include "qdrawutil.h"

@@ -933,10 +933,10 @@ SoQtExaminerViewer::drawAxisCross(void)
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 
-  const float NEAR = 0.1f;
-  const float FAR = 10.0f;
-  const float dim = NEAR * tan(M_PI/8.0f); // FOV is 45° (45/360 = 1/8)
-  glFrustum(-dim, dim, -dim, dim, NEAR, FAR);
+  const float NEARVAL = 0.1f;
+  const float FARVAL = 10.0f;
+  const float dim = NEARVAL * tan(M_PI/8.0f); // FOV is 45° (45/360 = 1/8)
+  glFrustum(-dim, dim, -dim, dim, NEARVAL, FARVAL);
 
 
   // Set up the model matrix.
@@ -950,9 +950,8 @@ SoQtExaminerViewer::drawAxisCross(void)
 
 
   // Find unit vector end points.
-  float proj[4][4];
-  glGetFloatv(GL_PROJECTION_MATRIX, (float *)proj);
-  SbMatrix px(proj);
+  SbMatrix px;
+  glGetFloatv(GL_PROJECTION_MATRIX, (float *)px);
   SbMatrix comb = mx.multRight(px);
 
   SbVec3f xpos;

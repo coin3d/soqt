@@ -69,7 +69,7 @@ public:
 
 protected:
   SoQtFullViewer(QWidget * parent, const char * name, SbBool buildInsideParent,
-		 SoQtFullViewer::BuildFlag flag, SoQtViewer::Type type, 
+		 BuildFlag flag, Type type, 
 		 SbBool buildNow);
   ~SoQtFullViewer();
 

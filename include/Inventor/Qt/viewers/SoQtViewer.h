@@ -187,7 +187,7 @@ public:
 
 protected:
   SoQtViewer(QWidget * parent, const char * name, SbBool buildInsideParent,
-	     SoQtViewer::Type type, SbBool buildNow);
+	     Type type, SbBool buildNow);
   ~SoQtViewer();
 
   virtual void setSeekMode(SbBool on);

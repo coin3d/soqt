@@ -32,7 +32,7 @@ public:
     ALL = 0x07
   };
 
-  SoQtSpaceball(SoQtSpaceball::Mask mask = SoQtSpaceball::ALL);
+  SoQtSpaceball(Mask mask = SoQtSpaceball::ALL);
   ~SoQtSpaceball();
 
   virtual void enable(QWidget * w, SoQtEventHandler f, void * data);
