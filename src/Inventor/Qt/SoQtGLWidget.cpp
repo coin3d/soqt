@@ -1053,6 +1053,34 @@ SoQtGLWidgetP::buildGLWidget(void)
   // -------8<------ [snip] -------------------8<------ [snip] ------------
   //
   // 20031218 mortene.
+  //
+  // UPDATE 20040624 mortene: some additional suggestions made to
+  // another SoQt user experiencing the same problems:
+  //
+  // -------8<------ [snip] -------------------8<------ [snip] ------------
+  // As mentioned in the FIXME at SoQtGLWidget.cpp:1014 [i.e. this
+  // FIXME], this is a tough problem, and it will probably take some
+  // hacking around inside the workings of Qt's QGLWidget to debug and
+  // solve properly.
+  // 
+  // The first thing to do is perhaps to upgrade Qt to the very latest
+  // version, and re-try with that. It could be that Troll Tech has
+  // fixed the problem in their later Qt versions.
+  // 
+  // Second, ask for assistance on their support channels.
+  // 
+  // If that doesn't help, perhaps make a stand-alone QGLWidget
+  // example (i.e.  with no SoQt or Coin), and try to get it
+  // reproduced with that. It will perhaps not be flawed in the
+  // default QGLFormat configuration, you might have to try to match
+  // exactly the features we ask for for the QGLWidget in SoQt.
+  // 
+  // With a stand-alone Qt example which demonstrates the bug, I guess
+  // it should be possible to a) find a work-around (e.g. by avoiding
+  // certain features for the QGLWidget?), and b) get assistance from
+  // TT's support personnel.
+  // -------8<------ [snip] -------------------8<------ [snip] ------------
+
   if (!this->currentglwidget->isValid()) {
     SbString s =
       "Can't set up a valid OpenGL canvas, "
