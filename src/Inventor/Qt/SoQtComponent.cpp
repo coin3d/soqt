@@ -53,6 +53,7 @@ static const char rcsid[] =
 #include <qmessagebox.h>
 #include <qapplication.h>
 #include <qmetaobject.h>
+#include <qcursor.h>
 #include <moc_SoQtComponent.cpp>
 
 #include <Inventor/errors/SoDebugError.h>
@@ -74,6 +75,7 @@ static const char rcsid[] =
 #include <Inventor/Qt/SoQtLightSliderSet.h>
 #include <Inventor/Qt/SoQtMaterialSliderSet.h>
 #include <Inventor/Qt/SoQtTransformSliderSet.h>
+#include <Inventor/Qt/SoQtCursor.h>
 
 // debug
 #define SOQTCOMP_RESIZE_DEBUG 0
@@ -115,6 +117,7 @@ public:
   SbBool realized;
   SbVec2s storesize;
   SbBool fullscreen;
+  SoQtCursor cursor;
 
   // List of all SoQtComponent instances. Needed for the
   // SoQtComponent::getComponent() function.
@@ -1028,6 +1031,38 @@ SbBool
 SoQtComponent::isFullScreen(void) const
 {
   return PRIVATE(this)->fullscreen;
+}
+
+/*!
+  Sets the cursor for this component.
+*/
+void 
+SoQtComponent::setCursor(const SoQtCursor & cursor)
+{
+  PRIVATE(this)->cursor = cursor;
+  switch(cursor.getShape()) {
+  case SoQtCursor::DEFAULT:
+    this->getWidget()->setCursor(QCursor(Qt::ArrowCursor));
+    break;
+  case SoQtCursor::BUSY:
+    this->getWidget()->setCursor(QCursor(Qt::WaitCursor));
+    break;
+  case SoQtCursor::CUSTOM_BITMAP:
+    assert(0 && "FIXME: not implemented");
+    break;
+  default:
+    assert(0 && "unknown cursor shape type");
+    break;
+  }
+}
+
+/*!
+  Returns the current cursor for this component.
+*/
+const SoQtCursor &
+SoQtComponent::getCursor(void) const
+{
+  return PRIVATE(this)->cursor;
 }
 
 // *************************************************************************
