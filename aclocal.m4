@@ -6542,7 +6542,7 @@ recommend you to upgrade.])
         CPPFLAGS="$sim_ac_qt_incflags $sim_ac_qt_cppflags_loop $sim_ac_save_cppflags"
         LIBS="$CONFIG_QTLIBS $sim_ac_save_libs"
         AC_TRY_LINK([#include <qapplication.h>],
-                    [int dummy=0;
+                    [qApp = NULL; /* QT_DLL must be defined for assignment to global variables to work */
                      qApp->exit(0);],
                     [sim_ac_qt_libs="$CONFIG_QTLIBS"
                      sim_ac_qt_cppflags="$sim_ac_qt_incflags $sim_ac_qt_cppflags_loop"])
@@ -6610,7 +6610,7 @@ recommend you to upgrade.])
             CPPFLAGS="$sim_ac_qt_incflags $sim_ac_qt_cppflags_loop $sim_ac_save_cppflags"
             LIBS="$sim_ac_qt_libcheck $sim_ac_save_libs"
             AC_TRY_LINK([#include <qapplication.h>],
-                        [int dummy=0;
+                        [qApp = NULL; /* QT_DLL must be defined for assignment to global variables to work */
                          qApp->exit(0);],
                         [sim_ac_qt_libs="$sim_ac_qt_libcheck"
                          sim_ac_qt_cppflags="$sim_ac_qt_incflags $sim_ac_qt_cppflags_loop"])

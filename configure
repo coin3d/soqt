@@ -13125,7 +13125,7 @@ echo $ECHO_N "checking for Qt linking with $CONFIG_QTLIBS... $ECHO_C" >&6
 int
 main ()
 {
-int dummy=0;
+qApp = NULL; /* QT_DLL must be defined for assignment to global variables to work */
                      qApp->exit(0);
   ;
   return 0;
@@ -13229,7 +13229,7 @@ echo $ECHO_N "checking for Qt library devkit... $ECHO_C" >&6
 int
 main ()
 {
-int dummy=0;
+qApp = NULL; /* QT_DLL must be defined for assignment to global variables to work */
                          qApp->exit(0);
   ;
   return 0;
