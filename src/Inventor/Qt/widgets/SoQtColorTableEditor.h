@@ -33,10 +33,10 @@ class SOQT_DLL_API SoQtColorTableEditor : public QWidget {
 
 public:
   SoQtColorTableEditor(int numcolors = 256, 
-                  QWidget * parent = 0, 
-                  const char * name = 0);
+                       QWidget * parent = 0, 
+                       const char * name = 0);
   
-  ~SoQtColorTableEditor(void);
+  ~SoQtColorTableEditor();
 
   enum Mode {
     LUMINANCE = 1,
@@ -51,8 +51,8 @@ public:
   void setColors(uint8_t * color, int num);
   void getColors(uint8_t * color, int num) const;
 
-  typedef void ChangeCB(void * userdata);
-  void setCallBack(SoQtColorTableEditor::ChangeCB * cb, void * userdata);
+  typedef void ChangeCB(SoQtColorTableEditor * editor, void * userdata);
+  void setChangeCallback(SoQtColorTableEditor::ChangeCB * cb, void * userdata);
 
 private:
   class SoQtColorTableEditorP * pimpl;

@@ -59,7 +59,7 @@ public:
   QPushButton * donebutton;
   QPushButton * resetbutton;
   QCheckBox * instantupdate;
-  ColorCurve::ChangeCB * callBack;
+  SoQtColorTableEditor::ChangeCB * callBack;
   void * callbackData;
   SbBool contupdate;
   SoQtColorTableEditor::Mode mode;

@@ -54,7 +54,7 @@ SoQtColorTableEditorP::toggleUpdate()
 {
   this->contupdate = this->instantupdate->isChecked();
   if (this->callBack) {
-    this->callBack(this->callbackData);
+    this->callBack(PUBLIC(this), this->callbackData);
   }
 }
 
@@ -62,7 +62,7 @@ void
 SoQtColorTableEditorP::apply()
 {
   if (this->callBack) {
-    this->callBack(this->callbackData);
+    this->callBack(PUBLIC(this), this->callbackData);
   }
 }
 
@@ -70,7 +70,7 @@ void
 SoQtColorTableEditorP::done()
 {
   if (!this->contupdate) {
-    if (this->callBack) { this->callBack(this->callbackData); }
+    if (this->callBack) { this->callBack(PUBLIC(this), this->callbackData); }
   }
   PUBLIC(this)->close();
 }
@@ -81,7 +81,7 @@ SoQtColorTableEditorP::reset()
   this->curvetypelist->setCurrentItem(CurveView::SMOOTH);
   this->curveview->resetActive();
   if (this->callBack) {
-    this->callBack(this->callbackData);
+    this->callBack(PUBLIC(this), this->callbackData);
   }
 }
 
@@ -90,7 +90,7 @@ SoQtColorTableEditorP::changeCurveMode(int i)
 {
   this->curveview->changeCurveMode(i);
   if (this->callBack) {
-    this->callBack(this->callbackData);
+    this->callBack(PUBLIC(this), this->callbackData);
   }
 }
 
@@ -99,7 +99,7 @@ SoQtColorTableEditorP::curveCallBack(void * userData)
 {
   SoQtColorTableEditorP * thisp = (SoQtColorTableEditorP*) userData;
   if (thisp->contupdate && thisp->callBack) {
-    thisp->callBack(thisp->callbackData);
+    thisp->callBack(PUBLIC(thisp), thisp->callbackData);
   }
 }
 
@@ -256,17 +256,18 @@ SoQtColorTableEditor::setColors(uint8_t * color, int num)
   PRIVATE(this)->curvetypelist->setCurrentItem(CurveView::FREE);
   PRIVATE(this)->curveview->setColors(color, num);
   if (PRIVATE(this)->callBack) {
-    PRIVATE(this)->callBack(PRIVATE(this));
+    PRIVATE(this)->callBack(this, PRIVATE(this));
   }
 }
 
 void
-SoQtColorTableEditor::setCallBack(SoQtColorTableEditor::ChangeCB * cb, void * userData)
+SoQtColorTableEditor::setChangeCallback(SoQtColorTableEditor::ChangeCB * cb,
+                                        void * userData)
 {
   PRIVATE(this)->callBack = cb;
   PRIVATE(this)->callbackData = userData;
   PRIVATE(this)->curveview->setCallBack(PRIVATE(this)->curveCallBack, PRIVATE(this));
-  if (cb) { cb(userData); }
+  if (cb) { cb(this, userData); }
 }
 
 SoQtColorTableEditor::Mode
