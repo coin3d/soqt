@@ -4,3 +4,7 @@ README
 This directory contains project and makefiles for building SoQt with
 the VC++ compiler.  Read ../README.WIN for more information.
 
+It also contains soqt.doxygen.in, a configuration file for generating
+the SoQt documentation from the source files with Doxygen.  The HTML
+docs are also available on-line at http://www.coin3d.org/soqt-docs/
+
