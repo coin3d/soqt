@@ -7,6 +7,8 @@ ToDo
 
 *** BUILD ITEMS ***
 
+* [larsa:20000130] wrap SoQt-internal #include directives with #ifndef wrappers
+
 * [larsa:20000113] tune the compilation process to avoid the excessively
   verbose libtool-output during compilation.
 
@@ -35,6 +37,7 @@ ToDo
 
 * [mortene:19990918] add SOQT_MAJOR/MINOR/MICRO_VERSION etc somewhere
   in an include file (as in libCoin SbBasic.h).
+  [larsa:20000130] "somewhere" => Inventor/Qt/SoQt.h
 
 * [mortene:19990918] moc_*.cpp files should be removed when doing
   ``make clean''.
@@ -85,13 +88,13 @@ ToDo
 
 * [mortene:19991001] SoQtClipboard.
 
-* [mortene:19991001] SoQtCollisionViewer.
+* [larsa: 20000130] SoConstrainedViewer.
 
 * [mortene:19991001] SoQtFlyViewer.
 
 * [mortene:19991001] SoQtWalkViewer.
 
-* [mortene:19991001] SoQtPlaneViewer.
+* [mortene:19991001] SoQtCollisionViewer.
 
 * [mortene:19991001] SoQtSIMViewer (this is the good old VRMLview,
   converted to become an SoQt component).
@@ -99,6 +102,10 @@ ToDo
 
 
 *** BUGS ***
+
+* [larsa:20000130] the translation wheels in the plane viewer component
+  are configured opposite of how it's done in OIV.  this was done on
+  purpose, but I'm yet undecided on which way to configure the wheels.
 
 * [mortene:19991111] seems like there's a problem with camera focal
   point and floating point precision, here's how to reproduce: load a
@@ -163,13 +170,15 @@ ToDo
   set up in the preference window.
 
 
-
 ===============================================================================
 
 Done
 ====
 
 (format is: "* [author:conceived-date][implementer:finished-date] item")
+
+* [mortene:19991001][larsa:20000130] SoQtPlaneViewer implementation is in
+  the works.
 
 * [mortene:1999????][larsa:20000110] the thumbwheels looks pretty shoddy.
   Should fix both the general appearance and the animation gfx.
