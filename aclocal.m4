@@ -2320,15 +2320,20 @@ EOF
     sim_ac_qt_libs=UNRESOLVED
     sim_ac_qt_cppflags=
 
-    # Test all known possible combinations of linking against the
-    # Troll Tech Qt library:
-    #
-    # * "-lqt" should work for all UNIX(-derived) platforms.
-    # * "-lqt{version} -lqtmain -lgdi32" w/QT_DLL defined should
-    #   cover dynamic linking on Win32 platforms
+    ## Test all known possible combinations of linking against the
+    ## Troll Tech Qt library:
+    ##
+    ## * "-lqt" should work for all UNIX(-derived) platforms,
+    ##   dynamic and static linking
+    ##
+    ## * "-lqt{version} -lqtmain -lgdi32" w/QT_DLL defined should
+    ##   cover dynamic linking on Win32 platforms
+    ##
+    ## * "-lqt -lole32 -limm32 -lcomdlg32 -lgdi32" should cover static
+    ##   linking on Win32 platforms
 
     for sim_ac_qt_cppflags_loop in "" "-DQT_DLL"; do
-      for sim_ac_qt_libcheck in "-lqt" "-lqt$sim_ac_qt_version -lqtmain -lgdi32"; do
+      for sim_ac_qt_libcheck in "-lqt" "-lqt$sim_ac_qt_version -lqtmain -lgdi32" "-lqt -lole32 -limm32 -lcomdlg32 -lgdi32"; do
         if test "x$sim_ac_qt_libs" = "xUNRESOLVED"; then
           CPPFLAGS="$sim_ac_qt_incflags $sim_ac_qt_cppflags_loop $sim_ac_save_cppflags"
           LIBS="$sim_ac_qt_libcheck $sim_ac_save_libs"
