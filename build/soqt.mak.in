@@ -33,7 +33,7 @@ INTDIR=.\Release
 OutDir=C:@libdir@
 # End Custom Macros
 
-ALL : "$(OUTDIR)\soqt.lib"
+ALL : "$(OUTDIR)\soqt@SOQT_VERSION@.lib"
 
 
 CLEAN :
@@ -95,7 +95,7 @@ CLEAN :
 	-@erase "$(INTDIR)\SoQtViewerExtra.obj"
 	-@erase "$(INTDIR)\SoQtWalkViewer.obj"
 	-@erase "$(INTDIR)\vc60.idb"
-	-@erase "$(OUTDIR)\soqt.lib"
+	-@erase "$(OUTDIR)\soqt@SOQT_VERSION@.lib"
 
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
@@ -142,7 +142,7 @@ BSC32_FLAGS=/nologo /o"$(OUTDIR)\soqt.bsc"
 BSC32_SBRS= \
 	
 LIB32=link.exe -lib
-LIB32_FLAGS=/nologo /out:"$(OUTDIR)\soqt.lib" 
+LIB32_FLAGS=/nologo /out:"$(OUTDIR)\soqt@SOQT_VERSION@.lib" 
 LIB32_OBJS= \
 	"$(INTDIR)\moc_SoQt.obj" \
 	"$(INTDIR)\moc_SoQtComponent.obj" \
@@ -202,7 +202,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\moc_SoQtMouse.obj" \
 	"$(INTDIR)\moc_SoQtSpaceball.obj"
 
-"$(OUTDIR)\soqt.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
+"$(OUTDIR)\soqt@SOQT_VERSION@.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
     $(LIB32) @<<
   $(LIB32_FLAGS) $(DEF_FLAGS) $(LIB32_OBJS)
 <<
@@ -215,7 +215,7 @@ INTDIR=.\Debug
 OutDir=C:@libdir@
 # End Custom Macros
 
-ALL : "$(OUTDIR)\soqtd.lib"
+ALL : "$(OUTDIR)\soqt@SOQT_VERSION@d.lib"
 
 
 CLEAN :
@@ -278,7 +278,7 @@ CLEAN :
 	-@erase "$(INTDIR)\SoQtWalkViewer.obj"
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(INTDIR)\vc60.pdb"
-	-@erase "$(OUTDIR)\soqtd.lib"
+	-@erase "$(OUTDIR)\soqt@SOQT_VERSION@d.lib"
 
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
@@ -325,7 +325,7 @@ BSC32_FLAGS=/nologo /o"$(OUTDIR)\soqt.bsc"
 BSC32_SBRS= \
 	
 LIB32=link.exe -lib
-LIB32_FLAGS=/nologo /out:"$(OUTDIR)\soqtd.lib" 
+LIB32_FLAGS=/nologo /out:"$(OUTDIR)\soqt@SOQT_VERSION@d.lib" 
 LIB32_OBJS= \
 	"$(INTDIR)\moc_SoQt.obj" \
 	"$(INTDIR)\moc_SoQtComponent.obj" \
@@ -385,7 +385,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\moc_SoQtMouse.obj" \
 	"$(INTDIR)\moc_SoQtSpaceball.obj"
 
-"$(OUTDIR)\soqtd.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
+"$(OUTDIR)\soqt@SOQT_VERSION@d.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
     $(LIB32) @<<
   $(LIB32_FLAGS) $(DEF_FLAGS) $(LIB32_OBJS)
 <<

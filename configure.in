@@ -404,7 +404,7 @@ if test x"$sim_ac_linking_style" = xmswin; then
   # Set so_name_lo so we can change SoCoinSDK.iwz
   so_name_lo="qt"
   # Set so_version so we can change SoCoinSDK.iwz
-  so_version="$SOQT_MAJOR_VERSION$SOQT_MINOR_VERSION$SOQT_MICRO_VERSION"
+  so_version="$SOQT_VERSION"
   # Get path to SoCoinSDK.iwz
   coin_data_dir=`coin-config --datadir`
   # Do our own substitutions, as AC_OUTPUT only works for
