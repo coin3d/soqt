@@ -387,7 +387,7 @@ SIM_AC_CHECK_QGL([
   SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qgl_ldflags"
   SOGUI_EXTRA_LIBS="$sim_ac_qgl_libs $SOGUI_EXTRA_LIBS"
 ], [
-  AC_MSG_ERROR([can't compile and link against the QGL extension library])
+  SIM_AC_ERROR([no-qgl])
 ])
 
 # Check misc capabilities of the Qt and QGL libraries which depends
