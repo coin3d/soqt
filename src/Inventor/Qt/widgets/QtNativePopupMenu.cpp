@@ -192,7 +192,7 @@ QtNativePopupMenu::newMenuItem(
   int id = itemid;
   if (id == -1) {
     id = 1;
-    while (this->getItemRecord(itemid) != NULL) id++;
+    while (this->getItemRecord(id) != NULL) id++;
   } else {
     assert(this->getItemRecord(itemid) == NULL &&
             "requested itemid already taken");
@@ -470,18 +470,17 @@ QtNativePopupMenu::getMenuRecord(
 
 /*!
 */
-
 ItemRecord *
-QtNativePopupMenu::getItemRecord(
-  int itemid)
+QtNativePopupMenu::getItemRecord(int itemid)
 {
   const int numItems = this->items->getLength();
-  int i;
-  for (i = 0; i < numItems; i++)
-    if (((ItemRecord *) (*this->items)[i])->itemid == itemid)
-      return (ItemRecord *) (*this->items)[i];
+  for (int i = 0; i < numItems; i++) {
+    const int recid = ((ItemRecord *) (*this->items)[i])->itemid;
+    if (recid == itemid) { return (ItemRecord *) (*this->items)[i]; }
+  }
+
   return (ItemRecord *) NULL;
-} // getItemRecord()
+}
 
 // *************************************************************************
 
