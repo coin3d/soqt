@@ -1,5 +1,5 @@
 # **************************************************************************
-# SoQt/configure.in
+# SoQt/configure.ac
 
 m4_define([MAJOR_VERSION], [0])
 m4_define([MINOR_VERSION], [10])
