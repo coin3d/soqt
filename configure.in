@@ -690,9 +690,6 @@ if $BUILD_WITH_MSVC; then
     SIM_AC_CONFIGURATION_SETTING([SoQt build type], [static .lib])
     LIBFLAGS="-LIB"
     LIBFLAGS="$LIBFLAGS /OUT:soqt$SOQT_MAJOR_VERSION$SUFFIX.lib"
-    SOQT_EXTRA_CPPFLAGS="-I$includedir"
-    SOQT_EXTRA_LDFLAGS="-L$libdir"
-    SOQT_EXTRA_LIBS=
   else
     LIBFLAGS="-DLL /INCREMENTAL:NO"
     case $enable_symbols in
