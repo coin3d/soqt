@@ -351,11 +351,50 @@ SoQtKeyboard::translateEvent(QEvent * event)
   static SbBool verchk = FALSE;
   if (!verchk) {
     verchk = TRUE;
-    // Qt v3.0.1 has a bug where SHIFT-PRESS + CTRL-PRESS +
-    // CTRL-RELEASE results in that last key-event coming out
-    // completely wrong under X11: as a press of key 0x1059
+    // Qt v3.0.1 (at least) has a bug where the sequence SHIFT-PRESS +
+    // CTRL-PRESS + CTRL-RELEASE results in that last key-event coming
+    // out completely wrong under X11: as a press of key 0x1059
     // (Key_Direction_L). Known to be fixed in 3.0.3, unknown status
-    // in 3.0.2 (so we warn anyway).  mortene.
+    // in 3.0.2 (so we warn anyway).
+    //
+    // For reference, here's a complete, minimal example which can be
+    // used to demonstrate the bug:
+    //
+    // ---8<--- [snip] ------8<--- [snip] ------8<--- [snip] ---
+    // #include <qapplication.h>
+    //
+    // class MyWidget : public QWidget {
+    // public:
+    //   MyWidget(void) : QWidget() {
+    //     this->installEventFilter(this);
+    //   }
+    //
+    //   bool eventFilter(QObject * obj, QEvent * e) {
+    //     if ((e->type() == QEvent::KeyPress) || (e->type() == QEvent::KeyRelease)) {
+    //       QKeyEvent * ke = (QKeyEvent *)e;
+    //       printf("key %s: 0x%x  (\"%s\")\n",
+    //              e->type() == QEvent::KeyPress ? "press" : "release",
+    //              ke->key(),
+    //              ke->text().latin1());
+    //       ke->accept();
+    //       return TRUE;
+    //     }
+    //   }
+    // };
+    //
+    // int
+    // main(int argc, char ** argv)
+    // {
+    //   QApplication app(argc, argv);
+    //
+    //   MyWidget * mw = new MyWidget();
+    //   mw->show();
+    //
+    //   return app.exec();
+    // }
+    // ---8<--- [snip] ------8<--- [snip] ------8<--- [snip] ---
+    //
+    // 20020521 mortene.
     SbString s = qVersion();
 #ifdef Q_WS_X11
     if (s == "3.0.0" || s == "3.0.1" || s == "3.0.2") {
