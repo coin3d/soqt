@@ -151,8 +151,8 @@ private:
 
 private slots:
   // Pref sheet.
-  void spinAnimationToggled(SbBool flag);
-  void feedbackVisibilityToggle(SbBool flag);
+  void spinAnimationToggled(bool);
+  void feedbackVisibilityToggle(bool);
   void feedbackEditPressed(void);
   void feedbackWheelPressed(void);
   void feedbackSizeChanged(float val);
