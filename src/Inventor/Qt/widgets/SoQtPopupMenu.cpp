@@ -36,7 +36,6 @@ static const char rcsid[] =
 // *************************************************************************
 
 struct MenuRecord {
-  static MenuRecord * create( char * name );
   int menuid;
   char * name;
   char * title;
@@ -45,7 +44,6 @@ struct MenuRecord {
 }; // struct MenuRecord
 
 struct ItemRecord {
-  static ItemRecord * create( char * name );
   int itemid;
   int flags;
   char * name;
@@ -55,6 +53,7 @@ struct ItemRecord {
 
 #define ITEM_MARKED       0x0001
 #define ITEM_SEPARATOR    0x0002
+#define ITEM_ENABLED      0x0004
 
 // *************************************************************************
 
@@ -63,9 +62,8 @@ struct ItemRecord {
 */
 
 SoQtPopupMenu::SoQtPopupMenu(
-  SoAnyPopupMenu * handler )
+  void )
 {
-  this->handler = handler;
   this->menus = new SbPList;
   this->items = new SbPList;
 } // SoQtPopupMenu()
@@ -87,7 +85,7 @@ SoQtPopupMenu::~SoQtPopupMenu(
     delete [] rec->title;
     if ( rec->parent == NULL ) delete rec->menu; // menu not attached
     delete rec;
-   }
+  }
 
   const int numItems = this->items->getLength();
   for ( i = 0; i < numItems; i++ ) {
@@ -125,7 +123,7 @@ SoQtPopupMenu::NewMenu(
     }
   }
   // id contains ok ID
-  MenuRecord * rec = MenuRecord::create( name );
+  MenuRecord * rec = createMenuRecord( name );
   rec->menuid = id;
   this->menus->append( (void *) rec );
   return id;
@@ -202,7 +200,7 @@ SoQtPopupMenu::NewMenuItem(
       return -1;
     }
   }
-  ItemRecord * rec = ItemRecord::create( name );
+  ItemRecord * rec = createItemRecord( name );
   rec->itemid = id;
   this->items->append( rec );
   return id;
@@ -288,7 +286,6 @@ SoQtPopupMenu::SetMenuItemMarked(
   SbBool marked )
 {
   ItemRecord * rec = this->getItemRecord( itemid );
-  
   if ( rec == NULL )
     return;
   if ( marked )
@@ -298,6 +295,8 @@ SoQtPopupMenu::SetMenuItemMarked(
   if ( rec->parent == NULL )
     return;
   rec->parent->setItemChecked( rec->itemid, marked ? true : false );
+  if ( marked )
+    this->SetRadioGroupMarkedItem( itemid );
 } // SetMenuItemMarked()
 
 /*!
@@ -381,7 +380,7 @@ SoQtPopupMenu::AddSeparator(
       "no such menu (%d)", menuid );
     return;
   }
-  ItemRecord * rec = ItemRecord::create( "separator" );
+  ItemRecord * rec = createItemRecord( "separator" );
   menu->menu->insertSeparator( pos );
   rec->flags |= ITEM_SEPARATOR;
   this->items->append( rec );
@@ -458,13 +457,14 @@ SoQtPopupMenu::RemoveMenuItem(
   item is returned otherwise.
 */
 
-int
+void
 SoQtPopupMenu::PopUp(
-  int screenx,
-  int screeny )
+  QWidget * inside,
+  int x,
+  int y )
 {
   MenuRecord * rec = this->getMenuRecord( 0 );
-  return rec->menu->exec( QPoint( screenx, screeny ) );
+  rec->menu->popup( QPoint( x, y ) );
 } // PopUp()
 
 // *************************************************************************
@@ -505,7 +505,7 @@ SoQtPopupMenu::getItemRecord(
 */
 
 MenuRecord *
-MenuRecord::create(
+SoQtPopupMenu::createMenuRecord(
   char * name )
 {
   MenuRecord * rec = new MenuRecord;
@@ -513,6 +513,8 @@ MenuRecord::create(
   rec->name = strcpy( new char [strlen(name)+1], name );
   rec->title = strcpy( new char [strlen(name)+1], name );
   rec->menu = new QPopupMenu( (QWidget *) NULL, name );
+  QObject::connect( rec->menu, SIGNAL(activated(int)),
+                    this, SLOT(itemActivation(int)) );
   rec->parent = NULL;
   return rec;
 } // create()
@@ -521,7 +523,7 @@ MenuRecord::create(
 */
 
 ItemRecord *
-ItemRecord::create(
+SoQtPopupMenu::createItemRecord(
   char * name )
 {
   ItemRecord * rec = new ItemRecord;
@@ -532,5 +534,14 @@ ItemRecord::create(
   rec->parent = NULL;
   return rec;
 } // create()
+
+// *************************************************************************
+
+void
+SoQtPopupMenu::itemActivation( // private slot
+  int itemid )
+{
+  inherited::InvokeMenuSelection( itemid );
+} // menuSelection()
 
 // *************************************************************************

@@ -15,6 +15,7 @@ VPATH = .:@srcdir@:@top_srcdir@/src/Inventor/Qt/common
 BUILT_SOURCES = \
 	SoAnyPopupMenu.h \
 	SoAnyPopupMenu.cpp \
+	moc_SoQtPopupMenu.cpp \
 	moc_SoQtGLArea.cpp \
 	moc_SoQtThumbWheel.cpp
 
@@ -25,6 +26,9 @@ moc_SoQtThumbWheel.cpp: $(top_srcdir)/src/Inventor/Qt/widgets/SoQtThumbWheel.h
 
 moc_SoQtGLArea.cpp: $(top_srcdir)/src/Inventor/Qt/widgets/SoQtGLArea.h
 	$(MOC) -o moc_SoQtGLArea.cpp $(top_srcdir)/src/Inventor/Qt/widgets/SoQtGLArea.h
+
+moc_SoQtPopupMenu.cpp: $(top_srcdir)/src/Inventor/Qt/widgets/SoQtPopupMenu.h
+	$(MOC) -o moc_SoQtPopupMenu.cpp $(top_srcdir)/src/Inventor/Qt/widgets/SoQtPopupMenu.h
 
 SoAnyPopupMenu.h: $(top_srcdir)/src/Inventor/Qt/common/SoAnyPopupMenu.h.in
 	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/widgets/SoAnyPopupMenu.h )

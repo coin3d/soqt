@@ -29,19 +29,48 @@
 struct MenuRecord;
 struct ItemRecord;
 
-class SoQtPopupMenu {
+class SoQtPopupMenu : public QObject, public SoAnyPopupMenu {
+  Q_OBJECT
+
+  typedef SoAnyPopupMenu inherited;
+
 public:
-  SoQtPopupMenu( SoAnyPopupMenu * handler );
+  SoQtPopupMenu(void);
   ~SoQtPopupMenu(void);
 
-  SOANY_POPUPMENU_INTERFACE
+  int NewMenu( char * name, int menuid = -1 );
+  int GetMenu( char * name );
+  void SetMenuTitle( int id, char * title );
+  char * GetMenuTitle( int id );
+
+  int NewMenuItem( char * name, int itemid = -1 );
+  int GetMenuItem( char * name );
+  void SetMenuItemTitle( int itemid, char * title );
+  char * GetMenuItemTitle( int itemid );
+  void SetMenuItemEnabled( int itemid, SbBool enabled );
+  SbBool GetMenuItemEnabled( int itemid );
+  void SetMenuItemMarked( int itemid, SbBool marked );
+  SbBool GetMenuItemMarked( int itemid );
+
+  void AddMenu( int menuid, int submenuid, int pos = -1 );
+  void AddMenuItem( int menuid, int itemid, int pos = -1 );
+  void AddSeparator( int menuid, int pos = -1 );
+  void RemoveMenu( int menuid );
+  void RemoveMenuItem( int itemid );
+
+  void PopUp( QWidget * inside, int x, int y );
+
 
 protected:
   MenuRecord * getMenuRecord( int menuid );
   ItemRecord * getItemRecord( int itemid );
+  MenuRecord * createMenuRecord( char * name );
+  ItemRecord * createItemRecord( char * name );
+
+private slots:
+  void itemActivation( int itemid );
 
 private:
-  SoAnyPopupMenu * handler;
   SbPList * menus;
   SbPList * items;
 

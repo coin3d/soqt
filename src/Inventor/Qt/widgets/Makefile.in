@@ -111,6 +111,7 @@ VPATH = .:@srcdir@:@top_srcdir@/src/Inventor/Qt/common
 BUILT_SOURCES = \
 	SoAnyPopupMenu.h \
 	SoAnyPopupMenu.cpp \
+	moc_SoQtPopupMenu.cpp \
 	moc_SoQtGLArea.cpp \
 	moc_SoQtThumbWheel.cpp
 
@@ -147,8 +148,8 @@ X_PRE_LIBS = @X_PRE_LIBS@
 libSoQtWidgets_la_LDFLAGS = 
 libSoQtWidgets_la_LIBADD = 
 am_libSoQtWidgets_la_OBJECTS =  SoQtGLArea.lo ThumbWheel.lo \
-SoQtThumbWheel.lo SoQtPopupMenu.lo SoAnyPopupMenu.lo moc_SoQtGLArea.lo \
-moc_SoQtThumbWheel.lo
+SoQtThumbWheel.lo SoQtPopupMenu.lo SoAnyPopupMenu.lo \
+moc_SoQtPopupMenu.lo moc_SoQtGLArea.lo moc_SoQtThumbWheel.lo
 libSoQtWidgets_la_OBJECTS =  $(am_libSoQtWidgets_la_OBJECTS)
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -171,7 +172,8 @@ depcomp = $(SHELL) $(top_srcdir)/depcomp
 DEP_FILES =  @AMDEP@ $(DEPDIR)/SoAnyPopupMenu.Plo \
 $(DEPDIR)/SoQtGLArea.Plo $(DEPDIR)/SoQtPopupMenu.Plo \
 $(DEPDIR)/SoQtThumbWheel.Plo $(DEPDIR)/ThumbWheel.Plo \
-$(DEPDIR)/moc_SoQtGLArea.Plo $(DEPDIR)/moc_SoQtThumbWheel.Plo
+$(DEPDIR)/moc_SoQtGLArea.Plo $(DEPDIR)/moc_SoQtPopupMenu.Plo \
+$(DEPDIR)/moc_SoQtThumbWheel.Plo
 SOURCES = $(libSoQtWidgets_la_SOURCES)
 OBJECTS = $(am_libSoQtWidgets_la_OBJECTS)
 
@@ -271,6 +273,7 @@ distdir: $(DISTFILES)
 @AMDEP@include $(DEPDIR)/SoQtThumbWheel.Plo
 @AMDEP@include $(DEPDIR)/ThumbWheel.Plo
 @AMDEP@include $(DEPDIR)/moc_SoQtGLArea.Plo
+@AMDEP@include $(DEPDIR)/moc_SoQtPopupMenu.Plo
 @AMDEP@include $(DEPDIR)/moc_SoQtThumbWheel.Plo
 
 mostlyclean-depend:
@@ -376,6 +379,9 @@ moc_SoQtThumbWheel.cpp: $(top_srcdir)/src/Inventor/Qt/widgets/SoQtThumbWheel.h
 
 moc_SoQtGLArea.cpp: $(top_srcdir)/src/Inventor/Qt/widgets/SoQtGLArea.h
 	$(MOC) -o moc_SoQtGLArea.cpp $(top_srcdir)/src/Inventor/Qt/widgets/SoQtGLArea.h
+
+moc_SoQtPopupMenu.cpp: $(top_srcdir)/src/Inventor/Qt/widgets/SoQtPopupMenu.h
+	$(MOC) -o moc_SoQtPopupMenu.cpp $(top_srcdir)/src/Inventor/Qt/widgets/SoQtPopupMenu.h
 
 SoAnyPopupMenu.h: $(top_srcdir)/src/Inventor/Qt/common/SoAnyPopupMenu.h.in
 	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/widgets/SoAnyPopupMenu.h )
