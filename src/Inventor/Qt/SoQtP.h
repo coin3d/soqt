@@ -50,8 +50,8 @@ public:
 
   static int DEBUG_X11SYNC;
   static const char * SOQT_XSYNC;
-  static int NO_X11_ERRORHANDLER;
-  static const char * SOQT_NO_X11_ERRORHANDLER;
+  static int X11_ERRORHANDLER;
+  static const char * SOQT_X11_ERRORHANDLER;
   static SoQtP_XErrorHandler * previous_handler;
   static int X11Errorhandler(void * d, void * ee);
 

@@ -298,8 +298,8 @@ bool SoQtP::didcreatemainwidget = FALSE;
 int SoQtP::DEBUG_X11SYNC = ENVVAR_NOT_INITED;
 const char * SoQtP::SOQT_XSYNC = "SOQT_XSYNC";
 int SoQtP::BRIL_X11_SILENCER = ENVVAR_NOT_INITED;
-int SoQtP::NO_X11_ERRORHANDLER = ENVVAR_NOT_INITED;
-const char * SoQtP::SOQT_NO_X11_ERRORHANDLER = "SOQT_NO_X11_ERRORHANDLER";
+int SoQtP::X11_ERRORHANDLER = ENVVAR_NOT_INITED;
+const char * SoQtP::SOQT_X11_ERRORHANDLER = "SOQT_X11_ERRORHANDLER";
 SoQtP_XErrorHandler * SoQtP::previous_handler = NULL;
 
 int SoQtP::DEBUG_LISTMODULES = ENVVAR_NOT_INITED;
@@ -377,8 +377,8 @@ SoQtP::X11Errorhandler(void * d, void * ee)
 
   SoDebugError::post("SoQtP::X11Errorhandler",
                      "If you don't want SoQt to catch X11 errors, set the %s "
-                     "environment variable to \"1\".",
-                     SoQtP::SOQT_NO_X11_ERRORHANDLER);
+                     "environment variable to \"0\".",
+                     SoQtP::SOQT_X11_ERRORHANDLER);
 
   SoQtP::previous_handler(d, ee);
 #endif // Q_WS_X11
@@ -691,26 +691,31 @@ SoQt::init(QWidget * toplevelwidget)
 
   // This is _extremely_ useful for debugging X errors: activate this
   // code (set the SOQT_XSYNC environment variable on your system to
-  // "1"), then rerun the application code in a debugger with a
-  // breakpoint set at SoQtP::X11Errorhandler(). Now you can backtrace
-  // to the exact source location of the failing X request.
+  // "1") and SOQT_X11_ERRORHANDLER to "1", then rerun the application
+  // code in a debugger with a breakpoint set at
+  // SoQtP::X11Errorhandler(). Now you can backtrace to the exact
+  // source location of the failing X request.
+  //
+  // Note that we changed this from being opt-out to opt-in, due to
+  // what seemed like false negatives, and the fact that bad code from
+  // Qt would look like SoQt bugs.
 #ifdef Q_WS_X11
-  if (SoQtP::NO_X11_ERRORHANDLER == ENVVAR_NOT_INITED) {
-    const char * env = SoAny::si()->getenv(SoQtP::SOQT_NO_X11_ERRORHANDLER);
-    SoQtP::NO_X11_ERRORHANDLER = env ? atoi(env) : 0;
+  if (SoQtP::X11_ERRORHANDLER == ENVVAR_NOT_INITED) {
+    const char * env = SoAny::si()->getenv(SoQtP::SOQT_X11_ERRORHANDLER);
+    SoQtP::X11_ERRORHANDLER = env ? atoi(env) : 0;
   }
       
-  if (! SoQtP::NO_X11_ERRORHANDLER) {
-  // Intervene upon X11 errors.
-  SoQtP::previous_handler = (SoQtP_XErrorHandler*)XSetErrorHandler((XErrorHandler)SoQtP::X11Errorhandler);
+  if (SoQtP::X11_ERRORHANDLER) {
+    // Intervene upon X11 errors.
+    SoQtP::previous_handler = (SoQtP_XErrorHandler*)XSetErrorHandler((XErrorHandler)SoQtP::X11Errorhandler);
 
-  if (SoQtP::DEBUG_X11SYNC == ENVVAR_NOT_INITED) {
+    if (SoQtP::DEBUG_X11SYNC == ENVVAR_NOT_INITED) {
       const char * env = SoAny::si()->getenv(SoQtP::SOQT_XSYNC);
-    SoQtP::DEBUG_X11SYNC = env ? atoi(env) : 0;
-    if (SoQtP::DEBUG_X11SYNC) {
-      // FIXME: SoDebugError::initClass() not yet invoked! 20021021 mortene.
-      SoDebugError::postInfo("SoQt::init", "Turning on X synchronization.");
-      XSynchronize(qt_xdisplay(), True);
+      SoQtP::DEBUG_X11SYNC = env ? atoi(env) : 0;
+      if (SoQtP::DEBUG_X11SYNC) {
+        // FIXME: SoDebugError::initClass() not yet invoked! 20021021 mortene.
+        SoDebugError::postInfo("SoQt::init", "Turning on X synchronization.");
+        XSynchronize(qt_xdisplay(), True);
       }
     }
   }
