@@ -250,6 +250,8 @@ if $BUILD_WITH_MSVC; then
   RANLIB=:
 fi
 
+SIM_AC_MAC_CPP_ADJUSTMENTS
+
 AC_PROG_LIBTOOL
 
 # used with libtool 1.3.5
@@ -269,8 +271,8 @@ AC_PROG_LIBTOOL
 # esac
 
 # fix some mess created by AC_PROG_LIBTOOL
-AC_LANG(C)
-AC_LANG(C++)
+# AC_LANG(C)
+# AC_LANG(C++)
 
 # These are used for constructing the soqt-config file.
 SOQT_EXTRA_CPPFLAGS=$CPPFLAGS
@@ -289,8 +291,6 @@ case $host in
 esac
 
 AC_SUBST(path_tag)
-
-SIM_AC_MAC_CPP_ADJUSTMENTS
 
 # **************************************************************************
 

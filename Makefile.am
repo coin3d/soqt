@@ -136,6 +136,7 @@ EXTRA_DIST = \
 	src/Inventor/Qt/common/SoAnyMaterialList.h.in \
 	src/Inventor/Qt/common/SoAnyMaterialList.cpp.in \
 	src/Inventor/Qt/common/SoAnyMaterialListBuiltins.cpp.in \
+	src/Inventor/Qt/common/gl.h \
 	src/Inventor/Qt/common/soguidefs.h.in \
 	src/Inventor/Qt/common/spwinput.h.in \
 	src/Inventor/Qt/common/spwinput_x11.cpp.in \
