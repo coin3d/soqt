@@ -21,6 +21,21 @@ upgrade to 10.1, you will be amazed by the increase in performance and
 stability anyway.
 
 
+Common problems (and solutions)
+===============================
+
+
+o "I installed qt from fink, but SoQt configure doesn't find it"
+   -------------------------------------------------------------
+
+That's because SoQt is looking for Qt/Mac -- the Mac OS X native
+version of the Qt toolkit. What you install using fink is *not*
+Qt/Mac but Qt/X11, i.e. the version of Qt that was created for X11.
+We do not yet support the X11 version of Qt, but we are planning to do
+so in the near future.                                 
+
+
+
 Problems with older versions of Qt/Mac
 ======================================
 
