@@ -804,7 +804,7 @@ SoQtComponent::setWidgetCursor(QWidget * w, const SoQtCursor & cursor)
 
 // Custom cursors do not work correctly in Qt/Mac versions 3.1.0 
 // and 3.1.1 - the displayed graphics look totally wrong. 
-#if (defined Q_WS_MAC && (QT_VERSION == 0x030100) || (QT_VERSION == 0x030101))
+#if defined Q_WS_MAC && ((QT_VERSION == 0x030100) || (QT_VERSION == 0x030101))
     w->setCursor(QCursor(Qt::arrowCursor));
     // spit out a warning that this is a Qt/Mac bug, not an SoQt problem
     const char * env = SoAny::si()->getenv("SOQT_NO_QTMAC_BUG_WARNINGS");
