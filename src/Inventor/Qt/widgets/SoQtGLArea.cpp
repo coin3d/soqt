@@ -31,7 +31,7 @@
 #endif // HAVE_CONFIG_H
 
 #include <qmetaobject.h>
-#include "moc_SoQtGLArea.cpp"
+#include <Inventor/Qt/widgets/moc_SoQtGLArea.cpp>
 
 #if SOQT_DEBUG
 #include <Inventor/errors/SoDebugError.h>
