@@ -561,6 +561,7 @@ SoQtFullViewer::buildViewerButtons(QWidget * parent)
   QWidget * w = new QWidget(parent);
   this->createViewerButtons(w, PRIVATE(this)->viewerbuttons);
   w->move(0, 0);
+  w->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
 
   // assert(PRIVATE(this)->viewerbuttons->getLength() != 0);
   QGridLayout * l =
