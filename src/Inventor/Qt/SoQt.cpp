@@ -547,7 +547,7 @@ SoGuiP::sensorQueueChanged(void *)
     if (!SoQtP::idletimer->isActive()) SoQtP::idletimer->start(0, TRUE);
 
     if (!SoQtP::delaytimeouttimer->isActive()) {
-      SbTime &t = SoDB::getDelaySensorTimeout();
+      const SbTime & t = SoDB::getDelaySensorTimeout();
       if (t != SbTime::zero()) {
         unsigned long timeout = t.getMsecValue();
         SoQtP::delaytimeouttimer->start((int)timeout, TRUE);
