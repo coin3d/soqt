@@ -138,10 +138,19 @@ SoQtMouse::translateEvent(QEvent * event)
     switch (mouseevent->button()) {
     case Qt::LeftButton:
       PRIVATE(this)->buttonevent->setButton(SoMouseButtonEvent::BUTTON1);
-// emulate right mouse button on MacIntosh platform by ctrl-click
+// Emulate right mouse button on Mac OS X platform by ctrl-click.
 #ifdef Q_WS_MAC
+// Since Qt version 3.1.x, Qt::ControlButton is mapped to the "Apple"
+// key, not the "ctrl" key. (According to qt-support, this is intended
+// and not a bug.) The standard way of emulating right-click in the Mac 
+// world is still ctrl-click, though... *sigh* 
+#if QT_VERSION < 0x030100
       if (mouseevent->state() & Qt::ControlButton)
         PRIVATE(this)->buttonevent->setButton(SoMouseButtonEvent::BUTTON2);
+#else
+      if (mouseevent->state() & Qt::MetaButton) 
+        PRIVATE(this)->buttonevent->setButton(SoMouseButtonEvent::BUTTON2);
+#endif
 #endif // Q_WS_MAC
       break;
     case Qt::RightButton:

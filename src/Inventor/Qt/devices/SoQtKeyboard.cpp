@@ -97,7 +97,11 @@ struct SoQtKeyboardP::key1map SoQtKeyboardP::QtToSoMapping[] = {
 
   {Qt::Key_Shift, SoKeyboardEvent::LEFT_SHIFT, '.'},
   {Qt::Key_Control, SoKeyboardEvent::LEFT_CONTROL, '.'},
+#if !(defined Q_WS_MAC && QT_VERSION >= 0x030100)
+// Since Qt/Mac 3.1.x, the "ctrl" key is mapped to Qt::MetaButton (not
+// Qt::ControlButton) => We must not handle META as ALT on Mac OS X.
   {Qt::Key_Meta, SoKeyboardEvent::LEFT_ALT, '.'},
+#endif
   {Qt::Key_Alt, SoKeyboardEvent::LEFT_ALT, '.'},
   {Qt::Key_CapsLock, SoKeyboardEvent::CAPS_LOCK, '.'},
   {Qt::Key_NumLock, SoKeyboardEvent::NUM_LOCK, '.'},
@@ -425,7 +429,11 @@ SoQtKeyboard::translateEvent(QEvent * event)
       case Qt::Key_Shift: state |= Qt::ShiftButton; break;
       case Qt::Key_Control: state |= Qt::ControlButton; break;
       case Qt::Key_Alt: state |= Qt::AltButton; break;
+#if !(defined Q_WS_MAC && QT_VERSION >= 0x030100)
+// Since Qt/Mac 3.1.x, the "ctrl" key is mapped to Qt::MetaButton (not
+// Qt::ControlButton) => We must not handle META as ALT on Mac OS X.
       case Qt::Key_Meta: state |= Qt::AltButton; break;
+#endif
       }
     }
     else {
@@ -433,7 +441,11 @@ SoQtKeyboard::translateEvent(QEvent * event)
       case Qt::Key_Shift: state &= ~Qt::ShiftButton; break;
       case Qt::Key_Control: state &= ~Qt::ControlButton; break;
       case Qt::Key_Alt: state &= ~Qt::AltButton; break;
+#if !(defined Q_WS_MAC && QT_VERSION >= 0x030100)
+// Since Qt/Mac 3.1.x, the "ctrl" key is mapped to Qt::MetaButton (not
+// Qt::ControlButton) => We must not handle META as ALT on Mac OS X.
       case Qt::Key_Meta: state &= ~Qt::AltButton; break;
+#endif
       }
     }
 
