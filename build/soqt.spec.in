@@ -106,7 +106,6 @@ strip @libdir@/libSoQt.so.1.0.0
 @includedir@/Inventor/Qt/viewers/SoQtFullViewer.h
 @includedir@/Inventor/Qt/viewers/SoQtPlaneViewer.h
 @includedir@/Inventor/Qt/viewers/SoQtViewer.h
-@includedir@/Inventor/Qt/viewers/SoQtWalkViewer.h
 @libdir@/libSoQt.so.1
 @libdir@/libSoQt.so.1.0.0
 @libdir@/libSoQt.la

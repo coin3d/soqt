@@ -37,7 +37,6 @@ DISTCLEANFILES = \
 
 libSoQtViewers_la_SOURCES = \
 	PlaneViewer.cpp \
-	WalkViewer.cpp \
 	FullViewer.cpp \
 	ExaminerViewer.cpp
 
@@ -50,7 +49,6 @@ nodist_libSoQtViewers_la_SOURCES = \
 
 viewers_lst_SOURCES = \
 	PlaneViewer.cpp \
-	WalkViewer.cpp \
 	FullViewer.cpp \
 	ExaminerViewer.cpp
 
@@ -79,8 +77,7 @@ nodist_SoQtViewersinc_HEADERS = \
 	SoQtFullViewer.h \
 	SoQtExaminerViewer.h \
 	SoQtFlyViewer.h \
-	SoQtPlaneViewer.h \
-	SoQtWalkViewer.h
+	SoQtPlaneViewer.h
 
 install-SoQtViewersincHEADERS: $(SoQtViewersinc_HEADERS)
 	@$(NORMAL_INSTALL)

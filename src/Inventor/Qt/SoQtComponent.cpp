@@ -51,7 +51,6 @@
 #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
 #include <Inventor/Qt/viewers/SoQtPlaneViewer.h>
 #include <Inventor/Qt/viewers/SoQtConstrainedViewer.h>
-#include <Inventor/Qt/viewers/SoQtWalkViewer.h>
 #include <Inventor/Qt/viewers/SoQtFlyViewer.h>
 #include <Inventor/Qt/SoAny.h>
 
@@ -278,7 +277,9 @@ SoQtComponent::initClasses(void)
   SoQtExaminerViewer::initClass();
   SoQtPlaneViewer::initClass();
   SoQtConstrainedViewer::initClass();
+#if 0  // TMP DISABLED: walkviewer not properly implemented yet. 20020624 mortene.
   SoQtWalkViewer::initClass();
+#endif // TMP DISABLED
   SoQtFlyViewer::initClass();
 }
 
