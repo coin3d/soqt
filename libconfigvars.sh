@@ -1,6 +1,9 @@
 #! /bin/sh
 # not to be executed - only sourced
 
+Gui="Qt"
+gui="qt"
+
 GUI="Qt"
 lGUI="qt"
 uGUI="QT"
