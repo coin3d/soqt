@@ -415,3 +415,21 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     20030214 mortene.
 
 =====================================================================
+
+021 Boundary cases not handled when zooming in too much in
+    SoQtExaminerViewer.
+
+    Reproduce by loading any model into an examinerviewer, switch to
+    using orthographic camera, then just zoom into the model until the
+    system starts spewing messages about
+
+        Coin warning in SbVec3f::normalize(): The length of the vector
+        should be > 0.0f to be able to normalize.
+
+    Investigate and fix.
+
+    This is very likely a problem with all So* toolkits.
+
+    20030630 mortene.
+
+=====================================================================
