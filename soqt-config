@@ -100,7 +100,7 @@ do
             ;;
           *)
             echo $compiler $CPPFLAGS $cppflags $CXXFLAGS $cxxflags -c $1 \
-              | fmt -t -w76 | sed -e '1,$ s/$/ \\/' -e '$ s/ \\$//'
+              | fmt -w76 | sed -e '1,$ s/$/ \\/' -e '$ s/ \\$//'
             $compiler \
               $CPPFLAGS $cppflags \
               $CXXFLAGS $cxxflags \
@@ -121,7 +121,7 @@ do
       progname=$1
       shift
       echo $compiler $LDFLAGS $ldflags -o $progname $@ $libs $LIBS \
-        | fmt -t -w76 | sed -e '1,$ s/$/ \\/' -e '$ s/ \\$//'
+        | fmt -w76 | sed -e '1,$ s/$/ \\/' -e '$ s/ \\$//'
       $compiler \
         $LDFLAGS $ldflags \
         -o $progname $@ \
@@ -160,7 +160,7 @@ do
       done
       echo $compiler $LDFLAGS $ldflags $extraldflags \
         -o $progname $objs $extralibs $libs $LIBS \
-        | fmt -t -w76 | sed -e '1,$ s/$/ \\/' -e '$ s/ \\$//'
+        | fmt -w76 | sed -e '1,$ s/$/ \\/' -e '$ s/ \\$//'
       $compiler \
         $CPPFLAGS $cppflags \
         $CXXFLAGS $cxxflags \
