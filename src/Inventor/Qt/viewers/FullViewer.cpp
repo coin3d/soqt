@@ -62,6 +62,7 @@
 #include <Inventor/Qt/widgets/SoQtThumbWheel.h>
 #include <Inventor/Qt/widgets/SoQtPopupMenu.h>
 #include <Inventor/Qt/viewers/SoQtFullViewer.h>
+#include <Inventor/Qt/SoAny.h> 
 
 // Button icons.
 #include <Inventor/Qt/common/pixmaps/pick.xpm>
@@ -710,6 +711,7 @@ SoQtFullViewer::setRightWheelString(const char * const string)
 void
 SoQtFullViewer::sizeChanged(const SbVec2s & size)
 {
+
 #if SOQT_DEBUG && 0
   SoDebugError::postInfo("SoQtFullViewer::sizeChanged", "(%d, %d)",
                          size[0], size[1]);
@@ -717,6 +719,37 @@ SoQtFullViewer::sizeChanged(const SbVec2s & size)
 
   SbVec2s newsize(size);
   if (PRIVATE(this)->decorations) { newsize -= SbVec2s(2 * 30, 30); }
+
+// Workaround for a bug in Qt/Mac 3.1.0 and 3.1.1:
+// If the OpenGL context overlaps with the QSizeGrip widget (generated
+// by default), resizing does not work any more. The workaround is to
+// leave 15 pixels at the lower border of the window blank...
+#if (defined Q_WS_MAC && (QT_VERSION == 0x030100) || (QT_VERSION == 0x030101))
+
+  if (!PRIVATE(this)->decorations) { // GL context would fill whole window
+    newsize -= SbVec2s(0, 15);       // -> leave lowermost 15 px blank
+
+    // spit out a warning that this is a Qt/Mac bug, not an SoQt  problem
+    const char * env = SoAny::si()->getenv("SOQT_NO_QTMAC_BUG_WARNINGS");
+    if (!env || !atoi(env)) {        
+      SoDebugError::postWarning("SoQtFullViewer::sizeChanged", 
+                                "\nThis version of Qt/Mac contains a bug "
+                                "that makes it necessary to leave the\n"  
+                                "lowermost 15 pixels of the viewer window "
+                                "blank. Warnings about Qt/Mac bugs\n"
+                                "can be turned off permanently by setting the "
+                                "environment variable\n"
+                                "SOQT_NO_QTMAC_BUG_WARNINGS=1.");
+    } 
+  } 
+
+#endif 
+
+// Remember to test if the problem above has been fixed in next Qt version(s)
+#if (defined Q_WS_MAC && QT_VERSION > 0x030101) 
+#error Qt/Mac 3.1.1 OpenGL canvas bug fixed in this version? Need to check. 
+#endif   
+
   newsize = SbVec2s(SoQtMax(newsize[0], (short)1),
                     SoQtMax(newsize[1], (short)1));
 
