@@ -504,61 +504,63 @@ SoQtComponent::subclassInitialized(
 
   \sa hide(), isVisible()
 */
-
 void
-SoQtComponent::show(
-  void)
+SoQtComponent::show(void)
 {
-#if SOQT_DEBUG
-  if(!PRIVATE(this)->widget) {
+  if(SOQT_DEBUG && !PRIVATE(this)->widget) { // debug
     SoDebugError::postWarning("SoQtComponent::show",
                               "Called while no QWidget has been set.");
     return;
   }
-#endif // SOQT_DEBUG
 
-#if SOQTCOMP_RESIZE_DEBUG  // debug
-  SoDebugError::postInfo("SoQtComponent::show-1",
-                         "resizing %p: (%d, %d)",
-                         PRIVATE(this)->widget,
-                         PRIVATE(this)->storesize[0], PRIVATE(this)->storesize[1]);
-#endif // debug
+  if (SOQTCOMP_RESIZE_DEBUG) {  // debug
+    SoDebugError::postInfo("SoQtComponent::show-1",
+                           "resizing %p: (%d, %d)",
+                           PRIVATE(this)->widget,
+                           PRIVATE(this)->storesize[0],
+                           PRIVATE(this)->storesize[1]);
+  }
 
-  if (PRIVATE(this)->shelled)
-    PRIVATE(this)->parent->resize(PRIVATE(this)->storesize[0], PRIVATE(this)->storesize[1]);
-  else
-    PRIVATE(this)->widget->resize(PRIVATE(this)->storesize[0], PRIVATE(this)->storesize[1]);
+  if (PRIVATE(this)->shelled) {
+    PRIVATE(this)->parent->resize(PRIVATE(this)->storesize[0],
+                                  PRIVATE(this)->storesize[1]);
+  }
+  else {
+    PRIVATE(this)->widget->resize(PRIVATE(this)->storesize[0],
+                                  PRIVATE(this)->storesize[1]);
+  }
 
-#if SOQTCOMP_RESIZE_DEBUG  // debug
-  SoDebugError::postInfo("SoQtComponent::show-2",
-                         "resized %p: (%d, %d)",
-                         PRIVATE(this)->widget,
-                         PRIVATE(this)->widget->size().width(),
-                         PRIVATE(this)->widget->size().height());
-#endif // debug
+  if (SOQTCOMP_RESIZE_DEBUG) {  // debug
+    SoDebugError::postInfo("SoQtComponent::show-2",
+                           "resized %p: (%d, %d)",
+                           PRIVATE(this)->widget,
+                           PRIVATE(this)->widget->size().width(),
+                           PRIVATE(this)->widget->size().height());
+  }
 
-  if (PRIVATE(this)->widget) 
-    PRIVATE(this)->widget->topLevelWidget()->show();
-#if SOQTCOMP_RESIZE_DEBUG  // debug
-  SoDebugError::postInfo("SoQtComponent::show-3",
-                         "showed %p: (%d, %d)",
-                         PRIVATE(this)->widget,
-                         PRIVATE(this)->widget->size().width(),
-                         PRIVATE(this)->widget->size().height());
-#endif // debug
+  PRIVATE(this)->widget->topLevelWidget()->show();
+
+  if (SOQTCOMP_RESIZE_DEBUG) {  // debug
+    SoDebugError::postInfo("SoQtComponent::show-3",
+                           "showed %p: (%d, %d)",
+                           PRIVATE(this)->widget,
+                           PRIVATE(this)->widget->size().width(),
+                           PRIVATE(this)->widget->size().height());
+  }
 
   PRIVATE(this)->widget->raise();
-#if SOQTCOMP_RESIZE_DEBUG  // debug
-  SoDebugError::postInfo("SoQtComponent::show-4",
-                         "raised %p: (%d, %d)",
-                         PRIVATE(this)->widget,
-                         PRIVATE(this)->widget->size().width(),
-                         PRIVATE(this)->widget->size().height());
-#endif // debug
+
+  if (SOQTCOMP_RESIZE_DEBUG) {  // debug
+    SoDebugError::postInfo("SoQtComponent::show-4",
+                           "raised %p: (%d, %d)",
+                           PRIVATE(this)->widget,
+                           PRIVATE(this)->widget->size().width(),
+                           PRIVATE(this)->widget->size().height());
+  }
+
   this->sizeChanged(PRIVATE(this)->storesize);
-  if (SoQt::getApplication())
-    SoQt::getApplication()->processEvents();
-} // show()
+//    if (SoQt::getApplication()) { SoQt::getApplication()->processEvents(); }
+}
 
 /*!
   This will hide the widget.

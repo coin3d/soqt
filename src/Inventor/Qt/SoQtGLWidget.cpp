@@ -97,14 +97,14 @@ static const char rcsid[] =
 #include <qmetaobject.h>
 #include <moc_SoQtGLWidget.cpp>
 
+#include <Inventor/Qt/SoAny.h>
+#include <Inventor/Qt/SoQtBasic.h>
+#include <Inventor/Qt/SoQtGLWidget.h>
+#include <Inventor/Qt/widgets/SoQtGLArea.h>
+#include <Inventor/SbTime.h>
 #include <Inventor/errors/SoDebugError.h>
 #include <Inventor/misc/SoBasic.h>
-
 #include <soqtdefs.h>
-#include <Inventor/Qt/SoQtBasic.h>
-#include <Inventor/Qt/widgets/SoQtGLArea.h>
-#include <Inventor/Qt/SoQtGLWidget.h>
-#include <Inventor/Qt/SoAny.h>
 
 #if HAVE_CONFIG_H
 #include <config.h>
@@ -196,16 +196,14 @@ static const int SO_BORDER_THICKNESS = 2;
 /*!
   Protected constructor.
 */
-
-SoQtGLWidget::SoQtGLWidget(
-  QWidget * const parent,
-  const char * const name,
-  const SbBool embed,
-  const int glmodes,
-  const SbBool build)
-: inherited(parent, name, embed)
-, waitForExpose(TRUE)
-, drawToFrontBuffer(FALSE)
+SoQtGLWidget::SoQtGLWidget(QWidget * const parent,
+                           const char * const name,
+                           const SbBool embed,
+                           const int glmodes,
+                           const SbBool build)
+  : inherited(parent, name, embed),
+    waitForExpose(TRUE),
+    drawToFrontBuffer(FALSE)
 {
   PRIVATE(this) = new SoQtGLWidgetP;
 
@@ -281,13 +279,12 @@ SoQtGLWidget::~SoQtGLWidget(void)
 /*!
   FIXME: write function documentation
 */
-
 QWidget *
-SoQtGLWidget::buildWidget(
-  QWidget * parent)
+SoQtGLWidget::buildWidget(QWidget * parent)
 {
-  if (parent != NULL && this->isTopLevelShell())
+  if (parent != NULL && this->isTopLevelShell()) {
     parent->installEventFilter(this);
+  }
 
   PRIVATE(this)->borderwidget = new QFrame(parent);
   this->registerWidget(PRIVATE(this)->borderwidget);
@@ -511,11 +508,8 @@ SoQtGLWidget::buildGLWidget(void)
 /*!
   FIXME: write function documentation
 */
-
 bool
-SoQtGLWidget::eventFilter(
-  QObject * obj,
-  QEvent * e)
+SoQtGLWidget::eventFilter(QObject * obj, QEvent * e)
 {
 #if SOQT_DEBUG && 0 // debug
   SoDebugError::postInfo("SoQtGLWidget::eventFilter",
@@ -655,10 +649,8 @@ SoQtGLWidget::setBorder(
 
   \sa setBorder()
 */
-
 SbBool
-SoQtGLWidget::isBorder(
-  void) const
+SoQtGLWidget::isBorder(void) const
 {
   return PRIVATE(this)->borderthickness ? TRUE : FALSE;
 } // isBorder()
@@ -672,10 +664,8 @@ SoQtGLWidget::isBorder(
 
   \sa isDoubleBuffer()
 */
-
 void
-SoQtGLWidget::setDoubleBuffer(
-  const SbBool enable)
+SoQtGLWidget::setDoubleBuffer(const SbBool enable)
 {
   if ((enable && PRIVATE(this)->glformat->doubleBuffer()) ||
        (!enable && !PRIVATE(this)->glformat->doubleBuffer()))
@@ -939,8 +929,7 @@ SoQtGLWidget::glFlushBuffer(void)
 */
 
 void
-SoQtGLWidget::glLockOverlay(
-  void)
+SoQtGLWidget::glLockOverlay(void)
 {
   assert(PRIVATE(this)->currentglwidget != NULL);
   QGLFormat_makeOverlayCurrent((SoQtGLArea *)PRIVATE(this)->currentglwidget);
@@ -949,45 +938,43 @@ SoQtGLWidget::glLockOverlay(
 /*!
   This method drops the lock level.
 */
-
 void
-SoQtGLWidget::glUnlockOverlay(
-  void)
+SoQtGLWidget::glUnlockOverlay(void)
 {
   // does nothing under Qt. Under BeOS the buffer needs to be unlocked  
 } // glUnlock()
 
-/*!
-  FIXME: write doc
-*/
-
+// slot invoked upon QGLWidget initialization
 void
-SoQtGLWidget::gl_init(// slot
-  void)
+SoQtGLWidget::gl_init(void)
 {
+  if (SOQT_DEBUG && 0) { // debug
+    SoDebugError::postInfo("gl_init", "");
+  }
+
   this->initGraphic();
-} // gl_init()
+}
 
-/*!
-  FIXME: write doc
-*/
+// slot invoked upon QGLWidget resizes
 void
-SoQtGLWidget::gl_reshape(// slot
-  int width,
-  int height)
+SoQtGLWidget::gl_reshape(int width, int height)
 {
-  fprintf(stderr,"gl_reshape\n");
+  if (SOQT_DEBUG && 0) { // debug
+    SoDebugError::postInfo("gl_reshape", "<%d, %d>", width, height);
+  }
+
   PRIVATE(this)->glSize = SbVec2s((short) width, (short) height);
   PRIVATE(this)->wasresized = TRUE;
-} // gl_reshape()
+}
 
-/*!
-  FIXME: write doc
-*/
+// slot invoked upon QGLWidget expose events
 void
-SoQtGLWidget::gl_exposed(// slot
-  void)
+SoQtGLWidget::gl_exposed(void)
 {
+  if (SOQT_DEBUG && 0) { // debug
+    SoDebugError::postInfo("gl_exposed", "%f", SbTime::getTimeOfDay().getValue());
+  }
+
   if (this->waitForExpose) {
     this->waitForExpose = FALSE; // Gets flipped from TRUE on first expose.
 #if 0 // tmp disabled
@@ -1009,7 +996,7 @@ SoQtGLWidget::gl_exposed(// slot
   if (!this->glScheduleRedraw()) {
     this->redraw();
   }
-} // gl_exposed()
+}
 
 // *************************************************************************
 
