@@ -2393,7 +2393,7 @@ if test x"$with_qt" != xno; then
     [whether the QGL widget is part of libqt],
     sim_cv_lib_qgl_integrated,
     [AC_TRY_LINK([#include <qgl.h>],
-                 [(void)qGLVersion();],
+                 [QGLFormat * f = new QGLFormat; f->setDepth(true); ],
                  [sim_cv_lib_qgl_integrated=yes],
                  [sim_cv_lib_qgl_integrated=no])])
 
@@ -2411,7 +2411,7 @@ if test x"$with_qt" != xno; then
       if test "x$sim_ac_qgl_libs" = "xUNRESOLVED"; then
         LIBS="$sim_ac_qgl_libcheck $sim_ac_save_LIBS"
         AC_TRY_LINK([#include <qgl.h>],
-                    [(void)qGLVersion();],
+                    [QGLFormat * f = new QGLFormat; f->setDepth(true); ],
                     [sim_ac_qgl_libs="$sim_ac_qgl_libcheck"])
       fi
     done
