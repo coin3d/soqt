@@ -7017,7 +7017,7 @@ else
   cat >conftest.$ac_ext <<_ACEOF
 #line 7018 "configure"
 #include "confdefs.h"
-#include <qkeyevent.h>
+#include <qkeycode.h>
 int
 main ()
 {
@@ -7982,21 +7982,28 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
         ### Turn off specific (bogus) warnings ########################
 
-        ## SGI MipsPro v?.?? (our compiler on IRIX 6.2) ##############
-        # 3115: ``type qualifiers are meaningless in this declaration''.
-        # 3262: unused variables.
-        ## SGI MipsPro v7.30 #########################################
-	# 1174: "The function was declared but never referenced."
-        # 1209: "The controlling expression is constant." (kill warning on
-        #       if (0), assert(FALSE), etc).
-        # 1355: Kill warnings on extra semicolons (which happens with some
-        #       of the Coin macros).
-        # 1375: Non-virtual destructors in base classes.
-        # 3201: Unused argument to a function.
-        # 1110: "Statement is not reachable" (the Lex/Flex generated code in
-        #       Coin/src/engines has lots of shitty code which needs this).
+        ### SGI MipsPro v?.?? (our compiler on IRIX 6.2) ##############
+        ##
+        ## 3115: ``type qualifiers are meaningless in this declaration''.
+        ## 3262: unused variables.
+        ##
+        ### SGI MipsPro v7.30 #########################################
+        ##
+	## 1174: "The function was declared but never referenced."
+        ## 1209: "The controlling expression is constant." (kill warning on
+        ##       if (0), assert(FALSE), etc).
+        ## 1355: Kill warnings on extra semicolons (which happens with some
+        ##       of the Coin macros).
+        ## 1375: Non-virtual destructors in base classes.
+        ## 3201: Unused argument to a function.
+        ## 1110: "Statement is not reachable" (the Lex/Flex generated code in
+        ##       Coin/src/engines has lots of shitty code which needs this).
+        ## 1506: Implicit conversion from "unsigned long" to "long".
+        ##       SbTime.h in SGI/TGS Inventor does this, so we need to kill
+        ##       this warning to avoid all the output clutter when compiling
+        ##       the SoQt, SoGtk or SoXt libraries on IRIX with SGI MIPSPro CC.
 
-        sim_ac_bogus_warnings="-woff 3115,3262,1174,1209,1355,1375,3201,1110"
+        sim_ac_bogus_warnings="-woff 3115,3262,1174,1209,1355,1375,3201,1110,1506"
 
 ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
@@ -8004,13 +8011,13 @@ ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
-echo "$as_me:8007: checking whether $CC accepts $sim_ac_bogus_warnings" >&5
+echo "$as_me:8014: checking whether $CC accepts $sim_ac_bogus_warnings" >&5
 echo $ECHO_N "checking whether $CC accepts $sim_ac_bogus_warnings... $ECHO_C" >&6
 
 sim_ac_save_cppflags=$CPPFLAGS
 CPPFLAGS="$CPPFLAGS $sim_ac_bogus_warnings"
 cat >conftest.$ac_ext <<_ACEOF
-#line 8013 "configure"
+#line 8020 "configure"
 #include "confdefs.h"
 
 int
@@ -8022,16 +8029,16 @@ main ()
 }
 _ACEOF
 rm -f conftest.$ac_objext
-if { (eval echo "$as_me:8025: \"$ac_compile\"") >&5
+if { (eval echo "$as_me:8032: \"$ac_compile\"") >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
-  echo "$as_me:8028: \$? = $ac_status" >&5
+  echo "$as_me:8035: \$? = $ac_status" >&5
   (exit $ac_status); } &&
          { ac_try='test -s conftest.$ac_objext'
-  { (eval echo "$as_me:8031: \"$ac_try\"") >&5
+  { (eval echo "$as_me:8038: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
-  echo "$as_me:8034: \$? = $ac_status" >&5
+  echo "$as_me:8041: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
   sim_ac_accept_result=yes
 else
@@ -8040,7 +8047,7 @@ cat conftest.$ac_ext >&5
 sim_ac_accept_result=no
 fi
 rm -f conftest.$ac_objext conftest.$ac_ext
-echo "$as_me:8043: result: $sim_ac_accept_result" >&5
+echo "$as_me:8050: result: $sim_ac_accept_result" >&5
 echo "${ECHO_T}$sim_ac_accept_result" >&6
 CPPFLAGS=$sim_ac_save_cppflags
 # This need to go last, in case CPPFLAGS is modified in CPPFLAGS="$CPPFLAGS $sim_ac_bogus_warnings" or .
@@ -8062,7 +8069,7 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
   fi
 else
   if test x"$GXX" != x"yes" && test x"$GCC" != x"yes"; then
-    { echo "$as_me:8065: WARNING: --enable-warnings only has effect when using GNU gcc or g++" >&5
+    { echo "$as_me:8072: WARNING: --enable-warnings only has effect when using GNU gcc or g++" >&5
 echo "$as_me: WARNING: --enable-warnings only has effect when using GNU gcc or g++" >&2;}
   fi
 fi
@@ -8134,7 +8141,7 @@ if test "${with_html+set}" = set; then
   case "${withval}" in
     yes) want_html=yes ;;
     no)  want_html=no ;;
-    *) { { echo "$as_me:8137: error: bad value \"${withval}\" for --with-html" >&5
+    *) { { echo "$as_me:8144: error: bad value \"${withval}\" for --with-html" >&5
 echo "$as_me: error: bad value \"${withval}\" for --with-html" >&2;}
    { (exit 1); exit 1; }; } ;;
   esac
@@ -8148,7 +8155,7 @@ if test "${with_man+set}" = set; then
   case "${withval}" in
     yes) want_man=yes ;;
     no)  want_man=no ;;
-    *) { { echo "$as_me:8151: error: bad value \"${withval}\" for --with-man" >&5
+    *) { { echo "$as_me:8158: error: bad value \"${withval}\" for --with-man" >&5
 echo "$as_me: error: bad value \"${withval}\" for --with-man" >&2;}
    { (exit 1); exit 1; }; } ;;
   esac
@@ -8182,7 +8189,7 @@ if test x"$with_doxygen" != xno; then
 
   # Extract the first word of "doxygen", so it can be a program name with args.
 set dummy doxygen; ac_word=$2
-echo "$as_me:8185: checking for $ac_word" >&5
+echo "$as_me:8192: checking for $ac_word" >&5
 echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
 if test "${ac_cv_path_sim_ac_doxygen_exe+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
@@ -8210,15 +8217,15 @@ fi
 sim_ac_doxygen_exe=$ac_cv_path_sim_ac_doxygen_exe
 
 if test -n "$sim_ac_doxygen_exe"; then
-  echo "$as_me:8213: result: $sim_ac_doxygen_exe" >&5
+  echo "$as_me:8220: result: $sim_ac_doxygen_exe" >&5
 echo "${ECHO_T}$sim_ac_doxygen_exe" >&6
 else
-  echo "$as_me:8216: result: no" >&5
+  echo "$as_me:8223: result: no" >&5
 echo "${ECHO_T}no" >&6
 fi
 
   if test x"$sim_ac_doxygen_exe" = xfalse; then
-    { { echo "$as_me:8221: error: Could not find the doxygen tool -- see http://www.stack.nl/~d
+    { { echo "$as_me:8228: error: Could not find the doxygen tool -- see http://www.stack.nl/~d
 imitri/doxygen/" >&5
 echo "$as_me: error: Could not find the doxygen tool -- see http://www.stack.nl/~d
 imitri/doxygen/" >&2;}
@@ -8231,13 +8238,13 @@ fi
 
   sim_ac_doxygen_our_version=1.1.5
   if test x"$sim_ac_doxygen_avail" != x"$sim_ac_doxygen_our_version"; then
-    { echo "$as_me:8234: WARNING: You are not using Doxygen version $sim_ac_doxygen_our_version" >&5
+    { echo "$as_me:8241: WARNING: You are not using Doxygen version $sim_ac_doxygen_our_version" >&5
 echo "$as_me: WARNING: You are not using Doxygen version $sim_ac_doxygen_our_version" >&2;}
   fi
 
   # Extract the first word of "perl", so it can be a program name with args.
 set dummy perl; ac_word=$2
-echo "$as_me:8240: checking for $ac_word" >&5
+echo "$as_me:8247: checking for $ac_word" >&5
 echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
 if test "${ac_cv_path_sim_ac_perl_exe+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
@@ -8265,15 +8272,15 @@ fi
 sim_ac_perl_exe=$ac_cv_path_sim_ac_perl_exe
 
 if test -n "$sim_ac_perl_exe"; then
-  echo "$as_me:8268: result: $sim_ac_perl_exe" >&5
+  echo "$as_me:8275: result: $sim_ac_perl_exe" >&5
 echo "${ECHO_T}$sim_ac_perl_exe" >&6
 else
-  echo "$as_me:8271: result: no" >&5
+  echo "$as_me:8278: result: no" >&5
 echo "${ECHO_T}no" >&6
 fi
 
   if test x"$sim_ac_perl_exe" = xfalse; then
-    { echo "$as_me:8276: WARNING: Could not find the Perl executable" >&5
+    { echo "$as_me:8283: WARNING: Could not find the Perl executable" >&5
 echo "$as_me: WARNING: Could not find the Perl executable" >&2;}
   fi
 
@@ -8625,7 +8632,7 @@ DEFS=-DHAVE_CONFIG_H
 : ${CONFIG_STATUS=./config.status}
 ac_clean_files_save=$ac_clean_files
 ac_clean_files="$ac_clean_files $CONFIG_STATUS"
-{ echo "$as_me:8628: creating $CONFIG_STATUS" >&5
+{ echo "$as_me:8635: creating $CONFIG_STATUS" >&5
 echo "$as_me: creating $CONFIG_STATUS" >&6;}
 cat >$CONFIG_STATUS <<_ACEOF
 #! $SHELL
@@ -8812,7 +8819,7 @@ cat >>$CONFIG_STATUS <<\EOF
     echo "$ac_cs_version"; exit 0 ;;
   --he | --h)
     # Conflict between --help and --header
-    { { echo "$as_me:8815: error: ambiguous option: $1
+    { { echo "$as_me:8822: error: ambiguous option: $1
 Try \`$0 --help' for more information." >&5
 echo "$as_me: error: ambiguous option: $1
 Try \`$0 --help' for more information." >&2;}
@@ -8844,12 +8851,12 @@ Try \`$0 --help' for more information." >&2;}
   'config.h' ) CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
 
   # This is an error.
-  -*) { { echo "$as_me:8847: error: unrecognized option: $1
+  -*) { { echo "$as_me:8854: error: unrecognized option: $1
 Try \`$0 --help' for more information." >&5
 echo "$as_me: error: unrecognized option: $1
 Try \`$0 --help' for more information." >&2;}
    { (exit 1); exit 1; }; } ;;
-  *) { { echo "$as_me:8852: error: invalid argument: $1" >&5
+  *) { { echo "$as_me:8859: error: invalid argument: $1" >&5
 echo "$as_me: error: invalid argument: $1" >&2;}
    { (exit 1); exit 1; }; };;
   esac
@@ -9159,7 +9166,7 @@ done; }
   esac
 
   if test x"$ac_file" != x-; then
-    { echo "$as_me:9162: creating $ac_file" >&5
+    { echo "$as_me:9169: creating $ac_file" >&5
 echo "$as_me: creating $ac_file" >&6;}
     rm -f "$ac_file"
   fi
@@ -9177,7 +9184,7 @@ echo "$as_me: creating $ac_file" >&6;}
       -) echo $tmp/stdin ;;
       [\\/$]* | ?:[\\/]*)
          # Absolute
-         test -f "$f" || { { echo "$as_me:9180: error: cannot find input file: $f" >&5
+         test -f "$f" || { { echo "$as_me:9187: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          echo $f;;
@@ -9190,7 +9197,7 @@ echo "$as_me: error: cannot find input file: $f" >&2;}
            echo $srcdir/$f
          else
            # /dev/null tree
-           { { echo "$as_me:9193: error: cannot find input file: $f" >&5
+           { { echo "$as_me:9200: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          fi;;
@@ -9251,7 +9258,7 @@ for ac_file in : $CONFIG_HEADERS; do test "x$ac_file" = x: && continue
   * )   ac_file_in=$ac_file.in ;;
   esac
 
-  test x"$ac_file" != x- && { echo "$as_me:9254: creating $ac_file" >&5
+  test x"$ac_file" != x- && { echo "$as_me:9261: creating $ac_file" >&5
 echo "$as_me: creating $ac_file" >&6;}
 
   # First look for the input files in the build tree, otherwise in the
@@ -9262,7 +9269,7 @@ echo "$as_me: creating $ac_file" >&6;}
       -) echo $tmp/stdin ;;
       [\\/$]* | ?:[\\/]*)
          # Absolute
-         test -f "$f" || { { echo "$as_me:9265: error: cannot find input file: $f" >&5
+         test -f "$f" || { { echo "$as_me:9272: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          echo $f;;
@@ -9275,7 +9282,7 @@ echo "$as_me: error: cannot find input file: $f" >&2;}
            echo $srcdir/$f
          else
            # /dev/null tree
-           { { echo "$as_me:9278: error: cannot find input file: $f" >&5
+           { { echo "$as_me:9285: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          fi;;
@@ -9392,7 +9399,7 @@ cat >>$CONFIG_STATUS <<\EOF
   rm -f $tmp/in
   if test x"$ac_file" != x-; then
     if cmp -s $ac_file $tmp/config.h 2>/dev/null; then
-      { echo "$as_me:9395: $ac_file is unchanged" >&5
+      { echo "$as_me:9402: $ac_file is unchanged" >&5
 echo "$as_me: $ac_file is unchanged" >&6;}
     else
       ac_dir=`$as_expr X"$ac_file" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
