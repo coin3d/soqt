@@ -591,6 +591,8 @@ SoQtFullViewer::getRenderAreaWidget(void)
 void
 SoQtFullViewer::setComponentCursor(const SoQtCursor & cursor)
 {
+  // FIXME: generic method, move to common code. 20011126 mortene.
+
   // Overridden to apply the new cursor only for the rendering canvas
   // widget. Otherwise, the default SoQtComponent setComponentCursor()
   // method will set the cursor for the top-most parent widget, which
