@@ -188,6 +188,7 @@ install-data-local:
 	fi
 endif
 
+if BUILD_WITH_MSVC
 install-exec-local: soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib
 	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
 	if @BUILD_WITH_MSVC@; then \
@@ -201,6 +202,9 @@ install-exec-local: soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib
 	  done; \
 	else :; \
 	fi
+else
+install-exec-local:
+endif
 
 uninstall-local: uninstall-SoQtincHEADERS uninstall-nodist_SoQtincHEADERS
 	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \

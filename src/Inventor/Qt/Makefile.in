@@ -1913,19 +1913,20 @@ soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib: Makefile \
 @MAC_FRAMEWORK_FALSE@	else :; \
 @MAC_FRAMEWORK_FALSE@	fi
 
-install-exec-local: soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib
-	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
-	if @BUILD_WITH_MSVC@; then \
-	  for ext in dll pdb; do \
-	    file="$$basename.$$ext"; \
-	    if test -f "$$file"; then \
-	      $(mkinstalldirs) "$(DESTDIR)$(bindir)"; \
-	      echo " $(INSTALL_PROGRAM)" "$$file" "$(DESTDIR)$(bindir)/$$file"; \
-	      $(INSTALL_PROGRAM) "$$file" "$(DESTDIR)$(bindir)/$$file" || exit 1; \
-	    fi \
-	  done; \
-	else :; \
-	fi
+@BUILD_WITH_MSVC_TRUE@install-exec-local: soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib
+@BUILD_WITH_MSVC_TRUE@	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
+@BUILD_WITH_MSVC_TRUE@	if @BUILD_WITH_MSVC@; then \
+@BUILD_WITH_MSVC_TRUE@	  for ext in dll pdb; do \
+@BUILD_WITH_MSVC_TRUE@	    file="$$basename.$$ext"; \
+@BUILD_WITH_MSVC_TRUE@	    if test -f "$$file"; then \
+@BUILD_WITH_MSVC_TRUE@	      $(mkinstalldirs) "$(DESTDIR)$(bindir)"; \
+@BUILD_WITH_MSVC_TRUE@	      echo " $(INSTALL_PROGRAM)" "$$file" "$(DESTDIR)$(bindir)/$$file"; \
+@BUILD_WITH_MSVC_TRUE@	      $(INSTALL_PROGRAM) "$$file" "$(DESTDIR)$(bindir)/$$file" || exit 1; \
+@BUILD_WITH_MSVC_TRUE@	    fi \
+@BUILD_WITH_MSVC_TRUE@	  done; \
+@BUILD_WITH_MSVC_TRUE@	else :; \
+@BUILD_WITH_MSVC_TRUE@	fi
+@BUILD_WITH_MSVC_FALSE@install-exec-local:
 
 uninstall-local: uninstall-SoQtincHEADERS uninstall-nodist_SoQtincHEADERS
 	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \

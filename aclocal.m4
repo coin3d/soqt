@@ -8715,7 +8715,7 @@ fi
 # **************************************************************************
 # SIM_AC_HAVE_AGL_IFELSE( IF-FOUND, IF-NOT-FOUND )
 #
-# Check whether WGL is on the system.
+# Check whether AGL is on the system.
 
 AC_DEFUN([SIM_AC_HAVE_AGL_IFELSE], [
 sim_ac_save_ldflags=$LDFLAGS
@@ -8740,6 +8740,22 @@ else
   ifelse([$2], , :, [$2])
 fi
 ]) # SIM_AC_HAVE_AGL_IFELSE()
+ 
+
+AC_DEFUN([SIM_AC_HAVE_AGL_PBUFFER], [
+  AC_CACHE_CHECK([whether we can use AGL pBuffers],
+    sim_cv_agl_pbuffer_avail,
+    [AC_TRY_LINK([ #include <AGL/agl.h> ],
+                 [AGLPbuffer pbuffer;],
+                 [sim_cv_agl_pbuffer_avail=yes],
+                 [sim_cv_agl_pbuffer_avail=no])])
+  
+  if test x"$sim_cv_agl_pbuffer_avail" = xyes; then
+    ifelse([$1], , :, [$1])
+  else
+    ifelse([$2], , :, [$2])
+  fi
+])
 
 
 # Usage:
@@ -10289,12 +10305,12 @@ fi
 # Description:
 #   Take care of making a sensible selection of warning messages
 #   to turn on or off.
-# 
+#
 #   Note: this macro must be placed after either AC_PROG_CC or AC_PROG_CXX
 #   in the configure.in script.
-# 
+#
 # Author: Morten Eriksen, <mortene@sim.no>.
-# 
+#
 # TODO:
 #   * [mortene:19991114] find out how to get GCC's
 #     -Werror-implicit-function-declaration option to work as expected
@@ -10323,16 +10339,16 @@ if test x"$enable_warnings" = x"yes"; then
       SIM_AC_CC_COMPILER_OPTION([$sim_ac_try_warning_option],
                                 [CFLAGS="$CFLAGS $sim_ac_try_warning_option"])
     fi
-  
+
     if test x"$GXX" = x"yes"; then
       SIM_AC_CXX_COMPILER_OPTION([$sim_ac_try_warning_option],
                                  [CXXFLAGS="$CXXFLAGS $sim_ac_try_warning_option"])
     fi
 
   done
-    
+
   case $host in
-  *-*-irix*) 
+  *-*-irix*)
     ### Turn on all warnings ######################################
     # we try to catch settings like CC="CC -n32" too, even though the
     # -n32 option belongs to C[XX]FLAGS
@@ -10446,10 +10462,6 @@ SIM_AC_COMPILE_DEBUG([
       # warning level 3
       SIM_AC_CC_COMPILER_OPTION([/W3], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS /W3"])
       SIM_AC_CXX_COMPILER_OPTION([/W3], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS /W3"])
-
-      # disable bool type
-      SIM_AC_CC_COMPILER_OPTION([/noBool], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS /noBool"])
-      SIM_AC_CXX_COMPILER_OPTION([/noBool], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS /noBool"])
       ;;
     esac
   fi
@@ -10458,8 +10470,6 @@ SIM_AC_COMPILE_DEBUG([
 ifelse($1, [], :, $1)
 
 ])
-  
-
 
 #
 # SIM_AC_CHECK_PROJECT_BETA_STATUS_IFELSE( IF-BETA, IF-BONA-FIDE )
