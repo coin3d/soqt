@@ -149,9 +149,9 @@ fi
 case $host_os in
 darwin* ) 
   sim_ac_macosx=true 
-  # Check for Mac OS 10.2 or 10.3
+  # Check for Mac OS 10.2 or later
   case $host_os in
-  darwin[[67]].* ) 
+  darwin[[678]].* ) 
     sim_ac_macosx_10_2ff=true 
     ;;
   * )         
@@ -161,6 +161,7 @@ darwin* )
   ;;
   * ) 
   sim_ac_macosx=false ;;
+  sim_ac_macosx_10_2ff=false 
 esac
 
 # Initialize libtool
@@ -827,11 +828,6 @@ AC_SUBST([LIBFLAGS], [])
 # Remaining setup based on platform.
 
 AM_CONDITIONAL([BUILD_WITH_MSVC], [$BUILD_WITH_MSVC])
-
-if test x"$sim_ac_macosx_10_2ff" = x"true"; then
-  # No undefined symbols allowed in two-level namespace shared libs.
-  LDFLAGS="$LDFLAGS -no-undefined"
-fi
 
 # **************************************************************************
 
