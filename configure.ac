@@ -203,6 +203,10 @@ AM_CONDITIONAL(BUILD_LIBRARY, $sim_ac_build_library)
 
 SIM_AC_SOGUI_SETUP_DOXYGEN(SoQt)
 
+# The following variables are used in sogui.doxygen.in
+AC_SUBST([SOGUI_MAJOR_VERSION], [SOQT_MAJOR])
+AC_SUBST([SOGUI_MINOR_VERSION], [SOQT_MINOR])
+
 AM_CONDITIONAL([BUILD_METAFILES], [true])
 AC_SUBST([meta_prefix], [moc_])
 
@@ -848,6 +852,7 @@ AC_OUTPUT([
 	man/man1/Makefile
 	man/man3/Makefile
 	html/Makefile
+	htmlhelp/Makefile
 ])
 
 if $sim_ac_make_dsp; then :; else
