@@ -100,25 +100,50 @@ static const char rcsid[] =
 #include <config.h>
 #endif // HAVE_CONFIG_H
 
+// Abstract the overlay handling methods on QGLFormat and QGLWidget,
+// because they may or may not be there depending on the version of
+// the QGL library installed on the users system.
+//
+// (And we'd like to avoid scattering #ifdef's all over the code, so
+// we make some new functions.)
+//
+#if HAVE_QGLFORMAT_SETOVERLAY
+static inline bool QGLFormat_hasOverlay(const QGLFormat * f)
+{ return f->hasOverlay(); }
+static inline void QGLFormat_setOverlay(QGLFormat * f, bool enable)
+{ f->setOverlay( enable ); }
+static inline void QGLFormat_makeOverlayCurrent(QGLWidget * w)
+{ w->makeOverlayCurrent(); }
+#else // !HAVE_QGLFORMAT_SETOVERLAY
+static inline bool QGLFormat_hasOverlay(const QGLFormat * f) { return false; }
+static inline void QGLFormat_setOverlay(QGLFormat * f, bool enable) { }
+static inline void QGLFormat_makeOverlayCurrent(QGLWidget * w) { }
+#endif // !HAVE_QGLFORMAT_SETOVERLAY
+
+
+// For Qt v2.2.2 at least, Troll Tech forgot to include
+// operator==(QGLFormat&,QGLFormat&) in the publicly exported API for
+// MSWindows DLLs. This abstracts the workaround into a method
+// QGLFormat_eq().
+//
+#if HAVE_QGLFORMAT_EQ_OP
 static inline bool
 QGLFormat_eq(const QGLFormat & a, const QGLFormat & b)
 {
-  // For Qt v2.2.2 at least, Troll Tech forgot to include
-  // operator==(QGLFormat&,QGLFormat&) in the publicly exported API
-  // for MSWindows DLLs.
-#ifndef HAVE_QGLFORMAT_EQ_OP
+  return (a == b);
+}
+#else // !HAVE_QGLFORMAT_EQ_OP
+static inline bool
+QGLFormat_eq(const QGLFormat & a, const QGLFormat & b)
+{
   if (a.doubleBuffer() != b.doubleBuffer()) return false;
   if (a.depth() != b.depth()) return false;
   if (a.rgba() != b.rgba()) return false;
   if (a.stereo() != b.stereo()) return false;
-#if HAVE_QGLFORMAT_SETOVERLAY
-  if (a.hasOverlay() != b.hasOverlay()) return false;
-#endif // HAVE_QGLFORMAT_SETOVERLAY
+  if (QGLFormat_hasOverlay(&a) != QGLFormat_hasOverlay(&b)) return false;
   return true;
-#else // HAVE_QGLFORMAT_EQ_OP
-  return (a == b);
-#endif // HAVE_QGLFORMAT_EQ_OP
 }
+#endif // !HAVE_QGLFORMAT_EQ_OP
 
 // *************************************************************************
 
@@ -174,14 +199,16 @@ SoQtGLWidget::SoQtGLWidget(
   THIS->glformat->setDepth((glmodes & SO_GL_ZBUFFER) ? true : false);
   THIS->glformat->setRgba((glmodes & SO_GL_RGB) ? true : false);
   THIS->glformat->setStereo((glmodes & SO_GL_STEREO) ? true : false);
-#if HAVE_QGLFORMAT_SETOVERLAY
-  THIS->glformat->setOverlay((glmodes & SO_GL_OVERLAY) ? true : false);
-#else
-  if (glmodes & SO_GL_OVERLAY) {
-    SoDebugError::post( "SoQtGLWidget::SoQtGLWidget",
-      "overlay not available!" );
+  bool enableoverlay = (glmodes & SO_GL_OVERLAY) ? true : false;
+  QGLFormat_setOverlay(THIS->glformat, enableoverlay);
+
+#if SOQT_DEBUG
+  if (enableoverlay && !QGLFormat_hasOverlay(THIS->glformat)) {
+    SoDebugError::postWarning( "SoQtGLWidget::SoQtGLWidget",
+                               "your Qt/QGL library has no support "
+                               "for handling overlay planes" );
   }
-#endif // HAVE_QGLFORMAT_SETOVERLAY
+#endif // SOQT_DEBUG
 
   THIS->glparent = NULL;
   THIS->currentglwidget = NULL;
@@ -267,7 +294,7 @@ SoQtGLWidget::buildWidget(
 //  2) robustness; killing off the previous widget in the build-method
 //  below has nasty sideeffects (like "random" coredumps), since the
 //  Qt event loop might be using it
-void 
+void
 SoQtGLWidget::buildGLWidget(void)
 {
 #if SOQT_DEBUG && 0 // debug
@@ -277,13 +304,7 @@ SoQtGLWidget::buildGLWidget(void)
                          THIS->glformat->depth() ? "z-buffer" : "no z-buffer",
                          THIS->glformat->rgba() ? "RGBA" : "colorindex",
                          THIS->glformat->stereo() ? "stereo" : "mono",
-#if HAVE_QGLFORMAT_SETOVERLAY
-                         THIS->glformat->hasOverlay() ?
-#else // !HAVE_QGLFORMAT_SETOVERLAY
-                         FALSE ?
-#endif // !HAVE_QGLFORMAT_SETOVERLAY
-                         "overlay" : "no overlay");
-
+                         QGLFormat_hasOverlay(THIS->glformat) ? "overlay" : "no overlay");
 #endif // debug
 
   SoQtGLArea * wascurrent = THIS->currentglwidget;
@@ -343,9 +364,15 @@ SoQtGLWidget::buildGLWidget(void)
   GLWIDGET_FEATURECMP(depth, "visual with depthbuffer", "visual without depthbuffer");
   GLWIDGET_FEATURECMP(rgba, "RGBA buffer", "colorindex buffer");
   GLWIDGET_FEATURECMP(stereo, "stereo buffers", "mono buffer");
-#if HAVE_QGLFORMAT_SETOVERLAY
-  GLWIDGET_FEATURECMP(hasOverlay, "overlay plane(s)", "visual without overlay plane(s)");
-#endif // HAVE_QGLFORMAT_SETOVERLAY
+
+  if (QGLFormat_hasOverlay(w) != QGLFormat_hasOverlay(&g)) {
+    SoDebugError::postWarning("SoQtGLWidget::buildGLWidget",
+                              "wanted %s, but that is not supported "
+                              "by the OpenGL driver",
+                              QGLFormat_hasOverlay(w) ?
+                              "overlay plane(s)" :
+                              "visual without overlay plane(s)");
+  }
 
 #undef GLWIDGET_FEATURECMP
 
@@ -507,9 +534,9 @@ SoQtGLWidget::eventFilter(
 //                                   THIS->borderthickness,
 //                                   newwidth - 1, newheight -1 );
 //      QRect glarea = THIS->borderwidget->contentsRect();
-//      glarea = 
+//      glarea =
 //      this->glwidget->setGeometry( THIS->borderwidget->contentsRect() );
-  
+
 /*
       int newwidth = r->size().width();
       int newheight = r->size().height();
@@ -565,7 +592,7 @@ SoQtGLWidget::setBorder(
       QRect( THIS->borderthickness, THIS->borderthickness,
              frame.width() - 2 * THIS->borderthickness,
              frame.height() - 2 * THIS->borderthickness ) );
-   
+
 //    this->glwidget->resize(
 //      frame.width() - 2 * THIS->borderthickness,
 //      frame.height() - 2 * THIS->borderthickness );
@@ -622,7 +649,7 @@ SoQtGLWidget::isDoubleBuffer(void) const
 /*!
   Enables or disables quad buffer stereo.
 */
-void 
+void
 SoQtGLWidget::setQuadBufferStereo(const SbBool enable)
 {
   if ( (enable && THIS->glformat->stereo()) ||
@@ -638,7 +665,7 @@ SoQtGLWidget::setQuadBufferStereo(const SbBool enable)
   Returns \c TRUE if quad buffer stereo is enabled for this widget.
 */
 
-SbBool 
+SbBool
 SoQtGLWidget::isQuadBufferStereo(void) const
 {
   return THIS->glformat->stereo();
@@ -832,9 +859,7 @@ SoQtGLWidget::glLock(
     if ( THIS->currentIsNormal ) {
       ((SoQtGLArea *)THIS->currentglwidget)->makeCurrent();
     } else {
-#if HAVE_QGLFORMAT_SETOVERLAY
-      ((SoQtGLArea *)THIS->currentglwidget)->makeOverlayCurrent();
-#endif // HAVE_QGLFORMAT_SETOVERLAY
+      QGLFormat_makeOverlayCurrent((SoQtGLArea *)THIS->currentglwidget);
     }
   }
 #if SOQT_DEBUG
@@ -969,8 +994,9 @@ SoQtGLWidget::setOverlayRender(
     assert( 0 );
   }
 #endif
-  if ( enable != THIS->currentIsNormal ) return; // silence the debug message
+
   THIS->currentIsNormal = enable ? FALSE : TRUE;
+
 #if SOQT_DEBUG && 0
   SoDebugError::postInfo( "SoQtGLWidget::setOverlayRender",
     "render set to %s", THIS->currentIsNormal ? "normal" : "overlay" );
