@@ -1890,8 +1890,7 @@ sim_ac_qt_avail=no
 if test x"$with_qt" != xno; then
   sim_ac_path=$PATH
 
-  # change \ to / in QTDIR
-  sim_ac_qt_dir="`echo $QTDIR | sed -e 's/\\\\/\\//g'`"
+  SIM_AC_DEBACKSLASH(sim_ac_qt_dir, $QTDIR)
 
   if test x"$with_qt" != xyes; then
     sim_ac_qt_cppflags="-I${with_qt}/include"
@@ -1912,7 +1911,7 @@ if test x"$with_qt" != xno; then
 
   # if we have to use mswin link style (.lib)
   if test x"$sim_ac_linking_style" = xmswin; then
-    sim_ac_qt_libs=qt.lib
+    sim_ac_qt_libs="qt.lib gdi32.lib ole32.lib imm32.lib comdlg32.lib"
   else
     sim_ac_qt_libs=-lqt
   fi
@@ -2059,6 +2058,28 @@ if test x"$sim_cv_func_qglformat_setoverlay" = xyes; then
   AC_DEFINE([HAVE_QGLFORMAT_SETOVERLAY], 1,
     [Define this to 1 if QGLFormat::setOverlay() is available])
 fi
+])
+
+# Convenience macros SIM_AC_DEBACKSLASH and SIM_AC_DOBACKSLASH for
+# converting to and from MSWin/MS-DOS style paths.
+#
+# Example use:
+#
+#     SIM_AC_DEBACKSLASH(my_ac_reversed, "C:\\mydir\\bin")
+#
+# will give a shell variable $my_ac_reversed with the value "C:/mydir/bin").
+# Vice versa for SIM_AC_DOBACKSLASH.
+#
+# Author: Marius Bugge Monsen <mariusbu@sim.no>
+#         Lars Jørgen Aas <larsa@sim.no>
+#         Morten Eriksen <mortene@sim.no>
+
+AC_DEFUN([SIM_AC_DEBACKSLASH], [
+eval "$1=\"`echo $2 | sed -e 's%\\\\%\\/%g'`\""
+])
+
+AC_DEFUN([SIM_AC_DOBACKSLASH], [
+eval "$1=\"`echo $2 | sed -e 's%\\/%\\\\%g'`\""
 ])
 
 # Usage:
@@ -2500,26 +2521,4 @@ includedir="`eval echo $includedir`"
 libdir="`eval echo $libdir`"
 ])
 
-
-# Convenience macros SIM_AC_DEBACKSLASH and SIM_AC_DOBACKSLASH for
-# converting to and from MSWin/MS-DOS style paths.
-#
-# Example use:
-#
-#     SIM_AC_DEBACKSLASH(my_ac_reversed, "C:\\mydir\\bin")
-#
-# will give a shell variable $my_ac_reversed with the value "C:/mydir/bin").
-# Vice versa for SIM_AC_DOBACKSLASH.
-#
-# Author: Marius Bugge Monsen <mariusbu@sim.no>
-#         Lars Jørgen Aas <larsa@sim.no>
-#         Morten Eriksen <mortene@sim.no>
-
-AC_DEFUN([SIM_AC_DEBACKSLASH], [
-eval "$1=\"`echo $2 | sed -e 's%\\\\%\\/%g'`\""
-])
-
-AC_DEFUN([SIM_AC_DOBACKSLASH], [
-eval "$1=\"`echo $2 | sed -e 's%\\/%\\\\%g'`\""
-])
 
