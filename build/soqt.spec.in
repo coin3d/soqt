@@ -21,9 +21,9 @@ Summary: Qt GUI widgets for Coin / Open Inventor.
 Name: SoQt
 Version: @VERSION@
 Release: @soqt_configure_date@
-Copyright: Q Public License (QPL)
+Copyright: Lesser General Public License (LGPL)
 Group: Development/Libraries
-URL: http://www.coin3d.org
+URL: http://www.coin3d.org/
 Vendor: Systems in Motion
 Packager: Morten Eriksen <mortene@sim.no>
 
@@ -80,6 +80,7 @@ strip @libdir@/libSoQt.so.1.0.0
 @datadir@/aclocal/soqt.m4
 @includedir@/Inventor/Qt/SoQt.h
 @includedir@/Inventor/Qt/SoQtBasic.h
+@includedir@/Inventor/Qt/SoQtObject.h
 @includedir@/Inventor/Qt/SoQtComponent.h
 @includedir@/Inventor/Qt/SoQtCursors.h
 @includedir@/Inventor/Qt/SoQtGLWidget.h
