@@ -2035,65 +2035,69 @@ fi
 ]) # SIM_AC_HAVE_INVENTOR_IMAGE_IFELSE
 
 # **************************************************************************
-# SIM_AC_HAVE_INVENTOR_IFELSE
+# SIM_AC_HAVE_INVENTOR_IFELSE( [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND] ] )
+#
+# Defines $sim_ac_inventor_cppflags, $sim_ac_inventor_ldflags and
+# $sim_ac_inventor_libs.
 
 AC_DEFUN([SIM_AC_HAVE_INVENTOR_IFELSE], [
 AC_REQUIRE([SIM_AC_WITH_INVENTOR])
 
 if $sim_ac_want_inventor; then
-  sim_ac_inventor_save_CPPFLAGS="$CPPFLAGS";
-  sim_ac_inventor_save_LDFLAGS="$LDFLAGS";
-  sim_ac_inventor_save_LIBS="$LIBS";
+  sim_ac_save_CPPFLAGS="$CPPFLAGS";
+  sim_ac_save_LDFLAGS="$LDFLAGS";
+  sim_ac_save_LIBS="$LIBS";
 
   SIM_AC_HAVE_INVENTOR_IMAGE_IFELSE([
     sim_ac_inventor_cppflags="$sim_ac_inventor_image_cppflags"
     sim_ac_inventor_ldflags="$sim_ac_inventor_image_ldflags"
-    sim_ac_inventor_libs="-lInventor $sim_ac_inventor_image_libs"
   ], [
     if test s${sim_ac_inventor_path+et} = set; then
       sim_ac_inventor_cppflags="-I${sim_ac_inventor_path}/include"
       sim_ac_inventor_ldflags="-L${sim_ac_inventor_path}/lib"
     fi
-    sim_ac_inventor_libs="-lInventor"
+    sim_ac_inventor_image_libs=
   ])
 
-# temporarily disabled
-#  if test x"$sim_ac_linking_style" = xmswin; then
-#    cat <<EOF > conftest.c
+  # Let's at least test for "libInventor".
+  sim_ac_inventor_chk_libs="-lInventor"
+
+  # See if we can get the TGS_VERSION number for including a
+  # check for inv{ver}.lib.
+    cat <<EOF > conftest.c
 #include <Inventor/SbBasic.h>
-#PeekInventorVersion: TGS_VERSION
-#EOF
-#    iv_version=`$CXX -E conftest.c 2>/dev/null | grep "^PeekInventorVersion" | sed 's/.* //g'`
-#    if test x"$iv_version" = xTGS_VERSION; then
-#      AC_MSG_ERROR([SbBasic.h does not define TGS_VERSION.  Maybe it's a Coin file?])
-#    fi
-#    iv_version=`echo $iv_version | sed 's/.$//'`
-#    rm -f conftest.c
-#    sim_ac_inventor_libs="inv${iv_version}.lib"
-#    sim_ac_inventor_enter="#include <SoWinEnterScope.h>"
-#    sim_ac_inventor_leave="#include <SoWinLeaveScope.h>"
-#  else
-#    sim_ac_inventor_libs="-lInventor"
-#  fi
+PeekInventorVersion: TGS_VERSION
+EOF
+  tgs_version=`$CPP $sim_ac_inventor_cppflags $CPPFLAGS conftest.c 2>/dev/null | egrep "^PeekInventorVersion" | sed 's/.* //g'`
+  rm -f conftest.c
+  if test x"$tgs_version" != xTGS_VERSION; then
+    tgs_version=`echo $tgs_version | cut -c-3`
+    sim_ac_inventor_chk_libs="$sim_ac_inventor_chk_libs inv${tgs_version}.lib"
+  fi
 
-  AC_CACHE_CHECK([for Open Inventor developer kit],
-    sim_cv_have_inventor,
-    [CPPFLAGS="$CPPFLAGS $sim_ac_inventor_cppflags"
-    LDFLAGS="$LDFLAGS $sim_ac_inventor_ldflags"
-    LIBS="$sim_ac_inventor_libs $LIBS"
-    AC_TRY_LINK([$sim_ac_inventor_enter
-                 #include <Inventor/SoDB.h>],
-                 [SoDB::init();],
-                 [sim_cv_have_inventor=true],
-                 [sim_cv_have_inventor=false])
-    CPPFLAGS="$sim_ac_inventor_save_CPPFLAGS"
-    LDFLAGS="$sim_ac_inventor_save_LDFLAGS"
-    LIBS="$sim_ac_inventor_save_LIBS"])
+  AC_MSG_CHECKING([for Open Inventor library])
+  sim_ac_inventor_libs=UNRESOLVED
 
-  if $sim_cv_have_inventor; then
-    ifelse([$1], , :, [$1])
+  for sim_ac_iv_cppflags_loop in "" "-DWIN32"; do
+    for sim_ac_iv_libcheck in $sim_ac_inventor_chk_libs; do
+      if test "x$sim_ac_inventor_libs" = "xUNRESOLVED"; then
+        CPPFLAGS="$sim_ac_iv_cppflags_loop $sim_ac_inventor_cppflags $sim_ac_save_CPPFLAGS"
+        LDFLAGS="$sim_ac_inventor_ldflags $sim_ac_save_LDFLAGS"
+        LIBS="$sim_ac_iv_libcheck $sim_ac_inventor_image_libs $sim_ac_save_LIBS"
+        AC_TRY_LINK([#include <Inventor/SoDB.h>],
+                    [SoDB::init();],
+                    [sim_ac_inventor_libs="$sim_ac_iv_libcheck"
+                     sim_ac_inventor_cppflags="$sim_ac_iv_cppflags_loop $sim_ac_inventor_cppflags"])
+      fi
+    done
+  done
+
+  if test "x$sim_ac_inventor_libs" != "xUNRESOLVED"; then
+    AC_MSG_RESULT($sim_ac_inventor_cppflags $sim_ac_inventor_ldflags $sim_ac_inventor_libs)
+    $1
   else
-    ifelse([$2], , :, [$2])
+    AC_MSG_RESULT([unavailable])
+    $2
   fi
 else
   ifelse([$2], , :, [$2])
