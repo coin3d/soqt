@@ -66,6 +66,9 @@
 #include <Inventor/Qt/common/pixmaps/ortho.xpm>
 #include <Inventor/Qt/common/pixmaps/perspective.xpm>
 
+#define PRIVATE(obj) ((obj)->pimpl)
+#define PUBLIC(obj) ((obj)->pub)
+
 // *************************************************************************
 
 SOQT_OBJECT_SOURCE(SoQtExaminerViewer);
@@ -227,3 +230,7 @@ SoQtExaminerViewerP::cameratoggleClicked()
 // *************************************************************************
 
 #endif // DOXYGEN_SKIP_THIS
+
+#undef PRIVATE
+#undef PUBLIC
+
