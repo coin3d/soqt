@@ -176,6 +176,7 @@ SoGui_src_Inventor_Gui_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.h \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@.h \
+  $(top_builddir)/src/Inventor/@Gui@/SoGuiP.h \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@Component.h \
@@ -888,6 +889,9 @@ $(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp: $(top_srcdir)/src/Inventor
 
 $(top_builddir)/src/Inventor/@Gui@/So@Gui@.h: $(top_srcdir)/src/Inventor/@Gui@/common/SoGui.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/So@Gui@.h:src/Inventor/@Gui@/common/SoGui.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/SoGuiP.h: $(top_srcdir)/src/Inventor/@Gui@/common/SoGuiP.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/SoGuiP.h:src/Inventor/@Gui@/common/SoGuiP.h.in )
 
 $(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/SoGuiCommon.cpp.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/So@Gui@Common.cpp:src/Inventor/@Gui@/common/SoGuiCommon.cpp.in )
