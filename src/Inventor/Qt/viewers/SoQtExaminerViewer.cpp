@@ -396,18 +396,14 @@ SoQtExaminerViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
   this->cameratogglebutton->setFocusPolicy(QWidget::NoFocus);
   assert(this->perspectivepixmap);
   assert(this->orthopixmap);
-  // Doesn't really matter which pixmap, this is just to make sure
-  // that the adjustSize() call will come out right.
-  QPixmap * p = this->orthopixmap;
-  SoCamera * cam = this->getCamera();
-  if (cam) {
-    SoType t = cam->getTypeId();
-    if (t.isDerivedFrom(SoOrthographicCamera::getClassTypeId()))
-      p = this->orthopixmap;
-    else if (t.isDerivedFrom(SoPerspectiveCamera::getClassTypeId()))
-      p = this->perspectivepixmap;
-    else assert(0);
-  }
+
+  QPixmap * p = NULL;
+  SoType t = this->getCameraType();
+  if (t.isDerivedFrom(SoOrthographicCamera::getClassTypeId()))
+    p = this->orthopixmap;
+  else if (t.isDerivedFrom(SoPerspectiveCamera::getClassTypeId()))
+    p = this->perspectivepixmap;
+  else assert(0 && "unsupported cameratype");
 
   this->cameratogglebutton->setPixmap(*p);
   this->cameratogglebutton->adjustSize();
@@ -979,7 +975,7 @@ SoQtExaminerViewer::feedbackSizeChanged(float val)
 void
 SoQtExaminerViewer::cameratoggleClicked()
 {
-  this->toggleCameraType();
+  if ( this->getCamera() ) this->toggleCameraType();
 } // cameratoggleClicked()
 
 // *************************************************************************

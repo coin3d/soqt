@@ -504,17 +504,15 @@ SoQtPlaneViewer::createViewerButtons( // virtual
   assert( this->pixmaps.orthogonal != NULL );
   this->buttons.camera = new QPushButton( parent );
   this->buttons.camera->setFocusPolicy( QWidget::NoFocus );
-  QPixmap * pixmap = this->pixmaps.orthogonal;
-  SoCamera * cam = this->getCamera();
-  if ( cam != NULL ) {
-    SoType type = cam->getTypeId();
-    if ( type.isDerivedFrom(SoOrthographicCamera::getClassTypeId()) )
-      pixmap = this->pixmaps.orthogonal;
-    else if ( type.isDerivedFrom(SoPerspectiveCamera::getClassTypeId()) )
-      pixmap = this->pixmaps.perspective;
-    else
-      assert( 0 && "impossible" );
-  }
+
+  QPixmap * pixmap = NULL;
+  SoType t = this->getCameraType();
+  if (t.isDerivedFrom(SoOrthographicCamera::getClassTypeId()))
+    pixmap = this->pixmaps.orthogonal;
+  else if (t.isDerivedFrom(SoPerspectiveCamera::getClassTypeId()))
+    pixmap = this->pixmaps.perspective;
+  else assert(0 && "unsupported cameratype");
+
   this->buttons.camera->setPixmap( *pixmap );
   buttons->append( this->buttons.camera );
 
@@ -618,7 +616,7 @@ void
 SoQtPlaneViewer::cameraToggleClicked(
   void )
 {
-  this->toggleCameraType();
+  if ( this->getCamera() ) this->toggleCameraType();
 } // cameraToggleClicked()
 
 // ************************************************************************

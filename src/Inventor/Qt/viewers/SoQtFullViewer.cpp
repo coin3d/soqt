@@ -1911,7 +1911,7 @@ void
 SoQtFullViewer::setCameraZoom(const float val)
 {
   SoCamera * cam = this->getCamera();
-  assert(cam);
+  if ( ! cam ) return; // can happen for empty scenegraph
 
   SoType t = cam->getTypeId();
 
@@ -1934,7 +1934,7 @@ float
 SoQtFullViewer::getCameraZoom(void)
 {
   SoCamera * cam = this->getCamera();
-  assert(cam);
+  if ( ! cam ) return 0.0f; // can happen for empty scenegraph
 
   SoType t = cam->getTypeId();
 
