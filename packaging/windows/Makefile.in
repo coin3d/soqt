@@ -92,7 +92,7 @@ sourcelist.nsi: $(Project)-$(VERSION) Makefile
 	done ) >sourcelist.nsi
 
 buildfileslist.nsi: buildfiles Makefile
-	( prevdir=; cd build-files; for path in ./$(project)$(major).* `find . -name "*.h"`; do \
+	( prevdir=; cd build-files; for path in ./$(project)$(major).* `find . -name "*.h" -o -name "*.cpp" -o -name "*.ih" -o -name "*.icc"`; do \
 	  dir=`echo $$path | sed 's/\/[^\/]*$$//'`; \
 	  if test x"$$dir" != x"$$prevdir"; then \
 	    prevdir=$$dir; \
