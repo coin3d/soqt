@@ -28,12 +28,14 @@
 #include <qapplication.h>
 #include <qwidget.h>
 
+#include <SoGuiP.h>
+
 // ************************************************************************
 
 // This class contains private data and methods used within the SoQt
 // class.
 
-class SoQtP : public QObject
+class SoQtP : public QObject, public SoGuiP
 {
   Q_OBJECT
 

@@ -151,7 +151,7 @@ SoQtP::slot_timedOutSensor()
   // The change callback is _not_ called automatically from
   // SoSensorManager after the process methods, so we need to
   // explicitly trigger it ourselves here.
-  SoQt::sensorQueueChanged(NULL);
+  SoGuiP::sensorQueueChanged(NULL);
 }
 
 // The system is idle, so we're going to process the queue of delay
@@ -171,7 +171,7 @@ SoQtP::slot_idleSensor()
   // The change callback is _not_ called automatically from
   // SoSensorManager after the process methods, so we need to
   // explicitly trigger it ourselves here.
-  SoQt::sensorQueueChanged(NULL);
+  SoGuiP::sensorQueueChanged(NULL);
 }
 
 // The delay sensor timeout point has been reached, so process the
@@ -193,96 +193,15 @@ SoQtP::slot_delaytimeoutSensor()
   // The change callback is _not_ called automatically from
   // SoSensorManager after the process methods, so we need to
   // explicitly trigger it ourselves here.
-  SoQt::sensorQueueChanged(NULL);
-}
-
-// *************************************************************************
-
-// We overload the QApplication class to be able to get hold of the
-// X11 events directly. (This is necessary to handle Spacetec
-// spaceball devices.)
-class SoQtApplication : public QApplication {
-public:
-  SoQtApplication(int argc, char ** argv) : QApplication(argc, argv) { }
-#ifdef HAVE_X11_AVAILABLE
-  virtual bool x11EventFilter(XEvent * e) {
-    SPW_InputEvent sbEvent;
-    QWidget * topw = SoQt::getTopLevelWidget();
-    if (topw && SPW_TranslateEventX11(topw->x11Display(), e, &sbEvent)) {
-      QWidget * focus = this->focusWidget();
-      if (!focus) focus = this->activeWindow();
-      if (focus) {
-        QCustomEvent qevent((QEvent::Type)SoQtInternal::SPACEBALL_EVENT,
-                            (void *)&sbEvent);
-        QApplication::sendEvent(focus, &qevent);
-      }
-    }
-    return QApplication::x11EventFilter(e);
-  }
-#endif // HAVE_X11_AVAILABLE
-};
-
-#endif // DOXYGEN_SKIP_THIS
-
-// *************************************************************************
-
-// documented as
-//   void SoQt::init(QWidget * toplevelwidget)
-// in common/SoGuiCommon.cpp.in
-void
-SoQt::internal_init(QWidget * toplevelwidget)
-{
-  // This init()-method is called by the other 2 init()'s, so place
-  // common code here.
-
-  if (SOQT_DEBUG && SoQtP::mainwidget) {
-    SoDebugError::postWarning("SoQt::init",
-                              "This method should be called only once.");
-    return;
-  }
-
-  SoDB::init();
-  SoNodeKit::init();
-  SoInteraction::init();
-  SoQtObject::init();
-
-  SoDB::getSensorManager()->setChangedCallback(SoQt::sensorQueueChanged, NULL);
-  SoQtP::mainwidget = toplevelwidget;
-}
-
-// documented as
-//   @WIDGET@ * So@Gui@::init(int & argc, char ** argv,
-//                            const char * appname,
-//                            const char * classname)
-// in common/SoGuiCommon.cpp.in
-QWidget *
-SoQt::internal_init(int & argc, char ** argv,
-                    const char * appname,
-                    const char * classname)
-{
-  if (SOQT_DEBUG && (SoQtP::appobject || SoQtP::mainwidget)) {
-    SoDebugError::postWarning("SoQt::init",
-                              "This method should be called only once.");
-    return SoQtP::mainwidget;
-  }
-
-  SoQtP::appobject = new SoQtApplication(argc, argv);
-  QWidget * mainw = new QWidget(NULL, classname);
-  SoQtP::didcreatemainwidget = TRUE;
-  SoQt::init(mainw);
-
-  if (appname) { SoQtP::mainwidget->setCaption(appname); }
-  SoQtP::appobject->setMainWidget(SoQtP::mainwidget);
-  return SoQtP::mainwidget;
+  SoGuiP::sensorQueueChanged(NULL);
 }
 
 // This function gets called whenever something has happened to any of
 // the sensor queues. It starts or reschedules a timer which will
 // trigger when a sensor is ripe for plucking.
 void
-SoQt::sensorQueueChanged(void *)
+SoGuiP::sensorQueueChanged(void *)
 {
-
   // We need three different mechanisms to interface Coin with Qt, 
   // which are:
   // 1. detect when application is idle (and then empty the delay-queue
@@ -363,6 +282,78 @@ SoQt::sensorQueueChanged(void *)
     if (SoQtP::idletimer->isActive()) SoQtP::idletimer->stop();
     if (SoQtP::delaytimeouttimer->isActive()) SoQtP::delaytimeouttimer->stop();
   }
+}
+
+// *************************************************************************
+
+// We overload the QApplication class to be able to get hold of the
+// X11 events directly. (This is necessary to handle Spacetec
+// spaceball devices.)
+class SoQtApplication : public QApplication {
+public:
+  SoQtApplication(int argc, char ** argv) : QApplication(argc, argv) { }
+#ifdef HAVE_X11_AVAILABLE
+  virtual bool x11EventFilter(XEvent * e) {
+    SPW_InputEvent sbEvent;
+    QWidget * topw = SoQt::getTopLevelWidget();
+    if (topw && SPW_TranslateEventX11(topw->x11Display(), e, &sbEvent)) {
+      QWidget * focus = this->focusWidget();
+      if (!focus) focus = this->activeWindow();
+      if (focus) {
+        QCustomEvent qevent((QEvent::Type)SoQtInternal::SPACEBALL_EVENT,
+                            (void *)&sbEvent);
+        QApplication::sendEvent(focus, &qevent);
+      }
+    }
+    return QApplication::x11EventFilter(e);
+  }
+#endif // HAVE_X11_AVAILABLE
+};
+
+#endif // DOXYGEN_SKIP_THIS
+
+// *************************************************************************
+
+// documented in common/SoGuiCommon.cpp.in
+void
+SoQt::init(QWidget * toplevelwidget)
+{
+  // This init()-method is called by the other 2 init()'s, so place
+  // common code here.
+
+  if (SOQT_DEBUG && SoQtP::mainwidget) {
+    SoDebugError::postWarning("SoQt::init",
+                              "This method should be called only once.");
+    return;
+  }
+
+  SoDB::init();
+  SoNodeKit::init();
+  SoInteraction::init();
+  SoQtObject::init();
+
+  SoDB::getSensorManager()->setChangedCallback(SoGuiP::sensorQueueChanged, NULL);
+  SoQtP::mainwidget = toplevelwidget;
+}
+
+// documented in common/SoGuiCommon.cpp.in
+QWidget *
+SoQt::init(int & argc, char ** argv, const char * appname, const char * classname)
+{
+  if (SOQT_DEBUG && (SoQtP::appobject || SoQtP::mainwidget)) {
+    SoDebugError::postWarning("SoQt::init",
+                              "This method should be called only once.");
+    return SoQtP::mainwidget;
+  }
+
+  SoQtP::appobject = new SoQtApplication(argc, argv);
+  QWidget * mainw = new QWidget(NULL, classname);
+  SoQtP::didcreatemainwidget = TRUE;
+  SoQt::init(mainw);
+
+  if (appname) { SoQtP::mainwidget->setCaption(appname); }
+  SoQtP::appobject->setMainWidget(SoQtP::mainwidget);
+  return SoQtP::mainwidget;
 }
 
 /*!
