@@ -402,6 +402,8 @@ if test x"${with_inventor+set}" = x"set" &&
   SIM_AC_CONFIGURATION_SETTING([Open Inventor brand], [SGI/TGS Inventor])
 else
 
+  AC_CHECK_HEADERS([GL/gl.h OpenGL/gl.h GL/glu.h OpenGL/glu.h])
+
   SIM_AC_HAVE_COIN_IFELSE([
     CPPFLAGS="$CPPFLAGS $sim_ac_coin_cppflags"
     LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"

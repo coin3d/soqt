@@ -20,6 +20,7 @@ SoQtBuiltSources = \
 	src/Inventor/Qt/SoQtObject.cpp \
 	src/Inventor/Qt/SoQtRenderArea.h \
 	src/Inventor/Qt/SoQtRenderArea.cpp \
+	src/Inventor/Qt/common/gl.h \
 	src/Inventor/Qt/devices/spwinput.h \
 	src/Inventor/Qt/devices/spwinput_x11.cpp \
 	src/Inventor/Qt/viewers/SoQtViewer.h \
@@ -136,7 +137,7 @@ EXTRA_DIST = \
 	src/Inventor/Qt/common/SoAnyMaterialList.h.in \
 	src/Inventor/Qt/common/SoAnyMaterialList.cpp.in \
 	src/Inventor/Qt/common/SoAnyMaterialListBuiltins.cpp.in \
-	src/Inventor/Qt/common/gl.h \
+	src/Inventor/Qt/common/gl.h.in \
 	src/Inventor/Qt/common/soguidefs.h.in \
 	src/Inventor/Qt/common/spwinput.h.in \
 	src/Inventor/Qt/common/spwinput_x11.cpp.in \
@@ -206,6 +207,14 @@ src/Inventor/Qt/SoQtRenderArea.h: \
 
 src/Inventor/Qt/SoQtRenderArea.cpp: \
   $(srcdir)/src/Inventor/Qt/common/SoGuiRenderArea.cpp.in config.status
+	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoGuiRenderArea.cpp.in
+
+src/Inventor/Qt/common/gl.h: \
+  $(srcdir)/src/Inventor/Qt/common/gl.h.in config.status
+	@if test -d src/Inventor/Qt/common; then :; else \
+	  echo " mkdir src/Inventor/Qt/common"; \
+	  mkdir src/Inventor/Qt/common; \
+	fi
 	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoGuiRenderArea.cpp.in
 
 src/Inventor/Qt/viewers/SoQtViewer.h: \
