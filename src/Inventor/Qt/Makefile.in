@@ -81,6 +81,7 @@ COMPONENTHEADER = @COMPONENTHEADER@
 CONFIG = @CONFIG@
 CPP = @CPP@
 CXX = @CXX@
+CXXCPP = @CXXCPP@
 DEPDIR = @DEPDIR@
 DLLTOOL = @DLLTOOL@
 DSUFFIX = @DSUFFIX@
@@ -97,8 +98,10 @@ LN_S = @LN_S@
 LT_AGE = @LT_AGE@
 LT_CURRENT = @LT_CURRENT@
 LT_REVISION = @LT_REVISION@
+MAC_FRAMEWORK = @MAC_FRAMEWORK@
 MAC_FRAMEWORK_NAME = @MAC_FRAMEWORK_NAME@
-MAC_FRAMEWORK_VER = @MAC_FRAMEWORK_VER@
+MAC_FRAMEWORK_PREFIX = @MAC_FRAMEWORK_PREFIX@
+MAC_FRAMEWORK_VERSION = @MAC_FRAMEWORK_VERSION@
 MAINT = @MAINT@
 MOC = @MOC@
 OBJDUMP = @OBJDUMP@
@@ -112,11 +115,13 @@ SOGUI_EXTRA_CXXFLAGS = @SOGUI_EXTRA_CXXFLAGS@
 SOGUI_EXTRA_LDFLAGS = @SOGUI_EXTRA_LDFLAGS@
 SOGUI_EXTRA_LIBS = @SOGUI_EXTRA_LIBS@
 SOGUI_MSVC_LIBC = @SOGUI_MSVC_LIBC@
+SOQT_BETA_VERSION = @SOQT_BETA_VERSION@
 SOQT_DOC_HTML = @SOQT_DOC_HTML@
 SOQT_DOC_MAN = @SOQT_DOC_MAN@
 SOQT_MAJOR_VERSION = @SOQT_MAJOR_VERSION@
 SOQT_MICRO_VERSION = @SOQT_MICRO_VERSION@
 SOQT_MINOR_VERSION = @SOQT_MINOR_VERSION@
+SOQT_SO_VERSION = @SOQT_SO_VERSION@
 SOQT_VERSION = @SOQT_VERSION@
 STRIP = @STRIP@
 SUFFIX = @SUFFIX@
@@ -132,8 +137,9 @@ am__quote = @am__quote@
 gui = @gui@
 htmldir = @htmldir@
 install_sh = @install_sh@
-ivincludedir = @ivincludedir@
+ivframeworkdir = @ivframeworkdir@
 meta_prefix = @meta_prefix@
+nop = @nop@
 path_tag = @path_tag@
 sim_ac_coin_configcmd = @sim_ac_coin_configcmd@
 sim_ac_doxygen_exe = @sim_ac_doxygen_exe@
@@ -421,6 +427,9 @@ DISTCLEANFILES = \
 @BUILD_WITH_MSVC_TRUE@lib_LIBRARIES = soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib
 @BUILD_WITH_MSVC_FALSE@lib_LTLIBRARIES = libSoQt@SUFFIX@.la
 
+# hack to change libdir value when installing Mac OS X compiler framework
+@MAC_FRAMEWORK_TRUE@lib@nop@dir = $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$(MAC_FRAMEWORK_VERSION)/Libraries
+
 
 ############################################################################
 # libtool setup
@@ -490,7 +499,7 @@ soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
 
 ############################################################################
 # header installation
-@MAC_FRAMEWORK_TRUE@SoQtincdir = $(includedir)
+@MAC_FRAMEWORK_TRUE@SoQtincdir = $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$(MAC_FRAMEWORK_VERSION)/Headers
 @MAC_FRAMEWORK_FALSE@SoQtincdir = $(includedir)/Inventor/Qt
 SoQtinc_HEADERS = \
 	SoQtLightSliderSet.h \
@@ -1515,31 +1524,32 @@ soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib: Makefile \
 
 ############################################################################
 
-@MAC_FRAMEWORK_TRUE@install-exec-local:
-@MAC_FRAMEWORK_TRUE@	@echo " ln -sf Versions/Current/Libraries/libSoQt.dylib $(DESTDIR)$(prefix)/$(MAC_FRAMEWORK_NAME)"; \
-@MAC_FRAMEWORK_TRUE@	ln -sf Versions/Current/Libraries/libSoQt.dylib $(DESTDIR)$(prefix)/$(MAC_FRAMEWORK_NAME);
-@MAC_FRAMEWORK_FALSE@install-exec-local:
+@MAC_FRAMEWORK_TRUE@install-data-local:
+@MAC_FRAMEWORK_TRUE@	@echo " ln -sf Versions/Current/Libraries/libSoQt.dylib $(DESTDIR)$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/$(MAC_FRAMEWORK_NAME)"; \
+@MAC_FRAMEWORK_TRUE@	ln -sf Versions/Current/Libraries/libSoQt.dylib $(DESTDIR)$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/$(MAC_FRAMEWORK_NAME);
+@MAC_FRAMEWORK_FALSE@install-data-local:
+@MAC_FRAMEWORK_FALSE@	@$(NORMAL_INSTALL)
 @MAC_FRAMEWORK_FALSE@	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
 @MAC_FRAMEWORK_FALSE@	if @BUILD_WITH_MSVC@; then \
-@MAC_FRAMEWORK_FALSE@	  for ext in dll pdb; do \
+@MAC_FRAMEWORK_FALSE@	  for ext in lib; do \
 @MAC_FRAMEWORK_FALSE@	    file="$$basename.$$ext"; \
 @MAC_FRAMEWORK_FALSE@	    if test -f "$$file"; then \
-@MAC_FRAMEWORK_FALSE@	      $(mkinstalldirs) "$(DESTDIR)$(bindir)"; \
-@MAC_FRAMEWORK_FALSE@	      echo " $(INSTALL_PROGRAM)" "$$file" "$(DESTDIR)$(bindir)/$$file"; \
-@MAC_FRAMEWORK_FALSE@	      $(INSTALL_PROGRAM) "$$file" "$(DESTDIR)$(bindir)/$$file"; \
+@MAC_FRAMEWORK_FALSE@	      $(mkinstalldirs) "$(DESTDIR)$(libdir)"; \
+@MAC_FRAMEWORK_FALSE@	      echo " $(INSTALL_DATA)" "$$file" "$(DESTDIR)$(libdir)/$$file"; \
+@MAC_FRAMEWORK_FALSE@	      $(INSTALL_DATA) "$$file" "$(DESTDIR)$(libdir)/$$file"; \
 @MAC_FRAMEWORK_FALSE@	    fi \
 @MAC_FRAMEWORK_FALSE@	  done; \
 @MAC_FRAMEWORK_FALSE@	else :; fi
 
-install-data-local:
+install-exec-local:
 	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
 	if @BUILD_WITH_MSVC@; then \
-	  for ext in lib; do \
+	  for ext in dll pdb; do \
 	    file="$$basename.$$ext"; \
 	    if test -f "$$file"; then \
-	      $(mkinstalldirs) "$(DESTDIR)$(libdir)"; \
-	      echo " $(INSTALL_DATA)" "$$file" "$(DESTDIR)$(libdir)/$$file"; \
-	      $(INSTALL_DATA) "$$file" "$(DESTDIR)$(libdir)/$$file"; \
+	      $(mkinstalldirs) "$(DESTDIR)$(bindir)"; \
+	      echo " $(INSTALL_PROGRAM)" "$$file" "$(DESTDIR)$(bindir)/$$file"; \
+	      $(INSTALL_PROGRAM) "$$file" "$(DESTDIR)$(bindir)/$$file"; \
 	    fi \
 	  done; \
 	else :; fi
@@ -1549,16 +1559,18 @@ uninstall-local: uninstall-SoQtincHEADERS uninstall-nodist_SoQtincHEADERS
 	for file in \
 	  "$(DESTDIR)$(bindir)/$$basename.dll" \
 	  "$(DESTDIR)$(bindir)/$$basename.pdb" \
-	  "$(DESTDIR)$(libdir)/$$basename.lib"; do \
+	  "$(DESTDIR)$(libdir)/$$basename.lib" \
+	  "$(DESTDIR)$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/$(MAKE_FRAMEWORK_NAME)"; do \
 	  if test -f "$$file"; then \
 	    echo "rm -f" "$$file"; \
 	    rm -f "$$file"; \
 	  fi \
 	done; \
-	baseincdir="$(DESTDIR)$(includedir)/Inventor/Qt"; \
+	baseincdir="$(DESTDIR)$(SoQtincdir)"; \
 	for dir in \
 	  "$$baseincdir/devices" \
 	  "$$baseincdir/viewers" \
+	  "$$baseincdir/widgets" \
 	  "$$baseincdir"; do \
 	  if test -d "$$dir"; then \
 	    echo " rmdir" "$$dir"; \

@@ -81,6 +81,7 @@ COMPONENTHEADER = @COMPONENTHEADER@
 CONFIG = @CONFIG@
 CPP = @CPP@
 CXX = @CXX@
+CXXCPP = @CXXCPP@
 DEPDIR = @DEPDIR@
 DLLTOOL = @DLLTOOL@
 DSUFFIX = @DSUFFIX@
@@ -97,8 +98,10 @@ LN_S = @LN_S@
 LT_AGE = @LT_AGE@
 LT_CURRENT = @LT_CURRENT@
 LT_REVISION = @LT_REVISION@
+MAC_FRAMEWORK = @MAC_FRAMEWORK@
 MAC_FRAMEWORK_NAME = @MAC_FRAMEWORK_NAME@
-MAC_FRAMEWORK_VER = @MAC_FRAMEWORK_VER@
+MAC_FRAMEWORK_PREFIX = @MAC_FRAMEWORK_PREFIX@
+MAC_FRAMEWORK_VERSION = @MAC_FRAMEWORK_VERSION@
 MAINT = @MAINT@
 MOC = @MOC@
 OBJDUMP = @OBJDUMP@
@@ -112,11 +115,13 @@ SOGUI_EXTRA_CXXFLAGS = @SOGUI_EXTRA_CXXFLAGS@
 SOGUI_EXTRA_LDFLAGS = @SOGUI_EXTRA_LDFLAGS@
 SOGUI_EXTRA_LIBS = @SOGUI_EXTRA_LIBS@
 SOGUI_MSVC_LIBC = @SOGUI_MSVC_LIBC@
+SOQT_BETA_VERSION = @SOQT_BETA_VERSION@
 SOQT_DOC_HTML = @SOQT_DOC_HTML@
 SOQT_DOC_MAN = @SOQT_DOC_MAN@
 SOQT_MAJOR_VERSION = @SOQT_MAJOR_VERSION@
 SOQT_MICRO_VERSION = @SOQT_MICRO_VERSION@
 SOQT_MINOR_VERSION = @SOQT_MINOR_VERSION@
+SOQT_SO_VERSION = @SOQT_SO_VERSION@
 SOQT_VERSION = @SOQT_VERSION@
 STRIP = @STRIP@
 SUFFIX = @SUFFIX@
@@ -132,8 +137,9 @@ am__quote = @am__quote@
 gui = @gui@
 htmldir = @htmldir@
 install_sh = @install_sh@
-ivincludedir = @ivincludedir@
+ivframeworkdir = @ivframeworkdir@
 meta_prefix = @meta_prefix@
+nop = @nop@
 path_tag = @path_tag@
 sim_ac_coin_configcmd = @sim_ac_coin_configcmd@
 sim_ac_doxygen_exe = @sim_ac_doxygen_exe@
@@ -392,8 +398,10 @@ SoQt_ExtraBuiltMetaFiles = \
 
 ############################################################################
 ACLOCAL_AMFLAGS = -I cfg/m4
-SUFFIXES = .cpp .h .m4 .in .o .lo .Plo .TPlo
 
+
+# FIXME: if things still work after I commented this line, remove it  20020110 larsa
+# SUFFIXES = .cpp .h .m4 .in .o .lo .Plo .TPlo
 
 ############################################################################
 @BUILD_HTMLPAGES_TRUE@HTMLDIR = html
@@ -420,12 +428,10 @@ DISTCLEANFILES = \
 	$(SoGui_BuiltMetaFiles)
 
 
-@BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_TRUE@dynbindir = /usr/local/bin
-@BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_FALSE@dynbindir = $(bindir)
-
-@BUILD_LIBRARY_TRUE@dynbin_SCRIPTS = so@gui@-config
+@BUILD_LIBRARY_TRUE@bin_SCRIPTS = so@gui@-config
 
 @BUILD_LIBRARY_TRUE@m4datadir = $(datadir)/aclocal
+
 # Don't replace "qt" with "@gui@" here, is it will pøkk up
 # for ``make dist''.
 @BUILD_LIBRARY_TRUE@dist_m4data_DATA = cfg/m4/soqt.m4
@@ -453,7 +459,7 @@ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/src/config.h
 CONFIG_CLEAN_FILES = soqt-$CONFIG.cfg build/soqt.spec
-SCRIPTS = $(dynbin_SCRIPTS)
+SCRIPTS = $(bin_SCRIPTS)
 
 DIST_SOURCES =
 DATA = $(cfgdata_DATA) $(dist_m4data_DATA)
@@ -473,7 +479,6 @@ all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
 .SUFFIXES:
-.SUFFIXES: .cpp .h .m4 .in .o .lo .Plo .TPlo
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -502,26 +507,26 @@ soqt-$CONFIG.cfg: $(top_builddir)/config.status $(top_srcdir)/src/Inventor/Qt/co
 	cd $(top_builddir) && CONFIG_FILES=$@:src/Inventor/Qt/common/sogui.cfg.in CONFIG_HEADERS= CONFIG_LINKS= $(SHELL) ./config.status
 build/soqt.spec: $(top_builddir)/config.status $(top_srcdir)/build/soqt.spec.in
 	cd $(top_builddir) && CONFIG_FILES=$@ CONFIG_HEADERS= CONFIG_LINKS= $(SHELL) ./config.status
-install-dynbinSCRIPTS: $(dynbin_SCRIPTS)
+install-binSCRIPTS: $(bin_SCRIPTS)
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(dynbindir)
-	@list='$(dynbin_SCRIPTS)'; for p in $$list; do \
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	@list='$(bin_SCRIPTS)'; for p in $$list; do \
 	  f="`echo $$p|sed '$(transform)'`"; \
 	  if test -f $$p; then \
-	    echo " $(INSTALL_SCRIPT) $$p $(DESTDIR)$(dynbindir)/$$f"; \
-	    $(INSTALL_SCRIPT) $$p $(DESTDIR)$(dynbindir)/$$f; \
+	    echo " $(INSTALL_SCRIPT) $$p $(DESTDIR)$(bindir)/$$f"; \
+	    $(INSTALL_SCRIPT) $$p $(DESTDIR)$(bindir)/$$f; \
 	  elif test -f $(srcdir)/$$p; then \
-	    echo " $(INSTALL_SCRIPT) $(srcdir)/$$p $(DESTDIR)$(dynbindir)/$$f"; \
-	    $(INSTALL_SCRIPT) $(srcdir)/$$p $(DESTDIR)$(dynbindir)/$$f; \
+	    echo " $(INSTALL_SCRIPT) $(srcdir)/$$p $(DESTDIR)$(bindir)/$$f"; \
+	    $(INSTALL_SCRIPT) $(srcdir)/$$p $(DESTDIR)$(bindir)/$$f; \
 	  else :; fi; \
 	done
 
-uninstall-dynbinSCRIPTS:
+uninstall-binSCRIPTS:
 	@$(NORMAL_UNINSTALL)
-	@list='$(dynbin_SCRIPTS)'; for p in $$list; do \
+	@list='$(bin_SCRIPTS)'; for p in $$list; do \
 	  f="`echo $$p|sed '$(transform)'`"; \
-	  echo " rm -f $(DESTDIR)$(dynbindir)/$$f"; \
-	  rm -f $(DESTDIR)$(dynbindir)/$$f; \
+	  echo " rm -f $(DESTDIR)$(bindir)/$$f"; \
+	  rm -f $(DESTDIR)$(bindir)/$$f; \
 	done
 uninstall-info-am:
 install-cfgdataDATA: $(cfgdata_DATA)
@@ -736,7 +741,7 @@ check: check-recursive
 all-am: Makefile $(SCRIPTS) $(DATA) all-local
 installdirs: installdirs-recursive
 installdirs-am:
-	$(mkinstalldirs) $(DESTDIR)$(dynbindir) $(DESTDIR)$(cfgdatadir) $(DESTDIR)$(m4datadir)
+	$(mkinstalldirs) $(DESTDIR)$(bindir) $(DESTDIR)$(cfgdatadir) $(DESTDIR)$(m4datadir)
 
 install: install-recursive
 install-exec: install-exec-recursive
@@ -785,9 +790,9 @@ info: info-recursive
 info-am:
 
 install-data-am: install-cfgdataDATA install-data-local \
-	install-dist_m4dataDATA install-dynbinSCRIPTS
+	install-dist_m4dataDATA
 
-install-exec-am: install-exec-local
+install-exec-am: install-binSCRIPTS install-exec-local
 
 install-info: install-info-recursive
 
@@ -803,8 +808,8 @@ mostlyclean: mostlyclean-recursive
 
 mostlyclean-am: mostlyclean-generic mostlyclean-libtool
 
-uninstall-am: uninstall-cfgdataDATA uninstall-dist_m4dataDATA \
-	uninstall-dynbinSCRIPTS uninstall-info-am
+uninstall-am: uninstall-binSCRIPTS uninstall-cfgdataDATA \
+	uninstall-dist_m4dataDATA uninstall-info-am
 
 uninstall-info: uninstall-info-recursive
 
@@ -813,18 +818,18 @@ uninstall-info: uninstall-info-recursive
 	distcheck distclean distclean-generic distclean-libtool \
 	distclean-recursive distclean-tags distdir dvi dvi-am \
 	dvi-recursive info info-am info-recursive install install-am \
-	install-cfgdataDATA install-data install-data-am \
-	install-data-local install-data-recursive \
-	install-dist_m4dataDATA install-dynbinSCRIPTS install-exec \
-	install-exec-am install-exec-local install-exec-recursive \
-	install-info install-info-am install-info-recursive install-man \
+	install-binSCRIPTS install-cfgdataDATA install-data \
+	install-data-am install-data-local install-data-recursive \
+	install-dist_m4dataDATA install-exec install-exec-am \
+	install-exec-local install-exec-recursive install-info \
+	install-info-am install-info-recursive install-man \
 	install-recursive install-strip installcheck installcheck-am \
 	installdirs installdirs-am installdirs-recursive \
 	maintainer-clean maintainer-clean-generic \
 	maintainer-clean-recursive mostlyclean mostlyclean-generic \
 	mostlyclean-libtool mostlyclean-recursive tags tags-recursive \
-	uninstall uninstall-am uninstall-cfgdataDATA \
-	uninstall-dist_m4dataDATA uninstall-dynbinSCRIPTS \
+	uninstall uninstall-am uninstall-binSCRIPTS \
+	uninstall-cfgdataDATA uninstall-dist_m4dataDATA \
 	uninstall-info-am uninstall-info-recursive uninstall-recursive
 
 
@@ -1150,17 +1155,16 @@ all-local: built-sources
 @BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_TRUE@install-exec-local:
 @BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_TRUE@	@$(NORMAL_INSTALL)
 @BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_TRUE@	@echo "Setting up Mac OS X framework"
-@BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_TRUE@	@$(mkinstalldirs) $(DESTDIR)$(prefix)/Versions/$(MAC_FRAMEWORK_VER)
-@BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_TRUE@	@ln -sf $(MAC_FRAMEWORK_VER) $(DESTDIR)$(prefix)/Versions/Current
-@BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_TRUE@	@ln -sf Versions/Current/Headers $(DESTDIR)$(prefix)/Headers
-@BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_TRUE@	@ln -sf Versions/Current/Resources $(DESTDIR)$(prefix)/Resources
-#	@ln -sf Versions/Current/Libraries $(DESTDIR)$(prefix)/Libraries
-@BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_TRUE@	@case "$(ivincludedir)" in \
-@BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_TRUE@	/Library/Frameworks/Inventor.framework/* ) \
-@BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_TRUE@	  echo " ln -sf $(prefix)/Headers $(ivincludedir)/Qt"; \
-@BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_TRUE@	  ln -sf $(prefix)/Headers $(ivincludedir)/Qt; \
-@BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_TRUE@	  ;; \
-@BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_TRUE@	esac
+@BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_TRUE@	@$(mkinstalldirs) $(DESTDIR)$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$(MAC_FRAMEWORK_VERSION)
+@BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_TRUE@	@ln -sf $(MAC_FRAMEWORK_VERSION) $(DESTDIR)$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/Current
+@BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_TRUE@	@ln -sf Versions/Current/Headers $(DESTDIR)$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Headers
+@BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_TRUE@	@ln -sf Versions/Current/Resources $(DESTDIR)$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Resources
+#	@case "@ivincludedir@" in \
+#	/Library/Frameworks/Inventor.framework/* ) \
+#	  echo " ln -sf $(prefix)/Headers $(ivincludedir)/Qt"; \
+#	  ln -sf $(prefix)/Headers $(ivincludedir)/Qt; \
+#	  ;; \
+#	esac
 @BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_FALSE@install-exec-local: built-sources $(srcdir)/cfg/m4/wrapmsvc.exe
 @BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_FALSE@	@$(NORMAL_INSTALL)
 @BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_FALSE@	$(mkinstalldirs) $(DESTDIR)$(bindir)
