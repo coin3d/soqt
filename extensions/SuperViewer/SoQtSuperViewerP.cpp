@@ -699,7 +699,8 @@ SoQtSuperViewerP::loadModelFromFile(SbString * const filename)
 {
   SoInput in;
   SoSeparator * newroot;
-  if (in.openFile((* filename).getString())) {
+
+  if (in.openFile(filename->getString())) {
     newroot = SoDB::readAll(&in);
     if (newroot) {
       return newroot;
@@ -1700,13 +1701,12 @@ SoQtSuperViewerP::closeModelSelected()
   if(this->openmodels){
     if(this->openmodels->getNumChildren() > 0){
       this->openmodels->removeChild(this->currentroot);
-     
-      (void)printf("foer %i\n", this->pathtomodels.getLength());
+
       delete this->pathtomodels[this->currentindex];
+      this->pathtomodels.remove(this->currentindex);
       delete this->modelnames[this->currentindex];
-      (void)printf("etter %i\n", this->pathtomodels.getLength());
-      //this->pathtomodels.remove(this->currentindex);
-      //this->modelnames.remove(this->currentindex);
+      this->modelnames.remove(this->currentindex);
+   
       owner->removeModelEntry();
       if(this->openmodels->getNumChildren() > 0){
         owner->showModel( --this->currentindex < 0 ? 
@@ -1990,8 +1990,12 @@ SoQtSuperViewerP::snapshotSelected()
       break;
     }
   }
-
-  filters.truncate(0);
+  
+  i = 0;
+  for(; i < filters.getLength(); i++){
+    delete filters[i];
+    filters.remove(i);
+  }
   
   delete wtf;
   delete filedialog;

@@ -2053,7 +2053,7 @@ SoQtSuperViewer::openModel(SbString * const filename, SbBool show){
 
   SbIntList slashes;
   filename->findAll("/", slashes);
-  PRIVATE(this)->pathtomodels.append(filename);
+  PRIVATE(this)->pathtomodels.append(new SbString(*filename));
   PRIVATE(this)->modelnames.append(new SbString(
     filename->getSubString(slashes[slashes.getLength() - 1] + 1).getString()));
   PRIVATE(this)->openmodels->addChild(newroot);
