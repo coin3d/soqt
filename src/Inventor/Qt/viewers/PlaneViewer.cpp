@@ -115,10 +115,6 @@ SoQtPlaneViewerP::cameraToggleClicked(void)
   PUBLIC(this)->toggleCameraType();
 }
 
-// *************************************************************************
-
-SOQT_OBJECT_SOURCE(SoQtPlaneViewer);
-
 // ************************************************************************
 
 /*!
@@ -237,38 +233,6 @@ SoQtPlaneViewer::actualRedraw(void)
 {
   inherited::actualRedraw();
 //  this->drawRotateGraphics();
-}
-
-// ************************************************************************
-
-/*!
-  FIXME: write doc
-*/
-void
-SoQtPlaneViewer::leftWheelMotion(float value)
-{
-  this->translateY(value - this->getLeftWheelValue());
-  inherited::leftWheelMotion(value);
-}
-
-/*!
-  FIXME: write doc
-*/
-void
-SoQtPlaneViewer::bottomWheelMotion(float value)
-{
-  this->translateX(value - this->getBottomWheelValue());
-  inherited::bottomWheelMotion(value);
-}
-
-/*!
-  FIXME: write doc
-*/
-void
-SoQtPlaneViewer::rightWheelMotion(float value)
-{
-  this->zoom(this->getRightWheelValue() - value);
-  inherited::rightWheelMotion(value);
 }
 
 // ************************************************************************
