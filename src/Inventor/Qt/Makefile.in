@@ -89,6 +89,7 @@ SOQT_EXTRA_CPPFLAGS = @SOQT_EXTRA_CPPFLAGS@
 SOQT_EXTRA_LDFLAGS = @SOQT_EXTRA_LDFLAGS@
 SOQT_EXTRA_LIBS = @SOQT_EXTRA_LIBS@
 SOQT_INTERFACE_AGE = @SOQT_INTERFACE_AGE@
+SOQT_LIBNAME = @SOQT_LIBNAME@
 SOQT_MAJOR_VERSION = @SOQT_MAJOR_VERSION@
 SOQT_MICRO_VERSION = @SOQT_MICRO_VERSION@
 SOQT_MINOR_VERSION = @SOQT_MINOR_VERSION@
@@ -227,8 +228,7 @@ $(DEPDIR)/moc_SoQtMaterialSliderSet.Plo \
 $(DEPDIR)/moc_SoQtRenderArea.Plo $(DEPDIR)/moc_SoQtSliderSet.Plo \
 $(DEPDIR)/moc_SoQtSliderSetBase.Plo \
 $(DEPDIR)/moc_SoQtTransformSliderSet.Plo
-DIST_COMMON =  $(libSoQtinc_HEADERS) Makefile.am Makefile.in depcomp \
-src/Inventor/Qt/depcomp
+DIST_COMMON =  $(libSoQtinc_HEADERS) Makefile.am Makefile.in
 
 
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -455,8 +455,7 @@ distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
 distdir: $(DISTFILES)
 	$(mkinstalldirs) $(distdir)/$(top_builddir)/src/Inventor/Qt \
-	   $(distdir)/$(top_srcdir)/src/Inventor/Qt \
-	   $(distdir)/src/Inventor/Qt
+	   $(distdir)/$(top_srcdir)/src/Inventor/Qt
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \

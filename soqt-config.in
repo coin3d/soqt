@@ -38,7 +38,7 @@ while test $# -gt 0; do
       echo -L@libdir@ @SOQT_EXTRA_LDFLAGS@
       ;;
     --libs)
-      echo -lSoQt @SOQT_EXTRA_LIBS@
+      echo @SOQT_LIBNAME@ @SOQT_EXTRA_LIBS@
       ;;
     *)
       echo "Unknown option: \"$1\""
