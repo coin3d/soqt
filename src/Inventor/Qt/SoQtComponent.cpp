@@ -736,8 +736,13 @@ SoQtComponent::setSize(
   if (this->widget) {
     QSize newsize(size[0], size[1]);
     if (this->widget->size() != newsize) {
-      this->widget->resize(newsize);
-      this->sizeChanged(size);
+      if (this->getParentWidget() == this->getShellWidget()) {
+        this->getParentWidget()->resize(newsize);
+      }
+      else {
+        this->widget->resize(newsize);
+        this->sizeChanged(size);
+      }
     }
   }
 } // setSize()

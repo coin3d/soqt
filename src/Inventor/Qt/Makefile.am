@@ -5,7 +5,6 @@ SUBDIRS = devices viewers widgets
 ############################################################################
 
 INCLUDES = -I$(top_builddir)/src -I$(top_srcdir)/src
-VPATH = .:@srcdir@
 
 lib_LTLIBRARIES = libSoQt.la
 
@@ -22,28 +21,6 @@ BUILT_SOURCES = \
 	moc_SoQtSliderSet.cpp \
 	moc_SoQtSliderSetBase.cpp \
 	moc_SoQtTransformSliderSet.cpp
-
-############################################################################
-
-libSoQtVPATH = . $(srcdir)
-
-.cpp.lo:
-	@(source='$<'; \
-	set dummy $(libSoQtVPATH); \
-	shift; \
-	for dir \
-	do \
-	  if test ! -f "$$source" -a -f "$$dir/$<"; then \
-	    source="$$dir/$<"; \
-	  fi \
-	done; \
-	eval $(CXXDEPMODE); \
-	if test x"$$depmode" = x""; then \
-	  depmode=none; \
-	fi; \
-	source="$$source" object='$@' libtool=no \
-	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' \
-	depmode=$$depmode $(depcomp) $(LTCXXCOMPILE) -c -o $@ "$$source";)
 
 ############################################################################
 
@@ -131,28 +108,5 @@ moc_SoQtSliderSetBase.cpp: $(top_srcdir)/src/Inventor/Qt/SoQtSliderSetBase.h
 
 moc_SoQtTransformSliderSet.cpp: $(top_srcdir)/src/Inventor/Qt/SoQtTransformSliderSet.h
 	$(MOC) -o moc_SoQtTransformSliderSet.cpp $(top_srcdir)/src/Inventor/Qt/SoQtTransformSliderSet.h
-
-############################################################################
-## FIXME: this is a temporary workaround for a bug in Automake. The
-## bug is fixed in the latest Automake CVS, but not in any "official"
-## release (?). Last checked with Automake 1.4a. 19990912 mortene.
-
-install-libSoQtincHEADERS: $(libSoQtinc_HEADERS)
-	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(libSoQtincdir)
-	@list='$(libSoQtinc_HEADERS)'; for p in $$list; do \
-	  if test -f "$$p"; then d= ; else d="$(srcdir)/"; fi; \
-	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libSoQtincdir)/$$f"; \
-	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libSoQtincdir)/$$f; \
-	done
-
-uninstall-libSoQtincHEADERS:
-	@$(NORMAL_UNINSTALL)
-	@list='$(libSoQtinc_HEADERS)'; for p in $$list; do \
-	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " rm -f $(DESTDIR)$(libSoQtincdir)/$$f"; \
-	  rm -f $(DESTDIR)$(libSoQtincdir)/$$f; \
-	done
 
 ############################################################################

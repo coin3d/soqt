@@ -42,6 +42,10 @@ BUILT_SOURCES = \
 	src/Inventor/Qt/widgets/SoAnyPopupMenu.h \
 	src/Inventor/Qt/widgets/SoAnyPopupMenu.cpp
 
+# This is necessary to set up a hook somewhere in the generated Makefile
+# so the sources are actually built.
+noinst_DATA = $(BUILT_SOURCES)
+
 soqt-config: soqt-config.in
 
 EXTRA_DIST = conf-macros/soqt.m4 conf-macros/modifierlist.m4
@@ -51,6 +55,8 @@ m4data_DATA = conf-macros/soqt.m4 conf-macros/modifierlist.m4
 
 ############################################################################
 
+# Target which is present to make it simple to only generate the
+# sourcefiles from the common sources.
 built-sources: $(BUILT_SOURCES)
 
 src/Inventor/Qt/SoQtBasic.h: \
