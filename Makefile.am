@@ -12,7 +12,13 @@ SUFFIXES = .cpp .h .m4 .in .o .lo .Plo .TPlo
 ############################################################################
 ## 
 
-SUBDIRS = . src
+if BUILD_HTMLPAGES
+HTMLDIR = html
+else
+HTMLDIR =
+endif
+
+SUBDIRS = . src man $(HTMLDIR)
 
 BUILT_SOURCES = \
 	$(SoGuiAllBuiltFiles)
@@ -22,7 +28,6 @@ CLEANFILES = \
 
 DISTCLEANFILES = \
 	libtool \
-	build/so@gui@.doxygen \
 	$(SoGui_BuiltFiles) \
 	$(SoGui_BuiltMetaFiles)
 
@@ -40,7 +45,6 @@ EXTRA_DIST = \
 	README.DLL \
 	README.IRIX \
 	README.WIN32 \
-	build/so@gui@.doxygen.in \
 	build/so@gui@.spec.in \
 	cfg/doxy4win.pl \
 	cfg/m4/wrapmsvc.cpp \
@@ -52,12 +56,6 @@ EXTRA_DIST = \
 	test-code/components/tripleview.cpp \
 	$(SoGuiCommonDistFiles)
 
-# This is necessary to set up a hook somewhere in the generated Makefile
-# so the sources are actually built.
-
-# this messes up "make distclean"
-# Makefile: $(So@Gui@BuiltSources)
-
 # Target which is present to make it simple to only generate all the source
 # files from the common sources.
 
@@ -66,12 +64,6 @@ built-sources: $(BUILT_SOURCES)
 ############################################################################
 
 all-local: built-sources
-
-doxygen-doc: built-sources
-	@( cd build; @sim_ac_doxygen_exe@ so@gui@.doxygen )
-
-doxygen-docs: built-sources
-	@( cd build; @sim_ac_doxygen_exe@ so@gui@.doxygen )
 
 install-exec-local: built-sources $(srcdir)/cfg/m4/wrapmsvc.exe
 	@$(NORMAL_INSTALL)
