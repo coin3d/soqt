@@ -1,0 +1,34 @@
+<html>
+<head>
+<title>SDK Notes: SoQt-@VERSION@</title>
+</head>
+<body>
+<h1 align=center>SDK Notes: SoQt-@VERSION@</h1>
+<hr>
+<h2>Feature Notes:</h2>
+<ul>
+<li>SoQt API HTML Documentation:
+  <a href="SoQt/index.html">off-line</a> (if installed), or
+  <a href="http://doc.coin3d.org/SoQt/">on-line</a>
+</ul>
+<hr>
+<h2>Two SoQt Libraries?</h2>
+If you install the Binary SDK, you will find that it includes
+two builds of the SoQt library:
+<ol>
+<li>shared release (soqt@SOQT_MAJOR_VERSION@.lib w/soqt@SOQT_MAJOR_VERSION@.dll)<br>
+    (default configuration)<br>
+    (linked with coin1.dll)
+<li>shared debug (soqt@SOQT_MAJOR_VERSION@d.lib w/soqt@SOQT_MAJOR_VERSION@d.dll)<br>
+    (configuration name: <strong>debug</strong>)<br>
+    (linked with coin1d.dll)
+</ol>
+When using Cygwin (or another Bourne shell for MS Windows),
+you can run the <tt><strong>soqt-config</strong></tt> script
+with the option <tt>--alternate=&lt;configuration-name&gt;</tt>
+to decide which SoQt configuration to retrieve information
+for.
+<p>
+<hr>
+</body>
+</html>

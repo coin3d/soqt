@@ -1,0 +1,18 @@
+SectionEnd
+# **************************************************************************
+# Section "Extra Libraries"
+# - freetype when support is implemented?
+
+# **************************************************************************
+Section -post
+
+WriteRegStr HKEY_LOCAL_MACHINE SOFTWARE\Coin3D InstallPath "$INSTDIR"
+Exec '"explorer" "$INSTDIR\"'
+# Exec '"explorer" "$INSTDIR\html\soqt-sdk.html"'
+
+SectionEnd
+# **************************************************************************
+Section Uninstall
+
+Delete $INSTDIR\html\soqt-sdk.html
+Delete $INSTDIR\soqt-@sdk_version@-uninstall.exe
