@@ -115,6 +115,17 @@ AC_LANG(C++)
 AC_OBJEXT
 AC_EXEEXT
 
+case $enable_static in
+yes | true) SOQT_STATIC=true
+            enable_shared=no ;; # fix for Autoconf --enable-static problem
+*)          SOQT_STATIC=false ;;
+esac
+
+case $enable_shared in
+yes | true) SOQT_STATIC=false ;;
+*)          SOQT_STATIC=true ;;
+esac
+
 # moved below AC_PROG_CC so -g is preserved in $C[XX]FLAGS - 20020110 larsa
 if $BUILD_WITH_MSVC; then
   SIM_AC_SETUP_MSVCRT([
@@ -130,7 +141,6 @@ if $BUILD_WITH_MSVC; then
     AC_SUBST([SOGUI_MSVC_LIBC], [$sim_ac_msvcrt])
   ])
 fi
-
 
 # Detect Mac OS X in general
 case $host_os in
@@ -374,6 +384,7 @@ if test x"${with_inventor+set}" = x"set" &&
      SOGUI_EXTRA_LIBS="$sim_ac_inventor_libs $SOGUI_EXTRA_LIBS"],
     AC_MSG_ERROR(couldn't compile and link against Open Inventor))
 
+  sim_ac_inventor_brand=sgi
   SIM_AC_CONFIGURATION_SETTING([Open Inventor brand], [SGI/TGS Inventor])
 
 else
@@ -386,8 +397,17 @@ else
 
     SIM_AC_HAVE_COIN_IFELSE([
       CPPFLAGS="$CPPFLAGS $sim_ac_coin_cppflags"
-      LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
-      LIBS="$sim_ac_coin_libs $LIBS"
+      if $SOQT_STATIC; then
+        if $BUILD_WITH_MSVC; then
+          :
+        else
+          LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
+          LIBS="$sim_ac_coin_libs $LIBS"
+        fi
+      else
+        LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
+        LIBS="$sim_ac_coin_libs $LIBS"
+      fi
       SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_coin_cppflags"
       SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_coin_ldflags"
       SOGUI_EXTRA_LIBS="$sim_ac_coin_libs $SOGUI_EXTRA_LIBS"
@@ -427,6 +447,7 @@ else
     ])
   fi
 
+  sim_ac_inventor_brand=coin
   SIM_AC_CONFIGURATION_SETTING([Open Inventor brand], [Coin])
 fi
 
@@ -440,6 +461,15 @@ if test x"$sim_ac_want_x11" = xyes; then
   ## Autoconf X11 check is not strict enough.
   SIM_AC_CHECK_X11_READY([AC_DEFINE([HAVE_X11_AVAILABLE],,
                          [define if it is possible to build against X11])])
+fi
+
+# static builds on windows: we don't want the coin libs on the final link line,
+# but we need them for these tests.  20041022 larsa
+sim_ac_configure_save_ldflags=$LDFLAGS
+sim_ac_configure_save_libs=$LIBS
+if test $sim_ac_inventor_brand = coin && $SOQT_STATIC && $BUILD_WITH_MSVC; then
+  LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
+  LIBS="$sim_ac_coin_libs $LIBS"
 fi
 
 # Check for the availability of this node (it is used in the hidden
@@ -488,6 +518,10 @@ SIM_AC_INVENTOR_EXTENSIONS([
   SOGUI_EXTRA_LIBS="$sim_ac_iv_extension_LIBS $SOGUI_EXTRA_LIBS"
 ])
 
+# remove libs we don't want to link into library again
+LDFLAGS=$sim_ac_configure_save_ldflags
+LIBS=$sim_ac_configure_save_libs
+
 # **************************************************************************
 # Check that the Qt installation looks ok and include the
 # necessary paths and link libraries.
@@ -509,11 +543,17 @@ if test x"$MOC" = x"false"; then
   SIM_AC_ERROR([no-moc])
 fi
 
+sim_ac_configure_save_ldflags=$LDFLAGS
+sim_ac_configure_save_libs=$LIBS
+
 if $sim_ac_build_library; then
   SIM_AC_CHECK_QT([
     SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qt_cppflags"
     SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qt_ldflags"
     SOGUI_EXTRA_LIBS="$sim_ac_qt_libs $SOGUI_EXTRA_LIBS"
+    CPPFLAGS="$CPPFLAGS $sim_ac_qt_cppflags"
+    LDFLAGS="$LDFLAGS $sim_ac_qt_ldflags"
+    LIBS="$sim_ac_qt_libs $LIBS"
   ], [
     SIM_AC_ERROR([no-qt])
   ])
@@ -522,6 +562,9 @@ if $sim_ac_build_library; then
     SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qgl_cppflags"
     SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qgl_ldflags"
     SOGUI_EXTRA_LIBS="$sim_ac_qgl_libs $SOGUI_EXTRA_LIBS"
+    CPPFLAGS="$CPPFLAGS $sim_ac_qgl_cppflags"
+    LDFLAGS="$LDFLAGS $sim_ac_qgl_ldflags"
+    LIBS="$sim_ac_qgl_libs $LIBS"
   ], [
     SIM_AC_ERROR([no-qgl])
   ])
@@ -540,6 +583,11 @@ if $sim_ac_build_library; then
   AC_CHECK_HEADERS([qstylefactory.h])
 
 fi # sim_ac_build_library
+
+if test $sim_ac_inventor_brand=coin && $SOQT_STATIC && $BUILD_WITH_MSVC; then
+  LDFLAGS=$sim_ac_configure_save_ldflags
+  LIBS=$sim_ac_configure_save_libs
+fi
 
 # **************************************************************************
 # Spaceball support through Linux Joystick driver
@@ -749,23 +797,6 @@ SIM_AC_UNIQIFY_LIST(LIBS, $LIBS)
 
 CPP_AC_SEARCH_ORDER_FILTER(CPPFLAGS, $CPPFLAGS)
 CPP_AC_SEARCH_ORDER_FILTER(SOGUI_EXTRA_CPPFLAGS, $SOGUI_EXTRA_CPPFLAGS)
-
-# default value
-SOQT_STATIC=false
-
-if test x${enable_shared+set} = xset; then
-  case $enable_shared in
-  yes | true)  SOQT_STATIC=false ;;
-  *)           SOQT_STATIC=true ;;
-  esac
-fi
-
-if test x${enable_static+set} = xset; then
-  case $enable_static in
-  yes | true)  SOQT_STATIC=true ;;
-  *)           SOQT_STATIC=false ;;
-  esac
-fi
 
 AC_SUBST([LIBFLAGS], [])
 
