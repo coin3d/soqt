@@ -21,13 +21,6 @@
  *
 \**************************************************************************/
 
-#if SOQT_DEBUG
-static const char rcsid[] =
-  "$Id$";
-#endif // SOQT_DEBUG
-
-// *************************************************************************
-
 /*!
   \class SoQtGLWidget SoQtGLWidget.h Inventor/Qt/SoQtGLWidget.h
   \brief The SoQtGLWidget class contains an OpenGL canvas.
@@ -244,7 +237,7 @@ SoQtGLWidget::SoQtGLWidget(QWidget * const parent,
   QWidget * parentwidget = this->getParentWidget();
   QWidget * widget = this->buildWidget(parentwidget);
   this->setBaseWidget(widget);
-} // SoQtGLWidget()
+}
 
 // *************************************************************************
 
@@ -291,7 +284,7 @@ SoQtGLWidget::buildWidget(QWidget * parent)
   this->buildGLWidget();
 
   return PRIVATE(this)->borderwidget;
-} // buildWidget()
+}
 
 
 // The GL widget rebuilding has been written to remember the previous
@@ -646,7 +639,7 @@ SoQtGLWidget::setBorder(const SbBool enable)
 //      frame.width() - 2 * PRIVATE(this)->borderthickness,
 //      frame.height() - 2 * PRIVATE(this)->borderthickness);
   }
-} // setBorder()
+}
 
 /*!
   Returns whether or not there's a border around the OpenGL canvas.
@@ -657,7 +650,7 @@ SbBool
 SoQtGLWidget::isBorder(void) const
 {
   return PRIVATE(this)->borderthickness ? TRUE : FALSE;
-} // isBorder()
+}
 
 // *************************************************************************
 
@@ -872,7 +865,7 @@ SoQtGLWidget::setGLSize(const SbVec2s size)
     int frame = this->isBorder() ? PRIVATE(this)->borderthickness : 0;
     PRIVATE(this)->currentglwidget->setGeometry(QRect(frame, frame, PRIVATE(this)->glSize[0], PRIVATE(this)->glSize[1]));
   }
-} // setGLSize()
+}
 
 /*!
   Return the dimensions of the OpenGL canvas.
@@ -920,7 +913,7 @@ QWidget *
 SoQtGLWidget::getGLWidget(void) const
 {
   return PRIVATE(this)->currentglwidget;
-} // getGLWidget()
+}
 
 
 // *************************************************************************
@@ -986,7 +979,7 @@ SoQtGLWidget::glSwapBuffers(void)
 {
   assert(PRIVATE(this)->currentglwidget != NULL);
   ((SoQtGLArea *)PRIVATE(this)->currentglwidget)->swapBuffers();
-} // glSwapBuffers()
+}
 
 /*!
   Flush the current GL buffer. Simply calls glFlush().
@@ -1044,7 +1037,7 @@ SoQtGLWidget::glLockOverlay(void)
 {
   assert(PRIVATE(this)->currentglwidget != NULL);
   QGLFormat_makeOverlayCurrent((SoQtGLArea *)PRIVATE(this)->currentglwidget);
-} // glLock()
+}
 
 /*!
   This method drops the lock level.
@@ -1053,7 +1046,7 @@ void
 SoQtGLWidget::glUnlockOverlay(void)
 {
   // does nothing under Qt. Under BeOS the buffer needs to be unlocked  
-} // glUnlock()
+}
 
 // slot invoked upon QGLWidget initialization
 void
@@ -1115,16 +1108,13 @@ SoQtGLWidget::gl_exposed(void)
   FIXME: write doc
 */
 void
-SoQtGLWidget::eventHandler(
-  QWidget * widget,
-  void * closure,
-  QEvent * event,
-  bool *) // ?)
+SoQtGLWidget::eventHandler(QWidget * widget, void * closure, QEvent * event,
+                           bool *) // ?)
 {
   assert(closure != NULL);
   SoQtGLWidget * component = (SoQtGLWidget *) closure;
   component->processEvent(event);
-} // eventHandler()
+}
 
 /*!
   Returns the normal GL context.
