@@ -21,32 +21,9 @@
  *
 \**************************************************************************/
 
-/*!
-  \class SoQtComponent SoQtComponent.h Inventor/Qt/SoQtComponent.h
-  \brief The SoQtComponent class is the base class for all GUI components.
-
-  Components in the SoQt component library all inherit this abstract base
-  class. It provides basic methods for setting and querying about the
-  relationship between the component object and its underlying Qt object(s).
-
-  Users should not need to interface any code against this class, unless
-  they want to extend the SoQt library in entirely new directions. For
-  making new viewer components, for instance, other classes further down
-  the inheritance hierarchy would be better suited for subclassing.
-
-  Note that the relationship between all SoQtComponent derived classes and
-  Qt widgets is one of "has-A", \e not "is-A" -- i.e. SoQtComponent does
-  not inherit QWidget. It \e does however inherit QObject, which sole
-  purpose is to provide the necessary support for Qt's signal and slot
-  mechanisms (which is needed for some internal operations).
-*/
+// Class documentation in common/SoGuiComponentCommon.cpp.in.
 
 // *************************************************************************
-
-#if SOQT_DEBUG
-static const char rcsid[] =
-  "$Id$";
-#endif // SOQT_DEBUG
 
 #if HAVE_CONFIG_H
 #include <config.h>
@@ -89,6 +66,8 @@ static const char rcsid[] =
 static const char nullstring[] = "(null)";
 
 // *************************************************************************
+
+#ifndef DOXYGEN_SKIP_THIS // Skip internal class SoQtComponentP.
 
 // The private data for the SoQtComponent.
 
@@ -144,16 +123,31 @@ SbDict * SoQtComponentP::cursordict = NULL;
 #define PRIVATE(o) (o->pimpl)
 #define PUBLIC(o) (o->owner)
 
+void
+SoQtComponentP::fatalerrorHandler(void * userdata)
+{
+  SoQtComponentP * that = (SoQtComponentP *)userdata;
+  that->cleanupQtReferences();
+}
+
+void
+SoQtComponentP::cleanupQtReferences(void)
+{
+  // Kill the forwarding of messages to the eventFilter() method, as
+  // that can lead to all kinds of problems if a fatal-error triggers
+  // during construction of the component (like for instance in the
+  // case where no valid OpenGL canvas can be set up for the
+  // SoQtGLWidget).
+  this->parent->removeEventFilter(PUBLIC(this));
+}
+
+#endif // DOXYGEN_SKIP_THIS
+
 // *************************************************************************
 
 SOQT_OBJECT_ABSTRACT_SOURCE(SoQtComponent);
 
-/*!
-  \internal
-  This function initializes the type system for all the component classes.
-  It is called indirectly when you call SoQt::init().
-*/
-
+// documented in common/SoGuiComponentCommon.cpp.in.
 void
 SoQtComponent::initClasses(void)
 {
@@ -172,25 +166,14 @@ SoQtComponent::initClasses(void)
   SoQtLightSliderSet::initClass();
   SoQtMaterialSliderSet::initClass();
   SoQtTransformSliderSet::initClass();
-} // initClasses()
+}
 
 // *************************************************************************
 
-/*!
-  Constructor.
-
-  \a parent is the widget we'll build this component inside. If \a
-  parent is \c NULL, make a new toplevel window.
-
-  \a name is mostly interesting for debugging purposes.
-
-  \a embed specifies whether or not we should make a new toplevel
-  window for the component even when we've got a non-NULL \a parent.
-*/
-SoQtComponent::SoQtComponent(
-  QWidget * const parent,
-  const char * const name,
-  const SbBool embed)
+// documented in common/SoGuiComponentCommon.cpp.in.
+SoQtComponent::SoQtComponent(QWidget * const parent,
+                             const char * const name,
+                             const SbBool embed)
 {
   PRIVATE(this) = new SoQtComponentP(this);
 
@@ -224,14 +207,10 @@ SoQtComponent::SoQtComponent(
   }
 
   PRIVATE(this)->parent->installEventFilter(this);
-} // SoQtComponent()
+}
 
-/*!
-  Destructor.
-*/
-
-SoQtComponent::~SoQtComponent(
-  void)
+// documented in common/SoGuiComponentCommon.cpp.in.
+SoQtComponent::~SoQtComponent()
 {
   if (! PRIVATE(this)->embedded)
     this->unregisterWidget(PRIVATE(this)->parent);
@@ -247,57 +226,24 @@ SoQtComponent::~SoQtComponent(
   if (PRIVATE(this)->widget && !PRIVATE(this)->widget->parentWidget()) delete PRIVATE(this)->widget;
 
   delete PRIVATE(this);
-} // ~SoQtComponent()
-
-void
-SoQtComponentP::fatalerrorHandler(void * userdata)
-{
-  SoQtComponentP * that = (SoQtComponentP *)userdata;
-  that->cleanupQtReferences();
 }
 
+// documented in common/SoGuiComponentCommon.cpp.in.
 void
-SoQtComponentP::cleanupQtReferences(void)
-{
-  // Kill the forwarding of messages to the eventFilter() method, as
-  // that can lead to all kinds of problems if a fatal-error triggers
-  // during construction of the component (like for instance in the
-  // case where no valid OpenGL canvas can be set up for the
-  // SoQtGLWidget).
-  this->parent->removeEventFilter(PUBLIC(this));
-}
-
-/*!
-  Add a callback which will be called whenever the widget component
-  changes visibility status (because of iconification or
-  deiconification, for instance).
-
-  \sa removeVisibilityChangeCallback(), isVisible()
-*/
-
-void
-SoQtComponent::addVisibilityChangeCallback(
-  SoQtComponentVisibilityCB * const func,
-  void * const user)
+SoQtComponent::addVisibilityChangeCallback(SoQtComponentVisibilityCB * const func,
+                                           void * const user)
 {
   if (! PRIVATE(this)->visibilitychangeCBs)
     PRIVATE(this)->visibilitychangeCBs = new SbPList;
 
   PRIVATE(this)->visibilitychangeCBs->append((void *) func);
   PRIVATE(this)->visibilitychangeCBs->append(user);
-} // addVisibilityChangeCallback()
+}
 
-/*!
-  Remove one of the callbacks from the list of visibility notification
-  callbacks.
-
-  \sa addVisibilityChangeCallback(), isVisible()
-*/
-
+// documented in common/SoGuiComponentCommon.cpp.in.
 void
-SoQtComponent::removeVisibilityChangeCallback(
-  SoQtComponentVisibilityCB * const func,
-  void * const data)
+SoQtComponent::removeVisibilityChangeCallback(SoQtComponentVisibilityCB * const func,
+                                              void * const data)
 {
 #if SOQT_DEBUG
   if (! PRIVATE(this)->visibilitychangeCBs) {
@@ -320,30 +266,18 @@ SoQtComponent::removeVisibilityChangeCallback(
     return;
   }
 #endif // SOQT_DEBUG
-} // removeVisibilityChangeCallback()
+}
 
-/*!
-  Set class name of widget.
-
-  \sa getClassName(), componentClassName()
-*/
-
+// documented in common/SoGuiComponentCommon.cpp.in.
 void
-SoQtComponent::setClassName(
-  const char * const name)
+SoQtComponent::setClassName(const char * const name)
 {
   PRIVATE(this)->classname = name;
-} // setClassName()
+}
 
 // *************************************************************************
 
-/*!
-  Set the core widget for this SoQt component. It is important that
-  subclasses get this correct, as the widget set here will be the
-  widget returned from query methods.
-
-  \sa baseWidget()
-*/
+// documented in common/SoGuiComponentCommon.cpp.in.
 void
 SoQtComponent::setBaseWidget(QWidget * widget)
 {
@@ -372,7 +306,7 @@ SoQtComponent::setBaseWidget(QWidget * widget)
   }
 #endif // debug
   if (PRIVATE(this)->captiontext.isNull()) PRIVATE(this)->captiontext = this->getDefaultTitle();
-  this->getShellWidget()->setCaption(PRIVATE(this)->captiontext);
+  SoQt::getShellWidget(this->getWidget())->setCaption(PRIVATE(this)->captiontext);
 
   if (PRIVATE(this)->icontext.isNull()) PRIVATE(this)->icontext = this->getDefaultIconTitle();
   this->getShellWidget()->setIconText(PRIVATE(this)->icontext);
@@ -393,7 +327,7 @@ SoQtComponent::setBaseWidget(QWidget * widget)
 
 //  if (storesize[0] != -1)
 //    PRIVATE(this)->widget->resize(QSize(storesize[0], storesize[1]));
-} // setBaseWidget()
+}
 
 // *************************************************************************
 
@@ -530,12 +464,7 @@ SoQtComponent::subclassInitialized(
 
 // *************************************************************************
 
-/*!
-  This will show the widget, deiconifiying and raising it if
-  necessary.
-
-  \sa hide(), isVisible()
-*/
+// documented in common/SoGuiComponentCommon.cpp.in.
 void
 SoQtComponent::show(void)
 {
@@ -593,11 +522,7 @@ SoQtComponent::show(void)
   this->sizeChanged(PRIVATE(this)->storesize);
 }
 
-/*!
-  This will hide the widget.
-
-  \sa show(), isVisible()
-*/
+// documented in common/SoGuiComponentCommon.cpp.in.
 void
 SoQtComponent::hide(void)
 {
@@ -614,63 +539,31 @@ SoQtComponent::hide(void)
 
 // *************************************************************************
 
-/*!
-  Returns visibility status on the widget. If any parents of this
-  widget or this widget itself is hidden, returns \c FALSE.
-
-  Note that a widget which is just obscured by other windows on the
-  desktop is not hidden in this sense, and \c TRUE will be returned.
-
-  \sa show(), hide()
-*/
-
+// documented in common/SoGuiComponentCommon.cpp.in.
 SbBool
-SoQtComponent::isVisible(
-  void)
+SoQtComponent::isVisible(void)
 {
-  if (! PRIVATE(this)->widget)
-    return FALSE;
+  if (! PRIVATE(this)->widget) { return FALSE; }
   return PRIVATE(this)->widget->isVisible() && PRIVATE(this)->widget->isVisibleToTLW();
-} // isVisible()
+}
 
-/*!
-  Returns a pointer to the component's window system widget.
-
-  \sa getShellWidget(), getParentWidget()
-*/
-
+// documented in common/SoGuiComponentCommon.cpp.in.
 QWidget *
-SoQtComponent::getWidget(
-  void) const
+SoQtComponent::getWidget(void) const
 {
   return PRIVATE(this)->widget;
-} // getWidget()
+}
 
-/*!
-  An SoQtComponent may be composed of any number of widgets in
-  parent-children relationships in a tree structure with any depth.
-  This method will return the root widget in that tree.
-
-  \sa setBaseWidget()
-*/
-
+// documented in common/SoGuiComponentCommon.cpp.in.
 QWidget *
-SoQtComponent::baseWidget(
-  void) const
+SoQtComponent::getBaseWidget(void) const
 {
   return PRIVATE(this)->widget;
-} // baseWidget()
+}
 
-/*!
-  Returns \c TRUE if this component is a toplevel shell, i.e. it has a
-  window representation on the desktop.
-
-  \sa getShellWidget()
-*/
-
+// documented in common/SoGuiComponentCommon.cpp.in.
 SbBool
-SoQtComponent::isTopLevelShell(
-  void) const
+SoQtComponent::isTopLevelShell(void) const
 {
 #if SOQT_DEBUG && 0
   if (! PRIVATE(this)->widget) {
@@ -680,178 +573,68 @@ SoQtComponent::isTopLevelShell(
   }
 #endif // SOQT_DEBUG
   return PRIVATE(this)->embedded ? FALSE : TRUE;
-} // isTopLevelShell()
+}
 
-/*!
-  Returns the toplevel shell widget for this component. The toplevel
-  shell is the desktop window which contains the component.
-
-  \sa isTopLevelShell(), getWidget()
-*/
-
+// documented in common/SoGuiComponentCommon.cpp.in.
 QWidget *
-SoQtComponent::getShellWidget(
-  void) const
+SoQtComponent::getParentWidget(void) const
 {
   return PRIVATE(this)->parent;
-  // FIXME: what the heck? The rest of the code is
-  // unreachable. 20020502 mortene.
-  if (PRIVATE(this)->widget)
-    return PRIVATE(this)->widget->topLevelWidget();
-  if (PRIVATE(this)->parent)
-    return PRIVATE(this)->parent->topLevelWidget();
-#if SOQT_DEBUG
-  SoDebugError::postWarning("SoQtComponent::getShellWidget",
-                            "No base widget or parent widget.");
-#endif // SOQT_DEBUG
-  return NULL;
-} // getShellWidget()
+}
 
-/*!
-  Returns the widget which is the parent (i.e. contains) this
-  component's base widget.
-
-  \sa getWidget(), baseWidget(), isTopLevelShell()
-*/
-
-QWidget *
-SoQtComponent::getParentWidget(
-  void) const
-{
-  return PRIVATE(this)->parent;
-} // getParentWidget()
-
-/*!
-  Set the window title of this component. This will not work unless
-  the component is a toplevel shell.
-
-  \sa getTitle(), setIconTitle(), isTopLevelShell()
-*/
-
+// documented in common/SoGuiComponentCommon.cpp.in.
 void
-SoQtComponent::setTitle(
-  const char * const title)
+SoQtComponent::setTitle(const char * const title)
 {
   PRIVATE(this)->captiontext = title;
   if (PRIVATE(this)->widget)
     this->getShellWidget()->setCaption(title);
-} // setTitle()
+}
 
-/*!
-  Returns the window title. The component should be a toplevel shell
-  if you call this method.
-
-  \sa setTitle(), isTopLevelShell()
-*/
-
+// documented in common/SoGuiComponentCommon.cpp.in.
 const char *
-SoQtComponent::getTitle(
-  void) const
+SoQtComponent::getTitle(void) const
 {
   return
     PRIVATE(this)->captiontext.isNull() ? nullstring : (const char *) PRIVATE(this)->captiontext;
-} // getTitle()
+}
 
-/*!
-  Sets the window's title when it is iconfied. The component you use
-  this method on should be a toplevel shell.
-
-  \sa getIconTitle(), setTitle(), isTopLevelShell()
-*/
-
+// documented in common/SoGuiComponentCommon.cpp.in.
 void
-SoQtComponent::setIconTitle(
-  const char * const title)
+SoQtComponent::setIconTitle(const char * const title)
 {
   PRIVATE(this)->icontext = title;
   if (PRIVATE(this)->widget)
     this->getShellWidget()->setIconText(title);
-} // setIconTitle()
+}
 
-/*!
-  Returns the title the window has when iconfied. The component should
-  be a toplevel shell if you use this method.
-
-  \sa setIconTitle(), isTopLevelShell()
-*/
-
+// documented in common/SoGuiComponentCommon.cpp.in.
 const char *
-SoQtComponent::getIconTitle(
-  void) const
+SoQtComponent::getIconTitle(void) const
 {
   return PRIVATE(this)->icontext.isNull() ? nullstring : (const char *)PRIVATE(this)->icontext;
-} // getIconTitle()
+}
 
-/*!
-  Returns name of the widget.
-*/
-
+// documented in common/SoGuiComponentCommon.cpp.in.
 const char *
-SoQtComponent::getWidgetName(
-  void) const
+SoQtComponent::getWidgetName(void) const
 {
   return
     PRIVATE(this)->widgetname.isNull() ? nullstring : (const char *)PRIVATE(this)->widgetname;
-} // getWidgetName()
+}
 
-/*!
-  Returns class name of widget.
-*/
-
+// documented in common/SoGuiComponentCommon.cpp.in.
 const char *
-SoQtComponent::getClassName(
-  void) const
+SoQtComponent::getClassName(void) const
 {
   return (const char *)PRIVATE(this)->classname;
-} // getClassName()
-
-/*!
-  Returns the default name of an SoQtComponent widget. Should be
-  overloaded by subclasses.
-*/
-
-const char *
-SoQtComponent::getDefaultWidgetName(
-  void) const
-{
-  return "SoQtComponent";
-} // getDefaultWidgetName()
-
-/*!
-  Returns the default window caption string of this component. Should
-  be overloaded by subclasses.
-*/
-
-const char *
-SoQtComponent::getDefaultTitle(
-  void) const
-{
-  return "Qt Component";
-} // getDefaultTitle()
-
-/*!
-  Returns the default icon title of this component. Should be
-  overloaded by subclasses.
-*/
-
-const char *
-SoQtComponent::getDefaultIconTitle(
-  void) const
-{
-  return "Qt Comp";
-} // getDefaultIconTitle()
+}
 
 // *************************************************************************
 
-/*!
-  Resize the component widget.
-
-  \sa getSize()
-*/
-
+// documented in common/SoGuiComponentCommon.cpp.in.
 void
-SoQtComponent::setSize(
-  const SbVec2s size)
+SoQtComponent::setSize(const SbVec2s size)
 {
 #if SOQT_DEBUG
   if((size[0] <= 0) || (size[1] <= 0)) {
@@ -874,28 +657,16 @@ SoQtComponent::setSize(
   }
   PRIVATE(this)->storesize = size;
   this->sizeChanged(size);
-} // setSize()
+}
 
-/*!
-  Returns the component widget size.
-
-  \sa setSize()
-*/
-
+// documented in common/SoGuiComponentCommon.cpp.in.
 SbVec2s
-SoQtComponent::getSize(
-  void) const
+SoQtComponent::getSize(void) const
 {
   return PRIVATE(this)->storesize;
-} // getSize()
+}
 
-/*!
-  This method is invoked to notify the component that the size has
-  changed.  It is called from the top and all the way down to the
-  bottom, the size being adjusted to take into account extra
-  decorations having been added at each level in the component class
-  hierarchy.
-*/
+// documented in common/SoGuiComponentCommon.cpp.in.
 void
 SoQtComponent::sizeChanged(const SbVec2s & size)
 {
@@ -904,38 +675,20 @@ SoQtComponent::sizeChanged(const SbVec2s & size)
 
 // *************************************************************************
 
-/*!
-  Open a dialog providing help about use of this component.
-
-  NB: no help system has been implemented yet, so for the time being
-  this will only pop up an error message.
-*/
-
+// documented in common/SoGuiComponentCommon.cpp.in.
 void
-SoQtComponent::openHelpCard(
-  const char * const name)
+SoQtComponent::openHelpCard(const char * const name)
 {
   // FIXME: code MiA. 19990222 mortene.
   QMessageBox::warning(NULL, "SoQt",
                         "The help functionality has not been "
                         "implemented.");
-} // openHelpCard()
+}
 
-/*!
-  Set up a callback function to use when the component gets closed. A
-  component must be a toplevel shell for this to have any effect.
-
-  For toplevel shells with no close callback set, the window will
-  simply be hidden. The typical action to take in the callback would
-  be to delete the component.
-
-  \sa isTopLevelShell()
-*/
-
+// documented in common/SoGuiComponentCommon.cpp.in.
 void
-SoQtComponent::setWindowCloseCallback(
-  SoQtComponentCB * const func,
-  void * const data)
+SoQtComponent::setWindowCloseCallback(SoQtComponentCB * const func,
+                                      void * const data)
 {
   PRIVATE(this)->closeCB = func;
   PRIVATE(this)->closeCBdata = data;
@@ -946,26 +699,18 @@ SoQtComponent::setWindowCloseCallback(
 
   SLOT for when the user clicks/selects window decoration close.
 */
-
 void
-SoQtComponent::widgetClosed(
-  void)
+SoQtComponent::widgetClosed(void)
 {
   if (PRIVATE(this)->closeCB)
     PRIVATE(this)->closeCB(PRIVATE(this)->closeCBdata, this);
-} // widgetClosed()
+}
 
 // *************************************************************************
 
-/*!
-  Finds and returns the SoQtComponent corresponding to the given
-  QWidget, if any. If no SoQtComponent is the "owner" of the widget,
-  \c NULL will be returned.
-*/
-
+// documented in common/SoGuiComponentCommon.cpp.in.
 SoQtComponent *
-SoQtComponent::getComponent(
-  QWidget * const widget)
+SoQtComponent::getComponent(QWidget * const widget)
 {
   for (int i = 0; i < SoQtComponentP::soqtcomplist->getLength(); i++) {
     SoQtComponent * c = (SoQtComponent *) (*SoQtComponentP::soqtcomplist)[i];
@@ -973,7 +718,7 @@ SoQtComponent::getComponent(
   }
 
   return NULL;
-} // getComponent()
+}
 
 // *************************************************************************
 
@@ -1010,13 +755,7 @@ SoQtComponent::afterRealizeHook(void)
 {
 }
 
-/*!
-  Toggle full screen mode for this component, if possible.
-
-  Returns \c FALSE if operation failed.  This might happen if the
-  toolkit doesn't support attempts at making the component cover the
-  complete screen or if the component is not a toplevel window.
-*/
+// documented in common/SoGuiComponentCommon.cpp.in.
 SbBool 
 SoQtComponent::setFullScreen(const SbBool onoff)
 {
@@ -1051,18 +790,14 @@ SoQtComponent::setFullScreen(const SbBool onoff)
 #endif // !HAVE_QWIDGET_SHOWFULLSCREEN
 }
 
-/*!
-  Returns if this widget/component is in full screen mode.
-*/
+// documented in common/SoGuiComponentCommon.cpp.in.
 SbBool 
 SoQtComponent::isFullScreen(void) const
 {
   return PRIVATE(this)->fullscreen;
 }
 
-/*!
-  Sets the cursor for this component.
-*/
+// documented in common/SoGuiComponentCommon.cpp.in.
 void 
 SoQtComponent::setComponentCursor(const SoQtCursor & cursor)
 {
@@ -1123,9 +858,7 @@ SoQtComponentP::getNativeCursor(const SoQtCursor::CustomCursor * cc)
 }
 
 
-/*!
-  Set cursor for a native widget in the underlying toolkit.
-*/
+// documented in common/SoGuiComponentCommon.cpp.in.
 void
 SoQtComponent::setWidgetCursor(QWidget * w, const SoQtCursor & cursor)
 {
