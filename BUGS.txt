@@ -30,3 +30,29 @@
         } 
 
 =====================================================================
+
+001 The simplest SoQtExaminerViewer example comes up with a canvas
+    sized to be of almost zero dimensions:
+
+    ----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] ---
+    #include <Inventor/Qt/SoQt.h>
+    #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
+    #include <Inventor/nodes/SoCone.h>
+    
+    int
+    main(int argc, char* argv[])
+    {
+      QWidget * mainwin = SoQt::init(argv[0]);
+    
+      SoQtExaminerViewer * viewer = new SoQtExaminerViewer(mainwin);
+      viewer->setSceneGraph(new SoCone);
+    
+      SoQt::show(mainwin);
+      SoQt::mainLoop();
+    
+      return 0;
+    }
+    ----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] ---
+
+
+=====================================================================
