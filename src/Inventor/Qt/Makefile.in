@@ -1,4 +1,4 @@
-# Makefile.in generated automatically by automake 1.4a from Makefile.am
+# Makefile.in generated automatically by automake 1.4c from Makefile.am
 
 # Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000
 # Free Software Foundation, Inc.
@@ -247,6 +247,7 @@ DIST_COMMON =  $(libSoQtinc_HEADERS) Makefile.am Makefile.in
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
 GZIP_ENV = --best
+DIST_SUBDIRS =  $(SUBDIRS)
 SOURCES = $(libSoQt_la_SOURCES)
 OBJECTS = $(am_libSoQt_la_OBJECTS)
 
@@ -362,7 +363,11 @@ mostlyclean-recursive clean-recursive distclean-recursive \
 maintainer-clean-recursive:
 	@set fnord $(MAKEFLAGS); amf=$$2; \
 	dot_seen=no; \
-	rev=''; list='$(SUBDIRS)'; for subdir in $$list; do \
+	case "$@" in \
+	  distclean-* | maintainer-clean-*) list='$(DIST_SUBDIRS)' ;; \
+	  *) list='$(SUBDIRS)' ;; \
+	esac; \
+	rev=''; for subdir in $$list; do \
 	  if test "$$subdir" = "."; then :; else \
 	    rev="$$subdir $$rev"; \
 	  fi; \
@@ -412,6 +417,11 @@ TAGS: tags-recursive $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
 	       END { for (i in files) print i; }'`; \
 	test -z "$(ETAGS_ARGS)$$unique$(LISP)$$tags" \
 	  || etags $(ETAGS_ARGS) $$tags  $$unique $(LISP)
+
+GTAGS:
+	here=`CDPATH=: && cd $(top_builddir) && pwd` \
+	  && cd $(top_srcdir) \
+	  && gtags -i $$here
 
 mostlyclean-tags:
 
@@ -501,6 +511,9 @@ check-am: all-am
 check: check-recursive
 installcheck-am:
 installcheck: installcheck-recursive
+all-recursive-am: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) all-recursive
+
 install-exec-am: install-libLTLIBRARIES
 	@$(NORMAL_INSTALL)
 	$(MAKE) $(AM_MAKEFLAGS) install-exec-hook
@@ -515,7 +528,7 @@ install: install-recursive
 uninstall-am: uninstall-libLTLIBRARIES uninstall-libSoQtincHEADERS
 uninstall: uninstall-recursive
 all-am: Makefile $(LTLIBRARIES) $(HEADERS)
-all-redirect: all-recursive
+all-redirect: all-recursive-am
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) INSTALL_STRIP_FLAG=-s install
 installdirs: installdirs-recursive
@@ -576,11 +589,11 @@ maintainer-clean-recursive tags tags-recursive mostlyclean-tags \
 distclean-tags clean-tags maintainer-clean-tags mostlyclean-depend \
 distclean-depend clean-depend maintainer-clean-depend distdir info-am \
 info dvi-am dvi check check-am installcheck-am installcheck \
-install-exec-am install-exec install-data-am install-data install-am \
-install uninstall-am uninstall all-redirect all-am all install-strip \
-installdirs-am installdirs mostlyclean-generic distclean-generic \
-clean-generic maintainer-clean-generic clean mostlyclean distclean \
-maintainer-clean
+all-recursive-am install-exec-am install-exec install-data-am \
+install-data install-am install uninstall-am uninstall all-redirect \
+all-am all install-strip installdirs-am installdirs mostlyclean-generic \
+distclean-generic clean-generic maintainer-clean-generic clean \
+mostlyclean distclean maintainer-clean
 
 
 ############################################################################

@@ -131,7 +131,7 @@ SoQtSpaceball::disable(
   SoQtEventHandler *, // handler,
   void * ) // closure )
 {
-  SOQT_STUB();
+// FIXME: SOQT_STUB();
 } // disable()
 
 // *************************************************************************
