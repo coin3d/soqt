@@ -1,0 +1,3 @@
+Makefile
+*.lst
+moc_*.icc

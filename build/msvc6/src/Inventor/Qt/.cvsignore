@@ -1,0 +1,4 @@
+Makefile
+stamp-*
+soqt1.so.*
+moc_*.icc
