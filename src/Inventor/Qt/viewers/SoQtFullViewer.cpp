@@ -573,42 +573,61 @@ SoQtFullViewer::hide(void)
 */
 
 bool
-SoQtFullViewer::eventFilter(QObject *obj, QEvent * e)
+SoQtFullViewer::eventFilter(QObject * obj, QEvent * e)
 {
 #if 0 // debug
-  switch (e->type()) {
-  case Event_MouseButtonPress:
-//      SoDebugError::postInfo("SoQtFullViewer::eventFilter", "button press");
-    break;
-  case Event_MouseButtonRelease:
-//      SoDebugError::postInfo("SoQtFullViewer::eventFilter", "button release");
-    break;
-  case Event_MouseButtonDblClick:
-//      SoDebugError::postInfo("SoQtFullViewer::eventFilter", "dbl click");
-    break;
-  case Event_MouseMove:
-//      SoDebugError::postInfo("SoQtFullViewer::eventFilter", "mousemove");
-    break;
-  case Event_Paint:
-    SoDebugError::postInfo("SoQtFullViewer::eventFilter", "paint");
-    break;
-  case Event_Resize:
-    SoDebugError::postInfo("SoQtFullViewer::eventFilter", "resize");
-    break;
-  case Event_FocusIn:
-  case Event_FocusOut:
-  case Event_Enter:
-  case Event_Leave:
-  case Event_Move:
-  case Event_LayoutHint:
-  case Event_ChildInserted:
-  case Event_ChildRemoved:
-    // ignored
-    break;
-  default:
-    SoDebugError::postInfo("SoQtFullViewer::eventFilter", "type %d", e->type());
-    break;
-  }
+  const char eventnaming[][50] = {
+    "None", // 0
+    "Timer",
+    "MouseButtonPress",
+    "MouseButtonRelease",
+    "MouseButtonDblClick",
+    "MouseMove",
+    "KeyPress",
+    "KeyRelease",
+    "FocusIn",
+    "FocusOut",
+    "Enter",
+    "Leave",
+    "Paint",
+    "Move",
+    "Resize",
+    "Create",
+    "Destroy",
+    "Show",
+    "Hide",
+    "Close",
+    "Quit", // 20
+    "*error*", "*error*", "*error*", "*error*", "*error*",
+    "*error*", "*error*", "*error*", "*error*",
+    "Accel", // 30
+    "Wheel",
+    "AccelAvailable", // 32
+    "*error*", "*error*", "*error*", "*error*",
+    "*error*", "*error*", "*error*",
+    "Clipboard", // 40
+    "*error*", "*error*", "*error*", "*error*", "*error*",
+    "*error*", "*error*", "*error*", "*error*",
+    "SockAct", // 50
+    "*error*", "*error*", "*error*", "*error*", "*error*",
+    "*error*", "*error*", "*error*", "*error*",
+    "DragEnter", // 60
+    "DragMove",
+    "DragLeave",
+    "Drop",
+    "DragResponse", // 64
+    "*error*", "*error*", "*error*", "*error*", "*error*",
+    "ChildInserted", // 70
+    "ChildRemoved",
+    "LayoutHint", // 72
+    "*error*", "*error*", "*error*", "*error*", "*error*",
+    "*error*", "*error*",
+    "ActivateControl", // 80
+    "DeactivateControl"
+  };
+  
+  SoDebugError::postInfo("SoQtFullViewer::eventFilter", "%p: %s",
+                         obj, eventnaming[e->type()]);
 #endif // debug
 
   inherited::eventFilter(obj, e);

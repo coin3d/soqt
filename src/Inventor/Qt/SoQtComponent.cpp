@@ -290,44 +290,59 @@ SoQtComponent::eventFilter( // virtual
   QObject * obj,
   QEvent * e )
 {
-#if SOQT_DEBUG && 0 // debug
-  SoDebugError::postInfo("SoQtComponent::eventFilter", "obj: %p", obj);
-#endif // debug
-
 #if 0 // debug
-  switch (e->type()) {
-  case Event_MouseButtonPress:
-//      SoDebugError::postInfo("SoQtComponent::eventFilter", "button press");
-    break;
-  case Event_MouseButtonRelease:
-//      SoDebugError::postInfo("SoQtComponent::eventFilter", "button release");
-    break;
-  case Event_MouseButtonDblClick:
-//      SoDebugError::postInfo("SoQtComponent::eventFilter", "dbl click");
-    break;
-  case Event_MouseMove:
-//      SoDebugError::postInfo("SoQtComponent::eventFilter", "mousemove");
-    break;
-  case Event_Paint:
-    SoDebugError::postInfo("SoQtComponent::eventFilter", "paint");
-    break;
-  case Event_Resize:
-    SoDebugError::postInfo("SoQtComponent::eventFilter", "resize");
-    break;
-  case Event_FocusIn:
-  case Event_FocusOut:
-  case Event_Enter:
-  case Event_Leave:
-  case Event_Move:
-  case Event_LayoutHint:
-  case Event_ChildInserted:
-  case Event_ChildRemoved:
-    // ignored
-    break;
-  default:
-    SoDebugError::postInfo("SoQtComponent::eventFilter", "type %d", e->type());
-    break;
-  }
+  const char eventnaming[][50] = {
+    "None", // 0
+    "Timer",
+    "MouseButtonPress",
+    "MouseButtonRelease",
+    "MouseButtonDblClick",
+    "MouseMove",
+    "KeyPress",
+    "KeyRelease",
+    "FocusIn",
+    "FocusOut",
+    "Enter",
+    "Leave",
+    "Paint",
+    "Move",
+    "Resize",
+    "Create",
+    "Destroy",
+    "Show",
+    "Hide",
+    "Close",
+    "Quit", // 20
+    "*error*", "*error*", "*error*", "*error*", "*error*",
+    "*error*", "*error*", "*error*", "*error*",
+    "Accel", // 30
+    "Wheel",
+    "AccelAvailable", // 32
+    "*error*", "*error*", "*error*", "*error*",
+    "*error*", "*error*", "*error*",
+    "Clipboard", // 40
+    "*error*", "*error*", "*error*", "*error*", "*error*",
+    "*error*", "*error*", "*error*", "*error*",
+    "SockAct", // 50
+    "*error*", "*error*", "*error*", "*error*", "*error*",
+    "*error*", "*error*", "*error*", "*error*",
+    "DragEnter", // 60
+    "DragMove",
+    "DragLeave",
+    "Drop",
+    "DragResponse", // 64
+    "*error*", "*error*", "*error*", "*error*", "*error*",
+    "ChildInserted", // 70
+    "ChildRemoved",
+    "LayoutHint", // 72
+    "*error*", "*error*", "*error*", "*error*", "*error*",
+    "*error*", "*error*",
+    "ActivateControl", // 80
+    "DeactivateControl"
+  };
+  
+  SoDebugError::postInfo("SoQtComponent::eventFilter", "%p: %s",
+                         obj, eventnaming[e->type()]);
 #endif // debug
 
   // Remove event filter if unknown Qt widget.
@@ -349,8 +364,8 @@ SoQtComponent::eventFilter( // virtual
     if (obj == (QObject *)this->parent) {
 #if SOQTCOMP_RESIZE_DEBUG  // debug
       SoDebugError::postInfo("SoQtComponent::eventFilter",
-                             "resize %p: (%d, %d)",
-                             this->widget,
+                             "resize on parent (%p) to %p: (%d, %d)",
+                             this->parent, this->widget,
                              r->size().width(), r->size().height());
 #endif // debug
       this->widget->resize(r->size());
