@@ -570,7 +570,7 @@ SoQtGLWidget::isDoubleBuffer(void) const
 }
 
 /*!
-  Enables or disables Quad buffer stereo.
+  Enables or disables quad buffer stereo.
 */
 void 
 SoQtGLWidget::setQuadBufferStereo(const SbBool enable)

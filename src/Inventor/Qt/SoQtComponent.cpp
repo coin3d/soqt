@@ -400,7 +400,7 @@ SoQtComponent::eventFilter( // virtual
 #if 0
   // Remove event filter if unknown Qt widget.
   // FIXME: this code should probably be superfluous if everything
-  // else works 100%? 990216 mortene.
+  // else works 100%? 19990216 mortene.
   if ((obj != this->widget) && (obj != this->parent)) {
 #if SOQT_DEBUG
     SoDebugError::postWarning("SoQtComponent::eventFilter",
@@ -874,7 +874,7 @@ void
 SoQtComponent::openHelpCard(
   const char * const name )
 {
-  // FIXME: code MiA. 990222 mortene.
+  // FIXME: code MiA. 19990222 mortene.
   QMessageBox::warning( NULL, "SoQt",
                         "The help functionality has not been "
                         "implemented." );
