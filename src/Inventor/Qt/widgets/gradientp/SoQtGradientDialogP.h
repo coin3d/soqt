@@ -32,6 +32,9 @@ class SoQtGradientDialog;
 class GradientView;
 class QComboBox;
 class QCheckBox;
+class QLabel;
+class QPushButton;
+class QFileDialog;
 
 class SoQtGradientDialogP : public QObject {
 
@@ -44,20 +47,23 @@ public:
   static void gradientCallBack(const Gradient & thisp, void * userData);
   void saveCurrent();
 
-  QFileDialog * fileDialog;
-  GradientView * gradView;
+
+  QFileDialog * filedialog;
+  GradientView * gradview;
   QValueList<Gradient> gradients;
-  QComboBox * gradientList;
+  QComboBox * gradientlist;
   QCheckBox * contupdate;
   Gradient gradientcopy;
   Gradient::ChangeCB * changeCallBack;
   void * changeCallBackData;
   int old_index;
   void * callBackData;
-  SbBool updateContinuously;
+  SbBool updatecontinuously;
 
-  QLabel * contupdateLabel;
-  QPushButton * applyButton;
+  QLabel * contupdatelabel;
+  QPushButton * applybutton;
+  QString filetype;
+  static QString defaultdir;
   
 
 public slots:
@@ -67,6 +73,7 @@ public slots:
   void contupdateClicked(void);
   void callGradientUpdate(void);
   void resetGradient(void);
+  void done(void);
 };
 
 #endif // ! SOQTGRADIENTDIALOGP_H
