@@ -51,18 +51,7 @@ libSoQt@SUFFIX@_la_SOURCES = \
 	SoQtP.h \
 	SoQtInternal.h \
 	SoQtComponent.cpp \
-	SoQtGLWidget.cpp \
-	SoQtLightSliderSet.cpp \
-	SoQtLightSliderSet.h \
-	SoQtMaterialSliderSet.cpp \
-	SoQtMaterialSliderSet.h \
-	SoQtSliderSet.cpp \
-	SoQtSliderSet.h \
-	SoQtSliderSetBase.cpp \
-	SoQtSliderSetBase.h \
-	SoQtTransformSliderSet.cpp \
-	SoQtTransformSliderSet.h \
-	SoQtMaterialList.cpp
+	SoQtGLWidget.cpp
 
 
 nodist_libSoQt@SUFFIX@_la_SOURCES = \
@@ -84,18 +73,7 @@ soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
 	SoQtP.h \
 	SoQtInternal.h \
 	SoQtComponent.cpp \
-	SoQtGLWidget.cpp \
-	SoQtLightSliderSet.cpp \
-	SoQtLightSliderSet.h \
-	SoQtMaterialSliderSet.cpp \
-	SoQtMaterialSliderSet.h \
-	SoQtSliderSet.cpp \
-	SoQtSliderSet.h \
-	SoQtSliderSetBase.cpp \
-	SoQtSliderSetBase.h \
-	SoQtTransformSliderSet.cpp \
-	SoQtTransformSliderSet.h \
-	SoQtMaterialList.cpp
+	SoQtGLWidget.cpp
 
 nodist_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
 	$(SoGui_src_Inventor_Gui_BuiltFiles)
@@ -113,12 +91,7 @@ SoQtincdir = $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$(
 else
 SoQtincdir = $(includedir)/Inventor/Qt
 endif
-SoQtinc_HEADERS = \
-	SoQtLightSliderSet.h \
-	SoQtMaterialSliderSet.h \
-	SoQtSliderSet.h \
-	SoQtSliderSetBase.h \
-	SoQtTransformSliderSet.h
+SoQtinc_HEADERS = 
 
 nodist_SoQtinc_HEADERS = \
 	SoQt.h \
@@ -127,8 +100,7 @@ nodist_SoQtinc_HEADERS = \
 	SoQtCursor.h \
 	SoQtComponent.h \
 	SoQtGLWidget.h \
-	SoQtRenderArea.h \
-	SoQtMaterialList.h
+	SoQtRenderArea.h
 
 install-SoQtincHEADERS: $(SoQtinc_HEADERS)
 	@$(NORMAL_INSTALL)
