@@ -66,6 +66,7 @@ SbBool SoQtLinuxJoystick::enabled = FALSE;
 // *************************************************************************
 
 /*!
+  FIXME: write doc
 */
 
 SoQtLinuxJoystick::SoQtLinuxJoystick(
@@ -88,6 +89,7 @@ SoQtLinuxJoystick::SoQtLinuxJoystick(
 } // SoQtLinuxJoystick()
 
 /*!
+  FIXME: write doc
 */
 
 SoQtLinuxJoystick::~SoQtLinuxJoystick( // virtual
@@ -108,6 +110,7 @@ SoQtLinuxJoystick::~SoQtLinuxJoystick( // virtual
 // *************************************************************************
 
 /*!
+  FIXME: write doc
 */
 
 void
@@ -174,6 +177,7 @@ SoQtLinuxJoystick::enable( // virtual
 } // enable()
 
 /*!
+  FIXME: write doc
 */
 
 void

@@ -46,9 +46,9 @@ public:
   SoQtLinuxJoystick( int events = SoQtLinuxJoystick::ALL_EVENTS );
   virtual ~SoQtLinuxJoystick(void);
 
-  virtual void enable( QWidget * widget, SoQtEventHandler handler,
+  virtual void enable( QWidget * widget, SoQtEventHandler * handler,
       void * closure );
-  virtual void disable( QWidget * widget, SoQtEventHandler handler,
+  virtual void disable( QWidget * widget, SoQtEventHandler * handler,
       void * closure );
 
   virtual const SoEvent * translateEvent( QEvent * event );

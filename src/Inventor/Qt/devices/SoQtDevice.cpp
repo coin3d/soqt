@@ -71,6 +71,7 @@ struct SoQtDeviceHandlerInfo {
 // *************************************************************************
 
 /*!
+  Constructor.
 */
 
 SoQtDevice::SoQtDevice(
@@ -148,6 +149,7 @@ SoQtDevice::getLastEventPosition(
 } // getLastEventPosition()
 
 /*!
+  FIXME: write doc
 */
 
 void
@@ -164,6 +166,7 @@ SoQtDevice::setLastEventPosition(
 // *************************************************************************
 
 /*!
+  FIXME: write doc
 */
 
 void
@@ -182,6 +185,7 @@ SoQtDevice::addEventHandler(
 } // addEventHandler()
 
 /*!
+  FIXME: write doc
 */
 
 void
@@ -209,6 +213,7 @@ SoQtDevice::removeEventHandler(
 } // removeEventHandler()
 
 /*!
+  FIXME: write doc
 */
 
 void
@@ -223,7 +228,7 @@ SoQtDevice::invokeHandlers(
       info->handler( info->widget, info->closure, event, &dispatch );
     }
   }
-} // invokeEventHandlers()
+} // invokeHandlers()
 
 // *************************************************************************
 
