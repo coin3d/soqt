@@ -445,6 +445,13 @@ SIM_AC_HAVE_INVENTOR_FEATURE(
    c->setStereoMode(SoCamera::MONOSCOPIC);],
   [HAVE_SOCAMERA_SETSTEREOMODE])
 
+SIM_AC_HAVE_INVENTOR_FEATURE(
+  [for SoGLRenderAction::SORTED_LAYERS_BLEND transparency mode],
+  [#include <Inventor/events/SoGLRenderAction.h>], [
+  /* try to get SORTED_LAYERS_BLEND transparency mode value */
+  int num = (int) SoGLRenderAction::SORTED_LAYERS_BLEND;],
+  [HAVE_SORTED_LAYERS_BLEND])
+
 SIM_AC_INVENTOR_EXTENSIONS([
   LDFLAGS="$sim_ac_iv_extension_LDFLAGS $LDFLAGS"
   SOGUI_EXTRA_LDFLAGS="$sim_ac_iv_extension_LDFLAGS $SOGUI_EXTRA_LDFLAGS"
