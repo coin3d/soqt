@@ -80,6 +80,7 @@ GradientView::GradientView(QCanvas * c,
   QVBoxLayout * topLayout = new QVBoxLayout(this);
   topLayout->setAlignment(Qt::AlignBottom);
   this->statusBar = new QStatusBar(this);
+  this->statusBar->setSizeGripEnabled(FALSE);
   this->selectionMarker = new ImageItem(this->canvas);
   this->gradItem = new ImageItem(this->canvas);
   this->gradItem->show();
