@@ -1057,35 +1057,35 @@ SoQtComponentP::getNativeCursor(const SoQtCursor::CustomCursor * cc)
   SbBool b = SoQtComponentP::cursordict->find((unsigned long)cc, qc);
   if (b) { return (QCursor *)qc; }
 
-  // For Qt on MSWin, it is necessary to mask the bitmaps "manually"
-  // before setting up the QBitmaps for the cursors. It doesn't seem
-  // to matter any way under X11. Sounds like a Qt bug to me, which
-  // seems strange -- as this issue has been present for at least a
-  // couple of years. 20000630 mortene.
+#define MAXBITMAPWIDTH 32
+#define MAXBITMAPHEIGHT 32
+#define MAXBITMAPBYTES (((MAXBITMAPWIDTH + 7) / 8) * MAXBITMAPHEIGHT)
 
-  // FIXME: tmp disabled -- test under MSWin without this code first.
-  // 20011121 mortene.
-#if 0
-  const int BYTESIZE = (cc.dim[0] + 7) / 2 * cc.dim[1];
-  for (int i = 0; i < BYTESIZE; i++) {
-    cc.bitmap[i] &= cc.mask[i];
+  uchar cursorbitmap[MAXBITMAPBYTES];
+  uchar cursormask[MAXBITMAPBYTES];
+  (void)memset(cursorbitmap, 0x00, MAXBITMAPBYTES);
+  (void)memset(cursormask, 0x00, MAXBITMAPBYTES);
+
+  assert(cc->dim[0] <= MAXBITMAPWIDTH && "internal bitmap too large");
+  assert(cc->dim[1] <= MAXBITMAPHEIGHT && "internal bitmap too large");
+
+  const int BYTEWIDTH = (cc->dim[0] + 7) / 8;
+  for (int h=0; h < cc->dim[1]; h++) {
+    for (int w=0; w < BYTEWIDTH; w++) {
+      const int cursorpos = h * ((MAXBITMAPWIDTH + 7) / 8) + w;
+      const int nativepos = h * BYTEWIDTH + w;
+      // FIXME: the AND operation with the mask should really be
+      // unnecessary if the input bitmap data from SoGuiCursor.cpp.in
+      // was correct. 20011123 mortene.
+      cursorbitmap[cursorpos] = cc->bitmap[nativepos] & cc->mask[nativepos];
+      cursormask[cursorpos] = cc->mask[nativepos];
+    }
   }
-#endif // tmp disabled
 
-  QBitmap bitmap(cc->dim[0], cc->dim[1], (uchar *)cc->bitmap, TRUE);
-  QBitmap mask(cc->dim[0], cc->dim[1], (uchar *)cc->mask, TRUE);
-
-  if (SOQT_DEBUG && FALSE) { // debug
-    SoDebugError::postInfo("SoQtComponentP::getNativeCursor",
-                           "bitmap.depth==%d, bitmap.size==<%d, %d>  "
-                           "mask.depth==%d, mask.size==<%d, %d>",
-                           bitmap.depth(),
-                           bitmap.size().width(),
-                           bitmap.size().height(),
-                           mask.depth(),
-                           mask.size().width(),
-                           mask.size().height());
-  }
+  // Always 32x32 because that's what is recommended in the Qt
+  // documentation for QCursor.
+  QBitmap bitmap(32, 32, cursorbitmap, TRUE);
+  QBitmap mask(32, 32, cursormask, TRUE);
 
   // Sanity checks.
   assert(bitmap.size().width() > 0 && bitmap.size().height() > 0);
