@@ -83,7 +83,7 @@ So@Gui@SuperCanvas::So@Gui@SuperCanvas(@WIDGET@ parent,
   PRIVATE(this) = new SoQtSuperCanvasP(this);
   if (build) {
     this->setClassName("So@Gui@SuperCanvas");
-    @WIDGET@ widget = this->buildWidget(this->getParentWidget());
+    @WIDGET@ widget = this->buildWidget(parent);
     this->setBaseWidget(widget);
   }
 } // So@Gui@SuperCanvas()
@@ -1210,12 +1210,13 @@ So@Gui@SuperCanvas::setSceneGraph(SoNode * scene)
     PRIVATE(this)->graphswitch = new SoSwitch;
     PRIVATE(this)->graphswitch->addChild(scene);
     PRIVATE(this)->graphswitch->whichChild = 0;
+  So@Gui@Viewer::setSceneGraph(PRIVATE(this)->graphswitch);
   }
   else
     PRIVATE(this)->graphswitch->replaceChild(0, scene);
 
   PRIVATE(this)->currentroot = scene;
-  So@Gui@Viewer::setSceneGraph(PRIVATE(this)->graphswitch);
+
 
   // Fetching variables necessary for the viewers functionality
   if(PRIVATE(this)->supersg == NULL)

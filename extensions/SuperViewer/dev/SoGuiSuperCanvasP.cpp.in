@@ -154,6 +154,8 @@ So@Gui@SuperCanvasP::So@Gui@SuperCanvasP(So@Gui@SuperCanvas * o)
   this->cameraorientsensor->setPriority(0);
   this->currcam = NULL;
 
+  owner->setBackgroundColor(SbColor(0.0, 0.0, 0.4));
+
 }
 
 So@Gui@SuperCanvasP::~So@Gui@SuperCanvasP(void)
