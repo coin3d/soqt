@@ -117,6 +117,11 @@ SoQtMouse::translateEvent(QEvent * event)
   // pairs of press and release events. In other words: it's the
   // user's responsibility to translate pairs of singleclicks to
   // doubleclicks, if doubleclicks have a special meaning.
+
+  // FIXME: check if the above statement is actually correct, as Qt
+  // sends this series of events upon dblclick:
+  // press,release,dblclick,release. Reported to Troll Tech as a
+  // possible bug. 19991001 mortene.
   if (((event->type() == Event_MouseButtonPress) ||
        (event->type() == Event_MouseButtonRelease)) &&
       (this->eventmask & (SoQtMouse::ButtonPressMask |

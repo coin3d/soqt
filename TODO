@@ -52,27 +52,58 @@ ToDo
   checks we do to speed up invocations of configure.
 
 
+
+*** MISSING COMPONENTS ***
+
+* [mortene:19991001] SoQtDirectionalLightEditor.
+
+* [mortene:19991001] SoQtPrintDialog.
+
+* [mortene:19991001] SoQtMaterialEditor.
+
+* [mortene:19991001] SoQtMaterialList.
+
+* [mortene:19991001] SoQtLightSliderSet.
+
+* [mortene:19991001] SoQtMaterialSliderSet.
+
+* [mortene:19991001] SoQtTransformSliderSet.
+
+* [mortene:19991001] SoQtResource?
+
+* [mortene:19991001] SoQtClipboard.
+
+* [mortene:19991001] SoQtCollisionViewer.
+
+* [mortene:19991001] SoQtFlyViewer.
+
+* [mortene:19991001] SoQtWalkViewer.
+
+* [mortene:19991001] SoQtPlaneViewer.
+
+* [mortene:19991001] SoQtSIMViewer (this is the good old VRMLview,
+  converted to become an SoQt component).
+
+
+
 *** BUGS ***
 
 * [mortene:1999????] SoQt over Qt2.0 has a number of irritating
   problems which doesn't show up with Qt1.x:
-   a. decoration on/off doesn't make the scene gfx reposition/resize correctly
-   b. should remove the focus indicator
+   a. decoration on/off doesn't make the scene gfx reposition/resize
+      correctly until further interaction
+   b. should remove the focus indicator on the top-most right-row button
    c. something is wrong with the drag->spin mechanism, looks like we get
       too few mouseposition events to get a good idea of where we are going
    d. we get too many redraw events on resizing the window
-
-* [mortene:1999????] quick LMB click in viewer window screws up
-  interactive count (enable the debug code in
-  SoQtViewer::interactiveCountInc() and
-  SoQtViewer::interactiveCountDec() to see this one).
 
 * [mortene:1999????] resize so height > width -> aspectratio is not
   updated accordingly.
 
 * [mortene:1999????] start the SoQt/examples/examinerviewer example
-  without any modelfile as argument, drag the left rotate wheel a bit
-  up or down -- leads to major bounding box fuckups.
+  without any modelfile as argument (to get one of the random shapes),
+  drag the left rotate wheel a bit up or down -- leads to major
+  rendering fuckups.
 
 * [mortene:1999????] pick/view togglebuttons doesn't work correctly:
      * clicking on a button already pressed down shouldn't have any effect
@@ -84,7 +115,7 @@ ToDo
   cursor until we do any action within the window again.
 
 * [mortene:1999????] lighting is defunct in singlebuffer mode, and
-     going back again to doublebuffer mode doesn't help (weird).
+  going back again to doublebuffer mode doesn't help (weird).
 
 * [mortene:1999????] interactivebuffer mode is foobar.
 
@@ -110,6 +141,11 @@ Done
 ====
 
 (format is: "* [author:conceived-date][implementer:finished-date] item")
+
+* [mortene:1999????][mortene:19991001] quick LMB click in viewer
+  window screws up interactive count (enable the debug code in
+  SoQtViewer::interactiveCountInc() and
+  SoQtViewer::interactiveCountDec() to see this one).
 
 * [mortene:1999????][mortene:19990930] cursorgfx in SoQtExaminerViewer
   has somehow become foobar -- to do with the mask manipulation in

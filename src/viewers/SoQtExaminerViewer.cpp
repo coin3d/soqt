@@ -597,43 +597,60 @@ SoQtExaminerViewer::processEvent(QEvent * event)
   SbVec2f norm_mousepos(mousepos[0]/float(canvassize[0]),
   			mousepos[1]/float(canvassize[1]));
 
-  switch (event->type()) {
+  // Convert dblclick events to press events to get the "correct"
+  // sequence of two press+release pairs under Qt 1.xx and Qt 2.00 at
+  // least. (FIXME: is this a Qt bug? Report sent to the Trolls
+  // 19991001 mortene.)
+  QEvent::Type eventtype = event->type();
+  eventtype = (eventtype == Event_MouseButtonDblClick ?
+	       Event_MouseButtonPress : eventtype);
+
+  switch (eventtype) {
   case Event_MouseButtonPress:
+    {
+      QMouseEvent * be = (QMouseEvent *)event;
+      if (be->button() != LeftButton && be->button() != MidButton) break;
+
+      this->interactiveCountInc();
+
+#if 0 // debug
+      SoDebugError::postInfo("SoQtExaminerViewer::processEvent",
+			     "mb press, nesting count: %d",
+			     this->getInteractiveCount());
+#endif // debug
+
+      if (this->currentmode == WAITING_FOR_SEEK) {
+	this->seekToPoint(mousepos);
+      }
+      else {
+	this->setModeFromState(be->state() | be->button());
+	if (this->isAnimating()) this->stopAnimating();
+      }
+    }
+    break;
+
   case Event_MouseButtonRelease:
     {
       QMouseEvent * be = (QMouseEvent *)event;
       if (be->button() != LeftButton && be->button() != MidButton) break;
 
-      if (event->type() == Event_MouseButtonPress) {
+      if (this->currentmode == DRAGGING &&
+	  this->animatingallowed &&
+	  this->spindetecttimer &&
+	  this->spindetecttimer->isActive()) {
+	this->spindetecttimer->stop();
+	this->spinanimating = TRUE;
+	this->timertrigger->schedule();
 	this->interactiveCountInc();
-
-	if (this->currentmode == WAITING_FOR_SEEK) {
-	  this->seekToPoint(mousepos);
-	}
-	else {
-	  this->setModeFromState(be->state() | be->button());
-	  if (this->isAnimating()) this->stopAnimating();
-	}
       }
-      else {
-	if (this->currentmode == DRAGGING &&
-	    this->animatingallowed &&
-	    this->spindetecttimer &&
-	    this->spindetecttimer->isActive()) {
-	  this->spindetecttimer->stop();
-	  this->spinanimating = TRUE;
-	  this->timertrigger->schedule();
-	  this->interactiveCountInc();
-	}
 
-	this->interactiveCountDec();
+      this->interactiveCountDec();
 #if 0 // debug
-	SoDebugError::postInfo("SoQtExaminerViewer::processEvent",
-			       "mb release, nesting count: %d",
-			       this->getInteractiveCount());
+      SoDebugError::postInfo("SoQtExaminerViewer::processEvent",
+			     "mb release, nesting count: %d",
+			     this->getInteractiveCount());
 #endif // debug
-	this->setModeFromState(be->state() & ~be->button());
-      }
+      this->setModeFromState(be->state() & ~be->button());
     }
     break;
 

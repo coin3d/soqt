@@ -209,6 +209,7 @@ private slots:
   // Pref sheet.
   //  seek settings
   void seekAnimationTimeChanged(const char *);
+  void seekAnimationTimeChanged(const QString &);
   void seekDetailToggled(int id);
   void seekDistanceWheelChanged(float);
   void seekDistanceEdit();

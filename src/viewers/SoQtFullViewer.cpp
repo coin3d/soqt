@@ -537,11 +537,38 @@ SoQtFullViewer::hide(void)
 bool
 SoQtFullViewer::eventFilter(QObject *obj, QEvent * e)
 {
+#if 0 // debug
+  switch (e->type()) {
+  case Event_MouseButtonPress:
+    SoDebugError::postInfo("SoQtFullViewer::eventFilter",
+			   "button press");
+    break;
+  case Event_MouseButtonRelease:
+    SoDebugError::postInfo("SoQtFullViewer::eventFilter",
+			   "button release");
+    break;
+  case Event_MouseButtonDblClick:
+    SoDebugError::postInfo("SoQtFullViewer::eventFilter",
+			   "dbl click");
+    break;
+  default:
+    break;
+  }
+#endif // debug
+
   inherited::eventFilter(obj, e);
+
+  // Convert dblclick events to press events to get the "correct"
+  // sequence of two press+release pairs under Qt 1.xx and Qt 2.00 at
+  // least. (FIXME: is this a Qt bug? Report sent to the Trolls
+  // 19991001 mortene.)
+  QEvent::Type eventtype = e->type();
+  eventtype = (eventtype == Event_MouseButtonDblClick ?
+	       Event_MouseButtonPress : eventtype);
 
   // Catch close events to avoid anything actually being destroyed.
   if (obj == this->prefwindow) {
-    if (e->type() == Event_Close) {
+    if (eventtype == Event_Close) {
       ((QCloseEvent *)e)->ignore();
       this->prefwindow->hide();
       return TRUE;
@@ -550,9 +577,8 @@ SoQtFullViewer::eventFilter(QObject *obj, QEvent * e)
 
   // Show the popup menu when we detect rmb pressed on top of the
   // render area canvas.
-  if (this->menuenabled &&
-      obj == this->getRenderAreaWidget() &&
-      e->type() == Event_MouseButtonPress) {
+  if (this->menuenabled && obj == this->getRenderAreaWidget() &&
+      eventtype == Event_MouseButtonPress) {
     QMouseEvent * me = (QMouseEvent *)e;
     if (me->button() == RightButton) {
       if (!this->prefmenu) this->buildPopupMenu();
@@ -1279,8 +1305,13 @@ SoQtFullViewer::makeSeekPreferences(QWidget * parent)
   expandSize(tmpsize, l1->size(), LayoutHorizontal);
 
   QLineEdit * le = new QLineEdit(w);
+#if QT_VERSION < 200 // Qt 2.xx
   QObject::connect(le, SIGNAL(textChanged(const char *)),
 		   this, SLOT(seekAnimationTimeChanged(const char *)));
+#else // Qt 1.xx
+  QObject::connect(le, SIGNAL(textChanged(const QString &)),
+		   this, SLOT(seekAnimationTimeChanged(const QString &)));
+#endif // Qt 1.xx
   QString s;
   s.setNum(this->getSeekTime(), 'f', 2);
   le->setText(s);
@@ -2007,6 +2038,7 @@ SoQtFullViewer::selectedPrefs(void)
 {
   if (!this->prefwindow) this->prefwindow = this->makePreferencesWindow();
   this->prefwindow->show();
+  this->prefwindow->raise();
 }
 
 /*!
@@ -2018,6 +2050,18 @@ SoQtFullViewer::seekAnimationTimeChanged(const char * s)
 {
   float val;
   if ((sscanf(s, "%f", &val) == 1) && (val >= 0.0f)) this->setSeekTime(val);
+}
+
+/*!
+  \internal
+  Qt slot.
+ */
+void
+SoQtFullViewer::seekAnimationTimeChanged(const QString & s)
+{
+  bool ok;
+  float val = s.toFloat(&ok);
+  if (ok && (val >= 0.0f)) this->setSeekTime(val);
 }
 
 /*!

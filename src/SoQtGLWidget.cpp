@@ -27,8 +27,8 @@
   - use the add/removeVisibilityCB methods in SoQtComponent?
   - "3D look" on border, like in OIV
   - there's a heap of methods missing from SoXtGLWidget, none (or few)
-  of which seems relevant for the Qt implementation -- check the truth of
-  this statement
+    of which seems relevant for the Qt implementation -- check the truth of
+    this statement
  */
 
 #include <Inventor/Qt/SoQtGLWidget.h>
@@ -36,7 +36,7 @@
 #include <assert.h>
 
 // FIXME: get rid of this before 1.0 release (convert everything to Qt
-// version 2.x API). 19990630 mortene.
+// version 2.x API)? 19990630 mortene.
 #if QT_VERSION >= 200
 #include <q1xcompatibility.h>
 #endif // Qt v2.x
@@ -110,8 +110,7 @@ SoQtGLWidget::buildWidget(QWidget * parent)
 
   if (!w->isValid()) {
     // FIXME: what should we do here if the requested mode is not
-    // available?
-    // 990210 mortene.
+    // available?  990210 mortene.
     SoDebugError::post("SoQtGLWidget::SoQtGLWidget",
 		       "Your graphics hardware is weird! Can't use it.");
   }
