@@ -29,6 +29,7 @@ ColorCurve::ColorCurve(CurveType type, int numcolors)
   : numpts(128)
 {
   this->numcolors = numcolors;
+  this->curvepts = new SbVec2f[this->numpts];
   this->colormap = new uint8_t[this->numcolors];
   this->type = type;
   this->curve = new SbCubicSpline;
@@ -43,6 +44,7 @@ ColorCurve::ColorCurve(CurveType type, int numcolors)
 ColorCurve::~ColorCurve()
 {
   delete this->curve;
+  delete [] this->curvepts;
 }
 
 void
@@ -118,8 +120,9 @@ ColorCurve::interpolateColorMapping()
     this->ctrlpts.append(SbVec3f(0, float(this->colormap[0]) / scale, 0));
     
     for (int i = 1; i < this->numcolors; i++) {
+      // if the curve is very steep, we'll throw in a few extra control points
       int dy = abs(this->colormap[i] - this->colormap[i-1]);
-      if ((i % 32 == 0) || (dy > 15)) {
+      if ((i % 32 == 0) || (dy > 15)) { 
           this->ctrlpts.append(SbVec3f(float(i) / scale, float(this->colormap[i]) / scale, 0));
         }
     }

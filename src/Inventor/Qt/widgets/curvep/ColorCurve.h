@@ -67,7 +67,7 @@ private:
   const int numpts;
   SbBool needinterpol;
   
-  SbVec2f curvepts[128];
+  SbVec2f * curvepts;
   uint8_t * colormap;
 
   SbCubicSpline * curve;
