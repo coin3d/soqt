@@ -210,6 +210,11 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     down causes a very small velocity change."
 
     UPDATE 20021017 rolvs: This should be fixed now, please verify.
+    
+    UPDATE 20021021 rolvs: Not fixed after all.. :-/ There is some
+    'magical scaling' going on in there that makes it behave
+    differently for different sized scenes. Further investigation is
+    needed to sort it out.
 
 =====================================================================
 
@@ -280,6 +285,9 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     20021015 mortene.
 
     UPDATE 20021017 rolvs: This should be fixed now, please verify.
+
+    UPDATE 20021021 rolvs: Tilt mode was still malfuncitioning. Fixed
+    now.
 
 =====================================================================
 
