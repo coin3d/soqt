@@ -19,8 +19,8 @@
 
 //  $Id$
 
-#ifndef __SOQT_FLYVIEWER_H__
-#define __SOQT_FLYVIEWER_H__
+#ifndef SOQT_FLYVIEWER_H
+#define SOQT_FLYVIEWER_H
 
 #include <Inventor/Qt/viewers/SoQtConstrainedViewer.h>
 
@@ -72,4 +72,4 @@ protected:
 
 // ************************************************************************
 
-#endif // ! __SOQT_FLYVIEWER_H__
+#endif // ! SOQT_FLYVIEWER_H

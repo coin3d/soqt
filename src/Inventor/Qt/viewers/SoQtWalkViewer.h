@@ -19,8 +19,8 @@
 
 //  $Id$
 
-#ifndef __SOQT_WALKVIEWER_H__
-#define __SOQT_WALKVIEWER_H__
+#ifndef SOQT_WALKVIEWER_H
+#define SOQT_WALKVIEWER_H
 
 #include <Inventor/Qt/viewers/SoQtConstrainedViewer.h>
 
@@ -74,4 +74,4 @@ protected:
 
 // ************************************************************************
 
-#endif // ! __SOQT_WALKVIEWER_H__
+#endif // ! SOQT_WALKVIEWER_H

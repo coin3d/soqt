@@ -19,8 +19,8 @@
 
 //  $Id$
 
-#ifndef __SOQT_COLLISIONVIEWER_H__
-#define __SOQT_COLLISIONVIEWER_H__
+#ifndef SOQT_COLLISIONVIEWER_H
+#define SOQT_COLLISIONVIEWER_H
 
 #include <Inventor/SbBasic.h>
 
@@ -59,4 +59,4 @@ private:
 
 // ************************************************************************
 
-#endif // ! __SOQT_COLLISIONVIEWER_H__
+#endif // ! SOQT_COLLISIONVIEWER_H

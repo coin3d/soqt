@@ -19,8 +19,8 @@
 
 //  $Id$
 
-#ifndef __SOQT_CONSTRAINEDVIEWER_H__
-#define __SOQT_CONSTRAINEDVIEWER_H__
+#ifndef SOQT_CONSTRAINEDVIEWER_H
+#define SOQT_CONSTRAINEDVIEWER_H
 
 #include <Inventor/Qt/viewers/SoQtFullViewer.h>
 
@@ -67,4 +67,4 @@ protected:
 
 // ************************************************************************
 
-#endif // ! __SOQT_CONSTRAINEDVIEWER_H__
+#endif // ! SOQT_CONSTRAINEDVIEWER_H

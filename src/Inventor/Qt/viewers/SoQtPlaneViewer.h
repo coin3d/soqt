@@ -19,8 +19,8 @@
 
 //  $Id$
 
-#ifndef __SOQT_PLANEVIEWER_H__
-#define __SOQT_PLANEVIEWER_H__
+#ifndef SOQT_PLANEVIEWER_H
+#define SOQT_PLANEVIEWER_H
 
 class SbPlaneProjector;
 
@@ -126,4 +126,4 @@ private slots:
 
 // ************************************************************************
 
-#endif // ! __SOQT_PLANEVIEWER_H__
+#endif // ! SOQT_PLANEVIEWER_H

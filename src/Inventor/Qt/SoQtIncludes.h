@@ -19,88 +19,88 @@
 
 //  $Id$
 
-#ifndef __SOQT_INCLUDES_H__
-#define __SOQT_INCLUDES_H__
+#ifndef SOQT_INCLUDES_H
+#define SOQT_INCLUDES_H
 
-#ifndef __SOQT_H__
+#ifndef SOQT_H
 #include <Inventor/Qt/SoQt.h>
-#endif // ! __SOQT_H__
+#endif // ! SOQT_H
 
-#ifndef __SOQT_COMPONENT_H__
+#ifndef SOQT_COMPONENT_H
 #include <Inventor/Qt/SoQtComponent.h>
-#endif // ! __SOQT_COMPONENT_H__
+#endif // ! SOQT_COMPONENT_H
 
-#ifndef __SOQT_CURSORS_H__
+#ifndef SOQT_CURSORS_H
 #include <Inventor/Qt/SoQtCursors.h>
-#endif // ! __SOQT_CURSORS_H__
+#endif // ! SOQT_CURSORS_H
 
-#ifndef __SOQT_GLWIDGET_H__
+#ifndef SOQT_GLWIDGET_H
 #include <Inventor/Qt/SoQtGLWidget.h>
-#endif // ! __SOQT_GLWIDGET_H__
+#endif // ! SOQT_GLWIDGET_H
 
-#ifndef __SOQT_LIGHTSLIDERSET_H__
+#ifndef SOQT_LIGHTSLIDERSET_H
 #include <Inventor/Qt/SoQtLightSliderSet.h>
-#endif // ! __SOQT_LIGHTSLIDERSET_H__
+#endif // ! SOQT_LIGHTSLIDERSET_H
 
-#ifndef __SOQT_MATERIALSLIDERSET_H__
+#ifndef SOQT_MATERIALSLIDERSET_H
 #include <Inventor/Qt/SoQtMaterialSliderSet.h>
-#endif // ! __SOQT_MATERIALSLIDERSET_H__
+#endif // ! SOQT_MATERIALSLIDERSET_H
 
-#ifndef __SOQT_RENDERAREA_H__
+#ifndef SOQT_RENDERAREA_H
 #include <Inventor/Qt/SoQtRenderArea.h>
-#endif // ! __SOQT_RENDERAREA_H__
+#endif // ! SOQT_RENDERAREA_H
 
-#ifndef __SOQT_SLIDERSET_H__
+#ifndef SOQT_SLIDERSET_H
 #include <Inventor/Qt/SoQtSliderSet.h>
-#endif // ! __SOQT_SLIDERSET_H__
+#endif // ! SOQT_SLIDERSET_H
 
-#ifndef __SOQT_SLIDERSETBASE_H__
+#ifndef SOQT_SLIDERSETBASE_H
 #include <Inventor/Qt/SoQtSliderSetBase.h>
-#endif // ! __SOQT_SLIDERSETBASE_H__
+#endif // ! SOQT_SLIDERSETBASE_H
 
-#ifndef __SOQT_TRANSFORMSLIDERSET_H__
+#ifndef SOQT_TRANSFORMSLIDERSET_H
 #include <Inventor/Qt/SoQtTransformSliderSet.h>
-#endif // ! __SOQT_TRANSFORMSLIDERSET_H__
+#endif // ! SOQT_TRANSFORMSLIDERSET_H
 
-#ifndef __SOQT_DEVICE_H__
+#ifndef SOQT_DEVICE_H
 #include <Inventor/Qt/devices/SoQtDevice.h>
-#endif // ! __SOQT_DEVICE_H__
-#ifndef __SOQT_INPUTFOCUS_H__
+#endif // ! SOQT_DEVICE_H
+#ifndef SOQT_INPUTFOCUS_H
 #include <Inventor/Qt/devices/SoQtInputFocus.h>
-#endif // ! __SOQT_INPUTFOCUS_H__
-#ifndef __SOQT_KEYBOARD_H__
+#endif // ! SOQT_INPUTFOCUS_H
+#ifndef SOQT_KEYBOARD_H
 #include <Inventor/Qt/devices/SoQtKeyboard.h>
-#endif // ! __SOQT_KEYBOARD_H__
-#ifndef __SOQT_MOUSE_H__
+#endif // ! SOQT_KEYBOARD_H
+#ifndef SOQT_MOUSE_H
 #include <Inventor/Qt/devices/SoQtMouse.h>
-#endif // ! __SOQT_MOUSE_H__
-#ifndef __SOQT_SPACEBALL_H__
+#endif // ! SOQT_MOUSE_H
+#ifndef SOQT_SPACEBALL_H
 #include <Inventor/Qt/devices/SoQtSpaceball.h>
-#endif // ! __SOQT_SPACEBALL_H__
+#endif // ! SOQT_SPACEBALL_H
 
-#ifndef __SOQT_VIEWER_H__
+#ifndef SOQT_VIEWER_H
 #include <Inventor/Qt/viewers/SoQtViewer.h>
-#endif // ! __SOQT_VIEWER_H__
-#ifndef __SOQT_FULLVIEWER_H__
+#endif // ! SOQT_VIEWER_H
+#ifndef SOQT_FULLVIEWER_H
 #include <Inventor/Qt/viewers/SoQtFullViewer.h>
-#endif // ! __SOQT_FULLVIEWER_H__
-#ifndef __SOQT_EXAMINERVIEWER_H__
+#endif // ! SOQT_FULLVIEWER_H
+#ifndef SOQT_EXAMINERVIEWER_H
 #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
-#endif // ! __SOQT_EXAMINERVIEWER_H__
-#ifndef __SOQT_PLANEVIEWER_H__
+#endif // ! SOQT_EXAMINERVIEWER_H
+#ifndef SOQT_PLANEVIEWER_H
 #include <Inventor/Qt/viewers/SoQtPlaneViewer.h>
-#endif // ! __SOQT_PLANEVIEWER_H__
-#ifndef __SOQT_CONSTRAINEDVIEWER_H__
+#endif // ! SOQT_PLANEVIEWER_H
+#ifndef SOQT_CONSTRAINEDVIEWER_H
 #include <Inventor/Qt/viewers/SoQtConstrainedViewer.h>
-#endif // ! __SOQT_CONSTRAINEDVIEWER_H__
-#ifndef __SOQT_WALKVIEWER_H__
+#endif // ! SOQT_CONSTRAINEDVIEWER_H
+#ifndef SOQT_WALKVIEWER_H
 #include <Inventor/Qt/viewers/SoQtWalkViewer.h>
-#endif // ! __SOQT_WALKVIEWER_H__
-#ifndef __SOQT_FLYVIEWER_H__
+#endif // ! SOQT_WALKVIEWER_H
+#ifndef SOQT_FLYVIEWER_H
 #include <Inventor/Qt/viewers/SoQtFlyViewer.h>
-#endif // ! __SOQT_FLYVIEWER_H__
-#ifndef __SOQT_COLLISIONVIEWER_H__
+#endif // ! SOQT_FLYVIEWER_H
+#ifndef SOQT_COLLISIONVIEWER_H
 #include <Inventor/Qt/viewers/SoQtCollisionViewer.h>
-#endif // ! __SOQT_COLLISIONVIEWER_H__
+#endif // ! SOQT_COLLISIONVIEWER_H
 
-#endif // ! __SOQT_INCLUDES_H__
+#endif // ! SOQT_INCLUDES_H
