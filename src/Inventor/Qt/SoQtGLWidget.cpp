@@ -325,12 +325,21 @@ SoQtGLWidget::buildGLWidget(void)
   SoQtGLArea * wascurrent = THIS->currentglwidget;
   SoQtGLArea * wasprevious = THIS->previousglwidget;
 
+  void * display = NULL;
+  void * screen = NULL;
+#if defined(_WS_X11_) // Qt defines this under X11
+  // the following Qt methods are only available under X11
+  display = (void*) QPaintDevice::x11AppDisplay();
+  screen = (void*) ((unsigned int) QPaintDevice::x11AppScreen());
+#endif // _WS_X11_
+
   if (wascurrent) {
     // Do _not_ turn off mousetracking or remove the eventfilter, as
     // we'd loose events after the switch has happened if the user is
     // already interacting with the canvas (e.g. when starting a drag
     // in BUFFER_INTERACTIVE mode).
 #if 0 // Keep this code around so we don't accidentally reinsert it. :^}
+
     wascurrent->removeEventFilter( this );
     wascurrent->setMouseTracking( FALSE );
 #endif // Permanently disabled.
@@ -342,24 +351,18 @@ SoQtGLWidget::buildGLWidget(void)
 
   if ( wasprevious && QGLFormat_eq(*THIS->glformat, wasprevious->format() ) ) {
     // Reenable the previous widget.
+    if (THIS->currentglwidget) SoAny::si()->unregisterGLContext((void*) this);
     THIS->currentglwidget = wasprevious;
+    SoAny::si()->registerGLContext((void*) this, display, screen);
 #if SOQT_DEBUG && 0 // debug
     SoDebugError::postInfo("SoQtGLWidget::buildGLWidget",
                            "reused previously used GL widget");
 #endif // debug
   }
   else {
-    if (wasprevious) SoAny::si()->unregisterGLContext(this);
-
-    void * display = NULL;
-    void * screen = NULL;
-#if defined(_WS_X11_) // Qt defines this under X11
-    // the following Qt methods are only available under X11
-    display = (void*) QPaintDevice::x11AppDisplay();
-    screen = (void*) ((unsigned int) QPaintDevice::x11AppScreen());
-#endif // _WS_X11_
     // Couldn't use the previous widget, make a new one.
     SoQtGLWidget * sharewidget = (SoQtGLWidget*) SoAny::si()->getSharedGLContext(display, screen);
+    if (THIS->currentglwidget) SoAny::si()->unregisterGLContext((void*) this);
     THIS->currentglwidget = new SoQtGLArea(THIS->glformat,
                                            THIS->borderwidget,
                                            sharewidget ? (const QGLWidget*) sharewidget->getGLWidget() : NULL);
