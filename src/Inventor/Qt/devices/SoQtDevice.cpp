@@ -229,7 +229,7 @@ SoQtDevice::invokeHandlers(
 
 SoQt6dofDevicePressureEvent::SoQt6dofDevicePressureEvent(
   void )
-: inherited( QEvent::User )
+: inherited( QEvent::User, NULL )
 {
   this->t = (QEvent::Type) soqt6dofDevicePressureEvent;
   this->trans_x = 0.0f;
@@ -288,7 +288,7 @@ SoQt6dofDevicePressureEvent::getRotation(
 
 SoQt6dofDeviceButtonEvent::SoQt6dofDeviceButtonEvent(
   void )
-: inherited( QEvent::User )
+: inherited( QEvent::User, NULL )
 {
   this->t = (QEvent::Type) soqt6dofDeviceButtonReleasedEvent;
   this->state = 0;
