@@ -541,3 +541,16 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     20040805 mortene.
 
 =====================================================================
+
+029 Window id element is missing
+
+    Make SoHandleEventAction, SoGLRenderAction et al set the a window-
+    specific window id element before traversing the scene graph.
+
+=====================================================================
+
+030 SoQtRenderArea::setRedrawPriority(0) bug
+
+    Does not work as expected.
+
+=====================================================================
