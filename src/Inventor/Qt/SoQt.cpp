@@ -263,16 +263,8 @@
 #endif // HAVE_X11_AVAILABLE
 
 #ifdef HAVE_WIN32_API
-// FIXME: place extern "C" inside spwinput_win32.h if possible 20030812 frodo.
-#ifdef __cplusplus
-extern "C" {
-#endif
 #include <windows.h>
 #include <Inventor/Qt/devices/spwinput_win32.h>
-#ifdef __cplusplus
-}
-#endif
-
 #endif // HAVE_WIN32_API
 
 
@@ -621,7 +613,7 @@ public:
 #ifdef HAVE_WIN32_API
   virtual bool winEventFilter(MSG * msg) {
     SPW_InputEvent sbEvent;
-    if (SPW_TranslateEventWin32(NULL, msg, &sbEvent)) {
+    if (SPW_TranslateEventWin32(msg, &sbEvent)) {
       QWidget * focus = this->focusWidget();
       if (!focus) focus = this->activeWindow();
       if (focus) {
