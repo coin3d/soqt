@@ -404,7 +404,10 @@ ACLOCAL_AMFLAGS = -I cfg/m4
 @BUILD_HTMLPAGES_TRUE@HTMLDIR = html
 @BUILD_HTMLPAGES_FALSE@HTMLDIR = 
 
-@BUILD_LIBRARY_TRUE@LIBDIR = data src
+# Material editor(s) not part of the public API yet, so there's
+# no point yet in installing the material data.
+#LIBDIR = data src
+@BUILD_LIBRARY_TRUE@LIBDIR = src
 @BUILD_LIBRARY_FALSE@LIBDIR = 
 
 SUBDIRS = . $(LIBDIR) man $(HTMLDIR)
@@ -480,7 +483,7 @@ DIST_COMMON = README $(dist_m4data_DATA) AUTHORS COPYING ChangeLog \
 	cfg/config.guess cfg/config.sub cfg/depcomp cfg/install-sh \
 	cfg/ltmain.sh cfg/missing cfg/mkinstalldirs configure \
 	configure.ac
-DIST_SUBDIRS = . data src man html
+DIST_SUBDIRS = . src man html
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
