@@ -1519,49 +1519,6 @@ SoQtSuperViewer::eventFilter(QObject * obj, QEvent * e)
 /*!
   \internal
 
-  Adds an entry to the model list in the menu. If there was no open models,
-  the model submenu is created and put into index 3 in the filemenu, thus
-  incrementing the indices of the entries below by 1.
-*/
-
-void
-SoQtSuperViewer::addModelEntry(
-  SbString * const filename)
-{
-  if(!PRIVATE(this)->modelsubmenu){
-    PRIVATE(this)->modelsubmenu = new QPopupMenu(PRIVATE(this)->filemenu);
-    PRIVATE(this)->filemenu->insertItem( "Models", 
-                                         PRIVATE(this)->modelsubmenu, 0, 3);
-    PRIVATE(this)->filemenu->setItemEnabled(
-                             PRIVATE(this)->filemenu->idAt(1), TRUE);
-    PRIVATE(this)->filemenu->setItemEnabled(
-                             PRIVATE(this)->filemenu->idAt(2), TRUE);
-    PRIVATE(this)->filemenu->setItemEnabled(
-                             PRIVATE(this)->filemenu->idAt(5), TRUE);
-    PRIVATE(this)->filemenu->setItemEnabled(
-                             PRIVATE(this)->filemenu->idAt(6), TRUE);
-    PRIVATE(this)->filemenu->setItemEnabled(
-                             PRIVATE(this)->filemenu->idAt(7), TRUE);
-    PRIVATE(this)->filemenu->setItemEnabled(
-                             PRIVATE(this)->filemenu->idAt(8), TRUE);
-    PRIVATE(this)->menubar->setItemEnabled(
-                            PRIVATE(this)->menubar->idAt(1), TRUE);
-    PRIVATE(this)->menubar->setItemEnabled(
-                            PRIVATE(this)->menubar->idAt(2), TRUE);
-    PRIVATE(this)->menubar->setItemEnabled(
-                            PRIVATE(this)->menubar->idAt(3), TRUE);
-    PRIVATE(this)->menubar->setItemEnabled(
-                            PRIVATE(this)->menubar->idAt(4), TRUE);
-  }
-
-  PRIVATE(this)->modelsubmenu->insertItem(filename->getString(), 
-           PRIVATE(this), SLOT(modelSelected( int )));
-}
-// *************************************************************************
-
-/*!
-  \internal
-
   Removes an entry from the model list in the menu.
 */
 

@@ -240,7 +240,6 @@ class SoQtSuperViewer : public SoQtViewer {
   void buildCameraMenu(void);
   void buildLightsMenu(void);
   
-  void addModelEntry(SbString * const filename);
   void removeModelEntry(void);
 
   virtual void actualRedraw(void);

@@ -226,6 +226,7 @@ class SoQtSuperViewerP : QObject{
   void buildSettingsMenu();
   void buildCameraMenu();
   void buildLightsMenu();
+  void addModelEntry(SbString * const filename);
 
   void setupNodes();
   void initializeMenus(SbBool buildFlag);

@@ -384,6 +384,8 @@ SoQtSuperViewerP::buildBars()
   if(this->bars[1].build){
     if(this->menubar == NULL)
       this->menubar = new QMenuBar(this->viewerwidget);
+    else
+      this->menubar->clear();
     this->buildMenus();
   }
 } // buildBars()
@@ -416,6 +418,8 @@ SoQtSuperViewerP::buildFileMenu()
 {
   if(this->filemenu == NULL)
     this->filemenu = new QPopupMenu(this->menubar);
+  else
+    this->filemenu->clear();
 
   int idx = 0;
   if(this->filemenuItems[0].build){
@@ -527,6 +531,8 @@ SoQtSuperViewerP::buildViewMenu()
 {
   if(this->viewmenu == NULL)
     this->viewmenu = new QPopupMenu(this->menubar);
+  else
+    this->viewmenu->clear();
 
   int idx = 0;
   if(this->viewmenuItems[0].build){
@@ -654,6 +660,8 @@ SoQtSuperViewerP::buildSettingsMenu()
 {
   if(this->settingsmenu == NULL)
     this->settingsmenu = new QPopupMenu(this->menubar);
+  else
+    this->settingsmenu.clear();
 
   int idx = 0;
   if(this->settingsmenuItems[0].build){
@@ -844,6 +852,8 @@ SoQtSuperViewerP::buildCameraMenu()
 {
   if(this->cameramenu == NULL)
     this->cameramenu = new QPopupMenu(this->menubar);
+  else
+    this->cameramenu->clear();
 
   int idx = 0;
   if(this->cameramenuItems[0].build){
@@ -931,12 +941,35 @@ SoQtSuperViewerP::buildLightsMenu()
 {
   if(this->lightsmenu == NULL)
     this->lightsmenu = new QPopupMenu(this->menubar);
+  else
+    this->lightsmenu->clear();
 
   this->menubar->insertItem(menus[4].text.getString(), this->lightsmenu);
   this->menubar->setItemEnabled(this->menubar->idAt(menus[4].index),
                                    menus[4].enabled);
 }
 
+
+/*!
+  \internal
+
+  Adds an entry to the model list in the menu. If there was no open models,
+  the model submenu is created and put into index 3 in the filemenu, thus
+  incrementing the indices of the entries below by 1.
+*/
+
+void
+SoQtSuperViewerP::addModelEntry(
+  SbString * const filename)
+{
+  if(this->modelsubmenu == NULL){
+    this->modelsubmenu = new QPopupMenu(this->filemenu);
+    owner->setFileMenu(BUILD_FILE_MENU);
+  }
+
+  this->modelsubmenu->insertItem(filename->getString(), 
+           this, SLOT(modelSelected( int )));
+}
 
 void
 SoQtSuperViewerP::setupNodes()
