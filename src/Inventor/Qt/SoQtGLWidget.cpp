@@ -939,6 +939,23 @@ SoQtGLWidget::glFlushBuffer(void)
   // the pieces of sourcecode from QGLWidget et al that depend on. As
   // Qt Professional Edition License holders on all platforms, this is
   // something we seem to be allowed to do.  20011129 mortene.
+  //
+
+  // For reference, this is what Sam Magnusen from TrollTech says why
+  // they need the ugly bitblt hack on the Mac:
+  //
+  // «All widgets in Qt/Mac are really just an area that you are
+  // "allowed to paint on", and then when you do Qt/Mac will figure
+  // out what that area is, and only paint on it. Most of this magic
+  // is in QWidget/QPainter - however they can't handle the QGLWidget
+  // case as when QWidget decides what that region is, QPainter can't
+  // apply it. It could be done in QGLWidget (if AGL offered complex
+  // region clipping, however they only allow for a rectangle. This is
+  // not good enough if you had widgets overlapping the opengl widget,
+  // if you are sure you don't, you can turn off the
+  // QMAC_OPENGL_DOUBLEBUFFER ifdef (in qgl.h) and it will not use the
+  // technique, and I think you will get acceleration as well.»
+
 #endif // Q_WS_MAC
 }
 
