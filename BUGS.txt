@@ -569,3 +569,47 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     20040901 mortene.
 
 =====================================================================
+
+032 SoQt-based applications will crash on exit with recent Qt-version.
+
+    With at least Qt 3.3.1, this will now crash under Windows:
+
+----8<------ [snip] ------------------8<------ [snip] ---------
+#include <Inventor/Qt/SoQt.h>
+
+int
+main(int argc, char ** argv)
+{
+  SoQt::init(argc, argv, "hepp");
+  return 0;
+}
+----8<------ [snip] ------------------8<------ [snip] ---------
+
+    The crash happens on exit, somewhere within the Qt DLL.
+
+    I've tracked the problem down to this: if a QApplication instance
+    is made within SoQt (as it will be whenever a QApplication has not
+    explicitly been made from the application code), the crash will
+    happen -- otherwise not.
+
+    My first guess at a cause would be that something goes very wrong
+    when memory (for the QApplication) is allocated in one DLL (SoQt)
+    and deallocated in another DLL (Qt). So this is most likely our
+    old foe "separate C Run-Time heaps" causing confusion and mayhem
+    yet again.
+
+    Unsure how to solve this yet. One option to check is whether it is
+    possible to call some function in Qt which will implicitly make
+    the QApplication instance for us (within the Qt DLL). Not a
+    perfect solution, though, as that makes it impossible to inherit
+    and override QApplication, as we do now, to install an event
+    handler for e.g. spaceball devices. That could however perhaps be
+    solved in some other manner.
+
+    This should be considered high priority, close to critical,
+    something which should trigger a new SoQt-release (patch/micro
+    level) when solved.
+
+    20040921 mortene.
+ 
+=====================================================================
