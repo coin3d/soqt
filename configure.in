@@ -227,20 +227,27 @@ if $BUILD_WITH_MSVC; then
   export RANLIB
 fi
 
-case "$host_os" in
-  irix*)
-    if test x"${AR+set}" != x"set"; then
-      AR="CC -ar"
-      AR_FLAGS=
-      export AR AR_FLAGS
-    fi
-    echo "overriding the libtool '\$AR' setting with 'CC -ar'"
-    ;;
-  *) ;;
-esac
+if $BUILD_WITH_MSVC; then
+  RANLIB=true
+  export RANLIB
+fi
 
 # Initialize libtool
 AC_PROG_LIBTOOL
+
+case "$host_os" in
+irix*)
+  # should really test if $CC = CC
+  if test x"${AR+set}" != x"set"; then
+    echo "modifying libtool"
+    mv libtool libtool.orig
+    sed -e 's/\\\$AR cru/\$CC -ar -o/' < libtool.orig > libtool
+    chmod 755 libtool
+  fi
+  ;;
+*)
+  ;;
+esac
 
 # fix some mess created by AC_PROG_LIBTOOL
 AC_LANG(C)
