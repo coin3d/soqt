@@ -14,7 +14,13 @@ else
 EXAMPLEDIR = 
 endif
 
-SUBDIRS = . src/Inventor/Qt $(TESTDIR) $(EXAMPLEDIR)
+if BUILD_IV_EXAMPLES
+IVEXAMPLEDIR = ivexamples
+else
+IVEXAMPLEDIR = 
+endif
+
+SUBDIRS = . src/Inventor/Qt $(TESTDIR) $(EXAMPLEDIR) $(IVEXAMPLEDIR)
 
 bin_SCRIPTS = soqt-config
 

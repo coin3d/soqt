@@ -108,8 +108,10 @@ SUFFIXES = .cpp .h .m4 .in .o .lo .Plo .TPlo
 @BUILD_TESTS_FALSE@TESTDIR = 
 @BUILD_EXAMPLES_TRUE@EXAMPLEDIR = @BUILD_EXAMPLES_TRUE@examples
 @BUILD_EXAMPLES_FALSE@EXAMPLEDIR = 
+@BUILD_IV_EXAMPLES_TRUE@IVEXAMPLEDIR = @BUILD_IV_EXAMPLES_TRUE@ivexamples
+@BUILD_IV_EXAMPLES_FALSE@IVEXAMPLEDIR = 
 
-SUBDIRS = . src/Inventor/Qt $(TESTDIR) $(EXAMPLEDIR)
+SUBDIRS = . src/Inventor/Qt $(TESTDIR) $(EXAMPLEDIR) $(IVEXAMPLEDIR)
 
 bin_SCRIPTS = soqt-config
 
@@ -149,7 +151,7 @@ soqt-config.in
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
 GZIP_ENV = --best
-DIST_SUBDIRS =  . src/Inventor/Qt test-code examples
+DIST_SUBDIRS =  . src/Inventor/Qt test-code examples ivexamples
 all: all-redirect
 .SUFFIXES:
 .SUFFIXES: .Plo .TPlo .cpp .h .in .lo .m4 .o
