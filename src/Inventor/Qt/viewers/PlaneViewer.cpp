@@ -27,12 +27,20 @@
 
 // ************************************************************************
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif // HAVE_CONFIG_H
+
 #include <qevent.h>
 #include <qpushbutton.h>
-#include <qwindowsstyle.h>
 #include <qpixmap.h>
 #include <qkeycode.h>
 #include <qmetaobject.h>
+
+#ifdef HAVE_QSTYLEFACTORY_H
+#include <qstylefactory.h>
+#endif // HAVE_QSTYLEFACTORY_H
+
 #include <Inventor/Qt/viewers/moc_SoQtPlaneViewerP.cpp>
 #include <Inventor/Qt/viewers/SoQtPlaneViewerP.h>
 
@@ -124,15 +132,19 @@ SoQtPlaneViewer::createViewerButtons(QWidget * parent,
   PRIVATE(this)->buttons.camera = new QPushButton(parent);
   PRIVATE(this)->buttons.camera->setFocusPolicy(QWidget::NoFocus);
 
-#if (defined Q_WS_MAC && QT_VERSION >= 0x030100) 
-    // Since Qt/Mac 3.1.x, all pushbuttons (even those < 32x32) are drawn
-    // using the Aqua style, i.e. with rounded edges and shading. This
-    // looks really ugly in the viewer decoration. Drawing the buttons
-    // in the Windows style gives us the flat, square buttons we want.
-  PRIVATE(this)->buttons.x->setStyle(new QWindowsStyle());
-  PRIVATE(this)->buttons.y->setStyle(new QWindowsStyle());
-  PRIVATE(this)->buttons.z->setStyle(new QWindowsStyle());
-  PRIVATE(this)->buttons.camera->setStyle(new QWindowsStyle());
+#if (defined Q_WS_MAC && QT_VERSION >= 0x030100) && defined(HAVE_QSTYLEFACTORY_H)
+  // Since Qt/Mac 3.1.x, all pushbuttons (even those < 32x32) are
+  // drawn using the Aqua style, i.e. with rounded edges and
+  // shading. This looks really ugly in the viewer decoration. Drawing
+  // the buttons in the Windows style gives us the flat, square
+  // buttons we want.
+  QStyle * style = QStyleFactory::create("windows");
+  if (style) {
+    PRIVATE(this)->buttons.x->setStyle(style);
+    PRIVATE(this)->buttons.y->setStyle(style);
+    PRIVATE(this)->buttons.z->setStyle(style);
+    PRIVATE(this)->buttons.camera->setStyle(style);
+  }
 #endif
 
   QPixmap * pixmap = NULL;

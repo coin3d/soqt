@@ -434,6 +434,9 @@ SIM_AC_QGLFORMAT_EQ_OP
 SIM_AC_QGLFORMAT_SETOVERLAY
 SIM_AC_QGLWIDGET_SETAUTOBUFFERSWAP
 
+# QStyleFactory was added in Qt 3.0.
+AC_CHECK_HEADERS([qstylefactory.h])
+
 # **************************************************************************
 # Spaceball support through Linux Joystick driver
 

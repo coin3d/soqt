@@ -38,8 +38,11 @@
 //     * add tooltips to the widgets?
 //     * trim length of edit fields
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif // HAVE_CONFIG_H
+
 #include <qpushbutton.h>
-#include <qwindowsstyle.h>
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qpixmap.h>
@@ -50,6 +53,11 @@
 #include <qslider.h>
 #include <qcheckbox.h>
 #include <qmetaobject.h>
+
+#ifdef HAVE_QSTYLEFACTORY_H
+#include <qstylefactory.h>
+#endif // HAVE_QSTYLEFACTORY_H
+
 #include <Inventor/Qt/viewers/moc_SoQtFullViewerP.cpp>
 #include <Inventor/Qt/viewers/SoQtFullViewerP.h>
 
@@ -584,13 +592,14 @@ SoQtFullViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
     // the pushbuttons.
     p->setFocusPolicy(QWidget::NoFocus);
 
-#if (defined Q_WS_MAC && QT_VERSION >= 0x030100) 
+#if (defined Q_WS_MAC && QT_VERSION >= 0x030100) && defined(HAVE_QSTYLEFACTORY_H)
     // Since Qt/Mac 3.1.x, all pushbuttons (even those < 32x32) are drawn 
     // using the Aqua style, i.e. with rounded edges and shading. This
     // looks really ugly in the viewer decoration. Drawing the buttons
     // in the Windows style gives us the flat, square buttons we want.
-    p->setStyle(new QWindowsStyle());
-#endif 
+    QStyle * style = QStyleFactory::create("windows");
+    if (style) { p->setStyle(style); }
+#endif
 
     // FIXME: its wrong to cast xpm data to (const char **), it
     // _should_ be (const char * const []), but this is not valid ANSI
