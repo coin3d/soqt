@@ -784,13 +784,17 @@ SoQtComponent::getSize(
 } // getSize()
 
 /*!
-  Overload to detect when the base widget in the component changes its
-  dimensions (an operation which is usually triggered by the user).
+  This method is invoked to notify the component that the size has changed.
+  It is called from the top and all the way down to the bottom, the size
+  being adjusted to take into account extra decorations having been added
+  at each level in the component class hierarchy.
+
+  This default implementation does nothing.
 */
 
 void
 SoQtComponent::sizeChanged(
-  const SbVec2s size )
+  const SbVec2s )
 {
   // nada
 } // sizeChanged()
