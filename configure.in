@@ -62,6 +62,8 @@ if $sim_ac_try_msvc; then
       LIBS="$LIBS $sim_ac_msvcrt_LIBS"
       # sim_ac_msvcrt_LIBLIBS is set up at the end
       # sim_ac_msvcrt_LIBLDFLAGS is set up at the end
+      LDFLAGS="$LDFLAGS $sim_ac_msvcrt_LIBLDFLAGS"
+      LIBS="$LIBS $sim_ac_msvcrt_LIBLIBS"
     ])
   fi
 fi
