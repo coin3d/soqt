@@ -714,15 +714,21 @@ main(void)
     sensible out of the call stack. Here are the results when running
     inside MSDEV V7's debugger (this is with Qt 3.3.1):
 
-       QObject::~QObject()
+    0  QObject::~QObject()
                 => crashes in "if ( parentObj )\n parentObj->removeChild( this ) "
-       QFontCache::~QFontCache()
+    1  QFontCache::~QFontCache()
                 => runs through to end of destructor
-       QFontCache::`scalar deleting destructor`()
-       QSingleCleanupHandler<QFontCache>::~QSingleCleanupHandler<QFontCache>()
+    2  QFontCache::`scalar deleting destructor`()
+    3  QSingleCleanupHandler<QFontCache>::~QSingleCleanupHandler<QFontCache>()
                 => from "delete *object"-line
-       [CRT iterating over _onexit() / atexit() functions]
+    4  [CRT iterating over _onexit() / atexit() functions]
 
+
+
+    UPDATE 20041027 mortene: according to kintel, Qt has a global
+    function qAddPostRoutine(), which is called when QApplication
+    dies. I mention it since it may be possible to utilize that for a
+    work-around in some way.
 
 =====================================================================
 
@@ -745,4 +751,3 @@ main(void)
     20040921 kintel.
 
 =====================================================================
-
