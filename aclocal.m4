@@ -2254,7 +2254,7 @@ else
     # FIXME: Relying on posixy $() will cause problems for
     #        cross-compilation, but unfortunately the echo tests do not
     #        yet detect zsh echo's removal of \ escapes.
-    archive_cmds='$nonopt $(test "x$module" = xyes && echo -bundle || echo -dynamiclib) $allow_undefined_flag -o $lib $libobjs $deplibs$linker_flags -install_name $rpath/$soname $verstring'
+    archive_cmds='$nonopt $(test x$module = xyes && echo -bundle || echo -dynamiclib) $allow_undefined_flag -o $lib $libobjs $linker_flags -install_name $rpath/$soname $verstring'
     # We need to add '_' to the symbols in $export_symbols first
     #archive_expsym_cmds="$archive_cmds"' && strip -s $export_symbols'
     hardcode_direct=yes
@@ -4757,13 +4757,17 @@ fi
 #  OpenGL-compatible development system is found.
 #
 #
-# Author: Morten Eriksen, <mortene@sim.no>.
+# Authors:
+#   Morten Eriksen <mortene@sim.no>
+#   Lars J. Aas <larsa@sim.no>
 
 AC_DEFUN(SIM_AC_CHECK_OPENGL, [
 
-unset sim_ac_gl_cppflags
-unset sim_ac_gl_ldflags
-unset sim_ac_gl_libs
+sim_ac_gl_cppflags=
+sim_ac_gl_cflags=
+sim_ac_gl_cxxflags=
+sim_ac_gl_ldflags=
+sim_ac_gl_libs=
 sim_ac_gl_avail=no
 
 AC_ARG_WITH(
@@ -4772,6 +4776,7 @@ AC_ARG_WITH(
                  [prefer MesaGL (if found) over OpenGL [[default=yes]]]),
   [],
   [with_mesa=yes])
+
 
 sim_ac_gl_glnames="-lGL -lopengl32"
 sim_ac_gl_mesaglnames=-lMesaGL
@@ -4792,19 +4797,36 @@ AC_ARG_WITH(
   [with_opengl=yes])
 
 if test x"$with_opengl" != xno; then
+  sim_ac_use_framework_option=false;
+  case $host_os in
+  darwin*)
+    if test x"$GCC" = x"yes"; then
+      SIM_AC_CC_COMPILER_OPTION([-framework OpenGL], [sim_ac_use_framework_option=true])
+    fi
+    ;;
+  esac
+
   if test x"$with_opengl" != xyes; then
     sim_ac_gl_cppflags="-I${with_opengl}/include"
     sim_ac_gl_ldflags="-L${with_opengl}/lib"
   else
-    ## This is a common location for the OpenGL library on HPUX.
-    sim_ac_gl_hpux=/opt/graphics/OpenGL
-    if test -d $sim_ac_gl_hpux; then
-      sim_ac_gl_cppflags=-I$sim_ac_gl_hpux/include
-      sim_ac_gl_ldflags=-L$sim_ac_gl_hpux/lib
+    if $sim_ac_use_framework_option; then
+      # hopefully, this is the default behavior and not needed. 20011005 larsa
+      # sim_ac_gl_cppflags="-F/System/Library/Frameworks/OpenGL.framework/"
+      sim_ac_gl_ldflags="-Wl,-framework,OpenGL"
+    else
+      ## This is a common location for the OpenGL library on HPUX.
+      sim_ac_gl_hpux=/opt/graphics/OpenGL
+      if test -d $sim_ac_gl_hpux; then
+        sim_ac_gl_cppflags=-I$sim_ac_gl_hpux/include
+        sim_ac_gl_ldflags=-L$sim_ac_gl_hpux/lib
+      fi
     fi
   fi
 
   sim_ac_save_cppflags=$CPPFLAGS
+  sim_ac_save_cflags=$CFLAGS
+  sim_ac_save_cxxflags=$CXXFLAGS
   sim_ac_save_ldflags=$LDFLAGS
   sim_ac_save_libs=$LIBS
 
@@ -4814,13 +4836,13 @@ if test x"$with_opengl" != xno; then
   ## This must be done after include-paths have been set up for CPPFLAGS.
   AC_CHECK_HEADERS([GL/gl.h OpenGL/gl.h])
 
-
   AC_CACHE_CHECK(
     [whether OpenGL library is available],
     sim_cv_lib_gl,
     [sim_cv_lib_gl=UNRESOLVED
 
-    for sim_ac_gl_libcheck in $sim_ac_gl_first $sim_ac_gl_second; do
+    # Mac OS X uses nada, which is why "" was set first
+    for sim_ac_gl_libcheck in "" $sim_ac_gl_first $sim_ac_gl_second; do
       if test "x$sim_cv_lib_gl" = "xUNRESOLVED"; then
         LIBS="$sim_ac_gl_libcheck $sim_ac_save_libs"
         AC_TRY_LINK([
@@ -4831,23 +4853,34 @@ if test x"$with_opengl" != xno; then
 #include <GL/gl.h>
 #else
 #ifdef HAVE_OPENGL_GL_H
+/* Mac OS X */
 #include <OpenGL/gl.h>
 #endif
 #endif
 ],
                     [
 glPointSize(1.0f);
-],
-                    [sim_cv_lib_gl="$sim_ac_gl_libcheck"])
+], [
+          if test x"$sim_ac_gl_libcheck" = x""; then
+            sim_cv_lib_gl="$sim_ac_gl_ldflags"
+          else
+            sim_cv_lib_gl="$sim_ac_gl_libcheck"
+          fi])
       fi
     done
   ])
 
   LIBS="$sim_ac_save_libs"
 
-  if test "x$sim_cv_lib_gl" != "xUNRESOLVED"; then
+  case $sim_cv_lib_gl in
+  -Wl,-framework,OpenGL)
+    sim_ac_gl_libs=
+    sim_ac_gl_ldflags="$sim_cv_lib_gl"
+    ;;
+  -l*)
     sim_ac_gl_libs="$sim_cv_lib_gl"
-  else
+    ;;
+  *)
     AC_MSG_WARN([couldn't compile or link with OpenGL library -- trying with pthread library in place...])
 
     SIM_AC_CHECK_PTHREAD([
@@ -4885,15 +4918,18 @@ glPointSize(1.0f);
         sim_ac_gl_libs="$sim_cv_lib_gl_pthread $sim_ac_pthread_libs"
       fi
     fi
-  fi
+    ;;
+  esac
 
 
-  if test "x$sim_ac_gl_libs" != "x"; then
-    LIBS="$sim_ac_gl_libs $sim_ac_save_libs"
+  # MacOS will have empty sim_ac_gl_libs, so don't check if it is empty...
+  if test x"$sim_cv_gl_libs" != x"UNRESOLVED"; then
     sim_ac_gl_avail=yes
     $1
   else
     CPPFLAGS=$sim_ac_save_cppflags
+    CFLAGS=$sim_ac_save_cflags
+    CXXFLAGS=$sim_ac_save_cxxflags
     LDFLAGS=$sim_ac_save_ldflags
     LIBS=$sim_ac_save_libs
     $2
@@ -4980,6 +5016,8 @@ if test x"$with_glu" != xno; then
 #include <OpenGL/gl.h>
 #endif
 #endif
+/* FIXME: is this correct for Mac OS X?  Seems unlikely, should
+   probably be OpenGL/glu.h? 20010915 mortene. */
 #include <GL/glu.h>
 ],
                     [
@@ -5164,6 +5202,55 @@ else
   ifelse([$2], , :, [$2])
 fi
 ]) # SIM_AC_HAVE_WGL_IFELSE()
+
+#   Use this file to store miscellaneous macros related to checking
+#   compiler features.
+
+# Usage:
+#   SIM_AC_CC_COMPILER_OPTION(OPTION-TO-TEST, ACTION-IF-TRUE [, ACTION-IF-FALSE])
+#   SIM_AC_CXX_COMPILER_OPTION(OPTION-TO-TEST, ACTION-IF-TRUE [, ACTION-IF-FALSE])
+#
+# Description:
+#
+#   Check whether the current C or C++ compiler can handle a
+#   particular command-line option.
+#
+#
+# Author: Morten Eriksen, <mortene@sim.no>.
+#
+#   * [mortene:19991218] improve macros by catching and analyzing
+#     stderr (at least to see if there was any output there)?
+#
+
+AC_DEFUN([SIM_AC_COMPILER_OPTION], [
+sim_ac_save_cppflags=$CPPFLAGS
+CPPFLAGS="$CPPFLAGS $1"
+AC_TRY_COMPILE([], [], [sim_ac_accept_result=yes], [sim_ac_accept_result=no])
+AC_MSG_RESULT([$sim_ac_accept_result])
+CPPFLAGS=$sim_ac_save_cppflags
+# This need to go last, in case CPPFLAGS is modified in $2 or $3.
+if test $sim_ac_accept_result = yes; then
+  ifelse($2, , :, $2)
+else
+  ifelse($3, , :, $3)
+fi
+])
+
+AC_DEFUN([SIM_AC_CC_COMPILER_OPTION], [
+AC_LANG_SAVE
+AC_LANG_C
+AC_MSG_CHECKING([whether $CC accepts $1])
+SIM_AC_COMPILER_OPTION($1, $2, $3)
+AC_LANG_RESTORE
+])
+
+AC_DEFUN([SIM_AC_CXX_COMPILER_OPTION], [
+AC_LANG_SAVE
+AC_LANG_CPLUSPLUS
+AC_MSG_CHECKING([whether $CXX accepts $1])
+SIM_AC_COMPILER_OPTION($1, $2, $3)
+AC_LANG_RESTORE
+])
 
 # Usage:
 #  SIM_AC_CHECK_PTHREAD([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
@@ -6337,55 +6424,6 @@ else
 fi
 ])
 
-
-#   Use this file to store miscellaneous macros related to checking
-#   compiler features.
-
-# Usage:
-#   SIM_AC_CC_COMPILER_OPTION(OPTION-TO-TEST, ACTION-IF-TRUE [, ACTION-IF-FALSE])
-#   SIM_AC_CXX_COMPILER_OPTION(OPTION-TO-TEST, ACTION-IF-TRUE [, ACTION-IF-FALSE])
-#
-# Description:
-#
-#   Check whether the current C or C++ compiler can handle a
-#   particular command-line option.
-#
-#
-# Author: Morten Eriksen, <mortene@sim.no>.
-#
-#   * [mortene:19991218] improve macros by catching and analyzing
-#     stderr (at least to see if there was any output there)?
-#
-
-AC_DEFUN([SIM_AC_COMPILER_OPTION], [
-sim_ac_save_cppflags=$CPPFLAGS
-CPPFLAGS="$CPPFLAGS $1"
-AC_TRY_COMPILE([], [], [sim_ac_accept_result=yes], [sim_ac_accept_result=no])
-AC_MSG_RESULT([$sim_ac_accept_result])
-CPPFLAGS=$sim_ac_save_cppflags
-# This need to go last, in case CPPFLAGS is modified in $2 or $3.
-if test $sim_ac_accept_result = yes; then
-  ifelse($2, , :, $2)
-else
-  ifelse($3, , :, $3)
-fi
-])
-
-AC_DEFUN([SIM_AC_CC_COMPILER_OPTION], [
-AC_LANG_SAVE
-AC_LANG_C
-AC_MSG_CHECKING([whether $CC accepts $1])
-SIM_AC_COMPILER_OPTION($1, $2, $3)
-AC_LANG_RESTORE
-])
-
-AC_DEFUN([SIM_AC_CXX_COMPILER_OPTION], [
-AC_LANG_SAVE
-AC_LANG_CPLUSPLUS
-AC_MSG_CHECKING([whether $CXX accepts $1])
-SIM_AC_COMPILER_OPTION($1, $2, $3)
-AC_LANG_RESTORE
-])
 
 # Usage:
 #   SIM_PROFILING_SUPPORT
