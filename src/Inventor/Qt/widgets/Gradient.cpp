@@ -99,8 +99,7 @@ SbBool Gradient::operator == (const Gradient & grad) const
 
 QRgb Gradient::eval(float t) const
 {
-  assert(t >= 0.0f && t <= 1.0f && 
-    "Gradient::eval(float t): t must be in the interval [0,1]");
+  assert(t >= 0.0f && t <= 1.0f && "t must be in the interval [0,1]");
 
   int i = 0;
   // find the interval to evaluate in
