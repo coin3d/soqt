@@ -240,7 +240,9 @@ SoGui_src_Inventor_Gui_nodes_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiSlider1.h \
   $(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp \
   $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiSlider2.h \
-  $(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp
+  $(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiColorEditor.h \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp
 
 
 SoGui_src_Inventor_Gui_viewers_BuiltFiles = \
@@ -418,6 +420,8 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/nodes/Slider1.cpp.in \
   src/Inventor/@Gui@/common/nodes/Slider2.h.in \
   src/Inventor/@Gui@/common/nodes/Slider2.cpp.in \
+  src/Inventor/@Gui@/common/nodes/ColorEditor.h.in \
+  src/Inventor/@Gui@/common/nodes/ColorEditor.cpp.in \
   src/Inventor/@Gui@/common/viewers/SoGuiConstrainedViewer.cpp.in \
   src/Inventor/@Gui@/common/viewers/SoGuiConstrainedViewer.h.in \
   src/Inventor/@Gui@/common/viewers/SoGuiFlyViewer.cpp.in \
@@ -482,6 +486,16 @@ nodist_libSoGuiNodes_la_SOURCES = \
 nodist_nodes_lst_SOURCES = \
 	$(SoGui_src_Inventor_Gui_nodes_BuiltFiles)
 
+
+
+############################################################################
+@MAC_FRAMEWORK_TRUE@SoGuiNodesincdir = $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$(MAC_FRAMEWORK_VERSION)/Headers/nodes
+@MAC_FRAMEWORK_FALSE@SoGuiNodesincdir = $(includedir)/Inventor/@Gui@/nodes
+
+SoGuiNodesinc_HEADERS = 
+nodist_SoGuiNodesinc_HEADERS = \
+	SoGuiColorEditor.h
+
 subdir = src/Inventor/Qt/nodes
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/src/config.h
@@ -493,7 +507,7 @@ nodes_lst_LIBADD =
 nodist_nodes_lst_OBJECTS = Nodes.$(OBJEXT) ViewportFix.$(OBJEXT) \
 	Pane.$(OBJEXT) Position.$(OBJEXT) Translation.$(OBJEXT) \
 	Frame.$(OBJEXT) ClickCounter.$(OBJEXT) Slider1.$(OBJEXT) \
-	Slider2.$(OBJEXT)
+	Slider2.$(OBJEXT) ColorEditor.$(OBJEXT)
 nodes_lst_OBJECTS = $(nodist_nodes_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
@@ -501,7 +515,7 @@ libSoGuiNodes_la_LDFLAGS =
 libSoGuiNodes_la_LIBADD =
 nodist_libSoGuiNodes_la_OBJECTS = Nodes.lo ViewportFix.lo Pane.lo \
 	Position.lo Translation.lo Frame.lo ClickCounter.lo Slider1.lo \
-	Slider2.lo
+	Slider2.lo ColorEditor.lo
 libSoGuiNodes_la_OBJECTS = $(nodist_libSoGuiNodes_la_OBJECTS)
 
 DEFS = @DEFS@
@@ -509,7 +523,8 @@ CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 @AMDEP_TRUE@DEP_FILES = $(DEPDIR)/ClickCounter.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/ClickCounter.Po $(DEPDIR)/Frame.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/ClickCounter.Po $(DEPDIR)/ColorEditor.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/ColorEditor.Po $(DEPDIR)/Frame.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/Frame.Po $(DEPDIR)/Nodes.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/Nodes.Po $(DEPDIR)/Pane.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/Pane.Po $(DEPDIR)/Position.Plo \
@@ -536,7 +551,9 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 DIST_SOURCES =
-DIST_COMMON = Makefile.am Makefile.in
+HEADERS = $(SoGuiNodesinc_HEADERS) $(nodist_SoGuiNodesinc_HEADERS)
+
+DIST_COMMON = $(SoGuiNodesinc_HEADERS) Makefile.am Makefile.in
 SOURCES = $(nodist_nodes_lst_SOURCES) $(nodist_libSoGuiNodes_la_SOURCES)
 
 all: $(BUILT_SOURCES)
@@ -578,6 +595,8 @@ ClickCounter.$(OBJEXT): \
 	$(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp
 Slider1.$(OBJEXT): $(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp
 Slider2.$(OBJEXT): $(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp
+ColorEditor.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp
 
 clean-noinstLTLIBRARIES:
 	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
@@ -591,6 +610,7 @@ ClickCounter.lo: \
 	$(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp
 Slider1.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp
 Slider2.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp
+ColorEditor.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp
 libSoGuiNodes.la: $(libSoGuiNodes_la_OBJECTS) $(libSoGuiNodes_la_DEPENDENCIES) 
 	$(CXXLINK)  $(libSoGuiNodes_la_LDFLAGS) $(libSoGuiNodes_la_OBJECTS) $(libSoGuiNodes_la_LIBADD) $(LIBS)
 
@@ -602,6 +622,8 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/ClickCounter.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/ClickCounter.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/ColorEditor.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/ColorEditor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Frame.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Frame.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Nodes.Plo@am__quote@
@@ -801,8 +823,60 @@ Slider2.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp
 @AMDEP_TRUE@	depfile='$(DEPDIR)/Slider2.Plo' tmpdepfile='$(DEPDIR)/Slider2.TPlo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Slider2.lo `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp
+
+ColorEditor.o: $(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp' object='ColorEditor.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/ColorEditor.Po' tmpdepfile='$(DEPDIR)/ColorEditor.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ColorEditor.o `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp
+
+ColorEditor.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp' object='ColorEditor.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/ColorEditor.Po' tmpdepfile='$(DEPDIR)/ColorEditor.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ColorEditor.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp ) | xargs cygpath -w`
+
+ColorEditor.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp' object='ColorEditor.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/ColorEditor.Plo' tmpdepfile='$(DEPDIR)/ColorEditor.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ColorEditor.lo `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp
 CXXDEPMODE = @CXXDEPMODE@
 uninstall-info-am:
+install-SoGuiNodesincHEADERS: $(SoGuiNodesinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(SoGuiNodesincdir)
+	@list='$(SoGuiNodesinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " $(INSTALL_HEADER) $$d$$p $(DESTDIR)$(SoGuiNodesincdir)/$$f"; \
+	  $(INSTALL_HEADER) $$d$$p $(DESTDIR)$(SoGuiNodesincdir)/$$f; \
+	done
+
+uninstall-SoGuiNodesincHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(SoGuiNodesinc_HEADERS)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(SoGuiNodesincdir)/$$f"; \
+	  rm -f $(DESTDIR)$(SoGuiNodesincdir)/$$f; \
+	done
+install-nodist_SoGuiNodesincHEADERS: $(nodist_SoGuiNodesinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(SoGuiNodesincdir)
+	@list='$(nodist_SoGuiNodesinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " $(INSTALL_HEADER) $$d$$p $(DESTDIR)$(SoGuiNodesincdir)/$$f"; \
+	  $(INSTALL_HEADER) $$d$$p $(DESTDIR)$(SoGuiNodesincdir)/$$f; \
+	done
+
+uninstall-nodist_SoGuiNodesincHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(nodist_SoGuiNodesinc_HEADERS)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(SoGuiNodesincdir)/$$f"; \
+	  rm -f $(DESTDIR)$(SoGuiNodesincdir)/$$f; \
+	done
 
 tags: TAGS
 
@@ -859,9 +933,10 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LIBRARIES) $(LTLIBRARIES)
+all-am: Makefile $(LIBRARIES) $(LTLIBRARIES) $(HEADERS)
 
 installdirs:
+	$(mkinstalldirs) $(DESTDIR)$(SoGuiNodesincdir) $(DESTDIR)$(SoGuiNodesincdir)
 
 install: install-am
 install-exec: install-exec-am
@@ -907,7 +982,8 @@ info: info-am
 
 info-am:
 
-install-data-am:
+install-data-am: install-SoGuiNodesincHEADERS \
+	install-nodist_SoGuiNodesincHEADERS
 
 install-exec-am:
 
@@ -926,19 +1002,22 @@ mostlyclean: mostlyclean-am
 mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
-uninstall-am: uninstall-info-am
+uninstall-am: uninstall-SoGuiNodesincHEADERS uninstall-info-am \
+	uninstall-nodist_SoGuiNodesincHEADERS
 
 .PHONY: GTAGS all all-am check check-am clean clean-generic \
 	clean-libtool clean-noinstLIBRARIES clean-noinstLTLIBRARIES \
 	distclean distclean-compile distclean-depend distclean-generic \
 	distclean-libtool distclean-tags distdir dvi dvi-am info \
-	info-am install install-am install-data install-data-am \
-	install-exec install-exec-am install-info install-info-am \
-	install-man install-strip installcheck installcheck-am \
-	installdirs maintainer-clean maintainer-clean-generic \
-	mostlyclean mostlyclean-compile mostlyclean-generic \
-	mostlyclean-libtool tags uninstall uninstall-am \
-	uninstall-info-am
+	info-am install install-SoGuiNodesincHEADERS install-am \
+	install-data install-data-am install-exec install-exec-am \
+	install-info install-info-am install-man \
+	install-nodist_SoGuiNodesincHEADERS install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool tags uninstall \
+	uninstall-SoGuiNodesincHEADERS uninstall-am uninstall-info-am \
+	uninstall-nodist_SoGuiNodesincHEADERS
 
 
 ############################################################################
@@ -1136,6 +1215,12 @@ $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiSlider2.h: $(top_srcdir)/src/Inven
 $(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Slider2.cpp.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/Slider2.cpp:src/Inventor/@Gui@/common/nodes/Slider2.cpp.in )
 
+$(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiColorEditor.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/ColorEditor.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiColorEditor.h:src/Inventor/@Gui@/common/nodes/ColorEditor.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/ColorEditor.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/ColorEditor.cpp:src/Inventor/@Gui@/common/nodes/ColorEditor.cpp.in )
+
 $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.h: $(top_srcdir)/src/Inventor/@Gui@/common/viewers/SoGuiViewer.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/viewers/So@Gui@Viewer.h:src/Inventor/@Gui@/common/viewers/SoGuiViewer.h.in )
 
@@ -1256,19 +1341,31 @@ nodes.lst: Makefile $(nodes_lst_OBJECTS)
 	rm -f $@; \
 	for i in $(nodes_lst_OBJECTS); do echo $$i >>$@; done
 
-############################################################################
+install-SoQtNodesincHEADERS: $(SoQtNodesinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(SoQtNodesincdir)
+	@list='$(SoQtNodesinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoQtNodesincdir)/$$f"; \
+	  if cmp -s "$$src" "$$dst"; then :; else \
+	    echo " $(INSTALL_HEADER) $$src $$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	  fi; \
+	done
 
-# These nodes are kept internal for now.  We know people will ask for them
-# to be made public, but until then we'll let them mature.  Besides, the
-# nodes can be used indirectly already through getTypeByName(),
-# createInstance(), getFieldByName() and such indirect methods, which will
-# allow us to change the nodes without any consequences for others.
-
-# SoGuiNodesincdir = $(includedir)/Inventor/@Gui@/nodes
-# 
-# SoGuiNodesinc_HEADERS = \
-# 	SoGuiNode.h \
-# 	SoGuiSlider1.h
+install-nodist_SoQtNodesincHEADERS: $(nodist_SoQtNodesinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(SoQtNodesincdir)
+	@list='$(nodist_SoQtNodesinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoQtNodesincdir)/$$f"; \
+	  if cmp -s "$$src" "$$dst"; then :; else \
+	    echo " $(INSTALL_HEADER) $$src $$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	  fi; \
+	done
 
 # EOF ######################################################################
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
