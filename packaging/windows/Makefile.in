@@ -140,7 +140,7 @@ build-docs/html/index.html: $(Project)-$(VERSION)
 
 docs: build-docs/html/index.html
 
-build-shared-release/src/$(project)@SOQT_MAJOR_VERSION@.dll: $(Project)-$(VERSION)
+build-shared-release/src/Inventor/Qt/$(project)@SOQT_MAJOR_VERSION@.dll: $(Project)-$(VERSION)
 	@if test -d build-shared-release; then :; else mkdir build-shared-release; fi
 	cd build-shared-release; \
 	../$(Project)-$(VERSION)/configure \
@@ -157,9 +157,9 @@ build-shared-release/src/$(project)@SOQT_MAJOR_VERSION@.dll: $(Project)-$(VERSIO
 	cd build-shared-release; \
 	$(MAKE) install
 
-shared-release: build-shared-release/src/$(project)@SOQT_MAJOR_VERSION@.dll
+shared-release: build-shared-release/src/Inventor/Qt/$(project)@SOQT_MAJOR_VERSION@.dll
 
-build-shared-debug/src/$(project)@SOQT_MAJOR_VERSION@d.dll: $(Project)-$(VERSION)
+build-shared-debug/src/Inventor/Qt/$(project)@SOQT_MAJOR_VERSION@d.dll: $(Project)-$(VERSION)
 	@if test -d build-shared-debug; then :; else mkdir build-shared-debug; fi
 	cd build-shared-debug; \
 	../$(Project)-$(VERSION)/configure \
@@ -178,9 +178,9 @@ build-shared-debug/src/$(project)@SOQT_MAJOR_VERSION@d.dll: $(Project)-$(VERSION
 	cd build-shared-debug; \
 	$(MAKE) install
 
-shared-debug: build-shared-debug/src/$(project)@SOQT_MAJOR_VERSION@d.dll
+shared-debug: build-shared-debug/src/Inventor/Qt/$(project)@SOQT_MAJOR_VERSION@d.dll
 
-build-static-release/src/$(project)@SOQT_MAJOR_VERSION@d.dll: $(Project)-$(VERSION)
+build-static-release/src/Inventor/Qt/$(project)@SOQT_MAJOR_VERSION@d.dll: $(Project)-$(VERSION)
 	@if test -d build-static-release; then :; else mkdir build-static-release; fi
 	cd build-static-release; \
 	../$(Project)-$(VERSION)/configure \
@@ -200,9 +200,9 @@ build-static-release/src/$(project)@SOQT_MAJOR_VERSION@d.dll: $(Project)-$(VERSI
 	cd build-static-release; \
 	$(MAKE) install
 
-static-release: build-static-release/src/$(project)@SOQT_MAJOR_VERSION@d.dll
+static-release: build-static-release/src/Inventor/Qt/$(project)@SOQT_MAJOR_VERSION@d.dll
 
-build-static-debug/src/$(project)@SOQT_MAJOR_VERSION@d.dll: $(Project)-$(VERSION)
+build-static-debug/src/Inventor/Qt/$(project)@SOQT_MAJOR_VERSION@d.dll: $(Project)-$(VERSION)
 	@if test -d build-static-debug; then :; else mkdir build-static-debug; fi
 	cd build-static-debug; \
 	../$(Project)-$(VERSION)/configure \
@@ -222,9 +222,9 @@ build-static-debug/src/$(project)@SOQT_MAJOR_VERSION@d.dll: $(Project)-$(VERSION
 	cd build-static-debug; \
 	$(MAKE) install
 
-static-debug: build-static-debug/src/$(project)@SOQT_MAJOR_VERSION@d.dll
+static-debug: build-static-debug/src/Inventor/Qt/$(project)@SOQT_MAJOR_VERSION@d.dll
 
-buildfiles: build-files/$(project)@SOQT_MAJOR_VERSION@.dsp
+buildfiles: build-files/Inventor/Qt/$(project)@SOQT_MAJOR_VERSION@.dsp
 
 build-files/$(project)@SOQT_MAJOR_VERSION@.dsp: $(Project)-$(VERSION)
 	@if test -d build-files; then :; else mkdir build-files; fi
