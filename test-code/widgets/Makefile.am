@@ -3,7 +3,4 @@
 INCLUDES = -I$(top_srcdir)/src
 noinst_PROGRAMS = thumbwheel
 thumbwheel_SOURCES = thumbwheel.cpp
-thumbwheel_LDADD = \
-	$(top_builddir)/src/Inventor/Qt/widgets/libSoQtWidgets.la \
-	$(top_builddir)/src/Inventor/Qt/common/libSoCommon.la
-
+thumbwheel_LDADD = $(top_builddir)/src/Inventor/Qt/libSoQt.la
