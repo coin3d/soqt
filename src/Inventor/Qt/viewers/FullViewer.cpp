@@ -61,6 +61,9 @@
 #include <qcheckbox.h>
 #include <qmetaobject.h>
 #include <moc_SoQtFullViewer.cpp>
+#include <moc_SoQtFullViewerP.cpp>
+
+#include <SoQtFullViewerP.h>
 
 #include <Inventor/nodes/SoPerspectiveCamera.h>
 #include <Inventor/nodes/SoOrthographicCamera.h>
@@ -230,49 +233,6 @@ enum {
 };
 
 // *************************************************************************
-
-class SoQtFullViewerP {
-
-public:
-
-  // Constructor.
-  SoQtFullViewerP(SoQtFullViewer * o)
-    : owner(o)
-  { }
-
-  // Destructor.
-  ~SoQtFullViewerP() { }
-
-  // Return pointer to pushbutton in right-side decoration bar.
-  QPushButton * getViewerbutton(const int idx)
-  {
-    return (QPushButton *)this->viewerbuttons->get(idx);
-  }
-
-  QWidget * viewerwidget, * canvas;
-  QWidget * interactbutton, * viewbutton;
-  SbBool decorations;
-  SbString menutitle;
-  SbBool menuenabled;
-  QLayout * mainlayout;
-  QLayout * appbuttonlayout;
-  QWidget * appbuttonform;
-  SbPList * appbuttonlist;
-  SbPList * viewerbuttons;
-  QWidget * prefwindow;
-  SbString prefwindowtitle;
-  QSlider * zoomslider;
-  QLineEdit * zoomfield, * zoomrangefrom, * zoomrangeto;
-  SbVec2f zoomrange;
-  SoQtThumbWheel * seekdistancewheel;
-  QLineEdit * seekdistancefield;
-  QLabel * nearclippinglabel, * farclippinglabel;
-  SoQtThumbWheel * nearclippingwheel, * farclippingwheel;
-  QLineEdit * nearclippingedit, * farclippingedit;
-
-private:
-  SoQtFullViewer * owner;
-};
 
 #define PRIVATE(o) (o->pimpl)
 
@@ -988,7 +948,7 @@ SoQtFullViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
 void
 SoQtFullViewer::buildPopupMenu(void)
 {
-  this->prefmenu = this->setupStandardPopupMenu();
+  this->prefmenu = PRIVATE(this)->setupStandardPopupMenu();
 }
 
 // *************************************************************************
@@ -1006,7 +966,7 @@ SoQtFullViewer::openPopupMenu(const SbVec2s position)
   int x = 2 + position[0];
   int y = 2 + this->getGLSize()[1] - position[1] - 1;
 
-  this->prepareMenu(this->prefmenu);
+  PRIVATE(this)->prepareMenu(this->prefmenu);
   this->prefmenu->popUp(this->getGLWidget(), x, y);
 }
 
@@ -1193,6 +1153,11 @@ SoQtFullViewer::layoutAppButtons(QWidget * form)
 void
 SoQtFullViewer::createPrefSheet(void)
 {
+  // FIXME: this is really not the way to do it, the prefsheet should
+  // actually be constructed from the subclass(es) by piecing it
+  // together from other virtual createPref*() methods. SoXt does the
+  // right thing, look there for reference.  20020529 mortene.
+
   PRIVATE(this)->prefwindow = new QWidget(NULL);
   PRIVATE(this)->prefwindow->setCaption(PRIVATE(this)->prefwindowtitle.getString());
   PRIVATE(this)->prefwindow->setIconText(PRIVATE(this)->prefwindowtitle.getString());
@@ -2312,11 +2277,23 @@ SoQtFullViewer::sizeChanged(const SbVec2s & size)
 
 // *************************************************************************
 
+// Documented in superclass.
 void
 SoQtFullViewer::afterRealizeHook(void)
 {
   this->sizeChanged(this->getSize());
   inherited::afterRealizeHook();
+}
+
+// *************************************************************************
+
+SoQtFullViewerP::SoQtFullViewerP(SoQtFullViewer * publ)
+  : SoGuiFullViewerP(publ)
+{
+}
+
+SoQtFullViewerP::~SoQtFullViewerP()
+{
 }
 
 // *************************************************************************

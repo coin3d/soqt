@@ -28,6 +28,12 @@
 #include <Inventor/SbBasic.h>
 #include <SoGuiFullViewerP.h>
 
+class QLabel;
+class QLayout;
+class QSlider;
+class QLineEdit;
+class QPushButton;
+class QWidget;
 class SoQtFullViewer;
 class SoQtThumbWheel;
 
