@@ -75,7 +75,7 @@ SoQtCollisionViewer::getNumSteps(
 {
     return 0;
 }
-  
+
 void
 SoQtCollisionViewer::setCollisionDetection(
   SbBool value )
@@ -101,7 +101,7 @@ SoQtCollisionViewer::getZBufferOptimization(
 {
     return FALSE;
 }
-  
+
 void
 SoQtCollisionViewer::addCallback(
   SoQtCollisionViewerCB * func,
@@ -115,4 +115,3 @@ SoQtCollisionViewer::removeCallback(
   void * user )
 {
 }
-
