@@ -213,8 +213,7 @@ SoQtFullViewer::SoQtFullViewer(
   if ( ! build ) return;
 
   this->setClassName("SoQtFullViewer");
-  QWidget * parent = this->getParentWidget();
-  QWidget * viewer = this->buildWidget( parent );
+  QWidget * viewer = this->buildWidget( this->getParentWidget() );
   this->setBaseWidget( viewer );
 } // SoQtFullViewer()
 
