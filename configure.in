@@ -380,6 +380,15 @@ SIM_AC_CHECK_QGL([
 SIM_AC_QGLFORMAT_SETOVERLAY
 SIM_AC_QGLWIDGET_SETAUTOBUFFERSWAP
 
+# Qt's moc wants Windows-style paths, so if the inputfile is an
+# absolute Cygwin-style path it needs conversion.
+AC_PATH_PROG(UNIX2WINPATH, cygpath, false)
+if test x"$UNIX2WINPATH" = x"false"; then
+  UNIX2WINPATH="echo"
+else
+  UNIX2WINPATH="$UNIX2WINPATH -w"
+fi
+
 # **************************************************************************
 # Spaceball support through Linux Joystick driver
 

@@ -170,25 +170,25 @@ src/Inventor/Qt/devices/spwinput_x11.cpp: \
 ## auto-generated Qt moc files.
 
 src/Inventor/Qt/moc_SoQt.cpp: $(srcdir)/src/Inventor/Qt/SoQt.h
-	$(MOC) -o $@ $(srcdir)/src/Inventor/Qt/SoQt.h
+	$(MOC) -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/SoQt.h`
 
 src/Inventor/Qt/moc_SoQtObject.cpp: $(top_builddir)/src/Inventor/Qt/SoQtObject.h
 	$(MOC) -o $@ $(top_builddir)/src/Inventor/Qt/SoQtObject.h
 
 src/Inventor/Qt/moc_SoQtComponent.cpp: $(srcdir)/src/Inventor/Qt/SoQtComponent.h
-	$(MOC) -o $@ $(srcdir)/src/Inventor/Qt/SoQtComponent.h
+	$(MOC) -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/SoQtComponent.h`
 
 src/Inventor/Qt/moc_SoQtGLWidget.cpp: \
   $(srcdir)/src/Inventor/Qt/SoQtGLWidget.h
-	$(MOC) -o $@ $(srcdir)/src/Inventor/Qt/SoQtGLWidget.h
+	$(MOC) -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/SoQtGLWidget.h`
 
 src/Inventor/Qt/moc_SoQtLightSliderSet.cpp: \
   $(srcdir)/src/Inventor/Qt/SoQtLightSliderSet.h
-	$(MOC) -o $@ $(srcdir)/src/Inventor/Qt/SoQtLightSliderSet.h
+	$(MOC) -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/SoQtLightSliderSet.h`
 
 src/Inventor/Qt/moc_SoQtMaterialSliderSet.cpp: \
   $(srcdir)/src/Inventor/Qt/SoQtMaterialSliderSet.h
-	$(MOC) -o $@ $(srcdir)/src/Inventor/Qt/SoQtMaterialSliderSet.h
+	$(MOC) -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/SoQtMaterialSliderSet.h`
 
 src/Inventor/Qt/moc_SoQtRenderArea.cpp: \
   $(top_builddir)/src/Inventor/Qt/SoQtRenderArea.h
@@ -196,39 +196,39 @@ src/Inventor/Qt/moc_SoQtRenderArea.cpp: \
 
 src/Inventor/Qt/moc_SoQtSliderSet.cpp: \
   $(srcdir)/src/Inventor/Qt/SoQtSliderSet.h
-	$(MOC) -o $@ $(srcdir)/src/Inventor/Qt/SoQtSliderSet.h
+	$(MOC) -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/SoQtSliderSet.h`
 
 src/Inventor/Qt/moc_SoQtSliderSetBase.cpp: \
   $(srcdir)/src/Inventor/Qt/SoQtSliderSetBase.h
-	$(MOC) -o $@ $(srcdir)/src/Inventor/Qt/SoQtSliderSetBase.h
+	$(MOC) -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/SoQtSliderSetBase.h`
 
 src/Inventor/Qt/moc_SoQtTransformSliderSet.cpp: \
   $(srcdir)/src/Inventor/Qt/SoQtTransformSliderSet.h
-	$(MOC) -o $@ $(srcdir)/src/Inventor/Qt/SoQtTransformSliderSet.h
+	$(MOC) -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/SoQtTransformSliderSet.h`
 
 src/Inventor/Qt/devices/moc_SoQtDevice.cpp: \
   $(srcdir)/src/Inventor/Qt/devices/SoQtDevice.h
-	$(MOC) -o $@ $(srcdir)/src/Inventor/Qt/devices/SoQtDevice.h
+	$(MOC) -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/devices/SoQtDevice.h`
 
 src/Inventor/Qt/devices/moc_SoQtInputFocus.cpp: \
   $(srcdir)/src/Inventor/Qt/devices/SoQtInputFocus.h
-	$(MOC) -o $@ $(srcdir)/src/Inventor/Qt/devices/SoQtInputFocus.h
+	$(MOC) -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/devices/SoQtInputFocus.h`
 
 src/Inventor/Qt/devices/moc_SoQtKeyboard.cpp: \
   $(srcdir)/src/Inventor/Qt/devices/SoQtKeyboard.h
-	$(MOC) -o $@ $(srcdir)/src/Inventor/Qt/devices/SoQtKeyboard.h
+	$(MOC) -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/devices/SoQtKeyboard.h`
 
 src/Inventor/Qt/devices/moc_SoQtMouse.cpp: \
   $(srcdir)/src/Inventor/Qt/devices/SoQtMouse.h
-	$(MOC) -o $@ $(srcdir)/src/Inventor/Qt/devices/SoQtMouse.h
+	$(MOC) -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/devices/SoQtMouse.h`
 
 src/Inventor/Qt/devices/moc_SoQtSpaceball.cpp: \
   $(srcdir)/src/Inventor/Qt/devices/SoQtSpaceball.h
-	$(MOC) -o $@ $(srcdir)/src/Inventor/Qt/devices/SoQtSpaceball.h
+	$(MOC) -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/devices/SoQtSpaceball.h`
 
 src/Inventor/Qt/devices/moc_SoQtLinuxJoystick.cpp: \
   $(srcdir)/src/Inventor/Qt/devices/SoQtLinuxJoystick.h
-	$(MOC) -o $@ $(srcdir)/src/Inventor/Qt/devices/SoQtLinuxJoystick.h
+	$(MOC) -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/devices/SoQtLinuxJoystick.h`
 
 src/Inventor/Qt/viewers/moc_SoQtViewer.cpp: \
   $(top_builddir)/src/Inventor/Qt/viewers/SoQtViewer.h
@@ -236,38 +236,38 @@ src/Inventor/Qt/viewers/moc_SoQtViewer.cpp: \
 
 src/Inventor/Qt/viewers/moc_SoQtFullViewer.cpp: \
   $(srcdir)/src/Inventor/Qt/viewers/SoQtFullViewer.h
-	$(MOC) -o $@ $(srcdir)/src/Inventor/Qt/viewers/SoQtFullViewer.h
+	$(MOC) -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/viewers/SoQtFullViewer.h`
 
 src/Inventor/Qt/viewers/moc_SoQtExaminerViewer.cpp: \
   $(srcdir)/src/Inventor/Qt/viewers/SoQtExaminerViewer.h
-	$(MOC) -o $@ $(srcdir)/src/Inventor/Qt/viewers/SoQtExaminerViewer.h
+	$(MOC) -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/viewers/SoQtExaminerViewer.h`
 
 src/Inventor/Qt/viewers/moc_SoQtPlaneViewer.cpp: \
   $(srcdir)/src/Inventor/Qt/viewers/SoQtPlaneViewer.h
-	$(MOC) -o $@ $(srcdir)/src/Inventor/Qt/viewers/SoQtPlaneViewer.h
+	$(MOC) -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/viewers/SoQtPlaneViewer.h`
 
 src/Inventor/Qt/viewers/moc_SoQtConstrainedViewer.cpp: \
   $(srcdir)/src/Inventor/Qt/viewers/SoQtConstrainedViewer.h
-	$(MOC) -o $@ $(srcdir)/src/Inventor/Qt/viewers/SoQtConstrainedViewer.h
+	$(MOC) -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/viewers/SoQtConstrainedViewer.h`
 
 src/Inventor/Qt/viewers/moc_SoQtWalkViewer.cpp: \
   $(srcdir)/src/Inventor/Qt/viewers/SoQtWalkViewer.h
-	$(MOC) -o $@ $(srcdir)/src/Inventor/Qt/viewers/SoQtWalkViewer.h
+	$(MOC) -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/viewers/SoQtWalkViewer.h`
 
 src/Inventor/Qt/viewers/moc_SoQtFlyViewer.cpp: \
   $(srcdir)/src/Inventor/Qt/viewers/SoQtFlyViewer.h
-	$(MOC) -o $@ $(srcdir)/src/Inventor/Qt/viewers/SoQtFlyViewer.h
+	$(MOC) -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/viewers/SoQtFlyViewer.h`
 
 src/Inventor/Qt/widgets/moc_SoQtThumbWheel.cpp: \
   $(srcdir)/src/Inventor/Qt/widgets/SoQtThumbWheel.h
-	$(MOC) -o $@ $(srcdir)/src/Inventor/Qt/widgets/SoQtThumbWheel.h
+	$(MOC) -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/widgets/SoQtThumbWheel.h`
 
 src/Inventor/Qt/widgets/moc_SoQtGLArea.cpp: \
   $(srcdir)/src/Inventor/Qt/widgets/SoQtGLArea.h
-	$(MOC) -o $@ $(srcdir)/src/Inventor/Qt/widgets/SoQtGLArea.h
+	$(MOC) -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/widgets/SoQtGLArea.h`
 
 src/Inventor/Qt/widgets/moc_SoQtPopupMenu.cpp: \
   $(srcdir)/src/Inventor/Qt/widgets/SoQtPopupMenu.h
-	$(MOC) -o $@ $(srcdir)/src/Inventor/Qt/widgets/SoQtPopupMenu.h
+	$(MOC) -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/widgets/SoQtPopupMenu.h`
 
 ############################################################################
