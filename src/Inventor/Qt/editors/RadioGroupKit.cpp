@@ -242,6 +242,8 @@ void
 RadioGroupKitP::radioButtonAdded(void * classObject, SoSensor * sensor)
 {
   RadioGroupKitP * pimpl = (RadioGroupKitP *) classObject;
+  // FIXME: bogus -- what if the client code removes or changes a
+  // label? *boom* 20020627 mortene.
   SbString newlabel = PUBLIC(pimpl)->labels[pimpl->buttonCounter];
   pimpl->addRadioButton(newlabel);
   pimpl->buttonCounter++;
