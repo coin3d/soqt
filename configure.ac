@@ -163,12 +163,6 @@ darwin* )
   sim_ac_macosx=false ;;
 esac
 
-if test x"$sim_ac_macosx_10_2ff" = x"true"; then
-  # Defines how undefined symbols are handled (used in libtool.m4)
-  LD_TWOLEVEL_NAMESPACE=1
-fi
-
-
 # Initialize libtool
 if $BUILD_WITH_MSVC; then
   RANLIB=:
@@ -833,6 +827,11 @@ AC_SUBST([LIBFLAGS], [])
 # Remaining setup based on platform.
 
 AM_CONDITIONAL([BUILD_WITH_MSVC], [$BUILD_WITH_MSVC])
+
+if test x"$sim_ac_macosx_10_2ff" = x"true"; then
+  # No undefined symbols allowed in two-level namespace shared libs.
+  LDFLAGS="$LDFLAGS -no-undefined"
+fi
 
 # **************************************************************************
 
