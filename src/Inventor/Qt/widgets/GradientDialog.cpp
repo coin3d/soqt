@@ -43,6 +43,7 @@ public:
   GradientEditor * gradEdit;
   QValueList<Gradient> gradients;
   Gradient::ChangeCB * changeCallBack;
+  void * changeCallBackData;
   QComboBox * gradientList;
   int old_index;
   void saveCurrent();
@@ -113,8 +114,10 @@ void SoQtGradientDialog::addGradient(const Gradient & grad, QString description)
 {
   Gradient gradientcopy = grad;
 
-  if (PRIVATE(this)->changeCallBack)
-    gradientcopy.setChangeCallback(PRIVATE(this)->changeCallBack);
+  if (PRIVATE(this)->changeCallBack) {
+    gradientcopy.setChangeCallback(PRIVATE(this)->changeCallBack,
+                                   PRIVATE(this)->changeCallBackData);
+  }
 
   PRIVATE(this)->gradients.append(gradientcopy);
   PRIVATE(this)->gradientList->insertItem(gradientcopy.getImage(60, 16, 32), description);
@@ -174,10 +177,11 @@ void SoQtGradientDialog::setDataLimits(float min, float max)
   PRIVATE(this)->gradEdit->setMax(max);
 }
 
-void SoQtGradientDialog::setChangeCallback(Gradient::ChangeCB * cb)
+void SoQtGradientDialog::setChangeCallback(Gradient::ChangeCB * cb, void * userdata)
 {
   PRIVATE(this)->changeCallBack = cb;
-  PRIVATE(this)->gradEdit->setChangeCallback(cb);
+  PRIVATE(this)->changeCallBackData = userdata;
+  PRIVATE(this)->gradEdit->setChangeCallback(cb, userdata);
 }
 
 #undef PRIVATE

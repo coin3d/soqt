@@ -51,7 +51,7 @@ public:
   const Gradient & getGradient(void) const;
   void insertTick(float t);
   float getSelectedPos(void);
-  void setChangeCallback(Gradient::ChangeCB * cb);
+  void setChangeCallback(Gradient::ChangeCB * cb, void * userdata);
 
 public slots:
   void updateTicks(void);

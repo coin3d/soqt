@@ -145,9 +145,13 @@ void GradientEditor::updateAll()
   this->gradView->updateView();
 }
 
-void GradientEditor::setChangeCallback(Gradient::ChangeCB * cb)
+// FIXME: callback is not really used from this class, just passed on
+// to the Gradient class. Should look into design to see if we can
+// remove this method. 20031008 mortene.
+void
+GradientEditor::setChangeCallback(Gradient::ChangeCB * cb, void * userdata)
 {
-  this->gradView->setChangeCallback(cb);
+  this->gradView->setChangeCallback(cb, userdata);
 }
 
 void GradientEditor::accept()

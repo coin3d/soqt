@@ -58,8 +58,8 @@ public:
   Gradient & operator = (const Gradient & grad);
   SbBool operator == (const Gradient & grad) const;
 
-  typedef void ChangeCB(const Gradient & grad);
-  void setChangeCallback(Gradient::ChangeCB * callBack);
+  typedef void ChangeCB(const Gradient & grad, void * userdata);
+  void setChangeCallback(Gradient::ChangeCB * callBack, void * userdata);
   
 private:
   class GradientP * pimpl;

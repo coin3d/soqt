@@ -351,9 +351,13 @@ void GradientView::chooseColorRight()
   }
 }
 
-void GradientView::setChangeCallback(Gradient::ChangeCB * cb)
+// FIXME: callback is not really used from this class, just passed on
+// to the Gradient class. Should look into design to see if we can
+// remove this method. 20031008 mortene.
+void
+GradientView::setChangeCallback(Gradient::ChangeCB * cb, void * userdata)
 {
-  this->grad.setChangeCallback(cb);
+  this->grad.setChangeCallback(cb, userdata);
 }
 
 // FIXME: instead of building the menu each time, simply use

@@ -36,6 +36,7 @@ public:
   QValueList<float> parameters;
   QValueList<QRgb> colors;
   Gradient::ChangeCB * callBack;
+  void * callBackData;
 };
 
 GradientP::GradientP(Gradient * publ)
@@ -87,9 +88,13 @@ Gradient::~Gradient()
 {
 }
 
-Gradient & Gradient::operator = (const Gradient & grad)
+Gradient &
+Gradient::operator=(const Gradient & grad)
 {
+  // FIXME: copying of GradientP-data should happen in a method in
+  // that class. 20031008 mortene.
   PRIVATE(this)->callBack = grad.pimpl->callBack;
+  PRIVATE(this)->callBackData = grad.pimpl->callBackData;
   PRIVATE(this)->parameters = grad.pimpl->parameters;
   PRIVATE(this)->colors = grad.pimpl->colors;
   return *this;
@@ -150,7 +155,7 @@ Gradient::moveTick(unsigned int i, float t)
 {
   if (PRIVATE(this)->parameters[i] != t) {
     PRIVATE(this)->parameters[i] = t;
-    if (PRIVATE(this)->callBack) { PRIVATE(this)->callBack(*this); }
+    if (PRIVATE(this)->callBack) { PRIVATE(this)->callBack(*this, PRIVATE(this)->callBackData); }
   }
 }
 
@@ -188,7 +193,7 @@ Gradient::removeTick(unsigned int i)
   it2 = PRIVATE(this)->colors.remove(it2);
   PRIVATE(this)->colors.remove(it2);
 
-  if (PRIVATE(this)->callBack) { PRIVATE(this)->callBack(*this); }
+  if (PRIVATE(this)->callBack) { PRIVATE(this)->callBack(*this, PRIVATE(this)->callBackData); }
 }
 
 SbBool
@@ -205,7 +210,7 @@ Gradient::setColor(unsigned int i, SbBool left, const QRgb & color)
   i = PRIVATE(this)->getColorIndex(i, left);
   PRIVATE(this)->colors[i] = color;
 
-  if (PRIVATE(this)->callBack) { PRIVATE(this)->callBack(*this); }
+  if (PRIVATE(this)->callBack) { PRIVATE(this)->callBack(*this, PRIVATE(this)->callBackData); }
 }
 
 QRgb
@@ -216,9 +221,10 @@ Gradient::getColor(unsigned int i, SbBool left) const
 }
 
 void
-Gradient::setChangeCallback(Gradient::ChangeCB * callBack)
+Gradient::setChangeCallback(Gradient::ChangeCB * callBack, void * userdata)
 {
   PRIVATE(this)->callBack = callBack;
+  PRIVATE(this)->callBackData = userdata;
 }
 
 void Gradient::getColorArray(QRgb * colorArray, int num) const

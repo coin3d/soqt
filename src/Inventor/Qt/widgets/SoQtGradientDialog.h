@@ -43,7 +43,7 @@ public:
   void addGradient(const Gradient & grad, QString description = "");
   void setDataLimits(float min, float max);
   const Gradient & getGradient(void) const;
-  void setChangeCallback(Gradient::ChangeCB * cb);
+  void setChangeCallback(Gradient::ChangeCB * cb, void * userdata);
 
   // FIXME: implement these slots in the private
   // implementation. frodo, 20030927
@@ -56,4 +56,4 @@ private:
   class SoQtGradientDialogP * pimpl;
 };
 
-#endif // SOQT_GRADIENTDIALOG_H
+#endif // ! SOQT_GRADIENTDIALOG_H
