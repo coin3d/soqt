@@ -84,6 +84,9 @@ OBJDUMP = @OBJDUMP@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
 SOQT_BINARY_AGE = @SOQT_BINARY_AGE@
+SOQT_EXTRA_CPPFLAGS = @SOQT_EXTRA_CPPFLAGS@
+SOQT_EXTRA_LDFLAGS = @SOQT_EXTRA_LDFLAGS@
+SOQT_EXTRA_LIBS = @SOQT_EXTRA_LIBS@
 SOQT_INTERFACE_AGE = @SOQT_INTERFACE_AGE@
 SOQT_MAJOR_VERSION = @SOQT_MAJOR_VERSION@
 SOQT_MICRO_VERSION = @SOQT_MICRO_VERSION@
@@ -91,21 +94,28 @@ SOQT_MINOR_VERSION = @SOQT_MINOR_VERSION@
 SOQT_VERSION = @SOQT_VERSION@
 VERSION = @VERSION@
 install_sh = @install_sh@
+sim_ac_conf_cmd = @sim_ac_conf_cmd@
 
 @BUILD_EXAMPLES_TRUE@EXAMPLEDIR = @BUILD_EXAMPLES_TRUE@examples
 @BUILD_EXAMPLES_FALSE@EXAMPLEDIR = 
 
 SUBDIRS = src/Inventor/Qt $(EXAMPLEDIR)
+
+bin_SCRIPTS = soqt-config
+
+BUILT_SOURCES = soqt-config
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = config.h
-CONFIG_CLEAN_FILES = 
+CONFIG_CLEAN_FILES =  soqt-config
+SCRIPTS =  $(bin_SCRIPTS)
+
 DIST_SOURCES = 
 DIST_COMMON =  README ./stamp-h.in AUTHORS COPYING ChangeLog INSTALL \
 Makefile.am Makefile.in NEWS TODO aclocal.m4 config.guess config.h.in \
 config.sub configure configure.in depcomp install-sh ltconfig ltmain.sh \
-missing mkinstalldirs
+missing mkinstalldirs soqt-config.in
 
 
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -160,6 +170,30 @@ distclean-hdr:
 	-rm -f config.h
 
 maintainer-clean-hdr:
+soqt-config: $(top_builddir)/config.status soqt-config.in
+	cd $(top_builddir) && CONFIG_FILES=$@ CONFIG_HEADERS= $(SHELL) ./config.status
+
+install-binSCRIPTS: $(bin_SCRIPTS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	@list='$(bin_SCRIPTS)'; for p in $$list; do \
+	  f="`echo $$p|sed '$(transform)'`"; \
+	  if test -f $$p; then \
+	    echo " $(INSTALL_SCRIPT) $$p $(DESTDIR)$(bindir)/$$f"; \
+	    $(INSTALL_SCRIPT) $$p $(DESTDIR)$(bindir)/$$f; \
+	  elif test -f $(srcdir)/$$p; then \
+	    echo " $(INSTALL_SCRIPT) $(srcdir)/$$p $(DESTDIR)$(bindir)/$$f"; \
+	    $(INSTALL_SCRIPT) $(srcdir)/$$p $(DESTDIR)$(bindir)/$$f; \
+	  else :; fi; \
+	done
+
+uninstall-binSCRIPTS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(bin_SCRIPTS)'; for p in $$list; do \
+	  f="`echo $$p|sed '$(transform)'`"; \
+	  echo " rm -f $(DESTDIR)$(bindir)/$$f"; \
+	  rm -f $(DESTDIR)$(bindir)/$$f; \
+	done
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
@@ -335,7 +369,7 @@ installcheck: installcheck-recursive
 all-recursive-am: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
-install-exec-am:
+install-exec-am: install-binSCRIPTS
 install-exec: install-exec-recursive
 
 install-data-am:
@@ -344,14 +378,15 @@ install-data: install-data-recursive
 install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
 install: install-recursive
-uninstall-am:
+uninstall-am: uninstall-binSCRIPTS
 uninstall: uninstall-recursive
-all-am: Makefile config.h
+all-am: Makefile $(SCRIPTS) config.h
 all-redirect: all-recursive-am
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) INSTALL_STRIP_FLAG=-s install
 installdirs: installdirs-recursive
 installdirs-am:
+	$(mkinstalldirs)  $(DESTDIR)$(bindir)
 
 
 mostlyclean-generic:
@@ -364,6 +399,7 @@ distclean-generic:
 
 maintainer-clean-generic:
 	-rm -f Makefile.in
+	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
 mostlyclean-am:  mostlyclean-hdr mostlyclean-tags mostlyclean-generic
 
 mostlyclean: mostlyclean-recursive
@@ -387,11 +423,12 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f config.status
 
 .PHONY: mostlyclean-hdr distclean-hdr clean-hdr maintainer-clean-hdr \
-install-recursive uninstall-recursive install-data-recursive \
-uninstall-data-recursive install-exec-recursive \
-uninstall-exec-recursive installdirs-recursive uninstalldirs-recursive \
-all-recursive check-recursive installcheck-recursive info-recursive \
-dvi-recursive mostlyclean-recursive distclean-recursive clean-recursive \
+uninstall-binSCRIPTS install-binSCRIPTS install-recursive \
+uninstall-recursive install-data-recursive uninstall-data-recursive \
+install-exec-recursive uninstall-exec-recursive installdirs-recursive \
+uninstalldirs-recursive all-recursive check-recursive \
+installcheck-recursive info-recursive dvi-recursive \
+mostlyclean-recursive distclean-recursive clean-recursive \
 maintainer-clean-recursive tags tags-recursive mostlyclean-tags \
 distclean-tags clean-tags maintainer-clean-tags distdir info-am info \
 dvi-am dvi check check-am installcheck-am installcheck all-recursive-am \
@@ -401,6 +438,8 @@ installdirs-am installdirs mostlyclean-generic distclean-generic \
 clean-generic maintainer-clean-generic clean mostlyclean distclean \
 maintainer-clean
 
+
+soqt-config: soqt-config.in
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

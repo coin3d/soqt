@@ -6,9 +6,6 @@ dnl  in tests.
 AC_PROG_CXX
 AC_LANG_CPLUSPLUS
 
-if test "x$GXX" != "xyes"; then
-  AC_MSG_WARN(You are not using the GNU compiler -- other compilers are not well supported at the moment)
-fi
 
 dnl *******************************************************************
 dnl * Library version control.
@@ -74,27 +71,75 @@ AM_MAINTAINER_MODE
 dnl  Initialize libtool
 AC_PROG_LIBTOOL
 
+dnl  These are used for constructing the soqt-config file.
+SOQT_EXTRA_CPPFLAGS=
+SOQT_EXTRA_LDFLAGS=
+SOQT_EXTRA_LIBS=
+AC_SUBST(SOQT_EXTRA_CPPFLAGS)
+AC_SUBST(SOQT_EXTRA_LDFLAGS)
+AC_SUBST(SOQT_EXTRA_LIBS)
 
-dnl *** locate X library before we check for Qt installation or OIV ***
 
-AC_PATH_XTRA
-if test "x$no_x" = "xyes"; then
-  AC_MSG_ERROR([X11 libraries couldn't be found! (use --x-includes and --x-libraries to locate them)])
+dnl *******************************************************************
+dnl * Search and set up necessary stuff to use Open Inventor or Coin.
+dnl *******************************************************************
+
+# $with_inventor is from within SIM_CHECK_INVENTOR(), and can be used
+# here since the default value is "no" and must therefore be overridden
+# to have any effect.
+if test x"$with_inventor" = xyes; then
+  # For Open Inventor linkage, we need to check for a shitload of libraries.
+
+  SIM_CHECK_DL([SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS $sim_ac_dl_cppflags"
+                SOQT_EXTRA_LDFLAGS="$SOQT_EXTRA_LDFLAGS $sim_ac_dl_ldflags"
+                SOQT_EXTRA_LIBS="$sim_ac_dl_libs $SOQT_EXTRA_LIBS"])
+
+  SIM_CHECK_X11([SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS $sim_ac_x11_cppflags"
+                 SOQT_EXTRA_LDFLAGS="$SOQT_EXTRA_LDFLAGS $sim_ac_x11_ldflags"
+                 SOQT_EXTRA_LIBS="$sim_ac_x11_libs $SOQT_EXTRA_LIBS"])
+
+  if test x"$sim_ac_x11_avail" = xyes; then
+    SIM_CHECK_X11SHMEM(SOQT_EXTRA_LIBS="$sim_ac_x11shmem_libs $SOQT_EXTRA_LIBS")
+    SIM_CHECK_X11MU(SOQT_EXTRA_LIBS="$sim_ac_x11mu_libs $SOQT_EXTRA_LIBS")
+  fi
+
+  SIM_CHECK_OPENGL([SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS $sim_ac_gl_cppflags"
+                    SOQT_EXTRA_LDFLAGS="$SOQT_EXTRA_LDFLAGS $sim_ac_gl_ldflags"
+                    SOQT_EXTRA_LIBS="$sim_ac_gl_libs $SOQT_EXTRA_LIBS"],
+                   AC_MSG_ERROR(needs an OpenGL-compatible development system installation))
+
+
+  SIM_CHECK_INVENTOR([SOQT_EXTRA_CPPFLAGS="$sim_ac_oiv_cppflags $SOQT_EXTRA_CPPFLAGS"
+                      SOQT_EXTRA_LDFLAGS="$sim_ac_oiv_ldflags $SOQT_EXTRA_LDFLAGS"
+                      SOQT_EXTRA_LIBS="$sim_ac_oiv_libs $SOQT_EXTRA_LIBS"],
+                     AC_MSG_ERROR(couldn't compile and link against Open Inventor))
+else
+  SIM_CHECK_COIN([SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS $sim_ac_coin_cppflags"
+                  SOQT_EXTRA_LDFLAGS="$SOQT_EXTRA_LDFLAGS $sim_ac_coin_ldflags"
+                  SOQT_EXTRA_LIBS="$sim_ac_coin_libs $SOQT_EXTRA_LIBS"],
+                 AC_MSG_ERROR(couldn't compile and link against Coin))
 fi
 
-dnl *******************************************************************
-dnl * Set up necessary stuff to use Open Inventor or Coin.
-dnl *******************************************************************
-
-SIM_INCLUDE_INVENTOR_LIB
 
 dnl *******************************************************************
 dnl * Check that the Qt installation looks ok and include the
 dnl * necessary paths and link libraries.
 dnl *******************************************************************
 
-SIM_INCLUDE_QT_LIB
-SIM_INCLUDE_QGL_LIB
+SIM_CHECK_QT([SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS $sim_ac_qt_cppflags"
+              SOQT_EXTRA_LDFLAGS="$SOQT_EXTRA_LDFLAGS $sim_ac_qt_ldflags"
+              SOQT_EXTRA_LIBS="$sim_ac_qt_libs $SOQT_EXTRA_LIBS"],
+             AC_MSG_ERROR(can't compile and link against Qt development kit))
+
+if ! test x"$sim_ac_x11mu_avail" = xyes; then
+  SIM_CHECK_X11MU(SOQT_EXTRA_LIBS="$sim_ac_x11mu_libs $SOQT_EXTRA_LIBS")
+fi
+
+SIM_CHECK_QGL([SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS $sim_ac_qgl_cppflags"
+               SOQT_EXTRA_LDFLAGS="$SOQT_EXTRA_LDFLAGS $sim_ac_qgl_ldflags"
+               SOQT_EXTRA_LIBS="$sim_ac_qgl_libs $SOQT_EXTRA_LIBS"],
+              AC_MSG_ERROR(can't compile and link against the QGL extension library))
+
 
 dnl *******************************************************************
 dnl * Compiler control.
@@ -117,14 +162,8 @@ dnl *******************************************************************
 dnl * do we want to compile the example programs?
 dnl *******************************************************************
 
-EXAMPLEMAKEFILES="
-	examples/Makefile
-	examples/examinerviewer/Makefile
-	examples/widgets/Makefile
-"
-
 AC_ARG_WITH(examples,
-  [  --with-examples         compile SoQt example programs [default=yes]],
+  AC_HELP_STRING([--with-examples], [build SoQt example programs [default=yes]]),
   [case "${withval}" in
     yes) want_examples=yes ;;
     no)  want_examples=no ;;
@@ -132,11 +171,8 @@ AC_ARG_WITH(examples,
   esac],
   [want_examples=yes])
 
-if test "x$want_examples" = "xno"; then
-  EXAMPLEMAKEFILES=""
-fi
+AM_CONDITIONAL(BUILD_EXAMPLES, test x"$want_examples" = xyes)
 
-AM_CONDITIONAL(BUILD_EXAMPLES, test "x$want_examples" = "xyes")
 
 dnl *******************************************************************
 dnl * List all makefiles configure must automatically generate.
@@ -147,6 +183,7 @@ test -d src/Inventor || mkdir src/Inventor
 test -d src/Inventor/Qt || mkdir src/Inventor/Qt
 
 AC_OUTPUT([
+        soqt-config
 	Makefile
 	src/Inventor/Qt/Makefile
 	src/Inventor/Qt/common/Makefile
@@ -156,5 +193,5 @@ AC_OUTPUT([
 	examples/Makefile
 	examples/examinerviewer/Makefile
 	examples/widgets/Makefile
-])
-
+        ],
+        [chmod a+x soqt-config])

@@ -7,3 +7,10 @@ EXAMPLEDIR =
 endif
 
 SUBDIRS = src/Inventor/Qt $(EXAMPLEDIR)
+
+
+bin_SCRIPTS = soqt-config
+
+BUILT_SOURCES = soqt-config
+
+soqt-config: soqt-config.in

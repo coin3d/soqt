@@ -750,274 +750,757 @@ else
   $1_FALSE=
 fi])
 
-dnl  Set up necessary compiler and linker flags and options for
-dnl  compiling against either Open Inventor or Coin. Exit configure
-dnl  if the wanted library can't be found or used.
+dnl Usage:
+dnl  SIM_CHECK_DL([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 dnl
-dnl  Author: Morten Eriksen, <mortene@sim.no>.
+dnl  Try to find the dynamic link loader library. If it is found, these
+dnl  shell variables are set:
 dnl
-dnl  TODO:
+dnl    $sim_ac_dl_cppflags (extra flags the compiler needs for dl lib)
+dnl    $sim_ac_dl_ldflags  (extra flags the linker needs for dl lib)
+dnl    $sim_ac_dl_libs     (link libraries the linker needs for dl lib)
 dnl
-dnl    * [mortene:19991114] this macro could be useful for others -- submit
-dnl      to autoconf macro archive?
+dnl  The CPPFLAGS, LDFLAGS and LIBS flags will also be modified accordingly.
+dnl  In addition, the variable $sim_ac_dl_avail is set to "yes" if
+dnl  the dynamic link loader library is found.
 dnl
-dnl    * [mortene:19991114] make macro work under MSWindows with Cygwin.
 dnl
-dnl    * [mortene:19991114] should have AC_REQUIREs on detection of the
-dnl      OpenGL and GLU libraries.
+dnl Author: Morten Eriksen, <mortene@sim.no>.
+dnl
+dnl TODO:
+dnl    * [mortene:20000122] make sure this work on MSWin (with
+dnl      Cygwin installation)
 dnl
 
-AC_DEFUN(SIM_CHECK_INVENTOR,
-[
+AC_DEFUN(SIM_CHECK_DL,[
 dnl Autoconf is a developer tool, so don't bother to support older versions.
-AC_PREREQ([2.13])
+AC_PREREQ([2.14.1])
 
-dnl FIXME: this'll probably fail under MSWindows. 19991114 mortene.
-AC_REQUIRE([AC_PATH_XTRA])
+AC_ARG_WITH(dl, AC_HELP_STRING([--with-dl=DIR], [include support for the dynamic link loader library [default=yes]]), , [with_dl=yes])
 
-dnl Open Inventor is a C++ library.
-AC_REQUIRE([AC_PROG_CXX])
-AC_LANG_SAVE
-AC_LANG_CPLUSPLUS
+sim_ac_dl_avail=no
 
-AC_MSG_CHECKING(value of the OIVHOME environment variable)
-if test x"$OIVHOME" = x; then
-  AC_MSG_RESULT(empty!)
-  AC_MSG_WARN(OIVHOME environment variable not set -- this might be an indication of a problem)
-else
-  AC_MSG_RESULT($OIVHOME)
-  CXXFLAGS="$CXXFLAGS -I$OIVHOME/include"
-  LDFLAGS="$LDFLAGS -L$OIVHOME/lib"
-fi
+if test x"$with_dl" != xno; then
+  if test x"$with_dl" != xyes; then
+    sim_ac_dl_cppflags="-I${with_dl}/include"
+    sim_ac_dl_ldflags="-L${with_dl}/lib"
+  fi
+  sim_ac_dl_libs="-ldl"
 
-sim_oivtsts_savelibs=$LIBS
+  sim_ac_save_cppflags=$CPPFLAGS
+  sim_ac_save_ldflags=$LDFLAGS
+  sim_ac_save_libs=$LIBS
 
-dnl FIXME: "ugly hack"-alert! Should clean this up by finding
-dnl out which libraries are _really_ needed. 19991107 mortene.
-LIBS="$LIBS -lInventor -limage -lMesaGLU -lMesaGL $X_LIBS $X_PRE_LIBS -lX11 $X_EXTRA_LIBS -lXmu -lXext -ldl"
+  CPPFLAGS="$CPPFLAGS $sim_ac_dl_cppflags"
+  LDFLAGS="$LDFLAGS $sim_ac_dl_ldflags"
+  LIBS="$sim_ac_dl_libs $LIBS"
 
-AC_CACHE_CHECK([for Open Inventor developer kit installation],
-  sim_cv_lib_oiv_avail,
-  [AC_TRY_LINK([#include <Inventor/SoDB.h>],
-               [SoDB::init();],
-               sim_cv_lib_oiv_avail=yes,
-               sim_cv_lib_oiv_avail=no)])
+  AC_CACHE_CHECK([whether the dynamic link loader library is available],
+    sim_cv_lib_dl_avail,
+    [AC_TRY_LINK([#include <dlfcn.h>],
+                 [(void)dlopen(0L, 0);],
+                 sim_cv_lib_dl_avail=yes,
+                 sim_cv_lib_dl_avail=no)])
 
-if test x"$sim_cv_lib_oiv_avail" = xno; then
-  LIBS=$sim_oivtsts_savelibs
-  dnl FIXME: don't exit here -- let the caller take care of
-  dnl handling the situation. 20000118 mortene.
-  AC_MSG_ERROR(Open Inventor development kit not found!)
-fi
-
-AC_LANG_RESTORE
-])
-
-
-dnl *************************************************************************
-
-dnl FIXME: convert to SIM_CHECK_COIN(possible_locations,
-dnl [ACTION-IF-FOUND][,ACTION-IF-NOT-FOUND]). 20000118 mortene.
-
-AC_DEFUN(SIM_CHECK_COIN,
-[
-dnl Autoconf is a developer tool, so don't bother to support older versions.
-AC_PREREQ([2.13])
-
-dnl FIXME: this'll probably fail under MSWindows. 19991114 mortene.
-AC_REQUIRE([AC_PATH_XTRA])
-
-dnl Coin is a C++ library.
-AC_REQUIRE([AC_PROG_CXX])
-AC_LANG_SAVE
-AC_LANG_CPLUSPLUS
-
-
-AC_MSG_CHECKING(for Coin header files)
-dnl First try standard system locations.
-AC_TRY_CPP([#include <Inventor/SbBasic.h>], coin_dev=yes, coin_dev=no)
-
-dnl Not found in any of the standard system locations, try
-dnl installation directory.
-if test "x$coin_dev" = "xno"; then
-  _PREFIX=$prefix
-  test "x$_PREFIX" = xNONE && _PREFIX=$ac_default_prefix
-  _EPREFIX=$exec_prefix
-  test "x$_EPREFIX" = xNONE && _EPREFIX=$_PREFIX
-  _SAVECPPFLAGS=$CPPFLAGS
-  CPPFLAGS="-I$_PREFIX/include $CPPFLAGS"
-  AC_TRY_CPP([#include <Inventor/SbBasic.h>], coin_dev=yes, coin_dev=no)
-  CPPFLAGS=$_SAVECPPFLAGS
-  if test "x$coin_dev" = "xyes"; then
-    CPPFLAGS="-I$_PREFIX/include $CPPFLAGS"
-    LDFLAGS="-L$_EPREFIX/lib $LDFLAGS"
+  if test x"$sim_cv_lib_dl_avail" = xyes; then
+    sim_ac_dl_avail=yes
+    ifelse($1, , :, $1)
+  else
+    CPPFLAGS=$sim_ac_save_cppflags
+    LDFLAGS=$sim_ac_save_ldflags
+    LIBS=$sim_ac_save_libs
+    ifelse($2, , :, $2)
   fi
 fi
-
-AC_MSG_RESULT($coin_dev)
-
-sim_cointsts_savelibs=$LIBS
-
-dnl FIXME: "ugly hack"-alert! Should clean this up by finding
-dnl out which libraries are _really_ needed. 19991107 mortene.
-LIBS="$LIBS -lCoin -lsimage $X_LIBS -lXmu"
-
-AC_CACHE_CHECK([for Coin developer kit installation],
-  sim_cv_lib_coin_avail,
-  [AC_TRY_LINK([#include <Inventor/SoDB.h>],
-               [SoDB::init();],
-               sim_cv_lib_coin_avail=yes,
-               sim_cv_lib_coin_avail=no)])
-
-if test x"$sim_cv_lib_coin_avail" = xno; then
-  LIBS=$sim_cointsts_savelibs
-  dnl FIXME: don't exit here -- let the caller take care of
-  dnl handling the situation. 20000118 mortene.
-  AC_MSG_ERROR(Coin development kit not found!)
-fi
-
-AC_LANG_RESTORE
 ])
 
-
-dnl *************************************************************************
-
-
-AC_DEFUN(SIM_INCLUDE_INVENTOR_LIB,
-[
-dnl *******************************************************************
-dnl * Check if we want to build on top of Open Inventor (if available).
-dnl *******************************************************************
-
-AC_ARG_WITH(inventor,
-  [  --with-inventor         build on top of Open Inventor (if found) instead of Coin [default=no]],
-  [case "${withval}" in
-    yes) want_inventor=yes ;;
-    no)  want_inventor=no ;;
-    *) AC_MSG_ERROR(bad value \"${withval}\" for --with-inventor) ;;
-  esac],
-  [want_inventor=no])
-
-
-if test x"$want_inventor" = xyes; then
-  SIM_CHECK_INVENTOR
-else
-  SIM_CHECK_COIN
-fi
-])
-
-dnl  Check that the Qt installation looks ok and include the
-dnl  necessary paths and link libraries. Exit configure if Qt
-dnl  can't be found or used. Ditto for the QGL detection macro.
+dnl Usage:
+dnl  SIM_CHECK_X11([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 dnl
-dnl  Author: Morten Eriksen, <mortene@sim.no>.
+dnl  Try to find the X11 development system. If it is found, these
+dnl  shell variables are set:
 dnl
-dnl  TODO:
+dnl    $sim_ac_x11_cppflags (extra flags the compiler needs for X11)
+dnl    $sim_ac_x11_ldflags  (extra flags the linker needs for X11)
+dnl    $sim_ac_x11_libs     (link libraries the linker needs for X11)
 dnl
-dnl    * [mortene:19991114] these macros could be useful for others -- submit
-dnl      to autoconf macro archive?
+dnl  The CPPFLAGS, LDFLAGS and LIBS flags will also be modified accordingly.
+dnl  In addition, the variable $sim_ac_x11_avail is set to "yes" if
+dnl  the X11 development system is found.
 dnl
-dnl    * [mortene:19991114] make macros work under MSWindows with Cygwin.
 dnl
-dnl    * [mortene:19991114] search for other Qt detection macros, in KDE
-dnl      for instance, and see if our macros can be improved (or
-dnl      substituted?).
+dnl Author: Morten Eriksen, <mortene@sim.no>.
+dnl
+dnl TODO:
+dnl    * [mortene:20000122] make sure this work on MSWin (with
+dnl      Cygwin installation)
 dnl
 
-AC_DEFUN(SIM_INCLUDE_QT_LIB,
-[
+AC_DEFUN(SIM_CHECK_X11,[
 dnl Autoconf is a developer tool, so don't bother to support older versions.
-AC_PREREQ([2.13])
+AC_PREREQ([2.14.1])
 
-dnl FIXME: this won't work under MSWindows. 19991114 mortene.
-AC_REQUIRE([AC_PATH_XTRA])
+sim_ac_x11_avail=no
 
-dnl Qt is a C++ library.
-AC_REQUIRE([AC_PROG_CXX])
-AC_LANG_SAVE
-AC_LANG_CPLUSPLUS
+AC_PATH_XTRA
 
-dnl *** warn if QTDIR has not been set ***
+if test x"$no_x" != xyes; then
+  #  *** DEBUG ***
+  #  Keep this around, as it can be handy when testing on new systems.
+  # echo "X_CFLAGS: $X_CFLAGS"
+  # echo "X_PRE_LIBS: $X_PRE_LIBS"
+  # echo "X_LIBS: $X_LIBS"
+  # echo "X_EXTRA_LIBS: $X_EXTRA_LIBS"
+  # echo
+  # echo "CFLAGS: $CFLAGS"
+  # echo "CPPFLAGS: $CPPFLAGS"
+  # echo "CXXFLAGS: $CXXFLAGS"
+  # echo "LDFLAGS: $LDFLAGS"
+  # echo "LIBS: $LIBS"
+  # exit 0
 
-AC_MSG_CHECKING(value of the QTDIR environment variable)
-if test "x$QTDIR" = "x"; then
-  AC_MSG_RESULT(empty!)
-  AC_MSG_WARN(QTDIR environment variable not set -- this might be an indication of a problem)
-else
-  AC_MSG_RESULT($QTDIR)
-  CXXFLAGS="$CXXFLAGS -I$QTDIR/include"
-  LDFLAGS="$LDFLAGS -L$QTDIR/lib"
+  sim_ac_x11_cppflags="$X_CFLAGS"
+  sim_ac_x11_ldflags="$X_LIBS"
+  sim_ac_x11_libs="$X_PRE_LIBS -lX11 $X_EXTRA_LIBS"
+
+  sim_ac_save_cppflags=$CPPFLAGS
+  sim_ac_save_ldflags=$LDFLAGS
+  sim_ac_save_libs=$LIBS
+
+  CPPFLAGS="$CPPFLAGS $sim_ac_x11_cppflags"
+  LDFLAGS="$LDFLAGS $sim_ac_x11_ldflags"
+  LIBS="$sim_ac_x11_libs $LIBS"
+
+  AC_CACHE_CHECK([whether we can link against X11],
+    sim_cv_lib_x11_avail,
+    [AC_TRY_LINK([#include <X11/Xlib.h>],
+                 [(void)XOpenDisplay(0L);],
+                 sim_cv_lib_x11_avail=yes,
+                 sim_cv_lib_x11_avail=no)])
+
+  if test x"$sim_cv_lib_x11_avail" = xyes; then
+    sim_ac_x11_avail=yes
+    ifelse($1, , :, $1)
+  else
+    CPPFLAGS=$sim_ac_save_cppflags
+    LDFLAGS=$sim_ac_save_ldflags
+    LIBS=$sim_ac_save_libs
+    ifelse($2, , :, $2)
+  fi
 fi
-
-dnl *** moc ***
-
-if test "x$QTDIR" != "x"; then
-  AC_PATH_PROG(MOC, moc, , $QTDIR/bin:$PATH)
-else
-  AC_PATH_PROG(MOC, moc)
-fi
-
-if test "x$MOC" = "x"; then
-  AC_MSG_ERROR(could not find the moc tool -- we need a complete Qt installation to build!)
-fi
-
-
-sim_qttsts_savelibs=$LIBS
-dnl FIXME: "ugly hack"-alert! Should clean this up by finding
-dnl out which libraries are _really_ needed. 19991107 mortene.
-LIBS="-lqt $LIBS $X_LIBS $X_PRE_LIBS -lX11 $X_EXTRA_LIBS"
-
-AC_CACHE_CHECK([for Qt developer kit installation],
-  sim_cv_lib_qt_avail,
-  [AC_TRY_LINK([#include <qapplication.h>],
-               [int dummy=0; QApplication a(dummy, 0L);],
-               sim_cv_lib_qt_avail=yes,
-               sim_cv_lib_qt_avail=no)])
-
-if test x"$sim_cv_lib_qt_avail" = xno; then
-  LIBS=$sim_qttsts_savelibs
-  dnl FIXME: don't exit here -- let the caller take care of
-  dnl handling the situation. 20000118 mortene.
-  AC_MSG_ERROR(Qt development kit not found!)
-fi
-
-AC_LANG_RESTORE
 ])
 
 
-dnl *************************************************************************
+dnl Usage:
+dnl  SIM_CHECK_X11SHMEM([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+dnl
+dnl  Try to find the X11 shared memory extension. If it is found, this
+dnl  shell variable is set:
+dnl
+dnl    $sim_ac_x11shmem_libs   (link libraries the linker needs for X11 Shm)
+dnl
+dnl  The LIBS flag will also be modified accordingly. In addition, the
+dnl  variable $sim_ac_x11shmem_avail is set to "yes" if the X11 shared
+dnl  memory extension is found.
+dnl
+dnl
+dnl Author: Morten Eriksen, <mortene@sim.no>.
+dnl
+dnl TODO:
+dnl    * [mortene:20000122] make sure this work on MSWin (with
+dnl      Cygwin installation)
+dnl
 
-
-AC_DEFUN(SIM_INCLUDE_QGL_LIB,
-[
+AC_DEFUN(SIM_CHECK_X11SHMEM,[
 dnl Autoconf is a developer tool, so don't bother to support older versions.
-AC_PREREQ([2.13])
+AC_PREREQ([2.14.1])
 
-AC_REQUIRE([SIM_INCLUDE_QT_LIB])
+sim_ac_x11shmem_avail=no
+sim_ac_x11shmem_libs="-lXext"
+sim_ac_save_libs=$LIBS
+LIBS="$sim_ac_x11shmem_libs $LIBS"
 
-AC_LANG_SAVE
-AC_LANG_CPLUSPLUS
+AC_CACHE_CHECK([whether the X11 shared memory extension is available],
+  sim_cv_lib_x11shmem_avail,
+  [AC_TRY_LINK([#include <X11/Xlib.h>
+                #include <X11/extensions/XShm.h>],
+               [(void)XShmQueryVersion(0L, 0L, 0L, 0L);],
+               sim_cv_lib_x11shmem_avail=yes,
+               sim_cv_lib_x11shmem_avail=no)])
 
-sim_qgltsts_savelibs=$LIBS
-dnl FIXME: "ugly hack"-alert! Should clean this up by finding
-dnl out which libraries are _really_ needed. 19991107 mortene.
-LIBS="-lqgl $LIBS"
-
-AC_CACHE_CHECK([for QGL library installation],
-  sim_cv_lib_qgl_avail,
-  [AC_TRY_LINK([#include <qgl.h>],
-               [(void)qGLVersion();],
-               sim_cv_lib_qgl_avail=yes,
-               sim_cv_lib_qgl_avail=no)])
-
-if test x"$sim_cv_lib_qgl_avail" = xno; then
-  LIBS=$sim_qgltsts_savelibs
-  dnl FIXME: don't exit here -- let the caller take care of
-  dnl handling the situation. 20000118 mortene.
-  AC_MSG_ERROR(QGL library not found!)
+if test x"$sim_cv_lib_x11shmem_avail" = xyes; then
+  sim_ac_x11shmem_avail=yes
+  ifelse($1, , :, $1)
+else
+  LIBS=$sim_ac_save_libs
+  ifelse($2, , :, $2)
 fi
+])
 
-AC_LANG_RESTORE
+
+
+
+dnl Usage:
+dnl  SIM_CHECK_X11MU([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+dnl
+dnl  Try to find the X11 miscellaneous utilities extension. If it is
+dnl  found, this shell variable is set:
+dnl
+dnl    $sim_ac_x11mu_libs   (link libraries the linker needs for X11 MU)
+dnl
+dnl  The LIBS flag will also be modified accordingly. In addition, the
+dnl  variable $sim_ac_x11mu_avail is set to "yes" if the X11 miscellaneous
+dnl  utilities extension is found.
+dnl
+dnl
+dnl Author: Morten Eriksen, <mortene@sim.no>.
+dnl
+dnl TODO:
+dnl    * [mortene:20000122] make sure this work on MSWin (with
+dnl      Cygwin installation)
+dnl
+
+AC_DEFUN(SIM_CHECK_X11MU,[
+dnl Autoconf is a developer tool, so don't bother to support older versions.
+AC_PREREQ([2.14.1])
+
+sim_ac_x11mu_avail=no
+sim_ac_x11mu_libs="-lXmu"
+sim_ac_save_libs=$LIBS
+LIBS="$sim_ac_x11mu_libs $LIBS"
+
+AC_CACHE_CHECK([whether the X11 miscellaneous utilities is available],
+  sim_cv_lib_x11mu_avail,
+  [AC_TRY_LINK([#include <X11/Xlib.h>
+                #include <X11/Xmu/Xmu.h>
+                #include <X11/Xmu/StdCmap.h>],
+               [(void)XmuAllStandardColormaps(0L);],
+               sim_cv_lib_x11mu_avail=yes,
+               sim_cv_lib_x11mu_avail=no)])
+
+if test x"$sim_cv_lib_x11mu_avail" = xyes; then
+  sim_ac_x11mu_avail=yes
+  ifelse($1, , :, $1)
+else
+  LIBS=$sim_ac_save_libs
+  ifelse($2, , :, $2)
+fi
+])
+
+dnl Usage:
+dnl  SIM_CHECK_OPENGL([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+dnl
+dnl  Try to find an OpenGL development system, either a native
+dnl  implementation or the OpenGL-compatible Mesa libraries. If
+dnl  it is found, these shell variables are set:
+dnl
+dnl    $sim_ac_gl_cppflags (extra flags the compiler needs for OpenGL/Mesa)
+dnl    $sim_ac_gl_ldflags  (extra flags the linker needs for OpenGL/Mesa)
+dnl    $sim_ac_gl_libs     (link libraries the linker needs for OpenGL/Mesa)
+dnl
+dnl  The CPPFLAGS, LDFLAGS and LIBS flags will also be modified accordingly.
+dnl  In addition, the variable $sim_ac_gl_avail is set to "yes" if an
+dnl  OpenGL-compatible development system is found. If the OpenGL system
+dnl  found is the Mesa libraries, we will also set $sim_ac_gl_is_mesa to
+dnl  "yes".
+dnl
+dnl
+dnl Author: Morten Eriksen, <mortene@sim.no>.
+dnl
+dnl TODO:
+dnl    * [mortene:20000122] make sure this work on MSWin (with
+dnl      Cygwin installation)
+dnl
+
+AC_DEFUN(SIM_CHECK_OPENGL,[
+dnl Autoconf is a developer tool, so don't bother to support older versions.
+AC_PREREQ([2.14.1])
+
+AC_ARG_WITH(opengl, AC_HELP_STRING([--with-opengl=DIR], [OpenGL/Mesa installation directory]), , [with_opengl=yes])
+
+sim_ac_gl_avail=no
+sim_ac_gl_is_mesa=no
+
+if test x"$with_opengl" != xno; then
+  if test x"$with_opengl" != xyes; then
+    sim_ac_gl_cppflags="-I${with_opengl}/include"
+    sim_ac_gl_ldflags="-L${with_opengl}/lib"
+  fi
+
+  sim_ac_save_cppflags=$CPPFLAGS
+  sim_ac_save_ldflags=$LDFLAGS
+
+  CPPFLAGS="$CPPFLAGS $sim_ac_gl_cppflags"
+  LDFLAGS="$LDFLAGS $sim_ac_gl_ldflags"
+
+  sim_ac_save_libs=$LIBS
+  sim_ac_gl_libs="-lMesaGLU -lMesaGL"
+  LIBS="$sim_ac_gl_libs $LIBS"
+
+  AC_CACHE_CHECK([whether OpenGL libraries with the Mesa prefix are available],
+    sim_cv_lib_mesa_avail,
+    [AC_TRY_LINK([#include <GL/gl.h>
+                  #include <GL/glu.h>],
+                 [glPointSize(1.0f); gluSphere(0L, 1.0, 1, 1);],
+                 sim_cv_lib_mesa_avail=yes,
+                 sim_cv_lib_mesa_avail=no)])
+
+  if test x"$sim_cv_lib_mesa_avail" = xyes; then
+    sim_ac_gl_is_mesa=yes
+    sim_ac_gl_avail=yes
+  else
+    sim_ac_gl_libs="-lGLU -lGL"
+    LIBS="$sim_ac_gl_libs $sim_ac_save_libs"
+
+    AC_CACHE_CHECK([whether OpenGL libraries are available],
+      sim_cv_lib_gl_avail,
+      [AC_TRY_LINK([#include <GL/gl.h>
+                    #include <GL/glu.h>],
+                   [glPointSize(1.0f); gluSphere(0L, 1.0, 1, 1);],
+                   sim_cv_lib_gl_avail=yes,
+                   sim_cv_lib_gl_avail=no)])
+
+    if test x"$sim_cv_lib_gl_avail" = xyes; then
+      sim_ac_gl_avail=yes
+      AC_CACHE_CHECK([whether OpenGL libraries actually are the Mesa libraries],
+        sim_cv_lib_gl_ismesa,
+        [AC_TRY_LINK([#include <GL/gl.h>
+                      #include <GL/glu.h>],
+                     [#ifndef MESA
+                      #error not mesa
+                      #endif],
+                     sim_cv_lib_gl_ismesa=yes,
+                     sim_cv_lib_gl_ismesa=no)])
+      if test x"$sim_cv_lib_gl_ismesa" = xyes; then
+        sim_ac_gl_is_mesa=yes
+      fi
+    fi
+  fi
+
+  if test x"$sim_ac_gl_avail" = xyes; then
+    ifelse($1, , :, $1)
+  else
+    CPPFLAGS=$sim_ac_save_cppflags
+    LDFLAGS=$sim_ac_save_ldflags
+    LIBS=$sim_ac_save_libs
+    ifelse($2, , :, $2)
+  fi
+fi
+])
+
+dnl Usage:
+dnl  SIM_CHECK_INVENTOR([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+dnl
+dnl  Try to find the Open Inventor development system. If it is found, these
+dnl  shell variables are set:
+dnl
+dnl    $sim_ac_oiv_cppflags (extra flags the compiler needs for Inventor)
+dnl    $sim_ac_oiv_ldflags  (extra flags the linker needs for Inventor)
+dnl    $sim_ac_oiv_libs     (link libraries the linker needs for Inventor)
+dnl
+dnl  The CPPFLAGS, LDFLAGS and LIBS flags will also be modified accordingly.
+dnl  In addition, the variable $sim_ac_oiv_avail is set to "yes" if
+dnl  the Open Inventor development system is found.
+dnl
+dnl
+dnl Author: Morten Eriksen, <mortene@sim.no>.
+dnl
+dnl TODO:
+dnl    * [mortene:20000122] make sure this work on MSWin (with
+dnl      Cygwin installation)
+dnl
+
+AC_DEFUN(SIM_CHECK_INVENTOR,[
+dnl Autoconf is a developer tool, so don't bother to support older versions.
+AC_PREREQ([2.14.1])
+
+AC_ARG_WITH(inventor, AC_HELP_STRING([--with-inventor=DIR], [use the Open Inventor library [default=no]]), , [with_inventor=no])
+
+sim_ac_oiv_avail=no
+
+if test x"$with_inventor" != xno; then
+  if test x"$with_inventor" != xyes; then
+    sim_ac_oiv_cppflags="-I${with_inventor}/include"
+    sim_ac_oiv_ldflags="-L${with_inventor}/lib"
+  else
+    AC_MSG_CHECKING(value of the OIVHOME environment variable)
+    if test x"$OIVHOME" = x; then
+      AC_MSG_RESULT(empty)
+      AC_MSG_WARN(OIVHOME environment variable not set -- this might be an indication of a problem)
+    else
+      AC_MSG_RESULT($OIVHOME)
+      sim_ac_oiv_cppflags="-I$OIVHOME/include"
+      sim_ac_oiv_ldflags="-L$OIVHOME/lib"
+    fi
+  fi
+
+  sim_ac_oiv_libs="-lInventor -limage"
+
+  sim_ac_save_cppflags=$CPPFLAGS
+  sim_ac_save_ldflags=$LDFLAGS
+  sim_ac_save_libs=$LIBS
+
+  CPPFLAGS="$sim_ac_oiv_cppflags $CPPFLAGS"
+  LDFLAGS="$sim_ac_oiv_ldflags $LDFLAGS"
+  LIBS="$sim_ac_oiv_libs $LIBS"
+
+  AC_CACHE_CHECK([for Open Inventor developer kit],
+    sim_cv_lib_oiv_avail,
+    [AC_TRY_LINK([#include <Inventor/SoDB.h>],
+                 [SoDB::init();],
+                 sim_cv_lib_oiv_avail=yes,
+                 sim_cv_lib_oiv_avail=no)])
+
+  if test x"$sim_cv_lib_oiv_avail" = xyes; then
+    sim_ac_oiv_avail=yes
+    ifelse($1, , :, $1)
+  else
+    CPPFLAGS=$sim_ac_save_cppflags
+    LDFLAGS=$sim_ac_save_ldflags
+    LIBS=$sim_ac_save_libs
+    ifelse($2, , :, $2)
+  fi
+fi
+])
+
+dnl Usage:
+dnl  SIM_CHECK_COIN([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+dnl
+dnl  Try to find the Coin library development system. If it is found,
+dnl  these shell variables are set:
+dnl
+dnl    $sim_ac_coin_cppflags (extra flags the compiler needs for Coin)
+dnl    $sim_ac_coin_ldflags  (extra flags the linker needs for Coin)
+dnl    $sim_ac_coin_libs     (link libraries the linker needs for Coin)
+dnl
+dnl  The CPPFLAGS, LDFLAGS and LIBS flags will also be modified accordingly.
+dnl  In addition, the variable $sim_ac_coin_avail is set to "yes"
+dnl  if the Coin development system is found.
+dnl
+dnl
+dnl Author: Morten Eriksen, <mortene@sim.no>.
+dnl
+dnl TODO:
+dnl    * [mortene:20000123] make sure this work on MSWin (with Cygwin
+dnl      installation)
+dnl
+
+AC_DEFUN(SIM_CHECK_COIN,[
+dnl Autoconf is a developer tool, so don't bother to support older versions.
+AC_PREREQ([2.14.1])
+
+AC_ARG_WITH(coin, AC_HELP_STRING([--with-coin=DIR], [set the prefix directory where Coin resides]), , [with_coin=yes])
+
+sim_ac_coin_avail=no
+
+if test x"$with_coin" != xno; then
+  sim_ac_path=$PATH
+  if test x"$with_coin" != xyes; then
+    sim_ac_path=${with_coin}/bin:$PATH
+  fi
+
+  AC_PATH_PROG(sim_ac_conf_cmd, coin-config, true, $sim_ac_path)
+
+  sim_ac_coin_cppflags=`$sim_ac_conf_cmd --cppflags`
+  sim_ac_coin_ldflags=`$sim_ac_conf_cmd --ldflags`
+  sim_ac_coin_libs=`$sim_ac_conf_cmd --libs`
+
+  sim_ac_save_cppflags=$CPPFLAGS
+  sim_ac_save_ldflags=$LDFLAGS
+  sim_ac_save_libs=$LIBS
+
+  CPPFLAGS="$CPPFLAGS $sim_ac_coin_cppflags"
+  LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
+  LIBS="$sim_ac_coin_libs $LIBS"
+
+  AC_CACHE_CHECK([whether the Coin library is available],
+    sim_cv_lib_coin_avail,
+    [AC_TRY_LINK([#include <Inventor/SoDB.h>],
+                 [SoDB::init();],
+                 sim_cv_lib_coin_avail=yes,
+                 sim_cv_lib_coin_avail=no)])
+
+  if test x"$sim_cv_lib_coin_avail" = xyes; then
+    sim_ac_coin_avail=yes
+    ifelse($1, , :, $1)
+  else
+    CPPFLAGS=$sim_ac_save_cppflags
+    LDFLAGS=$sim_ac_save_ldflags
+    LIBS=$sim_ac_save_libs
+    ifelse($2, , :, $2)
+  fi
+fi
+])
+
+dnl Usage:
+dnl  SIM_CHECK_QT([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+dnl
+dnl  Try to find the Qt development system. If it is found, these
+dnl  shell variables are set:
+dnl
+dnl    $sim_ac_qt_cppflags (extra flags the compiler needs for Qt lib)
+dnl    $sim_ac_qt_ldflags  (extra flags the linker needs for Qt lib)
+dnl    $sim_ac_qt_libs     (link libraries the linker needs for Qt lib)
+dnl
+dnl  The CPPFLAGS, LDFLAGS and LIBS flags will also be modified accordingly.
+dnl  In addition, the variable $sim_ac_qt_avail is set to "yes" if
+dnl  the Qt development system is found.
+dnl
+dnl
+dnl Author: Morten Eriksen, <mortene@sim.no>.
+dnl
+dnl TODO:
+dnl    * [mortene:20000122] make sure this work on MSWin (with
+dnl      Cygwin installation)
+dnl
+
+AC_DEFUN(SIM_CHECK_QT,[
+dnl Autoconf is a developer tool, so don't bother to support older versions.
+AC_PREREQ([2.14.1])
+
+AC_ARG_WITH(qt, AC_HELP_STRING([--with-qt=DIR], [specify location of Qt library [default=yes]]), , [with_qt=yes])
+
+sim_ac_qt_avail=no
+
+if test x"$with_qt" != xno; then
+  sim_ac_path=$PATH
+
+  if test x"$with_qt" != xyes; then
+    sim_ac_qt_cppflags="-I${with_qt}/include"
+    sim_ac_qt_ldflags="-L${with_qt}/lib"
+    sim_ac_path=${with_qt}/bin:$PATH
+  else
+    AC_MSG_CHECKING(value of the QTDIR environment variable)
+    if test x"$QTDIR" = x; then
+      AC_MSG_RESULT(empty)
+      AC_MSG_WARN(QTDIR environment variable not set -- this might be an indication of a problem)
+    else
+      AC_MSG_RESULT($QTDIR)
+      sim_ac_qt_cppflags="-I$QTDIR/include"
+      sim_ac_qt_ldflags="-L$QTDIR/lib"
+      sim_ac_path=$QTDIR/bin:$PATH
+    fi
+  fi
+
+  sim_ac_qt_libs="-lqt"
+
+  sim_ac_save_cppflags=$CPPFLAGS
+  sim_ac_save_ldflags=$LDFLAGS
+  sim_ac_save_libs=$LIBS
+
+  CPPFLAGS="$CPPFLAGS $sim_ac_qt_cppflags"
+  LDFLAGS="$LDFLAGS $sim_ac_qt_ldflags"
+  LIBS="$sim_ac_qt_libs $LIBS"
+
+  AC_PATH_PROG(MOC, moc, false, $sim_ac_path)
+
+  if test x"$MOC" != x; then
+    AC_CACHE_CHECK([whether the Qt library is available],
+      sim_cv_lib_qt_avail,
+      [AC_TRY_LINK([#include <qapplication.h>],
+                   [int dummy=0; QApplication a(dummy, 0L);],
+                   sim_cv_lib_qt_avail=yes,
+                   sim_cv_lib_qt_avail=no)])
+  fi
+
+  if test x"$sim_cv_lib_qt_avail" = xyes; then
+    sim_ac_qt_avail=yes
+    ifelse($1, , :, $1)
+  else
+    CPPFLAGS=$sim_ac_save_cppflags
+    LDFLAGS=$sim_ac_save_ldflags
+    LIBS=$sim_ac_save_libs
+    ifelse($2, , :, $2)
+  fi
+fi
+])
+
+
+
+dnl Usage:
+dnl  SIM_CHECK_QGL([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+dnl
+dnl  Try to find the QGL extension library. If it is found, these
+dnl  shell variables are set:
+dnl
+dnl    $sim_ac_qgl_cppflags (extra flags the compiler needs for QGL lib)
+dnl    $sim_ac_qgl_ldflags  (extra flags the linker needs for QGL lib)
+dnl    $sim_ac_qgl_libs     (link libraries the linker needs for QGL lib)
+dnl
+dnl  The LIBS flag will also be modified accordingly. In addition, the
+dnl  variable $sim_ac_qgl_avail is set to "yes" if the QGL extension
+dnl  library is found.
+dnl
+dnl
+dnl Author: Morten Eriksen, <mortene@sim.no>.
+dnl
+dnl TODO:
+dnl    * [mortene:20000122] make sure this work on MSWin (with
+dnl      Cygwin installation)
+dnl
+
+AC_DEFUN(SIM_CHECK_QGL,[
+dnl Autoconf is a developer tool, so don't bother to support older versions.
+AC_PREREQ([2.14.1])
+
+sim_ac_qgl_avail=no
+
+if test x"$with_qt" != xno; then
+  sim_ac_qgl_libs="-lqgl"
+  sim_ac_save_libs=$LIBS
+  LIBS="$sim_ac_qgl_libs $LIBS"
+
+  AC_CACHE_CHECK([whether the QGL extension library is available],
+    sim_cv_lib_qgl_avail,
+    [AC_TRY_LINK([#include <qgl.h>],
+                 [(void)qGLVersion();],
+                 sim_cv_lib_qgl_avail=yes,
+                 sim_cv_lib_qgl_avail=no)])
+
+  if test x"$sim_cv_lib_qgl_avail" = xyes; then
+    sim_ac_qgl_avail=yes
+    ifelse($1, , :, $1)
+  else
+    LIBS=$sim_ac_save_libs
+    ifelse($2, , :, $2)
+  fi
+fi
+])
+
+dnl Usage:
+dnl  SIM_CHECK_GTK([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+dnl
+dnl  Try to find the GTK+ development system. If it is found, these
+dnl  shell variables are set:
+dnl
+dnl    $sim_ac_gtk_cppflags (extra flags the compiler needs for GTK+ libs)
+dnl    $sim_ac_gtk_ldflags  (extra flags the linker needs for GTK+ libs)
+dnl    $sim_ac_gtk_libs     (link libraries the linker needs for GTK+ libs)
+dnl
+dnl  The CPPFLAGS, LDFLAGS and LIBS flags will also be modified accordingly.
+dnl  In addition, the variable $sim_ac_gtk_avail is set to "yes" if
+dnl  the GTK+ development system is found.
+dnl
+dnl
+dnl Author: Morten Eriksen, <mortene@sim.no>,
+dnl         Lars J. Aas <larsa@sim.no>
+dnl
+dnl TODO:
+dnl    * [mortene:20000122] make sure this work on MSWin (with
+dnl      Cygwin installation)
+dnl
+
+AC_DEFUN(SIM_CHECK_GTK,[
+dnl Autoconf is a developer tool, so don't bother to support older versions.
+AC_PREREQ([2.14.1])
+
+AC_ARG_WITH(gtk, AC_HELP_STRING([--with-gtk=DIR], [specify location of Qt library [default=yes]]), , [with_qt=yes])
+
+sim_ac_qt_avail=no
+
+if test x"$with_qt" != xno; then
+  sim_ac_path=$PATH
+
+  if test x"$with_qt" != xyes; then
+    sim_ac_qt_cppflags="-I${with_qt}/include"
+    sim_ac_qt_ldflags="-L${with_qt}/lib"
+    sim_ac_path=${with_qt}/bin:$PATH
+  else
+    AC_MSG_CHECKING(value of the QTDIR environment variable)
+    if test x"$QTDIR" = x; then
+      AC_MSG_RESULT(empty)
+      AC_MSG_WARN(QTDIR environment variable not set -- this might be an indication of a problem)
+    else
+      AC_MSG_RESULT($QTDIR)
+      sim_ac_qt_cppflags="-I$QTDIR/include"
+      sim_ac_qt_ldflags="-L$QTDIR/lib"
+      sim_ac_path=$QTDIR/bin:$PATH
+    fi
+  fi
+
+  sim_ac_qt_libs="-lqt"
+
+  sim_ac_save_cppflags=$CPPFLAGS
+  sim_ac_save_ldflags=$LDFLAGS
+  sim_ac_save_libs=$LIBS
+
+  CPPFLAGS="$CPPFLAGS $sim_ac_qt_cppflags"
+  LDFLAGS="$LDFLAGS $sim_ac_qt_ldflags"
+  LIBS="$sim_ac_qt_libs $LIBS"
+
+  AC_PATH_PROG(MOC, moc, false, $sim_ac_path)
+
+  if test x"$MOC" != x; then
+    AC_CACHE_CHECK([whether the Qt library is available],
+      sim_cv_lib_qt_avail,
+      [AC_TRY_LINK([#include <qapplication.h>],
+                   [int dummy=0; QApplication a(dummy, 0L);],
+                   sim_cv_lib_qt_avail=yes,
+                   sim_cv_lib_qt_avail=no)])
+  fi
+
+  if test x"$sim_cv_lib_qt_avail" = xyes; then
+    sim_ac_qt_avail=yes
+    ifelse($1, , :, $1)
+  else
+    CPPFLAGS=$sim_ac_save_cppflags
+    LDFLAGS=$sim_ac_save_ldflags
+    LIBS=$sim_ac_save_libs
+    ifelse($2, , :, $2)
+  fi
+fi
+])
+
+
+
+dnl Usage:
+dnl  SIM_CHECK_QGL([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+dnl
+dnl  Try to find the QGL extension library. If it is found, these
+dnl  shell variables are set:
+dnl
+dnl    $sim_ac_qgl_cppflags (extra flags the compiler needs for QGL lib)
+dnl    $sim_ac_qgl_ldflags  (extra flags the linker needs for QGL lib)
+dnl    $sim_ac_qgl_libs     (link libraries the linker needs for QGL lib)
+dnl
+dnl  The LIBS flag will also be modified accordingly. In addition, the
+dnl  variable $sim_ac_qgl_avail is set to "yes" if the QGL extension
+dnl  library is found.
+dnl
+dnl
+dnl Author: Morten Eriksen, <mortene@sim.no>.
+dnl
+dnl TODO:
+dnl    * [mortene:20000122] make sure this work on MSWin (with
+dnl      Cygwin installation)
+dnl
+
+AC_DEFUN(SIM_CHECK_QGL,[
+dnl Autoconf is a developer tool, so don't bother to support older versions.
+AC_PREREQ([2.14.1])
+
+sim_ac_qgl_avail=no
+
+if test x"$with_qt" != xno; then
+  sim_ac_qgl_libs="-lqgl"
+  sim_ac_save_libs=$LIBS
+  LIBS="$sim_ac_qgl_libs $LIBS"
+
+  AC_CACHE_CHECK([whether the QGL extension library is available],
+    sim_cv_lib_qgl_avail,
+    [AC_TRY_LINK([#include <qgl.h>],
+                 [(void)qGLVersion();],
+                 sim_cv_lib_qgl_avail=yes,
+                 sim_cv_lib_qgl_avail=no)])
+
+  if test x"$sim_cv_lib_qgl_avail" = xyes; then
+    sim_ac_qgl_avail=yes
+    ifelse($1, , :, $1)
+  else
+    LIBS=$sim_ac_save_libs
+    ifelse($2, , :, $2)
+  fi
+fi
 ])
 
 dnl  Let the user decide if compilation should be done in "debug mode".
