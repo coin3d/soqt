@@ -37,11 +37,21 @@ public:
   QValueList<QRgb> colors;
   Gradient::ChangeCB * callBack;
   void * callBackData;
+  void copy(const GradientP * p);
 };
 
 GradientP::GradientP(Gradient * publ)
 {
   PUBLIC(this) = publ;
+}
+
+void 
+GradientP::copy(const GradientP * p) 
+{
+  this->callBack = p->callBack;
+  this->callBackData = p->callBackData;
+  this->parameters = p->parameters;
+  this->colors = p->colors;
 }
 
 unsigned int
@@ -91,12 +101,7 @@ Gradient::~Gradient()
 Gradient &
 Gradient::operator=(const Gradient & grad)
 {
-  // FIXME: copying of GradientP-data should happen in a method in
-  // that class. 20031008 mortene.
-  PRIVATE(this)->callBack = grad.pimpl->callBack;
-  PRIVATE(this)->callBackData = grad.pimpl->callBackData;
-  PRIVATE(this)->parameters = grad.pimpl->parameters;
-  PRIVATE(this)->colors = grad.pimpl->colors;
+  PRIVATE(this)->copy(grad.pimpl);
   return *this;
 }
 
@@ -121,12 +126,13 @@ Gradient::eval(float t) const
   float t1 = PRIVATE(this)->parameters[i];
 
   float dt = t1 - t0;
+  assert((dt != 0.0f) && "division by zero");
 
   // weights for linear interpolation
   float w0 = (t1 - t) / dt;
   float w1 = (t - t0) / dt;
 
-  const QRgb color0 =  PRIVATE(this)->colors[j];
+  const QRgb color0 = PRIVATE(this)->colors[j];
   const QRgb color1 = PRIVATE(this)->colors[j+1];
 
   // add 0.5 to get rounding
@@ -153,7 +159,7 @@ Gradient::getParameter(unsigned int i) const
 void
 Gradient::moveTick(unsigned int i, float t)
 {
-  if (PRIVATE(this)->parameters[i] != t) {
+  if ((PRIVATE(this)->parameters[i-1] != t) && PRIVATE(this)->parameters[i+1] != t) {
     PRIVATE(this)->parameters[i] = t;
     if (PRIVATE(this)->callBack) { PRIVATE(this)->callBack(*this, PRIVATE(this)->callBackData); }
   }
@@ -247,7 +253,7 @@ Gradient::getColorArray(QRgb * colorArray, unsigned int num) const
   }
 }
 
-QImage
+const QImage
 Gradient::getImage(unsigned int width, unsigned int height, unsigned int depth) const
 {
   QImage gradImage(width, height, depth);
@@ -266,6 +272,7 @@ Gradient::getImage(unsigned int width, unsigned int height, unsigned int depth) 
       const unsigned char r = (unsigned char)(alpha * float(qRed(colors[i])) + bg);
       const unsigned char g = (unsigned char)(alpha * float(qGreen(colors[i])) + bg);
       const unsigned char b = (unsigned char)(alpha * float(qBlue(colors[i])) + bg);
+      
       gradImage.setPixel(i, j, qRgb(r, g, b));
     }
   }
