@@ -16,6 +16,7 @@ CLEANFILES = \
 DISTCLEANFILES = \
 	$(SoGui_src_Inventor_Gui_devices_BuiltFiles) \
 	$(SoGui_src_Inventor_Gui_devices_BuiltMetaFiles) \
+	SoQtDevice.h \
 	SoQtInputFocus.h \
 	SoQtKeyboard.h \
 	SoQtMouse.h \
@@ -56,7 +57,6 @@ libSoQtDevicesConditionalSources = \
 
 libSoQtDevices_la_SOURCES = \
 	SoQtDevice.cpp \
-	SoQtDevice.h \
 	SoQtInputFocus.cpp \
 	SoQtKeyboard.cpp \
 	SoQtMouse.cpp \
@@ -76,7 +76,6 @@ EXTRA_libSoQtDevices_la_SOURCES = \
 # custom setup
 
 devices_lst_SOURCES = \
-	SoQtDevice.h \
 	SoQtDevice.cpp \
 	SoQtInputFocus.cpp \
 	SoQtKeyboard.cpp \
@@ -103,10 +102,10 @@ SoQtDevicesincdir = $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Vers
 else
 SoQtDevicesincdir = $(includedir)/Inventor/Qt/devices
 endif
-SoQtDevicesinc_HEADERS = \
-	SoQtDevice.h
+SoQtDevicesinc_HEADERS =
 
 nodist_SoQtDevicesinc_HEADERS = \
+	SoQtDevice.h \
 	SoQtInputFocus.h \
 	SoQtKeyboard.h \
 	SoQtMouse.h \
