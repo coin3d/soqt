@@ -68,8 +68,7 @@ GradientView::GradientView(QCanvas * c,
   this->selectionMarker = NULL;
   this->currenttick = -1;
   this->menu = NULL;
-  this->startIndex = 0;
-  this->endIndex = 1;
+  this->segmentidx = 0;
 
   // FIXME: this looks bogus -- why not just use the default
   // background color?  20031008 mortene.
@@ -79,7 +78,7 @@ GradientView::GradientView(QCanvas * c,
   connect(this, SIGNAL(ticksChanged()), this, SLOT(updateTicks()));
 
   this->updateTicks();
-  this->updateView();
+  emit this->viewChanged();
 }
 
 GradientView::~GradientView()
@@ -90,43 +89,49 @@ GradientView::~GradientView()
   delete this->menu;
 }
 
-void GradientView::viewportResizeEvent(QResizeEvent * e)
+void
+GradientView::viewportResizeEvent(QResizeEvent * e)
 {
   this->canvas->resize(e->size().width(), this->canvas->height());
   this->updateTicks();
   emit this->viewChanged();
 }
 
-void GradientView::updateView()
+void
+GradientView::updateView(void)
 {
-  int width = this->canvas->width();
-  int height = this->canvas->height();
+  const int width = this->canvas->width();
+  const int height = this->canvas->height();
 
   QImage gradImage = this->grad.getImage(width, height-10, 32);
 
-  if (this->gradItem)
-    delete this->gradItem;
+  if (this->gradItem) { delete this->gradItem; }
   this->gradItem = new ImageItem(gradImage, this->canvas);
   this->gradItem->show();
 
-  int selectStart = (int) (this->tickMarks[this->startIndex]->x());
-  int selectEnd = (int) (this->tickMarks[this->endIndex]->x());
+  if (this->segmentidx != -1) {
+    const int selectStart = (int) (this->tickMarks[this->segmentidx]->x());
+    const int selectEnd = (int) (this->tickMarks[this->segmentidx + 1]->x());
+  
+    QImage selectedImage(selectEnd - selectStart, 10, 32);
+    selectedImage.fill(QColor(100,100,245).rgb());
 
-  QImage selectedImage(selectEnd - selectStart, 10, 32);
-  selectedImage.fill(QColor(100,100,245).rgb());
-
-  if (this->selectionMarker)
-    delete this->selectionMarker;
-
-  this->selectionMarker = new ImageItem(selectedImage, this->canvas);
-  this->selectionMarker->moveBy(selectStart, height-10);
-  this->selectionMarker->setZ(2);
-  this->selectionMarker->show();
+    // FIXME: inefficient! *ugh*  20031008 mortene.
+    if (this->selectionMarker) { delete this->selectionMarker; }
+    this->selectionMarker = new ImageItem(selectedImage, this->canvas);
+    this->selectionMarker->moveBy(selectStart, height-10);
+    this->selectionMarker->setZ(2);
+    this->selectionMarker->show();
+  }
+  else {
+    this->selectionMarker->hide();
+  }
 
   this->canvas->update();
 }
 
-void GradientView::contentsMousePressEvent(QMouseEvent * e)
+void
+GradientView::contentsMousePressEvent(QMouseEvent * e)
 {
   QPoint p = inverseWorldMatrix().map(e->pos());
  
@@ -134,6 +139,7 @@ void GradientView::contentsMousePressEvent(QMouseEvent * e)
   case Qt::LeftButton: 
     {
       this->currenttick = -1;
+      this->segmentidx = -1;
 
       QValueList<TickMark *>::Iterator it = this->tickMarks.begin();
       for (unsigned int idx = 0; idx < this->tickMarks.size(); idx++) {
@@ -141,25 +147,25 @@ void GradientView::contentsMousePressEvent(QMouseEvent * e)
           this->moving_start = p;
           this->unselectAll();
           this->currenttick = idx;
+          this->segmentidx = -1;
           this->tickMarks[idx]->setBrush(Qt::blue);
-          emit this->viewChanged();
+          break;
         }
-        else {
-          this->startIndex = -1;
-          while (this->tickMarks[++this->startIndex]->x() < p.x());
-          this->startIndex--;
-          this->endIndex = this->startIndex + 1;
-          emit this->viewChanged();
-        }
+
+        if (this->tickMarks[idx]->x() < p.x()) { this->segmentidx++; }
       }
-      break;
+      emit this->viewChanged();
     }
+    break;
+
   case Qt::RightButton: 
-    this->buildMenu();
-    if (this->menu->exec(e->globalPos())) {
-      // FIXME: this seems unnecessary. 20031008 mortene.
-      delete this->menu;
-      this->menu = NULL;
+    if ((this->currenttick != -1) || (this->segmentidx != -1)) {
+      this->buildMenu();
+      if (this->menu->exec(e->globalPos())) {
+        // FIXME: this seems unnecessary. 20031008 mortene.
+        delete this->menu;
+        this->menu = NULL;
+      }
     }
     break;
 
@@ -168,36 +174,39 @@ void GradientView::contentsMousePressEvent(QMouseEvent * e)
   }
 }
 
-void GradientView::contentsMouseMoveEvent(QMouseEvent * e)
+void
+GradientView::contentsMouseMoveEvent(QMouseEvent * e)
 {
+  if (this->currenttick == -1) { return; }
+
   QPoint p = inverseWorldMatrix().map(e->pos());
   int x = p.x();
 
-  if ((this->currenttick > 0) &&
-      (this->currenttick < (int)(this->tickMarks.size() - 1))) {
-    TickMark * left = this->tickMarks[this->currenttick - 1];
-    TickMark * current = this->tickMarks[this->currenttick];
-    TickMark * right = this->tickMarks[this->currenttick + 1];
+  assert(this->currenttick > 0);
+  assert(this->currenttick < (int)(this->tickMarks.size() - 1));
 
-    const int movex = x - this->moving_start.x();
-    const int newpos = (int) (current->x() + movex);
+  TickMark * left = this->tickMarks[this->currenttick - 1];
+  TickMark * current = this->tickMarks[this->currenttick];
+  TickMark * right = this->tickMarks[this->currenttick + 1];
+
+  const int movex = x - this->moving_start.x();
+  const int newpos = (int) (current->x() + movex);
     
-    if ((newpos >= left->x()) && newpos <= right->x()) {
-      current->moveBy(movex, 0);
-      this->moving_start = QPoint(x, p.y());
+  if ((newpos >= left->x()) && newpos <= right->x()) {
+    current->moveBy(movex, 0);
+    this->moving_start = QPoint(x, p.y());
       
-      const float t = current->getPos();
-      this->grad.moveTick(this->currenttick, t);
+    const float t = current->getPos();
+    this->grad.moveTick(this->currenttick, t);
       
-      emit this->viewChanged();
-    }
+    emit this->viewChanged();
   }
 }
 
 void GradientView::keyPressEvent(QKeyEvent * e)
 {
   switch (e->key()) {
-  case Qt::Key_Delete: this->deleteTick(); break;
+  case Qt::Key_Delete: if (this->currenttick != -1) { this->deleteTick(); } break;
   default: break;
   }
 }
@@ -213,7 +222,8 @@ GradientView::getSelectedPos(void)
   return 0.0f;
 }
 
-void GradientView::unselectAll()
+void
+GradientView::unselectAll(void)
 {
   QValueList<TickMark*>::Iterator it = this->tickMarks.begin();
   for (; it != tickMarks.end(); ++it) {
@@ -223,34 +233,36 @@ void GradientView::unselectAll()
 }
 
 
-void GradientView::setGradient(const Gradient & grad)
+void
+GradientView::setGradient(const Gradient & grad)
 {
   this->grad = grad;
   this->currenttick = -1;
-  this->startIndex = 0;
-  this->endIndex = 1;
+  this->segmentidx = -1;
   this->updateTicks();
   emit this->viewChanged();
 }
 
-const Gradient & GradientView::getGradient() const
+const Gradient &
+GradientView::getGradient(void) const
 {
   return this->grad;
 }
 
-void GradientView::centerTick()
+void
+GradientView::centerTick(void)
 {
-  if ((this->currenttick > 0) && (this->currenttick < (int)(this->tickMarks.size() - 1))) {
+  assert(this->currenttick > 0);
+  assert(this->currenttick < (int)(this->tickMarks.size() - 1));
 
-    const double left = this->tickMarks[this->currenttick - 1]->x();
-    const double right = this->tickMarks[this->currenttick + 1]->x();
-    const double center = (right - left) / 2.0 + left;
+  const double left = this->tickMarks[this->currenttick - 1]->x();
+  const double right = this->tickMarks[this->currenttick + 1]->x();
+  const double center = (right - left) / 2.0 + left;
 
-    this->grad.moveTick(this->currenttick, center / this->canvas->width());
+  this->grad.moveTick(this->currenttick, center / this->canvas->width());
 
-    this->updateTicks();
-    emit this->viewChanged();
-  }
+  this->updateTicks();
+  emit this->viewChanged();
 }
 
 TickMark *
@@ -265,36 +277,35 @@ GradientView::newTick(int x)
   return i;
 }
 
-void GradientView::insertTick()
+void
+GradientView::insertTick(void)
 {
+  assert(this->segmentidx != -1);
+  const float selectStart = this->tickMarks[this->segmentidx]->x();
+  const float selectEnd = this->tickMarks[this->segmentidx + 1]->x();
+
   // x == midpoint of selected section
-  float selectStart = this->tickMarks[this->startIndex]->x();
-  float selectEnd = this->tickMarks[this->endIndex]->x();
+  const float x = ((selectEnd - selectStart)/2.0f + selectStart);
 
-  float x = ((selectEnd - selectStart)/2.0f
-             + selectStart);
-
-  float t = x / (float)this->canvas->width();
-  int i = this->grad.insertTick(t);
+  const float t = x / (float)this->canvas->width();
+  const int i = this->grad.insertTick(t);
 
   QValueList<TickMark*>::Iterator it = this->tickMarks.begin();
   // the += operator wasn't available until Qt 3.1.0. Just iterate
   // and use ++. pederb, 2003-09-22
-  for (int j = 0; j < i; j++) {
-    it++;
-  }
+  for (int j = 0; j < i; j++) { it++; }
   this->tickMarks.insert(it, this->newTick(x));
-  this->endIndex = i;
-  this->updateTicks();
+
+  this->segmentidx = -1;
+
   emit this->viewChanged();
 }
 
-void GradientView::updateTicks()
+void
+GradientView::updateTicks(void)
 {
   QValueList<TickMark*>::Iterator it = this->tickMarks.begin();
-  for (; it != tickMarks.end(); ++it) {
-      delete (*it);
-  }
+  for (; it != tickMarks.end(); ++it) { delete (*it); }
 
   this->tickMarks.clear();
 
@@ -308,51 +319,45 @@ void GradientView::updateTicks()
   this->tickMarks[this->tickMarks.size()-1]->setVisible(FALSE);
 }
 
-void GradientView::deleteTick()
+void
+GradientView::deleteTick(void)
 {
-  // FIXME: I believe this should be an assert(), not an
-  // if(). 20031008 mortene.
-  if ((this->currenttick > 0) && (this->currenttick < (int)this->tickMarks.size() - 1)) {
-    this->grad.removeTick(this->currenttick);
-    this->updateTicks();
+  assert(this->currenttick > 0);
+  assert(this->currenttick < (int)(this->tickMarks.size() - 1));
+
+  this->grad.removeTick(this->currenttick);
+  this->updateTicks();
     
-    if (this->endIndex == this->currenttick) {
-      this->endIndex = this->currenttick+1;
-      this->startIndex = this->currenttick;
-    }
-
-    if (this->startIndex == this->currenttick) {
-      this->startIndex = this->currenttick - 1;
-      this->endIndex = this->currenttick;
-    }
-    emit this->viewChanged();
-  }
-}
-
-void GradientView::setColorRight()
-{
-  this->grad.setColor(this->endIndex, TRUE, this->rightcolor);
+  this->segmentidx = -1;
   emit this->viewChanged();
 }
 
-void GradientView::setColorLeft()
+void
+GradientView::setColorRight(void)
 {
-  this->grad.setColor(this->startIndex, FALSE, this->leftcolor);
+  this->grad.setColor(this->segmentidx + 1, TRUE, this->rightcolor);
   emit this->viewChanged();
 }
 
-void GradientView::chooseColorLeft()
+void
+GradientView::setColorLeft(void)
+{
+  this->grad.setColor(this->segmentidx, FALSE, this->leftcolor);
+  emit this->viewChanged();
+}
+
+void
+GradientView::chooseColorLeft(void)
 {  
-  QRgb initial = grad.getColor(this->startIndex, FALSE);
+  const QRgb initial = this->grad.getColor(this->segmentidx, FALSE);
   this->leftcolor = QColorDialog::getRgba(initial);
-  if (this->leftcolor != initial) {
-    this->setColorLeft();
-  }
+  if (this->leftcolor != initial) { this->setColorLeft(); }
 }
 
-void GradientView::chooseColorRight()
+void
+GradientView::chooseColorRight(void)
 {  
-  QRgb initial = this->grad.getColor(this->endIndex, TRUE);
+  QRgb initial = this->grad.getColor(this->segmentidx + 1, TRUE);
   this->rightcolor = QColorDialog::getRgba(initial);
   if (this->rightcolor != initial) {
     this->setColorRight();
@@ -368,47 +373,50 @@ GradientView::setChangeCallback(Gradient::ChangeCB * cb, void * userdata)
   this->grad.setChangeCallback(cb, userdata);
 }
 
-// FIXME: instead of building the menu each time, simply use
-// QPopupMenu::changeItem to change the color pixmaps. 20030925 frodo.
-void GradientView::buildMenu()
+void
+GradientView::buildMenu(void)
 {
-  if (!this->menu)
-    this->menu = new QPopupMenu(this);
+  // FIXME: instead of building the menu each time, simply use
+  // QPopupMenu::changeItem to change the color pixmaps. 20030925 frodo.
+  assert(!this->menu);
+  this->menu = new QPopupMenu(this);
 
   int id;
   
-  QPixmap left(16,16);
-  left.fill(this->grad.getColor(this->startIndex, FALSE));
-  id = menu->insertItem(left, "Left endpoint's color", this, SLOT(chooseColorLeft()));
+  if (this->segmentidx != -1) {
+    QPixmap left(16,16);
+    left.fill(this->grad.getColor(this->segmentidx, FALSE));
+    id = menu->insertItem(left, "Left endpoint's color", this, SLOT(chooseColorLeft()));
 
-  QPixmap pmleft(16,16);
-  this->leftcolor = grad.getColor(this->startIndex, TRUE);
+    QPixmap pmleft(16,16);
+    this->leftcolor = grad.getColor(this->segmentidx, TRUE);
  
-  pmleft.fill(this->leftcolor);
-  id = menu->insertItem(pmleft, "Same as left neighbor's right endpoint", this, SLOT(setColorLeft()));
-  if (this->grad.leftEqualsRight(this->startIndex)) menu->setItemEnabled(id, FALSE);
+    pmleft.fill(this->leftcolor);
+    id = menu->insertItem(pmleft, "Same as left neighbor's right endpoint", this, SLOT(setColorLeft()));
+    if (this->grad.leftEqualsRight(this->segmentidx)) menu->setItemEnabled(id, FALSE);
 
-  menu->insertSeparator();
+    menu->insertSeparator();
 
-  QPixmap right(16,16);
-  right.fill(this->grad.getColor(this->endIndex, TRUE));
-  id = menu->insertItem(right, "Right endpoint's color", this, SLOT(chooseColorRight()));
+    QPixmap right(16,16);
+    right.fill(this->grad.getColor(this->segmentidx + 1, TRUE));
+    id = menu->insertItem(right, "Right endpoint's color", this, SLOT(chooseColorRight()));
 
-  QPixmap pmright(16,16);
-  this->rightcolor = this->grad.getColor(this->endIndex, FALSE);
+    QPixmap pmright(16,16);
+    this->rightcolor = this->grad.getColor(this->segmentidx + 1, FALSE);
 
-  pmright.fill(this->rightcolor);
-  id = menu->insertItem(pmright, "Same as right neighbor's left endpoint", this, SLOT(setColorRight()));
-  if (this->grad.leftEqualsRight(this->endIndex)) menu->setItemEnabled(id, FALSE);
+    pmright.fill(this->rightcolor);
+    id = menu->insertItem(pmright, "Same as right neighbor's left endpoint", this, SLOT(setColorRight()));
+    if (this->grad.leftEqualsRight(this->segmentidx + 1)) menu->setItemEnabled(id, FALSE);
 
-  menu->insertSeparator();
-  id = menu->insertItem("Insert new tick", this, SLOT(insertTick()));
+    menu->insertSeparator();
+    id = menu->insertItem("Insert new tick", this, SLOT(insertTick()));
+  }
+  else if (this->currenttick != -1) {
+    // FIXME: more functionality, like: "change left color", "change
+    // right color", "copy left color to right", "copy right color to
+    // left", etc. 20031008 mortene.
 
-  const bool tickselected = (this->currenttick != -1);
-
-  id = menu->insertItem("Center tick", this, SLOT(centerTick()));
-  if (!tickselected) menu->setItemEnabled(id, FALSE);
-  
-  id = menu->insertItem("Delete tick", this, SLOT(deleteTick()));
-  if (!tickselected) menu->setItemEnabled(id, FALSE);
+    id = menu->insertItem("Center tick", this, SLOT(centerTick()));
+    id = menu->insertItem("Delete tick", this, SLOT(deleteTick()));
+  }
 }

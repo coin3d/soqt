@@ -87,14 +87,14 @@ private:
   ImageItem * gradItem;
   ImageItem * selectionMarker;
   QPopupMenu * menu;
-  int currenttick;
   QValueList<TickMark*> tickMarks;
 
-  int startIndex;
-  int endIndex;
+  int currenttick;
+  int segmentidx;
+
   QPoint moving_start;
   QRgb leftcolor;
   QRgb rightcolor;
 };
 
-#endif // GRADIENT_EDITOR_H
+#endif // ! GRADIENT_VIEW_H

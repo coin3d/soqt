@@ -83,6 +83,9 @@ GradientEditor::GradientEditor(const Gradient & grad,
   cancelButton->setText("Cancel");
   buttonLayout->addWidget(cancelButton, 0, 1);
 
+  // FIXME: not a good way to hook into the GradientView tick mark
+  // values this, should replace with something better. Tooltips on
+  // the tick marks, perhaps? 20031008 mortene.
   connect(this->gradView, SIGNAL(viewChanged()), this, SLOT(updateValueLabels()));
   connect(this->gradView, SIGNAL(tickSelected()), this, SLOT(updateValueLabels()));
 
