@@ -473,3 +473,18 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     20031202 mortene, reported by pederb.
 
 =====================================================================
+
+024 Repaint problem with Qt-3.3.0 (Mac OS X only).
+
+    When using an examinerviewer as a standalone component (like
+    e.g. in the SoGuiExamples), only a completely blank window is
+    displayed. It's only when the window is resized that the content
+    appears. Hiding and unhiding the window doesn't make a difference,
+    nor does sending it any events. 
+
+    A temporary workaround for this problem has been committed (see
+    FIXME comment in SoQtComponent::show()) but this should really be
+    investigated and fixed properly, since whatever is going on here
+    may very well result in other problems further down the road...
+
+    20040211 kyrah
