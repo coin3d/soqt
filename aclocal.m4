@@ -1034,8 +1034,6 @@ else
 fi
 ])
 
-
-
 dnl Usage:
 dnl  SIM_CHECK_X_INTRINSIC([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 dnl
@@ -1075,6 +1073,39 @@ else
   ifelse($2, , :, $2)
 fi
 ])
+
+dnl ************************************************************************
+dnl SIM_CHECK_LIBXPM( IF-FOUND, IF-NOT-FOUND )
+dnl
+dnl Authors:
+dnl   Lars J. Aas <larsa@sim.no>
+
+AC_DEFUN(SIM_CHECK_LIBXPM,
+[AC_PREREQ([2.14.1])
+
+sim_ac_xpm_avail=no
+sim_ac_xpm_libs="-lXpm"
+
+AC_CACHE_CHECK([whether libXpm is available],
+  sim_cv_lib_xpm_avail,
+  [sim_ac_save_libs=$LIBS
+  LIBS="$sim_ac_xpm_libs $LIBS"
+  AC_TRY_LINK([#include <X11/xpm.h>],
+              [(void)XpmLibraryVersion();],
+              sim_cv_lib_xpm_avail=yes,
+              sim_cv_lib_xpm_avail=no)
+  LIBS="$sim_ac_save_libs"
+  ])
+
+if test x"$sim_cv_lib_xpm_avail" = xyes; then
+  sim_ac_xpm_avail=yes
+  LIBS="$sim_ac_xpm_libs $LIBS"
+  ifelse([$1], , :, [$1])
+else
+  ifelse([$2], , :, [$2])
+fi
+])
+
 
 dnl Usage:
 dnl  SIM_CHECK_OPENGL([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
@@ -1311,41 +1342,38 @@ else
 fi
 ])
 
-dnl ************************************************************************
-dnl Usage:
-dnl   SIM_CHECK_COIN( ACTION-IF-FOUND, ACTION-IF-NOT-FOUND, ATTRIBUTE-LIST )
-dnl
-dnl Description:
-dnl   This macro locates the Coin development system.  If it is found, the
-dnl   set of variables listed below are set up as described and made available
-dnl   to the configure script.
-dnl
-dnl ATTRIBUTE-LIST Options:
-dnl   [no]default              whether --with-coin is default or not
-dnl                            (default on)
-dnl   [no]searchprefix         whether to look for Coin where --prefix is set
-dnl                            (default off)
-dnl
-dnl Autoconf Variables:
-dnl   $sim_ac_coin_avail       yes | no
-dnl   $sim_ac_coin_cppflags    (extra flags the compiler needs for Coin)
-dnl   $sim_ac_coin_ldflags     (extra flags the linker needs for Coin)
-dnl   $sim_ac_coin_libs        (link libraries the linker needs for Coin)
-dnl   $CPPFLAGS                $CPPFLAGS $sim_ac_coin_cppflags
-dnl   $LDFLAGS                 $LDFLAGS $sim_ac_coin_ldflags
-dnl   $LIBS                    $sim_ac_coin_libs $LIBS
-dnl
-dnl Authors:
-dnl   Morten Eriksen, <mortene@sim.no>
-dnl   Lars J. Aas, <larsa@sim.no>
-dnl
-dnl TODO:
-dnl * [mortene:20000123] make sure this work on MSWin (with Cygwin)
-dnl * [larsa:20000216] find a less strict AC_PREREQ (investigate used features)
-dnl
+# Usage:
+#   SIM_CHECK_COIN( ACTION-IF-FOUND, ACTION-IF-NOT-FOUND, ATTRIBUTE-LIST )
+#
+# Description:
+#   This macro locates the Coin development system.  If it is found, the
+#   set of variables listed below are set up as described and made available
+#   to the configure script.
+#
+# ATTRIBUTE-LIST Options:
+#   [no]default              whether --with-coin is default or not
+#                            (default on)
+#   [no]searchprefix         whether to look for Coin where --prefix is set
+#                            (default off)
+#
+# Autoconf Variables:
+#   $sim_ac_coin_avail       yes | no
+#   $sim_ac_coin_cppflags    (extra flags the compiler needs for Coin)
+#   $sim_ac_coin_ldflags     (extra flags the linker needs for Coin)
+#   $sim_ac_coin_libs        (link libraries the linker needs for Coin)
+#   $CPPFLAGS                $CPPFLAGS $sim_ac_coin_cppflags
+#   $LDFLAGS                 $LDFLAGS $sim_ac_coin_ldflags
+#   $LIBS                    $sim_ac_coin_libs $LIBS
+#
+# Authors:
+#   Morten Eriksen, <mortene@sim.no>
+#   Lars J. Aas, <larsa@sim.no>
+#
+# TODO:
+# * [mortene:20000123] make sure this work on MSWin (with Cygwin)
+# * [larsa:20000216] find a less strict AC_PREREQ (investigate used features)
 
-AC_DEFUN(SIM_CHECK_COIN,[
-dnl Autoconf is a developer tool, so don't bother to support older versions.
+AC_DEFUN([SIM_CHECK_COIN], [
 AC_PREREQ([2.14.1])
 
 SIM_PARSE_MODIFIER_LIST([$3],[
@@ -1403,12 +1431,12 @@ if test "x$with_coin" != "xno"; then
     CPPFLAGS="$CPPFLAGS $sim_ac_coin_cppflags"
     LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
     LIBS="$sim_ac_coin_libs $LIBS"
-    ifelse($1, , :, $1)
+    $1
   else
-    ifelse($2, , :, $2)
+    ifelse([$2], , :, [$2])
   fi
 else
-  ifelse($2, , :, $2)
+  ifelse([$2], , :, [$2])
 fi
 ])
 
@@ -1741,6 +1769,46 @@ else
 fi
 ])
 
+
+# Usage:
+#   SIM_AC_CHECK_VAR_FUNCTIONNAME
+#
+# Side-Effects:
+#   config.h:
+#     HAVE_VAR___PRETTY_FUNCTION__   (1 if exists)
+#     HAVE_VAR___FUNCTION__          (always 0 if __PRETTY_FUNCTION__ exists)
+#
+# Authors:
+#   Lars J. Aas <larsa@sim.no>
+#
+
+AC_DEFUN([SIM_AC_CHECK_VAR_FUNCTIONNAME],
+[AC_CACHE_CHECK([for function name variable],
+  sim_cv_var_functionname, [
+  AC_TRY_COMPILE(
+    [#include <stdio.h>],
+    [(void)printf("%s\n",__PRETTY_FUNCTION__)],
+    [sim_cv_var_functionname=__PRETTY_FUNCTION__],
+    [sim_cv_var_functionname=none])
+  if test x"$sim_cv_pretty_function" = x"none"; then
+    AC_TRY_COMPILE(
+      [#include <stdio.h>],
+      [(void)printf("%s\n",__FUNCTION__)],
+      [sim_cv_var_functionname=__FUNCTION__],
+      [sim_cv_var_functionname=none])
+  fi
+])
+
+if test x"$sim_cv_var_functionname" = x"__PRETTY_FUNCTION__"; then
+  AC_DEFINE([HAVE_VAR___PRETTY_FUNCTION__], 1,
+    [Define this to true if the __PRETTY_FUNCTION__ variable contains the current function name])
+fi
+
+if test x"$sim_cv_var_functionname" = x"__FUNCTION__"; then
+  AC_DEFINE([HAVE_VAR___FUNCTION__], 1,
+    [Define this to true if the __FUNCTION__ variable contains the current function name])
+fi
+])
 
 dnl  Let the user decide if debug symbol information should be compiled
 dnl  in. The compiled libraries/executables will use a lot less space
