@@ -577,35 +577,16 @@ SoQtGLWidget::eventFilter(QObject * obj, QEvent * e)
       SoDebugError::postInfo("SoQtGLWidget::eventFilter", "resize done");
 #endif // debug
     }
-
-#ifndef Q_WS_MAC  // We have to handle this in the superclass because we
-                  // need to generate a call to QGLWidget::resizeEvent()
-                  // -- again due to the Qt/Mac blitting hack.
-
-                  // FIXME: If the gl_pix blitting hack is removed from
-                  // Qt/Mac, it should be save to remove the #ifndefs.
-                  // kyrah 20011201
-
-                  // FIXME: I'm not sure why we need this under X11/Win
-                  // anyway. Could somebody document this a little?
-                  // kyrah 20011201
-
-  } else if (obj == (QObject *) PRIVATE(this)->currentglwidget) {
-#if 1  // debug
-    if (e->type() == QEvent::Resize) {
-      QResizeEvent * r = (QResizeEvent *)e;
-#if 0
-      SoDebugError::postInfo("SoQtGLWidget::eventFilter",
-        "glwidget event (%d, %d)",
-        (int) r->size().width(), (int) r->size().height());
-#endif
-      // Do not redispatch.
-      return true;
-    }
-#endif // debug
-#endif // !Q_WS_MAC
-  } else {
-  
+  }
+  else if (obj == (QObject *) PRIVATE(this)->currentglwidget) {
+    // We used to return ``true'' here if the event was a
+    // QResizeEvent. The reason why we'd want to stop resize events
+    // being passed on to the native Qt handler was not commented, and
+    // I can't see why this should be necessary. Also, kyrah found out
+    // that it causes a nasty problem with Qt/Mac, so it has been
+    // removed.  <mortene@sim.no>.
+  }
+  else {
     // Handle in superclass.
     stopevent = inherited::eventFilter(obj, e);
   }
