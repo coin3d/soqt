@@ -309,3 +309,20 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     20021018 mortene.
 
 =====================================================================
+
+013 Minor user-interaction bug with the SoQtExaminerViewer.
+
+    The camera-interaction mode can "get stuck" in this manner: click
+    and drag the model. While still holding the LMB, hit 'ESC' to
+    switch to scenegraph-interaction mode. Let go of LMB. Hit 'ESC'
+    again. You're now in "drag/examine"-mode even though you're not
+    holding down the LMB.
+
+    (Simple to work around for the user -- just hit 'ESC' twice -- but
+    it's still an irritating bug.)
+
+    This bug is very likely common for all the So@Gui@ toolkits.
+
+    20021022 mortene.
+
+=====================================================================
