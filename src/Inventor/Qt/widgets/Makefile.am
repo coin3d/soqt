@@ -15,6 +15,8 @@ VPATH = .:@srcdir@:@top_srcdir@/src/Inventor/Qt/common
 BUILT_SOURCES = \
 	SoAnyPopupMenu.h \
 	SoAnyPopupMenu.cpp \
+	SoAnyThumbWheel.h \
+	SoAnyThumbWheel.cpp \
 	moc_SoQtPopupMenu.cpp \
 	moc_SoQtGLArea.cpp \
 	moc_SoQtThumbWheel.cpp
@@ -35,6 +37,12 @@ SoAnyPopupMenu.h: $(top_srcdir)/src/Inventor/Qt/common/SoAnyPopupMenu.h.in
 
 SoAnyPopupMenu.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoAnyPopupMenu.cpp.in
 	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/widgets/SoAnyPopupMenu.cpp )
+
+SoAnyThumbWheel.h: $(top_srcdir)/src/Inventor/Qt/common/SoAnyThumbWheel.h.in
+	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/widgets/SoAnyThumbWheel.h )
+
+SoAnyThumbWheel.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoAnyThumbWheel.cpp.in
+	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/widgets/SoAnyThumbWheel.cpp )
 
 ############################################################################
 
@@ -62,13 +70,11 @@ libSoQtWidgetsVPATH = . $(srcdir) $(top_srcdir)/src/Inventor/Qt/common
 ## headers.
 
 libSoQtWidgets_la_SOURCES = \
+	$(BUILT_SOURCES) \
 	SoQtGLArea.cpp \
 	SoQtGLArea.h \
-	ThumbWheel.cpp \
-	ThumbWheel.h \
 	SoQtThumbWheel.cpp \
 	SoQtThumbWheel.h \
 	SoQtPopupMenu.cpp \
-	SoQtPopupMenu.h \
-	$(BUILT_SOURCES)
+	SoQtPopupMenu.h
 

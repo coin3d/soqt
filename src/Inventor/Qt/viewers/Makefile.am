@@ -18,6 +18,10 @@ BUILT_SOURCES = \
 	SoQtViewer.cpp \
 	SoAnyFullViewer.h \
 	SoAnyFullViewer.cpp \
+	SoAnyExaminerViewer.h \
+	SoAnyExaminerViewer.cpp \
+	SoAnyPlaneViewer.h \
+	SoAnyPlaneViewer.cpp \
 	moc_SoQtViewer.cpp \
 	moc_SoQtFullViewer.cpp \
 	moc_SoQtExaminerViewer.cpp \
@@ -36,11 +40,35 @@ SoQtViewer.h: $(top_srcdir)/src/Inventor/Qt/common/SoGuiViewer.h.in
 SoQtViewer.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoGuiViewer.cpp.in
 	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/viewers/SoQtViewer.cpp )
 
-SoAnyFullViewer.h: $(top_srcdir)/src/Inventor/Qt/common/SoAnyFullViewer.h.in
-	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/viewers/SoAnyFullViewer.h )
+SoAnyFullViewer.h: \
+  $(top_srcdir)/src/Inventor/Qt/common/SoAnyFullViewer.h.in
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Qt/viewers/SoAnyFullViewer.h )
 
-SoAnyFullViewer.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoAnyFullViewer.cpp.in
-	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/viewers/SoAnyFullViewer.cpp )
+SoAnyFullViewer.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/common/SoAnyFullViewer.cpp.in
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Qt/viewers/SoAnyFullViewer.cpp )
+
+SoAnyExaminerViewer.h: \
+  $(top_srcdir)/src/Inventor/Qt/common/SoAnyExaminerViewer.h.in
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Qt/viewers/SoAnyExaminerViewer.h )
+
+SoAnyExaminerViewer.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/common/SoAnyExaminerViewer.cpp.in
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Qt/viewers/SoAnyExaminerViewer.cpp )
+
+SoAnyPlaneViewer.h: \
+  $(top_srcdir)/src/Inventor/Qt/common/SoAnyPlaneViewer.h.in
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Qt/viewers/SoAnyPlaneViewer.h )
+
+SoAnyPlaneViewer.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/common/SoAnyPlaneViewer.cpp.in
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Qt/viewers/SoAnyPlaneViewer.cpp )
 
 ############################################################################
 # Qt moc-files must be generated like this:
@@ -97,12 +125,8 @@ libSoQtViewers_la_SOURCES = \
 	SoQtViewerExtra.cpp \
 	SoQtFullViewer.cpp \
 	SoQtFullViewer.h \
-	SoAnyExaminerViewer.cpp \
-	SoAnyExaminerViewer.h \
 	SoQtExaminerViewer.cpp \
 	SoQtExaminerViewer.h \
-	SoAnyPlaneViewer.cpp \
-	SoAnyPlaneViewer.h \
 	SoQtPlaneViewer.cpp \
 	SoQtPlaneViewer.h \
 	SoQtConstrainedViewer.cpp \

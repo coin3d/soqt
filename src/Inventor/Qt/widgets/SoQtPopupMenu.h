@@ -60,7 +60,6 @@ public:
 
   void PopUp( QWidget * inside, int x, int y );
 
-
 protected:
   MenuRecord * getMenuRecord( int menuid );
   ItemRecord * getItemRecord( int itemid );

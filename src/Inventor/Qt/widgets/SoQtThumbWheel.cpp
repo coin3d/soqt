@@ -31,8 +31,7 @@ static const char rcsid[] =
 
 #include <Inventor/SbBasic.h>
 
-#include <Inventor/Qt/common/ThumbWheel.h>
-
+#include <Inventor/Qt/widgets/SoAnyThumbWheel.h>
 #include <Inventor/Qt/widgets/SoQtThumbWheel.h>
 
 // *************************************************************************
@@ -63,9 +62,9 @@ SoQtThumbWheel::constructor( // private
   this->orient = orientation;
   this->state = SoQtThumbWheel::Idle;
   this->wheelValue = this->tempWheelValue = 0.0f;
-  this->wheel = new ThumbWheel;
-  this->wheel->SetWheelMotionMethod( ThumbWheel::UNIFORM );
-  this->wheel->SetWheelRangeBoundaryHandling( ThumbWheel::MODULATE );
+  this->wheel = new SoAnyThumbWheel;
+  this->wheel->SetWheelMotionMethod( SoAnyThumbWheel::UNIFORM );
+  this->wheel->SetWheelRangeBoundaryHandling( SoAnyThumbWheel::MODULATE );
   this->pixmaps = NULL;
   this->numPixmaps = 0;
   this->currentPixmap = -1;
@@ -111,7 +110,7 @@ SoQtThumbWheel::paintEvent(
 
   int pixmap = this->wheel->GetBitmapForValue( this->tempWheelValue,
      (this->state == SoQtThumbWheel::Disabled) ?
-        ThumbWheel::DISABLED : ThumbWheel::ENABLED );
+        SoAnyThumbWheel::DISABLED : SoAnyThumbWheel::ENABLED );
 
 
   QRect wheelrect( SHADEBORDERWIDTH, SHADEBORDERWIDTH,
@@ -319,7 +318,7 @@ SoQtThumbWheel::initWheel(
   QImage image( pwidth, pheight, 32 );
   for ( int i = 0; i < this->numPixmaps; i++ ) {
     this->wheel->DrawBitmap( i, image.bits(), (this->orient == Vertical) ?
-      ThumbWheel::VERTICAL : ThumbWheel::HORIZONTAL );
+      SoAnyThumbWheel::VERTICAL : SoAnyThumbWheel::HORIZONTAL );
     this->pixmaps[i] = new QPixmap( QSize( pwidth, pheight) );
     this->pixmaps[i]->convertFromImage( image );
   }
@@ -362,13 +361,13 @@ SoQtThumbWheel::setRangeBoundaryHandling(
 {
   switch ( handling ) {
   case CLAMP:
-    this->wheel->SetWheelRangeBoundaryHandling( ThumbWheel::CLAMP );
+    this->wheel->SetWheelRangeBoundaryHandling( SoAnyThumbWheel::CLAMP );
     break;
   case MODULATE:
-    this->wheel->SetWheelRangeBoundaryHandling( ThumbWheel::MODULATE );
+    this->wheel->SetWheelRangeBoundaryHandling( SoAnyThumbWheel::MODULATE );
     break;
   case ACCUMULATE:
-    this->wheel->SetWheelRangeBoundaryHandling( ThumbWheel::ACCUMULATE );
+    this->wheel->SetWheelRangeBoundaryHandling( SoAnyThumbWheel::ACCUMULATE );
     break;
   default:
     assert( 0 && "impossible" );
@@ -382,11 +381,11 @@ SoQtThumbWheel::getRangeBoundaryHandling(
   void ) const
 {
   switch ( this->wheel->GetWheelRangeBoundaryHandling() ) {
-  case ThumbWheel::CLAMP:
+  case SoAnyThumbWheel::CLAMP:
     return CLAMP;
-  case ThumbWheel::MODULATE:
+  case SoAnyThumbWheel::MODULATE:
     return MODULATE;
-  case ThumbWheel::ACCUMULATE:
+  case SoAnyThumbWheel::ACCUMULATE:
     return ACCUMULATE;
   default:
     assert( 0 && "impossible" );

@@ -111,6 +111,8 @@ VPATH = .:@srcdir@:@top_srcdir@/src/Inventor/Qt/common
 BUILT_SOURCES = \
 	SoAnyPopupMenu.h \
 	SoAnyPopupMenu.cpp \
+	SoAnyThumbWheel.h \
+	SoAnyThumbWheel.cpp \
 	moc_SoQtPopupMenu.cpp \
 	moc_SoQtGLArea.cpp \
 	moc_SoQtThumbWheel.cpp
@@ -121,15 +123,13 @@ BUILT_SOURCES = \
 libSoQtWidgetsVPATH = . $(srcdir) $(top_srcdir)/src/Inventor/Qt/common
 
 libSoQtWidgets_la_SOURCES = \
+	$(BUILT_SOURCES) \
 	SoQtGLArea.cpp \
 	SoQtGLArea.h \
-	ThumbWheel.cpp \
-	ThumbWheel.h \
 	SoQtThumbWheel.cpp \
 	SoQtThumbWheel.h \
 	SoQtPopupMenu.cpp \
-	SoQtPopupMenu.h \
-	$(BUILT_SOURCES)
+	SoQtPopupMenu.h
 
 subdir = src/Inventor/Qt/widgets
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -147,9 +147,9 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libSoQtWidgets_la_LDFLAGS = 
 libSoQtWidgets_la_LIBADD = 
-am_libSoQtWidgets_la_OBJECTS =  SoQtGLArea.lo ThumbWheel.lo \
-SoQtThumbWheel.lo SoQtPopupMenu.lo SoAnyPopupMenu.lo \
-moc_SoQtPopupMenu.lo moc_SoQtGLArea.lo moc_SoQtThumbWheel.lo
+am_libSoQtWidgets_la_OBJECTS =  SoAnyPopupMenu.lo SoAnyThumbWheel.lo \
+moc_SoQtPopupMenu.lo moc_SoQtGLArea.lo moc_SoQtThumbWheel.lo \
+SoQtGLArea.lo SoQtThumbWheel.lo SoQtPopupMenu.lo
 libSoQtWidgets_la_OBJECTS =  $(am_libSoQtWidgets_la_OBJECTS)
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -170,8 +170,8 @@ DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 GZIP_ENV = --best
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 DEP_FILES =  @AMDEP@ $(DEPDIR)/SoAnyPopupMenu.Plo \
-$(DEPDIR)/SoQtGLArea.Plo $(DEPDIR)/SoQtPopupMenu.Plo \
-$(DEPDIR)/SoQtThumbWheel.Plo $(DEPDIR)/ThumbWheel.Plo \
+$(DEPDIR)/SoAnyThumbWheel.Plo $(DEPDIR)/SoQtGLArea.Plo \
+$(DEPDIR)/SoQtPopupMenu.Plo $(DEPDIR)/SoQtThumbWheel.Plo \
 $(DEPDIR)/moc_SoQtGLArea.Plo $(DEPDIR)/moc_SoQtPopupMenu.Plo \
 $(DEPDIR)/moc_SoQtThumbWheel.Plo
 SOURCES = $(libSoQtWidgets_la_SOURCES)
@@ -268,10 +268,10 @@ distdir: $(DISTFILES)
 	done
 
 @AMDEP@include $(DEPDIR)/SoAnyPopupMenu.Plo
+@AMDEP@include $(DEPDIR)/SoAnyThumbWheel.Plo
 @AMDEP@include $(DEPDIR)/SoQtGLArea.Plo
 @AMDEP@include $(DEPDIR)/SoQtPopupMenu.Plo
 @AMDEP@include $(DEPDIR)/SoQtThumbWheel.Plo
-@AMDEP@include $(DEPDIR)/ThumbWheel.Plo
 @AMDEP@include $(DEPDIR)/moc_SoQtGLArea.Plo
 @AMDEP@include $(DEPDIR)/moc_SoQtPopupMenu.Plo
 @AMDEP@include $(DEPDIR)/moc_SoQtThumbWheel.Plo
@@ -388,6 +388,12 @@ SoAnyPopupMenu.h: $(top_srcdir)/src/Inventor/Qt/common/SoAnyPopupMenu.h.in
 
 SoAnyPopupMenu.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoAnyPopupMenu.cpp.in
 	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/widgets/SoAnyPopupMenu.cpp )
+
+SoAnyThumbWheel.h: $(top_srcdir)/src/Inventor/Qt/common/SoAnyThumbWheel.h.in
+	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/widgets/SoAnyThumbWheel.h )
+
+SoAnyThumbWheel.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoAnyThumbWheel.cpp.in
+	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/widgets/SoAnyThumbWheel.cpp )
 
 .cpp.lo:
 	@(source='$<'; \

@@ -10,6 +10,7 @@ VPATH = .:@srcdir@
 lib_LTLIBRARIES = libSoQt.la
 
 BUILT_SOURCES = \
+	SoQtBasic.h \
 	SoQtRenderArea.cpp \
 	SoQtRenderArea.h \
 	moc_SoQt.cpp \
@@ -92,6 +93,9 @@ libSoQtinc_HEADERS = \
 	$(top_srcdir)/src/Inventor/Qt/SoQtTransformSliderSet.h
 
 ############################################################################
+
+SoQtBasic.h: $(top_srcdir)/src/Inventor/Qt/common/SoGuiBasic.h.in
+	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/SoQtBasic.h )
 
 SoQtRenderArea.h: $(top_srcdir)/src/Inventor/Qt/common/SoGuiRenderArea.h.in
 	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/SoQtRenderArea.h )

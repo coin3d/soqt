@@ -516,8 +516,10 @@ SoQt::soqt_instance(void)
 bool
 SoQt::eventFilter(QObject *, QEvent *)
 {
+#if 0
   if (SoDB::getSensorManager()->isDelaySensorPending())
     SoDB::getSensorManager()->processImmediateQueue();
+#endif
 
   return FALSE;
 }
@@ -531,10 +533,12 @@ SoQt::eventFilter(QObject *, QEvent *)
 void
 SoQt::slot_timedOutSensor()
 {
-#if 0 // debug
-  SoDebugError::postInfo("SoQt::timedOutSensor",
-                         "processing timer queue");
-#endif // debug
+#if SOQT_DEBUG // && 0
+  SoDebugError::postInfo( "SoQt::timedOutSensor",
+    "processing timer queue" );
+  SoDebugError::postInfo( "SoQt::timedOutSensor",
+    "is %s", SoQt::delaytimeouttimer->isActive() ? "active" : "inactive" );
+#endif // SOQT_DEBUG
   SoDB::getSensorManager()->processTimerQueue();
 
   // The change callback is _not_ called automatically from
@@ -552,10 +556,12 @@ SoQt::slot_timedOutSensor()
 void
 SoQt::slot_idleSensor()
 {
-#if 0 // debug
-  SoDebugError::postInfo("SoQt::idleSensor",
-                         "processing delay queue");
-#endif // debug
+#if SOQT_DEBUG // && 0
+  SoDebugError::postInfo( "SoQt::idleSensor",
+    "processing delay queue" );
+  SoDebugError::postInfo( "SoQt::idleSensor",
+    "is %s", SoQt::idletimer->isActive() ? "active" : "inactive" );
+#endif // SOQT_DEBUG
 
   SoDB::getSensorManager()->processDelayQueue(TRUE);
 
@@ -570,14 +576,17 @@ SoQt::slot_idleSensor()
 
   The delay sensor timeout point has been reached, so process the delay
   queue even though the system is not idle.
- */
+*/
+
 void
 SoQt::slot_delaytimeoutSensor()
 {
-#if 0 // debug
+#if SOQT_DEBUG // && 0
   SoDebugError::postInfo("SoQt::delaytimeoutSensor",
                          "processing delay queue");
-#endif // debug
+  SoDebugError::postInfo("SoQt::delaytimeouttimer", "is %s",
+    SoQt::delaytimeouttimer->isActive() ? "active" : "inactive" );
+#endif // SOQT_DEBUG
 
   SoDB::getSensorManager()->processDelayQueue(FALSE);
 
@@ -586,3 +595,4 @@ SoQt::slot_delaytimeoutSensor()
   // explicitly trigger it ourselves here.
   SoQt::sensorQueueChanged(NULL);
 }
+

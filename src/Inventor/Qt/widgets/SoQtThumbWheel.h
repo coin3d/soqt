@@ -26,7 +26,7 @@
 #include <qrangecontrol.h>
 
 class QPixmap;
-class ThumbWheel;
+class SoAnyThumbWheel;
 
 // *************************************************************************
 
@@ -85,7 +85,7 @@ private:
 
   void initWheel( int diameter, int width );
 
-  ThumbWheel * wheel;
+  SoAnyThumbWheel * wheel;
   QPixmap ** pixmaps;
   int numPixmaps;
   int currentPixmap;

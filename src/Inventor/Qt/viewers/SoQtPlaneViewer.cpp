@@ -40,7 +40,7 @@ static const char rcsid[] =
 
 #include <Inventor/Qt/widgets/SoQtThumbWheel.h>
 
-#include <Inventor/Qt/common/SoAnyPlaneViewer.h>
+#include <Inventor/Qt/viewers/SoAnyPlaneViewer.h>
 #include <Inventor/Qt/viewers/SoQtPlaneViewer.h>
 
 #include "icons/ortho.xpm"

@@ -72,7 +72,7 @@ static const char rcsid[] =
 #include <Inventor/Qt/widgets/SoQtThumbWheel.h>
 #include <Inventor/Qt/SoQtCursors.h>
 
-#include <Inventor/Qt/common/SoAnyExaminerViewer.h>
+#include <Inventor/Qt/viewers/SoAnyExaminerViewer.h>
 #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
 
 // Icon graphic for the camera button.
