@@ -33,8 +33,7 @@
 
 #include <Inventor/Qt/widgets/moc_SoQtGradientDialog.icc>
 
-
-SoQtGradientDialog::SoQtGradientDialog(Gradient * grad, 
+SoQtGradientDialog::SoQtGradientDialog(const Gradient & grad, 
                                        QWidget * parent, 
                                        bool modal, 
                                        const char* name)
@@ -59,8 +58,7 @@ SoQtGradientDialog::SoQtGradientDialog(Gradient * grad,
   buttonLayout->addWidget(saveButton, 0, 1);
 
   this->gradientList = new QComboBox(this, "gradientList");
-  if (grad)
-    this->addGradient(grad);
+  this->addGradient(grad);
   this->gradientList->hide();
 
   buttonLayout->addWidget(gradientList, 0, 1);
@@ -78,7 +76,7 @@ SoQtGradientDialog::~SoQtGradientDialog()
 {
 }
 
-void SoQtGradientDialog::addGradient(Gradient * grad)
+void SoQtGradientDialog::addGradient(const Gradient & grad)
 {
   this->gradients.append(grad);
   this->gradientList->insertItem(this->makePixmap(grad), "description");
@@ -91,7 +89,7 @@ void SoQtGradientDialog::loadGradient()
 {
   QString filename = QFileDialog::getOpenFileName();
   if (!filename.isEmpty()) {
-    Gradient * grad = new Gradient(filename);
+    Gradient grad(filename);
     this->addGradient(grad);
   }
 }
@@ -120,14 +118,14 @@ void SoQtGradientDialog::setDataLimits(float min, float max)
   this->gradEdit->setMax(max);
 }
 
-QPixmap SoQtGradientDialog::makePixmap(const Gradient * grad)
+QPixmap SoQtGradientDialog::makePixmap(const Gradient & grad)
 {
   int width = 60;
   int height = 16;
   QImage img(width, height, 32);
 
   QRgb * colorArray = new QRgb[width];
-  grad->getColorArray(colorArray, width);
+  grad.getColorArray(colorArray, width);
 
   for (int i = 0; i < width; i++) {
     QRgb pixel = colorArray[i];
