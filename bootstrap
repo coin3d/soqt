@@ -31,11 +31,16 @@ AUTOMAKE_ADD=
 if test "$1" = "--clean"; then
   rm -f config.h.in \
         configure \
-        stamp-h*
+        stamp-h* \
+        cfg/depcomp \
+        cfg/install-sh cfg/mkinstalldirs cfg/missing \
+        cfg/ltconfig cfg/ltmain.sh \
+        cfg/config.sub cfg/config.guess
+
   find . -name Makefile.in -print | xargs rm
   exit 0
 elif test "$1" = "--add"; then
-  AUTOMAKE_ADD=""
+  AUTOMAKE_ADD="--add-missing --gnu --copy"
 fi
 
 echo "Checking the installed configuration tools..."
@@ -111,9 +116,8 @@ echo "Running autoheader..."
 
 # generate Makefile.in templates
 echo "Running automake..."
-( automake 3>&1 1>&2 2>&3 | grep -v 'directory should not' ) 3>&1 1>&2 2>&3
+( automake $AUTOMAKE_ADD 3>&1 1>&2 2>&3 | grep -v 'directory should not' ) 3>&1 1>&2 2>&3
 
 # generate configure
 echo "Running autoconf..."
 autoconf
-
