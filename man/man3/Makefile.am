@@ -1,10 +1,9 @@
+include ../../src/Inventor/Qt/common/Makefile.common
 
 KEYMANPAGE = So@Gui@Object.3
 
-$(KEYMANPAGE): $(top_builddir)/build/so@gui@.doxygen
-	@( cd ../..; \
-	echo "@sim_ac_doxygen_exe@ build/so@gui@.doxygen"; \
-	@sim_ac_doxygen_exe@ build/so@gui@.doxygen )
+$(KEYMANPAGE): $(SoGuiBuiltFiles)
+	@sim_ac_doxygen_exe@ $(top_builddir)/sogui.doxygen
 
 filelist.txt: $(KEYMANPAGE)
 	ls *.3 >filelist.txt

@@ -220,16 +220,16 @@ AC_ARG_ENABLE(man,
   [want_man=no])
 
 # Used in the Doxygen parameter file.
-AC_SUBST([SOQT_DOC_HTML], [`echo $want_html | tr '[a-z]' '[A-Z]'`])
-AC_SUBST([soqt_html_dir], [`pwd`/html])
-AC_SUBST([SOQT_DOC_MAN], [`echo $want_man | tr '[a-z]' '[A-Z]'`])
-AC_SUBST([soqt_man_dir], [`pwd`/man])
+AC_SUBST([SOGUI_DOC_HTML], [`echo $want_html | tr '[a-z]' '[A-Z]'`])
+AC_SUBST([sogui_html_dir], [`pwd`/html])
+AC_SUBST([SOGUI_DOC_MAN], [`echo $want_man | tr '[a-z]' '[A-Z]'`])
+AC_SUBST([sogui_man_dir], [`pwd`/man])
 
-soqt_build_dir=`pwd`
-soqt_src_dir=`cd $srcdir; pwd`
+sogui_build_dir=`pwd`
+sogui_src_dir=`cd $srcdir; pwd`
 
-AC_SUBST(soqt_build_dir)
-AC_SUBST(soqt_src_dir)
+AC_SUBST(sogui_build_dir)
+AC_SUBST(sogui_src_dir)
 
 AM_CONDITIONAL(BUILD_MANPAGES, test x"$want_man" = x"yes")
 AM_CONDITIONAL(BUILD_HTMLPAGES, test x"$want_html" = x"yes")

@@ -9,10 +9,8 @@ if BUILD_HTMLPAGES
 # **************************************************************************
 # build trickery
 
-$(KEYHTMLPAGE): $(top_builddir)/build/so@gui@.doxygen
-	@( cd ..; \
-	echo " @sim_ac_doxygen_exe@ build/so@gui@.doxygen"; \
-	@sim_ac_doxygen_exe@ build/so@gui@.doxygen )
+$(KEYHTMLPAGE): $(SoGuiBuiltFiles)
+	@sim_ac_doxygen_exe@ $(top_builddir)/sogui.doxygen
 
 filelist.txt: $(KEYHTMLPAGE)
 	@ls -1 | egrep '(\.html|\.gif|\.css)$$' >filelist.txt

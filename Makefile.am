@@ -37,7 +37,6 @@ CLEANFILES = \
 DISTCLEANFILES = \
 	libtool \
 	build/so@gui@.spec \
-	build/so@gui@.doxygen \
 	$(SoGui_BuiltFiles) \
 	$(SoGui_BuiltMetaFiles)
 
@@ -68,7 +67,6 @@ EXTRA_DIST = \
 	README.WIN32 \
 	Info.plist \
 	build/soqt.spec.in \
-	build/soqt.doxygen.in \
 	cfg/m4/soqt.m4 \
 	models/coin_soqt.iv \
 	models/coin_soqt.wrl \
