@@ -6542,13 +6542,14 @@ if test "$no_recursion" != yes; then
 fi
 
 
-for fil in build/soqt.dsp build/soqt.mak; do
-  echo "(Win)DOS-ifying $fil"
-  mv $fil $fil.bak
-  sed -e 's/$/
-/' < $fil.bak > $fil
-  rm $fil.bak
-done
+if test x"$sim_ac_linking_style" = xmswin; then
+  for sim_ac_winfile in build/soqt.dsp build/soqt.mak; do
+    mv $sim_ac_winfile $sim_ac_winfile.bak
+    echo "(Win)DOS-ifying $sim_ac_winfile"
+    sed -e 's/$/
+/' < $sim_ac_winfile.bak > $sim_ac_winfile
+  done
+fi
 
 echo ""
 echo "Now, run 'make install' to build and install SoQt..."
