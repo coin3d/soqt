@@ -25,7 +25,7 @@
 \**************************************************************************/
 
 #include <qcanvas.h>
-#include <Inventor/C/basic.h>
+#include <Inventor/SbBasic.h>
 
 class TickMark : public QCanvasPolygon
 {
