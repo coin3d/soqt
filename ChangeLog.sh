@@ -1,9 +1,9 @@
-#!/bin/sh
+#! /bin/sh
 ############################################################################
 
 moduledir=${0%/[^/]*}
-module=${moduledir##*/}
-GUI=`echo $module | cut -c3-`
+module=SoQt
+GUI=Qt
 cvs2cl=$HOME/code/cvs/src/cvs2cl/cvs2cl.pl
 headerfile=/tmp/$module.header
 
@@ -19,8 +19,7 @@ generated every night.  Entries are in reversed chronological order.  Check
 also out the following ChangeLog files:
 
   ./src/Inventor/$GUI/common/ChangeLog
-  ./examples/ChangeLog
-  ./conf-macros/ChangeLog
+  ./cfg/m4/ChangeLog
 
 See http://www.red-bean.com/~kfogel/cvs2cl.shtml for information about the
 cvs2cl script used to generate this file.
@@ -37,9 +36,8 @@ cvs log | $cvs2cl --stdin --header $headerfile --separate-header --prune \
   --ignore '(Makefile\.in|configure|aclocal\.m4|config\.sub|config\.guess)$' \
   --ignore '(ltconfig|ltmain\.sh|missing|mkinstalldirs|stamp-h.*|install-sh)$' \
   --ignore 'config\.h\.in$' \
-  --ignore 'conf-macros' \
   --ignore "src/Inventor/$GUI/common" \
-  --ignore 'examples' 
+  --ignore "test-code"
 
 rm ChangeLog.bak $headerfile
 
