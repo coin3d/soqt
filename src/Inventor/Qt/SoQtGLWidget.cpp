@@ -145,11 +145,31 @@ SoQtGLWidget::buildWidget(
   this->borderwidget->setMargin( 0 );
   this->borderwidget->move( 0, 0 );
 
+  // what's this then?
+  this->glparent = parent;
+
+  this->buildGLWidget();
+
+  return this->borderwidget;
+} // buildWidget()
+
+void 
+SoQtGLWidget::buildGLWidget(void)
+{
+  if (this->glwidget) {
+    this->glwidget->removeEventFilter( this );
+    this->glwidget->setMouseTracking( FALSE );
+    QObject::disconnect( this->glwidget, SIGNAL(expose_sig()), this, SLOT(gl_exposed()));
+    QObject::disconnect( this->glwidget, SIGNAL(init_sig()), this, SLOT(gl_init()));
+    delete this->glwidget;
+    this->glwidget = NULL;
+  }
   QGLFormat f;
   f.setDoubleBuffer((this->glmodebits & SO_GLX_DOUBLE) ? TRUE : FALSE);
   f.setDepth((this->glmodebits & SO_GLX_ZBUFFER) ? TRUE : FALSE);
   f.setRgba((this->glmodebits & SO_GLX_RGB) ? TRUE : FALSE);
   f.setStereo((this->glmodebits & SO_GLX_STEREO) ? TRUE : FALSE);
+
 #if HAVE_QGLFORMAT_SETOVERLAY
   f.setOverlay( FALSE ); // at the time being...
 #endif // HAVE_QGLFORMAT_SETOVERLAY
@@ -170,8 +190,6 @@ SoQtGLWidget::buildWidget(
 //    temp.left(), temp.top(), temp.right(), temp.bottom() );
   this->glwidget->setGeometry( borderwidget->contentsRect() );
 
-  // what's this then?
-  this->glparent = parent;
 
   QObject::connect( this->glwidget, SIGNAL(init_sig()), this, SLOT(gl_init()));
 //  QObject::connect( this->glwidget, SIGNAL(reshape_sig(int, int)),
@@ -187,8 +205,7 @@ SoQtGLWidget::buildWidget(
                          parent, this->glwidget);
 #endif // debug
 
-  return this->borderwidget;
-} // buildWidget()
+}
 
 // *************************************************************************
 
@@ -339,12 +356,12 @@ SoQtGLWidget::eventFilter(
       return true;
     }
 #endif // debug
-    // Pass this on further down the inheritance hierarchy of the SoQt
-    // components.
-    this->processEvent( e );
   } else {
     // Handle in superclass.
     stopevent = inherited::eventFilter( obj, e );
+  }
+  if (!stopevent) {
+    this->processEvent(e);
   }
 
   return stopevent;
@@ -442,6 +459,30 @@ SoQtGLWidget::isDoubleBuffer(void) const
   if(this->glwidget) return this->glwidget->doubleBuffer();
   else return (this->glmodebits & SO_GLX_DOUBLE) ? TRUE : FALSE;
 }
+
+/*!
+  Enables or disables Quad buffer stereo.
+*/
+void 
+SoQtGLWidget::setQuadBufferStereo(const SbBool enable)
+{
+  SbBool oldenable = (this->glmodebits & SO_GLX_STEREO) ? TRUE : FALSE;
+  if ( enable != oldenable ) {
+    if (enable) this->glmodebits |= SO_GLX_STEREO;
+    else this->glmodebits &= ~SO_GLX_STEREO;
+    this->buildGLWidget();
+  }
+}
+
+/*!
+  Returns TRUE if quad buffer stereo is enabled for this widget.
+*/
+SbBool 
+SoQtGLWidget::isQuadBufferStereo(void) const
+{
+  return (this->glmodebits & SO_GLX_STEREO) ? TRUE : FALSE;
+}
+
 
 /*!
   FIXME: write function documentation
@@ -603,7 +644,7 @@ SoQtGLWidget::widgetChanged(
 */
 
 void
-SoQtGLWidget::processEvent(QEvent * /*anyevent*/)
+SoQtGLWidget::processEvent(QEvent * /* anyevent */)
 {
 //  SoDebugError::postInfo( "processEvent", "called" );
   // FIXME: anything to do here? 981029 mortene.

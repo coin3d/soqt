@@ -55,6 +55,9 @@ public:
 
   void setDrawToFrontBufferEnable( const SbBool enable );
   SbBool isDrawToFrontBufferEnable(void) const;
+  
+  void setQuadBufferStereo(const SbBool enable);
+  SbBool isQuadBufferStereo(void) const;
 
 protected:
   SoQtGLWidget( QWidget * const parent = NULL, const char * const name = NULL,
@@ -114,6 +117,8 @@ private:
     unsigned int mouseinput    : 1;
     unsigned int keyboardinput : 1;
   } properties;
+
+  void buildGLWidget(void);
 
 }; // class SoQtGLWidget
 
