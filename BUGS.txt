@@ -598,6 +598,10 @@ main(int argc, char ** argv)
     old foe "separate C Run-Time heaps" causing confusion and mayhem
     yet again.
 
+    According to thammer, the bug does not show up on his dev-system,
+    using the same CRT for everything. Anyway, we should handle the
+    case of different CRTs for different libs.
+
     Unsure how to solve this yet. One option to check is whether it is
     possible to call some function in Qt which will implicitly make
     the QApplication instance for us (within the Qt DLL). Not a
@@ -632,7 +636,94 @@ main(int argc, char ** argv)
     are always deallocated from within the Coin DLL by "delete this".)
 
     So I'm a bit baffled about what the exact reason for this bug is.
+
+    UPDATE 20041003 mortene: investigated more. The crash happens
+    before the QApplication instance is deallocated, actually, so
+    something else is going on.
+
+    I tried to reproduce with an SoQt- and Coin-free stand-alone test.
+    The DLL + EXE below crashes when the DLL is built with a different
+    CRT than the Qt DLL we're linking against. Here are the source
+    code parts of the test system:
+
+    Header-file for DLL, "dll.h":
  
+--------8<------------ [snip] -------------------------------------------
+class QApplication;
+
+#ifdef MAKE_DLL
+#define MYDLL_API __declspec(dllexport)
+#else
+#define MYDLL_API __declspec(dllimport)
+#endif
+
+class MYDLL_API MyDLLClass {
+public:
+  static QApplication * my_dll_function(void);
+};
+--------8<------------ [snip] -------------------------------------------
+
+    Implementation of DLL, "dll.cpp":
+
+--------8<------------ [snip] -------------------------------------------
+/*
+  Build with e.g.:
+
+  $ cl.exe /DMAKE_DLL /I$QTDIR/include /LD dll.cpp $QTDIR/lib/qt-mt331.lib
+ */
+
+#include "dll.h"
+#include <qapplication.h>
+
+QApplication *
+MyDLLClass::my_dll_function(void)
+{
+  int argc = 0;
+  return new QApplication(argc, NULL);
+}
+--------8<------------ [snip] -------------------------------------------
+
+    Application-code, "app.cpp":
+
+--------8<------------ [snip] -------------------------------------------
+/*
+  Build with e.g.:
+
+  $ cl.exe app.cpp /I$QTDIR/include dll.lib $QTDIR/lib/qt-mt331.lib
+ */
+
+#include <stdio.h>
+#include <qapplication.h>
+#include "dll.h"
+
+int
+main(void)
+{
+  printf("qApp==%p\n", qApp);
+  QApplication * a = MyDLLClass::my_dll_function();
+  printf("a==%p, qApp==%p\n", a, qApp);
+  return 0;
+}
+--------8<------------ [snip] -------------------------------------------
+
+    This should probably be reported to Troll Tech -- after first
+    checking that the problem is still present with the latest
+    Qt release.
+
+    I then built Qt in its debug configuration, to get something
+    sensible out of the call stack. Here are the results when running
+    inside MSDEV V7's debugger (this is with Qt 3.3.1):
+
+       QObject::~QObject()
+                => crashes in "if ( parentObj )\n parentObj->removeChild( this ) "
+       QFontCache::~QFontCache()
+                => runs through to end of destructor
+       QFontCache::`scalar deleting destructor`()
+       QSingleCleanupHandler<QFontCache>::~QSingleCleanupHandler<QFontCache>()
+                => from "delete *object"-line
+       [CRT iterating over _onexit() / atexit() functions]
+
+
 =====================================================================
 
 033 Sensor handling incorrect
