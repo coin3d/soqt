@@ -25,6 +25,7 @@ Options:
   --version
   --usage | --help"
 
+alternate=default
 for arg
 do
   case $arg in
@@ -80,11 +81,7 @@ do
         esac
       else
         for arg in $@; do
-          if test x${alternate+set} = xset; then
-            $program --alternate="$alternate" --ac-subst $arg
-          else
-            $program --ac-subst $arg
-          fi
+          $program --ac-subst $arg
           test $? -ne 0 && exit $?
         done
       fi
@@ -96,15 +93,10 @@ do
         case $1 in
           *\.in)
             outfile=`echo $1 | sed -e 's/\.in$//'`
-            if test x${alternate+set} = xset; then
-              $program --alternate="$alternate" --ac-subst $1
-              $program --alternate="$alternate" --compile $outfile
-              test $? -ne 0 && exit $?
-            else
-              $program --ac-subst $1
-              $program --compile $outfile
-              test $? -ne 0 && exit $?
-            fi
+            echo $program --ac-subst $1
+            $program --ac-subst $1
+            $program --alternate="$alternate" --compile $outfile
+            test $? -ne 0 && exit $?
             ;;
           *)
             echo $compiler $CPPFLAGS $cppflags $CXXFLAGS $cxxflags -c $1 \
@@ -118,11 +110,7 @@ do
         esac
       else
         for arg in $@; do
-          if test x${alternate+set} = xset; then
-            $program --alternate="$alternate" --compile $arg
-          else
-            $program --compile $arg
-          fi
+          $program --alternate="$alternate" --compile $arg
           test $? -ne 0 && exit $?
         done
       fi
@@ -151,24 +139,14 @@ do
       for arg in $@; do
         case $arg in
           *.h.in)
-            if test x${alternate+set} = xset; then
-              $program --alternate="$alternate" --ac-subst $arg
-            else
-              $program --ac-subst $arg
-            fi
+            $program --ac-subst $arg
             ;;
           *.c.in | *.cpp.in | *.cxx.in | *.cc.in)
             outfile=`echo "$arg" | sed -e 's/\.in$//'`
             basename=`echo "$outfile" | sed -e 's/\.[^\.]*$//'`
-            if test x${alternate+set} = xset; then
-              $program --alternate="$alternate" --ac-subst $arg
-              $program --alternate="$alternate" --compile $outfile
-              test $? -ne 0 && exit $?
-            else
-              $program --ac-subst $arg
-              $program --compile $outfile
-              test $? -ne 0 && exit $?
-            fi
+            $program --ac-subst $arg
+            $program --alternate="$alternate" --compile $outfile
+            test $? -ne 0 && exit $?
             objfile=`ls $basename.o $basename.obj 2>/dev/null`
             objs="$objs $objfile"
             ;;
