@@ -64,6 +64,7 @@ EXTRA_DIST = \
 	README.MAC \
 	Info.plist \
 	bootstrap \
+	cfg/soqt.m4 \
 	docs/announcement-1_0_0.txt \
 	docs/announcement-1_0_1.txt \
 	docs/announcement-1_0_2.txt \
