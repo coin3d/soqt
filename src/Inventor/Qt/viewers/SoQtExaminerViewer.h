@@ -105,8 +105,6 @@ protected:
   virtual void afterRealizeHook(void);
 
 private:
-  void setModeFromState(const unsigned int state);
-
   QPixmap * orthopixmap, * perspectivepixmap;
 
   void constructor( SbBool buildNow );
