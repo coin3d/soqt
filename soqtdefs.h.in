@@ -90,6 +90,21 @@ inline int _not_null( const void * arg ) { return (arg != NULL) ? 1 : 0; }
     } \
   } while (0)
 
+/*
+  GETTEXT support
+*/
+
+#if defined(ENABLE_NLS) && defined(HAVE_GETTEXT)
+#include <libintl.h>
+#define _(String) dgettext (PACKAGE, String)
+#define N_(String) (String)
+#else
+#define _(String) (String)
+#define N_(String) (String)
+#define textdomain(Domain)
+#define bindtextdomain(Package, Directory)
+#endif /* HAVE_GETTEXT && ENABLE_NLS */
+
 /* ********************************************************************** */
 
 #endif /* ! SO@GUI@_INTERNALDEFS_H */
