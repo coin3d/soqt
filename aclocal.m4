@@ -1,4 +1,4 @@
-# aclocal.m4 generated automatically by aclocal 1.4l
+# aclocal.m4 generated automatically by aclocal 1.5
 
 # Copyright 1996, 1997, 1998, 1999, 2000, 2001
 # Free Software Foundation, Inc.
@@ -323,8 +323,8 @@ AC_SUBST($1)])
 # Define MISSING if not defined so far and test if it supports --run.
 # If it does, set am_missing_run to use it, otherwise, to nothing.
 AC_DEFUN([AM_MISSING_HAS_RUN],
-[test x"${MISSING+set}" = xset ||
-  MISSING="\${SHELL} `CDPATH=:; cd $ac_aux_dir && pwd`/missing"
+[AC_REQUIRE([AM_AUX_DIR_EXPAND])dnl
+test x"${MISSING+set}" = xset || MISSING="\${SHELL} $am_aux_dir/missing"
 # Use eval to expand $SHELL
 if eval "$MISSING --run true"; then
   am_missing_run="$MISSING --run "
@@ -334,14 +334,6 @@ else
   AC_MSG_WARN([${am_backtick}missing' script is too old or missing])
 fi
 ])
-
-# AM_PROG_INSTALL_SH
-# ------------------
-# Define $install_sh.
-AC_DEFUN([AM_PROG_INSTALL_SH],
-[AC_REQUIRE([AM_AUX_DIR_EXPAND])dnl
-install_sh=${install_sh-"$am_aux_dir/install-sh"}
-AC_SUBST(install_sh)])
 
 # AM_AUX_DIR_EXPAND
 
@@ -387,6 +379,14 @@ AC_DEFUN([AM_AUX_DIR_EXPAND], [
 # expand $ac_aux_dir to an absolute path
 am_aux_dir=`CDPATH=:; cd $ac_aux_dir && pwd`
 ])
+
+# AM_PROG_INSTALL_SH
+# ------------------
+# Define $install_sh.
+AC_DEFUN([AM_PROG_INSTALL_SH],
+[AC_REQUIRE([AM_AUX_DIR_EXPAND])dnl
+install_sh=${install_sh-"$am_aux_dir/install-sh"}
+AC_SUBST(install_sh)])
 
 # One issue with vendor `install' (even GNU) is that you can't
 # specify the program used to strip binaries.  This is especially
@@ -2651,6 +2651,8 @@ if test x"$with_qt" != xno; then
       AC_MSG_WARN([QTDIR environment variable not set -- this might be an indication of a problem])
     else
       AC_MSG_RESULT([$sim_ac_qt_dir])
+      # list contents of what's in the qt libdir into config.log...
+      ls -l $sim_ac_qt_dir/lib >&5
       sim_ac_qt_incflags="-I$sim_ac_qt_dir/include"
       sim_ac_qt_ldflags="-L$sim_ac_qt_dir/lib"
       sim_ac_path=$sim_ac_qt_dir/bin:$PATH
@@ -3355,17 +3357,12 @@ AC_ARG_ENABLE(
 if test x"$enable_warnings" = x"yes"; then
   if test x"$GXX" = x"yes" || test x"$GCC" = x"yes"; then
     sim_ac_common_gcc_warnings="-W -Wall -Wno-unused"
-    # -fno-multichar can be different for gcc and egcs c++, for instance,
-    # so we need to do separate checks.
-    if test x"$CC" = x"$CXX"; then
-      CPPFLAGS="$CPPFLAGS $sim_ac_common_gcc_warnings"
-      SIM_AC_CXX_COMPILER_OPTION([-Wno-multichar], [CPPFLAGS="$CPPFLAGS -Wno-multichar"])
-    else
-      CFLAGS="$CFLAGS $sim_ac_common_gcc_warnings"
-      SIM_AC_CC_COMPILER_OPTION([-Wno-multichar], [CFLAGS="$CFLAGS -Wno-multichar"])
-      CXXFLAGS="$CXXFLAGS $sim_ac_common_gcc_warnings"
-      SIM_AC_CXX_COMPILER_OPTION([-Wno-multichar], [CXXFLAGS="$CXXFLAGS -Wno-multichar"])
-    fi
+    CFLAGS="$CFLAGS $sim_ac_common_gcc_warnings"
+    CXXFLAGS="$CXXFLAGS $sim_ac_common_gcc_warnings"
+    SIM_AC_CC_COMPILER_OPTION([-Wno-multichar],
+                              [CFLAGS="$CFLAGS -Wno-multichar"])
+    SIM_AC_CXX_COMPILER_OPTION([-Wno-multichar],
+                               [CXXFLAGS="$CXXFLAGS -Wno-multichar"])
   else
     case $host in
     *-*-irix*) 
@@ -3373,7 +3370,8 @@ if test x"$enable_warnings" = x"yes"; then
         _warn_flags=
         _woffs=""
         ### Turn on all warnings ######################################
-        SIM_AC_CC_COMPILER_OPTION(-fullwarn, CPPFLAGS="$CPPFLAGS -fullwarn")
+        SIM_AC_CC_COMPILER_OPTION([-fullwarn], [CFLAGS="$CFLAGS -fullwarn"])
+        SIM_AC_CXX_COMPILER_OPTION([-fullwarn], [CXXFLAGS="$CXXFLAGS -fullwarn"])
 
         ### Turn off specific (bogus) warnings ########################
 
@@ -3399,8 +3397,10 @@ if test x"$enable_warnings" = x"yes"; then
         ##       the SoQt, SoGtk or SoXt libraries on IRIX with SGI MIPSPro CC.
 
         sim_ac_bogus_warnings="-woff 3115,3262,1174,1209,1355,1375,3201,1110,1506"
-        SIM_AC_CC_COMPILER_OPTION($sim_ac_bogus_warnings,
-                                  CPPFLAGS="$CPPFLAGS $sim_ac_bogus_warnings")
+        SIM_AC_CC_COMPILER_OPTION([$sim_ac_bogus_warnings],
+                                  [CFLAGS="$CFLAGS $sim_ac_bogus_warnings"])
+        SIM_AC_CXX_COMPILER_OPTION([$sim_ac_bogus_warnings],
+                                   [CXXFLAGS="$CXXFLAGS $sim_ac_bogus_warnings"])
       fi
     ;;
     esac
@@ -3529,15 +3529,28 @@ exec_prefix=$sim_ac_save_exec_prefix
 
 
 # Usage:
-#  SIM_AC_ISO8601_DATE(variable)
+#  SIM_AC_DATE_ISO8601([variable])
+#  SIM_AC_DATE_RFC822([variable])
 #
 # Description:
 #   This macro sets the given variable to a strings representing
-#   the current date in the ISO8601-compliant format YYYYMMDD.
+#   the current date in the ISO8601-compliant format "YYYYMMDD" or in
+#   the RFC822-compliant format "Day, DD Mon YYYY HH:MM:SS +0X00".
 #
-# Author: Morten Eriksen, <mortene@sim.no>.
+# Authors:
+#   Morten Eriksen <mortene@sim.no>
+#   Lars J. Aas <larsa@sim.no>
 
-AC_DEFUN(SIM_AC_ISO8601_DATE, [
+AC_DEFUN([SIM_AC_DATE_ISO8601], [
   eval "$1=\"`date +%Y%m%d`\""
 ])
+
+AC_DEFUN([SIM_AC_DATE_RFC822], [
+  eval "$1=\"`date -R`\""
+])
+
+# old alias
+# AU_DEFUN([SIM_AC_ISO8601_DATE], [SIM_AC_DATE_ISO8601])
+AC_DEFUN([SIM_AC_ISO8601_DATE], [SIM_AC_DATE_ISO8601([$1])])
+
 
