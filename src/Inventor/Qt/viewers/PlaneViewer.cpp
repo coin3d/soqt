@@ -174,10 +174,7 @@ SoQtPlaneViewer::setCamera(SoCamera * camera)
 QWidget *
 SoQtPlaneViewer::buildWidget(QWidget * parent)
 {
-  QWidget * widget = inherited::buildWidget(parent);
-  ((SoQtThumbWheel *)this->leftWheel)->setRangeBoundaryHandling(SoQtThumbWheel::ACCUMULATE);
-  ((SoQtThumbWheel *)this->bottomWheel)->setRangeBoundaryHandling(SoQtThumbWheel::ACCUMULATE);
-  return widget;
+  return inherited::buildWidget(parent);
 }
 
 // ************************************************************************
