@@ -966,7 +966,7 @@ SoQtFullViewer::buildPopupMenu(
 void
 SoQtFullViewer::setPopupMenuString(const char * str)
 {
-  SOQT_STUB();
+  this->common->setPopupMenuString( str );
 } // setPopupMenuString()
 
 // *************************************************************************
