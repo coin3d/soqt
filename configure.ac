@@ -590,7 +590,7 @@ if $sim_ac_framework && $sim_ac_coin_desired && $sim_ac_coin_avail; then
   if test x"$sim_ac_coin_frameworkdir" = x""; then
     SIM_AC_CONFIGURATION_WARNING([Coin was not installed as a framework, so SoQt can't be either (option was disabled).])
     sim_ac_framework=false
-    soqtincludedir=${includedir}/Inventor/Qt
+    soguiincludedir=${includedir}/Inventor/Qt
     ivincludedir=
   else
     ivframeworkdir=$sim_ac_coin_frameworkdir
@@ -599,18 +599,18 @@ if $sim_ac_framework && $sim_ac_coin_desired && $sim_ac_coin_avail; then
       ivincludedir=$ivframeworkdir/Headers
     fi
     frameworkdir=${sim_ac_framework_prefix}/${sim_ac_framework_name}.framework
-    soqtincludedir=${sim_ac_framework_prefix}/${sim_ac_framework_name}.framework/Headers
+    soguiincludedir=${sim_ac_framework_prefix}/${sim_ac_framework_name}.framework/Headers
   fi
 else
   sim_ac_framework=false
-  soqtincludedir=${includedir}/Inventor/Qt
+  soguiincludedir=${includedir}/Inventor/Qt
   ivincludedir=
 fi
 
 AC_SUBST([ivframeworkdir])
 AC_SUBST([frameworkdir])
 AC_SUBST([ivincludedir])
-AC_SUBST([soqtincludedir])
+AC_SUBST([soguiincludedir])
 
 AC_SUBST([MAC_FRAMEWORK], [$sim_ac_framework])
 AC_SUBST([MAC_FRAMEWORK_NAME], [$sim_ac_framework_name])
