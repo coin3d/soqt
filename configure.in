@@ -219,8 +219,13 @@ AM_DISABLE_STATIC
 AM_MAINTAINER_MODE
 
 # Use C++ for configure tests and Libtool.
-AC_LANG_CPLUSPLUS
 AC_PROG_CXX
+AC_LANG(C++)
+
+if $BUILD_WITH_MSVC; then
+  RANLIB=true
+  export RANLIB
+fi
 
 case "$host_os" in
   irix*)
@@ -236,6 +241,10 @@ esac
 
 # Initialize libtool
 AC_PROG_LIBTOOL
+
+# fix some mess created by AC_PROG_LIBTOOL
+AC_LANG(C)
+AC_LANG(C++)
 
 # These are used for constructing the soqt-config file.
 SOQT_EXTRA_CPPFLAGS=$CPPFLAGS
@@ -319,7 +328,6 @@ if test x"${with_inventor+set}" = x"set" &&
     SOQT_EXTRA_LIBS="$sim_ac_glu_libs $SOQT_EXTRA_LIBS"
   ], AC_MSG_ERROR(needs the OpenGL utility library))
 
-  AC_LANG_PUSH(C++)
   SIM_AC_HAVE_INVENTOR_IFELSE(
     [CPPFLAGS="$sim_ac_inventor_cppflags $CPPFLAGS"
      LDFLAGS="$sim_ac_inventor_ldflags $LDFLAGS"
@@ -328,10 +336,10 @@ if test x"${with_inventor+set}" = x"set" &&
      SOQT_EXTRA_LDFLAGS="$sim_ac_inventor_ldflags $SOQT_EXTRA_LDFLAGS"
      SOQT_EXTRA_LIBS="$sim_ac_inventor_libs $SOQT_EXTRA_LIBS"],
     AC_MSG_ERROR(couldn't compile and link against Open Inventor))
-  AC_LANG_POP
 
   SIM_AC_CONFIGURATION_SETTING([Open Inventor brand], [SGI/TGS Inventor])
 else
+
   SIM_AC_HAVE_COIN_IFELSE([
     CPPFLAGS="$CPPFLAGS $sim_ac_coin_cppflags"
     LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
@@ -563,6 +571,12 @@ SIM_AC_UNIQIFY_LIST(LIBS, $LIBS)
 
 if $BUILD_WITH_MSVC; then
   CPPFLAGS="-DSOQT_MAKE_DLL $CPPFLAGS"
+  DLLFLAGS="/dll"
+  debugfile="`pwd`/src/Inventor/Qt/soqt$SOQT_MAJOR_VERSION.pdb"
+  debugfile=`cygpath -w "$debugfile" | sed 's,\\\\,\\\\\\\\,g'`
+  CPPFLAGS="/Fd$debugfile $CPPFLAGS"
+  DLLFLAGS="$DLLFLAGS /PDB:$debugfile"
+  AC_SUBST(DLLFLAGS)
 
   # We use a version suffix on the .dll-file, so several incompatible
   # (major) versions can be installed on a system.

@@ -10,10 +10,17 @@
 
 wd=`echo "$0" | sed -e 's,[^/]*$,,g'`
 me=`echo "$0" | sed -e 's,.*/,,g'`
+
 cd $wd
 if test ! -f ./$me; then
   echo >&2 "$me: error: unexpected problem with your shell - bailing out"
   exit 1
+fi
+
+if test x"$@" = x"" -a ! -f cfg/missing; then
+  echo >&2 "$me: assuming '--add' was meant"
+  set : --add
+  shift
 fi
 
 AUTOCONF_VER=2.49c     # Autoconf from CVS
@@ -27,20 +34,28 @@ MACRODIR=cfg/m4
 SUBPROJECTS="$MACRODIR src/Inventor/Qt/common"
 SUBPROJECTNAMES="SoQtMacros SoQtCommon"
 
+libtoolize=false
 AUTOMAKE_ADD=
 if test "$1" = "--clean"; then
   rm -f config.h.in \
         configure \
-        stamp-h* \
-        cfg/depcomp \
-        cfg/install-sh cfg/mkinstalldirs cfg/missing \
-        cfg/ltconfig cfg/ltmain.sh \
-        cfg/config.sub cfg/config.guess
-
-  find . -name Makefile.in -print | xargs rm
+        stamp-h*
+  ( cd cfg
+    rm -f depcomp \
+          install-sh \
+          mkinstalldirs \
+          missing \
+          ltconfig \
+          ltmain.sh \
+          config.sub \
+          config.guess \
+          ltcf-*.sh
+  )
+  find . -name Makefile.in -print | grep -v "^./data/" | xargs rm -f
   exit 0
 elif test "$1" = "--add"; then
   AUTOMAKE_ADD="--add-missing --gnu --copy"
+  libtoolize=true
 fi
 
 echo "Checking the installed configuration tools..."
@@ -100,6 +115,16 @@ ${DIE=false} && echo "" && echo >&2 "$me: aborting..." && exit 1
 
 # **************************************************************************
 
+# add missing files in cfg/
+if $libtoolize; then
+  echo "Running libtoolize..."
+  libtoolize --copy --force
+  ( cd cfg
+    test -f ltmain.sh.diff && patch -p0 < ltmain.sh.diff
+    test -f ltconfig.diff  && patch -p0 < ltconfig.diff
+  )
+fi
+
 # generate aclocal.m4
 echo "Running aclocal..."
 aclocal -I $MACRODIR
@@ -112,7 +137,7 @@ echo "Running autoconf..."
 echo "Running autoheader..."
 ( autoheader 3>&1 1>&2 2>&3 | grep -v 'is unchanged$' ) 3>&1 1>&2 2>&3
 
-# generate Makefile.in templates
+# generate Makefile.in templates, and add missing files in cfg/
 echo "Running automake..."
 ( automake $AUTOMAKE_ADD 3>&1 1>&2 2>&3 | grep -v 'directory should not' ) 3>&1 1>&2 2>&3
 

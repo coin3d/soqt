@@ -149,7 +149,7 @@ soqt@SOQT_MAJOR_VERSION@.dll: $(libSoQt_la_OBJECTS) $(libSoQt_la_DEPENDENCIES)
 	@rm -f soqt@SOQT_MAJOR_VERSION@.dll && \
 	if @BUILD_WITH_MSVC@; then \
 	  echo "Linking DLL..."; \
-	  $(CC) /dll /out:soqt@SOQT_MAJOR_VERSION@.dll $(LDFLAGS) \
+	  $(CC) @DLLFLAGS@ /out:soqt@SOQT_MAJOR_VERSION@.dll $(LDFLAGS) \
 	        `echo $(libSoQt_la_OBJECTS) | sed 's%\.lo%.obj%g'` \
 	        $(libSoQt_la_LIBADD) $(LIBS); \
 	else \
@@ -164,7 +164,20 @@ soqt@SOQT_MAJOR_VERSION@.dll: $(libSoQt_la_OBJECTS) $(libSoQt_la_DEPENDENCIES)
 install-exec-hook: soqt@SOQT_MAJOR_VERSION@.dll
 	@if test -s soqt@SOQT_MAJOR_VERSION@.dll; then \
 	  echo "Installing soqt@SOQT_MAJOR_VERSION@.dll"; \
-	  for i in soqt@SOQT_MAJOR_VERSION@.dll soqt@SOQT_MAJOR_VERSION@.lib; do \
-	    $(INSTALL_DATA) $$i $(DESTDIR)$(libdir)/$$i; \
+	  for e in dll lib pdb; do \
+	    file="soqt@SOQT_MAJOR_VERSION@.$$e"; \
+	    if test -s "$$file"; then \
+	      $(INSTALL_DATA) $$file $(DESTDIR)$(libdir)/$$file; \
+	    fi; \
 	  done \
 	fi
+
+uninstall: uninstall-am
+	@for e in dll lib pdb; do \
+	  file="$(DESTDIR)$(libdir)/coin@SOQT_MAJOR_VERSION@.$$e"; \
+	  if test -f "$$file"; then \
+	    echo rm -f "$$file"; \
+	    rm -f "$$file"; \
+	  fi \
+	done
+
