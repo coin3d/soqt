@@ -58,7 +58,7 @@ GradientEditor::GradientEditor(const Gradient & grad,
   topLayout->addWidget(this->gradientWidget);
   topLayout->addLayout(buttonOutputLayout);
 
-  QCanvas * canvas = new QCanvas(450,58);
+  QCanvas * canvas = new QCanvas(450,60);
   this->gradView = new GradientView(canvas, grad, gradientWidget, "GradientView");
   this->gradView->setMargin(10);
   this->gradView->setFrameStyle(QFrame::Sunken);
@@ -70,7 +70,9 @@ GradientEditor::GradientEditor(const Gradient & grad,
   outputLayout->addWidget(dataValues);
 
   this->dataValue = new QLabel(dataValues, "dataValue");
+  this->dataValue->setMinimumWidth(200);
   this->colorLabel = new QLabel(dataValues, "colorLabel");
+  this->dataValue->setMinimumWidth(200);
 
   buttonLayout->setAlignment(Qt::AlignRight | Qt::AlignBottom);
 
@@ -115,7 +117,7 @@ void GradientEditor::setMax(int max)
 void GradientEditor::updateValueLabels()
 {
   float t = this->gradView->getSelectedPos();
-  float value = t * (this->max - this->min) + this->min;
+  int value = int(t * (this->max - this->min) + this->min);
 
   Gradient grad = this->gradView->getGradient();
   QRgb col = grad.eval(t);
