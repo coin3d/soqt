@@ -74,8 +74,6 @@ public slots:
   void selectedViewing();
   void selectedDecoration();
   void selectedHeadlight();
-  void copyviewSelected();
-  void pasteviewSelected();
 
   // Generic slots.
   void increaseInteractiveCount();

@@ -1236,24 +1236,6 @@ SoQtFullViewerP::selectedHeadlight()
 
 // Qt slot.
 void
-SoQtFullViewerP::copyviewSelected()
-{
-  PUBLIC(this)->copyView(SbTime::getTimeOfDay());
-}
-
-// *************************************************************************
-
-// Qt slot.
-void
-SoQtFullViewerP::pasteviewSelected()
-{
-  PUBLIC(this)->pasteView(SbTime::getTimeOfDay());
-}
-
-// *************************************************************************
-
-// Qt slot.
-void
 SoQtFullViewerP::increaseInteractiveCount()
 {
   PUBLIC(this)->interactiveCountInc();
