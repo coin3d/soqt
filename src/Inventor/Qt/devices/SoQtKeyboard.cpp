@@ -485,7 +485,7 @@ SoQtKeyboard::enable(
   SoQtEventHandler *, // handler,
   void * ) // closure )
 {
-  SOQT_STUB();
+// FIXME: SOQT_STUB();
 } // enable()
 
 /*!
@@ -498,7 +498,7 @@ SoQtKeyboard::disable(
   SoQtEventHandler *, // handler,
   void * ) // closure )
 {
-  SOQT_STUB();
+// FIXME: SOQT_STUB();
 } // disable()
 
 // *************************************************************************

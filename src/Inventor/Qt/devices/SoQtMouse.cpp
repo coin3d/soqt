@@ -33,13 +33,13 @@ static const char rcsid[] =
 #include <Inventor/events/SoMouseButtonEvent.h>
 #include <Inventor/events/SoLocation2Event.h>
 
-#include <soqtdefs.h>
-#include <Inventor/Qt/SoQtBasic.h>
-#include <Inventor/Qt/devices/SoQtMouse.h>
-
 #if HAVE_CONFIG_H
 #include <config.h>
 #endif // HAVE_CONFIG_H
+
+#include <soqtdefs.h>
+#include <Inventor/Qt/SoQtBasic.h>
+#include <Inventor/Qt/devices/SoQtMouse.h>
 
 /*!
   \class SoQtMouse SoQtMouse.h Inventor/Qt/devices/SoQtMouse.h
@@ -117,7 +117,7 @@ SoQtMouse::enable(
   SoQtEventHandler *, // handler,
   void * ) // closure )
 {
-  SOQT_STUB();
+// FIXME: SOQT_STUB();
 } // enable()
 
 /*!
@@ -130,7 +130,7 @@ SoQtMouse::disable(
   SoQtEventHandler *, // handler,
   void * ) // closure )
 {
-  SOQT_STUB();
+// FIXME: SOQT_STUB();
 } // disable()
 
 // *************************************************************************
