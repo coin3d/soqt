@@ -488,8 +488,8 @@ SoQtKeyboard::translateEvent(QEvent * event)
     // FIXME: read QCursor::position() instead,
     // and clean up this mess. 19990222 mortene.
     this->setEventPosition(this->kbdevent,
-                            SoQtDevice::getLastEventPosition().x(),
-                            SoQtDevice::getLastEventPosition().y());
+                           SoQtDevice::getLastEventPosition()[0],
+                           SoQtDevice::getLastEventPosition()[1]);
 
     // FIXME: wrong -- should be the time the Qt event happened. Can't
     // find support for getting hold of that information in
