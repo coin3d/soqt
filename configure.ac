@@ -262,6 +262,10 @@ if test x"$sim_ac_want_x11" = xyes; then
 fi
 
 # *******************************************************************
+
+SIM_AC_CHECK_WIN32_API
+
+# *******************************************************************
 # Instead of getenv() on most Win32 platforms (not Windows CE).
 
 AC_MSG_CHECKING([for GetEnvironmentVariable() function])
