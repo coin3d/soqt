@@ -208,7 +208,7 @@ RadioGroupKit::affectsState() const
 }
 
 void
-RadioGroupKitP::buttonClickedCallback(void * userData, SoPath * node)
+RadioGroupKitP::buttonClickedCallback(void * userData, SoPath * path)
 {
   paramPackage * pp = (paramPackage *) userData;
   RadioGroupKitP * radioButtonsP = (RadioGroupKitP *)pp->thisClass;
