@@ -61,8 +61,9 @@ public:
 
 protected:
   SoQtGLWidget( QWidget * const parent = NULL, const char * const name = NULL,
-      const SbBool embed = TRUE, const int glModes = SO_GLX_RGB,
+      const SbBool embed = TRUE, const int glmodes = SO_GLX_RGB,
       const SbBool build = TRUE );
+  SoQtGLWidget::~SoQtGLWidget();
 
   virtual void processEvent( QEvent * event );
 
@@ -110,7 +111,8 @@ private:
   SoQtGLArea * glwidget;
   QWidget * glparent;
   QFrame * borderwidget;
-  int borderthickness, glmodebits;
+  int borderthickness;
+  class QGLFormat * glformat;
 
   struct {
     unsigned int mouseinput    : 1;

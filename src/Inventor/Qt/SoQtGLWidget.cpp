@@ -108,14 +108,14 @@ static const int SO_BORDER_THICKNESS = 2;
 // *************************************************************************
 
 /*!
-  Protected Constructor.
+  Protected constructor.
 */
 
 SoQtGLWidget::SoQtGLWidget(
   QWidget * const parent,
   const char * const name,
   const SbBool embed,
-  const int glModes,
+  const int glmodes,
   const SbBool build )
 : inherited( parent, name, embed )
 , waitForExpose( TRUE )
@@ -123,7 +123,16 @@ SoQtGLWidget::SoQtGLWidget(
 {
   this->glSize = SbVec2s( 0, 0 );
   this->glLockLevel = 0;
-  this->glmodebits = glModes;
+
+  this->glformat = new QGLFormat;
+  this->glformat->setDoubleBuffer((glmodes & SO_GL_DOUBLE) ? true : false);
+  this->glformat->setDepth((glmodes & SO_GL_ZBUFFER) ? true : false);
+  this->glformat->setRgba((glmodes & SO_GL_RGB) ? true : false);
+  this->glformat->setStereo((glmodes & SO_GL_STEREO) ? true : false);
+  // FIXME: SoQt overlay handling. 20001121 mortene.
+#if HAVE_QGLFORMAT_SETOVERLAY
+  //    this->glformat->setOverlay((glmodes & SO_GL_OVERLAY) ? true : false);
+#endif // HAVE_QGLFORMAT_SETOVERLAY
 
   this->glparent = NULL;
   this->glwidget = NULL;
@@ -146,6 +155,20 @@ SoQtGLWidget::SoQtGLWidget(
     this->setBaseWidget( widget );
   }
 } // SoQtGLWidget()
+
+// *************************************************************************
+
+/*!
+  Protected destructor.
+*/
+
+SoQtGLWidget::~SoQtGLWidget()
+{
+  delete this->glwidget;
+  delete this->glformat;
+
+  delete this->borderwidget;
+}
 
 // *************************************************************************
 
@@ -188,25 +211,13 @@ SoQtGLWidget::buildGLWidget(void)
     QObject::disconnect( oldglwidget, SIGNAL(init_sig()), this, SLOT(gl_init()));
   }
 
-  QGLFormat f;
-  f.setDoubleBuffer((this->glmodebits & SO_GLX_DOUBLE) ? true : false);
-  f.setDepth((this->glmodebits & SO_GLX_ZBUFFER) ? true : false);
-  f.setRgba((this->glmodebits & SO_GLX_RGB) ? true : false);
-  f.setStereo((this->glmodebits & SO_GLX_STEREO) ? true : false);
-
-#if HAVE_QGLFORMAT_SETOVERLAY
-  // FIXME: do proper overlay handling. 20001121 mortene.
-  f.setOverlay( false );
-#endif // HAVE_QGLFORMAT_SETOVERLAY
-
-  this->glwidget = new SoQtGLArea( &f, this->borderwidget );
+  this->glwidget = new SoQtGLArea( this->glformat, this->borderwidget );
 
   if ( ! this->glwidget->isValid() )
     SoDebugError::post("SoQtGLWidget::SoQtGLWidget",
                        "Your graphics hardware is weird! Can't use it.");
 
-  // FIXME: set this->glmodebits to the flags we actually managed to
-  // cover. 20001121 mortene.
+  *this->glformat = this->glwidget->format();
 
   QRect temp = borderwidget->contentsRect();
 //  SoDebugError::postInfo( "", "rect = %d, %d, %d, %d",
@@ -229,8 +240,11 @@ SoQtGLWidget::buildGLWidget(void)
 #endif // debug
 
   if (oldglwidget) {
-    // If we are rebuilding, the parent widgets have already been
-    // realized.
+    // If we are rebuilding, we need to explicitly call show() here,
+    // as no message to show will be given from an already visible
+    // parent. (If the glwidget was built but not shown before the
+    // rebuild, the call below doesn't do any harm, as the glwidget
+    // still won't become visible until all parents are visible.)
     this->glwidget->show();
     // Do this last to avoid flickering the grey background of the
     // parent widget.
@@ -453,14 +467,13 @@ void
 SoQtGLWidget::setDoubleBuffer(
   const SbBool enable )
 {
-  SbBool oldenable = (this->glmodebits & SO_GLX_DOUBLE) ? TRUE : FALSE;
-  if ( enable != oldenable ) {
-    if (enable) this->glmodebits |= SO_GLX_DOUBLE;
-    else this->glmodebits &= ~SO_GLX_DOUBLE;
-    // We're satisfied with just setting up the flag if no GL widget
-    // was built yet.
-    if (this->glwidget) this->buildGLWidget();
-  }
+  if ( (enable && this->glformat->doubleBuffer()) ||
+       (!enable && !this->glformat->doubleBuffer()) )
+    return;
+
+  this->glformat->setDoubleBuffer(enable);
+  // Rebuild if a GL widget has already been built.
+  if (this->glwidget) this->buildGLWidget();
 }
 
 /*!
@@ -471,7 +484,7 @@ SoQtGLWidget::setDoubleBuffer(
 SbBool
 SoQtGLWidget::isDoubleBuffer(void) const
 {
-  return (this->glmodebits & SO_GLX_DOUBLE) ? TRUE : FALSE;
+  return this->glformat->doubleBuffer();
 }
 
 /*!
@@ -480,14 +493,13 @@ SoQtGLWidget::isDoubleBuffer(void) const
 void 
 SoQtGLWidget::setQuadBufferStereo(const SbBool enable)
 {
-  SbBool oldenable = (this->glmodebits & SO_GLX_STEREO) ? TRUE : FALSE;
-  if ( enable != oldenable ) {
-    if (enable) this->glmodebits |= SO_GLX_STEREO;
-    else this->glmodebits &= ~SO_GLX_STEREO;
-    // We're satisfied with just setting up the flag if no GL widget
-    // was built yet.
-    if (this->glwidget) this->buildGLWidget();
-  }
+  if ( (enable && this->glformat->stereo()) ||
+       (!enable && !this->glformat->stereo()) )
+    return;
+
+  this->glformat->setStereo(enable);
+  // Rebuild if a GL widget has already been built.
+  if (this->glwidget) this->buildGLWidget();
 }
 
 /*!
@@ -496,12 +508,13 @@ SoQtGLWidget::setQuadBufferStereo(const SbBool enable)
 SbBool 
 SoQtGLWidget::isQuadBufferStereo(void) const
 {
-  return (this->glmodebits & SO_GLX_STEREO) ? TRUE : FALSE;
+  return this->glformat->stereo();
 }
 
 
 /*!
-  FIXME: write function documentation
+  If this is set to \c TRUE, rendering will happen in the front buffer
+  even if the current rendering mode is double buffered.
 */
 void
 SoQtGLWidget::setDrawToFrontBufferEnable(const SbBool enable)
@@ -510,7 +523,7 @@ SoQtGLWidget::setDrawToFrontBufferEnable(const SbBool enable)
 }
 
 /*!
-  FIXME: write function documentation
+  \sa setDrawToFrontBufferEnable()
 */
 SbBool
 SoQtGLWidget::isDrawToFrontBufferEnable(void) const
