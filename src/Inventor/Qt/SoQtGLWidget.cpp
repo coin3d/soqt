@@ -678,24 +678,6 @@ SoQtGLWidget::hasNormalGLArea(void) const
 }
 
 // *************************************************************************
-
-// Documented in common/SoGuiGLWidgetCommon.cpp.in.
-void
-SoQtGLWidget::setStealFocus(SbBool enable)
-{
-  // FIXME: implement properly. 20041208 mortene.
-  SOQT_STUB_ONCE();
-}
-
-// Documented in common/SoGuiGLWidgetCommon.cpp.in.
-SbBool
-SoQtGLWidget::isStealFocus(void) const
-{
-  // FIXME: implement properly. 20041208 mortene.
-  return TRUE;
-}
-
-// *************************************************************************
 // The private data and code for the SoQtGLWidget.
 
 SoQtGLWidgetP::SoQtGLWidgetP(SoQtGLWidget * o)
