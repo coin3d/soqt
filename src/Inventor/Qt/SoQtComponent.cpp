@@ -368,11 +368,8 @@ SoQtComponent::setBaseWidget(QWidget * widget)
   Helps us detect changes in size (base widget and parent widget)
   and visibility status.
 */
-
 bool
-SoQtComponent::eventFilter(// virtual
-  QObject * obj,
-  QEvent * e)
+SoQtComponent::eventFilter(QObject * obj, QEvent * e)
 {
 #if 0 // debug
   static const char eventnaming[][50] = {

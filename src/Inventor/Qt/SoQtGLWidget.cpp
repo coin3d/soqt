@@ -244,6 +244,8 @@ SoQtGLWidget::SoQtGLWidget(QWidget * const parent,
   if (! QGLFormat::hasOpenGL()) {
     SoDebugError::post("SoQtGLWidget::SoQtGLWidget",
                         "OpenGL not available!");
+    // FIXME: this is not the way to handle this -- we should call the
+    // fatal error handler. 20011112 mortene.
     return;
   }
 
@@ -321,15 +323,15 @@ SoQtGLWidget::buildWidget(QWidget * parent)
 void
 SoQtGLWidget::buildGLWidget(void)
 {
-#if SOQT_DEBUG && 0 // debug
-  SoDebugError::postInfo("SoQtGLWidget::buildGLWidget",
-                         "%s, %s, %s, %s, %s",
-                         PRIVATE(this)->glformat->doubleBuffer() ? "double" : "single",
-                         PRIVATE(this)->glformat->depth() ? "z-buffer" : "no z-buffer",
-                         PRIVATE(this)->glformat->rgba() ? "RGBA" : "colorindex",
-                         PRIVATE(this)->glformat->stereo() ? "stereo" : "mono",
-                         QGLFormat_hasOverlay(PRIVATE(this)->glformat) ? "overlay" : "no overlay");
-#endif // debug
+  if (SOQT_DEBUG && 0) { // debug
+    SoDebugError::postInfo("SoQtGLWidget::buildGLWidget",
+                           "%s, %s, %s, %s, %s",
+                           PRIVATE(this)->glformat->doubleBuffer() ? "double" : "single",
+                           PRIVATE(this)->glformat->depth() ? "z-buffer" : "no z-buffer",
+                           PRIVATE(this)->glformat->rgba() ? "RGBA" : "colorindex",
+                           PRIVATE(this)->glformat->stereo() ? "stereo" : "mono",
+                           QGLFormat_hasOverlay(PRIVATE(this)->glformat) ? "overlay" : "no overlay");
+  }
 
   SoQtGLArea * wascurrent = PRIVATE(this)->currentglwidget;
   SoQtGLArea * wasprevious = PRIVATE(this)->previousglwidget;
@@ -362,10 +364,10 @@ SoQtGLWidget::buildGLWidget(void)
     if (PRIVATE(this)->currentglwidget) SoAny::si()->unregisterGLContext((void*) this);
     PRIVATE(this)->currentglwidget = wasprevious;
     SoAny::si()->registerGLContext((void*) this, display, screen);
-#if SOQT_DEBUG && 0 // debug
-    SoDebugError::postInfo("SoQtGLWidget::buildGLWidget",
-                           "reused previously used GL widget");
-#endif // debug
+    if (SOQT_DEBUG && 0) { // debug
+      SoDebugError::postInfo("SoQtGLWidget::buildGLWidget",
+                             "reused previously used GL widget");
+    }
   }
   else {
     // Couldn't use the previous widget, make a new one.
@@ -382,12 +384,12 @@ SoQtGLWidget::buildGLWidget(void)
   if (! PRIVATE(this)->currentglwidget->isValid()) {
     SoDebugError::post("SoQtGLWidget::SoQtGLWidget",
                        "Your graphics hardware is weird! Can't use it.");
-    // FIXME: should be fatal? 20001122 mortene.
+    // FIXME: trigger fatal error handler. 20011112 mortene.
   }
 
-#if SOQT_DEBUG // Warn about requested features that we didn't get.
-  QGLFormat * w = PRIVATE(this)->glformat; // w(anted)
-  QGLFormat g = PRIVATE(this)->currentglwidget->format(); // g(ot)
+  if (SOQT_DEBUG) { // Warn about requested features that we didn't get.
+    QGLFormat * w = PRIVATE(this)->glformat; // w(anted)
+    QGLFormat g = PRIVATE(this)->currentglwidget->format(); // g(ot)
 
 #define GLWIDGET_FEATURECMP(_glformatfunc_, _truestr_, _falsestr_) \
   do { \
@@ -399,24 +401,21 @@ SoQtGLWidget::buildGLWidget(void)
     } \
   } while (0)
 
-  GLWIDGET_FEATURECMP(doubleBuffer, "doublebuffer visual", "singlebuffer visual");
-  GLWIDGET_FEATURECMP(depth, "visual with depthbuffer", "visual without depthbuffer");
-  GLWIDGET_FEATURECMP(rgba, "RGBA buffer", "colorindex buffer");
-  GLWIDGET_FEATURECMP(stereo, "stereo buffers", "mono buffer");
+    GLWIDGET_FEATURECMP(doubleBuffer, "doublebuffer visual", "singlebuffer visual");
+    GLWIDGET_FEATURECMP(depth, "visual with depthbuffer", "visual without depthbuffer");
+    GLWIDGET_FEATURECMP(rgba, "RGBA buffer", "colorindex buffer");
+    GLWIDGET_FEATURECMP(stereo, "stereo buffers", "mono buffer");
 
-  if (QGLFormat_hasOverlay(w) != QGLFormat_hasOverlay(&g)) {
-    SoDebugError::postWarning("SoQtGLWidget::buildGLWidget",
-                              "wanted %s, but that is not supported "
-                              "by the OpenGL driver",
-                              QGLFormat_hasOverlay(w) ?
-                              "overlay plane(s)" :
-                              "visual without overlay plane(s)");
+    if (QGLFormat_hasOverlay(w) != QGLFormat_hasOverlay(&g)) {
+      SoDebugError::postWarning("SoQtGLWidget::buildGLWidget",
+                                "wanted %s, but that is not supported "
+                                "by the OpenGL driver",
+                                QGLFormat_hasOverlay(w) ?
+                                "overlay plane(s)" :
+                                "visual without overlay plane(s)");
+    }
   }
-
 #undef GLWIDGET_FEATURECMP
-
-#endif // SOQT_DEBUG
-
 
   *PRIVATE(this)->glformat = PRIVATE(this)->currentglwidget->format();
 
@@ -455,55 +454,55 @@ SoQtGLWidget::buildGLWidget(void)
 
 // *************************************************************************
 
-  static const char eventnaming[][50] = {
-    "None", // 0
-    "Timer",
-    "MouseButtonPress",
-    "MouseButtonRelease",
-    "MouseButtonDblClick",
-    "MouseMove",
-    "KeyPress",
-    "KeyRelease",
-    "FocusIn",
-    "FocusOut",
-    "Enter",
-    "Leave",
-    "Paint",
-    "Move",
-    "Resize",
-    "Create",
-    "Destroy",
-    "Show",
-    "Hide",
-    "Close",
-    "Quit", // 20
-    "*error*", "*error*", "*error*", "*error*", "*error*",
-    "*error*", "*error*", "*error*", "*error*",
-    "Accel", // 30
-    "Wheel",
-    "AccelAvailable", // 32
-    "*error*", "*error*", "*error*", "*error*",
-    "*error*", "*error*", "*error*",
-    "Clipboard", // 40
-    "*error*", "*error*", "*error*", "*error*", "*error*",
-    "*error*", "*error*", "*error*", "*error*",
-    "SockAct", // 50
-    "*error*", "*error*", "*error*", "*error*", "*error*",
-    "*error*", "*error*", "*error*", "*error*",
-    "DragEnter", // 60
-    "DragMove",
-    "DragLeave",
-    "Drop",
-    "DragResponse", // 64
-    "*error*", "*error*", "*error*", "*error*", "*error*",
-    "ChildInserted", // 70
-    "ChildRemoved",
-    "LayoutHint", // 72
-    "*error*", "*error*", "*error*", "*error*", "*error*",
-    "*error*", "*error*",
-    "ActivateControl", // 80
-    "DeactivateControl"
-  };
+static const char eventnaming[][50] = {
+  "None", // 0
+  "Timer",
+  "MouseButtonPress",
+  "MouseButtonRelease",
+  "MouseButtonDblClick",
+  "MouseMove",
+  "KeyPress",
+  "KeyRelease",
+  "FocusIn",
+  "FocusOut",
+  "Enter",
+  "Leave",
+  "Paint",
+  "Move",
+  "Resize",
+  "Create",
+  "Destroy",
+  "Show",
+  "Hide",
+  "Close",
+  "Quit", // 20
+  "*unknown*", "*unknown*", "*unknown*", "*unknown*", "*unknown*",
+  "*unknown*", "*unknown*", "*unknown*", "*unknown*",
+  "Accel", // 30
+  "Wheel",
+  "AccelAvailable", // 32
+  "CaptionChange",
+  "*unknown*", "*unknown*", "*unknown*", "*unknown*", "*unknown*", "*unknown*",
+  "Clipboard", // 40
+  "*unknown*", "*unknown*", "*unknown*", "*unknown*", "*unknown*",
+  "*unknown*", "*unknown*", "*unknown*", "*unknown*",
+  "SockAct", // 50
+  "*unknown*", "*unknown*", "*unknown*", "*unknown*", "*unknown*",
+  "*unknown*", "*unknown*", "*unknown*", "*unknown*",
+  "DragEnter", // 60
+  "DragMove",
+  "DragLeave",
+  "Drop",
+  "DragResponse", // 64
+  "*unknown*", "*unknown*", "*unknown*", "*unknown*", "*unknown*",
+  "ChildInserted", // 70
+  "ChildRemoved",
+  "LayoutHint", // 72
+  "*unknown*", "*unknown*", "*unknown*", "*unknown*", "*unknown*",
+  "*unknown*", "*unknown*",
+  "ActivateControl", // 80
+  "DeactivateControl"
+};
 
 /*!
   FIXME: write function documentation
@@ -511,12 +510,17 @@ SoQtGLWidget::buildGLWidget(void)
 bool
 SoQtGLWidget::eventFilter(QObject * obj, QEvent * e)
 {
-#if SOQT_DEBUG && 0 // debug
-  SoDebugError::postInfo("SoQtGLWidget::eventFilter",
-                         "[invoked] obj: %p %s",
-                         obj,
-                         eventnaming[e->type()]);
-#endif // debug
+  if (SOQT_DEBUG && 0) { // debug
+    SbString w = "unknown";
+    if (obj == PRIVATE(this)->glparent) { w = "glparent"; }
+    else if (obj == PRIVATE(this)->currentglwidget) { w = "currentglwidget"; }
+    else if (obj == PRIVATE(this)->borderwidget) { w = "borderwidget"; }
+
+    SoDebugError::postInfo("SoQtGLWidget::eventFilter",
+                           "[invoked] obj: %p (=%s) %s (typecode==%d)",
+                           obj, w.getString(),
+                           eventnaming[e->type()], e->type());
+  }
 
 #if QT_VERSION >= 200
   // Qt 2 introduced "accelerator" type keyboard events, which should
@@ -564,12 +568,12 @@ SoQtGLWidget::eventFilter(QObject * obj, QEvent * e)
     // we resize the GL widget along with it.
     if (e->type() == QEvent::Resize) {
       QResizeEvent * r = (QResizeEvent *)e;
-#if SOQT_DEBUG && 0  // debug
-      SoDebugError::postInfo("SoQtGLWidget::eventFilter",
-                             "resize parent %p: (%d, %d)",
-                             PRIVATE(this)->glparent,
-                             r->size().width(), r->size().height());
-#endif // debug
+      if (SOQT_DEBUG && 0) {  // debug
+        SoDebugError::postInfo("SoQtGLWidget::eventFilter",
+                               "resize parent %p: (%d, %d)",
+                               PRIVATE(this)->glparent,
+                               r->size().width(), r->size().height());
+      }
 
       PRIVATE(this)->borderwidget->resize(r->size());
 //      int newwidth = r->size().width() - 2 * PRIVATE(this)->borderthickness;
@@ -736,10 +740,8 @@ SoQtGLWidget::isDrawToFrontBufferEnable(void) const
 /*!
   At the moment this is just a stub prototype for OIV compatibility.
 */
-
 QWidget *
-SoQtGLWidget::getNormalWidget(
-  void) const
+SoQtGLWidget::getNormalWidget(void) const
 {
   return this->getGLWidget();
 }
@@ -753,10 +755,8 @@ SoQtGLWidget::getNormalWidget(
   return the same widget reference as the SoQt::getGLWidget() call (if
   overlay planes are supported).
 */
-
 QWidget *
-SoQtGLWidget::getOverlayWidget(
-  void) const
+SoQtGLWidget::getOverlayWidget(void) const
 {
   // Cast away this-pointer constness, as
   // SoQtGLWidget::getOverlayContext() is not defined as const.
@@ -770,15 +770,13 @@ SoQtGLWidget::getOverlayWidget(
 /*!
   Sets the size of the GL canvas.
 */
-
 void
-SoQtGLWidget::setGLSize(
-  const SbVec2s size)
+SoQtGLWidget::setGLSize(const SbVec2s size)
 {
   if (size == PRIVATE(this)->glSize) return;
 #if SOQT_DEBUG && 0 // debug
   SoDebugError::postInfo("SoQtGLWidget::setGLSize",
-    "[invoked (%d, %d)]", size[0], size[1]);
+                         "[invoked (%d, %d)]", size[0], size[1]);
 #endif // debug
   PRIVATE(this)->glSize = size;
   if (PRIVATE(this)->currentglwidget) {
@@ -790,10 +788,8 @@ SoQtGLWidget::setGLSize(
 /*!
   Return the dimensions of the OpenGL canvas.
 */
-
 SbVec2s
-SoQtGLWidget::getGLSize(
-  void) const
+SoQtGLWidget::getGLSize(void) const
 {
   return PRIVATE(this)->glSize;
 }
@@ -801,10 +797,8 @@ SoQtGLWidget::getGLSize(
 /*!
   Return the aspect ratio of the OpenGL canvas.
 */
-
 float
-SoQtGLWidget::getGLAspectRatio(
-  void) const
+SoQtGLWidget::getGLAspectRatio(void) const
 {
   return float(PRIVATE(this)->currentglwidget->width()) /
     float(PRIVATE(this)->currentglwidget->height());
@@ -833,7 +827,6 @@ SoQtGLWidget::getGLAspectRatio(
 /*!
   Returns a pointer to the Qt QGLWidget.
 */
-
 QWidget *
 SoQtGLWidget::getGLWidget(void) const
 {
@@ -852,11 +845,10 @@ SoQtGLWidget::getGLWidget(void) const
 
   \sa sizeChanged()
 */
-
 void
-SoQtGLWidget::widgetChanged(// virtual
-  QWidget * w)
+SoQtGLWidget::widgetChanged(QWidget * w)
 {
+  // virtual
 }
 
 /*!
@@ -878,36 +870,30 @@ SoQtGLWidget::processEvent(QEvent * anyevent)
 // *************************************************************************
 
 /*!
-  This method calls make-current on the correct context and ups the lock
-  level.
+  This method calls make-current on the correct context and ups the
+  lock level.
 */
-
 void
-SoQtGLWidget::glLockNormal(
-  void)
+SoQtGLWidget::glLockNormal(void)
 {
   assert(PRIVATE(this)->currentglwidget != NULL);
   ((SoQtGLArea *)PRIVATE(this)->currentglwidget)->makeCurrent();
-} // glLockNormal()
+}
 
 /*!
   This method drops the lock level.
 */
-
 void
-SoQtGLWidget::glUnlockNormal(
-  void)
+SoQtGLWidget::glUnlockNormal(void)
 {
   // does nothing under Qt. Under BeOS the buffer needs to be unlocked
-} // glUnlockNormal()
+}
 
 /*!
   FIXME: write doc
 */
-
 void
-SoQtGLWidget::glSwapBuffers(
-  void)
+SoQtGLWidget::glSwapBuffers(void)
 {
   assert(PRIVATE(this)->currentglwidget != NULL);
   ((SoQtGLArea *)PRIVATE(this)->currentglwidget)->swapBuffers();
@@ -949,7 +935,7 @@ void
 SoQtGLWidget::gl_init(void)
 {
   if (SOQT_DEBUG && 0) { // debug
-    SoDebugError::postInfo("gl_init", "");
+    SoDebugError::postInfo("gl_init", "invoked");
   }
 
   this->initGraphic();
