@@ -1074,10 +1074,7 @@ SoQtComponentP::getNativeCursor(const SoQtCursor::CustomCursor * cc)
     for (int w=0; w < BYTEWIDTH; w++) {
       const int cursorpos = h * ((MAXBITMAPWIDTH + 7) / 8) + w;
       const int nativepos = h * BYTEWIDTH + w;
-      // FIXME: the AND operation with the mask should really be
-      // unnecessary if the input bitmap data from SoGuiCursor.cpp.in
-      // was correct. 20011123 mortene.
-      cursorbitmap[cursorpos] = cc->bitmap[nativepos] & cc->mask[nativepos];
+      cursorbitmap[cursorpos] = cc->bitmap[nativepos];
       cursormask[cursorpos] = cc->mask[nativepos];
     }
   }
