@@ -197,14 +197,14 @@ AC_ARG_WITH([msvcrt],
     sim_ac_msvcrt=singlethread-static-debug
     sim_ac_msvcrt_CFLAGS="/MLd"
     sim_ac_msvcrt_CXXFLAGS="/MLd"
-    sim_ac_msvcrt_LIBLDFLAGS="/NODEFAULTLIB:libc"
+    sim_ac_msvcrt_LIBLDFLAGS="/LINK /NODEFAULTLIB:libc"
     sim_ac_msvcrt_LIBLIBS="-llibcd"
     ;;
   multithread-static | mt | /mt | libcmt | libcmt\.lib )
     sim_ac_msvcrt=multithread-static
     sim_ac_msvcrt_CFLAGS="/MT"
     sim_ac_msvcrt_CXXFLAGS="/MT"
-    sim_ac_msvcrt_LIBLDFLAGS="/NODEFAULTLIB:libc"
+    sim_ac_msvcrt_LIBLDFLAGS="/LINK /NODEFAULTLIB:libc"
     sim_ac_msvcrt_LIBLIBS="-llibcmt"
     ;;
   multithread-static-debug | mtd | /mtd | libcmtd | libcmtd\.lib )
@@ -218,14 +218,14 @@ AC_ARG_WITH([msvcrt],
     sim_ac_msvcrt=multithread-dynamic
     sim_ac_msvcrt_CFLAGS=""
     sim_ac_msvcrt_CXXFLAGS=""
-    sim_ac_msvcrt_LIBLDFLAGS="/NODEFAULTLIB:libc"
+    sim_ac_msvcrt_LIBLDFLAGS="/LINK /NODEFAULTLIB:libc"
     sim_ac_msvcrt_LIBLIBS="-lmsvcrt"
     ;;
   multithread-dynamic-debug | mdd | /mdd | msvcrtd | msvcrtd\.lib )
     sim_ac_msvcrt=multithread-dynamic-debug
     sim_ac_msvcrt_CFLAGS="/MDd"
     sim_ac_msvcrt_CXXFLAGS="/MDd"
-    sim_ac_msvcrt_LIBLDFLAGS="/NODEFAULTLIB:libc"
+    sim_ac_msvcrt_LIBLDFLAGS="/LINK /NODEFAULTLIB:libc"
     sim_ac_msvcrt_LIBLIBS="-lmsvcrtd"
     ;;
   *)
@@ -6372,10 +6372,17 @@ EOF
     ##
     ## * "-lqt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32" should cover static
     ##   linking on Win32 platforms
+    ##
+    ## * "-lqt-mt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32 -lwinspool -lwinmm"; do
+    ##   added for the benefit of the Qt 3.0.0 Evaliation Version
+    ##
 
     # FIXME: this link test doesn't detect all link problems...
     for sim_ac_qt_cppflags_loop in "" "-DQT_DLL"; do
-      for sim_ac_qt_libcheck in "-lqt-gl" "-lqt" "-lqt-mt" "-lqt${sim_ac_qt_version} -lqtmain -lgdi32" "-lqt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32"; do
+      for sim_ac_qt_libcheck in "-lqt-gl" "-lqt" "-lqt-mt" \
+          "-lqt${sim_ac_qt_version} -lqtmain -lgdi32" \
+          "-lqt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32" \
+          "-lqt-mt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32 -lwinspool -lwinmm"; do
         if test "x$sim_ac_qt_libs" = "xUNRESOLVED"; then
           CPPFLAGS="$sim_ac_qt_incflags $sim_ac_qt_cppflags_loop $sim_ac_save_cppflags"
           LIBS="$sim_ac_qt_libcheck $sim_ac_save_libs"
