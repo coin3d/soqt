@@ -80,6 +80,7 @@ EXTRA_DIST = \
 	README.MACOSX \
 	Info.plist \
 	cfg/soqt.m4 \
+	cfg/gendsp.sh.in \
 	docs/announcement-1_0_0.txt \
 	docs/announcement-1_0_1.txt \
 	docs/announcement-1_0_2.txt \
