@@ -1060,9 +1060,6 @@ Optional Packages:
   --with-coin             enable use of Coin [default=yes]
   --with-coin=DIR         give prefix location of Coin
   --with-qt=DIR           specify location of Qt library default=yes
-  --with-linux-joystick-device=DEV
-                          default joystick device to something other than
-                          /dev/js0
   --with-framework  Do Mac OS X-like framework installation
   --without-framework  Do regular installation on Mac OS X
   --with-framework-prefix=<path>  (default: "/Library/Frameworks")
@@ -5140,7 +5137,7 @@ test "x$enable_libtool_lock" != xno && enable_libtool_lock=yes
 case $host in
 *-*-irix6*)
   # Find out which ABI we are using.
-  echo '#line 5143 "configure"' > conftest.$ac_ext
+  echo '#line 5140 "configure"' > conftest.$ac_ext
   if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
@@ -5676,7 +5673,7 @@ chmod -w .
 save_CFLAGS="$CFLAGS"
 CFLAGS="$CFLAGS -o out/conftest2.$ac_objext"
 compiler_c_o=no
-if { (eval echo configure:5679: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>out/conftest.err; } && test -s out/conftest2.$ac_objext; then
+if { (eval echo configure:5676: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>out/conftest.err; } && test -s out/conftest2.$ac_objext; then
   # The compiler can only warn and ignore the option if not recognized
   # So say no if there are warnings
   if test -s out/conftest.err; then
@@ -7469,7 +7466,7 @@ else
     lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 7472 "configure"
+#line 7469 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -7567,7 +7564,7 @@ else
     lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 7570 "configure"
+#line 7567 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -13701,91 +13698,8 @@ fi
 # **************************************************************************
 # Spaceball support through Linux Joystick driver
 
-if false; then
+# Tmp disabled.
 
-
-echo "$as_me:$LINENO: checking Linux Joystick device driver" >&5
-echo $ECHO_N "checking Linux Joystick device driver... $ECHO_C" >&6
-if test "${sim_cv_joystick_linux+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-#include "confdefs.h"
-#include <linux/joystick.h>
-_ACEOF
-if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
-  (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
-  ac_status=$?
-  egrep -v '^ *\+' conftest.er1 >conftest.err
-  rm -f conftest.er1
-  cat conftest.err >&5
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } >/dev/null; then
-  if test -s conftest.err; then
-    ac_cpp_err=$ac_cxx_preproc_warn_flag
-  else
-    ac_cpp_err=
-  fi
-else
-  ac_cpp_err=yes
-fi
-if test -z "$ac_cpp_err"; then
-  sim_cv_joystick_linux=true
-else
-  echo "$as_me: failed program was:" >&5
-  cat conftest.$ac_ext >&5
-  sim_cv_joystick_linux=false
-fi
-rm -f conftest.err conftest.$ac_ext
-fi
-echo "$as_me:$LINENO: result: $sim_cv_joystick_linux" >&5
-echo "${ECHO_T}$sim_cv_joystick_linux" >&6
-
-sim_ac_joystick_linux_avail=$sim_cv_joystick_linux
-if $sim_cv_joystick_linux; then
-
-# Check whether --with-linux-joystick-device or --without-linux-joystick-device was given.
-if test "${with_linux_joystick_device+set}" = set; then
-  withval="$with_linux_joystick_device"
-  sim_cv_joystick_linux_device=$with_linux_joystick_device
-else
-  : ${sim_cv_joystick_linux_device=/dev/js0}
-fi;
-  echo "$as_me:$LINENO: checking Linux Joystick device handle" >&5
-echo $ECHO_N "checking Linux Joystick device handle... $ECHO_C" >&6
-if test "${sim_cv_joystick_linux_device+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-fi
-echo "$as_me:$LINENO: result: $sim_cv_joystick_linux_device" >&5
-echo "${ECHO_T}$sim_cv_joystick_linux_device" >&6
-  sim_ac_joystick_linux_device=$sim_cv_joystick_linux_device
-
-
-cat >>confdefs.h <<\_ACEOF
-#define HAVE_JOYSTICK_LINUX
-_ACEOF
-
-
-cat >>confdefs.h <<_ACEOF
-#define SOXT_LINUX_JOYSTICK_DEVICE "$sim_ac_joystick_linux_device"
-_ACEOF
-
-
-else
-  :
-fi
-
-
-
-if $sim_ac_joystick_linux_avail; then
-  HAVE_JOYSTICK_LINUX_TRUE=
-  HAVE_JOYSTICK_LINUX_FALSE='#'
-else
-  HAVE_JOYSTICK_LINUX_TRUE='#'
-  HAVE_JOYSTICK_LINUX_FALSE=
-fi
-else
 
 
 if false; then
@@ -13795,13 +13709,17 @@ else
   HAVE_JOYSTICK_LINUX_TRUE='#'
   HAVE_JOYSTICK_LINUX_FALSE=
 fi
-  if test x${sim_ac_configuration_settings+set} != xset; then
-  sim_ac_configuration_settings="Joystick Device:Disabled"
-else
-  sim_ac_configuration_settings="$sim_ac_configuration_settings|Joystick Device:Disabled"
-fi
 
-fi
+#SIM_AC_CHECK_JOYSTICK_LINUX([
+#  AC_DEFINE(HAVE_JOYSTICK_LINUX, ,
+#    [Define to enable Linux Joystick driver support])
+#  AC_DEFINE_UNQUOTED(SOXT_LINUX_JOYSTICK_DEVICE,
+#    "$sim_ac_joystick_linux_device",
+#    [Define this to device handle to fallback on])
+#])
+#AM_CONDITIONAL(HAVE_JOYSTICK_LINUX, $sim_ac_joystick_linux_avail)
+#SIM_AC_CONFIGURATION_SETTING([Joystick Device], [$sim_ac_joystick_linux_device])
+
 
 # **************************************************************************
 # Compiler control.

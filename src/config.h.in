@@ -15,9 +15,6 @@
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
 
-/* Define to enable Linux Joystick driver support */
-#undef HAVE_JOYSTICK_LINUX
-
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 
@@ -137,9 +134,6 @@
 
 /* Version string for SoQt */
 #undef SOQT_VERSION
-
-/* Define this to device handle to fallback on */
-#undef SOXT_LINUX_JOYSTICK_DEVICE
 
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS
