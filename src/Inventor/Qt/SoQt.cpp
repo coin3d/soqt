@@ -159,7 +159,7 @@ SoQt::init(int argc, char ** argv,
 #endif // SOQT_DEBUG
 
   SoQt::appobject = new QApplication(argc, argv);
-  QWidget * mainw = new QMainWindow(NULL, className);
+  QWidget * mainw = new QWidget(NULL, className);
   SoQt::init(mainw);
 
 #if 0 // debug
