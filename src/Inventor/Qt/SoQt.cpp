@@ -41,8 +41,8 @@ static const char rcsid[] =
   For more information on the Qt GUI toolkit, see the web site for
   Troll Tech (makers of Qt): <http://www.trolltech.com>.
 
-  The corresponding documentation for Coin is located at
-  <URL:http://doc.coin3d.org/Coin/>.
+  The corresponding documentation for Coin is located 
+  <a href="http://doc.coin3d.org/Coin/">here</a>.
 */
 
 // *************************************************************************
@@ -265,11 +265,25 @@ SoQtObject::init(// static
   This function gets called whenever something has happened to any of
   the sensor queues. It starts or reschedules a timer which will trigger
   when a sensor is ripe for plucking.
+
 */
 
 void
 SoQt::sensorQueueChanged(void *)
 {
+
+  // We need three different mechanisms to interface Coin with Qt, 
+  // which are:
+  // 1. detect when application is idle (and then empty the delay-queue
+  //    completely for delay-sensors) -- handled by SoQtP::idletimer;
+  // 2. detect when one or more timer-sensors are ripe and trigger those
+  //    -- handled by SoQtP::timerqueuetimer;
+  // 3. on the "delay-sensor timeout interval, empty all highest
+  //    priority delay-queue sensors to avoid complete starvation in
+  //    continually busy applications -- handled by
+  //    SoQTP::delaytimeouttimer
+
+
   // Allocate Qt timers on first call.
 
   if (!SoQtP::timerqueuetimer) {
@@ -301,11 +315,14 @@ SoQt::sensorQueueChanged(void *)
                              interval.getValue());
     }
 
+    // Change interval of timerqueuetimer when head node of the
+    // timer-sensor queue of SoSensorManager changes. 
     if (!SoQtP::timerqueuetimer->isActive())
       SoQtP::timerqueuetimer->start((int)interval.getMsecValue(), TRUE);
     else
       SoQtP::timerqueuetimer->changeInterval((int)interval.getMsecValue());
   }
+  // Stop timerqueuetimer if queue is completely empty.
   else if (SoQtP::timerqueuetimer->isActive()) {
     SoQtP::timerqueuetimer->stop();
   }
@@ -319,6 +336,9 @@ SoQt::sensorQueueChanged(void *)
                            "delaysensor pending");
     }
 
+    // Start idletimer at 0 seconds in the future. -- That means it will 
+    // trigger when the Qt event queue has been run through, i.e. when 
+    // the application is idle.
     if (!SoQtP::idletimer->isActive()) SoQtP::idletimer->start(0, TRUE);
 
     if (!SoQtP::delaytimeouttimer->isActive()) {
