@@ -1,5 +1,4 @@
 /* config.h.in.  Generated automatically from configure.in by autoheader.  */
-
 #undef SOQT_MAJOR_VERSION
 #undef SOQT_MINOR_VERSION
 #undef SOQT_MICRO_VERSION
@@ -8,6 +7,9 @@
 
 /* Define to enable Linux Joystick driver support */
 #undef HAVE_JOYSTICK_LINUX
+
+/* Define if you have the `bsd' library (-lbsd). */
+#undef HAVE_LIBBSD
 
 /* Define if you have the `dnet' library (-ldnet). */
 #undef HAVE_LIBDNET

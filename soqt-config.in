@@ -1,33 +1,25 @@
-#!/bin/sh
-
-
-###### SUBROUTINES ########################################################
+#! /bin/sh
+############################################################################
 
 usage()
 {
 cat <<EOF
-    Usage: soqt-config [OPTIONS]
-    Options:
-            [--version]
-            [--cppflags]
-            [--ldflags]
-            [--libs]
+Usage: soqt-config [OPTIONS]
+Options:
+  --cppflags
+  --ldflags
+  --libs
+  --datadir
+  --have-feature <feature>
+  --build <program> <sourcefile> [<sourcefile>]...
+  --version
+  --usage | --help
 EOF
   exit $1
 }
 
-
-###### MAIN ###############################################################
-
-if test $# -eq 0; then
-  usage 1 1>&2
-fi
-
 while test $# -gt 0; do
   case $1 in
-    --version)
-      echo @SOQT_VERSION@
-      ;;
     --cppflags)
       # Note: if we for some reason changes this so "includedir" is
       # not first, we need to fix up the examples/ and ivexamples/
@@ -40,12 +32,62 @@ while test $# -gt 0; do
     --libs)
       echo @SOQT_LIBNAME@ @SOQT_EXTRA_LIBS@
       ;;
+    --datadir)
+      echo @soqt_data_dir@
+      ;;
+    --version)
+      echo @SOQT_VERSION@
+      ;;
+    --usage | --help)
+      usage 0
+      ;;
+    --ac-subst)
+      shift
+      case $1 in
+        GUI)              echo "@GUI@" ;;
+        Gui)              echo "@Gui@" ;;
+        gui)              echo "@gui@" ;;
+        WIDGET)           echo "@WIDGET@" ;;
+        WINWIDGET)        echo "@WINWIDGET@" ;;
+        EVENT)            echo "@EVENT@" ;;
+        COMPONENTHEADER)  echo "@COMPONENTHEADER@" ;;
+        *)
+          echo "Error: no such AC_SUBST: $1" >&2
+          exit 1
+          ;;
+      esac
+      ;;
+    --have-feature)
+      shift
+      case $1 in
+        renderarea)       exit 0 ;;
+        examinerviewer)   exit 0 ;;
+        planeviewer)      exit 0 ;;
+        *)
+          exit 1
+          ;;
+      esac
+      ;;
+    --build)
+      shift
+      program=$1
+      shift
+      set -x
+      @CXX@ \
+        ${CPPFLAGS} @SOQT_EXTRA_CPPFLAGS@ \
+        ${LDFLAGS} @SOQT_EXTRA_LDFLAGS@ \
+        -o ${program} $@ \
+        ${LIBS} @SOQT_EXTRA_LIBS@
+      set +x
+      ;;
+
     *)
-      echo "Unknown option: \"$1\""
-      usage 1 1>&2
+      echo "Unknown option: \"$1\"" >&2
+      usage 1 >&2
       ;;
   esac
   shift
 done
 
 exit 0
+

@@ -1,52 +1,13 @@
 # **************************************************************************
 # SoQt/configure.in
 
-# any source file in the project
-AC_INIT(src/Inventor/Qt/SoQt.h)
+AC_INIT(src/Inventor/Qt/SoQt.h) # any 'typical' file in the project
 
 sim_ac_cvs_syncproblem=false;
-sim_ac_examples_check_file=${srcdir}/examples/configure.in
 
-if test ! -f $sim_ac_examples_check_file; then
-  if test "x${with_auto_cvs_update+set}" = "xset"; then
-    echo "Trying to honour the --with-auto-cvs-update option."
-    sim_ac_save_cwd="`pwd`"
-    cd ${srcdir}
-    if test ! -d ./examples -o ! -f ./CVS/Entries; then
-      AC_MSG_ERROR(
-        [something failed horribly - can't do --with-auto-cvs-update])
-    fi
-    grep -v "^D/examples/" CVS/Entries > /tmp/SoQt-CVS-Entries.$$
-    cp /tmp/SoQt-CVS-Entries.$$ CVS/Entries
-    rm /tmp/SoQt-CVS-Entries.$$
-    rm -rf examples
-    cvs co SoQtExamples
-    cd ${sim_ac_save_cwd}
-    echo "Done.  Proceeding..."
-  fi
-fi
+# [insert CVS rep stuff here]
 
-if test ! -f $sim_ac_examples_check_file; then
-  echo ""
-  echo "  You appear to have an old setup of the SoQt source repository."
-  echo "  Parts of it have changed structurally, and you need to do the"
-  echo "  following in the SoQt source directory:"
-  echo ""
-  echo "    \$ grep -v "^D/examples/" CVS/Entries > /tmp/SoQt-CVS-Entries"
-  echo "    \$ cp /tmp/SoQt-CVS-Entries CVS/Entries"
-  echo "    \$ rm /tmp/SoQt-CVS-Entries"
-  echo "    \$ rm -rf examples"
-  echo "    \$ cvs co SoQtExamples"
-  echo ""
-  echo "  You can also run configure with the option --with-auto-cvs-update"
-  echo "  to allow the configure script to try to take care of this.  This"
-  echo "  option is very experimental and should not be used if you run"
-  echo "  configure some \"weird\" way."
-  echo ""
-  sim_ac_cvs_syncproblem=true
-fi
-
-if test "x$sim_ac_cvs_syncproblem" = "xtrue"; then
+if $sim_ac_cvs_syncproblem; then
   exit
 fi
 
@@ -99,6 +60,7 @@ AC_DEFINE_UNQUOTED(SOQT_VERSION, "$SOQT_VERSION")
 # **************************************************************************
 # Miscellaneous options and initializations.
 
+AC_CANONICAL_SYSTEM
 AM_INIT_AUTOMAKE(libSoQt, $VERSION)
 
 # File to cram results from the configure tests into.
@@ -176,15 +138,14 @@ if test x"$with_inventor" = xyes; then
 
 else
 
-  SIM_CHECK_COIN([
+  SIM_AC_HAVE_COIN_IFELSE([
+    CPPFLAGS="$CPPFLAGS $sim_ac_coin_cppflags"
+    LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
+    LIBS="$sim_ac_coin_libs $LIBS"
     SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS $sim_ac_coin_cppflags"
     SOQT_EXTRA_LDFLAGS="$SOQT_EXTRA_LDFLAGS $sim_ac_coin_ldflags"
     SOQT_EXTRA_LIBS="$sim_ac_coin_libs $SOQT_EXTRA_LIBS"
-  ],[
-    AC_MSG_ERROR(couldn't compile and link against Coin)
-  ],[
-    default searchprefix
-  ])
+  ], AC_MSG_ERROR(couldn't compile and link against Coin))
 
   coin_version=$sim_ac_coin_version
   AC_SUBST(coin_version)
@@ -195,15 +156,22 @@ else
 
   if ! $sim_ac_x11_ready; then
     SIM_CHECK_X11([
+      CPPFLAGS="$CPPFLAGS $sim_ac_x11_cppflags"
+      LDFLAGS="$LDFLAGS $sim_ac_x11_ldflags"
+      LIBS="$sim_ac_x11_libs $LIBS"
       SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS $sim_ac_x11_cppflags"
       SOQT_EXTRA_LDFLAGS="$SOQT_EXTRA_LDFLAGS $sim_ac_x11_ldflags"
       SOQT_EXTRA_LIBS="$sim_ac_x11_libs $SOQT_EXTRA_LIBS"
     ])
     if test x"$sim_ac_x11_avail" = xyes; then
-      SIM_CHECK_X11SHMEM(
-        [SOQT_EXTRA_LIBS="$sim_ac_x11shmem_libs $SOQT_EXTRA_LIBS"])
-      SIM_CHECK_X11MU(
-        [SOQT_EXTRA_LIBS="$sim_ac_x11mu_libs $SOQT_EXTRA_LIBS"])
+      SIM_CHECK_X11SHMEM([
+        # LIBS="$sim_ac_x11shmem_libs $LIBS"
+        SOQT_EXTRA_LIBS="$sim_ac_x11shmem_libs $SOQT_EXTRA_LIBS"
+      ])
+      SIM_CHECK_X11MU([
+        # LIBS="$sim_ac_x11mu_libs $LIBS"
+        SOQT_EXTRA_LIBS="$sim_ac_x11mu_libs $SOQT_EXTRA_LIBS"
+      ])
     fi
   fi
 fi
@@ -316,7 +284,7 @@ AC_ARG_WITH(examples,
   [case "${withval}" in
     yes) want_examples=yes ;;
     no)  want_examples=no ;;
-    *) AC_MSG_ERROR(bad value \"${withval}\" for --with-examples) ;;
+    *) AC_MSG_ERROR(bad value "${withval}" for --with-examples) ;;
   esac],
   [want_examples=yes])
 
@@ -353,7 +321,7 @@ AC_ARG_WITH(
   [case "${withval}" in
     yes) want_html=yes ;;
     no)  want_html=no ;;
-    *) AC_MSG_ERROR(bad value \"${withval}\" for --with-html) ;;
+    *) AC_MSG_ERROR(bad value "${withval}" for --with-html) ;;
   esac],
   [want_html=no])
 
@@ -363,7 +331,7 @@ AC_ARG_WITH(
   [case "${withval}" in
     yes) want_man=yes ;;
     no)  want_man=no ;;
-    *) AC_MSG_ERROR(bad value \"${withval}\" for --with-man) ;;
+    *) AC_MSG_ERROR(bad value "${withval}" for --with-man) ;;
   esac],
   [want_man=no])
 
@@ -382,8 +350,8 @@ AC_SUBST(soqt_dox_build_dir)
 
 if test x"$want_html" != xno -o x"$want_man" != xno; then
   SIM_AC_DOXYGEN_TOOL(,
-    [AC_MSG_ERROR([Could not find the doxygen tool -- see http://www.stack.nl/~d
-imitri/doxygen/])])
+    AC_MSG_ERROR(Could not find the doxygen tool -- see http://www.stack.nl/~d
+imitri/doxygen/))
   sim_ac_doxygen_our_version=1.1.5
   if test x"$sim_ac_doxygen_avail" != x"$sim_ac_doxygen_our_version"; then
     AC_MSG_WARN(You are not using Doxygen version $sim_ac_doxygen_our_version)
@@ -399,11 +367,9 @@ fi
 # **************************************************************************
 # Configure the submodule with the examples.
 
-sim_ac_subconfig=examples
-if test x"$sim_ac_ivexamples_available" = xyes; then
-  sim_ac_subconfig="$sim_ac_subconfig ivexamples"
-fi
-AC_CONFIG_SUBDIRS($sim_ac_subconfig)
+# if test x"$sim_ac_ivexamples_available" = xyes; then
+#   AC_CONFIG_SUBDIRS(ivexamples)
+# fi
 
 # **************************************************************************
 # Misc set-up.
@@ -441,9 +407,6 @@ AC_OUTPUT([
 	src/Inventor/Qt/devices/Makefile
 	src/Inventor/Qt/viewers/Makefile
 	src/Inventor/Qt/widgets/Makefile
-	test-code/Makefile
-	test-code/components/Makefile
-	test-code/widgets/Makefile
 	build/soqt.doxygen
         build/soqt.dsp
         build/soqt.mak
@@ -495,11 +458,26 @@ if test x"$sim_ac_linking_style" = xmswin; then
   sed -e 's/$/
 /' < ${srcdir}/info.cvs > build/info.txt
 
+  if test -d ${srcdir}/examples; then
+    cat <<EOF
+
+  ATTENTION:  You can remove the 'examples' directory from So$Gui.  It has
+  been obsoleted by the stand-alone module 'SoGuiExamples'.
+EOF
+  fi
+
   echo ""
   echo "If this is your first time building SoQt, please read 'README.WIN'"
   echo "for a step-by-step guide to building SoQt with MSVC++."
   echo ""
 else
+  if test -d ${srcdir}/examples; then
+    cat <<EOF
+
+  ATTENTION:  You can remove the 'examples' directory from So$Gui.  It has
+  been obsoleted by the stand-alone module 'SoGuiExamples'.
+EOF
+  fi
   echo ""
   echo "Now, run 'make install' to build and install SoQt..."
   echo ""

@@ -1,17 +1,14 @@
 #! /bin/sh
 # not to be executed - only sourced
 
+GUI="QT"
 Gui="Qt"
 gui="qt"
-
-GUI="Qt"
-lGUI="qt"
-uGUI="QT"
 WIDGET="QWidget *"
 EVENT="QEvent *"
 COMPONENTHEADER="Q_OBJECT"
 
-export GUI uGUI lGUI WIDGET EVENT COMPONENTHEADER
+export GUI Gui gui WIDGET EVENT COMPONENTHEADER
 
 HAVE_RENDERAREA=true
 HAVE_EXAMINERVIEWER=true
