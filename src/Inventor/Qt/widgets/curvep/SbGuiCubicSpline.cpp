@@ -224,9 +224,9 @@ SbGuiCubicSpline::getPoint(const SbMatrix & m, const float t)
   double t3 = t2*t;
 
   return 
-    SbVec3f(double(m[0][0]) * t3 + double(m[1][0]) * t2 + double(m[2][0]) * t + double(m[3][0]),
-            double(m[0][1]) * t3 + double(m[1][1]) * t2 + double(m[2][1]) * t + double(m[3][1]),
-            double(m[0][2]) * t3 + double(m[1][2]) * t2 + double(m[2][2]) * t + double(m[3][2]));
+    SbVec3f(float(double(m[0][0]) * t3 + double(m[1][0]) * t2 + double(m[2][0]) * t + double(m[3][0])),
+            float(double(m[0][1]) * t3 + double(m[1][1]) * t2 + double(m[2][1]) * t + double(m[3][1])),
+            float(double(m[0][2]) * t3 + double(m[1][2]) * t2 + double(m[2][2]) * t + double(m[3][2])));
   
 #endif
 }
