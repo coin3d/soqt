@@ -119,7 +119,7 @@ static const char rcsid[] =
 static inline bool QGLFormat_hasOverlay(const QGLFormat * f)
 { return f->hasOverlay(); }
 static inline void QGLFormat_setOverlay(QGLFormat * f, bool enable)
-{ f->setOverlay( enable ); }
+{ f->setOverlay(enable); }
 static inline void QGLFormat_makeOverlayCurrent(QGLWidget * w)
 { w->makeOverlayCurrent(); }
 static inline const QGLContext * QGLWidget_overlayContext(QGLWidget * w)
@@ -195,23 +195,23 @@ SoQtGLWidget::SoQtGLWidget(
   const char * const name,
   const SbBool embed,
   const int glmodes,
-  const SbBool build )
-: inherited( parent, name, embed )
-, waitForExpose( TRUE )
-, drawToFrontBuffer( FALSE )
+  const SbBool build)
+: inherited(parent, name, embed)
+, waitForExpose(TRUE)
+, drawToFrontBuffer(FALSE)
 {
-  PRIVATE( this ) = new SoQtGLWidgetP;
+  PRIVATE(this) = new SoQtGLWidgetP;
 
-  PRIVATE( this )->glSize = SbVec2s( 0, 0 );
-  PRIVATE( this )->wasresized = FALSE;
+  PRIVATE(this)->glSize = SbVec2s(0, 0);
+  PRIVATE(this)->wasresized = FALSE;
 
-  PRIVATE( this )->glformat = new QGLFormat;
-  PRIVATE( this )->glformat->setDoubleBuffer((glmodes & SO_GL_DOUBLE) ? true : false);
-  PRIVATE( this )->glformat->setDepth((glmodes & SO_GL_ZBUFFER) ? true : false);
-  PRIVATE( this )->glformat->setRgba((glmodes & SO_GL_RGB) ? true : false);
-  PRIVATE( this )->glformat->setStereo((glmodes & SO_GL_STEREO) ? true : false);
+  PRIVATE(this)->glformat = new QGLFormat;
+  PRIVATE(this)->glformat->setDoubleBuffer((glmodes & SO_GL_DOUBLE) ? true : false);
+  PRIVATE(this)->glformat->setDepth((glmodes & SO_GL_ZBUFFER) ? true : false);
+  PRIVATE(this)->glformat->setRgba((glmodes & SO_GL_RGB) ? true : false);
+  PRIVATE(this)->glformat->setStereo((glmodes & SO_GL_STEREO) ? true : false);
   bool enableoverlay = (glmodes & SO_GL_OVERLAY) ? true : false;
-  QGLFormat_setOverlay(PRIVATE( this )->glformat, enableoverlay);
+  QGLFormat_setOverlay(PRIVATE(this)->glformat, enableoverlay);
 
 #if SOQT_DEBUG && 0
   // people ask if this warning is a problem - it is harmless, so we
@@ -224,33 +224,33 @@ SoQtGLWidget::SoQtGLWidget(
   // overlay planes, and if that's not possible, display this
   // warning. 20010805 mortene.
 
-  if (enableoverlay && !QGLFormat_hasOverlay(PRIVATE( this )->glformat)) {
-    SoDebugError::postWarning( "SoQtGLWidget::SoQtGLWidget",
+  if (enableoverlay && !QGLFormat_hasOverlay(PRIVATE(this)->glformat)) {
+    SoDebugError::postWarning("SoQtGLWidget::SoQtGLWidget",
                                "your Qt/QGL library has no support "
-                               "for handling overlay planes" );
+                               "for handling overlay planes");
   }
 #endif // SOQT_DEBUG
 
-  PRIVATE( this )->glparent = NULL;
-  PRIVATE( this )->currentglwidget = NULL;
-  PRIVATE( this )->previousglwidget = NULL;
-  PRIVATE( this )->borderwidget = NULL;
+  PRIVATE(this)->glparent = NULL;
+  PRIVATE(this)->currentglwidget = NULL;
+  PRIVATE(this)->previousglwidget = NULL;
+  PRIVATE(this)->borderwidget = NULL;
 
-  if ( ! QGLFormat::hasOpenGL() ) {
-    SoDebugError::post( "SoQtGLWidget::SoQtGLWidget",
-                        "OpenGL not available!" );
+  if (! QGLFormat::hasOpenGL()) {
+    SoDebugError::post("SoQtGLWidget::SoQtGLWidget",
+                        "OpenGL not available!");
     return;
   }
 
-  PRIVATE( this )->borderthickness = 0;
+  PRIVATE(this)->borderthickness = 0;
 
-  if ( ! build )
+  if (! build)
     return;
 
-  this->setClassName( "SoQtGLWidget" );
+  this->setClassName("SoQtGLWidget");
   QWidget * parentwidget = this->getParentWidget();
-  QWidget * widget = this->buildWidget( parentwidget );
-  this->setBaseWidget( widget );
+  QWidget * widget = this->buildWidget(parentwidget);
+  this->setBaseWidget(widget);
 } // SoQtGLWidget()
 
 // *************************************************************************
@@ -266,10 +266,10 @@ SoQtGLWidget::~SoQtGLWidget(void)
   // child widgets in this destructor can in fact lead to crashes due
   // to the widgets being deallocated multiple times.)
 
-  if (PRIVATE( this )->currentglwidget) SoAny::si()->unregisterGLContext((void*) this);
+  if (PRIVATE(this)->currentglwidget) SoAny::si()->unregisterGLContext((void*) this);
   
-  delete PRIVATE( this )->glformat;
-  delete PRIVATE( this );
+  delete PRIVATE(this)->glformat;
+  delete PRIVATE(this);
 }
 
 // *************************************************************************
@@ -280,26 +280,26 @@ SoQtGLWidget::~SoQtGLWidget(void)
 
 QWidget *
 SoQtGLWidget::buildWidget(
-  QWidget * parent )
+  QWidget * parent)
 {
-  if ( parent != NULL && this->isTopLevelShell() )
-    parent->installEventFilter( this );
+  if (parent != NULL && this->isTopLevelShell())
+    parent->installEventFilter(this);
 
-  PRIVATE( this )->borderwidget = new QFrame( parent );
-  this->registerWidget( PRIVATE( this )->borderwidget );
+  PRIVATE(this)->borderwidget = new QFrame(parent);
+  this->registerWidget(PRIVATE(this)->borderwidget);
 
-  PRIVATE( this )->borderwidget->setFrameStyle( QFrame::Panel | QFrame::Raised );
-  PRIVATE( this )->borderwidget->setLineWidth( PRIVATE( this )->borderthickness );
-  PRIVATE( this )->borderwidget->setMargin( 0 );
-  PRIVATE( this )->borderwidget->move( 0, 0 );
+  PRIVATE(this)->borderwidget->setFrameStyle(QFrame::Panel | QFrame::Raised);
+  PRIVATE(this)->borderwidget->setLineWidth(PRIVATE(this)->borderthickness);
+  PRIVATE(this)->borderwidget->setMargin(0);
+  PRIVATE(this)->borderwidget->move(0, 0);
 
   // Remember our parent widget so we can use it in tests in the
   // eventFilter().
-  PRIVATE( this )->glparent = parent;
+  PRIVATE(this)->glparent = parent;
 
   this->buildGLWidget();
 
-  return PRIVATE( this )->borderwidget;
+  return PRIVATE(this)->borderwidget;
 } // buildWidget()
 
 
@@ -323,15 +323,15 @@ SoQtGLWidget::buildGLWidget(void)
 #if SOQT_DEBUG && 0 // debug
   SoDebugError::postInfo("SoQtGLWidget::buildGLWidget",
                          "%s, %s, %s, %s, %s",
-                         PRIVATE( this )->glformat->doubleBuffer() ? "double" : "single",
-                         PRIVATE( this )->glformat->depth() ? "z-buffer" : "no z-buffer",
-                         PRIVATE( this )->glformat->rgba() ? "RGBA" : "colorindex",
-                         PRIVATE( this )->glformat->stereo() ? "stereo" : "mono",
-                         QGLFormat_hasOverlay(PRIVATE( this )->glformat) ? "overlay" : "no overlay");
+                         PRIVATE(this)->glformat->doubleBuffer() ? "double" : "single",
+                         PRIVATE(this)->glformat->depth() ? "z-buffer" : "no z-buffer",
+                         PRIVATE(this)->glformat->rgba() ? "RGBA" : "colorindex",
+                         PRIVATE(this)->glformat->stereo() ? "stereo" : "mono",
+                         QGLFormat_hasOverlay(PRIVATE(this)->glformat) ? "overlay" : "no overlay");
 #endif // debug
 
-  SoQtGLArea * wascurrent = PRIVATE( this )->currentglwidget;
-  SoQtGLArea * wasprevious = PRIVATE( this )->previousglwidget;
+  SoQtGLArea * wascurrent = PRIVATE(this)->currentglwidget;
+  SoQtGLArea * wasprevious = PRIVATE(this)->previousglwidget;
 
   void * display = NULL;
   void * screen = NULL;
@@ -347,19 +347,19 @@ SoQtGLWidget::buildGLWidget(void)
     // already interacting with the canvas (e.g. when starting a drag
     // in BUFFER_INTERACTIVE mode).
 #if 0 // Keep this code around so we don't accidentally reinsert it. :^}
-    wascurrent->removeEventFilter( this );
-    wascurrent->setMouseTracking( FALSE );
+    wascurrent->removeEventFilter(this);
+    wascurrent->setMouseTracking(FALSE);
 #endif // Permanently disabled.
-    QObject::disconnect( wascurrent, SIGNAL(expose_sig()), this, SLOT(gl_exposed()));
-    QObject::disconnect( wascurrent, SIGNAL(init_sig()), this, SLOT(gl_init()));
-    //    QObject::disconnect( wascurrent, SIGNAL(reshape_sig()), this, SLOT(gl_reshape()));
-    PRIVATE( this )->previousglwidget = wascurrent;
+    QObject::disconnect(wascurrent, SIGNAL(expose_sig()), this, SLOT(gl_exposed()));
+    QObject::disconnect(wascurrent, SIGNAL(init_sig()), this, SLOT(gl_init()));
+    //    QObject::disconnect(wascurrent, SIGNAL(reshape_sig()), this, SLOT(gl_reshape()));
+    PRIVATE(this)->previousglwidget = wascurrent;
   }
 
-  if ( wasprevious && QGLFormat_eq(*PRIVATE( this )->glformat, wasprevious->format() ) ) {
+  if (wasprevious && QGLFormat_eq(*PRIVATE(this)->glformat, wasprevious->format())) {
     // Reenable the previous widget.
-    if (PRIVATE( this )->currentglwidget) SoAny::si()->unregisterGLContext((void*) this);
-    PRIVATE( this )->currentglwidget = wasprevious;
+    if (PRIVATE(this)->currentglwidget) SoAny::si()->unregisterGLContext((void*) this);
+    PRIVATE(this)->currentglwidget = wasprevious;
     SoAny::si()->registerGLContext((void*) this, display, screen);
 #if SOQT_DEBUG && 0 // debug
     SoDebugError::postInfo("SoQtGLWidget::buildGLWidget",
@@ -369,24 +369,24 @@ SoQtGLWidget::buildGLWidget(void)
   else {
     // Couldn't use the previous widget, make a new one.
     SoQtGLWidget * sharewidget = (SoQtGLWidget*) SoAny::si()->getSharedGLContext(display, screen);
-    if (PRIVATE( this )->currentglwidget) SoAny::si()->unregisterGLContext((void*) this);
-    PRIVATE( this )->currentglwidget = new SoQtGLArea(PRIVATE( this )->glformat,
-                                           PRIVATE( this )->borderwidget,
+    if (PRIVATE(this)->currentglwidget) SoAny::si()->unregisterGLContext((void*) this);
+    PRIVATE(this)->currentglwidget = new SoQtGLArea(PRIVATE(this)->glformat,
+                                           PRIVATE(this)->borderwidget,
                                            sharewidget ? (const QGLWidget*) sharewidget->getGLWidget() : NULL);
     SoAny::si()->registerGLContext((void*) this, display, screen);
     // Send this one to the final hunting grounds.    
     delete wasprevious;
   }
 
-  if ( ! PRIVATE( this )->currentglwidget->isValid() ) {
+  if (! PRIVATE(this)->currentglwidget->isValid()) {
     SoDebugError::post("SoQtGLWidget::SoQtGLWidget",
                        "Your graphics hardware is weird! Can't use it.");
     // FIXME: should be fatal? 20001122 mortene.
   }
 
 #if SOQT_DEBUG // Warn about requested features that we didn't get.
-  QGLFormat * w = PRIVATE( this )->glformat; // w(anted)
-  QGLFormat g = PRIVATE( this )->currentglwidget->format(); // g(ot)
+  QGLFormat * w = PRIVATE(this)->glformat; // w(anted)
+  QGLFormat g = PRIVATE(this)->currentglwidget->format(); // g(ot)
 
 #define GLWIDGET_FEATURECMP(_glformatfunc_, _truestr_, _falsestr_) \
   do { \
@@ -417,29 +417,29 @@ SoQtGLWidget::buildGLWidget(void)
 #endif // SOQT_DEBUG
 
 
-  *PRIVATE( this )->glformat = PRIVATE( this )->currentglwidget->format();
+  *PRIVATE(this)->glformat = PRIVATE(this)->currentglwidget->format();
 
-  int frame = this->isBorder() ? PRIVATE( this )->borderthickness : 0;
-  PRIVATE( this )->currentglwidget->setGeometry( frame, frame,
-                                      PRIVATE( this )->glSize[0] - 2*frame,
-                                      PRIVATE( this )->glSize[1] - 2*frame);
+  int frame = this->isBorder() ? PRIVATE(this)->borderthickness : 0;
+  PRIVATE(this)->currentglwidget->setGeometry(frame, frame,
+                                      PRIVATE(this)->glSize[0] - 2*frame,
+                                      PRIVATE(this)->glSize[1] - 2*frame);
 
-  QObject::connect( PRIVATE( this )->currentglwidget, SIGNAL(init_sig()),
+  QObject::connect(PRIVATE(this)->currentglwidget, SIGNAL(init_sig()),
                     this, SLOT(gl_init()));
-  //  QObject::connect( PRIVATE( this )->currentglwidget, SIGNAL(reshape_sig(int, int)),
+  //  QObject::connect(PRIVATE(this)->currentglwidget, SIGNAL(reshape_sig(int, int)),
   //                    this, SLOT(gl_reshape(int, int)));
-  QObject::connect( PRIVATE( this )->currentglwidget, SIGNAL(expose_sig()),
+  QObject::connect(PRIVATE(this)->currentglwidget, SIGNAL(expose_sig()),
                     this, SLOT(gl_exposed()));
 
-  PRIVATE( this )->currentglwidget->setMouseTracking( TRUE );
-  PRIVATE( this )->currentglwidget->installEventFilter( this );
+  PRIVATE(this)->currentglwidget->setMouseTracking(TRUE);
+  PRIVATE(this)->currentglwidget->installEventFilter(this);
 
   // Reset to avoid unnecessary scenegraph redraws.
   this->waitForExpose = TRUE;
 
   // We've changed to a new widget, so notify subclasses through this
   // virtual method.
-  this->widgetChanged(PRIVATE( this )->currentglwidget);
+  this->widgetChanged(PRIVATE(this)->currentglwidget);
 
   if (wascurrent) {
     // If we are rebuilding, we need to explicitly call show() here,
@@ -447,8 +447,8 @@ SoQtGLWidget::buildGLWidget(void)
     // parent. (If the glwidget was built but not shown before the
     // rebuild, the call below doesn't do any harm, as the glwidget
     // still won't become visible until all parents are visible.)
-    PRIVATE( this )->currentglwidget->show();
-    PRIVATE( this )->currentglwidget->raise();
+    PRIVATE(this)->currentglwidget->show();
+    PRIVATE(this)->currentglwidget->raise();
   }
 }
 
@@ -511,7 +511,7 @@ SoQtGLWidget::buildGLWidget(void)
 bool
 SoQtGLWidget::eventFilter(
   QObject * obj,
-  QEvent * e )
+  QEvent * e)
 {
 #if SOQT_DEBUG && 0 // debug
   SoDebugError::postInfo("SoQtGLWidget::eventFilter",
@@ -544,7 +544,7 @@ SoQtGLWidget::eventFilter(
   if (keyboardevent) {
     // Redirect absolutely all keyboard events to the GL canvas
     // widget, ignoring the current focus setting.
-    obj = PRIVATE( this )->currentglwidget;
+    obj = PRIVATE(this)->currentglwidget;
     // isAccepted() usually defaults to TRUE, but we need to manually
     // set this (probably due to the way we intercept all events
     // through this eventfilter).
@@ -552,47 +552,47 @@ SoQtGLWidget::eventFilter(
   }
 
 
-  if ( obj == (QObject *) PRIVATE( this )->glparent ) {
-    // If this hits, the PRIVATE( this )->glparent QWidget is a toplevelshell, so
+  if (obj == (QObject *) PRIVATE(this)->glparent) {
+    // If this hits, the PRIVATE(this)->glparent QWidget is a toplevelshell, so
     // we resize the GL widget along with it.
     if (e->type() == QEvent::Resize) {
       QResizeEvent * r = (QResizeEvent *)e;
 #if SOQT_DEBUG && 0  // debug
       SoDebugError::postInfo("SoQtGLWidget::eventFilter",
                              "resize parent %p: (%d, %d)",
-                             PRIVATE( this )->glparent,
+                             PRIVATE(this)->glparent,
                              r->size().width(), r->size().height());
 #endif // debug
 
-      PRIVATE( this )->borderwidget->resize(r->size());
-//      int newwidth = r->size().width() - 2 * PRIVATE( this )->borderthickness;
-//      int newheight = r->size().height() - 2 * PRIVATE( this )->borderthickness;
+      PRIVATE(this)->borderwidget->resize(r->size());
+//      int newwidth = r->size().width() - 2 * PRIVATE(this)->borderthickness;
+//      int newheight = r->size().height() - 2 * PRIVATE(this)->borderthickness;
 
-//      this->glwidget->setGeometry( PRIVATE( this )->borderthickness,
-//                                   PRIVATE( this )->borderthickness,
-//                                   newwidth - 1, newheight -1 );
-//      QRect glarea = PRIVATE( this )->borderwidget->contentsRect();
+//      this->glwidget->setGeometry(PRIVATE(this)->borderthickness,
+//                                   PRIVATE(this)->borderthickness,
+//                                   newwidth - 1, newheight -1);
+//      QRect glarea = PRIVATE(this)->borderwidget->contentsRect();
 //      glarea =
-//      this->glwidget->setGeometry( PRIVATE( this )->borderwidget->contentsRect() );
+//      this->glwidget->setGeometry(PRIVATE(this)->borderwidget->contentsRect());
 
 /*
       int newwidth = r->size().width();
       int newheight = r->size().height();
-      this->sizeChanged( SbVec2s(newwidth - 1, newheight - 1) );
+      this->sizeChanged(SbVec2s(newwidth - 1, newheight - 1));
 */
 #if 0 // debug
       SoDebugError::postInfo("SoQtGLWidget::eventFilter", "resize done");
 #endif // debug
     }
 
-  } else if ( obj == (QObject *) PRIVATE( this )->currentglwidget ) {
+  } else if (obj == (QObject *) PRIVATE(this)->currentglwidget) {
 #if 1  // debug
     if (e->type() == QEvent::Resize) {
       QResizeEvent * r = (QResizeEvent *)e;
 #if 0
       SoDebugError::postInfo("SoQtGLWidget::eventFilter",
         "glwidget event (%d, %d)",
-        (int) r->size().width(), (int) r->size().height() );
+        (int) r->size().width(), (int) r->size().height());
 #endif
       // Do not redispatch.
       return true;
@@ -600,7 +600,7 @@ SoQtGLWidget::eventFilter(
 #endif // debug
   } else {
     // Handle in superclass.
-    stopevent = inherited::eventFilter( obj, e );
+    stopevent = inherited::eventFilter(obj, e);
   }
   if (!stopevent) {
     this->processEvent(e);
@@ -619,21 +619,21 @@ SoQtGLWidget::eventFilter(
 
 void
 SoQtGLWidget::setBorder(
-  const SbBool enable )
+  const SbBool enable)
 {
-  PRIVATE( this )->borderthickness = (enable ? SO_BORDER_THICKNESS : 0);
-  if ( PRIVATE( this )->borderwidget != NULL ) {
-    PRIVATE( this )->borderwidget->setLineWidth( PRIVATE( this )->borderthickness );
-    PRIVATE( this )->currentglwidget->move( PRIVATE( this )->borderthickness, PRIVATE( this )->borderthickness );
-    QSize frame( PRIVATE( this )->borderwidget->size() );
-    PRIVATE( this )->currentglwidget->setGeometry(
-      QRect( PRIVATE( this )->borderthickness, PRIVATE( this )->borderthickness,
-             frame.width() - 2 * PRIVATE( this )->borderthickness,
-             frame.height() - 2 * PRIVATE( this )->borderthickness ) );
+  PRIVATE(this)->borderthickness = (enable ? SO_BORDER_THICKNESS : 0);
+  if (PRIVATE(this)->borderwidget != NULL) {
+    PRIVATE(this)->borderwidget->setLineWidth(PRIVATE(this)->borderthickness);
+    PRIVATE(this)->currentglwidget->move(PRIVATE(this)->borderthickness, PRIVATE(this)->borderthickness);
+    QSize frame(PRIVATE(this)->borderwidget->size());
+    PRIVATE(this)->currentglwidget->setGeometry(
+      QRect(PRIVATE(this)->borderthickness, PRIVATE(this)->borderthickness,
+             frame.width() - 2 * PRIVATE(this)->borderthickness,
+             frame.height() - 2 * PRIVATE(this)->borderthickness));
 
 //    this->glwidget->resize(
-//      frame.width() - 2 * PRIVATE( this )->borderthickness,
-//      frame.height() - 2 * PRIVATE( this )->borderthickness );
+//      frame.width() - 2 * PRIVATE(this)->borderthickness,
+//      frame.height() - 2 * PRIVATE(this)->borderthickness);
   }
 } // setBorder()
 
@@ -645,9 +645,9 @@ SoQtGLWidget::setBorder(
 
 SbBool
 SoQtGLWidget::isBorder(
-  void ) const
+  void) const
 {
-  return PRIVATE( this )->borderthickness ? TRUE : FALSE;
+  return PRIVATE(this)->borderthickness ? TRUE : FALSE;
 } // isBorder()
 
 // *************************************************************************
@@ -662,15 +662,15 @@ SoQtGLWidget::isBorder(
 
 void
 SoQtGLWidget::setDoubleBuffer(
-  const SbBool enable )
+  const SbBool enable)
 {
-  if ( (enable && PRIVATE( this )->glformat->doubleBuffer()) ||
-       (!enable && !PRIVATE( this )->glformat->doubleBuffer()) )
+  if ((enable && PRIVATE(this)->glformat->doubleBuffer()) ||
+       (!enable && !PRIVATE(this)->glformat->doubleBuffer()))
     return;
 
-  PRIVATE( this )->glformat->setDoubleBuffer(enable);
+  PRIVATE(this)->glformat->setDoubleBuffer(enable);
   // Rebuild if a GL widget has already been built.
-  if (PRIVATE( this )->currentglwidget) this->buildGLWidget();
+  if (PRIVATE(this)->currentglwidget) this->buildGLWidget();
 }
 
 /*!
@@ -681,7 +681,7 @@ SoQtGLWidget::setDoubleBuffer(
 SbBool
 SoQtGLWidget::isDoubleBuffer(void) const
 {
-  return PRIVATE( this )->glformat->doubleBuffer();
+  return PRIVATE(this)->glformat->doubleBuffer();
 }
 
 /*!
@@ -690,13 +690,13 @@ SoQtGLWidget::isDoubleBuffer(void) const
 void
 SoQtGLWidget::setQuadBufferStereo(const SbBool enable)
 {
-  if ( (enable && PRIVATE( this )->glformat->stereo()) ||
-       (!enable && !PRIVATE( this )->glformat->stereo()) )
+  if ((enable && PRIVATE(this)->glformat->stereo()) ||
+       (!enable && !PRIVATE(this)->glformat->stereo()))
     return;
 
-  PRIVATE( this )->glformat->setStereo(enable);
+  PRIVATE(this)->glformat->setStereo(enable);
   // Rebuild if a GL widget has already been built.
-  if (PRIVATE( this )->currentglwidget) this->buildGLWidget();
+  if (PRIVATE(this)->currentglwidget) this->buildGLWidget();
 }
 
 /*!
@@ -706,7 +706,7 @@ SoQtGLWidget::setQuadBufferStereo(const SbBool enable)
 SbBool
 SoQtGLWidget::isQuadBufferStereo(void) const
 {
-  return PRIVATE( this )->glformat->stereo();
+  return PRIVATE(this)->glformat->stereo();
 }
 
 /*!
@@ -736,7 +736,7 @@ SoQtGLWidget::isDrawToFrontBufferEnable(void) const
 
 QWidget *
 SoQtGLWidget::getNormalWidget(
-  void ) const
+  void) const
 {
   return this->getGLWidget();
 }
@@ -753,7 +753,7 @@ SoQtGLWidget::getNormalWidget(
 
 QWidget *
 SoQtGLWidget::getOverlayWidget(
-  void ) const
+  void) const
 {
   // Cast away this-pointer constness, as
   // SoQtGLWidget::getOverlayContext() is not defined as const.
@@ -770,17 +770,17 @@ SoQtGLWidget::getOverlayWidget(
 
 void
 SoQtGLWidget::setGLSize(
-  const SbVec2s size )
+  const SbVec2s size)
 {
-  if (size == PRIVATE( this )->glSize) return;
+  if (size == PRIVATE(this)->glSize) return;
 #if SOQT_DEBUG && 0 // debug
-  SoDebugError::postInfo( "SoQtGLWidget::setGLSize",
-    "[invoked (%d, %d)]", size[0], size[1] );
+  SoDebugError::postInfo("SoQtGLWidget::setGLSize",
+    "[invoked (%d, %d)]", size[0], size[1]);
 #endif // debug
-  PRIVATE( this )->glSize = size;
-  if ( PRIVATE( this )->currentglwidget ) {
-    int frame = this->isBorder() ? PRIVATE( this )->borderthickness : 0;
-    PRIVATE( this )->currentglwidget->setGeometry( QRect( frame, frame, PRIVATE( this )->glSize[0], PRIVATE( this )->glSize[1] ) );
+  PRIVATE(this)->glSize = size;
+  if (PRIVATE(this)->currentglwidget) {
+    int frame = this->isBorder() ? PRIVATE(this)->borderthickness : 0;
+    PRIVATE(this)->currentglwidget->setGeometry(QRect(frame, frame, PRIVATE(this)->glSize[0], PRIVATE(this)->glSize[1]));
   }
 } // setGLSize()
 
@@ -790,9 +790,9 @@ SoQtGLWidget::setGLSize(
 
 SbVec2s
 SoQtGLWidget::getGLSize(
-  void ) const
+  void) const
 {
-  return PRIVATE( this )->glSize;
+  return PRIVATE(this)->glSize;
 }
 
 /*!
@@ -801,20 +801,20 @@ SoQtGLWidget::getGLSize(
 
 float
 SoQtGLWidget::getGLAspectRatio(
-  void ) const
+  void) const
 {
-  return float(PRIVATE( this )->currentglwidget->width()) /
-    float(PRIVATE( this )->currentglwidget->height());
+  return float(PRIVATE(this)->currentglwidget->width()) /
+    float(PRIVATE(this)->currentglwidget->height());
 }  // getGLAspectRatio()
 
 /*!
-  \fn void SoQtGLWidget::setGlxSize( const SbVec2s size )
+  \fn void SoQtGLWidget::setGlxSize(const SbVec2s size)
   This function has been renamed to the more appropriate setGLSize.
   \sa setGLSize
 */
 
 /*!
-  \fn SbVec2s SoQtGLWidget::getGlxSize( void ) const
+  \fn SbVec2s SoQtGLWidget::getGlxSize(void) const
   This function has been renamed to the more appropriate getGLSize.
   \sa getGLSize
 */
@@ -834,7 +834,7 @@ SoQtGLWidget::getGLAspectRatio(
 QWidget *
 SoQtGLWidget::getGLWidget(void) const
 {
-  return PRIVATE( this )->currentglwidget;
+  return PRIVATE(this)->currentglwidget;
 } // getGLWidget()
 
 
@@ -851,8 +851,8 @@ SoQtGLWidget::getGLWidget(void) const
 */
 
 void
-SoQtGLWidget::widgetChanged( // virtual
-  QWidget * w )
+SoQtGLWidget::widgetChanged(// virtual
+  QWidget * w)
 {
 }
 
@@ -881,10 +881,10 @@ SoQtGLWidget::processEvent(QEvent * anyevent)
 
 void
 SoQtGLWidget::glLockNormal(
-  void )
+  void)
 {
-  assert( PRIVATE( this )->currentglwidget != NULL );
-  ((SoQtGLArea *)PRIVATE( this )->currentglwidget)->makeCurrent();
+  assert(PRIVATE(this)->currentglwidget != NULL);
+  ((SoQtGLArea *)PRIVATE(this)->currentglwidget)->makeCurrent();
 } // glLockNormal()
 
 /*!
@@ -893,7 +893,7 @@ SoQtGLWidget::glLockNormal(
 
 void
 SoQtGLWidget::glUnlockNormal(
-  void )
+  void)
 {
   // does nothing under Qt. Under BeOS the buffer needs to be unlocked
 } // glUnlockNormal()
@@ -904,10 +904,10 @@ SoQtGLWidget::glUnlockNormal(
 
 void
 SoQtGLWidget::glSwapBuffers(
-  void )
+  void)
 {
-  assert( PRIVATE( this )->currentglwidget != NULL );
-  ((SoQtGLArea *)PRIVATE( this )->currentglwidget)->swapBuffers();
+  assert(PRIVATE(this)->currentglwidget != NULL);
+  ((SoQtGLArea *)PRIVATE(this)->currentglwidget)->swapBuffers();
 } // glSwapBuffers()
 
 /*!
@@ -927,10 +927,10 @@ SoQtGLWidget::glFlushBuffer(void)
 
 void
 SoQtGLWidget::glLockOverlay(
-  void )
+  void)
 {
-  assert( PRIVATE( this )->currentglwidget != NULL );
-  QGLFormat_makeOverlayCurrent((SoQtGLArea *)PRIVATE( this )->currentglwidget);
+  assert(PRIVATE(this)->currentglwidget != NULL);
+  QGLFormat_makeOverlayCurrent((SoQtGLArea *)PRIVATE(this)->currentglwidget);
 } // glLock()
 
 /*!
@@ -939,7 +939,7 @@ SoQtGLWidget::glLockOverlay(
 
 void
 SoQtGLWidget::glUnlockOverlay(
-  void )
+  void)
 {
   // does nothing under Qt. Under BeOS the buffer needs to be unlocked  
 } // glUnlock()
@@ -949,8 +949,8 @@ SoQtGLWidget::glUnlockOverlay(
 */
 
 void
-SoQtGLWidget::gl_init( // slot
-  void )
+SoQtGLWidget::gl_init(// slot
+  void)
 {
   this->initGraphic();
 } // gl_init()
@@ -959,21 +959,21 @@ SoQtGLWidget::gl_init( // slot
   FIXME: write doc
 */
 void
-SoQtGLWidget::gl_reshape( // slot
+SoQtGLWidget::gl_reshape(// slot
   int width,
-  int height )
+  int height)
 {
   fprintf(stderr,"gl_reshape\n");
-  PRIVATE( this )->glSize = SbVec2s((short) width, (short) height);
-  PRIVATE( this )->wasresized = TRUE;
+  PRIVATE(this)->glSize = SbVec2s((short) width, (short) height);
+  PRIVATE(this)->wasresized = TRUE;
 } // gl_reshape()
 
 /*!
   FIXME: write doc
 */
 void
-SoQtGLWidget::gl_exposed( // slot
-  void )
+SoQtGLWidget::gl_exposed(// slot
+  void)
 {
   if (this->waitForExpose) {
     this->waitForExpose = FALSE; // Gets flipped from TRUE on first expose.
@@ -988,9 +988,9 @@ SoQtGLWidget::gl_exposed( // slot
     this->setSize(this->getSize());
 #endif // tmp disabled
   }
-  if (PRIVATE( this )->wasresized) {
-    this->sizeChanged(PRIVATE( this )->glSize);
-    PRIVATE( this )->wasresized = FALSE;
+  if (PRIVATE(this)->wasresized) {
+    this->sizeChanged(PRIVATE(this)->glSize);
+    PRIVATE(this)->wasresized = FALSE;
   }
 
   if (!this->glScheduleRedraw()) {
@@ -1008,11 +1008,11 @@ SoQtGLWidget::eventHandler(
   QWidget * widget,
   void * closure,
   QEvent * event,
-  bool * ) // ? )
+  bool *) // ?)
 {
-  assert( closure != NULL );
+  assert(closure != NULL);
   SoQtGLWidget * component = (SoQtGLWidget *) closure;
-  component->processEvent( event );
+  component->processEvent(event);
 } // eventHandler()
 
 /*!
@@ -1058,7 +1058,7 @@ SoQtGLWidget::getOverlayTransparentPixel(void)
 SbBool 
 SoQtGLWidget::isRGBMode(void)
 {
-  return (SbBool) PRIVATE( this )->glformat->rgba();
+  return (SbBool) PRIVATE(this)->glformat->rgba();
 }
 
 /*!
@@ -1082,7 +1082,7 @@ SoQtGLWidget::initGraphic(void)
   // Need to set this explicitly when running on top of Open Inventor,
   // as it seems to have been forgotten there.
   // This code should be invoked from SoQtRenderArea::initGraphics()
-  glEnable( GL_DEPTH_TEST );
+  glEnable(GL_DEPTH_TEST);
   this->glUnlockNormal();
 }
 
@@ -1104,7 +1104,7 @@ SoQtGLWidget::initOverlayGraphic(void)
 */
 void
 SoQtGLWidget::sizeChanged(
-  const SbVec2s size )
+  const SbVec2s size)
 {
 } // sizeChanged()
 

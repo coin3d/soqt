@@ -82,7 +82,7 @@ SOQT_OBJECT_SOURCE(SoQtMouse);
 */
 
 SoQtMouse::SoQtMouse(
-  int mask )
+  int mask)
 {
   this->eventmask = mask;
   this->buttonevent = NULL;
@@ -94,7 +94,7 @@ SoQtMouse::SoQtMouse(
 */
 
 SoQtMouse::~SoQtMouse(
-  void )
+  void)
 {
   delete this->buttonevent;
   delete this->locationevent;
@@ -110,7 +110,7 @@ void
 SoQtMouse::enable(
   QWidget *, // widget,
   SoQtEventHandler *, // handler,
-  void * ) // closure )
+  void *) // closure)
 {
 // FIXME: SOQT_STUB();
 } // enable()
@@ -123,7 +123,7 @@ void
 SoQtMouse::disable(
   QWidget *, // widget,
   SoQtEventHandler *, // handler,
-  void * ) // closure )
+  void *) // closure)
 {
 // FIXME: SOQT_STUB();
 } // disable()
@@ -136,7 +136,7 @@ SoQtMouse::disable(
 
 const SoEvent *
 SoQtMouse::translateEvent(
-  QEvent * event )
+  QEvent * event)
 {
   SoEvent * super = NULL;
   QMouseEvent * mouseevent = (QMouseEvent *)event;
@@ -145,18 +145,18 @@ SoQtMouse::translateEvent(
   // Convert wheel mouse events to Coin SoMouseButtonEvents.
 
 #ifdef HAVE_SOMOUSEBUTTONEVENT_BUTTON5
-  if ( event->type() == QEvent::Wheel ) {
-    if ( !this->buttonevent )
+  if (event->type() == QEvent::Wheel) {
+    if (!this->buttonevent)
       this->buttonevent = new SoMouseButtonEvent;
     QWheelEvent * const wevent = (QWheelEvent *) event;
-    if ( wevent->delta() > 0 )
+    if (wevent->delta() > 0)
       this->buttonevent->setButton(SoMouseButtonEvent::BUTTON4);
-    else if ( wevent->delta() < 0 )
+    else if (wevent->delta() < 0)
       this->buttonevent->setButton(SoMouseButtonEvent::BUTTON5);
 #if SOQT_DEBUG
     else
-      SoDebugError::postInfo( "SoQtMouse::translateEvent",
-        "event, but no movement" );
+      SoDebugError::postInfo("SoQtMouse::translateEvent",
+        "event, but no movement");
 #endif // SOQT_DEBUG
     this->buttonevent->setState(SoButtonEvent::DOWN);
     super = this->buttonevent;

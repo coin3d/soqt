@@ -46,10 +46,10 @@ SoQtWalkViewer::SoQtWalkViewer(
   const char * name,
   SbBool embed,
   SoQtFullViewer::BuildFlag flag,
-  SoQtViewer::Type type )
-: inherited( parent, name, embed, flag, type, TRUE )
+  SoQtViewer::Type type)
+: inherited(parent, name, embed, flag, type, TRUE)
 {
-//  this->constructor( TRUE );
+//  this->constructor(TRUE);
 } // SoQtWalkViewer()
 
 // ************************************************************************
@@ -58,16 +58,16 @@ SoQtWalkViewer::SoQtWalkViewer(
   A protected constructor.
 */
 
-SoQtWalkViewer::SoQtWalkViewer( // protected
+SoQtWalkViewer::SoQtWalkViewer(// protected
   QWidget * parent,
   const char * name,
   SbBool embed,
   SoQtFullViewer::BuildFlag flag,
   SoQtViewer::Type type,
-  SbBool build )
-: inherited( parent, name, embed, flag, type, FALSE )
+  SbBool build)
+: inherited(parent, name, embed, flag, type, FALSE)
 {
-//  this->constructor( build );
+//  this->constructor(build);
 } // SoQtWalkViewer()
 
 // ************************************************************************
@@ -77,7 +77,7 @@ SoQtWalkViewer::SoQtWalkViewer( // protected
 */
 
 SoQtWalkViewer::~SoQtWalkViewer(
-  void )
+  void)
 {
 } // ~SoQtWalkViewer()
 
@@ -87,8 +87,8 @@ SoQtWalkViewer::~SoQtWalkViewer(
 */
 
 void
-SoQtWalkViewer::setViewing( // virtual
-  SbBool enable )
+SoQtWalkViewer::setViewing(// virtual
+  SbBool enable)
 {
 } // setViewing()
 
@@ -98,8 +98,8 @@ SoQtWalkViewer::setViewing( // virtual
 */
 
 void
-SoQtWalkViewer::setCamera( // virtual
-  SoCamera * camera )
+SoQtWalkViewer::setCamera(// virtual
+  SoCamera * camera)
 {
 } // setCamera()
 
@@ -109,8 +109,8 @@ SoQtWalkViewer::setCamera( // virtual
 */
 
 void
-SoQtWalkViewer::setCursorEnabled( // virtual
-  SbBool enable )
+SoQtWalkViewer::setCursorEnabled(// virtual
+  SbBool enable)
 {
 } // setCursorEnabled()
 
@@ -120,8 +120,8 @@ SoQtWalkViewer::setCursorEnabled( // virtual
 */
 
 void
-SoQtWalkViewer::setCameraType( // virtual
-  SoType type )
+SoQtWalkViewer::setCameraType(// virtual
+  SoType type)
 {
 } // setCameraType()
 
@@ -131,8 +131,8 @@ SoQtWalkViewer::setCameraType( // virtual
 */
 
 const char *
-SoQtWalkViewer::getDefaultWidgetName( // virtual
-  void ) const
+SoQtWalkViewer::getDefaultWidgetName(// virtual
+  void) const
 {
   static const char defaultWidgetName[] = "";
   return defaultWidgetName;
@@ -144,8 +144,8 @@ SoQtWalkViewer::getDefaultWidgetName( // virtual
 */
 
 const char *
-SoQtWalkViewer::getDefaultTitle( // virtual
-  void ) const
+SoQtWalkViewer::getDefaultTitle(// virtual
+  void) const
 {
   static const char defaultTitle[] = "Walk Viewer";
   return defaultTitle;
@@ -157,8 +157,8 @@ SoQtWalkViewer::getDefaultTitle( // virtual
 */
 
 const char *
-SoQtWalkViewer::getDefaultIconTitle( // virtual
-  void ) const
+SoQtWalkViewer::getDefaultIconTitle(// virtual
+  void) const
 {
   static const char defaultIconTitle[] = "";
   return defaultIconTitle;
@@ -170,8 +170,8 @@ SoQtWalkViewer::getDefaultIconTitle( // virtual
 */
 
 void
-SoQtWalkViewer::processEvent( // virtual
-  QEvent * event )
+SoQtWalkViewer::processEvent(// virtual
+  QEvent * event)
 {
 } // processEvent()
 
@@ -181,8 +181,8 @@ SoQtWalkViewer::processEvent( // virtual
 */
 
 void
-SoQtWalkViewer::setSeekMode( // virtual
-  SbBool enable )
+SoQtWalkViewer::setSeekMode(// virtual
+  SbBool enable)
 {
 } // setSeekMode()
 
@@ -192,8 +192,8 @@ SoQtWalkViewer::setSeekMode( // virtual
 */
 
 void
-SoQtWalkViewer::actualRedraw( // virtual
-  void )
+SoQtWalkViewer::actualRedraw(// virtual
+  void)
 {
 } // actualRedraw()
 
@@ -203,8 +203,8 @@ SoQtWalkViewer::actualRedraw( // virtual
 */
 
 void
-SoQtWalkViewer::rightWheelMotion( // virtual
-  float value )
+SoQtWalkViewer::rightWheelMotion(// virtual
+  float value)
 {
 } // rightWheelMotion()
 
@@ -214,8 +214,8 @@ SoQtWalkViewer::rightWheelMotion( // virtual
 */
 
 QWidget *
-SoQtWalkViewer::buildLeftTrim( // virtual
-  QWidget * parent )
+SoQtWalkViewer::buildLeftTrim(// virtual
+  QWidget * parent)
 {
   return NULL;
 } // buildLeftTrim()
@@ -226,8 +226,8 @@ SoQtWalkViewer::buildLeftTrim( // virtual
 */
 
 void
-SoQtWalkViewer::createPrefSheet( // virtual
-  void )
+SoQtWalkViewer::createPrefSheet(// virtual
+  void)
 {
 } // createPrefSheet()
 
@@ -237,8 +237,8 @@ SoQtWalkViewer::createPrefSheet( // virtual
 */
 
 void
-SoQtWalkViewer::openViewerHelpCard( // virtual
-  void )
+SoQtWalkViewer::openViewerHelpCard(// virtual
+  void)
 {
 } // openViewerHelpCard()
 

@@ -39,17 +39,17 @@ class SoQtThumbWheel : public QWidget, public QRangeControl
 public:
   enum Orientation { Horizontal, Vertical };
 
-  SoQtThumbWheel( QWidget * parent = 0, const char * name = 0 );
-  SoQtThumbWheel( Orientation, QWidget * parent = 0, const char * name = 0 );
+  SoQtThumbWheel(QWidget * parent = 0, const char * name = 0);
+  SoQtThumbWheel(Orientation, QWidget * parent = 0, const char * name = 0);
   ~SoQtThumbWheel(void);
 
-  void setOrientation( Orientation );
+  void setOrientation(Orientation);
   Orientation orientation(void) const;
 
-  void setValue( float value );
+  void setValue(float value);
   float value(void) const;
 
-  void setEnabled( bool enable );
+  void setEnabled(bool enable);
   bool isEnabled(void) const;
 
   enum boundaryHandling {
@@ -57,7 +57,7 @@ public:
     MODULATE,
     ACCUMULATE
   };
-  void setRangeBoundaryHandling( boundaryHandling handling );
+  void setRangeBoundaryHandling(boundaryHandling handling);
   boundaryHandling getRangeBoundaryHandling(void) const;
 
   QSize sizeHint(void) const;
@@ -75,10 +75,10 @@ protected:
   void mouseMoveEvent(QMouseEvent *);
 
 private:
-  void constructor( Orientation );
+  void constructor(Orientation);
 
-  SoQtThumbWheel( const SoQtThumbWheel & wheel );
-  SoQtThumbWheel & operator = ( const SoQtThumbWheel & wheel );
+  SoQtThumbWheel(const SoQtThumbWheel & wheel);
+  SoQtThumbWheel & operator = (const SoQtThumbWheel & wheel);
 
   enum State { Idle, Dragging, Disabled } state;
 
@@ -86,7 +86,7 @@ private:
   float wheelValue, tempWheelValue;
   int mouseDownPos, mouseLastPos;
 
-  void initWheel( int diameter, int width );
+  void initWheel(int diameter, int width);
 
   SoAnyThumbWheel * wheel;
   QPixmap ** pixmaps;

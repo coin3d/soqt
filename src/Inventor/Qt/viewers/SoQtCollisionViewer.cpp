@@ -34,70 +34,70 @@ static const char rcsid[] =
 // ************************************************************************
 
 SoQtCollisionViewer::SoQtCollisionViewer(
-  SoQtViewer * viewer )
+  SoQtViewer * viewer)
 {
 }
 
 SoQtCollisionViewer::~SoQtCollisionViewer(
-  void )
+  void)
 {
 }
 
 SoQtViewer *
 SoQtCollisionViewer::getViewer(
-  void )
+  void)
 {
     return NULL;
 }
 
 void
 SoQtCollisionViewer::setDistance(
-  float distance )
+  float distance)
 {
 }
 
 float
 SoQtCollisionViewer::getDistance(
-  void )
+  void)
 {
     return 0.0;
 }
 
 void
 SoQtCollisionViewer::setNumSteps(
-  int numSteps )
+  int numSteps)
 {
 }
 
 int
 SoQtCollisionViewer::getNumSteps(
-  void )
+  void)
 {
     return 0;
 }
 
 void
 SoQtCollisionViewer::setCollisionDetection(
-  SbBool value )
+  SbBool value)
 {
 }
 
 SbBool
 SoQtCollisionViewer::getCollisionDetection(
-  void )
+  void)
 {
     return FALSE;
 }
 
 void
 SoQtCollisionViewer::setZBufferOptimization(
-  SbBool value )
+  SbBool value)
 {
 }
 
 SbBool
 SoQtCollisionViewer::getZBufferOptimization(
-  void )
+  void)
 {
     return FALSE;
 }
@@ -105,13 +105,13 @@ SoQtCollisionViewer::getZBufferOptimization(
 void
 SoQtCollisionViewer::addCallback(
   SoQtCollisionViewerCB * func,
-  void * user )
+  void * user)
 {
 }
 
 void
 SoQtCollisionViewer::removeCallback(
   SoQtCollisionViewerCB * func,
-  void * user )
+  void * user)
 {
 }

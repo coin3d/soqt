@@ -28,8 +28,8 @@
 class QWidget;
 class SoQtComponent;
 
-typedef void SoQtComponentCB( void * user, SoQtComponent * component );
-typedef void SoQtComponentVisibilityCB( void * user, SbBool visible );
+typedef void SoQtComponentCB(void * user, SoQtComponent * component);
+typedef void SoQtComponentVisibilityCB(void * user, SbBool visible);
 
 // *************************************************************************
 
@@ -52,15 +52,15 @@ public:
   SbBool isTopLevelShell(void) const;
   QWidget * getShellWidget(void) const;
   QWidget * getParentWidget(void) const;
-  void setSize( const SbVec2s size );
+  void setSize(const SbVec2s size);
   SbVec2s getSize(void) const;
-  void setTitle( const char * const title );
+  void setTitle(const char * const title);
   const char * getTitle(void) const;
-  void setIconTitle( const char * const title );
+  void setIconTitle(const char * const title);
   const char * getIconTitle(void) const;
-  void setWindowCloseCallback( SoQtComponentCB * const func,
-                               void * const user = NULL );
-  static SoQtComponent * getComponent( QWidget * const widget );
+  void setWindowCloseCallback(SoQtComponentCB * const func,
+                               void * const user = NULL);
+  static SoQtComponent * getComponent(QWidget * const widget);
   const char * getWidgetName(void) const;
   const char * getClassName(void) const;
 
@@ -70,30 +70,30 @@ protected:
   SoQtComponent(
     QWidget * const parent = NULL,
     const char * const name = NULL,
-    const SbBool embed = TRUE );
+    const SbBool embed = TRUE);
 
   virtual void afterRealizeHook(void);
 
-  void setClassName( const char * const name );
-  void setBaseWidget( QWidget * const widget );
+  void setClassName(const char * const name);
+  void setBaseWidget(QWidget * const widget);
 
-  void registerWidget( QWidget * widget );
-  void unregisterWidget( QWidget * widget );
+  void registerWidget(QWidget * widget);
+  void unregisterWidget(QWidget * widget);
 
   virtual const char * getDefaultWidgetName(void) const;
   virtual const char * getDefaultTitle(void) const;
   virtual const char * getDefaultIconTitle(void) const;
 
-  virtual void sizeChanged( const SbVec2s size );
+  virtual void sizeChanged(const SbVec2s size);
 
-  void addVisibilityChangeCallback( SoQtComponentVisibilityCB * const func,
-                                    void * const user = NULL );
-  void removeVisibilityChangeCallback( SoQtComponentVisibilityCB * const func,
-                                       void * const user = NULL );
+  void addVisibilityChangeCallback(SoQtComponentVisibilityCB * const func,
+                                    void * const user = NULL);
+  void removeVisibilityChangeCallback(SoQtComponentVisibilityCB * const func,
+                                       void * const user = NULL);
 
-  void openHelpCard( const char * const name );
+  void openHelpCard(const char * const name);
 
-  virtual bool eventFilter( QObject * obj, QEvent * e );
+  virtual bool eventFilter(QObject * obj, QEvent * e);
 
 private slots:
   void widgetClosed(void);

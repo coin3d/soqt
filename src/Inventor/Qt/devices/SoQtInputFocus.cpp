@@ -67,7 +67,7 @@ SOQT_OBJECT_SOURCE(SoQtInputFocus);
 */
 
 SoQtInputFocus::SoQtInputFocus(
-  int mask )
+  int mask)
 {
   this->eventmask = mask;
 } // SoQtInputFocus()
@@ -77,7 +77,7 @@ SoQtInputFocus::SoQtInputFocus(
 */
 
 SoQtInputFocus::~SoQtInputFocus(
-  void )
+  void)
 {
 } // ~SoQtInputFocus()
 
@@ -91,7 +91,7 @@ void
 SoQtInputFocus::enable(
   QWidget *, // widget,
   SoQtEventHandler *, // handler,
-  void * ) // closure )
+  void *) // closure)
 {
   SOQT_STUB();
 } // enable()
@@ -104,7 +104,7 @@ void
 SoQtInputFocus::disable(
   QWidget *, // widget,
   SoQtEventHandler *, // handler,
-  void * ) // closure )
+  void *) // closure)
 {
   SOQT_STUB();
 } // disable()
@@ -117,7 +117,7 @@ SoQtInputFocus::disable(
 
 const SoEvent *
 SoQtInputFocus::translateEvent(
-  QEvent * ) // event )
+  QEvent *) // event)
 {
   SOQT_STUB();
   return NULL;

@@ -48,16 +48,16 @@ class SOQT_DLL_API SoQtGLWidget : public SoQtComponent {
 
 public:
 
-  void setBorder( const SbBool enable );
+  void setBorder(const SbBool enable);
   SbBool isBorder(void) const;
 
-  virtual void setDoubleBuffer( const SbBool enable );
+  virtual void setDoubleBuffer(const SbBool enable);
   SbBool isDoubleBuffer(void) const;
 
-  void setDrawToFrontBufferEnable( const SbBool enable );
+  void setDrawToFrontBufferEnable(const SbBool enable);
   SbBool isDrawToFrontBufferEnable(void) const;
   
-  void setQuadBufferStereo( const SbBool enable );
+  void setQuadBufferStereo(const SbBool enable);
   SbBool isQuadBufferStereo(void) const;
 
   QWidget * getNormalWidget(void) const;
@@ -78,12 +78,12 @@ protected:
     const char * const name = NULL,
     const SbBool embed = TRUE,
     const int glmodes = SO_GL_RGB,
-    const SbBool build = TRUE );
+    const SbBool build = TRUE);
   ~SoQtGLWidget(void);
 
-  virtual void processEvent( QEvent * event );
+  virtual void processEvent(QEvent * event);
 
-  QWidget * buildWidget( QWidget * parent );
+  QWidget * buildWidget(QWidget * parent);
 
   QWidget * getGLWidget(void) const;
 
@@ -93,15 +93,15 @@ protected:
   virtual void initGraphic(void);
   virtual void initOverlayGraphic(void);
 
-  virtual void sizeChanged( const SbVec2s size );
-  virtual void widgetChanged( QWidget * w );
+  virtual void sizeChanged(const SbVec2s size);
+  virtual void widgetChanged(QWidget * w);
 
-  void setGLSize( const SbVec2s size );
+  void setGLSize(const SbVec2s size);
   SbVec2s getGLSize(void) const;
   float getGLAspectRatio(void) const;
 
   // old aliases
-  void setGlxSize( const SbVec2s size ) { setGLSize( size ); }
+  void setGlxSize(const SbVec2s size) { setGLSize(size); }
   SbVec2s getGlxSize(void) const { return getGLSize(); }
   float getGlxAspectRatio(void) const { return getGLAspectRatio(); }
   void setStereoBuffer(SbBool flag) {
@@ -115,8 +115,8 @@ protected:
   SbBool waitForExpose;
   SbBool drawToFrontBuffer;
 
-  virtual bool eventFilter( QObject * obj, QEvent * e );
-  static void eventHandler( QWidget *, void *, QEvent *, bool * );
+  virtual bool eventFilter(QObject * obj, QEvent * e);
+  static void eventHandler(QWidget *, void *, QEvent *, bool *);
 
   void glLockNormal(void);
   void glUnlockNormal(void);

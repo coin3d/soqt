@@ -36,14 +36,14 @@ public:
     const char * name = NULL,
     SbBool embed = TRUE,
     SoQtFullViewer::BuildFlag flag = BUILD_ALL,
-    SoQtViewer::Type type = BROWSER );
+    SoQtViewer::Type type = BROWSER);
   ~SoQtWalkViewer(void);
 
-  virtual void setViewing( SbBool enable );
-  virtual void setCamera( SoCamera * camera );
-  virtual void setCursorEnabled( SbBool enable );
+  virtual void setViewing(SbBool enable);
+  virtual void setCamera(SoCamera * camera);
+  virtual void setCursorEnabled(SbBool enable);
 
-  virtual void setCameraType( SoType type );
+  virtual void setCameraType(SoType type);
 
 protected:
   SoQtWalkViewer(
@@ -52,19 +52,19 @@ protected:
     SbBool embed,
     SoQtFullViewer::BuildFlag flag,
     SoQtViewer::Type type,
-    SbBool build );
+    SbBool build);
 
   virtual const char * getDefaultWidgetName(void) const;
   virtual const char * getDefaultTitle(void) const;
   virtual const char * getDefaultIconTitle(void) const;
 
-  virtual void processEvent( QEvent * event );
-  virtual void setSeekMode( SbBool enable );
+  virtual void processEvent(QEvent * event);
+  virtual void setSeekMode(SbBool enable);
   virtual void actualRedraw(void);
 
-  virtual void rightWheelMotion( float value );
+  virtual void rightWheelMotion(float value);
 
-  virtual QWidget * buildLeftTrim( QWidget * parent );
+  virtual QWidget * buildLeftTrim(QWidget * parent);
 
   virtual void createPrefSheet(void);
   virtual void openViewerHelpCard(void);

@@ -103,11 +103,11 @@ SoQtExaminerViewer::SoQtExaminerViewer(
   const char * name,
   SbBool embed,
   SoQtFullViewer::BuildFlag flag,
-  SoQtViewer::Type type )
-: inherited( parent, name, embed, flag, type, FALSE )
-, common( new SoAnyExaminerViewer( this ) )
+  SoQtViewer::Type type)
+: inherited(parent, name, embed, flag, type, FALSE)
+, common(new SoAnyExaminerViewer(this))
 {
-  this->constructor( TRUE );
+  this->constructor(TRUE);
 } // SoQtExaminerViewer()
 
 // *************************************************************************
@@ -123,10 +123,10 @@ SoQtExaminerViewer::SoQtExaminerViewer(
   SoQtFullViewer::BuildFlag flag,
   SoQtViewer::Type type,
   SbBool build)
-: inherited( parent, name, embed, flag, type, FALSE )
-, common( new SoAnyExaminerViewer( this ) )
+: inherited(parent, name, embed, flag, type, FALSE)
+, common(new SoAnyExaminerViewer(this))
 {
-  this->constructor( build );
+  this->constructor(build);
 } // SoQtExaminerViewer()
 
 // *************************************************************************
@@ -140,7 +140,7 @@ SoQtExaminerViewer::SoQtExaminerViewer(
 
 void
 SoQtExaminerViewer::constructor(
-  SbBool build )
+  SbBool build)
 {
   this->feedbacklabel1 = NULL;
   this->feedbacklabel2 = NULL;
@@ -166,9 +166,9 @@ SoQtExaminerViewer::constructor(
   this->setLeftWheelString("Rotx");
   this->setBottomWheelString("Roty");
 
-  if ( build ) {
-    QWidget * widget = this->buildWidget( this->getParentWidget() );
-    this->setBaseWidget( widget );
+  if (build) {
+    QWidget * widget = this->buildWidget(this->getParentWidget());
+    this->setBaseWidget(widget);
   }
 } // constructor()
 
@@ -179,7 +179,7 @@ SoQtExaminerViewer::constructor(
 */
 
 SoQtExaminerViewer::~SoQtExaminerViewer(
-  void )
+  void)
 {
   // Cursors.
   delete this->zoomcursor;
@@ -205,13 +205,13 @@ SoQtExaminerViewer::~SoQtExaminerViewer(
 */
 
 void
-SoQtExaminerViewer::setViewing( // virtual
-  SbBool enable )
+SoQtExaminerViewer::setViewing(// virtual
+  SbBool enable)
 {
-  this->common->setMode( enable ?
+  this->common->setMode(enable ?
                          SoAnyExaminerViewer::EXAMINE :
-                         SoAnyExaminerViewer::INTERACT );
-  inherited::setViewing( enable );
+                         SoAnyExaminerViewer::INTERACT);
+  inherited::setViewing(enable);
 } // setViewing()
 
 // *************************************************************************
@@ -222,8 +222,8 @@ SoQtExaminerViewer::setViewing( // virtual
 */
 
 void
-SoQtExaminerViewer::setCamera( // virtual
-  SoCamera * newCamera )
+SoQtExaminerViewer::setCamera(// virtual
+  SoCamera * newCamera)
 {
   if (newCamera) {
     SoType camtype = newCamera->getTypeId();
@@ -249,11 +249,11 @@ SoQtExaminerViewer::setCamera( // virtual
 */
 
 void
-SoQtExaminerViewer::setCursorEnabled( // virtual, protected
-  SbBool enable )
+SoQtExaminerViewer::setCursorEnabled(// virtual, protected
+  SbBool enable)
 {
-  inherited::setCursorEnabled( enable );
-  this->setCursorRepresentation( this->common->currentmode );
+  inherited::setCursorEnabled(enable);
+  this->setCursorRepresentation(this->common->currentmode);
 } // setcursorEnabled()
 
 /*!
@@ -262,7 +262,7 @@ SoQtExaminerViewer::setCursorEnabled( // virtual, protected
 
 void
 SoQtExaminerViewer::resetToHomePosition(
-  void )
+  void)
 {
   inherited::resetToHomePosition();
 } // resetToHomePosition()
@@ -272,8 +272,8 @@ SoQtExaminerViewer::resetToHomePosition(
 */
 
 void
-SoQtExaminerViewer::viewAll( // virtual
-  void )
+SoQtExaminerViewer::viewAll(// virtual
+  void)
 {
   inherited::viewAll();
 } // viewAll()
@@ -287,13 +287,13 @@ SoQtExaminerViewer::viewAll( // virtual
 
 void
 SoQtExaminerViewer::leftWheelMotion(
-  float value )
+  float value)
 {
-  if ( common->isAnimating() )
+  if (common->isAnimating())
     common->stopAnimating();
 
   inherited::leftWheelMotion(
-    common->rotXWheelMotion( value, this->getLeftWheelValue() ) );
+    common->rotXWheelMotion(value, this->getLeftWheelValue()));
 } // leftWheelMotion()
 
 /*!
@@ -303,13 +303,13 @@ SoQtExaminerViewer::leftWheelMotion(
 
 void
 SoQtExaminerViewer::bottomWheelMotion(
-  float value )
+  float value)
 {
-  if ( common->isAnimating() )
+  if (common->isAnimating())
     common->stopAnimating();
 
   inherited::bottomWheelMotion(
-    common->rotYWheelMotion( value, this->getBottomWheelValue() ) );
+    common->rotYWheelMotion(value, this->getBottomWheelValue()));
 } // bottomWheelMotion()
 
 /*!
@@ -319,10 +319,10 @@ SoQtExaminerViewer::bottomWheelMotion(
 
 void
 SoQtExaminerViewer::rightWheelMotion(
-  float value )
+  float value)
 {
-  common->zoom( this->getRightWheelValue() - value );
-  inherited::rightWheelMotion( value );
+  common->zoom(this->getRightWheelValue() - value);
+  inherited::rightWheelMotion(value);
 } // rightWheelMotion()
 
 // *************************************************************************
@@ -337,7 +337,7 @@ QWidget *
 SoQtExaminerViewer::makeSubPreferences(QWidget * parent)
 {
   QWidget * w = new QWidget(parent);
-//  w->setBackgroundColor( QColor( 250, 0, 0 ) );
+//  w->setBackgroundColor(QColor(250, 0, 0));
 
   // Initialize objects keeping track of geometry data.
 
@@ -379,7 +379,7 @@ SoQtExaminerViewer::makeSubPreferences(QWidget * parent)
   expandSize(tmpsize, this->feedbacklabel1->size(), LayoutHorizontal);
 
   this->feedbackwheel = new SoQtThumbWheel(SoQtThumbWheel::Horizontal, w);
-  this->feedbackwheel->setRangeBoundaryHandling( SoQtThumbWheel::ACCUMULATE );
+  this->feedbackwheel->setRangeBoundaryHandling(SoQtThumbWheel::ACCUMULATE);
   QObject::connect(this->feedbackwheel, SIGNAL(wheelMoved(float)),
                    this, SLOT(feedbackSizeChanged(float)));
   this->feedbackwheel->setValue(float(common->getFeedbackSize())/10.0f);
@@ -457,8 +457,8 @@ SoQtExaminerViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
 */
 
 const char *
-SoQtExaminerViewer::getDefaultWidgetName( // virtual
-  void ) const
+SoQtExaminerViewer::getDefaultWidgetName(// virtual
+  void) const
 {
   static const char defaultWidgetName[] = "SoQtExaminerViewer";
   return defaultWidgetName;
@@ -510,9 +510,9 @@ SoQtExaminerViewer::openViewerHelpCard(void)
 
 SbBool
 SoQtExaminerViewer::processSoEvent(
-  const SoEvent * const event )
+  const SoEvent * const event)
 {
-  if ( common->processSoEvent(event) )
+  if (common->processSoEvent(event))
     return TRUE;
 
   return inherited::processSoEvent(event);
@@ -526,7 +526,7 @@ SoQtExaminerViewer::processSoEvent(
 void
 SoQtExaminerViewer::processEvent(QEvent * event)
 {
-  inherited::processEvent( event );
+  inherited::processEvent(event);
   return;
 } // processEvents()
 
@@ -570,11 +570,11 @@ SoQtExaminerViewer::actualRedraw(void)
 {
   common->actualRedraw();
   inherited::actualRedraw();
-  if ( common->isFeedbackVisible() )
+  if (common->isFeedbackVisible())
     common->drawAxisCross();
 
   // Immediately reschedule to get continous spin animation.
-  if ( common->isAnimating() )
+  if (common->isAnimating())
     this->scheduleRedraw();
 } // actualRedraw()
 
@@ -587,7 +587,7 @@ SoQtExaminerViewer::actualRedraw(void)
 */
 
 void
-SoQtExaminerViewer::setCursorRepresentation( int mode )
+SoQtExaminerViewer::setCursorRepresentation(int mode)
 {
   QWidget * w = this->getRenderAreaWidget();
   assert(w);
@@ -612,9 +612,9 @@ SoQtExaminerViewer::setCursorRepresentation( int mode )
         (so_qt_pan_width + 7) / 8 * so_qt_pan_height,
       };
 
-      for ( unsigned int i = 0;
+      for (unsigned int i = 0;
             i < (sizeof(bitmapsizes) / sizeof(unsigned int)); i++) {
-        for ( unsigned int j = 0; j < bitmapsizes[i]; j++)
+        for (unsigned int j = 0; j < bitmapsizes[i]; j++)
           bitmaps[i*2][j] &= bitmaps[i*2+1][j];
       }
     }
@@ -700,10 +700,10 @@ SoQtExaminerViewer::setEnableFeedbackControls(const SbBool flag)
 */
 
 void
-SoQtExaminerViewer::visibilityCallback( SbBool visible )
+SoQtExaminerViewer::visibilityCallback(SbBool visible)
 {
-  if ( common->isAnimating() ) {
-//    if ( visible )
+  if (common->isAnimating()) {
+//    if (visible)
 //      common->spintimertrigger->schedule();
 //    else
 //      common->spintimertrigger->unschedule();
@@ -713,7 +713,7 @@ SoQtExaminerViewer::visibilityCallback( SbBool visible )
 void
 SoQtExaminerViewer::visibilityCB(void * data, SbBool visible)
 {
-  ((SoQtExaminerViewer *) data)->visibilityCallback( visible );
+  ((SoQtExaminerViewer *) data)->visibilityCallback(visible);
 } // visibilityCB()
 
 // *************************************************************************
@@ -825,7 +825,7 @@ SoQtExaminerViewer::feedbackSizeChanged(float val)
 void
 SoQtExaminerViewer::cameratoggleClicked()
 {
-  if ( this->getCamera() ) this->toggleCameraType();
+  if (this->getCamera()) this->toggleCameraType();
 } // cameratoggleClicked()
 
 // *************************************************************************
@@ -836,9 +836,9 @@ SoQtExaminerViewer::cameratoggleClicked()
 
 void
 SoQtExaminerViewer::setAnimationEnabled(
-  const SbBool enable )
+  const SbBool enable)
 {
-  common->setAnimationEnabled( enable );
+  common->setAnimationEnabled(enable);
   // FIXME: set spinanimtoggle state
 } // setAnimationEnabled()
 
@@ -848,7 +848,7 @@ SoQtExaminerViewer::setAnimationEnabled(
 
 SbBool
 SoQtExaminerViewer::isAnimationEnabled(
-  void ) const
+  void) const
 {
   return common->isAnimationEnabled();
 } // isAnimationEnabled()
@@ -859,7 +859,7 @@ SoQtExaminerViewer::isAnimationEnabled(
 
 void
 SoQtExaminerViewer::stopAnimating(
-  void )
+  void)
 {
   common->stopAnimating();
 } // stopAnimating()
@@ -870,7 +870,7 @@ SoQtExaminerViewer::stopAnimating(
 
 SbBool
 SoQtExaminerViewer::isAnimating(
-  void ) const
+  void) const
 {
   return common->isAnimating();
 } // isAnimating()
@@ -881,9 +881,9 @@ SoQtExaminerViewer::isAnimating(
 
 void
 SoQtExaminerViewer::setFeedbackVisibility(
-  const SbBool enable )
+  const SbBool enable)
 {
-  common->setFeedbackVisibility( enable );
+  common->setFeedbackVisibility(enable);
 } // setFeedbackVisibility()
 
 /*!
@@ -892,7 +892,7 @@ SoQtExaminerViewer::setFeedbackVisibility(
 
 SbBool
 SoQtExaminerViewer::isFeedbackVisible(
-  void ) const
+  void) const
 {
   return common->isFeedbackVisible();
 } // isFeedbackVisible()
@@ -903,9 +903,9 @@ SoQtExaminerViewer::isFeedbackVisible(
 
 void
 SoQtExaminerViewer::setFeedbackSize(
-   const int size )
+   const int size)
 {
-  common->setFeedbackSize( size );
+  common->setFeedbackSize(size);
 } // setFeedbackSize()
 
 /*!
@@ -914,7 +914,7 @@ SoQtExaminerViewer::setFeedbackSize(
 
 int
 SoQtExaminerViewer::getFeedbackSize(
-  void ) const
+  void) const
 {
   return common->getFeedbackSize();
 } // getFeedbackSize()
@@ -923,10 +923,10 @@ SoQtExaminerViewer::getFeedbackSize(
 
 // doc in super
 void
-SoQtExaminerViewer::afterRealizeHook( // protected virtual
-  void )
+SoQtExaminerViewer::afterRealizeHook(// protected virtual
+  void)
 {
-  this->setCursorRepresentation( this->common->currentmode );
+  this->setCursorRepresentation(this->common->currentmode);
   inherited::afterRealizeHook();
 } // afterRealizeHook()
 

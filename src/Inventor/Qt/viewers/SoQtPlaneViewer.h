@@ -42,12 +42,12 @@ public:
     const char * const name = NULL, 
     SbBool embed = TRUE, 
     SoQtFullViewer::BuildFlag flag = BUILD_ALL, 
-    SoQtViewer::Type type = BROWSER );
+    SoQtViewer::Type type = BROWSER);
   ~SoQtPlaneViewer(void);
 
-  virtual void setViewing( SbBool enable );
-  virtual void setCamera( SoCamera * camera );
-  virtual void setCursorEnabled( SbBool enable );
+  virtual void setViewing(SbBool enable);
+  virtual void setCamera(SoCamera * camera);
+  virtual void setCursorEnabled(SbBool enable);
 
 protected:
   SoQtPlaneViewer(
@@ -56,31 +56,31 @@ protected:
     SbBool embed, 
     SoQtFullViewer::BuildFlag flag, 
     SoQtViewer::Type type, 
-    SbBool build );
+    SbBool build);
 
-  QWidget * buildWidget( QWidget * parent );
+  QWidget * buildWidget(QWidget * parent);
 
   virtual const char * getDefaultWidgetName(void) const;
   virtual const char * getDefaultTitle(void) const;
   virtual const char * getDefaultIconTitle(void) const;
 
-  virtual SbBool processSoEvent( const SoEvent * const event );
-  virtual void processEvent( QEvent * event );
-  virtual void setSeekMode( SbBool enable );
+  virtual SbBool processSoEvent(const SoEvent * const event);
+  virtual void processEvent(QEvent * event);
+  virtual void setSeekMode(SbBool enable);
   virtual void actualRedraw(void);
 
-  virtual void bottomWheelMotion( float value );
-  virtual void leftWheelMotion( float value );
-  virtual void rightWheelMotion( float value );
+  virtual void bottomWheelMotion(float value);
+  virtual void leftWheelMotion(float value);
+  virtual void rightWheelMotion(float value);
 
   virtual void createPrefSheet(void);
 
-  virtual void createViewerButtons( QWidget * parent, SbPList * buttons );
+  virtual void createViewerButtons(QWidget * parent, SbPList * buttons);
   virtual void openViewerHelpCard(void);
   virtual void computeSeekFinalOrientation(void);
 
 private:
-  void constructor( SbBool buildNow );
+  void constructor(SbBool buildNow);
 
   enum PlaneViewerMode {
     IDLE_MODE,
@@ -95,8 +95,8 @@ private:
     SEEK_MODE
   } mode;
 
-  void setModeFromState( unsigned int state );
-  void setMode( PlaneViewerMode mode );
+  void setModeFromState(unsigned int state);
+  void setMode(PlaneViewerMode mode);
 
   SbVec2f prevMousePosition;
 
@@ -111,7 +111,7 @@ private:
     QPixmap * orthogonal, * perspective;
   } pixmaps;
 
-  static void visibilityCB( void * data, SbBool visible );
+  static void visibilityCB(void * data, SbBool visible);
 
   SoAnyPlaneViewer * const common;
 

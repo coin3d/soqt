@@ -237,12 +237,12 @@ class SoQtFullViewerP {
 public:
 
   // Constructor.
-  SoQtFullViewerP( SoQtFullViewer * o )
+  SoQtFullViewerP(SoQtFullViewer * o)
     : owner(o)
   { }
 
   // Destructor.
-  ~SoQtFullViewerP( ) { }
+  ~SoQtFullViewerP() { }
 
   // Return pointer to pushbutton in right-side decoration bar.
   QPushButton * getViewerbutton(const int idx)
@@ -275,7 +275,7 @@ private:
   SoQtFullViewer * owner;
 };
 
-#define PRIVATE( o ) ( o->pimpl )
+#define PRIVATE(o) (o->pimpl)
 
 // *************************************************************************
 
@@ -293,9 +293,9 @@ SoQtFullViewer::SoQtFullViewer(
   SbBool embed,
   SoQtFullViewer::BuildFlag buildFlag,
   SoQtViewer::Type type,
-  SbBool build )
-: inherited( parent, name, embed, type, FALSE )
-, common( new SoAnyFullViewer( this ) )
+  SbBool build)
+: inherited(parent, name, embed, type, FALSE)
+, common(new SoAnyFullViewer(this))
 {
   PRIVATE(this) = new SoQtFullViewerP(this);
 
@@ -325,9 +325,9 @@ SoQtFullViewer::SoQtFullViewer(
   this->rightWheelStr = NULL;
   this->rightWheelVal = 0.0f;
 
-  this->setLeftWheelString( "Motion X" );
-  this->setBottomWheelString( "Motion Y" );
-  this->setRightWheelString( "Motion Z" );
+  this->setLeftWheelString("Motion X");
+  this->setBottomWheelString("Motion Y");
+  this->setRightWheelString("Motion Z");
 
   PRIVATE(this)->zoomrange = SbVec2f(1.0f, 140.0f);
 
@@ -348,13 +348,13 @@ SoQtFullViewer::SoQtFullViewer(
   PRIVATE(this)->appbuttonlist = new SbPList;
   PRIVATE(this)->appbuttonform = NULL;
 
-  this->setSize( SbVec2s(500, 390) );
+  this->setSize(SbVec2s(500, 390));
 
-  if ( ! build ) return;
+  if (! build) return;
 
   this->setClassName("SoQtFullViewer");
-  QWidget * viewer = this->buildWidget( this->getParentWidget() );
-  this->setBaseWidget( viewer );
+  QWidget * viewer = this->buildWidget(this->getParentWidget());
+  this->setBaseWidget(viewer);
 } // SoQtFullViewer()
 
 // *************************************************************************
@@ -364,7 +364,7 @@ SoQtFullViewer::SoQtFullViewer(
 */
 
 SoQtFullViewer::~SoQtFullViewer(
-  void )
+  void)
 {
   delete PRIVATE(this)->viewerbuttons;
   delete PRIVATE(this)->appbuttonlist;
@@ -386,10 +386,10 @@ SoQtFullViewer::~SoQtFullViewer(
 
 void
 SoQtFullViewer::setDecoration(
-  const SbBool enable )
+  const SbBool enable)
 {
 #if SOQT_DEBUG
-  if ( (enable  && this->isDecoration()) ||
+  if ((enable  && this->isDecoration()) ||
        (!enable && !this->isDecoration())) {
     SoDebugError::postWarning("SoQtFullViewer::setDecoration",
                               "decorations already turned %s",
@@ -399,8 +399,8 @@ SoQtFullViewer::setDecoration(
 #endif // SOQT_DEBUG
 
   PRIVATE(this)->decorations = enable;
-  if ( PRIVATE(this)->viewerwidget )
-    this->showDecorationWidgets( enable );
+  if (PRIVATE(this)->viewerwidget)
+    this->showDecorationWidgets(enable);
 } // setDecoration()
 
 // *************************************************************************
@@ -413,7 +413,7 @@ SoQtFullViewer::setDecoration(
 
 SbBool
 SoQtFullViewer::isDecoration(
-  void ) const
+  void) const
 {
   return PRIVATE(this)->decorations;
 } // isDecoration()
@@ -430,11 +430,11 @@ SoQtFullViewer::isDecoration(
 
 void
 SoQtFullViewer::setPopupMenuEnabled(
-  const SbBool enable )
+  const SbBool enable)
 {
 #if SOQT_DEBUG
-  if ( (enable && this->isPopupMenuEnabled()) ||
-       (!enable && !this->isPopupMenuEnabled()) ) {
+  if ((enable && this->isPopupMenuEnabled()) ||
+       (!enable && !this->isPopupMenuEnabled())) {
     SoDebugError::postWarning("SoQtFullViewer::setPopupMenuEnabled",
                               "popup menu already turned %s",
                               enable ? "on" : "off");
@@ -455,7 +455,7 @@ SoQtFullViewer::setPopupMenuEnabled(
 
 SbBool
 SoQtFullViewer::isPopupMenuEnabled(
-  void ) const
+  void) const
 {
   return PRIVATE(this)->menuenabled;
 } // isPopupMenuEnabled()
@@ -600,9 +600,9 @@ SoQtFullViewer::getRenderAreaWidget(void)
 
 void
 SoQtFullViewer::setViewing(
-  SbBool enable )
+  SbBool enable)
 {
-  if ( (enable && this->isViewing()) ||
+  if ((enable && this->isViewing()) ||
        (!enable && !this->isViewing())) {
 #if SOQT_DEBUG && 0 // debug
     SoDebugError::postWarning("SoQtFullViewer::setViewing",
@@ -611,14 +611,14 @@ SoQtFullViewer::setViewing(
     return;
   }
 
-  inherited::setViewing( enable );
+  inherited::setViewing(enable);
 
   // Must check that buttons have been built, in case this viewer
   // component was made without decorations.
   if (PRIVATE(this)->viewerbuttons->getLength() > 0) {
-    PRIVATE(this)->getViewerbutton(EXAMINE_BUTTON)->setOn( enable );
-    PRIVATE(this)->getViewerbutton(INTERACT_BUTTON)->setOn( enable ? FALSE : TRUE);
-    PRIVATE(this)->getViewerbutton(SEEK_BUTTON)->setEnabled( enable );
+    PRIVATE(this)->getViewerbutton(EXAMINE_BUTTON)->setOn(enable);
+    PRIVATE(this)->getViewerbutton(INTERACT_BUTTON)->setOn(enable ? FALSE : TRUE);
+    PRIVATE(this)->getViewerbutton(SEEK_BUTTON)->setEnabled(enable);
   }
 } // setViewing()
 
@@ -694,43 +694,43 @@ SoQtFullViewer::eventFilter(QObject * obj, QEvent * e)
 
 QWidget *
 SoQtFullViewer::buildWidget(
-  QWidget * parent )
+  QWidget * parent)
 {
 #if SOQT_DEBUG && 0
-  SoDebugError::postInfo( "SoQtFullViewer::buildWidget", "[invoked]" );
+  SoDebugError::postInfo("SoQtFullViewer::buildWidget", "[invoked]");
 #endif // SOQT_DEBUG
   PRIVATE(this)->viewerwidget = new QWidget(parent);
-  this->registerWidget( PRIVATE(this)->viewerwidget );
-//  PRIVATE(this)->viewerwidget->installEventFilter( this );
+  this->registerWidget(PRIVATE(this)->viewerwidget);
+//  PRIVATE(this)->viewerwidget->installEventFilter(this);
 
-  PRIVATE(this)->viewerwidget->move( 0, 0 );
+  PRIVATE(this)->viewerwidget->move(0, 0);
 #if SOQT_DEBUG && 0
-  PRIVATE(this)->viewerwidget->setBackgroundColor( QColor( 250, 0, 0 ) );
+  PRIVATE(this)->viewerwidget->setBackgroundColor(QColor(250, 0, 0));
 #endif // SOQT_DEBUG
 
   // Build and layout the widget components of the viewer window on
   // top of the manager widget.
 
 //  PRIVATE(this)->canvasparent = new QWidget(PRIVATE(this)->viewerwidget);
-//  PRIVATE(this)->canvasparent->move( 0, 0 );
+//  PRIVATE(this)->canvasparent->move(0, 0);
 
-  PRIVATE(this)->canvas = inherited::buildWidget( PRIVATE(this)->viewerwidget );
-  if ( PRIVATE(this)->decorations ) {
-    PRIVATE(this)->canvas->move( 30, 0 );
+  PRIVATE(this)->canvas = inherited::buildWidget(PRIVATE(this)->viewerwidget);
+  if (PRIVATE(this)->decorations) {
+    PRIVATE(this)->canvas->move(30, 0);
     PRIVATE(this)->canvas->resize(
-      QSize( PRIVATE(this)->viewerwidget->size().width() - 60,
-             PRIVATE(this)->viewerwidget->size().height() - 30 ) );
+      QSize(PRIVATE(this)->viewerwidget->size().width() - 60,
+             PRIVATE(this)->viewerwidget->size().height() - 30));
   } else {
-    PRIVATE(this)->canvas->move( 0, 0 );
-    PRIVATE(this)->canvas->resize( PRIVATE(this)->viewerwidget->size() );
+    PRIVATE(this)->canvas->move(0, 0);
+    PRIVATE(this)->canvas->resize(PRIVATE(this)->viewerwidget->size());
   }
 
-  if ( PRIVATE(this)->decorations ) {
+  if (PRIVATE(this)->decorations) {
     this->buildDecoration(PRIVATE(this)->viewerwidget);
     this->showDecorationWidgets(TRUE);
   }
 
-  if ( PRIVATE(this)->menuenabled )
+  if (PRIVATE(this)->menuenabled)
     this->buildPopupMenu();
 
   return PRIVATE(this)->viewerwidget;
@@ -744,7 +744,7 @@ SoQtFullViewer::buildWidget(
 
 void
 SoQtFullViewer::buildDecoration(
-  QWidget * parent )
+  QWidget * parent)
 {
   this->leftDecoration = this->buildLeftTrim(parent);
   this->bottomDecoration = this->buildBottomTrim(parent);
@@ -763,24 +763,24 @@ SoQtFullViewer::buildDecoration(
 
 QWidget *
 SoQtFullViewer::buildLeftTrim(
-  QWidget * parent )
+  QWidget * parent)
 {
   QWidget * w = new QWidget(parent);
-  w->setFixedWidth( 30 );
+  w->setFixedWidth(30);
 
-  QGridLayout * gl = new QGridLayout( w, 3, 1, 2, -1 );
-  gl->addWidget( this->buildAppButtons(w), 0, 0 );
+  QGridLayout * gl = new QGridLayout(w, 3, 1, 2, -1);
+  gl->addWidget(this->buildAppButtons(w), 0, 0);
 
-  SoQtThumbWheel * t = new SoQtThumbWheel( SoQtThumbWheel::Vertical, w );
+  SoQtThumbWheel * t = new SoQtThumbWheel(SoQtThumbWheel::Vertical, w);
   this->leftWheel = t;
-  t->setRangeBoundaryHandling( SoQtThumbWheel::ACCUMULATE );
+  t->setRangeBoundaryHandling(SoQtThumbWheel::ACCUMULATE);
   this->leftWheelVal = t->value();
 
-  QObject::connect( t, SIGNAL(wheelMoved(float)), this, SLOT(leftWheelChanged(float)) );
-  QObject::connect( t, SIGNAL(wheelPressed()), this, SLOT(leftWheelPressed()) );
-  QObject::connect( t, SIGNAL(wheelReleased()), this, SLOT(leftWheelReleased()) );
+  QObject::connect(t, SIGNAL(wheelMoved(float)), this, SLOT(leftWheelChanged(float)));
+  QObject::connect(t, SIGNAL(wheelPressed()), this, SLOT(leftWheelPressed()));
+  QObject::connect(t, SIGNAL(wheelReleased()), this, SLOT(leftWheelReleased()));
 
-  gl->addWidget( t, 2, 0, AlignBottom | AlignHCenter );
+  gl->addWidget(t, 2, 0, AlignBottom | AlignHCenter);
   gl->activate();
 
   return w;
@@ -795,53 +795,53 @@ SoQtFullViewer::buildLeftTrim(
 
 QWidget *
 SoQtFullViewer::buildBottomTrim(
-  QWidget * parent )
+  QWidget * parent)
 {
   QWidget * w = new QWidget(parent);
-  w->setFixedHeight( 30 );
+  w->setFixedHeight(30);
 
-  QLabel * label = new QLabel( this->leftWheelStr, w );
+  QLabel * label = new QLabel(this->leftWheelStr, w);
   label->adjustSize();
-  label->setAlignment( AlignLeft | AlignTop );
-  label->setMargin( 2 );
+  label->setAlignment(AlignLeft | AlignTop);
+  label->setMargin(2);
   this->leftWheelLabel = label;
 
-  label = new QLabel( this->bottomWheelStr, w );
+  label = new QLabel(this->bottomWheelStr, w);
   label->adjustSize();
-  label->setAlignment( AlignRight | AlignVCenter );
-  label->setMargin( 2 );
+  label->setAlignment(AlignRight | AlignVCenter);
+  label->setMargin(2);
   this->bottomWheelLabel = label;
 
-  label = new QLabel( this->rightWheelStr, w );
+  label = new QLabel(this->rightWheelStr, w);
   label->adjustSize();
-  label->setAlignment( AlignRight | AlignTop );
-  label->setMargin( 2 );
+  label->setAlignment(AlignRight | AlignTop);
+  label->setMargin(2);
   this->rightWheelLabel = label;
 
-  SoQtThumbWheel * t = new SoQtThumbWheel( SoQtThumbWheel::Horizontal, w );
+  SoQtThumbWheel * t = new SoQtThumbWheel(SoQtThumbWheel::Horizontal, w);
   this->bottomWheel = t;
-  t->setRangeBoundaryHandling( SoQtThumbWheel::ACCUMULATE );
+  t->setRangeBoundaryHandling(SoQtThumbWheel::ACCUMULATE);
 
-  QObject::connect( t, SIGNAL(wheelMoved(float)),
-                    this, SLOT(bottomWheelChanged(float)) );
-  QObject::connect( t, SIGNAL(wheelPressed()),
-                    this, SLOT(bottomWheelPressed()) );
-  QObject::connect( t, SIGNAL(wheelReleased()),
-                    this, SLOT(bottomWheelReleased()) );
+  QObject::connect(t, SIGNAL(wheelMoved(float)),
+                    this, SLOT(bottomWheelChanged(float)));
+  QObject::connect(t, SIGNAL(wheelPressed()),
+                    this, SLOT(bottomWheelPressed()));
+  QObject::connect(t, SIGNAL(wheelReleased()),
+                    this, SLOT(bottomWheelReleased()));
 
   this->bottomWheelVal = t->value();
 
-  QGridLayout * gl = new QGridLayout( w, 1, 5 );
-  gl->setColStretch( 0, 0 );
-  gl->setColStretch( 1, 0 );
-  gl->setColStretch( 2, 0 );
-  gl->setColStretch( 3, 1 );
-  gl->setColStretch( 4, 0 );
+  QGridLayout * gl = new QGridLayout(w, 1, 5);
+  gl->setColStretch(0, 0);
+  gl->setColStretch(1, 0);
+  gl->setColStretch(2, 0);
+  gl->setColStretch(3, 1);
+  gl->setColStretch(4, 0);
 
-  gl->addWidget( this->leftWheelLabel, 0, 0, AlignVCenter | AlignHCenter );
-  gl->addWidget( this->bottomWheelLabel, 0, 1, AlignVCenter | AlignRight );
-  gl->addWidget( t, 0, 2, AlignVCenter | AlignLeft );
-  gl->addWidget( this->rightWheelLabel, 0, 4, AlignVCenter | AlignRight );
+  gl->addWidget(this->leftWheelLabel, 0, 0, AlignVCenter | AlignHCenter);
+  gl->addWidget(this->bottomWheelLabel, 0, 1, AlignVCenter | AlignRight);
+  gl->addWidget(t, 0, 2, AlignVCenter | AlignLeft);
+  gl->addWidget(this->rightWheelLabel, 0, 4, AlignVCenter | AlignRight);
 
   gl->activate();
 
@@ -857,17 +857,17 @@ SoQtFullViewer::buildBottomTrim(
 
 QWidget *
 SoQtFullViewer::buildRightTrim(
-  QWidget * parent )
+  QWidget * parent)
 {
   QWidget * w = new QWidget(parent);
   // FIXME: should be set according to width of viewer
   // buttons. 20000424 mortene.
-  w->setFixedWidth( 30 );
+  w->setFixedWidth(30);
   // FIXME: nope, trims are actually guaranteed to be 30 pixels wide
 
   SoQtThumbWheel * t = new SoQtThumbWheel(SoQtThumbWheel::Vertical, w);
   this->rightWheel = t;
-  t->setRangeBoundaryHandling( SoQtThumbWheel::ACCUMULATE );
+  t->setRangeBoundaryHandling(SoQtThumbWheel::ACCUMULATE);
   this->rightWheelVal = t->value();
 
   QObject::connect(t, SIGNAL(wheelMoved(float)),
@@ -877,10 +877,10 @@ SoQtFullViewer::buildRightTrim(
   QObject::connect(t, SIGNAL(wheelReleased()),
                    this, SLOT(rightWheelReleased()));
 
-  QGridLayout * l = new QGridLayout(w, 3, 1, 2, -1 );
-  l->setMargin( 0 );
-  l->addWidget( this->buildViewerButtons(w), 0, 0 );
-  l->addWidget( t, 2, 0, AlignBottom|AlignHCenter );
+  QGridLayout * l = new QGridLayout(w, 3, 1, 2, -1);
+  l->setMargin(0);
+  l->addWidget(this->buildViewerButtons(w), 0, 0);
+  l->addWidget(t, 2, 0, AlignBottom|AlignHCenter);
   l->activate();
 
   return w;
@@ -913,21 +913,21 @@ SoQtFullViewer::buildAppButtons(QWidget * parent)
 QWidget *
 SoQtFullViewer::buildViewerButtons(QWidget * parent)
 {
-  QWidget * w = new QWidget( parent );
+  QWidget * w = new QWidget(parent);
   this->createViewerButtons(w, PRIVATE(this)->viewerbuttons);
-  w->move( 0, 0 );
+  w->move(0, 0);
 
   // assert(PRIVATE(this)->viewerbuttons->getLength() != 0);
   QGridLayout * l =
     new QGridLayout(w, PRIVATE(this)->viewerbuttons->getLength(), 1);
-  l->setMargin( 0 );
-  l->setSpacing( 0 );
+  l->setMargin(0);
+  l->setSpacing(0);
 
   const int numViewerButtons = PRIVATE(this)->viewerbuttons->getLength();
-  for ( int i = 0; i < numViewerButtons; i++ ) {
+  for (int i = 0; i < numViewerButtons; i++) {
     QButton * b = PRIVATE(this)->getViewerbutton(i);
-    b->setFixedSize( 30, 30 );
-    b->setFocusPolicy( QWidget::NoFocus );
+    b->setFixedSize(30, 30);
+    b->setFocusPolicy(QWidget::NoFocus);
     l->addWidget(b, i, 0);
   }
 
@@ -1013,7 +1013,7 @@ SoQtFullViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
 
 void
 SoQtFullViewer::buildPopupMenu(
-  void )
+  void)
 {
   this->prefmenu = this->common->setupStandardPopupMenu();
 } // buildPopupMenu()
@@ -1027,7 +1027,7 @@ SoQtFullViewer::buildPopupMenu(
 void
 SoQtFullViewer::setPopupMenuString(const char * str)
 {
-  this->common->setPopupMenuString( str );
+  this->common->setPopupMenuString(str);
 } // setPopupMenuString()
 
 // *************************************************************************
@@ -1037,18 +1037,18 @@ SoQtFullViewer::setPopupMenuString(const char * str)
 */
 
 void
-SoQtFullViewer::openPopupMenu( // protected
-  const SbVec2s position )
+SoQtFullViewer::openPopupMenu(// protected
+  const SbVec2s position)
 {
-  if ( ! this->isPopupMenuEnabled() ) return;
-  if ( this->prefmenu == NULL )
+  if (! this->isPopupMenuEnabled()) return;
+  if (this->prefmenu == NULL)
     this->buildPopupMenu();
   int x = 2 + position[0];
   int y = 2 + this->getGLSize()[1] - position[1];
-  QPoint pos = this->getGLWidget()->mapToGlobal( QPoint(x,y) );
+  QPoint pos = this->getGLWidget()->mapToGlobal(QPoint(x,y));
 
-  this->common->prepareMenu( this->prefmenu );
-  this->prefmenu->popUp( this->getGLWidget(), pos.x(), pos.y() );
+  this->common->prepareMenu(this->prefmenu);
+  this->prefmenu->popUp(this->getGLWidget(), pos.x(), pos.y());
 } // openPopupMenu()
 
 // *************************************************************************
@@ -1106,7 +1106,7 @@ SoQtFullViewer::leftWheelStart(void)
 
 void
 SoQtFullViewer::leftWheelMotion(
-  float value )
+  float value)
 {
   this->leftWheelVal = value;
 } // leftWheelMotion()
@@ -1134,7 +1134,7 @@ SoQtFullViewer::leftWheelFinish(void)
 
 float
 SoQtFullViewer::getLeftWheelValue(
-  void ) const
+  void) const
 {
   return this->leftWheelVal;
 } // getLeftWheelValue()
@@ -1145,10 +1145,10 @@ SoQtFullViewer::getLeftWheelValue(
 
 void
 SoQtFullViewer::setLeftWheelValue(
-  const float value )
+  const float value)
 {
   this->leftWheelVal = value;
-  ((SoQtThumbWheel *) this->leftWheel)->setValue( value );
+  ((SoQtThumbWheel *) this->leftWheel)->setValue(value);
 } // setLeftWheelValue()
 
 // *************************************************************************
@@ -1179,7 +1179,7 @@ SoQtFullViewer::bottomWheelStart(void)
 
 void
 SoQtFullViewer::bottomWheelMotion(
-  float value )
+  float value)
 {
   this->bottomWheelVal = value;
 } // bottomWheelMotion()
@@ -1207,7 +1207,7 @@ SoQtFullViewer::bottomWheelFinish(void)
 
 float
 SoQtFullViewer::getBottomWheelValue(
-  void ) const
+  void) const
 {
   return this->bottomWheelVal;
 } // getBottomWheelValue()
@@ -1218,10 +1218,10 @@ SoQtFullViewer::getBottomWheelValue(
 
 void
 SoQtFullViewer::setBottomWheelValue(
-  const float value )
+  const float value)
 {
   this->bottomWheelVal = value;
-  ((SoQtThumbWheel *) this->bottomWheel)->setValue( value );
+  ((SoQtThumbWheel *) this->bottomWheel)->setValue(value);
 } // setBottomWheelValue()
 
 // *************************************************************************
@@ -1252,7 +1252,7 @@ SoQtFullViewer::rightWheelStart(void)
 
 void
 SoQtFullViewer::rightWheelMotion(
-  float value )
+  float value)
 {
   this->rightWheelVal = value;
 } // rightWheelMotion()
@@ -1280,7 +1280,7 @@ SoQtFullViewer::rightWheelFinish(void)
 
 float
 SoQtFullViewer::getRightWheelValue(
-  void ) const
+  void) const
 {
   return this->rightWheelVal;
 } // getRightWheelValue()
@@ -1291,10 +1291,10 @@ SoQtFullViewer::getRightWheelValue(
 
 void
 SoQtFullViewer::setRightWheelValue(
-  const float value )
+  const float value)
 {
   this->rightWheelVal = value;
-  ((SoQtThumbWheel *) this->rightWheel)->setValue( value );
+  ((SoQtThumbWheel *) this->rightWheel)->setValue(value);
 } // setRightWheelValue()
 
 // *************************************************************************
@@ -1318,15 +1318,15 @@ void SoQtFullViewer::rightWheelReleased(void) { this->rightWheelFinish(); }
 
 void
 SoQtFullViewer::setLeftWheelString(
-  const char * const string )
+  const char * const string)
 {
   delete [] this->leftWheelStr;
   this->leftWheelStr = NULL;
 
-  if ( string )
-    this->leftWheelStr = strcpy( new char [strlen(string)+1], string );
-  if ( this->leftWheelLabel )
-    ((QLabel *)this->leftWheelLabel)->setText( string ? string : "" );
+  if (string)
+    this->leftWheelStr = strcpy(new char [strlen(string)+1], string);
+  if (this->leftWheelLabel)
+    ((QLabel *)this->leftWheelLabel)->setText(string ? string : "");
 } // setLeftWheelString()
 
 // *************************************************************************
@@ -1337,15 +1337,15 @@ SoQtFullViewer::setLeftWheelString(
 
 void
 SoQtFullViewer::setBottomWheelString(
-  const char * const string )
+  const char * const string)
 {
   delete [] this->bottomWheelStr;
   this->bottomWheelStr = NULL;
 
-  if ( string )
-    this->bottomWheelStr = strcpy( new char [strlen(string)+1], string );
-  if ( this->bottomWheelLabel )
-    ((QLabel *)this->bottomWheelLabel)->setText( string ? string : "" );
+  if (string)
+    this->bottomWheelStr = strcpy(new char [strlen(string)+1], string);
+  if (this->bottomWheelLabel)
+    ((QLabel *)this->bottomWheelLabel)->setText(string ? string : "");
 } // setBottomWheelString()
 
 // *************************************************************************
@@ -1356,15 +1356,15 @@ SoQtFullViewer::setBottomWheelString(
 
 void
 SoQtFullViewer::setRightWheelString(
-  const char * const string )
+  const char * const string)
 {
   delete [] this->rightWheelStr;
   this->rightWheelStr = NULL;
 
-  if ( string )
-    this->rightWheelStr = strcpy( new char [strlen(string)+1], string );
-  if ( this->rightWheelLabel )
-    ((QLabel *)this->rightWheelLabel)->setText( string ? string : "" );
+  if (string)
+    this->rightWheelStr = strcpy(new char [strlen(string)+1], string);
+  if (this->rightWheelLabel)
+    ((QLabel *)this->rightWheelLabel)->setText(string ? string : "");
 } // setRightWheelString()
 
 // *************************************************************************
@@ -1390,10 +1390,10 @@ SoQtFullViewer::openViewerHelpCard(void)
 
 void
 SoQtFullViewer::showDecorationWidgets(
-  SbBool onOff )
+  SbBool onOff)
 {
 #if SOQT_DEBUG && 0
-  SoDebugError::postInfo( "SoQtFullViewer::showDecorationWidgets", "[invoked]" );
+  SoDebugError::postInfo("SoQtFullViewer::showDecorationWidgets", "[invoked]");
 #endif // SOQT_DEBUG
 
   if (PRIVATE(this)->mainlayout) delete PRIVATE(this)->mainlayout;
@@ -1401,17 +1401,17 @@ SoQtFullViewer::showDecorationWidgets(
   assert(PRIVATE(this)->viewerwidget);
 //  assert(PRIVATE(this)->canvasparent);
 
-  assert( this->leftDecoration && this->bottomDecoration && this->rightDecoration );
-  if ( onOff ) {
+  assert(this->leftDecoration && this->bottomDecoration && this->rightDecoration);
+  if (onOff) {
     this->leftDecoration->show();
     this->bottomDecoration->show();
     this->rightDecoration->show();
 
-    QGridLayout * g = new QGridLayout(PRIVATE(this)->viewerwidget, 2, 1, 0, -1 ); // VIEWERBORDER);
+    QGridLayout * g = new QGridLayout(PRIVATE(this)->viewerwidget, 2, 1, 0, -1); // VIEWERBORDER);
 
     g->addWidget(this->bottomDecoration, 1, 0);
 
-    QGridLayout * subLayout = new QGridLayout( 1, 3, 0 );
+    QGridLayout * subLayout = new QGridLayout(1, 3, 0);
     g->addLayout(subLayout, 0, 0);
 
     subLayout->addWidget(this->leftDecoration, 0, 0);
@@ -1423,7 +1423,7 @@ SoQtFullViewer::showDecorationWidgets(
 
     PRIVATE(this)->mainlayout = g;
   } else {
-    QGridLayout * g = new QGridLayout(PRIVATE(this)->viewerwidget, 1, 1, 0, -1 );
+    QGridLayout * g = new QGridLayout(PRIVATE(this)->viewerwidget, 1, 1, 0, -1);
     g->addWidget(PRIVATE(this)->canvas, 0, 0);
     PRIVATE(this)->mainlayout = g;
 
@@ -1434,8 +1434,8 @@ SoQtFullViewer::showDecorationWidgets(
 
   PRIVATE(this)->mainlayout->activate();
   QSize size = PRIVATE(this)->viewerwidget->size();
-  SbVec2s rasize = SbVec2s( size.width(), size.height() );
-  SoQtFullViewer::sizeChanged( rasize );
+  SbVec2s rasize = SbVec2s(size.width(), size.height());
+  SoQtFullViewer::sizeChanged(rasize);
 } // showDecorationWidgets()
 
 // *************************************************************************
@@ -1624,7 +1624,7 @@ SoQtFullViewer::makeSeekDistancePreferences(QWidget * parent)
   expandSize(tmpsize, l->size(), LayoutHorizontal);
 
   PRIVATE(this)->seekdistancewheel = new SoQtThumbWheel(SoQtThumbWheel::Horizontal, w);
-  PRIVATE(this)->seekdistancewheel->setRangeBoundaryHandling( SoQtThumbWheel::ACCUMULATE );
+  PRIVATE(this)->seekdistancewheel->setRangeBoundaryHandling(SoQtThumbWheel::ACCUMULATE);
   PRIVATE(this)->seekdistancewheel->setValue(sqrt(this->getSeekDistance()));
   PRIVATE(this)->seekdistancewheel->adjustSize();
   expandSize(tmpsize, PRIVATE(this)->seekdistancewheel->size(),
@@ -1867,9 +1867,9 @@ SoQtFullViewer::makeAutoclipPreferences(QWidget * dialog)
   expandSize(tmpsize, PRIVATE(this)->nearclippinglabel->size(), LayoutHorizontal);
 
   PRIVATE(this)->nearclippingwheel = new SoQtThumbWheel(SoQtThumbWheel::Horizontal, w);
-  PRIVATE(this)->nearclippingwheel->setRangeBoundaryHandling( SoQtThumbWheel::ACCUMULATE );
+  PRIVATE(this)->nearclippingwheel->setRangeBoundaryHandling(SoQtThumbWheel::ACCUMULATE);
   PRIVATE(this)->nearclippingwheel->adjustSize();
-  PRIVATE(this)->nearclippingwheel->setEnabled( FALSE );
+  PRIVATE(this)->nearclippingwheel->setEnabled(FALSE);
   expandSize(tmpsize, PRIVATE(this)->nearclippingwheel->size(), LayoutHorizontal);
   QObject::connect(PRIVATE(this)->nearclippingwheel, SIGNAL(wheelPressed()),
                    this, SLOT(increaseInteractiveCount()));
@@ -1908,9 +1908,9 @@ SoQtFullViewer::makeAutoclipPreferences(QWidget * dialog)
              LayoutHorizontal);
 
   PRIVATE(this)->farclippingwheel = new SoQtThumbWheel(SoQtThumbWheel::Horizontal, w);
-  PRIVATE(this)->farclippingwheel->setRangeBoundaryHandling( SoQtThumbWheel::ACCUMULATE );
+  PRIVATE(this)->farclippingwheel->setRangeBoundaryHandling(SoQtThumbWheel::ACCUMULATE);
   PRIVATE(this)->farclippingwheel->adjustSize();
-  PRIVATE(this)->farclippingwheel->setEnabled( FALSE );
+  PRIVATE(this)->farclippingwheel->setEnabled(FALSE);
   expandSize(tmpsize, PRIVATE(this)->farclippingwheel->size(), LayoutHorizontal);
   QObject::connect(PRIVATE(this)->farclippingwheel, SIGNAL(wheelPressed()),
                    this, SLOT(increaseInteractiveCount()));
@@ -1953,7 +1953,7 @@ void
 SoQtFullViewer::setCameraZoom(const float val)
 {
   SoCamera * cam = this->getCamera();
-  if ( ! cam ) return; // can happen for empty scenegraph
+  if (! cam) return; // can happen for empty scenegraph
 
   SoType t = cam->getTypeId();
 
@@ -1976,14 +1976,14 @@ float
 SoQtFullViewer::getCameraZoom(void)
 {
   SoCamera * cam = this->getCamera();
-  if ( ! cam ) return 0.0f; // can happen for empty scenegraph
+  if (! cam) return 0.0f; // can happen for empty scenegraph
 
   SoType t = cam->getTypeId();
 
-  if (t.isDerivedFrom(SoPerspectiveCamera::getClassTypeId()) )
+  if (t.isDerivedFrom(SoPerspectiveCamera::getClassTypeId()))
     return ((SoPerspectiveCamera *)cam)->heightAngle.getValue() /
       2.0f * 360.0f / M_PI;
-  else if (t.isDerivedFrom(SoOrthographicCamera::getClassTypeId()) )
+  else if (t.isDerivedFrom(SoOrthographicCamera::getClassTypeId()))
     return ((SoOrthographicCamera *)cam)->height.getValue();
 
 #if SOQT_DEBUG
@@ -2005,7 +2005,7 @@ SoQtFullViewer::setZoomSliderPosition(float zoom)
 
   float f =
     (zoom - PRIVATE(this)->zoomrange[0]) / (PRIVATE(this)->zoomrange[1] - PRIVATE(this)->zoomrange[0]);
-  f = SoQtClamp( f, 0.0f, 1.0f ) * ZOOMSLIDERRESOLUTION;
+  f = SoQtClamp(f, 0.0f, 1.0f) * ZOOMSLIDERRESOLUTION;
 
   PRIVATE(this)->zoomslider->setValue(f);
 } // setZoomSliderPosition()
@@ -2035,13 +2035,13 @@ SoQtFullViewer::setZoomFieldString(float zoom)
 
 void
 SoQtFullViewer::interactbuttonClicked(
-  void )
+  void)
 {
-  if ( PRIVATE(this)->interactbutton )
+  if (PRIVATE(this)->interactbutton)
     ((QPushButton *)PRIVATE(this)->interactbutton)->setOn(TRUE);
-  if ( PRIVATE(this)->viewbutton )
+  if (PRIVATE(this)->viewbutton)
     ((QPushButton *)PRIVATE(this)->viewbutton)->setOn(FALSE);
-  if ( this->isViewing() )
+  if (this->isViewing())
     this->setViewing(FALSE);
 } // interactbuttonToggled()
 
@@ -2054,13 +2054,13 @@ SoQtFullViewer::interactbuttonClicked(
 
 void
 SoQtFullViewer::viewbuttonClicked(
-  void )
+  void)
 {
-  if ( PRIVATE(this)->interactbutton )
+  if (PRIVATE(this)->interactbutton)
     ((QPushButton *)PRIVATE(this)->interactbutton)->setOn(FALSE);
-  if ( PRIVATE(this)->viewbutton )
+  if (PRIVATE(this)->viewbutton)
     ((QPushButton *)PRIVATE(this)->viewbutton)->setOn(TRUE);
-  if ( ! this->isViewing() )
+  if (! this->isViewing())
     this->setViewing(TRUE);
 } // viewbuttonToggled()
 
@@ -2265,7 +2265,7 @@ SoQtFullViewer::seekDistanceWheelChanged(float val)
 {
   if (val < 0.1f) {
     val = 0.1f;
-    PRIVATE(this)->seekdistancewheel->setValue( val );
+    PRIVATE(this)->seekdistancewheel->setValue(val);
   }
 
   this->setSeekDistance(val * val);
@@ -2340,7 +2340,7 @@ SoQtFullViewer::zoomFieldChanged()
 {
   float val;
   if (sscanf(PRIVATE(this)->zoomfield->text(), "%f", &val) == 1) {
-    val = SoQtClamp( val, 0.001f, 179.999f );
+    val = SoQtClamp(val, 0.001f, 179.999f);
     this->setCameraZoom(val);
     this->setZoomSliderPosition(val);
   }
@@ -2449,16 +2449,16 @@ SoQtFullViewer::decreaseInteractiveCount()
 void
 SoQtFullViewer::nearclippingwheelMoved(float val)
 {
-  assert( PRIVATE(this)->nearclippingwheel != NULL &&
-          PRIVATE(this)->farclippingwheel != NULL );
-  if ( val < 0.001f ) {
+  assert(PRIVATE(this)->nearclippingwheel != NULL &&
+          PRIVATE(this)->farclippingwheel != NULL);
+  if (val < 0.001f) {
     val = 0.001f;
-    PRIVATE(this)->nearclippingwheel->setValue( val );
+    PRIVATE(this)->nearclippingwheel->setValue(val);
   }
   float farval = PRIVATE(this)->farclippingwheel->value();
-  if ( val >= farval ) {
+  if (val >= farval) {
     val = farval - 0.001f;
-    PRIVATE(this)->nearclippingwheel->setValue( val );
+    PRIVATE(this)->nearclippingwheel->setValue(val);
   }
 
   SoCamera * cam = this->getCamera();
@@ -2482,13 +2482,13 @@ SoQtFullViewer::nearclippingwheelMoved(float val)
 void
 SoQtFullViewer::farclippingwheelMoved(float val)
 {
-  assert( PRIVATE(this)->nearclippingwheel != NULL &&
-          PRIVATE(this)->farclippingwheel != NULL );
+  assert(PRIVATE(this)->nearclippingwheel != NULL &&
+          PRIVATE(this)->farclippingwheel != NULL);
   float nearval = PRIVATE(this)->nearclippingwheel->value();
-  if ( nearval < 0.001f ) nearval = 0.001f;
-  if ( val <= nearval ) {
+  if (nearval < 0.001f) nearval = 0.001f;
+  if (val <= nearval) {
     val = nearval + 0.001f;
-    PRIVATE(this)->farclippingwheel->setValue( val );
+    PRIVATE(this)->farclippingwheel->setValue(val);
   }
 
   SoCamera * cam = this->getCamera();
@@ -2561,34 +2561,34 @@ SoQtFullViewer::farclipEditPressed()
 */
 
 void
-SoQtFullViewer::sizeChanged( // virtual
-  const SbVec2s size )
+SoQtFullViewer::sizeChanged(// virtual
+  const SbVec2s size)
 {
 #if SOQT_DEBUG && 0
-  SoDebugError::postInfo( "SoQtFullViewer::sizeChanged", "[invoked (%d, %d)]",
-    size[0], size[1] );
+  SoDebugError::postInfo("SoQtFullViewer::sizeChanged", "[invoked (%d, %d)]",
+    size[0], size[1]);
 #endif // SOQT_DEBUG
 
-  if ( PRIVATE(this)->decorations ) {
-    if ( size[0] <= 60 || size[1] <= 30 ) return; // bogus
-    if ( PRIVATE(this)->viewerwidget ) {
-      // SoDebugError::postInfo( "SoQtFullViewer::sizeChanged", "[resizing]" );
-      PRIVATE(this)->viewerwidget->setGeometry( 0, 0, size[0], size[1] );
-      PRIVATE(this)->canvas->setGeometry( 30, 0, size[0] - 60, size[1] - 30 );
-      this->leftDecoration->resize( 30, size[1] - 30 );
-      this->rightDecoration->setGeometry( size[0]-30, 0, size[0], size[1] - 30 );
-      this->bottomDecoration->setGeometry( 0, size[1]-30, size[0], size[1] );
+  if (PRIVATE(this)->decorations) {
+    if (size[0] <= 60 || size[1] <= 30) return; // bogus
+    if (PRIVATE(this)->viewerwidget) {
+      // SoDebugError::postInfo("SoQtFullViewer::sizeChanged", "[resizing]");
+      PRIVATE(this)->viewerwidget->setGeometry(0, 0, size[0], size[1]);
+      PRIVATE(this)->canvas->setGeometry(30, 0, size[0] - 60, size[1] - 30);
+      this->leftDecoration->resize(30, size[1] - 30);
+      this->rightDecoration->setGeometry(size[0]-30, 0, size[0], size[1] - 30);
+      this->bottomDecoration->setGeometry(0, size[1]-30, size[0], size[1]);
     }
-    const SbVec2s rasize = SbVec2s( size[0] - 60, size[1] - 30 );
-    inherited::sizeChanged( rasize );
+    const SbVec2s rasize = SbVec2s(size[0] - 60, size[1] - 30);
+    inherited::sizeChanged(rasize);
   } else {
-    if ( size[0] <= 0 || size[1] <= 0 ) return;
-    if ( PRIVATE(this)->viewerwidget && PRIVATE(this)->canvas ) {
-      // SoDebugError::postInfo( "SoQtFullViewer::sizeChanged", "[resizing]" );
-      PRIVATE(this)->viewerwidget->setGeometry( 0, 0, size[0], size[1] );
-      PRIVATE(this)->canvas->setGeometry( 0, 0, size[0], size[1] );
+    if (size[0] <= 0 || size[1] <= 0) return;
+    if (PRIVATE(this)->viewerwidget && PRIVATE(this)->canvas) {
+      // SoDebugError::postInfo("SoQtFullViewer::sizeChanged", "[resizing]");
+      PRIVATE(this)->viewerwidget->setGeometry(0, 0, size[0], size[1]);
+      PRIVATE(this)->canvas->setGeometry(0, 0, size[0], size[1]);
     }
-    inherited::sizeChanged( size );
+    inherited::sizeChanged(size);
   }
 } // sizeChanged()
 
@@ -2599,10 +2599,10 @@ SoQtFullViewer::sizeChanged( // virtual
 
 SbBool
 SoQtFullViewer::processSoEvent(
-  const SoEvent * const event )
+  const SoEvent * const event)
 {
-  if ( common->processSoEvent(event) ||
-       inherited::processSoEvent(event) )
+  if (common->processSoEvent(event) ||
+       inherited::processSoEvent(event))
     return TRUE;
   return FALSE;
 } // processSoEvent()
@@ -2610,10 +2610,10 @@ SoQtFullViewer::processSoEvent(
 // *************************************************************************
 
 void
-SoQtFullViewer::afterRealizeHook( // virtual
-  void )
+SoQtFullViewer::afterRealizeHook(// virtual
+  void)
 {
-  this->sizeChanged( this->getSize() );
+  this->sizeChanged(this->getSize());
   inherited::afterRealizeHook();
 } // afterRealizeHook()
 

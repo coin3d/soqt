@@ -43,15 +43,15 @@ public:
     ALL_EVENTS      = 0x0f
   };
 
-  SoQtMouse( int eventmask = ALL_EVENTS );
+  SoQtMouse(int eventmask = ALL_EVENTS);
   virtual ~SoQtMouse(void);
 
-  virtual void enable( QWidget * widget, SoQtEventHandler * handler,
-    void * closure );
-  virtual void disable( QWidget * widget, SoQtEventHandler * handler,
-    void * closure );
+  virtual void enable(QWidget * widget, SoQtEventHandler * handler,
+    void * closure);
+  virtual void disable(QWidget * widget, SoQtEventHandler * handler,
+    void * closure);
 
-  virtual const SoEvent * translateEvent( QEvent * event );
+  virtual const SoEvent * translateEvent(QEvent * event);
 
 private:
   SoMouseButtonEvent * buttonevent;

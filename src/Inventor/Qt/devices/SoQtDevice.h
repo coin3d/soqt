@@ -39,30 +39,30 @@ class SOQT_DLL_API SoQtDevice : public SoQtObject {
   Q_OBJECT
 
 public:
-  typedef void SoQtEventHandler( QWidget *, void *, QEvent *, bool * );
+  typedef void SoQtEventHandler(QWidget *, void *, QEvent *, bool *);
 
   SoQtDevice(void);
   virtual ~SoQtDevice(void);
 
-  virtual void enable( QWidget * widget, SoQtEventHandler * handler,
-    void * closure ) = 0;
-  virtual void disable( QWidget * w, SoQtEventHandler * handler,
-    void * closure ) = 0;
+  virtual void enable(QWidget * widget, SoQtEventHandler * handler,
+    void * closure) = 0;
+  virtual void disable(QWidget * w, SoQtEventHandler * handler,
+    void * closure) = 0;
 
-  virtual const SoEvent * translateEvent( QEvent * event ) = 0;
+  virtual const SoEvent * translateEvent(QEvent * event) = 0;
 
-  void setWindowSize( const SbVec2s size );
+  void setWindowSize(const SbVec2s size);
   SbVec2s getWindowSize(void) const;
 
   static void initClasses(void);
 
 protected:
-  void setEventPosition( SoEvent * event, int x, int y ) const;
+  void setEventPosition(SoEvent * event, int x, int y) const;
   static QPoint getLastEventPosition(void);
 
-  void addEventHandler( QWidget *, SoQtEventHandler *, void * );
-  void removeEventHandler( QWidget *, SoQtEventHandler *, void * );
-  void invokeHandlers( QEvent * event );
+  void addEventHandler(QWidget *, SoQtEventHandler *, void *);
+  void removeEventHandler(QWidget *, SoQtEventHandler *, void *);
+  void invokeHandlers(QEvent * event);
 
 private:
   static void setLastEventPosition(QPoint p);
@@ -78,7 +78,7 @@ private:
 
 }; // class SoQtDevice
 
-typedef void (*SoQtEventHandlerPtr)( QWidget *, void *, QEvent *, bool * );
+typedef void (*SoQtEventHandlerPtr)(QWidget *, void *, QEvent *, bool *);
 
 // *************************************************************************
 
@@ -96,11 +96,11 @@ class SOQT_DLL_API SoQt6dofDevicePressureEvent : public QCustomEvent {
 public:
   SoQt6dofDevicePressureEvent(void);
 
-  void setTranslation( float x, float y, float z );
-  void getTranslation( float & x, float & y, float & z ) const;
+  void setTranslation(float x, float y, float z);
+  void getTranslation(float & x, float & y, float & z) const;
 
-  void setRotation( float x, float y, float z );
-  void getRotation( float & x, float & y, float & z ) const;
+  void setRotation(float x, float y, float z);
+  void getRotation(float & x, float & y, float & z) const;
 
 private:
   float trans_x, trans_y, trans_z;
@@ -114,13 +114,13 @@ class SOQT_DLL_API SoQt6dofDeviceButtonEvent : public QCustomEvent {
 public:
   SoQt6dofDeviceButtonEvent(void);
 
-  void setButton( unsigned int button );
+  void setButton(unsigned int button);
   unsigned int getButton(void) const;
 
-  void setState( unsigned int state );
+  void setState(unsigned int state);
   unsigned int getState(void) const;
 
-  void setNumButtons( unsigned int buttons );
+  void setNumButtons(unsigned int buttons);
   unsigned int getNumButtons(void) const;
 
   int isButtonPress(void) const;

@@ -53,24 +53,24 @@ public:
     const char * name = NULL,
     SbBool embed = TRUE,
     SoQtFullViewer::BuildFlag flag = BUILD_ALL,
-    SoQtViewer::Type type = BROWSER );
+    SoQtViewer::Type type = BROWSER);
   ~SoQtExaminerViewer(void);
 
-  void setAnimationEnabled( const SbBool enable );
+  void setAnimationEnabled(const SbBool enable);
   SbBool isAnimationEnabled(void) const;
 
   void stopAnimating(void);
   SbBool isAnimating(void) const;
 
-  void setFeedbackVisibility( const SbBool enable );
+  void setFeedbackVisibility(const SbBool enable);
   SbBool isFeedbackVisible(void) const;
 
-  void setFeedbackSize( const int size );
+  void setFeedbackSize(const int size);
   int getFeedbackSize(void) const;
 
-  virtual void setViewing( SbBool enable );
-  virtual void setCamera( SoCamera * camera );
-  virtual void setCursorEnabled( SbBool enable );
+  virtual void setViewing(SbBool enable);
+  virtual void setCamera(SoCamera * camera);
+  virtual void setCursorEnabled(SbBool enable);
   virtual void resetToHomePosition(void);
   virtual void viewAll(void);
 
@@ -81,15 +81,15 @@ protected:
     SbBool embed,
     SoQtFullViewer::BuildFlag flag,
     SoQtViewer::Type type,
-    SbBool build );
+    SbBool build);
 
 
-  virtual void leftWheelMotion( float val );
-  virtual void bottomWheelMotion( float val );
-  virtual void rightWheelMotion( float val );
+  virtual void leftWheelMotion(float val);
+  virtual void bottomWheelMotion(float val);
+  virtual void rightWheelMotion(float val);
 
-  virtual QWidget * makeSubPreferences( QWidget * parent );
-  virtual void createViewerButtons( QWidget * parent, SbPList * buttonlist );
+  virtual QWidget * makeSubPreferences(QWidget * parent);
+  virtual void createViewerButtons(QWidget * parent, SbPList * buttonlist);
 
   virtual const char * getDefaultWidgetName(void) const;
   virtual const char * getDefaultTitle(void) const;
@@ -97,9 +97,9 @@ protected:
 
   virtual void openViewerHelpCard(void);
 
-  virtual SbBool processSoEvent( const SoEvent * const event );
-  virtual void processEvent( QEvent * anyevent );
-  virtual void setSeekMode( SbBool enable );
+  virtual SbBool processSoEvent(const SoEvent * const event);
+  virtual void processEvent(QEvent * anyevent);
+  virtual void setSeekMode(SbBool enable);
   virtual void actualRedraw(void);
 
   virtual void afterRealizeHook(void);
@@ -107,13 +107,13 @@ protected:
 private:
   QPixmap * orthopixmap, * perspectivepixmap;
 
-  void constructor( SbBool buildNow );
-  void visibilityCallback( SbBool visible );
+  void constructor(SbBool buildNow);
+  void visibilityCallback(SbBool visible);
   static void visibilityCB(void * data, SbBool visible);
 
   QTimer * spindetecttimer;
 
-  void setCursorRepresentation( int mode );
+  void setCursorRepresentation(int mode);
   QCursor * pancursor, * rotatecursor;
   QCursor * defaultcursor, * zoomcursor;
 
@@ -126,11 +126,11 @@ private:
 private slots:
 
 // preferences window:
-  void spinAnimationToggled( bool );
-  void feedbackVisibilityToggle( bool );
+  void spinAnimationToggled(bool);
+  void feedbackVisibilityToggle(bool);
   void feedbackEditPressed(void);
   void feedbackWheelPressed(void);
-  void feedbackSizeChanged( float val );
+  void feedbackSizeChanged(float val);
   void feedbackWheelReleased(void);
 
 // viewer buttons row:

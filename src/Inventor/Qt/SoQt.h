@@ -65,15 +65,15 @@ public:
   static void show(QWidget * const widget);
   static void hide(QWidget * const widget);
 
-  static void setWidgetSize( QWidget * const widget, const SbVec2s size );
-  static SbVec2s getWidgetSize( const QWidget * const widget );
+  static void setWidgetSize(QWidget * const widget, const SbVec2s size);
+  static SbVec2s getWidgetSize(const QWidget * const widget);
 
-  static void createSimpleErrorDialog( QWidget * const widget,
+  static void createSimpleErrorDialog(QWidget * const widget,
       const char * const dialogTitle, const char * const errorStr1,
-      const char * const errorStr2 = NULL );
+      const char * const errorStr2 = NULL);
 
 protected:
-  bool eventFilter( QObject *, QEvent * );
+  bool eventFilter(QObject *, QEvent *);
 
 private slots:
   void slot_timedOutSensor(void);
@@ -81,7 +81,7 @@ private slots:
   void slot_delaytimeoutSensor(void);
 
 private:
-  static void sensorQueueChanged( void * cbdata );
+  static void sensorQueueChanged(void * cbdata);
   static void clean(void);
 
   static QWidget * mainWidget;

@@ -45,31 +45,31 @@ public:
     ALL_EVENTS = 0
   };
 
-  SoQtLinuxJoystick( int events = ALL_EVENTS );
+  SoQtLinuxJoystick(int events = ALL_EVENTS);
   virtual ~SoQtLinuxJoystick(void);
 
-  virtual void enable( QWidget * widget, SoQtEventHandler * handler,
-      void * closure );
-  virtual void disable( QWidget * widget, SoQtEventHandler * handler,
-      void * closure );
+  virtual void enable(QWidget * widget, SoQtEventHandler * handler,
+      void * closure);
+  virtual void disable(QWidget * widget, SoQtEventHandler * handler,
+      void * closure);
 
-  virtual const SoEvent * translateEvent( QEvent * event );
+  virtual const SoEvent * translateEvent(QEvent * event);
 
-  void setRotationScaleFactor( const float factor );
+  void setRotationScaleFactor(const float factor);
   float getRotationScaleFactor(void) const;
-  void setTranslationScaleFactor( const float factor );
+  void setTranslationScaleFactor(const float factor);
   float getTranslationScaleFactor(void) const;
 
   static SbBool exists(void);
 
-  void setFocusToWindow( SbBool enable );
+  void setFocusToWindow(SbBool enable);
   SbBool isFocusToWindow(void) const;
 
   int getNumButtons(void) const;
-  SbBool getButtonValue( const int button ) const;
+  SbBool getButtonValue(const int button) const;
 
   int getNumAxes(void) const;
-  float getAxisValue( const int axis ) const;
+  float getAxisValue(const int axis) const;
 
 private:
   int events;
@@ -92,9 +92,9 @@ private:
   SoMotion3Event * motion3Event;
   SoSpaceballButtonEvent * buttonEvent;
 
-  SoMotion3Event * makeMotion3Event( SoQt6dofDevicePressureEvent * event );
-  SoSpaceballButtonEvent * makeButtonEvent( SoQt6dofDeviceButtonEvent * event,
-      SoButtonEvent::State state );
+  SoMotion3Event * makeMotion3Event(SoQt6dofDevicePressureEvent * event);
+  SoSpaceballButtonEvent * makeButtonEvent(SoQt6dofDeviceButtonEvent * event,
+      SoButtonEvent::State state);
 
   static const char * getDevicePathName(void);
 

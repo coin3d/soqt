@@ -59,8 +59,8 @@ _SoQtColorSlider::_SoQtColorSlider(int minValue, int maxValue, QWidget *parent, 
   form->addWidget(edit, 0, 2);
 
 
-  QObject::connect( slider, SIGNAL(valueChanged(int)), this, SLOT(setValue(int)));
-  QObject::connect( edit, SIGNAL(returnPressed()), this, SLOT(setValue()));
+  QObject::connect(slider, SIGNAL(valueChanged(int)), this, SLOT(setValue(int)));
+  QObject::connect(edit, SIGNAL(returnPressed()), this, SLOT(setValue()));
 
   setValue(slider->value());
 
@@ -76,9 +76,9 @@ void _SoQtColorSlider::setValue(int value)
 #endif
         edit->setText(temp);
 
-        disconnect( slider, SIGNAL(valueChanged(int)), this, SLOT(setValue(int)));
+        disconnect(slider, SIGNAL(valueChanged(int)), this, SLOT(setValue(int)));
         slider->setValue(value);
-        connect( slider, SIGNAL(valueChanged(int)), this, SLOT(setValue(int)));
+        connect(slider, SIGNAL(valueChanged(int)), this, SLOT(setValue(int)));
         printf("emit valueChanged...");
         emit valueChanged((float) value / 100.0);
         printf("done\n");
@@ -88,9 +88,9 @@ void _SoQtColorSlider::setValue(const char *text)
 {
         double temp;
         temp = strtod(text, NULL);
-        disconnect( slider, SIGNAL(valueChanged(int)), this, SLOT(setValue(int)));
+        disconnect(slider, SIGNAL(valueChanged(int)), this, SLOT(setValue(int)));
         slider->setValue((int) (temp * 100.0f));
-        connect( slider, SIGNAL(valueChanged(int)), this, SLOT(setValue(int)));
+        connect(slider, SIGNAL(valueChanged(int)), this, SLOT(setValue(int)));
         emit valueChanged(temp);
 }
 

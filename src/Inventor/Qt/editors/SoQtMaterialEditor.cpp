@@ -78,7 +78,7 @@ SoQtMaterialEditor::SoQtMaterialEditor(QWidget *parent, const char *name, SbBool
   manuId = menu->insertItem("Manual", this, SLOT(manual()));
 
   QMenuBar* bar = new QMenuBar(widget);
-  bar->insertItem( "&Edit", menu);
+  bar->insertItem("&Edit", menu);
 
   hbox->setMenuBar(bar);
 
@@ -200,22 +200,22 @@ SoQtMaterialEditor::SoQtMaterialEditor(QWidget *parent, const char *name, SbBool
 
 
   sliders[0] = new _SoQtColorSlider(0, 100, widget, "Amb:");
-  sliders[0]->setMinimumSize(  sliders[0]->sizeHint());
+  sliders[0]->setMinimumSize( sliders[0]->sizeHint());
   sliders[0]->setFixedHeight(sliders[0]->sizeHint().height());
   sliders[1] = new _SoQtColorSlider(0, 100, widget, "Diff:");
-  sliders[1]->setMinimumSize(  sliders[1]->sizeHint());
+  sliders[1]->setMinimumSize( sliders[1]->sizeHint());
   sliders[1]->setFixedHeight(sliders[1]->sizeHint().height());
   sliders[2] = new _SoQtColorSlider(0, 100, widget, "Spec:");
-  sliders[2]->setMinimumSize(  sliders[2]->sizeHint());
+  sliders[2]->setMinimumSize( sliders[2]->sizeHint());
   sliders[2]->setFixedHeight(sliders[2]->sizeHint().height());
   sliders[3] = new _SoQtColorSlider(0, 100, widget, "Emis:");
-  sliders[3]->setMinimumSize(  sliders[3]->sizeHint());
+  sliders[3]->setMinimumSize( sliders[3]->sizeHint());
   sliders[3]->setFixedHeight(sliders[3]->sizeHint().height());
   sliders[4] = new _SoQtColorSlider(0, 100, widget, "Shininess:");
-  sliders[4]->setMinimumSize(  sliders[0]->sizeHint());
+  sliders[4]->setMinimumSize( sliders[0]->sizeHint());
   sliders[4]->setFixedHeight(sliders[0]->height());
   sliders[5] = new _SoQtColorSlider(0, 100, widget, "Transp:");
-  sliders[5]->setMinimumSize(  sliders[0]->sizeHint());
+  sliders[5]->setMinimumSize( sliders[0]->sizeHint());
   sliders[5]->setFixedHeight(sliders[0]->height());
 
 #if 0
@@ -255,8 +255,8 @@ SoQtMaterialEditor::SoQtMaterialEditor(QWidget *parent, const char *name, SbBool
   QObject::connect(colorSelection, SIGNAL(closed()), this, SLOT(clearAllButtons()));
 
   for (int i = 0; i < 4; i++) {
-    QObject::connect( radioButtons[i], SIGNAL(clicked()), this, SLOT(rButtonPressed()));
-    QObject::connect( checkButtons[i], SIGNAL(clicked()), this, SLOT(cButtonPressed()));
+    QObject::connect(radioButtons[i], SIGNAL(clicked()), this, SLOT(rButtonPressed()));
+    QObject::connect(checkButtons[i], SIGNAL(clicked()), this, SLOT(cButtonPressed()));
   }
 
   QObject::connect(colorSelection, SIGNAL(colorChanged(QColor&)), this, SLOT(colorChanged(QColor&)));
@@ -523,18 +523,18 @@ void SoQtMaterialEditor::connectUpdaters(bool connect)
 
   if (connect) connectFunc = &QObject::connect;
   else connectFunc = &QObject::disconnect;
-  (*connectFunc)( sliders[0], SIGNAL(valueChanged(float)), ball, SLOT(setAmbient(float)));
-  (*connectFunc)( sliders[1], SIGNAL(valueChanged(float)), ball, SLOT(setDiffuse(float)));
-  (*connectFunc)( sliders[2], SIGNAL(valueChanged(float)), ball, SLOT(setSpecular(float)));
-  (*connectFunc)( sliders[3], SIGNAL(valueChanged(float)), ball, SLOT(setEmission(float)));
-  (*connectFunc)( sliders[4], SIGNAL(valueChanged(float)), ball, SLOT(setShininess(float)));
-  (*connectFunc)( sliders[5], SIGNAL(valueChanged(float)), ball, SLOT(setTransparency(float)));
+  (*connectFunc)(sliders[0], SIGNAL(valueChanged(float)), ball, SLOT(setAmbient(float)));
+  (*connectFunc)(sliders[1], SIGNAL(valueChanged(float)), ball, SLOT(setDiffuse(float)));
+  (*connectFunc)(sliders[2], SIGNAL(valueChanged(float)), ball, SLOT(setSpecular(float)));
+  (*connectFunc)(sliders[3], SIGNAL(valueChanged(float)), ball, SLOT(setEmission(float)));
+  (*connectFunc)(sliders[4], SIGNAL(valueChanged(float)), ball, SLOT(setShininess(float)));
+  (*connectFunc)(sliders[5], SIGNAL(valueChanged(float)), ball, SLOT(setTransparency(float)));
 
-  (*connectFunc)( sliders[0], SIGNAL(valueChanged(float)), this, SIGNAL(materialChanged()));
-  (*connectFunc)( sliders[1], SIGNAL(valueChanged(float)), this, SIGNAL(materialChanged()));
-  (*connectFunc)( sliders[2], SIGNAL(valueChanged(float)), this, SIGNAL(materialChanged()));
-  (*connectFunc)( sliders[3], SIGNAL(valueChanged(float)), this, SIGNAL(materialChanged()));
-  (*connectFunc)( sliders[4], SIGNAL(valueChanged(float)), this, SIGNAL(materialChanged()));
-  (*connectFunc)( sliders[5], SIGNAL(valueChanged(float)), this, SIGNAL(materialChanged()));
+  (*connectFunc)(sliders[0], SIGNAL(valueChanged(float)), this, SIGNAL(materialChanged()));
+  (*connectFunc)(sliders[1], SIGNAL(valueChanged(float)), this, SIGNAL(materialChanged()));
+  (*connectFunc)(sliders[2], SIGNAL(valueChanged(float)), this, SIGNAL(materialChanged()));
+  (*connectFunc)(sliders[3], SIGNAL(valueChanged(float)), this, SIGNAL(materialChanged()));
+  (*connectFunc)(sliders[4], SIGNAL(valueChanged(float)), this, SIGNAL(materialChanged()));
+  (*connectFunc)(sliders[5], SIGNAL(valueChanged(float)), this, SIGNAL(materialChanged()));
   (*connectFunc)(this, SIGNAL(materialChanged()), ball, SLOT(repaintSphere()));
 }

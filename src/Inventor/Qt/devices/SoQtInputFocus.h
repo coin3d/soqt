@@ -42,15 +42,15 @@ public:
     ALL_EVENTS   = 0x03
   };
 
-  SoQtInputFocus( int mask = ALL_EVENTS );
+  SoQtInputFocus(int mask = ALL_EVENTS);
   virtual ~SoQtInputFocus(void);
 
-  virtual void enable( QWidget * widget, SoQtEventHandler * handler,
-    void * closure );
-  virtual void disable( QWidget * widget, SoQtEventHandler * handler,
-    void * closure );
+  virtual void enable(QWidget * widget, SoQtEventHandler * handler,
+    void * closure);
+  virtual void disable(QWidget * widget, SoQtEventHandler * handler,
+    void * closure);
 
-  virtual const SoEvent * translateEvent( QEvent * event );
+  virtual const SoEvent * translateEvent(QEvent * event);
 
 private:
   int eventmask;

@@ -65,11 +65,11 @@ SoQtPlaneViewer::SoQtPlaneViewer(
   const char * const name, 
   SbBool embed,
   SoQtFullViewer::BuildFlag flag, 
-  SoQtViewer::Type type )
-: inherited( parent, name, embed, flag, type, FALSE )
-, common( new SoAnyPlaneViewer( this ) )
+  SoQtViewer::Type type)
+: inherited(parent, name, embed, flag, type, FALSE)
+, common(new SoAnyPlaneViewer(this))
 {
-  this->constructor( TRUE );
+  this->constructor(TRUE);
 } // SoQtPlaneViewer()
 
 // ************************************************************************
@@ -84,11 +84,11 @@ SoQtPlaneViewer::SoQtPlaneViewer(
   SbBool embed, 
   SoQtFullViewer::BuildFlag flag, 
   SoQtViewer::Type type, 
-  SbBool build )
-: inherited( parent, name, embed, flag, type, FALSE )
-, common( new SoAnyPlaneViewer( this ) )
+  SbBool build)
+: inherited(parent, name, embed, flag, type, FALSE)
+, common(new SoAnyPlaneViewer(this))
 {
-  this->constructor( build );
+  this->constructor(build);
 } // SoQtPlaneViewer()
 
 // ************************************************************************
@@ -98,8 +98,8 @@ SoQtPlaneViewer::SoQtPlaneViewer(
 */
 
 void
-SoQtPlaneViewer::constructor( // private
-  SbBool build )
+SoQtPlaneViewer::constructor(// private
+  SbBool build)
 {
   this->mode = IDLE_MODE;
 
@@ -108,20 +108,20 @@ SoQtPlaneViewer::constructor( // private
   vv.ortho(-1, 1, -1, 1, -1, 1);
   this->projector->setViewVolume(vv);
 
-  this->addVisibilityChangeCallback( SoQtPlaneViewer::visibilityCB, this );
+  this->addVisibilityChangeCallback(SoQtPlaneViewer::visibilityCB, this);
 
   this->setClassName("SoQtPlaneViewer");
-  this->setLeftWheelString( "transY" );
-  this->setBottomWheelString( "transX" );
+  this->setLeftWheelString("transY");
+  this->setBottomWheelString("transX");
 
-  this->pixmaps.orthogonal = new QPixmap( (const char **) ortho_xpm );
-  this->pixmaps.perspective = new QPixmap( (const char **) perspective_xpm );
+  this->pixmaps.orthogonal = new QPixmap((const char **) ortho_xpm);
+  this->pixmaps.perspective = new QPixmap((const char **) perspective_xpm);
 
-  if ( ! build ) return;
+  if (! build) return;
 
-  this->setSize( SbVec2s( 550, 490 ) ); // extra buttons -> more height
-  QWidget * viewer = this->buildWidget( this->getParentWidget() );
-  this->setBaseWidget( viewer );
+  this->setSize(SbVec2s(550, 490)); // extra buttons -> more height
+  QWidget * viewer = this->buildWidget(this->getParentWidget());
+  this->setBaseWidget(viewer);
 } // constructor()
 
 // ************************************************************************
@@ -131,7 +131,7 @@ SoQtPlaneViewer::constructor( // private
 */
 
 SoQtPlaneViewer::~SoQtPlaneViewer(
-  void )
+  void)
 {
   delete this->pixmaps.orthogonal;
   delete this->pixmaps.perspective;
@@ -145,10 +145,10 @@ SoQtPlaneViewer::~SoQtPlaneViewer(
 */
 
 void
-SoQtPlaneViewer::setViewing( // virtual
-  SbBool enable )
+SoQtPlaneViewer::setViewing(// virtual
+  SbBool enable)
 {
-  inherited::setViewing( enable );
+  inherited::setViewing(enable);
 } // setViewing()
 
 // ************************************************************************
@@ -158,20 +158,20 @@ SoQtPlaneViewer::setViewing( // virtual
 */
 
 void
-SoQtPlaneViewer::setCamera( // virtual
-  SoCamera * camera )
+SoQtPlaneViewer::setCamera(// virtual
+  SoCamera * camera)
 {
-  if ( camera ) {
+  if (camera) {
     SoType type = camera->getTypeId();
     SbBool orthogonal =
-      type.isDerivedFrom( SoOrthographicCamera::getClassTypeId() );
-    this->setRightWheelString( orthogonal ? "Zoom" : "Dolly" );
-    if ( this->buttons.camera ) {
-      this->buttons.camera->setPixmap( orthogonal ?
-        *(this->pixmaps.orthogonal) : *(this->pixmaps.perspective) );
+      type.isDerivedFrom(SoOrthographicCamera::getClassTypeId());
+    this->setRightWheelString(orthogonal ? "Zoom" : "Dolly");
+    if (this->buttons.camera) {
+      this->buttons.camera->setPixmap(orthogonal ?
+        *(this->pixmaps.orthogonal) : *(this->pixmaps.perspective));
     }
   }
-  inherited::setCamera( camera );
+  inherited::setCamera(camera);
 } // setCamera()
 
 // ************************************************************************
@@ -181,10 +181,10 @@ SoQtPlaneViewer::setCamera( // virtual
 */
 
 void
-SoQtPlaneViewer::setCursorEnabled( // virtual
-  SbBool enable )
+SoQtPlaneViewer::setCursorEnabled(// virtual
+  SbBool enable)
 {
-  inherited::setCursorEnabled( enable );
+  inherited::setCursorEnabled(enable);
 } // setCursorEnabled()
 
 // ************************************************************************
@@ -195,11 +195,11 @@ SoQtPlaneViewer::setCursorEnabled( // virtual
 
 QWidget *
 SoQtPlaneViewer::buildWidget(
-  QWidget * parent )
+  QWidget * parent)
 {
-  QWidget * widget = inherited::buildWidget( parent );
-  ((SoQtThumbWheel *)this->leftWheel)->setRangeBoundaryHandling( SoQtThumbWheel::ACCUMULATE );
-  ((SoQtThumbWheel *)this->bottomWheel)->setRangeBoundaryHandling( SoQtThumbWheel::ACCUMULATE );
+  QWidget * widget = inherited::buildWidget(parent);
+  ((SoQtThumbWheel *)this->leftWheel)->setRangeBoundaryHandling(SoQtThumbWheel::ACCUMULATE);
+  ((SoQtThumbWheel *)this->bottomWheel)->setRangeBoundaryHandling(SoQtThumbWheel::ACCUMULATE);
   return widget;
 } // buildWidget()
 
@@ -210,8 +210,8 @@ SoQtPlaneViewer::buildWidget(
 */
 
 const char *
-SoQtPlaneViewer::getDefaultWidgetName( // virtual
-  void ) const
+SoQtPlaneViewer::getDefaultWidgetName(// virtual
+  void) const
 {
   static const char defaultWidgetName[] = "SoQtPlaneViewer";
   return defaultWidgetName;
@@ -224,8 +224,8 @@ SoQtPlaneViewer::getDefaultWidgetName( // virtual
 */
 
 const char *
-SoQtPlaneViewer::getDefaultTitle( // virtual
-  void ) const
+SoQtPlaneViewer::getDefaultTitle(// virtual
+  void) const
 {
   static const char defaultTitle[] = "Plane Viewer";
   return defaultTitle;
@@ -238,8 +238,8 @@ SoQtPlaneViewer::getDefaultTitle( // virtual
 */
 
 const char *
-SoQtPlaneViewer::getDefaultIconTitle( // virtual
-  void ) const
+SoQtPlaneViewer::getDefaultIconTitle(// virtual
+  void) const
 {
   static const char defaultIconTitle[] = "Plane Viewer";
   return defaultIconTitle;
@@ -252,13 +252,13 @@ SoQtPlaneViewer::getDefaultIconTitle( // virtual
 */
 
 SbBool
-SoQtPlaneViewer::processSoEvent( // virtual, protected
-  const SoEvent * const event )
+SoQtPlaneViewer::processSoEvent(// virtual, protected
+  const SoEvent * const event)
 {
-  if ( common->processSoEvent( event ) )
+  if (common->processSoEvent(event))
     return TRUE;
 
-  return inherited::processSoEvent( event );
+  return inherited::processSoEvent(event);
 } // processSoEvent()
 
 /*!
@@ -266,13 +266,13 @@ SoQtPlaneViewer::processSoEvent( // virtual, protected
 */
 
 void
-SoQtPlaneViewer::processEvent( // virtual
-  QEvent * event )
+SoQtPlaneViewer::processEvent(// virtual
+  QEvent * event)
 {
-  if ( SoQtViewer::processCommonEvents( event ) )
+  if (SoQtViewer::processCommonEvents(event))
     return;
 
-  inherited::processEvent( event );
+  inherited::processEvent(event);
 } // processEvent()
 
 // ************************************************************************
@@ -282,10 +282,10 @@ SoQtPlaneViewer::processEvent( // virtual
 */
 
 void
-SoQtPlaneViewer::setSeekMode( // virtual
-  SbBool enable )
+SoQtPlaneViewer::setSeekMode(// virtual
+  SbBool enable)
 {
-  inherited::setSeekMode( enable );
+  inherited::setSeekMode(enable);
 } // setSeekMode()
 
 // ************************************************************************
@@ -295,8 +295,8 @@ SoQtPlaneViewer::setSeekMode( // virtual
 */
 
 void
-SoQtPlaneViewer::actualRedraw( // virtual
-  void )
+SoQtPlaneViewer::actualRedraw(// virtual
+  void)
 {
   inherited::actualRedraw();
 //  common->drawRotateGraphics();
@@ -309,11 +309,11 @@ SoQtPlaneViewer::actualRedraw( // virtual
 */
 
 void
-SoQtPlaneViewer::leftWheelMotion( // virtual
-  float value )
+SoQtPlaneViewer::leftWheelMotion(// virtual
+  float value)
 {
-  common->translateY( value - this->getLeftWheelValue() );
-  inherited::leftWheelMotion( value );
+  common->translateY(value - this->getLeftWheelValue());
+  inherited::leftWheelMotion(value);
 } // leftWheelMotion()
 
 /*!
@@ -321,11 +321,11 @@ SoQtPlaneViewer::leftWheelMotion( // virtual
 */
 
 void
-SoQtPlaneViewer::bottomWheelMotion( // virtual
-  float value )
+SoQtPlaneViewer::bottomWheelMotion(// virtual
+  float value)
 {
-  common->translateX( value - this->getBottomWheelValue() );
-  inherited::bottomWheelMotion( value );
+  common->translateX(value - this->getBottomWheelValue());
+  inherited::bottomWheelMotion(value);
 } // bottomWheelMotion()
 
 /*!
@@ -333,11 +333,11 @@ SoQtPlaneViewer::bottomWheelMotion( // virtual
 */
 
 void
-SoQtPlaneViewer::rightWheelMotion( // virtual
-  float value )
+SoQtPlaneViewer::rightWheelMotion(// virtual
+  float value)
 {
-  common->zoom( this->getRightWheelValue() - value );
-  inherited::rightWheelMotion( value );
+  common->zoom(this->getRightWheelValue() - value);
+  inherited::rightWheelMotion(value);
 } // rightWheelMotion()
 
 // ************************************************************************
@@ -347,8 +347,8 @@ SoQtPlaneViewer::rightWheelMotion( // virtual
 */
 
 void
-SoQtPlaneViewer::createPrefSheet( // virtual
-  void )
+SoQtPlaneViewer::createPrefSheet(// virtual
+  void)
 {
 } // createPrefSheet()
 
@@ -359,40 +359,40 @@ SoQtPlaneViewer::createPrefSheet( // virtual
 */
 
 void
-SoQtPlaneViewer::createViewerButtons( // virtual
+SoQtPlaneViewer::createViewerButtons(// virtual
   QWidget * parent,
-  SbPList * buttons )
+  SbPList * buttons)
 {
-  inherited::createViewerButtons( parent, buttons );
+  inherited::createViewerButtons(parent, buttons);
 
   // add X, Y, Z viewpoint buttons
-  this->buttons.x = new QPushButton( parent );
-  this->buttons.x->setFocusPolicy( QWidget::NoFocus );
-  this->buttons.x->setToggleButton( FALSE );
-  this->buttons.x->setPixmap( QPixmap( (const char **) x_xpm ) );
-  QObject::connect( this->buttons.x, SIGNAL(clicked()),
-                    this, SLOT(xClicked()) );
-  buttons->append( this->buttons.x );
-  this->buttons.y = new QPushButton( parent );
-  this->buttons.y->setFocusPolicy( QWidget::NoFocus );
-  this->buttons.y->setToggleButton( FALSE );
-  this->buttons.y->setPixmap( QPixmap( (const char **) y_xpm ) );
-  QObject::connect( this->buttons.y, SIGNAL(clicked()),
-                    this, SLOT(yClicked()) );
-  buttons->append( this->buttons.y );
-  this->buttons.z = new QPushButton( parent );
-  this->buttons.z->setFocusPolicy( QWidget::NoFocus );
-  this->buttons.z->setToggleButton( FALSE );
-  this->buttons.z->setPixmap( QPixmap( (const char **) z_xpm ) );
-  QObject::connect( this->buttons.z, SIGNAL(clicked()),
-                    this, SLOT(zClicked()) );
-  buttons->append( this->buttons.z );
+  this->buttons.x = new QPushButton(parent);
+  this->buttons.x->setFocusPolicy(QWidget::NoFocus);
+  this->buttons.x->setToggleButton(FALSE);
+  this->buttons.x->setPixmap(QPixmap((const char **) x_xpm));
+  QObject::connect(this->buttons.x, SIGNAL(clicked()),
+                    this, SLOT(xClicked()));
+  buttons->append(this->buttons.x);
+  this->buttons.y = new QPushButton(parent);
+  this->buttons.y->setFocusPolicy(QWidget::NoFocus);
+  this->buttons.y->setToggleButton(FALSE);
+  this->buttons.y->setPixmap(QPixmap((const char **) y_xpm));
+  QObject::connect(this->buttons.y, SIGNAL(clicked()),
+                    this, SLOT(yClicked()));
+  buttons->append(this->buttons.y);
+  this->buttons.z = new QPushButton(parent);
+  this->buttons.z->setFocusPolicy(QWidget::NoFocus);
+  this->buttons.z->setToggleButton(FALSE);
+  this->buttons.z->setPixmap(QPixmap((const char **) z_xpm));
+  QObject::connect(this->buttons.z, SIGNAL(clicked()),
+                    this, SLOT(zClicked()));
+  buttons->append(this->buttons.z);
 
   // add camera toggle button
-  assert( this->pixmaps.perspective != NULL );
-  assert( this->pixmaps.orthogonal != NULL );
-  this->buttons.camera = new QPushButton( parent );
-  this->buttons.camera->setFocusPolicy( QWidget::NoFocus );
+  assert(this->pixmaps.perspective != NULL);
+  assert(this->pixmaps.orthogonal != NULL);
+  this->buttons.camera = new QPushButton(parent);
+  this->buttons.camera->setFocusPolicy(QWidget::NoFocus);
 
   QPixmap * pixmap = NULL;
   SoType t = this->getCameraType();
@@ -402,11 +402,11 @@ SoQtPlaneViewer::createViewerButtons( // virtual
     pixmap = this->pixmaps.perspective;
   else assert(0 && "unsupported cameratype");
 
-  this->buttons.camera->setPixmap( *pixmap );
-  buttons->append( this->buttons.camera );
+  this->buttons.camera->setPixmap(*pixmap);
+  buttons->append(this->buttons.camera);
 
-  QObject::connect( this->buttons.camera, SIGNAL(clicked()),
-                    this, SLOT(cameraToggleClicked()) );
+  QObject::connect(this->buttons.camera, SIGNAL(clicked()),
+                    this, SLOT(cameraToggleClicked()));
 
 } // createViewerButtons()
 
@@ -417,10 +417,10 @@ SoQtPlaneViewer::createViewerButtons( // virtual
 */
 
 void
-SoQtPlaneViewer::openViewerHelpCard( // virtual
-  void )
+SoQtPlaneViewer::openViewerHelpCard(// virtual
+  void)
 {
-  this->openHelpCard( "SoQtPlaneViewer.help" );
+  this->openHelpCard("SoQtPlaneViewer.help");
 } // openViewerHelpCard()
 
 // ************************************************************************
@@ -430,8 +430,8 @@ SoQtPlaneViewer::openViewerHelpCard( // virtual
 */
 
 void
-SoQtPlaneViewer::computeSeekFinalOrientation( // virtual
-  void )
+SoQtPlaneViewer::computeSeekFinalOrientation(// virtual
+  void)
 {
 } // computeSeekFinalOrientation()
 
@@ -443,7 +443,7 @@ SoQtPlaneViewer::computeSeekFinalOrientation( // virtual
 
 void
 SoQtPlaneViewer::xClicked(
-  void )
+  void)
 {
   common->viewPlaneX();
 } // xClicked()
@@ -454,7 +454,7 @@ SoQtPlaneViewer::xClicked(
 
 void
 SoQtPlaneViewer::yClicked(
-  void )
+  void)
 {
   common->viewPlaneY();
 } // yClicked()
@@ -465,7 +465,7 @@ SoQtPlaneViewer::yClicked(
 
 void
 SoQtPlaneViewer::zClicked(
-  void )
+  void)
 {
   common->viewPlaneZ();
 } // zClicked()
@@ -476,7 +476,7 @@ SoQtPlaneViewer::zClicked(
 
 void
 SoQtPlaneViewer::cameraToggleClicked(
-  void )
+  void)
 {
   this->toggleCameraType();
 } // cameraToggleClicked()
@@ -488,16 +488,16 @@ SoQtPlaneViewer::cameraToggleClicked(
 */
 
 void
-SoQtPlaneViewer::visibilityCB( // static
+SoQtPlaneViewer::visibilityCB(// static
   void * data,
-  SbBool visible )
+  SbBool visible)
 {
   SoQtPlaneViewer * thisp = (SoQtPlaneViewer *) data;
 
 /*
   examiner viewer does this, we don't have to...
-  if ( thisp->isAnimating() ) {
-    if ( visible )
+  if (thisp->isAnimating()) {
+    if (visible)
       thisp->timerTrigger->schedule();
     else
       thisp->timerTrigger->unschedule();
@@ -512,15 +512,15 @@ SoQtPlaneViewer::visibilityCB( // static
 */
 
 void
-SoQtPlaneViewer::setModeFromState( // private
-  unsigned int state )
+SoQtPlaneViewer::setModeFromState(// private
+  unsigned int state)
 {
   PlaneViewerMode mode = IDLE_MODE;
 
   const unsigned int maskedstate =
     state & (LeftButton|MidButton|ControlButton);
 
-  switch ( maskedstate ) {
+  switch (maskedstate) {
   case 0:
     mode = IDLE_MODE;
     break;
@@ -544,13 +544,13 @@ SoQtPlaneViewer::setModeFromState( // private
     break;
 
   default:
-    SoDebugError::postWarning( "SoQtPlaneViewer::setModeFromState",
-      "state not handled: %d", maskedstate );
+    SoDebugError::postWarning("SoQtPlaneViewer::setModeFromState",
+      "state not handled: %d", maskedstate);
     break;
 
-  } // switch ( maskedstate )
+  } // switch (maskedstate)
 
-  this->setMode( mode );
+  this->setMode(mode);
 } // setModeFromState()
 
 /*!
@@ -558,26 +558,26 @@ SoQtPlaneViewer::setModeFromState( // private
 
 void
 SoQtPlaneViewer::setMode(
-  PlaneViewerMode mode )
+  PlaneViewerMode mode)
 {
   // FIXME: set cursor...
 
-  switch ( mode ) {
+  switch (mode) {
   case IDLE_MODE:
-    while ( this->getInteractiveCount() )
+    while (this->getInteractiveCount())
       this->interactiveCountDec();
     break;
 
   case TRANSLATE_MODE:
   case DOLLY_MODE:
   case ROTZ_MODE:
-    while ( this->getInteractiveCount() )
+    while (this->getInteractiveCount())
       this->interactiveCountDec();
     break;
 
   default:
     break;
-  } // switch ( mode )
+  } // switch (mode)
 
   this->mode = mode;
 } // setMode()

@@ -410,7 +410,7 @@ soqtkeyboard_cleanup(void)
 */
 
 SoQtKeyboard::SoQtKeyboard(
-  int mask )
+  int mask)
 {
   this->eventmask = mask;
   this->kbdevent = NULL;
@@ -429,7 +429,7 @@ SoQtKeyboard::SoQtKeyboard(
 */
 
 SoQtKeyboard::~SoQtKeyboard(
-  void )
+  void)
 {
   delete this->kbdevent;
 } // ~SoQtKeyboard()
@@ -444,7 +444,7 @@ void
 SoQtKeyboard::enable(
   QWidget *, // widget,
   SoQtEventHandler *, // handler,
-  void * ) // closure )
+  void *) // closure)
 {
 // FIXME: SOQT_STUB();
 } // enable()
@@ -457,7 +457,7 @@ void
 SoQtKeyboard::disable(
   QWidget *, // widget,
   SoQtEventHandler *, // handler,
-  void * ) // closure )
+  void *) // closure)
 {
 // FIXME: SOQT_STUB();
 } // disable()
@@ -498,7 +498,7 @@ makeTranslationTable(void)
 
 const SoEvent *
 SoQtKeyboard::translateEvent(
-  QEvent * event )
+  QEvent * event)
 {
   SbBool keypress = event->type() == QEvent::KeyPress;
   SbBool keyrelease = event->type() == QEvent::KeyRelease;
@@ -584,9 +584,9 @@ SoQtKeyboard::translateEvent(
 
     // FIXME: read QCursor::position() instead,
     // and clean up this mess. 19990222 mortene.
-    this->setEventPosition( this->kbdevent,
+    this->setEventPosition(this->kbdevent,
                             SoQtDevice::getLastEventPosition().x(),
-                            SoQtDevice::getLastEventPosition().y() );
+                            SoQtDevice::getLastEventPosition().y());
 
     // FIXME: wrong -- should be the time the Qt event happened. Can't
     // find support for getting hold of that information in

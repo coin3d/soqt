@@ -77,11 +77,11 @@ protected:
     SbBool embed,
     BuildFlag flag,
     Type type,
-    SbBool build );
+    SbBool build);
   ~SoQtFullViewer(void);
 
   virtual bool eventFilter(QObject * obj, QEvent * e);
-  virtual void sizeChanged( const SbVec2s size );
+  virtual void sizeChanged(const SbVec2s size);
 
   virtual void afterRealizeHook(void);
 
@@ -97,7 +97,7 @@ protected:
 
   virtual void buildPopupMenu(void);
   void setPopupMenuString(const char * title);
-  void openPopupMenu( const SbVec2s position );
+  void openPopupMenu(const SbVec2s position);
 
   virtual QWidget * makeSubPreferences(QWidget * parent);
   void setPrefSheetString(const char * title);
@@ -106,25 +106,25 @@ protected:
   virtual void leftWheelMotion(float);
   virtual void leftWheelFinish(void);
   float getLeftWheelValue(void) const;
-  void setLeftWheelValue( const float value );
+  void setLeftWheelValue(const float value);
 
   virtual void bottomWheelStart(void);
   virtual void bottomWheelMotion(float);
   virtual void bottomWheelFinish(void);
   float getBottomWheelValue(void) const;
-  void setBottomWheelValue( const float value );
+  void setBottomWheelValue(const float value);
 
   virtual void rightWheelStart(void);
   virtual void rightWheelMotion(float);
   virtual void rightWheelFinish(void);
   float getRightWheelValue(void) const;
-  void setRightWheelValue( const float value );
+  void setRightWheelValue(const float value);
 
-  void setLeftWheelString( const char * const string );
-  void setBottomWheelString( const char * const string );
-  void setRightWheelString( const char * const string );
+  void setLeftWheelString(const char * const string);
+  void setBottomWheelString(const char * const string);
+  void setRightWheelString(const char * const string);
 
-  virtual SbBool processSoEvent( const SoEvent * const event );
+  virtual SbBool processSoEvent(const SoEvent * const event);
 
   virtual void openViewerHelpCard(void);
 

@@ -42,15 +42,15 @@ public:
     ALL_EVENTS   = 0x03
   };
 
-  SoQtKeyboard( int eventmask = ALL_EVENTS );
+  SoQtKeyboard(int eventmask = ALL_EVENTS);
   virtual ~SoQtKeyboard(void);
 
-  virtual void enable( QWidget * widget, SoQtEventHandler * handler,
-    void * closure );
-  virtual void disable( QWidget * widget, SoQtEventHandler * handler,
-    void * closure );
+  virtual void enable(QWidget * widget, SoQtEventHandler * handler,
+    void * closure);
+  virtual void disable(QWidget * widget, SoQtEventHandler * handler,
+    void * closure);
 
-  virtual const SoEvent * translateEvent( QEvent * event );
+  virtual const SoEvent * translateEvent(QEvent * event);
 
 private:
   int eventmask;

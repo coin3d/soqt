@@ -34,31 +34,31 @@ class SoQtCollisionViewer;
 #define NULL ((void *) 0L)
 #endif
 
-typedef void SoQtCollisionViewerCB( void * userData, SoQtCollisionViewer * collisionViewer );
+typedef void SoQtCollisionViewerCB(void * userData, SoQtCollisionViewer * collisionViewer);
 
 // ************************************************************************
 
 class SOQT_DLL_API  SoQtCollisionViewer {
 public:
-  SoQtCollisionViewer( SoQtViewer * viewer );
+  SoQtCollisionViewer(SoQtViewer * viewer);
   ~SoQtCollisionViewer(void);
 
   SoQtViewer * getViewer(void);
 
-  void setDistance( float distance );
+  void setDistance(float distance);
   float getDistance(void);
   
-  void setNumSteps( int numSteps );
+  void setNumSteps(int numSteps);
   int getNumSteps(void);
   
-  void setCollisionDetection( SbBool value = TRUE );
+  void setCollisionDetection(SbBool value = TRUE);
   SbBool getCollisionDetection(void);
   
-  void setZBufferOptimization( SbBool value = TRUE );
+  void setZBufferOptimization(SbBool value = TRUE);
   SbBool getZBufferOptimization(void);
   
-  void addCallback( SoQtCollisionViewerCB * func, void * user = NULL );
-  void removeCallback( SoQtCollisionViewerCB * func, void * user = NULL );
+  void addCallback(SoQtCollisionViewerCB * func, void * user = NULL);
+  void removeCallback(SoQtCollisionViewerCB * func, void * user = NULL);
 
 private:
 

@@ -24,7 +24,7 @@
   Set cursor graphics according to mode.
 */
 void
-SoQtFlyViewerP::updateCursorRepresentation( )
+SoQtFlyViewerP::updateCursorRepresentation()
 {
   QWidget * w = this->viewer->getRenderAreaWidget();
   assert(w);
@@ -34,7 +34,7 @@ SoQtFlyViewerP::updateCursorRepresentation( )
     return;
   }
 
-  switch ( this->viewermode ) {
+  switch (this->viewermode) {
   case SoQtFlyViewerP::FLYING:
     w->setCursor(Qt::arrowCursor);
     break;

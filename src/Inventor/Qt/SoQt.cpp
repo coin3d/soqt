@@ -261,8 +261,8 @@ SoQt::init(int argc, char ** argv,
 
 // documented in common/SoGuiObject.cpp.in
 void
-SoQtObject::init( // static
-  void )
+SoQtObject::init(// static
+  void)
 {
   SoQtObject::initClass();
   SoQtDevice::initClasses();
@@ -368,9 +368,9 @@ SoQt::mainLoop(void)
 
 void
 SoQt::exitMainLoop(
-  void )
+  void)
 {
-  qApp->exit( 0 );
+  qApp->exit(0);
 } // exitMainLoop()
 
 /*!
@@ -379,7 +379,7 @@ SoQt::exitMainLoop(
  */
 QApplication *
 SoQt::getApplication(
-  void )
+  void)
 {
   return SoQt::appobject;
 }
@@ -499,7 +499,7 @@ SoQt::hide(QWidget * const widget)
 */
 
 void
-SoQt::setWidgetSize( QWidget * const w, const SbVec2s size )
+SoQt::setWidgetSize(QWidget * const w, const SbVec2s size)
 {
 #if SOQT_DEBUG
   if (w == NULL) {
@@ -633,10 +633,10 @@ void
 SoQt::slot_timedOutSensor()
 {
 #if SOQT_DEBUG && 0
-  SoDebugError::postInfo( "SoQt::timedOutSensor",
-    "processing timer queue" );
-  SoDebugError::postInfo( "SoQt::timedOutSensor",
-    "is %s", SoQt::delaytimeouttimer->isActive() ? "active" : "inactive" );
+  SoDebugError::postInfo("SoQt::timedOutSensor",
+    "processing timer queue");
+  SoDebugError::postInfo("SoQt::timedOutSensor",
+    "is %s", SoQt::delaytimeouttimer->isActive() ? "active" : "inactive");
 #endif // SOQT_DEBUG
   SoDB::getSensorManager()->processTimerQueue();
 
@@ -656,10 +656,10 @@ void
 SoQt::slot_idleSensor()
 {
 #if SOQT_DEBUG && 0
-  SoDebugError::postInfo( "SoQt::idleSensor",
-    "processing delay queue" );
-  SoDebugError::postInfo( "SoQt::idleSensor",
-    "is %s", SoQt::idletimer->isActive() ? "active" : "inactive" );
+  SoDebugError::postInfo("SoQt::idleSensor",
+    "processing delay queue");
+  SoDebugError::postInfo("SoQt::idleSensor",
+    "is %s", SoQt::idletimer->isActive() ? "active" : "inactive");
 #endif // SOQT_DEBUG
 
   SoDB::getSensorManager()->processTimerQueue();
@@ -685,7 +685,7 @@ SoQt::slot_delaytimeoutSensor()
   SoDebugError::postInfo("SoQt::delaytimeoutSensor",
                          "processing delay queue");
   SoDebugError::postInfo("SoQt::delaytimeouttimer", "is %s",
-    SoQt::delaytimeouttimer->isActive() ? "active" : "inactive" );
+    SoQt::delaytimeouttimer->isActive() ? "active" : "inactive");
 #endif // SOQT_DEBUG
 
   SoDB::getSensorManager()->processTimerQueue();

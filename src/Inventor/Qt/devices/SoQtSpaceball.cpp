@@ -81,7 +81,7 @@ SOQT_OBJECT_SOURCE(SoQtSpaceball);
 */
 
 SoQtSpaceball::SoQtSpaceball(
-  int mask )
+  int mask)
 {
   this->eventmask = mask;
   this->rotationscale = .006f;
@@ -96,7 +96,7 @@ SoQtSpaceball::SoQtSpaceball(
 */
 
 SoQtSpaceball::~SoQtSpaceball(
-  void )
+  void)
 {
   delete this->motion3Event;
   delete this->buttonEvent;
@@ -112,7 +112,7 @@ void
 SoQtSpaceball::enable(
   QWidget * widget,
   SoQtEventHandler *, // handler,
-  void * ) // closure )
+  void *) // closure)
 {
 #ifndef X_DISPLAY_MISSING
   if (SPW_CheckForSpaceballX11((void*) widget->x11Display(), 
@@ -129,7 +129,7 @@ void
 SoQtSpaceball::disable(
   QWidget *, // widget,
   SoQtEventHandler *, // handler,
-  void * ) // closure )
+  void *) // closure)
 {
 // FIXME: SOQT_STUB();
 } // disable()
@@ -176,7 +176,7 @@ SoQtSpaceball::translateEvent(QEvent * event)
 
 void
 SoQtSpaceball::setRotationScaleFactor(
-  float f )
+  float f)
 {
   this->rotationscale = f;
 } // setRotationScaleFactor()
@@ -187,7 +187,7 @@ SoQtSpaceball::setRotationScaleFactor(
 
 float
 SoQtSpaceball::getRotationScaleFactor(
-  void ) const
+  void) const
 {
   return this->rotationscale;
 } // getRotationScaleFactor()
@@ -198,7 +198,7 @@ SoQtSpaceball::getRotationScaleFactor(
 
 void
 SoQtSpaceball::setTranslationScaleFactor(
-  float f )
+  float f)
 {
   this->translationscale = f;
 } // setTranslationScaleFactor()
@@ -209,7 +209,7 @@ SoQtSpaceball::setTranslationScaleFactor(
 
 float
 SoQtSpaceball::getTranslationScaleFactor(
-  void ) const
+  void) const
 {
   return this->translationscale;
 } // getTranslationScaleFactor()
@@ -226,7 +226,7 @@ SoQtSpaceball::getTranslationScaleFactor(
 
 SbBool
 SoQtSpaceball::exists(
-  void )
+  void)
 {
 #ifdef X_DISPLAY_MISSING
   return FALSE;
@@ -243,7 +243,7 @@ SoQtSpaceball::exists(
 
 void
 SoQtSpaceball::setFocusToWindow(
-  SbBool flag )
+  SbBool flag)
 {
   this->focustowindow = flag;
 }
@@ -254,7 +254,7 @@ SoQtSpaceball::setFocusToWindow(
 
 SbBool
 SoQtSpaceball::isFocusToWindow(
-  void ) const
+  void) const
 {
   return this->focustowindow;
 } // isFocusToWindow()
@@ -262,9 +262,9 @@ SoQtSpaceball::isFocusToWindow(
 SbRotation 
 SoQtSpaceball::makeRotation(const float rx, const float ry, const float rz) const
 {
-  SbRotation xrot(SbVec3f( 1, 0, 0 ), rx * this->rotationscale);
-  SbRotation yrot(SbVec3f( 0, 1, 0 ), ry * this->rotationscale);
-  SbRotation zrot(SbVec3f( 0, 0, 1 ), - rz * this->rotationscale);
+  SbRotation xrot(SbVec3f(1, 0, 0), rx * this->rotationscale);
+  SbRotation yrot(SbVec3f(0, 1, 0), ry * this->rotationscale);
+  SbRotation zrot(SbVec3f(0, 0, 1), - rz * this->rotationscale);
   return xrot * yrot * zrot;
 }
 

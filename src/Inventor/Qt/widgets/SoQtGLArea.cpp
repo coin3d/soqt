@@ -68,19 +68,19 @@ SoQtGLArea::SoQtGLArea(QGLFormat * const format,
   // The 3rd argument is supposed to be the widget name, but when
   // running on QGL v4.30 and Qt v2.1.0 application code will crash on
   // exit under freak conditions -- see Bugzilla #264. 20001120 mortene.
-: inherited( *format, parent, NULL, sharewidget, WResizeNoErase )
+: inherited(*format, parent, NULL, sharewidget, WResizeNoErase)
 {
 #if HAVE_QGLWIDGET_SETAUTOBUFFERSWAP
   // We'll handle the OpenGL buffer swapping ourselves, to support the
   // different combinations of rendering options (doublebuffer with
   // the "DrawToFront" flag is for instance hard to do within the
   // QGLWidget model).
-  this->setAutoBufferSwap( FALSE );
+  this->setAutoBufferSwap(FALSE);
 #endif // HAVE_QGLWIDGET_SETAUTOBUFFERSWAP
 } // SoQtGLArea()
 
 SoQtGLArea::~SoQtGLArea(
-  void )
+  void)
 {
 } // ~SoQtGLArea()
 
@@ -90,7 +90,7 @@ SoQtGLArea::~SoQtGLArea(
 
 void
 SoQtGLArea::initializeGL(
-  void )
+  void)
 {
   SOQT_GLAREA_DEBUG_START(initializeGL);
   this->setBackgroundMode(QWidget::NoBackground); // Avoid unnecessary flicker.
@@ -105,10 +105,10 @@ SoQtGLArea::initializeGL(
 void
 SoQtGLArea::resizeGL(
   int width,
-  int height )
+  int height)
 {
   SOQT_GLAREA_DEBUG_START(resizeGL);
-  emit this->reshape_sig( width, height );
+  emit this->reshape_sig(width, height);
   SOQT_GLAREA_DEBUG_DONE(resizeGL);
 } // resizeGL()
 
@@ -118,7 +118,7 @@ SoQtGLArea::resizeGL(
 
 void
 SoQtGLArea::paintGL(
-  void )
+  void)
 {
   SOQT_GLAREA_DEBUG_START(paintGL);
   emit this->expose_sig();

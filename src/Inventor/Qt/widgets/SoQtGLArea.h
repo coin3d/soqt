@@ -45,7 +45,7 @@ signals:
 
 protected:
   virtual void paintGL(void);
-  virtual void resizeGL( int width, int height );
+  virtual void resizeGL(int width, int height);
   virtual void initializeGL(void);
 
 }; // class SoQtGLArea

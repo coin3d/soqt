@@ -42,12 +42,12 @@ public:
   SoQtSpaceball(int events = ALL_EVENTS);
   virtual ~SoQtSpaceball(void);
 
-  virtual void enable( QWidget * widget, SoQtEventHandler * handler,
-    void * closure );
-  virtual void disable( QWidget * widget, SoQtEventHandler * handler,
-    void * closure );
+  virtual void enable(QWidget * widget, SoQtEventHandler * handler,
+    void * closure);
+  virtual void disable(QWidget * widget, SoQtEventHandler * handler,
+    void * closure);
 
-  virtual const SoEvent * translateEvent( QEvent * event );
+  virtual const SoEvent * translateEvent(QEvent * event);
 
   void setRotationScaleFactor(float f);
   float getRotationScaleFactor(void) const;
