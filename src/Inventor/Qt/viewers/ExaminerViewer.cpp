@@ -21,11 +21,6 @@
  *
 \**************************************************************************/
 
-#if SOQT_DEBUG
-static const char rcsid[] =
-  "$Id$";
-#endif // SOQT_DEBUG
-
 #include <qpushbutton.h>
 #include <qkeycode.h>
 #include <qlabel.h>
@@ -461,34 +456,6 @@ SoQtExaminerViewer::openViewerHelpCard(void)
 // *************************************************************************
 
 /*!
-  Overload this method to make sure any animations are stopped before
-  we go into seek mode.
-*/
-
-void
-SoQtExaminerViewer::setSeekMode(SbBool on)
-{
-  // Note: this method is almost identical to the setSeekMode() in the
-  // SoQtFlyViewer, so migrate any changes.
-
-#if SOQT_DEBUG
-  if (on == this->isSeekMode()) {
-    SoDebugError::postWarning("SoQtExaminerViewer::setSeekMode",
-                              "seek mode already %sset", on ? "" : "un");
-    return;
-  }
-#endif // SOQT_DEBUG
-
-  if (this->isAnimating()) this->stopAnimating();
-  inherited::setSeekMode(on);
-  this->setMode(on ?
-                        SoQtExaminerViewer::WAITING_FOR_SEEK :
-                        SoQtExaminerViewer::EXAMINE);
-} // setSeekMode()
-
-// *************************************************************************
-
-/*!
   Overload this method to be able to draw the axis cross if selected
   in the preferences sheet.
 */
@@ -744,7 +711,3 @@ SoQtExaminerViewer::afterRealizeHook(// protected virtual
 } // afterRealizeHook()
 
 // *************************************************************************
-
-#if SOQT_DEBUG
-static const char * getSoQtExaminerViewerRCSID(void) { return rcsid; }
-#endif
