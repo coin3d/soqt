@@ -533,7 +533,7 @@ SoQt::eventFilter(QObject *, QEvent *)
 void
 SoQt::slot_timedOutSensor()
 {
-#if SOQT_DEBUG // && 0
+#if SOQT_DEBUG && 0
   SoDebugError::postInfo( "SoQt::timedOutSensor",
     "processing timer queue" );
   SoDebugError::postInfo( "SoQt::timedOutSensor",
@@ -556,7 +556,7 @@ SoQt::slot_timedOutSensor()
 void
 SoQt::slot_idleSensor()
 {
-#if SOQT_DEBUG // && 0
+#if SOQT_DEBUG && 0
   SoDebugError::postInfo( "SoQt::idleSensor",
     "processing delay queue" );
   SoDebugError::postInfo( "SoQt::idleSensor",
@@ -581,7 +581,7 @@ SoQt::slot_idleSensor()
 void
 SoQt::slot_delaytimeoutSensor()
 {
-#if SOQT_DEBUG // && 0
+#if SOQT_DEBUG && 0
   SoDebugError::postInfo("SoQt::delaytimeoutSensor",
                          "processing delay queue");
   SoDebugError::postInfo("SoQt::delaytimeouttimer", "is %s",
