@@ -791,8 +791,9 @@ SoQtComponent::setFullScreen(const SbBool onoff)
   // expected in the pre-compiled distro version we make.  20010608 mortene.
 
 #if HAVE_QWIDGET_SHOWFULLSCREEN
-  if (onoff) w->showFullScreen();
-  else w->showNormal();
+  if (onoff) w->setWindowState(w->windowState() | Qt::WindowFullScreen);
+  else w->setWindowState(w->windowState() & ~Qt::WindowFullScreen);
+  
   PRIVATE(this)->fullscreen = onoff;
   return TRUE;
 #else // !HAVE_QWIDGET_SHOWFULLSCREEN
