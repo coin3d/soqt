@@ -1519,7 +1519,17 @@ if test x"$with_inventor" != xno; then
     fi
   fi
 
-  sim_ac_oiv_libs="-lInventor -limage"
+  if test x"$sim_ac_linking_style" = xmswin; then
+    cat <<EOF > conftest.c
+#include <Inventor/SbBasic.h>
+PeekInventorVersion: TGS_VERSION
+EOF
+    iv_version=`$CXX -E conftest.c 2>/dev/null | grep "^PeekInventorVersion" | sed -e 's/.* //g' -e 's/.$//'`
+    rm -f conftest.c
+    sim_ac_oiv_libs="inv{$iv_version}.lib"
+  else
+    sim_ac_oiv_libs="-lInventor -limage"
+  fi
 
   sim_ac_save_cppflags=$CPPFLAGS
   sim_ac_save_ldflags=$LDFLAGS
