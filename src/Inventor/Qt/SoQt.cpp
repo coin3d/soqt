@@ -20,9 +20,12 @@
 static const char rcsid[] =
   "$Id$";
 
+// *************************************************************************
+
 /*!
   \class SoQt SoQt.h Inventor/Qt/SoQt.h
   \brief The SoQt class takes care of Qt initialization and event dispatching.
+  \ingroup misc
 
   This is the "application-wide" class with solely static methods
   handling initialization and event processing tasks. You must use this
@@ -64,7 +67,9 @@ main(int argc, char **argv)
   Troll Tech (makers of Qt): <http://www.troll.no>.
 
   \sa SoQtComponent
- */
+*/
+
+// *************************************************************************
 
 #include <qmainwindow.h>
 #include <qmessagebox.h>
@@ -97,6 +102,7 @@ SoQt * SoQt::slotobj = NULL;
   Open Inventor SoXt component classes. It just adds dummy \a argc and
   \a argv arguments and calls the SoQt::init() method below.
 */
+
 QWidget *
 SoQt::init(const char * const appName, const char * const className)
 {
@@ -117,6 +123,7 @@ SoQt::init(const char * const appName, const char * const className)
   Assumes you are creating your own QApplication and main widget.
   \a topLevelWidget should be your application's main widget.
 */
+
 void
 SoQt::init(QWidget * const topLevelWidget)
 {
@@ -145,7 +152,8 @@ SoQt::init(QWidget * const topLevelWidget)
   you
 
   \sa getApplication()
- */
+*/
+
 QWidget *
 SoQt::init(int argc, char ** argv,
            const char * const appName,
@@ -178,7 +186,8 @@ SoQt::init(int argc, char ** argv,
   This function gets called whenever something has happened to any of
   the sensor queues. It starts or reschedules a timer which will trigger
   when a sensor is ripe for plucking.
- */
+*/
+
 void
 SoQt::sensorQueueChanged(void *)
 {
@@ -249,7 +258,8 @@ SoQt::sensorQueueChanged(void *)
 
   This is provided for convenience when debugging the library. Should make
   it easier to find memory leaks.
- */
+*/
+
 void
 SoQt::clean(void)
 {
@@ -269,7 +279,8 @@ SoQt::clean(void)
   \a QApplication::quit() or \a QApplication::exit() is called (which
   is also done automatically by Qt whenever the user closes an application's
   main widget).
- */
+*/
+
 void
 SoQt::mainLoop(void)
 {
@@ -286,7 +297,8 @@ SoQt::mainLoop(void)
   init().
  */
 QApplication *
-SoQt::getApplication(void)
+SoQt::getApplication(
+  void )
 {
   return SoQt::appobject;
 }
@@ -297,7 +309,8 @@ SoQt::getApplication(void)
   return (unless the close event is caught by the user).
 
   \sa getShellWidget()
- */
+*/
+
 QWidget *
 SoQt::getTopLevelWidget(void)
 {
@@ -312,7 +325,8 @@ SoQt::getTopLevelWidget(void)
   method directly on \a w.
 
   \sa getTopLevelWidget()
- */
+*/
+
 QWidget *
 SoQt::getShellWidget(const QWidget * const w)
 {
@@ -334,6 +348,7 @@ SoQt::getShellWidget(const QWidget * const w)
 
   \sa hide()
 */
+
 void
 SoQt::show(QWidget * const widget)
 {
@@ -378,7 +393,8 @@ SoQt::show(QWidget * const widget)
   provided \a widget pointer.
 
   \sa show()
- */
+*/
+
 void
 SoQt::hide(QWidget * const widget)
 {
@@ -399,7 +415,8 @@ SoQt::hide(QWidget * const widget)
   provided \a w widget pointer.
 
   \sa getWidgetSize()
- */
+*/
+
 void
 SoQt::setWidgetSize( QWidget * const w, const SbVec2s size )
 {
@@ -426,14 +443,14 @@ SoQt::setWidgetSize( QWidget * const w, const SbVec2s size )
   w->resize(size[0], size[1]);
 }
 
-
 /*!
   This method is provided for easier porting/compatibility with the
   Open Inventor SoXt component classes. It will do the same as calling
   QWidget::size() (except that we're returning an SbVec2s).
 
   \sa setWidgetSize()
- */
+*/
+
 SbVec2s
 SoQt::getWidgetSize(const QWidget * const w)
 {

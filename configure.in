@@ -333,9 +333,13 @@ AM_CONDITIONAL(BUILD_IV_EXAMPLES, test x"$sim_ac_ivexamples_available" = xyes)
 
 . ${srcdir}/libconfigvars.sh
 
-AC_SUBST(GUI)
+# old setup
 AC_SUBST(lGUI)
 AC_SUBST(uGUI)
+
+AC_SUBST(Gui)
+AC_SUBST(gui)
+AC_SUBST(GUI)
 AC_SUBST(WIDGET)
 AC_SUBST(EVENT)
 AC_SUBST(COMPONENTHEADER)
@@ -368,13 +372,13 @@ SOQT_DOC_MAN=`echo $want_man | tr a-z A-Z`
 AC_SUBST(SOQT_DOC_HTML)
 AC_SUBST(SOQT_DOC_MAN)
 
-soqt_build_dir=`pwd`
+soqt_dox_build_dir=`pwd`
 cd $srcdir
-soqt_src_dir=`pwd`
-cd $soqt_build_dir
+soqt_dox_src_dir=`pwd`
+cd $soqt_dox_build_dir
 
-AC_SUBST(soqt_src_dir)
-AC_SUBST(soqt_build_dir)
+AC_SUBST(soqt_dox_src_dir)
+AC_SUBST(soqt_dox_build_dir)
 
 if test x"$want_html" != xno -o x"$want_man" != xno; then
   SIM_AC_DOXYGEN_TOOL(,
@@ -440,12 +444,12 @@ AC_OUTPUT([
 	test-code/Makefile
 	test-code/components/Makefile
 	test-code/widgets/Makefile
+	build/soqt.doxygen
         build/soqt.dsp
         build/soqt.mak
         build/soqt_dll.dsp
         build/soqt_dll.mak
         build/soqt.spec
-	build/soqt.doxygen
 ],[
 	chmod a+x soqt-config
 ])

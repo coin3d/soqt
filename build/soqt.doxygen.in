@@ -237,37 +237,37 @@ WARN_FORMAT           = "$file:$line: $text"
 # with spaces. 
 
 INPUT                 = \
-	@soqt_build_dir@/src/Inventor/Qt/SoQtBasic.h \
-	@soqt_src_dir@/src/Inventor/Qt/SoQt.cpp \
-	@soqt_src_dir@/src/Inventor/Qt/SoQt.h \
-	@soqt_src_dir@/src/Inventor/Qt/SoQtComponent.cpp \
-	@soqt_src_dir@/src/Inventor/Qt/SoQtComponent.h \
-	@soqt_src_dir@/src/Inventor/Qt/SoQtGLWidget.cpp \
-	@soqt_src_dir@/src/Inventor/Qt/SoQtGLWidget.h \
-	@soqt_build_dir@/src/Inventor/Qt/SoQtRenderArea.cpp \
-	@soqt_src_dir@/src/Inventor/Qt/SoQtRenderAreaExtra.cpp \
-	@soqt_build_dir@/src/Inventor/Qt/SoQtRenderArea.h \
-	@soqt_src_dir@/src/Inventor/Qt/devices/SoQtDevice.cpp \
-	@soqt_src_dir@/src/Inventor/Qt/devices/SoQtDevice.h \
-	@soqt_src_dir@/src/Inventor/Qt/devices/SoQtInputFocus.cpp \
-	@soqt_src_dir@/src/Inventor/Qt/devices/SoQtInputFocus.h \
-	@soqt_src_dir@/src/Inventor/Qt/devices/SoQtKeyboard.cpp \
-	@soqt_src_dir@/src/Inventor/Qt/devices/SoQtKeyboard.h \
-	@soqt_src_dir@/src/Inventor/Qt/devices/SoQtMouse.cpp \
-	@soqt_src_dir@/src/Inventor/Qt/devices/SoQtMouse.h \
-	@soqt_src_dir@/src/Inventor/Qt/devices/SoQtSpaceball.cpp \
-	@soqt_src_dir@/src/Inventor/Qt/devices/SoQtSpaceball.h \
-	@soqt_src_dir@/src/Inventor/Qt/devices/SoQtLinuxJoystick.cpp \
-	@soqt_src_dir@/src/Inventor/Qt/devices/SoQtLinuxJoystick.h \
-	@soqt_build_dir@/src/Inventor/Qt/viewers/SoQtViewer.cpp \
-	@soqt_src_dir@/src/Inventor/Qt/viewers/SoQtViewerExtra.cpp \
-	@soqt_build_dir@/src/Inventor/Qt/viewers/SoQtViewer.h \
-	@soqt_src_dir@/src/Inventor/Qt/viewers/SoQtFullViewer.cpp \
-	@soqt_src_dir@/src/Inventor/Qt/viewers/SoQtFullViewer.h \
-	@soqt_src_dir@/src/Inventor/Qt/viewers/SoQtExaminerViewer.cpp \
-	@soqt_src_dir@/src/Inventor/Qt/viewers/SoQtExaminerViewer.h \
-	@soqt_src_dir@/src/Inventor/Qt/viewers/SoQtPlaneViewer.cpp \
-	@soqt_src_dir@/src/Inventor/Qt/viewers/SoQtPlaneViewer.h
+	@soqt_dox_build_dir@/src/Inventor/Qt/SoQtBasic.h \
+	@soqt_dox_src_dir@/src/Inventor/Qt/SoQt.cpp \
+	@soqt_dox_src_dir@/src/Inventor/Qt/SoQt.h \
+	@soqt_dox_src_dir@/src/Inventor/Qt/SoQtComponent.cpp \
+	@soqt_dox_src_dir@/src/Inventor/Qt/SoQtComponent.h \
+	@soqt_dox_src_dir@/src/Inventor/Qt/SoQtGLWidget.cpp \
+	@soqt_dox_src_dir@/src/Inventor/Qt/SoQtGLWidget.h \
+	@soqt_dox_build_dir@/src/Inventor/Qt/SoQtRenderArea.cpp \
+	@soqt_dox_src_dir@/src/Inventor/Qt/SoQtRenderAreaExtra.cpp \
+	@soqt_dox_build_dir@/src/Inventor/Qt/SoQtRenderArea.h \
+	@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtDevice.cpp \
+	@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtDevice.h \
+	@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtInputFocus.cpp \
+	@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtInputFocus.h \
+	@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtKeyboard.cpp \
+	@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtKeyboard.h \
+	@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtMouse.cpp \
+	@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtMouse.h \
+	@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtSpaceball.cpp \
+	@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtSpaceball.h \
+	@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtLinuxJoystick.cpp \
+	@soqt_dox_src_dir@/src/Inventor/Qt/devices/SoQtLinuxJoystick.h \
+	@soqt_dox_build_dir@/src/Inventor/Qt/viewers/SoQtViewer.cpp \
+	@soqt_dox_src_dir@/src/Inventor/Qt/viewers/SoQtViewerExtra.cpp \
+	@soqt_dox_build_dir@/src/Inventor/Qt/viewers/SoQtViewer.h \
+	@soqt_dox_src_dir@/src/Inventor/Qt/viewers/SoQtFullViewer.cpp \
+	@soqt_dox_src_dir@/src/Inventor/Qt/viewers/SoQtFullViewer.h \
+	@soqt_dox_src_dir@/src/Inventor/Qt/viewers/SoQtExaminerViewer.cpp \
+	@soqt_dox_src_dir@/src/Inventor/Qt/viewers/SoQtExaminerViewer.h \
+	@soqt_dox_src_dir@/src/Inventor/Qt/viewers/SoQtPlaneViewer.cpp \
+	@soqt_dox_src_dir@/src/Inventor/Qt/viewers/SoQtPlaneViewer.h
 
 # If the value of the INPUT tag contains directories, you can use the 
 # FILE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp 
