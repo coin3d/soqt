@@ -52,7 +52,6 @@ static const char rcsid[] =
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qpixmap.h>
-#include <qpopupmenu.h>
 #include <qlineedit.h>
 #include <qbuttongroup.h>
 #include <qradiobutton.h>
@@ -71,6 +70,8 @@ static const char rcsid[] =
 
 #include <Inventor/Qt/SoQt.h>
 #include <Inventor/Qt/widgets/SoQtThumbWheel.h>
+#include <Inventor/Qt/widgets/SoAnyPopupMenu.h>
+#include <Inventor/Qt/viewers/SoAnyFullViewer.h>
 
 #include <Inventor/Qt/viewers/SoQtFullViewer.h>
 
@@ -145,45 +146,6 @@ enum {
   SET_HOME_BUTTON,
   VIEW_ALL_BUTTON,
   SEEK_BUTTON
-};
-
-// Menu id values.
-enum {
-  MENUTITLE_ITEM,
-
-  FUNCTIONS_ITEM,
-  HELP_ITEM,
-  HOME_ITEM,
-  SET_HOME_ITEM,
-  VIEW_ALL_ITEM,
-  SEEK_ITEM,
-  COPY_VIEW_ITEM,
-  PASTE_VIEW_ITEM,
-
-  DRAWSTYLES_ITEM,
-  AS_IS_ITEM,
-  HIDDEN_LINE_ITEM,
-  NO_TEXTURE_ITEM,
-  LOW_RESOLUTION_ITEM,
-  WIREFRAME_ITEM,
-  POINTS_ITEM,
-  BOUNDING_BOX_ITEM,
-  MOVE_SAME_AS_STILL_ITEM,
-  MOVE_NO_TEXTURE_ITEM,
-  MOVE_LOW_RES_ITEM,
-  MOVE_WIREFRAME_ITEM,
-  MOVE_LOW_RES_WIREFRAME_ITEM,
-  MOVE_POINTS_ITEM,
-  MOVE_LOW_RES_POINTS_ITEM,
-  MOVE_BOUNDING_BOX_ITEM,
-  SINGLE_BUFFER_ITEM,
-  DOUBLE_BUFFER_ITEM,
-  INTERACTIVE_BUFFER_ITEM,
-
-  EXAMINING_ITEM,
-  DECORATION_ITEM,
-  HEADLIGHT_ITEM,
-  PREFERENCES_ITEM
 };
 
 // *************************************************************************
@@ -264,21 +226,24 @@ SoQtFullViewer::~SoQtFullViewer(
 */
 
 void
-SoQtFullViewer::setDecoration(const SbBool on)
+SoQtFullViewer::setDecoration(
+  const SbBool enable )
 {
 #if SOQT_DEBUG
-  if ((on && this->isDecoration()) || (!on && !this->isDecoration())) {
+  if ( (enable  && this->isDecoration()) ||
+       (!enable && !this->isDecoration())) {
     SoDebugError::postWarning("SoQtFullViewer::setDecoration",
                               "decorations already turned %s",
-                              on ? "on" : "off");
+                              enable ? "on" : "off");
     return;
   }
 #endif // SOQT_DEBUG
 
-  this->decorations = on;
-  if (this->prefmenu)
-    this->prefmenu->setItemChecked(DECORATION_ITEM, on);
-  if (this->viewerwidget) this->showDecorationWidgets(on);
+  this->decorations = enable;
+  if ( this->prefmenu )
+    this->prefmenu->SetMenuItemMarked( DECORATION_ITEM, enable );
+  if ( this->viewerwidget )
+    this->showDecorationWidgets( enable );
 } // setDecoration()
 
 // *************************************************************************
@@ -290,7 +255,8 @@ SoQtFullViewer::setDecoration(const SbBool on)
 */
 
 SbBool
-SoQtFullViewer::isDecoration(void) const
+SoQtFullViewer::isDecoration(
+  void ) const
 {
   return this->decorations;
 } // isDecoration()
@@ -306,18 +272,19 @@ SoQtFullViewer::isDecoration(void) const
 */
 
 void
-SoQtFullViewer::setPopupMenuEnabled(const SbBool on)
+SoQtFullViewer::setPopupMenuEnabled(
+  const SbBool enable )
 {
 #if SOQT_DEBUG
-  if ((on && this->isPopupMenuEnabled()) ||
-      (!on && !this->isPopupMenuEnabled())) {
+  if ( (enable && this->isPopupMenuEnabled()) ||
+       (!enable && !this->isPopupMenuEnabled()) ) {
     SoDebugError::postWarning("SoQtFullViewer::setPopupMenuEnabled",
                               "popup menu already turned %s",
-                              on ? "on" : "off");
+                              enable ? "on" : "off");
     return;
   }
 #endif // SOQT_DEBUG
-  this->menuenabled = on;
+  this->menuenabled = enable;
 } // setPopupMenuEnabled()
 
 // *************************************************************************
@@ -330,7 +297,8 @@ SoQtFullViewer::setPopupMenuEnabled(const SbBool on)
 */
 
 SbBool
-SoQtFullViewer::isPopupMenuEnabled(void) const
+SoQtFullViewer::isPopupMenuEnabled(
+  void ) const
 {
   return this->menuenabled;
 } // isPopupMenuEnabled()
@@ -473,9 +441,11 @@ SoQtFullViewer::getRenderAreaWidget(void)
 */
 
 void
-SoQtFullViewer::setViewing(SbBool on)
+SoQtFullViewer::setViewing(
+  SbBool enable )
 {
-  if ((on && this->isViewing()) || (!on && !this->isViewing())) {
+  if ( (enable && this->isViewing()) ||
+       (!enable && !this->isViewing())) {
 #if SOQT_DEBUG && 0 // debug
     SoDebugError::postWarning("SoQtFullViewer::setViewing",
                               "view mode already %s", on ? "on" : "off");
@@ -483,11 +453,12 @@ SoQtFullViewer::setViewing(SbBool on)
     return;
   }
 
-  inherited::setViewing(on);
-  if (this->prefmenu) this->prefmenu->setItemChecked(EXAMINING_ITEM, on);
-  VIEWERBUTTON(EXAMINE_BUTTON)->setOn(on);
-  VIEWERBUTTON(INTERACT_BUTTON)->setOn(on ? FALSE : TRUE);
-  VIEWERBUTTON(SEEK_BUTTON)->setEnabled(on);
+  inherited::setViewing( enable );
+  if ( this->prefmenu )
+    this->prefmenu->SetMenuItemMarked( EXAMINING_ITEM, enable );
+  VIEWERBUTTON(EXAMINE_BUTTON)->setOn( enable );
+  VIEWERBUTTON(INTERACT_BUTTON)->setOn( enable ? FALSE : TRUE);
+  VIEWERBUTTON(SEEK_BUTTON)->setEnabled( enable );
 } // setViewing()
 
 // *************************************************************************
@@ -498,10 +469,12 @@ SoQtFullViewer::setViewing(SbBool on)
 */
 
 void
-SoQtFullViewer::setHeadlight(SbBool on)
+SoQtFullViewer::setHeadlight(
+  SbBool enable )
 {
-  inherited::setHeadlight(on);
-  if (this->prefmenu) this->prefmenu->setItemChecked(HEADLIGHT_ITEM, on);
+  inherited::setHeadlight( enable );
+  if ( this->prefmenu )
+    this->prefmenu->SetMenuItemMarked( HEADLIGHT_ITEM, enable );
 } // setHeadlight()
 
 // *************************************************************************
@@ -527,21 +500,25 @@ SoQtFullViewer::setDrawStyle(SoQtViewer::DrawType type,
 */
 
 void
-SoQtFullViewer::setBufferingType(SoQtViewer::BufferType type)
+SoQtFullViewer::setBufferingType(
+  SoQtViewer::BufferType type )
 {
-  inherited::setBufferingType(type);
-
-  if (this->prefmenu) {
-    QMenuData * m;
-    this->prefmenu->findItem(AS_IS_ITEM, &m);
-    assert(m);
-
-    m->setItemChecked(SINGLE_BUFFER_ITEM,
-                      type == SoQtViewer::BUFFER_SINGLE ? TRUE : FALSE);
-    m->setItemChecked(DOUBLE_BUFFER_ITEM,
-                      type == SoQtViewer::BUFFER_DOUBLE ? TRUE : FALSE);
-    m->setItemChecked(INTERACTIVE_BUFFER_ITEM,
-                      type == SoQtViewer::BUFFER_INTERACTIVE ? TRUE : FALSE);
+  inherited::setBufferingType( type );
+  if ( this->prefmenu ) {
+    switch ( type ) {
+    case SoQtViewer::BUFFER_SINGLE:
+      this->prefmenu->SetMenuItemMarked( SINGLE_BUFFER_ITEM, TRUE );
+      break;
+    case SoQtViewer::BUFFER_DOUBLE:
+      this->prefmenu->SetMenuItemMarked( DOUBLE_BUFFER_ITEM, TRUE );
+      break;
+    case SoQtViewer::BUFFER_INTERACTIVE:
+      this->prefmenu->SetMenuItemMarked( INTERACTIVE_BUFFER_ITEM, TRUE );
+      break;
+    default:
+      assert( 0 && "unsupported buffer type" );
+      break;
+    }
   }
 } // setBufferingType()
 
@@ -661,12 +638,88 @@ SoQtFullViewer::eventFilter(QObject *obj, QEvent * e)
       eventtype == Event_MouseButtonPress) {
     QMouseEvent * me = (QMouseEvent *)e;
     if (me->button() == RightButton) {
-      if (!this->prefmenu) this->buildPopupMenu();
+      if ( ! this->prefmenu )
+        this->buildPopupMenu();
+      QPoint pos;
 #if (QT_VERSION > 140)
-      this->prefmenu->popup(me->globalPos());
+      pos = me->globalPos();
 #else
-      this->prefmenu->popup(me->pos());
+      pos = me->pos();
 #endif
+      int itemid = this->prefmenu->PopUp( pos.x(), pos.y() );
+
+      switch ( itemid ) {
+      case -1:
+        // means no item was selected
+        break;
+
+      case EXAMINING_ITEM:
+        this->selectedViewing();
+        break;
+      case DECORATION_ITEM:
+        this->selectedDecoration();
+        break;
+      case HEADLIGHT_ITEM:
+        this->selectedHeadlight();
+        break;
+      case PREFERENCES_ITEM:
+        this->selectedPrefs();
+        break;
+
+      case HELP_ITEM:
+        this->helpbuttonClicked();
+        break;
+      case HOME_ITEM:
+        this->homebuttonClicked();
+        break;
+      case SET_HOME_ITEM:
+        this->sethomebuttonClicked();
+        break;
+      case VIEW_ALL_ITEM:
+        this->viewallbuttonClicked();
+        break;
+      case SEEK_ITEM:
+        this->seekbuttonClicked();
+        break;
+      case COPY_VIEW_ITEM:
+        this->copyviewSelected();
+        break;
+      case PASTE_VIEW_ITEM:
+        this->pasteviewSelected();
+        break;
+
+      case AS_IS_ITEM:
+      case HIDDEN_LINE_ITEM:
+      case NO_TEXTURE_ITEM:
+      case LOW_RESOLUTION_ITEM:
+      case WIREFRAME_ITEM:
+      case POINTS_ITEM:
+      case BOUNDING_BOX_ITEM:
+        this->drawstyleActivated( itemid );
+        break;
+
+      case MOVE_SAME_AS_STILL_ITEM:
+      case MOVE_NO_TEXTURE_ITEM:
+      case MOVE_LOW_RES_ITEM:
+      case MOVE_WIREFRAME_ITEM:
+      case MOVE_LOW_RES_WIREFRAME_ITEM:
+      case MOVE_POINTS_ITEM:
+      case MOVE_LOW_RES_POINTS_ITEM:
+      case MOVE_BOUNDING_BOX_ITEM:
+        this->drawstyleActivated( itemid );
+        break;
+
+      case SINGLE_BUFFER_ITEM:
+      case DOUBLE_BUFFER_ITEM:
+      case INTERACTIVE_BUFFER_ITEM:
+        this->drawstyleActivated( itemid );
+        break;
+
+      default:
+        SoDebugError::postInfo( "SoQtFullViewer::eventFilter",
+          "popup menu handling for item %d is not implemented", itemid );
+        break;
+      } // switch ( itemid )
     }
   }
 
@@ -701,7 +754,8 @@ SoQtFullViewer::buildWidget(QWidget * parent)
     this->showDecorationWidgets(TRUE);
   }
 
-  if (this->menuenabled) this->buildPopupMenu();
+  if ( this->menuenabled )
+    this->buildPopupMenu();
 
   return this->viewerwidget;
 } // buildWidget()
@@ -966,40 +1020,22 @@ SoQtFullViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
 */
 
 void
-SoQtFullViewer::buildPopupMenu(void)
+SoQtFullViewer::buildPopupMenu(
+  void )
 {
-  this->prefmenu = new QPopupMenu(NULL);
-
-  this->prefmenu->insertItem(this->menutitle.getString(), MENUTITLE_ITEM);
-  this->prefmenu->insertSeparator();
-
-  QPopupMenu * funcsub = (QPopupMenu *)this->buildFunctionsSubmenu(NULL);
-  this->prefmenu->insertItem("Functions", funcsub, FUNCTIONS_ITEM);
-
-  QPopupMenu * dssub = (QPopupMenu *)this->buildDrawStyleSubmenu(NULL);
-  this->prefmenu->insertItem("Draw Style", dssub, DRAWSTYLES_ITEM);
+  this->prefmenu = SoAnyFullViewer::buildStandardPopupMenu();
 
   // Set initial checkmarks on drawstyle menus.
-  this->setDrawStyle(SoQtViewer::STILL, this->getDrawStyle(SoQtViewer::STILL));
-  this->setDrawStyle(SoQtViewer::INTERACTIVE,
-                     this->getDrawStyle(SoQtViewer::INTERACTIVE));
-  this->setBufferingType(this->getBufferingType());
+  this->setDrawStyle(
+    SoQtViewer::STILL, this->getDrawStyle( SoQtViewer::STILL ) );
+  this->setDrawStyle(
+    SoQtViewer::INTERACTIVE, this->getDrawStyle( SoQtViewer::INTERACTIVE ) );
+  this->setBufferingType( this->getBufferingType() );
 
+  this->prefmenu->SetMenuItemMarked( EXAMINING_ITEM, this->isViewing() );
+  this->prefmenu->SetMenuItemMarked( DECORATION_ITEM, this->decorations );
+  this->prefmenu->SetMenuItemMarked( HEADLIGHT_ITEM, this->isHeadlight() );
 
-  this->prefmenu->insertItem("Viewing", this, SLOT(selectedViewing()),
-                             0, EXAMINING_ITEM);
-  this->prefmenu->setItemChecked(EXAMINING_ITEM, this->isViewing());
-
-  this->prefmenu->insertItem("Decoration", this, SLOT(selectedDecoration()),
-                             0, DECORATION_ITEM);
-  this->prefmenu->setItemChecked(DECORATION_ITEM, this->decorations);
-
-  this->prefmenu->insertItem("Headlight", this, SLOT(selectedHeadlight()),
-                             0, HEADLIGHT_ITEM);
-  this->prefmenu->setItemChecked(HEADLIGHT_ITEM, this->isHeadlight());
-
-  this->prefmenu->insertItem("Preferences...", this, SLOT(selectedPrefs()),
-                             0, PREFERENCES_ITEM);
 } // buildPopupMenu()
 
 // *************************************************************************
@@ -1011,9 +1047,11 @@ SoQtFullViewer::buildPopupMenu(void)
 void
 SoQtFullViewer::setPopupMenuString(const char * str)
 {
+/*
   this->menutitle = str ? str : "";
   if (this->prefmenu) this->prefmenu->changeItem(this->menutitle.getString(),
                                                  MENUTITLE_ITEM);
+*/
 } // setPopupMenuString()
 
 // *************************************************************************
@@ -1022,6 +1060,7 @@ SoQtFullViewer::setPopupMenuString(const char * str)
   Build the sub-popupmenu with miscellaneous functions.
 */
 
+/*
 QWidget *
 SoQtFullViewer::buildFunctionsSubmenu(QWidget * popup)
 {
@@ -1044,6 +1083,7 @@ SoQtFullViewer::buildFunctionsSubmenu(QWidget * popup)
 
   return m;
 } // buildFunctionsSubmenu()
+*/
 
 // *************************************************************************
 
@@ -1051,6 +1091,7 @@ SoQtFullViewer::buildFunctionsSubmenu(QWidget * popup)
   Build the sub-popupmenu with the drawstyle settings.
 */
 
+/*
 QWidget *
 SoQtFullViewer::buildDrawStyleSubmenu(QWidget * popup)
 {
@@ -1084,6 +1125,7 @@ SoQtFullViewer::buildDrawStyleSubmenu(QWidget * popup)
 
   return m;
 } // buildDrawStyleSubmenu()
+*/
 
 // *************************************************************************
 
@@ -2175,51 +2217,78 @@ SoQtFullViewer::pasteviewSelected()
 */
 
 void
-SoQtFullViewer::setDrawStyleMenuActivation(SoQtViewer::DrawType type,
-                                           SoQtViewer::DrawStyle val)
+SoQtFullViewer::setDrawStyleMenuActivation(
+  SoQtViewer::DrawType type,
+  SoQtViewer::DrawStyle value )
 {
-  QMenuData * m;
-  assert(this->prefmenu);
-  this->prefmenu->findItem(AS_IS_ITEM, &m);
-  assert(m);
+  assert( this->prefmenu != NULL );
 
-  int start = type == SoQtViewer::STILL ?
-    AS_IS_ITEM : MOVE_SAME_AS_STILL_ITEM;
-  int end = type == SoQtViewer::STILL ?
-    BOUNDING_BOX_ITEM : MOVE_BOUNDING_BOX_ITEM;
+  switch ( type ) {
+  case SoQtViewer::STILL:
+    switch ( value ) {
+    case SoQtViewer::VIEW_AS_IS:
+      this->prefmenu->SetMenuItemMarked( AS_IS_ITEM, TRUE );
+      break;
+    case SoQtViewer::VIEW_HIDDEN_LINE:
+      this->prefmenu->SetMenuItemMarked( HIDDEN_LINE_ITEM, TRUE );
+      break;
+    case SoQtViewer::VIEW_NO_TEXTURE:
+      this->prefmenu->SetMenuItemMarked( NO_TEXTURE_ITEM, TRUE );
+      break;
+    case SoQtViewer::VIEW_LOW_COMPLEXITY:
+      this->prefmenu->SetMenuItemMarked( LOW_RESOLUTION_ITEM, TRUE );
+      break;
+    case SoQtViewer::VIEW_LINE:
+      this->prefmenu->SetMenuItemMarked( WIREFRAME_ITEM, TRUE );
+      break;
+    case SoQtViewer::VIEW_POINT:
+      this->prefmenu->SetMenuItemMarked( POINTS_ITEM, TRUE );
+      break;
+    case SoQtViewer::VIEW_BBOX:
+      this->prefmenu->SetMenuItemMarked( BOUNDING_BOX_ITEM, TRUE );
+      break;
+    default:
+      assert( 0 && "unsupported default switch-case" );
+      break;
+    } // switch ( value )
+    break;
 
-  for (int i = start; i <= end; i++) m->setItemChecked(i, FALSE);
+  case SoQtViewer::INTERACTIVE:
+    switch ( value ) {
+    case SoQtViewer::VIEW_SAME_AS_STILL:
+      this->prefmenu->SetMenuItemMarked( MOVE_SAME_AS_STILL_ITEM, TRUE );
+      break;
+    case SoQtViewer::VIEW_NO_TEXTURE:
+      this->prefmenu->SetMenuItemMarked( MOVE_NO_TEXTURE_ITEM, TRUE );
+      break;
+    case SoQtViewer::VIEW_LOW_COMPLEXITY:
+      this->prefmenu->SetMenuItemMarked( MOVE_LOW_RES_ITEM, TRUE );
+      break;
+    case SoQtViewer::VIEW_LINE:
+      this->prefmenu->SetMenuItemMarked( MOVE_WIREFRAME_ITEM, TRUE );
+      break;
+    case SoQtViewer::VIEW_LOW_RES_LINE:
+      this->prefmenu->SetMenuItemMarked( MOVE_LOW_RES_WIREFRAME_ITEM, TRUE );
+      break;
+    case SoQtViewer::VIEW_POINT:
+      this->prefmenu->SetMenuItemMarked( MOVE_POINTS_ITEM, TRUE );
+      break;
+    case SoQtViewer::VIEW_LOW_RES_POINT:
+      this->prefmenu->SetMenuItemMarked( MOVE_LOW_RES_POINTS_ITEM, TRUE );
+      break;
+    case SoQtViewer::VIEW_BBOX:
+      this->prefmenu->SetMenuItemMarked( MOVE_BOUNDING_BOX_ITEM, TRUE );
+      break;
+    default:
+      assert( 0 && "unsupported default switch-case" );
+      break;
+    } // switch ( value )
+    break;
 
-  int id = 0; /* set to dummy value to avoid compiler warning. */
-
-  // FIXME: use a dict or two? 990220 mortene.
-  if (type == SoQtViewer::STILL) {
-    switch (val) {
-    case SoQtViewer::VIEW_AS_IS: id = AS_IS_ITEM; break;
-    case SoQtViewer::VIEW_HIDDEN_LINE: id = HIDDEN_LINE_ITEM; break;
-    case SoQtViewer::VIEW_NO_TEXTURE: id = NO_TEXTURE_ITEM; break;
-    case SoQtViewer::VIEW_LOW_COMPLEXITY: id = LOW_RESOLUTION_ITEM; break;
-    case SoQtViewer::VIEW_LINE: id = WIREFRAME_ITEM; break;
-    case SoQtViewer::VIEW_POINT: id = POINTS_ITEM; break;
-    case SoQtViewer::VIEW_BBOX: id = BOUNDING_BOX_ITEM; break;
-    default: assert(0); break;
-    }
-  }
-  else if (type == SoQtViewer::INTERACTIVE) {
-    switch (val) {
-    case SoQtViewer::VIEW_SAME_AS_STILL: id = MOVE_SAME_AS_STILL_ITEM; break;
-    case SoQtViewer::VIEW_NO_TEXTURE: id = MOVE_NO_TEXTURE_ITEM; break;
-    case SoQtViewer::VIEW_LOW_COMPLEXITY: id = MOVE_LOW_RES_ITEM; break;
-    case SoQtViewer::VIEW_LINE: id = MOVE_WIREFRAME_ITEM; break;
-    case SoQtViewer::VIEW_LOW_RES_LINE: id= MOVE_LOW_RES_WIREFRAME_ITEM; break;
-    case SoQtViewer::VIEW_POINT: id = MOVE_POINTS_ITEM; break;
-    case SoQtViewer::VIEW_LOW_RES_POINT: id = MOVE_LOW_RES_POINTS_ITEM; break;
-    case SoQtViewer::VIEW_BBOX: id = MOVE_BOUNDING_BOX_ITEM; break;
-    default: assert(0); break;
-    }
-  }
-
-  m->setItemChecked(id, TRUE);
+  default:
+    assert( 0 && "unsupported default switch-case" );
+    break;
+  } // switch ( type )
 } // setDrawStyleMenuActivation()
 
 // *************************************************************************

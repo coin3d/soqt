@@ -27,10 +27,10 @@
 class QPushButton;
 class QLayout;
 class QLabel;
-class QPopupMenu;
 class QLineEdit;
 class QSlider;
 
+class SoAnyPopupMenu;
 class SoQtThumbWheel;
 
 // *************************************************************************
@@ -93,8 +93,6 @@ protected:
 
   virtual void buildPopupMenu(void);
   void setPopupMenuString(const char * title);
-  QWidget * buildFunctionsSubmenu(QWidget * popup);
-  QWidget * buildDrawStyleSubmenu(QWidget * popup);
 
   virtual QWidget * makeSubPreferences(QWidget * parent);
   void setPrefSheetString(const char * title);
@@ -146,7 +144,7 @@ private:
   QWidget * decorform[NUMDECORATIONS];
 
   SbString menutitle;
-  QPopupMenu * prefmenu;
+  SoAnyPopupMenu * prefmenu;
   SbBool menuenabled;
 
   QLayout * mainlayout;
