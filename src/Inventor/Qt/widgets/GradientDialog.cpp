@@ -154,8 +154,10 @@ void SoQtGradientDialog::saveGradient()
                                  "Save Gradient Dialog",
                                  "Choose a filename");
 
-  Gradient grad = PRIVATE(this)->gradEdit->getGradient();
-  grad.save(filename);
+  if (!filename.isEmpty()) {
+    Gradient grad = PRIVATE(this)->gradEdit->getGradient();
+    grad.save(filename);
+  }
 }
 
 void SoQtGradientDialog::chooseGradient(int i)
