@@ -311,6 +311,12 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     and embedded in an application Qt widget.
 
     20021018 mortene.
+    
+    UPDATE: I've tried to recreate this bug by creating QMainWindow
+    with an embedded ExaminerViewer, and fetching the title of the
+    viewer after initialization. This does not demonstrate the
+    erroneous behaviour, and the demo application is sent to Paul van
+    Santen. Awaiting reply from him. 20021022 rolvs.
 
 =====================================================================
 
