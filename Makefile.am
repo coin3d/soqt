@@ -1,4 +1,7 @@
+############################################################################
 ## Process this file with automake to generate Makefile.in.
+
+ACLOCAL_AMFLAGS = -I cfg/m4
 
 SUFFIXES = .cpp .h .m4 .in .o .lo .Plo .TPlo
 
@@ -6,7 +9,7 @@ SUBDIRS = . src/Inventor/Qt
 
 bin_SCRIPTS = soqt-config
 
-BUILT_SOURCES = \
+SoQtTemplateFiles = \
 	soqt-config \
 	soqtdefs.h \
 	src/Inventor/Qt/SoQtBasic.h \
@@ -16,6 +19,8 @@ BUILT_SOURCES = \
 	src/Inventor/Qt/SoQtObject.cpp \
 	src/Inventor/Qt/SoQtRenderArea.h \
 	src/Inventor/Qt/SoQtRenderArea.cpp \
+	src/Inventor/Qt/devices/spwinput.h \
+	src/Inventor/Qt/devices/spwinput_x11.cpp \
 	src/Inventor/Qt/viewers/SoQtViewer.h \
 	src/Inventor/Qt/viewers/SoQtViewer.cpp \
 	src/Inventor/Qt/viewers/SoAnyFullViewer.h \
@@ -27,7 +32,9 @@ BUILT_SOURCES = \
 	src/Inventor/Qt/widgets/SoAnyThumbWheel.h \
 	src/Inventor/Qt/widgets/SoAnyThumbWheel.cpp \
 	src/Inventor/Qt/widgets/SoAnyPopupMenu.h \
-	src/Inventor/Qt/widgets/SoAnyPopupMenu.cpp \
+	src/Inventor/Qt/widgets/SoAnyPopupMenu.cpp
+
+SoQtMocFiles = \
 	src/Inventor/Qt/moc_SoQt.cpp \
 	src/Inventor/Qt/moc_SoQtObject.cpp \
 	src/Inventor/Qt/moc_SoQtComponent.cpp \
@@ -44,8 +51,6 @@ BUILT_SOURCES = \
 	src/Inventor/Qt/devices/moc_SoQtMouse.cpp \
 	src/Inventor/Qt/devices/moc_SoQtSpaceball.cpp \
 	src/Inventor/Qt/devices/moc_SoQtLinuxJoystick.cpp \
-	src/Inventor/Qt/devices/spwinput.h \
-	src/Inventor/Qt/devices/spwinput_x11.cpp \
 	src/Inventor/Qt/viewers/moc_SoQtViewer.cpp \
 	src/Inventor/Qt/viewers/moc_SoQtFullViewer.cpp \
 	src/Inventor/Qt/viewers/moc_SoQtExaminerViewer.cpp \
@@ -57,8 +62,13 @@ BUILT_SOURCES = \
 	src/Inventor/Qt/widgets/moc_SoQtGLArea.cpp \
 	src/Inventor/Qt/widgets/moc_SoQtThumbWheel.cpp
 
+BUILT_SOURCES = \
+	$(SoQtTemplateFiles) \
+	$(SoQtMocFiles)
+
 # This is necessary to set up a hook somewhere in the generated Makefile
 # so the sources are actually built.
+
 noinst_DATA = $(BUILT_SOURCES)
 
 soqt-config: soqt-config.in
@@ -72,6 +82,7 @@ m4data_DATA = cfg/m4/soqt.m4
 
 # Target which is present to make it simple to only generate the
 # sourcefiles from the common sources.
+
 built-sources: $(BUILT_SOURCES)
 
 soqtdefs.h: $(srcdir)/soqtdefs.h.in

@@ -300,8 +300,8 @@ if test x"$with_inventor" = xyes; then
      SOQT_EXTRA_LIBS="$sim_ac_inventor_libs $SOQT_EXTRA_LIBS"],
     AC_MSG_ERROR(couldn't compile and link against Open Inventor))
 
+  sim_ac_brand_inventor="SGI/TGS Inventor"
 else
-
   SIM_AC_HAVE_COIN_IFELSE([
     CPPFLAGS="$CPPFLAGS $sim_ac_coin_cppflags"
     LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
@@ -341,6 +341,7 @@ else
   SIM_AC_CHECK_X11XID([
 	SOQT_EXTRA_LIBS="$sim_ac_x11xid_libs $SOQT_EXTRA_LIBS"
   ])
+  sim_ac_brand_inventor="Coin"
 fi
 
 # Check for the availability of this node (it is used in the hidden
@@ -557,8 +558,16 @@ if test -d ${srcdir}/examples; then
 EOF
 fi
 
+sim_ac_sogui_static_defaults=No
+$sim_ac_static_defaults && sim_ac_sogui_static_defaults=Yes
+
 echo ""
-echo "Now, run 'make install' to build and install SoQt..."
+echo "So$Gui configuration:"
+echo "  Open Inventor Brand:  $sim_ac_brand_inventor"
+echo "  Static Materials:     $sim_ac_sogui_static_defaults"
+echo "  Install Prefix:       $prefix"
+echo ""
+echo "Now, run 'make install' to build and install So$Gui..."
 echo ""
 
 # **************************************************************************
