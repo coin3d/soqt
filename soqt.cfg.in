@@ -16,3 +16,4 @@ AC_SUBST_COMPONENTHEADER="@COMPONENTHEADER@"
 have_renderarea=1
 have_examinerviewer=1
 have_planeviewer=1
+have_flyviewer=1
