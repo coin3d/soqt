@@ -36,12 +36,18 @@ class GradientEditor : public QWidget
 {
   Q_OBJECT
 public:
-  GradientEditor(const Gradient & grad, QWidget* parent=0, bool modal = FALSE, const char* name=0, WFlags f=0);
+  GradientEditor(const Gradient & grad, 
+                 QWidget* parent=0,
+                 bool modal = FALSE,
+                 const char* name=0,
+                 WFlags f=0);
+
   ~GradientEditor();
 
   void setGradient(const Gradient & grad);
   const Gradient& getGradient(void) const;
   void resizeEvent(QResizeEvent *);
+  void setChangeCallback(changeCB * cb);
 
 signals:
   void accepted(void);

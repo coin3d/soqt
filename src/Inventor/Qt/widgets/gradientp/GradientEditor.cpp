@@ -57,10 +57,9 @@ GradientEditor::GradientEditor(const Gradient & grad,
   this->gradientWidget->setMinimumHeight(80);
   topLayout->addWidget(this->gradientWidget);
   topLayout->addLayout(buttonOutputLayout);
-
+  
   QCanvas * canvas = new QCanvas(450,60);
   this->gradView = new GradientView(canvas, grad, gradientWidget, "GradientView");
-  this->gradView->setMargin(10);
   this->gradView->setFrameStyle(QFrame::Sunken);
 
   QGroupBox * dataValues = new QGroupBox(this, "dataValues");
@@ -100,8 +99,8 @@ GradientEditor::~GradientEditor()
 
 void GradientEditor::resizeEvent(QResizeEvent * e)
 {
-  this->gradientWidget->resize(QSize(e->size().width(), 80));
-  this->gradView->resize(QSize(e->size().width(), 80));
+  this->gradientWidget->resize(QSize(e->size().width(), 60));
+  this->gradView->resize(QSize(e->size().width(), 60));
   this->repaint();
 }
 void GradientEditor::setMin(int min)
@@ -144,6 +143,11 @@ void GradientEditor::updateAll()
 {  
   this->gradView->updateTicks();
   this->gradView->updateView();
+}
+
+void GradientEditor::setChangeCallback(changeCB * cb)
+{
+  this->gradView->setChangeCallback(cb);
 }
 
 void GradientEditor::accept()
