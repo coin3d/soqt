@@ -135,12 +135,9 @@ AC_PROG_LIBTOOL
 # AC_LANG(C++)
 
 # These are used for constructing the soqt-config file.
-SOGUI_EXTRA_CPPFLAGS=$CPPFLAGS
-SOGUI_EXTRA_LDFLAGS=$LDFLAGS
-SOGUI_EXTRA_LIBS=$LIBS
-AC_SUBST(SOGUI_EXTRA_CPPFLAGS)
-AC_SUBST(SOGUI_EXTRA_LDFLAGS)
-AC_SUBST(SOGUI_EXTRA_LIBS)
+AC_SUBST(SOGUI_EXTRA_CPPFLAGS, $CPPFLAGS)
+AC_SUBST(SOGUI_EXTRA_LDFLAGS, $LDFLAGS)
+AC_SUBST(SOGUI_EXTRA_LIBS, $LIBS)
 
 # SIM_EXPAND_DIR_VARS
 
@@ -438,9 +435,11 @@ if $BUILD_WITH_MSVC; then
 fi
 AC_SUBST(COIN_COMPILER)
 
-else  # $sim_ac_build_library == false
-  MOC=moc
-  AC_SUBST([MOC])
+AM_CONDITIONAL([BUILD_METAFILES], [true])
+AC_SUBST([meta_prefix], [moc_])
+
+else # $sim_ac_build_library == false
+  AC_SUBST([MOC], [moc])
 fi
 
 # Qt's moc wants Windows-style paths, so if the inputfile is an
@@ -456,19 +455,12 @@ AC_SUBST([UNIX2WINPATH])
 # **************************************************************************
 # Variable substitutions for using libSoQt in the generic code.
 
-GUI=QT
-Gui=Qt
-gui=qt
-WIDGET="QWidget *"
-EVENT="QEvent *"
-COMPONENTHEADER="Q_OBJECT"
-
-AC_SUBST(Gui)
-AC_SUBST(gui)
-AC_SUBST(GUI)
-AC_SUBST(WIDGET)
-AC_SUBST(EVENT)
-AC_SUBST(COMPONENTHEADER)
+AC_SUBST([Gui], [Qt])
+AC_SUBST([gui], [qt])
+AC_SUBST([GUI], [QT])
+AC_SUBST([WIDGET], ["QWidget *"])
+AC_SUBST([EVENT], ["QEvent *"])
+AC_SUBST([COMPONENTHEADER], [Q_OBJECT])
 
 # **************************************************************************
 # Section for Doxygen

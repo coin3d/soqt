@@ -1,14 +1,14 @@
+############################################################################
+## So@Gui@/src/Makefile.am
+
+include Inventor/Qt/common/Makefile.common
 
 SUBDIRS = . Inventor
 
 BUILT_SOURCES = \
-	soqtdefs.h
+	$(So@Gui@AllBuiltFiles)
 
 DISTCLEANFILES = \
-	$(BUILT_SOURCES)
-
-soqtdefs.h: $(srcdir)/Inventor/Qt/common/soguidefs.h.in
-	@( cd ..; $(MAKE) built-sources )
-
-install-data-local: soqtdefs.h
+	$(So@Gui@_src_BuiltFiles) \
+	$(So@Gui@_src_BuiltMetaFiles)
 

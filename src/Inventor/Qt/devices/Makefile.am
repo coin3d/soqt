@@ -1,3 +1,22 @@
+############################################################################
+##
+
+include ../common/Makefile.common
+
+INCLUDES = -I$(top_srcdir)/src
+
+LIBS =
+
+BUILT_SOURCES = \
+	$(So@Gui@AllBuiltFiles)
+
+CLEANFILES = \
+	$(So@Gui@_src_Inventor_@Gui@_devices_BuiltMetaFiles)
+
+DISTCLEANFILES = \
+	$(So@Gui@_src_Inventor_@Gui@_devices_BuiltFiles) \
+	$(So@Gui@_src_Inventor_@Gui@_devices_BuiltMetaFiles)
+
 ## Process this file with automake to generate Makefile.in.
 
 if BUILD_WITH_MSVC
@@ -5,23 +24,6 @@ noinst_LIBRARIES = devices.lst
 else
 noinst_LTLIBRARIES = libSoQtDevices.la
 endif
-
-LIBS =
-INCLUDES = -I$(top_srcdir)/src
-
-# every built sourcefile
-BUILT_SOURCES = \
-	moc_SoQtDevice.cpp \
-	moc_SoQtInputFocus.cpp \
-	moc_SoQtKeyboard.cpp \
-	moc_SoQtMouse.cpp \
-	moc_SoQtSpaceball.cpp \
-	moc_SoQtLinuxJoystick.cpp \
-	spwinput_x11.cpp \
-	spwinput.h
-
-DISTCLEANFILES = \
-	$(BUILT_SOURCES)
 
 # built sourcefiles that are to be included in any case
 libSoQtDevicesBuiltSources = \
@@ -128,38 +130,5 @@ install-libSoQtDevicesincHEADERS: $(libSoQtDevicesinc_HEADERS)
 	    $(INSTALL_HEADER) "$$src" "$$dst"; \
 	  fi \
 	done
-
-############################################################################
-
-moc_SoQtDevice.cpp: $(srcdir)/SoQtDevice.h
-	@( cd $(top_builddir); \
-	   $(MAKE) src/Inventor/Qt/devices/moc_SoQtDevice.cpp )
-
-moc_SoQtInputFocus.cpp: $(srcdir)/SoQtInputFocus.h
-	@( cd $(top_builddir); \
-	   $(MAKE) src/Inventor/Qt/devices/moc_SoQtInputFocus.cpp )
-
-moc_SoQtKeyboard.cpp: $(srcdir)/SoQtKeyboard.h
-	@( cd $(top_builddir); \
-	   $(MAKE) src/Inventor/Qt/devices/moc_SoQtKeyboard.cpp )
-
-moc_SoQtMouse.cpp: $(srcdir)/SoQtMouse.h
-	@( cd $(top_builddir); \
-	   $(MAKE) src/Inventor/Qt/devices/moc_SoQtMouse.cpp )
-
-moc_SoQtSpaceball.cpp: $(srcdir)/SoQtSpaceball.h
-	@( cd $(top_builddir); \
-	   $(MAKE) src/Inventor/Qt/devices/moc_SoQtSpaceball.cpp )
-
-moc_SoQtLinuxJoystick.cpp: $(srcdir)/SoQtLinuxJoystick.h
-	@( cd $(top_builddir); \
-	   $(MAKE) src/Inventor/Qt/devices/moc_SoQtLinuxJoystick.cpp )
-
-spwinput.h: $(top_srcdir)/src/Inventor/Qt/common/spwinput.h.in
-	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/devices/spwinput.h )
-
-spwinput_x11.cpp: $(top_srcdir)/src/Inventor/Qt/common/spwinput_x11.cpp.in
-	@( cd $(top_builddir); \
-		$(MAKE) src/Inventor/Qt/devices/spwinput_x11.cpp )
 
 # EOF ######################################################################

@@ -1,6 +1,24 @@
 ############################################################################
+## So@Gui@/src/Inventor/@Gui@/makefile.am
+
+include common/Makefile.common
+
+############################################################################
+##
 
 SUBDIRS = devices viewers widgets
+
+INCLUDES = -I$(top_srcdir)/src
+
+BUILT_SOURCES = \
+	$(So@Gui@AllBuiltfiles)
+
+CLEANFILES = \
+	$(So@Gui@_src_Inventor_@Gui@_BuiltMetaFiles)
+
+DISTCLEANFILES = \
+	$(So@Gui@_src_Inventor_@Gui@_BuiltFiles) \
+	$(So@Gui@_src_Inventor_@Gui@_BuiltMetaFiles)
 
 ############################################################################
 
@@ -9,35 +27,6 @@ lib_LIBRARIES = soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib
 else
 lib_LTLIBRARIES = libSoQt@SUFFIX@.la
 endif
-
-INCLUDES = -I$(top_srcdir)/src
-
-BUILT_SOURCES = \
-	SoAny.h \
-	SoAny.cpp \
-	SoQt.h \
-	SoQtBasic.h \
-	SoQtObject.cpp \
-	SoQtObject.h \
-	SoQtCursors.h \
-	SoQtCursors.cpp \
-	SoQtComponent.h \
-	SoQtGLWidget.h \
-	SoQtRenderArea.h \
-	SoQtRenderArea.cpp \
-	moc_SoQt.cpp \
-	moc_SoQtObject.cpp \
-	moc_SoQtComponent.cpp \
-	moc_SoQtGLWidget.cpp \
-	moc_SoQtLightSliderSet.cpp \
-	moc_SoQtMaterialSliderSet.cpp \
-	moc_SoQtRenderArea.cpp \
-	moc_SoQtSliderSet.cpp \
-	moc_SoQtSliderSetBase.cpp \
-	moc_SoQtTransformSliderSet.cpp
-
-DISTCLEANFILES = \
-	$(BUILT_SOURCES)
 
 ############################################################################
 # libtool setup
@@ -142,82 +131,6 @@ install-nodist_SoQtincHEADERS: $(nodist_SoQtinc_HEADERS)
 
 ############################################################################
 
-SoQtBasic.h: $(top_srcdir)/src/Inventor/Qt/common/SoGuiBasic.h.in
-	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/SoQtBasic.h )
-
-SoAny.h: $(top_srcdir)/src/Inventor/Qt/common/SoAny.h.in
-	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/SoAny.h )
-
-SoAny.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoAny.cpp.in
-	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/SoAny.cpp )
-
-SoQtCursors.h: $(top_srcdir)/src/Inventor/Qt/common/SoGuiCursors.h.in
-	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/SoQtCursors.h )
-
-SoQtCursors.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoGuiCursors.cpp.in
-	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/SoQtCursors.cpp )
-
-SoQtObject.h: $(top_srcdir)/src/Inventor/Qt/common/SoGuiObject.h.in
-	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/SoQtObject.h )
-
-SoQtObject.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoGuiObject.cpp.in
-	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/SoQtObject.cpp )
-
-SoQt.h: $(top_srcdir)/src/Inventor/Qt/common/SoGui.h.in
-	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/SoQt.h )
-
-SoQtComponent.h: $(top_srcdir)/src/Inventor/Qt/common/SoGuiComponent.h.in
-	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/SoQtComponent.h )
-
-SoQtGLWidget.h: $(top_srcdir)/src/Inventor/Qt/common/SoGuiGLWidget.h.in
-	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/SoQtGLWidget.h )
-
-SoQtRenderArea.h: $(top_srcdir)/src/Inventor/Qt/common/SoGuiRenderArea.h.in
-	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/SoQtRenderArea.h )
-
-SoQtRenderArea.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoGuiRenderArea.cpp.in
-	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/SoQtRenderArea.cpp )
-
-############################################################################
-
-moc_SoQt.cpp: $(top_builddir)/src/Inventor/Qt/SoQt.h
-	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/moc_SoQt.cpp )
-
-moc_SoQtObject.cpp: $(top_builddir)/src/Inventor/Qt/SoQtObject.h
-	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/moc_SoQtObject.cpp )
-
-moc_SoQtComponent.cpp: $(top_builddir)/src/Inventor/Qt/SoQtComponent.h
-	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/moc_SoQtComponent.cpp )
-
-moc_SoQtGLWidget.cpp: $(top_builddir)/src/Inventor/Qt/SoQtGLWidget.h
-	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/moc_SoQtGLWidget.cpp )
-
-moc_SoQtLightSliderSet.cpp: $(top_srcdir)/src/Inventor/Qt/SoQtLightSliderSet.h
-	@( cd $(top_builddir); \
-	   $(MAKE) src/Inventor/Qt/moc_SoQtLightSliderSet.cpp )
-
-moc_SoQtMaterialSliderSet.cpp: \
-  $(top_srcdir)/src/Inventor/Qt/SoQtMaterialSliderSet.h
-	@( cd $(top_builddir); \
-	   $(MAKE) src/Inventor/Qt/moc_SoQtMaterialSliderSet.cpp )
-
-moc_SoQtRenderArea.cpp: $(top_builddir)/src/Inventor/Qt/SoQtRenderArea.h
-	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/moc_SoQtRenderArea.cpp )
-
-moc_SoQtSliderSet.cpp: $(top_srcdir)/src/Inventor/Qt/SoQtSliderSet.h
-	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/moc_SoQtSliderSet.cpp )
-
-moc_SoQtSliderSetBase.cpp: $(top_srcdir)/src/Inventor/Qt/SoQtSliderSetBase.h
-	@( cd $(top_builddir); \
-	   $(MAKE) src/Inventor/Qt/moc_SoQtSliderSetBase.cpp )
-
-moc_SoQtTransformSliderSet.cpp: \
-  $(top_srcdir)/src/Inventor/Qt/SoQtTransformSliderSet.h
-	@( cd $(top_builddir); \
-	   $(MAKE) src/Inventor/Qt/moc_SoQtTransformSliderSet.cpp )
-
-# **************************************************************************
-
 soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib: Makefile \
   $(soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) \
   $(soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_DEPENDENCIES)
@@ -231,7 +144,7 @@ soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib: Makefile \
 	    $(soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) \
 	    $(soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_LIBADD) $(LIBS);
 
-# **************************************************************************
+############################################################################
 
 install-exec-local:
 	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
