@@ -43,6 +43,7 @@
 #include <soqtdefs.h>
 #include <Inventor/Qt/SoQt.h>
 #include <Inventor/Qt/SoQtComponent.h>
+#include <Inventor/Qt/SoQtComponentP.h>
 #include <Inventor/Qt/SoQtGLWidget.h>
 #include <Inventor/Qt/SoQtRenderArea.h>
 #include <Inventor/Qt/viewers/SoQtViewer.h>
@@ -52,7 +53,6 @@
 #include <Inventor/Qt/viewers/SoQtConstrainedViewer.h>
 #include <Inventor/Qt/viewers/SoQtWalkViewer.h>
 #include <Inventor/Qt/viewers/SoQtFlyViewer.h>
-#include <Inventor/Qt/SoQtCursor.h>
 #include <Inventor/Qt/SoAny.h>
 
 // debug
@@ -64,59 +64,26 @@ static const char nullstring[] = "(null)";
 
 #ifndef DOXYGEN_SKIP_THIS // Skip internal class SoQtComponentP.
 
-// The private data for the SoQtComponent.
-
-class SoQtComponentP {
-public:
-  // Constructor.
-  SoQtComponentP(SoQtComponent * o) {
-    this->owner = o;
-
-    if (!SoQtComponentP::soqtcomplist)
-      SoQtComponentP::soqtcomplist = new SbPList;
-    SoQtComponentP::soqtcomplist->append((void *) this->owner);
-  }
-
-  // Destructor.
-  ~SoQtComponentP() {
-    if (SoQtComponentP::soqtcomplist->getLength() == 0) {
-      delete SoQtComponentP::soqtcomplist;
-      SoQtComponentP::soqtcomplist = NULL;
-    }
-  }
-
-  static QCursor * getNativeCursor(const SoQtCursor::CustomCursor * cc);
-
-  static void fatalerrorHandler(void * userdata);
-  void cleanupQtReferences(void);
-
-  // Variables.
-
-  QWidget * parent;
-  QWidget * widget;
-  SbBool embedded, shelled;
-  QString classname, widgetname, captiontext, icontext;
-  SoQtComponentCB * closeCB;
-  void * closeCBdata;
-  SbPList * visibilitychangeCBs;
-  SbBool realized;
-  SbVec2s storesize;
-  SbBool fullscreen;
-
-  // List of all SoQtComponent instances. Needed for the
-  // SoQtComponent::getComponent() function.
-  static SbPList * soqtcomplist;
-
-private:
-  SoQtComponent * owner;
-  static SbDict * cursordict;
-};
+// The private data and code for the SoQtComponent.
 
 SbPList * SoQtComponentP::soqtcomplist = NULL;
 SbDict * SoQtComponentP::cursordict = NULL;
 
-#define PRIVATE(o) (o->pimpl)
-#define PUBLIC(o) (o->owner)
+SoQtComponentP::SoQtComponentP(SoQtComponent * o)
+  : SoGuiComponentP(o)
+{
+  if (!SoQtComponentP::soqtcomplist)
+    SoQtComponentP::soqtcomplist = new SbPList;
+    SoQtComponentP::soqtcomplist->append((void *) o);
+}
+
+SoQtComponentP::~SoQtComponentP()
+{
+  if (SoQtComponentP::soqtcomplist->getLength() == 0) {
+    delete SoQtComponentP::soqtcomplist;
+    SoQtComponentP::soqtcomplist = NULL;
+  }
+}
 
 void
 SoQtComponentP::fatalerrorHandler(void * userdata)

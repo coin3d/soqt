@@ -97,6 +97,7 @@
 #include <Inventor/Qt/SoAny.h>
 #include <Inventor/Qt/SoQtBasic.h>
 #include <Inventor/Qt/SoQtGLWidget.h>
+#include <Inventor/Qt/SoQtGLWidgetP.h>
 #include <Inventor/Qt/widgets/SoQtGLArea.h>
 #include <Inventor/SbTime.h>
 #include <Inventor/errors/SoDebugError.h>
@@ -163,27 +164,13 @@ QGLFormat_eq(const QGLFormat & a, const QGLFormat & b)
 
 #ifndef DOXYGEN_SKIP_THIS
 
-// The private data for the SoQtGLWidget.
+// The private data and code for the SoQtGLWidget.
 
-class SoQtGLWidgetP {
-public:
-  SoQtGLWidgetP(void)
-    : borderthickness(0)
-  {
-  }
-
-  static void GLAreaKeyEvent(QKeyEvent * e, void * userdata);
-
-  SbVec2s glSize;
-  SbBool wasresized;
-
-  SoQtGLArea * currentglwidget;
-  SoQtGLArea * previousglwidget;
-  QWidget * glparent;
-  QFrame * borderwidget;
-  int borderthickness;
-  QGLFormat * glformat;
-};
+SoQtGLWidgetP::SoQtGLWidgetP(SoQtGLWidget * o)
+  : SoGuiGLWidgetP(o)
+{
+  this->borderthickness = 0;
+}
 
 // Gets called by the SoQtGLArea instance upon keyboard presses. These
 // are then forwarded to subclasses for handling.
@@ -220,7 +207,7 @@ SoQtGLWidget::SoQtGLWidget(QWidget * const parent,
     waitForExpose(TRUE),
     drawToFrontBuffer(FALSE)
 {
-  PRIVATE(this) = new SoQtGLWidgetP;
+  PRIVATE(this) = new SoQtGLWidgetP(this);
 
   PRIVATE(this)->glSize = SbVec2s(0, 0);
   PRIVATE(this)->wasresized = FALSE;
