@@ -146,6 +146,7 @@ SoQtExaminerViewer::constructor(
   this->rotatecursor = NULL;
   this->pancursor = NULL;
   this->zoomcursor = NULL;
+  this->cameratobblebutton = NULL;
 
   this->orthopixmap = new QPixmap((const char **)ortho_xpm);
   this->perspectivepixmap = new QPixmap((const char **)perspective_xpm);
