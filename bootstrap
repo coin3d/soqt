@@ -3,15 +3,16 @@
 # Regenerate all files which are constructed by the autoconf, automake
 # and libtool tool-chain.
 # Note: only developers should need to use this script.
-
+#
 # Authors:
 #   Lars J. Aas <larsa@sim.no>
 #   Morten Eriksen <mortene@sim.no>
 
-directory=`echo "$0" | sed -e 's/[^\/]*$//g'`;
-cd $directory
-if test ! -f ./autogen.sh; then
-  echo "unexpected problem with your shell - bailing out"
+wd=`echo "$0" | sed -e 's,[^/]*$,,g'`
+me=`echo "$0" | sed -e 's,.*/,,g'`
+cd $wd
+if test ! -f ./$me; then
+  echo >&2 "$me: error: unexpected problem with your shell - bailing out"
   exit 1
 fi
 
@@ -96,7 +97,9 @@ for project in $SUBPROJECTS; do
 done
 
 # abnormal exit?
-${DIE=false} && echo "" && exit 1
+${DIE=false} && echo "" && echo >&2 "$me: aborting..." && exit 1
+
+# **************************************************************************
 
 # generate aclocal.m4
 echo "Running aclocal..."
@@ -104,32 +107,13 @@ aclocal -I $MACRODIR
 
 # generate config.h.in
 echo "Running autoheader..."
-autoheader
+( autoheader 3>&1 1>&2 2>&3 | grep -v 'is unchanged$' ) 3>&1 1>&2 2>&3
 
 # generate Makefile.in templates
 echo "Running automake..."
-echo "[ignore any \"directory should not contain '/'\" warning]"
-automake
-
-
-fixmsg=0
-for bugfix in `find . -name Makefile.in.diff`; do
-  if test $fixmsg -eq 0; then
-    echo "[correcting automake problems]"
-    fixmsg=1
-  fi
-  patch -p0 < $bugfix
-done
+( automake 3>&1 1>&2 2>&3 | grep -v 'directory should not' ) 3>&1 1>&2 2>&3
 
 # generate configure
 echo "Running autoconf..."
 autoconf
 
-if test -f configure.diff; then
-  echo "[correcting autoconf problems]";
-  patch -p0 < configure.diff;
-fi
-
-echo "Done."
-
-# **************************************************************************
