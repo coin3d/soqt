@@ -74,6 +74,12 @@ EXTRA_DIST = \
 	test-code/README \
 	test-code/components/scrollview.cpp \
 	test-code/components/tripleview.cpp \
+	packaging/windows/Makefile.in \
+	packaging/windows/footer.nsi.in \
+	packaging/windows/heading.nsi.in \
+	packaging/windows/middle.nsi.in \
+	packaging/windows/post.nsi.in \
+	packaging/windows/soqt-sdk.html.in \
 	$(SoGuiCommonDistFiles)
 
 # Target which is present to make it simple to only generate all the source
