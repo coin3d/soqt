@@ -165,17 +165,34 @@ SbBool
 SoQtSpaceball::exists(void)
 {
 #ifdef HAVE_X11_AVAILABLE
+  // FIXME: this seems bogus. Shouldn't there be an actual check for
+  // the presence or non-presence of a spaceball? Also: is there any
+  // particular reason why we can't use the same check as in
+  // SoXtSpaceball::exists()? 20031118 mortene.
   return TRUE;
 #endif // HAVE_X11_AVAILABLE
 
-// FIXME: it takes a couple of seconds for SPW_SpaceBallExistsWin32()
-// to find out if we can obtain a handle to the spaceball, if a spaceball
-// is not present. I guess this is unacceptable. 20030826 frodo.
 #ifdef HAVE_WIN32_API
-   return FALSE;//SPW_SpaceBallExistsWin32();
+
+  // FIXME: it takes a couple of seconds for
+  // SPW_SpaceBallExistsWin32() to find out if we can obtain a handle
+  // to the spaceball, if a spaceball is not present. I guess this is
+  // unacceptable. 20030826 frodo.
+  //
+  // UPDATE 20031118 mortene: should rather investigate _why_ it takes
+  // a long time to check, and find out what can be done about
+  // it. This looks totally bogus. Also: why is the same check ok to
+  // use in SoWinSpaceball::exists()? 20031118 mortene.
+
+#if 0 // disabled
+  SPW_SpaceBallExistsWin32();
+#else
+  return FALSE;
+#endif
+
 #endif // HAVE_WIN32_API
 
-return FALSE;
+  return FALSE;
 }
 
 // *************************************************************************
