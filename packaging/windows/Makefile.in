@@ -18,12 +18,13 @@ Project = SoQt
 major = @SOQT_MAJOR_VERSION@
 
 sdk_prefix = /tmp/coin3d/$(project)
-top_srcdir = @top_srcdir@
+top_srcdir = @soqt_src_dir@
 
 # default c library option
 libc = md
 
-ALLCFLAGS = /noBool /WX 
+ALLCFLAGS = # /WX /noBool
+# Qt uses bool, so /noBool can't be used
 DBGCFLAGS = $(ALLCFLAGS) /GZ /Zi /Yd
 OPTCFLAGS = $(ALLCFLAGS) /Oitgb1 /Gs
 DLLCFLAGS = /GD
