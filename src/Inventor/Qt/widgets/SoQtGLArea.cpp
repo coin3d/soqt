@@ -27,7 +27,9 @@ static const char rcsid[] =
 // events.
 
 #include <assert.h>
+#if HAVE_CONFIG_H
 #include <config.h>
+#endif // HAVE_CONFIG_H
 
 #if SOQT_DEBUG
 #include <Inventor/errors/SoDebugError.h>
@@ -63,7 +65,10 @@ SoQtGLArea::SoQtGLArea(
   QGLFormat * const format,
   QWidget * const parent,
   const char * const name )
-: inherited( *format, parent, name, 0x0, WResizeNoErase )
+  // The 3rd argument is supposed to be the widget name, but when
+  // running on QGL v4.30 and Qt v2.1.0 application code will crash on
+  // exit under freak conditions -- see Bugzilla #264. 20001120 mortene.
+: inherited( *format, parent, NULL, 0x0, WResizeNoErase )
 {
 #if HAVE_QGLWIDGET_SETAUTOBUFFERSWAP
   // We'll handle the OpenGL buffer swapping ourselves, to support the
