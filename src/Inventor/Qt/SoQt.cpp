@@ -144,31 +144,6 @@ public:
 #endif // HAVE_X11_AVAILABLE
 };
 
-/*!
-  This method is provided for easier porting/compatibility with the
-  Open Inventor SoXt component classes. It just adds dummy \a argc and
-  \a argv arguments and calls the SoQt::init() method below.
-*/
-QWidget *
-SoQt::init(const char * const appName, const char * const className)
-{
-  if (appName) {
-    // QT will point into this buffer so make it static
-    static char buf[1025];
-    (void)strncpy(buf, appName, 1024);
-    char * array[1] = { buf };
-    // fake argc, argv for QApplication
-    int argc = 1;
-    return SoQt::init(argc, array, appName, className);
-  }
-  else {
-    int argc = 0;
-    return SoQt::init(argc, NULL, NULL, className);
-  }
-}
-
-
-
 // This is provided for convenience when debugging the library. Should
 // make it easier to find memory leaks.
 void
@@ -194,7 +169,7 @@ SoQtP::clean(void)
 */
 
 void
-SoQt::init(QWidget * const topLevelWidget)
+SoQt::internal_init(QWidget * toplevelwidget)
 {
   // This init()-method is called by the other 2 init()'s, so place
   // common code here.
@@ -211,7 +186,7 @@ SoQt::init(QWidget * const topLevelWidget)
   SoQtObject::init();
 
   SoDB::getSensorManager()->setChangedCallback(SoQt::sensorQueueChanged, NULL);
-  SoQtP::mainwidget = topLevelWidget;
+  SoQtP::mainwidget = toplevelwidget;
 
   if (SOQT_DEBUG) {
     int ret = atexit(SoQtP::clean);
@@ -231,9 +206,9 @@ SoQt::init(QWidget * const topLevelWidget)
 */
 
 QWidget *
-SoQt::init(int & argc, char ** argv,
-           const char * const appName,
-           const char * const className)
+SoQt::internal_init(int & argc, char ** argv,
+                    const char * appname,
+                    const char * classname)
 {
   if (SOQT_DEBUG && (SoQtP::appobject || SoQtP::mainwidget)) {
     SoDebugError::postWarning("SoQt::init",
@@ -242,18 +217,17 @@ SoQt::init(int & argc, char ** argv,
   }
 
   SoQtP::appobject = new SoQtApplication(argc, argv);
-  QWidget * mainw = new QWidget(NULL, className);
+  QWidget * mainw = new QWidget(NULL, classname);
   SoQt::init(mainw);
 
-  if (appName) { SoQtP::mainwidget->setCaption(appName); }
+  if (appname) { SoQtP::mainwidget->setCaption(appname); }
   SoQtP::appobject->setMainWidget(SoQtP::mainwidget);
   return SoQtP::mainwidget;
 }
 
 // documented in common/SoGuiObject.cpp.in
 void
-SoQtObject::init(// static
-  void)
+SoQtObject::init(void)
 {
   SoQtObject::initClass();
   SoQtDevice::initClasses();
