@@ -103,16 +103,12 @@ VERSION = @VERSION@
 WIDGET = @WIDGET@
 gui = @gui@
 install_sh = @install_sh@
-qt_version = @qt_version@
 sim_ac_coin_configcmd = @sim_ac_coin_configcmd@
 sim_ac_doxygen_exe = @sim_ac_doxygen_exe@
 sim_ac_perl_exe = @sim_ac_perl_exe@
-soqt_build_dir = @soqt_build_dir@
 soqt_configure_date = @soqt_configure_date@
-soqt_data_dir = @soqt_data_dir@
 soqt_dox_build_dir = @soqt_dox_build_dir@
 soqt_dox_src_dir = @soqt_dox_src_dir@
-soqt_src_dir = @soqt_src_dir@
 
 
 SUBDIRS = components widgets

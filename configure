@@ -6806,6 +6806,27 @@ EVENT="QEvent *"
 COMPONENTHEADER="Q_OBJECT"
 
 # **************************************************************************
+# Misc set-up.
+
+test x"$prefix" = x"NONE" && prefix="$ac_default_prefix"
+test x"$exec_prefix" = x"NONE" && exec_prefix="${prefix}"
+
+# This is the list of all install-path variables found in configure
+# scripts. FIXME: use another "eval-nesting" to move assignments into
+# a for-loop. 20000704 mortene.
+bindir="`eval echo $bindir`"
+sbindir="`eval echo $sbindir`"
+libexecdir="`eval echo $libexecdir`"
+datadir="`eval echo $datadir`"
+sysconfdir="`eval echo $sysconfdir`"
+sharedstatedir="`eval echo $sharedstatedir`"
+localstatedir="`eval echo $localstatedir`"
+libdir="`eval echo $libdir`"
+includedir="`eval echo $includedir`"
+infodir="`eval echo $infodir`"
+mandir="`eval echo $mandir`"
+
+# **************************************************************************
 # Section for Doxygen
 
 # Check whether --with-html or --without-html was given.
@@ -6837,17 +6858,8 @@ fi;
 SOQT_DOC_HTML=`echo $want_html | tr a-z A-Z`
 SOQT_DOC_MAN=`echo $want_man | tr a-z A-Z`
 
-soqt_build_dir=`pwd`
-cd $srcdir
-soqt_src_dir=`pwd`
-cd $soqt_build_dir
-soqt_data_dir=/usr/local/share/Coin
-test x"$exec_prefix" != xNONE && soqt_data_dir=$exec_prefix/share/Coin
-
 soqt_dox_build_dir=`pwd`
-cd $srcdir
-soqt_dox_src_dir=`pwd`
-cd $soqt_dox_build_dir
+soqt_dox_src_dir=`cd $srcdir; pwd`
 
 if test x"$want_html" != xno -o x"$want_man" != xno; then
 
@@ -6869,7 +6881,7 @@ if test x"$with_doxygen" != xno; then
 
   # Extract the first word of "doxygen", so it can be a program name with args.
 set dummy doxygen; ac_word=$2
-echo "$as_me:6872: checking for $ac_word" >&5
+echo "$as_me:6884: checking for $ac_word" >&5
 echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
 if test "${ac_cv_path_sim_ac_doxygen_exe+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
@@ -6897,10 +6909,10 @@ fi
 sim_ac_doxygen_exe=$ac_cv_path_sim_ac_doxygen_exe
 
 if test -n "$sim_ac_doxygen_exe"; then
-  echo "$as_me:6900: result: $sim_ac_doxygen_exe" >&5
+  echo "$as_me:6912: result: $sim_ac_doxygen_exe" >&5
 echo "${ECHO_T}$sim_ac_doxygen_exe" >&6
 else
-  echo "$as_me:6903: result: no" >&5
+  echo "$as_me:6915: result: no" >&5
 echo "${ECHO_T}no" >&6
 fi
 
@@ -6916,13 +6928,13 @@ fi
 
   sim_ac_doxygen_our_version=1.1.5
   if test x"$sim_ac_doxygen_avail" != x"$sim_ac_doxygen_our_version"; then
-    { echo "$as_me:6919: WARNING: You are not using Doxygen version $sim_ac_doxygen_our_version" >&5
+    { echo "$as_me:6931: WARNING: You are not using Doxygen version $sim_ac_doxygen_our_version" >&5
 echo "$as_me: warning: You are not using Doxygen version $sim_ac_doxygen_our_version" >&2; }
   fi
 
   # Extract the first word of "perl", so it can be a program name with args.
 set dummy perl; ac_word=$2
-echo "$as_me:6925: checking for $ac_word" >&5
+echo "$as_me:6937: checking for $ac_word" >&5
 echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
 if test "${ac_cv_path_sim_ac_perl_exe+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
@@ -6950,40 +6962,19 @@ fi
 sim_ac_perl_exe=$ac_cv_path_sim_ac_perl_exe
 
 if test -n "$sim_ac_perl_exe"; then
-  echo "$as_me:6953: result: $sim_ac_perl_exe" >&5
+  echo "$as_me:6965: result: $sim_ac_perl_exe" >&5
 echo "${ECHO_T}$sim_ac_perl_exe" >&6
 else
-  echo "$as_me:6956: result: no" >&5
+  echo "$as_me:6968: result: no" >&5
 echo "${ECHO_T}no" >&6
 fi
 
   if test x"$sim_ac_perl_exe" = xfalse; then
-    { echo "$as_me:6961: WARNING: Could not find the Perl executable" >&5
+    { echo "$as_me:6973: WARNING: Could not find the Perl executable" >&5
 echo "$as_me: warning: Could not find the Perl executable" >&2; }
   fi
 
 fi
-
-# **************************************************************************
-# Misc set-up.
-
-test x"$prefix" = x"NONE" && prefix="$ac_default_prefix"
-test x"$exec_prefix" = x"NONE" && exec_prefix="${prefix}"
-
-# This is the list of all install-path variables found in configure
-# scripts. FIXME: use another "eval-nesting" to move assignments into
-# a for-loop. 20000704 mortene.
-bindir="`eval echo $bindir`"
-sbindir="`eval echo $sbindir`"
-libexecdir="`eval echo $libexecdir`"
-datadir="`eval echo $datadir`"
-sysconfdir="`eval echo $sysconfdir`"
-sharedstatedir="`eval echo $sharedstatedir`"
-localstatedir="`eval echo $localstatedir`"
-libdir="`eval echo $libdir`"
-includedir="`eval echo $includedir`"
-infodir="`eval echo $infodir`"
-mandir="`eval echo $mandir`"
 
 # **************************************************************************
 # Remove redundant options from certain option lists.
@@ -7214,7 +7205,7 @@ sed '/^$/d;s/^/| /' confdefs.h >&5
 : ${CONFIG_STATUS=./config.status}
 ac_clean_files_save=$ac_clean_files
 ac_clean_files="$ac_clean_files $CONFIG_STATUS"
-{ echo "$as_me:7217: creating $CONFIG_STATUS" >&5
+{ echo "$as_me:7208: creating $CONFIG_STATUS" >&5
 echo "creating $CONFIG_STATUS" >&6;}
 cat >$CONFIG_STATUS <<\_ACEOF
 #! /bin/sh
@@ -7576,7 +7567,6 @@ s,@X_LIBS@,$X_LIBS,;t t
 s,@X_EXTRA_LIBS@,$X_EXTRA_LIBS,;t t
 s,@sim_ac_coin_configcmd@,$sim_ac_coin_configcmd,;t t
 s,@MOC@,$MOC,;t t
-s,@qt_version@,$qt_version,;t t
 s,@HAVE_JOYSTICK_LINUX_TRUE@,$HAVE_JOYSTICK_LINUX_TRUE,;t t
 s,@HAVE_JOYSTICK_LINUX_FALSE@,$HAVE_JOYSTICK_LINUX_FALSE,;t t
 s,@BUILD_TESTS_TRUE@,$BUILD_TESTS_TRUE,;t t
@@ -7589,9 +7579,6 @@ s,@EVENT@,$EVENT,;t t
 s,@COMPONENTHEADER@,$COMPONENTHEADER,;t t
 s,@SOQT_DOC_HTML@,$SOQT_DOC_HTML,;t t
 s,@SOQT_DOC_MAN@,$SOQT_DOC_MAN,;t t
-s,@soqt_src_dir@,$soqt_src_dir,;t t
-s,@soqt_build_dir@,$soqt_build_dir,;t t
-s,@soqt_data_dir@,$soqt_data_dir,;t t
 s,@soqt_dox_src_dir@,$soqt_dox_src_dir,;t t
 s,@soqt_dox_build_dir@,$soqt_dox_build_dir,;t t
 s,@sim_ac_doxygen_exe@,$sim_ac_doxygen_exe,;t t
@@ -7703,7 +7690,7 @@ done; }
   esac
 
   if test x"$ac_file" != x-; then
-    { echo "$as_me:7706: creating $ac_file" >&5
+    { echo "$as_me:7693: creating $ac_file" >&5
 echo "creating $ac_file" >&6;}
     rm -f "$ac_file"
   fi
@@ -7796,7 +7783,7 @@ for ac_file in : $CONFIG_HEADERS; do test "x$ac_file" = x: && continue
   * )   ac_file_in=$ac_file.in ;;
   esac
 
-  test x"$ac_file" != x- && { echo "$as_me:7799: creating $ac_file" >&5
+  test x"$ac_file" != x- && { echo "$as_me:7786: creating $ac_file" >&5
 echo "creating $ac_file" >&6;}
 
   # First look for the input files in the build tree, otherwise in the
@@ -7936,7 +7923,7 @@ cat >>$CONFIG_STATUS <<\EOF
   rm -f $tmp/in
   if test x"$ac_file" != x-; then
     if cmp -s $ac_file $tmp/config.h 2>/dev/null; then
-      { echo "$as_me:7939: $ac_file is unchanged" >&5
+      { echo "$as_me:7926: $ac_file is unchanged" >&5
 echo "$ac_file is unchanged" >&6;}
     else
       ac_dir=`expr X"$ac_file" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
@@ -8076,7 +8063,7 @@ if test "$no_recursion" != yes; then
     # parts of a large source tree are present.
     test -d $srcdir/$ac_subdir || continue
 
-    { echo "$as_me:8079: configuring in $ac_subdir" >&5
+    { echo "$as_me:8066: configuring in $ac_subdir" >&5
 echo "configuring in $ac_subdir" >&6;}
     case $srcdir in
     .) ;;
@@ -8122,7 +8109,7 @@ done; }
     elif test -f $ac_sub_srcdir/configure.in; then
       ac_sub_configure=$ac_configure
     else
-      { echo "$as_me:8125: WARNING: no configuration information is in $ac_subdir" >&5
+      { echo "$as_me:8112: WARNING: no configuration information is in $ac_subdir" >&5
 echo "$as_me: warning: no configuration information is in $ac_subdir" >&2; }
       ac_sub_configure=
     fi
@@ -8140,7 +8127,7 @@ echo "$as_me: warning: no configuration information is in $ac_subdir" >&2; }
         *) INSTALL=$ac_dots$ac_given_INSTALL ;;
       esac
 
-      { echo "$as_me:8143: running $ac_sub_configure $ac_sub_configure_args --cache-file=$ac_sub_cache_file --srcdir=$ac_sub_srcdir" >&5
+      { echo "$as_me:8130: running $ac_sub_configure $ac_sub_configure_args --cache-file=$ac_sub_cache_file --srcdir=$ac_sub_srcdir" >&5
 echo "running $ac_sub_configure $ac_sub_configure_args --cache-file=$ac_sub_cache_file --srcdir=$ac_sub_srcdir" >&6;}
       # The eval makes quoting arguments work.
       if eval $ac_sub_configure $ac_sub_configure_args --cache-file=$ac_sub_cache_file --srcdir=$ac_sub_srcdir
