@@ -59,8 +59,8 @@ SoQtGradientDialog::SoQtGradientDialog(Gradient * grad,
   buttonLayout->addWidget(saveButton, 0, 1);
 
   this->gradientList = new QComboBox(this, "gradientList");
-  this->gradientList->insertItem(this->makePixmap(grad), "description");
-  this->gradients.append(grad);
+  if (grad)
+    this->addGradient(grad);
   this->gradientList->hide();
 
   buttonLayout->addWidget(gradientList, 0, 1);
@@ -112,12 +112,12 @@ const Gradient & SoQtGradientDialog::getGradient() const
   return this->gradEdit->getGradient();
 }
 
-void SoQtGradientDialog::setMin(int min) const
+void SoQtGradientDialog::setMin(int min)
 {
   this->gradEdit->setMin(min);
 }
 
-void SoQtGradientDialog::setMax(int max) const
+void SoQtGradientDialog::setMax(int max)
 {
   this->gradEdit->setMax(max);
 }
