@@ -769,3 +769,467 @@ else
   $1_FALSE=
 fi])
 
+dnl  Set up necessary compiler and linker flags and options for
+dnl  compiling against either Open Inventor or Coin. Exit configure
+dnl  if the wanted library can't be found or used.
+dnl
+dnl  Author: Morten Eriksen, <mortene@sim.no>.
+dnl
+dnl  TODO:
+dnl
+dnl    * [mortene:19991114] this macro could be useful for others -- submit
+dnl      to autoconf macro archive?
+dnl
+dnl    * [mortene:19991114] make macro work under MSWindows with Cygwin.
+dnl
+dnl    * [mortene:19991114] should have AC_REQUIREs on detection of the
+dnl      OpenGL and GLU libraries.
+dnl
+
+AC_DEFUN(SIM_INCLUDE_INVENTOR_LIB,
+[
+dnl Autoconf is a developer tool, so don't bother to support older versions.
+AC_PREREQ([2.13])
+
+dnl FIXME: this won't work under MSWindows. 19991114 mortene.
+AC_REQUIRE([AC_PATH_XTRA])
+
+dnl Inventor and Coin are C++ libraries.
+AC_REQUIRE([AC_PROG_CXX])
+AC_LANG_SAVE
+AC_LANG_CPLUSPLUS
+
+dnl *******************************************************************
+dnl * Check if we want to build on top of Open Inventor (if available).
+dnl *******************************************************************
+
+AC_ARG_WITH(inventor,
+  [  --with-inventor         build on top of Open Inventor (if found) instead of Coin [default=no]],
+  [case "${withval}" in
+    yes) want_inventor=yes ;;
+    no)  want_inventor=no ;;
+    *) AC_MSG_ERROR(bad value \"${withval}\" for --with-inventor) ;;
+  esac],
+  [want_inventor=no])
+
+dnl *******************************************************************
+dnl * Check if Open Inventor development system is installed (if necessary).
+dnl *******************************************************************
+
+if test "x$want_inventor" = "xyes"; then
+  AC_MSG_CHECKING(value of the OIVHOME environment variable)
+  if test "x$OIVHOME" = "x"; then
+    AC_MSG_RESULT(empty!)
+    AC_MSG_WARN(OIVHOME environment variable not set -- this might be an indication of a problem)
+  else
+    AC_MSG_RESULT($OIVHOME)
+    CXXFLAGS="$CXXFLAGS -I$OIVHOME/include"
+    LDFLAGS="$LDFLAGS -L$OIVHOME/lib"
+  fi
+
+  AC_MSG_CHECKING(for Open Inventor header files)
+  AC_TRY_COMPILE([#include <Inventor/SbBasic.h>], [], inventor_dev=yes, inventor_dev=no)
+  AC_MSG_RESULT($inventor_dev)
+  if test "x$inventor_dev" = "xno"; then
+    AC_MSG_ERROR(could not find the Open Inventor include files -- we need them to build!)
+  fi
+
+  dnl FIXME: do an AC_CHECK_LIB on libimage before
+  dnl libInventor. 19991114 mortene.
+
+  inventortest_save_LIBS=$LIBS
+  AC_CHECK_LIB(Inventor, main, , inventor_dev=no, -limage -lMesaGLU -lMesaGL $X_LIBS $X_PRE_LIBS -lX11 $X_EXTRA_LIBS -lXext -ldl)
+  if test "x$inventor_dev" = "xno"; then
+    AC_MSG_ERROR(libInventor development system not found -- can't build on top of Open Inventor!)
+  fi
+  LIBS=$inventortest_save_LIBS
+
+  dnl FIXME: "ugly hack"-alert! Should really clean this up. 19991107 mortene.
+  LIBS="$LIBS -lInventor -limage -lMesaGLU -lMesaGL $X_LIBS $X_PRE_LIBS -lX11 $X_EXTRA_LIBS -lXmu -lXext -ldl"
+
+else
+
+  dnl *******************************************************************
+  dnl * Check if libCoin is installed.
+  dnl *******************************************************************
+  
+  AC_MSG_CHECKING(for Coin header files)
+
+  dnl First try standard system locations.
+  AC_TRY_CPP([#include <Inventor/SbBasic.h>], coin_dev=yes, coin_dev=no)
+
+  dnl Not found in any of the standard system locations, try
+  dnl installation directory.
+  if test "x$coin_dev" = "xno"; then
+    _PREFIX=$prefix
+    test "x$_PREFIX" = xNONE && _PREFIX=$ac_default_prefix
+    _EPREFIX=$exec_prefix
+    test "x$_EPREFIX" = xNONE && _EPREFIX=$_PREFIX
+    _SAVECPPFLAGS=$CPPFLAGS
+    CPPFLAGS="-I$_PREFIX/include $CPPFLAGS"
+    AC_TRY_CPP([#include <Inventor/SbBasic.h>], coin_dev=yes, coin_dev=no)
+    CPPFLAGS=$_SAVECPPFLAGS
+    if test "x$coin_dev" = "xyes"; then
+      CPPFLAGS="-I$_PREFIX/include $CPPFLAGS"
+      LDFLAGS="-L$_EPREFIX/lib $LDFLAGS"
+    fi
+  fi
+
+  AC_MSG_RESULT($coin_dev)
+
+  if test "x$coin_dev" = "xyes"; then
+    dnl FIXME: this doesn't work, as the AC_CHECK_LIB only can check against
+    dnl functions in a C library. Add a new macro AC_CHECK_CXXLIB? Ask on the
+    dnl autoconf list. 19990918 mortene.
+    dnl AC_CHECK_LIB(Coin, SoDB::init, , coin_dev=no)
+    AC_CHECK_LIB(Coin, main, , coin_dev=no)
+  fi
+  if test "x$coin_dev" = "xno"; then
+    AC_MSG_ERROR(libCoin development system not found)
+  fi
+
+  dnl FIXME: "ugly hack"-alert! Should really clean this up. 19991107 mortene.
+  LIBS="$LIBS $X_LIBS -lXmu"
+fi
+
+
+AC_LANG_RESTORE
+])
+
+dnl  Check that the Qt installation looks ok and include the
+dnl  necessary paths and link libraries. Exit configure if Qt
+dnl  can't be found or used. Ditto for the QGL detection macro.
+dnl
+dnl  Author: Morten Eriksen, <mortene@sim.no>.
+dnl
+dnl  TODO:
+dnl
+dnl    * [mortene:19991114] these macros could be useful for others -- submit
+dnl      to autoconf macro archive?
+dnl
+dnl    * [mortene:19991114] make macros work under MSWindows with Cygwin.
+dnl
+dnl    * [mortene:19991114] search for other Qt detection macros, in KDE
+dnl      for instance, and see if our macros can be improved (or
+dnl      substituted?).
+dnl
+
+AC_DEFUN(SIM_INCLUDE_QT_LIB,
+[
+dnl Autoconf is a developer tool, so don't bother to support older versions.
+AC_PREREQ([2.13])
+
+dnl FIXME: this won't work under MSWindows. 19991114 mortene.
+AC_REQUIRE([AC_PATH_XTRA])
+
+dnl Qt is a C++ library.
+AC_REQUIRE([AC_PROG_CXX])
+AC_LANG_SAVE
+AC_LANG_CPLUSPLUS
+
+dnl *** warn if QTDIR has not been set ***
+
+AC_MSG_CHECKING(value of the QTDIR environment variable)
+if test "x$QTDIR" = "x"; then
+  AC_MSG_RESULT(empty!)
+  AC_MSG_WARN(QTDIR environment variable not set -- this might be an indication of a problem)
+else
+  AC_MSG_RESULT($QTDIR)
+  CXXFLAGS="$CXXFLAGS -I$QTDIR/include"
+  LDFLAGS="$LDFLAGS -L$QTDIR/lib"
+fi
+
+dnl *** moc ***
+
+if test "x$QTDIR" != "x"; then
+  AC_PATH_PROG(MOC, moc, , $QTDIR/bin:$PATH)
+else
+  AC_PATH_PROG(MOC, moc)
+fi
+
+if test "x$MOC" = "x"; then
+  AC_MSG_ERROR(could not find the moc tool -- we need a complete Qt installation to build!)
+fi
+
+dnl *** find Qt header files ***
+
+AC_MSG_CHECKING(for Qt header files)
+AC_TRY_COMPILE([#include <qapplication.h>], [], qt_dev=yes, qt_dev=no)
+AC_MSG_RESULT($qt_dev)
+if test "x$qt_dev" = "xno"; then
+  AC_MSG_ERROR(could not find the Qt include files -- we need a complete Qt installation to build!)
+fi
+
+dnl *** find Qt link library ***
+
+dnl FIXME: this doesn't work, as the AC_CHECK_LIB only can check against
+dnl functions in a C library. Add a new macro AC_CHECK_CXXLIB? Ask on the
+dnl autoconf list. 19990918 mortene.
+dnl AC_CHECK_LIB(qt, qVersion, , AC_MSG_ERROR(could not find the Qt library!), $X_LIBS $X_PRE_LIBS -lX11 $X_EXTRA_LIBS)
+AC_CHECK_LIB(qt, main, , AC_MSG_ERROR(could not find the Qt library!), $X_LIBS $X_PRE_LIBS -lX11 $X_EXTRA_LIBS)
+
+AC_LANG_RESTORE
+])
+
+
+dnl *************************************************************************
+
+
+AC_DEFUN(SIM_INCLUDE_QGL_LIB,
+[
+dnl Autoconf is a developer tool, so don't bother to support older versions.
+AC_PREREQ([2.13])
+
+AC_REQUIRE([SIM_INCLUDE_QT_LIB])
+
+AC_LANG_SAVE
+AC_LANG_CPLUSPLUS
+
+dnl *** find QGL extension, header file ***
+
+AC_MSG_CHECKING(for QGL header files)
+AC_TRY_COMPILE([#include <qgl.h>], [], qgl_dev=yes, qgl_dev=no)
+AC_MSG_RESULT($qgl_dev)
+if test "x$qgl_dev" = "xno"; then
+  AC_MSG_ERROR(could not find the QGL include file -- you must compile and install the QGLWidget library found in \$QTDIR/extensions/opengl to build!)
+fi
+
+dnl *** find QGL extension, link library ***
+
+dnl FIXME: this doesn't work, as the AC_CHECK_LIB only can check against
+dnl functions in a C library. Add a new macro AC_CHECK_CXXLIB? Ask on the
+dnl autoconf list. 19990918 mortene.
+dnl AC_CHECK_LIB(qgl, qGLVersion, , AC_MSG_ERROR(could not find the QGL library!))
+AC_CHECK_LIB(qgl, main, , AC_MSG_ERROR(could not find the QGL library!))
+
+AC_LANG_RESTORE
+])
+
+dnl  Let the user decide if compilation should be done in "debug mode".
+dnl  If compilation is not done in debug mode, all assert()'s in the code
+dnl  will be disabled.
+dnl
+dnl  Also sets enable_debug variable to either "yes" or "no", so the
+dnl  configure.in writer can add package-specific actions. Default is "yes".
+dnl
+dnl  Note: this macro must be placed after either AC_PROG_CC or AC_PROG_CXX
+dnl  in the configure.in script.
+dnl
+dnl  Author: Morten Eriksen, <mortene@sim.no>.
+dnl
+
+AC_DEFUN(SIM_COMPILE_DEBUG,
+[
+dnl Autoconf is a developer tool, so don't bother to support older versions.
+AC_PREREQ([2.13])
+AC_ARG_ENABLE(debug,
+  [  --enable-debug          compile in debug mode [default=yes]],
+  [case "${enableval}" in
+    yes) enable_debug=yes ;;
+    no)  enable_debug=no ;;
+    *) AC_MSG_ERROR(bad value \"${enableval}\" for --enable-debug) ;;
+  esac],
+  enable_debug=yes)
+
+if test "x$enable_debug" = "xno"; then
+  CFLAGS="$CFLAGS -DNDEBUG"
+  CXXFLAGS="$CXXFLAGS -DNDEBUG"
+fi
+])
+
+dnl  Let the user decide if debug symbol information should be compiled
+dnl  in. The compiled libraries/executables will use a lot less space
+dnl  if stripped for their symbol information.
+dnl
+dnl  Note: this macro must be placed after either AC_PROG_CC or AC_PROG_CXX
+dnl  in the configure.in script.
+dnl
+dnl  Author: Morten Eriksen, <mortene@sim.no>.
+dnl
+dnl  TODO:
+dnl    * [mortene:19991114] make this work with compilers other than gcc/g++
+dnl
+
+AC_DEFUN(SIM_DEBUGSYMBOLS,
+[
+dnl Autoconf is a developer tool, so don't bother to support older versions.
+AC_PREREQ([2.13])
+AC_ARG_ENABLE(symbols,
+  [  --enable-symbols        (GCC only) include symbol debug information
+                          [default=yes]],
+  [case "${enableval}" in
+    yes) enable_symbols=yes ;;
+    no)  enable_symbols=no ;;
+    *) AC_MSG_ERROR(bad value \"${enableval}\" for --enable-symbols) ;;
+  esac],
+  enable_symbols=yes)
+
+if test "x$enable_symbols" = "xno"; then
+  if test "x$GXX" = "xyes" || "x$GCC" = "xyes"; then
+    CFLAGS="`echo $CFLAGS | sed 's/-g//'`"
+    CXXFLAGS="`echo $CXXFLAGS | sed 's/-g//'`"
+  else
+    AC_MSG_WARN(--disable-symbols only has effect when using GNU gcc or g++)
+  fi
+fi
+])
+
+dnl  Let the user decide if RTTI should be compiled in. The compiled
+dnl  libraries/executables will use a lot less space if they don't
+dnl  contain RTTI.
+dnl
+dnl  Note: this macro must be placed after AC_PROG_CXX in the
+dnl  configure.in script.
+dnl
+dnl  Author: Morten Eriksen, <mortene@sim.no>.
+dnl
+dnl  TODO:
+dnl    * [mortene:19991114] make this work with compilers other than gcc/g++
+dnl
+
+AC_DEFUN(SIM_RTTI_SUPPORT,
+[
+dnl Autoconf is a developer tool, so don't bother to support older versions.
+AC_PREREQ([2.13])
+AC_ARG_ENABLE(rtti,
+  [  --enable-rtti           (g++ only) compile with RTTI [default=no]],
+  [case "${enableval}" in
+    yes) enable_rtti=yes ;;
+    no)  enable_rtti=no ;;
+    *) AC_MSG_ERROR(bad value \"${enableval}\" for --enable-rtti) ;;
+  esac],
+  enable_rtti=no)
+
+if test "x$enable_rtti" = "xno"; then
+  if test "x$GXX" = "xyes"; then
+    CXXFLAGS="$CXXFLAGS -fno-rtti"
+  fi
+else
+  if test "x$GXX" != "xyes"; then
+    AC_MSG_WARN(--enable-rtti only has effect when using GNU g++)
+  fi
+fi
+])
+
+dnl  Let the user decide if C++ exception handling should be compiled
+dnl  in. The compiled libraries/executables will use a lot less space
+dnl  if they have exception handling support.
+dnl
+dnl  Note: this macro must be placed after AC_PROG_CXX in the
+dnl  configure.in script.
+dnl
+dnl  Author: Morten Eriksen, <mortene@sim.no>.
+dnl
+dnl  TODO:
+dnl    * [mortene:19991114] make this work with compilers other than gcc/g++
+dnl    * [mortene:19991114] handle g++ versions < 2.8 (see FIXME below)
+dnl
+
+AC_DEFUN(SIM_EXCEPTION_HANDLING,
+[
+dnl Autoconf is a developer tool, so don't bother to support older versions.
+AC_PREREQ([2.13])
+AC_ARG_ENABLE(exceptions,
+  [  --enable-exceptions     (g++ only) compile with exceptions [default=no]],
+  [case "${enableval}" in
+    yes) enable_exceptions=yes ;;
+    no)  enable_exceptions=no ;;
+    *) AC_MSG_ERROR(bad value \"${enableval}\" for --enable-exceptions) ;;
+  esac],
+  enable_exceptions=no)
+
+if test "x$enable_exceptions" = "xno"; then
+  if test "x$GXX" = "xyes"; then
+    dnl FIXME: this option was called "-fno-handle-exceptions" before g++ 2.8.
+    dnl Should check for that. 19990924 mortene.
+    CXXFLAGS="$CXXFLAGS -fno-exceptions"
+  fi
+else
+  if test "x$GXX" != "xyes"; then
+    AC_MSG_WARN(--enable-exceptions only has effect when using GNU g++)
+  fi
+fi
+])
+
+dnl  Let the user decide if profiling code should be compiled
+dnl  in. The compiled libraries/executables will use a lot less space
+dnl  if they don't contain profiling code information, and they will also
+dnl  execute faster.
+dnl
+dnl  Note: this macro must be placed after either AC_PROG_CC or AC_PROG_CXX
+dnl  in the configure.in script.
+dnl
+dnl  Author: Morten Eriksen, <mortene@sim.no>.
+dnl
+dnl  TODO:
+dnl    * [mortene:19991114] make this work with compilers other than gcc/g++
+dnl
+
+AC_DEFUN(SIM_PROFILING_SUPPORT,
+[
+dnl Autoconf is a developer tool, so don't bother to support older versions.
+AC_PREREQ([2.13])
+AC_ARG_ENABLE(profile,
+  [  --enable-profile        (GCC only) turn on inclusion of profiling code
+                          [default=no]],
+  [case "${enableval}" in
+    yes) enable_profile=yes ;;
+    no)  enable_profile=no ;;
+    *) AC_MSG_ERROR(bad value \"${enableval}\" for --enable-profile) ;;
+  esac],
+  enable_profile=no)
+
+if test "x$enable_profile" = "xyes"; then
+  if test "x$GXX" = "xyes" || test "x$GCC" = "xyes"; then
+    CFLAGS="$CFLAGS -pg"
+    CXXFLAGS="$CXXFLAGS -pg"
+    LDFLAGS="$LDFLAGS -pg"
+  else
+    AC_MSG_WARN(--enable-profile only has effect when using GNU gcc or g++)
+  fi
+fi
+])
+
+dnl  Let the user decide if compilation should be done with all compiler
+dnl  warnings turned on.
+dnl
+dnl  Note: this macro must be placed after either AC_PROG_CC or AC_PROG_CXX
+dnl  in the configure.in script.
+dnl
+dnl  Author: Morten Eriksen, <mortene@sim.no>.
+dnl
+dnl  TODO:
+dnl    * [mortene:19991114] make this work with compilers other than gcc/g++
+dnl    * [mortene:19991114] find out how to get GCC's
+dnl      -Werror-implicit-function-declaration option to work as expected
+dnl
+
+AC_DEFUN(SIM_COMPILER_WARNINGS,
+[
+dnl Autoconf is a developer tool, so don't bother to support older versions.
+AC_PREREQ([2.13])
+AC_ARG_ENABLE(warnings,
+  [  --enable-warnings       (GCC only) turn on warnings when compiling
+                          [default=yes]],
+  [case "${enableval}" in
+    yes) enable_warnings=yes ;;
+    no)  enable_warnings=no ;;
+    *) AC_MSG_ERROR(bad value \"${enableval}\" for --enable-warnings) ;;
+  esac],
+  enable_warnings=yes)
+
+if test "x$enable_warnings" = "xyes"; then
+  if test "x$GXX" = "xyes" || test "x$GCC" = "xyes"; then
+dnl FIXME: -Werror-implicit-function-declaration doesn't seem to work
+dnl under egcs-1.0.2, so we need to check for availability. 19991106 mortene.
+dnl    CXXFLAGS="$CXXFLAGS -W -Wall -Werror-implicit-function-declaration"
+    CFLAGS="$CFLAGS -W -Wall"
+    CXXFLAGS="$CXXFLAGS -W -Wall"
+  fi
+else
+  if test "x$GXX" != "xyes"; then
+    AC_MSG_WARN(--enable-warnings only has effect when using GNU gcc or g++)
+  fi
+fi
+])
+

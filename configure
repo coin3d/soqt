@@ -29,19 +29,19 @@ ac_help="$ac_help
 ac_help="$ac_help
   --with-inventor         build on top of Open Inventor (if found) instead of Coin [default=no]"
 ac_help="$ac_help
-  --enable-debug          turn on SoQt debugging [default=yes]"
+  --enable-debug          compile in debug mode [default=yes]"
 ac_help="$ac_help
-  --enable-symbols        (g++ only) turn on symbol debug information
+  --enable-symbols        (GCC only) include symbol debug information
                           [default=yes]"
 ac_help="$ac_help
   --enable-rtti           (g++ only) compile with RTTI [default=no]"
 ac_help="$ac_help
   --enable-exceptions     (g++ only) compile with exceptions [default=no]"
 ac_help="$ac_help
-  --enable-profile        (g++ only) turn on inclusion of profiling code
+  --enable-profile        (GCC only) turn on inclusion of profiling code
                           [default=no]"
 ac_help="$ac_help
-  --enable-warnings       (g++ only) turn on warnings when compiling
+  --enable-warnings       (GCC only) turn on warnings when compiling
                           [default=yes]"
 
 # Initialize some variables set by options.
@@ -2970,6 +2970,21 @@ fi
 
 
 
+
+
+
+
+
+
+ac_ext=C
+# CXXFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='${CXX-g++} -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext 1>&5'
+ac_link='${CXX-g++} -o conftest${ac_exeext} $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS 1>&5'
+cross_compiling=$ac_cv_prog_cxx_cross
+
+
+
 # Check whether --with-inventor or --without-inventor was given.
 if test "${with_inventor+set}" = set; then
   withval="$with_inventor"
@@ -2986,7 +3001,7 @@ fi
 
 if test "x$want_inventor" = "xyes"; then
   echo $ac_n "checking value of the OIVHOME environment variable""... $ac_c" 1>&6
-echo "configure:2990: checking value of the OIVHOME environment variable" >&5
+echo "configure:3005: checking value of the OIVHOME environment variable" >&5
   if test "x$OIVHOME" = "x"; then
     echo "$ac_t""empty!" 1>&6
     echo "configure: warning: OIVHOME environment variable not set -- this might be an indication of a problem" 1>&2
@@ -2997,16 +3012,16 @@ echo "configure:2990: checking value of the OIVHOME environment variable" >&5
   fi
 
   echo $ac_n "checking for Open Inventor header files""... $ac_c" 1>&6
-echo "configure:3001: checking for Open Inventor header files" >&5
+echo "configure:3016: checking for Open Inventor header files" >&5
   cat > conftest.$ac_ext <<EOF
-#line 3003 "configure"
+#line 3018 "configure"
 #include "confdefs.h"
 #include <Inventor/SbBasic.h>
 int main() {
 
 ; return 0; }
 EOF
-if { (eval echo configure:3010: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:3025: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
   inventor_dev=yes
 else
@@ -3018,12 +3033,13 @@ fi
 rm -f conftest*
   echo "$ac_t""$inventor_dev" 1>&6
   if test "x$inventor_dev" = "xno"; then
-    { echo "configure: error: could not find the Open Inventor include files -- we need them to build SoQt!" 1>&2; exit 1; }
+    { echo "configure: error: could not find the Open Inventor include files -- we need them to build!" 1>&2; exit 1; }
   fi
 
+    
   inventortest_save_LIBS=$LIBS
   echo $ac_n "checking for main in -lInventor""... $ac_c" 1>&6
-echo "configure:3027: checking for main in -lInventor" >&5
+echo "configure:3043: checking for main in -lInventor" >&5
 ac_lib_var=`echo Inventor'_'main | sed 'y%./+-%__p_%'`
 if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
@@ -3031,14 +3047,14 @@ else
   ac_save_LIBS="$LIBS"
 LIBS="-lInventor -limage -lMesaGLU -lMesaGL $X_LIBS $X_PRE_LIBS -lX11 $X_EXTRA_LIBS -lXext -ldl $LIBS"
 cat > conftest.$ac_ext <<EOF
-#line 3035 "configure"
+#line 3051 "configure"
 #include "confdefs.h"
 
 int main() {
 main()
 ; return 0; }
 EOF
-if { (eval echo configure:3042: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:3058: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   eval "ac_cv_lib_$ac_lib_var=yes"
 else
@@ -3070,18 +3086,22 @@ fi
     { echo "configure: error: libInventor development system not found -- can't build on top of Open Inventor!" 1>&2; exit 1; }
   fi
   LIBS=$inventortest_save_LIBS
+
+    LIBS="$LIBS -lInventor -limage -lMesaGLU -lMesaGL $X_LIBS $X_PRE_LIBS -lX11 $X_EXTRA_LIBS -lXmu -lXext -ldl"
+
 else
+
         
   echo $ac_n "checking for Coin header files""... $ac_c" 1>&6
-echo "configure:3077: checking for Coin header files" >&5
+echo "configure:3097: checking for Coin header files" >&5
 
     cat > conftest.$ac_ext <<EOF
-#line 3080 "configure"
+#line 3100 "configure"
 #include "confdefs.h"
 #include <Inventor/SbBasic.h>
 EOF
 ac_try="$ac_cpp conftest.$ac_ext >/dev/null 2>conftest.out"
-{ (eval echo configure:3085: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }
+{ (eval echo configure:3105: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }
 ac_err=`grep -v '^ *+' conftest.out | grep -v "^conftest.${ac_ext}\$"`
 if test -z "$ac_err"; then
   rm -rf conftest*
@@ -3096,19 +3116,19 @@ fi
 rm -f conftest*
 
       if test "x$coin_dev" = "xno"; then
-    _SOQTPREFIX=$prefix
-    test "x$_SOQTPREFIX" = xNONE && _SOQTPREFIX=$ac_default_prefix
-    _SOQTEPREFIX=$exec_prefix
-    test "x$_SOQTEPREFIX" = xNONE && _SOQTEPREFIX=$_SOQTPREFIX
+    _PREFIX=$prefix
+    test "x$_PREFIX" = xNONE && _PREFIX=$ac_default_prefix
+    _EPREFIX=$exec_prefix
+    test "x$_EPREFIX" = xNONE && _EPREFIX=$_PREFIX
     _SAVECPPFLAGS=$CPPFLAGS
-    CPPFLAGS="-I$_SOQTPREFIX/include $CPPFLAGS"
+    CPPFLAGS="-I$_PREFIX/include $CPPFLAGS"
     cat > conftest.$ac_ext <<EOF
-#line 3107 "configure"
+#line 3127 "configure"
 #include "confdefs.h"
 #include <Inventor/SbBasic.h>
 EOF
 ac_try="$ac_cpp conftest.$ac_ext >/dev/null 2>conftest.out"
-{ (eval echo configure:3112: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }
+{ (eval echo configure:3132: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }
 ac_err=`grep -v '^ *+' conftest.out | grep -v "^conftest.${ac_ext}\$"`
 if test -z "$ac_err"; then
   rm -rf conftest*
@@ -3123,8 +3143,8 @@ fi
 rm -f conftest*
     CPPFLAGS=$_SAVECPPFLAGS
     if test "x$coin_dev" = "xyes"; then
-      CPPFLAGS="-I$_SOQTPREFIX/include $CPPFLAGS"
-      LDFLAGS="-L$_SOQTEPREFIX/lib $LDFLAGS"
+      CPPFLAGS="-I$_PREFIX/include $CPPFLAGS"
+      LDFLAGS="-L$_EPREFIX/lib $LDFLAGS"
     fi
   fi
 
@@ -3132,7 +3152,7 @@ rm -f conftest*
 
   if test "x$coin_dev" = "xyes"; then
                     echo $ac_n "checking for main in -lCoin""... $ac_c" 1>&6
-echo "configure:3136: checking for main in -lCoin" >&5
+echo "configure:3156: checking for main in -lCoin" >&5
 ac_lib_var=`echo Coin'_'main | sed 'y%./+-%__p_%'`
 if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
@@ -3140,14 +3160,14 @@ else
   ac_save_LIBS="$LIBS"
 LIBS="-lCoin  $LIBS"
 cat > conftest.$ac_ext <<EOF
-#line 3144 "configure"
+#line 3164 "configure"
 #include "confdefs.h"
 
 int main() {
 main()
 ; return 0; }
 EOF
-if { (eval echo configure:3151: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:3171: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   eval "ac_cv_lib_$ac_lib_var=yes"
 else
@@ -3179,12 +3199,40 @@ fi
   if test "x$coin_dev" = "xno"; then
     { echo "configure: error: libCoin development system not found" 1>&2; exit 1; }
   fi
+
+    LIBS="$LIBS $X_LIBS -lXmu"
 fi
+
+
+ac_ext=C
+# CXXFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='${CXX-g++} -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext 1>&5'
+ac_link='${CXX-g++} -o conftest${ac_exeext} $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS 1>&5'
+cross_compiling=$ac_cv_prog_cxx_cross
+
+
+
+
+
+
+
+
+
+
+
+
+ac_ext=C
+# CXXFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='${CXX-g++} -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext 1>&5'
+ac_link='${CXX-g++} -o conftest${ac_exeext} $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS 1>&5'
+cross_compiling=$ac_cv_prog_cxx_cross
 
 
 
 echo $ac_n "checking value of the QTDIR environment variable""... $ac_c" 1>&6
-echo "configure:3188: checking value of the QTDIR environment variable" >&5
+echo "configure:3236: checking value of the QTDIR environment variable" >&5
 if test "x$QTDIR" = "x"; then
   echo "$ac_t""empty!" 1>&6
   echo "configure: warning: QTDIR environment variable not set -- this might be an indication of a problem" 1>&2
@@ -3199,7 +3247,7 @@ if test "x$QTDIR" != "x"; then
   # Extract the first word of "moc", so it can be a program name with args.
 set dummy moc; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:3203: checking for $ac_word" >&5
+echo "configure:3251: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_MOC'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3235,7 +3283,7 @@ else
   # Extract the first word of "moc", so it can be a program name with args.
 set dummy moc; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:3239: checking for $ac_word" >&5
+echo "configure:3287: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_MOC'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -3270,21 +3318,21 @@ fi
 fi
 
 if test "x$MOC" = "x"; then
-  { echo "configure: error: could not find the moc tool -- we need a complete Qt installation to build SoQt!" 1>&2; exit 1; }
+  { echo "configure: error: could not find the moc tool -- we need a complete Qt installation to build!" 1>&2; exit 1; }
 fi
 
 
 echo $ac_n "checking for Qt header files""... $ac_c" 1>&6
-echo "configure:3279: checking for Qt header files" >&5
+echo "configure:3327: checking for Qt header files" >&5
 cat > conftest.$ac_ext <<EOF
-#line 3281 "configure"
+#line 3329 "configure"
 #include "confdefs.h"
 #include <qapplication.h>
 int main() {
 
 ; return 0; }
 EOF
-if { (eval echo configure:3288: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:3336: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
   qt_dev=yes
 else
@@ -3296,12 +3344,12 @@ fi
 rm -f conftest*
 echo "$ac_t""$qt_dev" 1>&6
 if test "x$qt_dev" = "xno"; then
-  { echo "configure: error: could not find the Qt include files -- we need a complete Qt installation to build SoQt!" 1>&2; exit 1; }
+  { echo "configure: error: could not find the Qt include files -- we need a complete Qt installation to build!" 1>&2; exit 1; }
 fi
 
 
 echo $ac_n "checking for main in -lqt""... $ac_c" 1>&6
-echo "configure:3305: checking for main in -lqt" >&5
+echo "configure:3353: checking for main in -lqt" >&5
 ac_lib_var=`echo qt'_'main | sed 'y%./+-%__p_%'`
 if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
@@ -3309,14 +3357,14 @@ else
   ac_save_LIBS="$LIBS"
 LIBS="-lqt $X_LIBS $X_PRE_LIBS -lX11 $X_EXTRA_LIBS $LIBS"
 cat > conftest.$ac_ext <<EOF
-#line 3313 "configure"
+#line 3361 "configure"
 #include "confdefs.h"
 
 int main() {
 main()
 ; return 0; }
 EOF
-if { (eval echo configure:3320: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:3368: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   eval "ac_cv_lib_$ac_lib_var=yes"
 else
@@ -3345,19 +3393,40 @@ else
 fi
 
 
+ac_ext=C
+# CXXFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='${CXX-g++} -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext 1>&5'
+ac_link='${CXX-g++} -o conftest${ac_exeext} $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS 1>&5'
+cross_compiling=$ac_cv_prog_cxx_cross
+
+
+
+
+
+
+
+
+ac_ext=C
+# CXXFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='${CXX-g++} -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext 1>&5'
+ac_link='${CXX-g++} -o conftest${ac_exeext} $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS 1>&5'
+cross_compiling=$ac_cv_prog_cxx_cross
+
 
 
 echo $ac_n "checking for QGL header files""... $ac_c" 1>&6
-echo "configure:3352: checking for QGL header files" >&5
+echo "configure:3421: checking for QGL header files" >&5
 cat > conftest.$ac_ext <<EOF
-#line 3354 "configure"
+#line 3423 "configure"
 #include "confdefs.h"
 #include <qgl.h>
 int main() {
 
 ; return 0; }
 EOF
-if { (eval echo configure:3361: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+if { (eval echo configure:3430: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
   rm -rf conftest*
   qgl_dev=yes
 else
@@ -3369,12 +3438,12 @@ fi
 rm -f conftest*
 echo "$ac_t""$qgl_dev" 1>&6
 if test "x$qgl_dev" = "xno"; then
-  { echo "configure: error: could not find the QGL include file -- you must compile and install the QGLWidget library found in \$QTDIR/extensions/opengl to compile SoQt!" 1>&2; exit 1; }
+  { echo "configure: error: could not find the QGL include file -- you must compile and install the QGLWidget library found in \$QTDIR/extensions/opengl to build!" 1>&2; exit 1; }
 fi
 
 
 echo $ac_n "checking for main in -lqgl""... $ac_c" 1>&6
-echo "configure:3378: checking for main in -lqgl" >&5
+echo "configure:3447: checking for main in -lqgl" >&5
 ac_lib_var=`echo qgl'_'main | sed 'y%./+-%__p_%'`
 if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
@@ -3382,14 +3451,14 @@ else
   ac_save_LIBS="$LIBS"
 LIBS="-lqgl  $LIBS"
 cat > conftest.$ac_ext <<EOF
-#line 3386 "configure"
+#line 3455 "configure"
 #include "confdefs.h"
 
 int main() {
 main()
 ; return 0; }
 EOF
-if { (eval echo configure:3393: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:3462: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   eval "ac_cv_lib_$ac_lib_var=yes"
 else
@@ -3418,6 +3487,16 @@ else
 fi
 
 
+ac_ext=C
+# CXXFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='${CXX-g++} -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext 1>&5'
+ac_link='${CXX-g++} -o conftest${ac_exeext} $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS 1>&5'
+cross_compiling=$ac_cv_prog_cxx_cross
+
+
+
+
 
 
 
@@ -3434,10 +3513,15 @@ else
 fi
 
 
+if test "x$enable_debug" = "xno"; then
+  CFLAGS="$CFLAGS -DNDEBUG"
+  CXXFLAGS="$CXXFLAGS -DNDEBUG"
+fi
+
 if test "x$enable_debug" = "xyes"; then
   CXXFLAGS="$CXXFLAGS -DSOQT_DEBUG=1"
 else
-  CXXFLAGS="$CXXFLAGS -DSOQT_DEBUG=0 -DNDEBUG"
+  CXXFLAGS="$CXXFLAGS -DSOQT_DEBUG=0"
 fi
 
 
@@ -3456,13 +3540,13 @@ fi
 
 
 if test "x$enable_symbols" = "xno"; then
-  if test "x$GXX" = "xyes"; then
+  if test "x$GXX" = "xyes" || "x$GCC" = "xyes"; then
+    CFLAGS="`echo $CFLAGS | sed 's/-g//'`"
     CXXFLAGS="`echo $CXXFLAGS | sed 's/-g//'`"
   else
-    echo "configure: warning: --disable-symbols only has effect when using GNU g++" 1>&2
+    echo "configure: warning: --disable-symbols only has effect when using GNU gcc or g++" 1>&2
   fi
 fi
-
 
 
 
@@ -3530,11 +3614,12 @@ fi
 
 
 if test "x$enable_profile" = "xyes"; then
-  if test "x$GXX" = "xyes"; then
+  if test "x$GXX" = "xyes" || test "x$GCC" = "xyes"; then
+    CFLAGS="$CFLAGS -pg"
     CXXFLAGS="$CXXFLAGS -pg"
     LDFLAGS="$LDFLAGS -pg"
   else
-    echo "configure: warning: --enable-profile only has effect when using GNU g++" 1>&2
+    echo "configure: warning: --enable-profile only has effect when using GNU gcc or g++" 1>&2
   fi
 fi
 
@@ -3554,23 +3639,17 @@ fi
 
 
 if test "x$enable_warnings" = "xyes"; then
-  if test "x$GXX" = "xyes"; then
+  if test "x$GXX" = "xyes" || test "x$GCC" = "xyes"; then
+    CFLAGS="$CFLAGS -W -Wall"
     CXXFLAGS="$CXXFLAGS -W -Wall"
   fi
 else
   if test "x$GXX" != "xyes"; then
-    echo "configure: warning: --enable-warnings only has effect when using GNU g++" 1>&2
+    echo "configure: warning: --enable-warnings only has effect when using GNU gcc or g++" 1>&2
   fi
 fi
 
 
-
-
-if test "x$inventor_dev" = "xyes"; then
-  LIBS="-lInventor -limage -lMesaGLU -lMesaGL $LIBS $X_LIBS $X_PRE_LIBS -lX11 $X_EXTRA_LIBS -lXmu -lXext -ldl"
-else
-  LIBS="$LIBS $X_LIBS -lXmu"
-fi
 
 
 trap '' 1 2 15
