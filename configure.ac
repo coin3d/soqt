@@ -447,7 +447,7 @@ SIM_AC_HAVE_INVENTOR_FEATURE(
 
 SIM_AC_HAVE_INVENTOR_FEATURE(
   [for SoGLRenderAction::SORTED_LAYERS_BLEND transparency mode],
-  [#include <Inventor/events/SoGLRenderAction.h>], [
+  [#include <Inventor/actions/SoGLRenderAction.h>], [
   /* try to get SORTED_LAYERS_BLEND transparency mode value */
   int num = (int) SoGLRenderAction::SORTED_LAYERS_BLEND;],
   [HAVE_SORTED_LAYERS_BLEND])
