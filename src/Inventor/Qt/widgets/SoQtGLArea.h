@@ -33,8 +33,9 @@ class SoQtGLArea : public QGLWidget {
   Q_OBJECT
 
 public:
-  SoQtGLArea( QGLFormat * const format, QWidget * const parent,
-    const char * const name = "QtGLArea" );
+  SoQtGLArea(QGLFormat * const format, QWidget * const parent,
+             const QGLWidget * sharewidget,
+             const char * const name = "QtGLArea");
   ~SoQtGLArea(void);
 
 signals:

@@ -102,6 +102,7 @@ static const char rcsid[] =
 #include <Inventor/Qt/SoQtBasic.h>
 #include <Inventor/Qt/widgets/SoQtGLArea.h>
 #include <Inventor/Qt/SoQtGLWidget.h>
+#include <Inventor/Qt/SoAny.h>
 
 #if HAVE_CONFIG_H
 #include <config.h>
@@ -257,6 +258,8 @@ SoQtGLWidget::~SoQtGLWidget(void)
   // child widgets in this destructor can in fact lead to crashes due
   // to the widgets being deallocated multiple times.)
 
+  if (THIS->currentglwidget) SoAny::si()->unregisterGLContext((void*) this);
+  
   delete THIS->glformat;
   delete THIS;
 }
@@ -346,10 +349,22 @@ SoQtGLWidget::buildGLWidget(void)
 #endif // debug
   }
   else {
+    if (wasprevious) SoAny::si()->unregisterGLContext(this);
+
+    void * display = NULL;
+    void * screen = NULL;
+#if defined(_WS_X11_) // Qt defines this under X11
+    // the following Qt methods are only available under X11
+    display = (void*) QPaintDevice::x11AppDisplay();
+    screen = (void*) ((unsigned int) QPaintDevice::x11AppScreen());
+#endif // _WS_X11_
     // Couldn't use the previous widget, make a new one.
-    THIS->currentglwidget = new SoQtGLArea( THIS->glformat,
-                                            THIS->borderwidget );
-    // Send this one to the final hunting grounds.
+    SoQtGLWidget * sharewidget = (SoQtGLWidget*) SoAny::si()->getSharedGLContext(display, screen);
+    THIS->currentglwidget = new SoQtGLArea(THIS->glformat,
+                                           THIS->borderwidget,
+                                           sharewidget ? (const QGLWidget*) sharewidget->getGLWidget() : NULL);
+    SoAny::si()->registerGLContext((void*) this, display, screen);
+    // Send this one to the final hunting grounds.    
     delete wasprevious;
   }
 

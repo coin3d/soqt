@@ -61,14 +61,14 @@ static const char rcsid[] =
 
 // *************************************************************************
 
-SoQtGLArea::SoQtGLArea(
-  QGLFormat * const format,
-  QWidget * const parent,
-  const char * const name )
+SoQtGLArea::SoQtGLArea(QGLFormat * const format,
+                       QWidget * const parent,
+                       const QGLWidget * sharewidget,
+                       const char * const name)
   // The 3rd argument is supposed to be the widget name, but when
   // running on QGL v4.30 and Qt v2.1.0 application code will crash on
   // exit under freak conditions -- see Bugzilla #264. 20001120 mortene.
-: inherited( *format, parent, NULL, 0x0, WResizeNoErase )
+: inherited( *format, parent, NULL, sharewidget, WResizeNoErase )
 {
 #if HAVE_QGLWIDGET_SETAUTOBUFFERSWAP
   // We'll handle the OpenGL buffer swapping ourselves, to support the
