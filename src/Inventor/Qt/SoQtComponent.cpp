@@ -815,7 +815,7 @@ SoQtComponent::setWidgetCursor(QWidget * w, const SoQtCursor & cursor)
                                 "cursors. Warnings about Qt/Mac bugs "
                                 "can be turned off permanently by setting\n"
                                 "the environment variable "
-                                "SOQT_NO_QTMAC_BUG_WARNINGS=1.");
+                                "SOQT_NO_QTMAC_BUG_WARNINGS=1.\n");
 #else 
     const SoQtCursor::CustomCursor * cc = &cursor.getCustomCursor();
     w->setCursor(*SoQtComponentP::getNativeCursor(cc));
