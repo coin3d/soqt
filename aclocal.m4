@@ -1564,7 +1564,11 @@ if test x"$with_inventor" != xno; then
 #include <Inventor/SbBasic.h>
 PeekInventorVersion: TGS_VERSION
 EOF
-    iv_version=`$CXX -E conftest.c 2>/dev/null | grep "^PeekInventorVersion" | sed -e 's/.* //g' -e 's/.$//'`
+    iv_version=`$CXX -E conftest.c 2>/dev/null | grep "^PeekInventorVersion" | sed 's/.* //g'`
+    if test x"$iv_version" = xTGS_VERSION; then
+      AC_MSG_ERROR([SbBasic.h does not define TGS_VERSION.  Maybe it's a Coin file?])
+    fi
+    iv_version=`echo $iv_version | sed 's/.$//'`
     rm -f conftest.c
     sim_ac_oiv_libs="inv${iv_version}.lib"
   else
