@@ -53,12 +53,8 @@ public:
   virtual const SoEvent * translateEvent( QEvent * event );
 
 private:
-  static void makeTranslationTable(void);
-
   int eventmask;
   SoKeyboardEvent * kbdevent;
-  static SbDict * translatetable;
-
 }; // class SoQtKeyboard
 
 // *************************************************************************

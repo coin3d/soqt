@@ -39,6 +39,8 @@ static const char rcsid[] =
 #include <config.h>
 #endif // HAVE_CONFIG_H
 
+#include <stdlib.h> // atexit
+
 /*!
   \class SoQtKeyboard SoQtKeyboard.h Inventor/Qt/devices/SoQtKeyboard.h
   \brief The SoQtKeyboard class ...
@@ -224,258 +226,172 @@ SOQT_OBJECT_SOURCE(SoQtKeyboard);
 struct key1map {
   int from;                // Qt val
   SoKeyboardEvent::Key to; // So val
+  char printable;
 };
 
 static struct key1map QtToSoMapping[] = {
-  {Key_Escape, SoKeyboardEvent::ESCAPE},
-  {Key_Tab, SoKeyboardEvent::TAB},
-//    {Key_Backtab, SoKeyboardEvent::}, // FIXME
-  {Key_Backspace, SoKeyboardEvent::BACKSPACE},
-  {Key_Return, SoKeyboardEvent::RETURN},
-  {Key_Enter, SoKeyboardEvent::ENTER},
-  {Key_Insert, SoKeyboardEvent::INSERT},
+  {Key_Escape, SoKeyboardEvent::ESCAPE, '.'},
+  {Key_Tab, SoKeyboardEvent::TAB, '.'},
+  {Key_Backspace, SoKeyboardEvent::BACKSPACE, '.'},
+  {Key_Return, SoKeyboardEvent::RETURN, '.'},
+  {Key_Enter, SoKeyboardEvent::ENTER, '.'},
+  {Key_Insert, SoKeyboardEvent::INSERT, '.'},
 #ifdef HAVE_SOKEYBOARDEVENT_DELETE
-  {Key_Delete, SoKeyboardEvent::DELETE},
+  {Key_Delete, SoKeyboardEvent::DELETE, '.'},
 #else
-  {Key_Delete, SoKeyboardEvent::KEY_DELETE},
+  {Key_Delete, SoKeyboardEvent::KEY_DELETE, '.'},
 #endif
-  {Key_Pause, SoKeyboardEvent::PAUSE},
-  {Key_Print, SoKeyboardEvent::PRINT},
-//    {Key_SysReq, SoKeyboardEvent::}, // FIXME
-  {Key_Home, SoKeyboardEvent::HOME},
-  {Key_End, SoKeyboardEvent::END},
-  {Key_Left, SoKeyboardEvent::LEFT_ARROW},
-  {Key_Up, SoKeyboardEvent::UP_ARROW},
-  {Key_Right, SoKeyboardEvent::RIGHT_ARROW},
-  {Key_Down, SoKeyboardEvent::DOWN_ARROW},
-  {Key_Prior, SoKeyboardEvent::PRIOR},
-  {Key_PageUp, SoKeyboardEvent::PAGE_UP},
-  {Key_Next, SoKeyboardEvent::NEXT},
-  {Key_PageDown, SoKeyboardEvent::PAGE_DOWN},
+  {Key_Pause, SoKeyboardEvent::PAUSE, '.'},
+  {Key_Print, SoKeyboardEvent::PRINT, '.'},
+  {Key_Home, SoKeyboardEvent::HOME, '.'},
+  {Key_End, SoKeyboardEvent::END, '.'},
+  {Key_Left, SoKeyboardEvent::LEFT_ARROW, '.'},
+  {Key_Up, SoKeyboardEvent::UP_ARROW, '.'},
+  {Key_Right, SoKeyboardEvent::RIGHT_ARROW, '.'},
+  {Key_Down, SoKeyboardEvent::DOWN_ARROW, '.'},
+  {Key_Prior, SoKeyboardEvent::PRIOR, '.'},
+  {Key_PageUp, SoKeyboardEvent::PAGE_UP, '.'},
+  {Key_Next, SoKeyboardEvent::NEXT, '.'},
+  {Key_PageDown, SoKeyboardEvent::PAGE_DOWN, '.'},
 
-  {Key_Shift, SoKeyboardEvent::LEFT_SHIFT},
-  {Key_Control, SoKeyboardEvent::LEFT_CONTROL},
-  {Key_Meta, SoKeyboardEvent::LEFT_ALT},
-  {Key_Alt, SoKeyboardEvent::LEFT_ALT},
-  {Key_CapsLock, SoKeyboardEvent::CAPS_LOCK},
-  {Key_NumLock, SoKeyboardEvent::NUM_LOCK},
-  {Key_ScrollLock, SoKeyboardEvent::SCROLL_LOCK},
+  {Key_Shift, SoKeyboardEvent::LEFT_SHIFT, '.'},
+  {Key_Control, SoKeyboardEvent::LEFT_CONTROL, '.'},
+  {Key_Meta, SoKeyboardEvent::LEFT_ALT, '.'},
+  {Key_Alt, SoKeyboardEvent::LEFT_ALT, '.'},
+  {Key_CapsLock, SoKeyboardEvent::CAPS_LOCK, '.'},
+  {Key_NumLock, SoKeyboardEvent::NUM_LOCK, '.'},
+  {Key_ScrollLock, SoKeyboardEvent::SCROLL_LOCK, '.'},
 
-  {Key_F1, SoKeyboardEvent::F1},
-  {Key_F2, SoKeyboardEvent::F2},
-  {Key_F3, SoKeyboardEvent::F3},
-  {Key_F4, SoKeyboardEvent::F4},
-  {Key_F5, SoKeyboardEvent::F5},
-  {Key_F6, SoKeyboardEvent::F6},
-  {Key_F7, SoKeyboardEvent::F7},
-  {Key_F8, SoKeyboardEvent::F8},
-  {Key_F9, SoKeyboardEvent::F9},
-  {Key_F10, SoKeyboardEvent::F10},
-  {Key_F11, SoKeyboardEvent::F11},
-  {Key_F12, SoKeyboardEvent::F12},
-//    {Key_F13, SoKeyboardEvent::}, // FIXME
-//    {Key_F14, SoKeyboardEvent::}, // FIXME
-//    {Key_F15, SoKeyboardEvent::}, // FIXME
-//    {Key_F16, SoKeyboardEvent::}, // FIXME
-//    {Key_F17, SoKeyboardEvent::}, // FIXME
-//    {Key_F18, SoKeyboardEvent::}, // FIXME
-//    {Key_F19, SoKeyboardEvent::}, // FIXME
-//    {Key_F20, SoKeyboardEvent::}, // FIXME
-//    {Key_F21, SoKeyboardEvent::}, // FIXME
-//    {Key_F22, SoKeyboardEvent::}, // FIXME
-//    {Key_F23, SoKeyboardEvent::}, // FIXME
-//    {Key_F24, SoKeyboardEvent::}, // FIXME
-//    {Key_F25, SoKeyboardEvent::}, // FIXME
-//    {Key_F26, SoKeyboardEvent::}, // FIXME
-//    {Key_F27, SoKeyboardEvent::}, // FIXME
-//    {Key_F28, SoKeyboardEvent::}, // FIXME
-//    {Key_F29, SoKeyboardEvent::}, // FIXME
-//    {Key_F30, SoKeyboardEvent::}, // FIXME
-//    {Key_F31, SoKeyboardEvent::}, // FIXME
-//    {Key_F32, SoKeyboardEvent::}, // FIXME
-//    {Key_F33, SoKeyboardEvent::}, // FIXME
-//    {Key_F34, SoKeyboardEvent::}, // FIXME
-//    {Key_F35, SoKeyboardEvent::}, // FIXME
+  {Key_F1, SoKeyboardEvent::F1, '.'},
+  {Key_F2, SoKeyboardEvent::F2, '.'},
+  {Key_F3, SoKeyboardEvent::F3, '.'},
+  {Key_F4, SoKeyboardEvent::F4, '.'},
+  {Key_F5, SoKeyboardEvent::F5, '.'},
+  {Key_F6, SoKeyboardEvent::F6, '.'},
+  {Key_F7, SoKeyboardEvent::F7, '.'},
+  {Key_F8, SoKeyboardEvent::F8, '.'},
+  {Key_F9, SoKeyboardEvent::F9, '.'},
+  {Key_F10, SoKeyboardEvent::F10, '.'},
+  {Key_F11, SoKeyboardEvent::F11, '.'},
+  {Key_F12, SoKeyboardEvent::F12, '.'},
+  {Key_Space, SoKeyboardEvent::SPACE, ' '},
+  {Key_Exclam, SoKeyboardEvent::NUMBER_1, '!'},
+  {Key_QuoteDbl, SoKeyboardEvent::APOSTROPHE, '\"'},
+  {Key_NumberSign, SoKeyboardEvent::NUMBER_3, '#'},
+  {Key_Dollar, SoKeyboardEvent::NUMBER_4, '$'},
+  {Key_Percent, SoKeyboardEvent::NUMBER_5, '%'},
+  {Key_Ampersand, SoKeyboardEvent::NUMBER_6, '^'},
+  {Key_Apostrophe, SoKeyboardEvent::APOSTROPHE, '\''},
+  {Key_ParenLeft, SoKeyboardEvent::NUMBER_9, '('},
+  {Key_ParenRight, SoKeyboardEvent::NUMBER_0, ')'},
+  {Key_Asterisk, SoKeyboardEvent::NUMBER_8, '*'},
+  {Key_Plus, SoKeyboardEvent::EQUAL, '+'},
+  {Key_Comma, SoKeyboardEvent::COMMA, ','},
+  {Key_Minus, SoKeyboardEvent::MINUS, '-'},
+  {Key_Period, SoKeyboardEvent::PERIOD, '.'},
+  {Key_Slash, SoKeyboardEvent::SLASH, '/'},
+  {Key_0, SoKeyboardEvent::NUMBER_0, '0'},
+  {Key_1, SoKeyboardEvent::NUMBER_1, '1'},
+  {Key_2, SoKeyboardEvent::NUMBER_2, '2'},
+  {Key_3, SoKeyboardEvent::NUMBER_3, '3'},
+  {Key_4, SoKeyboardEvent::NUMBER_4, '4'},
+  {Key_5, SoKeyboardEvent::NUMBER_5, '5'},
+  {Key_6, SoKeyboardEvent::NUMBER_6, '6'},
+  {Key_7, SoKeyboardEvent::NUMBER_7, '7'},
+  {Key_8, SoKeyboardEvent::NUMBER_8, '8'},
+  {Key_9, SoKeyboardEvent::NUMBER_9, '9'},
+  {Key_Colon, SoKeyboardEvent::SEMICOLON, ':'},
+  {Key_Semicolon, SoKeyboardEvent::SEMICOLON, ';'},
+  {Key_Less, SoKeyboardEvent::COMMA, '<'},
+  {Key_Equal, SoKeyboardEvent::EQUAL, '='},
+  {Key_Greater, SoKeyboardEvent::PERIOD, '>'},
+  {Key_Question, SoKeyboardEvent::BACKSLASH, '?'},
+  {Key_At, SoKeyboardEvent::NUMBER_2, '@'},
 
-//    {Key_Super, SoKeyboardEvent::}, // FIXME
-//    {Key_Super, SoKeyboardEvent::}, // FIXME
-//    {Key_Menu, SoKeyboardEvent::}, // FIXME
-
-
-  {Key_Space, SoKeyboardEvent::SPACE},
-//    {Key_Exclam, SoKeyboardEvent::}, // FIXME
-//    {Key_QuoteDbl, SoKeyboardEvent::}, // FIXME
-//    {Key_NumberSign, SoKeyboardEvent::}, // FIXME
-//    {Key_Dollar, SoKeyboardEvent::}, // FIXME
-//    {Key_Percent, SoKeyboardEvent::}, // FIXME
-//    {Key_Ampersand, SoKeyboardEvent::}, // FIXME
-  {Key_Apostrophe, SoKeyboardEvent::APOSTROPHE},
-//    {Key_ParenLeft, SoKeyboardEvent::}, // FIXME
-//    {Key_ParenRight, SoKeyboardEvent::}, // FIXME
-//    {Key_Asterisk, SoKeyboardEvent::}, // FIXME
-  {Key_Plus, SoKeyboardEvent::PAD_ADD},
-  {Key_Comma, SoKeyboardEvent::COMMA},
-  {Key_Minus, SoKeyboardEvent::PAD_SUBTRACT},
-  {Key_Period, SoKeyboardEvent::PERIOD},
-  {Key_Slash, SoKeyboardEvent::SLASH},
-  {Key_0, SoKeyboardEvent::NUMBER_0},
-  {Key_1, SoKeyboardEvent::NUMBER_1},
-  {Key_2, SoKeyboardEvent::NUMBER_2},
-  {Key_3, SoKeyboardEvent::NUMBER_3},
-  {Key_4, SoKeyboardEvent::NUMBER_4},
-  {Key_5, SoKeyboardEvent::NUMBER_5},
-  {Key_6, SoKeyboardEvent::NUMBER_6},
-  {Key_7, SoKeyboardEvent::NUMBER_7},
-  {Key_8, SoKeyboardEvent::NUMBER_8},
-  {Key_9, SoKeyboardEvent::NUMBER_9},
-//    {Key_Colon, SoKeyboardEvent::}, // FIXME
-  {Key_Semicolon, SoKeyboardEvent::SEMICOLON},
-//    {Key_Less, SoKeyboardEvent::}, // FIXME
-  {Key_Equal, SoKeyboardEvent::EQUAL},
-//    {Key_Greater, SoKeyboardEvent::}, // FIXME
-//    {Key_Question, SoKeyboardEvent::}, // FIXME
-//    {Key_At, SoKeyboardEvent::}, // FIXME
-  {Key_A, SoKeyboardEvent::A},
-  {Key_B, SoKeyboardEvent::B},
-  {Key_C, SoKeyboardEvent::C},
-  {Key_D, SoKeyboardEvent::D},
-  {Key_E, SoKeyboardEvent::E},
-  {Key_F, SoKeyboardEvent::F},
-  {Key_G, SoKeyboardEvent::G},
-  {Key_H, SoKeyboardEvent::H},
-  {Key_I, SoKeyboardEvent::I},
-  {Key_J, SoKeyboardEvent::J},
-  {Key_K, SoKeyboardEvent::K},
-  {Key_L, SoKeyboardEvent::L},
-  {Key_M, SoKeyboardEvent::M},
-  {Key_N, SoKeyboardEvent::N},
-  {Key_O, SoKeyboardEvent::O},
-  {Key_P, SoKeyboardEvent::P},
-  {Key_Q, SoKeyboardEvent::Q},
-  {Key_R, SoKeyboardEvent::R},
-  {Key_S, SoKeyboardEvent::S},
-  {Key_T, SoKeyboardEvent::T},
-  {Key_U, SoKeyboardEvent::U},
-  {Key_V, SoKeyboardEvent::V},
-  {Key_W, SoKeyboardEvent::W},
-  {Key_X, SoKeyboardEvent::X},
-  {Key_Y, SoKeyboardEvent::Y},
-  {Key_Z, SoKeyboardEvent::Z},
-  {Key_BracketLeft, SoKeyboardEvent::BRACKETLEFT},
-  {Key_Backslash, SoKeyboardEvent::BACKSLASH},
-  {Key_BracketRight, SoKeyboardEvent::BRACKETRIGHT},
-//    {Key_AsciiCircum, SoKeyboardEvent::}, // FIXME
-//    {Key_Underscore, SoKeyboardEvent::}, // FIXME
-//    {Key_QuoteLeft, SoKeyboardEvent::}, // FIXME
-//    {Key_BraceLeft, SoKeyboardEvent::}, // FIXME
-//    {Key_Bar, SoKeyboardEvent::}, // FIXME
-//    {Key_BraceRight, SoKeyboardEvent::}, // FIXME
-  {Key_AsciiTilde, SoKeyboardEvent::GRAVE}, // FIXME: is this correct?
-
-  // Latin-1
-//    {Key_nobreakspace, SoKeyboardEvent::}, // FIXME
-//    {Key_exclamdown, SoKeyboardEvent::}, // FIXME
-//    {Key_cent, SoKeyboardEvent::}, // FIXME
-//    {Key_sterling, SoKeyboardEvent::}, // FIXME
-//    {Key_currency, SoKeyboardEvent::}, // FIXME
-//    {Key_yen, SoKeyboardEvent::}, // FIXME
-//    {Key_brokenbar, SoKeyboardEvent::}, // FIXME
-//    {Key_section, SoKeyboardEvent::}, // FIXME
-//    {Key_diaeresis, SoKeyboardEvent::}, // FIXME
-//    {Key_copyright, SoKeyboardEvent::}, // FIXME
-//    {Key_ordfeminine, SoKeyboardEvent::}, // FIXME
-//    {Key_guillemotleft, SoKeyboardEvent::}, // FIXME
-//    {Key_notsign, SoKeyboardEvent::}, // FIXME
-//    {Key_hyphen, SoKeyboardEvent::}, // FIXME
-//    {Key_registered, SoKeyboardEvent::}, // FIXME
-//    {Key_macron, SoKeyboardEvent::}, // FIXME
-//    {Key_degree, SoKeyboardEvent::}, // FIXME
-//    {Key_plusminus, SoKeyboardEvent::}, // FIXME
-//    {Key_twosuperior, SoKeyboardEvent::}, // FIXME
-//    {Key_threesuperior, SoKeyboardEvent::}, // FIXME
-//    {Key_acute, SoKeyboardEvent::}, // FIXME
-//    {Key_mu, SoKeyboardEvent::}, // FIXME
-//    {Key_paragraph, SoKeyboardEvent::}, // FIXME
-//    {Key_periodcentered, SoKeyboardEvent::}, // FIXME
-//    {Key_cedilla, SoKeyboardEvent::}, // FIXME
-//    {Key_onesuperior, SoKeyboardEvent::}, // FIXME
-//    {Key_masculine, SoKeyboardEvent::}, // FIXME
-//    {Key_guillemotright, SoKeyboardEvent::}, // FIXME
-//    {Key_onequarter, SoKeyboardEvent::}, // FIXME
-//    {Key_onehalf, SoKeyboardEvent::}, // FIXME
-//    {Key_threequarters, SoKeyboardEvent::}, // FIXME
-//    {Key_questiondown, SoKeyboardEvent::}, // FIXME
-//    {Key_Agrave, SoKeyboardEvent::}, // FIXME
-//    {Key_Aacute, SoKeyboardEvent::}, // FIXME
-//    {Key_Acircumflex, SoKeyboardEvent::}, // FIXME
-//    {Key_Atilde, SoKeyboardEvent::}, // FIXME
-//    {Key_Adiaeresis, SoKeyboardEvent::}, // FIXME
-//    {Key_Aring, SoKeyboardEvent::}, // FIXME
-//    {Key_AE, SoKeyboardEvent::}, // FIXME
-//    {Key_Ccedilla, SoKeyboardEvent::}, // FIXME
-//    {Key_Egrave, SoKeyboardEvent::}, // FIXME
-//    {Key_Eacute, SoKeyboardEvent::}, // FIXME
-//    {Key_Ecircumflex, SoKeyboardEvent::}, // FIXME
-//    {Key_Ediaeresis, SoKeyboardEvent::}, // FIXME
-//    {Key_Igrave, SoKeyboardEvent::}, // FIXME
-//    {Key_Iacute, SoKeyboardEvent::}, // FIXME
-//    {Key_Icircumflex, SoKeyboardEvent::}, // FIXME
-//    {Key_Idiaeresis, SoKeyboardEvent::}, // FIXME
-//    {Key_ETH, SoKeyboardEvent::}, // FIXME
-//    {Key_Ntilde, SoKeyboardEvent::}, // FIXME
-//    {Key_Ograve, SoKeyboardEvent::}, // FIXME
-//    {Key_Oacute, SoKeyboardEvent::}, // FIXME
-//    {Key_Ocircumflex, SoKeyboardEvent::}, // FIXME
-//    {Key_Otilde, SoKeyboardEvent::}, // FIXME
-//    {Key_Odiaeresis, SoKeyboardEvent::}, // FIXME
-//    {Key_multiply, SoKeyboardEvent::}, // FIXME
-//    {Key_Ooblique, SoKeyboardEvent::}, // FIXME
-//    {Key_Ugrave, SoKeyboardEvent::}, // FIXME
-//    {Key_Uacute, SoKeyboardEvent::}, // FIXME
-//    {Key_Ucircumflex, SoKeyboardEvent::}, // FIXME
-//    {Key_Udiaeresis, SoKeyboardEvent::}, // FIXME
-//    {Key_Yacute, SoKeyboardEvent::}, // FIXME
-//    {Key_THORN, SoKeyboardEvent::}, // FIXME
-//    {Key_ssharp, SoKeyboardEvent::}, // FIXME
-//    {Key_agrave, SoKeyboardEvent::}, // FIXME
-//    {Key_aacute, SoKeyboardEvent::}, // FIXME
-//    {Key_acircumflex, SoKeyboardEvent::}, // FIXME
-//    {Key_atilde, SoKeyboardEvent::}, // FIXME
-//    {Key_adiaeresis, SoKeyboardEvent::}, // FIXME
-//    {Key_aring, SoKeyboardEvent::}, // FIXME
-//    {Key_ae, SoKeyboardEvent::}, // FIXME
-//    {Key_ccedilla, SoKeyboardEvent::}, // FIXME
-//    {Key_egrave, SoKeyboardEvent::}, // FIXME
-//    {Key_eacute, SoKeyboardEvent::}, // FIXME
-//    {Key_ecircumflex, SoKeyboardEvent::}, // FIXME
-//    {Key_ediaeresis, SoKeyboardEvent::}, // FIXME
-//    {Key_igrave, SoKeyboardEvent::}, // FIXME
-//    {Key_iacute, SoKeyboardEvent::}, // FIXME
-//    {Key_icircumflex, SoKeyboardEvent::}, // FIXME
-//    {Key_idiaeresis, SoKeyboardEvent::}, // FIXME
-//    {Key_eth, SoKeyboardEvent::}, // FIXME
-//    {Key_ntilde, SoKeyboardEvent::}, // FIXME
-//    {Key_ograve, SoKeyboardEvent::}, // FIXME
-//    {Key_oacute, SoKeyboardEvent::}, // FIXME
-//    {Key_ocircumflex, SoKeyboardEvent::}, // FIXME
-//    {Key_otilde, SoKeyboardEvent::}, // FIXME
-//    {Key_odiaeresis, SoKeyboardEvent::}, // FIXME
-//    {Key_division, SoKeyboardEvent::}, // FIXME
-//    {Key_oslash, SoKeyboardEvent::}, // FIXME
-//    {Key_ugrave, SoKeyboardEvent::}, // FIXME
-//    {Key_uacute, SoKeyboardEvent::}, // FIXME
-//    {Key_ucircumflex, SoKeyboardEvent::}, // FIXME
-//    {Key_udiaeresis, SoKeyboardEvent::}, // FIXME
-//    {Key_yacute, SoKeyboardEvent::}, // FIXME
-//    {Key_thorn, SoKeyboardEvent::}, // FIXME
-//    {Key_ydiaeresis, SoKeyboardEvent::}, // FIXME
-
-  {Key_unknown, SoKeyboardEvent::UNDEFINED} // Ends table
+  // zero means let SoKeyboardEvent handle the printable character
+  {Key_A, SoKeyboardEvent::A, 0},
+  {Key_B, SoKeyboardEvent::B, 0},
+  {Key_C, SoKeyboardEvent::C, 0},
+  {Key_D, SoKeyboardEvent::D, 0},
+  {Key_E, SoKeyboardEvent::E, 0},
+  {Key_F, SoKeyboardEvent::F, 0},
+  {Key_G, SoKeyboardEvent::G, 0},
+  {Key_H, SoKeyboardEvent::H, 0},
+  {Key_I, SoKeyboardEvent::I, 0},
+  {Key_J, SoKeyboardEvent::J, 0},
+  {Key_K, SoKeyboardEvent::K, 0},
+  {Key_L, SoKeyboardEvent::L, 0},
+  {Key_M, SoKeyboardEvent::M, 0},
+  {Key_N, SoKeyboardEvent::N, 0},
+  {Key_O, SoKeyboardEvent::O, 0},
+  {Key_P, SoKeyboardEvent::P, 0},
+  {Key_Q, SoKeyboardEvent::Q, 0},
+  {Key_R, SoKeyboardEvent::R, 0},
+  {Key_S, SoKeyboardEvent::S, 0},
+  {Key_T, SoKeyboardEvent::T, 0},
+  {Key_U, SoKeyboardEvent::U, 0},
+  {Key_V, SoKeyboardEvent::V, 0},
+  {Key_W, SoKeyboardEvent::W, 0},
+  {Key_X, SoKeyboardEvent::X, 0},
+  {Key_Y, SoKeyboardEvent::Y, 0},
+  {Key_Z, SoKeyboardEvent::Z, 0},
+  {Key_BracketLeft, SoKeyboardEvent::BRACKETLEFT, '['},
+  {Key_Backslash, SoKeyboardEvent::BACKSLASH, '\\'},
+  {Key_BracketRight, SoKeyboardEvent::BRACKETRIGHT, ']'},
+  {Key_AsciiCircum, SoKeyboardEvent::NUMBER_7, '&'},
+  {Key_Underscore, SoKeyboardEvent::MINUS, '_'},
+  {Key_BraceLeft, SoKeyboardEvent::BRACKETLEFT, '{'},
+  {Key_Bar, SoKeyboardEvent::BACKSLASH, '|'},
+  {Key_BraceRight, SoKeyboardEvent::BRACKETRIGHT, '}'},
+  {Key_AsciiTilde, SoKeyboardEvent::GRAVE, '~'},
+  {Key_unknown, SoKeyboardEvent::ANY, 0}
 };
 
+static struct key1map QtToSoMapping_kp[] = {
+  {Key_Home, SoKeyboardEvent::PAD_7, '.'},
+  {Key_End, SoKeyboardEvent::PAD_1, '.'},
+  {Key_Left, SoKeyboardEvent::PAD_4, '.'},
+  {Key_Up, SoKeyboardEvent::PAD_8, '.'},
+  {Key_Right, SoKeyboardEvent::PAD_6, '.'},
+  {Key_Down, SoKeyboardEvent::PAD_2, '.'},
+  {Key_PageUp, SoKeyboardEvent::PAD_9, '.'},
+  {Key_PageDown, SoKeyboardEvent::PAD_3, '.'},
+  {Key_Enter, SoKeyboardEvent::PAD_ENTER, '.'},
+  {Key_Delete, SoKeyboardEvent::PAD_DELETE, '.'},
+  {Key_Insert, SoKeyboardEvent::PAD_INSERT, '.'},
+  {Key_Plus, SoKeyboardEvent::PAD_ADD, '+'},
+  {Key_Minus, SoKeyboardEvent::PAD_SUBTRACT, '-'},
+  {Key_Period, SoKeyboardEvent::PAD_PERIOD, '.'},
+  {Key_Asterisk, SoKeyboardEvent::PAD_MULTIPLY, '*'},
+  {Key_Slash, SoKeyboardEvent::PAD_DIVIDE, '/'},
+  {Key_Space, SoKeyboardEvent::PAD_SPACE, ' '},
+  {Key_Tab, SoKeyboardEvent::PAD_TAB, '.'},
+  {Key_F1, SoKeyboardEvent::PAD_F1, '.'},
+  {Key_F2, SoKeyboardEvent::PAD_F2, '.'},
+  {Key_F3, SoKeyboardEvent::PAD_F3, '.'},
+  {Key_F4, SoKeyboardEvent::PAD_F4, '.'},
+  {Key_0, SoKeyboardEvent::PAD_0, '0'},
+  {Key_1, SoKeyboardEvent::PAD_1, '1'},
+  {Key_2, SoKeyboardEvent::PAD_2, '2'},
+  {Key_3, SoKeyboardEvent::PAD_3, '3'},
+  {Key_4, SoKeyboardEvent::PAD_4, '4'},
+  {Key_5, SoKeyboardEvent::PAD_5, '5'},
+  {Key_6, SoKeyboardEvent::PAD_6, '6'},
+  {Key_7, SoKeyboardEvent::PAD_7, '7'},
+  {Key_8, SoKeyboardEvent::PAD_8, '8'},
+  {Key_9, SoKeyboardEvent::PAD_9, '9'},
+  {Key_unknown, SoKeyboardEvent::ANY, 0} // Ends table
+};
 
-// FIXME: use a dict class from Qt instead? 19990213 mortene.
-SbDict * SoQtKeyboard::translatetable = NULL;
+static SbDict * translatetable = NULL;
+static SbDict * kp_translatetable = NULL;
+
+static void
+soqtkeyboard_cleanup(void)
+{
+  delete translatetable;
+  delete kp_translatetable;
+}
 
 // *************************************************************************
 
@@ -534,20 +450,24 @@ SoQtKeyboard::disable(
   FIXME: write function documentation
 */
 
-void
-SoQtKeyboard::makeTranslationTable(
-  void )
+static void
+makeTranslationTable(void)
 {
-  assert(SoQtKeyboard::translatetable == NULL);
-  // FIXME: deallocate on exit. 20000311 mortene.
-  SoQtKeyboard::translatetable = new SbDict;
+  assert(translatetable == NULL);
+  translatetable = new SbDict;
+  kp_translatetable = new SbDict;
 
-  int i=0;
+  int i = 0;
   while (QtToSoMapping[i].from != Key_unknown) {
-    // FIXME: nasty casting going on -- design broken, should be
-    // repaired somehow. 19990212 mortene.
-    SoQtKeyboard::translatetable->enter(QtToSoMapping[i].from,
-                                        (void *)QtToSoMapping[i].to);
+    translatetable->enter((unsigned long)QtToSoMapping[i].from,
+                          (void *)&QtToSoMapping[i]);
+    i++;
+  }
+
+  i = 0;
+  while (QtToSoMapping_kp[i].from != Key_unknown) {
+    kp_translatetable->enter((unsigned long)QtToSoMapping_kp[i].from,
+                             (void *)&QtToSoMapping_kp[i]);
     i++;
   }
 } // makeTranslationTable()
@@ -575,25 +495,35 @@ SoQtKeyboard::translateEvent(
 
   if (keyevent && (this->eventmask & (KEY_PRESS|KEY_RELEASE))) {
 
-    if (!SoQtKeyboard::translatetable) SoQtKeyboard::makeTranslationTable();
+    if (!translatetable) makeTranslationTable();
 
     QKeyEvent * keyevent = (QKeyEvent *)event;
-
+    int key = keyevent->key();
+    // Key code / sequence unknown to Qt.
+    if (key == 0) return NULL;
+    
     // Allocate system-neutral event object once and reuse.
     if (!this->kbdevent) this->kbdevent = new SoKeyboardEvent;
 
     // FIXME: check for Key_unknown. 19990212 mortene.
-
-    // Key code / sequence unknown to Qt.
-    if (keyevent->key() == 0) return NULL;
+    SbBool keypad = (keyevent->state() & Qt::Keypad) != 0;
 
     // Translate keycode Qt -> So
-    void * sokey;
-    if (SoQtKeyboard::translatetable->find(keyevent->key(), sokey)) {
-      this->kbdevent->setKey((SoKeyboardEvent::Key)(int)sokey);
+    void * table;
+    if (keypad && kp_translatetable->find(key, table)) {
+      struct key1map * map = (struct key1map*) table;
+      this->kbdevent->setKey(map->to);
+      if (map->printable) this->kbdevent->setPrintableCharacter(map->printable);
+    } 
+    else if (!keypad && translatetable->find(key, table)) {
+      struct key1map * map = (struct key1map*) table;
+      this->kbdevent->setKey(map->to);
+      if (map->printable) this->kbdevent->setPrintableCharacter(map->printable);
     }
     else {
       this->kbdevent->setKey(SoKeyboardEvent::UNDEFINED);
+      // set printable character
+      this->kbdevent->setPrintableCharacter((char) keyevent->ascii());
     }
 
     // Press or release?
@@ -636,10 +566,6 @@ SoQtKeyboard::translateEvent(
     // find support for getting hold of that information in
     // Qt. 19990211 mortene.
     this->kbdevent->setTime(SbTime::getTimeOfDay());
-
-    // set printable character
-    this->kbdevent->setPrintableCharacter((char) keyevent->ascii());
-    
     return this->kbdevent;
   }
 
