@@ -1,7 +1,7 @@
 /**************************************************************************\
  *
- *  This file is part of a set of demo programs for the Coin library.
- *  Copyright (C) 2000-2001 by Systems in Motion. All rights reserved.
+ *  This file is part of a set of demo programs for the SoQt library.
+ *  Copyright (C) 2000-2002 by Systems in Motion. All rights reserved.
  *
  *  This sourcecode can be redistributed and/or modified under the
  *  terms of the GNU General Public License version 2 as published by
