@@ -37,6 +37,16 @@ AC_CONFIG_SRCDIR([src/Inventor/Qt/SoQt.cpp])
 
 AC_CANONICAL_SYSTEM
 
+# **************************************************************************
+
+AC_ARG_ENABLE([msvcdsp],
+  [AC_HELP_STRING([--enable-msvcdsp], [build .dsp, not library])],
+  [case $enableval in
+  no | false) sim_ac_make_dsp=false ;;
+  *)          sim_ac_make_dsp=true ;;
+  esac],
+  [sim_ac_make_dsp=false])
+
 AC_ARG_ENABLE([msvc],
   [AC_HELP_STRING([--disable-msvc], [don't require MS Visual C++ on Cygwin])],
   [case $enableval in
@@ -80,6 +90,13 @@ AC_DEFINE_UNQUOTED([SOQT_MICRO_VERSION], [$SOQT_MICRO_VERSION],
   [Define to the micro version of SoQt])
 AC_DEFINE_UNQUOTED([SOQT_VERSION], ["$SOQT_VERSION"],
   [Version string for SoQt])
+
+# **************************************************************************
+
+soqt_build_dir=`pwd`
+soqt_src_dir=`cd "$srcdir"; pwd`
+soqt_w32_build_dir=`cygpath -w "$soqt_build_dir" 2>/dev/null || echo "$soqt_build_dir"`
+soqt_w32_src_dir=`cygpath -w "$soqt_src_dir" 2>/dev/null || echo "$soqt_src_dir"`
 
 # **************************************************************************
 # Miscellaneous options and initializations.
@@ -595,6 +612,13 @@ darwin*)
 esac
 
 # **************************************************************************
+
+AC_SUBST([soqt_build_dir])
+AC_SUBST([soqt_w32_build_dir])
+AC_SUBST([soqt_src_dir])
+AC_SUBST([soqt_w32_src_dir])
+
+# **************************************************************************
 # Remove redundant options from certain option lists.
 
 SIM_AC_UNIQIFY_LIST(SOGUI_EXTRA_CPPFLAGS, -I$includedir $SOGUI_EXTRA_CPPFLAGS)
@@ -629,78 +653,116 @@ AC_SUBST([LIBFLAGS], [])
 
 AM_CONDITIONAL([BUILD_WITH_MSVC], [$BUILD_WITH_MSVC])
 
-if $BUILD_WITH_MSVC; then
-  rm -f vc60.pdb
-  ## Ensure that if we link with Coin, we use the same C library as Coin
-  if test x"$sim_ac_coin_msvcrt" != x"" &&
-     test x"$sim_ac_msvcrt" != x"$sim_ac_coin_msvcrt"; then
-      SIM_AC_CONFIGURATION_WARNING([You have built Coin with the $sim_ac_coin_msvcrt C library, while you try to build So$Gui with the $sim_ac_msvcrt C library.  This can cause mysterious crashes for you.  We recommend that you run So$Gui's configure script with the --with-msvcrt=$sim_ac_coin_msvcrt option.])
-  fi
-  LIBFLAGS="$LIBFLAGS $sim_ac_msvcrt_LIBLDFLAGS"
-  LIBS="$LIBS $sim_ac_msvcrt_LIBLIBS"
-  if $SOQT_STATIC; then
-    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS -DSOQT_NOT_DLL"
-  else
-    CPPFLAGS="-DSOQT_MAKE_DLL $CPPFLAGS"
-    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS -DSOQT_DLL"
-  fi
+# **************************************************************************
 
-  debugfile="`pwd`/src/Inventor/Qt/soqt${SOQT_MAJOR_VERSION}${SUFFIX}.pdb"
-  debugfile=`cygpath -w "$debugfile" | sed 's,\\\\,\\\\\\\\,g'`
-  if $SOQT_STATIC; then
-    SIM_AC_CONFIGURATION_SETTING([SoQt build type], [static .lib])
-    LIBFLAGS="-LIB $LIBFLAGS"
-    LIBFLAGS="$LIBFLAGS /OUT:soqt$SOQT_MAJOR_VERSION$SUFFIX.lib"
-  else
-    LIBFLAGS="-DLL /INCREMENTAL:NO $LIBFLAGS"
-    case $enable_symbols in
-    no | false)
-      LIBFLAGS="$LIBFLAGS /RELEASE"
-      SIM_AC_CONFIGURATION_SETTING([SoQt build type],
-                                   [dynamic .dll, no symbols])
-      ;;
-    *)
-      SIM_AC_CONFIGURATION_SETTING([SoQt build type], [dynamic .dll + .pdb])
-      CPPFLAGS="/Fd$debugfile $CPPFLAGS"
-      LIBFLAGS="$LIBFLAGS /DEBUG /PDB:soqt$SOQT_MAJOR_VERSION$SUFFIX.pdb"
+if $sim_ac_make_dsp; then
+  SIM_AC_CONFIGURATION_SETTING([SoQt build type], [msvc .dsp])
+  CC=$soqt_src_dir/cfg/m4/gendsp.sh
+  CXX=$soqt_src_dir/cfg/m4/gendsp.sh
+  CXXLD=$soqt_src_dir/cfg/m4/gendsp.sh
+  # Yes, this is totally bogus stuff, but don't worry about it.  As long
+  # as gendsp.sh recognizes it...  20030219 larsa
+  CPPFLAGS="$CPPFLAGS -Ddspfile=$soqt_build_dir/soqt$SOQT_MAJOR_VERSION.dsp"
+  LDFLAGS="$LDFLAGS -Wl,-Ddspfile=$soqt_build_dir/soqt$SOQT_MAJOR_VERSION.dsp"
+  LIBFLAGS="$LIBFLAGS -o soqt$SOQT_MAJOR_VERSION.so.0"
+
+  SOQT_DSP_LIBS=
+  for arg in $LIBS; do
+    case $arg in
+    -l* )
+      libname=`echo $arg | cut -c3-`
+      if test x"$SOQT_DSP_LIBS" = x""; then
+        SOQT_DSP_LIBS="$libname.lib"
+      else
+        SOQT_DSP_LIBS="$SOQT_DSP_LIBS $libname.lib"
+      fi
       ;;
     esac
-    LIBFLAGS="$LIBFLAGS /OUT:soqt$SOQT_MAJOR_VERSION$SUFFIX.dll"
-  fi
+  done
+  AC_SUBST(SOQT_DSP_LIBS)
 
-  # We use a version suffix on the .dll-file, so several incompatible
-  # (major) versions can be installed on a system.
-  #
-  # BTW, when linking DLLs, the 3rd-party .lib files will be
-  # linked into the .dll file. I believe it is still advisable to
-  # list all libs used upon `soqt-config --libs`, as we can then
-  # also use them from "parent" code (remember that their interfaces
-  # is not exposed from the DLL) without any fuss.
-  SOGUI_EXTRA_LIBS="-lsoqt$SOQT_MAJOR_VERSION$SUFFIX $SOGUI_EXTRA_LIBS"
-else
-  SOGUI_EXTRA_LIBS="-lSoQt$SUFFIX $SOGUI_EXTRA_LIBS"
+  # this can't be set up at the point the libtool script is generated
+  mv libtool libtool.bak
+  sed -e "s%^CC=\"gcc\"%CC=\"$soqt_src_dir/cfg/m4/gendsp.sh\"%" \
+      -e "s%^CC=\".*/wrapmsvc.exe\"%CC=\"$soqt_src_dir/cfg/m4/gendsp.sh\"%" \
+      <libtool.bak >libtool
+  rm -f libtool.bak
+  chmod 755 libtool
 
-  if $sim_ac_framework; then
-    # setup for SoQt usage
-    SOGUI_EXTRA_CPPFLAGS=
-    SOGUI_EXTRA_CFLAGS=
-    SOGUI_EXTRA_CXXFLAGS=
-    SOGUI_EXTRA_LDFLAGS="-Wl,-multiply_defined,suppress -framework SoQt"
-    SOGUI_EXTRA_LIBS=
-    # adjust for Qt usage
-    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qt_cppflags"
-    SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qt_ldflags"
-    SOGUI_EXTRA_LIBS="$sim_ac_qt_libs $SOGUI_EXTRA_LIBS"
-    # adjust for QGL usage
-    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qgl_cppflags"
-    SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qgl_ldflags"
-    SOGUI_EXTRA_LIBS="$sim_ac_qgl_libs $SOGUI_EXTRA_LIBS"
-    # adjust for Coin usage
-    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_coin_cppflags"
-    SOGUI_EXTRA_CFLAGS="$SOGUI_EXTRA_CFLAGS $sim_ac_coin_cflags"
-    SOGUI_EXTRA_CXXFLAGS="$SOGUI_EXTRA_CXXFLAGS $sim_ac_coin_cxxflags"
-    SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_coin_ldflags"
-    SOGUI_EXTRA_LIBS="$sim_ac_coin_libs $SOGUI_EXTRA_LIBS"
+elif $sim_ac_build_library; then
+  if $BUILD_WITH_MSVC; then
+    rm -f vc60.pdb
+    ## Ensure that if we link with Coin, we use the same C library as Coin
+    if test x"$sim_ac_coin_msvcrt" != x"" &&
+       test x"$sim_ac_msvcrt" != x"$sim_ac_coin_msvcrt"; then
+        SIM_AC_CONFIGURATION_WARNING([You have built Coin with the $sim_ac_coin_msvcrt C library, while you try to build So$Gui with the $sim_ac_msvcrt C library.  This can cause mysterious crashes for you.  We recommend that you run So$Gui's configure script with the --with-msvcrt=$sim_ac_coin_msvcrt option.])
+    fi
+    LIBFLAGS="$LIBFLAGS $sim_ac_msvcrt_LIBLDFLAGS"
+    LIBS="$LIBS $sim_ac_msvcrt_LIBLIBS"
+    if $SOQT_STATIC; then
+      SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS -DSOQT_NOT_DLL"
+    else
+      CPPFLAGS="-DSOQT_MAKE_DLL $CPPFLAGS"
+      SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS -DSOQT_DLL"
+    fi
+
+    debugfile="`pwd`/src/Inventor/Qt/soqt${SOQT_MAJOR_VERSION}${SUFFIX}.pdb"
+    debugfile=`cygpath -w "$debugfile" | sed 's,\\\\,\\\\\\\\,g'`
+    if $SOQT_STATIC; then
+      SIM_AC_CONFIGURATION_SETTING([SoQt build type], [static .lib])
+      LIBFLAGS="-LIB $LIBFLAGS"
+      LIBFLAGS="$LIBFLAGS /OUT:soqt$SOQT_MAJOR_VERSION$SUFFIX.lib"
+    else
+      LIBFLAGS="-DLL /INCREMENTAL:NO $LIBFLAGS"
+      case $enable_symbols in
+      no | false)
+        LIBFLAGS="$LIBFLAGS /RELEASE"
+        SIM_AC_CONFIGURATION_SETTING([SoQt build type],
+                                     [dynamic .dll, no symbols])
+        ;;
+      *)
+        SIM_AC_CONFIGURATION_SETTING([SoQt build type], [dynamic .dll + .pdb])
+        CPPFLAGS="/Fd$debugfile $CPPFLAGS"
+        LIBFLAGS="$LIBFLAGS /DEBUG /PDB:soqt$SOQT_MAJOR_VERSION$SUFFIX.pdb"
+        ;;
+      esac
+      LIBFLAGS="$LIBFLAGS /OUT:soqt$SOQT_MAJOR_VERSION$SUFFIX.dll"
+    fi
+  
+    # We use a version suffix on the .dll-file, so several incompatible
+    # (major) versions can be installed on a system.
+    #
+    # BTW, when linking DLLs, the 3rd-party .lib files will be
+    # linked into the .dll file. I believe it is still advisable to
+    # list all libs used upon `soqt-config --libs`, as we can then
+    # also use them from "parent" code (remember that their interfaces
+    # is not exposed from the DLL) without any fuss.
+    SOGUI_EXTRA_LIBS="-lsoqt$SOQT_MAJOR_VERSION$SUFFIX $SOGUI_EXTRA_LIBS"
+  else
+    SOGUI_EXTRA_LIBS="-lSoQt$SUFFIX $SOGUI_EXTRA_LIBS"
+
+    if $sim_ac_framework; then
+      # setup for SoQt usage
+      SOGUI_EXTRA_CPPFLAGS=
+      SOGUI_EXTRA_CFLAGS=
+      SOGUI_EXTRA_CXXFLAGS=
+      SOGUI_EXTRA_LDFLAGS="-Wl,-multiply_defined,suppress -framework SoQt"
+      SOGUI_EXTRA_LIBS=
+      # adjust for Qt usage
+      SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qt_cppflags"
+      SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qt_ldflags"
+      SOGUI_EXTRA_LIBS="$sim_ac_qt_libs $SOGUI_EXTRA_LIBS"
+      # adjust for QGL usage
+      SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qgl_cppflags"
+      SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qgl_ldflags"
+      SOGUI_EXTRA_LIBS="$sim_ac_qgl_libs $SOGUI_EXTRA_LIBS"
+      # adjust for Coin usage
+      SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_coin_cppflags"
+      SOGUI_EXTRA_CFLAGS="$SOGUI_EXTRA_CFLAGS $sim_ac_coin_cflags"
+      SOGUI_EXTRA_CXXFLAGS="$SOGUI_EXTRA_CXXFLAGS $sim_ac_coin_cxxflags"
+      SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_coin_ldflags"
+      SOGUI_EXTRA_LIBS="$sim_ac_coin_libs $SOGUI_EXTRA_LIBS"
+    fi
   fi
 fi
 
