@@ -177,7 +177,9 @@ SoGui_src_Inventor_Gui_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@Component.h \
+  $(top_builddir)/src/Inventor/@Gui@/SoGuiComponentP.h \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidget.h \
+  $(top_builddir)/src/Inventor/@Gui@/SoGuiGLWidgetP.h \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.h \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp \
@@ -322,7 +324,9 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/SoGuiCommon.cpp.in \
   src/Inventor/@Gui@/common/SoGuiComponentCommon.cpp.in \
   src/Inventor/@Gui@/common/SoGuiComponent.h.in \
+  src/Inventor/@Gui@/common/SoGuiComponentP.h.in \
   src/Inventor/@Gui@/common/SoGuiGLWidget.h.in \
+  src/Inventor/@Gui@/common/SoGuiGLWidgetP.h.in \
   src/Inventor/@Gui@/common/SoGuiGLWidgetCommon.cpp.in \
   src/Inventor/@Gui@/common/SoGuiRenderArea.h.in \
   src/Inventor/@Gui@/common/SoGuiRenderArea.cpp.in \
@@ -558,8 +562,14 @@ $(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp: $(top_srcdir)/src
 $(top_builddir)/src/Inventor/@Gui@/So@Gui@Component.h: $(top_srcdir)/src/Inventor/@Gui@/common/SoGuiComponent.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/So@Gui@Component.h:src/Inventor/@Gui@/common/SoGuiComponent.h.in )
 
+$(top_builddir)/src/Inventor/@Gui@/SoGuiComponentP.h: $(top_srcdir)/src/Inventor/@Gui@/common/SoGuiComponentP.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/SoGuiComponentP.h:src/Inventor/@Gui@/common/SoGuiComponentP.h.in )
+
 $(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidget.h: $(top_srcdir)/src/Inventor/@Gui@/common/SoGuiGLWidget.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/So@Gui@GLWidget.h:src/Inventor/@Gui@/common/SoGuiGLWidget.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/SoGuiGLWidgetP.h: $(top_srcdir)/src/Inventor/@Gui@/common/SoGuiGLWidgetP.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/SoGuiGLWidgetP.h:src/Inventor/@Gui@/common/SoGuiGLWidgetP.h.in )
 
 $(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/SoGuiGLWidgetCommon.cpp.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp:src/Inventor/@Gui@/common/SoGuiGLWidgetCommon.cpp.in )
