@@ -2313,7 +2313,8 @@ EOF
 
   if test ! x"$sim_cv_qtlibs" = xUNRESOLVED; then
     sim_ac_qt_avail=yes
-    LIBS="$sim_ac_qt_libcheck $sim_ac_save_libs"
+    sim_ac_qt_libs="$sim_ac_qt_libcheck"
+    LIBS="$sim_ac_qt_libs $sim_ac_save_libs"
     $1
   else
     CPPFLAGS=$sim_ac_save_cppflags
