@@ -2292,6 +2292,9 @@ EOF
   rm -f conftest.c
 
   if test x"$MOC" != xfalse; then
+    # We need the QT_DLL define to get at all the symbols.
+    CPPFLAGS="$CPPFLAGS -DQT_DLL"
+
     AC_CACHE_CHECK([whether the Qt library is available],
       sim_cv_qtlibs,
       [sim_cv_qtlibs=UNRESOLVED
@@ -2300,7 +2303,7 @@ EOF
            LIBS="$sim_ac_qt_libcheck $sim_ac_save_libs"
            AC_TRY_LINK([#include <qapplication.h>],
                        [int dummy=0;
-                        QApplication * a = new QApplication(dummy, 0L);],
+                        QApplication a(dummy, 0L);],
                        [sim_cv_qtlibs="$sim_ac_qt_libcheck"])
          fi
        done
