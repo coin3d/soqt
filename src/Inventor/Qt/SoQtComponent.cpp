@@ -1118,10 +1118,6 @@ SoQtComponent::setWidgetCursor(QWidget * w, const SoQtCursor & cursor)
       w->setCursor(QCursor(Qt::waitCursor));
       break;
 
-    case SoQtCursor::BLANK:
-      w->setCursor(QCursor(Qt::blankCursor));
-      break;
-
     case SoQtCursor::CROSSHAIR:
       w->setCursor(QCursor(Qt::crossCursor));
       break;

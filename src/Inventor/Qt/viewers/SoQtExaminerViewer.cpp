@@ -584,7 +584,7 @@ SoQtExaminerViewer::setCursorRepresentation(int mode)
   // code. 20011125 mortene.
 
   if (!this->isCursorEnabled()) {
-    this->setComponentCursor(SoQtCursor(SoQtCursor::BLANK));
+    this->setComponentCursor(SoQtCursor::getBlankCursor());
     return;
   }
 

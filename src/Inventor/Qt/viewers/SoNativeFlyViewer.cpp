@@ -31,7 +31,7 @@ SoQtFlyViewerP::updateCursorRepresentation(void)
   // code. 20011125 mortene.
 
   if (!this->viewer->isCursorEnabled()) {
-    this->viewer->setComponentCursor(SoQtCursor(SoQtCursor::BLANK));
+    this->viewer->setComponentCursor(SoQtCursor::getBlankCursor());
     return;
   }
 
