@@ -87,7 +87,7 @@ SoQtThumbWheel::setOrientation(
   Orientation orientation )
 {
   this->orient = orientation;
-  this->repaint();
+  this->repaint( FALSE );
 } // setOrientation()
 
 void
@@ -98,7 +98,6 @@ SoQtThumbWheel::paintEvent(
   QRect paintRect = event->rect();
   p.setClipRect(paintRect);
   QColorGroup g = this->colorGroup();
-  QBrush fill( g.background() );
 
   int w, d;
   if ( this->orient == SoQtThumbWheel::Vertical ) {
@@ -120,7 +119,7 @@ SoQtThumbWheel::paintEvent(
                    this->height() - 2*SHADEBORDERWIDTH );
 
   qDrawShadePanel( &p, 0, 0, this->width(), this->height(),
-                   g, FALSE, SHADEBORDERWIDTH, &fill );
+                   g, FALSE, SHADEBORDERWIDTH, NULL );
 
   if ( this->orient == Vertical ) {
     wheelrect.setTop(    wheelrect.top() + 5 );
@@ -216,7 +215,7 @@ SoQtThumbWheel::mouseMoveEvent(
 
   emit wheelMoved( this->tempWheelValue );
 
-  this->repaint();
+  this->repaint( FALSE );
 } // mouseMoveEvent()
 
 /*!
@@ -336,7 +335,7 @@ SoQtThumbWheel::setEnabled(
     this->state = SoQtThumbWheel::Idle;
   else
     this->state = SoQtThumbWheel::Disabled;
-  this->repaint();
+  this->repaint( FALSE );
 } // setEnabled()
 
 bool
@@ -352,7 +351,7 @@ SoQtThumbWheel::setValue(
 {
   this->wheelValue = this->tempWheelValue = value;
   this->mouseDownPos = this->mouseLastPos;
-  this->repaint();
+  this->repaint( FALSE );
 } // setValue()
 
 // *************************************************************************
