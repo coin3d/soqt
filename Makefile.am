@@ -60,18 +60,13 @@ cfgdata_DATA = so@gui@-@CONFIG@.cfg
 endif
 
 EXTRA_DIST = \
-	LICENSE.LGPL \
 	FAQ \
-	HACKING \
 	README.DLL \
 	README.IRIX \
 	README.WIN32 \
 	build/soqt.spec.in \
 	build/soqt.doxygen.in \
-	cfg/m4/doxy4win.pl \
 	cfg/m4/soqt.m4 \
-	cfg/m4/wrapmsvc.cpp \
-	cfg/m4/wrapmsvc.exe \
 	models/coin_soqt.iv \
 	models/coin_soqt.wrl \
 	test-code/README \
