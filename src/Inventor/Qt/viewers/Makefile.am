@@ -22,6 +22,8 @@ BUILT_SOURCES = \
 	SoQtViewer.cpp \
 	SoQtConstrainedViewer.h \
 	SoQtConstrainedViewer.cpp \
+	SoQtFlyViewer.h \
+	SoQtFlyViewer.cpp \
 	SoAnyFullViewer.h \
 	SoAnyFullViewer.cpp \
 	SoAnyExaminerViewer.h \
@@ -54,6 +56,12 @@ SoQtConstrainedViewer.h: $(top_srcdir)/src/Inventor/Qt/common/SoGuiConstrainedVi
 
 SoQtConstrainedViewer.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoGuiConstrainedViewer.cpp.in
 	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/viewers/SoQtConstrainedViewer.cpp )
+
+SoQtFlyViewer.h: $(top_srcdir)/src/Inventor/Qt/common/SoGuiFlyViewer.h.in
+	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/viewers/SoQtFlyViewer.h )
+
+SoQtFlyViewer.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoGuiFlyViewer.cpp.in
+	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/viewers/SoQtFlyViewer.cpp )
 
 SoAnyFullViewer.h: \
   $(top_srcdir)/src/Inventor/Qt/common/SoAnyFullViewer.h.in
@@ -115,7 +123,7 @@ moc_SoQtWalkViewer.cpp: $(top_srcdir)/src/Inventor/Qt/viewers/SoQtWalkViewer.h
 	@( cd $(top_builddir); \
 	   $(MAKE) src/Inventor/Qt/viewers/moc_SoQtWalkViewer.cpp )
 
-moc_SoQtFlyViewer.cpp: $(top_srcdir)/src/Inventor/Qt/viewers/SoQtFlyViewer.h
+moc_SoQtFlyViewer.cpp: $(top_builddir)/src/Inventor/Qt/viewers/SoQtFlyViewer.h
 	@( cd $(top_builddir); \
 	   $(MAKE) src/Inventor/Qt/viewers/moc_SoQtFlyViewer.cpp )
 
@@ -130,9 +138,7 @@ libSoQtViewers_la_SOURCES = \
 	SoQtPlaneViewer.cpp \
 	SoQtPlaneViewer.h \
 	SoQtWalkViewer.cpp \
-	SoQtWalkViewer.h \
-	SoQtFlyViewer.cpp \
-	SoQtFlyViewer.h
+	SoQtWalkViewer.h
 
 nodist_libSoQtViewers_la_SOURCES = \
 	$(BUILT_SOURCES)
@@ -148,9 +154,7 @@ viewers_lst_SOURCES = \
 	SoQtPlaneViewer.cpp \
 	SoQtPlaneViewer.h \
 	SoQtWalkViewer.cpp \
-	SoQtWalkViewer.h \
-	SoQtFlyViewer.cpp \
-	SoQtFlyViewer.h
+	SoQtWalkViewer.h
 
 nodist_viewers_lst_SOURCES = \
 	$(BUILT_SOURCES)
@@ -168,12 +172,12 @@ SoQtViewersinc_HEADERS = \
 	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtFullViewer.h \
 	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtExaminerViewer.h \
 	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtPlaneViewer.h \
-	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtWalkViewer.h \
-	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtFlyViewer.h
+	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtWalkViewer.h
 
 nodist_SoQtViewersinc_HEADERS = \
 	$(top_builddir)/src/Inventor/Qt/viewers/SoQtViewer.h \
-	$(top_builddir)/src/Inventor/Qt/viewers/SoQtConstrainedViewer.h
+	$(top_builddir)/src/Inventor/Qt/viewers/SoQtConstrainedViewer.h \
+	$(top_builddir)/src/Inventor/Qt/viewers/SoQtFlyViewer.h
 
 install-SoQtViewersincHEADERS: $(SoQtViewersinc_HEADERS)
 	@$(NORMAL_INSTALL)

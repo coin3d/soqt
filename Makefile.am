@@ -26,6 +26,8 @@ SoQtBuiltSources = \
 	src/Inventor/Qt/viewers/SoQtViewer.cpp \
 	src/Inventor/Qt/viewers/SoQtConstrainedViewer.h \
 	src/Inventor/Qt/viewers/SoQtConstrainedViewer.cpp \
+	src/Inventor/Qt/viewers/SoQtFlyViewer.h \
+	src/Inventor/Qt/viewers/SoQtFlyViewer.cpp \
 	src/Inventor/Qt/viewers/SoAnyFullViewer.h \
 	src/Inventor/Qt/viewers/SoAnyFullViewer.cpp \
 	src/Inventor/Qt/viewers/SoAnyExaminerViewer.h \
@@ -111,6 +113,8 @@ EXTRA_DIST = \
 	src/Inventor/Qt/common/SoGuiViewer.cpp.in \
 	src/Inventor/Qt/common/SoGuiConstrainedViewer.h.in \
 	src/Inventor/Qt/common/SoGuiConstrainedViewer.cpp.in \
+	src/Inventor/Qt/common/SoGuiFlyViewer.h.in \
+	src/Inventor/Qt/common/SoGuiFlyViewer.cpp.in \
 	src/Inventor/Qt/common/SoAny.h.in \
 	src/Inventor/Qt/common/SoAny.cpp.in \
 	src/Inventor/Qt/common/SoAnyPopupMenu.h.in \
@@ -214,6 +218,14 @@ src/Inventor/Qt/viewers/SoQtConstrainedViewer.h: \
 src/Inventor/Qt/viewers/SoQtConstrainedViewer.cpp: \
   $(srcdir)/src/Inventor/Qt/common/SoGuiConstrainedViewer.cpp.in config.status
 	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoGuiConstrainedViewer.cpp.in
+
+src/Inventor/Qt/viewers/SoQtFlyViewer.h: \
+  $(srcdir)/src/Inventor/Qt/common/SoGuiFlyViewer.h.in config.status
+	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoGuiFlyViewer.h.in
+
+src/Inventor/Qt/viewers/SoQtFlyViewer.cpp: \
+  $(srcdir)/src/Inventor/Qt/common/SoGuiFlyViewer.cpp.in config.status
+	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoGuiFlyViewer.cpp.in
 
 src/Inventor/Qt/viewers/SoAnyFullViewer.h: \
   $(srcdir)/src/Inventor/Qt/common/SoAnyFullViewer.h.in config.status
@@ -356,8 +368,8 @@ src/Inventor/Qt/viewers/moc_SoQtWalkViewer.cpp: \
 	$(MOC) -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/viewers/SoQtWalkViewer.h`
 
 src/Inventor/Qt/viewers/moc_SoQtFlyViewer.cpp: \
-  $(srcdir)/src/Inventor/Qt/viewers/SoQtFlyViewer.h
-	$(MOC) -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/viewers/SoQtFlyViewer.h`
+  $(top_builddir)/src/Inventor/Qt/viewers/SoQtFlyViewer.h
+	$(MOC) -o $@ $(top_builddir)/src/Inventor/Qt/viewers/SoQtFlyViewer.h
 
 src/Inventor/Qt/widgets/moc_SoQtThumbWheel.cpp: \
   $(srcdir)/src/Inventor/Qt/widgets/SoQtThumbWheel.h
