@@ -1006,9 +1006,8 @@ SoQtComponent::setFullScreen(const SbBool onoff)
   // QWidget::showFullScreen() doesn't work very well with the idea
   // that we'll compile a distribution version of SoQt against the
   // lowest common denominator of Qt versions we support (ie v2.0.0),
-  // as that means SoQtComponent::goFullScreen() will never work as
-  // expected in the pre-compiled distro version we make.  20010608
-  // mortene.
+  // as that means SoQtComponent::setFullScreen() will never work as
+  // expected in the pre-compiled distro version we make.  20010608 mortene.
 
 #if HAVE_QWIDGET_SHOWFULLSCREEN
   if (onoff) w->showFullScreen();
@@ -1016,7 +1015,7 @@ SoQtComponent::setFullScreen(const SbBool onoff)
   THIS->fullscreen = onoff;
   return TRUE;
 #else // !HAVE_QWIDGET_SHOWFULLSCREEN
-  SoDebugError::postWarning("SoQtComponent::goFullScreen",
+  SoDebugError::postWarning("SoQtComponent::setFullScreen",
                             "SoQt was compiled against version %s of Qt, "
                             "which doesn't have the "
                             "QWidget::showFullScreen() method",
