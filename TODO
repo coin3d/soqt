@@ -1,4 +1,3 @@
--*- Mode: text -*-  (put Emacs into text mode)
 ===============================================================================
 
 ToDo
@@ -8,11 +7,12 @@ ToDo
 
 *** BUILD ITEMS ***
 
+* [mortene:19991218] set up -Wno-* options to GCC to avoid all the
+  warnings seeping out when compiling on top of Open Inventor (because
+  of problems in the OI include files).
+
 * [mortene:19990926] add configure option for specifying location of
   the Coin library.
-
-* [mortene:19990929] remove all compiler warnings, set default
-  configure settings to "warnings on".
 
 * [mortene:19990917] write information in NEWS, README, HACKING,
   AUTHORS, ChangeLog, COPYING.
@@ -90,9 +90,6 @@ ToDo
 
 *** BUGS ***
 
-* [mortene:19991117] click seek, miss with the ray, click seek again
-  -- mode is still "grab". Click seek again to into seek mode.
-
 * [mortene:19991111] seems like there's a problem with camera focal
   point and floating point precision, here's how to reproduce: load a
   scene containing only a sphere (other shapes or complex scene graphs
@@ -153,6 +150,13 @@ Done
 ====
 
 (format is: "* [author:conceived-date][implementer:finished-date] item")
+
+* [mortene:19991117][mortene:19991219] click seek, miss with the ray,
+  click seek again -- mode is still "grab". Click seek again to into
+  seek mode.
+
+* [mortene:19990929][mortene:19991201] remove all compiler warnings,
+  set default configure settings to "warnings on".
 
 * [mortene:1999????][mortene:19991001] quick LMB click in viewer
   window screws up interactive count (enable the debug code in

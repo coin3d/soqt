@@ -1337,7 +1337,10 @@ SoQtViewer::seekToPoint(const SbVec2s & screenpos)
   rpaction.apply(this->viewerroot);
 
   SoPickedPoint * picked = rpaction.getPickedPoint();
-  if (!picked) return FALSE;
+  if (!picked) {
+    this->setSeekMode(FALSE);
+    return FALSE;
+  }
 
   SbVec3f hitpoint;
   if (this->seektopoint) {

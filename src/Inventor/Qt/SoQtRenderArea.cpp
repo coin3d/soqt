@@ -778,7 +778,8 @@ SoQtRenderArea::processEvent(QEvent * anyevent)
     ev = this->kbddevice->translateEvent(anyevent);
 
   if (ev) {
-    if (!this->overlaySceneManager->processEvent(ev))
+    if (!this->overlaySceneManager->processEvent(ev)) {
       this->sceneManager->processEvent(ev);
+    }
   }
 }
