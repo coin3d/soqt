@@ -1037,7 +1037,7 @@ SoQtComponent::isFullScreen(void) const
   Sets the cursor for this component.
 */
 void 
-SoQtComponent::setCursor(const SoQtCursor & cursor)
+SoQtComponent::setComponentCursor(const SoQtCursor & cursor)
 {
   PRIVATE(this)->cursor = cursor;
   switch(cursor.getShape()) {
@@ -1060,7 +1060,7 @@ SoQtComponent::setCursor(const SoQtCursor & cursor)
   Returns the current cursor for this component.
 */
 const SoQtCursor &
-SoQtComponent::getCursor(void) const
+SoQtComponent::getComponentCursor(void) const
 {
   return PRIVATE(this)->cursor;
 }
