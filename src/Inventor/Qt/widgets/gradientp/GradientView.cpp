@@ -42,7 +42,7 @@ GradientView::GradientView(QCanvas * c,
                            const char * name,
                            WFlags f)
                            
-: QCanvasView(c, parent, name, f)
+  : QCanvasView(c, parent, name, f)
 {
   this->canvas = c;
   this->grad = g;
@@ -135,42 +135,42 @@ void GradientView::contentsMousePressEvent(QMouseEvent * e)
   QPoint p = inverseWorldMatrix().map(e->pos());
  
   switch (e->button()) {
-    case Qt::LeftButton: {
-      QCanvasItemList list = this->canvas->collisions(p);
-      QCanvasItemList::Iterator it=list.begin();
-      for (; it != list.end(); ++it) {
-        if ((*it)->rtti() == TickMark::RTTI) {
-            this->movingItem = (TickMark *)(*it);
-            this->moving_start = p;
-            SbBool selected = this->movingItem->isSelected();
-            this->unselectAll();
-            this->selectedMark = this->movingItem;
-            this->selectedMark->setSelected(selected ? FALSE : TRUE);
+  case Qt::LeftButton: {
+    QCanvasItemList list = this->canvas->collisions(p);
+    QCanvasItemList::Iterator it=list.begin();
+    for (; it != list.end(); ++it) {
+      if ((*it)->rtti() == TickMark::RTTI) {
+        this->movingItem = (TickMark *)(*it);
+        this->moving_start = p;
+        SbBool selected = this->movingItem->isSelected();
+        this->unselectAll();
+        this->selectedMark = this->movingItem;
+        this->selectedMark->setSelected(selected ? FALSE : TRUE);
             
-            this->movingItem->setBrush(QColor(0,0,255));
-            this->canvas->update();
-            return;
-        } else {
-          this->startIndex = -1;
-          while (this->tickMarks[++this->startIndex]->x() < p.x());
-          this->startIndex--;
-          this->endIndex = this->startIndex + 1;
+        this->movingItem->setBrush(QColor(0,0,255));
+        this->canvas->update();
+        return;
+      } else {
+        this->startIndex = -1;
+        while (this->tickMarks[++this->startIndex]->x() < p.x());
+        this->startIndex--;
+        this->endIndex = this->startIndex + 1;
 
-          this->tickMarks[this->startIndex]->isStart = TRUE;
-          this->tickMarks[this->endIndex]->isEnd = TRUE;
-          emit this->viewChanged();
-        }
+        this->tickMarks[this->startIndex]->isStart = TRUE;
+        this->tickMarks[this->endIndex]->isEnd = TRUE;
+        emit this->viewChanged();
       }
-     break;
     }
-    case Qt::RightButton: {
-      this->buildMenu();
-      if (this->menu->exec(e->globalPos())) {
-        delete this->menu;
-        this->menu = NULL;
-      }
-      break;
+    break;
+  }
+  case Qt::RightButton: {
+    this->buildMenu();
+    if (this->menu->exec(e->globalPos())) {
+      delete this->menu;
+      this->menu = NULL;
     }
+    break;
+  }
   }
   this->movingItem = 0;
 }
@@ -189,33 +189,35 @@ void GradientView::contentsMouseReleaseEvent(QMouseEvent * e)
 
 void GradientView::contentsMouseMoveEvent(QMouseEvent * e)
 {
-	QPoint p = inverseWorldMatrix().map(e->pos());
+  QPoint p = inverseWorldMatrix().map(e->pos());
   int x = p.x();
 
   if (this->movingItem && 
-     (this->movingItem != this->tickMarks[0]) &&  
-     (this->movingItem != this->tickMarks[this->tickMarks.getLength()-1]))
-  {   
-    int index = this->tickMarks.find((TickMark *)this->movingItem);
-    TickMark * left = this->tickMarks[index - 1];
-    TickMark * right = this->tickMarks[index + 1];
+      (this->movingItem != this->tickMarks[0]) &&  
+      (this->movingItem != this->tickMarks[this->tickMarks.getLength()-1]))
+    {   
+      int index = this->tickMarks.find(this->movingItem);
+      assert((index < this->tickMarks.getLength() - 1) && (index >= 1));
 
-    int movex = x - this->moving_start.x();
-    int newpos = this->movingItem->x() + movex;
+      TickMark * left = this->tickMarks[index - 1];
+      TickMark * right = this->tickMarks[index + 1];
 
-    if ((newpos >= left->x()) && newpos <= right->x()) {
-	    this->movingItem->moveBy(movex, 0);
-	    this->moving_start = QPoint(x, p.y());
+      int movex = x - this->moving_start.x();
+      int newpos = this->movingItem->x() + movex;
 
-      this->movingItem->setZ(3);
+      if ((newpos >= left->x()) && newpos <= right->x()) {
+        this->movingItem->moveBy(movex, 0);
+        this->moving_start = QPoint(x, p.y());
 
-      int i = this->tickMarks.find(this->movingItem);
-      float t = movingItem->getPos();
-      this->grad->moveTick(i, t);
+        this->movingItem->setZ(3);
+
+        int i = this->tickMarks.find(this->movingItem);
+        float t = movingItem->getPos();
+        this->grad->moveTick(i, t);
       
-      emit this->viewChanged();
+        emit this->viewChanged();
+      }
     }
-  }
 }
 
 void GradientView::keyPressEvent(QKeyEvent * e)
@@ -293,7 +295,7 @@ void GradientView::insertTick()
   float selectEnd = this->tickMarks[this->endIndex]->x();
 
   float x = ((selectEnd - selectStart)/2.0f
-            + selectStart);
+             + selectStart);
 
   float t = x / (float)this->canvas->width();
   int i = this->grad->insertTick(t);
