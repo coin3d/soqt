@@ -226,6 +226,7 @@
 #endif // HAVE_CONFIG_H
 
 #include <stdlib.h>
+#include <limits.h>
 
 /* The setting of this define needs to be added manually to
    configure.in for all relevant projects. */
