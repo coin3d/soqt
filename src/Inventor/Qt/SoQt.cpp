@@ -25,6 +25,8 @@
 
 // Class documentation in common/SoGuiCommon.cpp.in.
 
+// *************************************************************************
+
 /*!
   \mainpage
 
@@ -217,6 +219,8 @@ public:
 
 #endif // DOXYGEN_SKIP_THIS
 
+// *************************************************************************
+
 // documented as
 //   void SoQt::init(QWidget * toplevelwidget)
 // in common/SoGuiCommon.cpp.in
@@ -338,8 +342,8 @@ SoQt::sensorQueueChanged(void *)
 
   if (sm->isDelaySensorPending()) {
     if (SOQT_DEBUG && 0) { // debug
-    SoDebugError::postInfo("SoQt::sensorQueueChanged",
-                           "delaysensor pending");
+      SoDebugError::postInfo("SoQt::sensorQueueChanged",
+                             "delaysensor pending");
     }
 
     // Start idletimer at 0 seconds in the future. -- That means it will 
@@ -367,10 +371,6 @@ SoQt::sensorQueueChanged(void *)
 void
 SoQt::mainLoop(void)
 {
-  // We need to process immediate sensors _before_ any events are
-  // processed. This is done by installing an eventFilter on the
-  // global QApplication object.
-  qApp->installEventFilter(SoQtP::soqt_instance());
   (void) qApp->exec();
 }
 
