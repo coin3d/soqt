@@ -52,7 +52,7 @@ SoQt-$(VERSION).tar.gz:
 
 headerlist.nsi: Makefile
 	winpath=`CYGWIN= cygpath -w "$(sdk_prefix)"`; \
-	( prevdir=; cd $(sdk_prefix); for path in `find include -type f`; do \
+	( prevdir=; cd $(sdk_prefix); for path in `find include/Inventor/Qt -type f`; do \
 	  dir=`echo $$path | sed 's/\/[^\/]*$$//'`; \
 	  if test x"$$dir" != x"$$prevdir"; then \
 	    prevdir=$$dir; \
