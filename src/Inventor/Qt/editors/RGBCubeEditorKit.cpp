@@ -93,7 +93,18 @@ RGBCubeEditorKit::mouseClickCallback(void *classObject, SoEventCallback *cb)
 {
 
   SoMouseButtonEvent * mouseEvent = (SoMouseButtonEvent *) (cb->getEvent());
-  
+
+  // FIXME: use code like this instead of the hacks below.
+//   SoHandleEventAction * handleaction = cb->getAction();
+//   const SbViewportRegion vp = handleaction->getViewportRegion();
+
+//   const SoPath * path = handleaction->getCurPath();
+//   SoNode * root = path->getHead();
+
+// SoGetMatrixAction gma(vp);
+// gma.apply(myrootnode);
+// SbMatrix m = gma.getMatrix();
+// m.getTransform(t, r, s, so);
   
   if(mouseEvent->getButton() == SoMouseButtonEvent::BUTTON1 &&
      mouseEvent->getState() == SoButtonEvent::UP) return;
@@ -120,7 +131,8 @@ RGBCubeEditorKit::mouseClickCallback(void *classObject, SoEventCallback *cb)
   SoNode * end = path->getTail();
   
 
-  if(end->getTypeId() == SoIndexedFaceSet::getClassTypeId()){  // Is this the IndexedFaceSet object?
+//   if(end->getTypeId() == SoIndexedFaceSet::getClassTypeId()){  // Is this the IndexedFaceSet object?
+  if (end == this->myifsnode){  // Is this the IndexedFaceSet object?
   
     SbVec3f ipoint = myPP->getPoint();
 
