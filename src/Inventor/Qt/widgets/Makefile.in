@@ -235,6 +235,8 @@ SoGui_src_Inventor_Gui_nodes_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp \
   $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiFrame.h \
   $(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiClickCounter.h \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp \
   $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiSlider1.h \
   $(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp
 
@@ -408,6 +410,8 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/nodes/Translation.cpp.in \
   src/Inventor/@Gui@/common/nodes/Frame.h.in \
   src/Inventor/@Gui@/common/nodes/Frame.cpp.in \
+  src/Inventor/@Gui@/common/nodes/ClickCounter.h.in \
+  src/Inventor/@Gui@/common/nodes/ClickCounter.cpp.in \
   src/Inventor/@Gui@/common/nodes/Slider1.h.in \
   src/Inventor/@Gui@/common/nodes/Slider1.cpp.in \
   src/Inventor/@Gui@/common/viewers/SoGuiConstrainedViewer.cpp.in \
@@ -1014,6 +1018,12 @@ $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiFrame.h: $(top_srcdir)/src/Invento
 
 $(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Frame.cpp.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/Frame.cpp:src/Inventor/@Gui@/common/nodes/Frame.cpp.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiClickCounter.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/ClickCounter.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiClickCounter.h:src/Inventor/@Gui@/common/nodes/ClickCounter.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/ClickCounter.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/ClickCounter.cpp:src/Inventor/@Gui@/common/nodes/ClickCounter.cpp.in )
 
 $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiSlider1.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Slider1.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiSlider1.h:src/Inventor/@Gui@/common/nodes/Slider1.h.in )
