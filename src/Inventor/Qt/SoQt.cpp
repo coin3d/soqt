@@ -659,10 +659,27 @@ SoQt::init(int & argc, char ** argv, const char * appname, const char * classnam
 }
 
 /*!
-  This is the event dispatch loop. It doesn't return until
-  \a QApplication::quit() or \a QApplication::exit() is called (which
-  is also done automatically by Qt whenever the user closes an application's
-  main widget).
+  This is the event dispatch loop. It doesn't return until \a
+  QApplication::quit() or \a QApplication::exit() is called (which is
+  also done automatically by Qt whenever the user closes an
+  application's main widget).
+
+  An important note: be careful about how you handle
+  SoQtComponent-derived objects after the application control returns
+  from mainLoop(), as SoQt will then have been "cleaned up" with
+  regards to various internal resources. So doing for instance
+  something like this:
+
+  \code
+  SoQt::mainLoop();
+  viewer->hide();
+  \endcode
+
+  ..spells "undefined behavior, expect a crash".
+
+  \e Deleting a component after mainLoop() returns is allowed, though,
+  and also necessary to avoid getting reports of possible memory leaks
+  from memleak checkers.
 */
 void
 SoQt::mainLoop(void)
