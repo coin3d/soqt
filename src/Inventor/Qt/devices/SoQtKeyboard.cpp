@@ -318,7 +318,7 @@ static struct key1map QtToSoMapping[] = {
 //    {Key_Asterisk, SoKeyboardEvent::}, // FIXME
   {Key_Plus, SoKeyboardEvent::PAD_ADD},
   {Key_Comma, SoKeyboardEvent::COMMA},
-  {Key_Minus, SoKeyboardEvent::MINUS},
+  {Key_Minus, SoKeyboardEvent::PAD_SUBTRACT},
   {Key_Period, SoKeyboardEvent::PERIOD},
   {Key_Slash, SoKeyboardEvent::SLASH},
   {Key_0, SoKeyboardEvent::NUMBER_0},
