@@ -45,6 +45,9 @@
 /* Define this to 1 if QGLWidget::setAutoBufferSwap() is available */
 #undef HAVE_QGLWIDGET_SETAUTOBUFFERSWAP
 
+/* Define to 1 if you have the <qstylefactory.h> header file. */
+#undef HAVE_QSTYLEFACTORY_H
+
 /* Define this if Qt::Keypad is available */
 #undef HAVE_QT_KEYPAD_DEFINE
 
