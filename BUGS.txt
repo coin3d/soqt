@@ -1,0 +1,32 @@
+=====================================================================
+
+000 Adding an app-specific pushbutton to the SoQtExaminerViewer will
+    make the left border too thin. Reproduce with this code:
+
+        #include <Inventor/Qt/SoQt.h>
+        #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
+        #include <Inventor/nodes/SoCone.h>
+        #include <qpushbutton.h>
+        
+        
+        int
+        main(int argc,  char ** argv)
+        {
+          QWidget * window = SoQt::init("");
+        
+          SoQtExaminerViewer * examinerviewer = new SoQtExaminerViewer(window);
+          examinerviewer->setSceneGraph(new SoCone);
+        
+          QWidget * parent = examinerviewer->getAppPushButtonParent();
+          QPushButton * button = new QPushButton(parent);
+          examinerviewer->addAppPushButton(button);
+        
+          examinerviewer->show();
+          SoQt::show(window);
+          SoQt::mainLoop();
+        
+          delete examinerviewer;
+          return 0;
+        } 
+
+=====================================================================
