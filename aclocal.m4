@@ -2473,7 +2473,9 @@ fi
 #  In addition, the variable $sim_ac_qt_avail is set to "yes" if
 #  the Qt development system is found.
 #
-# Author: Morten Eriksen, <mortene@sim.no>.
+# Authors:
+#   Morten Eriksen <mortene@sim.no>.
+#   Lars J. Aas <larsa@sim.no>.
 
 AC_DEFUN([SIM_AC_CHECK_QT], [
 
@@ -2545,7 +2547,7 @@ EOF
     ##   linking on Win32 platforms
 
     for sim_ac_qt_cppflags_loop in "" "-DQT_DLL"; do
-      for sim_ac_qt_libcheck in "-lqt" "-lqt$sim_ac_qt_version -lqtmain -lgdi32" "-lqt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32"; do
+      for sim_ac_qt_libcheck in "-lqt" "-lqt-mt" "-lqt$sim_ac_qt_version -lqtmain -lgdi32" "-lqt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32"; do
         if test "x$sim_ac_qt_libs" = "xUNRESOLVED"; then
           CPPFLAGS="$sim_ac_qt_incflags $sim_ac_qt_cppflags_loop $sim_ac_save_cppflags"
           LIBS="$sim_ac_qt_libcheck $sim_ac_save_libs"
