@@ -362,7 +362,8 @@ SoQt::mainLoop(void)
 /*!
   This funtcion will make the main event loop finish looping.
 
-  NOTE: exitMainLoop is not part of the original InventorXt API.
+  NOTE: exitMainLoop() is not present in the original API for SGI's
+  InventorXt library.
 */
 
 void
