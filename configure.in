@@ -28,6 +28,14 @@ SIM_AC_CVS_CHANGES([
 
 # **************************************************************************
 # Library versioning
+#
+#  Making releases:
+#    SOQT_MICRO_VERSION += 1;
+#    SOQT_INTERFACE_AGE += 1;
+#    SOQT_BINARY_AGE += 1;
+#  if any functions have been added, set SOQT_INTERFACE_AGE to 0.
+#  if backwards compatibility has been broken,
+#  set SOQT_BINARY_AGE _and_ SOQT_INTERFACE_AGE to 0.
 
 SOQT_MAJOR_VERSION=0
 SOQT_MINOR_VERSION=8
@@ -276,12 +284,9 @@ fi
 # **************************************************************************
 # Compiler control.
 
-SIM_COMPILE_DEBUG
-if test "x$enable_debug" = "xyes"; then
-  CXXFLAGS="$CXXFLAGS -DSOQT_DEBUG=1"
-else
-  CXXFLAGS="$CXXFLAGS -DSOQT_DEBUG=0"
-fi
+SIM_AC_COMPILE_DEBUG(
+  [CPPFLAGS="$CPPFLAGS -DSOQT_DEBUG=1"],
+  [CPPFLAGS="$CPPFLAGS -DSOQT_DEBUG=0"])
 
 SIM_AC_CHECK_VAR_FUNCTIONNAME
 
