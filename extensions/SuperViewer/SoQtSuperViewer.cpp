@@ -2118,10 +2118,10 @@ SoQtSuperViewer::showModel(int index)
   PRIVATE(this)->resetCountAction();
   PRIVATE(this)->resetBBox();
 
-  QString caption = "Super Viewer - ";
+  SbString caption= "Super Viewer - ";
   (void)printf("caption %s\n", PRIVATE(this)->modelnames[index]->getString());
   caption.operator+=(PRIVATE(this)->modelnames[index]->getString());
-  this->getShellWidget()->setCaption(caption);
+  this->setTitle(caption.getString());
   this->saveHomePosition();
 } // showModel()
 
