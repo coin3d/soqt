@@ -34,6 +34,7 @@ public:
   ~TickMark();
 
   float getPos() const;
+  bool hit(QPoint p) const;
 
   SbBool isStart;
   SbBool isEnd;

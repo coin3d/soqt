@@ -39,7 +39,15 @@ TickMark::TickMark(QCanvas * canvas)
 
 TickMark::~TickMark()
 {
-} 
+}
+
+bool TickMark::hit(QPoint p) const
+{
+  if (this->boundingRect().contains(p)) {
+    return TRUE;
+  }
+  return FALSE;
+}
 
 float TickMark::getPos() const
 {
