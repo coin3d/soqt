@@ -477,6 +477,13 @@ SIM_AC_HAVE_INVENTOR_FEATURE(
 
 AC_PROG_CPP
 
+if test x"$sim_ac_x11mu_avail" != xyes; then
+  ## It's really QGL that depends on Xmu, not Qt. But we need to do this
+  ## check before checking for the Qt library, not after, in case QGL is
+  ## embedded into Qt.
+  SIM_AC_CHECK_X11MU([SOQT_EXTRA_LIBS="$sim_ac_x11mu_libs $SOQT_EXTRA_LIBS"])
+fi
+
 SIM_AC_CHECK_QT([
   SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS $sim_ac_qt_cppflags"
   SOQT_EXTRA_LDFLAGS="$SOQT_EXTRA_LDFLAGS $sim_ac_qt_ldflags"
@@ -487,10 +494,6 @@ SIM_AC_CHECK_QT([
 ], [
   AC_MSG_ERROR([can't compile and link against Qt development kit])
 ])
-
-if test x"$sim_ac_x11mu_avail" != xyes; then
-  SIM_AC_CHECK_X11MU([SOQT_EXTRA_LIBS="$sim_ac_x11mu_libs $SOQT_EXTRA_LIBS"])
-fi
 
 SIM_AC_CHECK_QGL([
   SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS $sim_ac_qgl_cppflags"
