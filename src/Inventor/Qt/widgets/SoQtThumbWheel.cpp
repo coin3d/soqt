@@ -17,10 +17,9 @@
  *
  **************************************************************************/
 
-#if SOQT_DEBUG
-static const char rcsid[] =
-  "$Id$";
-#endif // SOQT_DEBUG
+
+// FIXME: should strongly consider making the thumbwheel a public
+// class, as we've had several requests for it. 20020226 mortene.
 
 #include <math.h>
 #include <assert.h>
