@@ -17,6 +17,9 @@
  *
 \**************************************************************************/
 
+static const char rcsid[] =
+  "$Id$";
+
 /*!
   \class SoQtViewer SoQtViewer.h Inventor/Qt/viewers/SoQtViewer.h
   \brief The SoQtViewer class is the top level base viewer class.
@@ -34,7 +37,15 @@
   \sa SoQtFullViewer
 */
 
-#include <Inventor/Qt/viewers/SoQtViewer.h>
+#include <assert.h>
+
+#include <qkeycode.h>
+// FIXME: get rid of this before 1.0 release (convert everything to Qt
+// version 2.x API). 19990630 mortene.
+#if QT_VERSION >= 200
+#include <q1xcompatibility.h>
+#endif // Qt v2.x
+
 #include <Inventor/SoDB.h>
 
 #if defined(COIN_CONFIG_NO_SOROTATION)
@@ -107,15 +118,7 @@
 #include <Inventor/SoSceneManager.h>
 #include <Inventor/SoPickedPoint.h>
 
-#include <qkeycode.h>
-#include <assert.h>
-
-// FIXME: get rid of this before 1.0 release (convert everything to Qt
-// version 2.x API). 19990630 mortene.
-#if QT_VERSION >= 200
-#include <q1xcompatibility.h>
-#endif // Qt v2.x
-
+#include <Inventor/Qt/viewers/SoQtViewer.h>
 
 /*!
   \enum SoQtViewer::Type

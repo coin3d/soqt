@@ -17,6 +17,8 @@
  *
 \**************************************************************************/
 
+//  $Id$
+
 #ifndef __SOQTMATERIALSLIDERSET_H__
 #define __SOQTMATERIALSLIDERSET_H__
 

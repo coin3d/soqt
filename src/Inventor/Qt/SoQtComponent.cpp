@@ -17,6 +17,9 @@
  *
 \**************************************************************************/
 
+static const char rcsid[] =
+  "$Id$";
+
 /*!
   \class SoQtComponent SoQtComponent.h Inventor/Qt/SoQtComponent.h
   \brief The SoQtComponent class is the base class for all GUI components.
@@ -36,23 +39,22 @@
   purpose is to provide the necessary support for Qt's signal and slot
   mechanisms (which is needed for some internal operations).
 
- */
+*/
 
-#include <Inventor/Qt/SoQtComponent.h>
-
-#if SOQT_DEBUG
-#include <Inventor/errors/SoDebugError.h>
-#endif // SOQT_DEBUG
-
-#include <qwidget.h>
 #include <assert.h>
 
+#include <qwidget.h>
 // FIXME: get rid of this before 1.0 release (convert everything to Qt
 // version 2.x API). 19990630 mortene.
 #if QT_VERSION >= 200
 #include <q1xcompatibility.h>
 #endif // Qt v2.x
 
+#if SOQT_DEBUG
+#include <Inventor/errors/SoDebugError.h>
+#endif // SOQT_DEBUG
+
+#include <Inventor/Qt/SoQtComponent.h>
 
 // debug
 #define SOQTCOMP_RESIZE_DEBUG 0

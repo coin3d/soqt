@@ -17,6 +17,8 @@
  *
 \**************************************************************************/
 
+//  $Id$
+
 #ifndef __SOGLMATERIALSPHERE_H__
 #define __SOGLMATERIALSPHERE_H__
 

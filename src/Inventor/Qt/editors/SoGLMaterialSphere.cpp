@@ -17,19 +17,24 @@
  *
 \**************************************************************************/
 
-// FIXME: not in use yet. 19990620 mortene.
+static const char rcsid[] =
+  "$Id$";
 
-#include "Inventor/Qt/SoGLMaterialSphere.h"
+// FIXME: not in use yet. 19990620 mortene.
 
 #include <math.h>
 #include <limits.h>
 #include <stdlib.h>
-#include <glaux.h>
 #include <assert.h>
+
+#include <glaux.h>
 
 #include <Inventor/SbColor.h>
 #include <Inventor/nodes/SoMaterial.h>
 #include <Inventor/fields/SoMFColor.h>
+
+#include <Inventor/Qt/SoGLMaterialSphere.h>
+
 
 #define NUM_POINTS 10000
 #define BG_COLOR 0.5f, 0.5f, 0.5f, 0.0f

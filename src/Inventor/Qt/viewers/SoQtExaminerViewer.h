@@ -17,6 +17,8 @@
  *
 \**************************************************************************/
 
+//  $Id$
+
 #ifndef __SOQTEXAMINERVIEWER_H__
 #define __SOQTEXAMINERVIEWER_H__
 

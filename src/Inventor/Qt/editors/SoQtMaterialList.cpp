@@ -17,9 +17,10 @@
  *
 \**************************************************************************/
 
-// FIXME: not in use yet. 19990620 mortene.
+static const char rcsid[] =
+  "$Id$";
 
-#include <Inventor/Qt/SoQtMaterialList.h>
+// FIXME: not in use yet. 19990620 mortene.
 
 #include <qlistbox.h>
 #include <qdir.h>
@@ -32,6 +33,9 @@
 #include <Inventor/nodes/SoMaterial.h>
 #include <Inventor/nodes/SoGroup.h>
 
+#include <Inventor/Qt/SoQtMaterialList.h>
+
+// FIXME: move this to config.h or something?
 #define DEFAULT_MATERIAL_DIR "/usr/share/data/materials"
 
 SoQtMaterialList::SoQtMaterialList(QWidget * parent, const char * name,

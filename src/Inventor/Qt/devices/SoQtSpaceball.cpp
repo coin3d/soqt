@@ -17,6 +17,9 @@
  *
 \**************************************************************************/
 
+static const char rcsid[] =
+  "$Id$";
+
 /*!
   \class SoQtSpaceball SoQtSpaceball.h Inventor/Qt/devices/SoQtSpaceball.h
   \brief The SoQtSpaceball class ...
@@ -34,6 +37,7 @@
 */
 
 #include <Inventor/Qt/devices/SoQtSpaceball.h>
+
 
 /*!
   \enum SoQtSpaceball::Mask

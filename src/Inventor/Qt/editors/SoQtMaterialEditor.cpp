@@ -17,7 +17,8 @@
  *
 \**************************************************************************/
 
-#include <Inventor/Qt/SoQtMaterialEditor.h>
+static const char rcsid[] =
+  "$Id$";
 
 #include <qlayout.h>
 #include <qbutton.h>
@@ -30,16 +31,20 @@
 #include <qmenubar.h>
 #include <qgl.h>
 
+#include <Inventor/nodes/SoMaterial.h>
+#include <Inventor/fields/SoField.h>
+#include <Inventor/fields/SoMFColor.h>
+
 #include <Inventor/Qt/SoQtColorSlider.h>
 #include <Inventor/Qt/SoGLMaterialSphere.h>
 #include <Inventor/Qt/QColorSelection.h>
 #include <Inventor/Qt/SoQtMaterialList.h>
 
-#include <Inventor/nodes/SoMaterial.h>
-#include <Inventor/fields/SoField.h>
-#include <Inventor/fields/SoMFColor.h>
+#include <Inventor/Qt/SoQtMaterialEditor.h>
 
-static char *colorStrings[] = { "Ambient", "Diffuse", "Specular", "Emission" };
+static char * colorStrings[] = {
+  "Ambient", "Diffuse", "Specular", "Emission"
+};
 
 #ifndef _GCC_
 # define true TRUE

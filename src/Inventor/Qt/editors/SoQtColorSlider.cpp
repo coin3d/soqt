@@ -17,17 +17,20 @@
  *
 \**************************************************************************/
 
+static const char rcsid[] =
+  "$Id$";
+
 // FIXME: not in use yet. 19990620 mortene.
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "Inventor/Qt/SoQtColorSlider.h"
 
 #include <qslider.h>
 #include <qlabel.h>
 #include <qlined.h>
 #include <qlayout.h>
 
+#include <Inventor/Qt/SoQtColorSlider.h>
 
 _SoQtColorSlider::_SoQtColorSlider(int minValue, int maxValue, QWidget *parent, const char *label) : QWidget(parent)
 {

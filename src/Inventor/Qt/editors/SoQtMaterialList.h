@@ -17,6 +17,8 @@
  *
 \**************************************************************************/
 
+//  $Id$
+
 #ifndef _SO_QT_MATERIALLIST_H_
 # define _SO_QT_MATERIALLIST_H_
 

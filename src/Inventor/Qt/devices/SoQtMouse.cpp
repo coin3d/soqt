@@ -17,6 +17,9 @@
  *
 \**************************************************************************/
 
+static const char rcsid[] =
+  "$Id$";
+
 /*!
   \class SoQtMouse SoQtMouse.h Inventor/Qt/devices/SoQtMouse.h
   \brief The SoQtMouse class ...
@@ -25,18 +28,19 @@
   FIXME: write class doc
 */
 
-#include <Inventor/Qt/devices/SoQtMouse.h>
-#include <Inventor/events/SoMouseButtonEvent.h>
-#include <Inventor/events/SoLocation2Event.h>
-
-#include <qevent.h>
 #include <assert.h>
 
+#include <qevent.h>
 // FIXME: get rid of this before 1.0 release (convert everything to Qt
 // version 2.x API). 19990630 mortene.
 #if QT_VERSION >= 200
 #include <q1xcompatibility.h>
 #endif // Qt v2.x
+
+#include <Inventor/events/SoMouseButtonEvent.h>
+#include <Inventor/events/SoLocation2Event.h>
+
+#include <Inventor/Qt/devices/SoQtMouse.h>
 
 
 /*!

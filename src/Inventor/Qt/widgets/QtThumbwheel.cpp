@@ -17,15 +17,19 @@
  *
 \**************************************************************************/
 
+static const char rcsid[] =
+  "$Id$";
+
 #include <math.h>
 #include <assert.h>
 #include <stdio.h>
 
-#include <Inventor/Qt/widgets/QtThumbwheel.h>
+#include <qpainter.h>
+#include <qdrawutil.h>
+
 #include <Inventor/SbBasic.h>
 
-#include "qpainter.h"
-#include "qdrawutil.h"
+#include <Inventor/Qt/widgets/QtThumbwheel.h>
 
 
 static const int SHADEBORDERWIDTH = 2;

@@ -17,6 +17,9 @@
  *
 \**************************************************************************/
 
+static const char rcsid[] =
+  "$Id$";
+
 /*!
   \class SoQtLightSliderSet SoQtLightSliderSet.h Inventor/Qt/SoQtLightSliderSet.h
   \brief The SoQtLightSliderSet class blablabla TODO

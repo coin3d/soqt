@@ -17,6 +17,8 @@
  *
 \**************************************************************************/
 
+//  $Id$
+
 #ifndef __SOQTSLIDERSETBASE_H__
 #define __SOQTSLIDERSETBASE_H__
 

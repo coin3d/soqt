@@ -17,6 +17,9 @@
  *
 \**************************************************************************/
 
+static const char rcsid[] =
+  "$Id$";
+
 /*!
   \class SoQtInputFocus SoQtInputFocus.h Inventor/Qt/devices/SoQtInputFocus.h
   \brief The SoQtInputFocus class ...
@@ -26,6 +29,7 @@
 */
 
 #include <Inventor/Qt/devices/SoQtInputFocus.h>
+
 
 /*!
   Constructor.

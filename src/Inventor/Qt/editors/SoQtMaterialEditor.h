@@ -17,6 +17,8 @@
  *
 \**************************************************************************/
 
+//  $Id$
+
 #ifndef _SO_QT_MATERIAL_EDITOR_
 # define _SO_QT_MATERIAL_EDITOR_
 

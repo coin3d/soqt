@@ -17,6 +17,9 @@
  *
 \**************************************************************************/
 
+static const char rcsid[] =
+  "$Id$";
+
 /*!
   \class SoQtRenderArea SoQtRenderArea.h Inventor/Qt/SoQtRenderArea.h
   \brief The SoQtRenderArea class blablabla TODO
@@ -29,16 +32,18 @@
   (like Xt has)
  */
 
-#include <Inventor/Qt/SoQtRenderArea.h>
-#include <Inventor/Qt/devices/SoQtMouse.h>
-#include <Inventor/Qt/devices/SoQtKeyboard.h>
+#include <assert.h>
 
 #include <Inventor/SoSceneManager.h>
 #include <Inventor/sensors/SoNodeSensor.h>
 #if SOQT_DEBUG
 #include <Inventor/errors/SoDebugError.h>
 #endif // SOQT_DEBUG
-#include <assert.h>
+
+#include <Inventor/Qt/devices/SoQtMouse.h>
+#include <Inventor/Qt/devices/SoQtKeyboard.h>
+
+#include <Inventor/Qt/SoQtRenderArea.h>
 
 /*!
   \var SoQtRenderAreaEventCB * SoQtRenderArea::appEventHandler

@@ -17,14 +17,19 @@
  *
 \**************************************************************************/
 
+static const char rcsid[] =
+  "$Id$";
+
 // FIXME: not in use yet. 19990620 mortene.
 
-#include "Inventor/Qt/QColorSelection.h"
+#include <stdio.h>
+
 #include <qslider.h>
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qframe.h>
-#include <stdio.h>
+
+#include <Inventor/Qt/QColorSelection.h>
 
 
 QColorSelection::QColorSelection(QWidget *parent, const char *name, QColor *col) : QWidget(parent, name)

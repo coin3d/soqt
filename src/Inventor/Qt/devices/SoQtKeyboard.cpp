@@ -17,6 +17,9 @@
  *
 \**************************************************************************/
 
+static const char rcsid[] =
+  "$Id$";
+
 /*!
   \class SoQtKeyboard SoQtKeyboard.h Inventor/Qt/devices/SoQtKeyboard.h
   \brief The SoQtKeyboard class ...
@@ -25,20 +28,23 @@
   FIXME: write class doc
 */
 
-#include <Inventor/Qt/devices/SoQtKeyboard.h>
-#include <Inventor/events/SoKeyboardEvent.h>
+#include <qevent.h>
+#include <qkeycode.h>
+#if QT_VERSION >= 200
+#include <q1xcompatibility.h>
+#endif // Qt v2.0
 
 #if SOQT_DEBUG
 #include <Inventor/errors/SoDebugError.h>
 #endif // SOQT_DEBUG
+#include <Inventor/events/SoKeyboardEvent.h>
 
-#include <qevent.h>
-#include <qkeycode.h>
+#include <Inventor/Qt/devices/SoQtKeyboard.h>
+
 
 // FIXME: get rid of this before 1.0 release (convert everything to Qt
 // version 2.x API). 19990630 mortene.
 #if QT_VERSION >= 200
-#include <q1xcompatibility.h>
 #define Key_Escape Qt::Key_Escape
 #define Key_Tab Qt::Key_Tab
 #define Key_Backtab Qt::Key_Backtab

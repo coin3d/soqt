@@ -17,6 +17,9 @@
  *
 \**************************************************************************/
 
+static const char rcsid[] =
+  "$Id$";
+
 /*!
   \class SoQtSliderSetBase SoQtSliderSetBase.h Inventor/Qt/SoQtSliderSetBase.h
   \brief The SoQtSliderSetBase class blablabla TODO
@@ -24,8 +27,10 @@
   TODO: doc
  */
 
-#include <Inventor/Qt/SoQtSliderSetBase.h>
 #include <Inventor/nodes/SoNode.h>
+
+#include <Inventor/Qt/SoQtSliderSetBase.h>
+
 
 /*!
   TODO: doc

@@ -17,6 +17,9 @@
  *
 \**************************************************************************/
 
+static const char rcsid[] =
+  "$Id$";
+
 /*!
   \class SoQtDevice SoQtDevice.h Inventor/Qt/devices/SoQtDevice.h
   \brief The SoQtDevice class ...
@@ -25,8 +28,10 @@
   FIXME: write class doc
 */
 
-#include <Inventor/Qt/devices/SoQtDevice.h>
 #include <Inventor/events/SoEvent.h>
+
+#include <Inventor/Qt/devices/SoQtDevice.h>
+
 
 /*!
   \typedef void (* SoQtDevice::SoQtEventHandler)(QWidget *, void *, QEvent *, bool *)

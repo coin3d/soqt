@@ -17,6 +17,8 @@
  *
 \**************************************************************************/
 
+//  $Id$
+
 #ifndef __SOQTTRANSFORMSLIDERSET_H__
 #define __SOQTTRANSFORMSLIDERSET_H__
 

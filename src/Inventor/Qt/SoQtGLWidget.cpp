@@ -17,6 +17,9 @@
  *
 \**************************************************************************/
 
+static const char rcsid[] =
+  "$Id$";
+
 /*!
   \class SoQtGLWidget SoQtGLWidget.h Inventor/Qt/SoQtGLWidget.h
   \brief The SoQtGLWidget class contains the GL canvas widget used for
@@ -31,12 +34,13 @@
     this statement
  */
 
-#include <Inventor/Qt/SoQtGLWidget.h>
-#include <Inventor/errors/SoDebugError.h>
 #include <assert.h>
 
-// FIXME: get rid of this before 1.0 release (convert everything to Qt
-// version 2.x API)? 19990630 mortene.
+#include <Inventor/errors/SoDebugError.h>
+#include <Inventor/Qt/SoQtGLWidget.h>
+
+// FIXME: get rid of this before 1.0 release by converting everything
+// to Qt version 2.x API? 19990630 mortene.
 #if QT_VERSION >= 200
 #include <q1xcompatibility.h>
 #endif // Qt v2.x
@@ -62,7 +66,7 @@ static const int SO_BORDER_THICKNESS = 2;
 /*!
   FIXME: write function documentation
 */
-SoQtGLWidget::SoQtGLWidget(QWidget * const parent, const char * const name,
+SoQtGLWidget::SoQtGLWidget(QWidget * const parent, const char * const /*name*/,
                            const SbBool buildInsideParent, const int glModes,
                            const SbBool buildNow)
   : inherited(parent)
@@ -317,7 +321,7 @@ SoQtGLWidget::getQGLWidget(void)
   FIXME: write function documentation
 */
 void
-SoQtGLWidget::sizeChanged(const SbVec2s & newSize)
+SoQtGLWidget::sizeChanged(const SbVec2s & /*newSize*/)
 {
 }
 
@@ -352,7 +356,7 @@ SoQtGLWidget::repaint_slot(void)
   FIXME: write function documentation
 */
 void
-SoQtGLWidget::processEvent(QEvent * anyevent)
+SoQtGLWidget::processEvent(QEvent * /*anyevent*/)
 {
   // FIXME: anything to do here? 981029 mortene.
 }

@@ -17,6 +17,9 @@
  *
 \**************************************************************************/
 
+static const char rcsid[] =
+  "$Id$";
+
 /*!
   \class SoQtExaminerViewer SoQtExaminerViewer.h Inventor/Qt/viewers/SoQtExaminerViewer.h
   \brief The SoQtExaminerViewer class is a full-fledged model viewer
@@ -40,26 +43,8 @@
   SoQtExaminerViewer is missing the class description documentation.
 */
 
-#include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
+#include <assert.h>
 
-#include <Inventor/Qt/SoQtCursors.h>
-
-#if !defined(COIN_CONFIG_NO_SOPERSPECTIVECAMERA)
-#include <Inventor/nodes/SoPerspectiveCamera.h>
-#endif // !COIN_CONFIG_NO_SOPERSPECTIVECAMERA
-#if !defined(COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA)
-#include <Inventor/nodes/SoOrthographicCamera.h>
-#endif // !COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA
-
-#include <Inventor/fields/SoSFTime.h>
-#include <Inventor/sensors/SoTimerSensor.h>
-#include <Inventor/projectors/SbSphereSheetProjector.h>
-
-#if SOQT_DEBUG
-#include <Inventor/errors/SoDebugError.h>
-#endif // SOQT_DEBUG
-
-#include <Inventor/Qt/widgets/QtThumbwheel.h>
 #include <qpushbutton.h>
 #include <qkeycode.h>
 #include <qlabel.h>
@@ -69,15 +54,29 @@
 #include <qpixmap.h>
 #include <qbitmap.h>
 #include <qtimer.h>
-
-#include <assert.h>
-
 // FIXME: get rid of this before 1.0 release (convert everything to Qt
 // version 2.x API). 19990630 mortene.
 #if QT_VERSION >= 200
 #include <q1xcompatibility.h>
 #endif // Qt v2.x
 
+#if !defined(COIN_CONFIG_NO_SOPERSPECTIVECAMERA)
+#include <Inventor/nodes/SoPerspectiveCamera.h>
+#endif // !COIN_CONFIG_NO_SOPERSPECTIVECAMERA
+#if !defined(COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA)
+#include <Inventor/nodes/SoOrthographicCamera.h>
+#endif // !COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA
+#include <Inventor/fields/SoSFTime.h>
+#include <Inventor/sensors/SoTimerSensor.h>
+#include <Inventor/projectors/SbSphereSheetProjector.h>
+#if SOQT_DEBUG
+#include <Inventor/errors/SoDebugError.h>
+#endif // SOQT_DEBUG
+
+#include <Inventor/Qt/widgets/QtThumbwheel.h>
+#include <Inventor/Qt/SoQtCursors.h>
+
+#include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
 
 // Icon graphic for the camera button.
 #include "icons/ortho.xpm"

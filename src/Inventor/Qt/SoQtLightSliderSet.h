@@ -17,6 +17,8 @@
  *
 \**************************************************************************/
 
+//  $Id$
+
 #ifndef __SOQTLIGHTSLIDERSET_H__
 #define __SOQTLIGHTSLIDERSET_H__
 

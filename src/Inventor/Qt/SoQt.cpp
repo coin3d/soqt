@@ -17,6 +17,9 @@
  *
 \**************************************************************************/
 
+static const char rcsid[] =
+  "$Id$";
+
 /*!
   \class SoQt SoQt.h Inventor/Qt/SoQt.h
   \brief The SoQt class takes care of Qt initialization and event dispatching.
@@ -63,20 +66,19 @@ main(int argc, char **argv)
   \sa SoQtComponent
  */
 
-#include <Inventor/Qt/SoQt.h>
-#include <Inventor/SoDB.h>
-#include <Inventor/SoInteraction.h>
-#include <Inventor/nodekits/SoNodeKit.h>
-#include <Inventor/SbTime.h>
-
-#if SOQT_DEBUG
-#include <Inventor/errors/SoDebugError.h>
-#endif // SOQT_DEBUG
-
 #include <qmainwindow.h>
 #include <qmessagebox.h>
 #include <qtimer.h>
 
+#include <Inventor/SoDB.h>
+#include <Inventor/SoInteraction.h>
+#include <Inventor/nodekits/SoNodeKit.h>
+#include <Inventor/SbTime.h>
+#if SOQT_DEBUG
+#include <Inventor/errors/SoDebugError.h>
+#endif // SOQT_DEBUG
+
+#include <Inventor/Qt/SoQt.h>
 
 // *************************************************************************
 

@@ -17,6 +17,9 @@
  *
 \**************************************************************************/
 
+static const char rcsid[] =
+  "$Id$";
+
 /*!
   \class SoQtFullViewer SoQtFullViewer.h Inventor/Qt/viewers/SoQtFullViewer.h
   \brief The SoQtFullViewer class adds decorations to the simple viewer of the parent.
@@ -43,18 +46,7 @@
   </UL>
 */
 
-#include <Inventor/Qt/viewers/SoQtFullViewer.h>
-#include <Inventor/Qt/SoQt.h>
-
-#if !defined(COIN_CONFIG_NO_SOPERSPECTIVECAMERA)
-#include <Inventor/nodes/SoPerspectiveCamera.h>
-#endif // !COIN_CONFIG_NO_SOPERSPECTIVECAMERA
-#if !defined(COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA)
-#include <Inventor/nodes/SoOrthographicCamera.h>
-#endif // !COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA
-#include <Inventor/errors/SoDebugError.h>
-
-#include <Inventor/Qt/widgets/QtThumbwheel.h>
+#include <assert.h>
 
 #include <qpushbutton.h>
 #include <qlayout.h>
@@ -67,15 +59,24 @@
 #include <qframe.h>
 #include <qslider.h>
 #include <qcheckbox.h>
-
-#include <assert.h>
-
 // FIXME: get rid of this before 1.0 release (convert everything to Qt
 // version 2.x API). 19990630 mortene.
 #if QT_VERSION >= 200
 #include <q1xcompatibility.h>
 #endif // Qt v2.x
 
+#if !defined(COIN_CONFIG_NO_SOPERSPECTIVECAMERA)
+#include <Inventor/nodes/SoPerspectiveCamera.h>
+#endif // !COIN_CONFIG_NO_SOPERSPECTIVECAMERA
+#if !defined(COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA)
+#include <Inventor/nodes/SoOrthographicCamera.h>
+#endif // !COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA
+#include <Inventor/errors/SoDebugError.h>
+
+#include <Inventor/Qt/SoQt.h>
+#include <Inventor/Qt/widgets/QtThumbwheel.h>
+
+#include <Inventor/Qt/viewers/SoQtFullViewer.h>
 
 // Button icons.
 #include "icons/pick.xpm"
@@ -1620,8 +1621,6 @@ SoQtFullViewer::makeAutoclipPreferences(QWidget * dialog)
   // Layout row 1.
   toplayout->addWidget(c, c->height());
   expandSize(totalsize, c->size(), LayoutVertical);
-
-
 
   // Do the three widgets on the second row (label, thumbwheel,
   // lineedit).
