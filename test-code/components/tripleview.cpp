@@ -27,6 +27,7 @@
 #include <Inventor/Qt/SoQt.h>
 #include <Inventor/Qt/SoQtRenderArea.h>
 #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
+#include <Inventor/SoDB.h>
 #include <Inventor/nodes/SoCone.h>
 #include <Inventor/nodes/SoCube.h>
 #include <Inventor/nodes/SoDirectionalLight.h>
@@ -113,29 +114,36 @@ main(int argc, char ** argv)
   SoDirectionalLight * light = new SoDirectionalLight;
   light->direction.setValue(-0.5, -0.5, -0.8);
   commonroot->addChild(light);
-
-  SoMaterial * mat = new SoMaterial;
-  mat->diffuseColor.setValue(1, 1, 0);
-  commonroot->addChild(mat);
-
   SoRotation * scenerotate = new SoRotation;
   commonroot->addChild(scenerotate);
 
-  SoCube * cube = new SoCube;
-  commonroot->addChild(cube);
+  if (argc == 2) {
+    SoInput in;
+    in.openFile(argv[1]);
+    SoSeparator * fileroot = SoDB::readAll(&in);
+    if (!fileroot) exit(1);
+    commonroot->addChild(fileroot);
+  }
+  else {
+    SoMaterial * mat = new SoMaterial;
+    mat->diffuseColor.setValue(1, 1, 0);
+    commonroot->addChild(mat);
 
-  mat = new SoMaterial;
-  mat->diffuseColor.setValue(0, 0, 1);
-  commonroot->addChild(mat);
+    SoCube * cube = new SoCube;
+    commonroot->addChild(cube);
 
-  SoTranslation * trans = new SoTranslation;
-  trans->translation.setValue(0, 0, 1);
-  commonroot->addChild(trans);
+    mat = new SoMaterial;
+    mat->diffuseColor.setValue(0, 0, 1);
+    commonroot->addChild(mat);
 
-  SoSphere * sphere = new SoSphere;
-  sphere->radius = 0.5;
-  commonroot->addChild(sphere);
+    SoTranslation * trans = new SoTranslation;
+    trans->translation.setValue(0, 0, 1);
+    commonroot->addChild(trans);
 
+    SoSphere * sphere = new SoSphere;
+    sphere->radius = 0.5;
+    commonroot->addChild(sphere);
+  }
 
   // Add the 3 renderareas.
 
