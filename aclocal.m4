@@ -2594,24 +2594,44 @@ EOF
     ##   dynamic and static linking
     ##
     ## * "-lqt{version} -lqtmain -lgdi32" w/QT_DLL defined should
-    ##   cover dynamic linking on Win32 platforms
+    ##   cover dynamic Enterprise Edition linking on Win32 platforms
+    ##
+    ## * "-lqt-mt{version}nc -lqtmain -lgdi32" w/QT_DLL defined should
+    ##   cover dynamic Non-Commercial Edition linking on Win32 platforms
     ##
     ## * "-lqt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32" should cover static
     ##   linking on Win32 platforms
 
+    # FIXME: this link test doesn't detect all link problems...
     for sim_ac_qt_cppflags_loop in "" "-DQT_DLL"; do
-      for sim_ac_qt_libcheck in "-lqt" "-lqt-mt" "-lqt$sim_ac_qt_version -lqtmain -lgdi32" "-lqt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32"; do
+      for sim_ac_qt_libcheck in "-lqt" "-lqt-mt" "-lqt${sim_ac_qt_version} -lqtmain -lgdi32" "-lqt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32"; do
         if test "x$sim_ac_qt_libs" = "xUNRESOLVED"; then
           CPPFLAGS="$sim_ac_qt_incflags $sim_ac_qt_cppflags_loop $sim_ac_save_cppflags"
           LIBS="$sim_ac_qt_libcheck $sim_ac_save_libs"
           AC_TRY_LINK([#include <qapplication.h>],
                       [int dummy=0;
-                       QApplication a(dummy, 0L);],
+                       qApp->exit(0);],
                       [sim_ac_qt_libs="$sim_ac_qt_libcheck"
                        sim_ac_qt_cppflags="$sim_ac_qt_incflags $sim_ac_qt_cppflags_loop"])
         fi
       done
     done
+
+    if test "x$sim_ac_qt_libs" = "xUNRESOLVED"; then
+      for sim_ac_qt_cppflags_loop in "-DQT_DLL"; do
+        for sim_ac_qt_libcheck in "-lqt-mt${sim_ac_qt_version}nc -lqtmain -lgdi32"; do
+          if test "x$sim_ac_qt_libs" = "xUNRESOLVED"; then
+            CPPFLAGS="$sim_ac_qt_incflags $sim_ac_qt_cppflags_loop $sim_ac_save_cppflags"
+            LIBS="$sim_ac_qt_libcheck $sim_ac_save_libs"
+            AC_TRY_LINK([#include <qapplication.h>],
+                        [int dummy=0;
+                         qApp->exit(0);],
+                        [sim_ac_qt_libs="$sim_ac_qt_libcheck"
+                         sim_ac_qt_cppflags="$sim_ac_qt_incflags $sim_ac_qt_cppflags_loop"])
+          fi
+        done
+      done
+    fi
 
     AC_MSG_RESULT($sim_ac_qt_cppflags $sim_ac_qt_libs)
   fi
