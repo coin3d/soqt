@@ -12,28 +12,14 @@ ToDo
 * [larsa:20000113] tune the compilation process to avoid the excessively
   verbose libtool-output during compilation.
 
-* [mortene:20000112] replace SIM_CHECK_MATHLIB with the one
-  which comes with libtool (AC_CHECK_LIBM).
-
-* [mortene:20000112] construct an m4 macro for autoconf which detects
-  the presence of libSoQt and adds the propriate flags and stuff for
-  application programmers, and install it in $prefix/share/aclocal/.
-
 * [mortene:19991218] set up -Wno-* options to GCC to avoid all the
   warnings seeping out when compiling on top of Open Inventor (because
   of problems in the OI include files).
-
-* [mortene:19990926] add configure option for specifying location of
-  the Coin library.
 
 * [mortene:19990917] write information in NEWS, README, HACKING,
   AUTHORS, COPYING.
 
 * [mortene:19990917] write non-generic info in INSTALL.
-
-* [mortene:19990918] use the OpenGL detection macro (and the resulting
-  GL_CFLAGS and GL_LIBS)? Or is this taken care of with the linking
-  against OpenGL (or Mesa) with libCoin?
 
 * [mortene:19990918] add SOQT_MAJOR/MINOR/MICRO_VERSION etc somewhere
   in an include file (as in libCoin SbBasic.h).
@@ -51,20 +37,8 @@ ToDo
   cross-compiler. Ugh. This is pretty low-priority now, though, as we
   haven't set up anything for cross-compilation yet.
 
-* [mortene:19990919] improve the detection and handling of Open
-  Inventor dependency libraries in configure.in -- possibly also for
-  other libraries we depend on (Qt, QGL). Ideally, we should make
-  something which automatically works over multiple platforms
-  (including Win32).
-
-* [mortene:19990919] move the items in the buglist at docs/bugs.txt
-  into this ToDo-list.
-
 * [mortene:19990919] integrate generation of man- and html-doc into
   the autoconf/automake-based build.
-
-* [mortene:19990919] use caching for some of the extra configuration
-  checks we do to speed up invocations of configure.
 
 
 
@@ -157,7 +131,7 @@ ToDo
 * [mortene:1999????] lighting is defunct in singlebuffer mode, and
   going back again to doublebuffer mode doesn't help (weird).
 
-* [mortene:1999????] interactivebuffer mode is foobar.
+* [mortene:1999????] interactivebuffer mode is fubar.
 
 * [mortene:1999????] no support for overlay planes. Overlay planes can
   be done within Qt with a bit of hacking -- see the example in the Qt
@@ -169,59 +143,5 @@ ToDo
 * [mortene:1999????] something is wrong with the signal-slot mechanism
   set up in the preference window.
 
-
-===============================================================================
-
-Done
-====
-
-(format is: "* [author:conceived-date][implementer:finished-date] item")
-
-* [mortene:19991001][larsa:20000130] SoQtPlaneViewer implementation is in
-  the works.
-
-* [mortene:1999????][larsa:20000110] the thumbwheels looks pretty shoddy.
-  Should fix both the general appearance and the animation gfx.
-
-* [mortene:19991117][mortene:19991219] click seek, miss with the ray,
-  click seek again -- mode is still "grab". Click seek again to into
-  seek mode.
-
-* [mortene:19990929][mortene:19991201] remove all compiler warnings,
-  set default configure settings to "warnings on".
-
-* [mortene:1999????][mortene:19991001] quick LMB click in viewer
-  window screws up interactive count (enable the debug code in
-  SoQtViewer::interactiveCountInc() and
-  SoQtViewer::interactiveCountDec() to see this one).
-
-* [mortene:1999????][mortene:19990930] cursorgfx in SoQtExaminerViewer
-  has somehow become foobar -- to do with the mask manipulation in
-  SoQtExaminerViewer::setCursorRepresentation()?
-
-* [mortene:19990924][mortene:19990926] check for Coin in the --prefix
-  installation directory.
-
-* [mortene:19990917][mortene:19990919] build QtThumbwheel test program.
-
-* [mortene:19990917][mortene:19990919] build example program
-  examples/examinerviewer/examinerviewer.
-
-* [mortene:19990917][mortene:19990918] make a configure option for
-  compiling over Open Inventor (from OIVHOME?).
-
-* [mortene:19990917][mortene:19990918] include moc-invocation and
-  moc-generated files in the build.
-
-* [mortene:19990917][mortene:19990917] check for the moc binary.
-
-* [mortene:19990917][mortene:19990918] check for the Qt library (under
-  QTDIR).
-
-* [mortene:19990917][mortene:19990918] check for the QGL library
-  (under QTDIR).
-
-* [mortene:19990917][mortene:19990918] check for the Coin library
-  (under COINDIR?).
 
 ===============================================================================
