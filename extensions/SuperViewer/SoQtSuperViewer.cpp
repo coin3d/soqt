@@ -2031,14 +2031,14 @@ SoQtSuperViewer::openModel(SbString * const filename, SbBool show){
     PRIVATE(this)->openmodels = new SoSeparator;
     PRIVATE(this)->openmodels->ref();
   }
-  /*
-    SbIntList slashes;
-    s.findAll("/", slashes);*/
+  
+  SbIntList slashes;
+  filename->findAll("/", slashes);
+  (void)printf("filename %s\n", filename->getString());
   PRIVATE(this)->pathtomodels.append(filename);
-  PRIVATE(this)->modelnames.append(new SbString(filename->getString()));
-  //slashes[slashes.getLength() - 1] + 1)));
-  
-  
+ (void)printf("filename igjen %s\n", filename->getSubString(slashes[slashes.getLength() - 1] + 1).getString());
+  PRIVATE(this)->modelnames.append(&(filename->getSubString(slashes[slashes.getLength() - 1] + 1)));
+   (void)printf("caption 1 %s\n", ((SbString *)PRIVATE(this)->modelnames[0])->getString());
   PRIVATE(this)->openmodels->addChild(newroot);
   PRIVATE(this)->currentroot = newroot;
   //search for textures
@@ -2076,8 +2076,10 @@ SoQtSuperViewer::showModel(int index)
   PRIVATE(this)->resetBBox();
 
   SbString caption= "Super Viewer - ";
-  (void)printf("caption %s\n", PRIVATE(this)->modelnames[index]->getString());
-  caption.operator+=(PRIVATE(this)->modelnames[index]->getString());
+  (void)printf("index %i\n", index);
+   (void)printf("caption 2 %s\n", ((SbString *)PRIVATE(this)->modelnames[0])->getString());
+  (void)printf("caption 3 %s\n", ((SbString *)PRIVATE(this)->modelnames[index])->getString());
+  caption.operator+=(((SbString *)PRIVATE(this)->modelnames[index])->getString());
   this->setTitle(caption.getString());
   this->saveHomePosition();
 } // showModel()
