@@ -50,7 +50,7 @@ SoQtInputFocus::~SoQtInputFocus()
   FIXME: write function documentation
 */
 void
-SoQtInputFocus::enable(QWidget * w, SoQtEventHandler f, void * data)
+SoQtInputFocus::enable(QWidget * /*w*/, SoQtEventHandler /*f*/, void * /*data*/)
 {
   // TODO: implement
 }
@@ -59,7 +59,7 @@ SoQtInputFocus::enable(QWidget * w, SoQtEventHandler f, void * data)
   FIXME: write function documentation
 */
 void
-SoQtInputFocus::disable(QWidget * w, SoQtEventHandler f, void * data)
+SoQtInputFocus::disable(QWidget * /*w*/, SoQtEventHandler /*f*/, void * /*data*/)
 {
   // TODO: implement
 }
@@ -68,7 +68,7 @@ SoQtInputFocus::disable(QWidget * w, SoQtEventHandler f, void * data)
   FIXME: write function documentation
 */
 const SoEvent *
-SoQtInputFocus::translateEvent(QEvent * event)
+SoQtInputFocus::translateEvent(QEvent * /*event*/)
 {
   return NULL;
 }

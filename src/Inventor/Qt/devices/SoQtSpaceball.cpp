@@ -83,7 +83,7 @@ SoQtSpaceball::~SoQtSpaceball()
   FIXME: write function documentation
 */
 void
-SoQtSpaceball::enable(QWidget * w, SoQtEventHandler f, void * data)
+SoQtSpaceball::enable(QWidget * /*w*/, SoQtEventHandler /*f*/, void * /*data*/)
 {
   // TODO: implement
 }
@@ -92,7 +92,7 @@ SoQtSpaceball::enable(QWidget * w, SoQtEventHandler f, void * data)
   FIXME: write function documentation
 */
 void
-SoQtSpaceball::disable(QWidget * w, SoQtEventHandler f, void * data)
+SoQtSpaceball::disable(QWidget * /*w*/, SoQtEventHandler /*f*/, void * /*data*/)
 {
   // TODO: implement
 }
@@ -101,7 +101,7 @@ SoQtSpaceball::disable(QWidget * w, SoQtEventHandler f, void * data)
   FIXME: write function documentation
 */
 const SoEvent *
-SoQtSpaceball::translateEvent(QEvent * event)
+SoQtSpaceball::translateEvent(QEvent * /*event*/)
 {
   // TODO: implement
   return NULL;

@@ -33,7 +33,7 @@ class SoQtInputFocus : public SoQtDevice
 {
 public:
   SoQtInputFocus(soqtEventMask mask = SO_QT_ALL_FOCUS_EVENTS);
-  ~SoQtInputFocus();
+  virtual ~SoQtInputFocus();
 
   virtual void enable(QWidget * w, SoQtEventHandler f, void * data);
   virtual void disable(QWidget * w, SoQtEventHandler f, void * data);

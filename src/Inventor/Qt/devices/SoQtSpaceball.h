@@ -35,7 +35,7 @@ public:
   };
 
   SoQtSpaceball(Mask mask = SoQtSpaceball::ALL);
-  ~SoQtSpaceball();
+  virtual ~SoQtSpaceball();
 
   virtual void enable(QWidget * w, SoQtEventHandler f, void * data);
   virtual void disable(QWidget * w, SoQtEventHandler f, void * data);

@@ -92,7 +92,7 @@ SoQtMouse::~SoQtMouse()
   FIXME: write function documentation
 */
 void
-SoQtMouse::enable(QWidget * w, SoQtEventHandler f, void * data)
+SoQtMouse::enable(QWidget * /*w*/, SoQtEventHandler /*f*/, void * /*data*/)
 {
   // TODO: implement
 }
@@ -101,7 +101,7 @@ SoQtMouse::enable(QWidget * w, SoQtEventHandler f, void * data)
   FIXME: write function documentation
 */
 void
-SoQtMouse::disable(QWidget * w, SoQtEventHandler f, void * data)
+SoQtMouse::disable(QWidget * /*w*/, SoQtEventHandler /*f*/, void * /*data*/)
 {
   // TODO: implement
 }

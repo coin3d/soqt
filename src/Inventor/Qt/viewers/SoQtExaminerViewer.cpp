@@ -662,7 +662,6 @@ SoQtExaminerViewer::processEvent(QEvent * event)
 
   case Event_MouseMove:
     {
-      QMouseEvent * me = (QMouseEvent *)event;
       switch (this->currentmode) {
       case DRAGGING:
         if (!this->spindetecttimer) this->spindetecttimer = new QTimer;
@@ -676,6 +675,9 @@ SoQtExaminerViewer::processEvent(QEvent * event)
 
       case ZOOMING:
         this->zoomByCursor(norm_mousepos);
+        break;
+
+      default: /* include default to avoid compiler warnings. */
         break;
       }
     }
@@ -693,6 +695,9 @@ SoQtExaminerViewer::processEvent(QEvent * event)
           this->setModeFromState(ke->state() & ~ControlButton);
       }
     }
+    break;
+
+  default: /* include default to avoid compiler warnings. */
     break;
   }
 
@@ -802,6 +807,9 @@ SoQtExaminerViewer::setMode(const ViewerMode mode)
       SbViewVolume vv = cam->getViewVolume(this->getGlxAspectRatio());
       this->panningplane = vv.getPlane(cam->focalDistance.getValue());
     }
+    break;
+
+  default: /* include default to avoid compiler warnings. */
     break;
   }
 

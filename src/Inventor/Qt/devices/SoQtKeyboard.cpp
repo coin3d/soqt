@@ -467,7 +467,7 @@ SoQtKeyboard::~SoQtKeyboard()
   FIXME: write function documentation
 */
 void
-SoQtKeyboard::enable(QWidget * w, SoQtEventHandler f, void * data)
+SoQtKeyboard::enable(QWidget * /*w*/, SoQtEventHandler /*f*/, void * /*data*/)
 {
   // TODO: implement
 }
@@ -476,7 +476,7 @@ SoQtKeyboard::enable(QWidget * w, SoQtEventHandler f, void * data)
   FIXME: write function documentation
 */
 void
-SoQtKeyboard::disable(QWidget * w, SoQtEventHandler f, void * data)
+SoQtKeyboard::disable(QWidget * /*w*/, SoQtEventHandler /*f*/, void * /*data*/)
 {
   // TODO: implement
 }

@@ -176,7 +176,7 @@ SoQtRenderArea::~SoQtRenderArea()
 }
 
 void
-SoQtRenderArea::renderCB(void * data, SoSceneManager * scenemanager)
+SoQtRenderArea::renderCB(void * data, SoSceneManager * /*scenemanager*/)
 {
   ((SoQtRenderArea *)data)->render();
 }

@@ -856,7 +856,7 @@ SoQtViewer::isAutoClipping(void) const
   \sa isStereoViewing()
 */
 void
-SoQtViewer::setStereoViewing(SbBool on)
+SoQtViewer::setStereoViewing(SbBool /*on*/)
 {
   // FIXME: implement. 990507 mortene.
   SoDebugError::postInfo("SoQtViewer::setStereoViewing",
@@ -885,7 +885,7 @@ SoQtViewer::isStereoViewing(void) const
   \sa getStereoOffset()
  */
 void
-SoQtViewer::setStereoOffset(const float dist)
+SoQtViewer::setStereoOffset(const float /*dist*/)
 {
   // FIXME: implement. 990507 mortene.
   SoDebugError::postInfo("SoQtViewer::setStereoOffset",
@@ -1027,7 +1027,7 @@ SoQtViewer::removeFinishCallback(SoQtViewerCB * func, void * data)
   \sa pasteView()
  */
 void
-SoQtViewer::copyView(const SbTime eventTime)
+SoQtViewer::copyView(const SbTime /*eventTime*/)
 {
   // FIXME: not implemented. Needs SoQtClipboard implementation
   // first. 990507 mortene.
@@ -1044,7 +1044,7 @@ SoQtViewer::copyView(const SbTime eventTime)
   \sa copyView()
  */
 void
-SoQtViewer::pasteView(const SbTime eventTime)
+SoQtViewer::pasteView(const SbTime /*eventTime*/)
 {
   // FIXME: not implemented. Needs SoQtClipboard implementation
   // first. 990507 mortene.
@@ -1067,7 +1067,7 @@ SoQtViewer::recomputeSceneSize(void)
   Large Model Visualization; not implemented yet.
  */
 void
-SoQtViewer::setDecimationStrategy(const SoQtViewer::DecimationStrategy strategy)
+SoQtViewer::setDecimationStrategy(const SoQtViewer::DecimationStrategy /*strategy*/)
 {
   // FIXME: implement. 990508 mortene.
   SoDebugError::postInfo("SoQtViewer::setDecimationStrategy",
@@ -1091,7 +1091,7 @@ SoQtViewer::getDecimationStrategy(void) const
   Large Model Visualization; not implemented yet.
  */
 void
-SoQtViewer::setGoalNumberOfTriangles(const int32_t goal)
+SoQtViewer::setGoalNumberOfTriangles(const int32_t /*goal*/)
 {
   // FIXME: implement. 990508 mortene.
   SoDebugError::postInfo("SoQtViewer::setGoalNumberOfTriangles",
@@ -1115,7 +1115,7 @@ SoQtViewer::getGoalNumberOfTriangles(void) const
   Large Model Visualization; not implemented yet.
  */
 void
-SoQtViewer::setGoalFramesPerSecond(const float goal)
+SoQtViewer::setGoalFramesPerSecond(const float /*goal*/)
 {
   // FIXME: implement. 990508 mortene.
   SoDebugError::postInfo("SoQtViewer::setGoalFramesPerSecond",
@@ -1139,7 +1139,7 @@ SoQtViewer::getGoalFramesPerSecond(void) const
   Large Model Visualization; not implemented yet.
  */
 void
-SoQtViewer::setFixedPercentage(const float percent)
+SoQtViewer::setFixedPercentage(const float /*percent*/)
 {
   // FIXME: implement. 990508 mortene.
   SoDebugError::postInfo("SoQtViewer::setFixedPercentage",
@@ -1163,7 +1163,7 @@ SoQtViewer::getFixedPercentage(void) const
   Large Model Visualization; not implemented yet.
  */
 void
-SoQtViewer::enableFullRenderingWhenStill(const SbBool on)
+SoQtViewer::enableFullRenderingWhenStill(const SbBool /*on*/)
 {
   // FIXME: implement. 990508 mortene.
   SoDebugError::postInfo("SoQtViewer::enableFullRenderingWhenStill",
@@ -1199,7 +1199,7 @@ SoQtViewer::isStillNow(void) const
   Large Model Visualization; not implemented yet.
  */
 void
-SoQtViewer::setFramesPerSecondCallback(SoQtViewerFPSCB * callback, void * data)
+SoQtViewer::setFramesPerSecondCallback(SoQtViewerFPSCB * /*callback*/, void * /*data*/)
 {
   // FIXME: implement. 990508 mortene.
   SoDebugError::postInfo("SoQtViewer::setFramesPerSecondCallback",
@@ -1211,7 +1211,7 @@ SoQtViewer::setFramesPerSecondCallback(SoQtViewerFPSCB * callback, void * data)
   Large Model Visualization; not implemented yet.
  */
 void
-SoQtViewer::setNumSamples(const int numFrames)
+SoQtViewer::setNumSamples(const int /*numFrames*/)
 {
   // FIXME: implement. 990508 mortene.
   SoDebugError::postInfo("SoQtViewer::setNumSamples",
@@ -1235,7 +1235,7 @@ SoQtViewer::getNumSamples(void) const
   Large Model Visualization; not implemented yet.
  */
 void
-SoQtViewer::setDecimationPercentageCallback(SoQtViewerDecimationPercentageCB * cb, void * data)
+SoQtViewer::setDecimationPercentageCallback(SoQtViewerDecimationPercentageCB * /*cb*/, void * /*data*/)
 {
   // FIXME: implement. 990508 mortene.
   SoDebugError::postInfo("SoQtViewer::setDecimationPercentageCallback",
@@ -1791,7 +1791,6 @@ SoQtViewer::DrawStyle
 SoQtViewer::currentDrawStyle(void) const
 {
   SbBool interactivemode = this->getInteractiveCount() > 0 ? TRUE : FALSE;
-  SbBool moveasstill = this->drawInteractiveAsStill();
 
   if (!interactivemode || this->drawInteractiveAsStill())
     return this->drawstyles[STILL];

@@ -948,7 +948,7 @@ SoQtFullViewer::buildDrawStyleSubmenu(QWidget * popup)
   the bottom of the preferences sheet window.
  */
 QWidget *
-SoQtFullViewer::makeSubPreferences(QWidget * parent)
+SoQtFullViewer::makeSubPreferences(QWidget * /*parent*/)
 {
   return NULL;
 }
@@ -1924,7 +1924,7 @@ SoQtFullViewer::setDrawStyleMenuActivation(SoQtViewer::DrawType type,
 
   for (int i = start; i <= end; i++) m->setItemChecked(i, FALSE);
 
-  int id;
+  int id = 0; /* set to dummy value to avoid compiler warning. */
 
   // FIXME: use a dict or two? 990220 mortene.
   if (type == SoQtViewer::STILL) {
