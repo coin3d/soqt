@@ -146,16 +146,8 @@ SoQtMouse::translateEvent(
   SoEvent * super = NULL;
   QMouseEvent * mouseevent = (QMouseEvent *)event;
 
-  // Check for mousebutton press/release. Note that mousebutton
-  // doubleclick events are ignored, as double clicks also generate 2
-  // pairs of press and release events. In other words: it's the
-  // user's responsibility to translate pairs of singleclicks to
-  // doubleclicks, if doubleclicks have a special meaning.
 
-  // FIXME: check if the above statement is actually correct, as Qt
-  // sends this series of events upon dblclick:
-  // press,release,dblclick,release. Reported to Troll Tech as a
-  // possible bug. 19991001 mortene.
+  // Convert wheel mouse events to Coin SoMouseButtonEvents.
 
 #ifdef HAVE_SOMOUSEBUTTONEVENT_BUTTONS
   if ( event->type() == QEvent::Wheel ) {
@@ -176,7 +168,23 @@ SoQtMouse::translateEvent(
   }
 #endif // HAVE_SOMOUSEBUTTONEVENT_BUTTONS
 
-  if (((event->type() == Event_MouseButtonPress) ||
+
+  // Check for mousebutton press/release. Note that mousebutton
+  // doubleclick events are handled by converting them to two
+  // press/release events. In other words: it's the user's
+  // responsibility to translate pairs of singleclicks to
+  // doubleclicks, if doubleclicks have a special meaning in the
+  // application.
+
+  // Qt actually sends this series of events upon dblclick:
+  // Event_MouseButtonPress, Event_MouseButtonRelease,
+  // Event_MouseButtonDblClick, Event_MouseButtonRelease.
+  //
+  // This was reported to Troll Tech as a possible bug, but was
+  // confirmed by TT support to be the intended behavior.
+
+  if (((event->type() == Event_MouseButtonDblClick) ||
+       (event->type() == Event_MouseButtonPress) ||
        (event->type() == Event_MouseButtonRelease)) &&
       (this->eventmask & (BUTTON_PRESS | BUTTON_RELEASE))) {
 
