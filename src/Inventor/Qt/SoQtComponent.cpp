@@ -307,10 +307,8 @@ SoQtComponent::setClassName(
 
   \sa baseWidget()
 */
-
 void
-SoQtComponent::setBaseWidget(
-  QWidget * const widget)
+SoQtComponent::setBaseWidget(const QWidget * widget)
 {
 //  SoDebugError::postInfo("SoQtComponent::setBaseWidget", "[invoked]");
   assert(widget);
