@@ -179,29 +179,6 @@ SoQtExaminerViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
 
 // *************************************************************************
 
-/*!
-  FIXME: write doc
-*/
-
-void
-SoQtExaminerViewer::setAnimationEnabled(const SbBool enable)
-{
-  PRIVATE(this)->setGenericAnimationEnabled(enable);
-}
-
-
-/*!
-  FIXME: write doc
-*/
-
-void
-SoQtExaminerViewer::setFeedbackSize(const int size)
-{
-  PRIVATE(this)->setGenericFeedbackSize(size);
-}
-
-// *************************************************************************
-
 // SoQtExaminerViewerP "private implementation" class.
 
 #ifndef DOXYGEN_SKIP_THIS
