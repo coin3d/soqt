@@ -9675,9 +9675,22 @@ recommend you to upgrade.])
   fi
 
   else # sim_ac_qglobal = false
-   AC_MSG_WARN([header file qglobal.h not found, can not compile Qt code])
+    AC_MSG_WARN([header file qglobal.h not found, can not compile Qt code])
   fi
   fi # MOC = false
+
+  sim_ac_qt_install=`cd $sim_ac_qt_dir; pwd`/bin/install
+
+  AC_MSG_CHECKING(install sanity)
+  case $INSTALL in
+  "${sim_ac_qt_install}"* )
+    AC_MSG_RESULT(bogus)
+    SIM_AC_ERROR([qt-install])
+    ;;
+  * )
+    AC_MSG_RESULT(ok)
+    ;;
+  esac
 
   if test ! x"$sim_ac_qt_libs" = xUNRESOLVED; then
     sim_ac_qt_avail=yes

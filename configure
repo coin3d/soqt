@@ -24846,10 +24846,52 @@ echo "${ECHO_T}$sim_ac_qt_cppflags $sim_ac_qt_libs" >&6
   fi
 
   else # sim_ac_qglobal = false
-   { echo "$as_me:$LINENO: WARNING: header file qglobal.h not found, can not compile Qt code" >&5
+    { echo "$as_me:$LINENO: WARNING: header file qglobal.h not found, can not compile Qt code" >&5
 echo "$as_me: WARNING: header file qglobal.h not found, can not compile Qt code" >&2;}
   fi
   fi # MOC = false
+
+  sim_ac_qt_install=`cd $sim_ac_qt_dir; pwd`/bin/install
+
+  echo "$as_me:$LINENO: checking install sanity" >&5
+echo $ECHO_N "checking install sanity... $ECHO_C" >&6
+  case $INSTALL in
+  "${sim_ac_qt_install}"* )
+    echo "$as_me:$LINENO: result: bogus" >&5
+echo "${ECHO_T}bogus" >&6
+
+echo >&2 ""
+
+
+: ${sim_ac_message_file=$ac_aux_dir/errors.txt}
+if test -f $sim_ac_message_file; then
+  sim_ac_message="`sed -n -e '/^!qt-install$/,/^!/ { /^!/ d; p; }' <$sim_ac_message_file`"
+  if test x"$sim_ac_message" = x""; then
+    { { echo "$as_me:$LINENO: error: no message named 'qt-install' in '$sim_ac_message_file' - notify the $PACKAGE_NAME maintainer(s)" >&5
+echo "$as_me: error: no message named 'qt-install' in '$sim_ac_message_file' - notify the $PACKAGE_NAME maintainer(s)" >&2;}
+   { (exit 1); exit 1; }; }
+  else
+    eval "echo >&2 \"$sim_ac_message\""
+  fi
+else
+  { { echo "$as_me:$LINENO: error: file '$sim_ac_message_file' not found - notify the $PACKAGE_NAME maintainer(s)" >&5
+echo "$as_me: error: file '$sim_ac_message_file' not found - notify the $PACKAGE_NAME maintainer(s)" >&2;}
+   { (exit 1); exit 1; }; }
+fi
+
+
+
+echo >&2 ""
+{ { echo "$as_me:$LINENO: error: aborting" >&5
+echo "$as_me: error: aborting" >&2;}
+   { (exit 1); exit 1; }; }
+
+    ;;
+  * )
+    echo "$as_me:$LINENO: result: ok" >&5
+echo "${ECHO_T}ok" >&6
+    ;;
+  esac
 
   if test ! x"$sim_ac_qt_libs" = xUNRESOLVED; then
     sim_ac_qt_avail=yes
