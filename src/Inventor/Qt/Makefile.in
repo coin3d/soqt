@@ -183,10 +183,6 @@ SoGui_src_Inventor_Gui_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.h \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp \
-  $(top_builddir)/src/Inventor/@Gui@/So@Gui@MaterialList.h \
-  $(top_builddir)/src/Inventor/@Gui@/SoAnyMaterialList.h \
-  $(top_builddir)/src/Inventor/@Gui@/SoAnyMaterialList.cpp \
-  $(top_builddir)/src/Inventor/@Gui@/SoAnyMaterialListBuiltins.cpp \
   $(SoGui_src_Inventor_Gui_common_BuiltFiles)
 
 
@@ -253,13 +249,7 @@ SoGuiBuiltFiles = \
 @BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@Object.cpp \
 @BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@Component.cpp \
 @BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@GLWidget.cpp \
-@BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@LightSliderSet.cpp \
-@BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@MaterialList.cpp \
-@BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@MaterialSliderSet.cpp \
-@BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@RenderArea.cpp \
-@BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@SliderSet.cpp \
-@BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@SliderSetBase.cpp \
-@BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@TransformSliderSet.cpp
+@BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@RenderArea.cpp
 
 @BUILD_METAFILES_FALSE@SoGui_src_Inventor_Gui_BuiltMetaFiles = 
 
@@ -339,16 +329,12 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/SoGuiGLWidgetCommon.cpp.in \
   src/Inventor/@Gui@/common/SoGuiRenderArea.h.in \
   src/Inventor/@Gui@/common/SoGuiRenderArea.cpp.in \
-  src/Inventor/@Gui@/common/SoGuiMaterialList.h.in \
   src/Inventor/@Gui@/common/SoAny.h.in \
   src/Inventor/@Gui@/common/SoAny.cpp.in \
   src/Inventor/@Gui@/common/widgets/SoGuiPopupMenu.h.in \
   src/Inventor/@Gui@/common/widgets/SoGuiPopupMenu.cpp.in \
   src/Inventor/@Gui@/common/widgets/SoAnyThumbWheel.h.in \
   src/Inventor/@Gui@/common/widgets/SoAnyThumbWheel.cpp.in \
-  src/Inventor/@Gui@/common/SoAnyMaterialList.h.in \
-  src/Inventor/@Gui@/common/SoAnyMaterialList.cpp.in \
-  src/Inventor/@Gui@/common/SoAnyMaterialListBuiltins.cpp.in \
   src/Inventor/@Gui@/common/gl.h.in \
   src/Inventor/@Gui@/common/soguidefs.h.in \
   src/Inventor/@Gui@/common/spwinput.h.in \
@@ -435,18 +421,7 @@ libSoQt@SUFFIX@_la_SOURCES = \
 	SoQtP.h \
 	SoQtInternal.h \
 	SoQtComponent.cpp \
-	SoQtGLWidget.cpp \
-	SoQtLightSliderSet.cpp \
-	SoQtLightSliderSet.h \
-	SoQtMaterialSliderSet.cpp \
-	SoQtMaterialSliderSet.h \
-	SoQtSliderSet.cpp \
-	SoQtSliderSet.h \
-	SoQtSliderSetBase.cpp \
-	SoQtSliderSetBase.h \
-	SoQtTransformSliderSet.cpp \
-	SoQtTransformSliderSet.h \
-	SoQtMaterialList.cpp
+	SoQtGLWidget.cpp
 
 
 nodist_libSoQt@SUFFIX@_la_SOURCES = \
@@ -471,18 +446,7 @@ soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
 	SoQtP.h \
 	SoQtInternal.h \
 	SoQtComponent.cpp \
-	SoQtGLWidget.cpp \
-	SoQtLightSliderSet.cpp \
-	SoQtLightSliderSet.h \
-	SoQtMaterialSliderSet.cpp \
-	SoQtMaterialSliderSet.h \
-	SoQtSliderSet.cpp \
-	SoQtSliderSet.h \
-	SoQtSliderSetBase.cpp \
-	SoQtSliderSetBase.h \
-	SoQtTransformSliderSet.cpp \
-	SoQtTransformSliderSet.h \
-	SoQtMaterialList.cpp
+	SoQtGLWidget.cpp
 
 
 nodist_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
@@ -500,13 +464,7 @@ soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
 # header installation
 @MAC_FRAMEWORK_TRUE@SoQtincdir = $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$(MAC_FRAMEWORK_VERSION)/Headers
 @MAC_FRAMEWORK_FALSE@SoQtincdir = $(includedir)/Inventor/Qt
-SoQtinc_HEADERS = \
-	SoQtLightSliderSet.h \
-	SoQtMaterialSliderSet.h \
-	SoQtSliderSet.h \
-	SoQtSliderSetBase.h \
-	SoQtTransformSliderSet.h
-
+SoQtinc_HEADERS = 
 
 nodist_SoQtinc_HEADERS = \
 	SoQt.h \
@@ -515,8 +473,7 @@ nodist_SoQtinc_HEADERS = \
 	SoQtCursor.h \
 	SoQtComponent.h \
 	SoQtGLWidget.h \
-	SoQtRenderArea.h \
-	SoQtMaterialList.h
+	SoQtRenderArea.h
 
 subdir = src/Inventor/Qt
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
@@ -528,15 +485,11 @@ soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_AR = $(AR) cru
 soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_DEPENDENCIES = devices/devices.lst \
 	viewers/viewers.lst widgets/widgets.lst
 am_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS = SoQt.$(OBJEXT) \
-	SoQtComponent.$(OBJEXT) SoQtGLWidget.$(OBJEXT) \
-	SoQtLightSliderSet.$(OBJEXT) SoQtMaterialSliderSet.$(OBJEXT) \
-	SoQtSliderSet.$(OBJEXT) SoQtSliderSetBase.$(OBJEXT) \
-	SoQtTransformSliderSet.$(OBJEXT) SoQtMaterialList.$(OBJEXT)
+	SoQtComponent.$(OBJEXT) SoQtGLWidget.$(OBJEXT)
 nodist_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS = SoAny.$(OBJEXT) \
 	So@Gui@Cursor.$(OBJEXT) So@Gui@Object.$(OBJEXT) \
 	So@Gui@Common.$(OBJEXT) So@Gui@ComponentCommon.$(OBJEXT) \
-	So@Gui@GLWidgetCommon.$(OBJEXT) So@Gui@RenderArea.$(OBJEXT) \
-	SoAnyMaterialList.$(OBJEXT) SoAnyMaterialListBuiltins.$(OBJEXT)
+	So@Gui@GLWidgetCommon.$(OBJEXT) So@Gui@RenderArea.$(OBJEXT)
 soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS = \
 	$(am_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) \
 	$(nodist_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS)
@@ -544,14 +497,10 @@ LTLIBRARIES = $(lib_LTLIBRARIES)
 
 libSoQt@SUFFIX@_la_DEPENDENCIES = devices/libSoQtDevices.la \
 	viewers/libSoQtViewers.la widgets/libSoQtWidgets.la
-am_libSoQt@SUFFIX@_la_OBJECTS = SoQt.lo SoQtComponent.lo SoQtGLWidget.lo \
-	SoQtLightSliderSet.lo SoQtMaterialSliderSet.lo SoQtSliderSet.lo \
-	SoQtSliderSetBase.lo SoQtTransformSliderSet.lo \
-	SoQtMaterialList.lo
+am_libSoQt@SUFFIX@_la_OBJECTS = SoQt.lo SoQtComponent.lo SoQtGLWidget.lo
 nodist_libSoQt@SUFFIX@_la_OBJECTS = SoAny.lo So@Gui@Cursor.lo \
 	So@Gui@Object.lo So@Gui@Common.lo So@Gui@ComponentCommon.lo \
-	So@Gui@GLWidgetCommon.lo So@Gui@RenderArea.lo \
-	SoAnyMaterialList.lo SoAnyMaterialListBuiltins.lo
+	So@Gui@GLWidgetCommon.lo So@Gui@RenderArea.lo
 libSoQt@SUFFIX@_la_OBJECTS = $(am_libSoQt@SUFFIX@_la_OBJECTS) \
 	$(nodist_libSoQt@SUFFIX@_la_OBJECTS)
 
@@ -573,27 +522,11 @@ depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 @AMDEP_TRUE@	$(DEPDIR)/So@Gui@Object.Po \
 @AMDEP_TRUE@	$(DEPDIR)/So@Gui@RenderArea.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/So@Gui@RenderArea.Po $(DEPDIR)/SoAny.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/SoAny.Po $(DEPDIR)/SoAnyMaterialList.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/SoAnyMaterialList.Po \
-@AMDEP_TRUE@	$(DEPDIR)/SoAnyMaterialListBuiltins.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/SoAnyMaterialListBuiltins.Po \
-@AMDEP_TRUE@	$(DEPDIR)/SoQt.Plo $(DEPDIR)/SoQt.Po \
-@AMDEP_TRUE@	$(DEPDIR)/SoQtComponent.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoAny.Po $(DEPDIR)/SoQt.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoQt.Po $(DEPDIR)/SoQtComponent.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/SoQtComponent.Po \
 @AMDEP_TRUE@	$(DEPDIR)/SoQtGLWidget.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/SoQtGLWidget.Po \
-@AMDEP_TRUE@	$(DEPDIR)/SoQtLightSliderSet.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/SoQtLightSliderSet.Po \
-@AMDEP_TRUE@	$(DEPDIR)/SoQtMaterialList.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/SoQtMaterialList.Po \
-@AMDEP_TRUE@	$(DEPDIR)/SoQtMaterialSliderSet.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/SoQtMaterialSliderSet.Po \
-@AMDEP_TRUE@	$(DEPDIR)/SoQtSliderSet.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/SoQtSliderSet.Po \
-@AMDEP_TRUE@	$(DEPDIR)/SoQtSliderSetBase.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/SoQtSliderSetBase.Po \
-@AMDEP_TRUE@	$(DEPDIR)/SoQtTransformSliderSet.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/SoQtTransformSliderSet.Po
+@AMDEP_TRUE@	$(DEPDIR)/SoQtGLWidget.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -686,10 +619,6 @@ So@Gui@GLWidgetCommon.$(OBJEXT): \
 	$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp
 So@Gui@RenderArea.$(OBJEXT): \
 	$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp
-SoAnyMaterialList.$(OBJEXT): \
-	$(top_builddir)/src/Inventor/@Gui@/SoAnyMaterialList.cpp
-SoAnyMaterialListBuiltins.$(OBJEXT): \
-	$(top_builddir)/src/Inventor/@Gui@/SoAnyMaterialListBuiltins.cpp
 install-libLTLIBRARIES: $(lib_LTLIBRARIES)
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(libdir)
@@ -719,10 +648,6 @@ So@Gui@GLWidgetCommon.lo: \
 	$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp
 So@Gui@RenderArea.lo: \
 	$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp
-SoAnyMaterialList.lo: \
-	$(top_builddir)/src/Inventor/@Gui@/SoAnyMaterialList.cpp
-SoAnyMaterialListBuiltins.lo: \
-	$(top_builddir)/src/Inventor/@Gui@/SoAnyMaterialListBuiltins.cpp
 libSoQt@SUFFIX@.la: $(libSoQt@SUFFIX@_la_OBJECTS) $(libSoQt@SUFFIX@_la_DEPENDENCIES) 
 	$(CXXLINK) -rpath $(libdir) $(libSoQt@SUFFIX@_la_LDFLAGS) $(libSoQt@SUFFIX@_la_OBJECTS) $(libSoQt@SUFFIX@_la_LIBADD) $(LIBS)
 
@@ -746,28 +671,12 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@RenderArea.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoAny.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoAny.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoAnyMaterialList.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoAnyMaterialList.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoAnyMaterialListBuiltins.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoAnyMaterialListBuiltins.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQt.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQt.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtComponent.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtComponent.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtGLWidget.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtGLWidget.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtLightSliderSet.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtLightSliderSet.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtMaterialList.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtMaterialList.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtMaterialSliderSet.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtMaterialSliderSet.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtSliderSet.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtSliderSet.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtSliderSetBase.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtSliderSetBase.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtTransformSliderSet.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtTransformSliderSet.Po@am__quote@
 
 distclean-depend:
 	-rm -rf $(DEPDIR)
@@ -915,42 +824,6 @@ So@Gui@RenderArea.lo: $(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp
 @AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@RenderArea.Plo' tmpdepfile='$(DEPDIR)/So@Gui@RenderArea.TPlo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@RenderArea.lo `test -f $(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp
-
-SoAnyMaterialList.o: $(top_builddir)/src/Inventor/@Gui@/SoAnyMaterialList.cpp
-@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/SoAnyMaterialList.cpp' object='SoAnyMaterialList.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/SoAnyMaterialList.Po' tmpdepfile='$(DEPDIR)/SoAnyMaterialList.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o SoAnyMaterialList.o `test -f $(top_builddir)/src/Inventor/@Gui@/SoAnyMaterialList.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/SoAnyMaterialList.cpp
-
-SoAnyMaterialList.obj: $(top_builddir)/src/Inventor/@Gui@/SoAnyMaterialList.cpp
-@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/SoAnyMaterialList.cpp' object='SoAnyMaterialList.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/SoAnyMaterialList.Po' tmpdepfile='$(DEPDIR)/SoAnyMaterialList.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o SoAnyMaterialList.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/SoAnyMaterialList.cpp`
-
-SoAnyMaterialList.lo: $(top_builddir)/src/Inventor/@Gui@/SoAnyMaterialList.cpp
-@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/SoAnyMaterialList.cpp' object='SoAnyMaterialList.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/SoAnyMaterialList.Plo' tmpdepfile='$(DEPDIR)/SoAnyMaterialList.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o SoAnyMaterialList.lo `test -f $(top_builddir)/src/Inventor/@Gui@/SoAnyMaterialList.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/SoAnyMaterialList.cpp
-
-SoAnyMaterialListBuiltins.o: $(top_builddir)/src/Inventor/@Gui@/SoAnyMaterialListBuiltins.cpp
-@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/SoAnyMaterialListBuiltins.cpp' object='SoAnyMaterialListBuiltins.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/SoAnyMaterialListBuiltins.Po' tmpdepfile='$(DEPDIR)/SoAnyMaterialListBuiltins.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o SoAnyMaterialListBuiltins.o `test -f $(top_builddir)/src/Inventor/@Gui@/SoAnyMaterialListBuiltins.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/SoAnyMaterialListBuiltins.cpp
-
-SoAnyMaterialListBuiltins.obj: $(top_builddir)/src/Inventor/@Gui@/SoAnyMaterialListBuiltins.cpp
-@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/SoAnyMaterialListBuiltins.cpp' object='SoAnyMaterialListBuiltins.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/SoAnyMaterialListBuiltins.Po' tmpdepfile='$(DEPDIR)/SoAnyMaterialListBuiltins.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o SoAnyMaterialListBuiltins.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/SoAnyMaterialListBuiltins.cpp`
-
-SoAnyMaterialListBuiltins.lo: $(top_builddir)/src/Inventor/@Gui@/SoAnyMaterialListBuiltins.cpp
-@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/SoAnyMaterialListBuiltins.cpp' object='SoAnyMaterialListBuiltins.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/SoAnyMaterialListBuiltins.Plo' tmpdepfile='$(DEPDIR)/SoAnyMaterialListBuiltins.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o SoAnyMaterialListBuiltins.lo `test -f $(top_builddir)/src/Inventor/@Gui@/SoAnyMaterialListBuiltins.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/SoAnyMaterialListBuiltins.cpp
 CXXDEPMODE = @CXXDEPMODE@
 uninstall-info-am:
 
@@ -1221,15 +1094,6 @@ $(top_builddir)/src/Inventor/@Gui@/SoAny.h: $(top_srcdir)/src/Inventor/@Gui@/com
 $(top_builddir)/src/Inventor/@Gui@/SoAny.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/SoAny.cpp.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/SoAny.cpp:src/Inventor/@Gui@/common/SoAny.cpp.in )
 
-$(top_builddir)/src/Inventor/@Gui@/SoAnyMaterialList.h: $(top_srcdir)/src/Inventor/@Gui@/common/SoAnyMaterialList.h.in $(top_builddir)/config.status
-	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/SoAnyMaterialList.h:src/Inventor/@Gui@/common/SoAnyMaterialList.h.in )
-
-$(top_builddir)/src/Inventor/@Gui@/SoAnyMaterialList.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/SoAnyMaterialList.cpp.in $(top_builddir)/config.status
-	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/SoAnyMaterialList.cpp:src/Inventor/@Gui@/common/SoAnyMaterialList.cpp.in )
-
-$(top_builddir)/src/Inventor/@Gui@/SoAnyMaterialListBuiltins.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/SoAnyMaterialListBuiltins.cpp.in $(top_builddir)/config.status
-	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/SoAnyMaterialListBuiltins.cpp:src/Inventor/@Gui@/common/SoAnyMaterialListBuiltins.cpp.in )
-
 $(top_builddir)/src/Inventor/@Gui@/So@Gui@Basic.h: $(top_srcdir)/src/Inventor/@Gui@/common/SoGuiBasic.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=-:src/Inventor/@Gui@/common/SoGuiBasic.h.in | $(SHELL) config.status --header=src/Inventor/@Gui@/So@Gui@Basic.h:- )
 
@@ -1268,9 +1132,6 @@ $(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.h: $(top_srcdir)/src/Invent
 
 $(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/SoGuiRenderArea.cpp.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/So@Gui@RenderArea.cpp:src/Inventor/@Gui@/common/SoGuiRenderArea.cpp.in )
-
-$(top_builddir)/src/Inventor/@Gui@/So@Gui@MaterialList.h: $(top_srcdir)/src/Inventor/@Gui@/common/SoGuiMaterialList.h.in $(top_builddir)/config.status
-	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/So@Gui@MaterialList.h:src/Inventor/@Gui@/common/SoGuiMaterialList.h.in )
 
 $(top_builddir)/src/Inventor/@Gui@/common/gl.h: $(top_srcdir)/src/Inventor/@Gui@/common/gl.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); \
@@ -1385,36 +1246,6 @@ $(top_builddir)/man/man1/so@gui@-config.1: $(top_srcdir)/src/Inventor/@Gui@/comm
 @BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
 @BUILD_METAFILES_TRUE@	echo "$(MOC) -o src/Inventor/@Gui@/@meta_prefix@So@Gui@RenderArea.cpp src/Inventor/@Gui@/So@Gui@RenderArea.h"; \
 @BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/@meta_prefix@So@Gui@RenderArea.cpp src/Inventor/@Gui@/So@Gui@RenderArea.h )
-
-@BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@LightSliderSet.cpp: $(top_srcdir)/src/Inventor/@Gui@/So@Gui@LightSliderSet.h $(top_builddir)/config.status
-@BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
-@BUILD_METAFILES_TRUE@	echo "$(MOC) -o src/Inventor/@Gui@/@meta_prefix@So@Gui@LightSliderSet.cpp `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/So@Gui@LightSliderSet.h`"; \
-@BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/@meta_prefix@So@Gui@LightSliderSet.cpp `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/So@Gui@LightSliderSet.h` )
-
-@BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@MaterialList.cpp: $(top_builddir)/src/Inventor/@Gui@/So@Gui@MaterialList.h $(top_builddir)/config.status
-@BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
-@BUILD_METAFILES_TRUE@	echo "$(MOC) -o src/Inventor/@Gui@/@meta_prefix@So@Gui@MaterialList.cpp $(top_builddir)/src/Inventor/@Gui@/So@Gui@MaterialList.h"; \
-@BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/@meta_prefix@So@Gui@MaterialList.cpp $(top_builddir)/src/Inventor/@Gui@/So@Gui@MaterialList.h )
-
-@BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@MaterialSliderSet.cpp: $(top_srcdir)/src/Inventor/@Gui@/So@Gui@MaterialSliderSet.h $(top_builddir)/config.status
-@BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
-@BUILD_METAFILES_TRUE@	echo "$(MOC) -o src/Inventor/@Gui@/@meta_prefix@So@Gui@MaterialSliderSet.cpp `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/So@Gui@MaterialSliderSet.h`"; \
-@BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/@meta_prefix@So@Gui@MaterialSliderSet.cpp `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/So@Gui@MaterialSliderSet.h` )
-
-@BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@SliderSet.cpp: $(top_srcdir)/src/Inventor/@Gui@/So@Gui@SliderSet.h $(top_builddir)/config.status
-@BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
-@BUILD_METAFILES_TRUE@	echo "$(MOC) -o src/Inventor/@Gui@/@meta_prefix@So@Gui@SliderSet.cpp `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/So@Gui@SliderSet.h`"; \
-@BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/@meta_prefix@So@Gui@SliderSet.cpp `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/So@Gui@SliderSet.h` )
-
-@BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@SliderSetBase.cpp: $(top_srcdir)/src/Inventor/@Gui@/So@Gui@SliderSetBase.h $(top_builddir)/config.status
-@BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
-@BUILD_METAFILES_TRUE@	echo "$(MOC) -o src/Inventor/@Gui@/@meta_prefix@So@Gui@SliderSetBase.cpp `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/So@Gui@SliderSetBase.h`"; \
-@BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/@meta_prefix@So@Gui@SliderSetBase.cpp `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/So@Gui@SliderSetBase.h` )
-
-@BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@TransformSliderSet.cpp: $(top_srcdir)/src/Inventor/@Gui@/So@Gui@TransformSliderSet.h $(top_builddir)/config.status
-@BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
-@BUILD_METAFILES_TRUE@	echo "$(MOC) -o src/Inventor/@Gui@/@meta_prefix@So@Gui@TransformSliderSet.cpp `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/So@Gui@TransformSliderSet.h`"; \
-@BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/@meta_prefix@So@Gui@TransformSliderSet.cpp `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/So@Gui@TransformSliderSet.h` )
 
 @BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@Device.cpp: $(top_srcdir)/src/Inventor/@Gui@/devices/So@Gui@Device.h $(top_builddir)/config.status
 @BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
