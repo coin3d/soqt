@@ -22,9 +22,9 @@ LIBS =
 
 BUILT_SOURCES = \
 	$(SoGuiAllBuiltFiles) \
-	$(top_builddir)/src/Inventor/Qt/widgets/moc_SoQtGradientDialog.icc \
-	$(top_builddir)/src/Inventor/Qt/widgets/moc_GradientEditor.icc \
-	$(top_builddir)/src/Inventor/Qt/widgets/moc_GradientView.icc
+	moc_SoQtGradientDialog.icc \
+	moc_GradientEditor.icc \
+	moc_GradientView.icc
 
 CLEANFILES = \
 	$(SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles)
@@ -119,19 +119,19 @@ install-nodist_SoQtWidgetsincHEADERS: $(nodist_SoQtWidgetsinc_HEADERS)
 # **************************************************************************
 # auto-generated Qt moc files.
 
-$(top_builddir)/src/Inventor/Qt/widgets/moc_SoQtGradientDialog.icc: $(top_srcdir)/src/Inventor/Qt/widgets/SoQtGradientDialog.h
+moc_SoQtGradientDialog.icc: $(srcdir)/SoQtGradientDialog.h
 	@( \
-	echo " $(MOC) -i -o moc_SoQtGradientDialog.icc $(top_srcdir)/src/Inventor/Qt/widgets/SoQtGradientDialog.h"; \
-	$(MOC) -i -o moc_SoQtGradientDialog.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/Qt/widgets/SoQtGradientDialog.h` )
+	echo " $(MOC) -i -o moc_SoQtGradientDialog.icc $(srcdir)/SoQtGradientDialog.h"; \
+	$(MOC) -i -o moc_SoQtGradientDialog.icc `$(UNIX2WINPATH) $(srcdir)/SoQtGradientDialog.h` )
 
-$(top_builddir)/src/Inventor/Qt/widgets/moc_GradientEditor.icc: $(top_srcdir)/src/Inventor/Qt/widgets/gradientp/GradientEditor.h
+moc_GradientEditor.icc: $(srcdir)/gradientp/GradientEditor.h
 	@( \
-	echo " $(MOC) -i -o moc_GradientEditor.icc $(top_srcdir)/src/Inventor/Qt/widgets/gradientp/GradientEditor.h"; \
-	$(MOC) -i -o moc_GradientEditor.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/Qt/widgets/gradientp/GradientEditor.h` )
+	echo " $(MOC) -i -o moc_GradientEditor.icc $(srcdir)/gradientp/GradientEditor.h"; \
+	$(MOC) -i -o moc_GradientEditor.icc `$(UNIX2WINPATH) $(srcdir)/gradientp/GradientEditor.h` )
 
-$(top_builddir)/src/Inventor/Qt/widgets/moc_GradientView.icc: $(top_srcdir)/src/Inventor/Qt/widgets/gradientp/GradientView.h
+moc_GradientView.icc: $(srcdir)/gradientp/GradientView.h
 	@( \
-	echo " $(MOC) -i -o moc_GradientView.icc $(top_srcdir)/src/Inventor/Qt/widgets/gradientp/GradientView.h"; \
-	$(MOC) -i -o moc_GradientView.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/Qt/widgets/gradientp/GradientView.h` )
+	echo " $(MOC) -i -o moc_GradientView.icc $(srcdir)/gradientp/GradientView.h"; \
+	$(MOC) -i -o moc_GradientView.icc `$(UNIX2WINPATH) $(srcdir)/gradientp/GradientView.h` )
 
 # EOF ######################################################################
