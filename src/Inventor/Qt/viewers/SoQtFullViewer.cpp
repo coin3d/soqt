@@ -722,7 +722,6 @@ SoQtFullViewer::buildLeftTrim(QWidget * parent)
   SoQtThumbWheel * t = this->wheels[LEFTDECORATION] =
     new SoQtThumbWheel(SoQtThumbWheel::Vertical, w);
   t->setRangeBoundaryHandling( SoQtThumbWheel::ACCUMULATE );
-  t->setFixedSize( QSize( 24, 88 ) );
 
   QObject::connect(t, SIGNAL(wheelMoved(float)),
                    this, SLOT(leftWheelChanged(float)));
@@ -764,7 +763,6 @@ SoQtFullViewer::buildBottomTrim(QWidget * parent)
 
   SoQtThumbWheel * t = this->wheels[ BOTTOMDECORATION ] =
     new SoQtThumbWheel( SoQtThumbWheel::Horizontal, w );
-  t->setFixedSize( QSize( 88, 24 ) );
   t->setRangeBoundaryHandling( SoQtThumbWheel::ACCUMULATE );
 
   QObject::connect( t, SIGNAL(wheelMoved(float)),
@@ -810,11 +808,12 @@ QWidget *
 SoQtFullViewer::buildRightTrim(QWidget * parent)
 {
   QWidget * w = new QWidget(parent);
-  w->setFixedWidth( 30 );
+  // FIXME: should be set according to width of viewer
+  // buttons. 20000424 mortene.
+  w->setFixedWidth( 36 );
 
   SoQtThumbWheel * t = this->wheels[RIGHTDECORATION] =
     new SoQtThumbWheel(SoQtThumbWheel::Vertical, w);
-  t->setFixedSize( QSize( 24, 88 ) );
   t->setRangeBoundaryHandling( SoQtThumbWheel::ACCUMULATE );
 
   QObject::connect(t, SIGNAL(wheelMoved(float)),
@@ -870,8 +869,6 @@ SoQtFullViewer::buildViewerButtons(QWidget * parent)
 
   for (int i=0; i < this->viewerbuttons->getLength(); i++) {
     QButton * b = VIEWERBUTTON(i);
-    b->setFixedSize( QSize( 26, 26 ) ); // b->size());
-    if (i>0) { assert(VIEWERBUTTON(i)->width()==VIEWERBUTTON(i-1)->width()); }
     l->addWidget(b, i, 0);
   }
 
@@ -1413,7 +1410,6 @@ SoQtFullViewer::layoutAppButtons(QWidget * form)
 
   for (int i=0; i < nrbuttons; i++) {
     QWidget * button = (QWidget *)((*(this->appbuttonlist))[i]);
-    button->setFixedSize(button->size());
     button->show();
     ((QGridLayout *)this->appbuttonlayout)->addWidget(button, i, 0);
   }
