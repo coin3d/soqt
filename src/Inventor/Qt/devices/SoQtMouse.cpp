@@ -83,6 +83,10 @@ SoQtMouse::translateEvent(QEvent * event)
 
 
   // Convert wheel mouse events to Coin SoMouseButtonEvents.
+  //
+  // FIXME: should consider adding an SoMouseWheel event to Coin?
+  // 20020821 mortene. (idea mentioned by Florian Link on
+  // coin-discuss.)
 
 #ifdef HAVE_SOMOUSEBUTTONEVENT_BUTTON5
   if (event->type() == QEvent::Wheel) {
