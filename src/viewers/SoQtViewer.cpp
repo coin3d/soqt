@@ -654,7 +654,7 @@ SoQtViewer::setDrawStyle(SoQtViewer::DrawType type,
 {
 #if SOQT_DEBUG
   if ((type != STILL) && (type != INTERACTIVE)) {
-    SoDebugError::postWarning("SoQtFullViewer::setDrawStyle",
+    SoDebugError::postWarning("SoQtViewer::setDrawStyle",
 			      "unknown drawstyle type setting 0x%x", type);
     return;
   }
@@ -662,15 +662,15 @@ SoQtViewer::setDrawStyle(SoQtViewer::DrawType type,
   int bits = 0;
   while (s) { if (s & 0x0001) bits++; s >>= 1; }
   if (bits != 1) {
-    SoDebugError::postWarning("SoQtFullViewer::setDrawStyle",
+    SoDebugError::postWarning("SoQtViewer::setDrawStyle",
 			      "unknown drawstyle setting 0x04%x", style);
     return;
   }
 #endif // SOQT_DEBUG
 
   if (style == this->getDrawStyle(type)) {
-#if SOQT_DEBUG
-    SoDebugError::postWarning("SoQtFullViewer::setDrawStyle",
+#if 0 // SOQT_DEBUG
+    SoDebugError::postWarning("SoQtViewer::setDrawStyle",
 			      "drawstyle for type 0x%02x already 0x%02x",
 			      type, style);
 #endif // SOQT_DEBUG
@@ -692,7 +692,7 @@ SoQtViewer::getDrawStyle(const SoQtViewer::DrawType type) const
 {
 #if SOQT_DEBUG
   if ((type != STILL) && (type != INTERACTIVE)) {
-    SoDebugError::postWarning("SoQtFullViewer::setDrawStyle",
+    SoDebugError::postWarning("SoQtViewer::setDrawStyle",
 			      "unknown drawstyle type setting 0x%x", type);
     return this->drawstyles[STILL];
   }
@@ -710,9 +710,9 @@ SoQtViewer::getDrawStyle(const SoQtViewer::DrawType type) const
 void
 SoQtViewer::setBufferingType(SoQtViewer::BufferType type)
 {
-#if SOQT_DEBUG
+#if 0 // SOQT_DEBUG
   if (type == this->buffertype) {
-    SoDebugError::postWarning("SoQtFullViewer::setBufferingType",
+    SoDebugError::postWarning("SoQtViewer::setBufferingType",
 			      "buffer type 0x%x already set", type);
     return;
   }
@@ -720,7 +720,7 @@ SoQtViewer::setBufferingType(SoQtViewer::BufferType type)
   if (type != BUFFER_SINGLE &&
       type != BUFFER_DOUBLE &&
       type != BUFFER_INTERACTIVE) {
-    SoDebugError::postWarning("SoQtFullViewer::setBufferingType",
+    SoDebugError::postWarning("SoQtViewer::setBufferingType",
 			      "unknown buffer type 0x%x", type);
     return;
   }
@@ -1301,7 +1301,7 @@ SoQtViewer::setSceneGraph(SoNode * root)
   SoFullPath * fullpath = (SoFullPath *)search.getPath();
   if (fullpath) scenecamera = (SoCamera *)fullpath->getTail();
 
-#if 1 // debug
+#if 0 // debug
   SoDebugError::postInfo("SoQtViewer::setSceneGraph",
 			 "camera %sfound in graph",
 			 scenecamera ? "" : "not ");
@@ -1573,7 +1573,7 @@ SoQtViewer::interactiveCountInc(void)
   if (++(this->interactionnesting) == 1)
     this->interactionstartCallbacks->invokeCallbacks(this);
 
-#if 1 // debug
+#if 0 // debug
   SoDebugError::postInfo("SoQtViewer::interactiveCountInc", "%d -> %d",
 			 this->interactionnesting - 1,
 			 this->interactionnesting);
@@ -1603,7 +1603,7 @@ SoQtViewer::interactiveCountDec(void)
   if (--(this->interactionnesting) == 0)
     this->interactionendCallbacks->invokeCallbacks(this);
 
-#if 1 // debug
+#if 0 // debug
   SoDebugError::postInfo("SoQtViewer::interactiveCountDec", "%d -> %d",
 			 this->interactionnesting + 1,
 			 this->interactionnesting);
