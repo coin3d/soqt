@@ -21,7 +21,7 @@
  *
 \**************************************************************************/
 
-#include <math.h>
+#include <stdlib.h> // abs()
 #include <qcolor.h>
 #include "SbGuiCubicSpline.h" // FIXME: the SbCubic spline should perhaps be made available in Coin or SoQt 20031016 frodo
 #include "ColorCurve.h"
