@@ -156,3 +156,33 @@ Note: see also src/Inventor/Qt/common/BUGS.txt.
     mortene 20020808.
 
 =====================================================================
+
+006 Timer queue management is incorrect
+    This example should start chiming in once a second after a
+    delay of 10 seconds.  Instead of being quiet, it seems to be
+    triggering on the interval every other time in the "quiet"
+    period.
+
+    #include <Inventor/SoDB.h>
+    #include <Inventor/sensors/SoTimerSensor.h>
+    #include <Inventor/Qt/SoQt.h>
+
+    #include <stdio.h>
+
+    void
+    sensorCB(void * data, SoSensor * sensor) {
+      printf("timer callback\n");
+    }
+
+    int
+    main(int argc, char ** argv)
+    {
+      setbuf(stdout, NULL);
+      SoQt::init(argc, argv, "test");
+      SoTimerSensor * sensor = new SoTimerSensor(sensorCB, NULL);
+      sensor->setInterval(1.0);
+      sensor->setBaseTime(SbTime::getTimeOfDay() + SbTime(10.0));
+      sensor->schedule();
+      SoQt::mainLoop();
+    }
+
