@@ -2696,6 +2696,10 @@ EOF
     ## * "-lqt{version} -lqtmain -lgdi32" w/QT_DLL defined should
     ##   cover dynamic Enterprise Edition linking on Win32 platforms
     ##
+    ## * "-lqt-mt{version} -lqtmain -lgdi32" w/QT_DLL defined should
+    ##   cover dynamic multi-thread Enterprise Edition linking on Win32
+    ##   platforms
+    ##
     ## * "-lqt-mt{version}nc -lqtmain -lgdi32" w/QT_DLL defined should
     ##   cover dynamic Non-Commercial Edition linking on Win32 platforms
     ##
@@ -2719,7 +2723,7 @@ EOF
 
     if test "x$sim_ac_qt_libs" = "xUNRESOLVED"; then
       for sim_ac_qt_cppflags_loop in "-DQT_DLL"; do
-        for sim_ac_qt_libcheck in "-lqt-mt${sim_ac_qt_version}nc -lqtmain -lgdi32"; do
+        for sim_ac_qt_libcheck in "-lqt-mt${sim_ac_qt_version} -lqtmain -lgdi32" "-lqt-mt${sim_ac_qt_version}nc -lqtmain -lgdi32"; do
           if test "x$sim_ac_qt_libs" = "xUNRESOLVED"; then
             CPPFLAGS="$sim_ac_qt_incflags $sim_ac_qt_cppflags_loop $sim_ac_save_cppflags"
             LIBS="$sim_ac_qt_libcheck $sim_ac_save_libs"
