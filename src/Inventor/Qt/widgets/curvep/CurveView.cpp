@@ -482,13 +482,10 @@ CurveView::makePixmap(int w, int h, const uint8_t * r, const uint8_t * g, const 
 {
   // use an image since it is optimized for direct pixel access
   QImage img(w, h, 32);
-  // we'll split the image in half, making the bottom
-  // half show the 1 to 1 color mapping for comparison
   for (int i = 0; i < w; i++) {
     int org = (int) ((float(i) / float(w)) * (this->size - 1));
     for (int j = 0; j < h; j++) {
-      QRgb pixel = (j < h/2) ? qRgb(r[i], g[i], b[i]) : qRgb(org, org, org);
-      img.setPixel(i, j, pixel);
+      img.setPixel(i, j, qRgb(r[i], g[i], b[i]));
     }
   }
   return QPixmap(img);
