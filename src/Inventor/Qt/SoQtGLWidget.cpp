@@ -634,16 +634,21 @@ void
 SoQtGLWidget::setGLSize(
   const SbVec2s size )
 {
+#if SOQT_DEBUG && 0 // debug
   SoDebugError::postInfo( "SoQtGLWidget::setGLSize",
     "[invoked (%d, %d)]", size[0], size[1] );
-  if ( this->borderwidget ) {
-    int frame = this->borderwidget->frameWidth();
-    this->borderwidget->resize( size[0] + 2 * frame, size[1] + 2 * frame );
-    this->currentglwidget->setGeometry( QRect( frame, frame, size[0], size[1] ) );
-//    this->glwidget->move( frame, frame );
-//    this->glwidget->resize( size[0], size[1] );
-  }
+#endif // debug
   this->glSize = size;
+  if ( this->currentglwidget ) {
+    int frame = this->isBorder() ? this->borderthickness : 0;
+    this->currentglwidget->setGeometry( QRect( frame, frame, this->glSize[0], this->glSize[1] ) );
+    this->glRender();
+    // FIXME: why isn't it enough to do the glRender() call? (If we
+    // don't do the glReshape() call, no redraw happens when removing
+    // (or re-adding) the decorations for the examinerviewer, for
+    // instance). 20001125 mortene.
+    this->glReshape( this->glSize[0], this->glSize[1] );
+  }
 } // setGLSize()
 
 
@@ -713,19 +718,10 @@ SoQtGLWidget::sizeChanged(
   SoDebugError::postInfo( "SoQtGLWidget::sizeChanged",
     "[invoked] ( %d, %d ) [%d, %d]", size[0], size[1], this->glSize[0], this->glSize[1] );
 #endif // SOQT_DEBUG
-//  this->borderwidget->resize( size[0] - 1, size[1] );
-//  int sub = this->borderwidget->frameWidth() * 2;
-//  geometry = QRect( geometry.left(), geometry.top(),
-//    geometry.width() - sub, geometry.height() - sub );
+
+  if ( this->borderwidget ) this->borderwidget->resize( size[0], size[1] );
   int frame = this->isBorder() ? this->borderthickness : 0;
-  this->glSize = SbVec2s( size[0] - 2 * frame, size[1] - 2 * frame );
-  if ( this->currentglwidget ) {
-    this->currentglwidget->setGeometry( QRect( frame, frame, this->glSize[0], this->glSize[1] ) );
-//    this->glwidget->move( frame, frame );
-//    this->glwidget->resize( this->glSize[0], this->glSize[1] );
-    this->glReshape( this->glSize[0], this->glSize[1] );
-    this->glRender();
-  }
+  this->setGLSize( SbVec2s( size[0] - 2 * frame, size[1] - 2 * frame ) );
 } // sizeChanged()
 
 // *************************************************************************
@@ -819,6 +815,9 @@ SoQtGLWidget::gl_init( // slot
   this->glInit();
 } // gl_init()
 
+/*!
+  This method will be called whenever the OpenGL canvas changes size.
+ */
 void
 SoQtGLWidget::glReshape( // virtual
   int width,
@@ -858,8 +857,21 @@ void
 SoQtGLWidget::gl_exposed( // slot
   void )
 {
+  if (this->waitForExpose) {
+    this->waitForExpose = FALSE; // Gets flipped from TRUE on first expose.
+#if 0 // tmp disabled
+    // The Qt library uses QApplication::sendPostedEvents() for
+    // passing out various delayed events upon show(), among them a
+    // bunch of bl**dy resize events which will overload any size
+    // settings done before we show the SoQt component widgets.
+
+    // FIXME: should probably be an afterRealizeHook() fix. 20001125 mortene.
+
+    this->setSize(this->getSize());
+#endif // tmp disabled
+  }
+
   this->glRender();
-  this->waitForExpose = FALSE; // Gets flipped from TRUE on first expose.
 } // gl_exposed()
 
 // *************************************************************************
