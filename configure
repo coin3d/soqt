@@ -4243,9 +4243,9 @@ cat >$CONFIG_STATUS <<EOF
 # Files that config.status was made for.
 config_files="\\
     soqt-config Makefile src/Inventor/Qt/Makefile
-    src/Inventor/Qt/common/Makefile src/Inventor/Qt/devices/Makefile
-    src/Inventor/Qt/viewers/Makefile src/Inventor/Qt/widgets/Makefile
-    test-code/Makefile test-code/widgets/Makefile"
+    src/Inventor/Qt/devices/Makefile src/Inventor/Qt/viewers/Makefile
+    src/Inventor/Qt/widgets/Makefile test-code/Makefile
+    test-code/widgets/Makefile"
 config_headers="\\
     config.h"
 
@@ -4292,7 +4292,6 @@ do
   'soqt-config' ) CONFIG_FILES="\$CONFIG_FILES soqt-config" ;;
   'Makefile' ) CONFIG_FILES="\$CONFIG_FILES Makefile" ;;
   'src/Inventor/Qt/Makefile' ) CONFIG_FILES="\$CONFIG_FILES src/Inventor/Qt/Makefile" ;;
-  'src/Inventor/Qt/common/Makefile' ) CONFIG_FILES="\$CONFIG_FILES src/Inventor/Qt/common/Makefile" ;;
   'src/Inventor/Qt/devices/Makefile' ) CONFIG_FILES="\$CONFIG_FILES src/Inventor/Qt/devices/Makefile" ;;
   'src/Inventor/Qt/viewers/Makefile' ) CONFIG_FILES="\$CONFIG_FILES src/Inventor/Qt/viewers/Makefile" ;;
   'src/Inventor/Qt/widgets/Makefile' ) CONFIG_FILES="\$CONFIG_FILES src/Inventor/Qt/widgets/Makefile" ;;
