@@ -33,35 +33,35 @@ static const char rcsid[] =
 
 #include <Inventor/Qt/common/ThumbWheel.h>
 
-#include <Inventor/Qt/widgets/QtThumbwheel.h>
+#include <Inventor/Qt/widgets/SoQtThumbWheel.h>
 
 // *************************************************************************
 
 static const int SHADEBORDERWIDTH = 2;
 
-QtThumbwheel::QtThumbwheel(
+SoQtThumbWheel::SoQtThumbWheel(
   QWidget * parent,
   const char * name )
 : QWidget( parent, name )
 {
-  this->constructor( QtThumbwheel::Vertical );
-} // QtThumbwheel()
+  this->constructor( SoQtThumbWheel::Vertical );
+} // SoQtThumbWheel()
 
-QtThumbwheel::QtThumbwheel(
+SoQtThumbWheel::SoQtThumbWheel(
   Orientation orientation,
   QWidget * parent,
   const char * name )
 : QWidget( parent, name )
 {
   this->constructor( orientation );
-} // QtThumbwheel()
+} // SoQtThumbWheel()
 
 void
-QtThumbwheel::constructor( // private
+SoQtThumbWheel::constructor( // private
   Orientation orientation )
 {
   this->orient = orientation;
-  this->state = QtThumbwheel::Idle;
+  this->state = SoQtThumbWheel::Idle;
   this->wheelValue = this->tempWheelValue = 0.0f;
   this->wheel = new ThumbWheel;
   this->wheel->SetWheelMotionMethod( ThumbWheel::UNIFORM );
@@ -71,7 +71,7 @@ QtThumbwheel::constructor( // private
   this->currentPixmap = -1;
 } // constructor()
 
-QtThumbwheel::~QtThumbwheel(
+SoQtThumbWheel::~SoQtThumbWheel(
   void )
 {
   delete this->wheel;
@@ -80,10 +80,10 @@ QtThumbwheel::~QtThumbwheel(
       delete this->pixmaps[i];
     delete [] this->pixmaps;
   }
-} // ~QtThumbwheel()
+} // ~SoQtThumbWheel()
 
 void
-QtThumbwheel::setOrientation(
+SoQtThumbWheel::setOrientation(
   Orientation orientation )
 {
   this->orient = orientation;
@@ -91,7 +91,7 @@ QtThumbwheel::setOrientation(
 } // setOrientation()
 
 void
-QtThumbwheel::paintEvent(
+SoQtThumbWheel::paintEvent(
   QPaintEvent * event )
 {
   QPainter p( this );
@@ -101,7 +101,7 @@ QtThumbwheel::paintEvent(
   QBrush fill( g.background() );
 
   int w, d;
-  if ( this->orient == QtThumbwheel::Vertical ) {
+  if ( this->orient == SoQtThumbWheel::Vertical ) {
     w = this->width() - 2*SHADEBORDERWIDTH - 6;
     d = this->height() - 2*SHADEBORDERWIDTH - 12;
   } else {
@@ -111,7 +111,7 @@ QtThumbwheel::paintEvent(
   this->initWheel( d, w );
 
   int pixmap = this->wheel->GetBitmapForValue( this->tempWheelValue,
-     (this->state == QtThumbwheel::Disabled) ?
+     (this->state == SoQtThumbWheel::Disabled) ?
         ThumbWheel::DISABLED : ThumbWheel::ENABLED );
 
 
@@ -157,10 +157,10 @@ QtThumbwheel::paintEvent(
 */
 
 void
-QtThumbwheel::mousePressEvent(
+SoQtThumbWheel::mousePressEvent(
   QMouseEvent * event )
 {
-  if ( this->state != QtThumbwheel::Idle )
+  if ( this->state != SoQtThumbWheel::Idle )
     return;
 
   if ( event->button() != LeftButton )
@@ -182,9 +182,9 @@ QtThumbwheel::mousePressEvent(
   if ( ! wheel.contains( event->pos() ) )
     return;
 
-  this->state = QtThumbwheel::Dragging;
+  this->state = SoQtThumbWheel::Dragging;
 
-  if ( this->orient == QtThumbwheel::Vertical )
+  if ( this->orient == SoQtThumbWheel::Vertical )
     this->mouseDownPos = event->pos().y() - SHADEBORDERWIDTH - 6;
   else
     this->mouseDownPos = event->pos().x() - SHADEBORDERWIDTH - 6;
@@ -199,13 +199,13 @@ QtThumbwheel::mousePressEvent(
 */
 
 void
-QtThumbwheel::mouseMoveEvent(
+SoQtThumbWheel::mouseMoveEvent(
   QMouseEvent * event )
 {
-  if ( this->state != QtThumbwheel::Dragging )
+  if ( this->state != SoQtThumbWheel::Dragging )
     return;
 
-  if ( this->orient == QtThumbwheel::Vertical )
+  if ( this->orient == SoQtThumbWheel::Vertical )
     this->mouseLastPos = event->pos().y() - SHADEBORDERWIDTH - 6;
   else
     this->mouseLastPos = event->pos().x() - SHADEBORDERWIDTH - 6;
@@ -224,10 +224,10 @@ QtThumbwheel::mouseMoveEvent(
 */
 
 void
-QtThumbwheel::mouseReleaseEvent(
+SoQtThumbWheel::mouseReleaseEvent(
   QMouseEvent * event )
 {
-  if ( this->state != QtThumbwheel::Dragging )
+  if ( this->state != SoQtThumbWheel::Dragging )
     return;
 
   if ( event->button() != LeftButton )
@@ -235,13 +235,13 @@ QtThumbwheel::mouseReleaseEvent(
 
   this->wheelValue = this->tempWheelValue;
   this->mouseLastPos = this->mouseDownPos;
-  this->state = QtThumbwheel::Idle;
+  this->state = SoQtThumbWheel::Idle;
   emit wheelReleased();
 } // mouseReleaseEvent()
 
 /*
 float
-QtThumbwheel::getNormalizedValue(int pos) const
+SoQtThumbWheel::getNormalizedValue(int pos) const
 {
   int relativepos = pos - this->mouseDownPos;
   return (float) relativepos / (float)this->getWheelLength() * 2.0f;
@@ -250,41 +250,41 @@ QtThumbwheel::getNormalizedValue(int pos) const
 
 /*
 int
-QtThumbwheel::getWheelLength(void) const
+SoQtThumbWheel::getWheelLength(void) const
 {
-  return this->orient == QtThumbwheel::Vertical ?
+  return this->orient == SoQtThumbWheel::Vertical ?
     this->height() : this->width();
 } // getWheelLength()
 */
 
 /*
 int
-QtThumbwheel::orientedCoord(const QPoint &p) const
+SoQtThumbWheel::orientedCoord(const QPoint &p) const
 {
-  return (this->orient == QtThumbwheel::Horizontal) ?  p.x() : p.y();
+  return (this->orient == SoQtThumbWheel::Horizontal) ?  p.x() : p.y();
 } // orientedCoord()
 */
 
 QSize
-QtThumbwheel::sizeHint(void) const
+SoQtThumbWheel::sizeHint(void) const
 {
   const int length = 88;
   int thick = 24;
 
-  if (this->orient == QtThumbwheel::Horizontal)
+  if (this->orient == SoQtThumbWheel::Horizontal)
     return QSize(length, thick);
   else
     return QSize(thick, length);
 } // sizeHint()
 
-QtThumbwheel::Orientation
-QtThumbwheel::orientation(void) const
+SoQtThumbWheel::Orientation
+SoQtThumbWheel::orientation(void) const
 {
   return this->orient;
 } // orientation()
 
 float
-QtThumbwheel::value(void) const
+SoQtThumbWheel::value(void) const
 {
   return this->wheelValue;
 } // value()
@@ -292,7 +292,7 @@ QtThumbwheel::value(void) const
 // *************************************************************************
 
 void
-QtThumbwheel::initWheel(
+SoQtThumbWheel::initWheel(
   int diameter,
   int width )
 {
@@ -329,25 +329,25 @@ QtThumbwheel::initWheel(
 // *************************************************************************
 
 void
-QtThumbwheel::setEnabled(
+SoQtThumbWheel::setEnabled(
   bool enable )
 {
   if ( enable )
-    this->state = QtThumbwheel::Idle;
+    this->state = SoQtThumbWheel::Idle;
   else
-    this->state = QtThumbwheel::Disabled;
+    this->state = SoQtThumbWheel::Disabled;
   this->repaint();
 } // setEnabled()
 
 bool
-QtThumbwheel::isEnabled(
+SoQtThumbWheel::isEnabled(
   void ) const
 {
-  return ( this->state != QtThumbwheel::Disabled );
+  return ( this->state != SoQtThumbWheel::Disabled );
 } // isEnabled()
 
 void
-QtThumbwheel::setValue(
+SoQtThumbWheel::setValue(
   float value )
 {
   this->wheelValue = this->tempWheelValue = value;
@@ -358,7 +358,7 @@ QtThumbwheel::setValue(
 // *************************************************************************
 
 void
-QtThumbwheel::setRangeBoundaryHandling(
+SoQtThumbWheel::setRangeBoundaryHandling(
   boundaryHandling handling )
 {
   switch ( handling ) {
@@ -378,8 +378,8 @@ QtThumbwheel::setRangeBoundaryHandling(
 
 // *************************************************************************
 
-QtThumbwheel::boundaryHandling
-QtThumbwheel::getRangeBoundaryHandling(
+SoQtThumbWheel::boundaryHandling
+SoQtThumbWheel::getRangeBoundaryHandling(
   void ) const
 {
   switch ( this->wheel->GetWheelRangeBoundaryHandling() ) {

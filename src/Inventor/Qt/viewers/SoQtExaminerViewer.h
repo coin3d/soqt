@@ -19,11 +19,11 @@
 
 //  $Id$
 
-#ifndef __SOQT_EXAMINERVIEWER_H__
-#define __SOQT_EXAMINERVIEWER_H__
+#ifndef SOQT_EXAMINERVIEWER_H
+#define SOQT_EXAMINERVIEWER_H
 
-#include <Inventor/Qt/viewers/SoQtFullViewer.h>
 #include <Inventor/SbLinear.h>
+#include <Inventor/Qt/viewers/SoQtFullViewer.h>
 
 class SbSphereSheetProjector;
 class SoTimerSensor;
@@ -35,9 +35,10 @@ class SoScale;
 class QPushButton;
 class QLabel;
 class QLineEdit;
-class QtThumbwheel;
 class QPixmap;
 class QTimer;
+
+class SoQtThumbWheel;
 
 // *************************************************************************
 
@@ -145,7 +146,7 @@ private:
 
   QPushButton * cameratogglebutton;
   QLabel * feedbacklabel1, * feedbacklabel2;
-  QtThumbwheel * feedbackwheel;
+  SoQtThumbWheel * feedbackwheel;
   QLineEdit * feedbackedit;
   void setEnableFeedbackControls(const SbBool flag);
 
@@ -164,4 +165,4 @@ private slots:
 
 // *************************************************************************
 
-#endif // ! __SOQT_EXAMINERVIEWER_H__
+#endif // ! SOQT_EXAMINERVIEWER_H

@@ -70,7 +70,7 @@ static const char rcsid[] =
 #include <Inventor/errors/SoDebugError.h>
 
 #include <Inventor/Qt/SoQt.h>
-#include <Inventor/Qt/widgets/QtThumbwheel.h>
+#include <Inventor/Qt/widgets/SoQtThumbWheel.h>
 
 #include <Inventor/Qt/viewers/SoQtFullViewer.h>
 
@@ -737,9 +737,9 @@ SoQtFullViewer::buildLeftTrim(QWidget * parent)
   QGridLayout * gl = new QGridLayout(w, 3, 1, 2, -1 ); // , 0, -1);
   gl->addWidget(this->buildAppButtons(w), 0, 0);
 
-  QtThumbwheel * t = this->wheels[LEFTDECORATION] =
-    new QtThumbwheel(QtThumbwheel::Vertical, w);
-  t->setRangeBoundaryHandling( QtThumbwheel::ACCUMULATE );
+  SoQtThumbWheel * t = this->wheels[LEFTDECORATION] =
+    new SoQtThumbWheel(SoQtThumbWheel::Vertical, w);
+  t->setRangeBoundaryHandling( SoQtThumbWheel::ACCUMULATE );
   t->setFixedSize( QSize( 24, 88 ) );
 
   QObject::connect(t, SIGNAL(wheelMoved(float)),
@@ -780,10 +780,10 @@ SoQtFullViewer::buildBottomTrim(QWidget * parent)
     this->wheellabels[ i ]->setAlignment( alignments[ i - FIRSTDECORATION ] );
   }
 
-  QtThumbwheel * t = this->wheels[ BOTTOMDECORATION ] =
-    new QtThumbwheel( QtThumbwheel::Horizontal, w );
+  SoQtThumbWheel * t = this->wheels[ BOTTOMDECORATION ] =
+    new SoQtThumbWheel( SoQtThumbWheel::Horizontal, w );
   t->setFixedSize( QSize( 88, 24 ) );
-  t->setRangeBoundaryHandling( QtThumbwheel::ACCUMULATE );
+  t->setRangeBoundaryHandling( SoQtThumbWheel::ACCUMULATE );
 
   QObject::connect( t, SIGNAL(wheelMoved(float)),
                     this, SLOT(bottomWheelChanged(float)) );
@@ -830,10 +830,10 @@ SoQtFullViewer::buildRightTrim(QWidget * parent)
   QWidget * w = new QWidget(parent);
   w->setFixedWidth( 30 );
 
-  QtThumbwheel * t = this->wheels[RIGHTDECORATION] =
-    new QtThumbwheel(QtThumbwheel::Vertical, w);
+  SoQtThumbWheel * t = this->wheels[RIGHTDECORATION] =
+    new SoQtThumbWheel(SoQtThumbWheel::Vertical, w);
   t->setFixedSize( QSize( 24, 88 ) );
-  t->setRangeBoundaryHandling( QtThumbwheel::ACCUMULATE );
+  t->setRangeBoundaryHandling( SoQtThumbWheel::ACCUMULATE );
 
   QObject::connect(t, SIGNAL(wheelMoved(float)),
                    this, SLOT(rightWheelChanged(float)));
@@ -1611,8 +1611,8 @@ SoQtFullViewer::makeSeekDistancePreferences(QWidget * parent)
   l->adjustSize();
   expandSize(tmpsize, l->size(), LayoutHorizontal);
 
-  this->seekdistancewheel = new QtThumbwheel(QtThumbwheel::Horizontal, w);
-  this->seekdistancewheel->setRangeBoundaryHandling( QtThumbwheel::ACCUMULATE );
+  this->seekdistancewheel = new SoQtThumbWheel(SoQtThumbWheel::Horizontal, w);
+  this->seekdistancewheel->setRangeBoundaryHandling( SoQtThumbWheel::ACCUMULATE );
   this->seekdistancewheel->setValue(sqrt(this->getSeekDistance()));
   this->seekdistancewheel->adjustSize();
   expandSize(tmpsize, this->seekdistancewheel->size(),
@@ -1854,7 +1854,7 @@ SoQtFullViewer::makeAutoclipPreferences(QWidget * dialog)
   this->nearclippinglabel->adjustSize();
   expandSize(tmpsize, this->nearclippinglabel->size(), LayoutHorizontal);
 
-  this->nearclippingwheel = new QtThumbwheel(QtThumbwheel::Horizontal, w);
+  this->nearclippingwheel = new SoQtThumbWheel(SoQtThumbWheel::Horizontal, w);
   this->nearclippingwheel->adjustSize();
   this->nearclippingwheel->setEnabled( FALSE );
   expandSize(tmpsize, this->nearclippingwheel->size(), LayoutHorizontal);
@@ -1894,7 +1894,7 @@ SoQtFullViewer::makeAutoclipPreferences(QWidget * dialog)
                    this->farclippinglabel->height()),
              LayoutHorizontal);
 
-  this->farclippingwheel = new QtThumbwheel(QtThumbwheel::Horizontal, w);
+  this->farclippingwheel = new SoQtThumbWheel(SoQtThumbWheel::Horizontal, w);
   this->farclippingwheel->adjustSize();
   this->farclippingwheel->setEnabled( FALSE );
   expandSize(tmpsize, this->farclippingwheel->size(), LayoutHorizontal);
@@ -2640,7 +2640,7 @@ SoQtFullViewer::farclipEditPressed()
 
 // *************************************************************************
 
-QtThumbwheel *
+SoQtThumbWheel *
 SoQtFullViewer::getThumbwheel(
   int num )
 {

@@ -30,7 +30,8 @@ class QLabel;
 class QPopupMenu;
 class QLineEdit;
 class QSlider;
-class QtThumbwheel;
+
+class SoQtThumbWheel;
 
 // *************************************************************************
 
@@ -117,7 +118,7 @@ protected:
 
   virtual void openViewerHelpCard(void);
 
-  QtThumbwheel * getThumbwheel( int num );
+  SoQtThumbWheel * getThumbwheel( int num );
 
   enum {
     LEFTDECORATION,
@@ -140,7 +141,7 @@ private:
   SbBool decorations;
   float wheelvalues[NUMDECORATIONS];
   QString wheelstrings[NUMDECORATIONS];
-  QtThumbwheel * wheels[NUMDECORATIONS];
+  SoQtThumbWheel * wheels[NUMDECORATIONS];
   QLabel * wheellabels[NUMDECORATIONS];
   QWidget * decorform[NUMDECORATIONS];
 
@@ -170,11 +171,11 @@ private:
   void setZoomSliderPosition(float zoom);
   void setZoomFieldString(float zoom);
 
-  QtThumbwheel * seekdistancewheel;
+  SoQtThumbWheel * seekdistancewheel;
   QLineEdit * seekdistancefield;
 
   QLabel * nearclippinglabel, * farclippinglabel;
-  QtThumbwheel * nearclippingwheel, * farclippingwheel;
+  SoQtThumbWheel * nearclippingwheel, * farclippingwheel;
   QLineEdit * nearclippingedit, * farclippingedit;
 
   void setDrawStyleMenuActivation(SoQtViewer::DrawType type,

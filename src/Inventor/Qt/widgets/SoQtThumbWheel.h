@@ -1,6 +1,6 @@
 /**************************************************************************\
  *
- *  Copyright (C) 1998-1999 by Systems in Motion.  All rights reserved.
+ *  Copyright (C) 1998-2000 by Systems in Motion.  All rights reserved.
  *
  *  This file is part of the Coin library.
  *
@@ -19,8 +19,8 @@
 
 //  $Id$
 
-#ifndef __QT_THUMBWHEEL_H__
-#define __QT_THUMBWHEEL_H__
+#ifndef SOQT_THUMBWHEEL_H
+#define SOQT_THUMBWHEEL_H
 
 #include <qwidget.h>
 #include <qrangecontrol.h>
@@ -30,15 +30,15 @@ class ThumbWheel;
 
 // *************************************************************************
 
-class QtThumbwheel : public QWidget, public QRangeControl
+class SoQtThumbWheel : public QWidget, public QRangeControl
 {
   Q_OBJECT
 public:
   enum Orientation { Horizontal, Vertical };
 
-  QtThumbwheel( QWidget * parent = 0, const char * name = 0 );
-  QtThumbwheel( Orientation, QWidget * parent = 0, const char * name = 0 );
-  ~QtThumbwheel(void);
+  SoQtThumbWheel( QWidget * parent = 0, const char * name = 0 );
+  SoQtThumbWheel( Orientation, QWidget * parent = 0, const char * name = 0 );
+  ~SoQtThumbWheel(void);
 
   void setOrientation( Orientation );
   Orientation orientation(void) const;
@@ -74,8 +74,8 @@ protected:
 private:
   void constructor( Orientation );
 
-  QtThumbwheel( const QtThumbwheel & wheel );
-  QtThumbwheel & operator = ( const QtThumbwheel & wheel );
+  SoQtThumbWheel( const SoQtThumbWheel & wheel );
+  SoQtThumbWheel & operator = ( const SoQtThumbWheel & wheel );
 
   enum State { Idle, Dragging, Disabled } state;
 
@@ -90,8 +90,8 @@ private:
   int numPixmaps;
   int currentPixmap;
 
-}; // class QtThumbwheel
+}; // class SoQtThumbWheel
 
 // *************************************************************************
 
-#endif // ! __QT_THUMBWHEEL_H__
+#endif // ! SOQT_THUMBWHEEL_H

@@ -38,7 +38,7 @@ static const char rcsid[] =
 #include <Inventor/nodes/SoPerspectiveCamera.h>
 #include <Inventor/nodes/SoOrthographicCamera.h>
 
-#include <Inventor/Qt/widgets/QtThumbwheel.h>
+#include <Inventor/Qt/widgets/SoQtThumbWheel.h>
 
 #include <Inventor/Qt/common/SoAnyPlaneViewer.h>
 #include <Inventor/Qt/viewers/SoQtPlaneViewer.h>
@@ -184,9 +184,9 @@ SoQtPlaneViewer::buildWidget(
   QWidget * widget = inherited::buildWidget( parent );
 
   this->getThumbwheel( LEFTDECORATION )->
-    setRangeBoundaryHandling( QtThumbwheel::ACCUMULATE );
+    setRangeBoundaryHandling( SoQtThumbWheel::ACCUMULATE );
   this->getThumbwheel( BOTTOMDECORATION )->
-    setRangeBoundaryHandling( QtThumbwheel::ACCUMULATE );
+    setRangeBoundaryHandling( SoQtThumbWheel::ACCUMULATE );
   
   return widget;
 } // buildWidget()

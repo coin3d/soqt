@@ -69,7 +69,7 @@ static const char rcsid[] =
 #include <Inventor/errors/SoDebugError.h>
 #endif // SOQT_DEBUG
 
-#include <Inventor/Qt/widgets/QtThumbwheel.h>
+#include <Inventor/Qt/widgets/SoQtThumbWheel.h>
 #include <Inventor/Qt/SoQtCursors.h>
 
 #include <Inventor/Qt/common/SoAnyExaminerViewer.h>
@@ -517,7 +517,7 @@ SoQtExaminerViewer::makeSubPreferences(QWidget * parent)
   this->feedbacklabel1->adjustSize();
   expandSize(tmpsize, this->feedbacklabel1->size(), LayoutHorizontal);
 
-  this->feedbackwheel = new QtThumbwheel(QtThumbwheel::Horizontal, w);
+  this->feedbackwheel = new SoQtThumbWheel(SoQtThumbWheel::Horizontal, w);
   QObject::connect(this->feedbackwheel, SIGNAL(wheelMoved(float)),
                    this, SLOT(feedbackSizeChanged(float)));
   this->feedbackwheel->setValue(float(this->getFeedbackSize())/10.0f);
