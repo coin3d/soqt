@@ -28,9 +28,6 @@ static const char rcsid[] =
 #include <q1xcompatibility.h>
 #endif // Qt v2.0
 
-#if SOQT_DEBUG
-#include <Inventor/errors/SoDebugError.h>
-#endif // SOQT_DEBUG
 #include <Inventor/SbDict.h>
 #include <Inventor/events/SoKeyboardEvent.h>
 
@@ -473,7 +470,7 @@ static struct key1map QtToSoMapping[] = {
 //    {Key_thorn, SoKeyboardEvent::}, // FIXME
 //    {Key_ydiaeresis, SoKeyboardEvent::}, // FIXME
 
-  {Key_unknown, SoKeyboardEvent::ANY} // Ends table
+  {Key_unknown, SoKeyboardEvent::UNDEFINED} // Ends table
 };
 
 
@@ -596,14 +593,7 @@ SoQtKeyboard::translateEvent(
       this->kbdevent->setKey((SoKeyboardEvent::Key)(int)sokey);
     }
     else {
-#if SOQT_DEBUG
-      SoDebugError::postWarning("SoQtKeyboard::translateEvent",
-                                "couldn't translate key 0x%04x '%c' from "
-                                "Qt -- please report",
-                                keyevent->key(),
-                                keyevent->ascii());
-#endif // SOQT_DEBUG
-      return NULL;
+      this->kbdevent->setKey(SoKeyboardEvent::UNDEFINED);
     }
 
     // Press or release?
@@ -647,6 +637,9 @@ SoQtKeyboard::translateEvent(
     // Qt. 19990211 mortene.
     this->kbdevent->setTime(SbTime::getTimeOfDay());
 
+    // set printable character
+    this->kbdevent->setPrintableCharacter((char) keyevent->ascii());
+    
     return this->kbdevent;
   }
 
