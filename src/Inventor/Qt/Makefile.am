@@ -38,6 +38,12 @@ else
 lib_LTLIBRARIES = libSoQt@SUFFIX@.la
 endif
 
+if MACOSX_10_2
+LibtoolLinkArgs = -Wl,-twolevel_namespace -Wl,-undefined,error -Wl,-prebind -Wl,-seg1addr,0x30000000
+else
+LibtoolLinkArgs = -no-undefined
+endif
+
 if MAC_FRAMEWORK
 # hack to change libdir value when installing Mac OS X compiler framework
 lib@nop@dir = $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$(MAC_FRAMEWORK_VERSION)/Libraries
@@ -65,7 +71,8 @@ libSoQt@SUFFIX@_la_LIBADD = \
 	widgets/libSoQtWidgets.la
 
 libSoQt@SUFFIX@_la_LDFLAGS = \
-        -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
+  $(LibtoolLinkArgs) \
+  -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
 
 ############################################################################
 # custom setup
