@@ -218,24 +218,6 @@ SoQtGLWidget::SoQtGLWidget(QWidget * const parent,
   bool enableoverlay = (glmodes & SO_GL_OVERLAY) ? true : false;
   QGLFormat_setOverlay(PRIVATE(this)->glformat, enableoverlay);
 
-#if SOQT_DEBUG && 0
-  // people ask if this warning is a problem - it is harmless, so we
-  // don't display it anymore [2001-05-18 larsa]
-
-  // FIXME: this is *not* a good way to handle this case.  What should
-  // be done is 1) default to set up a QGLWidget without overlay
-  // planes, 2) when an overlay scenegraph is attempted registered
-  // with the SoQtRenderArea -- *then* try to make a QGLWidget with
-  // overlay planes, and if that's not possible, display this
-  // warning. 20010805 mortene.
-
-  if (enableoverlay && !QGLFormat_hasOverlay(PRIVATE(this)->glformat)) {
-    SoDebugError::postWarning("SoQtGLWidget::SoQtGLWidget",
-                               "your Qt/QGL library has no support "
-                               "for handling overlay planes");
-  }
-#endif // SOQT_DEBUG
-
   PRIVATE(this)->glparent = NULL;
   PRIVATE(this)->currentglwidget = NULL;
   PRIVATE(this)->previousglwidget = NULL;
@@ -421,15 +403,15 @@ SoQtGLWidget::buildGLWidget(void)
 
   int frame = this->isBorder() ? PRIVATE(this)->borderthickness : 0;
   PRIVATE(this)->currentglwidget->setGeometry(frame, frame,
-                                      PRIVATE(this)->glSize[0] - 2*frame,
-                                      PRIVATE(this)->glSize[1] - 2*frame);
+                                              PRIVATE(this)->glSize[0] - 2*frame,
+                                              PRIVATE(this)->glSize[1] - 2*frame);
 
   QObject::connect(PRIVATE(this)->currentglwidget, SIGNAL(init_sig()),
-                    this, SLOT(gl_init()));
+                   this, SLOT(gl_init()));
   //  QObject::connect(PRIVATE(this)->currentglwidget, SIGNAL(reshape_sig(int, int)),
   //                    this, SLOT(gl_reshape(int, int)));
   QObject::connect(PRIVATE(this)->currentglwidget, SIGNAL(expose_sig()),
-                    this, SLOT(gl_exposed()));
+                   this, SLOT(gl_exposed()));
 
   PRIVATE(this)->currentglwidget->setMouseTracking(TRUE);
   PRIVATE(this)->currentglwidget->installEventFilter(this);
@@ -627,10 +609,8 @@ SoQtGLWidget::eventFilter(QObject * obj, QEvent * e)
 
   \sa isBorder()
 */
-
 void
-SoQtGLWidget::setBorder(
-  const SbBool enable)
+SoQtGLWidget::setBorder(const SbBool enable)
 {
   PRIVATE(this)->borderthickness = (enable ? SO_BORDER_THICKNESS : 0);
   if (PRIVATE(this)->borderwidget != NULL) {
@@ -661,6 +641,42 @@ SoQtGLWidget::isBorder(void) const
 
 // *************************************************************************
 
+
+/*!
+  Turn on or off the use of overlay planes.
+
+  \sa isOverlayPlanes()
+*/
+void
+SoQtGLWidget::setOverlayPlanes(const SbBool onoff)
+{
+  SbBool ison = QGLFormat_hasOverlay(PRIVATE(this)->glformat);
+  if ((onoff && ison) || (!onoff && !ison)) { return; }
+
+  QGLFormat_setOverlay(PRIVATE(this)->glformat, onoff);
+
+  ison = QGLFormat_hasOverlay(PRIVATE(this)->glformat);
+  if (onoff && !ison) {
+    SoDebugError::postWarning("SoQtGLWidget::setOverlayPlanes",
+                              "overlay planes not supported");
+    return;
+  }
+
+  // Rebuild if a GL widget has already been built.
+  if (PRIVATE(this)->currentglwidget) this->buildGLWidget();
+}
+
+/*!
+  Returns a flag indicating whether or not overplay planes are
+  currently used.
+
+  \sa setOverlayPlanes()
+ */
+SbBool
+SoQtGLWidget::isOverlayPlanes(void) const
+{
+  return QGLFormat_hasOverlay(PRIVATE(this)->glformat);
+}
 
 /*!
   Switch between single and double buffer mode for the OpenGL canvas.
@@ -702,6 +718,7 @@ SoQtGLWidget::setQuadBufferStereo(const SbBool enable)
     return;
 
   PRIVATE(this)->glformat->setStereo(enable);
+
   // Rebuild if a GL widget has already been built.
   if (PRIVATE(this)->currentglwidget) this->buildGLWidget();
 }
@@ -738,7 +755,8 @@ SoQtGLWidget::isDrawToFrontBufferEnable(void) const
 // *************************************************************************
 
 /*!
-  At the moment this is just a stub prototype for OIV compatibility.
+  For SoQt, this returns the same widget pointer as that of
+  SoQtGLWidget::getGLWidget().
 */
 QWidget *
 SoQtGLWidget::getNormalWidget(void) const
@@ -1106,7 +1124,7 @@ SoQtGLWidget::glScheduleRedraw(void)
 }
 
 /*!
-  Should return TRUE if an overlay GL drawing area exists.
+  Will return \c TRUE if an overlay GL drawing area exists.
 */
 SbBool 
 SoQtGLWidget::hasOverlayGLArea(void) const 
@@ -1115,7 +1133,7 @@ SoQtGLWidget::hasOverlayGLArea(void) const
 }
 
 /*!
-  Should return TRUE if a normal GL drawing area exists.
+  Will return \c TRUE if a normal GL drawing area exists.
 */
 SbBool 
 SoQtGLWidget::hasNormalGLArea(void) const 
