@@ -312,7 +312,6 @@ SoQtComponent::SoQtComponent(QWidget * const parent,
 
   if ((parent == NULL) || ! embed) {
     PRIVATE(this)->parent = (QWidget *) new QMainWindow(parent, name);
-    this->registerWidget(parent);
     PRIVATE(this)->embedded = FALSE;
     PRIVATE(this)->shelled = TRUE;
   } else {
