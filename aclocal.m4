@@ -2072,7 +2072,7 @@ EOF
   rm -f conftest.c
   if test x"$tgs_version" != xTGS_VERSION; then
     tgs_version=`echo $tgs_version | cut -c-3`
-    sim_ac_inventor_chk_libs="$sim_ac_inventor_chk_libs inv${tgs_version}.lib"
+    sim_ac_inventor_chk_libs="$sim_ac_inventor_chk_libs -linv${tgs_version}"
   fi
 
   AC_MSG_CHECKING([for Open Inventor library])
@@ -2091,6 +2091,10 @@ EOF
       fi
     done
   done
+
+  CPPFLAGS="$sim_ac_save_CPPFLAGS"
+  LDFLAGS="$sim_ac_save_LDFLAGS"
+  LIBS="$sim_ac_save_LIBS"
 
   if test "x$sim_ac_inventor_libs" != "xUNRESOLVED"; then
     AC_MSG_RESULT($sim_ac_inventor_cppflags $sim_ac_inventor_ldflags $sim_ac_inventor_libs)
@@ -2452,30 +2456,28 @@ if test x"$with_qt" != xno; then
     sim_ac_qgl_avail=yes
     $1
   else
-
-    # if we have to use mswin link style (.lib)
-    if test x"$sim_ac_linking_style" = xmswin; then
-      sim_ac_qgl_libs=qgl.lib
-    else
-      sim_ac_qgl_libs=-lqgl
-    fi
-
-    sim_ac_save_libs=$LIBS
+    sim_ac_save_LIBS=$LIBS
     LIBS="$sim_ac_qgl_libs $LIBS"
 
-    AC_CACHE_CHECK(
-      [whether the QGL extension library is available],
-      sim_cv_lib_qgl_avail,
-      [AC_TRY_LINK([#include <qgl.h>],
-                   [(void)qGLVersion();],
-                   [sim_cv_lib_qgl_avail=yes],
-                   [sim_cv_lib_qgl_avail=no])])
+    AC_MSG_CHECKING([for the QGL extension library])
 
-    if test x"$sim_cv_lib_qgl_avail" = xyes; then
+    sim_ac_qgl_libs=UNRESOLVED
+    for sim_ac_qgl_libcheck in "-lqgl" "-lqgl -luser32"; do
+      if test "x$sim_ac_qgl_libs" = "xUNRESOLVED"; then
+        LIBS="$sim_ac_qgl_libcheck $sim_ac_save_LIBS"
+        AC_TRY_LINK([#include <qgl.h>],
+                    [(void)qGLVersion();],
+                    [sim_ac_qgl_libs="$sim_ac_qgl_libcheck"])
+      fi
+    done
+
+    if test x"$sim_ac_qgl_libs" != xUNRESOLVED; then
+      AC_MSG_RESULT($sim_ac_qgl_libs)
       sim_ac_qgl_avail=yes
       $1
     else
-      LIBS=$sim_ac_save_libs
+      AC_MSG_RESULT([unavailable])
+      LIBS=$sim_ac_save_LIBS
       $2
     fi
   fi
