@@ -31,7 +31,7 @@
 #include <Inventor/Qt/widgets/moc_CurveView.icc>
 
 CurveView::CurveView(int numcolors,
-                     SoQtCurveWidget::Mode mode,
+                     SoQtColorTableEditor::Mode mode,
                      QCanvas * canvas,
                      QWidget * parent,
                      const char * name,
@@ -76,8 +76,8 @@ CurveView::initColorCurves()
   for (int i = 0; i < this->colormode; i++) {
     this->colorindex = i;
     ColorCurve::CurveType type = ColorCurve::LINEAR;
-    if (((this->colormode == SoQtCurveWidget::LUMINANCE_ALPHA) && (i == 1)) ||
-        ((this->colormode == SoQtCurveWidget::RGBA) && (i == 3))){
+    if (((this->colormode == SoQtColorTableEditor::LUMINANCE_ALPHA) && (i == 1)) ||
+        ((this->colormode == SoQtColorTableEditor::RGBA) && (i == 3))){
       type = ColorCurve::CONSTANT;
     }
 
@@ -370,7 +370,7 @@ CurveView::smallestItem(QCanvasItemList * list)
 }
 
 void
-CurveView::setMode(SoQtCurveWidget::Mode mode)
+CurveView::setMode(SoQtColorTableEditor::Mode mode)
 {
   for (int i = 0; i < this->colormode; i++) {
     delete this->colorcurves[i];

@@ -1,5 +1,5 @@
-#ifndef SoQtCurveWidgetP_H
-#define SoQtCurveWidgetP_H
+#ifndef SOQTCOLORTABLEEDITORP_H
+#define SOQTCOLORTABLEEDITORP_H
 
 /**************************************************************************\
  *
@@ -26,7 +26,7 @@
 
 #include <qobject.h>
 #include <Inventor/SbBasic.h>
-#include <Inventor/Qt/widgets/SoQtCurveWidget.h> // for Mode
+#include <Inventor/Qt/widgets/SoQtColorTableEditor.h> // for Mode
 #include "ColorCurve.h" // for ColorCurve::ChangeCB
 
 class QComboBox;
@@ -37,15 +37,15 @@ class QCheckBox;
 class QLabel;
 class QLineEdit;
 
-class SoQtCurveWidgetP : public QObject {
+class SoQtColorTableEditorP : public QObject {
 
   Q_OBJECT
 
 public:
-  SoQtCurveWidgetP(SoQtCurveWidget * publ);
-  ~SoQtCurveWidgetP();
+  SoQtColorTableEditorP(SoQtColorTableEditor * publ);
+  ~SoQtColorTableEditorP();
   static void curveCallBack(void * userData);
-  SoQtCurveWidget * publ;
+  SoQtColorTableEditor * publ;
   QLabel * modetext;
   QLabel * curvetypetext;
   QLabel * constanttext;
@@ -62,7 +62,7 @@ public:
   ColorCurve::ChangeCB * callBack;
   void * callbackData;
   SbBool contupdate;
-  SoQtCurveWidget::Mode mode;
+  SoQtColorTableEditor::Mode mode;
 
 public slots:
   void done(void);
@@ -74,4 +74,4 @@ public slots:
   void updateColorLabels(void);
 };
 
-#endif // SoQtCurveWidgetP_H
+#endif // ! SOQTCOLORTABLEEDITORP_H

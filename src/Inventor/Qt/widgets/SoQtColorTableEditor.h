@@ -1,5 +1,5 @@
-#ifndef SOQTCURVEWIDGET_H
-#define SOQTCURVEWIDGET_H
+#ifndef SOQTCOLORTABLEDITOR_H
+#define SOQTCOLORTABLEDITOR_H
 
 /**************************************************************************\
  *
@@ -29,14 +29,14 @@
 #include <Inventor/system/inttypes.h>
 
 
-class SOQT_DLL_API SoQtCurveWidget : public QWidget {
+class SOQT_DLL_API SoQtColorTableEditor : public QWidget {
 
 public:
-  SoQtCurveWidget(int numcolors = 256, 
+  SoQtColorTableEditor(int numcolors = 256, 
                   QWidget * parent = 0, 
                   const char * name = 0);
   
-  ~SoQtCurveWidget(void);
+  ~SoQtColorTableEditor(void);
 
   enum Mode {
     LUMINANCE = 1,
@@ -52,10 +52,10 @@ public:
   void getColors(uint8_t * color, int num) const;
 
   typedef void ChangeCB(void * userdata);
-  void setCallBack(SoQtCurveWidget::ChangeCB * cb, void * userdata);
+  void setCallBack(SoQtColorTableEditor::ChangeCB * cb, void * userdata);
 
 private:
-  class SoQtCurveWidgetP * pimpl;
+  class SoQtColorTableEditorP * pimpl;
 };
 
-#endif // ! SOQTCURVEWIDGET_H
+#endif // ! SOQTCOLORTABLEDITOR_H

@@ -32,25 +32,25 @@
 #include <qlineedit.h>
 #include <qvalidator.h>
 #include "CurveView.h"
-#include <Inventor/Qt/widgets/SoQtCurveWidget.h>
-#include "SoQtCurveWidgetP.h"
-#include <Inventor/Qt/widgets/moc_SoQtCurveWidgetP.icc>
+#include <Inventor/Qt/widgets/SoQtColorTableEditor.h>
+#include "SoQtColorTableEditorP.h"
+#include <Inventor/Qt/widgets/moc_SoQtColorTableEditorP.icc>
 
 #define PRIVATE(p) p->pimpl
 #define PUBLIC(p) p->publ
 
-SoQtCurveWidgetP::SoQtCurveWidgetP(class SoQtCurveWidget * publ)
+SoQtColorTableEditorP::SoQtColorTableEditorP(class SoQtColorTableEditor * publ)
 {
   this->publ = publ;
 }
 
-SoQtCurveWidgetP::~SoQtCurveWidgetP()
+SoQtColorTableEditorP::~SoQtColorTableEditorP()
 {
   delete this->curveview;
 }
 
 void
-SoQtCurveWidgetP::toggleUpdate()
+SoQtColorTableEditorP::toggleUpdate()
 {
   this->contupdate = this->instantupdate->isChecked();
   if (this->callBack) {
@@ -59,7 +59,7 @@ SoQtCurveWidgetP::toggleUpdate()
 }
 
 void
-SoQtCurveWidgetP::apply()
+SoQtColorTableEditorP::apply()
 {
   if (this->callBack) {
     this->callBack(this->callbackData);
@@ -67,7 +67,7 @@ SoQtCurveWidgetP::apply()
 }
 
 void
-SoQtCurveWidgetP::done()
+SoQtColorTableEditorP::done()
 {
   if (!this->contupdate) {
     this->callBack(this->callbackData);
@@ -76,7 +76,7 @@ SoQtCurveWidgetP::done()
 }
 
 void
-SoQtCurveWidgetP::reset()
+SoQtColorTableEditorP::reset()
 {
   this->curvetypelist->setCurrentItem(CurveView::SMOOTH);
   this->curveview->resetActive();
@@ -86,7 +86,7 @@ SoQtCurveWidgetP::reset()
 }
 
 void
-SoQtCurveWidgetP::changeCurveMode(int i)
+SoQtColorTableEditorP::changeCurveMode(int i)
 {
   this->curveview->changeCurveMode(i);
   if (this->callBack) {
@@ -95,16 +95,16 @@ SoQtCurveWidgetP::changeCurveMode(int i)
 }
 
 void
-SoQtCurveWidgetP::curveCallBack(void * userData)
+SoQtColorTableEditorP::curveCallBack(void * userData)
 {
-  SoQtCurveWidgetP * thisp = (SoQtCurveWidgetP*) userData;
+  SoQtColorTableEditorP * thisp = (SoQtColorTableEditorP*) userData;
   if (thisp->contupdate && thisp->callBack) {
     thisp->callBack(thisp->callbackData);
   }
 }
 
 void
-SoQtCurveWidgetP::updateColorLabels()
+SoQtColorTableEditorP::updateColorLabels()
 {
   int width = this->horgrad->width();
   int height = this->horgrad->height();
@@ -119,7 +119,7 @@ SoQtCurveWidgetP::updateColorLabels()
 }
 
 void
-SoQtCurveWidgetP::setConstantValue()
+SoQtColorTableEditorP::setConstantValue()
 {
   this->curveview->changeCurveMode(CurveView::FREE);
   this->curvetypelist->setCurrentItem(CurveView::FREE);
@@ -127,12 +127,12 @@ SoQtCurveWidgetP::setConstantValue()
   this->curveview->setConstantValue(value);
 }
 
-SoQtCurveWidget::SoQtCurveWidget(int numcolors, QWidget * parent, const char * name)
+SoQtColorTableEditor::SoQtColorTableEditor(int numcolors, QWidget * parent, const char * name)
 : QWidget(parent, name)
 {
-  this->pimpl = new SoQtCurveWidgetP(this);
+  this->pimpl = new SoQtColorTableEditorP(this);
   PRIVATE(this)->callBack = NULL;
-  PRIVATE(this)->mode = SoQtCurveWidget::RGB;
+  PRIVATE(this)->mode = SoQtColorTableEditor::RGB;
   
   QSizePolicy sizepolicy;
   sizepolicy.setVerData(QSizePolicy::MinimumExpanding);
@@ -239,19 +239,19 @@ SoQtCurveWidget::SoQtCurveWidget(int numcolors, QWidget * parent, const char * n
           PRIVATE(this), SLOT(reset(void)));
 }
 
-SoQtCurveWidget::~SoQtCurveWidget()
+SoQtColorTableEditor::~SoQtColorTableEditor()
 {
   delete PRIVATE(this);
 }
 
 void 
-SoQtCurveWidget::getColors(uint8_t * color, int num) const
+SoQtColorTableEditor::getColors(uint8_t * color, int num) const
 {
   PRIVATE(this)->curveview->getColors(color, num);
 }
 
 void 
-SoQtCurveWidget::setColors(uint8_t * color, int num)
+SoQtColorTableEditor::setColors(uint8_t * color, int num)
 {
   PRIVATE(this)->curvetypelist->setCurrentItem(CurveView::FREE);
   PRIVATE(this)->curveview->setColors(color, num);
@@ -261,7 +261,7 @@ SoQtCurveWidget::setColors(uint8_t * color, int num)
 }
 
 void
-SoQtCurveWidget::setCallBack(SoQtCurveWidget::ChangeCB * cb, void * userData)
+SoQtColorTableEditor::setCallBack(SoQtColorTableEditor::ChangeCB * cb, void * userData)
 {
   PRIVATE(this)->callBack = cb;
   PRIVATE(this)->callbackData = userData;
@@ -269,14 +269,14 @@ SoQtCurveWidget::setCallBack(SoQtCurveWidget::ChangeCB * cb, void * userData)
   if (cb) { cb(userData); }
 }
 
-SoQtCurveWidget::Mode
-SoQtCurveWidget::getMode() const
+SoQtColorTableEditor::Mode
+SoQtColorTableEditor::getMode() const
 {
   return PRIVATE(this)->mode;
 }
 
 void
-SoQtCurveWidget::setMode(Mode mode) 
+SoQtColorTableEditor::setMode(Mode mode) 
 {
   QPixmap pm(16,16);
   PRIVATE(this)->mode = mode;
@@ -285,14 +285,14 @@ SoQtCurveWidget::setMode(Mode mode)
   PRIVATE(this)->colormodelist->clear();
 
   switch(mode) {
-  case SoQtCurveWidget::LUMINANCE:
-  case SoQtCurveWidget::LUMINANCE_ALPHA:
+  case SoQtColorTableEditor::LUMINANCE:
+  case SoQtColorTableEditor::LUMINANCE_ALPHA:
     pm.fill(Qt::gray);
     PRIVATE(this)->colormodelist->insertItem(pm, "Gray");
     break;
 
-  case SoQtCurveWidget::RGB:
-  case SoQtCurveWidget::RGBA:
+  case SoQtColorTableEditor::RGB:
+  case SoQtColorTableEditor::RGBA:
     pm.fill(Qt::red);
     PRIVATE(this)->colormodelist->insertItem(pm, "Red");
     pm.fill(Qt::green);
@@ -302,8 +302,8 @@ SoQtCurveWidget::setMode(Mode mode)
     break;
   }
 
-  if ((mode == SoQtCurveWidget::LUMINANCE_ALPHA) ||
-      (mode == SoQtCurveWidget::RGBA)) {
+  if ((mode == SoQtColorTableEditor::LUMINANCE_ALPHA) ||
+      (mode == SoQtColorTableEditor::RGBA)) {
     pm.fill(Qt::white);
     PRIVATE(this)->colormodelist->insertItem(pm, "Alpha");
   }

@@ -28,7 +28,7 @@
 #include <qimage.h>
 #include <Inventor/SbBasic.h>
 #include <Inventor/Qt/common/SbGuiList.h>
-#include <Inventor/Qt/widgets/SoQtCurveWidget.h>
+#include <Inventor/Qt/widgets/SoQtColorTableEditor.h> // FIXME: remove this dependency. 20031020 mortene.
 #include <Inventor/Qt/widgets/curvep/ColorCurve.h>
 
 class QCanvasItemList;
@@ -42,7 +42,7 @@ class CurveView : public QCanvasView
 
 public:
   CurveView(int numcolors,
-            SoQtCurveWidget::Mode mode, 
+            SoQtColorTableEditor::Mode mode, 
             QCanvas * canvas, 
             QWidget * parent = 0, 
             const char * name = 0, 
@@ -52,7 +52,7 @@ public:
 
   enum CurveType { SMOOTH, FREE };
   
-  void setMode(SoQtCurveWidget::Mode mode);
+  void setMode(SoQtColorTableEditor::Mode mode);
   void setColors(uint8_t * colors, int num);
   void getColors(uint8_t * colors, int num) const;
   void setCallBack(ColorCurve::ChangeCB * cb, void * userData);
@@ -93,7 +93,7 @@ private:
   QCanvasItem * movingitem;
 
   CurveType curvemode;
-  SoQtCurveWidget::Mode colormode;
+  SoQtColorTableEditor::Mode colormode;
   int colorindex;
   const int ptsize;
   int size;

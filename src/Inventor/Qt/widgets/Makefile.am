@@ -24,7 +24,7 @@ BUILT_SOURCES = \
 	$(SoGuiAllBuiltFiles) \
 	moc_SoQtGradientDialogP.icc \
 	moc_GradientView.icc \
-	moc_SoQtCurveWidgetP.icc \
+	moc_SoQtColorTableEditorP.icc \
 	moc_CurveView.icc
 
 CLEANFILES = \
@@ -49,7 +49,7 @@ SOURCES = \
 	gradientp/ImageItem.cpp gradientp/ImageItem.h \
 	gradientp/TickMark.cpp gradientp/TickMark.h \
 	\
-	curvep/CurveWidget.cpp SoQtCurveWidget.h curvep/SoQtCurveWidgetP.h \
+	curvep/ColorTableEditor.cpp SoQtColorTableEditor.h curvep/SoQtColorTableEditorP.h \
 	curvep/ColorCurve.cpp curvep/ColorCurve.h \
 	curvep/CurveView.cpp curvep/CurveView.h \
 	curvep/SbGuiCubicSpline.cpp curvep/SbGuiCubicSpline.h
@@ -88,7 +88,7 @@ SoQtWidgetsincdir = $(includedir)/Inventor/@Gui@/widgets
 endif
 SoQtWidgetsinc_HEADERS = \
 	SoQtPopupMenu.h SoQtThumbWheel.h SoQtGradientDialog.h Gradient.h \
-	SoQtCurveWidget.h
+	SoQtColorTableEditor.h
 
 install-SoQtWidgetsincHEADERS: $(SoQtWidgetsinc_HEADERS)
 	@$(NORMAL_INSTALL)
@@ -129,10 +129,10 @@ moc_GradientView.icc: $(srcdir)/gradientp/GradientView.h
 	echo " $(MOC) -i -o moc_GradientView.icc $(srcdir)/gradientp/GradientView.h"; \
 	$(MOC) -i -o moc_GradientView.icc `$(UNIX2WINPATH) $(srcdir)/gradientp/GradientView.h` )
 
-moc_SoQtCurveWidgetP.icc: $(srcdir)/curvep/SoQtCurveWidgetP.h
+moc_SoQtColorTableEditorP.icc: $(srcdir)/curvep/SoQtColorTableEditorP.h
 	@( \
-	echo " $(MOC) -i -o moc_SoQtCurveWidgetP.icc $(srcdir)/curvep/SoQtCurveWidgetP.h"; \
-	$(MOC) -i -o moc_SoQtCurveWidgetP.icc `$(UNIX2WINPATH) $(srcdir)/curvep/SoQtCurveWidgetP.h` )
+	echo " $(MOC) -i -o moc_SoQtColorTableEditorP.icc $(srcdir)/curvep/SoQtColorTableEditorP.h"; \
+	$(MOC) -i -o moc_SoQtColorTableEditorP.icc `$(UNIX2WINPATH) $(srcdir)/curvep/SoQtColorTableEditorP.h` )
 
 moc_CurveView.icc: $(srcdir)/curvep/CurveView.h
 	@( \
