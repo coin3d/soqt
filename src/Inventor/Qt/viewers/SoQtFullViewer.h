@@ -41,8 +41,10 @@ class SoQtFullViewer : public SoQtViewer {
 
 public:
   enum BuildFlag {
-    BUILD_NONE = 0x00, BUILD_DECORATION = 0x01, BUILD_POPUP = 0x02,
-    BUILD_ALL = 0xff,
+    BUILD_NONE = 0x00,
+    BUILD_DECORATION = 0x01,
+    BUILD_POPUP = 0x02,
+    BUILD_ALL = 0xff
   };
 
   void setDecoration(const SbBool on);
@@ -117,7 +119,6 @@ protected:
 
   QtThumbwheel * getThumbwheel( int num );
 
-private:
   enum {
     LEFTDECORATION,
     BOTTOMDECORATION,
@@ -125,15 +126,15 @@ private:
 
     FIRSTDECORATION = LEFTDECORATION,
     LASTDECORATION = RIGHTDECORATION,
-    NUMDECORATIONS = LASTDECORATION - FIRSTDECORATION + 1,
+    NUMDECORATIONS = LASTDECORATION - FIRSTDECORATION + 1
   };
 
+private:
   QWidget * makePreferencesWindow(void);
   QWidget * makeSeekPreferences(QWidget * parent);
   QWidget * makeSeekDistancePreferences(QWidget * parent);
   QWidget * makeZoomPreferences(QWidget * parent);
   QWidget * makeAutoclipPreferences(QWidget * parent);
-
 
   QWidget * viewerwidget, * canvasparent, * canvas;
   SbBool decorations;

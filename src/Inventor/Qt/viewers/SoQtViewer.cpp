@@ -976,7 +976,7 @@ SoQtViewer::setSeekTime(const float seconds)
                               "time duration");
     return;
   }
-#endif SOQT_DEBUG
+#endif // SOQT_DEBUG
   this->seekperiod = seconds;
 } // setSeekTime()
 

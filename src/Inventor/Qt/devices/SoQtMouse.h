@@ -40,7 +40,7 @@ public:
     PointerMotionMask = 0x04,
     ButtonMotionMask = 0x08,
 
-    SO_QT_ALL_MOUSE_EVENTS = 0x0f,
+    SO_QT_ALL_MOUSE_EVENTS = 0x0f
   };
 
   SoQtMouse(SoQtMouseEventMask mask = SO_QT_ALL_MOUSE_EVENTS);

@@ -67,14 +67,14 @@ class SoQtViewer : public SoQtRenderArea {
 public:
   enum Type {
     BROWSER,
-    EDITOR,
+    EDITOR
   };
 
   enum DecimationStrategy {
     NORMAL,
     FIXED_NUM_TRIANGLES,
     FRAMES_PER_SECOND,
-    FIXED_PERCENTAGE,
+    FIXED_PERCENTAGE
   };
 
   enum DrawStyle {
@@ -93,7 +93,7 @@ public:
   };
   enum DrawType {
     STILL = 0,
-    INTERACTIVE,
+    INTERACTIVE
   };
   enum BufferType {
     BUFFER_SINGLE,

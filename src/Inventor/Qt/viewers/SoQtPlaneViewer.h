@@ -81,18 +81,25 @@ protected:
   virtual void computeSeekFinalOrientation(void);
 
 private:
-  enum {
-    WAITING_FOR_DOLLY_MODE,
-    DOLLY_MODE,
-    TRANSLATE_MODE,
-    WAITING_FOR_SEEK_MODE,
-    SEEK_MODE,
-    ROTATE_MODE
-  } planeViewerMode;
-
   void constructor( SbBool buildNow );
 
   void zoom( const float difference );
+
+  enum PlaneViewerMode {
+    IDLE_MODE,
+
+    DOLLY_MODE,
+    TRANSLATE_MODE,
+
+    ROTZ_WAIT_MODE,
+    ROTZ_MODE,
+
+    SEEK_WAIT_MODE,
+    SEEK_MODE
+  } mode;
+
+  void setModeFromState( unsigned int state );
+  void setMode( PlaneViewerMode mode );
 
   SbVec2f prevMousePosition;
 
@@ -107,7 +114,7 @@ private:
     QPixmap * orthogonal, * perspective;
   } pixmaps;
 
-  static void SoQtPlaneViewer::visibilityCB( void * data, SbBool visible );
+  static void visibilityCB( void * data, SbBool visible );
 
 private slots:
   void xClicked(void);

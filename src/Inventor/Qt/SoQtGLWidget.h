@@ -73,7 +73,7 @@ private:
 
 class SoQtGLWidget : public SoQtComponent
 {
-  friend PrivateGLWidget; // necessary because of protected drawToFrontBuffer
+  friend class PrivateGLWidget; // necessary because of protected drawToFrontBuffer
   typedef SoQtComponent inherited;
 
   Q_OBJECT

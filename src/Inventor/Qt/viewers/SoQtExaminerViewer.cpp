@@ -90,7 +90,6 @@ inline Type exvMin( const Type A, const Type B ) { return (A < B) ? A : B; }
 template <class Type>
 inline void exvSwap( Type & A, Type & B ) { Type T; T = A; A = B; B = T; }
 
-
 ///////// FIXME start //////////////////////////////////////////////////
 // Do something clever about this Qt layout assistant code.. (the code
 // for expandSize() is inside SoQtFullViewer.cpp). 990222 mortene.
@@ -102,18 +101,20 @@ extern void expandSize(QSize & result, const QSize & addend,
 // *************************************************************************
 
 /*!
-  Constructor. See parent class for explanation of arguments.
+  Constructor.  See parent class for explanation of arguments.
   Calling this constructor will make sure the examiner viewer widget
   will be built immediately.
 */
 
-SoQtExaminerViewer::SoQtExaminerViewer(QWidget * parent, const char * name,
-                                       SbBool buildInsideParent,
-                                       SoQtFullViewer::BuildFlag b,
-                                       SoQtViewer::Type t)
-  : inherited(parent, name, buildInsideParent, b, t, FALSE)
+SoQtExaminerViewer::SoQtExaminerViewer(
+  QWidget * parent,
+  const char * name,
+  SbBool buildInsideParent,
+  SoQtFullViewer::BuildFlag flag,
+  SoQtViewer::Type type )
+: inherited( parent, name, buildInsideParent, flag, type, FALSE )
 {
-  this->constructor(TRUE);
+  this->constructor( TRUE );
 } // SoQtExaminerViewer()
 
 // *************************************************************************
@@ -122,14 +123,16 @@ SoQtExaminerViewer::SoQtExaminerViewer(QWidget * parent, const char * name,
   Constructor. See parent class for explanation of arguments.
 */
 
-SoQtExaminerViewer::SoQtExaminerViewer(QWidget * parent, const char * name,
-                                       SbBool buildInsideParent,
-                                       SoQtFullViewer::BuildFlag b,
-                                       SoQtViewer::Type t,
-                                       SbBool buildNow)
-  : inherited(parent, name, buildInsideParent, b, t, FALSE)
+SoQtExaminerViewer::SoQtExaminerViewer(
+  QWidget * parent,
+  const char * name,
+  SbBool buildInsideParent,
+  SoQtFullViewer::BuildFlag flag,
+  SoQtViewer::Type type,
+  SbBool buildNow )
+: inherited( parent, name, buildInsideParent, flag, type, FALSE )
 {
-  this->constructor(buildNow);
+  this->constructor( buildNow );
 } // SoQtExaminerViewer()
 
 // *************************************************************************
@@ -142,7 +145,8 @@ SoQtExaminerViewer::SoQtExaminerViewer(QWidget * parent, const char * name,
 */
 
 void
-SoQtExaminerViewer::constructor(SbBool buildNow)
+SoQtExaminerViewer::constructor(
+  SbBool buildNow )
 {
   // FIXME: use a smaller sphere than the default one to have a larger
   // area close to the borders that gives us "z-axis rotation"?
@@ -184,7 +188,8 @@ SoQtExaminerViewer::constructor(SbBool buildNow)
   this->axiscrossOn = FALSE;
   this->axiscrossSize = 25;
 
-  if(buildNow) this->setBaseWidget(this->buildWidget(this->getParentWidget()));
+  if ( buildNow )
+    this->setBaseWidget( this->buildWidget( this->getParentWidget() ) );
 } // constructor()
 
 // *************************************************************************

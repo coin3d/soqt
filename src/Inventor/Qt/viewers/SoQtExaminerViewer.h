@@ -101,7 +101,7 @@ private:
     EXAMINE, DRAGGING,
     WAITING_FOR_SEEK,
     ZOOMING,
-    WAITING_FOR_PAN, PANNING,
+    WAITING_FOR_PAN, PANNING
   };
 
   ViewerMode currentmode;

@@ -144,7 +144,7 @@ enum {
   HOME_BUTTON,
   SET_HOME_BUTTON,
   VIEW_ALL_BUTTON,
-  SEEK_BUTTON,
+  SEEK_BUTTON
 };
 
 // Menu id values.

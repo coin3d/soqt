@@ -51,11 +51,11 @@ static const char rcsid[] =
 */
 
 SoQtPlaneViewer::SoQtPlaneViewer(
-  QWidget * parent = NULL,
-  const char * const name = NULL, 
-  SbBool buildInsideParent = TRUE,
-  SoQtFullViewer::BuildFlag flag = BUILD_ALL, 
-  SoQtViewer::Type type = BROWSER )
+  QWidget * parent,
+  const char * const name, 
+  SbBool buildInsideParent,
+  SoQtFullViewer::BuildFlag flag, 
+  SoQtViewer::Type type )
 : inherited( parent, name, buildInsideParent, flag, type, FALSE )
 {
   this->constructor( TRUE );
@@ -88,7 +88,7 @@ void
 SoQtPlaneViewer::constructor( // private
   SbBool buildNow )
 {
-  this->planeViewerMode = WAITING_FOR_DOLLY_MODE;
+  this->mode = IDLE_MODE;
 
   this->projector = new SbPlaneProjector;
   SbViewVolume vv;
@@ -262,20 +262,23 @@ SoQtPlaneViewer::processEvent( // virtual
     {
       switch ( ((QMouseEvent *) event)->button() ) {
       case LeftButton:
-        if ( this->planeViewerMode == WAITING_FOR_DOLLY_MODE ) {
+        if ( this->mode == IDLE_MODE ) {
           this->interactiveCountInc();
-          this->planeViewerMode = DOLLY_MODE;
-        } else if ( this->planeViewerMode == WAITING_FOR_SEEK_MODE ) {
+          this->mode = DOLLY_MODE;
+        } else if ( this->mode == SEEK_WAIT_MODE ) {
           this->interactiveCountInc();
           this->seekToPoint( mousepos );
         }
         break;
 
       case MidButton:
-        if ( this->planeViewerMode == WAITING_FOR_DOLLY_MODE ) {
+        if ( this->mode == IDLE_MODE ) {
           this->interactiveCountInc();
-          this->planeViewerMode = TRANSLATE_MODE;
+          this->mode = TRANSLATE_MODE;
+        } else if ( this->mode == ROTZ_WAIT_MODE ) {
+          this->mode = ROTZ_MODE;
         }
+
         break;
 
       default:
@@ -292,8 +295,11 @@ SoQtPlaneViewer::processEvent( // virtual
       if ( be->button() != LeftButton && be->button() != MidButton )
         break;
 
-      this->interactiveCountDec();
-      this->planeViewerMode = WAITING_FOR_DOLLY_MODE;
+      if ( this->mode != IDLE_MODE &&
+           this->mode != ROTZ_MODE ) {
+        this->interactiveCountDec();
+        this->mode = IDLE_MODE;
+      }
 
 //    this->setModeFromState( be->state() & ~be->button() );
       break;
@@ -301,7 +307,7 @@ SoQtPlaneViewer::processEvent( // virtual
 
   case Event_MouseMove:
     {
-      switch ( this->planeViewerMode ) {
+      switch ( this->mode ) {
   
       case DOLLY_MODE:
         if ( norm_mousepos[1] != this->prevMousePosition[1] )
@@ -319,6 +325,13 @@ SoQtPlaneViewer::processEvent( // virtual
         }
         break;
 
+      case ROTZ_MODE:
+        if ( (norm_mousepos[0] != this->prevMousePosition[0]) ||
+             (norm_mousepos[1] != this->prevMousePosition[1]) )
+          SoAnyPlaneViewer::rotZ( norm_mousepos, this->prevMousePosition,
+            this->getGlxAspectRatio(), this->getCamera() );
+        break;
+
 /*
       case DRAGGING:
         if (!this->spindetecttimer) this->spindetecttimer = new QTimer;
@@ -334,10 +347,37 @@ SoQtPlaneViewer::processEvent( // virtual
       default: // include default to avoid compiler warnings.
         break;
 
-      } // switch ( this->planeViewerMode )
+      } // switch ( this->mode )
 
       break;
     }
+
+    case Event_KeyPress:
+#if QT_VERSION >= 200
+    case QEvent::Accel:
+#endif // Qt 2.0
+      do {
+        QKeyEvent * keyevent = (QKeyEvent *) event;
+        if ( keyevent->key() == Key_Control ) {
+           this->mode = ROTZ_WAIT_MODE;
+           this->interactiveCountInc();
+        }
+      } while ( FALSE );
+      break;
+
+    case Event_KeyRelease:
+#if QT_VERSION >= 200
+    case QEvent::AccelAvailable:
+#endif // Qt 2.0
+      do {
+        QKeyEvent * keyevent = (QKeyEvent *) event;
+        if ( keyevent->key() == Key_Control ) {
+           this->mode = IDLE_MODE;
+//           this->interactiveCountDec();
+        }
+      } while ( FALSE );
+
+      break;
 
     default:
 //      SoDebugError::postInfo( "SoQtPlaneViewer::processEvent",
@@ -592,7 +632,7 @@ SoQtPlaneViewer::visibilityCB( // static
 {
   SoQtPlaneViewer * thisp = (SoQtPlaneViewer *) data;
 
-/* examiner viewer does this:
+/* examiner viewer does this, we don't have to...
   if ( thisp->isAnimating() ) {
     if ( visible )
       thisp->timerTrigger->schedule();
@@ -601,5 +641,81 @@ SoQtPlaneViewer::visibilityCB( // static
   }
 */
 } // visibilityCB()
+
+// ************************************************************************
+
+/*!
+*/
+
+void
+SoQtPlaneViewer::setModeFromState( // private
+  unsigned int state )
+{
+  PlaneViewerMode mode;
+
+  const unsigned int maskedstate =
+    state & (LeftButton|MidButton|ControlButton);
+
+  switch ( maskedstate ) {
+  case 0:
+    mode = IDLE_MODE;
+    break;
+
+  case LeftButton:
+    mode = TRANSLATE_MODE;
+    break;
+
+  case MidButton:
+  case (LeftButton|ControlButton):
+    mode = DOLLY_MODE;
+    break;
+
+  case ControlButton:
+    mode = ROTZ_WAIT_MODE;
+    break;
+
+  case (MidButton|ControlButton):
+  case (LeftButton|MidButton|ControlButton):
+    mode = ROTZ_MODE;
+    break;
+
+  default:
+    SoDebugError::postWarning( "SoQtPlaneViewer::setModeFromState",
+      "state not handled: %d", maskedstate );
+    break;
+
+  } // switch ( maskedstate )
+
+  this->setMode( mode );
+} // setModeFromState()
+
+/*!
+*/
+
+void
+SoQtPlaneViewer::setMode(
+  PlaneViewerMode mode )
+{
+  // FIXME: set cursor...
+
+  switch ( mode ) {
+  case IDLE_MODE:
+    while ( this->getInteractiveCount() )
+      this->interactiveCountDec();
+    break;
+
+  case TRANSLATE_MODE:
+  case DOLLY_MODE:
+  case ROTZ_MODE:
+    while ( this->getInteractiveCount() )
+      this->interactiveCountDec();
+    break;
+
+  default:
+    break;
+  } // switch ( mode )
+
+  this->mode = mode;
+} // setMode()
 
 // ************************************************************************
