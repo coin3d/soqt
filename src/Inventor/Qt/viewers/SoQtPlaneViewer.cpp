@@ -62,6 +62,7 @@ SoQtPlaneViewer::SoQtPlaneViewer(
   SoQtFullViewer::BuildFlag flag, 
   SoQtViewer::Type type )
 : inherited( parent, name, buildInsideParent, flag, type, FALSE )
+, common( new SoAnyPlaneViewer( this ) )
 {
   this->constructor( TRUE );
 } // SoQtPlaneViewer()
@@ -80,6 +81,7 @@ SoQtPlaneViewer::SoQtPlaneViewer(
   SoQtViewer::Type type, 
   SbBool buildNow )
 : inherited( parent, name, buildInsideParent, flag, type, FALSE )
+, common( new SoAnyPlaneViewer( this ) )
 {
   this->constructor( buildNow );
 } // SoQtPlaneViewer()
@@ -333,7 +335,7 @@ SoQtPlaneViewer::processEvent( // virtual
       case ROTZ_MODE:
         if ( (norm_mousepos[0] != this->prevMousePosition[0]) ||
              (norm_mousepos[1] != this->prevMousePosition[1]) )
-          SoAnyPlaneViewer::rotZ( norm_mousepos, this->prevMousePosition,
+          common->rotZ( norm_mousepos, this->prevMousePosition,
             this->getGlxAspectRatio(), this->getCamera() );
         break;
 
@@ -430,7 +432,7 @@ SoQtPlaneViewer::leftWheelMotion( // virtual
   float value )
 {
   inherited::leftWheelMotion(
-    SoAnyPlaneViewer::transYWheelMotion( value, this->getLeftWheelValue(),
+    common->transYWheelMotion( value, this->getLeftWheelValue(),
                                          this->getCamera() ) );
 } // leftWheelMotion()
 
@@ -442,7 +444,7 @@ SoQtPlaneViewer::bottomWheelMotion( // virtual
   float value )
 {
   inherited::bottomWheelMotion(
-    SoAnyPlaneViewer::transXWheelMotion( value, this->getBottomWheelValue(),
+    common->transXWheelMotion( value, this->getBottomWheelValue(),
                                          this->getCamera() ) );
 } // bottomWheelMotion()
 
@@ -478,8 +480,9 @@ SoQtPlaneViewer::createViewerButtons( // virtual
   QWidget * parent,
   SbPList * buttons )
 {
-  // add X, Y, Z viewpoint buttons
   inherited::createViewerButtons( parent, buttons );
+
+  // add X, Y, Z viewpoint buttons
   this->buttons.x = new QPushButton( parent );
   this->buttons.x->setFocusPolicy( QWidget::NoFocus );
   this->buttons.x->setToggleButton( FALSE );
@@ -586,7 +589,7 @@ void
 SoQtPlaneViewer::xClicked(
   void )
 {
-  SoAnyPlaneViewer::viewPlaneX( this->getCamera() );
+  common->viewPlaneX( this->getCamera() );
 } // xClicked()
 
 /*!
@@ -597,7 +600,7 @@ void
 SoQtPlaneViewer::yClicked(
   void )
 {
-  SoAnyPlaneViewer::viewPlaneY( this->getCamera() );
+  common->viewPlaneY( this->getCamera() );
 } // yClicked()
 
 /*!
@@ -608,7 +611,7 @@ void
 SoQtPlaneViewer::zClicked(
   void )
 {
-  SoAnyPlaneViewer::viewPlaneZ( this->getCamera() );
+  common->viewPlaneZ( this->getCamera() );
 } // zClicked()
 
 /*!

@@ -22,19 +22,18 @@
 #ifndef SOQT_PLANEVIEWER_H
 #define SOQT_PLANEVIEWER_H
 
-class SbPlaneProjector;
-
 class QPushButton;
 class QPixmap;
+class SbPlaneProjector;
+class SoAnyPlaneViewer;
 
-#ifndef __SOQT_FULLVIEWER_H__
 #include <Inventor/Qt/viewers/SoQtFullViewer.h>
-#endif // ! __SOQT_FULLVIEWER_H__
 
 // ************************************************************************
 
 class SoQtPlaneViewer : public SoQtFullViewer {
   typedef SoQtFullViewer inherited;
+  friend class SoAnyPlaneViewer;
 
   Q_OBJECT
 
@@ -121,6 +120,8 @@ private slots:
   void yClicked(void);
   void zClicked(void);
   void cameraToggleClicked(void);
+
+  SoAnyPlaneViewer * const common;
 
 }; // class SoQtPlaneViewer
 
