@@ -642,11 +642,9 @@ SoQtGLWidget::setGLSize(
   if ( this->currentglwidget ) {
     int frame = this->isBorder() ? this->borderthickness : 0;
     this->currentglwidget->setGeometry( QRect( frame, frame, this->glSize[0], this->glSize[1] ) );
-    this->glRender();
-    // FIXME: why isn't it enough to do the glRender() call? (If we
-    // don't do the glReshape() call, no redraw happens when removing
-    // (or re-adding) the decorations for the examinerviewer, for
-    // instance). 20001125 mortene.
+    // FIXME: this is crap, we should use glRender() instead, but that
+    // won't work because of the way they are overloaded in
+    // SoGuiRenderArea. 20001126 mortene.
     this->glReshape( this->glSize[0], this->glSize[1] );
   }
 } // setGLSize()
