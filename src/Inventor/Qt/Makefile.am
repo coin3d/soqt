@@ -128,3 +128,37 @@ moc_SoQtTransformSliderSet.cpp: \
 	   $(MAKE) src/Inventor/Qt/moc_SoQtTransformSliderSet.cpp )
 
 ############################################################################
+
+#### Additional "native" Make rules #########################################
+
+
+## Rule for linking up a .DLL on MSWindows with MSVC++.
+##
+## Short explanation of what the shell-code does: tests if the C
+## compiler is our MSVC++ wrapper script, and if so: properly link the
+## DLL. If not, just make an empty soqt{version}.dll file so the
+## install-exec-hook knows when to _not_ install the .dll.
+
+soqt@SOQT_MAJOR_VERSION@.dll: $(libSoQt_la_OBJECTS) $(libSoQt_la_DEPENDENCIES)
+	@rm -f soqt@SOQT_MAJOR_VERSION@.dll && \
+	if @BUILD_WITH_MSVC@; then \
+	  echo "Linking DLL..."; \
+	  $(CC) /dll /out:soqt@SOQT_MAJOR_VERSION@.dll $(LDFLAGS) \
+	        `echo $(libSoQt_la_OBJECTS) | sed 's%\.lo%.obj%g'` \
+	        $(libSoQt_la_LIBADD) $(LIBS); \
+	else \
+	  touch soqt@SOQT_MAJOR_VERSION@.dll; \
+	fi
+
+## This hook will be run at the end of a ``make install''.
+##
+## The single action taken is to install the soqt.dll and soqt.lib
+## files (if they have been built properly).
+
+install-exec-hook: soqt@SOQT_MAJOR_VERSION@.dll
+	@if test -s soqt@SOQT_MAJOR_VERSION@.dll; then \
+	  echo "Installing soqt@SOQT_MAJOR_VERSION@.dll"; \
+	  for i in soqt@SOQT_MAJOR_VERSION@.dll soqt@SOQT_MAJOR_VERSION@.lib; do \
+	    $(INSTALL_DATA) $$i $(DESTDIR)$(libdir)/$$i; \
+	  done \
+	fi
