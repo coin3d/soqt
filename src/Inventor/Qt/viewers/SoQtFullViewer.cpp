@@ -684,7 +684,9 @@ QWidget *
 SoQtFullViewer::buildWidget(QWidget * parent)
 {
   this->viewerwidget = new QWidget(parent);
+#if SOQT_DEBUG
   this->viewerwidget->setBackgroundColor( QColor( 250, 0, 0 ) );
+#endif // SOQT_DEBUG
 
   // Build and layout the widget components of the viewer window on
   // top of the manager widget.
