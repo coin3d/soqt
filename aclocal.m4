@@ -296,7 +296,6 @@ if (
       # -L didn't work.
       set X `ls -t $srcdir/configure conftest.file`
    fi
-   rm -f conftest.file
    if test "$[*]" != "X $srcdir/configure conftest.file" \
       && test "$[*]" != "X conftest.file $srcdir/configure"; then
 
@@ -317,6 +316,7 @@ else
    AC_MSG_ERROR([newly created file is older than distributed files!
 Check your system clock])
 fi
+rm -f conftest*
 AC_MSG_RESULT(yes)])
 
 
@@ -357,7 +357,7 @@ AC_DEFUN([AM_MISSING_HAS_RUN],
 [test x"${MISSING+set}" = xset ||
   MISSING="\${SHELL} `CDPATH=:; cd $ac_aux_dir && pwd`/missing"
 # Use eval to expand $SHELL
-if eval "$MISSING --run true"; then
+if eval "$MISSING --run :"; then
   am_missing_run="$MISSING --run "
 else
   am_missing_run=
@@ -458,7 +458,6 @@ AC_SUBST([INSTALL_STRIP_PROGRAM_ENV])])
 AC_DEFUN([AM_DEPENDENCIES],
 [AC_REQUIRE([AM_SET_DEPDIR])dnl
 AC_REQUIRE([AM_OUTPUT_DEPENDENCY_COMMANDS])dnl
-am_compiler_list=
 ifelse([$1], CC,
        [AC_REQUIRE([AC_PROG_][CC])dnl
 AC_REQUIRE([AC_PROG_][CPP])
@@ -468,22 +467,16 @@ depcpp="$CPP"],
 AC_REQUIRE([AC_PROG_][CXXCPP])
 depcc="$CXX"
 depcpp="$CXXCPP"],
-       [$1], OBJC, [am_compiler_list='gcc3 gcc'
-depcc="$OBJC"
-depcpp=""],
-       [$1], GCJ,  [am_compiler_list='gcc3 gcc'
-depcc="$GCJ"
-depcpp=""],
+       [$1], OBJC, [am_cv_OBJC_dependencies_compiler_type=gcc],
        [AC_REQUIRE([AC_PROG_][$1])dnl
 depcc="$$1"
 depcpp=""])
 
 AC_REQUIRE([AM_MAKE_INCLUDE])
-AC_REQUIRE([AM_DEP_TRACK])
 
 AC_CACHE_CHECK([dependency style of $depcc],
                [am_cv_$1_dependencies_compiler_type],
-[if test -z "$AMDEP_TRUE"; then
+[if test -z "$AMDEP"; then
   # We make a subdir and do the tests there.  Otherwise we can end up
   # making bogus files that we don't know about and never remove.  For
   # instance it was reported that on HP-UX the gcc test will end up
@@ -496,10 +489,7 @@ AC_CACHE_CHECK([dependency style of $depcc],
   cd confdir
 
   am_cv_$1_dependencies_compiler_type=none
-  if test "$am_compiler_list" = ""; then
-     am_compiler_list="`sed -n ['s/^#*\([a-zA-Z0-9]*\))$/\1/p'] < ./depcomp`"
-  fi
-  for depmode in $am_compiler_list; do
+  for depmode in `sed -n ['s/^#*\([a-zA-Z0-9]*\))$/\1/p'] < "./depcomp"`; do
     # We need to recreate these files for each test, as the compiler may
     # overwrite some of them when testing with obscure command lines.
     # This happens at least with the AIX C compiler.
@@ -565,11 +555,22 @@ AC_DEFUN([AM_DEP_TRACK],
 [AC_ARG_ENABLE(dependency-tracking,
 [  --disable-dependency-tracking Speeds up one-time builds
   --enable-dependency-tracking  Do not reject slow dependency extractors])
-if test "x$enable_dependency_tracking" != xno; then
+if test "x$enable_dependency_tracking" = xno; then
+  AMDEP="#"
+else
   am_depcomp="$ac_aux_dir/depcomp"
-  AMDEPBACKSLASH='\'
+  if test ! -f "$am_depcomp"; then
+    AMDEP="#"
+  else
+    AMDEP=
+  fi
 fi
-AM_CONDITIONAL([AMDEP], [test "x$enable_dependency_tracking" != xno])
+AC_SUBST(AMDEP)
+if test -z "$AMDEP"; then
+  AMDEPBACKSLASH='\'
+else
+  AMDEPBACKSLASH=
+fi
 pushdef([subst], defn([AC_SUBST]))
 subst(AMDEPBACKSLASH)
 popdef([subst])
@@ -586,7 +587,7 @@ popdef([subst])
 # need in order to bootstrap the dependency handling code.
 AC_DEFUN([AM_OUTPUT_DEPENDENCY_COMMANDS],[
 AC_OUTPUT_COMMANDS([
-test x"$AMDEP_TRUE" != x"" ||
+test x"$AMDEP" != x"" ||
 for mf in $CONFIG_FILES; do
   case "$mf" in
   Makefile) dirpart=.;;
@@ -623,7 +624,7 @@ for mf in $CONFIG_FILES; do
     echo '# dummy' > "$dirpart/$file"
   done
 done
-], [AMDEP_TRUE="$AMDEP_TRUE"
+], [AMDEP="$AMDEP"
 ac_aux_dir="$ac_aux_dir"])])
 
 # AM_MAKE_INCLUDE()
@@ -631,6 +632,7 @@ ac_aux_dir="$ac_aux_dir"])])
 # Check to see how make treats includes.
 AC_DEFUN([AM_MAKE_INCLUDE],
 [am_make=${MAKE-make}
+# BSD make uses .include
 cat > confinc << 'END'
 doit:
 	@echo done
@@ -638,56 +640,17 @@ END
 # If we don't find an include directive, just comment out the code.
 AC_MSG_CHECKING([for style of include used by $am_make])
 _am_include='#'
-_am_quote=
-_am_result=none
-# First try GNU make style include.
-echo "include confinc" > confmf
-if test "`$am_make -s -f confmf 2> /dev/null`" = "done"; then
-   _am_include=include
-   _am_quote=
-   _am_result=GNU
-fi
-# Now try BSD make style include.
-if test "$_am_include" = "#"; then
-   echo '.include "confinc"' > confmf
-   if test "`$am_make -s -f confmf 2> /dev/null`" = "done"; then
-      _am_include=.include
-      _am_quote='"'
-      _am_result=BSD
+for am_inc in include .include; do
+   echo "$am_inc confinc" > confmf
+   if test "`$am_make -f confmf 2> /dev/null`" = "done"; then
+      _am_include=$am_inc
+      break
    fi
-fi
+done
 AC_SUBST(_am_include)
-AC_SUBST(_am_quote)
-AC_MSG_RESULT($_am_result)
+AC_MSG_RESULT($_am_include)
 rm -f confinc confmf
 ])
-
-# serial 3
-
-# AM_CONDITIONAL(NAME, SHELL-CONDITION)
-# -------------------------------------
-# Define a conditional.
-#
-# FIXME: Once using 2.50, use this:
-# m4_match([$1], [^TRUE\|FALSE$], [AC_FATAL([$0: invalid condition: $1])])dnl
-AC_DEFUN([AM_CONDITIONAL],
-[ifelse([$1], [TRUE],
-        [errprint(__file__:__line__: [$0: invalid condition: $1
-])dnl
-m4exit(1)])dnl
-ifelse([$1], [FALSE],
-       [errprint(__file__:__line__: [$0: invalid condition: $1
-])dnl
-m4exit(1)])dnl
-AC_SUBST([$1_TRUE])
-AC_SUBST([$1_FALSE])
-if $2; then
-  $1_TRUE=
-  $1_FALSE='#'
-else
-  $1_TRUE='#'
-  $1_FALSE=
-fi])
 
 # Like AC_CONFIG_HEADER, but automatically create stamp file.
 
@@ -1150,6 +1113,33 @@ AC_DEFUN([AM_MAINTAINER_MODE],
   AC_SUBST(MAINT)dnl
 ]
 )
+
+# serial 3
+
+# AM_CONDITIONAL(NAME, SHELL-CONDITION)
+# -------------------------------------
+# Define a conditional.
+#
+# FIXME: Once using 2.50, use this:
+# m4_match([$1], [^TRUE\|FALSE$], [AC_FATAL([$0: invalid condition: $1])])dnl
+AC_DEFUN([AM_CONDITIONAL],
+[ifelse([$1], [TRUE],
+        [errprint(__file__:__line__: [$0: invalid condition: $1
+])dnl
+m4exit(1)])dnl
+ifelse([$1], [FALSE],
+       [errprint(__file__:__line__: [$0: invalid condition: $1
+])dnl
+m4exit(1)])dnl
+AC_SUBST([$1_TRUE])
+AC_SUBST([$1_FALSE])
+if $2; then
+  $1_TRUE=
+  $1_FALSE='#'
+else
+  $1_TRUE='#'
+  $1_FALSE=
+fi])
 
 # Usage:
 #  SIM_AC_CHECK_DL([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
@@ -3199,7 +3189,7 @@ if test x"$enable_warnings" = x"yes"; then
   else
     case $host in
     *-*-irix*) 
-      if test x"$CC" = xcc || x"$CC" = xCC || test x"$CXX" = xCC; then
+      if test x"$CC" = xcc || test x"$CC" = xCC || test x"$CXX" = xCC; then
         _warn_flags=
         _woffs=""
         ### Turn on all warnings ######################################
