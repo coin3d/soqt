@@ -80,6 +80,9 @@ private:
 
   void zoom( const float difference );
 
+  int planeViewerMode;
+  SbVec2f prevMousePosition;
+
   SbPlaneProjector * projector;
 
 }; // class SoQtPlaneViewer

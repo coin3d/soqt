@@ -26,6 +26,10 @@ static const char rcsid[] =
   \ingroup soqtviewers
 */
 
+#include <qevent.h>
+#include <q1xcompatibility.h>
+
+#include <Inventor/errors/SoDebugError.h>
 #include <Inventor/projectors/SbPlaneProjector.h>
 #include <Inventor/nodes/SoPerspectiveCamera.h>
 #include <Inventor/nodes/SoOrthographicCamera.h>
@@ -34,6 +38,15 @@ static const char rcsid[] =
 
 #include <Inventor/Qt/common/SoAnyPlaneViewer.h>
 #include <Inventor/Qt/viewers/SoQtPlaneViewer.h>
+
+enum {
+  WAITING_FOR_DOLLY_MODE,
+  DOLLY_MODE,
+  TRANSLATE_MODE,
+  WAITING_FOR_SEEK_MODE,
+  SEEK_MODE,
+  ROTATE_MODE
+};
 
 // ************************************************************************
 
@@ -79,6 +92,8 @@ void
 SoQtPlaneViewer::constructor( // private
   SbBool buildNow )
 {
+  this->planeViewerMode = WAITING_FOR_DOLLY_MODE;
+
   this->projector = new SbPlaneProjector;
   SbViewVolume vv;
   vv.ortho(-1, 1, -1, 1, -1, 1);
@@ -221,6 +236,115 @@ void
 SoQtPlaneViewer::processEvent( // virtual
   QEvent * event )
 {
+  if ( this->processCommonEvents( event ) )
+    return;
+
+  // get mouse coordinates
+  QWidget * canvas = this->getRenderAreaWidget();
+  SbVec2s canvassize = this->getGlxSize();
+  SbVec2s mousepos( canvas->mapFromGlobal(QCursor::pos()).x(),
+                    canvas->mapFromGlobal(QCursor::pos()).y() );
+  mousepos[1] = canvassize[1] - mousepos[1];
+  SbVec2f norm_mousepos( mousepos[0]/float(canvassize[0]),
+                         mousepos[1]/float(canvassize[1]) );
+
+#if QT_VERSION < 200
+  int eventtype = event->type();
+#else // Qt 2.0
+  QEvent::Type eventtype = event->type();
+#endif // Qt 2.0
+
+  switch ( eventtype ) {
+
+  case Event_MouseButtonDblClick:
+  case Event_MouseButtonPress:
+    {
+      switch ( ((QMouseEvent *) event)->button() ) {
+      case LeftButton:
+        if ( this->planeViewerMode == WAITING_FOR_DOLLY_MODE ) {
+          this->interactiveCountInc();
+          this->planeViewerMode = DOLLY_MODE;
+        } else if ( this->planeViewerMode == WAITING_FOR_SEEK_MODE ) {
+          this->interactiveCountInc();
+          this->seekToPoint( mousepos );
+        }
+        break;
+
+      case MidButton:
+        if ( this->planeViewerMode == WAITING_FOR_DOLLY_MODE ) {
+          this->interactiveCountInc();
+          this->planeViewerMode = TRANSLATE_MODE;
+        }
+        break;
+
+      default:
+        break;
+
+      } // switch ( event->button() )
+
+      break;
+    }
+
+  case Event_MouseButtonRelease:
+    {
+      QMouseEvent * be = (QMouseEvent *) event;
+      if ( be->button() != LeftButton && be->button() != MidButton )
+        break;
+
+      this->interactiveCountDec();
+      this->planeViewerMode = WAITING_FOR_DOLLY_MODE;
+
+//    this->setModeFromState( be->state() & ~be->button() );
+      break;
+    }
+
+  case Event_MouseMove:
+    {
+      switch ( this->planeViewerMode ) {
+  
+      case DOLLY_MODE:
+        if ( norm_mousepos[1] != this->prevMousePosition[1] )
+          this->zoom( (norm_mousepos[1] - this->prevMousePosition[1]) * 10.0f );
+        break;
+
+      case TRANSLATE_MODE:
+        if ( (norm_mousepos[0] != this->prevMousePosition[0]) ||
+             (norm_mousepos[1] != this->prevMousePosition[1]) ) {
+          float diffx = (this->prevMousePosition[0] - norm_mousepos[0]) * 2.5f;
+          float diffy = (this->prevMousePosition[1] - norm_mousepos[1]) * 2.5f;
+          this->leftWheelMotion( this->getLeftWheelValue() + diffy );
+          this->bottomWheelMotion( this->getBottomWheelValue() + diffx );
+        }
+        break;
+
+/*
+      case DRAGGING:
+        if (!this->spindetecttimer) this->spindetecttimer = new QTimer;
+        this->spindetecttimer->start(0, TRUE);
+        this->spin(norm_mousepos);
+        break;
+
+      case PANNING:
+        this->pan(norm_mousepos);
+        break;
+*/
+
+      default: /* include default to avoid compiler warnings. */
+        break;
+
+      } // switch ( this->planeViewerMode )
+
+      break;
+    }
+
+    default:
+//      SoDebugError::postInfo( "SoQtPlaneViewer::processEvent",
+//        "event not caught" );
+      break;
+
+  } // switch ( eventtype )
+
+  this->prevMousePosition = norm_mousepos;
 } // processEvent()
 
 // ************************************************************************
@@ -255,20 +379,6 @@ SoQtPlaneViewer::actualRedraw( // virtual
 */
 
 void
-SoQtPlaneViewer::bottomWheelMotion( // virtual
-  float value )
-{
-  inherited::bottomWheelMotion(
-    SoAnyPlaneViewer::transXWheelMotion( value, this->getBottomWheelValue(),
-                                         this->getCamera() ) );
-} // bottomWheelMotion()
-
-// ************************************************************************
-
-/*!
-*/
-
-void
 SoQtPlaneViewer::leftWheelMotion( // virtual
   float value )
 {
@@ -277,7 +387,17 @@ SoQtPlaneViewer::leftWheelMotion( // virtual
                                          this->getCamera() ) );
 } // leftWheelMotion()
 
-// ************************************************************************
+/*!
+*/
+
+void
+SoQtPlaneViewer::bottomWheelMotion( // virtual
+  float value )
+{
+  inherited::bottomWheelMotion(
+    SoAnyPlaneViewer::transXWheelMotion( value, this->getBottomWheelValue(),
+                                         this->getCamera() ) );
+} // bottomWheelMotion()
 
 /*!
 */
@@ -347,6 +467,7 @@ SoQtPlaneViewer::zoom(
 {
   SoCamera * camera = this->getCamera();
   assert( camera != NULL );
+
   SoType type = camera->getTypeId();
   float multiplicator = exp( difference ); // in the range of <0, ->>
 
