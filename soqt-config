@@ -3,6 +3,7 @@
 # soqt-config -- a utility for retrieving configuration information about
 # the installed SoQt library.
 
+program="$0"
 me=`echo "$0" | sed 's,^.*[/\\],,g'`
 wd=`echo "$0" | sed 's,/[^/]*$,,'`
 prefix=`cd "$wd"/..; pwd` 
@@ -16,8 +17,10 @@ Options:
   --ldflags
   --libs
   --datadir
-  --ac-subst <string>
-  --have-feature <feature>
+  --have-feature <featurename>
+  --ac-subst <string> | <sourcefile.in>
+  --compile <sourcefile> [<sourcefile>]...
+  --link <program> <object> [<object>]...
   --build <program> <sourcefile> [<sourcefile>]...
   --version
   --usage | --help"
@@ -31,9 +34,11 @@ do
 done
 
 if test -f $prefix/share/Coin/conf/soqt-$alternate.cfg; then
-  . $prefix/share/Coin/conf/soqt-$alternate.cfg
+  configfile="$prefix/share/Coin/conf/soqt-$alternate.cfg"
+  . $configfile
 elif test -f $prefix/share/Coin/conf/soqt-default.cfg; then
-  . $prefix/share/Coin/conf/soqt-default.cfg
+  configfile="$prefix/share/Coin/conf/soqt-default.cfg"
+  . $configfile
 else
   echo >&2 "$me: no default SoQt config available"
   exit 1
@@ -49,30 +54,143 @@ do
     --ldflags)         echo "$ldflags"  ;;
     --libs)            echo "$libs"     ;;
     --datadir)         echo "$datadir"  ;;
-    --ac-subst)
-      eval "VAL=\${AC_SUBST_$2}"
-      echo "$VAL"
-      shift
-      ;;
     --have-feature)
       exitcode=1
       eval "test x\${have_$2+set} = xset && exitcode=0"
       exit $exitcode
       ;;
+    --ac-subst)
+      shift
+      if test $# -eq 1; then
+        case $1 in
+          *\.in)
+            echo $me --ac-subst $1
+            outfile=`echo $1 | sed -e 's/\.in$//'`
+            sedscript=/tmp/ac_subst_$$.sed
+            grep "^AC_SUBST_" $configfile \
+              | sed -e 's/^AC_SUBST_\([^=]*\)="\([^"]*\)"$/s\/@\1@\/\2\/g;/g' \
+              >$sedscript
+            sed -f $sedscript <$1 >$outfile
+            rm -f $sedscript
+            ;;
+          *)
+            eval "VAL=\${AC_SUBST_$1}"
+            echo "$VAL"
+            ;;
+        esac
+      else
+        for arg in $@; do
+          if test x${alternate+set} = xset; then
+            $program --alternate="$alternate" --ac-subst $arg
+          else
+            $program --ac-subst $arg
+          fi
+          test $? -ne 0 && exit $?
+        done
+      fi
+      exit 0
+      ;;
     --compile)
-      echo >&2 "$me: --compile not implemented yet"
-      exit 1
+      shift
+      if test $# -eq 1; then
+        case $1 in
+          *\.in)
+            outfile=`echo $1 | sed -e 's/\.in$//'`
+            if test x${alternate+set} = xset; then
+              $program --alternate="$alternate" --ac-subst $1
+              $program --alternate="$alternate" --compile $outfile
+              test $? -ne 0 && exit $?
+            else
+              $program --ac-subst $1
+              $program --compile $outfile
+              test $? -ne 0 && exit $?
+            fi
+            ;;
+          *)
+            echo $compiler $CPPFLAGS $cppflags $CXXFLAGS $cxxflags -c $1 \
+              | fmt -t -w76 | sed -e '1,$ s/$/ \\/' -e '$ s/ \\$//'
+            $compiler \
+              $CPPFLAGS $cppflags \
+              $CXXFLAGS $cxxflags \
+              -c $1
+            test $? -ne 0 && exit $?
+            ;;
+        esac
+      else
+        for arg in $@; do
+          if test x${alternate+set} = xset; then
+            $program --alternate="$alternate" --compile $arg
+          else
+            $program --compile $arg
+          fi
+          test $? -ne 0 && exit $?
+        done
+      fi
+      exit 0
+      ;;
+    --link)
+      shift
+      progname=$1
+      shift
+      echo $compiler $LDFLAGS $ldflags -o $progname $@ $libs $LIBS \
+        | fmt -t -w76 | sed -e '1,$ s/$/ \\/' -e '$ s/ \\$//'
+      $compiler \
+        $LDFLAGS $ldflags \
+        -o $progname $@ \
+        $libs $LIBS
+      test $? -ne 0 && exit $?
+      exit 0
       ;;
     --build)
       shift
-      program=$1
+      progname=$1
+      objs=
+      extraldflags=
+      extralibs=
       shift
-      exec $compiler \
+      for arg in $@; do
+        case $arg in
+          *.h.in)
+            if test x${alternate+set} = xset; then
+              $program --alternate="$alternate" --ac-subst $arg
+            else
+              $program --ac-subst $arg
+            fi
+            ;;
+          *.c.in | *.cpp.in | *.cxx.in | *.cc.in)
+            outfile=`echo "$arg" | sed -e 's/\.in$//'`
+            basename=`echo "$outfile" | sed -e 's/\.[^\.]*$//'`
+            if test x${alternate+set} = xset; then
+              $program --alternate="$alternate" --ac-subst $arg
+              $program --alternate="$alternate" --compile $outfile
+              test $? -ne 0 && exit $?
+            else
+              $program --ac-subst $arg
+              $program --compile $outfile
+              test $? -ne 0 && exit $?
+            fi
+            objfile=`ls $basename.o $basename.obj 2>/dev/null`
+            objs="$objs $objfile"
+            ;;
+          -L*)
+            extraldflags="$extraldflags $arg"
+            ;;
+          -l*)
+            extralibs="$extralibs $arg"
+            ;;
+        esac
+      done
+      echo $compiler $LDFLAGS $ldflags $extraldflags \
+        -o $progname $objs $extralibs $libs $LIBS \
+        | fmt -t -w76 | sed -e '1,$ s/$/ \\/' -e '$ s/ \\$//'
+      $compiler \
         $CPPFLAGS $cppflags \
         $CXXFLAGS $cxxflags \
-        $LDFLAGS $ldflags \
-        -o $program $@ \
-        $libs $LIBS
+        $LDFLAGS $ldflags $extraldflags \
+        -o $progname $objs \
+        $extralibs $libs $LIBS
+      test $? -ne 0 && exit $?
+      exit 0
       ;;
     # ignore some options
     --alternate=*) ;;
@@ -88,3 +206,4 @@ do
 done
 
 exit 0
+
