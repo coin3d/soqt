@@ -411,7 +411,7 @@ SoQtP::slot_timedOutSensor()
 void
 SoQtP::slot_idleSensor()
 {
-#if 0 // Disabled. hasPendingEvents() was probably not introduced until Qt 3
+#if defined(HAVE_QAPPLICATION_HASPENDINGEVENTS) && 0 // disabled, too much debug
   if (SOQT_DEBUG) { // debug
     SoDebugError::postInfo("SoQt::idleSensor",
                            "processing delay queue, "
@@ -420,12 +420,9 @@ SoQtP::slot_idleSensor()
     SoDebugError::postInfo("SoQt::idleSensor", "is %s",
                            SoQtP::idletimer->isActive() ? "active" : "inactive");
   } 
-#endif // disabled
+#endif // HAVE_QAPPLICATION_HASPENDINGEVENTS
 
-  // FIXME: tmp disabled, as I'm not sure if this really
-  // helps. Investigate further the actual semantics of "idle trigger
-  // timers" in Qt. 20020910 mortene.
-#if 0
+#ifdef HAVE_QAPPLICATION_HASPENDINGEVENTS  
   // If there are still events in the Qt event queue, push the
   // idle-timer at the end of the queue again.
   if (SoQtP::appobject->hasPendingEvents()) {
@@ -433,7 +430,7 @@ SoQtP::slot_idleSensor()
     SoQtP::idletimer->start(0, TRUE);
     return;
   }
-#endif
+#endif // HAVE_QAPPLICATION_HASPENDINGEVENTS
 
   SoDB::getSensorManager()->processTimerQueue();
   SoDB::getSensorManager()->processDelayQueue(TRUE);
