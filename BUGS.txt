@@ -173,9 +173,22 @@ Note: see also src/Inventor/Qt/common/BUGS.txt.
 
 =====================================================================
 
-007 For somewhat larger scenes, the vertical tilt during motion
-    doesn't work like in SGI's InventorXt -- actually, it hardly works
-    at all.
+007 We have a problem report from Radu Ursu on coin-discuss on using
+    SoQt with a static Qt library, built with Microsoft Visual C++ v7:
+    if Qt is added to the link-line for the final executable, it seems
+    like two different Qt-instances are used. If not, there's a lot of
+    complaints about missing symbols.
+
+    Investigate with VC6 and see if it's the same there. If not, try
+    to resolve when we install VC7.
+
+    mortene 20020926.
+
+=====================================================================
+
+008 For somewhat larger scenes, the vertical tilt of the So*FlyViewer
+    during motion doesn't work like in SGI's InventorXt -- actually,
+    it hardly works at all.
 
     Bug reported by Ron Summers.
 
