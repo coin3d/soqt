@@ -415,11 +415,3 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     20030214 mortene.
 
 =====================================================================
-
-020 setTransparencyType() doesn't have immediate effect
-
-    The effect can first be seen when setting a new scene graph.
-
-    Reported by Sigmund L Berntsen.
-
-=====================================================================
