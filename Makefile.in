@@ -331,8 +331,6 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/SoAnyPlaneViewer.cpp.in \
   src/Inventor/@Gui@/common/SoAnyWalkViewer.h.in \
   src/Inventor/@Gui@/common/SoAnyWalkViewer.cpp.in \
-  src/Inventor/@Gui@/common/SoAnyFlyViewer.h.in \
-  src/Inventor/@Gui@/common/SoAnyFlyViewer.cpp.in \
   src/Inventor/@Gui@/common/SoAnyMaterialList.h.in \
   src/Inventor/@Gui@/common/SoAnyMaterialList.cpp.in \
   src/Inventor/@Gui@/common/SoAnyMaterialListBuiltins.cpp.in \
