@@ -360,6 +360,13 @@ SIM_AC_HAVE_INVENTOR_FEATURE(
    c->setStereoMode(SoCamera::MONOSCOPIC);],
   [HAVE_SOCAMERA_SETSTEREOMODE])
 
+SIM_AC_INVENTOR_EXTENSIONS([
+  LDFLAGS="$sim_ac_iv_extension_LDFLAGS $LDFLAGS"
+  SOGUI_EXTRA_LDFLAGS="$sim_ac_iv_extension_LDFLAGS $SOGUI_EXTRA_LDFLAGS"
+  LIBS="$sim_ac_iv_extension_LIBS $LIBS"
+  SOGUI_EXTRA_LIBS="$sim_ac_iv_extension_LIBS $SOGUI_EXTRA_LIBS"
+])
+
 # **************************************************************************
 # Check that the Qt installation looks ok and include the
 # necessary paths and link libraries.
