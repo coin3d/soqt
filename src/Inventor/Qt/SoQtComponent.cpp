@@ -129,28 +129,11 @@ SoQtComponentP::getNativeCursor(const SoQtCursor::CustomCursor * cc)
     }
   }
 
-// Remember to test if the problem below has been fixed in next Qt version(s) 
-#if (defined Q_WS_MAC && QT_VERSION > 0x030101)                               
-#error Qt/Mac 3.1.1 32x32 custom cursor bug fixed in this version? 
-#endif                                                                        
-
-// Custom cursors > 16x16 do not work correctly in Qt/Mac versions 3.1.0 
-// and 3.1.1 - the displayed graphics look totally wrong. Use the real
-// size (usually 16x16 for our cursors) instead.
-#if (defined Q_WS_MAC && (QT_VERSION == 0x030100) || (QT_VERSION == 0x030101))
-
-  QBitmap bitmap(cc->dim[0], cc->dim[1], cc->bitmap, TRUE);
-  QBitmap mask(cc->dim[0], cc->dim[1], cc->mask, TRUE);
-
-#else
-
   // Always 32x32 because that's what is recommended in the Qt
   // documentation for QCursor.  At least WinNT 4 will give us
   // "interesting" bugs for other cursor sizes.
   QBitmap bitmap(32, 32, cursorbitmap, TRUE);
   QBitmap mask(32, 32, cursormask, TRUE);
-
-#endif 
 
   // Sanity checks.
   assert(bitmap.size().width() > 0 && bitmap.size().height() > 0);
@@ -812,8 +795,31 @@ SoQtComponent::setWidgetCursor(QWidget * w, const SoQtCursor & cursor)
   // unnecessary clockcycles during animation. 20011203 mortene.
 
   if (cursor.getShape() == SoQtCursor::CUSTOM_BITMAP) {
+
+// Remember to test if the problem below has been fixed in next Qt
+// version(s) 
+#if (defined Q_WS_MAC && QT_VERSION > 0x030101)                               
+#error Qt/Mac 3.1.1 32x32 custom cursor bug fixed in this version? 
+#endif             
+
+// Custom cursors do not work correctly in Qt/Mac versions 3.1.0 
+// and 3.1.1 - the displayed graphics look totally wrong. 
+#if (defined Q_WS_MAC && (QT_VERSION == 0x030100) || (QT_VERSION == 0x030101))
+    w->setCursor(QCursor(Qt::arrowCursor));
+    // spit out a warning that this is a Qt/Mac bug, not an SoQt problem
+    const char * env = SoAny::si()->getenv("SOQT_NO_QTMAC_BUG_WARNINGS");
+    if (!env || !atoi(env))
+      SoDebugError::postWarning("SoQtComponent::setWidgetCursor",
+                                "\nThis version of Qt/Mac contains a bug "
+                                "that makes it impossible to use custom\n"
+                                "cursors. Warnings about Qt/Mac bugs"
+                                "can be turned off permanently by setting\n"
+                                "the environment variable "
+                                "SOQT_NO_QTMAC_BUG_WARNINGS=1.");
+#else 
     const SoQtCursor::CustomCursor * cc = &cursor.getCustomCursor();
     w->setCursor(*SoQtComponentP::getNativeCursor(cc));
+#endif
   }
   else {
     switch (cursor.getShape()) {
