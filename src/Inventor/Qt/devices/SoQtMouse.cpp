@@ -140,11 +140,19 @@ SoQtMouse::translateEvent(QEvent * event)
       this->buttonevent->setButton(SoMouseButtonEvent::BUTTON1);
       break;
     case MidButton:
-      this->buttonevent->setButton(SoMouseButtonEvent::BUTTON2);
-      break;
-    case RightButton:
       this->buttonevent->setButton(SoMouseButtonEvent::BUTTON3);
       break;
+    case RightButton:
+      this->buttonevent->setButton(SoMouseButtonEvent::BUTTON2);
+      break;
+/*
+    case 4:
+      this->buttonevent->setButton(SoMouseButtonEvent::BUTTON4);
+      break;
+    case 5:
+      this->buttonevent->setButton(SoMouseButtonEvent::BUTTON5);
+      break;
+*/
     default:
       assert(0);
       break;
