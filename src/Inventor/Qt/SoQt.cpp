@@ -250,7 +250,6 @@
 
 #include <Inventor/Qt/SoQtP.h>
 #include <Inventor/Qt/moc_SoQtP.icc>
-/*[ src\Inventor\Qt\SoQtP.h | src\Inventor\Qt\moc_SoQtP.icc | $(QTDIR)\bin\moc -i @SOURCE@ -o @TARGET@ ]*/
 
 #include <Inventor/Qt/SoQt.h>
 #include <Inventor/Qt/SoQtObject.h>
