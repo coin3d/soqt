@@ -58,8 +58,20 @@ public:
   ~SoQtExaminerViewer(void);
 
   virtual void setViewing( SbBool enable );
+
+  void setAnimationEnabled( const SbBool enable );
+  SbBool isAnimationEnabled(void) const;
+
+  void stopAnimating(void);
+  SbBool isAnimating(void) const;
+
+  void setFeedbackVisibility( const SbBool enable );
+  SbBool isFeedbackVisible(void) const;
+
+  void setFeedbackSize( const int size );
+  int getFeedbackSize(void) const;
+
   virtual void setCamera( SoCamera * const camera );
-  virtual void setCursorEnabled( const SbBool enable );
 
 protected:
   SoQtExaminerViewer(
@@ -69,6 +81,8 @@ protected:
     SoQtFullViewer::BuildFlag flag,
     SoQtViewer::Type type,
     SbBool build );
+
+  virtual void setCursorEnabled( SbBool enable );
 
   virtual void leftWheelMotion( float val );
   virtual void bottomWheelMotion( float val );

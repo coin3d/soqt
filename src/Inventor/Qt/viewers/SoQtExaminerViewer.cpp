@@ -17,8 +17,10 @@
  *
 \**************************************************************************/
 
+#if SOQT_DEBUG
 static const char rcsid[] =
   "$Id$";
+#endif // SOQT_DEBUG
 
 /*!
   \class SoQtExaminerViewer SoQtExaminerViewer.h Inventor/Qt/viewers/SoQtExaminerViewer.h
@@ -239,10 +241,11 @@ SoQtExaminerViewer::setCamera( // virtual
 */
 
 void
-SoQtExaminerViewer::setCursorEnabled(SbBool on)
+SoQtExaminerViewer::setCursorEnabled( // virtual, protected
+  SbBool enable )
 {
-  inherited::setCursorEnabled(on);
-  this->setCursorRepresentation(this->currentmode);
+  inherited::setCursorEnabled( enable );
+  this->setCursorRepresentation( this->currentmode );
 } // setcursorEnabled()
 
 // *************************************************************************
@@ -793,8 +796,9 @@ SoQtExaminerViewer::setCursorRepresentation(const ViewerMode mode)
         (so_qt_pan_width + 7) / 8 * so_qt_pan_height,
       };
 
-      for (int i = 0; i < sizeof(bitmapsizes) / sizeof(unsigned int); i++) {
-        for (int j = 0; j < bitmapsizes[i]; j++)
+      for ( unsigned int i = 0;
+            i < (sizeof(bitmapsizes) / sizeof(unsigned int)); i++) {
+        for ( unsigned int j = 0; j < bitmapsizes[i]; j++)
           bitmaps[i*2][j] &= bitmaps[i*2+1][j];
       }
     }
@@ -1007,5 +1011,64 @@ SoQtExaminerViewer::cameratoggleClicked()
 {
   if ( this->getCamera() ) this->toggleCameraType();
 } // cameratoggleClicked()
+
+// *************************************************************************
+
+void
+SoQtExaminerViewer::setAnimationEnabled(
+  const SbBool enable )
+{
+  common->setAnimationEnabled( enable );
+  // FIXME: set spinanimtoggle state
+} // setAnimationEnabled()
+
+SbBool
+SoQtExaminerViewer::isAnimationEnabled(
+  void ) const
+{
+  return common->isAnimationEnabled();
+} // isAnimationEnabled()
+
+void
+SoQtExaminerViewer::stopAnimating(
+  void )
+{
+  common->stopAnimating();
+} // stopAnimating()
+
+SbBool
+SoQtExaminerViewer::isAnimating(
+  void ) const
+{
+  return common->isAnimating();
+} // isAnimating()
+
+void
+SoQtExaminerViewer::setFeedbackVisibility(
+  const SbBool enable )
+{
+  common->setFeedbackVisibility( enable );
+} // setFeedbackVisibility()
+
+SbBool
+SoQtExaminerViewer::isFeedbackVisible(
+  void ) const
+{
+  return common->isFeedbackVisible();
+} // isFeedbackVisible()
+
+void
+SoQtExaminerViewer::setFeedbackSize(
+   const int size )
+{
+  common->setFeedbackSize( size );
+} // setFeedbackSize()
+
+int
+SoQtExaminerViewer::getFeedbackSize(
+  void ) const
+{
+  return common->getFeedbackSize();
+} // getFeedbackSize()
 
 // *************************************************************************
