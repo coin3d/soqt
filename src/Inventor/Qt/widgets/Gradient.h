@@ -54,6 +54,7 @@ public:
   void getColorArray(QRgb * colors, unsigned int num) const;
   void save(const QString & filename) const;
   void load(const QString & filename);
+  void load(QTextStream & stream);
 
   QImage getImage(unsigned int w, unsigned int h, unsigned int d) const;
 

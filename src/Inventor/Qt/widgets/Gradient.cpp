@@ -292,6 +292,10 @@ Gradient::save(const QString & filename) const
     QValueList<float>::Iterator it = PRIVATE(this)->parameters.begin();
     for (; it != PRIVATE(this)->parameters.end(); it++) {
       stream << (*it) << " ";
+
+#if 0 // debug
+      printf("%f\n", *it);
+#endif
     }
 
     stream << PRIVATE(this)->colors.size() << " ";
@@ -299,6 +303,12 @@ Gradient::save(const QString & filename) const
     QValueList<QRgb>::Iterator it2 = PRIVATE(this)->colors.begin();
     for (; it2 != PRIVATE(this)->colors.end(); it2++) {
       stream << (*it2) << " ";
+
+#if 0 // debug
+      QRgb rgb = *it2;
+      printf("0x%02x 0x%02x 0x%02x 0x%02x\n",
+             qRed(rgb), qGreen(rgb), qBlue(rgb), qAlpha(rgb));
+#endif
     }
     outfile.close();
   }
@@ -313,27 +323,38 @@ Gradient::load(const QString & filename)
   QFile infile(filename);
   if (infile.open(IO_ReadOnly)) {
     QTextStream stream(&infile);
-
-    int i;
-
-    int numParameters;
-    stream >> numParameters;
-    
-    for (i = 0; i < numParameters; i++) {
-      float t;
-      stream >> t;
-      PRIVATE(this)->parameters.append(t);
-    }
-
-    int numColors;
-    stream >> numColors;
-
-    for (i = 0; i < numColors; i++) {
-      QRgb clr;
-      stream >> clr;
-      PRIVATE(this)->colors.append(clr);
-    }
+    this->load(stream);
     infile.close();
+  }
+  // FIXME: error handling. 20040308 mortene.
+}
+
+void
+Gradient::load(QTextStream & stream)
+{
+  // FIXME: proper parsing with error checking. 20040308 mortene.
+
+  PRIVATE(this)->colors.clear();
+  PRIVATE(this)->parameters.clear();
+
+  int i;
+
+  int numParameters;
+  stream >> numParameters;
+    
+  for (i = 0; i < numParameters; i++) {
+    float t;
+    stream >> t;
+    PRIVATE(this)->parameters.append(t);
+  }
+
+  int numColors;
+  stream >> numColors;
+
+  for (i = 0; i < numColors; i++) {
+    QRgb clr;
+    stream >> clr;
+    PRIVATE(this)->colors.append(clr);
   }
 }
 
