@@ -159,8 +159,8 @@ viewers.lst: Makefile $(viewers_lst_OBJECTS)
 ############################################################################
 # header installation
 
-libSoQtViewersincdir = $(includedir)/Inventor/Qt/viewers
-libSoQtViewersinc_HEADERS = \
+SoQtViewersincdir = $(includedir)/Inventor/Qt/viewers
+SoQtViewersinc_HEADERS = \
 	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtFullViewer.h \
 	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtExaminerViewer.h \
 	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtPlaneViewer.h \
@@ -168,33 +168,33 @@ libSoQtViewersinc_HEADERS = \
 	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtWalkViewer.h \
 	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtFlyViewer.h
 
-nodist_libSoQtViewersinc_HEADERS = \
+nodist_SoQtViewersinc_HEADERS = \
 	$(top_builddir)/src/Inventor/Qt/viewers/SoQtViewer.h
 
-install-libSoQtViewersincHEADERS: $(libSoQtViewersinc_HEADERS)
+install-SoQtViewersincHEADERS: $(SoQtViewersinc_HEADERS)
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(libSoQtViewersincdir)
-	@list='$(libSoQtViewersinc_HEADERS)'; for p in $$list; do \
+	$(mkinstalldirs) $(DESTDIR)$(SoQtViewersincdir)
+	@list='$(SoQtViewersinc_HEADERS)'; for p in $$list; do \
 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  src="$$d$$p"; dst="$(DESTDIR)$(libSoQtViewersincdir)/$$f"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoQtViewersincdir)/$$f"; \
 	  if cmp -s "$$src" "$$dst"; then :; else \
 	    echo " $(INSTALL_HEADER) $$src $$dst"; \
 	    $(INSTALL_HEADER) "$$src" "$$dst"; \
-	  fi \
+	  fi; \
 	done
 
-install-nodist_libSoQtViewersincHEADERS: $(nodist_libSoQtViewersinc_HEADERS)
+install-nodist_SoQtViewersincHEADERS: $(nodist_SoQtViewersinc_HEADERS)
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(libSoQtViewersincdir)
-	@list='$(nodist_libSoQtViewersinc_HEADERS)'; for p in $$list; do \
+	$(mkinstalldirs) $(DESTDIR)$(SoQtViewersincdir)
+	@list='$(nodist_SoQtViewersinc_HEADERS)'; for p in $$list; do \
 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  src="$$d$$p"; dst="$(DESTDIR)$(libSoQtViewersincdir)/$$f"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoQtViewersincdir)/$$f"; \
 	  if cmp -s "$$src" "$$dst"; then :; else \
 	    echo " $(INSTALL_HEADER) $$src $$dst"; \
 	    $(INSTALL_HEADER) "$$src" "$$dst"; \
-	  fi \
+	  fi; \
 	done
 
 # EOF ######################################################################

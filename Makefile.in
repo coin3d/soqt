@@ -71,6 +71,7 @@ AS = @AS@
 AWK = @AWK@
 BUILD_WITH_MSVC = @BUILD_WITH_MSVC@
 CC = @CC@
+COIN_COMPILER = @COIN_COMPILER@
 COMPONENTHEADER = @COMPONENTHEADER@
 CONFIG = @CONFIG@
 CPP = @CPP@
@@ -624,7 +625,7 @@ info-am:
 install-data-am: install-cfgdataDATA install-dist_binSCRIPTS \
 	install-dist_m4dataDATA
 
-install-exec-am:
+install-exec-am: install-exec-local
 
 install-info:
 
@@ -651,15 +652,16 @@ uninstall-am: uninstall-cfgdataDATA uninstall-dist_binSCRIPTS \
 	install-am install-cfgdataDATA install-data install-data-am \
 	install-data-recursive install-dist_binSCRIPTS \
 	install-dist_m4dataDATA install-exec install-exec-am \
-	install-exec-recursive install-info install-info-recursive \
-	install-man install-recursive install-strip installcheck \
-	installcheck-am installcheck-recursive installdirs \
-	installdirs-am installdirs-recursive maintainer-clean \
-	maintainer-clean-generic maintainer-clean-recursive mostlyclean \
-	mostlyclean-generic mostlyclean-recursive tags tags-recursive \
-	uninstall uninstall-am uninstall-cfgdataDATA \
-	uninstall-dist_binSCRIPTS uninstall-dist_m4dataDATA \
-	uninstall-info-recursive uninstall-recursive
+	install-exec-local install-exec-recursive install-info \
+	install-info-recursive install-man install-recursive \
+	install-strip installcheck installcheck-am \
+	installcheck-recursive installdirs installdirs-am \
+	installdirs-recursive maintainer-clean maintainer-clean-generic \
+	maintainer-clean-recursive mostlyclean mostlyclean-generic \
+	mostlyclean-recursive tags tags-recursive uninstall \
+	uninstall-am uninstall-cfgdataDATA uninstall-dist_binSCRIPTS \
+	uninstall-dist_m4dataDATA uninstall-info-recursive \
+	uninstall-recursive
 
 
 soqt-@CONFIG@.cfg: Makefile $(srcdir)/soqt.cfg.in
@@ -888,6 +890,17 @@ doxygen-doc:
 
 doxygen-docs:
 	@( cd build; @sim_ac_doxygen_exe@ soqt.doxygen )
+
+install-exec-local: $(srcdir)/cfg/m4/wrapmsvc.exe
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	@if @BUILD_WITH_MSVC@; then \
+	  p=wrapmsvc.exe; \
+	  echo " $(INSTALL_PROGRAM) $(srcdir)/cfg/m4/$$p $(DESTDIR)$(bindir)/$$p"; \
+	  $(INSTALL_PROGRAM) $(srcdir)/cfg/m4/$$p $(DESTDIR)$(bindir)/$$p; \
+	fi
+
+# EOF ######################################################################
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

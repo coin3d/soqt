@@ -559,6 +559,13 @@ fi
 
 # **************************************************************************
 
+COIN_COMPILER="$CXX"
+if $BUILD_WITH_MSVC; then
+  # don't use wrapmsvc from source hierarchy when later using soqt-config.
+  COIN_COMPILER="wrapmsvc"
+fi
+AC_SUBST(COIN_COMPILER)
+
 else
   MOC=moc
   AC_SUBST([MOC])
