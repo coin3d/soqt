@@ -219,12 +219,34 @@ SoQtGLWidget::buildWidget(
 void 
 SoQtGLWidget::buildGLWidget(void)
 {
+#if SOQT_DEBUG && 0 // debug
+  SoDebugError::postInfo("SoQtGLWidget::buildGLWidget",
+                         "%s, %s, %s, %s, %s",
+                         this->glformat->doubleBuffer() ? "double" : "single",
+                         this->glformat->depth() ? "z-buffer" : "no z-buffer",
+                         this->glformat->rgba() ? "RGBA" : "colorindex",
+                         this->glformat->stereo() ? "stereo" : "mono",
+#if HAVE_QGLFORMAT_SETOVERLAY
+                         this->glformat->hasOverlay() ?
+#else // !HAVE_QGLFORMAT_SETOVERLAY
+                         FALSE ?
+#endif // !HAVE_QGLFORMAT_SETOVERLAY
+                         "overlay" : "no overlay");
+
+#endif // debug
+
   SoQtGLArea * wascurrent = this->currentglwidget;
   SoQtGLArea * wasprevious = this->previousglwidget;
 
   if (wascurrent) {
+    // Do _not_ turn off mousetracking or remove the eventfilter, as
+    // we'd loose events after the switch has happened if the user is
+    // already interacting with the canvas (e.g. when starting a drag
+    // in BUFFER_INTERACTIVE mode).
+#if 0 // Keep this code around so we don't accidentally reinsert it. :^}
     wascurrent->removeEventFilter( this );
     wascurrent->setMouseTracking( FALSE );
+#endif // Permanently disabled.
     QObject::disconnect( wascurrent, SIGNAL(expose_sig()), this, SLOT(gl_exposed()));
     QObject::disconnect( wascurrent, SIGNAL(init_sig()), this, SLOT(gl_init()));
     this->previousglwidget = wascurrent;
@@ -233,6 +255,10 @@ SoQtGLWidget::buildGLWidget(void)
   if ( wasprevious && ( *this->glformat == wasprevious->format() ) ) {
     // Reenable the previous widget.
     this->currentglwidget = wasprevious;
+#if SOQT_DEBUG && 0 // debug
+    SoDebugError::postInfo("SoQtGLWidget::buildGLWidget",
+                           "reused previously used GL widget");
+#endif // debug
   }
   else {
     // Couldn't use the previous widget, make a new one.
