@@ -44,9 +44,6 @@
 #include <config.h>
 #endif // HAVE_CONFIG_H
 
-#include <qmetaobject.h>
-#include <moc_SoQtKeyboard.cpp>
-
 // The reason for this is that SoQt _compiled_ against Qt versions
 // 2.0.0 <= X < 2.2.0 should still detect keypad presses when _run_
 // against Qt versions >= 2.2.0.
@@ -468,25 +465,25 @@ SoQtKeyboard::translateEvent(QEvent * event)
     int state = keyevent->state();
     if (keypress) {
       switch (keyevent->key()) {
-      case Qt::Key_Shift: state |= ShiftButton; break;
-      case Qt::Key_Control: state |= ControlButton; break;
-      case Qt::Key_Alt: state |= AltButton; break;
-      case Qt::Key_Meta: state |= AltButton; break;
+      case Qt::Key_Shift: state |= Qt::ShiftButton; break;
+      case Qt::Key_Control: state |= Qt::ControlButton; break;
+      case Qt::Key_Alt: state |= Qt::AltButton; break;
+      case Qt::Key_Meta: state |= Qt::AltButton; break;
       }
     }
     else {
       switch (keyevent->key()) {
-      case Qt::Key_Shift: state &= ~ShiftButton; break;
-      case Qt::Key_Control: state &= ~ControlButton; break;
-      case Qt::Key_Alt: state &= ~AltButton; break;
-      case Qt::Key_Meta: state &= ~AltButton; break;
+      case Qt::Key_Shift: state &= ~Qt::ShiftButton; break;
+      case Qt::Key_Control: state &= ~Qt::ControlButton; break;
+      case Qt::Key_Alt: state &= ~Qt::AltButton; break;
+      case Qt::Key_Meta: state &= ~Qt::AltButton; break;
       }
     }
 
     // Modifiers
-    this->kbdevent->setShiftDown(state & ShiftButton);
-    this->kbdevent->setCtrlDown(state & ControlButton);
-    this->kbdevent->setAltDown(state & AltButton);
+    this->kbdevent->setShiftDown(state & Qt::ShiftButton);
+    this->kbdevent->setCtrlDown(state & Qt::ControlButton);
+    this->kbdevent->setAltDown(state & Qt::AltButton);
 
     // FIXME: read QCursor::position() instead,
     // and clean up this mess. 19990222 mortene.

@@ -27,8 +27,6 @@
 
 #include <qpoint.h>
 #include <qevent.h>
-#include <qmetaobject.h>
-#include <moc_SoQtDevice.cpp>
 
 #include <Inventor/SbPList.h>
 #include <Inventor/events/SoEvent.h>

@@ -25,10 +25,10 @@
 #define SOQT_DEVICE_H
 
 #include <Inventor/SbLinear.h>
-
 #include <Inventor/Qt/SoQtObject.h>
+#include <qpoint.h>
+#include <qevent.h>
 
-class QEvent;
 class QWidget;
 
 class SbPList;
@@ -38,7 +38,6 @@ class SoEvent;
 
 class SOQT_DLL_API SoQtDevice : public SoQtObject {
   SOQT_OBJECT_ABSTRACT_HEADER(SoQtDevice, SoQtObject);
-  Q_OBJECT
 
 public:
   typedef void SoQtEventHandler(QWidget *, void *, QEvent *, bool *);

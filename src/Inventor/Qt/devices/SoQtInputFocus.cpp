@@ -25,9 +25,6 @@
 #include <config.h>
 #endif
 
-#include <qmetaobject.h>
-#include <moc_SoQtInputFocus.cpp>
-
 #include <Inventor/errors/SoDebugError.h>
 
 #include <soqtdefs.h>

@@ -642,7 +642,7 @@ SoQtFullViewer::buildLeftTrim(QWidget * parent)
   QObject::connect(t, SIGNAL(wheelPressed()), PRIVATE(this), SLOT(leftWheelPressed()));
   QObject::connect(t, SIGNAL(wheelReleased()), PRIVATE(this), SLOT(leftWheelReleased()));
 
-  gl->addWidget(t, 2, 0, AlignBottom | AlignHCenter);
+  gl->addWidget(t, 2, 0, Qt::AlignBottom | Qt::AlignHCenter);
   gl->activate();
 
   return w;
@@ -663,19 +663,19 @@ SoQtFullViewer::buildBottomTrim(QWidget * parent)
 
   QLabel * label = new QLabel(this->leftWheelStr, w);
   label->adjustSize();
-  label->setAlignment(AlignLeft | AlignTop);
+  label->setAlignment(Qt::AlignLeft | Qt::AlignTop);
   label->setMargin(2);
   this->leftWheelLabel = label;
 
   label = new QLabel(this->bottomWheelStr, w);
   label->adjustSize();
-  label->setAlignment(AlignRight | AlignVCenter);
+  label->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
   label->setMargin(2);
   this->bottomWheelLabel = label;
 
   label = new QLabel(this->rightWheelStr, w);
   label->adjustSize();
-  label->setAlignment(AlignRight | AlignTop);
+  label->setAlignment(Qt::AlignRight | Qt::AlignTop);
   label->setMargin(2);
   this->rightWheelLabel = label;
 
@@ -699,10 +699,10 @@ SoQtFullViewer::buildBottomTrim(QWidget * parent)
   gl->setColStretch(3, 1);
   gl->setColStretch(4, 0);
 
-  gl->addWidget(this->leftWheelLabel, 0, 0, AlignVCenter | AlignHCenter);
-  gl->addWidget(this->bottomWheelLabel, 0, 1, AlignVCenter | AlignRight);
-  gl->addWidget(t, 0, 2, AlignVCenter | AlignLeft);
-  gl->addWidget(this->rightWheelLabel, 0, 4, AlignVCenter | AlignRight);
+  gl->addWidget(this->leftWheelLabel, 0, 0, Qt::AlignVCenter | Qt::AlignHCenter);
+  gl->addWidget(this->bottomWheelLabel, 0, 1, Qt::AlignVCenter | Qt::AlignRight);
+  gl->addWidget(t, 0, 2, Qt::AlignVCenter | Qt::AlignLeft);
+  gl->addWidget(this->rightWheelLabel, 0, 4, Qt::AlignVCenter | Qt::AlignRight);
 
   gl->activate();
 
@@ -740,7 +740,7 @@ SoQtFullViewer::buildRightTrim(QWidget * parent)
   QGridLayout * l = new QGridLayout(w, 3, 1, 2, -1);
   l->setMargin(0);
   l->addWidget(this->buildViewerButtons(w), 0, 0);
-  l->addWidget(t, 2, 0, AlignBottom|AlignHCenter);
+  l->addWidget(t, 2, 0, Qt::AlignBottom | Qt::AlignHCenter);
   l->activate();
 
   return w;

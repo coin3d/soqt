@@ -31,9 +31,6 @@
 #include <config.h>
 #endif // HAVE_CONFIG_H
 
-#include <qmetaobject.h>
-#include <moc_SoQtMouse.cpp>
-
 #include <soqtdefs.h>
 #include <Inventor/Qt/SoQtBasic.h>
 #include <Inventor/Qt/devices/SoQtMouse.h>
@@ -199,7 +196,7 @@ SoQtMouse::translateEvent(QEvent * event)
 
     // Which button?
     switch (mouseevent->button()) {
-    case LeftButton:
+    case Qt::LeftButton:
       this->buttonevent->setButton(SoMouseButtonEvent::BUTTON1);
 // emulate right mouse button on MacIntosh platform by ctrl-click
 #ifdef Q_WS_MAC
@@ -207,10 +204,10 @@ SoQtMouse::translateEvent(QEvent * event)
         this->buttonevent->setButton(SoMouseButtonEvent::BUTTON2);
 #endif // Q_WS_MAC
       break;
-    case RightButton:
+    case Qt::RightButton:
       this->buttonevent->setButton(SoMouseButtonEvent::BUTTON2);
       break;
-    case MidButton:
+    case Qt::MidButton:
       this->buttonevent->setButton(SoMouseButtonEvent::BUTTON3);
       break;
     default:
@@ -238,9 +235,9 @@ SoQtMouse::translateEvent(QEvent * event)
   // Common settings for SoEvent superclass.
   if (super) {
     // Modifiers
-    super->setShiftDown(mouseevent->state() & ShiftButton);
-    super->setCtrlDown(mouseevent->state() & ControlButton);
-    super->setAltDown(mouseevent->state() & AltButton);
+    super->setShiftDown(mouseevent->state() & Qt::ShiftButton);
+    super->setCtrlDown(mouseevent->state() & Qt::ControlButton);
+    super->setAltDown(mouseevent->state() & Qt::AltButton);
 
     this->setEventPosition(super, mouseevent->x(), mouseevent->y());
     // FIXME: should be time of Qt event. 990211 mortene.

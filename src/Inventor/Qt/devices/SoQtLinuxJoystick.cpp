@@ -34,9 +34,6 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-#include <qmetaobject.h>
-#include <moc_SoQtLinuxJoystick.cpp>
-
 #include <qsocketnotifier.h>
 
 #include <Inventor/errors/SoDebugError.h>
@@ -48,6 +45,9 @@
 #include <Inventor/Qt/SoQt.h>
 
 #include <Inventor/Qt/devices/SoQtLinuxJoystick.h>
+#include <Inventor/Qt/devices/SoQtLinuxJoystickP.h>
+#include <qmetaobject.h>
+#include <Inventor/Qt/devices/moc_SoQtLinuxJoystickP.h>
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -137,7 +137,7 @@ SoQtLinuxJoystick::enable(QWidget * widget,
                           void * closure)
 {
   if (! SoQtLinuxJoystick::enabled) {
-    const char * devpathname = SoQtLinuxJoystick::getDevicePathName();
+    const char * devpathname = SoQtLinuxJoystickP::getDevicePathName();
     this->joydev = open(devpathname, O_RDONLY | O_NONBLOCK);
     if (joydev <= 0) {
       SoDebugError::post("SoQtLinuxJoystick::enable",
@@ -188,7 +188,7 @@ SoQtLinuxJoystick::enable(QWidget * widget,
 
     this->notifier = new QSocketNotifier(this->joydev, QSocketNotifier::Read);
     QObject::connect(this->notifier, SIGNAL(activated(int)),
-      this, SLOT(device_event(int)));
+                     this, SLOT(device_event(int)));
   }
   this->addEventHandler(widget, handler, closure);
 }
@@ -286,7 +286,7 @@ SoQtLinuxJoystick::exists(void)
 {
   if (SoQtLinuxJoystick::enabled)
     return TRUE;
-  const char * jsdevicepath = SoQtLinuxJoystick::getDevicePathName();
+  const char * jsdevicepath = SoQtLinuxJoystickP::getDevicePathName();
   int joydev = open(jsdevicepath, O_RDONLY);
   if (joydev <= 0)
     return FALSE;
@@ -296,12 +296,8 @@ SoQtLinuxJoystick::exists(void)
 
 // *************************************************************************
 
-/*!
-  FIXME: write doc
-*/
-
 const char *
-SoQtLinuxJoystick::getDevicePathName(void)
+SoQtLinuxJoystickP::getDevicePathName(void)
 {
   const char * devicepath = SoAny::getenv("SOQT_JOYSTICK_DEVICE");
 #ifdef SOQT_JOYSTICK_LINUX_DEVICE
@@ -396,12 +392,8 @@ SoQtLinuxJoystick::isFocusToWindow(void) const
 
 // *************************************************************************
 
-/*!
-  FIXME: write doc
-*/
-
 SoMotion3Event *
-SoQtLinuxJoystick::makeMotion3Event(SoQt6dofDevicePressureEvent * event)
+SoQtLinuxJoystickP::makeMotion3Event(SoQt6dofDevicePressureEvent * event)
 {
   if (this->motion3Event == NULL)
     this->motion3Event = new SoMotion3Event;
@@ -421,13 +413,9 @@ SoQtLinuxJoystick::makeMotion3Event(SoQt6dofDevicePressureEvent * event)
   return this->motion3Event;
 }
 
-/*!
-  FIXME: write doc
-*/
-
 SoSpaceballButtonEvent *
-SoQtLinuxJoystick::makeButtonEvent(SoQt6dofDeviceButtonEvent * event,
-                                   SoButtonEvent::State state)
+SoQtLinuxJoystickP::makeButtonEvent(SoQt6dofDeviceButtonEvent * event,
+                                    SoButtonEvent::State state)
 {
   if (this->buttonEvent == NULL)
     this->buttonEvent = new SoSpaceballButtonEvent;
@@ -475,15 +463,12 @@ SoQtLinuxJoystick::makeButtonEvent(SoQt6dofDeviceButtonEvent * event,
 
 // *************************************************************************
 
-/*!
-  This method is invoked when the joystick is enabled and there are joystick
-  events coming in.
-
-  See linux/Documentation/joystick-api.txt.
-*/
-
+// This method is invoked when the joystick is enabled and there are
+// joystick events coming in.
+//
+// See linux/Documentation/joystick-api.txt.
 void
-SoQtLinuxJoystick::device_event(int device)
+SoQtLinuxJoystickP::device_event(int device)
 {
   struct js_event event;
 

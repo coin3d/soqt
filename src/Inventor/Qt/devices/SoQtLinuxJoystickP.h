@@ -21,12 +21,11 @@
  *
 \**************************************************************************/
 
-#ifndef SOQT_LINUXJOYSTICK_H
-#define SOQT_LINUXJOYSTICK_H
+#ifndef SOQT_LINUXJOYSTICKP_H
+#define SOQT_LINUXJOYSTICKP_H
 
 #include <Inventor/SbBasic.h>
 #include <Inventor/events/SoButtonEvent.h>
-
 #include <Inventor/Qt/devices/SoQtDevice.h>
 
 class QSocketNotifier;
@@ -36,43 +35,10 @@ class SoSpaceballButtonEvent;
 
 // *************************************************************************
 
-#define SO_QT_ALL_LINUX_JOYSTICK_EVENTS SoQtLinuxJoystick::ALL_EVENTS
-
-class SOQT_DLL_API SoQtLinuxJoystick : public SoQtDevice {
-  SOQT_OBJECT_HEADER(SoQtLinuxJoystick, SoQtDevice);
+class SoQtLinuxJoystickP : public QObject {
+  Q_OBJECT
 
 public:
-  enum Events {
-    ALL_EVENTS = 0
-  };
-
-  SoQtLinuxJoystick(int events = ALL_EVENTS);
-  virtual ~SoQtLinuxJoystick(void);
-
-  virtual void enable(QWidget * widget, SoQtEventHandler * handler,
-      void * closure);
-  virtual void disable(QWidget * widget, SoQtEventHandler * handler,
-      void * closure);
-
-  virtual const SoEvent * translateEvent(QEvent * event);
-
-  void setRotationScaleFactor(const float factor);
-  float getRotationScaleFactor(void) const;
-  void setTranslationScaleFactor(const float factor);
-  float getTranslationScaleFactor(void) const;
-
-  static SbBool exists(void);
-
-  void setFocusToWindow(SbBool enable);
-  SbBool isFocusToWindow(void) const;
-
-  int getNumButtons(void) const;
-  SbBool getButtonValue(const int button) const;
-
-  int getNumAxes(void) const;
-  float getAxisValue(const int axis) const;
-
-private:
   int events;
   int joydev;
   QSocketNotifier * notifier;
@@ -95,15 +61,15 @@ private:
 
   SoMotion3Event * makeMotion3Event(SoQt6dofDevicePressureEvent * event);
   SoSpaceballButtonEvent * makeButtonEvent(SoQt6dofDeviceButtonEvent * event,
-      SoButtonEvent::State state);
+                                           SoButtonEvent::State state);
 
   static const char * getDevicePathName(void);
 
-private slots:
+public slots:
   void device_event(int);
 
-}; // class SoQtLinuxJoystick
+};
 
 // *************************************************************************
 
-#endif // ! SOQT_LINUXJOYSTICK_H
+#endif // ! SOQT_LINUXJOYSTICKP_H
