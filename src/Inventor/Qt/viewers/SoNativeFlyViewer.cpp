@@ -43,6 +43,10 @@ SoQtFlyViewerP::updateCursorRepresentation( )
     w->setCursor(Qt::crossCursor);
     break;
 
+  case SoQtFlyViewerP::WAITING_FOR_UP_PICK:
+    w->setCursor(Qt::upArrowCursor);
+    break;
+
   default:
     // FIXME: enable again when implementation completed. 20010910 mortene.
 //      assert(0);
