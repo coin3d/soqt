@@ -42,6 +42,11 @@ DISTCLEANFILES = \
 	$(SoGui_BuiltMetaFiles)
 
 if BUILD_LIBRARY
+if MAC_FRAMEWORK
+frameworkdatadir = $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$(MAC_FRAMEWORK_VERSION)/Resources
+frameworkdata_DATA = Info.plist
+endif
+
 
 bin_SCRIPTS = so@gui@-config
 
@@ -61,6 +66,7 @@ EXTRA_DIST = \
 	README.DLL \
 	README.IRIX \
 	README.WIN32 \
+	Info.plist \
 	build/soqt.spec.in \
 	build/soqt.doxygen.in \
 	cfg/m4/soqt.m4 \
