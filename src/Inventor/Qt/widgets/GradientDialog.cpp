@@ -40,7 +40,7 @@
 
 #include <Inventor/Qt/widgets/moc_SoQtGradientDialogP.icc>
 
-QString * SoQtGradientDialogP::defaultdir = new QString("");
+QString * SoQtGradientDialogP::defaultdir = NULL;
 
 SoQtGradientDialogP::SoQtGradientDialogP(SoQtGradientDialog * publ)
 {
@@ -107,8 +107,8 @@ SoQtGradientDialogP::loadGradient()
       QString description = filename.remove(0, dir.length() + 1);
       PUBLIC(this)->addGradient(grad, description);
 
-      if (SoQtGradientDialogP::defaultdir->isEmpty()) { // set the static defaultdir to the first dir chosen
-        *SoQtGradientDialogP::defaultdir = dir;
+      if (SoQtGradientDialogP::defaultdir == NULL) { // set the static defaultdir to the first dir chosen
+        SoQtGradientDialogP::defaultdir = new QString(dir);
       }
     }
   }
@@ -132,8 +132,8 @@ SoQtGradientDialogP::saveGradient()
       QString description = filename.remove(0, dir.length() + 1);
       this->gradientlist->changeItem(grad.getImage(60, 16, 32), description, this->old_index);
 
-      if (SoQtGradientDialogP::defaultdir->isEmpty()) { // set the static defaultdir to the first dir chosen
-        *SoQtGradientDialogP::defaultdir = dir;
+      if (SoQtGradientDialogP::defaultdir == NULL) { // set the static defaultdir to the first dir chosen
+        SoQtGradientDialogP::defaultdir = new QString(dir);
       }
     }
   }
@@ -167,6 +167,8 @@ SoQtGradientDialog::SoQtGradientDialog(const Gradient & grad,
 : QDialog(parent, name, modal)
 {
   PRIVATE(this) = new SoQtGradientDialogP(this);
+  PRIVATE(this)->changeCallBack = NULL;
+  PRIVATE(this)->changeCallBackData = NULL;
 
   QSizePolicy sizepolicy;
   sizepolicy.setVerData(QSizePolicy::MinimumExpanding);
@@ -174,7 +176,7 @@ SoQtGradientDialog::SoQtGradientDialog(const Gradient & grad,
 
   PRIVATE(this)->filetype = ".grad";
   PRIVATE(this)->filedialog = new QFileDialog(this);
-  if (!SoQtGradientDialogP::defaultdir->isEmpty()) {
+  if (SoQtGradientDialogP::defaultdir) {
     PRIVATE(this)->filedialog->setDir(*SoQtGradientDialogP::defaultdir);
   }
   
