@@ -74,9 +74,6 @@ DISTCLEANFILES = \
 
 dist_bin_SCRIPTS = soqt-config
 
-noinst_SCRIPTS = \
-	cfg/m4/msvccc
-
 m4datadir = $(datadir)/aclocal
 dist_m4data_DATA = cfg/m4/soqt.m4
 
