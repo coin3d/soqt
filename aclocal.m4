@@ -341,6 +341,9 @@ $1
 #   Fetches the error messages from the error message file and displays
 #   them on stderr. The configure process will subsequently exit.
 #
+# SIM_AC_WARN( ERROR [, ERROR ...] )
+#   As SIM_AC_ERROR, but will not exit after displaying the message(s).
+#
 # SIM_AC_WITH_ERROR( WITHARG )
 #   Invokes AC_MSG_ERROR in a consistent way for problems with the --with-*
 #   $withval argument.
@@ -383,6 +386,12 @@ _SIM_AC_ERROR($@)
 echo >&2 ""
 AC_MSG_ERROR([aborting])
 ]) # SIM_AC_ERROR
+
+AC_DEFUN([SIM_AC_WARN], [
+echo >&2 ""
+_SIM_AC_ERROR($@)
+echo >&2 ""
+]) # SIM_AC_WARN
 
 AC_DEFUN([SIM_AC_WITH_ERROR], [
 AC_MSG_ERROR([invalid value "${withval}" for "$1" configure argument])
@@ -7175,27 +7184,55 @@ CPPFLAGS="$CPPFLAGS $1"
 AC_TRY_COMPILE([], [], [sim_ac_accept_result=yes], [sim_ac_accept_result=no])
 AC_MSG_RESULT([$sim_ac_accept_result])
 CPPFLAGS=$sim_ac_save_cppflags
-# This need to go last, in case CPPFLAGS is modified in $2 or $3.
+# This need to go last, in case CPPFLAGS is modified in arg 2 or arg 3.
 if test $sim_ac_accept_result = yes; then
-  ifelse($2, , :, $2)
+  ifelse([$2], , :, [$2])
 else
-  ifelse($3, , :, $3)
+  ifelse([$3], , :, [$3])
 fi
 ])
 
+AC_DEFUN([SIM_AC_COMPILER_BEHAVIOR_OPTION_QUIET], [
+sim_ac_save_cppflags=$CPPFLAGS
+CPPFLAGS="$CPPFLAGS $1"
+AC_TRY_COMPILE([], [$2], [sim_ac_accept_result=yes], [sim_ac_accept_result=no])
+CPPFLAGS=$sim_ac_save_cppflags
+# This need to go last, in case CPPFLAGS is modified in arg 3 or arg 4.
+if test $sim_ac_accept_result = yes; then
+  ifelse([$3], , :, [$3])
+else
+  ifelse([$4], , :, [$4])
+fi
+])
+
+
 AC_DEFUN([SIM_AC_CC_COMPILER_OPTION], [
 AC_LANG_SAVE
-AC_LANG_C
+AC_LANG(C)
 AC_MSG_CHECKING([whether $CC accepts $1])
-SIM_AC_COMPILER_OPTION($1, $2, $3)
+SIM_AC_COMPILER_OPTION([$1], [$2], [$3])
+AC_LANG_RESTORE
+])
+
+AC_DEFUN([SIM_AC_CC_COMPILER_BEHAVIOR_OPTION_QUIET], [
+AC_LANG_SAVE
+AC_LANG(C)
+SIM_AC_COMPILER_BEHAVIOR_OPTION_QUIET([$1], [$2], [$3], [$4])
 AC_LANG_RESTORE
 ])
 
 AC_DEFUN([SIM_AC_CXX_COMPILER_OPTION], [
 AC_LANG_SAVE
-AC_LANG_CPLUSPLUS
+AC_LANG(C++)
 AC_MSG_CHECKING([whether $CXX accepts $1])
-SIM_AC_COMPILER_OPTION($1, $2, $3)
+SIM_AC_COMPILER_OPTION([$1], [$2], [$3])
+AC_LANG_RESTORE
+])
+
+AC_DEFUN([SIM_AC_CXX_COMPILER_BEHAVIOR_OPTION_QUIET], [
+AC_LANG_SAVE
+AC_LANG(C++)
+SIM_AC_COMPILER_BEHAVIOR_OPTION_QUIET([$1], [$2], [$3], [$4])
 AC_LANG_RESTORE
 ])
 
@@ -7254,17 +7291,54 @@ AC_ARG_ENABLE(man,
   esac],
   [want_man=no])
 
+AC_ARG_VAR([htmlhelpdir],
+           [destination for HTML-help docs (default ${datadir}/$1/htmlhelp)])
+
+AC_ARG_ENABLE([html-help],
+  AC_HELP_STRING([--enable-html-help], [build and install $1 HTML-help documentation]),
+  [case $enableval in
+    yes | true) want_html_help=yes ;;
+    *)          want_html_help=no ;;
+  esac],
+  [want_html_help=no])
+
+case $htmlhelpdir in
+"")
+  htmlhelpdir="$datadir/$1/htmlhelp"
+  ;;
+/*)
+  # do nothing - absolute path
+  ;;
+*)
+  htmlhelpdir="\${prefix}/$htmlhelpdir"
+  ;;
+esac
+
+AC_SUBST(htmlhelpdir)
+
+# We must turn on html-generation if html-help is turned on,
+# but without affecting the setup of the BUILD_HTMLPAGES
+# conditional, so HTML files aren't installed if you don't
+# use --enable-html.  20031202 larsa
+sogui_doc_html=`echo $want_html | tr '[a-z]' '[A-Z]'`
+if test x"$want_html_help" = x"yes"; then
+  sogui_doc_html=YES
+fi
+
 # Used in the Doxygen parameter file.
-AC_SUBST([SOGUI_DOC_HTML], [`echo $want_html | tr '[a-z]' '[A-Z]'`])
+AC_SUBST([SOGUI_DOC_HTML], [$sogui_doc_html])
 AC_SUBST([SOGUI_DOC_MAN], [`echo $want_man | tr '[a-z]' '[A-Z]'`])
+AC_SUBST([SOGUI_DOC_HTML_HELP], [`echo $want_html_help | tr '[a-z]' '[A-Z]'`])
 
 AC_SUBST([sogui_build_dir], [`pwd`])
 AC_SUBST([sogui_src_dir], [`cd $srcdir; pwd`])
 AC_SUBST([sogui_html_dir], [`pwd`/html])
+AC_SUBST([sogui_html_help_dir], [`pwd`/htmlhelp])
 AC_SUBST([sogui_man_dir], [`pwd`/man])
 
 AM_CONDITIONAL(BUILD_MANPAGES, test x"$want_man" = x"yes")
 AM_CONDITIONAL(BUILD_HTMLPAGES, test x"$want_html" = x"yes")
+AM_CONDITIONAL(BUILD_HTMLHELP, test x"$want_html_help" = x"yes")
 
 if test x"$want_man" = x"yes"; then
   SIM_AC_CONFIGURATION_SETTING([manpage installation], [$mandir])
@@ -7274,7 +7348,21 @@ if test x"$want_html" = x"yes"; then
   SIM_AC_CONFIGURATION_SETTING([HTML installation], [$htmldir])
 fi
 
-if test x"$want_html" != xno -o x"$want_man" != xno; then
+sim_ac_hhc_exe=
+case $host in
+  *-cygwin)
+    AC_PATH_PROG([sim_ac_hhc_exe], [hhc])
+  ;;
+esac
+
+if test x"$want_html_help" = x"yes"; then
+  SIM_AC_CONFIGURATION_SETTING([HTML-help installation], [$htmlhelpdir])
+  if test x"$sim_ac_hhc_exe" = x; then
+    AC_MSG_WARN([Could not find the HTML Help Compiler (hhc) executable])
+  fi
+fi
+
+if test x"$want_html" != xno -o x"$want_man" != xno -o x"$want_html_help" != xno; then
   SIM_AC_DOXYGEN_TOOL([], [SIM_AC_ERROR([no-doxygen])])
 
   AC_PATH_PROG(sim_ac_perl_exe, perl, false, $PATH)
@@ -10434,8 +10522,10 @@ SIM_AC_COMPILE_DEBUG([
     if $sim_ac_simian; then
       if $sim_ac_source_release; then :; else
       # break build on warnings, except for in official source code releases
-        SIM_AC_CC_COMPILER_OPTION([-Werror], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS -Werror"])
-        SIM_AC_CXX_COMPILER_OPTION([-Werror], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS -Werror"])
+        if test x"$enable_werror" = x"no"; then :; else
+          SIM_AC_CC_COMPILER_OPTION([-Werror], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS -Werror"])
+          SIM_AC_CXX_COMPILER_OPTION([-Werror], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS -Werror"])
+        fi
       fi
     fi
 
@@ -10472,6 +10562,30 @@ ifelse($1, [], :, $1)
 
 ])
 
+AC_DEFUN([SIM_AC_COMPILER_NOBOOL], [
+sim_ac_nobool_CXXFLAGS=
+sim_ac_have_nobool=false
+AC_MSG_CHECKING([whether $CXX accepts /noBool])
+SIM_AC_CXX_COMPILER_BEHAVIOR_OPTION_QUIET(
+  [/noBool],
+  [int temp],
+  [SIM_AC_CXX_COMPILER_BEHAVIOR_OPTION_QUIET(
+    [/noBool],
+    [bool res = true],
+    [],
+    [sim_ac_have_nobool=true])])
+ 
+if $sim_ac_have_nobool; then
+  sim_ac_nobool_CXXFLAGS="/noBool"
+  AC_MSG_RESULT([yes])
+  ifelse([$1], , :, [$1])
+else
+  AC_MSG_RESULT([no])
+  ifelse([$2], , :, [$2])
+fi
+])
+
+
 #
 # SIM_AC_CHECK_PROJECT_BETA_STATUS_IFELSE( IF-BETA, IF-BONA-FIDE )
 #
@@ -10505,17 +10619,26 @@ AC_DEFUN([SIM_AC_CHECK_SIMIAN_IFELSE], [
 AC_MSG_CHECKING([if user is simian])
 case `hostname -d 2>/dev/null || domainname 2>/dev/null || hostname` in
 *.sim.no | sim.no )
-  AC_MSG_RESULT([probably])
   sim_ac_simian=true
-  ifelse($1, [], :, $1)
   ;;
 * )
-  AC_MSG_RESULT([probably not])
-  sim_ac_simian=false
-  ifelse($2, [], :, $2)
+  if grep -ls "domain.*sim\\.no" /etc/resolv.conf >/dev/null; then
+    sim_ac_simian=true
+    :
+  else
+    sim_ac_simian=false
+    :
+  fi
   ;;
 esac
-])
+
+if $sim_ac_simian; then
+  AC_MSG_RESULT([probably])
+  ifelse($1, [], :, $1)
+else
+  AC_MSG_RESULT([probably not])
+  ifelse($2, [], :, $2)
+fi])
 
 
 # conf-macros/sogui.m4

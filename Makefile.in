@@ -56,6 +56,8 @@ AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
+BUILD_HTMLHELP_FALSE = @BUILD_HTMLHELP_FALSE@
+BUILD_HTMLHELP_TRUE = @BUILD_HTMLHELP_TRUE@
 BUILD_HTMLPAGES_FALSE = @BUILD_HTMLPAGES_FALSE@
 BUILD_HTMLPAGES_TRUE = @BUILD_HTMLPAGES_TRUE@
 BUILD_LIBRARY_FALSE = @BUILD_LIBRARY_FALSE@
@@ -135,12 +137,15 @@ RANLIB = @RANLIB@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 SOGUI_DOC_HTML = @SOGUI_DOC_HTML@
+SOGUI_DOC_HTML_HELP = @SOGUI_DOC_HTML_HELP@
 SOGUI_DOC_MAN = @SOGUI_DOC_MAN@
 SOGUI_EXTRA_CFLAGS = @SOGUI_EXTRA_CFLAGS@
 SOGUI_EXTRA_CPPFLAGS = @SOGUI_EXTRA_CPPFLAGS@
 SOGUI_EXTRA_CXXFLAGS = @SOGUI_EXTRA_CXXFLAGS@
 SOGUI_EXTRA_LDFLAGS = @SOGUI_EXTRA_LDFLAGS@
 SOGUI_EXTRA_LIBS = @SOGUI_EXTRA_LIBS@
+SOGUI_MAJOR_VERSION = @SOGUI_MAJOR_VERSION@
+SOGUI_MINOR_VERSION = @SOGUI_MINOR_VERSION@
 SOGUI_MSVC_LIBC = @SOGUI_MSVC_LIBC@
 SOQT_BETA_VERSION = @SOQT_BETA_VERSION@
 SOQT_DSP_DEFS = @SOQT_DSP_DEFS@
@@ -190,6 +195,7 @@ host_cpu = @host_cpu@
 host_os = @host_os@
 host_vendor = @host_vendor@
 htmldir = @htmldir@
+htmlhelpdir = @htmlhelpdir@
 includedir = @includedir@
 infodir = @infodir@
 install_sh = @install_sh@
@@ -209,10 +215,12 @@ sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
 sim_ac_coin_configcmd = @sim_ac_coin_configcmd@
 sim_ac_doxygen_exe = @sim_ac_doxygen_exe@
+sim_ac_hhc_exe = @sim_ac_hhc_exe@
 sim_ac_perl_exe = @sim_ac_perl_exe@
 sim_ac_qt_cygpath = @sim_ac_qt_cygpath@
 sogui_build_dir = @sogui_build_dir@
 sogui_html_dir = @sogui_html_dir@
+sogui_html_help_dir = @sogui_html_help_dir@
 sogui_man_dir = @sogui_man_dir@
 sogui_src_dir = @sogui_src_dir@
 soguiincludedir = @soguiincludedir@
@@ -503,6 +511,10 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/devices/SoGuiSpaceball.cpp.in \
   src/Inventor/@Gui@/common/devices/SoGuiSpaceball.h.in \
   src/Inventor/@Gui@/common/devices/SoGuiSpaceballP.h.in \
+  src/Inventor/@Gui@/common/docs/doxygen/header.html \
+  src/Inventor/@Gui@/common/docs/doxygen/footer.html \
+  src/Inventor/@Gui@/common/docs/doxygen/stylesheet.css \
+  src/Inventor/@Gui@/common/docs/doxygen/Coin_logo.png \
   src/Inventor/@Gui@/common/editors/ColorEditor.h.in \
   src/Inventor/@Gui@/common/editors/ColorEditor.cpp.in \
   src/Inventor/@Gui@/common/editors/MaterialEditor.h.in \
@@ -585,6 +597,9 @@ SoQt_ExtraBuiltMetaFiles = \
 
 ############################################################################
 @BUILD_HTMLPAGES_TRUE@HTMLDIR = html
+@BUILD_HTMLHELP_FALSE@HTMLHELPDIR = 
+
+@BUILD_HTMLHELP_TRUE@HTMLHELPDIR = htmlhelp
 
 # Material editor(s) not part of the public API yet, so there's
 # no point yet in installing the material data.
@@ -592,7 +607,9 @@ SoQt_ExtraBuiltMetaFiles = \
 @BUILD_LIBRARY_TRUE@LIBDIR = src
 @BUILD_LIBRARY_FALSE@LIBDIR = 
 
-SUBDIRS = . $(LIBDIR) man $(HTMLDIR)
+DOCDIRS = man $(HTMLDIR) $(HTMLHELPDIR)
+
+SUBDIRS = . $(LIBDIR) $(DOCDIRS)
 
 BUILT_SOURCES = \
 	$(SoGuiAllBuiltFiles)
@@ -671,11 +688,11 @@ RECURSIVE_TARGETS = info-recursive dvi-recursive pdf-recursive \
 	check-recursive installcheck-recursive
 DIST_COMMON = README $(dist_m4data_DATA) \
 	$(srcdir)/src/Inventor/Qt/common/Makefile.common AUTHORS \
-	COPYING ChangeLog INSTALL Makefile.am Makefile.in NEWS TODO \
+	COPYING ChangeLog INSTALL Makefile.am Makefile.in NEWS \
 	aclocal.m4 cfg/README cfg/config.guess cfg/config.sub \
 	cfg/depcomp cfg/install-sh cfg/ltmain.sh cfg/missing \
 	cfg/mkinstalldirs configure configure.ac
-DIST_SUBDIRS = . src man html
+DIST_SUBDIRS = . src man html htmlhelp
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
@@ -923,7 +940,7 @@ distcleancheck_listfiles = find . -type f -print
 distdir: $(DISTFILES)
 	$(am__remove_distdir)
 	mkdir $(distdir)
-	$(mkinstalldirs) $(distdir)/./src/Inventor/Qt/common $(distdir)/cfg $(distdir)/docs $(distdir)/models $(distdir)/packaging/windows $(distdir)/src/Inventor/@Gui@/common $(distdir)/src/Inventor/@Gui@/common/devices $(distdir)/src/Inventor/@Gui@/common/editors $(distdir)/src/Inventor/@Gui@/common/engines $(distdir)/src/Inventor/@Gui@/common/nodes $(distdir)/src/Inventor/@Gui@/common/pixmaps $(distdir)/src/Inventor/@Gui@/common/viewers $(distdir)/src/Inventor/@Gui@/common/widgets $(distdir)/src/Inventor/Qt/common $(distdir)/test-code $(distdir)/test-code/components
+	$(mkinstalldirs) $(distdir)/./src/Inventor/Qt/common $(distdir)/cfg $(distdir)/docs $(distdir)/models $(distdir)/packaging/windows $(distdir)/src/Inventor/@Gui@/common $(distdir)/src/Inventor/@Gui@/common/devices $(distdir)/src/Inventor/@Gui@/common/docs/doxygen $(distdir)/src/Inventor/@Gui@/common/editors $(distdir)/src/Inventor/@Gui@/common/engines $(distdir)/src/Inventor/@Gui@/common/nodes $(distdir)/src/Inventor/@Gui@/common/pixmaps $(distdir)/src/Inventor/@Gui@/common/viewers $(distdir)/src/Inventor/@Gui@/common/widgets $(distdir)/src/Inventor/Qt/common $(distdir)/test-code $(distdir)/test-code/components
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
