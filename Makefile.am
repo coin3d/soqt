@@ -48,6 +48,8 @@ BUILT_SOURCES = \
 	src/Inventor/Qt/devices/moc_SoQtMouse.cpp \
 	src/Inventor/Qt/devices/moc_SoQtSpaceball.cpp \
 	src/Inventor/Qt/devices/moc_SoQtLinuxJoystick.cpp \
+	src/Inventor/Qt/devices/spwinput.h \
+	src/Inventor/Qt/devices/spwinput_x11.cpp \
 	src/Inventor/Qt/viewers/moc_SoQtViewer.cpp \
 	src/Inventor/Qt/viewers/moc_SoQtFullViewer.cpp \
 	src/Inventor/Qt/viewers/moc_SoQtExaminerViewer.cpp \
@@ -151,6 +153,14 @@ src/Inventor/Qt/widgets/SoAnyPopupMenu.h: \
 src/Inventor/Qt/widgets/SoAnyPopupMenu.cpp: \
   $(srcdir)/src/Inventor/Qt/common/SoAnyPopupMenu.cpp.in
 	@./config.status --file=$@:src/Inventor/Qt/common/SoAnyPopupMenu.cpp.in
+
+src/Inventor/Qt/devices/spwinput.h: \
+  $(srcdir)/src/Inventor/Qt/common/spwinput.h.in
+	@./config.status --file=$@:src/Inventor/Qt/common/spwinput.h.in
+
+src/Inventor/Qt/devices/spwinput_x11.cpp: \
+  $(srcdir)/src/Inventor/Qt/common/spwinput_x11.cpp.in
+	@./config.status --file=$@:src/Inventor/Qt/common/spwinput_x11.cpp.in
 
 ############################################################################
 ## auto-generated Qt moc files.

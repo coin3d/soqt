@@ -3,6 +3,9 @@
 /* Define to enable Linux Joystick driver support */
 #undef HAVE_JOYSTICK_LINUX
 
+/* Define if you have the <netinet/in.h> header file. */
+#undef HAVE_NETINET_IN_H
+
 /* Define this to 1 if QGLFormat::setOverlay() is available */
 #undef HAVE_QGLFORMAT_SETOVERLAY
 
@@ -14,6 +17,15 @@
 
 /* Define to enable use of the Open Inventor SoPolygonOffset node */
 #undef HAVE_SOPOLYGONOFFSET
+
+/* Define if you have the <sys/time.h> header file. */
+#undef HAVE_SYS_TIME_H
+
+/* Define if you have the <sys/types.h> header file. */
+#undef HAVE_SYS_TYPES_H
+
+/* Define if you have the <unistd.h> header file. */
+#undef HAVE_UNISTD_H
 
 /* Define this to true if the __FUNCTION__ variable contains the current
    function name */
@@ -29,6 +41,15 @@
 
 /* Define if you have the <windows.h> header file. */
 #undef HAVE_WINDOWS_H
+
+/* Define if you have the <X11/extensions/SGIMisc.h> header file. */
+#undef HAVE_X11_EXTENSIONS_SGIMISC_H
+
+/* Define if you have the <X11/extensions/XInput.h> header file. */
+#undef HAVE_X11_EXTENSIONS_XINPUT_H
+
+/* Define if you have the <X11/Xproto.h> header file. */
+#undef HAVE_X11_XPROTO_H
 
 /* Name of package */
 #undef PACKAGE

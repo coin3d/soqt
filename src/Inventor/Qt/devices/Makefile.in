@@ -127,7 +127,8 @@ BUILT_SOURCES = \
 	moc_SoQtKeyboard.cpp \
 	moc_SoQtMouse.cpp \
 	moc_SoQtSpaceball.cpp \
-	moc_SoQtLinuxJoystick.cpp
+	moc_SoQtLinuxJoystick.cpp \
+	spwinput_x11.cpp spwinput.h
 
 
 # built sourcefiles that are to be included in any case
@@ -136,7 +137,8 @@ libSoQtDevicesBuiltSources = \
 	moc_SoQtInputFocus.cpp \
 	moc_SoQtKeyboard.cpp \
 	moc_SoQtMouse.cpp \
-	moc_SoQtSpaceball.cpp
+	moc_SoQtSpaceball.cpp \
+	spwinput_x11.cpp spwinput.h
 
 @HAVE_JOYSTICK_LINUX_TRUE@libSoQtDevicesLinuxJoystickHeaders = @HAVE_JOYSTICK_LINUX_TRUE@\
 @HAVE_JOYSTICK_LINUX_TRUE@        SoQtLinuxJoystick.h
@@ -212,14 +214,14 @@ libSoQtDevices_la_LIBADD =
 @HAVE_JOYSTICK_LINUX_FALSE@SoQtMouse.lo SoQtSpaceball.lo \
 @HAVE_JOYSTICK_LINUX_FALSE@moc_SoQtDevice.lo moc_SoQtInputFocus.lo \
 @HAVE_JOYSTICK_LINUX_FALSE@moc_SoQtKeyboard.lo moc_SoQtMouse.lo \
-@HAVE_JOYSTICK_LINUX_FALSE@moc_SoQtSpaceball.lo
+@HAVE_JOYSTICK_LINUX_FALSE@moc_SoQtSpaceball.lo spwinput_x11.lo
 @HAVE_JOYSTICK_LINUX_TRUE@am_libSoQtDevices_la_OBJECTS =  SoQtDevice.lo \
 @HAVE_JOYSTICK_LINUX_TRUE@SoQtInputFocus.lo SoQtKeyboard.lo \
 @HAVE_JOYSTICK_LINUX_TRUE@SoQtMouse.lo SoQtSpaceball.lo \
 @HAVE_JOYSTICK_LINUX_TRUE@moc_SoQtDevice.lo moc_SoQtInputFocus.lo \
 @HAVE_JOYSTICK_LINUX_TRUE@moc_SoQtKeyboard.lo moc_SoQtMouse.lo \
-@HAVE_JOYSTICK_LINUX_TRUE@moc_SoQtSpaceball.lo SoQtLinuxJoystick.lo \
-@HAVE_JOYSTICK_LINUX_TRUE@moc_SoQtLinuxJoystick.lo
+@HAVE_JOYSTICK_LINUX_TRUE@moc_SoQtSpaceball.lo spwinput_x11.lo \
+@HAVE_JOYSTICK_LINUX_TRUE@SoQtLinuxJoystick.lo moc_SoQtLinuxJoystick.lo
 libSoQtDevices_la_OBJECTS =  $(am_libSoQtDevices_la_OBJECTS)
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -242,7 +244,7 @@ $(DEPDIR)/SoQtLinuxJoystick.Plo $(DEPDIR)/SoQtMouse.Plo \
 $(DEPDIR)/SoQtSpaceball.Plo $(DEPDIR)/moc_SoQtDevice.Plo \
 $(DEPDIR)/moc_SoQtInputFocus.Plo $(DEPDIR)/moc_SoQtKeyboard.Plo \
 $(DEPDIR)/moc_SoQtLinuxJoystick.Plo $(DEPDIR)/moc_SoQtMouse.Plo \
-$(DEPDIR)/moc_SoQtSpaceball.Plo
+$(DEPDIR)/moc_SoQtSpaceball.Plo $(DEPDIR)/spwinput_x11.Plo
 DIST_COMMON =  $(libSoQtDevicesinc_HEADERS) Makefile.am Makefile.in
 
 
@@ -360,6 +362,7 @@ maintainer-clean-tags:
 @AMDEP@include $(DEPDIR)/moc_SoQtLinuxJoystick.Plo
 @AMDEP@include $(DEPDIR)/moc_SoQtMouse.Plo
 @AMDEP@include $(DEPDIR)/moc_SoQtSpaceball.Plo
+@AMDEP@include $(DEPDIR)/spwinput_x11.Plo
 
 mostlyclean-depend:
 
@@ -506,6 +509,13 @@ moc_SoQtSpaceball.cpp: $(srcdir)/SoQtSpaceball.h
 moc_SoQtLinuxJoystick.cpp: $(srcdir)/SoQtLinuxJoystick.h
 	@( cd $(top_builddir); \
 	   $(MAKE) src/Inventor/Qt/devices/moc_SoQtLinuxJoystick.cpp )
+
+spwinput.h: $(top_srcdir)/src/Inventor/Qt/common/spwinput.h.in
+	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/devices/spwinput.h )
+
+spwinput_x11.cpp: $(top_srcdir)/src/Inventor/Qt/common/spwinput_x11.cpp.in
+	@( cd $(top_builddir); \
+		$(MAKE) src/Inventor/Qt/devices/spwinput_x11.cpp )
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

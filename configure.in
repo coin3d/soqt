@@ -238,7 +238,7 @@ AC_SUBST(SOQT_EXTRA_LIBS)
 # **************************************************************************
 # Header files we might want.
 
-AC_CHECK_HEADERS([windows.h])
+AC_CHECK_HEADERS([windows.h unistd.h sys/types.h sys/time.h X11/extensions/SGIMisc.h X11/Xproto.h X11/extensions/XInput.h netinet/in.h])
 
 # **************************************************************************
 # Search and set up necessary stuff to use Open Inventor or Coin.
@@ -265,6 +265,7 @@ if test x"$with_inventor" = xyes; then
   if test x"$sim_ac_x11_avail" = xyes; then
     SIM_CHECK_X11SHMEM(SOQT_EXTRA_LIBS="$sim_ac_x11shmem_libs $SOQT_EXTRA_LIBS")
     SIM_CHECK_X11MU(SOQT_EXTRA_LIBS="$sim_ac_x11mu_libs $SOQT_EXTRA_LIBS")
+    SIM_CHECK_X11XID(SOQT_EXTRA_LIBS="$sim_ac_x11xid_libs $SOQT_EXTRA_LIBS")
   fi
 
   SIM_AC_CHECK_OPENGL([
@@ -309,6 +310,9 @@ else
       SOQT_EXTRA_LDFLAGS="$SOQT_EXTRA_LDFLAGS $sim_ac_x11_ldflags"
       SOQT_EXTRA_LIBS="$sim_ac_x11_libs $SOQT_EXTRA_LIBS"
     ])
+    # FIXME: we just implicitly assume that -lXext and -lXmu is available
+    # if -lX11 is available from coin-config. Should really have macros
+    # SIM_AC_CHECK_[X11SHMEM|X11MU]_READY. 20001116 mortene.
     if test x"$sim_ac_x11_avail" = xyes; then
       SIM_CHECK_X11SHMEM([
         # LIBS="$sim_ac_x11shmem_libs $LIBS"
@@ -320,6 +324,9 @@ else
       ])
     fi
   fi
+  SIM_CHECK_X11XID([
+	SOQT_EXTRA_LIBS="$sim_ac_x11xid_libs $SOQT_EXTRA_LIBS"
+  ])
 fi
 
 # Check for the availability of this node (it is used in the hidden

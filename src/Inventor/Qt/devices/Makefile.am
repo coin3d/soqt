@@ -12,7 +12,8 @@ BUILT_SOURCES = \
 	moc_SoQtKeyboard.cpp \
 	moc_SoQtMouse.cpp \
 	moc_SoQtSpaceball.cpp \
-	moc_SoQtLinuxJoystick.cpp
+	moc_SoQtLinuxJoystick.cpp \
+	spwinput_x11.cpp spwinput.h
 
 # built sourcefiles that are to be included in any case
 libSoQtDevicesBuiltSources = \
@@ -20,7 +21,8 @@ libSoQtDevicesBuiltSources = \
 	moc_SoQtInputFocus.cpp \
 	moc_SoQtKeyboard.cpp \
 	moc_SoQtMouse.cpp \
-	moc_SoQtSpaceball.cpp
+	moc_SoQtSpaceball.cpp \
+	spwinput_x11.cpp spwinput.h
 
 ############################################################################
 # automake conditional stuff
@@ -104,4 +106,11 @@ moc_SoQtSpaceball.cpp: $(srcdir)/SoQtSpaceball.h
 moc_SoQtLinuxJoystick.cpp: $(srcdir)/SoQtLinuxJoystick.h
 	@( cd $(top_builddir); \
 	   $(MAKE) src/Inventor/Qt/devices/moc_SoQtLinuxJoystick.cpp )
+
+spwinput.h: $(top_srcdir)/src/Inventor/Qt/common/spwinput.h.in
+	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/devices/spwinput.h )
+
+spwinput_x11.cpp: $(top_srcdir)/src/Inventor/Qt/common/spwinput_x11.cpp.in
+	@( cd $(top_builddir); \
+		$(MAKE) src/Inventor/Qt/devices/spwinput_x11.cpp )
 
