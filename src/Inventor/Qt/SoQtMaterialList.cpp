@@ -22,7 +22,7 @@
 \**************************************************************************/
 
 #include <qmetaobject.h>
-#include <moc_SoQtMaterialList.icc>
+#include <Inventor/Qt/moc_SoQtMaterialList.icc>
 
 #include <stdlib.h>
 

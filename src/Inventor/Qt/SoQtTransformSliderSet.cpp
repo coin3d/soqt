@@ -22,7 +22,7 @@
 \**************************************************************************/
 
 #include <qmetaobject.h>
-#include <moc_SoQtTransformSliderSet.icc>
+#include <Inventor/Qt/moc_SoQtTransformSliderSet.icc>
 
 #include <soqtdefs.h>
 #include <Inventor/Qt/SoQtTransformSliderSet.h>
