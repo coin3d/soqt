@@ -180,7 +180,7 @@ SbBool
 SoQtSpaceball::exists(
   void )
 {
-  SOQT_STUB();
+//  SOQT_STUB();
   return FALSE;
 } // exists()
 

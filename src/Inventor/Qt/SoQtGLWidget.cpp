@@ -605,3 +605,17 @@ SoQtGLWidget::gl_exposed( // slot
 } // gl_exposed()
 
 // *************************************************************************
+
+void
+SoQtGLWidget::eventHandler(
+  QWidget * widget,
+  void * closure,
+  QEvent * event,
+  bool * ) // ? )
+{
+  assert( closure != NULL );
+  SoQtGLWidget * component = (SoQtGLWidget *) closure;
+  component->processEvent( event );
+} // eventHandler()
+
+// *************************************************************************

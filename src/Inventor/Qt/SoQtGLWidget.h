@@ -97,6 +97,8 @@ protected:
   virtual void glReshape( int width, int height );
   virtual void glRender(void);
 
+  static void eventHandler( QWidget *, void *, QEvent *, bool * );
+
 private slots:
   void gl_init(void);
   void gl_reshape(int, int);
