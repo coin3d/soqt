@@ -29,7 +29,7 @@
 
 class SoMaterial;
 
-class SOQT_DLL_EXPORT SoGLMaterialSphere : public QGLWidget
+class SoGLMaterialSphere : public QGLWidget
 {
   Q_OBJECT
 

@@ -32,7 +32,7 @@ class SoAnyThumbWheel;
 
 // *************************************************************************
 
-class SOQT_DLL_EXPORT SoQtThumbWheel : public QWidget, public QRangeControl
+class SoQtThumbWheel : public QWidget, public QRangeControl
 {
   Q_OBJECT
 

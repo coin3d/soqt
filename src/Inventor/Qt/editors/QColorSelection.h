@@ -28,7 +28,7 @@
 
 class QSlider;
 
-class SOQT_DLL_EXPORT QColorSelection : public QWidget
+class QColorSelection : public QWidget
 {
   Q_OBJECT
 

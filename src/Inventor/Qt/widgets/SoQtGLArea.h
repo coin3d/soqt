@@ -28,7 +28,7 @@
 
 // *************************************************************************
 
-class SOQT_DLL_EXPORT SoQtGLArea : public QGLWidget {
+class SoQtGLArea : public QGLWidget {
   typedef QGLWidget inherited;
   Q_OBJECT
 

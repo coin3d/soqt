@@ -31,7 +31,7 @@
 struct MenuRecord;
 struct ItemRecord;
 
-class SOQT_DLL_EXPORT SoQtPopupMenu : public QObject, public SoAnyPopupMenu
+class SoQtPopupMenu : public QObject, public SoAnyPopupMenu
 {
   typedef SoAnyPopupMenu inherited;
   Q_OBJECT
