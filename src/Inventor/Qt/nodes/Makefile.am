@@ -40,16 +40,40 @@ nodes.lst: Makefile $(nodes_lst_OBJECTS)
 ############################################################################
 ## Header file installation information.
 
-# These nodes are kept internal for now.  We know people will ask for them
-# to be made public, but until then we'll let them mature.  Besides, the
-# nodes can be used indirectly already through getTypeByName(),
-# createInstance(), getFieldByName() and such indirect methods, which will
-# allow us to change the nodes without any consequences for others.
+if MAC_FRAMEWORK
+SoGuiNodesincdir = $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$(MAC_FRAMEWORK_VERSION)/Headers/nodes
+else
+SoGuiNodesincdir = $(includedir)/Inventor/@Gui@/nodes
+endif
 
-# SoGuiNodesincdir = $(includedir)/Inventor/@Gui@/nodes
-# 
-# SoGuiNodesinc_HEADERS = \
-# 	SoGuiNode.h \
-# 	SoGuiSlider1.h
+SoGuiNodesinc_HEADERS =
+nodist_SoGuiNodesinc_HEADERS = \
+	SoGuiColorEditor.h
+
+install-SoQtNodesincHEADERS: $(SoQtNodesinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(SoQtNodesincdir)
+	@list='$(SoQtNodesinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoQtNodesincdir)/$$f"; \
+	  if cmp -s "$$src" "$$dst"; then :; else \
+	    echo " $(INSTALL_HEADER) $$src $$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	  fi; \
+	done
+
+install-nodist_SoQtNodesincHEADERS: $(nodist_SoQtNodesinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(SoQtNodesincdir)
+	@list='$(nodist_SoQtNodesinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  src="$$d$$p"; dst="$(DESTDIR)$(SoQtNodesincdir)/$$f"; \
+	  if cmp -s "$$src" "$$dst"; then :; else \
+	    echo " $(INSTALL_HEADER) $$src $$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	  fi; \
+	done
 
 # EOF ######################################################################
