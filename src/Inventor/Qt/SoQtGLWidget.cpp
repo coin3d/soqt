@@ -21,34 +21,9 @@
  *
 \**************************************************************************/
 
-/*!
-  \class SoQtGLWidget SoQtGLWidget.h Inventor/Qt/SoQtGLWidget.h
-  \brief The SoQtGLWidget class contains an OpenGL canvas.
+// Class documentation in common/SoGuiGLWidgetCommon.cpp.in.
 
-  [FIXME: basic doc here]
-
-  An important thing to know about embedding SoQtGLWidget derived
-  components into other Qt widgets is that you need to set up "focus
-  proxying" to have events still be set to the OpenGL canvas
-  widget. This is true for both the SoQtRenderArea aswell as all the
-  viewer components (like SoQtExaminerViewer, SoQtWalkViewer etc).  As
-  an example, if you embed an SoQtExaminerViewer inside a QFrame like
-  this:
-
-  \code
-  QMainWindow * toplevel = new QMainWindow;
-  QFrame * frame = new QFrame(toplevel);
-  SoQtExaminerViewer * viewer = new SoQtExaminerViewer(toplevelwidget);
-  \endcode
-
-  ..events from the keyboard will not always automatically be
-  forwarded to the viewer OpenGL canvas. This is the code you need to
-  add in this case:
-
-  \code
-  toplevel->setFocusProxy(viewer);
-  \endcode
-*/
+// *************************************************************************
 
 //  FIXME:
 //    - use the add/removeVisibilityCB methods in SoQtComponent?
@@ -210,14 +185,16 @@ SoQtGLWidget::SoQtGLWidget(QWidget * const parent,
 */
 SoQtGLWidget::~SoQtGLWidget()
 {
+  // Don't delete the Qt widgets we've allocated, as they are
+  // destructed implicitly when their parent widgets die. (Destructing
+  // "our" child widgets in this destructor can in fact lead to
+  // crashes due to the widgets being deallocated multiple times.)
+
   this->unregisterWidget(PRIVATE(this)->borderwidget);
 
-  // Don't delete the widgets we've allocated, as they are destructed
-  // implicitly when their parent widgets die. (Destructing "our"
-  // child widgets in this destructor can in fact lead to crashes due
-  // to the widgets being deallocated multiple times.)
-
-  if (PRIVATE(this)->currentglwidget) SoAny::si()->unregisterGLContext((void*) this);
+  if (PRIVATE(this)->currentglwidget) {
+    SoAny::si()->unregisterGLContext((void *)this);
+  }
   
   delete PRIVATE(this)->glformat;
   delete PRIVATE(this);
@@ -1009,11 +986,18 @@ SoQtGLWidgetP::eventFilter(QObject * obj, QEvent * e)
     // that it causes a nasty problem with Qt/Mac, so it has been
     // removed.  <mortene@sim.no>.
   }
+
+  // OBSOLETED: SoQtGLWidget does no longer inherit QObject
+  // (indirectly through SoQtObject). I'm not sure whether or not
+  // leaving this out causes any trouble..  If no problems are
+  // detected, remove eventually. 20020613 mortene.
+#if 0
   else {
     // Handle in superclass.
     bool stop = PUBLIC(this)->eventFilter(obj, e);
     if (stop) { return TRUE; }
   }
+#endif // OBSOLETED
 
   PUBLIC(this)->processEvent(e);
   return FALSE;
@@ -1067,14 +1051,14 @@ SoQtGLWidgetP::buildGLWidget(void)
   void * display = NULL;
   void * screen = NULL;
 
-#if defined(_WS_X11_) // Qt defines this under X11
+#if defined(Q_WS_X11) // Qt defines this under X11
   // FIXME: should make context sharing work for other Qt
   // base-platforms (MSWin, MacOS X) aswell. 20020118 mortene.
 
   // the following Qt methods are only available under X11
   display = (void*) QPaintDevice::x11AppDisplay();
   screen = (void*) ((unsigned int) QPaintDevice::x11AppScreen());
-#endif // _WS_X11_
+#endif // Q_WS_X11
 
   if (wascurrent) {
     // Do _not_ turn off mousetracking or remove the eventfilter, as
@@ -1093,9 +1077,9 @@ SoQtGLWidgetP::buildGLWidget(void)
 
   if (wasprevious && QGLFormat_eq(*this->glformat, wasprevious->format())) {
     // Reenable the previous widget.
-    if (this->currentglwidget) SoAny::si()->unregisterGLContext((void*) this);
+    if (this->currentglwidget) SoAny::si()->unregisterGLContext((void *)PUBLIC(this));
     this->currentglwidget = wasprevious;
-    SoAny::si()->registerGLContext((void*) this, display, screen);
+    SoAny::si()->registerGLContext((void *)PUBLIC(this), display, screen);
     if (SOQT_DEBUG && 0) { // debug
       SoDebugError::postInfo("SoQtGLWidgetP::buildGLWidget",
                              "reused previously used GL widget");
@@ -1104,13 +1088,12 @@ SoQtGLWidgetP::buildGLWidget(void)
   else {
     // Couldn't use the previous widget, make a new one.
     SoQtGLWidget * sharewidget = (SoQtGLWidget*) SoAny::si()->getSharedGLContext(display, screen);
-    if (this->currentglwidget) SoAny::si()->unregisterGLContext((void*) this);
+    if (this->currentglwidget) SoAny::si()->unregisterGLContext((void *)PUBLIC(this));
     this->currentglwidget =
       new SoQtGLArea(this->glformat, this->borderwidget,
                      sharewidget ? (const QGLWidget*) sharewidget->getGLWidget() : NULL);
-    this->currentglwidget->registerQKeyEventHandler(SoQtGLWidgetP::GLAreaKeyEvent,
-                                                             this);
-    SoAny::si()->registerGLContext((void *)this, display, screen);
+    this->currentglwidget->registerQKeyEventHandler(SoQtGLWidgetP::GLAreaKeyEvent, this);
+    SoAny::si()->registerGLContext((void *)PUBLIC(this), display, screen);
     // Send this one to the final hunting grounds.    
     delete wasprevious;
   }
