@@ -513,17 +513,22 @@ SoQtKeyboard::translateEvent(
     if (keypad && kp_translatetable->find(key, table)) {
       struct key1map * map = (struct key1map*) table;
       this->kbdevent->setKey(map->to);
+#if 0 // disabled. Breaks build when compiling against OIV
       if (map->printable) this->kbdevent->setPrintableCharacter(map->printable);
+#endif // disabled
     } 
     else if (!keypad && translatetable->find(key, table)) {
       struct key1map * map = (struct key1map*) table;
       this->kbdevent->setKey(map->to);
+#if 0 // disabled. Breaks build when compiling against OIV
       if (map->printable) this->kbdevent->setPrintableCharacter(map->printable);
+#endif // disabled
     }
     else {
       this->kbdevent->setKey(SoKeyboardEvent::UNDEFINED);
-      // set printable character
+#if 0 // disabled. Breaks build when compiling against OIV
       this->kbdevent->setPrintableCharacter((char) keyevent->ascii());
+#endif // disabled
     }
 
     // Press or release?
