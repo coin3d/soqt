@@ -156,3 +156,29 @@ Note: see also src/Inventor/Qt/common/BUGS.txt.
     mortene 20020808.
 
 =====================================================================
+
+006 SoQtFlyViewer CTRL-modus can get sticky. To reproduce, hold down
+    CTRL, move mouse cursor outside canvas/window, release CTRL, move
+    cursor back into the canvas. Now it seems impossible to get rid of
+    the CTRL-mode.
+
+    The SoQtFlyViewer event handling generally seems a little
+    bug-prone. Should make SoGuiFlyViewer::processSoEvent() adapt the
+    strategy in for instance the ExaminerViewer, where we just check
+    the state of everything (modifier keys, mousebuttons, ...) and set
+    mode from that, instead of changing modes directly caused by user
+    actions.
+
+    20020923 mortene.
+
+=====================================================================
+
+007 For somewhat larger scenes, the vertical tilt during motion
+    doesn't work like in SGI's InventorXt -- actually, it hardly works
+    at all.
+
+    Bug reported by Ron Summers.
+
+    20020923 mortene.
+
+=====================================================================
