@@ -336,15 +336,12 @@ AC_CHECK_HEADERS([windows.h unistd.h sys/types.h sys/time.h X11/extensions/SGIMi
 # **************************************************************************
 # Search and set up necessary stuff to use Open Inventor or Coin.
 
-## Run AC_PATH_XTRA outside the if-then-else-fi, as a workaround for
-## an Autoconf bug (AC_PATH_XTRA AC_REQUIREs AC_PATH_X, which means
-## AC_PATH_X will only get expanded on the first AC_PATH_XTRA, which
-## means trouble when AC_PATH_XTRA uses $no_x="yes"? from AC_PATH_X
-## to decide whether or not to define X_DISPLAY_MISSING on X11-less
-## systems).
-##
-## The bug has been reported to the Autoconf mailinglist on 20001122
-## by mortene.
+## Run AC_PATH_XTRA outside the if-then-else-fi, as AC_PATH_XTRA
+## AC_REQUIREs AC_PATH_X, which means AC_PATH_X will only get
+## expanded on the first AC_PATH_XTRA, which means trouble when
+## AC_PATH_XTRA uses $no_x="yes"? from AC_PATH_X to decide whether
+## or not to define X_DISPLAY_MISSING on X11-less systems.
+
 AC_PATH_XTRA
 
 # $with_inventor is from within SIM_AC_HAVE_INVENTOR_IFELSE, and can
@@ -444,6 +441,9 @@ else
   ])
   SIM_AC_CONFIGURATION_SETTING([Open Inventor brand], [Coin])
 fi
+
+SIM_AC_CHECK_X11_READY([AC_DEFINE([HAVE_X11_AVAILABLE],,
+                          [define if it is possible to build against X11])])
 
 # Check for the availability of this node (it is used in the hidden
 # line rendering), which is not part of older Inventor implementations.
