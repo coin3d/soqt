@@ -269,4 +269,6 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
 
     20021015 mortene.
 
+    UPDATE 20021017 rolvs: This should be fixed now, please verify.
+
 =====================================================================
