@@ -71,8 +71,7 @@ inline int _not_null( const void * arg ) { return (arg != NULL) ? 1 : 0; }
     static int first = 1; \
     if ( first ) { \
       first = 0; \
-      (void)fprintf(stderr, "STUB: functionality not yet completed (first and la
-st warning)"); \
+      (void)fprintf(stderr, "STUB: functionality not yet completed (first and last warning)"); \
       if ( _not_null(SO@uGUI@_STUB_FILE) ) { \
         (void)fprintf(stderr, " at %s", SO@uGUI@_STUB_FILE); \
         if ( _not_null((void *)SO@uGUI@_STUB_LINE) ) \
