@@ -373,8 +373,8 @@ GradientView::copySegmentColorRight(void)
 void
 GradientView::copySegmentColorLeft(void)
 {
-  this->setGradientColor(this->segmentidx + 1, Gradient::RIGHT,
-                         this->grad.getColor(this->segmentidx + 1, Gradient::LEFT));
+  this->setGradientColor(this->segmentidx, Gradient::RIGHT,
+                         this->grad.getColor(this->segmentidx, Gradient::LEFT));
 }
 
 void
