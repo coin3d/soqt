@@ -124,7 +124,7 @@ private:
 
 SbPList * SoQtComponentP::soqtcomplist = NULL;
 
-#define THIS (this->pimpl)
+#define PRIVATE(o) (o->pimpl)
 
 // *************************************************************************
 
@@ -177,34 +177,34 @@ SoQtComponent::SoQtComponent(
   const char * const name,
   const SbBool embed )
 {
-  THIS = new SoQtComponentP(this);
+  PRIVATE( this ) = new SoQtComponentP(this);
 
-  THIS->realized = FALSE;
-  THIS->shelled = FALSE;
-  THIS->widget = NULL;
-  THIS->parent = parent;
-  THIS->closeCB = NULL;
-  THIS->closeCBdata = NULL;
-  THIS->visibilitychangeCBs = NULL;
-  THIS->fullscreen = FALSE;
+  PRIVATE( this )->realized = FALSE;
+  PRIVATE( this )->shelled = FALSE;
+  PRIVATE( this )->widget = NULL;
+  PRIVATE( this )->parent = parent;
+  PRIVATE( this )->closeCB = NULL;
+  PRIVATE( this )->closeCBdata = NULL;
+  PRIVATE( this )->visibilitychangeCBs = NULL;
+  PRIVATE( this )->fullscreen = FALSE;
 
   if ( name )
-    THIS->widgetname = name;
+    PRIVATE( this )->widgetname = name;
 
-  THIS->classname = "SoQtComponent";
+  PRIVATE( this )->classname = "SoQtComponent";
 
-  THIS->storesize.setValue( -1, -1 );
+  PRIVATE( this )->storesize.setValue( -1, -1 );
 
   if ( (parent == NULL) || ! embed ) {
-    THIS->parent = (QWidget *) new QMainWindow( parent, name );
+    PRIVATE( this )->parent = (QWidget *) new QMainWindow( parent, name );
     this->registerWidget( parent );
-    THIS->embedded = FALSE;
-    THIS->shelled = TRUE;
+    PRIVATE( this )->embedded = FALSE;
+    PRIVATE( this )->shelled = TRUE;
   } else {
-    THIS->parent = parent;
-    THIS->embedded = TRUE;
+    PRIVATE( this )->parent = parent;
+    PRIVATE( this )->embedded = TRUE;
   }
-  THIS->parent->installEventFilter( this );
+  PRIVATE( this )->parent->installEventFilter( this );
 } // SoQtComponent()
 
 /*!
@@ -214,20 +214,20 @@ SoQtComponent::SoQtComponent(
 SoQtComponent::~SoQtComponent(
   void )
 {
-  if ( ! THIS->embedded )
-    this->unregisterWidget( THIS->parent );
+  if ( ! PRIVATE( this )->embedded )
+    this->unregisterWidget( PRIVATE( this )->parent );
 
   int idx = SoQtComponentP::soqtcomplist->find( (void *) this);
   assert(idx != -1);
   SoQtComponentP::soqtcomplist->remove(idx);
 
-  delete THIS->visibilitychangeCBs;
+  delete PRIVATE( this )->visibilitychangeCBs;
 
   // If we've got a toplevel widget on our hands it won't
   // automatically be deallocated (there's no real parent widget).
-  if (THIS->widget && !THIS->widget->parentWidget()) delete THIS->widget;
+  if (PRIVATE( this )->widget && !PRIVATE( this )->widget->parentWidget()) delete PRIVATE( this )->widget;
 
-  delete THIS;
+  delete PRIVATE( this );
 } // ~SoQtComponent()
 
 /*!
@@ -243,11 +243,11 @@ SoQtComponent::addVisibilityChangeCallback(
   SoQtComponentVisibilityCB * const func,
   void * const user )
 {
-  if ( ! THIS->visibilitychangeCBs )
-    THIS->visibilitychangeCBs = new SbPList;
+  if ( ! PRIVATE( this )->visibilitychangeCBs )
+    PRIVATE( this )->visibilitychangeCBs = new SbPList;
 
-  THIS->visibilitychangeCBs->append( (void *) func );
-  THIS->visibilitychangeCBs->append( user );
+  PRIVATE( this )->visibilitychangeCBs->append( (void *) func );
+  PRIVATE( this )->visibilitychangeCBs->append( user );
 } // addVisibilityChangeCallback()
 
 /*!
@@ -263,17 +263,17 @@ SoQtComponent::removeVisibilityChangeCallback(
   void * const data )
 {
 #if SOQT_DEBUG
-  if ( ! THIS->visibilitychangeCBs ) {
+  if ( ! PRIVATE( this )->visibilitychangeCBs ) {
     SoDebugError::postWarning("SoQtComponent::removeVisibilityChangeCallback",
                               "empty callback list");
     return;
   }
 #endif // SOQT_DEBUG
 
-  int idx = THIS->visibilitychangeCBs->find( (void *) func);
+  int idx = PRIVATE( this )->visibilitychangeCBs->find( (void *) func);
   if (idx != -1 ) {
-    THIS->visibilitychangeCBs->remove(idx);
-    THIS->visibilitychangeCBs->remove(idx);
+    PRIVATE( this )->visibilitychangeCBs->remove(idx);
+    PRIVATE( this )->visibilitychangeCBs->remove(idx);
   }
 
 #if SOQT_DEBUG
@@ -295,7 +295,7 @@ void
 SoQtComponent::setClassName(
   const char * const name )
 {
-  THIS->classname = name;
+  PRIVATE( this )->classname = name;
 } // setClassName()
 
 // *************************************************************************
@@ -315,49 +315,49 @@ SoQtComponent::setBaseWidget(
 //  SoDebugError::postInfo( "SoQtComponent::setBaseWidget", "[invoked]" );
   assert( widget );
 
-//  if ( THIS->parent )
-//    THIS->parent->removeEventFilter( this );
-  if ( THIS->widget )
-    THIS->widget->removeEventFilter( this );
+//  if ( PRIVATE( this )->parent )
+//    PRIVATE( this )->parent->removeEventFilter( this );
+  if ( PRIVATE( this )->widget )
+    PRIVATE( this )->widget->removeEventFilter( this );
 
-  THIS->widget = widget;
-//  THIS->parent = widget->parentWidget();
+  PRIVATE( this )->widget = widget;
+//  PRIVATE( this )->parent = widget->parentWidget();
 
 #if 0 // debug
   SoDebugError::postInfo("SoQtComponent::setBaseWidget",
-                         "widget: %p, parent: %p", w, THIS->parent);
+                         "widget: %p, parent: %p", w, PRIVATE( this )->parent);
 #endif // debug
 
 
 #if 0 // debug
-  if (!THIS->captiontext.isNull()) {
+  if (!PRIVATE( this )->captiontext.isNull()) {
     SoDebugError::postInfo("SoQtComponent::setBaseWidget",
                            "setCaption('%s')",
-                           (const char *)THIS->captiontext);
+                           (const char *)PRIVATE( this )->captiontext);
   }
 #endif // debug
-  if (THIS->captiontext.isNull()) THIS->captiontext = this->getDefaultTitle();
-  this->getShellWidget()->setCaption(THIS->captiontext);
+  if (PRIVATE( this )->captiontext.isNull()) PRIVATE( this )->captiontext = this->getDefaultTitle();
+  this->getShellWidget()->setCaption(PRIVATE( this )->captiontext);
 
-  if (THIS->icontext.isNull()) THIS->icontext = this->getDefaultIconTitle();
-  this->getShellWidget()->setIconText(THIS->icontext);
+  if (PRIVATE( this )->icontext.isNull()) PRIVATE( this )->icontext = this->getDefaultIconTitle();
+  this->getShellWidget()->setIconText(PRIVATE( this )->icontext);
 
-  if (THIS->widgetname.isNull())
-    THIS->widgetname = this->getDefaultWidgetName();
-  THIS->widget->setName(THIS->widgetname);
+  if (PRIVATE( this )->widgetname.isNull())
+    PRIVATE( this )->widgetname = this->getDefaultWidgetName();
+  PRIVATE( this )->widget->setName(PRIVATE( this )->widgetname);
 
   // Need this to auto-detect resize events.
-//  if (THIS->parent) THIS->parent->installEventFilter(this);
-  THIS->widget->installEventFilter(this);
-  QObject::connect(THIS->widget, SIGNAL(destroyed()),
+//  if (PRIVATE( this )->parent) PRIVATE( this )->parent->installEventFilter(this);
+  PRIVATE( this )->widget->installEventFilter(this);
+  QObject::connect(PRIVATE( this )->widget, SIGNAL(destroyed()),
                    this, SLOT(widgetClosed()));
 #if 0 // debug
   SoDebugError::postInfo("SoQtComponent::setBaseWidget",
-                         "installeventfilter, widget: %p", THIS->widget);
+                         "installeventfilter, widget: %p", PRIVATE( this )->widget);
 #endif // debug
 
 //  if ( storesize[0] != -1 )
-//    THIS->widget->resize( QSize( storesize[0], storesize[1] ) );
+//    PRIVATE( this )->widget->resize( QSize( storesize[0], storesize[1] ) );
 } // setBaseWidget()
 
 // *************************************************************************
@@ -432,30 +432,30 @@ SoQtComponent::eventFilter( // virtual
   if (e->type() == QEvent::Resize) {
     QResizeEvent * r = (QResizeEvent *)e;
 
-    if (obj == (QObject *)THIS->parent) {
+    if (obj == (QObject *)PRIVATE( this )->parent) {
 #if SOQTCOMP_RESIZE_DEBUG  // debug
       SoDebugError::postInfo("SoQtComponent::eventFilter",
                              "resize on parent (%p) to %p: (%d, %d)",
-                             THIS->parent, THIS->widget,
+                             PRIVATE( this )->parent, PRIVATE( this )->widget,
                              r->size().width(), r->size().height());
 #endif // debug
-      THIS->widget->resize(r->size());
-      THIS->storesize.setValue( r->size().width(), r->size().height() );
-      this->sizeChanged(THIS->storesize);
+      PRIVATE( this )->widget->resize(r->size());
+      PRIVATE( this )->storesize.setValue( r->size().width(), r->size().height() );
+      this->sizeChanged(PRIVATE( this )->storesize);
     }
-    else if (obj == (QObject *)THIS->widget) {
-      THIS->storesize.setValue(r->size().width(), r->size().height());
-      this->sizeChanged(THIS->storesize);
+    else if (obj == (QObject *)PRIVATE( this )->widget) {
+      PRIVATE( this )->storesize.setValue(r->size().width(), r->size().height());
+      this->sizeChanged(PRIVATE( this )->storesize);
     }
   }
   // Detect visibility changes.
-  else if (obj == THIS->widget &&
+  else if (obj == PRIVATE( this )->widget &&
            (e->type() == QEvent::Show || e->type() == QEvent::Hide)) {
-    if (THIS->visibilitychangeCBs) {
-      for (int i=0; i < THIS->visibilitychangeCBs->getLength()/2; i++) {
+    if (PRIVATE( this )->visibilitychangeCBs) {
+      for (int i=0; i < PRIVATE( this )->visibilitychangeCBs->getLength()/2; i++) {
         SoQtComponentVisibilityCB * cb =
-          (SoQtComponentVisibilityCB *)(*(THIS->visibilitychangeCBs))[i*2+0];
-        void * userdata = (*(THIS->visibilitychangeCBs))[i*2+1];
+          (SoQtComponentVisibilityCB *)(*(PRIVATE( this )->visibilitychangeCBs))[i*2+0];
+        void * userdata = (*(PRIVATE( this )->visibilitychangeCBs))[i*2+1];
         cb(userdata, e->type() == QEvent::Show ? TRUE : FALSE);
       }
     }
@@ -466,8 +466,8 @@ SoQtComponent::eventFilter( // virtual
   // method, but the QEvent::Create type is not yet used in Qt (as of
   // version 2.2.2 at least) -- it has just been reserved for future
   // releases.
-  if (e->type() == QEvent::Show && !THIS->realized) {
-    THIS->realized = TRUE;
+  if (e->type() == QEvent::Show && !PRIVATE( this )->realized) {
+    PRIVATE( this )->realized = TRUE;
     this->afterRealizeHook();
   }
 
@@ -487,7 +487,7 @@ SoQtComponent::subclassInitialized(
   void )
 {
 #if SOQT_DEBUG
-  if(!THIS->widget) {
+  if(!PRIVATE( this )->widget) {
     SoDebugError::postWarning("SoQtComponent::subclassInitialized",
                               "Called while no QWidget has been set.");
     return;
@@ -510,7 +510,7 @@ SoQtComponent::show(
   void )
 {
 #if SOQT_DEBUG
-  if(!THIS->widget) {
+  if(!PRIVATE( this )->widget) {
     SoDebugError::postWarning("SoQtComponent::show",
                               "Called while no QWidget has been set.");
     return;
@@ -520,42 +520,42 @@ SoQtComponent::show(
 #if SOQTCOMP_RESIZE_DEBUG  // debug
   SoDebugError::postInfo("SoQtComponent::show-1",
                          "resizing %p: (%d, %d)",
-                         THIS->widget,
-                         THIS->storesize[0], THIS->storesize[1]);
+                         PRIVATE( this )->widget,
+                         PRIVATE( this )->storesize[0], PRIVATE( this )->storesize[1]);
 #endif // debug
 
-  if ( THIS->shelled )
-    THIS->parent->resize(THIS->storesize[0], THIS->storesize[1]);
+  if ( PRIVATE( this )->shelled )
+    PRIVATE( this )->parent->resize(PRIVATE( this )->storesize[0], PRIVATE( this )->storesize[1]);
   else
-    THIS->widget->resize(THIS->storesize[0], THIS->storesize[1]);
+    PRIVATE( this )->widget->resize(PRIVATE( this )->storesize[0], PRIVATE( this )->storesize[1]);
 
 #if SOQTCOMP_RESIZE_DEBUG  // debug
   SoDebugError::postInfo("SoQtComponent::show-2",
                          "resized %p: (%d, %d)",
-                         THIS->widget,
-                         THIS->widget->size().width(),
-                         THIS->widget->size().height());
+                         PRIVATE( this )->widget,
+                         PRIVATE( this )->widget->size().width(),
+                         PRIVATE( this )->widget->size().height());
 #endif // debug
 
-  if (THIS->widget) 
-    THIS->widget->topLevelWidget()->show();
+  if (PRIVATE( this )->widget) 
+    PRIVATE( this )->widget->topLevelWidget()->show();
 #if SOQTCOMP_RESIZE_DEBUG  // debug
   SoDebugError::postInfo("SoQtComponent::show-3",
                          "showed %p: (%d, %d)",
-                         THIS->widget,
-                         THIS->widget->size().width(),
-                         THIS->widget->size().height());
+                         PRIVATE( this )->widget,
+                         PRIVATE( this )->widget->size().width(),
+                         PRIVATE( this )->widget->size().height());
 #endif // debug
 
-  THIS->widget->raise();
+  PRIVATE( this )->widget->raise();
 #if SOQTCOMP_RESIZE_DEBUG  // debug
   SoDebugError::postInfo("SoQtComponent::show-4",
                          "raised %p: (%d, %d)",
-                         THIS->widget,
-                         THIS->widget->size().width(),
-                         THIS->widget->size().height());
+                         PRIVATE( this )->widget,
+                         PRIVATE( this )->widget->size().width(),
+                         PRIVATE( this )->widget->size().height());
 #endif // debug
-  this->sizeChanged( THIS->storesize );
+  this->sizeChanged( PRIVATE( this )->storesize );
   if (SoQt::getApplication())
     SoQt::getApplication()->processEvents();
 } // show()
@@ -571,15 +571,15 @@ SoQtComponent::hide(
   void )
 {
 #if SOQT_DEBUG
-  if(!THIS->widget) {
+  if(!PRIVATE( this )->widget) {
     SoDebugError::postWarning("SoQtComponent::hide",
                               "Called while no QWidget has been set.");
     return;
   }
 #endif // SOQT_DEBUG
 
-  if (THIS->widget) 
-    THIS->widget->topLevelWidget()->hide();
+  if (PRIVATE( this )->widget) 
+    PRIVATE( this )->widget->topLevelWidget()->hide();
   if (SoQt::getApplication())
     SoQt::getApplication()->processEvents();
 } // hide()
@@ -600,9 +600,9 @@ SbBool
 SoQtComponent::isVisible(
   void )
 {
-  if ( ! THIS->widget )
+  if ( ! PRIVATE( this )->widget )
     return FALSE;
-  return THIS->widget->isVisible() && THIS->widget->isVisibleToTLW();
+  return PRIVATE( this )->widget->isVisible() && PRIVATE( this )->widget->isVisibleToTLW();
 } // isVisible()
 
 /*!
@@ -615,7 +615,7 @@ QWidget *
 SoQtComponent::getWidget(
   void ) const
 {
-  return THIS->widget;
+  return PRIVATE( this )->widget;
 } // getWidget()
 
 /*!
@@ -630,7 +630,7 @@ QWidget *
 SoQtComponent::baseWidget(
   void ) const
 {
-  return THIS->widget;
+  return PRIVATE( this )->widget;
 } // baseWidget()
 
 /*!
@@ -645,13 +645,13 @@ SoQtComponent::isTopLevelShell(
   void ) const
 {
 #if SOQT_DEBUG && 0
-  if ( ! THIS->widget ) {
+  if ( ! PRIVATE( this )->widget ) {
     SoDebugError::postWarning( "SoQtComponent::isTopLevelShell",
       "Called while no QWidget has been set." );
     return FALSE;
   }
 #endif // SOQT_DEBUG
-  return THIS->embedded ? FALSE : TRUE;
+  return PRIVATE( this )->embedded ? FALSE : TRUE;
 } // isTopLevelShell()
 
 /*!
@@ -665,11 +665,11 @@ QWidget *
 SoQtComponent::getShellWidget(
   void ) const
 {
-  return THIS->parent;
-  if ( THIS->widget )
-    return THIS->widget->topLevelWidget();
-  if ( THIS->parent )
-    return THIS->parent->topLevelWidget();
+  return PRIVATE( this )->parent;
+  if ( PRIVATE( this )->widget )
+    return PRIVATE( this )->widget->topLevelWidget();
+  if ( PRIVATE( this )->parent )
+    return PRIVATE( this )->parent->topLevelWidget();
 #if SOQT_DEBUG
   SoDebugError::postWarning("SoQtComponent::getShellWidget",
                             "No base widget or parent widget.");
@@ -688,7 +688,7 @@ QWidget *
 SoQtComponent::getParentWidget(
   void ) const
 {
-  return THIS->parent;
+  return PRIVATE( this )->parent;
 } // getParentWidget()
 
 /*!
@@ -702,8 +702,8 @@ void
 SoQtComponent::setTitle(
   const char * const title )
 {
-  THIS->captiontext = title;
-  if ( THIS->widget )
+  PRIVATE( this )->captiontext = title;
+  if ( PRIVATE( this )->widget )
     this->getShellWidget()->setCaption( title );
 } // setTitle()
 
@@ -719,7 +719,7 @@ SoQtComponent::getTitle(
   void ) const
 {
   return
-    THIS->captiontext.isNull() ? nullstring : (const char *) THIS->captiontext;
+    PRIVATE( this )->captiontext.isNull() ? nullstring : (const char *) PRIVATE( this )->captiontext;
 } // getTitle()
 
 /*!
@@ -733,8 +733,8 @@ void
 SoQtComponent::setIconTitle(
   const char * const title )
 {
-  THIS->icontext = title;
-  if (THIS->widget)
+  PRIVATE( this )->icontext = title;
+  if (PRIVATE( this )->widget)
     this->getShellWidget()->setIconText( title );
 } // setIconTitle()
 
@@ -749,7 +749,7 @@ const char *
 SoQtComponent::getIconTitle(
   void ) const
 {
-  return THIS->icontext.isNull() ? nullstring : (const char *)THIS->icontext;
+  return PRIVATE( this )->icontext.isNull() ? nullstring : (const char *)PRIVATE( this )->icontext;
 } // getIconTitle()
 
 /*!
@@ -761,7 +761,7 @@ SoQtComponent::getWidgetName(
   void ) const
 {
   return
-    THIS->widgetname.isNull() ? nullstring : (const char *)THIS->widgetname;
+    PRIVATE( this )->widgetname.isNull() ? nullstring : (const char *)PRIVATE( this )->widgetname;
 } // getWidgetName()
 
 /*!
@@ -772,7 +772,7 @@ const char *
 SoQtComponent::getClassName(
   void ) const
 {
-  return (const char *)THIS->classname;
+  return (const char *)PRIVATE( this )->classname;
 } // getClassName()
 
 /*!
@@ -835,14 +835,14 @@ SoQtComponent::setSize(
 #if SOQTCOMP_RESIZE_DEBUG  // debug
   SoDebugError::postInfo("SoQtComponent::setSize",
                          "resize %p: (%d, %d)",
-                         THIS->widget,
+                         PRIVATE( this )->widget,
                          size[0], size[1]);
 #endif // debug
   if ( this->isTopLevelShell() ) {
     QWidget * shell = this->getShellWidget();
     if ( shell ) shell->resize( size[0], size[1] );
   }
-  THIS->storesize = size;
+  PRIVATE( this )->storesize = size;
   this->sizeChanged( size );
 } // setSize()
 
@@ -856,7 +856,7 @@ SbVec2s
 SoQtComponent::getSize(
   void ) const
 {
-  return THIS->storesize;
+  return PRIVATE( this )->storesize;
 } // getSize()
 
 /*!
@@ -911,8 +911,8 @@ SoQtComponent::setWindowCloseCallback(
   SoQtComponentCB * const func,
   void * const data )
 {
-  THIS->closeCB = func;
-  THIS->closeCBdata = data;
+  PRIVATE( this )->closeCB = func;
+  PRIVATE( this )->closeCBdata = data;
 }
 
 /*!
@@ -925,8 +925,8 @@ void
 SoQtComponent::widgetClosed(
   void )
 {
-  if ( THIS->closeCB )
-    THIS->closeCB( THIS->closeCBdata, this );
+  if ( PRIVATE( this )->closeCB )
+    PRIVATE( this )->closeCB( PRIVATE( this )->closeCBdata, this );
 } // widgetClosed()
 
 // *************************************************************************
@@ -995,7 +995,7 @@ SoQtComponent::afterRealizeHook( // virtual
 SbBool 
 SoQtComponent::setFullScreen(const SbBool onoff)
 {
-  if (onoff == THIS->fullscreen) { return TRUE; }
+  if (onoff == PRIVATE( this )->fullscreen) { return TRUE; }
   
   // FIXME: hmm.. this looks suspicious. Shouldn't we just return
   // FALSE if the (base)widget is not a shellwidget? 20010817 mortene.
@@ -1014,7 +1014,7 @@ SoQtComponent::setFullScreen(const SbBool onoff)
 #if HAVE_QWIDGET_SHOWFULLSCREEN
   if (onoff) w->showFullScreen();
   else w->showNormal();
-  THIS->fullscreen = onoff;
+  PRIVATE( this )->fullscreen = onoff;
   return TRUE;
 #else // !HAVE_QWIDGET_SHOWFULLSCREEN
   SoDebugError::postWarning("SoQtComponent::setFullScreen",
@@ -1032,7 +1032,7 @@ SoQtComponent::setFullScreen(const SbBool onoff)
 SbBool 
 SoQtComponent::isFullScreen(void) const
 {
-  return THIS->fullscreen;
+  return PRIVATE( this )->fullscreen;
 }
 
 // *************************************************************************
