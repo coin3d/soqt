@@ -106,7 +106,6 @@ WIDGET = @WIDGET@
 coin_version = @coin_version@
 gui = @gui@
 install_sh = @install_sh@
-lGUI = @lGUI@
 qt_version = @qt_version@
 sim_ac_coin_configcmd = @sim_ac_coin_configcmd@
 sim_ac_doxygen_exe = @sim_ac_doxygen_exe@
@@ -119,7 +118,6 @@ soqt_dox_src_dir = @soqt_dox_src_dir@
 soqt_include_dir = @soqt_include_dir@
 soqt_lib_dir = @soqt_lib_dir@
 soqt_src_dir = @soqt_src_dir@
-uGUI = @uGUI@
 
 
 noinst_LTLIBRARIES = libSoQtViewers.la
@@ -177,7 +175,7 @@ libSoQtViewersinc_HEADERS = \
 	$(top_srcdir)/src/Inventor/Qt/viewers/SoQtFlyViewer.h
 
 subdir = src/Inventor/Qt/viewers
-mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = ../../../../config.h
 CONFIG_CLEAN_FILES = 
 LTLIBRARIES =  $(noinst_LTLIBRARIES)
@@ -212,7 +210,7 @@ LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDF
 DIST_SOURCES =  $(libSoQtViewers_la_SOURCES)
 HEADERS =  $(libSoQtViewersinc_HEADERS)
 
-depcomp = $(SHELL) $(top_srcdir)/depcomp
+depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 DEP_FILES =  @AMDEP@ $(DEPDIR)/SoAnyExaminerViewer.Plo \
 $(DEPDIR)/SoAnyFullViewer.Plo $(DEPDIR)/SoAnyPlaneViewer.Plo \
 $(DEPDIR)/SoQtConstrainedViewer.Plo $(DEPDIR)/SoQtExaminerViewer.Plo \

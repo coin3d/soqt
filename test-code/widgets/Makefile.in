@@ -106,19 +106,18 @@ WIDGET = @WIDGET@
 coin_version = @coin_version@
 gui = @gui@
 install_sh = @install_sh@
-lGUI = @lGUI@
 qt_version = @qt_version@
 sim_ac_coin_configcmd = @sim_ac_coin_configcmd@
 sim_ac_doxygen_exe = @sim_ac_doxygen_exe@
 sim_ac_perl_exe = @sim_ac_perl_exe@
 soqt_build_dir = @soqt_build_dir@
 soqt_configure_date = @soqt_configure_date@
+soqt_data_dir = @soqt_data_dir@
 soqt_dox_build_dir = @soqt_dox_build_dir@
 soqt_dox_src_dir = @soqt_dox_src_dir@
 soqt_include_dir = @soqt_include_dir@
 soqt_lib_dir = @soqt_lib_dir@
 soqt_src_dir = @soqt_src_dir@
-uGUI = @uGUI@
 
 
 INCLUDES = -I$(top_srcdir)/src
@@ -126,7 +125,7 @@ noinst_PROGRAMS = thumbwheel
 thumbwheel_SOURCES = thumbwheel.cpp
 thumbwheel_LDADD = $(top_builddir)/src/Inventor/Qt/libSoQt.la
 subdir = test-code/widgets
-mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = ../../config.h
 CONFIG_CLEAN_FILES = 
 PROGRAMS =  $(noinst_PROGRAMS)
@@ -150,7 +149,7 @@ CXXFLAGS = @CXXFLAGS@
 CXXLD = $(CXX)
 CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 DIST_SOURCES =  $(thumbwheel_SOURCES)
-depcomp = $(SHELL) $(top_srcdir)/depcomp
+depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 DEP_FILES =  @AMDEP@ $(DEPDIR)/thumbwheel.Po
 DIST_COMMON =  README Makefile.am Makefile.in
 

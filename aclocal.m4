@@ -2461,15 +2461,12 @@ fi
 # 
 # Author: Morten Eriksen, <mortene@sim.no>.
 # 
-# TODO:
-#   * [mortene:19991114] make this work with compilers other than gcc/g++
-# 
 
 AC_DEFUN([SIM_AC_DEBUGSYMBOLS], [
 AC_ARG_ENABLE(
   [symbols],
   AC_HELP_STRING([--enable-symbols],
-                 [(GCC only) include symbol debug information [default=yes]]),
+                 [include symbol debug information [default=yes]]),
   [case "${enableval}" in
     yes) enable_symbols=yes ;;
     no)  enable_symbols=no ;;
@@ -2478,16 +2475,11 @@ AC_ARG_ENABLE(
   [enable_symbols=yes])
 
 if test x"$enable_symbols" = x"no"; then
-  if test x"$GXX" = x"yes" || x"$GCC" = x"yes"; then
-    CFLAGS="`echo $CFLAGS | sed 's/-g//'`"
-    CPPFLAGS="`echo $CPPFLAGS | sed 's/-g//'`"
-    CXXFLAGS="`echo $CXXFLAGS | sed 's/-g//'`"
-  else
-    AC_MSG_WARN([--disable-symbols only has effect when using GNU gcc or g++])
-  fi
+  CFLAGS="`echo $CFLAGS | sed 's/-g//'`"
+  CPPFLAGS="`echo $CPPFLAGS | sed 's/-g//'`"
+  CXXFLAGS="`echo $CXXFLAGS | sed 's/-g//'`"
 fi
 ])
-
 
 # Usage:
 #   SIM_AC_RTTI_SUPPORT

@@ -58,6 +58,18 @@
 /* Name of package */
 #undef PACKAGE
 
+/* Define to the major version of SoQt */
+#undef SOQT_MAJOR_VERSION
+
+/* Define to the micro version of SoQt */
+#undef SOQT_MICRO_VERSION
+
+/* Define to the minor version of SoQt */
+#undef SOQT_MINOR_VERSION
+
+/* Version string for SoQt */
+#undef SOQT_VERSION
+
 /* Define this to device handle to fallback on */
 #undef SOXT_LINUX_JOYSTICK_DEVICE
 

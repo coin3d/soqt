@@ -1,7 +1,8 @@
 # **************************************************************************
 # SoQt/configure.in
 
-AC_INIT(src/Inventor/Qt/SoQt.h) # any 'typical' file in the project
+AC_INIT(src/Inventor/Qt/SoQt.h)
+AC_CONFIG_AUX_DIR(cfg)
 
 sim_ac_cvs_syncproblem=false;
 
@@ -52,10 +53,14 @@ AC_SUBST(LT_AGE)
 
 VERSION=$SOQT_VERSION
 
-AC_DEFINE_UNQUOTED(SOQT_MAJOR_VERSION, $SOQT_MAJOR_VERSION)
-AC_DEFINE_UNQUOTED(SOQT_MINOR_VERSION, $SOQT_MINOR_VERSION)
-AC_DEFINE_UNQUOTED(SOQT_MICRO_VERSION, $SOQT_MICRO_VERSION)
-AC_DEFINE_UNQUOTED(SOQT_VERSION, "$SOQT_VERSION")
+AC_DEFINE_UNQUOTED(SOQT_MAJOR_VERSION, $SOQT_MAJOR_VERSION,
+  [Define to the major version of SoQt])
+AC_DEFINE_UNQUOTED(SOQT_MINOR_VERSION, $SOQT_MINOR_VERSION,
+  [Define to the minor version of SoQt])
+AC_DEFINE_UNQUOTED(SOQT_MICRO_VERSION, $SOQT_MICRO_VERSION,
+  [Define to the micro version of SoQt])
+AC_DEFINE_UNQUOTED(SOQT_VERSION, "$SOQT_VERSION",
+  [Version string for SoQt])
 
 # **************************************************************************
 # Miscellaneous options and initializations.
@@ -300,11 +305,12 @@ AM_CONDITIONAL(BUILD_IV_EXAMPLES, test x"$sim_ac_ivexamples_available" = xyes)
 # **************************************************************************
 # Variable substitutions for using libSoQt in the generic code.
 
-. ${srcdir}/libconfigvars.sh
-
-# old setup
-AC_SUBST(lGUI)
-AC_SUBST(uGUI)
+GUI=QT
+Gui=Qt
+gui=qt
+WIDGET="QWidget *"
+EVENT="QEvent *"
+COMPONENTHEADER="Q_OBJECT"
 
 AC_SUBST(Gui)
 AC_SUBST(gui)
@@ -447,6 +453,9 @@ AC_OUTPUT([
 	src/Inventor/Qt/devices/Makefile
 	src/Inventor/Qt/viewers/Makefile
 	src/Inventor/Qt/widgets/Makefile
+	test-code/Makefile
+	test-code/components/Makefile
+	test-code/widgets/Makefile
 	build/soqt.doxygen
         build/soqt.dsp
         build/soqt.mak

@@ -106,24 +106,23 @@ WIDGET = @WIDGET@
 coin_version = @coin_version@
 gui = @gui@
 install_sh = @install_sh@
-lGUI = @lGUI@
 qt_version = @qt_version@
 sim_ac_coin_configcmd = @sim_ac_coin_configcmd@
 sim_ac_doxygen_exe = @sim_ac_doxygen_exe@
 sim_ac_perl_exe = @sim_ac_perl_exe@
 soqt_build_dir = @soqt_build_dir@
 soqt_configure_date = @soqt_configure_date@
+soqt_data_dir = @soqt_data_dir@
 soqt_dox_build_dir = @soqt_dox_build_dir@
 soqt_dox_src_dir = @soqt_dox_src_dir@
 soqt_include_dir = @soqt_include_dir@
 soqt_lib_dir = @soqt_lib_dir@
 soqt_src_dir = @soqt_src_dir@
-uGUI = @uGUI@
 
 
 SUBDIRS = components widgets
 subdir = test-code
-mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = ../config.h
 CONFIG_CLEAN_FILES = 
 DIST_SOURCES = 
@@ -176,10 +175,11 @@ maintainer-clean-recursive:
 	@set fnord $(MAKEFLAGS); amf=$$2; \
 	dot_seen=no; \
 	rev=''; list='$(SUBDIRS)'; for subdir in $$list; do \
-	  rev="$$subdir $$rev"; \
-	  if test "$$subdir" = "."; then dot_seen=yes; else :; fi; \
+	  if test "$$subdir" = "."; then :; else \
+	    rev="$$subdir $$rev"; \
+	  fi; \
 	done; \
-	test "$$dot_seen" = "no" && rev=". $$rev"; \
+	rev="$$rev ."; \
 	target=`echo $@ | sed s/-recursive//`; \
 	for subdir in $$rev; do \
 	  echo "Making $$target in $$subdir"; \
