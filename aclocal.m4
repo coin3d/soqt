@@ -824,7 +824,7 @@ fi
 ])
 
 # Usage:
-#  SIM_CHECK_DL([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+#  SIM_AC_CHECK_DL([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 #
 #  Try to find the dynamic link loader library. If it is found, these
 #  shell variables are set:
@@ -839,19 +839,12 @@ fi
 #
 #
 # Author: Morten Eriksen, <mortene@sim.no>.
-#
-# TODO:
-#    * [mortene:20000122] make sure this work on MSWin (with
-#      Cygwin installation)
-#
 
-AC_DEFUN([SIM_CHECK_DL], [
-AC_PREREQ([2.14.1])
-
+AC_DEFUN([SIM_AC_CHECK_DL], [
 AC_ARG_WITH(
   [dl],
   AC_HELP_STRING([--with-dl=DIR],
-                 [include support for the dynamic link loader library [default=yes]]),
+                 [include support for the dynamic link loader library [[default=yes]]]),
   [],
   [with_dl=yes])
 
@@ -872,9 +865,17 @@ if test x"$with_dl" != xno; then
   LDFLAGS="$LDFLAGS $sim_ac_dl_ldflags"
   LIBS="$sim_ac_dl_libs $LIBS"
 
+  # Use SIM_AC_CHECK_HEADERS instead of .._HEADER to get the
+  # HAVE_DLFCN_H symbol set up in config.h automatically.
+  SIM_AC_CHECK_HEADERS(dlfcn.h)
+
   AC_CACHE_CHECK([whether the dynamic link loader library is available],
     sim_cv_lib_dl_avail,
-    [AC_TRY_LINK([#include <dlfcn.h>],
+    [AC_TRY_LINK([
+#if HAVE_DLFCN_H
+#include <dlfcn.h>
+#endif /* HAVE_DLFCN_H */
+],
                  [(void)dlopen(0L, 0);],
                  [sim_cv_lib_dl_avail=yes],
                  [sim_cv_lib_dl_avail=no])])
@@ -891,6 +892,37 @@ if test x"$with_dl" != xno; then
 fi
 ])
 
+# SIM_AC_CHECK_HEADER(HEADER-FILE, [ACTION-IF-FOUND], [ACTION-IF-NOT-FOUND])
+# --------------------------------------------------------------------------
+# Modified AC_CHECK_HEADER to use AC_TRY_COMPILE instead of AC_TRY_CPP,
+# as we can get false positives and/or false negatives when running under
+# Cygwin, using the Microsoft Visual C++ compiler (the configure script will
+# pick the GCC preprocessor).
+AC_DEFUN([SIM_AC_CHECK_HEADER],
+[AC_VAR_PUSHDEF([ac_Header], [ac_cv_header_$1])dnl
+AC_ARG_VAR([CPPFLAGS], [C/C++ preprocessor flags, e.g. -I<include dir> if you ha
+ve headers in a nonstandard directory <include dir>])
+AC_CACHE_CHECK([for $1], ac_Header,
+[AC_TRY_COMPILE([#include <$1>
+], [],
+AC_VAR_SET(ac_Header, yes), AC_VAR_SET(ac_Header, no))])
+AC_SHELL_IFELSE([test AC_VAR_GET(ac_Header) = yes],
+                [$2], [$3])dnl
+AC_VAR_POPDEF([ac_Header])dnl
+])# SIM_AC_CHECK_HEADER
+
+
+# SIM_AC_CHECK_HEADERS(HEADER-FILE...
+#                  [ACTION-IF-FOUND], [ACTION-IF-NOT-FOUND])
+# ----------------------------------------------------------
+AC_DEFUN([SIM_AC_CHECK_HEADERS],
+[for ac_header in $1
+do
+SIM_AC_CHECK_HEADER($ac_header,
+                    [AC_DEFINE_UNQUOTED(AC_TR_CPP(HAVE_$ac_header)) $2],
+                    [$3])dnl
+done
+])# SIM_AC_CHECK_HEADERS
 
 # Usage:
 #  SIM_CHECK_X11([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
@@ -1306,7 +1338,7 @@ fi
 #  SIM_AC_CHECK_OPENGL([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 #
 #  Try to find an OpenGL development system, either a native
-#  implementation or the OpenGL-compatible Mesa libraries. If
+#  implementation or the OpenGL-compatible Mesa library. If
 #  it is found, these shell variables are set:
 #
 #    $sim_ac_gl_cppflags (extra flags the compiler needs for OpenGL/Mesa)
@@ -1330,33 +1362,25 @@ sim_ac_gl_avail=no
 AC_ARG_WITH(
   [mesa],
   AC_HELP_STRING([--with-mesa],
-                 [prefer MesaGL (if found) over OpenGL [default=yes]]),
+                 [prefer MesaGL (if found) over OpenGL [[default=yes]]]),
   [],
   [with_mesa=yes])
 
 if test x"$sim_ac_linking_style" = xmswin; then
   sim_ac_gl_glname=opengl32.lib
-  sim_ac_gl_gluname=glu32.lib
-  # FIXME: are these two names correct? Probably not. 20000602 mortene.
+  # FIXME: is this name correct? Probably not. 20000602 mortene.
   sim_ac_gl_mesaglname=mesagl.lib
-  sim_ac_gl_mesagluname=mesaglu.lib
 else
   sim_ac_gl_glname=-lGL
-  sim_ac_gl_gluname=-lGLU
   sim_ac_gl_mesaglname=-lMesaGL
-  sim_ac_gl_mesagluname=-lMesaGLU
 fi
 
 if test "x$with_mesa" = "xyes"; then
-  sim_ac_gl_first_gl=$sim_ac_gl_mesaglname
-  sim_ac_gl_first_glu=$sim_ac_gl_mesagluname
-  sim_ac_gl_second_gl=$sim_ac_gl_glname
-  sim_ac_gl_second_glu=$sim_ac_gl_gluname
+  sim_ac_gl_first=$sim_ac_gl_mesaglname
+  sim_ac_gl_second=$sim_ac_gl_glname
 else
-  sim_ac_gl_first_gl=$sim_ac_gl_glname
-  sim_ac_gl_first_glu=$sim_ac_gl_gluname
-  sim_ac_gl_second_gl=$sim_ac_gl_mesaglname
-  sim_ac_gl_second_glu=$sim_ac_gl_mesagluname
+  sim_ac_gl_first=$sim_ac_gl_glname
+  sim_ac_gl_second=$sim_ac_gl_mesaglname
 fi
 
 AC_ARG_WITH(
@@ -1371,7 +1395,7 @@ if test x"$with_opengl" != xno; then
     sim_ac_gl_cppflags="-I${with_opengl}/include"
     sim_ac_gl_ldflags="-L${with_opengl}/lib"
   else
-    # This is a common location for the OpenGL libraries on HPUX.
+    # This is a common location for the OpenGL library on HPUX.
     sim_ac_gl_hpux=/opt/graphics/OpenGL
     if test -d $sim_ac_gl_hpux; then
       sim_ac_gl_cppflags=-I$sim_ac_gl_hpux/include
@@ -1387,23 +1411,22 @@ if test x"$with_opengl" != xno; then
   LDFLAGS="$LDFLAGS $sim_ac_gl_ldflags"
 
   AC_CACHE_CHECK(
-    [whether OpenGL libraries are available],
+    [whether OpenGL library is available],
     sim_cv_lib_gl,
     [sim_cv_lib_gl=UNRESOLVED
 
-    # Some platforms (like BeOS) have the GLU functionality in the GL
-    # library (and no GLU library present), so the check is first done
-    # against -lGL or -lMesaGL alone.
-    for sim_ac_gl_libcheck in $sim_ac_gl_first_gl "$sim_ac_gl_first_gl $sim_ac_gl_first_glu"  $sim_ac_gl_second_gl "$sim_ac_gl_second_gl $sim_ac_gl_second_glu"; do
+    for sim_ac_gl_libcheck in $sim_ac_gl_first $sim_ac_gl_second; do
       if test "x$sim_cv_lib_gl" = "xUNRESOLVED"; then
         LIBS="$sim_ac_gl_libcheck $sim_ac_save_libs"
-        AC_TRY_LINK([#ifdef _WIN32
-                    #include <windows.h>
-                    #endif
-                    #include <GL/gl.h>
-                    #include <GL/glu.h>],
-                    [glPointSize(1.0f);
-                    gluSphere(0L, 1.0, 1, 1);],
+        AC_TRY_LINK([
+#ifdef _WIN32
+#include <windows.h>
+#endif
+#include <GL/gl.h>
+],
+                    [
+glPointSize(1.0f);
+],
                     [sim_cv_lib_gl="$sim_ac_gl_libcheck"])
       fi
     done
@@ -1414,7 +1437,7 @@ if test x"$with_opengl" != xno; then
   if test "x$sim_cv_lib_gl" != "xUNRESOLVED"; then
     sim_ac_gl_libs="$sim_cv_lib_gl"
   else
-    AC_MSG_WARN([couldn't compile or link with OpenGL libraries -- trying with pthread library in place...])
+    AC_MSG_WARN([couldn't compile or link with OpenGL library -- trying with pthread library in place...])
 
     SIM_AC_CHECK_PTHREAD([
       sim_ac_gl_cppflags="$sim_ac_gl_cppflags $sim_ac_pthread_cppflags"
@@ -1423,20 +1446,19 @@ if test x"$with_opengl" != xno; then
 
     if test "x$sim_ac_pthread_avail" = "xyes"; then
       AC_CACHE_CHECK(
-        [whether OpenGL libraries can be linked with pthread library],
+        [whether OpenGL library can be linked with pthread library],
         sim_cv_lib_gl_pthread,
         [sim_cv_lib_gl_pthread=UNRESOLVED
 
-        # Some platforms (like BeOS) have the GLU functionality in the GL
-        # library (and no GLU library present), so the check is first done
-        # against -lGL or -lMesaGL alone.
-        for sim_ac_gl_libcheck in $sim_ac_gl_first_gl "$sim_ac_gl_first_gl $sim_ac_gl_first_glu"  $sim_ac_gl_second_gl "$sim_ac_gl_second_gl $sim_ac_gl_second_glu"; do
+        for sim_ac_gl_libcheck in $sim_ac_gl_first $sim_ac_gl_second; do
           if test "x$sim_cv_lib_gl_pthread" = "xUNRESOLVED"; then
             LIBS="$sim_ac_gl_libcheck $sim_ac_pthread_libs $sim_ac_save_libs"
-            AC_TRY_LINK([#include <GL/gl.h>
-                        #include <GL/glu.h>],
-                        [glPointSize(1.0f);
-                        gluSphere(0L, 1.0, 1, 1);],
+            AC_TRY_LINK([
+#include <GL/gl.h>
+],
+                        [
+glPointSize(1.0f);
+],
                         [sim_cv_lib_gl_pthread="$sim_ac_gl_libcheck"])
           fi
         done
@@ -1461,6 +1483,138 @@ if test x"$with_opengl" != xno; then
   fi
 fi
 ])
+
+
+# Usage:
+#  SIM_AC_CHECK_GLU([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+#
+#  Try to use the OpenGL utility library; GLU. If it is found,
+#  these shell variables are set:
+#
+#    $sim_ac_glu_cppflags (extra flags the compiler needs for GLU)
+#    $sim_ac_glu_ldflags  (extra flags the linker needs for GLU)
+#    $sim_ac_glu_libs     (link libraries the linker needs for GLU)
+#
+#  The CPPFLAGS, LDFLAGS and LIBS flags will also be modified accordingly.
+#  In addition, the variable $sim_ac_gly_avail is set to "yes" if GLU
+#  is found.
+#
+#
+# Author: Morten Eriksen, <mortene@sim.no>.
+
+AC_DEFUN(SIM_AC_CHECK_GLU, [
+
+unset sim_ac_glu_cppflags
+unset sim_ac_glu_ldflags
+unset sim_ac_glu_libs
+sim_ac_glu_avail=no
+
+if test x"$sim_ac_linking_style" = xmswin; then
+  sim_ac_glu_name=glu32.lib
+  # FIXME: is this name correct? Probably not. 20000928 mortene.
+  sim_ac_glu_mesaname=mesaglu.lib
+else
+  sim_ac_glu_name=-lGLU
+  sim_ac_glu_mesaname=-lMesaGLU
+fi
+
+# with_mesa is set from the SIM_AC_CHECK_OPENGL macro.
+if test "x$with_mesa" = "xyes"; then
+  sim_ac_glu_first=$sim_ac_glu_mesaname
+  sim_ac_glu_second=$sim_ac_glu_name
+else
+  sim_ac_glu_first=$sim_ac_glu_name
+  sim_ac_glu_second=$sim_ac_glu_mesaname
+fi
+
+AC_ARG_WITH(
+  [glu],
+  AC_HELP_STRING([--with-glu=DIR],
+                 [use the OpenGL utility library [[default=yes]]]),
+  [],
+  [with_glu=yes])
+
+if test x"$with_glu" != xno; then
+  if test x"$with_glu" != xyes; then
+    sim_ac_glu_cppflags="-I${with_glu}/include"
+    sim_ac_glu_ldflags="-L${with_glu}/lib"
+  fi
+
+  sim_ac_save_cppflags=$CPPFLAGS
+  sim_ac_save_ldflags=$LDFLAGS
+  sim_ac_save_libs=$LIBS
+
+  CPPFLAGS="$CPPFLAGS $sim_ac_glu_cppflags"
+  LDFLAGS="$LDFLAGS $sim_ac_glu_ldflags"
+
+  AC_CACHE_CHECK(
+    [whether GLU is available],
+    sim_cv_lib_glu,
+    [sim_cv_lib_glu=UNRESOLVED
+
+    # Some platforms (like BeOS) have the GLU functionality in the GL
+    # library (and no GLU library present).
+    for sim_ac_glu_libcheck in "" "$sim_ac_glu_first"  "$sim_ac_glu_second"; do
+      if test "x$sim_cv_lib_glu" = "xUNRESOLVED"; then
+        LIBS="$sim_ac_glu_libcheck $sim_ac_save_libs"
+        AC_TRY_LINK([
+#ifdef _WIN32
+#include <windows.h>
+#endif
+#include <GL/gl.h>
+#include <GL/glu.h>
+],
+                    [
+gluSphere(0L, 1.0, 1, 1);
+],
+                    [sim_cv_lib_glu="$sim_ac_glu_libcheck"])
+      fi
+    done
+  ])
+
+  LIBS="$sim_ac_save_libs"
+
+  if test "x$sim_cv_lib_glu" != "xUNRESOLVED"; then
+    sim_ac_glu_libs="$sim_cv_lib_glu"
+    LIBS="$sim_ac_glu_libs $sim_ac_save_libs"
+    sim_ac_glu_avail=yes
+    $1
+  else
+    CPPFLAGS=$sim_ac_save_cppflags
+    LDFLAGS=$sim_ac_save_ldflags
+    LIBS=$sim_ac_save_libs
+    $2
+  fi
+fi
+])
+
+
+# **************************************************************************
+# SIM_AC_GLU_READY_IFELSE( [ACTION-IF-TRUE], [ACTION-IF-FALSE] )
+
+AC_DEFUN([SIM_AC_GLU_READY_IFELSE],
+[AC_CACHE_CHECK(
+  [if GLU is available as part of GL library],
+  [sim_cv_glu_ready],
+  [AC_TRY_LINK(
+    [
+#ifdef HAVE_WINDOWS_H
+#include <windows.h>
+#endif /* HAVE_WINDOWS_H */
+#include <GL/gl.h>
+#include <GL/glu.h>
+],
+    [
+gluSphere(0L, 1.0, 1, 1);
+],
+    [sim_cv_glu_ready=true],
+    [sim_cv_glu_ready=false])])
+if ${sim_cv_glu_ready}; then
+  ifelse([$1], , :, [$1])
+else
+  ifelse([$2], , :, [$2])
+fi
+]) # SIM_AC_GLU_READY_IFELSE()
 
 
 # Usage:
@@ -1705,6 +1859,11 @@ fi
 #
 # Author: Morten Eriksen, <mortene@sim.no>.
 #
+# TODO:
+#
+#     [20001002:mortene]   make a macro SIM_AC_HAVE_INVENTOR_NODE to replace
+#                          this macro and the SIM_AC_HAVE_SOEXTSELECTION
+#                          macro.
 
 AC_DEFUN([SIM_AC_HAVE_SOPOLYGONOFFSET],
 [AC_CACHE_CHECK([for the SoPolygonOffset node],
@@ -1722,6 +1881,38 @@ else
   ifelse([$2], , :, [$2])
 fi
 ]) # SIM_AC_HAVE_SOPOLYGONOFFSET
+
+# **************************************************************************
+# SIM_AC_HAVE_SOEXTSELECTION( [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]] )
+#
+# Check whether or not the SoExtSelection node is part of the
+# Open Inventor development system. If it is found, the
+# HAVE_SOEXTSELECTION define is set.
+#
+# Author: Morten Eriksen, <mortene@sim.no>.
+#
+# TODO:
+#
+#     [20001002:mortene]   make a macro SIM_AC_HAVE_INVENTOR_NODE to replace
+#                          this macro and the SIM_AC_HAVE_SOPOLYGONOFFSET
+#                          macro.
+
+AC_DEFUN([SIM_AC_HAVE_SOEXTSELECTION],
+[AC_CACHE_CHECK([for the SoExtSelection node],
+  sim_cv_soextselection,
+  [AC_TRY_LINK([#include <Inventor/nodes/SoExtSelection.h>],
+               [SoExtSelection * p = new SoExtSelection;],
+               [sim_cv_soextselection=yes],
+               [sim_cv_soextselection=no])])
+
+if test x"$sim_cv_soextselection" = xyes; then
+  AC_DEFINE(HAVE_SOEXTSELECTION, 1,
+    [Define to enable use of the SoExtSelection node])
+  $1
+else
+  ifelse([$2], , :, [$2])
+fi
+]) # SIM_AC_HAVE_SOEXTSELECTION
 
 # **************************************************************************
 # SIM_AC_HAVE_SOMOUSEBUTTONEVENT_BUTTONS
@@ -2375,7 +2566,7 @@ AC_PREREQ([2.13])
 
 AC_ARG_ENABLE(
   [debug],
-  AC_HELP_STRING([--enable-debug], [compile in debug mode [default=yes]]),
+  AC_HELP_STRING([--enable-debug], [compile in debug mode [[default=yes]]]),
   [case "${enableval}" in
     yes) enable_debug=yes ;;
     no)  enable_debug=no ;;
@@ -2466,7 +2657,7 @@ AC_DEFUN([SIM_AC_DEBUGSYMBOLS], [
 AC_ARG_ENABLE(
   [symbols],
   AC_HELP_STRING([--enable-symbols],
-                 [include symbol debug information [default=yes]]),
+                 [include symbol debug information [[default=yes]]]),
   [case "${enableval}" in
     yes) enable_symbols=yes ;;
     no)  enable_symbols=no ;;
@@ -2498,7 +2689,7 @@ AC_DEFUN([SIM_AC_RTTI_SUPPORT], [
 AC_PREREQ([2.13])
 AC_ARG_ENABLE(
   [rtti],
-  AC_HELP_STRING([--enable-rtti], [(g++ only) compile with RTTI [default=yes]]),
+  AC_HELP_STRING([--enable-rtti], [(g++ only) compile with RTTI [[default=yes]]]),
   [case "${enableval}" in
     yes) enable_rtti=yes ;;
     no)  enable_rtti=no ;;
@@ -2537,7 +2728,7 @@ AC_PREREQ([2.13])
 AC_ARG_ENABLE(
   [exceptions],
   AC_HELP_STRING([--enable-exceptions],
-                 [(g++ only) compile with exceptions [default=no]]),
+                 [(g++ only) compile with exceptions [[default=no]]]),
   [case "${enableval}" in
     yes) enable_exceptions=yes ;;
     no)  enable_exceptions=no ;;
@@ -2641,7 +2832,7 @@ AC_PREREQ([2.13])
 AC_ARG_ENABLE(
   [profile],
   AC_HELP_STRING([--enable-profile],
-                 [(GCC only) turn on inclusion of profiling code [default=no]]),
+                 [(GCC only) turn on inclusion of profiling code [[default=no]]]),
   [case "${enableval}" in
     yes) enable_profile=yes ;;
     no)  enable_profile=no ;;
@@ -2690,7 +2881,7 @@ AC_DEFUN([SIM_COMPILER_WARNINGS], [
 AC_ARG_ENABLE(
   [warnings],
   AC_HELP_STRING([--enable-warnings],
-                 [turn on warnings when compiling [default=yes]]),
+                 [turn on warnings when compiling [[default=yes]]]),
   [case "${enableval}" in
     yes) enable_warnings=yes ;;
     no)  enable_warnings=no ;;
