@@ -778,7 +778,7 @@ $(top_builddir)/man/man1/so@gui@-config.1: $(top_srcdir)/src/Inventor/@Gui@/comm
 ############################################################################
 
 $(KEYMANPAGE): $(SoGuiBuiltFiles)
-	@sim_ac_doxygen_exe@ $(top_builddir)/sogui.doxygen
+	"@sim_ac_doxygen_exe@" $(top_builddir)/sogui.doxygen
 
 filelist.txt: $(KEYMANPAGE)
 	ls *.3 >filelist.txt
