@@ -221,3 +221,24 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     20021002 mortene.
 
 =====================================================================
+
+010 Acceleration and movement in SoQtFlyViewer differs on several
+    aspects when compared to the behavior displayed by InventorXT:
+    
+    - The vertical tilt of So*FlyViewer behaves opposite of that of
+      InventorXT (up/down swapped).
+
+    - InventorXT don't have reverse. Instead, the user is able to
+      change view-orientation with without changing position (This
+      'feels more right' for me).
+      
+    - The InventorXT viewer stops moving instantly when the speed is
+      zero. Our So*FLyViewer seems to be 'hanging behind', and then
+      stop moving after a short time-interval (This is not a
+      deceleration, but a delayed instant stop. It feels awkward).
+
+    20021014 rolvs.
+
+=====================================================================
+
+
