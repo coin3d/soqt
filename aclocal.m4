@@ -4618,15 +4618,16 @@ fi
 # Author: Morten Eriksen, <mortene@sim.no>.
 
 AC_DEFUN([SIM_AC_CHECK_LOADLIBRARY], [
-AC_ARG_WITH(
+AC_ARG_ENABLE(
   [loadlibrary],
-  [AC_HELP_STRING(
-    [--with-loadlibrary],
-    [always use run-time link bindings under Win32 [default=yes]])],
-  [],
-  [with_loadlibrary=yes])
+  [AC_HELP_STRING([--disable-loadlibrary], [don't use run-time link bindings under Win32])],
+  [case $enableval in
+  yes | true ) sim_ac_win32_loadlibrary=true ;;
+  *) sim_ac_win32_loadlibrary=false ;;
+  esac],
+  [sim_ac_win32_loadlibrary=true])
 
-if test x"$with_loadlibrary" != xno; then
+if $sim_ac_win32_loadlibrary; then
   # Use SIM_AC_CHECK_HEADERS instead of .._HEADER to get the
   # HAVE_DLFCN_H symbol set up in config.h automatically.
   AC_CHECK_HEADERS([windows.h])
@@ -6021,10 +6022,9 @@ EOF
   AC_MSG_CHECKING([for Open Inventor library])
 
   for sim_ac_iv_cppflags_loop in "" "-DWIN32"; do
-    # FIXME: should try with no libraries first, as TGS Inventor
-    # uses pragmas in a header file to notify MSVC of what to link with.
-    # 20020828 mortene.
-    for sim_ac_iv_libcheck in $sim_ac_inventor_chk_libs; do
+    # Trying with no libraries first, as TGS Inventor uses pragmas in
+    # a header file to notify MSVC of what to link with.
+    for sim_ac_iv_libcheck in "" $sim_ac_inventor_chk_libs; do
       if test "x$sim_ac_inventor_libs" = "xUNRESOLVED"; then
         CPPFLAGS="$sim_ac_iv_cppflags_loop $sim_ac_inventor_cppflags $sim_ac_save_CPPFLAGS"
         LDFLAGS="$sim_ac_inventor_ldflags $sim_ac_save_LDFLAGS"

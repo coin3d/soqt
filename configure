@@ -1027,6 +1027,7 @@ Optional Features:
   --disable-build         disable configuring for library build
   --enable-html           build and install SoQt HTML documentation
   --enable-man            build and install SoQt man pages
+  --disable-loadlibrary   don't use run-time link bindings under Win32
   --enable-inventor-debug use debug version of TGS inventor
   --enable-qt-debug       win32: link with debug versions of Qt libraries
   --enable-debug          compile in debug mode [default=yes]
@@ -1049,8 +1050,6 @@ Optional Packages:
   --with-suffix=string    specify library name suffix (e.g. "_g")
   --with-doxygen=DIR      DIR is the directory where the doxygen executable
                           resides
-  --with-loadlibrary      always use run-time link bindings under Win32
-                          [default=yes]
   --with-x                use the X Window System
   --with-dl=DIR           include support for the dynamic link loader library
                           [default=yes]
@@ -5131,7 +5130,7 @@ test "x$enable_libtool_lock" != xno && enable_libtool_lock=yes
 case $host in
 *-*-irix6*)
   # Find out which ABI we are using.
-  echo '#line 5134 "configure"' > conftest.$ac_ext
+  echo '#line 5133 "configure"' > conftest.$ac_ext
   if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
@@ -5667,7 +5666,7 @@ chmod -w .
 save_CFLAGS="$CFLAGS"
 CFLAGS="$CFLAGS -o out/conftest2.$ac_objext"
 compiler_c_o=no
-if { (eval echo configure:5670: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>out/conftest.err; } && test -s out/conftest2.$ac_objext; then
+if { (eval echo configure:5669: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>out/conftest.err; } && test -s out/conftest2.$ac_objext; then
   # The compiler can only warn and ignore the option if not recognized
   # So say no if there are warnings
   if test -s out/conftest.err; then
@@ -7460,7 +7459,7 @@ else
     lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 7463 "configure"
+#line 7462 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -7558,7 +7557,7 @@ else
     lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 7561 "configure"
+#line 7560 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -8788,16 +8787,18 @@ rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
 # debugging code).
 
 
-
-# Check whether --with-loadlibrary or --without-loadlibrary was given.
-if test "${with_loadlibrary+set}" = set; then
-  withval="$with_loadlibrary"
-
+# Check whether --enable-loadlibrary or --disable-loadlibrary was given.
+if test "${enable_loadlibrary+set}" = set; then
+  enableval="$enable_loadlibrary"
+  case $enableval in
+  yes | true ) sim_ac_win32_loadlibrary=true ;;
+  *) sim_ac_win32_loadlibrary=false ;;
+  esac
 else
-  with_loadlibrary=yes
+  sim_ac_win32_loadlibrary=true
 fi;
 
-if test x"$with_loadlibrary" != xno; then
+if $sim_ac_win32_loadlibrary; then
   # Use SIM_AC_CHECK_HEADERS instead of .._HEADER to get the
   # HAVE_DLFCN_H symbol set up in config.h automatically.
 
@@ -11693,10 +11694,9 @@ echo "${ECHO_T}probably SGI or older TGS Open Inventor" >&6
 echo $ECHO_N "checking for Open Inventor library... $ECHO_C" >&6
 
   for sim_ac_iv_cppflags_loop in "" "-DWIN32"; do
-    # FIXME: should try with no libraries first, as TGS Inventor
-    # uses pragmas in a header file to notify MSVC of what to link with.
-    # 20020828 mortene.
-    for sim_ac_iv_libcheck in $sim_ac_inventor_chk_libs; do
+    # Trying with no libraries first, as TGS Inventor uses pragmas in
+    # a header file to notify MSVC of what to link with.
+    for sim_ac_iv_libcheck in "" $sim_ac_inventor_chk_libs; do
       if test "x$sim_ac_inventor_libs" = "xUNRESOLVED"; then
         CPPFLAGS="$sim_ac_iv_cppflags_loop $sim_ac_inventor_cppflags $sim_ac_save_CPPFLAGS"
         LDFLAGS="$sim_ac_inventor_ldflags $sim_ac_save_LDFLAGS"

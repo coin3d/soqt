@@ -305,6 +305,8 @@ SoGuiAllBuiltFiles = \
 SoGuiCommonDistFiles = \
   LICENSE.GPL \
   HACKING \
+  BUGS.txt \
+  src/Inventor/@Gui@/BUGS.txt \
   \
   cfg/m4/errors.txt \
   cfg/m4/doxy4win.pl \
@@ -683,7 +685,7 @@ GZIP_ENV = --best
 distdir: $(DISTFILES)
 	-chmod -R a+w $(distdir) >/dev/null 2>&1; rm -rf $(distdir)
 	mkdir $(distdir)
-	$(mkinstalldirs) $(distdir)/cfg $(distdir)/cfg/m4 $(distdir)/models $(distdir)/packaging/windows $(distdir)/src/Inventor/@Gui@/common $(distdir)/src/Inventor/@Gui@/common/devices $(distdir)/src/Inventor/@Gui@/common/pixmaps $(distdir)/src/Inventor/@Gui@/common/viewers $(distdir)/src/Inventor/@Gui@/common/widgets $(distdir)/src/Inventor/Qt/common $(distdir)/test-code $(distdir)/test-code/components
+	$(mkinstalldirs) $(distdir)/cfg $(distdir)/cfg/m4 $(distdir)/models $(distdir)/packaging/windows $(distdir)/src/Inventor/@Gui@ $(distdir)/src/Inventor/@Gui@/common $(distdir)/src/Inventor/@Gui@/common/devices $(distdir)/src/Inventor/@Gui@/common/pixmaps $(distdir)/src/Inventor/@Gui@/common/viewers $(distdir)/src/Inventor/@Gui@/common/widgets $(distdir)/src/Inventor/Qt/common $(distdir)/test-code $(distdir)/test-code/components
 	@for file in $(DISTFILES); do \
 	  if test -f $$file; then d=.; else d=$(srcdir); fi; \
 	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \

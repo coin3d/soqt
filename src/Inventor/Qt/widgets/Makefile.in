@@ -305,6 +305,8 @@ SoGuiAllBuiltFiles = \
 SoGuiCommonDistFiles = \
   LICENSE.GPL \
   HACKING \
+  BUGS.txt \
+  src/Inventor/@Gui@/BUGS.txt \
   \
   cfg/m4/errors.txt \
   cfg/m4/doxy4win.pl \
