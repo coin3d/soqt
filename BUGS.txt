@@ -443,6 +443,10 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     here, or if our technique for hooking up with the X11 error msg
     handler is giving false negatives.
 
+    This is an ugly problem, as it probably causes external users to
+    be nervous that there is something wrong with SoQt, when it most
+    likely isn't. So; it's a high priority problem.
+
     20031022 mortene.
 
 =====================================================================
