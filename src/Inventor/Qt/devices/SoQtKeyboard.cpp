@@ -525,10 +525,12 @@ SoQtKeyboard::translateEvent(
 #endif // disabled
     }
     else {
-      this->kbdevent->setKey(SoKeyboardEvent::UNDEFINED);
 #if 0 // disabled. Breaks build when compiling against OIV
+      this->kbdevent->setKey(SoKeyboardEvent::UNDEFINED);
       this->kbdevent->setPrintableCharacter((char) keyevent->ascii());
-#endif // disabled
+#else // disabled
+      return NULL;
+#endif
     }
 
     // Press or release?
