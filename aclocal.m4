@@ -2288,7 +2288,7 @@ if test x"$with_qt" != xno; then
 #include <qglobal.h>
 int SoQt = QT_VERSION;
 EOF
-  soqt_qt_version=`$CPP conftest.c | egrep '^int SoQt' | sed 's%^int SoQt = %%' | sed 's%;$%%'`
+  soqt_qt_version=`$CPP $CPPFLAGS conftest.c | egrep '^int SoQt' | sed 's%^int SoQt = %%' | sed 's%;$%%'`
   rm -f conftest.c
 
   if test x"$MOC" != xfalse; then
