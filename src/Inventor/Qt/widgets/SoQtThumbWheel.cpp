@@ -39,7 +39,7 @@ static const char rcsid[] =
 
 // *************************************************************************
 
-static const int SHADEBORDERWIDTH = 2;
+static const int SHADEBORDERWIDTH = 0;
 
 SoQtThumbWheel::SoQtThumbWheel(
   QWidget * parent,
@@ -104,11 +104,11 @@ SoQtThumbWheel::paintEvent(
 
   int w, d;
   if ( this->orient == SoQtThumbWheel::Vertical ) {
-    w = this->width() - 2*SHADEBORDERWIDTH - 6;
-    d = this->height() - 2*SHADEBORDERWIDTH - 12;
+    w = this->width() - 12;
+    d = this->height() - 6;
   } else {
-    w = this->height() - 2*SHADEBORDERWIDTH - 6;
-    d = this->width() - 2*SHADEBORDERWIDTH - 12;
+    w = this->height() - 12;
+    d = this->width() - 6;
   }
 
   // Handle resizing to too small dimensions gracefully.
@@ -120,24 +120,19 @@ SoQtThumbWheel::paintEvent(
      (this->state == SoQtThumbWheel::Disabled) ?
         SoAnyThumbWheel::DISABLED : SoAnyThumbWheel::ENABLED );
 
-
-  QRect wheelrect( SHADEBORDERWIDTH, SHADEBORDERWIDTH,
-                   this->width() - 2*SHADEBORDERWIDTH,
-                   this->height() - 2*SHADEBORDERWIDTH );
-
-  qDrawShadePanel( &p, 0, 0, this->width(), this->height(),
-                   g, FALSE, SHADEBORDERWIDTH, NULL );
+  QRect widgetrect( 0, 0, this->width(), this->height() );
+  QRect wheelrect( widgetrect );
 
   if ( this->orient == Vertical ) {
-    wheelrect.setTop(    wheelrect.top() + 5 );
-    wheelrect.setBottom( wheelrect.bottom() - 5 );
-    wheelrect.setLeft(   wheelrect.left() + 2 );
-    wheelrect.setRight(  wheelrect.right() - 2 );
-  } else {
     wheelrect.setTop(    wheelrect.top() + 2 );
     wheelrect.setBottom( wheelrect.bottom() - 2 );
     wheelrect.setLeft(   wheelrect.left() + 5 );
     wheelrect.setRight(  wheelrect.right() - 5 );
+  } else {
+    wheelrect.setTop(    wheelrect.top() + 5 );
+    wheelrect.setBottom( wheelrect.bottom() - 5 );
+    wheelrect.setLeft(   wheelrect.left() + 2 );
+    wheelrect.setRight(  wheelrect.right() - 2 );
   }
   
   qDrawPlainRect( &p, wheelrect.left(), wheelrect.top(), wheelrect.width(),
@@ -274,7 +269,7 @@ SoQtThumbWheel::orientedCoord(const QPoint &p) const
 QSize
 SoQtThumbWheel::sizeHint(void) const
 {
-  const int length = 88;
+  const int length = 122;
   int thick = 24;
 
   if (this->orient == SoQtThumbWheel::Horizontal)
