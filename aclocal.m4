@@ -4824,10 +4824,157 @@ fi
 #  In addition, the variable $sim_ac_gl_avail is set to "yes" if an
 #  OpenGL-compatible development system is found.
 #
+# TODO:
+#   these macros are ripe for a complete rewrite...
 #
 # Authors:
 #   Morten Eriksen <mortene@sim.no>
 #   Lars J. Aas <larsa@sim.no>
+
+# **************************************************************************
+# SIM_AC_CHECK_HEADER_SILENT([header], [if-found], [if-not-found], [includes])
+# 
+# This macro will not output any header checking information, nor will it
+# cache the result, so it can be used multiple times on the same header,
+# trying out different compiler options.
+
+AC_DEFUN([SIM_AC_CHECK_HEADER_SILENT],
+[AS_VAR_PUSHDEF([ac_Header], [ac_cv_header_$1])
+m4_ifval([$4],
+         [AC_COMPILE_IFELSE([AC_LANG_SOURCE([$4
+@%:@include <$1>])],
+                            [AS_VAR_SET(ac_Header, yes)],
+                            [AS_VAR_SET(ac_Header, no)])],
+         [AC_PREPROC_IFELSE([AC_LANG_SOURCE([@%:@include <$1>])],
+                            [AS_VAR_SET(ac_Header, yes)],
+                            [AS_VAR_SET(ac_Header, no)])])
+AS_IF([test AS_VAR_GET(ac_Header) = yes], [$2], [$3])
+AS_VAR_POPDEF([ac_Header])
+])# SIM_AC_CHECK_HEADER_SILENT
+
+# **************************************************************************
+# SIM_AC_CHECK_HEADER_GL([IF-FOUND], [IF-NOT-FOUND])
+#
+# This macro detects how to include the GL header file, and gives you the
+# necessary CPPFLAGS in $sim_ac_gl_cppflags, and also sets the config.h
+# defines HAVE_GL_GL_H or HAVE_OPENGL_GL_H if one of them is found.
+
+AC_DEFUN([SIM_AC_CHECK_HEADER_GL],
+[sim_ac_gl_header_avail=false
+AC_MSG_CHECKING([how to include gl.h])
+if test x"$with_opengl" != x"no"; then
+  sim_ac_gl_save_CPPFLAGS=$CPPFLAGS
+  if test x"$with_opengl" != xyes && test x"$with_opengl" != x""; then
+    sim_ac_gl_cppflags="-I${with_opengl}/include"
+    CPPFLAGS="$CPPFLAGS $sim_ac_gl_cppflags"
+  fi
+  SIM_AC_CHECK_HEADER_SILENT([GL/gl.h], [
+    sim_ac_gl_header_avail=true
+    sim_ac_gl_header=GL/gl.h
+    AC_DEFINE([HAVE_GL_GL_H], , [define if the GL header should be included as GL/gl.h])
+  ], [
+    SIM_AC_CHECK_HEADER_SILENT([OpenGL/gl.h], [
+      sim_ac_gl_header_avail=true
+      sim_ac_gl_header=OpenGL/gl.h
+      AC_DEFINE([HAVE_OPENGL_GL_H], , [define if the GL header should be included as OpenGL/gl.h])
+    ])
+  ])
+  sim_ac_gl_hpux=/opt/graphics/OpenGL
+  if test x$sim_ac_gl_header_avail = xfalse && test -d $sim_ac_gl_hpux; then
+    sim_ac_gl_cppflags=-I$sim_ac_gl_hpux/include
+    CPPFLAGS="$CPPFLAGS $sim_ac_gl_cppflags"
+    SIM_AC_CHECK_HEADER_SILENT([GL/gl.h], [
+      sim_ac_gl_header_avail=true
+      sim_ac_gl_header=GL/gl.h
+      AC_DEFINE([HAVE_GL_GL_H], , [define if the GL header should be included as GL/gl.h])
+    ], [
+      SIM_AC_CHECK_HEADER_SILENT([OpenGL/gl.h], [
+        sim_ac_gl_header_avail=true
+        sim_ac_gl_header=OpenGL/gl.h
+        AC_DEFINE([HAVE_OPENGL_GL_H], , [define if the GL header should be included as OpenGL/gl.h])
+      ])
+    ])
+  fi
+  CPPFLAGS="$sim_ac_gl_save_CPPFLAGS"
+  if $sim_ac_gl_header_avail; then
+    if test x"$sim_ac_gl_cppflags" = x""; then
+      AC_MSG_RESULT([@%:@include <$sim_ac_gl_header>])
+    else
+      AC_MSG_RESULT([$sim_ac_gl_cppflags, @%:@include <$sim_ac_gl_header>])
+    fi
+    $1
+  else
+    AC_MSG_RESULT([not found])
+    $2
+  fi
+else
+  AC_MSG_RESULT([disabled])
+  $2
+fi
+])# SIM_AC_CHECK_HEADER_GL
+
+# **************************************************************************
+# SIM_AC_CHECK_HEADER_GLU([IF-FOUND], [IF-NOT-FOUND])
+#
+# This macro detects how to include the GLU header file, and gives you the
+# necessary CPPFLAGS in $sim_ac_glu_cppflags, and also sets the config.h
+# defines HAVE_GL_GLU_H or HAVE_OPENGL_GLU_H if one of them is found.
+
+AC_DEFUN([SIM_AC_CHECK_HEADER_GLU],
+[sim_ac_glu_header_avail=false
+AC_MSG_CHECKING([how to include glu.h])
+if test x"$with_opengl" != x"no"; then
+  sim_ac_glu_save_CPPFLAGS=$CPPFLAGS
+  if test x"$with_opengl" != xyes && test x"$with_opengl" != x""; then
+    sim_ac_glu_cppflags="-I${with_opengl}/include"
+    CPPFLAGS="$CPPFLAGS $sim_ac_glu_cppflags"
+  fi
+  SIM_AC_CHECK_HEADER_SILENT([GL/glu.h], [
+    sim_ac_glu_header_avail=true
+    sim_ac_glu_header=GL/glu.h
+    AC_DEFINE([HAVE_GL_GLU_H], , [define if the GLU header should be included as GL/glu.h])
+  ], [
+    SIM_AC_CHECK_HEADER_SILENT([OpenGL/gl.h], [
+      sim_ac_glu_header_avail=true
+      sim_ac_glu_header=OpenGL/glu.h
+      AC_DEFINE([HAVE_OPENGL_GLU_H], , [define if the GLU header should be included as OpenGL/glu.h])
+    ])
+  ])
+  sim_ac_gl_hpux=/opt/graphics/OpenGL
+  if test x$sim_ac_glu_header_avail = xfalse && test -d $sim_ac_gl_hpux; then
+    sim_ac_glu_cppflags=-I$sim_ac_gl_hpux/include
+    CPPFLAGS="$CPPFLAGS $sim_ac_glu_cppflags"
+    SIM_AC_CHECK_HEADER_SILENT([GL/glu.h], [
+      sim_ac_glu_header_avail=true
+      sim_ac_glu_header=GL/glu.h
+      AC_DEFINE([HAVE_GL_GLU_H], , [define if the GLU header should be included as GL/glu.h])
+    ], [
+      SIM_AC_CHECK_HEADER_SILENT([OpenGL/glu.h], [
+        sim_ac_glu_header_avail=true
+        sim_ac_glu_header=OpenGL/glu.h
+        AC_DEFINE([HAVE_OPENGL_GLU_H], , [define if the GLU header should be included as OpenGL/glu.h])
+      ])
+    ])
+  fi
+  CPPFLAGS="$sim_ac_glu_save_CPPFLAGS"
+  if $sim_ac_glu_header_avail; then
+    if test x"$sim_ac_glu_cppflags" = x""; then
+      AC_MSG_RESULT([@%:@include <$sim_ac_glu_header>])
+    else
+      AC_MSG_RESULT([$sim_ac_glu_cppflags, @%:@include <$sim_ac_glu_header>])
+    fi
+    $1
+  else
+    AC_MSG_RESULT([not found])
+    $2
+  fi
+else
+  AC_MSG_RESULT([disabled])
+  $2
+fi
+])# SIM_AC_CHECK_HEADER_GLU
+
+# **************************************************************************
 
 AC_DEFUN(SIM_AC_CHECK_OPENGL, [
 
@@ -4874,23 +5021,13 @@ if test x"$with_opengl" != xno; then
     ;;
   esac
 
-  if test x"$with_opengl" != xyes; then
-    sim_ac_gl_cppflags="-I${with_opengl}/include"
-    sim_ac_gl_ldflags="-L${with_opengl}/lib"
-  else
-    if $sim_ac_use_framework_option; then
-      # hopefully, this is the default behavior and not needed. 20011005 larsa
-      # sim_ac_gl_cppflags="-F/System/Library/Frameworks/OpenGL.framework/"
-      sim_ac_gl_ldflags="-Wl,-framework,OpenGL"
-    else
-      ## This is a common location for the OpenGL library on HPUX.
-      sim_ac_gl_hpux=/opt/graphics/OpenGL
-      if test -d $sim_ac_gl_hpux; then
-        sim_ac_gl_cppflags=-I$sim_ac_gl_hpux/include
-        sim_ac_gl_ldflags=-L$sim_ac_gl_hpux/lib
-      fi
-    fi
+  if $sim_ac_use_framework_option; then
+    # hopefully, this is the default behavior and not needed. 20011005 larsa
+    # sim_ac_gl_cppflags="-F/System/Library/Frameworks/OpenGL.framework/"
+    sim_ac_gl_ldflags="-Wl,-framework,OpenGL"
   fi
+
+  SIM_AC_CHECK_HEADER_GL(, [AC_MSG_ERROR([could not find gl.h])])
 
   sim_ac_save_cppflags=$CPPFLAGS
   sim_ac_save_cflags=$CFLAGS
@@ -4900,9 +5037,6 @@ if test x"$with_opengl" != xno; then
 
   CPPFLAGS="$CPPFLAGS $sim_ac_gl_cppflags"
   LDFLAGS="$LDFLAGS $sim_ac_gl_ldflags"
-
-  ## This must be done after include-paths have been set up for CPPFLAGS.
-  AC_CHECK_HEADERS([GL/gl.h OpenGL/gl.h])
 
   AC_CACHE_CHECK(
     [whether OpenGL library is available],
@@ -5010,7 +5144,11 @@ fi
 # SIM_AC_GLU_READY_IFELSE( [ACTION-IF-TRUE], [ACTION-IF-FALSE] )
 
 AC_DEFUN([SIM_AC_GLU_READY_IFELSE], [
-AC_CHECK_HEADERS([GL/glu.h OpenGL/glu.h])
+sim_ac_glu_save_CPPFLAGS=$CPPFLAGS
+SIM_AC_CHECK_HEADER_GLU(, [AC_MSG_WARN([could not find glu.h])])
+if test x"$sim_ac_gl_cppflags" != x"$sim_ac_glu_cppflags"; then
+  CPPFLAGS="$CPPFLAGS $sim_ac_gl_cppflags $sim_ac_glu_cppflags"
+fi
 AC_CACHE_CHECK(
   [if GLU is available as part of GL library],
   [sim_cv_glu_ready],
@@ -5042,13 +5180,14 @@ glEnd();
 ],
     [sim_cv_glu_ready=true],
     [sim_cv_glu_ready=false])])
-if ${sim_cv_glu_ready}; then
+
+CPPFLAGS=$sim_ac_glu_save_CPPFLAGS
+if $sim_cv_glu_ready; then
   ifelse([$1], , :, [$1])
 else
   ifelse([$2], , :, [$2])
 fi
 ]) # SIM_AC_GLU_READY_IFELSE()
-
 
 # Usage:
 #  SIM_AC_CHECK_GLU([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
@@ -5068,11 +5207,11 @@ fi
 # Author: Morten Eriksen, <mortene@sim.no>.
 
 AC_DEFUN([SIM_AC_CHECK_GLU], [
-AC_CHECK_HEADERS([GL/glu.h OpenGL/glu.h])
-
-unset sim_ac_glu_cppflags
-unset sim_ac_glu_ldflags
-unset sim_ac_glu_libs
+sim_ac_glu_save_CPPFLAGS=$CPPFLAGS
+SIM_AC_CHECK_HEADER_GLU(, [AC_MSG_WARN([could not find glu.h])])
+if test x"$sim_ac_gl_cppflags" != x"$sim_ac_glu_cppflags"; then
+  CPPFLAGS="$CPPFLAGS $sim_ac_gl_cppflags $sim_ac_glu_cppflags"
+fi
 sim_ac_glu_avail=no
 
 # It's usually libGLU.so on UNIX systems and glu32.lib on MSWindows.
@@ -5097,7 +5236,7 @@ AC_ARG_WITH(
 
 if test x"$with_glu" != xno; then
   if test x"$with_glu" != xyes; then
-    sim_ac_glu_cppflags="-I${with_glu}/include"
+    # sim_ac_glu_cppflags="-I${with_glu}/include"
     sim_ac_glu_ldflags="-L${with_glu}/lib"
   fi
 
@@ -5146,12 +5285,22 @@ glEnd();
                     [sim_cv_lib_glu="$sim_ac_glu_libcheck"])
       fi
     done
+    if test x"$sim_cv_lib_glu" = x"" &&
+       test x`echo $LDFLAGS | grep -c -- "-Wl,-framework,OpenGL"` = x1; then
+      # just for the visual representation on Mac OS X
+      sim_cv_lib_glu="-Wl,-framework,OpenGL"
+    fi
   ])
 
   LIBS="$sim_ac_save_libs"
 
+  CPPFLAGS=$sim_ac_glu_save_CPPFLAGS
   if test "x$sim_cv_lib_glu" != "xUNRESOLVED"; then
-    sim_ac_glu_libs="$sim_cv_lib_glu"
+    if test x"$sim_cv_lib_glu" = x"-Wl,-framework,OpenGL"; then
+      sim_ac_glu_libs=""
+    else
+      sim_ac_glu_libs="$sim_cv_lib_glu"
+    fi
     LIBS="$sim_ac_glu_libs $sim_ac_save_libs"
     sim_ac_glu_avail=yes
     $1
@@ -5896,7 +6045,7 @@ if test x"$with_qt" != xno; then
     else
       AC_MSG_RESULT([$sim_ac_qt_dir])
       # list contents of what's in the qt libdir into config.log...
-      ls -l $sim_ac_qt_dir/lib >&5
+      ls -l $sim_ac_qt_dir/lib >&5 2>&1
       sim_ac_qt_incflags="-I$sim_ac_qt_dir/include"
       sim_ac_qt_ldflags="-L$sim_ac_qt_dir/lib"
       sim_ac_path=$sim_ac_qt_dir/bin:$PATH

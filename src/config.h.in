@@ -3,10 +3,10 @@
 /* Define if you have the <dlfcn.h> header file. */
 #undef HAVE_DLFCN_H
 
-/* Define if you have the <GL/glu.h> header file. */
+/* define if the GLU header should be included as GL/glu.h */
 #undef HAVE_GL_GLU_H
 
-/* Define if you have the <GL/gl.h> header file. */
+/* define if the GL header should be included as GL/gl.h */
 #undef HAVE_GL_GL_H
 
 /* Define to enable Linux Joystick driver support */
@@ -15,10 +15,10 @@
 /* Define if you have the <netinet/in.h> header file. */
 #undef HAVE_NETINET_IN_H
 
-/* Define if you have the <OpenGL/glu.h> header file. */
+/* define if the GLU header should be included as OpenGL/glu.h */
 #undef HAVE_OPENGL_GLU_H
 
-/* Define if you have the <OpenGL/gl.h> header file. */
+/* define if the GL header should be included as OpenGL/gl.h */
 #undef HAVE_OPENGL_GL_H
 
 /* Define this to 1 if operator==(QGLFormat&, QGLFormat&) is available */
