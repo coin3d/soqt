@@ -44,6 +44,7 @@ SoQtViewer *
 SoQtCollisionViewer::getViewer(
   void )
 {
+    return NULL;
 }
 
 void
@@ -56,6 +57,7 @@ float
 SoQtCollisionViewer::getDistance(
   void )
 {
+    return 0.0;
 }
 
 void
@@ -68,6 +70,7 @@ int
 SoQtCollisionViewer::getNumSteps(
   void )
 {
+    return 0;
 }
   
 void
@@ -80,6 +83,7 @@ SbBool
 SoQtCollisionViewer::getCollisionDetection(
   void )
 {
+    return FALSE;
 }
 
 void
@@ -92,6 +96,7 @@ SbBool
 SoQtCollisionViewer::getZBufferOptimization(
   void )
 {
+    return FALSE;
 }
   
 void
