@@ -1,5 +1,5 @@
 SoQtSuperViewer, experimental
-2002-05-07 larsivi
+2002-05-22 larsivi
 
 The files in this directory together makes the SoQtSuperViewer,
 a reimplementation of the VRML-viewer using Coin. The viewer
@@ -20,12 +20,13 @@ Please report bugs and any good ideas for new functionality.
 There are couple of known bugs which are listed below.
 
 Cannot be completed without changes in the Coin-API:
- * Flatshading (if there are normals, its not flatshaded)
  * Some text manipulation in the menus and in the window caption
      will be easier whenever a commited patch for SbString is 
      inserted into the API. If its not used, it will be done
      in other ways. This problem may also affect the refresh
      functionality and the snapshot function.
+
+Other problems:
  * There are some problems with including the config.h which are
      caused by the lack of a real build system.
      Hopefully these will be solved soon.
