@@ -163,8 +163,6 @@ SoGui_src_Inventor_Gui_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@Basic.h \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.h \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp \
-  $(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursors.h \
-  $(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursors.cpp \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.h \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@.h \
@@ -306,8 +304,6 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/SoGuiBasic.h.in \
   src/Inventor/@Gui@/common/SoGuiCursor.h.in \
   src/Inventor/@Gui@/common/SoGuiCursor.cpp.in \
-  src/Inventor/@Gui@/common/SoGuiCursors.h.in \
-  src/Inventor/@Gui@/common/SoGuiCursors.cpp.in \
   src/Inventor/@Gui@/common/SoGuiObject.h.in \
   src/Inventor/@Gui@/common/SoGuiObject.cpp.in \
   src/Inventor/@Gui@/common/SoGui.h.in \
@@ -838,12 +834,6 @@ $(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.h: $(top_srcdir)/src/Inventor/@
 
 $(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/SoGuiCursor.cpp.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/So@Gui@Cursor.cpp:src/Inventor/@Gui@/common/SoGuiCursor.cpp.in )
-
-$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursors.h: $(top_srcdir)/src/Inventor/@Gui@/common/SoGuiCursors.h.in $(top_builddir)/config.status
-	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/So@Gui@Cursors.h:src/Inventor/@Gui@/common/SoGuiCursors.h.in )
-
-$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursors.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/SoGuiCursors.cpp.in $(top_builddir)/config.status
-	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/So@Gui@Cursors.cpp:src/Inventor/@Gui@/common/SoGuiCursors.cpp.in )
 
 $(top_builddir)/src/Inventor/@Gui@/So@Gui@.h: $(top_srcdir)/src/Inventor/@Gui@/common/SoGui.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/So@Gui@.h:src/Inventor/@Gui@/common/SoGui.h.in )
