@@ -1055,85 +1055,10 @@ SoQtFullViewer::buildPopupMenu(
 void
 SoQtFullViewer::setPopupMenuString(const char * str)
 {
-/*
-  this->menutitle = str ? str : "";
-  if (this->prefmenu) this->prefmenu->setTitle(this->menutitle.getString(),
-                                                 MENUTITLE_ITEM);
-*/
+  SOQT_STUB();
 } // setPopupMenuString()
 
 // *************************************************************************
-
-/*!
-  Build the sub-popupmenu with miscellaneous functions.
-*/
-
-/*
-QWidget *
-SoQtFullViewer::buildFunctionsSubmenu(QWidget * popup)
-{
-  QPopupMenu * m = new QPopupMenu(popup);
-
-  m->insertItem("Help", this, SLOT(helpbuttonClicked()), 0, HELP_ITEM);
-  m->insertItem("Home", this, SLOT(homebuttonClicked()), 0, HOME_ITEM);
-  m->insertItem("Set Home", this, SLOT(sethomebuttonClicked()), 0,
-                SET_HOME_ITEM);
-  m->insertItem("View All", this, SLOT(viewallbuttonClicked()), 0,
-                VIEW_ALL_ITEM);
-  m->insertItem("Seek", this, SLOT(seekbuttonClicked()), 0, SEEK_ITEM);
-
-  m->insertSeparator();
-
-  m->insertItem("Copy View", this, SLOT(copyviewSelected()), 0,
-                COPY_VIEW_ITEM);
-  m->insertItem("Paste View", this, SLOT(pasteviewSelected()), 0,
-                PASTE_VIEW_ITEM);
-
-  return m;
-} // buildFunctionsSubmenu()
-*/
-
-// *************************************************************************
-
-/*!
-  Build the sub-popupmenu with the drawstyle settings.
-*/
-
-/*
-QWidget *
-SoQtFullViewer::buildDrawStyleSubmenu(QWidget * popup)
-{
-  QPopupMenu * m = new QPopupMenu(popup);
-
-  m->insertItem("as is", AS_IS_ITEM);
-  m->insertItem("hidden line", HIDDEN_LINE_ITEM);
-  m->insertItem("no texture", NO_TEXTURE_ITEM);
-  m->insertItem("low resolution", LOW_RESOLUTION_ITEM);
-  m->insertItem("wireframe", WIREFRAME_ITEM);
-  m->insertItem("points", POINTS_ITEM);
-  m->insertItem("bounding box (no depth)", BOUNDING_BOX_ITEM);
-  m->insertSeparator();
-
-  m->insertItem("move same as still", MOVE_SAME_AS_STILL_ITEM);
-  m->insertItem("move no texture", MOVE_NO_TEXTURE_ITEM);
-  m->insertItem("move low res", MOVE_LOW_RES_ITEM);
-  m->insertItem("move wireframe", MOVE_WIREFRAME_ITEM);
-  m->insertItem("move low res wireframe (no depth)",
-                MOVE_LOW_RES_WIREFRAME_ITEM);
-  m->insertItem("move points", MOVE_POINTS_ITEM);
-  m->insertItem("move low res points (no depth)", MOVE_LOW_RES_POINTS_ITEM);
-  m->insertItem("move bounding box (no depth)", MOVE_BOUNDING_BOX_ITEM);
-  m->insertSeparator();
-
-  m->insertItem("single buffer", SINGLE_BUFFER_ITEM);
-  m->insertItem("double buffer", DOUBLE_BUFFER_ITEM);
-  m->insertItem("interactive buffer", INTERACTIVE_BUFFER_ITEM);
-
-  QObject::connect(m, SIGNAL(activated(int)), SLOT(drawstyleActivated(int)));
-
-  return m;
-} // buildDrawStyleSubmenu()
-*/
 
 /*!
   NOTE: This method is not part of the original InventorXt API.
@@ -1149,6 +1074,8 @@ SoQtFullViewer::openPopupMenu( // protected
   int x = 2 + position[0];
   int y = 2 + this->getGLSize()[1] - position[1];
   QPoint pos = this->getGLWidget()->mapToGlobal( QPoint(x,y) );
+
+  this->common->prepareMenu( this->prefmenu );
   this->prefmenu->popUp( this->getGLWidget(), pos.x(), pos.y() );
 } // openPopupMenu()
 
