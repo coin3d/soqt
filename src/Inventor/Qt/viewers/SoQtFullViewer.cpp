@@ -269,7 +269,7 @@ SoQtFullViewer::setDecoration(
 
   this->decorations = enable;
   if ( this->prefmenu )
-    this->prefmenu->SetMenuItemMarked( DECORATION_ITEM, enable );
+    this->prefmenu->setMenuItemMarked( DECORATION_ITEM, enable );
   if ( this->viewerwidget )
     this->showDecorationWidgets( enable );
 } // setDecoration()
@@ -483,7 +483,7 @@ SoQtFullViewer::setViewing(
 
   inherited::setViewing( enable );
   if ( this->prefmenu )
-    this->prefmenu->SetMenuItemMarked( EXAMINING_ITEM, enable );
+    this->prefmenu->setMenuItemMarked( EXAMINING_ITEM, enable );
   VIEWERBUTTON(EXAMINE_BUTTON)->setOn( enable );
   VIEWERBUTTON(INTERACT_BUTTON)->setOn( enable ? FALSE : TRUE);
   VIEWERBUTTON(SEEK_BUTTON)->setEnabled( enable );
@@ -502,7 +502,7 @@ SoQtFullViewer::setHeadlight(
 {
   inherited::setHeadlight( enable );
   if ( this->prefmenu )
-    this->prefmenu->SetMenuItemMarked( HEADLIGHT_ITEM, enable );
+    this->prefmenu->setMenuItemMarked( HEADLIGHT_ITEM, enable );
 } // setHeadlight()
 
 // *************************************************************************
@@ -536,13 +536,13 @@ SoQtFullViewer::setBufferingType(
   if ( this->prefmenu ) {
     switch ( type ) {
     case SoQtViewer::BUFFER_SINGLE:
-      this->prefmenu->SetMenuItemMarked( SINGLE_BUFFER_ITEM, TRUE );
+      this->prefmenu->setMenuItemMarked( SINGLE_BUFFER_ITEM, TRUE );
       break;
     case SoQtViewer::BUFFER_DOUBLE:
-      this->prefmenu->SetMenuItemMarked( DOUBLE_BUFFER_ITEM, TRUE );
+      this->prefmenu->setMenuItemMarked( DOUBLE_BUFFER_ITEM, TRUE );
       break;
     case SoQtViewer::BUFFER_INTERACTIVE:
-      this->prefmenu->SetMenuItemMarked( INTERACTIVE_BUFFER_ITEM, TRUE );
+      this->prefmenu->setMenuItemMarked( INTERACTIVE_BUFFER_ITEM, TRUE );
       break;
     default:
       assert( 0 && "unsupported buffer type" );
@@ -694,7 +694,7 @@ SoQtFullViewer::eventFilter(QObject * obj, QEvent * e)
 #else
       pos = me->pos();
 #endif
-//      this->prefmenu->PopUp( this->getGLWidget(), pos.x(), pos.y() );
+//      this->prefmenu->popUp( this->getGLWidget(), pos.x(), pos.y() );
     }
   }
 
@@ -1040,9 +1040,9 @@ SoQtFullViewer::buildPopupMenu(
     SoQtViewer::INTERACTIVE, this->getDrawStyle( SoQtViewer::INTERACTIVE ) );
   this->setBufferingType( this->getBufferingType() );
 
-  this->prefmenu->SetMenuItemMarked( EXAMINING_ITEM, this->isViewing() );
-  this->prefmenu->SetMenuItemMarked( DECORATION_ITEM, this->decorations );
-  this->prefmenu->SetMenuItemMarked( HEADLIGHT_ITEM, this->isHeadlight() );
+  this->prefmenu->setMenuItemMarked( EXAMINING_ITEM, this->isViewing() );
+  this->prefmenu->setMenuItemMarked( DECORATION_ITEM, this->decorations );
+  this->prefmenu->setMenuItemMarked( HEADLIGHT_ITEM, this->isHeadlight() );
 
 } // buildPopupMenu()
 
@@ -1057,7 +1057,7 @@ SoQtFullViewer::setPopupMenuString(const char * str)
 {
 /*
   this->menutitle = str ? str : "";
-  if (this->prefmenu) this->prefmenu->changeItem(this->menutitle.getString(),
+  if (this->prefmenu) this->prefmenu->setTitle(this->menutitle.getString(),
                                                  MENUTITLE_ITEM);
 */
 } // setPopupMenuString()
@@ -1149,7 +1149,7 @@ SoQtFullViewer::openPopupMenu( // protected
   int x = 2 + position[0];
   int y = 2 + this->getGLSize()[1] - position[1];
   QPoint pos = this->getGLWidget()->mapToGlobal( QPoint(x,y) );
-  this->prefmenu->PopUp( this->getGLWidget(), pos.x(), pos.y() );
+  this->prefmenu->popUp( this->getGLWidget(), pos.x(), pos.y() );
 } // openPopupMenu()
 
 // *************************************************************************
