@@ -509,9 +509,13 @@ SoGuiP::sensorQueueChanged(void *)
   if (sm->isTimerSensorPending(t)) {
     SbTime interval = t - SbTime::getTimeOfDay();
     // Qt v2.1.1 (at least) on MSWindows will fail to trigger the
-    // timer if the interval is < 0.0. (And 0 has special meaning:
-    // trigger only when the application is idle and event queue is
-    // empty).
+    // timer if the interval is < 0.0.
+    //
+    // We also want to avoid setting it to 0.0, as that has a special
+    // semantic meaning: trigger only when the application is idle and
+    // event queue is empty -- which is not what we want to do here.
+    //
+    // So we clamp it, to a small positive value:
     if (interval.getValue() <= 0.0) { interval.setValue(1.0/5000.0); }
 
     if (SOQT_DEBUG && 0) { // debug
