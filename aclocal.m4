@@ -4689,7 +4689,6 @@ if test x"$with_dl" != xno; then
     sim_ac_dl_cppflags="-I${with_dl}/include"
     sim_ac_dl_ldflags="-L${with_dl}/lib"
   fi
-  sim_ac_dl_libs="-ldl"
 
   sim_ac_save_cppflags=$CPPFLAGS
   sim_ac_save_ldflags=$LDFLAGS
@@ -4697,24 +4696,41 @@ if test x"$with_dl" != xno; then
 
   CPPFLAGS="$CPPFLAGS $sim_ac_dl_cppflags"
   LDFLAGS="$LDFLAGS $sim_ac_dl_ldflags"
-  LIBS="$sim_ac_dl_libs $LIBS"
 
   # Use SIM_AC_CHECK_HEADERS instead of .._HEADER to get the
   # HAVE_DLFCN_H symbol set up in config.h automatically.
   AC_CHECK_HEADERS([dlfcn.h])
 
-  AC_CACHE_CHECK([whether the dynamic link loader library is available],
-    sim_cv_lib_dl_avail,
-    [AC_TRY_LINK([
+  sim_ac_dl_avail=false
+
+  AC_MSG_CHECKING([for the dl library])
+  # At least under FreeBSD, dlopen() et al is part of the C library.
+  for sim_ac_dl_libcheck in "" "-ldl"; do
+    if ! $sim_ac_dl_avail; then
+      LIBS="$sim_ac_dl_libcheck $sim_ac_save_libs"
+      AC_TRY_LINK([
 #if HAVE_DLFCN_H
 #include <dlfcn.h>
 #endif /* HAVE_DLFCN_H */
 ],
-                 [(void)dlopen(0L, 0); (void)dlsym(0L, "Gunners!"); (void)dlclose(0L);],
-                 [sim_cv_lib_dl_avail=yes],
-                 [sim_cv_lib_dl_avail=no])])
+                  [(void)dlopen(0L, 0); (void)dlsym(0L, "Gunners!"); (void)dlclose(0L);],
+                  [sim_ac_dl_avail=true
+                   sim_ac_dl_libs="$sim_ac_dl_libcheck"
+                  ])
+    fi
+  done
 
-  if test x"$sim_cv_lib_dl_avail" = xyes; then
+  if $sim_ac_dl_avail; then
+    if test x"$sim_ac_dl_libs" = x""; then
+      AC_MSG_RESULT(yes)
+    else
+      AC_MSG_RESULT($sim_ac_dl_cppflags $sim_ac_dl_ldflags $sim_ac_dl_libs)
+    fi
+  else
+    AC_MSG_RESULT(not available)
+  fi
+
+  if $sim_ac_dl_avail; then
     ifelse([$1], , :, [$1])
   else
     CPPFLAGS=$sim_ac_save_cppflags
@@ -5904,7 +5920,7 @@ fi
 #    $sim_ac_pthread_libs     (link libraries the linker needs for pthread)
 #
 #  The CPPFLAGS, LDFLAGS and LIBS flags will also be modified accordingly.
-#  In addition, the variable $sim_ac_pthread_avail is set to "yes" if the
+#  In addition, the variable $sim_ac_pthread_avail is set to "true" if the
 #  pthread development system is found.
 #
 #
@@ -5926,8 +5942,16 @@ if test x"$with_pthread" != xno; then
     sim_ac_pthread_cppflags="-I${with_pthread}/include"
     sim_ac_pthread_ldflags="-L${with_pthread}/lib"
   fi
+
+  # FIXME: should investigate and document the exact meaning of
+  # the _REENTRANT flag. larsa's commit message mentions
+  # "glibc-doc/FAQ.threads.html".
+  #
+  # Preferably, it should only be set up when really needed
+  # (as detected by some other configure check).
+  #
+  # 20030306 mortene.
   sim_ac_pthread_cppflags="-D_REENTRANT ${sim_ac_pthread_cppflags}"
-  sim_ac_pthread_libs="-lpthread"
 
   sim_ac_save_cppflags=$CPPFLAGS
   sim_ac_save_ldflags=$LDFLAGS
@@ -5935,17 +5959,29 @@ if test x"$with_pthread" != xno; then
 
   CPPFLAGS="$CPPFLAGS $sim_ac_pthread_cppflags"
   LDFLAGS="$LDFLAGS $sim_ac_pthread_ldflags"
-  LIBS="$sim_ac_pthread_libs $LIBS"
 
-  AC_CACHE_CHECK(
-    [for POSIX threads],
-    sim_cv_lib_pthread_avail,
-    [AC_TRY_LINK([#include <pthread.h>],
-                 [(void)pthread_create(0L, 0L, 0L, 0L);],
-                 [sim_cv_lib_pthread_avail=true],
-                 [sim_cv_lib_pthread_avail=false])])
+  sim_ac_pthread_avail=false
 
-  if $sim_cv_lib_pthread_avail; then
+  AC_MSG_CHECKING([for POSIX threads])
+  # At least under FreeBSD, we link to pthreads library with -pthread.
+  for sim_ac_pthreads_libcheck in "-lpthread" "-pthread"; do
+    if ! $sim_ac_pthread_avail; then
+      LIBS="$sim_ac_pthreads_libcheck $sim_ac_save_libs"
+      AC_TRY_LINK([#include <pthread.h>],
+                  [(void)pthread_create(0L, 0L, 0L, 0L);],
+                  [sim_ac_pthread_avail=true
+                   sim_ac_pthread_libs="$sim_ac_pthreads_libcheck"
+                  ])
+    fi
+  done
+
+  if $sim_ac_pthread_avail; then
+    AC_MSG_RESULT($sim_ac_pthread_cppflags $sim_ac_pthread_ldflags $sim_ac_pthread_libs)
+  else
+    AC_MSG_RESULT(not available)
+  fi
+
+  if $sim_ac_pthread_avail; then
     AC_CACHE_CHECK(
       [the struct timespec resolution],
       sim_cv_lib_pthread_timespec_resolution,
@@ -5959,18 +5995,16 @@ if test x"$with_pthread" != xno; then
     fi
   fi
 
-  if $sim_cv_lib_pthread_avail; then
-    sim_ac_pthread_avail=yes
-    $1
+  if $sim_ac_pthread_avail; then
+    ifelse([$1], , :, [$1])
   else
     CPPFLAGS=$sim_ac_save_cppflags
     LDFLAGS=$sim_ac_save_ldflags
     LIBS=$sim_ac_save_libs
-    $2
+    ifelse([$2], , :, [$2])
   fi
 fi
 ]) # SIM_AC_CHECK_PTHREAD
-
 
 # Usage:
 #  SIM_CHECK_OIV_XT([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])

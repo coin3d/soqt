@@ -10222,7 +10222,6 @@ if test x"$with_dl" != xno; then
     sim_ac_dl_cppflags="-I${with_dl}/include"
     sim_ac_dl_ldflags="-L${with_dl}/lib"
   fi
-  sim_ac_dl_libs="-ldl"
 
   sim_ac_save_cppflags=$CPPFLAGS
   sim_ac_save_ldflags=$LDFLAGS
@@ -10230,7 +10229,6 @@ if test x"$with_dl" != xno; then
 
   CPPFLAGS="$CPPFLAGS $sim_ac_dl_cppflags"
   LDFLAGS="$LDFLAGS $sim_ac_dl_ldflags"
-  LIBS="$sim_ac_dl_libs $LIBS"
 
   # Use SIM_AC_CHECK_HEADERS instead of .._HEADER to get the
   # HAVE_DLFCN_H symbol set up in config.h automatically.
@@ -10349,12 +10347,15 @@ fi
 done
 
 
-  echo "$as_me:$LINENO: checking whether the dynamic link loader library is available" >&5
-echo $ECHO_N "checking whether the dynamic link loader library is available... $ECHO_C" >&6
-if test "${sim_cv_lib_dl_avail+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  cat >conftest.$ac_ext <<_ACEOF
+  sim_ac_dl_avail=false
+
+  echo "$as_me:$LINENO: checking for the dl library" >&5
+echo $ECHO_N "checking for the dl library... $ECHO_C" >&6
+  # At least under FreeBSD, dlopen() et al is part of the C library.
+  for sim_ac_dl_libcheck in "" "-ldl"; do
+    if ! $sim_ac_dl_avail; then
+      LIBS="$sim_ac_dl_libcheck $sim_ac_save_libs"
+      cat >conftest.$ac_ext <<_ACEOF
 #line $LINENO "configure"
 #include "confdefs.h"
 
@@ -10388,18 +10389,31 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
-  sim_cv_lib_dl_avail=yes
+  sim_ac_dl_avail=true
+                   sim_ac_dl_libs="$sim_ac_dl_libcheck"
+
 else
   echo "$as_me: failed program was:" >&5
 cat conftest.$ac_ext >&5
-sim_cv_lib_dl_avail=no
 fi
 rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
-fi
-echo "$as_me:$LINENO: result: $sim_cv_lib_dl_avail" >&5
-echo "${ECHO_T}$sim_cv_lib_dl_avail" >&6
+    fi
+  done
 
-  if test x"$sim_cv_lib_dl_avail" = xyes; then
+  if $sim_ac_dl_avail; then
+    if test x"$sim_ac_dl_libs" = x""; then
+      echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6
+    else
+      echo "$as_me:$LINENO: result: $sim_ac_dl_cppflags $sim_ac_dl_ldflags $sim_ac_dl_libs" >&5
+echo "${ECHO_T}$sim_ac_dl_cppflags $sim_ac_dl_ldflags $sim_ac_dl_libs" >&6
+    fi
+  else
+    echo "$as_me:$LINENO: result: not available" >&5
+echo "${ECHO_T}not available" >&6
+  fi
+
+  if $sim_ac_dl_avail; then
 
     SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_dl_cppflags"
     SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_dl_ldflags"
@@ -10995,8 +11009,16 @@ if test x"$with_pthread" != xno; then
     sim_ac_pthread_cppflags="-I${with_pthread}/include"
     sim_ac_pthread_ldflags="-L${with_pthread}/lib"
   fi
+
+  # FIXME: should investigate and document the exact meaning of
+  # the _REENTRANT flag. larsa's commit message mentions
+  # "glibc-doc/FAQ.threads.html".
+  #
+  # Preferably, it should only be set up when really needed
+  # (as detected by some other configure check).
+  #
+  # 20030306 mortene.
   sim_ac_pthread_cppflags="-D_REENTRANT ${sim_ac_pthread_cppflags}"
-  sim_ac_pthread_libs="-lpthread"
 
   sim_ac_save_cppflags=$CPPFLAGS
   sim_ac_save_ldflags=$LDFLAGS
@@ -11004,14 +11026,16 @@ if test x"$with_pthread" != xno; then
 
   CPPFLAGS="$CPPFLAGS $sim_ac_pthread_cppflags"
   LDFLAGS="$LDFLAGS $sim_ac_pthread_ldflags"
-  LIBS="$sim_ac_pthread_libs $LIBS"
+
+  sim_ac_pthread_avail=false
 
   echo "$as_me:$LINENO: checking for POSIX threads" >&5
 echo $ECHO_N "checking for POSIX threads... $ECHO_C" >&6
-if test "${sim_cv_lib_pthread_avail+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  cat >conftest.$ac_ext <<_ACEOF
+  # At least under FreeBSD, we link to pthreads library with -pthread.
+  for sim_ac_pthreads_libcheck in "-lpthread" "-pthread"; do
+    if ! $sim_ac_pthread_avail; then
+      LIBS="$sim_ac_pthreads_libcheck $sim_ac_save_libs"
+      cat >conftest.$ac_ext <<_ACEOF
 #line $LINENO "configure"
 #include "confdefs.h"
 #include <pthread.h>
@@ -11041,18 +11065,26 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
-  sim_cv_lib_pthread_avail=true
+  sim_ac_pthread_avail=true
+                   sim_ac_pthread_libs="$sim_ac_pthreads_libcheck"
+
 else
   echo "$as_me: failed program was:" >&5
 cat conftest.$ac_ext >&5
-sim_cv_lib_pthread_avail=false
 fi
 rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
-fi
-echo "$as_me:$LINENO: result: $sim_cv_lib_pthread_avail" >&5
-echo "${ECHO_T}$sim_cv_lib_pthread_avail" >&6
+    fi
+  done
 
-  if $sim_cv_lib_pthread_avail; then
+  if $sim_ac_pthread_avail; then
+    echo "$as_me:$LINENO: result: $sim_ac_pthread_cppflags $sim_ac_pthread_ldflags $sim_ac_pthread_libs" >&5
+echo "${ECHO_T}$sim_ac_pthread_cppflags $sim_ac_pthread_ldflags $sim_ac_pthread_libs" >&6
+  else
+    echo "$as_me:$LINENO: result: not available" >&5
+echo "${ECHO_T}not available" >&6
+  fi
+
+  if $sim_ac_pthread_avail; then
     echo "$as_me:$LINENO: checking the struct timespec resolution" >&5
 echo $ECHO_N "checking the struct timespec resolution... $ECHO_C" >&6
 if test "${sim_cv_lib_pthread_timespec_resolution+set}" = set; then
@@ -11108,8 +11140,7 @@ _ACEOF
     fi
   fi
 
-  if $sim_cv_lib_pthread_avail; then
-    sim_ac_pthread_avail=yes
+  if $sim_ac_pthread_avail; then
 
           sim_ac_ogl_cppflags="$sim_ac_ogl_cppflags $sim_ac_pthread_cppflags"
           sim_ac_ogl_ldflags="$sim_ac_ogl_ldflags $sim_ac_pthread_ldflags"
