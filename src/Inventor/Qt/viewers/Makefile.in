@@ -390,10 +390,6 @@ LIBS =
 
 
 ############################################################################
-EXTRA_DIST = \
-	SoNativeFlyViewer.cpp
-
-
 BUILT_SOURCES = \
 	$(SoGuiAllBuiltFiles)
 
