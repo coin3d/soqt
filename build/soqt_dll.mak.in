@@ -34,7 +34,7 @@ RSC=rc.exe
 OUTDIR=C:@libdir@
 INTDIR=.\Release
 
-ALL : ".\Release\soqt.dll"
+ALL : ".\Release\soqt@SOQT_MAJOR_VERSION@@SOQT_MINOR_VERSION@@SOQT_MICRO_VERSION@.dll"
 
 
 CLEAN :
@@ -91,9 +91,9 @@ CLEAN :
 	-@erase "$(INTDIR)\SoQtViewerExtra.obj"
 	-@erase "$(INTDIR)\SoQtWalkViewer.obj"
 	-@erase "$(INTDIR)\vc60.idb"
-	-@erase "$(OUTDIR)\soqt.exp"
-	-@erase "$(OUTDIR)\soqt.lib"
-	-@erase ".\Release\soqt.dll"
+	-@erase "$(OUTDIR)\soqt@SOQT_MAJOR_VERSION@@SOQT_MINOR_VERSION@@SOQT_MICRO_VERSION@.exp"
+	-@erase "$(OUTDIR)\soqt@SOQT_MAJOR_VERSION@@SOQT_MINOR_VERSION@@SOQT_MICRO_VERSION@.lib"
+	-@erase ".\Release\soqt@SOQT_MAJOR_VERSION@@SOQT_MINOR_VERSION@@SOQT_MICRO_VERSION@.dll"
 
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
@@ -108,7 +108,7 @@ BSC32_FLAGS=/nologo /o"$(OUTDIR)\soqt_dll.bsc"
 BSC32_SBRS= \
 	
 LINK32=link.exe
-LINK32_FLAGS=Libc.lib @LIBS@ kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /incremental:no /pdb:"$(OUTDIR)\soqt.pdb" /machine:I386 /nodefaultlib /out:"Release/soqt.dll" /implib:"$(OUTDIR)\soqt.lib" 
+LINK32_FLAGS=msvcrt.lib @LIBS@ kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /incremental:no /pdb:"Release/soqt@SOQT_MAJOR_VERSION@@SOQT_MINOR_VERSION@@SOQT_MICRO_VERSION@.pdb" /machine:I386 /nodefaultlib /out:"Release/soqt@SOQT_MAJOR_VERSION@@SOQT_MINOR_VERSION@@SOQT_MICRO_VERSION@.dll" /implib:"$(OUTDIR)\soqt@SOQT_MAJOR_VERSION@@SOQT_MINOR_VERSION@@SOQT_MICRO_VERSION@.lib" 
 LINK32_OBJS= \
 	"$(INTDIR)\moc_SoQt.obj" \
 	"$(INTDIR)\moc_SoQtComponent.obj" \
@@ -163,7 +163,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\SoQtViewerExtra.obj" \
 	"$(INTDIR)\SoQtWalkViewer.obj"
 
-".\Release\soqt.dll" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
+".\Release\soqt@SOQT_MAJOR_VERSION@@SOQT_MINOR_VERSION@@SOQT_MICRO_VERSION@.dll" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
   $(LINK32_FLAGS) $(LINK32_OBJS)
 <<
@@ -173,7 +173,7 @@ LINK32_OBJS= \
 OUTDIR=C:@libdir@
 INTDIR=.\Debug
 
-ALL : ".\Debug\soqtd.dll"
+ALL : ".\Debug\soqt@SOQT_MAJOR_VERSION@@SOQT_MINOR_VERSION@@SOQT_MICRO_VERSION@d.dll"
 
 
 CLEAN :
@@ -231,11 +231,11 @@ CLEAN :
 	-@erase "$(INTDIR)\SoQtWalkViewer.obj"
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(INTDIR)\vc60.pdb"
-	-@erase "$(OUTDIR)\soqtd.exp"
-	-@erase "$(OUTDIR)\soqtd.lib"
-	-@erase "$(OUTDIR)\soqtd.pdb"
-	-@erase ".\Debug\soqtd.dll"
-	-@erase ".\Debug\soqtd.ilk"
+	-@erase "$(OUTDIR)\soqt@SOQT_MAJOR_VERSION@@SOQT_MINOR_VERSION@@SOQT_MICRO_VERSION@d.exp"
+	-@erase "$(OUTDIR)\soqt@SOQT_MAJOR_VERSION@@SOQT_MINOR_VERSION@@SOQT_MICRO_VERSION@d.lib"
+	-@erase ".\Debug\soqt@SOQT_MAJOR_VERSION@@SOQT_MINOR_VERSION@@SOQT_MICRO_VERSION@d.dll"
+	-@erase ".\Debug\soqt@SOQT_MAJOR_VERSION@@SOQT_MINOR_VERSION@@SOQT_MICRO_VERSION@d.ilk"
+	-@erase ".\Debug\soqt@SOQT_MAJOR_VERSION@@SOQT_MINOR_VERSION@@SOQT_MICRO_VERSION@d.pdb"
 
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
@@ -250,7 +250,7 @@ BSC32_FLAGS=/nologo /o"$(OUTDIR)\soqt_dll.bsc"
 BSC32_SBRS= \
 	
 LINK32=link.exe
-LINK32_FLAGS=Libcd.lib @LIBS@ kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /incremental:yes /pdb:"$(OUTDIR)\soqtd.pdb" /debug /machine:I386 /nodefaultlib /out:"Debug/soqtd.dll" /implib:"$(OUTDIR)\soqtd.lib" /pdbtype:sept 
+LINK32_FLAGS=msvcrt.lib @LIBS@ kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /incremental:yes /pdb:"Debug/soqt@SOQT_MAJOR_VERSION@@SOQT_MINOR_VERSION@@SOQT_MICRO_VERSION@d.pdb" /debug /machine:I386 /nodefaultlib /out:"Debug/soqt@SOQT_MAJOR_VERSION@@SOQT_MINOR_VERSION@@SOQT_MICRO_VERSION@d.dll" /implib:"$(OUTDIR)\soqt@SOQT_MAJOR_VERSION@@SOQT_MINOR_VERSION@@SOQT_MICRO_VERSION@d.lib" /pdbtype:sept 
 LINK32_OBJS= \
 	"$(INTDIR)\moc_SoQt.obj" \
 	"$(INTDIR)\moc_SoQtComponent.obj" \
@@ -305,7 +305,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\SoQtViewerExtra.obj" \
 	"$(INTDIR)\SoQtWalkViewer.obj"
 
-".\Debug\soqtd.dll" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
+".\Debug\soqt@SOQT_MAJOR_VERSION@@SOQT_MINOR_VERSION@@SOQT_MICRO_VERSION@d.dll" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
   $(LINK32_FLAGS) $(LINK32_OBJS)
 <<

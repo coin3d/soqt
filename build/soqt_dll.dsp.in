@@ -54,7 +54,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
-# ADD LINK32 Libc.lib @LIBS@ kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386 /nodefaultlib /out:"Release/soqt.dll"
+# ADD LINK32 msvcrt.lib @LIBS@ kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /pdb:"Release/soqt@SOQT_MAJOR_VERSION@@SOQT_MINOR_VERSION@@SOQT_MICRO_VERSION@.pdb" /machine:I386 /nodefaultlib /out:"Release/soqt@SOQT_MAJOR_VERSION@@SOQT_MINOR_VERSION@@SOQT_MICRO_VERSION@.dll"
 
 !ELSEIF  "$(CFG)" == "soqt_dll - Win32 Debug"
 
@@ -81,7 +81,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 Libcd.lib @LIBS@ kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /nodefaultlib /out:"Debug/soqtd.dll" /pdbtype:sept
+# ADD LINK32 msvcrt.lib @LIBS@ kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /pdb:"Debug/soqt@SOQT_MAJOR_VERSION@@SOQT_MINOR_VERSION@@SOQT_MICRO_VERSION@d.pdb" /debug /machine:I386 /nodefaultlib /out:"Debug/soqt@SOQT_MAJOR_VERSION@@SOQT_MINOR_VERSION@@SOQT_MICRO_VERSION@d.dll" /pdbtype:sept
 
 !ENDIF 
 

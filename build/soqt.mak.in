@@ -64,7 +64,6 @@ CLEAN :
 	-@erase "$(INTDIR)\SoAnyPlaneViewer.obj"
 	-@erase "$(INTDIR)\SoAnyPopupMenu.obj"
 	-@erase "$(INTDIR)\SoAnyThumbWheel.obj"
-	-@erase "$(INTDIR)\SoGLMaterialSphere.obj"
 	-@erase "$(INTDIR)\SoQt.obj"
 	-@erase "$(INTDIR)\SoQtCollisionViewer.obj"
 	-@erase "$(INTDIR)\SoQtComponent.obj"
@@ -134,7 +133,6 @@ LIB32_OBJS= \
 	"$(INTDIR)\SoAnyPlaneViewer.obj" \
 	"$(INTDIR)\SoAnyPopupMenu.obj" \
 	"$(INTDIR)\SoAnyThumbWheel.obj" \
-	"$(INTDIR)\SoGLMaterialSphere.obj" \
 	"$(INTDIR)\SoQt.obj" \
 	"$(INTDIR)\SoQtCollisionViewer.obj" \
 	"$(INTDIR)\SoQtComponent.obj" \
@@ -205,7 +203,6 @@ CLEAN :
 	-@erase "$(INTDIR)\SoAnyPlaneViewer.obj"
 	-@erase "$(INTDIR)\SoAnyPopupMenu.obj"
 	-@erase "$(INTDIR)\SoAnyThumbWheel.obj"
-	-@erase "$(INTDIR)\SoGLMaterialSphere.obj"
 	-@erase "$(INTDIR)\SoQt.obj"
 	-@erase "$(INTDIR)\SoQtCollisionViewer.obj"
 	-@erase "$(INTDIR)\SoQtComponent.obj"
@@ -276,7 +273,6 @@ LIB32_OBJS= \
 	"$(INTDIR)\SoAnyPlaneViewer.obj" \
 	"$(INTDIR)\SoAnyPopupMenu.obj" \
 	"$(INTDIR)\SoAnyThumbWheel.obj" \
-	"$(INTDIR)\SoGLMaterialSphere.obj" \
 	"$(INTDIR)\SoQt.obj" \
 	"$(INTDIR)\SoQtCollisionViewer.obj" \
 	"$(INTDIR)\SoQtComponent.obj" \
@@ -495,12 +491,6 @@ SOURCE="@soqt_build_dir@\src\Inventor\Qt\widgets\SoAnyPopupMenu.cpp"
 SOURCE="@soqt_build_dir@\src\Inventor\Qt\widgets\SoAnyThumbWheel.cpp"
 
 "$(INTDIR)\SoAnyThumbWheel.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-SOURCE="@soqt_src_dir@\src\Inventor\Qt\editors\SoGLMaterialSphere.cpp"
-
-"$(INTDIR)\SoGLMaterialSphere.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
