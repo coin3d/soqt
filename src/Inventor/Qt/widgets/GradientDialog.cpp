@@ -219,13 +219,9 @@ SoQtGradientDialog::SoQtGradientDialog(const Gradient & grad,
   loadsaveLayout->addWidget(savebutton, 0, 1);
 
   PRIVATE(this)->contupdate = new QCheckBox(this);
+  PRIVATE(this)->contupdate->setText("Continuous update ");
   PRIVATE(this)->contupdate->setChecked(FALSE);
 
-  PRIVATE(this)->contupdatelabel = new QLabel(this);
-  PRIVATE(this)->contupdatelabel->setText("Continuous update ");
-  PRIVATE(this)->contupdatelabel->setBuddy(PRIVATE(this)->contupdate);
-  
-  contupdatelayout->addWidget(PRIVATE(this)->contupdatelabel);
   contupdatelayout->addWidget(PRIVATE(this)->contupdate);
 
   PRIVATE(this)->applybutton = new QPushButton(this);
@@ -287,6 +283,7 @@ void SoQtGradientDialog::setChangeCallback(Gradient::ChangeCB * cb, void * userd
 {
   PRIVATE(this)->changeCallBack = cb;
   PRIVATE(this)->changeCallBackData = userdata;
+  PRIVATE(this)->gradientcopy.setChangeCallback(PRIVATE(this)->gradientCallBack, PRIVATE(this));
   PRIVATE(this)->gradview->setChangeCallback(PRIVATE(this)->gradientCallBack, PRIVATE(this));
 }
 
@@ -311,12 +308,10 @@ SoQtGradientDialog::alwaysContinuousUpdates(SbBool yes)
 
   if (yes) {
     PRIVATE(this)->contupdate->hide();
-    PRIVATE(this)->contupdatelabel->hide();
     PRIVATE(this)->applybutton->hide();
   }
   else {
     PRIVATE(this)->contupdate->show();
-    PRIVATE(this)->contupdatelabel->show();
     PRIVATE(this)->applybutton->show();
   }
 }

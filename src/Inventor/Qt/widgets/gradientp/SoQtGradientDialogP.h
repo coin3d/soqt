@@ -60,7 +60,6 @@ public:
   void * callBackData;
   SbBool updatecontinuously;
 
-  QLabel * contupdatelabel;
   QPushButton * applybutton;
   QString filetype;
   static QString * defaultdir;
