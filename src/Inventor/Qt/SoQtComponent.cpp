@@ -517,6 +517,22 @@ SoQtComponent::show(void)
 
   PRIVATE(this)->widget->raise();
 
+  // FIXME: This is a very, very ugly workaround to force Qt 3.3.x on
+  // Mac OS X to repaint our component on startup. Otherwise, all you
+  // get is a blank white window. The problem seems to be related to a
+  // paint event "getting lost" somewhere (it's registered in
+  // SoQtComponent but never makes it to SoQtGLWidget.) This should
+  // really be fixed properly but I guess it's better to have things
+  // working in the meantime...
+  // Note that this workaround is a weird thing in itself: calling
+  // raise() twice should not make a difference, since raise() puts
+  // the widget to the top of the stack so that "the widget will be
+  // visually in front of any overlapping sibling widgets". 
+  // kyrah 20040211.
+#if (defined Q_WS_MAC && QT_VERSION >= 0x030300)
+  PRIVATE(this)->widget->raise();
+#endif // Q_WS_MAC
+
   if (SOQTCOMP_RESIZE_DEBUG) {  // debug
     SoDebugError::postInfo("SoQtComponent::show-4",
                            "raised %p: (%d, %d)",
