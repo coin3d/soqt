@@ -1,11 +1,2 @@
-SoQt is an extension library for the Coin library.  It is released publicly
-under the Q Public License for developers of free software and is also
-available for commercial/proprietary use under a "professional edition"
-license.
-
-Some of the files in the distribution is covered by the GNU GPL, but this
-does not include any of the files which are compiled to the final binary
-products.
-
-The Q Public License can be found in the LICENSE.QPL file and the GNU
-General Public License (GNU GPL) can be found in the LICENSE.GPL file.
+SoQt is released publicly under the GNU Lesser General Public License,
+version 2.1.  See the file LICENSE.LGPL for all the details.
