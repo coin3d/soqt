@@ -43,7 +43,7 @@ public:
   const Gradient & getGradient(void) const;
   void setChangeCallback(Gradient::ChangeCB * cb, void * userdata);
   void setContinuousNotification(SbBool yes);
-  void getContinuousNotification(void) const;
+  SbBool getContinuousNotification(void) const;
   void alwaysContinuousUpdates(SbBool yes);
 
 protected:

@@ -179,14 +179,14 @@ SoQtGradientDialog::SoQtGradientDialog(const Gradient & grad,
   PRIVATE(this)->contupdate = new QCheckBox(this);
   PRIVATE(this)->contupdate->setChecked(FALSE);
 
-  QLabel * contupdateLabel = new QLabel(PRIVATE(this)->contupdate, "Update continuosly", this);
+  PRIVATE(this)->contupdateLabel = new QLabel(PRIVATE(this)->contupdate, "Update continuosly", this);
   
-  contupdateLayout->addWidget(contupdateLabel);
+  contupdateLayout->addWidget(PRIVATE(this)->contupdateLabel);
   contupdateLayout->addWidget(PRIVATE(this)->contupdate);
 
-  QPushButton * applyButton = new QPushButton(this);
-  applyButton->setText("Apply");
-  applyresetLayout->addWidget(applyButton);
+  PRIVATE(this)->applyButton = new QPushButton(this);
+  PRIVATE(this)->applyButton->setText("Apply");
+  applyresetLayout->addWidget(PRIVATE(this)->applyButton);
 
   QPushButton * resetButton = new QPushButton(this);
   resetButton->setText("Reset");
@@ -198,7 +198,7 @@ SoQtGradientDialog::SoQtGradientDialog(const Gradient & grad,
 
   connect(loadButton, SIGNAL(clicked()), PRIVATE(this), SLOT(loadGradient()));
   connect(saveButton, SIGNAL(clicked()), PRIVATE(this), SLOT(saveGradient()));
-  connect(applyButton, SIGNAL(clicked()), PRIVATE(this), SLOT(callGradientUpdate()));
+  connect(PRIVATE(this)->applyButton, SIGNAL(clicked()), PRIVATE(this), SLOT(callGradientUpdate()));
   connect(resetButton, SIGNAL(clicked()), PRIVATE(this), SLOT(resetGradient()));
   connect(doneButton, SIGNAL(clicked()), this, SLOT(close()));
   connect(PRIVATE(this)->gradientList, SIGNAL(activated(int)), PRIVATE(this), SLOT(chooseGradient(int)));
@@ -252,6 +252,36 @@ void SoQtGradientDialog::setChangeCallback(Gradient::ChangeCB * cb, void * userd
   PRIVATE(this)->changeCallBack = cb;
   PRIVATE(this)->changeCallBackData = userdata;
   PRIVATE(this)->gradView->setChangeCallback(PRIVATE(this)->gradientCallBack, userdata);
+}
+
+void 
+SoQtGradientDialog::setContinuousNotification(SbBool yes)
+{
+  PRIVATE(this)->contupdate->setChecked(yes);
+  SoQtGradientDialogP::updateContinuously = yes;
+}
+
+SbBool 
+SoQtGradientDialog::getContinuousNotification(void) const
+{
+  return SoQtGradientDialogP::updateContinuously; 
+}
+
+void 
+SoQtGradientDialog::alwaysContinuousUpdates(SbBool yes)
+{
+  SoQtGradientDialogP::updateContinuously = yes;
+  if (yes) { 
+    PRIVATE(this)->contupdate->hide(); 
+    PRIVATE(this)->contupdateLabel->hide();
+    PRIVATE(this)->applyButton->hide();
+    
+  }
+  else {
+    PRIVATE(this)->contupdate->show();
+    PRIVATE(this)->contupdateLabel->show();
+    PRIVATE(this)->applyButton->show();
+  }
 }
 
 #undef PRIVATE
