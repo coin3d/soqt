@@ -239,6 +239,10 @@ SoGui_src_Inventor_Gui_nodes_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp \
   $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiFrame.h \
   $(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiImage.h \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiLabel.h \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp \
   $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiToggleButton.h \
   $(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp \
   $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiRadioButton.h \
@@ -259,7 +263,9 @@ SoGui_src_Inventor_Gui_engines_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/engines/SoGuiEngines.h \
   $(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp \
   $(top_builddir)/src/Inventor/@Gui@/engines/SoGuiRadioGroup.h \
-  $(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp
+  $(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/engines/SoGuiFormat.h \
+  $(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp
 
 
 SoGui_src_Inventor_Gui_viewers_BuiltFiles = \
@@ -427,6 +433,8 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/engines/Engines.cpp.in \
   src/Inventor/@Gui@/common/engines/RadioGroup.h.in \
   src/Inventor/@Gui@/common/engines/RadioGroup.cpp.in \
+  src/Inventor/@Gui@/common/engines/Format.h.in \
+  src/Inventor/@Gui@/common/engines/Format.cpp.in \
   src/Inventor/@Gui@/common/nodes/Nodes.h.in \
   src/Inventor/@Gui@/common/nodes/Nodes.cpp.in \
   src/Inventor/@Gui@/common/nodes/SceneTexture2.h.in \
@@ -441,6 +449,10 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/nodes/Translation.cpp.in \
   src/Inventor/@Gui@/common/nodes/Frame.h.in \
   src/Inventor/@Gui@/common/nodes/Frame.cpp.in \
+  src/Inventor/@Gui@/common/nodes/Image.h.in \
+  src/Inventor/@Gui@/common/nodes/Image.cpp.in \
+  src/Inventor/@Gui@/common/nodes/Label.h.in \
+  src/Inventor/@Gui@/common/nodes/Label.cpp.in \
   src/Inventor/@Gui@/common/nodes/ToggleButton.h.in \
   src/Inventor/@Gui@/common/nodes/ToggleButton.cpp.in \
   src/Inventor/@Gui@/common/nodes/RadioButton.h.in \
@@ -539,10 +551,10 @@ nodes_lst_AR = $(AR) cru
 nodes_lst_LIBADD =
 nodist_nodes_lst_OBJECTS = Nodes.$(OBJEXT) SceneTexture2.$(OBJEXT) \
 	ViewportFix.$(OBJEXT) Pane.$(OBJEXT) Position.$(OBJEXT) \
-	Translation.$(OBJEXT) Frame.$(OBJEXT) ToggleButton.$(OBJEXT) \
-	RadioButton.$(OBJEXT) ClickCounter.$(OBJEXT) Slider1.$(OBJEXT) \
-	Slider2.$(OBJEXT) ColorEditor.$(OBJEXT) \
-	MaterialEditor.$(OBJEXT)
+	Translation.$(OBJEXT) Frame.$(OBJEXT) Image.$(OBJEXT) \
+	Label.$(OBJEXT) ToggleButton.$(OBJEXT) RadioButton.$(OBJEXT) \
+	ClickCounter.$(OBJEXT) Slider1.$(OBJEXT) Slider2.$(OBJEXT) \
+	ColorEditor.$(OBJEXT) MaterialEditor.$(OBJEXT)
 nodes_lst_OBJECTS = $(nodist_nodes_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
@@ -550,8 +562,9 @@ libSoGuiNodes_la_LDFLAGS =
 libSoGuiNodes_la_LIBADD =
 nodist_libSoGuiNodes_la_OBJECTS = Nodes.lo SceneTexture2.lo \
 	ViewportFix.lo Pane.lo Position.lo Translation.lo Frame.lo \
-	ToggleButton.lo RadioButton.lo ClickCounter.lo Slider1.lo \
-	Slider2.lo ColorEditor.lo MaterialEditor.lo
+	Image.lo Label.lo ToggleButton.lo RadioButton.lo \
+	ClickCounter.lo Slider1.lo Slider2.lo ColorEditor.lo \
+	MaterialEditor.lo
 libSoGuiNodes_la_OBJECTS = $(nodist_libSoGuiNodes_la_OBJECTS)
 
 DEFS = @DEFS@
@@ -561,7 +574,9 @@ depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 @AMDEP_TRUE@DEP_FILES = $(DEPDIR)/ClickCounter.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/ClickCounter.Po $(DEPDIR)/ColorEditor.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/ColorEditor.Po $(DEPDIR)/Frame.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/Frame.Po $(DEPDIR)/MaterialEditor.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/Frame.Po $(DEPDIR)/Image.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/Image.Po $(DEPDIR)/Label.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/Label.Po $(DEPDIR)/MaterialEditor.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/MaterialEditor.Po $(DEPDIR)/Nodes.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/Nodes.Po $(DEPDIR)/Pane.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/Pane.Po $(DEPDIR)/Position.Plo \
@@ -634,6 +649,8 @@ Position.$(OBJEXT): \
 Translation.$(OBJEXT): \
 	$(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp
 Frame.$(OBJEXT): $(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp
+Image.$(OBJEXT): $(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp
+Label.$(OBJEXT): $(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp
 ToggleButton.$(OBJEXT): \
 	$(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp
 RadioButton.$(OBJEXT): \
@@ -657,6 +674,8 @@ Pane.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp
 Position.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp
 Translation.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp
 Frame.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp
+Image.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp
+Label.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp
 ToggleButton.lo: \
 	$(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp
 RadioButton.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp
@@ -682,6 +701,10 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/ColorEditor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Frame.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Frame.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Image.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Image.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Label.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Label.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/MaterialEditor.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/MaterialEditor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Nodes.Plo@am__quote@
@@ -851,6 +874,42 @@ Frame.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp
 @AMDEP_TRUE@	depfile='$(DEPDIR)/Frame.Plo' tmpdepfile='$(DEPDIR)/Frame.TPlo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Frame.lo `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp
+
+Image.o: $(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp' object='Image.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Image.Po' tmpdepfile='$(DEPDIR)/Image.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Image.o `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp
+
+Image.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp' object='Image.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Image.Po' tmpdepfile='$(DEPDIR)/Image.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Image.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp ) | xargs cygpath -w`
+
+Image.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp' object='Image.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Image.Plo' tmpdepfile='$(DEPDIR)/Image.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Image.lo `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp
+
+Label.o: $(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp' object='Label.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Label.Po' tmpdepfile='$(DEPDIR)/Label.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Label.o `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp
+
+Label.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp' object='Label.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Label.Po' tmpdepfile='$(DEPDIR)/Label.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Label.obj `( test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp || echo -n '$(srcdir)/'; echo -n $(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp ) | xargs cygpath -w`
+
+Label.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp' object='Label.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/Label.Plo' tmpdepfile='$(DEPDIR)/Label.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o Label.lo `test -f $(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp
 
 ToggleButton.o: $(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp
 @AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp' object='ToggleButton.o' libtool=no @AMDEPBACKSLASH@
@@ -1315,6 +1374,12 @@ $(top_builddir)/src/Inventor/@Gui@/engines/SoGuiRadioGroup.h: $(top_srcdir)/src/
 $(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/engines/RadioGroup.cpp.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/engines/RadioGroup.cpp:src/Inventor/@Gui@/common/engines/RadioGroup.cpp.in )
 
+$(top_builddir)/src/Inventor/@Gui@/engines/SoGuiFormat.h: $(top_srcdir)/src/Inventor/@Gui@/common/engines/Format.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/engines/SoGuiFormat.h:src/Inventor/@Gui@/common/engines/Format.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/engines/Format.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/engines/Format.cpp:src/Inventor/@Gui@/common/engines/Format.cpp.in )
+
 $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiNodes.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Nodes.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiNodes.h:src/Inventor/@Gui@/common/nodes/Nodes.h.in )
 
@@ -1356,6 +1421,18 @@ $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiFrame.h: $(top_srcdir)/src/Invento
 
 $(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Frame.cpp.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/Frame.cpp:src/Inventor/@Gui@/common/nodes/Frame.cpp.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiImage.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Image.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiImage.h:src/Inventor/@Gui@/common/nodes/Image.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Image.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/Image.cpp:src/Inventor/@Gui@/common/nodes/Image.cpp.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiLabel.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Label.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiLabel.h:src/Inventor/@Gui@/common/nodes/Label.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Label.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/Label.cpp:src/Inventor/@Gui@/common/nodes/Label.cpp.in )
 
 $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiToggleButton.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/ToggleButton.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiToggleButton.h:src/Inventor/@Gui@/common/nodes/ToggleButton.h.in )

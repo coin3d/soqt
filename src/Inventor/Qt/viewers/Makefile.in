@@ -239,6 +239,10 @@ SoGui_src_Inventor_Gui_nodes_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp \
   $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiFrame.h \
   $(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiImage.h \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiLabel.h \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp \
   $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiToggleButton.h \
   $(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp \
   $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiRadioButton.h \
@@ -259,7 +263,9 @@ SoGui_src_Inventor_Gui_engines_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/engines/SoGuiEngines.h \
   $(top_builddir)/src/Inventor/@Gui@/engines/Engines.cpp \
   $(top_builddir)/src/Inventor/@Gui@/engines/SoGuiRadioGroup.h \
-  $(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp
+  $(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/engines/SoGuiFormat.h \
+  $(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp
 
 
 SoGui_src_Inventor_Gui_viewers_BuiltFiles = \
@@ -427,6 +433,8 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/engines/Engines.cpp.in \
   src/Inventor/@Gui@/common/engines/RadioGroup.h.in \
   src/Inventor/@Gui@/common/engines/RadioGroup.cpp.in \
+  src/Inventor/@Gui@/common/engines/Format.h.in \
+  src/Inventor/@Gui@/common/engines/Format.cpp.in \
   src/Inventor/@Gui@/common/nodes/Nodes.h.in \
   src/Inventor/@Gui@/common/nodes/Nodes.cpp.in \
   src/Inventor/@Gui@/common/nodes/SceneTexture2.h.in \
@@ -441,6 +449,10 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/nodes/Translation.cpp.in \
   src/Inventor/@Gui@/common/nodes/Frame.h.in \
   src/Inventor/@Gui@/common/nodes/Frame.cpp.in \
+  src/Inventor/@Gui@/common/nodes/Image.h.in \
+  src/Inventor/@Gui@/common/nodes/Image.cpp.in \
+  src/Inventor/@Gui@/common/nodes/Label.h.in \
+  src/Inventor/@Gui@/common/nodes/Label.cpp.in \
   src/Inventor/@Gui@/common/nodes/ToggleButton.h.in \
   src/Inventor/@Gui@/common/nodes/ToggleButton.cpp.in \
   src/Inventor/@Gui@/common/nodes/RadioButton.h.in \
@@ -1160,6 +1172,12 @@ $(top_builddir)/src/Inventor/@Gui@/engines/SoGuiRadioGroup.h: $(top_srcdir)/src/
 $(top_builddir)/src/Inventor/@Gui@/engines/RadioGroup.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/engines/RadioGroup.cpp.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/engines/RadioGroup.cpp:src/Inventor/@Gui@/common/engines/RadioGroup.cpp.in )
 
+$(top_builddir)/src/Inventor/@Gui@/engines/SoGuiFormat.h: $(top_srcdir)/src/Inventor/@Gui@/common/engines/Format.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/engines/SoGuiFormat.h:src/Inventor/@Gui@/common/engines/Format.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/engines/Format.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/engines/Format.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/engines/Format.cpp:src/Inventor/@Gui@/common/engines/Format.cpp.in )
+
 $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiNodes.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Nodes.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiNodes.h:src/Inventor/@Gui@/common/nodes/Nodes.h.in )
 
@@ -1201,6 +1219,18 @@ $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiFrame.h: $(top_srcdir)/src/Invento
 
 $(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Frame.cpp.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/Frame.cpp:src/Inventor/@Gui@/common/nodes/Frame.cpp.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiImage.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Image.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiImage.h:src/Inventor/@Gui@/common/nodes/Image.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Image.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/Image.cpp:src/Inventor/@Gui@/common/nodes/Image.cpp.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiLabel.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Label.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiLabel.h:src/Inventor/@Gui@/common/nodes/Label.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Label.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/Label.cpp:src/Inventor/@Gui@/common/nodes/Label.cpp.in )
 
 $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiToggleButton.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/ToggleButton.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiToggleButton.h:src/Inventor/@Gui@/common/nodes/ToggleButton.h.in )
