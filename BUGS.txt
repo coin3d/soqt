@@ -29,6 +29,10 @@
           return 0;
         } 
 
+    I see at least two problems in the SoQtFullViewer::buildLeftTrim()
+    code: 1) it is always set to a fixed width of 30 pixels, 2) it is
+    not size-updated when buttons are added.
+
 =====================================================================
 
 001 The simplest SoQtExaminerViewer example comes up with a canvas
