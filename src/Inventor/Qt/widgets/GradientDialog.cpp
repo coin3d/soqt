@@ -80,17 +80,14 @@ SoQtGradientDialogP::resetGradient()
 void 
 SoQtGradientDialogP::loadGradient()
 {
-  QStringList filenames = 
-    QFileDialog::getOpenFileNames("Gradients (*.grad)",
-                                  "gradients/",
-                                  PUBLIC(this),
-                                  "Open Gradient Dialog",
-                                  "Choose a Gradient to load");
-  if (!filenames.isEmpty()) {
-    this->saveCurrent();
-    for (unsigned int i = 0; i < filenames.size(); i++) {
-      Gradient grad(filenames[i]);
-      PUBLIC(this)->addGradient(grad, filenames[i]);
+  if (this->fileDialog->exec()) {
+    QString filename = this->fileDialog->selectedFile();
+    if (!filename.isEmpty()) {
+      this->saveCurrent();
+      Gradient grad(filename);
+      QString path = this->fileDialog->dirPath();
+      QString description = filename.remove(0, path.length() + 1);
+      PUBLIC(this)->addGradient(grad, description);
     }
   }
 }
@@ -98,16 +95,16 @@ SoQtGradientDialogP::loadGradient()
 void 
 SoQtGradientDialogP::saveGradient()
 {
-  QString filename = 
-    QFileDialog::getSaveFileName("gradients/",
-                                 "*.grad",
-                                 PUBLIC(this),
-                                 "Save Gradient Dialog",
-                                 "Choose a filename");
-
-  if (!filename.isEmpty()) {
-    Gradient grad = this->gradView->getGradient();
-    grad.save(filename);
+  if (this->fileDialog->exec()) {
+    QString filename = this->fileDialog->selectedFile();
+    if (!filename.isEmpty()) {
+      Gradient grad = this->gradView->getGradient();
+      grad.save(filename);
+    
+      QString path = this->fileDialog->dirPath();
+      QString description = filename.remove(0, path.length() + 1);
+      this->gradientList->changeItem(grad.getImage(60, 16, 32), description, this->old_index);
+    }
   }
 }
 
@@ -135,6 +132,12 @@ SoQtGradientDialog::SoQtGradientDialog(const Gradient & grad,
 : QDialog(parent, name, modal)
 {
   PRIVATE(this) = new SoQtGradientDialogP(this);
+
+  PRIVATE(this)->fileDialog = new QFileDialog("gradients/",
+                                      "*.grad",
+                                      this);
+  PRIVATE(this)->fileDialog->setFilter("*.grad"); 
+
   
   QCanvas * canvas = new QCanvas(450,75);
   PRIVATE(this)->gradView = new GradientView(canvas, grad, this, "GradientView");
@@ -143,7 +146,7 @@ SoQtGradientDialog::SoQtGradientDialog(const Gradient & grad,
 
   PRIVATE(this)->gradientList = new QComboBox(this, "gradientList");
   PRIVATE(this)->old_index = 0;
-  this->addGradient(grad, "description");
+  this->addGradient(grad, "no filename specified");
   PRIVATE(this)->gradientList->hide();
 
   QGridLayout * topLayout = new QGridLayout(this, 3, 2);
