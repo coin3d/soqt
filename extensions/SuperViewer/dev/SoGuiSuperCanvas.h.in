@@ -89,6 +89,10 @@ public:
   void setAnimating(SbBool enable);
   SbBool isAnimating(void) const;
   void stopAnimating(void);
+ 
+  void setSeekMode(SbBool enable);
+  SbBool isSeekMode(void) const;
+
   void setLineWidth(int value);
   int getLineWidth(void) const;
 
@@ -126,6 +130,10 @@ public:
 
   virtual void setSceneGraph(SoNode * scene);
   SoNode * loadSceneGraphFromFile(const char * filename);
+
+  void snapShot(const char * filename, const SbName & extension);
+  void setAntiAliasingPasses(int value);
+  int getAntiAliasingPasses(void) const;
 
   @WIDGET@ getRenderAreaWidget(void) const;
 

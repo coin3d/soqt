@@ -73,6 +73,7 @@ class So@Gui@SuperCanvasP {
   int cones, cubes, cylinders, spheres; 
   int polygonoffsetindex ;
   int complexityindex, lightmodelindex;
+  int antialiasvalue;
   float texturequality;
 
   SbColor linecolor, pointcolor;

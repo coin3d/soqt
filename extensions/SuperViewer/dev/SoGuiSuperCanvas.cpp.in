@@ -56,6 +56,7 @@
 #include <Inventor/events/SoMouseButtonEvent.h>
 #include <Inventor/events/SoKeyboardEvent.h>
 #include <Inventor/events/SoMotion3Event.h>
+#include <Inventor/SoOffscreenRenderer.h>
 #include <Inventor/projectors/SbSphereSheetProjector.h>
 
 #include <Inventor/@Gui@/So@Gui@.h>
@@ -322,6 +323,30 @@ So@Gui@SuperCanvas::isFlatshading(void) const
 */
 
 void
+So@Gui@SuperCanvas::setSeekMode(const SbBool enable)
+{
+  So@Gui@Viewer::setSeekMode(enable);
+}  // setSeekMode()
+
+// *************************************************************************
+
+/*!
+  FIXME: More doc. larsivi 20020603
+*/
+
+SbBool
+So@Gui@SuperCanvas::isSeekMode(void) const
+{
+  return So@Gui@Viewer::isSeekMode();
+} // isSeekMode()
+
+// *************************************************************************
+
+/*!
+  FIXME: More doc. larsivi 20020603
+*/
+
+void
 So@Gui@SuperCanvas::setAnimationEnabled(const SbBool enable)
 {
   PRIVATE(this)->spinanimatingallowed = enable;
@@ -549,6 +574,77 @@ So@Gui@SuperCanvas::getTextureQuality(void) const
 {
   return PRIVATE(this)->complexity->textureQuality.getValue();
 } // getTextureQuality()
+
+// ************************************************************************
+
+/*!
+  filnamn +.extension
+  FIXME: More doc. larsivi 20020603
+*/
+
+void
+So@Gui@SuperCanvas::snapShot(const char * filename, 
+                             const SbName & extension)
+{
+  SoOffscreenRenderer * wtf = 
+    new SoOffscreenRenderer(this->getViewportRegion());
+  wtf->getGLRenderAction()->setNumPasses(PRIVATE(this)->antialiasvalue);
+  wtf->render(this->getSceneManager()->getSceneGraph());
+  int numft = wtf->getNumWriteFiletypes();
+
+  if(numft > 0){
+    SbString fname(filename);
+    wtf->writeToFile(fname, extension);
+  }
+  else{
+    SbString ext = extension.getString();
+    if(ext.find("rgb") > -1 || ext.find("bw") > -1 || 
+       ext.find("int") > -1){
+      if(ext.getLength() > 4) ext.deleteSubString(4);
+      SbString fname(filename);
+      fname.operator+=(ext);
+      wtf->writeToRGB(fname.getString());
+    }
+    else if(ext.find("ps") > -1){
+      if(ext.getLength() > 3) ext.deleteSubString(3);
+      SbString fname(filename);
+      fname.operator+=(ext);
+      wtf->writeToPostScript(fname.getString());
+    }
+    else{
+      SbString fname(filename);
+      fname.operator+=(".rgb");
+      wtf->writeToRGB(fname.getString());
+    }
+  }
+  
+  delete wtf;
+
+} // snapShot()
+
+// ************************************************************************
+
+/*!
+  FIXME: More doc. larsivi 20020603
+*/
+
+void
+So@Gui@SuperCanvas::setAntiAliasingPasses(int value)
+{
+  PRIVATE(this)->antialiasvalue = value;
+} //setSnapShotAntiAliasing()
+
+// ************************************************************************
+
+/*!
+  FIXME: More doc. larsivi 20020603
+*/
+
+int
+So@Gui@SuperCanvas::getAntiAliasingPasses() const
+{
+  return PRIVATE(this)->antialiasvalue;
+} //getSnapShotAntiAliasing()
 
 // *************************************************************************
 

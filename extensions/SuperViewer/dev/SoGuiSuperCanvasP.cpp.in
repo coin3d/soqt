@@ -78,6 +78,7 @@ So@Gui@SuperCanvasP::So@Gui@SuperCanvasP(So@Gui@SuperCanvas * o)
   this->polygonoffsetindex = -1;
   this->complexityindex = -1;
   this->texturequality = 1.0;
+  this->antialiasvalue = 5;
 
   this->canvas = NULL;
   this->viewerwidget = NULL;
