@@ -35,19 +35,11 @@ software to be installed, and provides the full Aqua look'n'feel.
 
 Alternatively, you can install Apple's X11 for Mac OS X, and use
 Qt/X11, the version of Qt used on all other UNIX systems. You will
-find instructions on how to do this below. One important reason why
-you might want to choose Qt/X11 is that there is no Free Software
-edition of Qt/Mac. If you are using Coin and SoQt under the GPL, you
-will probably want to go for the GPL'ed Qt/X11 as well.
+find instructions on how to do this below. 
 
 
 Using SoQt together with the X11 Window system
 ==============================================
-
-Please note that Apple's X11 is currently in beta state, and SoQt's
-support for X11 is to be considered experimental, so there might be
-bugs and problems. Feel free to let us now if you encounter any
-issues!
 
 To use SoQt with X11 and Qt/X11, follow these steps:
 

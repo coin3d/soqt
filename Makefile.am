@@ -81,7 +81,7 @@ EXTRA_DIST = \
 	README.DLL \
 	README.IRIX \
 	README.WIN32 \
-	README.MAC \
+	README.MACOSX \
 	Info.plist \
 	cfg/soqt.m4 \
 	docs/announcement-1_0_0.txt \
