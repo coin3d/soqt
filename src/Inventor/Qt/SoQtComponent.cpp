@@ -152,6 +152,7 @@ SoQtComponent::SoQtComponent(
 
   SoQtComponent::soqtcomplist->append(this);
 
+  this->realized = FALSE;
   this->shelled = FALSE;
   this->widget = NULL;
   this->parent = parent;
@@ -411,6 +412,10 @@ SoQtComponent::eventFilter( // virtual
 #endif // 0
 
   // Detect resize events.
+  if (e->type() == Event_Create) {
+    this->afterRealizeHook();
+  }
+
   if (e->type() == Event_Resize) {
     QResizeEvent * r = (QResizeEvent *)e;
 
@@ -945,5 +950,14 @@ SoQtComponent::unregisterWidget(
 {
   // nada yet
 } // unregisterWidget()
+
+// *************************************************************************
+
+void
+SoQtComponent::afterRealizeHook( // virtual
+  void )
+{
+  this->realized = TRUE;
+}
 
 // *************************************************************************

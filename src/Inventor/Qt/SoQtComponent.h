@@ -73,6 +73,8 @@ protected:
     const char * const name = NULL,
     const SbBool embed = TRUE );
 
+  virtual void afterRealizeHook(void);
+
   void setClassName( const char * const name );
   void setBaseWidget( QWidget * const widget );
 
@@ -105,6 +107,7 @@ private:
   SoQtComponentCB * closeCB;
   void * closeCBdata;
   SbPList * visibilitychangeCBs;
+  SbBool realized;
 
   static SbPList * soqtcomplist;
 
