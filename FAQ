@@ -31,7 +31,7 @@ Index
 1: Qt Versions
   Q1: Does SoQt work with Qt < 2.0?
 
-  Q2: Does SoQt work with Qt [2.0, 3.0>?
+  Q2: Does SoQt work with Qt 2.*?
 
   Q3: Does SoQt work with Qt >= 3.0?
 
