@@ -167,7 +167,7 @@ SoQtComponent::addVisibilityChangeCallback(SoQtComponentVisibilityCB * func,
  */
 void
 SoQtComponent::removeVisibilityChangeCallback(SoQtComponentVisibilityCB * func,
-					      void * userData)
+					      void *)
 {
 #if SOQT_DEBUG
   if (!this->visibilitychangeCBs) {
@@ -662,7 +662,7 @@ SoQtComponent::getSize(void)
  */
 #include <qmessagebox.h>
 void
-SoQtComponent::openHelpCard(const char * name)
+SoQtComponent::openHelpCard(const char *)
 {
   // FIXME: code MiA. 990222 mortene.
   QMessageBox::warning(NULL, "SoQt",

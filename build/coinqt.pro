@@ -17,17 +17,13 @@
 #
 ############################################################################
 
-TARGET = CoinQtDebug
-CONFIG = sharedlib
-INCLUDEPATH = $(COINDIR)/include
+TARGET		=	CoinQtDebug
+CONFIG		=	sharedlib
+INCLUDEPATH	=	$(COINDIR)/include
+DEFINES		+=	SOQT_DEBUG=1
+LIBS		=	-L$(QTDIR)/lib -lqgl -lqt
+MOC_DIR		=	coinqtobjects
+OBJECTS_DIR	=	coinqtobjects
 
-DEFINES	+=	SOQT_DEBUG=1
-
-LIBS = \
-        -L$(QTDIR)/lib -lqgl -lqt
-
-# Can't move ../include to common.pro due to bug in tmake. 990131 mortene.
-DEPENDPATH = ../include;$(COINDIR)/include
-
-MOC_DIR = coinqtobjects
-OBJECTS_DIR = coinqtobjects
+# Can't move ../include to common.pro due to bug in tmake. 990131 mortene. 
+DEPENDPATH	=	../include;$(COINDIR)/include

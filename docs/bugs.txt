@@ -1,0 +1,50 @@
+000. SoQt over Qt2.0 has a number of irritating problems which doesn't show
+     up with Qt1.x:
+  a. decoration on/off doesn't make the scene gfx reposition/resize correctly
+  b. should remove the focus indicator
+  c. something is wrong with the drag->spin mechanism, looks like we get
+     too few mouseposition events to get a good idea of where we are going
+  d. we get too many redraw events on resizing the window
+
+001. Quick LMB click in viewer window screws up interactive count
+     (enable the debug code in SoQtViewer::interactiveCountInc() and
+     SoQtViewer::interactiveCountDec() to see this one).
+
+002. Resize so height > width -> aspectratio is not updated
+     accordingly.
+
+003. Cursorgfx in SoQtExaminerViewer has somehow become foobar -- to
+     do with the mask manipulation in
+     SoQtExaminerViewer::setCursorRepresentation()?
+
+004. Start the SoQt/examples/examinerviewer example without any
+     modelfile as argument, drag the left rotate wheel a bit up or
+     down -- leads to major bounding box fuckups.
+
+005. Pick/view togglebuttons doesn't work correctly:
+     * clicking on a button already pressed down shouldn't have any effect
+     * moving the cursor within the render canvas while in pick mode leads
+       to an assertion failing
+
+006. Switching buffer mode (from doublebuffer to singlebuffer, for
+     instance) switches the cursor back to the standard cursor until
+     we do any action within the window again.
+
+007. Lighting is defunct in singlebuffer mode, and going back again to
+     doublebuffer mode doesn't help (weird).
+
+008. Interactivebuffer mode is foobar.
+
+009. No support for overlay planes. Overlay planes can be done within
+     Qt with a bit of hacking -- see the example in the Qt distro.
+
+010. No support for stereo mode.
+
+011. The thumbwheels looks pretty shoddy. Should fix both the general
+     appearance and the animation gfx.
+
+012. Something is wrong with the signal-slot mechanism set up in the
+     preference window.
+
+013. Need to set minimum size for some of the windows to avoid Qt
+     bombing out on resizing to too small dimensions.

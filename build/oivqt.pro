@@ -17,11 +17,11 @@
 #
 ############################################################################
 
-TARGET	=	InventorQt
-CONFIG	=	warn_off sharedlib
-DEFINES	+=	SOQT_DEBUG=1
-INCLUDEPATH +=	$(OIVHOME)/include
-DEPENDPATH =	../include
-LIBS = -L$(QTDIR)/lib -lqgl -lqt
-MOC_DIR	=	oivqtobjects
-OBJECTS_DIR =	oivqtobjects
+TARGET		=	InventorQt
+CONFIG		=	warn_off sharedlib
+DEFINES		+=	SOQT_DEBUG=1
+INCLUDEPATH	+=	$(OIVHOME)/include
+DEPENDPATH	=	../include
+LIBS		=	-L$(QTDIR)/lib -lqgl -lqt
+MOC_DIR		=	oivqtobjects
+OBJECTS_DIR	=	oivqtobjects
