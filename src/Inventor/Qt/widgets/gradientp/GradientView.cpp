@@ -147,25 +147,28 @@ GradientView::updateView(void)
 void
 GradientView::contentsMousePressEvent(QMouseEvent * e)
 {
-  this->mousePressed = TRUE;
   QPoint p = inverseWorldMatrix().map(e->pos());
  
   switch (e->button()) {
-  case Qt::LeftButton: 
+  case Qt::LeftButton:
     {
+      this->mousePressed = TRUE;
+      this->unselectAll();
+
       this->currenttick = -1;
       this->segmentidx = -1;
+      SbBool hit = FALSE;
 
       QValueList<TickMark *>::Iterator it = this->tickMarks.begin();
       for (unsigned int idx = 0; idx < this->tickMarks.size(); idx++) {
         if (this->tickMarks[idx]->hit(p)) {
+          hit = TRUE;
           this->moving_start = p;
-          this->unselectAll();
           this->currenttick = idx;
           this->segmentidx = -1;
           this->tickMarks[idx]->setBrush(Qt::blue);
         }
-        if (this->tickMarks[idx]->x() < p.x()) { this->segmentidx++; }
+        if ((this->tickMarks[idx]->x() < p.x()) && !hit) { this->segmentidx++; }
       }
       emit this->viewChanged();
     }
@@ -233,25 +236,6 @@ GradientView::contentsMouseMoveEvent(QMouseEvent * e)
     s.sprintf("RGBA: 0x%02x%02x%02x%02x", qRed(col), qGreen(col), qBlue(col), qAlpha(col));
     this->statusBar->message(s);
   }
-}
-
-void GradientView::keyPressEvent(QKeyEvent * e)
-{
-  switch (e->key()) {
-  case Qt::Key_Delete: if (this->currenttick != -1) { this->deleteTick(); } break;
-  default: break;
-  }
-}
-
-float
-GradientView::getSelectedPos(void)
-{
-  if (this->currenttick > 0) {
-    return this->grad.getParameter(this->currenttick);
-  }
-  // FIXME: does it make sense to call this function without a current
-  // tick selection? If not, use an assert. 20031008 mortene.
-  return 0.0f;
 }
 
 void
