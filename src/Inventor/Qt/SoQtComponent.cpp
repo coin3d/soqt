@@ -796,12 +796,6 @@ SoQtComponent::setWidgetCursor(QWidget * w, const SoQtCursor & cursor)
 
   if (cursor.getShape() == SoQtCursor::CUSTOM_BITMAP) {
 
-// Remember to test if the problem below has been fixed in next Qt
-// version(s) 
-#if (defined Q_WS_MAC && QT_VERSION > 0x030101)                               
-#error Qt/Mac 3.1.1 32x32 custom cursor bug fixed in this version? 
-#endif             
-
 // Custom cursors do not work correctly in Qt/Mac versions 3.1.0 
 // and 3.1.1 - the displayed graphics look totally wrong. 
 #if defined Q_WS_MAC && ((QT_VERSION == 0x030100) || (QT_VERSION == 0x030101))
