@@ -306,6 +306,8 @@ SoGui_src_Inventor_Gui_nodes_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp \
   $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiViewportFix.h \
   $(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiViewpointWrapper.h \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp \
   $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiPane.h \
   $(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp \
   $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiPosition.h \
@@ -518,6 +520,8 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/nodes/SceneTexture2.cpp.in \
   src/Inventor/@Gui@/common/nodes/ViewportFix.h.in \
   src/Inventor/@Gui@/common/nodes/ViewportFix.cpp.in \
+  src/Inventor/@Gui@/common/nodes/ViewpointWrapper.h.in \
+  src/Inventor/@Gui@/common/nodes/ViewpointWrapper.cpp.in \
   src/Inventor/@Gui@/common/nodes/Pane.h.in \
   src/Inventor/@Gui@/common/nodes/Pane.cpp.in \
   src/Inventor/@Gui@/common/nodes/Position.h.in \
@@ -923,6 +927,12 @@ $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiViewportFix.h: $(top_srcdir)/src/I
 
 $(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/ViewportFix.cpp.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/ViewportFix.cpp:src/Inventor/@Gui@/common/nodes/ViewportFix.cpp.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiViewpointWrapper.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/ViewpointWrapper.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiViewpointWrapper.h:src/Inventor/@Gui@/common/nodes/ViewpointWrapper.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/ViewpointWrapper.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp:src/Inventor/@Gui@/common/nodes/ViewpointWrapper.cpp.in )
 
 $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiPane.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Pane.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiPane.h:src/Inventor/@Gui@/common/nodes/Pane.h.in )

@@ -306,6 +306,8 @@ SoGui_src_Inventor_Gui_nodes_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp \
   $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiViewportFix.h \
   $(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiViewpointWrapper.h \
+  $(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp \
   $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiPane.h \
   $(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp \
   $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiPosition.h \
@@ -518,6 +520,8 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/nodes/SceneTexture2.cpp.in \
   src/Inventor/@Gui@/common/nodes/ViewportFix.h.in \
   src/Inventor/@Gui@/common/nodes/ViewportFix.cpp.in \
+  src/Inventor/@Gui@/common/nodes/ViewpointWrapper.h.in \
+  src/Inventor/@Gui@/common/nodes/ViewpointWrapper.cpp.in \
   src/Inventor/@Gui@/common/nodes/Pane.h.in \
   src/Inventor/@Gui@/common/nodes/Pane.cpp.in \
   src/Inventor/@Gui@/common/nodes/Position.h.in \
@@ -627,21 +631,23 @@ LIBRARIES = $(noinst_LIBRARIES)
 nodes_lst_AR = $(AR) cru
 nodes_lst_LIBADD =
 am__objects_1 = Nodes.$(OBJEXT) SceneTexture2.$(OBJEXT) \
-	ViewportFix.$(OBJEXT) Pane.$(OBJEXT) Position.$(OBJEXT) \
-	Translation.$(OBJEXT) Frame.$(OBJEXT) Image.$(OBJEXT) \
-	Label.$(OBJEXT) ToggleButton.$(OBJEXT) RadioButton.$(OBJEXT) \
-	ClickCounter.$(OBJEXT) Slider1.$(OBJEXT) Slider2.$(OBJEXT) \
-	ColorEditor.$(OBJEXT) MaterialEditor.$(OBJEXT)
+	ViewportFix.$(OBJEXT) ViewpointWrapper.$(OBJEXT) Pane.$(OBJEXT) \
+	Position.$(OBJEXT) Translation.$(OBJEXT) Frame.$(OBJEXT) \
+	Image.$(OBJEXT) Label.$(OBJEXT) ToggleButton.$(OBJEXT) \
+	RadioButton.$(OBJEXT) ClickCounter.$(OBJEXT) Slider1.$(OBJEXT) \
+	Slider2.$(OBJEXT) ColorEditor.$(OBJEXT) \
+	MaterialEditor.$(OBJEXT)
 nodist_nodes_lst_OBJECTS = $(am__objects_1)
 nodes_lst_OBJECTS = $(nodist_nodes_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
 libSoGuiNodes_la_LDFLAGS =
 libSoGuiNodes_la_LIBADD =
-am__objects_2 = Nodes.lo SceneTexture2.lo ViewportFix.lo Pane.lo \
-	Position.lo Translation.lo Frame.lo Image.lo Label.lo \
-	ToggleButton.lo RadioButton.lo ClickCounter.lo Slider1.lo \
-	Slider2.lo ColorEditor.lo MaterialEditor.lo
+am__objects_2 = Nodes.lo SceneTexture2.lo ViewportFix.lo \
+	ViewpointWrapper.lo Pane.lo Position.lo Translation.lo Frame.lo \
+	Image.lo Label.lo ToggleButton.lo RadioButton.lo \
+	ClickCounter.lo Slider1.lo Slider2.lo ColorEditor.lo \
+	MaterialEditor.lo
 nodist_libSoGuiNodes_la_OBJECTS = $(am__objects_2)
 libSoGuiNodes_la_OBJECTS = $(nodist_libSoGuiNodes_la_OBJECTS)
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
@@ -666,6 +672,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/ToggleButton.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/Translation.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/Translation.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ViewpointWrapper.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/ViewpointWrapper.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/ViewportFix.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/ViewportFix.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
@@ -751,6 +759,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ToggleButton.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Translation.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Translation.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ViewpointWrapper.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ViewpointWrapper.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ViewportFix.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ViewportFix.Po@am__quote@
 
@@ -888,6 +898,39 @@ ViewportFix.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ViewportFix.Plo' tmpdepfile='$(DEPDIR)/ViewportFix.TPlo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ViewportFix.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp
+
+ViewpointWrapper.o: $(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ViewpointWrapper.o -MD -MP -MF "$(DEPDIR)/ViewpointWrapper.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ViewpointWrapper.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ViewpointWrapper.Tpo" "$(DEPDIR)/ViewpointWrapper.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ViewpointWrapper.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp' object='ViewpointWrapper.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ViewpointWrapper.Po' tmpdepfile='$(DEPDIR)/ViewpointWrapper.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ViewpointWrapper.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp
+
+ViewpointWrapper.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ViewpointWrapper.obj -MD -MP -MF "$(DEPDIR)/ViewpointWrapper.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ViewpointWrapper.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ViewpointWrapper.Tpo" "$(DEPDIR)/ViewpointWrapper.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ViewpointWrapper.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp' object='ViewpointWrapper.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ViewpointWrapper.Po' tmpdepfile='$(DEPDIR)/ViewpointWrapper.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ViewpointWrapper.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp'; fi`
+
+ViewpointWrapper.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ViewpointWrapper.lo -MD -MP -MF "$(DEPDIR)/ViewpointWrapper.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o ViewpointWrapper.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/ViewpointWrapper.Tpo" "$(DEPDIR)/ViewpointWrapper.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/ViewpointWrapper.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp' object='ViewpointWrapper.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/ViewpointWrapper.Plo' tmpdepfile='$(DEPDIR)/ViewpointWrapper.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ViewpointWrapper.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp
 
 Pane.o: $(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp
 @am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT Pane.o -MD -MP -MF "$(DEPDIR)/Pane.Tpo" \
@@ -1743,6 +1786,12 @@ $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiViewportFix.h: $(top_srcdir)/src/I
 
 $(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/ViewportFix.cpp.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/ViewportFix.cpp:src/Inventor/@Gui@/common/nodes/ViewportFix.cpp.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiViewpointWrapper.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/ViewpointWrapper.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiViewpointWrapper.h:src/Inventor/@Gui@/common/nodes/ViewpointWrapper.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/ViewpointWrapper.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp:src/Inventor/@Gui@/common/nodes/ViewpointWrapper.cpp.in )
 
 $(top_builddir)/src/Inventor/@Gui@/nodes/SoGuiPane.h: $(top_srcdir)/src/Inventor/@Gui@/common/nodes/Pane.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/nodes/SoGuiPane.h:src/Inventor/@Gui@/common/nodes/Pane.h.in )
