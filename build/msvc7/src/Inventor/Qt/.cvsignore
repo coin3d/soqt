@@ -1,3 +1,4 @@
 Makefile
 soqt*.so.*
 stamp-*
+moc_*.icc
