@@ -17,8 +17,10 @@
  *
 \**************************************************************************/
 
+#if SOQT_DEBUG
 static const char rcsid[] =
   "$Id$";
+#endif // SOQT_DEBUG
 
 /*!
   \class SoQtKeyboard SoQtKeyboard.h Inventor/Qt/devices/SoQtKeyboard.h
@@ -35,9 +37,9 @@ static const char rcsid[] =
 #include <q1xcompatibility.h>
 #endif // Qt v2.0
 
-#if SOGUI_DEBUG
+#if SOQT_DEBUG
 #include <Inventor/errors/SoDebugError.h>
-#endif // SOGUI_DEBUG
+#endif // SOQT_DEBUG
 #include <Inventor/events/SoKeyboardEvent.h>
 
 #include <soqtdefs.h>
@@ -190,7 +192,6 @@ static const char rcsid[] =
 #define Key_AsciiTilde Qt::Key_AsciiTilde
 #define Key_unknown Qt::Key_unknown
 #endif // Qt v2.x
-
 
 struct key1map {
   int from;                // Qt val
@@ -444,46 +445,66 @@ static struct key1map QtToSoMapping[] = {
 // FIXME: use a dict class from Qt instead? 19990213 mortene.
 SbDict * SoQtKeyboard::translatetable = NULL;
 
+// *************************************************************************
+
 /*!
   Constructor.
 */
-SoQtKeyboard::SoQtKeyboard(soqtEventMask mask)
+
+SoQtKeyboard::SoQtKeyboard(
+  soqtEventMask mask )
 {
   this->eventmask = mask;
   this->kbdevent = NULL;
-}
+} // SoQtKeyboard()
 
 /*!
   Destructor.
 */
-SoQtKeyboard::~SoQtKeyboard()
+
+SoQtKeyboard::~SoQtKeyboard(
+  void )
 {
   delete this->kbdevent;
-}
+} // ~SoQtKeyboard()
+
+// *************************************************************************
 
 /*!
   FIXME: write function documentation
 */
+
 void
-SoQtKeyboard::enable(QWidget * /*w*/, SoQtEventHandler /*f*/, void * /*data*/)
+SoQtKeyboard::enable(
+  QWidget *, // widget,
+  SoQtEventHandler *, // handler,
+  void * ) // closure )
 {
   SOQT_STUB();
-}
+} // enable()
 
 /*!
   FIXME: write function documentation
 */
+
 void
-SoQtKeyboard::disable(QWidget * /*w*/, SoQtEventHandler /*f*/, void * /*data*/)
+SoQtKeyboard::disable(
+  QWidget *, // widget,
+  SoQtEventHandler *, // handler,
+  void * ) // closure )
 {
   SOQT_STUB();
-}
+} // disable()
+
+// *************************************************************************
 
 /*!
   FIXME: write function documentation
 */
+
 void
-SoQtKeyboard::makeTranslationTable(void)
+SoQtKeyboard::makeTranslationTable(
+  void )
 {
   assert(SoQtKeyboard::translatetable == NULL);
   // FIXME: deallocate on exit. 20000311 mortene.
@@ -497,13 +518,17 @@ SoQtKeyboard::makeTranslationTable(void)
                                         (void *)QtToSoMapping[i].to);
     i++;
   }
-}
+} // makeTranslationTable()
+
+// *************************************************************************
 
 /*!
   FIXME: write function documentation
 */
+
 const SoEvent *
-SoQtKeyboard::translateEvent(QEvent * event)
+SoQtKeyboard::translateEvent(
+  QEvent * event )
 {
   SbBool keypress = event->type() == Event_KeyPress;
   SbBool keyrelease = event->type() == Event_KeyRelease;
@@ -534,13 +559,13 @@ SoQtKeyboard::translateEvent(QEvent * event)
       this->kbdevent->setKey((SoKeyboardEvent::Key)(int)sokey);
     }
     else {
-#if SOGUI_DEBUG
+#if SOQT_DEBUG
       SoDebugError::postWarning("SoQtKeyboard::translateEvent",
                                 "couldn't translate key 0x%04x '%c' from "
                                 "Qt -- please report",
                                 keyevent->key(),
                                 keyevent->ascii());
-#endif // SOGUI_DEBUG
+#endif // SOQT_DEBUG
       return NULL;
     }
 
@@ -589,9 +614,11 @@ SoQtKeyboard::translateEvent(QEvent * event)
   }
 
   return NULL;
-}
+} // translateEvent()
 
 // *************************************************************************
 
+#if SOQT_DEBUG
 static const char * getSoQtKeyboardRCSId(void) { return rcsid; }
+#endif // SOQT_DEBUG
 

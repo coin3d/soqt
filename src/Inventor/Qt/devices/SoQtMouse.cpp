@@ -17,8 +17,10 @@
  *
 \**************************************************************************/
 
+#if SOQT_DEBUG
 static const char rcsid[] =
   "$Id$";
+#endif // SOQT_DEBUG
 
 /*!
   \class SoQtMouse SoQtMouse.h Inventor/Qt/devices/SoQtMouse.h
@@ -70,49 +72,68 @@ static const char rcsid[] =
   FIXME: write documentation for enum definition
 */
 
+// *************************************************************************
 
 /*!
   Constructor.
 */
-SoQtMouse::SoQtMouse(SoQtMouseEventMask mask)
+
+SoQtMouse::SoQtMouse(
+  SoQtMouseEventMask mask )
 {
   this->eventmask = mask;
   this->buttonevent = NULL;
   this->locationevent = NULL;
-}
+} // SoQtMouse()
 
 /*!
   Destructor.
 */
-SoQtMouse::~SoQtMouse()
+
+SoQtMouse::~SoQtMouse(
+  void )
 {
   delete this->buttonevent;
   delete this->locationevent;
-}
+} // ~SoQtMouse()
+
+// *************************************************************************
 
 /*!
   FIXME: write function documentation
 */
+
 void
-SoQtMouse::enable(QWidget * /*w*/, SoQtEventHandler /*f*/, void * /*data*/)
+SoQtMouse::enable(
+  QWidget *, // widget,
+  SoQtEventHandler *, // handler,
+  void * ) // closure )
 {
   SOQT_STUB();
-}
+} // enable()
 
 /*!
   FIXME: write function documentation
 */
+
 void
-SoQtMouse::disable(QWidget * /*w*/, SoQtEventHandler /*f*/, void * /*data*/)
+SoQtMouse::disable(
+  QWidget *, // widget,
+  SoQtEventHandler *, // handler,
+  void * ) // closure )
 {
   SOQT_STUB();
-}
+} // disable()
+
+// *************************************************************************
 
 /*!
   FIXME: write function documentation
 */
+
 const SoEvent *
-SoQtMouse::translateEvent(QEvent * event)
+SoQtMouse::translateEvent(
+  QEvent * event )
 {
   SoEvent * super = NULL;
   QMouseEvent * mouseevent = (QMouseEvent *)event;
@@ -194,9 +215,11 @@ SoQtMouse::translateEvent(QEvent * event)
   }
 
   return super;
-}
+} // translateEvent()
 
 // *************************************************************************
 
+#if SOQT_DEBUG
 static const char * getSoQtMouseRCSId(void) { return rcsid; }
+#endif // SOQT_DEBUG
 

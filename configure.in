@@ -234,6 +234,18 @@ SIM_AC_QGLFORMAT_SETOVERLAY
 SIM_AC_QGLWIDGET_SETAUTOBUFFERSWAP
 
 # **************************************************************************
+# Spaceball support through Linux Joystick driver
+
+SIM_AC_CHECK_JOYSTICK_LINUX([
+  AC_DEFINE(HAVE_JOYSTICK_LINUX, ,
+    [Define to enable Linux Joystick driver support])
+  AC_DEFINE_UNQUOTED(SOXT_LINUX_JOYSTICK_DEVICE,
+    "$sim_ac_joystick_linux_device",
+    [Define this to device handle to fallback on])
+])
+AM_CONDITIONAL(HAVE_JOYSTICK_LINUX, $sim_ac_joystick_linux_avail)
+
+# **************************************************************************
 # Strip off zlib and libpng from the set of link libraries if they are
 # not needed (they might already be linked in implicitly through Qt,
 # which will give us trouble with an MSWin soqt.dll).
@@ -269,8 +281,6 @@ if test x"$sim_ac_strip_libs" != x"$LIBS"; then
     SOQT_EXTRA_LIBS=`echo $SOQT_EXTRA_LIBS | sed s%\ ${sim_ac_pngdev_libs}%%`
   ])
 fi
-
-
 
 # **************************************************************************
 # Compiler control.

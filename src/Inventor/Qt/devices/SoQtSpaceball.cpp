@@ -17,8 +17,10 @@
  *
 \**************************************************************************/
 
+#if SOQT_DEBUG
 static const char rcsid[] =
   "$Id$";
+#endif // SOQT_DEBUG
 
 /*!
   \class SoQtSpaceball SoQtSpaceball.h Inventor/Qt/devices/SoQtSpaceball.h
@@ -28,18 +30,13 @@ static const char rcsid[] =
   FIXME: write class doc
 */
 
-
 /*!
   TODO:
-  - not implemented yet! no spaceball available
-  - idea: maybe we could make device classes for other available cheap
-  PC equipment? wheel mice, joysticks, ....
 */
 
 #include <soqtdefs.h>
 #include <Inventor/Qt/SoQtBasic.h>
 #include <Inventor/Qt/devices/SoQtSpaceball.h>
-
 
 /*!
   \enum SoQtSpaceball::Mask
@@ -62,43 +59,59 @@ static const char rcsid[] =
   FIXME: write documentation for enum definition
 */
 
+// *************************************************************************
 
 /*!
   Constructor.
 */
-SoQtSpaceball::SoQtSpaceball(SoQtSpaceball::Mask mask)
+
+SoQtSpaceball::SoQtSpaceball(
+  SoQtSpaceball::Mask mask )
 {
   this->mask = mask;
   this->rotationscale = .006f;
   this->translationscale = .006f;
   this->focustowindow = FALSE;
-}
+} // SoQtSpaceball()
 
 /*!
   Destructor.
 */
-SoQtSpaceball::~SoQtSpaceball()
-{
-}
 
-/*!
-  FIXME: write function documentation
-*/
-void
-SoQtSpaceball::enable(QWidget * /*w*/, SoQtEventHandler /*f*/, void * /*data*/)
+SoQtSpaceball::~SoQtSpaceball(
+  void )
 {
-  SOQT_STUB();
-}
+} // ~SoQtSpaceball()
+
+// *************************************************************************
 
 /*!
   FIXME: write function documentation
 */
 
 void
-SoQtSpaceball::disable(QWidget * /*w*/, SoQtEventHandler /*f*/, void * /*data*/)
+SoQtSpaceball::enable(
+  QWidget *, // widget,
+  SoQtEventHandler *, // handler,
+  void * ) // closure )
 {
   SOQT_STUB();
-}
+} // enable()
+
+/*!
+  FIXME: write function documentation
+*/
+
+void
+SoQtSpaceball::disable(
+  QWidget *, // widget,
+  SoQtEventHandler *, // handler,
+  void * ) // closure )
+{
+  SOQT_STUB();
+} // disable()
+
+// *************************************************************************
 
 /*!
   FIXME: write function documentation
@@ -109,59 +122,77 @@ SoQtSpaceball::translateEvent(QEvent * /*event*/)
 {
   SOQT_STUB();
   return NULL;
-}
+} // translateEvent()
+
+// *************************************************************************
 
 /*!
   FIXME: write function documentation
 */
+
 void
-SoQtSpaceball::setRotationScaleFactor(float f)
+SoQtSpaceball::setRotationScaleFactor(
+  float f )
 {
   this->rotationscale = f;
-}
+} // setRotationScaleFactor()
 
 /*!
   FIXME: write function documentation
 */
+
 float
-SoQtSpaceball::getRotationScaleFactor(void) const
+SoQtSpaceball::getRotationScaleFactor(
+  void ) const
 {
   return this->rotationscale;
-}
+} // getRotationScaleFactor()
 
 /*!
   FIXME: write function documentation
 */
+
 void
-SoQtSpaceball::setTranslationScaleFactor(float f)
+SoQtSpaceball::setTranslationScaleFactor(
+  float f )
 {
   this->translationscale = f;
-}
+} // setTranslationScaleFactor()
 
 /*!
   FIXME: write function documentation
 */
+
 float
-SoQtSpaceball::getTranslationScaleFactor(void) const
+SoQtSpaceball::getTranslationScaleFactor(
+  void ) const
 {
   return this->translationscale;
-}
+} // getTranslationScaleFactor()
+
+// *************************************************************************
 
 /*!
   FIXME: write function documentation
 */
+
 SbBool
-SoQtSpaceball::exists(void)
+SoQtSpaceball::exists(
+  void )
 {
   SOQT_STUB();
   return FALSE;
-}
+} // exists()
+
+// *************************************************************************
 
 /*!
   FIXME: write function documentation
 */
+
 void
-SoQtSpaceball::setFocusToWindow(SbBool flag)
+SoQtSpaceball::setFocusToWindow(
+  SbBool flag )
 {
   this->focustowindow = flag;
 }
@@ -169,9 +200,17 @@ SoQtSpaceball::setFocusToWindow(SbBool flag)
 /*!
   FIXME: write function documentation
 */
+
 SbBool
-SoQtSpaceball::isFocusToWindow(void) const
+SoQtSpaceball::isFocusToWindow(
+  void ) const
 {
   return this->focustowindow;
-}
+} // isFocusToWindow()
+
+// *************************************************************************
+
+#if SOQT_DEBUG
+static const char * getSoQtSpaceballRCSId(void) { return rcsid; }
+#endif // SOQT_DEBUG
 

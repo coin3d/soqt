@@ -29,14 +29,18 @@
 
 #define SO_QT_ALL_FOCUS_EVENTS (soqtEnterWindowMask | soqtLeaveWindowMask)
 
-class SOQT_DLL_EXPORT SoQtInputFocus : public SoQtDevice
-{
+class SOQT_DLL_EXPORT SoQtInputFocus : public SoQtDevice {
+  typedef SoQtDevice inherited;
+  Q_OBJECT
+
 public:
   SoQtInputFocus(soqtEventMask mask = SO_QT_ALL_FOCUS_EVENTS);
   virtual ~SoQtInputFocus(void);
 
-  virtual void enable( QWidget * w, SoQtEventHandler f, void * data );
-  virtual void disable( QWidget * w, SoQtEventHandler f, void * data );
+  virtual void enable( QWidget * widget, SoQtEventHandler * handler,
+    void * closure );
+  virtual void disable( QWidget * widget, SoQtEventHandler * handler,
+    void * closure );
 
   virtual const SoEvent * translateEvent( QEvent * event );
 

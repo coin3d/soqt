@@ -6,6 +6,9 @@
 #undef SOQT_VERSION
 #undef HAVE_SOPOLYGONOFFSET
 
+/* Define to enable Linux Joystick driver support */
+#undef HAVE_JOYSTICK_LINUX
+
 /* Define if you have the `dnet' library (-ldnet). */
 #undef HAVE_LIBDNET
 
@@ -43,6 +46,9 @@
 
 /* Name of package */
 #undef PACKAGE
+
+/* Define this to device handle to fallback on */
+#undef SOXT_LINUX_JOYSTICK_DEVICE
 
 /* Version number of package */
 #undef VERSION

@@ -145,6 +145,12 @@ BUILT_SOURCES = \
 	src/Inventor/Qt/moc_SoQtSliderSet.cpp \
 	src/Inventor/Qt/moc_SoQtSliderSetBase.cpp \
 	src/Inventor/Qt/moc_SoQtTransformSliderSet.cpp \
+	src/Inventor/Qt/devices/moc_SoQtDevice.cpp \
+	src/Inventor/Qt/devices/moc_SoQtInputFocus.cpp \
+	src/Inventor/Qt/devices/moc_SoQtKeyboard.cpp \
+	src/Inventor/Qt/devices/moc_SoQtMouse.cpp \
+	src/Inventor/Qt/devices/moc_SoQtSpaceball.cpp \
+	src/Inventor/Qt/devices/moc_SoQtLinuxJoystick.cpp \
 	src/Inventor/Qt/viewers/moc_SoQtViewer.cpp \
 	src/Inventor/Qt/viewers/moc_SoQtFullViewer.cpp \
 	src/Inventor/Qt/viewers/moc_SoQtExaminerViewer.cpp \
@@ -660,6 +666,30 @@ src/Inventor/Qt/moc_SoQtSliderSetBase.cpp: \
 src/Inventor/Qt/moc_SoQtTransformSliderSet.cpp: \
   $(top_srcdir)/src/Inventor/Qt/SoQtTransformSliderSet.h
 	$(MOC) -o $@ $(top_srcdir)/src/Inventor/Qt/SoQtTransformSliderSet.h
+
+src/Inventor/Qt/devices/moc_SoQtDevice.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/devices/SoQtDevice.h
+	$(MOC) -o $@ $(top_srcdir)/src/Inventor/Qt/devices/SoQtDevice.h
+
+src/Inventor/Qt/devices/moc_SoQtInputFocus.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/devices/SoQtInputFocus.h
+	$(MOC) -o $@ $(top_srcdir)/src/Inventor/Qt/devices/SoQtInputFocus.h
+
+src/Inventor/Qt/devices/moc_SoQtKeyboard.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/devices/SoQtKeyboard.h
+	$(MOC) -o $@ $(top_srcdir)/src/Inventor/Qt/devices/SoQtKeyboard.h
+
+src/Inventor/Qt/devices/moc_SoQtMouse.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/devices/SoQtMouse.h
+	$(MOC) -o $@ $(top_srcdir)/src/Inventor/Qt/devices/SoQtMouse.h
+
+src/Inventor/Qt/devices/moc_SoQtSpaceball.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/devices/SoQtSpaceball.h
+	$(MOC) -o $@ $(top_srcdir)/src/Inventor/Qt/devices/SoQtSpaceball.h
+
+src/Inventor/Qt/devices/moc_SoQtLinuxJoystick.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/devices/SoQtLinuxJoystick.h
+	$(MOC) -o $@ $(top_srcdir)/src/Inventor/Qt/devices/SoQtLinuxJoystick.h
 
 src/Inventor/Qt/viewers/moc_SoQtViewer.cpp: \
   $(top_builddir)/src/Inventor/Qt/viewers/SoQtViewer.h

@@ -17,8 +17,10 @@
  *
 \**************************************************************************/
 
+#if SOQT_DEBUG
 static const char rcsid[] =
   "$Id$";
+#endif // SOQT_DEBUG
 
 /*!
   \class SoQtInputFocus SoQtInputFocus.h Inventor/Qt/devices/SoQtInputFocus.h
@@ -32,51 +34,72 @@ static const char rcsid[] =
 #include <Inventor/Qt/SoQtBasic.h>
 #include <Inventor/Qt/devices/SoQtInputFocus.h>
 
+// *************************************************************************
 
 /*!
   Constructor.
 */
-SoQtInputFocus::SoQtInputFocus(soqtEventMask mask)
+
+SoQtInputFocus::SoQtInputFocus(
+  soqtEventMask mask )
 {
   this->mask = mask;
-}
+} // SoQtInputFocus()
 
 /*!
   Destructor.
 */
-SoQtInputFocus::~SoQtInputFocus()
-{
-}
 
-/*!
-  FIXME: write function documentation
-*/
-void
-SoQtInputFocus::enable(QWidget * /*w*/, SoQtEventHandler /*f*/, void * /*data*/)
+SoQtInputFocus::~SoQtInputFocus(
+  void )
 {
-  SOQT_STUB();
-}
-
-/*!
-  FIXME: write function documentation
-*/
-void
-SoQtInputFocus::disable(QWidget * /*w*/, SoQtEventHandler /*f*/, void * /*data*/)
-{
-  SOQT_STUB();
-}
-
-/*!
-  FIXME: write function documentation
-*/
-const SoEvent *
-SoQtInputFocus::translateEvent(QEvent * /*event*/)
-{
-  SOQT_STUB();
-  return NULL;
-}
+} // ~SoQtInputFocus()
 
 // *************************************************************************
 
+/*!
+  FIXME: write function documentation
+*/
+
+void
+SoQtInputFocus::enable(
+  QWidget *, // widget,
+  SoQtEventHandler *, // handler,
+  void * ) // closure )
+{
+  SOQT_STUB();
+} // enable()
+
+/*!
+  FIXME: write function documentation
+*/
+
+void
+SoQtInputFocus::disable(
+  QWidget *, // widget,
+  SoQtEventHandler *, // handler,
+  void * ) // closure )
+{
+  SOQT_STUB();
+} // disable()
+
+// *************************************************************************
+
+/*!
+  FIXME: write function documentation
+*/
+
+const SoEvent *
+SoQtInputFocus::translateEvent(
+  QEvent * ) // event )
+{
+  SOQT_STUB();
+  return NULL;
+} // translateEvent()
+
+// *************************************************************************
+
+#if SOQT_DEBUG
 static const char * getSoQtInputFocusRCSId(void) { return rcsid; }
+#endif // SOQT_DEBUG
 

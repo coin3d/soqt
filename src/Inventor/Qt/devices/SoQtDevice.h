@@ -26,28 +26,38 @@
   \defgroup qtdevices Qt Device Classes
 */
 
+#include <qobject.h>
 #include <qpoint.h>
+#include <qevent.h>
 
 #include <Inventor/SbLinear.h>
 
 #include <Inventor/Qt/SoQtBasic.h>
 
 class QWidget;
-class QEvent;
+class SbPList;
 class SoEvent;
 
 typedef int soqtEventMask;
 
 // *************************************************************************
 
-class SOQT_DLL_EXPORT SoQtDevice {
+class SOQT_DLL_EXPORT SoQtDevice : public QObject {
+  Q_OBJECT
+
 public:
-  typedef void (*SoQtEventHandler)( QWidget *, void *, QEvent *, bool * );
+  typedef void SoQtEventHandler( QWidget *, void *, QEvent *, bool * );
 
-  virtual void enable( QWidget * w, SoQtEventHandler f, void * data ) = 0;
-  virtual void disable( QWidget * w, SoQtEventHandler f, void * data ) = 0;
+  SoQtDevice(void);
+  virtual ~SoQtDevice(void);
 
-  virtual const SoEvent * translateEvent(QEvent * event) = 0;
+  virtual void enable( QWidget * widget, SoQtEventHandler * handler,
+    void * closure ) = 0;
+  virtual void disable( QWidget * w, SoQtEventHandler * handler,
+    void * closure ) = 0;
+
+  virtual const SoEvent * translateEvent( QEvent * event ) = 0;
+
   void setWindowSize( const SbVec2s size );
   SbVec2s getWindowSize(void) const;
 
@@ -55,10 +65,16 @@ protected:
   void setEventPosition( SoEvent * event, int x, int y ) const;
   static QPoint getLastEventPosition(void);
 
+  void addEventHandler( QWidget *, SoQtEventHandler *, void * );
+  void removeEventHandler( QWidget *, SoQtEventHandler *, void * );
+  void invokeHandlers( QEvent * event );
+
 private:
   static void setLastEventPosition(QPoint p);
   static QPoint * lasteventposition;
   SbVec2s widgetsize;
+
+  SbPList * handlers;
 
   // For setting SoQtDevice::lasteventposition in
   // SoQtRenderArea::processEvents() (as a workaround for a Qt design
@@ -66,6 +82,58 @@ private:
   friend class SoQtRenderArea;
 
 }; // class SoQtDevice
+
+// *************************************************************************
+
+// temporary hacks for the spaceball/linux joystick support
+
+enum SoQtCustomEvents {
+  soqt6dofDeviceButtonPressedEvent   = (QEvent::User + 1),
+  soqt6dofDeviceButtonReleasedEvent,
+  soqt6dofDevicePressureEvent
+};
+
+class SOQT_DLL_EXPORT SoQt6dofDevicePressureEvent : public QCustomEvent {
+  typedef QCustomEvent inherited;
+
+public:
+  SoQt6dofDevicePressureEvent(void);
+
+  void setTranslation( float x, float y, float z );
+  void getTranslation( float & x, float & y, float & z ) const;
+
+  void setRotation( float x, float y, float z );
+  void getRotation( float & x, float & y, float & z ) const;
+
+private:
+  float trans_x, trans_y, trans_z;
+  float rot_x, rot_y, rot_z;
+
+}; // class SoQt6dofDevicePressureEvent
+
+class SOQT_DLL_EXPORT SoQt6dofDeviceButtonEvent : public QCustomEvent {
+  typedef QCustomEvent inherited;
+
+public:
+  SoQt6dofDeviceButtonEvent(void);
+
+  void setButton( unsigned int button );
+  unsigned int getButton(void) const;
+
+  void setState( unsigned int state );
+  unsigned int getState(void) const;
+
+  void setNumButtons( unsigned int buttons );
+  unsigned int getNumButtons(void) const;
+
+  int isButtonPress(void) const;
+
+private:
+  unsigned int state;
+  unsigned int button;
+  unsigned int buttons;
+
+}; // class SoQt6dofDeviceButtonEvent
 
 // *************************************************************************
 

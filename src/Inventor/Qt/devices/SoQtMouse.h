@@ -29,6 +29,7 @@ class SoLocation2Event;
 
 class SOQT_DLL_EXPORT  SoQtMouse : public SoQtDevice {
   typedef SoQtDevice inherited;
+  Q_OBJECT
 
 public:
   // FIXME: remove "SoQtMouse" in name, as its redundant. 19990620 mortene.
@@ -44,15 +45,18 @@ public:
   SoQtMouse(SoQtMouseEventMask mask = SO_QT_ALL_MOUSE_EVENTS);
   virtual ~SoQtMouse(void);
 
-  virtual void enable(QWidget * w, SoQtEventHandler f, void * data);
-  virtual void disable(QWidget * w, SoQtEventHandler f, void * data);
+  virtual void enable( QWidget * widget, SoQtEventHandler * handler,
+    void * closure );
+  virtual void disable( QWidget * widget, SoQtEventHandler * handler,
+    void * closure );
 
-  virtual const SoEvent * translateEvent(QEvent * event);
+  virtual const SoEvent * translateEvent( QEvent * event );
 
 private:
   SoMouseButtonEvent * buttonevent;
   SoLocation2Event * locationevent;
   SoQtMouseEventMask eventmask;
+
 }; // class SoQtMouse
 
 #endif // ! SOQT_MOUSE_H

@@ -34,15 +34,18 @@ class SoKeyboardEvent;
 
 class SOQT_DLL_EXPORT SoQtKeyboard : public SoQtDevice {
   typedef SoQtDevice inherited;
+  Q_OBJECT
 
 public:
   SoQtKeyboard(soqtEventMask mask = SO_QT_ALL_KEYBOARD_EVENTS);
   virtual ~SoQtKeyboard(void);
 
-  virtual void enable(QWidget * w, SoQtEventHandler f, void * data);
-  virtual void disable(QWidget * w, SoQtEventHandler f, void * data);
+  virtual void enable( QWidget * widget, SoQtEventHandler * handler,
+    void * closure );
+  virtual void disable( QWidget * widget, SoQtEventHandler * handler,
+    void * closure );
 
-  virtual const SoEvent * translateEvent(QEvent * event);
+  virtual const SoEvent * translateEvent( QEvent * event );
 
 private:
   static void makeTranslationTable(void);

@@ -24,8 +24,10 @@
 
 #include <Inventor/Qt/devices/SoQtDevice.h>
 
-class SOQT_DLL_EXPORT SoQtSpaceball : public SoQtDevice
-{
+class SOQT_DLL_EXPORT SoQtSpaceball : public SoQtDevice {
+  typedef SoQtDevice inherited;
+  Q_OBJECT
+
 public:
   enum Mask {
     MOTION = 0x01,
@@ -37,10 +39,12 @@ public:
   SoQtSpaceball(Mask mask = SoQtSpaceball::ALL);
   virtual ~SoQtSpaceball(void);
 
-  virtual void enable(QWidget * w, SoQtEventHandler f, void * data);
-  virtual void disable(QWidget * w, SoQtEventHandler f, void * data);
+  virtual void enable( QWidget * widget, SoQtEventHandler * handler,
+    void * closure );
+  virtual void disable( QWidget * widget, SoQtEventHandler * handler,
+    void * closure );
 
-  virtual const SoEvent * translateEvent(QEvent * event);
+  virtual const SoEvent * translateEvent( QEvent * event );
 
   void setRotationScaleFactor(float f);
   float getRotationScaleFactor(void) const;
