@@ -328,6 +328,10 @@ else
   SIM_AC_CONFIGURATION_SETTING([Open Inventor brand], [Coin])
 fi
 
+SIM_AC_HAVE_GLX_IFELSE([
+  AC_DEFINE([HAVE_GLX], 1, [define if you have GLX X11 OpenGL bindings])
+])
+
 ## We need this extra, final X11 check to set up the HAVE_X11_AVAILABLE
 ## define -- the X_DISPLAY_MISSING define provided by the built-in
 ## Autoconf X11 check is not strict enough.
