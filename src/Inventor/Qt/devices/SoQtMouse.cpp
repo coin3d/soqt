@@ -36,13 +36,15 @@
 // *************************************************************************
 
 class SoQtMouseP : public SoGuiMouseP {
+public:
+  SoQtMouseP(SoQtMouse * p) : SoGuiMouseP(p) { }
 };
 
 // *************************************************************************
 
 SoQtMouse::SoQtMouse(int mask)
 {
-  PRIVATE(this) = new SoQtMouseP;
+  PRIVATE(this) = new SoQtMouseP(this);
   PRIVATE(this)->eventmask = mask;
 }
 
