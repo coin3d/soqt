@@ -62,6 +62,7 @@ public:
   static QWidget * mainwidget;
   static bool didcreatemainwidget;
   static QApplication * appobject;
+  static SbBool madeappobject;
   static QTimer * timerqueuetimer;
   static QTimer * idletimer;
   static QTimer * delaytimeouttimer;

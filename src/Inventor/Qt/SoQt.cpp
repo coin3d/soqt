@@ -286,6 +286,7 @@
 
 QWidget * SoQtP::mainwidget = NULL;
 QApplication * SoQtP::appobject = NULL;
+SbBool SoQtP::madeappobject = FALSE;
 QTimer * SoQtP::idletimer = NULL;
 QTimer * SoQtP::timerqueuetimer = NULL;
 QTimer * SoQtP::delaytimeouttimer = NULL;
@@ -653,6 +654,7 @@ SoQt::init(QWidget * toplevelwidget)
     static char * dummyargv[1];
     dummyargv[0] = "SoQt";
     SoQtP::appobject = new SoQtApplication(1, (char **) dummyargv);
+    SoQtP::madeappobject = TRUE;
   }
   else {
     // The user already set one up for us.
@@ -751,6 +753,7 @@ SoQt::init(int & argc, char ** argv, const char * appname, const char * classnam
     // Set up the QApplication instance which we have derived into a
     // subclass to catch spaceball events.
     SoQtP::appobject = new SoQtApplication(argc, argv);
+    SoQtP::madeappobject = TRUE;
   }
   else {
     // The user already set one up for us.
@@ -810,16 +813,23 @@ SoQt::done(void)
     SoQtP::didcreatemainwidget = FALSE;
   }
 
-  // Notice that we *don't* delete the QApplication object, even
-  // though it originated with us, as it might be used someplace else
-  // in the application.
-  //
-  // (Keep this disabled code in place here, so we don't reactivate
-  // this by mistake again.)
-  //
-  // delete SoQtP::appobject; SoQtP::appobject = NULL;
-
   delete SoQtP::slotobj; SoQtP::slotobj = NULL;
+
+  // Notice that by default we *don't* delete the QApplication object,
+  // even though it originated with us, as it might be used someplace
+  // else in the application.
+  //
+  // Because there are situations where it is useful to have it
+  // deleted, we provide this possibility through setting an envvar
+  // (so the app programmer must actively seek out and know what she
+  // is doing):
+
+  if (SoQtP::madeappobject) {
+    const char * env = SoAny::si()->getenv("SOQT_DELETE_QAPPLICATION");
+    if (env && atoi(env) > 0) {
+      delete SoQtP::appobject; SoQtP::appobject = NULL;
+    }
+  }
 }
 
 
