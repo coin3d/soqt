@@ -1732,8 +1732,10 @@ AC_DEFUN([SIM_AC_QGLWIDGET_SETAUTOBUFFERSWAP], [
 AC_CACHE_CHECK(
   [whether the QGLWidget method setAutoBufferSwap() is available],
   sim_cv_func_qglwidget_setautobufferswap,
-  [AC_TRY_LINK([#include <qgl.h>],
-               [QGLWidget * w = new QGLWidget; w->setAutoBufferSwap(FALSE);],
+  [AC_TRY_LINK([#include <qgl.h>
+class MyGLWidget : public QGLWidget {
+public: MyGLWidget() {setAutoBufferSwap(FALSE);} };],
+               [MyGLWidget * w = new MyGLWidget;],
                [sim_cv_func_qglwidget_setautobufferswap=yes],
                [sim_cv_func_qglwidget_setautobufferswap=no])])
 
