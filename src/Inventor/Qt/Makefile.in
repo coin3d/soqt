@@ -374,6 +374,13 @@ SoQt_ExtraBuiltMetaFiles = \
 
 
 ############################################################################
+@BUILD_WITH_MSVC_TRUE@SoQt_ExtraDistClean = \
+@BUILD_WITH_MSVC_TRUE@  soqt@SOQT_MAJOR_VERSION@@SUFFIX@.dll \
+@BUILD_WITH_MSVC_TRUE@  soqt@SOQT_MAJOR_VERSION@@SUFFIX@.exp \
+@BUILD_WITH_MSVC_TRUE@  soqt@SOQT_MAJOR_VERSION@@SUFFIX@.pdb
+
+@BUILD_WITH_MSVC_FALSE@SoQt_ExtraDistClean = 
+
 SUBDIRS = devices viewers widgets
 
 INCLUDES = -I$(top_srcdir)/src -I$(top_builddir)/data
@@ -387,6 +394,7 @@ CLEANFILES = \
 
 
 DISTCLEANFILES = \
+	$(SoQt_ExtraDistClean) \
 	$(SoGui_src_Inventor_Gui_BuiltFiles) \
 	$(SoGui_src_Inventor_Gui_BuiltMetaFiles)
 

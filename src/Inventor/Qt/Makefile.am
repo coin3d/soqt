@@ -6,6 +6,15 @@ include common/Makefile.common
 ############################################################################
 ##
 
+if BUILD_WITH_MSVC
+SoQt_ExtraDistClean = \
+  soqt@SOQT_MAJOR_VERSION@@SUFFIX@.dll \
+  soqt@SOQT_MAJOR_VERSION@@SUFFIX@.exp \
+  soqt@SOQT_MAJOR_VERSION@@SUFFIX@.pdb
+else
+SoQt_ExtraDistClean = 
+endif
+
 SUBDIRS = devices viewers widgets
 
 INCLUDES = -I$(top_srcdir)/src -I$(top_builddir)/data
@@ -17,6 +26,7 @@ CLEANFILES = \
 	$(SoGui_src_Inventor_Gui_BuiltMetaFiles)
 
 DISTCLEANFILES = \
+	$(SoQt_ExtraDistClean) \
 	$(SoGui_src_Inventor_Gui_BuiltFiles) \
 	$(SoGui_src_Inventor_Gui_BuiltMetaFiles)
 
