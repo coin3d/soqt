@@ -462,6 +462,11 @@ if test x"$sim_ac_want_x11" = xyes; then
   fi
 fi
 
+SIM_AC_QT_PROG(MOC, moc)
+if test x"$MOC" = x"false"; then
+  SIM_AC_ERROR([no-moc]
+fi
+
 if $sim_ac_build_library; then
   SIM_AC_CHECK_QT([
     SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qt_cppflags"
@@ -478,8 +483,6 @@ if $sim_ac_build_library; then
   ], [
     SIM_AC_ERROR([no-qgl])
   ])
-else # $sim_ac_build_library == false (we still need the 'moc' utility)
-  AC_SUBST([MOC], [moc])
 fi
 
 # Check misc capabilities of the Qt and QGL libraries which depends
