@@ -67,7 +67,7 @@ GradientView::GradientView(QCanvas * c,
   : QCanvasView(c, parent, name, f)
 {
   this->canvas = c;
-  this->canvas->resize(this->sizeHint().width(), 
+  this->canvas->resize(this->sizeHint().width(),
                        this->sizeHint().height());
 
   this->setMinimumHeight(75);
@@ -247,7 +247,7 @@ GradientView::contentsMouseMoveEvent(QMouseEvent * e)
     QPoint p = inverseWorldMatrix().map(e->pos());
     float t = (float)p.x() / (float)this->canvas->width();
     // this test should not be necessary, however the mouse coordinates from
-    // the mouse event can sometimes be out of bounds, i.e. they can sometimes 
+    // the mouse event can sometimes be out of bounds, i.e. they can sometimes
     // be smaller than 0 or larger than canvas.width or canvas.height.
     if ((t >= 0.0f) && (t <= 1.0f)) {
       QRgb col = this->grad.eval(t);

@@ -32,9 +32,6 @@ TickMark::TickMark(QCanvas * canvas)
   pa[1] = QPoint(6,15);
   pa[2] = QPoint(0,0);
   this->setPoints(pa);
-
-  this->isEnd = FALSE;
-  this->isStart = FALSE;
 }
 
 TickMark::~TickMark()
@@ -43,8 +40,10 @@ TickMark::~TickMark()
 
 bool TickMark::hit(QPoint p) const
 {
-  if (this->boundingRect().contains(p)) {
-    return TRUE;
+  if (this->visible()) {
+    if (this->boundingRect().contains(p)) {
+      return TRUE;
+    }
   }
   return FALSE;
 }

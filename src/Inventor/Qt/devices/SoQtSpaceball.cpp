@@ -168,8 +168,11 @@ SoQtSpaceball::exists(void)
   return TRUE;
 #endif // HAVE_X11_AVAILABLE
 
+// FIXME: it takes a couple of seconds for SPW_SpaceBallExistsWin32()
+// to find out if we can obtain a handle to the spaceball, if a spaceball
+// is not present. I guess this is unacceptable. 20030826 frodo.
 #ifdef HAVE_WIN32_API
-   return SPW_SpaceBallExistsWin32();
+   return FALSE;//SPW_SpaceBallExistsWin32();
 #endif // HAVE_WIN32_API
 
 return FALSE;

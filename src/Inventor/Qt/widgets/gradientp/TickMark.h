@@ -35,9 +35,6 @@ public:
 
   float getPos(void) const;
   bool hit(QPoint p) const;
-
-  SbBool isStart;
-  SbBool isEnd;
 };
 
 #endif // ! TICKMARK_H
