@@ -833,3 +833,17 @@ main(int argc, char ** argv)
     20041207 mortene.
 
 =====================================================================
+
+036 Simple timers in Qt will be taken out for Qt 4.
+
+    ..so we shouldn't use them any more, as we now do in
+    SoQt/src/Inventor/Qt/SoQt.cpp, ~line 300.
+
+    I think the best thing to do would be to work around the Qt timer
+    issues by using Win32 timers directly if feasible.
+
+    High priority item.
+
+    20041213 mortene.
+
+=====================================================================
