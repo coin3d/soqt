@@ -1644,18 +1644,18 @@ else
 fi
 ])
 
-# Usage:
-#  SIM_HAVE_SOPOLYGONOFFSET([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+# **************************************************************************
+# SIM_AC_HAVE_SOPOLYGONOFFSET( [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]] )
 #
-#  Check whether or not the SoPolygonOffset node is part of the
-#  Open Inventor development system. If it is found, the
-#  HAVE_SOPOLYGONOFFSET define is set.
+# Check whether or not the SoPolygonOffset node is part of the
+# Open Inventor development system. If it is found, the
+# HAVE_SOPOLYGONOFFSET define is set.
 #
 # Author: Morten Eriksen, <mortene@sim.no>.
 #
 
-AC_DEFUN([SIM_HAVE_SOPOLYGONOFFSET], [
-AC_CACHE_CHECK([for the SoPolygonOffset node],
+AC_DEFUN([SIM_AC_HAVE_SOPOLYGONOFFSET],
+[AC_CACHE_CHECK([for the SoPolygonOffset node],
   sim_cv_sopolygonoffset,
   [AC_TRY_LINK([#include <Inventor/nodes/SoPolygonOffset.h>],
                [SoPolygonOffset * p = new SoPolygonOffset;],
@@ -1668,7 +1668,32 @@ if test x"$sim_cv_sopolygonoffset" = xyes; then
 else
   ifelse([$2], , :, [$2])
 fi
-])
+]) # SIM_AC_HAVE_SOPOLYGONOFFSET
+
+# **************************************************************************
+# SIM_AC_HAVE_SOMOUSEBUTTONEVENT_BUTTONS
+#
+# Authors:
+#   Lars J. Aas <larsa@sim.no>
+
+AC_DEFUN([SIM_AC_HAVE_SOMOUSEBUTTONEVENT_BUTTONS],
+[AC_CACHE_CHECK(
+  [for SoMousebuttonEvent::BUTTON5 availability],
+  sim_cv_somousebuttonevent_buttons,
+  [AC_TRY_COMPILE(
+    [#include <Inventor/events/SoMouseButtonEvent.h>],
+    [int button = SoMouseButtonEvent::BUTTON5],
+    [sim_cv_somousebuttonevent_buttons=true],
+    [sim_cv_somousebuttonevent_buttons=false])])
+
+if $sim_cv_somousebuttonevent_buttons; then
+  AC_DEFINE(HAVE_SOMOUSEBUTTONEVENT_BUTTONS, 1,
+    [Define to enable use of SoMouseButtonEvent::BUTTON5])
+  $1
+else
+  ifelse([$2], , :, [$2])
+fi
+]) # SIM_AC_HAVE_SOMOUSEBUTTONEVENT_BUTTONS()
 
 
 # Usage:
@@ -1727,7 +1752,7 @@ AC_ARG_WITH([coin],
 
 if $sim_ac_coin_desired; then
   sim_ac_path=$PATH
-  test -z $sim_ac_coin_extrapath ||   ## search in --with-coin path
+  test -z "$sim_ac_coin_extrapath" || ## search in --with-coin path
     sim_ac_path=$sim_ac_coin_extrapath/bin:$sim_ac_path
   test x"$prefix" = xNONE ||          ## search in --prefix path
     sim_ac_path=$sim_ac_path:$prefix/bin
@@ -2321,18 +2346,33 @@ fi
 AC_DEFUN([SIM_AC_CHECK_VAR_FUNCTIONNAME], [
 AC_CACHE_CHECK([for function name variable],
   sim_cv_var_functionname, [
+  # __func__ is the identifier used by compilers which are
+  # compliant with the C99 ISO/IEC 9899:1999 standard.
   AC_TRY_COMPILE(
     [#include <stdio.h>],
-    [(void)printf("%s\n",__PRETTY_FUNCTION__)],
-    [sim_cv_var_functionname=__PRETTY_FUNCTION__],
+    [(void)printf("%s\n",__func__)],
+    [sim_cv_var_functionname=__func__],
     [sim_cv_var_functionname=none])
-  if test x"$sim_cv_pretty_function" = x"none"; then
+  if test x"$sim_cv_var_functionname" = x"none"; then
+    # GCC uses __PRETTY_FUNCTION__
+    AC_TRY_COMPILE(
+      [#include <stdio.h>],
+      [(void)printf("%s\n",__PRETTY_FUNCTION__)],
+      [sim_cv_var_functionname=__PRETTY_FUNCTION__],
+      [sim_cv_var_functionname=none])
+  fi
+  if test x"$sim_cv_var_functionname" = x"none"; then
     AC_TRY_COMPILE(
       [#include <stdio.h>],
       [(void)printf("%s\n",__FUNCTION__)],
       [sim_cv_var_functionname=__FUNCTION__],
       [sim_cv_var_functionname=none])
   fi])
+
+if test x"$sim_cv_var_functionname" = x"__func__"; then
+  AC_DEFINE([HAVE_VAR___func__], 1,
+    [Define this to true if the __func__ variable contains the current function name])
+fi
 
 if test x"$sim_cv_var_functionname" = x"__PRETTY_FUNCTION__"; then
   AC_DEFINE([HAVE_VAR___PRETTY_FUNCTION__], 1,

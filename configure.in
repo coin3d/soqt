@@ -179,7 +179,7 @@ fi
 # Check for the availability of this node (it is used in the hidden
 # line rendering), which is not part of older Inventor implementations.
 
-SIM_HAVE_SOPOLYGONOFFSET
+SIM_AC_HAVE_SOPOLYGONOFFSET
 
 # **************************************************************************
 # Check that the Qt installation looks ok and include the
@@ -339,6 +339,17 @@ SOQT_DOC_HTML=`echo $want_html | tr a-z A-Z`
 SOQT_DOC_MAN=`echo $want_man | tr a-z A-Z`
 AC_SUBST(SOQT_DOC_HTML)
 AC_SUBST(SOQT_DOC_MAN)
+
+soqt_build_dir=`pwd`
+cd $srcdir
+soqt_src_dir=`pwd`
+cd $soqt_build_dir
+soqt_data_dir=/usr/local/share/Coin
+test x"$exec_prefix" != xNONE && soqt_data_dir=$exec_prefix/share/Coin
+
+AC_SUBST(soqt_src_dir)
+AC_SUBST(soqt_build_dir)
+AC_SUBST(soqt_data_dir)
 
 soqt_dox_build_dir=`pwd`
 cd $srcdir

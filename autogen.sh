@@ -14,7 +14,8 @@ if ! test -f ./autogen.sh; then
   exit 1
 fi
 
-AUTOCONF_VER=2.14a   # Autoconf from CVS
+# Autoconf from ftp://alpha.gnu.org/gnu/autoconf/autoconf-2.49a.tar.gz
+AUTOCONF_VER=2.49a
 AUTOMAKE_VER=1.4a    # Automake from CVS
 LIBTOOL_VER=1.3.5
 
@@ -50,16 +51,15 @@ fi
 echo "Checking the installed configuration tools..."
 
 if test -z "`autoconf --version | grep \" $AUTOCONF_VER\" 2> /dev/null`"; then
-    echo
-    echo "You must have autoconf version $AUTOCONF_VER installed to"
-    echo "generate configure information and Makefiles for $PROJECT."
-    echo ""
-    echo "The Autoconf version we are using is a development version"
-    echo "\"frozen\" from the CVS repository at 2000-01-13, with a few"
-    echo "patches applied to fix bugs. You can get it here:"
-    echo ""
-    echo "   ftp://ftp.sim.no/pub/coin/autoconf-2.14.1-coin.tar.gz"
-    echo ""
+  cat <<EOF
+
+  You must have autoconf version $AUTOCONF_VER installed to
+  generate configure information and Makefiles for $PROJECT.
+  You can find it at:
+
+    ftp://alpha.gnu.org/gnu/autoconf/autoconf-2.49a.tar.gz
+
+EOF
     DIE=true
 fi
 

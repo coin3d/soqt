@@ -113,6 +113,7 @@ sim_ac_doxygen_exe = @sim_ac_doxygen_exe@
 sim_ac_perl_exe = @sim_ac_perl_exe@
 soqt_build_dir = @soqt_build_dir@
 soqt_configure_date = @soqt_configure_date@
+soqt_data_dir = @soqt_data_dir@
 soqt_dox_build_dir = @soqt_dox_build_dir@
 soqt_dox_src_dir = @soqt_dox_src_dir@
 soqt_include_dir = @soqt_include_dir@
