@@ -32,9 +32,10 @@ class QPainter;
 class ImageItem: public QCanvasRectangle
 {
 public:
-  ImageItem(QImage img, QCanvas *canvas);
+  ImageItem(QCanvas *canvas);
+  void setImage(QImage img);
 
-protected:
+
   void drawShape(QPainter &);
 
 private:

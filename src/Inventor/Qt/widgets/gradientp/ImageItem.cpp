@@ -24,16 +24,23 @@
 #include <qpainter.h>
 #include "ImageItem.h"
 
-ImageItem::ImageItem(QImage img, QCanvas *canvas)
-: QCanvasRectangle(canvas), image(img)
+ImageItem::ImageItem(QCanvas *canvas)
+: QCanvasRectangle(canvas)
 {
   this->setSize(canvas->width(), canvas->height());
+}
+
+void 
+ImageItem::setImage(QImage image)
+{
   if (!image.isNull()) {
+    this->setSize(image.width(), image.height());
     this->pixmap.convertFromImage(image, Qt::OrderedAlphaDither);
   }
 }
 
-void ImageItem::drawShape(QPainter &p)
+void 
+ImageItem::drawShape(QPainter &p)
 {
-  p.drawPixmap(int(x()), int(y()), this->pixmap);
+  p.drawPixmap(int(this->x()), int(this->y()), this->pixmap);
 }
