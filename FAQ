@@ -152,12 +152,11 @@ A:    This file is the Windows Qt 2.3.0 NonCommercial Edition DLL, which
 
 Q1.5: Does SoQt work with the Qt port for Mac OS X/Darwin?
 
-A:    More or less.  We do not provide binary distributions for Mac OS X yet,
-      and it still requires some effort on the behalf of the user to get it
-      working.  As with for MS Windows, library builders are expected to know
-      their way around on their system and do a a minimum of troubleshooting
-      yourself before contacting coin-support.  This situation will hopefully
-      be fixed by the end of the year.
+A:    Yes, but we do not provide binary distributions for Mac OS X
+      yet.  As with for MS Windows, library builders are expected to
+      know their way around on their system and do a a minimum of
+      troubleshooting yourself before contacting coin-support.  This
+      situation will hopefully be fixed by the end of the year.
 
       SoQt is BTW not installed as a framework like Coin is.
 
