@@ -6763,19 +6763,6 @@ echo "$as_me: warning: --enable-warnings only has effect when using GNU gcc or g
   fi
 fi
 
-# **************************************************************************
-# do we want to compile the example programs?
-
-# undocumented option --with-test-code
-
-if test x"${with_test_code+set}" = "xset"; then
-  BUILD_TESTS_TRUE=
-  BUILD_TESTS_FALSE='#'
-else
-  BUILD_TESTS_TRUE='#'
-  BUILD_TESTS_FALSE=
-fi
-
 sim_ac_static_defaults=true;
 # Check whether --enable-static-defaults or --disable-static-defaults was given.
 if test "${enable_static_defaults+set}" = set; then
@@ -6881,7 +6868,7 @@ if test x"$with_doxygen" != xno; then
 
   # Extract the first word of "doxygen", so it can be a program name with args.
 set dummy doxygen; ac_word=$2
-echo "$as_me:6884: checking for $ac_word" >&5
+echo "$as_me:6871: checking for $ac_word" >&5
 echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
 if test "${ac_cv_path_sim_ac_doxygen_exe+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
@@ -6909,10 +6896,10 @@ fi
 sim_ac_doxygen_exe=$ac_cv_path_sim_ac_doxygen_exe
 
 if test -n "$sim_ac_doxygen_exe"; then
-  echo "$as_me:6912: result: $sim_ac_doxygen_exe" >&5
+  echo "$as_me:6899: result: $sim_ac_doxygen_exe" >&5
 echo "${ECHO_T}$sim_ac_doxygen_exe" >&6
 else
-  echo "$as_me:6915: result: no" >&5
+  echo "$as_me:6902: result: no" >&5
 echo "${ECHO_T}no" >&6
 fi
 
@@ -6928,13 +6915,13 @@ fi
 
   sim_ac_doxygen_our_version=1.1.5
   if test x"$sim_ac_doxygen_avail" != x"$sim_ac_doxygen_our_version"; then
-    { echo "$as_me:6931: WARNING: You are not using Doxygen version $sim_ac_doxygen_our_version" >&5
+    { echo "$as_me:6918: WARNING: You are not using Doxygen version $sim_ac_doxygen_our_version" >&5
 echo "$as_me: warning: You are not using Doxygen version $sim_ac_doxygen_our_version" >&2; }
   fi
 
   # Extract the first word of "perl", so it can be a program name with args.
 set dummy perl; ac_word=$2
-echo "$as_me:6937: checking for $ac_word" >&5
+echo "$as_me:6924: checking for $ac_word" >&5
 echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
 if test "${ac_cv_path_sim_ac_perl_exe+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
@@ -6962,15 +6949,15 @@ fi
 sim_ac_perl_exe=$ac_cv_path_sim_ac_perl_exe
 
 if test -n "$sim_ac_perl_exe"; then
-  echo "$as_me:6965: result: $sim_ac_perl_exe" >&5
+  echo "$as_me:6952: result: $sim_ac_perl_exe" >&5
 echo "${ECHO_T}$sim_ac_perl_exe" >&6
 else
-  echo "$as_me:6968: result: no" >&5
+  echo "$as_me:6955: result: no" >&5
 echo "${ECHO_T}no" >&6
 fi
 
   if test x"$sim_ac_perl_exe" = xfalse; then
-    { echo "$as_me:6973: WARNING: Could not find the Perl executable" >&5
+    { echo "$as_me:6960: WARNING: Could not find the Perl executable" >&5
 echo "$as_me: warning: Could not find the Perl executable" >&2; }
   fi
 
@@ -7104,9 +7091,6 @@ ac_config_files="$ac_config_files
 	src/Inventor/Qt/devices/Makefile
 	src/Inventor/Qt/viewers/Makefile
 	src/Inventor/Qt/widgets/Makefile
-	test-code/Makefile
-	test-code/components/Makefile
-	test-code/widgets/Makefile
 	build/Makefile
 	build/soqt.doxygen
         build/soqt.spec
@@ -7205,7 +7189,7 @@ sed '/^$/d;s/^/| /' confdefs.h >&5
 : ${CONFIG_STATUS=./config.status}
 ac_clean_files_save=$ac_clean_files
 ac_clean_files="$ac_clean_files $CONFIG_STATUS"
-{ echo "$as_me:7208: creating $CONFIG_STATUS" >&5
+{ echo "$as_me:7192: creating $CONFIG_STATUS" >&5
 echo "creating $CONFIG_STATUS" >&6;}
 cat >$CONFIG_STATUS <<\_ACEOF
 #! /bin/sh
@@ -7391,9 +7375,6 @@ Try \`$0 --help' for more information." >&2
   'src/Inventor/Qt/devices/Makefile' ) CONFIG_FILES="$CONFIG_FILES src/Inventor/Qt/devices/Makefile" ;;
   'src/Inventor/Qt/viewers/Makefile' ) CONFIG_FILES="$CONFIG_FILES src/Inventor/Qt/viewers/Makefile" ;;
   'src/Inventor/Qt/widgets/Makefile' ) CONFIG_FILES="$CONFIG_FILES src/Inventor/Qt/widgets/Makefile" ;;
-  'test-code/Makefile' ) CONFIG_FILES="$CONFIG_FILES test-code/Makefile" ;;
-  'test-code/components/Makefile' ) CONFIG_FILES="$CONFIG_FILES test-code/components/Makefile" ;;
-  'test-code/widgets/Makefile' ) CONFIG_FILES="$CONFIG_FILES test-code/widgets/Makefile" ;;
   'build/Makefile' ) CONFIG_FILES="$CONFIG_FILES build/Makefile" ;;
   'build/soqt.doxygen' ) CONFIG_FILES="$CONFIG_FILES build/soqt.doxygen" ;;
   'build/soqt.spec' ) CONFIG_FILES="$CONFIG_FILES build/soqt.spec" ;;
@@ -7569,8 +7550,6 @@ s,@sim_ac_coin_configcmd@,$sim_ac_coin_configcmd,;t t
 s,@MOC@,$MOC,;t t
 s,@HAVE_JOYSTICK_LINUX_TRUE@,$HAVE_JOYSTICK_LINUX_TRUE,;t t
 s,@HAVE_JOYSTICK_LINUX_FALSE@,$HAVE_JOYSTICK_LINUX_FALSE,;t t
-s,@BUILD_TESTS_TRUE@,$BUILD_TESTS_TRUE,;t t
-s,@BUILD_TESTS_FALSE@,$BUILD_TESTS_FALSE,;t t
 s,@Gui@,$Gui,;t t
 s,@gui@,$gui,;t t
 s,@GUI@,$GUI,;t t
@@ -7690,7 +7669,7 @@ done; }
   esac
 
   if test x"$ac_file" != x-; then
-    { echo "$as_me:7693: creating $ac_file" >&5
+    { echo "$as_me:7672: creating $ac_file" >&5
 echo "creating $ac_file" >&6;}
     rm -f "$ac_file"
   fi
@@ -7783,7 +7762,7 @@ for ac_file in : $CONFIG_HEADERS; do test "x$ac_file" = x: && continue
   * )   ac_file_in=$ac_file.in ;;
   esac
 
-  test x"$ac_file" != x- && { echo "$as_me:7786: creating $ac_file" >&5
+  test x"$ac_file" != x- && { echo "$as_me:7765: creating $ac_file" >&5
 echo "creating $ac_file" >&6;}
 
   # First look for the input files in the build tree, otherwise in the
@@ -7923,7 +7902,7 @@ cat >>$CONFIG_STATUS <<\EOF
   rm -f $tmp/in
   if test x"$ac_file" != x-; then
     if cmp -s $ac_file $tmp/config.h 2>/dev/null; then
-      { echo "$as_me:7926: $ac_file is unchanged" >&5
+      { echo "$as_me:7905: $ac_file is unchanged" >&5
 echo "$ac_file is unchanged" >&6;}
     else
       ac_dir=`expr X"$ac_file" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
@@ -8063,7 +8042,7 @@ if test "$no_recursion" != yes; then
     # parts of a large source tree are present.
     test -d $srcdir/$ac_subdir || continue
 
-    { echo "$as_me:8066: configuring in $ac_subdir" >&5
+    { echo "$as_me:8045: configuring in $ac_subdir" >&5
 echo "configuring in $ac_subdir" >&6;}
     case $srcdir in
     .) ;;
@@ -8109,7 +8088,7 @@ done; }
     elif test -f $ac_sub_srcdir/configure.in; then
       ac_sub_configure=$ac_configure
     else
-      { echo "$as_me:8112: WARNING: no configuration information is in $ac_subdir" >&5
+      { echo "$as_me:8091: WARNING: no configuration information is in $ac_subdir" >&5
 echo "$as_me: warning: no configuration information is in $ac_subdir" >&2; }
       ac_sub_configure=
     fi
@@ -8127,7 +8106,7 @@ echo "$as_me: warning: no configuration information is in $ac_subdir" >&2; }
         *) INSTALL=$ac_dots$ac_given_INSTALL ;;
       esac
 
-      { echo "$as_me:8130: running $ac_sub_configure $ac_sub_configure_args --cache-file=$ac_sub_cache_file --srcdir=$ac_sub_srcdir" >&5
+      { echo "$as_me:8109: running $ac_sub_configure $ac_sub_configure_args --cache-file=$ac_sub_cache_file --srcdir=$ac_sub_srcdir" >&5
 echo "running $ac_sub_configure $ac_sub_configure_args --cache-file=$ac_sub_cache_file --srcdir=$ac_sub_srcdir" >&6;}
       # The eval makes quoting arguments work.
       if eval $ac_sub_configure $ac_sub_configure_args --cache-file=$ac_sub_cache_file --srcdir=$ac_sub_srcdir
