@@ -229,7 +229,7 @@ enum {
 /*!
   Constructor. See parent class for explanation of arguments.
 
-  Subclasses will probably usually call with the \c buildNow flag
+  Subclasses will probably usually call with the \a buildNow flag
   set to \c FALSE to be able to do delayed building of the OpenGL
   canvas after other setup tasks has been performed.
 */
