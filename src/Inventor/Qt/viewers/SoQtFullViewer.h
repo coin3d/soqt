@@ -87,6 +87,8 @@ protected:
   virtual bool eventFilter(QObject * obj, QEvent * e);
   virtual void sizeChanged( const SbVec2s size );
 
+  virtual void afterRealizeHook(void);
+
   QWidget * buildWidget(QWidget * parent);
 
   virtual void buildDecoration(QWidget * parent);
@@ -108,34 +110,47 @@ protected:
   virtual void leftWheelMotion(float);
   virtual void leftWheelFinish(void);
   float getLeftWheelValue(void) const;
+  void setLeftWheelValue( const float value );
+
   virtual void bottomWheelStart(void);
   virtual void bottomWheelMotion(float);
   virtual void bottomWheelFinish(void);
   float getBottomWheelValue(void) const;
+  void setBottomWheelValue( const float value );
+
   virtual void rightWheelStart(void);
   virtual void rightWheelMotion(float);
   virtual void rightWheelFinish(void);
   float getRightWheelValue(void) const;
+  void setRightWheelValue( const float value );
 
-  void setLeftWheelString(const char * name);
-  void setBottomWheelString(const char * name);
-  void setRightWheelString(const char * name);
+  void setLeftWheelString( const char * const string );
+  void setBottomWheelString( const char * const string );
+  void setRightWheelString( const char * const string );
 
-  virtual SbBool processSoEvent(const SoEvent * const event);
+  virtual SbBool processSoEvent( const SoEvent * const event );
 
   virtual void openViewerHelpCard(void);
 
-  SoQtThumbWheel * getThumbwheel( int num );
+protected:
+  QWidget * leftDecoration;
+  QWidget * rightDecoration;
+  QWidget * bottomDecoration;
 
-  enum {
-    LEFTDECORATION,
-    BOTTOMDECORATION,
-    RIGHTDECORATION,
+  QWidget * leftWheel;
+  QWidget * leftWheelLabel;
+  char * leftWheelStr;
+  float leftWheelVal;
 
-    FIRSTDECORATION = LEFTDECORATION,
-    LASTDECORATION = RIGHTDECORATION,
-    NUMDECORATIONS = LASTDECORATION - FIRSTDECORATION + 1
-  };
+  QWidget * rightWheel;
+  QWidget * rightWheelLabel;
+  char * rightWheelStr;
+  float rightWheelVal;
+
+  QWidget * bottomWheel;
+  QWidget * bottomWheelLabel;
+  char * bottomWheelStr;
+  float bottomWheelVal;
 
 private:
   QWidget * makePreferencesWindow(void);
@@ -148,11 +163,6 @@ private:
   QWidget * interactbutton, * viewbutton;
 
   SbBool decorations;
-  float wheelvalues[NUMDECORATIONS];
-  QString wheelstrings[NUMDECORATIONS];
-  SoQtThumbWheel * wheels[NUMDECORATIONS];
-  QLabel * wheellabels[NUMDECORATIONS];
-  QWidget * decorform[NUMDECORATIONS];
 
   SbString menutitle;
   SoAnyPopupMenu * prefmenu;

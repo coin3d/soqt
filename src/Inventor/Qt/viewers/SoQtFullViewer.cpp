@@ -181,13 +181,28 @@ SoQtFullViewer::SoQtFullViewer(
   this->viewbutton = NULL;
   this->interactbutton = NULL;
 
-  char axisindicator[] = { 'Y', 'X', 'Z' };
-  for (int i = FIRSTDECORATION; i <= LASTDECORATION; i++) {
-    this->wheelstrings[i] = "Motion ";
-    this->wheelstrings[i] += axisindicator[i - FIRSTDECORATION];
-    this->decorform[i] = NULL;
-    this->wheellabels[i] = NULL;
-  }
+  this->leftDecoration = NULL;
+  this->bottomDecoration = NULL;
+  this->rightDecoration = NULL;
+
+  this->leftWheel = NULL;
+  this->leftWheelLabel = NULL;
+  this->leftWheelStr = NULL;
+  this->leftWheelVal = 0.0f;
+
+  this->bottomWheel = NULL;
+  this->bottomWheelLabel = NULL;
+  this->bottomWheelStr = NULL;
+  this->bottomWheelVal = 0.0f;
+
+  this->rightWheel = NULL;
+  this->rightWheelLabel = NULL;
+  this->rightWheelStr = NULL;
+  this->rightWheelVal = 0.0f;
+
+  this->setLeftWheelString( "Motion X" );
+  this->setBottomWheelString( "Motion Y" );
+  this->setRightWheelString( "Motion Z" );
 
   this->zoomrange = SbVec2f(1.0f, 140.0f);
 
@@ -697,12 +712,15 @@ QWidget *
 SoQtFullViewer::buildWidget(
   QWidget * parent )
 {
+#if SOQT_DEBUG && 0
+  SoDebugError::postInfo( "SoQtFullViewer::buildWidget", "[invoked]" );
+#endif // SOQT_DEBUG
   this->viewerwidget = new QWidget(parent);
   this->registerWidget( viewerwidget );
 //  this->viewerwidget->installEventFilter( this );
 
   this->viewerwidget->move( 0, 0 );
-#if SOQT_DEBUG & 0
+#if SOQT_DEBUG && 0
   this->viewerwidget->setBackgroundColor( QColor( 250, 0, 0 ) );
 #endif // SOQT_DEBUG
 
@@ -741,11 +759,12 @@ SoQtFullViewer::buildWidget(
 */
 
 void
-SoQtFullViewer::buildDecoration(QWidget * parent)
+SoQtFullViewer::buildDecoration(
+  QWidget * parent )
 {
-  this->decorform[LEFTDECORATION] = this->buildLeftTrim(parent);
-  this->decorform[BOTTOMDECORATION] = this->buildBottomTrim(parent);
-  this->decorform[RIGHTDECORATION] = this->buildRightTrim(parent);
+  this->leftDecoration = this->buildLeftTrim(parent);
+  this->bottomDecoration = this->buildBottomTrim(parent);
+  this->rightDecoration = this->buildRightTrim(parent);
 } // buildDecoration()
 
 // *************************************************************************
@@ -753,32 +772,31 @@ SoQtFullViewer::buildDecoration(QWidget * parent)
 /*!
   Build decorations on the left of the render canvas.  Overload this
   method in subclasses if you want your own decorations on the viewer
-  window.  The decoration will be 30 pixels wide.
+  window.
+
+  The decoration will be 30 pixels wide.
 */
 
 QWidget *
-SoQtFullViewer::buildLeftTrim(QWidget * parent)
+SoQtFullViewer::buildLeftTrim(
+  QWidget * parent )
 {
   QWidget * w = new QWidget(parent);
   w->setFixedWidth( 30 );
 
-  QGridLayout * gl = new QGridLayout(w, 3, 1, 2, -1 ); // , 0, -1);
-  gl->addWidget(this->buildAppButtons(w), 0, 0);
+  QGridLayout * gl = new QGridLayout( w, 3, 1, 2, -1 );
+  gl->addWidget( this->buildAppButtons(w), 0, 0 );
 
-  SoQtThumbWheel * t = this->wheels[LEFTDECORATION] =
-    new SoQtThumbWheel(SoQtThumbWheel::Vertical, w);
+  SoQtThumbWheel * t = new SoQtThumbWheel( SoQtThumbWheel::Vertical, w );
+  this->leftWheel = t;
   t->setRangeBoundaryHandling( SoQtThumbWheel::ACCUMULATE );
+  this->leftWheelVal = t->value();
 
-  QObject::connect(t, SIGNAL(wheelMoved(float)),
-                   this, SLOT(leftWheelChanged(float)));
-  QObject::connect(t, SIGNAL(wheelPressed()),
-                   this, SLOT(leftWheelPressed()));
-  QObject::connect(t, SIGNAL(wheelReleased()),
-                   this, SLOT(leftWheelReleased()));
+  QObject::connect( t, SIGNAL(wheelMoved(float)), this, SLOT(leftWheelChanged(float)) );
+  QObject::connect( t, SIGNAL(wheelPressed()), this, SLOT(leftWheelPressed()) );
+  QObject::connect( t, SIGNAL(wheelReleased()), this, SLOT(leftWheelReleased()) );
 
-  this->wheelvalues[LEFTDECORATION] = t->value();
-
-  gl->addWidget(t, 2, 0, AlignBottom|AlignHCenter);
+  gl->addWidget( t, 2, 0, AlignBottom | AlignHCenter );
   gl->activate();
 
   return w;
@@ -792,23 +810,32 @@ SoQtFullViewer::buildLeftTrim(QWidget * parent)
 */
 
 QWidget *
-SoQtFullViewer::buildBottomTrim(QWidget * parent)
+SoQtFullViewer::buildBottomTrim(
+  QWidget * parent )
 {
   QWidget * w = new QWidget(parent);
   w->setFixedHeight( 30 );
 
-  int alignments[] = {
-    AlignLeft|AlignTop, AlignRight|AlignVCenter, AlignRight|AlignTop
-  };
+  QLabel * label = new QLabel( this->leftWheelStr, w );
+  label->adjustSize();
+  label->setAlignment( AlignLeft | AlignTop );
+  label->setMargin( 2 );
+  this->leftWheelLabel = label;
 
-  for ( int i = FIRSTDECORATION; i <= LASTDECORATION; i++ ) {
-    this->wheellabels[ i ] = new QLabel( this->wheelstrings[ i ], w );
-    this->wheellabels[ i ]->adjustSize();
-    this->wheellabels[ i ]->setAlignment( alignments[ i - FIRSTDECORATION ] );
-  }
+  label = new QLabel( this->bottomWheelStr, w );
+  label->adjustSize();
+  label->setAlignment( AlignRight | AlignVCenter );
+  label->setMargin( 2 );
+  this->bottomWheelLabel = label;
 
-  SoQtThumbWheel * t = this->wheels[ BOTTOMDECORATION ] =
-    new SoQtThumbWheel( SoQtThumbWheel::Horizontal, w );
+  label = new QLabel( this->rightWheelStr, w );
+  label->adjustSize();
+  label->setAlignment( AlignRight | AlignTop );
+  label->setMargin( 2 );
+  this->rightWheelLabel = label;
+
+  SoQtThumbWheel * t = new SoQtThumbWheel( SoQtThumbWheel::Horizontal, w );
+  this->bottomWheel = t;
   t->setRangeBoundaryHandling( SoQtThumbWheel::ACCUMULATE );
 
   QObject::connect( t, SIGNAL(wheelMoved(float)),
@@ -818,7 +845,7 @@ SoQtFullViewer::buildBottomTrim(QWidget * parent)
   QObject::connect( t, SIGNAL(wheelReleased()),
                     this, SLOT(bottomWheelReleased()) );
 
-  this->wheelvalues[ BOTTOMDECORATION ] = t->value();
+  this->bottomWheelVal = t->value();
 
   QGridLayout * gl = new QGridLayout( w, 1, 5 );
   gl->setColStretch( 0, 0 );
@@ -827,16 +854,10 @@ SoQtFullViewer::buildBottomTrim(QWidget * parent)
   gl->setColStretch( 3, 1 );
   gl->setColStretch( 4, 0 );
 
-  for ( int c = FIRSTDECORATION; c <= LASTDECORATION; c++ )
-    this->wheellabels[ c ]->setMargin( 2 );
-
-  gl->addWidget( this->wheellabels[ LEFTDECORATION ], 0, 0,
-                 AlignVCenter | AlignHCenter );
-  gl->addWidget( this->wheellabels[ BOTTOMDECORATION ], 0, 1,
-                 AlignVCenter | AlignRight );
+  gl->addWidget( this->leftWheelLabel, 0, 0, AlignVCenter | AlignHCenter );
+  gl->addWidget( this->bottomWheelLabel, 0, 1, AlignVCenter | AlignRight );
   gl->addWidget( t, 0, 2, AlignVCenter | AlignLeft );
-  gl->addWidget( this->wheellabels[ RIGHTDECORATION ], 0, 4,
-                 AlignVCenter | AlignRight );
+  gl->addWidget( this->rightWheelLabel, 0, 4, AlignVCenter | AlignRight );
 
   gl->activate();
 
@@ -851,7 +872,8 @@ SoQtFullViewer::buildBottomTrim(QWidget * parent)
 */
 
 QWidget *
-SoQtFullViewer::buildRightTrim(QWidget * parent)
+SoQtFullViewer::buildRightTrim(
+  QWidget * parent )
 {
   QWidget * w = new QWidget(parent);
   // FIXME: should be set according to width of viewer
@@ -859,10 +881,10 @@ SoQtFullViewer::buildRightTrim(QWidget * parent)
   w->setFixedWidth( 30 );
   // FIXME: nope, trims are actually guaranteed to be 30 pixels wide
 
-
-  SoQtThumbWheel * t = this->wheels[RIGHTDECORATION] =
-    new SoQtThumbWheel(SoQtThumbWheel::Vertical, w);
+  SoQtThumbWheel * t = new SoQtThumbWheel(SoQtThumbWheel::Vertical, w);
+  this->rightWheel = t;
   t->setRangeBoundaryHandling( SoQtThumbWheel::ACCUMULATE );
+  this->rightWheelVal = t->value();
 
   QObject::connect(t, SIGNAL(wheelMoved(float)),
                    this, SLOT(rightWheelChanged(float)));
@@ -870,8 +892,6 @@ SoQtFullViewer::buildRightTrim(QWidget * parent)
                    this, SLOT(rightWheelPressed()));
   QObject::connect(t, SIGNAL(wheelReleased()),
                    this, SLOT(rightWheelReleased()));
-
-  this->wheelvalues[RIGHTDECORATION] = t->value();
 
   QGridLayout * l = new QGridLayout(w, 3, 1, 2, -1 );
   l->setMargin( 0 );
@@ -1176,8 +1196,6 @@ SoQtFullViewer::leftWheelStart(void)
   this->interactiveCountInc();
 } // leftWheelStart()
 
-// *************************************************************************
-
 /*!
   Called repeatedly as the user drags the thumbwheel in the left frame.
   Overload this method in subclassed viewers to provide your own
@@ -1191,10 +1209,8 @@ void
 SoQtFullViewer::leftWheelMotion(
   float value )
 {
-  this->wheels[LEFTDECORATION]->setValue( value );
+  this->leftWheelVal = value;
 } // leftWheelMotion()
-
-// *************************************************************************
 
 /*!
   Called as the user let go of the thumbwheel in the left frame after
@@ -1211,8 +1227,6 @@ SoQtFullViewer::leftWheelFinish(void)
   this->interactiveCountDec();
 } // leftWheelFinish()
 
-// *************************************************************************
-
 /*!
   Get current value of the left thumbwheel.
 
@@ -1223,8 +1237,16 @@ float
 SoQtFullViewer::getLeftWheelValue(
   void ) const
 {
-  return this->wheels[LEFTDECORATION]->value();
+  return this->leftWheelVal;
 } // getLeftWheelValue()
+
+void
+SoQtFullViewer::setLeftWheelValue(
+  const float value )
+{
+  this->leftWheelVal = value;
+  ((SoQtThumbWheel *) this->leftWheel)->setValue( value );
+} // setLeftWheelValue()
 
 // *************************************************************************
 
@@ -1256,7 +1278,7 @@ void
 SoQtFullViewer::bottomWheelMotion(
   float value )
 {
-  this->wheels[BOTTOMDECORATION]->setValue( value );
+  this->bottomWheelVal = value;
 } // bottomWheelMotion()
 
 /*!
@@ -1284,8 +1306,16 @@ float
 SoQtFullViewer::getBottomWheelValue(
   void ) const
 {
-  return this->wheels[BOTTOMDECORATION]->value();
+  return this->bottomWheelVal;
 } // getBottomWheelValue()
+
+void
+SoQtFullViewer::setBottomWheelValue(
+  const float value )
+{
+  this->bottomWheelVal = value;
+  ((SoQtThumbWheel *) this->bottomWheel)->setValue( value );
+} // setBottomWheelValue()
 
 // *************************************************************************
 
@@ -1304,8 +1334,6 @@ SoQtFullViewer::rightWheelStart(void)
   this->interactiveCountInc();
 } // rightWheelStart()
 
-// *************************************************************************
-
 /*!
   Called repeatedly as the user drags the thumbwheel in the right frame.
   Overload this method in subclassed viewers to provide your own
@@ -1319,10 +1347,8 @@ void
 SoQtFullViewer::rightWheelMotion(
   float value )
 {
-  this->wheels[RIGHTDECORATION]->setValue( value );
+  this->rightWheelVal = value;
 } // rightWheelMotion()
-
-// *************************************************************************
 
 /*!
   Called as the user let go of the thumbwheel in the right frame after
@@ -1339,8 +1365,6 @@ SoQtFullViewer::rightWheelFinish(void)
   this->interactiveCountDec();
 } // rightWheelFinish()
 
-// *************************************************************************
-
 /*!
   Get current value of the right thumbwheel.
 
@@ -1351,8 +1375,16 @@ float
 SoQtFullViewer::getRightWheelValue(
   void ) const
 {
-  return this->wheels[RIGHTDECORATION]->value();
+  return this->rightWheelVal;
 } // getRightWheelValue()
+
+void
+SoQtFullViewer::setRightWheelValue(
+  const float value )
+{
+  this->rightWheelVal = value;
+  ((SoQtThumbWheel *) this->rightWheel)->setValue( value );
+} // setRightWheelValue()
 
 // *************************************************************************
 
@@ -1374,11 +1406,17 @@ void SoQtFullViewer::rightWheelReleased(void) { this->rightWheelFinish(); }
 */
 
 void
-SoQtFullViewer::setLeftWheelString(const char * str)
+SoQtFullViewer::setLeftWheelString(
+  const char * const string )
 {
-  this->wheelstrings[LEFTDECORATION] = str ? str : "";
-  QLabel * l = this->wheellabels[LEFTDECORATION];
-  if (l) l->setText(this->wheelstrings[LEFTDECORATION]);
+  if ( this->leftWheelStr ) {
+    delete [] this->leftWheelStr;
+    this->leftWheelStr = NULL;
+  }
+  if ( string )
+    this->leftWheelStr = strcpy( new char [strlen(string)+1], string );
+  if ( this->leftWheelLabel )
+    ((QLabel *)this->leftWheelLabel)->setText( string ? string : "" );
 } // setLeftWheelString()
 
 // *************************************************************************
@@ -1388,11 +1426,17 @@ SoQtFullViewer::setLeftWheelString(const char * str)
 */
 
 void
-SoQtFullViewer::setBottomWheelString(const char * str)
+SoQtFullViewer::setBottomWheelString(
+  const char * const string )
 {
-  this->wheelstrings[BOTTOMDECORATION] = str ? str : "";
-  QLabel * l = this->wheellabels[BOTTOMDECORATION];
-  if (l) l->setText(this->wheelstrings[BOTTOMDECORATION]);
+  if ( this->bottomWheelStr ) {
+    delete [] this->bottomWheelStr;
+    this->bottomWheelStr = NULL;
+  }
+  if ( string )
+    this->bottomWheelStr = strcpy( new char [strlen(string)+1], string );
+  if ( this->bottomWheelLabel )
+    ((QLabel *)this->bottomWheelLabel)->setText( string ? string : "" );
 } // setBottomWheelString()
 
 // *************************************************************************
@@ -1402,11 +1446,17 @@ SoQtFullViewer::setBottomWheelString(const char * str)
 */
 
 void
-SoQtFullViewer::setRightWheelString(const char * str)
+SoQtFullViewer::setRightWheelString(
+  const char * const string )
 {
-  this->wheelstrings[RIGHTDECORATION] = str ? str : "";
-  QLabel * l = this->wheellabels[RIGHTDECORATION];
-  if (l) l->setText(this->wheelstrings[RIGHTDECORATION]);
+  if ( this->rightWheelStr ) {
+    delete [] this->rightWheelStr;
+    this->rightWheelStr = NULL;
+  }
+  if ( string )
+    this->rightWheelStr = strcpy( new char [strlen(string)+1], string );
+  if ( this->rightWheelLabel )
+    ((QLabel *)this->rightWheelLabel)->setText( string ? string : "" );
 } // setRightWheelString()
 
 // *************************************************************************
@@ -1431,29 +1481,34 @@ SoQtFullViewer::openViewerHelpCard(void)
 */
 
 void
-SoQtFullViewer::showDecorationWidgets(SbBool onOff)
+SoQtFullViewer::showDecorationWidgets(
+  SbBool onOff )
 {
+#if SOQT_DEBUG && 0
+  SoDebugError::postInfo( "SoQtFullViewer::showDecorationWidgets", "[invoked]" );
+#endif // SOQT_DEBUG
+
   if (this->mainlayout) delete this->mainlayout;
 
   assert(this->viewerwidget);
 //  assert(this->canvasparent);
 
+  assert( this->leftDecoration && this->bottomDecoration && this->rightDecoration );
   if ( onOff ) {
-    for (int i = FIRSTDECORATION; i <= LASTDECORATION; i++) {
-      assert(this->decorform[i]);
-      this->decorform[i]->show();
-    }
+    this->leftDecoration->show();
+    this->bottomDecoration->show();
+    this->rightDecoration->show();
 
     QGridLayout * g = new QGridLayout(this->viewerwidget, 2, 1, 0, -1 ); // VIEWERBORDER);
 
-    g->addWidget(this->decorform[BOTTOMDECORATION], 1, 0);
+    g->addWidget(this->bottomDecoration, 1, 0);
 
     QGridLayout * subLayout = new QGridLayout( 1, 3, 0 );
     g->addLayout(subLayout, 0, 0);
 
-    subLayout->addWidget(this->decorform[LEFTDECORATION], 0, 0);
+    subLayout->addWidget(this->leftDecoration, 0, 0);
     subLayout->addWidget(this->canvas, 0, 1);
-    subLayout->addWidget(this->decorform[RIGHTDECORATION], 0, 2);
+    subLayout->addWidget(this->rightDecoration, 0, 2);
 
 //     subLayout->setColStretch(1, 1);
 //     g->setRowStretch(0, 1);
@@ -1464,8 +1519,9 @@ SoQtFullViewer::showDecorationWidgets(SbBool onOff)
     g->addWidget(this->canvas, 0, 0);
     this->mainlayout = g;
 
-    for (int i = FIRSTDECORATION; i <= LASTDECORATION; i++)
-      this->decorform[i]->hide();
+    this->leftDecoration->hide();
+    this->bottomDecoration->hide();
+    this->rightDecoration->hide();
   }
 
   this->mainlayout->activate();
@@ -2591,19 +2647,6 @@ SoQtFullViewer::farclipEditPressed()
 // *************************************************************************
 
 /*!
-*/
-
-SoQtThumbWheel *
-SoQtFullViewer::getThumbwheel(
-  int num )
-{
-  assert( num >= FIRSTDECORATION && num < LASTDECORATION );
-  return this->wheels[ num ];
-} // getThumbwheel()
-
-// *************************************************************************
-
-/*!
   This method is invoked when the component size has changed.
 */
 
@@ -2615,16 +2658,24 @@ SoQtFullViewer::sizeChanged( // virtual
   SoDebugError::postInfo( "SoQtFullViewer::sizeChanged", "[invoked (%d, %d)]",
     size[0], size[1] );
 #endif // SOQT_DEBUG
-  if ( this->decorations != FALSE ) {
+
+  if ( this->decorations ) {
     if ( size[0] <= 60 || size[1] <= 30 ) return; // bogus
-    if ( this->canvas != NULL ) {
+    if ( this->viewerwidget ) {
+      // SoDebugError::postInfo( "SoQtFullViewer::sizeChanged", "[resizing]" );
+      this->viewerwidget->setGeometry( 0, 0, size[0], size[1] );
       this->canvas->setGeometry( 30, 0, size[0] - 60, size[1] - 30 );
+      this->leftDecoration->resize( 30, size[1] - 30 );
+      this->rightDecoration->setGeometry( size[0]-30, 0, size[0], size[1] - 30 );
+      this->bottomDecoration->setGeometry( 0, size[1]-30, size[0], size[1] );
     }
     const SbVec2s rasize = SbVec2s( size[0] - 60, size[1] - 30 );
     inherited::sizeChanged( rasize );
   } else {
     if ( size[0] <= 0 || size[1] <= 0 ) return;
-    if ( this->canvas != NULL ) {
+    if ( this->viewerwidget && this->canvas ) {
+      // SoDebugError::postInfo( "SoQtFullViewer::sizeChanged", "[resizing]" );
+      this->viewerwidget->setGeometry( 0, 0, size[0], size[1] );
       this->canvas->setGeometry( 0, 0, size[0], size[1] );
     }
     inherited::sizeChanged( size );
@@ -2645,6 +2696,17 @@ SoQtFullViewer::processSoEvent(
     return TRUE;
   return FALSE;
 } // processSoEvent()
+
+// *************************************************************************
+
+void
+SoQtFullViewer::afterRealizeHook( // virtual
+  void )
+{
+  SoDebugError::postInfo( "SoQtFullViewer::afterRealizeHook", "[invoked]" );
+  this->sizeChanged( this->getSize() );
+  inherited::afterRealizeHook();
+} // afterRealizeHook()
 
 // *************************************************************************
 
