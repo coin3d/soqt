@@ -19,43 +19,9 @@ stability anyway.
 Problems with older versions of Qt/Mac
 ======================================
 
-The first Qt/Mac releases (3.0.0 and 3.0.1) contained a number of
-serious bugs that also affect SoQt. These bugs are fixed in Qt-3.0.2, so
-we strongly recommend you to upgrade your version of Qt. I personally 
-suggest you to try and keep up with the latest version of Qt/Mac until 
-at least Qt/Mac-3.1, since Qt/Mac itself is still under heavy
-development.
-
-
-Tweaking Qt/Mac
-===============
-
-The following lists a couple of things to change in Qt/Mac to disable
-workarounds that the Trolls consider necessary, but that do not seem to 
-affect SoQt. 
-
-Please note that by following these suggestions, you are entering the
-Twilight Zone. Those work for me, and for the current version of SoQt,
-but you might as well run into troubles, so use with care. 
-
-
-o Hardware Acceleration
-  ---------------------
-
-Qt/Mac does not use hardware-accelerated OpenGL. This is due to the fact
-that the Trolls internally simulate double buffering. If you don't think
-you will ever need complex (i.e. non-rectangular) region clipping, you
-can savely disable this hack by commenting out the QMAC_OPENGL_DOUBLEBUFFER
-#define in qgl.h.
-
-
-o Custom cursors
-  --------------
-
-Qt/Mac does not support custom cursors. There is a somewhat
-"experimental" (quote Trolltech) implementation, which you can enable by
-commenting out the QMAC_NO_FAKECURSOR #define in qt_mac.h. At least the 
-custom cursors in SoQt work fine then.
+The first Qt/Mac releases contained a number of serious bugs that also 
+affect SoQt. If you encounter strange behaviour, it might very well be
+that upgrading to the latest version of Qt/Mac will fix the problem. 
 
 --
 kyrah@sim.no
