@@ -239,6 +239,13 @@ SoQtGLWidget::buildGLWidget(void)
                          parent, this->glwidget);
 #endif // debug
 
+  // Reset to avoid unnecessary scenegraph redraws.
+  this->waitForExpose = TRUE;
+
+  // We've changed to a new widget, so notify subclasses through this
+  // virtual method.
+  this->widgetChanged(this->glwidget);
+
   if (oldglwidget) {
     // If we are rebuilding, we need to explicitly call show() here,
     // as no message to show will be given from an already visible
@@ -246,6 +253,7 @@ SoQtGLWidget::buildGLWidget(void)
     // rebuild, the call below doesn't do any harm, as the glwidget
     // still won't become visible until all parents are visible.)
     this->glwidget->show();
+
     // Do this last to avoid flickering the grey background of the
     // parent widget.
     delete oldglwidget;
@@ -647,11 +655,11 @@ SoQtGLWidget::sizeChanged(
 // *************************************************************************
 
 /*!
-  This is the method which gets called whenever the OpenGL widget
-  changes in any way, including if it gets destructed (and remade).
+  This is the method which gets called whenever we change which OpenGL
+  widget is used.
 
-  Should be overloaded in subclasses which in any form store the
-  return value from the SoQtGLWidget::getGLWidget() method.
+  Should be overloaded in subclasses which directly or indirectly
+  store the return value from the SoQtGLWidget::getGLWidget() method.
 
   \sa sizeChanged()
 */
@@ -720,14 +728,11 @@ void
 SoQtGLWidget::glInit( // virtual
   void )
 {
-#if 0 // SOQT_DEBUG
-  SoDebugError::postInfo( "SoQtGLWidget::glInit", "called" );
-#endif // 0 was SOQT_DEBUG
-
   glLock();
   // Need to set this explicitly when running on top of Open Inventor,
   // as it seems to have been forgotten there.
   glEnable( GL_DEPTH_TEST );
+
   glUnlock();
 } // glInit()
 
