@@ -119,11 +119,11 @@ SoQtPlaneViewer::constructor( // private
   this->pixmaps.orthogonal = new QPixmap( (const char **) ortho_xpm );
   this->pixmaps.perspective = new QPixmap( (const char **) perspective_xpm );
 
-  if ( build ) {
-    QWidget * widget = this->buildWidget( this->getParentWidget() );
-    this->setBaseWidget( widget );
-    this->setSize( SbVec2s( 550, 450 ) ); // extra buttons -> more height
-  }
+  if ( ! build ) return;
+
+  this->setSize( SbVec2s( 550, 490 ) ); // extra buttons -> more height
+  QWidget * viewer = this->buildWidget( this->getParentWidget() );
+  this->setBaseWidget( viewer );
 } // constructor()
 
 // ************************************************************************
@@ -196,12 +196,8 @@ SoQtPlaneViewer::buildWidget(
   QWidget * parent )
 {
   QWidget * widget = inherited::buildWidget( parent );
-
-  this->getThumbwheel( LEFTDECORATION )
-    -> setRangeBoundaryHandling( SoQtThumbWheel::ACCUMULATE );
-  this->getThumbwheel( BOTTOMDECORATION )
-    -> setRangeBoundaryHandling( SoQtThumbWheel::ACCUMULATE );
-  
+  ((SoQtThumbWheel *)this->leftWheel)->setRangeBoundaryHandling( SoQtThumbWheel::ACCUMULATE );
+  ((SoQtThumbWheel *)this->bottomWheel)->setRangeBoundaryHandling( SoQtThumbWheel::ACCUMULATE );
   return widget;
 } // buildWidget()
 
@@ -214,7 +210,7 @@ const char *
 SoQtPlaneViewer::getDefaultWidgetName( // virtual
   void ) const
 {
-  static const char defaultWidgetName[] = "";
+  static const char defaultWidgetName[] = "SoQtPlaneViewer";
   return defaultWidgetName;
 } // getDefaultWidgetName()
 
@@ -240,7 +236,7 @@ const char *
 SoQtPlaneViewer::getDefaultIconTitle( // virtual
   void ) const
 {
-  static const char defaultIconTitle[] = "";
+  static const char defaultIconTitle[] = "Plane Viewer";
   return defaultIconTitle;
 } // getDefaultIconTitle()
 
@@ -249,152 +245,27 @@ SoQtPlaneViewer::getDefaultIconTitle( // virtual
 /*!
 */
 
+SbBool
+SoQtPlaneViewer::processSoEvent( // virtual, protected
+  const SoEvent * const event )
+{
+  if ( common->processSoEvent( event ) )
+    return TRUE;
+
+  return inherited::processSoEvent( event );
+} // processSoEvent()
+
+/*!
+*/
+
 void
 SoQtPlaneViewer::processEvent( // virtual
   QEvent * event )
 {
-  if ( this->processCommonEvents( event ) )
+  if ( SoQtViewer::processCommonEvents( event ) )
     return;
 
-  // get mouse coordinates
-  QWidget * canvas = this->getRenderAreaWidget();
-  SbVec2s canvassize = this->getGlxSize();
-  SbVec2s mousepos( canvas->mapFromGlobal(QCursor::pos()).x(),
-                    canvas->mapFromGlobal(QCursor::pos()).y() );
-  mousepos[1] = canvassize[1] - mousepos[1];
-  SbVec2f norm_mousepos( mousepos[0]/float(canvassize[0]),
-                         mousepos[1]/float(canvassize[1]) );
-
-#if QT_VERSION < 200
-  int eventtype = event->type();
-#else // Qt 2.0
-  QEvent::Type eventtype = event->type();
-#endif // Qt 2.0
-
-  switch ( eventtype ) {
-
-  case Event_MouseButtonDblClick:
-  case Event_MouseButtonPress:
-    {
-      switch ( ((QMouseEvent *) event)->button() ) {
-      case LeftButton:
-        if ( this->mode == IDLE_MODE ) {
-          this->interactiveCountInc();
-          this->mode = DOLLY_MODE;
-        } else if ( this->mode == SEEK_WAIT_MODE ) {
-          this->interactiveCountInc();
-          this->seekToPoint( mousepos );
-        }
-        break;
-
-      case MidButton:
-        if ( this->mode == IDLE_MODE ) {
-          this->interactiveCountInc();
-          this->mode = TRANSLATE_MODE;
-        } else if ( this->mode == ROTZ_WAIT_MODE ) {
-          this->mode = ROTZ_MODE;
-        }
-
-        break;
-
-      default:
-        break;
-
-      } // switch ( event->button() )
-
-      break;
-    }
-
-  case Event_MouseButtonRelease:
-    {
-      QMouseEvent * be = (QMouseEvent *) event;
-      if ( be->button() != LeftButton && be->button() != MidButton )
-        break;
-
-      if ( this->mode != IDLE_MODE &&
-           this->mode != ROTZ_MODE ) {
-        this->interactiveCountDec();
-        this->mode = IDLE_MODE;
-      }
-
-//    this->setModeFromState( be->state() & ~be->button() );
-      break;
-    }
-
-  case Event_MouseMove:
-    {
-      switch ( this->mode ) {
-  
-      case DOLLY_MODE:
-        if ( norm_mousepos[1] != this->prevMousePosition[1] )
-          this->rightWheelMotion( this->getRightWheelValue() +
-            (this->prevMousePosition[1] - norm_mousepos[1]) * 10.0f );
-        break;
-
-      case TRANSLATE_MODE:
-        if ( (norm_mousepos[0] != this->prevMousePosition[0]) ||
-             (norm_mousepos[1] != this->prevMousePosition[1]) ) {
-          float diffx = (norm_mousepos[0] - this->prevMousePosition[0]) * 2.5f;
-          float diffy = (norm_mousepos[1] - this->prevMousePosition[1]) * 2.5f;
-          this->leftWheelMotion( this->getLeftWheelValue() - diffy );
-          this->bottomWheelMotion( this->getBottomWheelValue() + diffx );
-        }
-        break;
-
-      case ROTZ_MODE:
-        if ( (norm_mousepos[0] != this->prevMousePosition[0]) ||
-             (norm_mousepos[1] != this->prevMousePosition[1]) )
-          common->setPointerLocation( mousepos );
-          common->rotateZ( common->getPointerOrigoMotionAngle() );
-        break;
-
-      default: // include default to avoid compiler warnings.
-        break;
-
-      } // switch ( this->mode )
-
-      break;
-    }
-
-#if QT_VERSION >= 200
-  case QEvent::Accel:
-  case QEvent::AccelAvailable:
-    // Qt 2 introduced "accelerator" type keyboard events. They should
-    // be handled by SoQtGLWidget (that is: ignored), so we should
-    // never see any accelerator events here.
-    assert(FALSE && "got accelerator event");
-    break;
-#endif // Qt v2.0
-
-    case Event_KeyPress:
-      do {
-        QKeyEvent * keyevent = (QKeyEvent *) event;
-        if ( keyevent->key() == Key_Control ) {
-           this->mode = ROTZ_WAIT_MODE;
-           this->interactiveCountInc();
-        }
-      } while ( FALSE );
-      break;
-
-    case Event_KeyRelease:
-      do {
-        QKeyEvent * keyevent = (QKeyEvent *) event;
-        if ( keyevent->key() == Key_Control ) {
-           this->mode = IDLE_MODE;
-//           this->interactiveCountDec();
-        }
-      } while ( FALSE );
-
-      break;
-
-    default:
-//      SoDebugError::postInfo( "SoQtPlaneViewer::processEvent",
-//        "event not caught" );
-      break;
-
-  } // switch ( eventtype )
-
-  this->prevMousePosition = norm_mousepos;
+  inherited::processEvent( event );
 } // processEvent()
 
 // ************************************************************************
@@ -419,8 +290,7 @@ SoQtPlaneViewer::actualRedraw( // virtual
   void )
 {
   inherited::actualRedraw();
-//  if ( this->isFeedbackVisible() )
-//    this->drawAxisCross();
+//  common->drawRotateGraphics();
 } // actualRedraw()
 
 // ************************************************************************
@@ -454,7 +324,7 @@ void
 SoQtPlaneViewer::rightWheelMotion( // virtual
   float value )
 {
-  this->zoom( this->getRightWheelValue() - value );
+  common->zoom( this->getRightWheelValue() - value );
   inherited::rightWheelMotion( value );
 } // rightWheelMotion()
 
@@ -535,6 +405,7 @@ void
 SoQtPlaneViewer::openViewerHelpCard( // virtual
   void )
 {
+  this->openHelpCard( "SoQtPlaneViewer.help" );
 } // openViewerHelpCard()
 
 // ************************************************************************
@@ -551,36 +422,6 @@ SoQtPlaneViewer::computeSeekFinalOrientation( // virtual
 // ************************************************************************
 
 /*!
-*/
-
-void
-SoQtPlaneViewer::zoom(
-  const float difference )
-{
-  SoCamera * camera = this->getCamera();
-  assert( camera != NULL );
-
-  SoType type = camera->getTypeId();
-  float multiplicator = exp( difference ); // in the range of <0, ->>
-
-  if ( type.isDerivedFrom( SoOrthographicCamera::getClassTypeId() ) ) {
-    SoOrthographicCamera * orthocam = (SoOrthographicCamera *) camera;
-    orthocam->height = orthocam->height.getValue() * multiplicator;
-  } else if ( type.isDerivedFrom( SoPerspectiveCamera::getClassTypeId() ) ) {
-    float oldfocaldist = camera->focalDistance.getValue();
-    camera->focalDistance = oldfocaldist * multiplicator;
-    SbVec3f direction;
-    camera->orientation.getValue().multVec( SbVec3f( 0, 0, -1 ), direction );
-    camera->position = camera->position.getValue() +
-      (camera->focalDistance.getValue() - oldfocaldist) * -direction;
-  } else {
-    assert( 0 && "impossible" );
-  }
-} // zoom()
-
-// ************************************************************************
-
-/*!
   \internal
 */
 
@@ -588,7 +429,7 @@ void
 SoQtPlaneViewer::xClicked(
   void )
 {
-  common->viewPlaneX( this->getCamera() );
+  common->viewPlaneX();
 } // xClicked()
 
 /*!
@@ -599,7 +440,7 @@ void
 SoQtPlaneViewer::yClicked(
   void )
 {
-  common->viewPlaneY( this->getCamera() );
+  common->viewPlaneY();
 } // yClicked()
 
 /*!
@@ -610,7 +451,7 @@ void
 SoQtPlaneViewer::zClicked(
   void )
 {
-  common->viewPlaneZ( this->getCamera() );
+  common->viewPlaneZ();
 } // zClicked()
 
 /*!
@@ -621,7 +462,7 @@ void
 SoQtPlaneViewer::cameraToggleClicked(
   void )
 {
-  if ( this->getCamera() ) this->toggleCameraType();
+  this->toggleCameraType();
 } // cameraToggleClicked()
 
 // ************************************************************************
@@ -637,7 +478,8 @@ SoQtPlaneViewer::visibilityCB( // static
 {
   SoQtPlaneViewer * thisp = (SoQtPlaneViewer *) data;
 
-/* examiner viewer does this, we don't have to...
+/*
+  examiner viewer does this, we don't have to...
   if ( thisp->isAnimating() ) {
     if ( visible )
       thisp->timerTrigger->schedule();
@@ -724,3 +566,7 @@ SoQtPlaneViewer::setMode(
 } // setMode()
 
 // ************************************************************************
+
+#if SOQT_DEBUG
+static const char * getSoQtPlaneViewerRCSId(void) { return rcsid; }
+#endif

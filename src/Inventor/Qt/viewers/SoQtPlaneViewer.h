@@ -64,6 +64,7 @@ protected:
   virtual const char * getDefaultTitle(void) const;
   virtual const char * getDefaultIconTitle(void) const;
 
+  virtual SbBool processSoEvent( const SoEvent * const event );
   virtual void processEvent( QEvent * event );
   virtual void setSeekMode( SbBool enable );
   virtual void actualRedraw(void);
@@ -80,8 +81,6 @@ protected:
 
 private:
   void constructor( SbBool buildNow );
-
-  void zoom( const float difference );
 
   enum PlaneViewerMode {
     IDLE_MODE,
