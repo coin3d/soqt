@@ -1,0 +1,38 @@
+SoQt 1.2.0 Released
+===================
+
+SoQt 1.2.0 is a minor release.  It was made because it was about time to
+get SoQt into a release cycle again.  The release contains bugfixes,
+optimizations, documentation improvements, and configure and build setup
+fixes.  It also contains some minot API extensions beyond the previous
+release.
+
+
+NEWS File Excerpt:
+------------------
+
+New in SoQt v1.2.0 (2004-08-27):
+* New classes SoQtColorEditor, SoQtMaterialEditor
+* support Coin's SORTED_LAYERS_BLEND transparency mode
+* --enable-compact configure option, as with Coin
+* misc bugfixes
+* many Mac OS X improvements
+
+Download Information:
+---------------------
+
+Source Code by FTP: 
+  ftp://ftp.coin3d.org/pub/coin/src/SoQt-1.2.0.tar.gz 
+
+
+We do not provide pre-compiled binary packages of the SoQt library
+for any platform. The reason behind this is that the Qt library on
+which SoQt depends can be installed on client systems in so many
+different configurations and under different names, that this task
+seems difficult to do in a way that will be useful for the majority of
+our users.
+
+Regards,
+
+  Lars J. Aas
+  Systems in Motion
