@@ -12,6 +12,9 @@
 /* Define this to 1 if QGLWidget::setAutoBufferSwap() is available */
 #undef HAVE_QGLWIDGET_SETAUTOBUFFERSWAP
 
+/* Define to enable use of Inventor feature */
+#undef HAVE_SOCAMERA_SETSTEREOMODE
+
 /* Define to enable use of SoMouseButtonEvent::BUTTON5 */
 #undef HAVE_SOMOUSEBUTTONEVENT_BUTTONS
 

@@ -345,9 +345,17 @@ fi
 
 # Check for the availability of this node (it is used in the hidden
 # line rendering), which is not part of older Inventor implementations.
-
 SIM_AC_HAVE_INVENTOR_NODE(SoPolygonOffset)
+
 SIM_AC_HAVE_SOMOUSEBUTTONEVENT_BUTTONS
+
+SIM_AC_HAVE_INVENTOR_FEATURE(
+    [for SoCamera::setStereoMode()],
+    [#include <Inventor/nodes/SoPerspectiveCamera.h>],
+    [/* SoCamera is abstract, so test with SoPerspectiveCamera */
+     SoPerspectiveCamera * c = new SoPerspectiveCamera;
+     c->setStereoMode(SoCamera::MONOSCOPIC);],
+    HAVE_SOCAMERA_SETSTEREOMODE)
 
 # **************************************************************************
 # Check that the Qt installation looks ok and include the

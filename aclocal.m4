@@ -2167,6 +2167,34 @@ else
 fi
 ]) # SIM_AC_HAVE_SOMOUSEBUTTONEVENT_BUTTONS()
 
+# **************************************************************************
+# SIM_AC_HAVE_INVENTOR_FEATURE(MESSAGE, HEADERS, BODY, DEFINE
+#                              [, ACTION-IF-FOUND[, ACTION-IF-NOT-FOUND]])
+#
+# Authors:
+#   Morten Eriksen <mortene@sim.no>
+
+AC_DEFUN([SIM_AC_HAVE_INVENTOR_FEATURE],
+[m4_do([pushdef([cache_variable], sim_cv_have_oiv_[]AC_TOLOWER([$4]))],
+       [pushdef([DEFINE_VARIABLE], AC_TOUPPER([$4]))])
+AC_CACHE_CHECK(
+  [$1],
+  cache_variable,
+  [AC_TRY_LINK(
+    [$2],
+    [$3],
+    cache_variable=true,
+    cache_variable=false)])
+
+if $cache_variable; then
+  AC_DEFINE(DEFINE_VARIABLE, 1, [Define to enable use of Inventor feature])
+  $5
+else
+  ifelse([$6], , :, [$6])
+fi
+m4_do([popdef([cache_variable])],
+      [popdef([DEFINE_VARIABLE])])
+]) # SIM_AC_HAVE_INVENTOR_FEATURE
 
 # Usage:
 #   SIM_AC_HAVE_COIN_IFELSE( IF-FOUND, IF-NOT-FOUND )
