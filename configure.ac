@@ -395,6 +395,7 @@ fi
 # Check for the availability of this node (it is used in the hidden
 # line rendering), which is not part of older Inventor implementations.
 SIM_AC_HAVE_INVENTOR_NODE(SoPolygonOffset)
+SIM_AC_HAVE_INVENTOR_VRMLNODE(SoVRMLMaterial)
 
 SIM_AC_HAVE_INVENTOR_FEATURE(
   [for SoKeyboardEvent::DELETE enum],

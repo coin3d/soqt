@@ -72,6 +72,9 @@
 /* Define to enable use of the Open Inventor SoPolygonOffset node */
 #undef HAVE_SOPOLYGONOFFSET
 
+/* Define to enable use of the Open Inventor SoVRMLMaterial VRML node */
+#undef HAVE_SOVRMLMATERIAL
+
 /* Define to 1 if you have the <stdint.h> header file. */
 #undef HAVE_STDINT_H
 
