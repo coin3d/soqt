@@ -39,6 +39,7 @@
 //     * trim length of edit fields
 
 #include <qpushbutton.h>
+#include <qwindowsstyle.h>
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qpixmap.h>
@@ -583,6 +584,14 @@ SoQtFullViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
     // Button focus doesn't really make sense in the way we're using
     // the pushbuttons.
     p->setFocusPolicy(QWidget::NoFocus);
+
+#if (defined Q_WS_MAC && QT_VERSION >= 0x030100) 
+    // Since Qt/Mac 3.1.x, all pushbuttons (even those < 32x32) are drawn 
+    // using the Aqua style, i.e. with rounded edges and shading. This
+    // looks really ugly in the viewer decoration. Drawing the buttons
+    // in the Windows style gives us the flat, square buttons we want.
+    p->setStyle(new QWindowsStyle());
+#endif 
 
     // FIXME: its wrong to cast xpm data to (const char **), it
     // _should_ be (const char * const []), but this is not valid ANSI

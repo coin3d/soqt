@@ -26,6 +26,7 @@
 // *************************************************************************
 
 #include <qpushbutton.h>
+#include <qwindowsstyle.h>
 #include <qkeycode.h>
 #include <qlabel.h>
 #include <qcheckbox.h>
@@ -146,6 +147,15 @@ SoQtExaminerViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
   inherited::createViewerButtons(parent, buttonlist);
 
   PRIVATE(this)->cameratogglebutton = new QPushButton(parent);
+
+#if (defined Q_WS_MAC && QT_VERSION >= 0x030100) 
+    // Since Qt/Mac 3.1.x, all pushbuttons (even those < 32x32) are drawn
+    // using the Aqua style, i.e. with rounded edges and shading. This
+    // looks really ugly in the viewer decoration. Drawing the buttons
+    // in the Windows style gives us the flat, square buttons we want.
+  PRIVATE(this)->cameratogglebutton->setStyle(new QWindowsStyle());
+#endif
+
   PRIVATE(this)->cameratogglebutton->setFocusPolicy(QWidget::NoFocus);
   assert(PRIVATE(this)->perspectivepixmap);
   assert(PRIVATE(this)->orthopixmap);
