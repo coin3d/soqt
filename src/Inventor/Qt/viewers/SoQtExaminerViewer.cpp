@@ -568,6 +568,8 @@ SoQtExaminerViewer::actualRedraw(void)
   inherited::actualRedraw();
   if ( common->isFeedbackVisible() )
     common->drawAxisCross();
+
+  // Immediately reschedule to get continous spin animation.
   if ( common->isAnimating() )
     this->scheduleRedraw();
 } // actualRedraw()
