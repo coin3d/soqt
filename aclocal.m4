@@ -1690,6 +1690,7 @@ if test "x$with_coin" != "xno"; then
   sim_ac_coin_cppflags=`$sim_ac_conf_cmd --cppflags`
   sim_ac_coin_ldflags=`$sim_ac_conf_cmd --ldflags`
   sim_ac_coin_libs=`$sim_ac_conf_cmd --libs`
+  sim_ac_coin_version=`$sim_ac_conf_cmd --version`
 
   AC_CACHE_CHECK([whether the Coin library is available],
     sim_cv_lib_coin_avail, [
@@ -1713,6 +1714,7 @@ if test "x$with_coin" != "xno"; then
     CPPFLAGS="$CPPFLAGS $sim_ac_coin_cppflags"
     LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
     LIBS="$sim_ac_coin_libs $LIBS"
+    coin_version=`echo $sim_ac_coin_version | tr -d .`
     $1
   else
     ifelse([$2], , :, [$2])
@@ -1944,6 +1946,7 @@ EOF
       rm -f conftest.c
       sim_ac_qt_dll_def="#define QT_DLL"
       sim_ac_qt_libs="qt${qt_version}.lib qtmain.lib"
+      AC_SUBST(qt_version)
     fi
     sim_ac_qt_libs="$sim_ac_qt_libs gdi32.lib ole32.lib imm32.lib comdlg32.lib"
   else

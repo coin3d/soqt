@@ -128,7 +128,7 @@ AC_SUBST(SOQT_EXTRA_LIBS)
 SIM_AC_CHECK_LINKSTYLE
 
 if test x"$sim_ac_linking_style" = xmswin; then
-  SOQT_LIBNAME=soqt.lib
+  SOQT_LIBNAME="soqt${SOQT_VERSION}.lib"
 else
   SOQT_LIBNAME=-lSoQt
 fi
