@@ -557,7 +557,7 @@ SoQtExaminerViewer::setSeekMode(SbBool on)
 void
 SoQtExaminerViewer::actualRedraw(void)
 {
-  this->actualRedraw();
+  this->actualGenericRedraw();
   inherited::actualRedraw();
   if (this->isFeedbackVisible())
     this->drawAxisCross();
