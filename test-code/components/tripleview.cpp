@@ -30,6 +30,7 @@
 #include <Inventor/nodes/SoTranslation.h>
 #include <Inventor/sensors/SoTimerSensor.h>
 #include <Inventor/actions/SoGLRenderAction.h>
+#include <qapplication.h>
 #include <qgroupbox.h>
 #include <qlayout.h>
 

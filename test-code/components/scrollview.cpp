@@ -10,6 +10,8 @@
 #include <Inventor/nodes/SoDirectionalLight.h>
 #include <Inventor/nodes/SoPerspectiveCamera.h>
 #include <Inventor/nodes/SoSeparator.h>
+#include <qapplication.h>
+#include <qpainter.h>
 #include <qscrollview.h>
 #include <qpushbutton.h>
 
