@@ -12003,7 +12003,11 @@ echo "$as_me: error: couldn't compile and link against Coin" >&2;}
 fi
 
 
-  echo "$as_me:$LINENO: checking if X11 linkage is ready" >&5
+  case $host_os in
+  darwin*)
+    ;;
+  *)
+    echo "$as_me:$LINENO: checking if X11 linkage is ready" >&5
 echo $ECHO_N "checking if X11 linkage is ready... $ECHO_C" >&6
 if test "${sim_cv_x11_ready+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
@@ -12055,7 +12059,7 @@ else
 fi
 
 
-  if ! $sim_ac_x11_ready; then
+    if $sim_ac_x11_ready; then :; else
 
 
 
@@ -12132,12 +12136,12 @@ echo "${ECHO_T}$sim_cv_lib_x11_avail" >&6
   if test x"$sim_cv_lib_x11_avail" = x"yes"; then
     sim_ac_x11_avail=yes
 
-      CPPFLAGS="$CPPFLAGS $sim_ac_x11_cppflags"
-      LDFLAGS="$LDFLAGS $sim_ac_x11_ldflags"
-      LIBS="$sim_ac_x11_libs $LIBS"
-      SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_x11_cppflags"
-      SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_x11_ldflags"
-      SOGUI_EXTRA_LIBS="$sim_ac_x11_libs $SOGUI_EXTRA_LIBS"
+        CPPFLAGS="$CPPFLAGS $sim_ac_x11_cppflags"
+        LDFLAGS="$LDFLAGS $sim_ac_x11_ldflags"
+        LIBS="$sim_ac_x11_libs $LIBS"
+        SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_x11_cppflags"
+        SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_x11_ldflags"
+        SOGUI_EXTRA_LIBS="$sim_ac_x11_libs $SOGUI_EXTRA_LIBS"
 
   else
     CPPFLAGS=$sim_ac_save_cppflags
@@ -12147,10 +12151,10 @@ echo "${ECHO_T}$sim_cv_lib_x11_avail" >&6
   fi
 fi
 
-    # FIXME: we just implicitly assume that -lXext and -lXmu is available
-    # if -lX11 is available from coin-config. Should really have macros
-    # SIM_AC_CHECK_[X11SHMEM|X11MU]_READY. 20001116 mortene.
-    if test x"$sim_ac_x11_avail" = xyes; then
+      # FIXME: we just implicitly assume that -lXext and -lXmu is available
+      # if -lX11 is available from coin-config. Should really have macros
+      # SIM_AC_CHECK_[X11SHMEM|X11MU]_READY. 20001116 mortene.
+      if test x"$sim_ac_x11_avail" = xyes; then
 
 
 sim_ac_x11shmem_avail=no
@@ -12208,8 +12212,8 @@ echo "${ECHO_T}$sim_cv_lib_x11shmem_avail" >&6
 if test x"$sim_cv_lib_x11shmem_avail" = xyes; then
   sim_ac_x11shmem_avail=yes
 
-        # LIBS="$sim_ac_x11shmem_libs $LIBS"
-        SOGUI_EXTRA_LIBS="$sim_ac_x11shmem_libs $SOGUI_EXTRA_LIBS"
+          # LIBS="$sim_ac_x11shmem_libs $LIBS"
+          SOGUI_EXTRA_LIBS="$sim_ac_x11shmem_libs $SOGUI_EXTRA_LIBS"
 
 else
   LIBS=$sim_ac_save_libs
@@ -12274,16 +12278,16 @@ echo "${ECHO_T}$sim_cv_lib_x11mu_avail" >&6
 if test x"$sim_cv_lib_x11mu_avail" = xyes; then
   sim_ac_x11mu_avail=yes
 
-        # LIBS="$sim_ac_x11mu_libs $LIBS"
-        SOGUI_EXTRA_LIBS="$sim_ac_x11mu_libs $SOGUI_EXTRA_LIBS"
+          # LIBS="$sim_ac_x11mu_libs $LIBS"
+          SOGUI_EXTRA_LIBS="$sim_ac_x11mu_libs $SOGUI_EXTRA_LIBS"
 
 else
   LIBS=$sim_ac_save_libs
 
 fi
 
+      fi
     fi
-  fi
 
 
 sim_ac_x11xid_avail=no
@@ -12340,13 +12344,15 @@ echo "${ECHO_T}$sim_cv_lib_x11xid_avail" >&6
 if test x"$sim_cv_lib_x11xid_avail" = xyes; then
   sim_ac_x11xid_avail=yes
 
-	SOGUI_EXTRA_LIBS="$sim_ac_x11xid_libs $SOGUI_EXTRA_LIBS"
+  	SOGUI_EXTRA_LIBS="$sim_ac_x11xid_libs $SOGUI_EXTRA_LIBS"
 
 else
   LIBS=$sim_ac_save_libs
 
 fi
 
+    ;;
+  esac
   if test x${sim_ac_configuration_settings+set} != xset; then
   sim_ac_configuration_settings="Open Inventor brand:Coin"
 else
@@ -12986,6 +12992,15 @@ EOF
   # because at least the Solaris/CC preprocessor adds extra spaces before and
   # after the trailing semicolon.
   sim_ac_qt_version=`$CXXCPP $CPPFLAGS conftest.c | grep '^int VerQt' | sed 's%^int VerQt = %%' | sed 's% *; *$%%'`
+
+  case $sim_ac_qt_version in
+  0x0-90-90-90-90-90-9 )
+    sim_ac_qt_version=`echo $sim_ac_qt_version | sed -e 's/^...\(.\).\(.\).\(.\)/\1\2\3/;'`
+    ;;
+  * )
+    # nada
+    ;;
+  esac
 
   rm -f conftest.c
   echo "$as_me:$LINENO: result: $sim_ac_qt_version" >&5
