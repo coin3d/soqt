@@ -51,7 +51,9 @@ libSoQt@SUFFIX@_la_SOURCES = \
 	SoQtP.h \
 	SoQtInternal.h \
 	SoQtComponent.cpp \
-	SoQtGLWidget.cpp
+	SoQtComponentP.h \
+	SoQtGLWidget.cpp \
+	SoQtGLWidgetP.h
 
 
 nodist_libSoQt@SUFFIX@_la_SOURCES = \
@@ -73,7 +75,9 @@ soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
 	SoQtP.h \
 	SoQtInternal.h \
 	SoQtComponent.cpp \
-	SoQtGLWidget.cpp
+	SoQtComponentP.h \
+	SoQtGLWidget.cpp \
+	SoQtGLWidgetP.h
 
 nodist_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
 	$(SoGui_src_Inventor_Gui_BuiltFiles)
