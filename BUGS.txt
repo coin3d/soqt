@@ -635,7 +635,7 @@ main(int argc, char ** argv)
  
 =====================================================================
 
-031 Sensor handling incorrect
+033 Sensor handling incorrect
 
     This SoGui library has its own delayqueue timeout timer.
     This will cause delayqueue timeouts to trigger twice since Coin
