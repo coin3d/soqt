@@ -7,6 +7,7 @@ DIE=0
 
 PROJECT=SoQt
 MACRODIR=conf-macros
+SUBPROJECTS="$MACRODIR src/Inventor/Qt/common"
 
 echo "Checking the installed configuration tools..."
 
@@ -37,23 +38,17 @@ echo "Checking the installed configuration tools..."
         DIE=1
 }
 
-# The separate $MACRODIR module was added late in the project, and
-# since we need to do a cvs checkout to obtain it (cvs update won't do
-# with modules), we run this check.
-if ! test -d $MACRODIR
-then
-    cvs -z3 checkout $MACRODIR
-    if ! test -d $MACRODIR
-    then
-	echo "Couldn't fetch $MACRODIR module!"
-        echo
-        echo "Directory ``$MACRODIR'' (a separate CVS module) seems to be missing."
-        echo "You probably checked out $PROJECT before ``$MACRODIR'' was added."
-        echo "Run 'cvs -d :pserver:cvs@cvs.sim.no:/export/cvsroot co $MACRODIR'"
-        echo "to try again."
-	DIE=1
-    fi
-fi
+for project in $SUBPROJECTS; do
+  test -d $project || {
+    echo
+    echo "The CVS sub-project '$project' was not found."
+    echo "It was probably added after you initially checked out $PROJECT."
+    echo "Do a fresh 'cvs checkout' to correct this problem - the $PROJECT build system"
+    echo "will probably not work properly otherwise.  For a fresh 'cvs checkout',"
+    echo "run 'cvs -d :pserver:cvs@cvs.sim.no:/export/cvsroot co -P $PROJECT'."
+    echo
+  }
+done
 
 if test "$DIE" -eq 1; then
         exit 1
