@@ -724,7 +724,7 @@ src/Inventor/Qt/common/gl.h: \
 	  echo " mkdir src/Inventor/Qt/common"; \
 	  mkdir src/Inventor/Qt/common; \
 	fi
-	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/SoGuiRenderArea.cpp.in
+	@$(SHELL) config.status --file=$@:src/Inventor/Qt/common/gl.h.in
 
 src/Inventor/Qt/viewers/SoQtViewer.h: \
   $(srcdir)/src/Inventor/Qt/common/SoGuiViewer.h.in config.status
