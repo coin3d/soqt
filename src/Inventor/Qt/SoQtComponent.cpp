@@ -136,6 +136,59 @@ SoQtComponentP::cleanupQtReferences(void)
   this->parent->removeEventFilter(PUBLIC(this));
 }
 
+// Converts from the common generic cursor format to a QCursor
+// instance.
+QCursor *
+SoQtComponentP::getNativeCursor(const SoQtCursor::CustomCursor * cc)
+{
+  if (SoQtComponentP::cursordict == NULL) { // first call, initialize
+    SoQtComponentP::cursordict = new SbDict; // FIXME: mem leak. 20011121 mortene.
+  }
+
+  void * qc;
+  SbBool b = SoQtComponentP::cursordict->find((unsigned long)cc, qc);
+  if (b) { return (QCursor *)qc; }
+
+#define MAXBITMAPWIDTH 32
+#define MAXBITMAPHEIGHT 32
+#define MAXBITMAPBYTES (((MAXBITMAPWIDTH + 7) / 8) * MAXBITMAPHEIGHT)
+
+  uchar cursorbitmap[MAXBITMAPBYTES];
+  uchar cursormask[MAXBITMAPBYTES];
+  (void)memset(cursorbitmap, 0x00, MAXBITMAPBYTES);
+  (void)memset(cursormask, 0x00, MAXBITMAPBYTES);
+
+  assert(cc->dim[0] <= MAXBITMAPWIDTH && "internal bitmap too large");
+  assert(cc->dim[1] <= MAXBITMAPHEIGHT && "internal bitmap too large");
+
+  const int BYTEWIDTH = (cc->dim[0] + 7) / 8;
+  for (int h=0; h < cc->dim[1]; h++) {
+    for (int w=0; w < BYTEWIDTH; w++) {
+      const int cursorpos = h * ((MAXBITMAPWIDTH + 7) / 8) + w;
+      const int nativepos = h * BYTEWIDTH + w;
+      cursorbitmap[cursorpos] = cc->bitmap[nativepos];
+      cursormask[cursorpos] = cc->mask[nativepos];
+    }
+  }
+
+  // Always 32x32 because that's what is recommended in the Qt
+  // documentation for QCursor.  At least WinNT 4 will give us
+  // "interesting" bugs for other cursor sizes.
+  QBitmap bitmap(32, 32, cursorbitmap, TRUE);
+  QBitmap mask(32, 32, cursormask, TRUE);
+
+  // Sanity checks.
+  assert(bitmap.size().width() > 0 && bitmap.size().height() > 0);
+  assert(bitmap.size() == mask.size());
+  assert(bitmap.depth() == 1);
+  assert(mask.depth() == 1);
+
+  // FIXME: currently a memory leak here. 20011121 mortene.
+  QCursor * c = new QCursor(bitmap, mask, cc->hotspot[0], cc->hotspot[1]);
+  SoQtComponentP::cursordict->enter((unsigned long)cc, c);
+  return c;
+}
+
 #endif // DOXYGEN_SKIP_THIS
 
 // *************************************************************************
@@ -784,60 +837,6 @@ SoQtComponent::setComponentCursor(const SoQtCursor & cursor)
 {
   SoQtComponent::setWidgetCursor(this->getWidget(), cursor);
 }
-
-// Converts from the common generic cursor format to a QCursor
-// instance.
-QCursor *
-SoQtComponentP::getNativeCursor(const SoQtCursor::CustomCursor * cc)
-{
-  if (SoQtComponentP::cursordict == NULL) { // first call, initialize
-    SoQtComponentP::cursordict = new SbDict; // FIXME: mem leak. 20011121 mortene.
-  }
-
-  void * qc;
-  SbBool b = SoQtComponentP::cursordict->find((unsigned long)cc, qc);
-  if (b) { return (QCursor *)qc; }
-
-#define MAXBITMAPWIDTH 32
-#define MAXBITMAPHEIGHT 32
-#define MAXBITMAPBYTES (((MAXBITMAPWIDTH + 7) / 8) * MAXBITMAPHEIGHT)
-
-  uchar cursorbitmap[MAXBITMAPBYTES];
-  uchar cursormask[MAXBITMAPBYTES];
-  (void)memset(cursorbitmap, 0x00, MAXBITMAPBYTES);
-  (void)memset(cursormask, 0x00, MAXBITMAPBYTES);
-
-  assert(cc->dim[0] <= MAXBITMAPWIDTH && "internal bitmap too large");
-  assert(cc->dim[1] <= MAXBITMAPHEIGHT && "internal bitmap too large");
-
-  const int BYTEWIDTH = (cc->dim[0] + 7) / 8;
-  for (int h=0; h < cc->dim[1]; h++) {
-    for (int w=0; w < BYTEWIDTH; w++) {
-      const int cursorpos = h * ((MAXBITMAPWIDTH + 7) / 8) + w;
-      const int nativepos = h * BYTEWIDTH + w;
-      cursorbitmap[cursorpos] = cc->bitmap[nativepos];
-      cursormask[cursorpos] = cc->mask[nativepos];
-    }
-  }
-
-  // Always 32x32 because that's what is recommended in the Qt
-  // documentation for QCursor.  At least WinNT 4 will give us
-  // "interesting" bugs for other cursor sizes.
-  QBitmap bitmap(32, 32, cursorbitmap, TRUE);
-  QBitmap mask(32, 32, cursormask, TRUE);
-
-  // Sanity checks.
-  assert(bitmap.size().width() > 0 && bitmap.size().height() > 0);
-  assert(bitmap.size() == mask.size());
-  assert(bitmap.depth() == 1);
-  assert(mask.depth() == 1);
-
-  // FIXME: currently a memory leak here. 20011121 mortene.
-  QCursor * c = new QCursor(bitmap, mask, cc->hotspot[0], cc->hotspot[1]);
-  SoQtComponentP::cursordict->enter((unsigned long)cc, c);
-  return c;
-}
-
 
 // documented in common/SoGuiComponentCommon.cpp.in.
 void
