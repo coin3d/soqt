@@ -134,6 +134,7 @@ X_LIBS = @X_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 am__include = @am__include@
 am__quote = @am__quote@
+frameworkdir = @frameworkdir@
 gui = @gui@
 htmldir = @htmldir@
 install_sh = @install_sh@
@@ -150,6 +151,7 @@ soqt_configure_date = @soqt_configure_date@
 soqt_html_dir = @soqt_html_dir@
 soqt_man_dir = @soqt_man_dir@
 soqt_src_dir = @soqt_src_dir@
+soqtincludedir = @soqtincludedir@
 win_srcdir = @win_srcdir@
 
 SoGui_BuiltFiles = \
@@ -428,6 +430,9 @@ DISTCLEANFILES = \
 	$(SoGui_BuiltMetaFiles)
 
 
+@BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_TRUE@frameworkdatadir = $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$(MAC_FRAMEWORK_VERSION)/Resources
+@BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_TRUE@frameworkdata_DATA = Info.plist
+
 @BUILD_LIBRARY_TRUE@bin_SCRIPTS = so@gui@-config
 
 @BUILD_LIBRARY_TRUE@m4datadir = $(datadir)/aclocal
@@ -444,6 +449,7 @@ EXTRA_DIST = \
 	README.DLL \
 	README.IRIX \
 	README.WIN32 \
+	Info.plist \
 	build/soqt.spec.in \
 	build/soqt.doxygen.in \
 	cfg/m4/soqt.m4 \
@@ -462,7 +468,7 @@ CONFIG_CLEAN_FILES = soqt-$CONFIG.cfg build/soqt.spec
 SCRIPTS = $(bin_SCRIPTS)
 
 DIST_SOURCES =
-DATA = $(cfgdata_DATA) $(dist_m4data_DATA)
+DATA = $(cfgdata_DATA) $(dist_m4data_DATA) $(frameworkdata_DATA)
 
 
 RECURSIVE_TARGETS = info-recursive dvi-recursive install-info-recursive \
@@ -562,6 +568,23 @@ uninstall-dist_m4dataDATA:
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
 	  echo " rm -f $(DESTDIR)$(m4datadir)/$$f"; \
 	  rm -f $(DESTDIR)$(m4datadir)/$$f; \
+	done
+install-frameworkdataDATA: $(frameworkdata_DATA)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(frameworkdatadir)
+	@list='$(frameworkdata_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(frameworkdatadir)/$$f"; \
+	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(frameworkdatadir)/$$f; \
+	done
+
+uninstall-frameworkdataDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(frameworkdata_DATA)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(frameworkdatadir)/$$f"; \
+	  rm -f $(DESTDIR)$(frameworkdatadir)/$$f; \
 	done
 
 # This directory's subdirectories are mostly independent; you can cd
@@ -741,7 +764,7 @@ check: check-recursive
 all-am: Makefile $(SCRIPTS) $(DATA) all-local
 installdirs: installdirs-recursive
 installdirs-am:
-	$(mkinstalldirs) $(DESTDIR)$(bindir) $(DESTDIR)$(cfgdatadir) $(DESTDIR)$(m4datadir)
+	$(mkinstalldirs) $(DESTDIR)$(bindir) $(DESTDIR)$(cfgdatadir) $(DESTDIR)$(m4datadir) $(DESTDIR)$(frameworkdatadir)
 
 install: install-recursive
 install-exec: install-exec-recursive
@@ -790,7 +813,7 @@ info: info-recursive
 info-am:
 
 install-data-am: install-cfgdataDATA install-data-local \
-	install-dist_m4dataDATA
+	install-dist_m4dataDATA install-frameworkdataDATA
 
 install-exec-am: install-binSCRIPTS install-exec-local
 
@@ -809,7 +832,8 @@ mostlyclean: mostlyclean-recursive
 mostlyclean-am: mostlyclean-generic mostlyclean-libtool
 
 uninstall-am: uninstall-binSCRIPTS uninstall-cfgdataDATA \
-	uninstall-dist_m4dataDATA uninstall-info-am
+	uninstall-dist_m4dataDATA uninstall-frameworkdataDATA \
+	uninstall-info-am
 
 uninstall-info: uninstall-info-recursive
 
@@ -821,16 +845,17 @@ uninstall-info: uninstall-info-recursive
 	install-binSCRIPTS install-cfgdataDATA install-data \
 	install-data-am install-data-local install-data-recursive \
 	install-dist_m4dataDATA install-exec install-exec-am \
-	install-exec-local install-exec-recursive install-info \
-	install-info-am install-info-recursive install-man \
-	install-recursive install-strip installcheck installcheck-am \
-	installdirs installdirs-am installdirs-recursive \
-	maintainer-clean maintainer-clean-generic \
-	maintainer-clean-recursive mostlyclean mostlyclean-generic \
-	mostlyclean-libtool mostlyclean-recursive tags tags-recursive \
-	uninstall uninstall-am uninstall-binSCRIPTS \
+	install-exec-local install-exec-recursive \
+	install-frameworkdataDATA install-info install-info-am \
+	install-info-recursive install-man install-recursive \
+	install-strip installcheck installcheck-am installdirs \
+	installdirs-am installdirs-recursive maintainer-clean \
+	maintainer-clean-generic maintainer-clean-recursive mostlyclean \
+	mostlyclean-generic mostlyclean-libtool mostlyclean-recursive \
+	tags tags-recursive uninstall uninstall-am uninstall-binSCRIPTS \
 	uninstall-cfgdataDATA uninstall-dist_m4dataDATA \
-	uninstall-info-am uninstall-info-recursive uninstall-recursive
+	uninstall-frameworkdataDATA uninstall-info-am \
+	uninstall-info-recursive uninstall-recursive
 
 
 ############################################################################
