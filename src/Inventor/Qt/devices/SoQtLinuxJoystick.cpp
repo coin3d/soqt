@@ -31,6 +31,16 @@
   extension.
 */
 
+// FIXME: joystick support has been temporary disabled.
+//
+// This should implement support for the Linux Joystick driver, which
+// means you can connect e.g. a Spaceball 4000 FLX to your serial port
+// and get Motion3/SpaceballButton events sent into the scene graph.
+// See http://www.suse.cz/development/joystick/ for information on the
+// driver.
+//
+// 20020703 mortene.
+
 #include <unistd.h>
 #include <stdlib.h>
 
