@@ -524,6 +524,11 @@ void
 SoQtExaminerViewer::processEvent(QEvent * event)
 {
   inherited::processEvent( event );
+
+  // Upon first event detected, make sure the cursor is set correctly.
+  if (! this->defaultcursor )
+    this->setCursorRepresentation( this->currentmode );
+
   return;
 } // processEvents()
 
