@@ -517,6 +517,7 @@ AM_CONDITIONAL(HAVE_JOYSTICK_LINUX, false)
 # **************************************************************************
 # Compiler control.
 
+
 SIM_AC_COMPILE_DEBUG([
   CPPFLAGS="$CPPFLAGS -DSOQT_DEBUG=1"
 ], [
@@ -530,6 +531,7 @@ SIM_AC_RTTI_SUPPORT
 SIM_AC_EXCEPTION_HANDLING
 SIM_AC_PROFILING_SUPPORT
 SIM_AC_COMPILER_WARNINGS
+SIM_AC_DETECT_COMMON_COMPILER_FLAGS
 
 # This is at least used to allow static compilation on Cygwin + MSWindows
 # without hitting the SOQT_DLL / SOQT_NOT_DLL safety check.
@@ -724,6 +726,11 @@ AC_SUBST([LIBFLAGS], [])
 # Remaining setup based on platform.
 
 AM_CONDITIONAL([BUILD_WITH_MSVC], [$BUILD_WITH_MSVC])
+
+# **************************************************************************
+
+CFLAGS="$CFLAGS $sim_ac_compiler_CFLAGS"
+CXXFLAGS="$CXXFLAGS $sim_ac_compiler_CXXFLAGS"
 
 # **************************************************************************
 
