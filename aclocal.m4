@@ -1875,6 +1875,12 @@ AC_CACHE_VAL([lt_cv_sys_max_cmd_len], [dnl
     lt_cv_sys_max_cmd_len=8192;
     ;;
 
+  mks*)
+    # this test is apparently horribly slow on MKS systems (and results
+    # in 1024, while 8192 should work fine).  We therefore just set it
+    # directly, as for cygwin/mingw...
+    lt_cv_sys_max_cmd_len=8192;
+    ;;
  *)
     # If test is not a shell built-in, we'll probably end up computing a
     # maximum length that is only half of the actual maximum length, but
@@ -3857,7 +3863,7 @@ test -z "${LDCXX+set}" || LD=$LDCXX
 CC=${CXX-"c++"}
 compiler=$CC
 _LT_AC_TAGVAR(compiler, $1)=$CC
-cc_basename=`$echo X"$compiler" | $Xsed -e 's%^.*/%%'`
+cc_basename=`$echo X"$compiler" | $Xsed -e 's%^.*/%%' -e 's%[ \t]*$%%'`
 
 # We don't want -fno-exception wen compiling C++ code, so set the
 # no_builtin_flag separately
@@ -4222,7 +4228,9 @@ case $host_os in
 	  _LT_AC_TAGVAR(archive_cmds, $1)='$LD -b +h $soname -o $lib $linker_flags $libobjs $deplibs'
 	  ;;
 	*)
-	  _LT_AC_TAGVAR(archive_cmds, $1)='$CC -b ${wl}+h ${wl}$soname ${wl}+b ${wl}$install_libdir -o $lib $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags'
+	# larsa 2003-08-07 - added "${wl}-a,shared"
+	# _LT_AC_TAGVAR(archive_cmds, $1)='$CC -b ${wl}+h ${wl}$soname ${wl}+b ${wl}$install_libdir -o $lib $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags'
+	  _LT_AC_TAGVAR(archive_cmds, $1)='$CC -b ${wl}+h ${wl}$soname ${wl}+b ${wl}$install_libdir -o $lib ${wl}-a,shared $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags'
 	  ;;
 	esac
 	# Commands to make compiler produce verbose output that lists
@@ -7375,7 +7383,7 @@ if test x"$with_dl" != xno; then
     if ! $sim_ac_dl_avail; then
       LIBS="$sim_ac_dl_libcheck $sim_ac_save_libs"
       AC_TRY_LINK([
-#if HAVE_DLFCN_H
+#ifdef HAVE_DLFCN_H
 #include <dlfcn.h>
 #endif /* HAVE_DLFCN_H */
 ],
@@ -7433,7 +7441,7 @@ if $sim_ac_win32_loadlibrary; then
   AC_CACHE_CHECK([whether the Win32 LoadLibrary() method is available],
     sim_cv_lib_loadlibrary_avail,
     [AC_TRY_LINK([
-#if HAVE_WINDOWS_H
+#ifdef HAVE_WINDOWS_H
 #include <windows.h>
 #endif /* HAVE_WINDOWS_H */
 ],
@@ -7509,7 +7517,7 @@ if $sim_ac_dyld; then
   AC_CACHE_CHECK([whether we can use Mach-O dyld],
     sim_cv_dyld_avail,
     [AC_TRY_LINK([
-#if HAVE_MACH_O_DYLD_H
+#ifdef HAVE_MACH_O_DYLD_H
 #include <mach-o/dyld.h>
 #endif /* HAVE_MACH_O_DYLD_H */
 ],
@@ -9316,12 +9324,17 @@ AC_HELP_STRING([--with-coin=DIR], [give prefix location of Coin]),
     esac],
   [])
 
+case $build in
+*-mks ) sim_ac_pathsep=";" ;;
+* )     sim_ac_pathsep="${PATH_SEPARATOR}" ;;
+esac
+
 if $sim_ac_coin_desired; then
   sim_ac_path=$PATH
   test -z "$sim_ac_coin_extrapath" || ## search in --with-coin path
-    sim_ac_path=$sim_ac_coin_extrapath/bin:$sim_ac_path
+    sim_ac_path="$sim_ac_coin_extrapath/bin${sim_ac_pathsep}$sim_ac_path"
   test x"$prefix" = xNONE ||          ## search in --prefix path
-    sim_ac_path=$sim_ac_path:$prefix/bin
+    sim_ac_path="$sim_ac_path${sim_ac_pathsep}$prefix/bin"
 
   AC_PATH_PROG(sim_ac_coin_configcmd, coin-config, false, $sim_ac_path)
 
@@ -9366,7 +9379,7 @@ if $sim_ac_coin_desired; then
     ])
     sim_ac_coin_avail=$sim_cv_coin_avail
   else
-    locations=`IFS=:; for p in $sim_ac_path; do echo " -> $p/coin-config"; done`
+    locations=`IFS="${sim_ac_pathsep}"; for p in $sim_ac_path; do echo " -> $p/coin-config"; done`
     AC_MSG_WARN([cannot find 'coin-config' at any of these locations:
 $locations])
   fi

@@ -96,6 +96,9 @@ fi
 # Make sure IFS has a sensible default
 : ${IFS=" 	"}
 
+# Make sure MKS sh doesn't run case/esac switches in case-insensitive mode
+DUALCASE=1
+
 if test "$build_libtool_libs" != yes && test "$build_old_libs" != yes; then
   $echo "$modename: not configured to build any kind of library" 1>&2
   $echo "Fatal configuration error.  See the $PACKAGE docs for more information." 1>&2
@@ -533,6 +536,7 @@ if test -z "$show_help"; then
 	  if grep "^# ### BEGIN LIBTOOL TAG CONFIG: $z$" < "$0" > /dev/null; then
 	    # Evaluate the configuration.
 	    eval "`${SED} -n -e '/^# ### BEGIN LIBTOOL TAG CONFIG: '$z'$/,/^# ### END LIBTOOL TAG CONFIG: '$z'$/p' < $0`"
+	    true # MKS weirdness
 	    case "$base_compile " in
 	    "$CC "* | " $CC "* | "`$echo $CC` "* | " `$echo $CC` "*)
 	      # The compiler in the base compile command matches
@@ -1637,6 +1641,7 @@ EOF
 	  if grep "^# ### BEGIN LIBTOOL TAG CONFIG: $z$" < "$0" > /dev/null; then
 	    # Evaluate the configuration.
 	    eval "`${SED} -n -e '/^# ### BEGIN LIBTOOL TAG CONFIG: '$z'$/,/^# ### END LIBTOOL TAG CONFIG: '$z'$/p' < $0`"
+	    true # MKS weirdness
 	    case $base_compile in
 	    "$CC "* | " $CC "* | "`$echo $CC` "* | " `$echo $CC` "*)
 	      # The compiler in $compile_command matches
