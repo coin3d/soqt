@@ -37,7 +37,6 @@ static const char rcsid[] =
 #include <soqtdefs.h>
 #include <Inventor/Qt/widgets/SoQtThumbWheel.h>
 
-#include <Inventor/Qt/viewers/SoAnyPlaneViewer.h>
 #include <Inventor/Qt/viewers/SoQtPlaneViewer.h>
 
 #include <Inventor/Qt/common/pixmaps/ortho.xpm>
@@ -69,7 +68,6 @@ SoQtPlaneViewer::SoQtPlaneViewer(
   SoQtFullViewer::BuildFlag flag, 
   SoQtViewer::Type type)
 : inherited(parent, name, embed, flag, type, FALSE)
-, common(new SoAnyPlaneViewer(this))
 {
   this->constructor(TRUE);
 } // SoQtPlaneViewer()
@@ -88,7 +86,6 @@ SoQtPlaneViewer::SoQtPlaneViewer(
   SoQtViewer::Type type, 
   SbBool build)
 : inherited(parent, name, embed, flag, type, FALSE)
-, common(new SoAnyPlaneViewer(this))
 {
   this->constructor(build);
 } // SoQtPlaneViewer()
@@ -103,6 +100,8 @@ void
 SoQtPlaneViewer::constructor(// private
   SbBool build)
 {
+  this->commonConstructor(); // init generic stuff
+
   this->mode = IDLE_MODE;
 
   this->projector = new SbPlaneProjector;
@@ -257,7 +256,7 @@ SbBool
 SoQtPlaneViewer::processSoEvent(// virtual, protected
   const SoEvent * const event)
 {
-  if (common->processSoEvent(event))
+  if (this->processGenericSoEvent(event))
     return TRUE;
 
   return inherited::processSoEvent(event);
@@ -301,7 +300,7 @@ SoQtPlaneViewer::actualRedraw(// virtual
   void)
 {
   inherited::actualRedraw();
-//  common->drawRotateGraphics();
+//  this->drawRotateGraphics();
 } // actualRedraw()
 
 // ************************************************************************
@@ -314,7 +313,7 @@ void
 SoQtPlaneViewer::leftWheelMotion(// virtual
   float value)
 {
-  common->translateY(value - this->getLeftWheelValue());
+  this->translateY(value - this->getLeftWheelValue());
   inherited::leftWheelMotion(value);
 } // leftWheelMotion()
 
@@ -326,7 +325,7 @@ void
 SoQtPlaneViewer::bottomWheelMotion(// virtual
   float value)
 {
-  common->translateX(value - this->getBottomWheelValue());
+  this->translateX(value - this->getBottomWheelValue());
   inherited::bottomWheelMotion(value);
 } // bottomWheelMotion()
 
@@ -338,7 +337,7 @@ void
 SoQtPlaneViewer::rightWheelMotion(// virtual
   float value)
 {
-  common->zoom(this->getRightWheelValue() - value);
+  this->zoom(this->getRightWheelValue() - value);
   inherited::rightWheelMotion(value);
 } // rightWheelMotion()
 
@@ -447,7 +446,7 @@ void
 SoQtPlaneViewer::xClicked(
   void)
 {
-  common->viewPlaneX();
+  this->viewPlaneX();
 } // xClicked()
 
 /*!
@@ -458,7 +457,7 @@ void
 SoQtPlaneViewer::yClicked(
   void)
 {
-  common->viewPlaneY();
+  this->viewPlaneY();
 } // yClicked()
 
 /*!
@@ -469,7 +468,7 @@ void
 SoQtPlaneViewer::zClicked(
   void)
 {
-  common->viewPlaneZ();
+  this->viewPlaneZ();
 } // zClicked()
 
 /*!
