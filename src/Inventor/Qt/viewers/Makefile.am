@@ -38,7 +38,10 @@ DISTCLEANFILES = \
 libSoQtViewers_la_SOURCES = \
 	PlaneViewer.cpp \
 	FullViewer.cpp \
-	ExaminerViewer.cpp
+	ExaminerViewer.cpp \
+	SoQtFullViewerP.h \
+	SoQtExaminerViewerP.h \
+	SoQtPlaneViewerP.h
 
 nodist_libSoQtViewers_la_SOURCES = \
 	$(SoGui_src_Inventor_Gui_viewers_BuiltFiles)
@@ -50,7 +53,10 @@ nodist_libSoQtViewers_la_SOURCES = \
 viewers_lst_SOURCES = \
 	PlaneViewer.cpp \
 	FullViewer.cpp \
-	ExaminerViewer.cpp
+	ExaminerViewer.cpp \
+	SoQtFullViewerP.h \
+	SoQtExaminerViewerP.h \
+	SoQtPlaneViewerP.h
 
 nodist_viewers_lst_SOURCES = \
 	$(SoGui_src_Inventor_Gui_viewers_BuiltFiles)

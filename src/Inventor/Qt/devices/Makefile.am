@@ -57,10 +57,14 @@ libSoQtDevicesConditionalSources = \
 
 libSoQtDevices_la_SOURCES = \
 	SoQtDevice.cpp \
+	SoQtDeviceP.h \
 	SoQtInputFocus.cpp \
 	SoQtKeyboard.cpp \
 	SoQtMouse.cpp \
 	SoQtSpaceball.cpp \
+	SoQtSpaceballP.h \
+	6DOFEvents.cpp \
+	6DOFEvents.h \
 	$(libSoQtDevicesConditionalSources)
 
 nodist_libSoQtDevices_la_SOURCES = \
@@ -70,6 +74,7 @@ nodist_libSoQtDevices_la_SOURCES = \
 # all the sources that are conditional
 EXTRA_libSoQtDevices_la_SOURCES = \
 	SoQtLinuxJoystick.h \
+	SoQtLinuxJoystickP.h \
 	SoQtLinuxJoystick.cpp
 
 ############################################################################
@@ -77,10 +82,12 @@ EXTRA_libSoQtDevices_la_SOURCES = \
 
 devices_lst_SOURCES = \
 	SoQtDevice.cpp \
+	SoQtDeviceP.h \
 	SoQtInputFocus.cpp \
 	SoQtKeyboard.cpp \
 	SoQtMouse.cpp \
 	SoQtSpaceball.cpp \
+	SoQtSpaceballP.h \
 	6DOFEvents.cpp \
 	6DOFEvents.h \
 	$(libSoQtDevicesConditionalSources)
