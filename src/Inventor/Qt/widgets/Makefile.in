@@ -222,9 +222,7 @@ SoGui_src_Inventor_Gui_viewers_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyFullViewer.h \
   $(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyFullViewer.cpp \
   $(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyExaminerViewer.h \
-  $(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyExaminerViewer.cpp \
-  $(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyPlaneViewer.h \
-  $(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyPlaneViewer.cpp
+  $(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyExaminerViewer.cpp
 
 
 SoGui_src_Inventor_Gui_widgets_BuiltFiles = \
@@ -354,8 +352,6 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/viewers/SoAnyFullViewer.cpp.in \
   src/Inventor/@Gui@/common/viewers/SoAnyExaminerViewer.h.in \
   src/Inventor/@Gui@/common/viewers/SoAnyExaminerViewer.cpp.in \
-  src/Inventor/@Gui@/common/viewers/SoAnyPlaneViewer.h.in \
-  src/Inventor/@Gui@/common/viewers/SoAnyPlaneViewer.cpp.in \
   src/Inventor/@Gui@/common/SoAnyMaterialList.h.in \
   src/Inventor/@Gui@/common/SoAnyMaterialList.cpp.in \
   src/Inventor/@Gui@/common/SoAnyMaterialListBuiltins.cpp.in \
@@ -939,12 +935,6 @@ $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewer.h: $(top_srcdir)/s
 
 $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewer.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/viewers/SoGuiPlaneViewer.cpp.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/viewers/So@Gui@PlaneViewer.cpp:src/Inventor/@Gui@/common/viewers/SoGuiPlaneViewer.cpp.in )
-
-$(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyPlaneViewer.h: $(top_srcdir)/src/Inventor/@Gui@/common/viewers/SoAnyPlaneViewer.h.in $(top_builddir)/config.status
-	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/viewers/SoAnyPlaneViewer.h:src/Inventor/@Gui@/common/viewers/SoAnyPlaneViewer.h.in )
-
-$(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyPlaneViewer.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/viewers/SoAnyPlaneViewer.cpp.in $(top_builddir)/config.status
-	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/viewers/SoAnyPlaneViewer.cpp:src/Inventor/@Gui@/common/viewers/SoAnyPlaneViewer.cpp.in )
 
 $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@WalkViewer.h: $(top_srcdir)/src/Inventor/@Gui@/common/viewers/SoGuiWalkViewer.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/viewers/So@Gui@WalkViewer.h:src/Inventor/@Gui@/common/viewers/SoGuiWalkViewer.h.in )
