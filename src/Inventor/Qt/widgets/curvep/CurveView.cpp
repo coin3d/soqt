@@ -28,6 +28,7 @@
 #include <Inventor/SbLinear.h>
 #include "ColorCurve.h"
 #include "CurveView.h"
+#include <Inventor/Qt/widgets/moc_CurveView.icc>
 
 CurveView::CurveView(int numcolors,
                      SoQtCurveWidget::Mode mode,
@@ -46,7 +47,10 @@ CurveView::CurveView(int numcolors,
   this->setHScrollBarMode(QScrollView::AlwaysOff);
 
   this->size = numcolors;
-  this->maxval = this->size - 1.0f;
+  // FIXME: this looks like an abomination. As far as I can see, both
+  // size and maxval is set once here, so keeping a separate maxval
+  // should be completely redundant. 20031020 mortene.
+  this->maxval = this->size - 1;
 
   this->initColorCurves();
   this->hideUnselected();
@@ -165,7 +169,7 @@ CurveView::contentsMouseReleaseEvent(QMouseEvent * e)
 void 
 CurveView::contentsMouseMoveEvent(QMouseEvent* e)
 {
-	QPoint p = inverseWorldMatrix().map(e->pos());
+  QPoint p = inverseWorldMatrix().map(e->pos());
 
   if (this->curvemode == CurveView::SMOOTH) {
     // change the cursor if it is over a control point
@@ -188,7 +192,7 @@ CurveView::contentsMouseMoveEvent(QMouseEvent* e)
       if (y < this->ptsize) y = this->ptsize;
 
       this->movingitem->moveBy(x - movingstart.x(), y - movingstart.y());
-	    this->movingstart = QPoint(x, y);
+      this->movingstart = QPoint(x, y);
       this->updateCurve();
     }
   } else { // draw a color mapping

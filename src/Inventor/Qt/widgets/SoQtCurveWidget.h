@@ -24,11 +24,12 @@
  *
 \**************************************************************************/
 
-#include <QWidget.h>
+#include <qwidget.h>
+#include <Inventor/Qt/SoQtBasic.h>
 #include <Inventor/system/inttypes.h>
-#include "curvep/ColorCurve.h"
 
-class SoQtCurveWidget : public QWidget {
+
+class SOQT_DLL_API SoQtCurveWidget : public QWidget {
 
 public:
   SoQtCurveWidget(int numcolors = 256, 
@@ -46,12 +47,15 @@ public:
 
   void setMode(Mode mode);
   Mode getMode(void) const;
+
   void setColors(uint8_t * color, int num);
   void getColors(uint8_t * color, int num) const;
-  void setCallBack(ColorCurve::ChangeCB * cb, void * userData);
+
+  typedef void ChangeCB(void * userdata);
+  void setCallBack(SoQtCurveWidget::ChangeCB * cb, void * userdata);
 
 private:
   class SoQtCurveWidgetP * pimpl;
 };
 
-#endif // SOQTCURVEWIDGET_H
+#endif // ! SOQTCURVEWIDGET_H

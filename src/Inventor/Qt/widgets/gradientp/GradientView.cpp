@@ -172,17 +172,20 @@ GradientView::contentsMousePressEvent(QMouseEvent * e)
 
       const unsigned int nrticks = this->tickmarks.size();
       for (unsigned int idx = 0; idx < nrticks; idx++) {
+        if (this->tickmarks[idx]->x() < p.x()) { this->segmentidx++; }
+
         // We don't want it to be possible to pick up the invisible
         // first and last (left and right border) tickmarks.
-        if ((idx > 0) && (idx < nrticks - 1) && this->tickmarks[idx]->hit(p)) {
+        if (idx == 0) continue;
+        if (idx == nrticks - 1) continue;
+
+        if (this->tickmarks[idx]->hit(p)) {
           this->moving_start = p;
           this->currenttick = idx;
           this->segmentidx = -1;
           this->tickmarks[idx]->setBrush(Qt::blue);
           break; // only one tick mark should be selected (and blue) at a time
         }
-
-        if (this->tickmarks[idx]->x() < p.x()) { this->segmentidx++; }
       }
       emit this->viewChanged();
     }

@@ -26,7 +26,7 @@
 #include "ColorCurve.h"
 
 ColorCurve::ColorCurve(CurveType type, const int numcolors)
-  : numpts(256), numcolors(numcolors)
+  : numcolors(numcolors), numpts(256)
 {
   this->curvepts = new SbVec2f[this->numpts];
   this->colormap = new uint8_t[this->numcolors];

@@ -34,6 +34,7 @@
 #include "CurveView.h"
 #include <Inventor/Qt/widgets/SoQtCurveWidget.h>
 #include "SoQtCurveWidgetP.h"
+#include <Inventor/Qt/widgets/moc_SoQtCurveWidgetP.icc>
 
 #define PRIVATE(p) p->pimpl
 #define PUBLIC(p) p->publ
@@ -97,7 +98,7 @@ void
 SoQtCurveWidgetP::curveCallBack(void * userData)
 {
   SoQtCurveWidgetP * thisp = (SoQtCurveWidgetP*) userData;
-  if (thisp->contupdate) {
+  if (thisp->contupdate && thisp->callBack) {
     thisp->callBack(thisp->callbackData);
   }
 }
@@ -260,12 +261,12 @@ SoQtCurveWidget::setColors(uint8_t * color, int num)
 }
 
 void
-SoQtCurveWidget::setCallBack(ColorCurve::ChangeCB * cb, void * userData)
+SoQtCurveWidget::setCallBack(SoQtCurveWidget::ChangeCB * cb, void * userData)
 {
   PRIVATE(this)->callBack = cb;
   PRIVATE(this)->callbackData = userData;
   PRIVATE(this)->curveview->setCallBack(PRIVATE(this)->curveCallBack, PRIVATE(this));
-  PRIVATE(this)->callBack(PRIVATE(this));
+  if (cb) { cb(userData); }
 }
 
 SoQtCurveWidget::Mode

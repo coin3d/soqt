@@ -29,15 +29,16 @@
 #include <Inventor/SbBasic.h>
 #include <Inventor/Qt/common/SbGuiList.h>
 #include <Inventor/Qt/widgets/SoQtCurveWidget.h>
+#include <Inventor/Qt/widgets/curvep/ColorCurve.h>
 
-class ColorCurve;
 class QCanvasItemList;
 class QMouseEvent;
 class QCanvasItem;
 
+
 class CurveView : public QCanvasView 
 {
-    Q_OBJECT // for signals and slots
+  Q_OBJECT
 
 public:
   CurveView(int numcolors,
@@ -96,7 +97,7 @@ private:
   int colorindex;
   const int ptsize;
   int size;
-  float maxval;
+  int maxval;
   
   SbGuiList<QCanvasItemList> canvasctrlpts;
   SbGuiList<ColorCurve*> colorcurves;

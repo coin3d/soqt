@@ -23,7 +23,9 @@ LIBS =
 BUILT_SOURCES = \
 	$(SoGuiAllBuiltFiles) \
 	moc_SoQtGradientDialogP.icc \
-	moc_GradientView.icc
+	moc_GradientView.icc \
+	moc_SoQtCurveWidgetP.icc \
+	moc_CurveView.icc
 
 CLEANFILES = \
 	$(SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles)
@@ -35,22 +37,22 @@ DISTCLEANFILES = \
 ############################################################################
 
 SOURCES = \
-	SoQtGLArea.cpp \
-	SoQtGLArea.h \
-	SoQtThumbWheel.cpp \
-	SoQtThumbWheel.h \
-	QtNativePopupMenu.cpp \
-	QtNativePopupMenu.h \
-	Gradient.cpp \
-	Gradient.h \
-	GradientDialog.cpp \
-	SoQtGradientDialog.h \
-	gradientp/GradientView.cpp \
-	gradientp/GradientView.h \
-	gradientp/ImageItem.cpp \
-	gradientp/ImageItem.h \
-	gradientp/TickMark.cpp \
-	gradientp/TickMark.h
+	SoQtGLArea.cpp SoQtGLArea.h \
+	\
+	SoQtThumbWheel.cpp SoQtThumbWheel.h \
+	\
+	QtNativePopupMenu.cpp QtNativePopupMenu.h \
+	\
+	Gradient.cpp Gradient.h \
+	GradientDialog.cpp SoQtGradientDialog.h \
+	gradientp/GradientView.cpp gradientp/GradientView.h \
+	gradientp/ImageItem.cpp gradientp/ImageItem.h \
+	gradientp/TickMark.cpp gradientp/TickMark.h \
+	\
+	curvep/CurveWidget.cpp SoQtCurveWidget.h curvep/SoQtCurveWidgetP.h \
+	curvep/ColorCurve.cpp curvep/ColorCurve.h \
+	curvep/CurveView.cpp curvep/CurveView.h \
+	curvep/SbGuiCubicSpline.cpp curvep/SbGuiCubicSpline.h
 
 ############################################################################
 # libtool setup
@@ -84,8 +86,9 @@ SoQtWidgetsincdir = $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Vers
 else
 SoQtWidgetsincdir = $(includedir)/Inventor/@Gui@/widgets
 endif
-SoQtWidgetsinc_HEADERS = 
-nodist_SoQtWidgetsinc_HEADERS = SoQtPopupMenu.h SoQtThumbWheel.h SoQtGradientDialog.h Gradient.h
+SoQtWidgetsinc_HEADERS = \
+	SoQtPopupMenu.h SoQtThumbWheel.h SoQtGradientDialog.h Gradient.h \
+	SoQtCurveWidget.h
 
 install-SoQtWidgetsincHEADERS: $(SoQtWidgetsinc_HEADERS)
 	@$(NORMAL_INSTALL)
@@ -125,5 +128,15 @@ moc_GradientView.icc: $(srcdir)/gradientp/GradientView.h
 	@( \
 	echo " $(MOC) -i -o moc_GradientView.icc $(srcdir)/gradientp/GradientView.h"; \
 	$(MOC) -i -o moc_GradientView.icc `$(UNIX2WINPATH) $(srcdir)/gradientp/GradientView.h` )
+
+moc_SoQtCurveWidgetP.icc: $(srcdir)/curvep/SoQtCurveWidgetP.h
+	@( \
+	echo " $(MOC) -i -o moc_SoQtCurveWidgetP.icc $(srcdir)/curvep/SoQtCurveWidgetP.h"; \
+	$(MOC) -i -o moc_SoQtCurveWidgetP.icc `$(UNIX2WINPATH) $(srcdir)/curvep/SoQtCurveWidgetP.h` )
+
+moc_CurveView.icc: $(srcdir)/curvep/CurveView.h
+	@( \
+	echo " $(MOC) -i -o moc_CurveView.icc $(srcdir)/curvep/CurveView.h"; \
+	$(MOC) -i -o moc_CurveView.icc `$(UNIX2WINPATH) $(srcdir)/curvep/CurveView.h` )
 
 # EOF ######################################################################
