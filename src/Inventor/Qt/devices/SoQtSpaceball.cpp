@@ -121,6 +121,10 @@ SoQtSpaceball::enable(QWidget * widget, SoQtEventHandler * handler, void * closu
 void
 SoQtSpaceball::disable(QWidget * widget, SoQtEventHandler * handler, void * closure)
 {
+#ifdef HAVE_WIN32_API
+  SPW_disableSpaceBallWin32();
+#endif // HAVE_WIN32_API
+
 // FIXME: SOQT_STUB();
 }
 
@@ -160,11 +164,15 @@ SoQtSpaceball::translateEvent(QEvent * event)
 SbBool
 SoQtSpaceball::exists(void)
 {
-#if defined(HAVE_X11_AVAILABLE) || defined(HAVE_WIN32_API)
+#ifdef HAVE_X11_AVAILABLE
   return TRUE;
-#else // ! HAVE_X11_AVAILABLE || HAVE_WIN32_API
-  return FALSE;
-#endif // ! HAVE_X11_AVAILABLE || HAVE_WIN32_API
+#endif // HAVE_X11_AVAILABLE
+
+#ifdef HAVE_WIN32_API
+   return SPW_SpaceBallExistsWin32();
+#endif // HAVE_WIN32_API
+
+return FALSE;
 }
 
 // *************************************************************************
