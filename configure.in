@@ -37,13 +37,30 @@ SIM_AC_CVS_CHANGES([
 
 AC_CANONICAL_SYSTEM
 
-SIM_AC_SETUP_MSVC_IFELSE([], [
-  case $host in
-  *-cygwin)
-    AC_MSG_ERROR([You need Microsoft Visual C++ to build SoQt on Cygwin])
-    ;;
-  esac
-])
+AC_ARG_ENABLE([msvc],
+  [AC_HELP_STRING([--disable-msvc], [don't require MS Visual C++ on Cygwin])],
+  [case $enableval in
+  no | false) sim_ac_try_msvc=false ;;
+  *)          sim_ac_try_msvc=true ;;
+  esac],
+  [sim_ac_try_msvc=true])
+
+if $sim_ac_try_msvc; then
+  SIM_AC_SETUP_MSVC_IFELSE([], [
+    case $host in
+    *-cygwin) SIM_AC_ERROR([no-msvc++]) ;;
+    esac
+  ])
+  SIM_AC_SETUP_MSVCRT([
+    CPPFLAGS="$CFLAGS $sim_ac_msvcrt_CPPFLAGS"
+    CFLAGS="$CFLAGS $sim_ac_msvcrt_CFLAGS"
+    CXXFLAGS="$CXXFLAGS $sim_ac_msvcrt_CXXFLAGS"
+    LDFLAGS="$LDFLAGS $sim_ac_msvcrt_LDFLAGS"
+    LIBS="$LIBS $sim_ac_msvcrt_LIBS"
+    # sim_ac_msvcrt_LIBLIBS is set up at the end
+    # sim_ac_msvcrt_LIBLDFLAGS is set up at the end
+  ])
+fi
 
 # **************************************************************************
 # Library versioning. For information about our versioning strategy, see the
@@ -634,8 +651,7 @@ if test x${enable_static+set} = xset; then
   esac
 fi
 
-LIBFLAGS=
-AC_SUBST(LIBFLAGS)
+AC_SUBST([LIBFLAGS], [])
 
 # **************************************************************************
 # Remaining setup based on platform.
@@ -643,6 +659,9 @@ AC_SUBST(LIBFLAGS)
 AM_CONDITIONAL(BUILD_WITH_MSVC, $BUILD_WITH_MSVC)
 
 if $BUILD_WITH_MSVC; then
+  rm -f vc60.pdb
+  LIBFLAGS="$LIBFLAGS $sim_ac_msvcrt_LIBLDFLAGS"
+  LIBS="$LIBS $sim_ac_msvcrt_LIBLIBS"
   if $SOQT_STATIC; then
     SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS -DSOQT_NOT_DLL"
   else
@@ -654,10 +673,10 @@ if $BUILD_WITH_MSVC; then
   debugfile=`cygpath -w "$debugfile" | sed 's,\\\\,\\\\\\\\,g'`
   if $SOQT_STATIC; then
     SIM_AC_CONFIGURATION_SETTING([SoQt build type], [static .lib])
-    LIBFLAGS="-LIB"
+    LIBFLAGS="-LIB $LIBFLAGS"
     LIBFLAGS="$LIBFLAGS /OUT:soqt$SOQT_MAJOR_VERSION$SUFFIX.lib"
   else
-    LIBFLAGS="-DLL /INCREMENTAL:NO"
+    LIBFLAGS="-DLL /INCREMENTAL:NO $LIBFLAGS"
     case $enable_symbols in
     no | false)
       LIBFLAGS="$LIBFLAGS /RELEASE"
@@ -695,8 +714,7 @@ else
   AC_SUBST(soqt_configure_date)
 fi
 
-HTML_DOC_DIR=`eval echo "$datadir/SoQt/html"`
-AC_SUBST([HTML_DOC_DIR])
+AC_SUBST([HTML_DOC_DIR], [`eval echo "$datadir/SoQt/html"`])
 
 # **************************************************************************
 # Submodules that needs to be configured...

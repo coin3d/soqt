@@ -136,6 +136,12 @@ fi
 # This macro invokes IF-FOUND if the msvccc wrapper can be run, and
 # IF-NOT-FOUND if not.
 #
+# **************************************************************************
+# SIM_AC_MSVCRT
+#
+# Set up the MSVC++ run-time library.
+#
+# **************************************************************************
 # Authors:
 #   Morten Eriksen <mortene@coin3d.org>
 #   Lars J. Aas <larsa@coin3d.org>
@@ -168,7 +174,131 @@ else
 fi
 ]) # SIM_AC_SETUP_MSVC_IFELSE
 
+AC_DEFUN([SIM_AC_SETUP_MSVCRT],
+[
+
+sim_ac_msvcrt_LDFLAGS=""
+sim_ac_msvcrt_LIBS=""
+
+AC_ARG_WITH([msvcrt],
+  [AC_HELP_STRING([--with-msvcrt=<crt>],
+                  [set which C run-time library to build against])],
+  [case `echo "$withval" | tr "[A-Z]" "[a-z]"` in
+  default | singlethread-static | ml | /ml | libc | libc\.lib )
+    sim_ac_msvcrt=singlethread-static
+    sim_ac_msvcrt_CFLAGS="/ML"
+    sim_ac_msvcrt_CXXFLAGS="/ML"
+    sim_ac_msvcrt_LIBLDFLAGS=""
+    sim_ac_msvcrt_LIBLIBS=""
+    ;;
+  default-debug | singlethread-static-debug | mld | /mld | libcd | libcd\.lib )
+    sim_ac_msvcrt=singlethread-static-debug
+    sim_ac_msvcrt_CFLAGS="/MLd"
+    sim_ac_msvcrt_CXXFLAGS="/MLd"
+    sim_ac_msvcrt_LIBLDFLAGS="/NODEFAULTLIB:libc"
+    sim_ac_msvcrt_LIBLIBS="-llibcd"
+    ;;
+  multithread-static | mt | /mt | libcmt | libcmt\.lib )
+    sim_ac_msvcrt=multithread-static
+    sim_ac_msvcrt_CFLAGS="/MT"
+    sim_ac_msvcrt_CXXFLAGS="/MT"
+    sim_ac_msvcrt_LIBLDFLAGS="/NODEFAULTLIB:libc"
+    sim_ac_msvcrt_LIBLIBS="-llibcmt"
+    ;;
+  multithread-static-debug | mtd | /mtd | libcmtd | libcmtd\.lib )
+    sim_ac_msvcrt=multithread-static-debug
+    sim_ac_msvcrt_CFLAGS="/MTd"
+    sim_ac_msvcrt_CXXFLAGS="/MTd"
+    sim_ac_msvcrt_LIBLDFLAGS="/NODEFAULTLIB:libc"
+    sim_ac_msvcrt_LIBLIBS="-llibcmtd"
+    ;;
+  multithread-dynamic | md | /md | msvcrt | msvcrt\.lib )
+    sim_ac_msvcrt=multithread-dynamic
+    sim_ac_msvcrt_CFLAGS=""
+    sim_ac_msvcrt_CXXFLAGS=""
+    sim_ac_msvcrt_LIBLDFLAGS="/NODEFAULTLIB:libc"
+    sim_ac_msvcrt_LIBLIBS="-lmsvcrt"
+    ;;
+  multithread-dynamic-debug | mdd | /mdd | msvcrtd | msvcrtd\.lib )
+    sim_ac_msvcrt=multithread-dynamic-debug
+    sim_ac_msvcrt_CFLAGS="/MDd"
+    sim_ac_msvcrt_CXXFLAGS="/MDd"
+    sim_ac_msvcrt_LIBLDFLAGS="/NODEFAULTLIB:libc"
+    sim_ac_msvcrt_LIBLIBS="-lmsvcrtd"
+    ;;
+  *)
+    SIM_AC_ERROR([invalid-msvcrt])
+    ;;
+  esac],
+  [sim_ac_msvcrt=singlethread-static])
+
+AC_MSG_CHECKING([MSVC++ C library choice])
+AC_MSG_RESULT([$sim_ac_msvcrt])
+
+$1
+]) # SIM_AC_SETUP_MSVCRT
+
 # EOF **********************************************************************
+
+# **************************************************************************
+# SIM_AC_ERROR_MESSAGE_FILE( FILENAME )
+#   Sets the error message file.  Default is $ac_aux_dir/m4/errors.txt.
+#
+# SIM_AC_ERROR( ERROR [, ERROR ...] )
+#   Fetches the error messages from the error message file and displays
+#   them on stderr.
+#
+# SIM_AC_WITH_ERROR( WITHARG )
+#   Invokes AC_MSG_ERROR in a consistent way for problems with the --with-*
+#   $withval argument.
+#
+# SIM_AC_ENABLE_ERROR( ENABLEARG )
+#   Invokes AC_MSG_ERROR in a consistent way for problems with the --enable-*
+#   $enableval argument.
+#
+# Authors:
+#   Lars J. Aas <larsa@sim.no>
+
+AC_DEFUN([SIM_AC_ERROR_MESSAGE_FILE], [
+sim_ac_message_file=$1
+]) # SIM_AC_ERROR_MESSAGE_FILE
+
+AC_DEFUN([SIM_AC_ONE_MESSAGE], [
+: ${sim_ac_message_file=$ac_aux_dir/m4/errors.txt}
+if test -f $sim_ac_message_file; then
+  sim_ac_message="`sed -n -e '/^!$1$/,/^!/ { /^!/ d; p; }' <$sim_ac_message_file`"
+  if test x"$sim_ac_message" = x""; then
+    AC_MSG_ERROR([no message named '$1' in '$sim_ac_message_file' - notify the $PACKAGE_NAME maintainer(s)])
+  else
+    eval "echo >&2 \"$sim_ac_message\""
+  fi
+else
+  AC_MSG_ERROR([file '$sim_ac_message_file' not found - notify the $PACKAGE_NAME maintainer(s)])
+fi
+]) # SIM_AC_ONE_MESSAGE
+
+AC_DEFUN([_SIM_AC_ERROR], [
+SIM_AC_ONE_MESSAGE([$1])
+ifelse([$2], , , [
+echo >&2 ""
+_SIM_AC_ERROR(m4_shift($@))])
+]) # _SIM_AC_ERROR
+
+AC_DEFUN([SIM_AC_ERROR], [
+echo >&2 ""
+_SIM_AC_ERROR($@)
+echo >&2 ""
+AC_MSG_ERROR([aborting])
+]) # SIM_AC_ERROR
+
+AC_DEFUN([SIM_AC_WITH_ERROR], [
+AC_MSG_ERROR([invalid value "${withval}" for "$1" configure argument])
+]) # SIM_AC_WITH_ERROR
+
+AC_DEFUN([SIM_AC_ENABLE_ERROR], [
+AC_MSG_ERROR([invalid value "${enableval}" for "$1" configure argument])
+]) # SIM_AC_ENABLE_ERROR
+
 
 # Do all the work for Automake.  This macro actually does too much --
 # some checks are only needed if your package does certain things.
@@ -4391,66 +4521,6 @@ fi
 ]) # SIM_AC_CONFIGURATION_SUMMARY
 
 
-# **************************************************************************
-# SIM_AC_ERROR_MESSAGE_FILE( FILENAME )
-#   Sets the error message file.  Default is $ac_aux_dir/m4/errors.txt.
-#
-# SIM_AC_ERROR( ERROR [, ERROR ...] )
-#   Fetches the error messages from the error message file and displays
-#   them on stderr.
-#
-# SIM_AC_WITH_ERROR( WITHARG )
-#   Invokes AC_MSG_ERROR in a consistent way for problems with the --with-*
-#   $withval argument.
-#
-# SIM_AC_ENABLE_ERROR( ENABLEARG )
-#   Invokes AC_MSG_ERROR in a consistent way for problems with the --enable-*
-#   $enableval argument.
-#
-# Authors:
-#   Lars J. Aas <larsa@sim.no>
-
-AC_DEFUN([SIM_AC_ERROR_MESSAGE_FILE], [
-sim_ac_message_file=$1
-]) # SIM_AC_ERROR_MESSAGE_FILE
-
-AC_DEFUN([SIM_AC_ONE_MESSAGE], [
-: ${sim_ac_message_file=$ac_aux_dir/m4/errors.txt}
-if test -f $sim_ac_message_file; then
-  sim_ac_message="`sed -n -e '/^!$1$/,/^!/ { /^!/ d; p; }' <$sim_ac_message_file`"
-  if test x"$sim_ac_message" = x""; then
-    AC_MSG_ERROR([no message named '$1' in '$sim_ac_message_file' - notify the $PACKAGE_NAME maintainer(s)])
-  else
-    eval "echo >&2 \"$sim_ac_message\""
-  fi
-else
-  AC_MSG_ERROR([file '$sim_ac_message_file' not found - notify the $PACKAGE_NAME maintainer(s)])
-fi
-]) # SIM_AC_ONE_MESSAGE
-
-AC_DEFUN([_SIM_AC_ERROR], [
-SIM_AC_ONE_MESSAGE([$1])
-ifelse([$2], , , [
-echo >&2 ""
-_SIM_AC_ERROR(m4_shift($@))])
-]) # _SIM_AC_ERROR
-
-AC_DEFUN([SIM_AC_ERROR], [
-echo >&2 ""
-_SIM_AC_ERROR($@)
-echo >&2 ""
-AC_MSG_ERROR([aborting])
-]) # SIM_AC_ERROR
-
-AC_DEFUN([SIM_AC_WITH_ERROR], [
-AC_MSG_ERROR([invalid value "${withval}" for "$1" configure argument])
-]) # SIM_AC_WITH_ERROR
-
-AC_DEFUN([SIM_AC_ENABLE_ERROR], [
-AC_MSG_ERROR([invalid value "${enableval}" for "$1" configure argument])
-]) # SIM_AC_ENABLE_ERROR
-
-
 # Usage:
 #  SIM_AC_DOXYGEN_TOOL([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 #
@@ -6536,6 +6606,42 @@ fi
 AC_SUBST(DSUFFIX)
 ])
 
+# Usage:
+#   SIM_AC_COMPILER_OPTIMIZATION
+#
+# Description:
+#   Let the user decide if optimization should be attempted turned off
+#   by stripping off an "-O[0-9]" option.
+# 
+#   Note: this macro must be placed after either AC_PROG_CC or AC_PROG_CXX
+#   in the configure.in script.
+#
+# FIXME: this is pretty much just a dirty hack. Unfortunately, this
+# seems to be the best we can do without fixing Autoconf to behave
+# properly wrt setting optimization options. 20011021 mortene.
+# 
+# Author: Morten Eriksen, <mortene@sim.no>.
+# 
+
+AC_DEFUN([SIM_AC_COMPILER_OPTIMIZATION], [
+AC_ARG_ENABLE(
+  [optimization],
+  AC_HELP_STRING([--enable-optimization],
+                 [allow compilers to make optimized code [[default=yes]]]),
+  [case "${enableval}" in
+    yes) sim_ac_enable_optimization=true ;;
+    no)  sim_ac_enable_optimization=false ;;
+    *) AC_MSG_ERROR(bad value "${enableval}" for --enable-optimization) ;;
+  esac],
+  [sim_ac_enable_optimization=true])
+
+if $sim_ac_enable_optimization; then
+  :
+else
+  CFLAGS="`echo $CFLAGS | sed 's/-O[[0-9]]*[[ ]]*//'`"
+  CXXFLAGS="`echo $CXXFLAGS | sed 's/-O[[0-9]]*[[ ]]*//'`"
+fi
+])
 
 # Usage:
 #   SIM_AC_CHECK_VAR_FUNCTIONNAME

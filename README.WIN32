@@ -10,13 +10,25 @@ i.e.
         $ [srcdir]/configure
         $ make install
 
+To decide which C library to link against, you use the option
+"--with-msvcrt=<crt>" for the configure script.  The alternatives
+are (short aliases on the right):
+
+  * singlethread-static        [ /ml  | ml  | libc    ]
+    singlethread-static-debug  [ /mld | mld | libcd   ]
+    multithread-static         [ /mt  | mt  | libcmt  ]
+    multithread-static-debug   [ /mtd | mtd | libcmtd ]
+    multithread-dynamic        [ /md  | md  | msvcrt  ]
+    multithread-dynamic-debug  [ /mdd | mdd | msvcrtd ]
+
+  [*] default choice
 
 Note that if you encounter any problems when trying to build on
 MSWindows, it is expected that you are able to do a minimum of
 troubleshooting yourself before contacting us.  (If this is not an
 option, please consider using the pre-built binary installation
 packages we provide. Follow the download link from
-<URL:http://www.coin3d.org>.)
+<URL:http://www.coin3d.org/>.)
 
 If you are confident that configure and/or build fails due to a
 mistake on our part, or you otherwise feel completely stuck, we will
