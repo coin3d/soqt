@@ -44,7 +44,7 @@ public:
   virtual void hide(void);
 
   SbBool isFullScreen(void) const;
-  void goFullScreen(const SbBool onoff);
+  SbBool setFullScreen(const SbBool onoff);
 
   SbBool isVisible(void);
   QWidget * getWidget(void) const;

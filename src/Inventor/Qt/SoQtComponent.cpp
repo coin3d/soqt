@@ -984,39 +984,45 @@ SoQtComponent::afterRealizeHook( // virtual
 }
 
 /*!
-  Toggle full screen mode for this component.
+  Toggle full screen mode for this component, if possible.
+
+  Returns \c FALSE if operation failed.  This might happen if the
+  toolkit doesn't support attempts at making the component cover the
+  complete screen or if the component is not a toplevel window.
 */
-void 
-SoQtComponent::goFullScreen(const SbBool onoff)
+SbBool 
+SoQtComponent::setFullScreen(const SbBool onoff)
 {
-  if (onoff == THIS->fullscreen) return;
+  if (onoff == THIS->fullscreen) { return TRUE; }
   
+  // FIXME: hmm.. this looks suspicious. Shouldn't we just return
+  // FALSE if the (base)widget is not a shellwidget? 20010817 mortene.
   QWidget * w = this->getShellWidget();
   if (w == NULL) w = this->getParentWidget();
   if (w == NULL) w = this->getWidget();
-  if (w) {
+  if (!w) { return FALSE; }
 
-    // FIXME: note that the compile-time binding technique against
-    // QWidget::showFullScreen() doesn't work very well with the idea
-    // that we'll compile a distribution version of SoQt against the
-    // lowest common denominator of Qt versions we support (ie
-    // v2.0.0), as that means SoQtComponent::goFullScreen() will never
-    // work as expected in the pre-compiled distro version we make.
-    // 20010608 mortene.
+  // FIXME: note that the compile-time binding technique against
+  // QWidget::showFullScreen() doesn't work very well with the idea
+  // that we'll compile a distribution version of SoQt against the
+  // lowest common denominator of Qt versions we support (ie v2.0.0),
+  // as that means SoQtComponent::goFullScreen() will never work as
+  // expected in the pre-compiled distro version we make.  20010608
+  // mortene.
 
 #if HAVE_QWIDGET_SHOWFULLSCREEN
-    if (onoff) w->showFullScreen();
-    else w->showNormal();
-    THIS->fullscreen = onoff;
+  if (onoff) w->showFullScreen();
+  else w->showNormal();
+  THIS->fullscreen = onoff;
+  return TRUE;
 #else // !HAVE_QWIDGET_SHOWFULLSCREEN
-    SoDebugError::postWarning("SoQtComponent::goFullScreen",
-                              "SoQt was compiled against version %s of Qt, "
-                              "which doesn't have the "
-                              "QWidget::showFullScreen() method",
-                              QT_VERSION_STR);
+  SoDebugError::postWarning("SoQtComponent::goFullScreen",
+                            "SoQt was compiled against version %s of Qt, "
+                            "which doesn't have the "
+                            "QWidget::showFullScreen() method",
+                            QT_VERSION_STR);
+  return FALSE;
 #endif // !HAVE_QWIDGET_SHOWFULLSCREEN
-
-  }
 }
 
 /*!
