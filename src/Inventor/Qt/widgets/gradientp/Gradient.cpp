@@ -21,29 +21,18 @@
  *
 \**************************************************************************/
 
-#include <iostream.h>
-#include <fstream.h>
 #include <assert.h>
+#include <qfile.h>
+#include <qimage.h>
 #include "Gradient.h"
 
 Gradient::Gradient(const QColor& color0, const QColor& color1)
 {
-  Tick tick0;
-  Tick tick1;
-  tick0.t = 0.0f;
-  tick1.t = 1.0f;
-
-  if (color0.isValid() && color1.isValid()) {
-    for (int i = 0; i < 4; i++) {
-      tick0.right = color0.rgb();
-      tick0.left = color1.rgb();
-      tick1.right = color0.rgb();
-      tick1.left = color1.rgb();
-    }
-  } 
-  
-  this->ticks.append(tick0);
-  this->ticks.append(tick1);
+  // parameter values will be in the range [0 - 1]
+  this->parameters.append(0.0f);
+  this->parameters.append(1.0f);
+  this->colors.append(color0.rgb());
+  this->colors.append(color1.rgb());
 
   this->changeCB = NULL;
 }
@@ -65,127 +54,143 @@ Gradient::~Gradient()
 
 Gradient & Gradient::operator = (const Gradient & grad)
 {
-  this->ticks = grad.ticks;
   this->changeCB = grad.changeCB;
+  this->parameters = grad.parameters;
+  this->colors = grad.colors;
   return *this;
 }
 
-// evaluates the gradient at a given parameter
+bool Gradient::operator == (const Gradient & grad) const
+{
+  return (this->parameters == grad.parameters) &&
+         (this->colors == grad.colors);
+}
+
 QRgb Gradient::eval(float t) const
 {
   assert(t >= 0.0f && t <= 1.0f && 
     "Gradient::eval(float t): t must be in the interval [0,1]");
 
-  // find the interval to evaluate in
   int i = 0;
-  while (this->ticks[++i].t < t);
+  // find the interval to evaluate in
+  while (this->parameters[++i] < t);
 
-  float t0 = this->ticks[i-1].t;
-  float t1 = this->ticks[i].t;
+  float t0 = this->parameters[i-1];
+  float t1 = this->parameters[i];
+
   float dt = t1 - t0;
 
   // weights for linear interpolation
   float w0 = (t1 - t) / dt;
   float w1 = (t - t0) / dt;
 
-  QRgb left = this->ticks[i].left;
-  QRgb right = this->ticks[i-1].right;
+  int j = (i-1)*2;
 
-  int r = int ((w0 * float(qRed(right)) + w1 * float(qRed(left)) + 0.5f));
-  int g = int ((w0 * float(qGreen(right)) + w1 * float(qGreen(left)) + 0.5f));
-  int b = int ((w0 * float(qBlue(right)) + w1 * float(qBlue(left)) + 0.5f));
-  int a = int ((w0 * float(qAlpha(right)) + w1 * float(qAlpha(left)) + 0.5f));
+  const QRgb color0 =  this->colors[j];
+  const QRgb color1 = this->colors[j+1];
+
+  int r = int ((w0 * float(qRed(color0)) + w1 * float(qRed(color1)) + 0.5f));
+  int g = int ((w0 * float(qGreen(color0)) + w1 * float(qGreen(color1)) + 0.5f));
+  int b = int ((w0 * float(qBlue(color0)) + w1 * float(qBlue(color1)) + 0.5f));
+  int a = int ((w0 * float(qAlpha(color0)) + w1 * float(qAlpha(color1)) + 0.5f));
 
   return qRgba(r, g, b, a);
 }
 
 int Gradient::numTicks() const
 {
-  return ticks.size();
+  return this->parameters.size();
 }
 
 float Gradient::getParameter(int i) const
 {
-  return ticks[i].t;
+  return this->parameters[i];
 }
 
 void Gradient::moveTick(int i, float t)
 {
-  if (this->ticks[i].t != t) {
-    this->ticks[i].t = t;
+  if (this->parameters[i] != t) {
+    this->parameters[i] = t;
     if (this->changeCB) this->changeCB();
   }
 }
 
 int Gradient::insertTick(float t)
 {
-  Tick tick;
-  tick.t = t;
+  // we use the color of the gradient at this parameter value
   QRgb color = this->eval(t);
-  tick.left = color;
-  tick.right = color;
-
+  
+  // find the interval to evaluate in
   int i = 0;
-  QValueList<Tick>::Iterator it = this->ticks.begin();
-  while ((*it).t < t) { it++; i++; }
+  QValueList<float>::Iterator it = this->parameters.begin();
+  QValueList<QRgb>::Iterator it2 = this->colors.begin();
+  while ((*it) < t) { i++; it++; it2++; it2++; }
+  it2--;
 
-  this->ticks.insert(it, tick);
+  this->parameters.insert(it, t);
+  this->colors.insert(it2, 2, color);
 
   return i;
+
 }
 
 void Gradient::removeTick(int i)
 {
-  QValueList<Tick>::Iterator it = this->ticks.begin();
-  // the += operator wasn't available until Qt 3.1.0. Just interate
+  QValueList<float>::Iterator it = this->parameters.begin();
+  QValueList<QRgb>::Iterator it2 = this->colors.begin();
+  // the += operator wasn't available until Qt 3.1.0. Just iterate
   // and use ++. pederb, 2003-09-22
-  for (int j = 0; j < i; j++) {
-    it++;
-  }
-  this->ticks.remove(it);
-  
+  for (int j = 0; j < i; j++) { it++; it2++; it2++; }
+  this->parameters.remove(it);
+  it2 = this->colors.remove(--it2);
+  this->colors.remove(it2);
+
   if (this->changeCB) this->changeCB();
 }
 
 bool Gradient::leftEqualsRight(int i) const
 {
-  return (this->ticks[i].left == this->ticks[i].right);
+  int maxIndex = this->colors.size() - 1;
+  int colorIndex = i * 2 - 1;
+
+  if (colorIndex < 0) colorIndex = maxIndex;
+
+  return (this->colors[colorIndex] == this->colors[(colorIndex+1) % maxIndex]);
+}
+
+void Gradient::swapLeftAndRight(int i)
+{
+  
 }
 
 void Gradient::setColor(int i, bool left, const QRgb color)
 {
-  int maxIndex = this->ticks.size() - 1;
+  int colorIndex = i * 2 - 1;
 
-  if (i == 0) {
-    this->ticks[i].right = color;
-    this->ticks[i].left = this->ticks[maxIndex].left;
-    this->ticks[maxIndex].right = color;
-  } 
-  else if (i == maxIndex) {
-    this->ticks[i].left = color;
-    this->ticks[i].right = this->ticks[0].right;
-    this->ticks[0].left = color;
-  }
-  else {
-    if (left) this->ticks[i].left = color;
-    else this->ticks[i].right = color;
-  }
+  if (!left) colorIndex++;
+
+  int maxIndex = this->colors.size() - 1;
+
+  if (colorIndex > maxIndex) colorIndex = 0;
+  if (colorIndex < 0) colorIndex = maxIndex;
+
+  this->colors[colorIndex] = color;
 
   if (this->changeCB) this->changeCB();
 }
 
 QRgb Gradient::getColor(int i, bool left) const
 {
-  QRgb color;
+  int colorIndex = i * 2 - 1;
+
+  if (!left) colorIndex++;
+
+  int maxIndex = this->colors.size() - 1;
   
-  int maxIndex = this->ticks.size() - 1;
-  if (i < 0) i = maxIndex;
-  if (i > maxIndex) i = 0;
+  if (colorIndex > maxIndex) colorIndex = 0;
+  if (colorIndex < 0) colorIndex = maxIndex;
 
-  if (left) color = this->ticks[i].left;
-  else      color = this->ticks[i].right;
-
-  return color;
+  return this->colors[colorIndex];
 }
 
 void Gradient::setChangeCallback(void (*changeCB)(void))
@@ -199,42 +204,92 @@ void Gradient::handleChange() const
     this->changeCB();
 }
 
-void Gradient::getColorArray(QRgb * colors, int num) const
+void Gradient::getColorArray(QRgb * colorArray, int num) const
 {
   for (int i = 0; i < num; i++) {
     float t = float(i) / float(num - 1);
-    colors[i] = this->eval(t);
+    colorArray[i] = this->eval(t);
   }
+}
+
+QImage Gradient::getImage(int width, int height, int depth) const
+{
+  QImage gradImage(width, height, depth);
+  QRgb * colors = new QRgb[width];
+  this->getColorArray(colors, width);
+
+  for (int i = 0; i < width; i ++) {
+    float alpha = float(qAlpha(colors[i])) / 255.0f;
+    for (int j = 0; j < height; j++) {
+      // produces a checkerboard pattern of black and white
+      QRgb background = 0;
+      if (((i & 0x8) == 0) ^ ((j & 0x8) == 0)) {
+        background = 255;
+      }
+      int bg = int((1.0f - alpha) * float(background));
+      int r = (int) (alpha * float(qRed(colors[i]) + bg));
+      int g = (int) (alpha * float(qGreen(colors[i]) + bg));
+      int b = (int) (alpha * float(qBlue(colors[i]) + bg));
+      gradImage.setPixel(i, j, qRgb(r, g, b));
+    }
+  }
+  delete [] colors;
+  return gradImage;
 }
 
 void Gradient::save(const QString& filename)
 {
-  fstream out(filename.ascii(), ios::out);
-  out << this->ticks.size() << " ";
-  for (unsigned int i = 0; i < this->ticks.size(); i++) {
-    out << this->ticks[i].t << " ";
-    out << this->ticks[i].left << " ";
-    out << this->ticks[i].right << " ";
+  QFile outfile(filename);
+  if (outfile.open(IO_WriteOnly)) {
+    QTextStream stream(&outfile);
+
+    stream << this->parameters.size() << " ";
+
+    QValueList<float>::Iterator it = this->parameters.begin();
+    for (; it != this->parameters.end(); it++) {
+      stream << (*it) << " ";
+    }
+
+    stream << this->colors.size() << " ";
+
+    QValueList<QRgb>::Iterator it2 = this->colors.begin();
+    for (; it2 != this->colors.end(); it2++) {
+      stream << (*it2) << " ";
+    }
+    outfile.close();
   }
-  out.close();
 }
 
 void Gradient::load(const QString& filename)
 {
-  this->ticks.clear();
-  fstream in(filename.ascii(), ios::in);
+  this->colors.clear();
+  this->parameters.clear();
 
-  int length;
-  in >> length;
+  QFile infile(filename);
+  if (infile.open(IO_ReadOnly)) {
+    QTextStream stream(&infile);
 
-  for (int i = 0; i < length; i++) {
-    Tick tick;
-    in >> tick.t;
-    in >> tick.left;
-    in >> tick.right;
-    this->ticks.append(tick);
+    int i;
+
+    int numParameters;
+    stream >> numParameters;
+    
+    for (i = 0; i < numParameters; i++) {
+      float t;
+      stream >> t;
+      this->parameters.append(t);
+    }
+
+    int numColors;
+    stream >> numColors;
+
+    for (i = 0; i < numColors; i++) {
+      QRgb clr;
+      stream >> clr;
+      this->colors.append(clr);
+    }
+    infile.close();
   }
-  in.close();
 }
 
 

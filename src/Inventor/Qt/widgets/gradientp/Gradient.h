@@ -26,13 +26,6 @@
 
 #include <qcolor.h>
 #include <qvaluelist.h>
-
-class Tick {
-public:
-  QRgb left;
-  QRgb right;
-  float t;
-};
  
 class Gradient
 {
@@ -40,36 +33,36 @@ public:
   Gradient(const QColor& color0 = Qt::red, const QColor& color1 = Qt::blue);
   Gradient(const Gradient& grad);
   Gradient(const QString filename);
+
   ~Gradient();
 
   int numTicks() const;
+  int insertTick(float t);
   float getParameter(int i) const;
-  QRgb eval(float t) const;
   bool leftEqualsRight(int i) const;
+  QRgb eval(float t) const;
+  QRgb getColor(int i, bool left) const;
 
   void moveTick(int i, float t);
   void removeTick(int i);
-  int insertTick(float t);
-
   void setChangeCallback(void (*changeCB)(void));
-
-  QRgb getColor(int i, bool left) const;
   void setColor(int i, bool left, const QRgb color);
-
   void getColorArray(QRgb * colors, int num) const;
-
   void save(const QString& filename);
   void load(const QString& filename);
+  void handleChange() const;
+  void swapLeftAndRight(int i);
+
+  QImage getImage(int w, int h, int d) const;
 
   Gradient & operator = (const Gradient & grad);
-  void handleChange() const;
-
+  bool operator == (const Gradient & grad) const;
+  
 private:
-  QValueList<Tick> ticks;
+  QValueList<float> parameters;
+  QValueList<QRgb> colors;
+
   void (*changeCB)(void);
 };
-
-
-
 
 #endif // GRADIENT_H
