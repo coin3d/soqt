@@ -127,7 +127,7 @@ SoQtMouse::translateEvent(QEvent * event)
       PRIVATE(this)->buttonevent->setButton(SoMouseButtonEvent::BUTTON1);
 // emulate right mouse button on MacIntosh platform by ctrl-click
 #ifdef Q_WS_MAC
-      if (mouseevent->state() & ControlButton)
+      if (mouseevent->state() & Qt::ControlButton)
         PRIVATE(this)->buttonevent->setButton(SoMouseButtonEvent::BUTTON2);
 #endif // Q_WS_MAC
       break;
