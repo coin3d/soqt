@@ -103,7 +103,7 @@ CLEAN :
     if not exist "$(INTDIR)/$(NULL)" mkdir "$(INTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MT /W3 /GX /O2 /I "C:@soqt_build_dir@" /I "C:@soqt_build_dir@\src" /I "C:@soqt_src_dir@" /I "C:@soqt_src_dir@\src" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SOQT_DLL_EXPORTS" /D "SOQT_MAKE_DLL" /Fp"$(INTDIR)\soqt_dll.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
+CPP_PROJ=/nologo /MT /W3 /GX /O2 /I "C:@soqt_build_dir@" /I "C:@soqt_build_dir@\src" /I "C:@soqt_src_dir@" /I "C:@soqt_src_dir@\src" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SOQT_DLL_EXPORTS" /D "SOQT_MAKE_DLL" /D "QT_DLL" /Fp"$(INTDIR)\soqt_dll.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
 
 .c{$(INTDIR)}.obj::
    $(CPP) @<<
@@ -289,7 +289,7 @@ CLEAN :
     if not exist "$(INTDIR)/$(NULL)" mkdir "$(INTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MTd /W3 /Gm /GX /ZI /Od /I "C:@soqt_build_dir@" /I "C:@soqt_build_dir@\src" /I "C:@soqt_src_dir@" /I "C:@soqt_src_dir@\src" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SOQT_DLL_EXPORTS" /D "SOQT_MAKE_DLL" /Fp"$(INTDIR)\soqt_dll.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /GZ /c 
+CPP_PROJ=/nologo /MTd /W3 /Gm /GX /ZI /Od /I "C:@soqt_build_dir@" /I "C:@soqt_build_dir@\src" /I "C:@soqt_src_dir@" /I "C:@soqt_src_dir@\src" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SOQT_DLL_EXPORTS" /D "SOQT_MAKE_DLL" /D "QT_DLL" /Fp"$(INTDIR)\soqt_dll.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /GZ /c 
 
 .c{$(INTDIR)}.obj::
    $(CPP) @<<
