@@ -44,6 +44,7 @@ static const char rcsid[] =
 #include <assert.h>
 
 #include <qwidget.h>
+#include <qmainwindow.h>
 #include <qmessagebox.h>
 // FIXME: get rid of this before 1.0 release (convert everything to Qt
 // version 2.x API). 19990630 mortene.
@@ -110,10 +111,11 @@ SbPList * SoQtComponent::soqtcomplist = NULL;
 SoQtComponent::SoQtComponent(
   QWidget * const parent,
   const char * const name,
-  const SbBool inParent )
+  const SbBool embed )
 {
   // FIXME: deallocate on exit. 20000311 mortene.
-  if (!SoQtComponent::soqtcomplist) SoQtComponent::soqtcomplist = new SbPList;
+  if ( ! SoQtComponent::soqtcomplist )
+    SoQtComponent::soqtcomplist = new SbPList;
 
   SoQtComponent::soqtcomplist->append(this);
 
@@ -130,7 +132,13 @@ SoQtComponent::SoQtComponent(
 
   this->storesize.setValue( -1, -1 );
 
-  this->buildinside = inParent;
+  if ( (parent == NULL) || ! embed ) {
+    this->parent = (QWidget *) new QMainWindow( parent, name );
+    this->embedded = FALSE;
+  } else {
+    this->parent = parent;
+    this->embedded = TRUE;
+  }
 } // SoQtComponent()
 
 /*!
@@ -557,13 +565,12 @@ SoQtComponent::isTopLevelShell(
 {
 #if SOQT_DEBUG
   if ( ! this->widget ) {
-    SoDebugError::postWarning("SoQtComponent::isTopLevelShell",
-                              "Called while no QWidget has been set.");
+    SoDebugError::postWarning( "SoQtComponent::isTopLevelShell",
+      "Called while no QWidget has been set." );
     return FALSE;
   }
 #endif // SOQT_DEBUG
-
-  return this->widget->isTopLevel();
+  return this->embedded ? FALSE : TRUE;
 } // isTopLevelShell()
 
 /*!
@@ -578,13 +585,12 @@ SoQtComponent::getShellWidget(
   void ) const
 {
 #if SOQT_DEBUG
-  if (!this->widget) {
+  if ( ! this->widget ) {
     SoDebugError::postWarning("SoQtComponent::getShellWidget",
                               "Called while no QWidget has been set.");
     return NULL;
   }
 #endif // SOQT_DEBUG
-
   return this->widget->topLevelWidget();
 } // getShellWidget()
 
@@ -749,20 +755,11 @@ SoQtComponent::setSize(
                          this->widget,
                          size[0], size[1]);
 #endif // debug
-
-  this->storesize = size;
-  if (this->widget) {
-    QSize newsize(size[0], size[1]);
-    if (this->widget->size() != newsize) {
-      if (this->getParentWidget() == this->getShellWidget()) {
-        this->getParentWidget()->resize(newsize);
-      }
-      else {
-        this->widget->resize(newsize);
-        this->sizeChanged(size);
-      }
-    }
+  if ( this->isTopLevelShell() ) {
+    this->getShellWidget()->resize( size[0], size[1] );
+    this->sizeChanged( size );
   }
+  this->storesize = size;
 } // setSize()
 
 /*!

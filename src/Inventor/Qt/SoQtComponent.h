@@ -69,8 +69,10 @@ public:
 
 
 protected:
-  SoQtComponent( QWidget * const parent = NULL, const char * const name = NULL,
-      const SbBool inParent = TRUE );
+  SoQtComponent(
+    QWidget * const parent = NULL,
+    const char * const name = NULL,
+    const SbBool embed = TRUE );
 
   void setClassName( const char * const name );
   void setBaseWidget( QWidget * const widget );
@@ -98,7 +100,7 @@ private slots:
 private:
   QWidget * parent;
   QWidget * widget;
-  SbBool buildinside;
+  SbBool embedded;
   QString classname, widgetname, captiontext, icontext;
   SoQtComponentCB * closeCB;
   void * closeCBdata;
