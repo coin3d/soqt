@@ -105,6 +105,7 @@ static const char rcsid[] =
 #include <Inventor/errors/SoDebugError.h>
 #include <Inventor/misc/SoBasic.h>
 #include <soqtdefs.h>
+#include <stdlib.h>
 
 #if HAVE_CONFIG_H
 #include <config.h>
