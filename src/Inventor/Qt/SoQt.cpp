@@ -286,9 +286,9 @@ SoQt::sensorQueueChanged(void *)
 #endif // debug
 
     if (!SoQt::timerqueuetimer->isActive())
-      SoQt::timerqueuetimer->start(interval.getMsecValue(), TRUE);
+      SoQt::timerqueuetimer->start((int)interval.getMsecValue(), TRUE);
     else
-      SoQt::timerqueuetimer->changeInterval(interval.getMsecValue());
+      SoQt::timerqueuetimer->changeInterval((int)interval.getMsecValue());
   }
   else if (SoQt::timerqueuetimer->isActive()) {
     SoQt::timerqueuetimer->stop();
@@ -307,7 +307,7 @@ SoQt::sensorQueueChanged(void *)
 
     if (!SoQt::delaytimeouttimer->isActive()) {
       unsigned long timeout = SoDB::getDelaySensorTimeout().getMsecValue();
-      SoQt::delaytimeouttimer->start(timeout, TRUE);
+      SoQt::delaytimeouttimer->start((int)timeout, TRUE);
     }
   }
   else {
