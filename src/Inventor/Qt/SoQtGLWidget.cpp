@@ -33,6 +33,28 @@
 
 // *************************************************************************
 
+// The following define is a work-around for a problem where:
+//
+//   - The <X11/Xmd.h> file is included from <GL/glx.h> (which is
+//   included close to the bottom of this source code file).
+//
+// and
+//
+//   - <X11/Xmd.h> typedefs some fixed bitwidth types that crashes
+//   with the same defines set up by <qglobal.h> from Qt. The types
+//   are INT8 and INT32.
+//
+// By setting up the QT_CLEAN_NAMESPACE define before including any
+// Qt-headers, we make sure that <qglobal.h> won't try to make those
+// typedefs, and there will be no clash when <X11/Xmd.h> is included.
+//
+// The problem was reported to happen for Solaris by Bert Bril.
+//
+// (The "bug" is really in either the <X11/Xmd.h> header or the
+// <qglobal.h> header, but we need to use this work-around so SoQt can
+// still compile without any hassle.)
+#define QT_CLEAN_NAMESPACE 1
+
 #include <qevent.h>
 #include <qframe.h>
 
@@ -1038,10 +1060,10 @@ SoQtGLWidgetP::getOverlayContext(void)
 }
 
 #if HAVE_GLX
-// There is something in this header file that fools the compiler to
-// run into problems with some of the code in
-// SoQtGLWidgetP::eventFilter(), so we just include it at the bottom
-// like this.
+// There is something in this header file that fools the g++ 2.95.4
+// compiler to run into problems with some of the code in
+// SoQtGLWidgetP::eventFilter() (it gives a completely non-sensical
+// error message), so we just include it at the bottom like this.
 #include <GL/glx.h> // For glXIsDirect().
 #endif // HAVE_GLX
 
