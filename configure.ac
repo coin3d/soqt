@@ -1,4 +1,4 @@
-# **************************************************************************
+s# **************************************************************************
 # SoQt/configure.ac
 
 m4_define([SOQT_MAJOR], [2])
@@ -153,6 +153,7 @@ AC_SUBST([SOGUI_EXTRA_LIBS], [$LIBS])
 
 # **************************************************************************
 
+
 AC_ARG_WITH(
   [alternate],
   [AC_HELP_STRING([--with-alternate=string],
@@ -194,12 +195,42 @@ SIM_AC_SOGUI_SETUP_DOXYGEN(SoQt)
 AM_CONDITIONAL([BUILD_METAFILES], [true])
 AC_SUBST([meta_prefix], [moc_])
 
+# *******************************************************************
+# Use X11 on Mac OS X only if specifically requested by the user.
+
+sim_ac_want_x11=no
+case $host_os in
+  darwin*)
+    AC_ARG_ENABLE(
+      [x11],
+      AC_HELP_STRING([--enable-x11], [enable X11 on Mac OS X]), [
+      case $enableval in
+        yes) sim_ac_want_x11=yes 
+             CPPFLAGS="$CPPFLAGS -I/usr/X11R6/include"
+             LDFLAGS="$LDFLAGS -L/usr/X11R6/lib"  
+             LIBS="$LIBS -lX11 -lGL"
+             SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS -I/usr/X11R6/include"
+             SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS -L/usr/X11R6/lib"  
+             SOGUI_EXTRA_LIBS="$SOGUI_EXTRA_LIBS -lX11 -lGL"
+        ;;
+        *)  ;;
+      esac])
+    ;;
+  *)
+    sim_ac_want_x11=yes
+    ;;
+esac
+
 if $sim_ac_build_library; then
 
 # **************************************************************************
 # Header files we might want.
 
-AC_CHECK_HEADERS([windows.h tlhelp32.h unistd.h sys/types.h sys/time.h X11/extensions/SGIMisc.h X11/Xproto.h X11/extensions/XInput.h netinet/in.h])
+AC_CHECK_HEADERS([windows.h tlhelp32.h unistd.h sys/types.h sys/time.h netinet/in.h])
+
+if test x"$sim_ac_want_x11" = xyes; then 
+  AC_CHECK_HEADERS([X11/extensions/SGIMisc.h X11/Xproto.h X11/extensions/XInput.h])
+fi
 
 # *******************************************************************
 # Instead of getenv() on most Win32 platforms (not Windows CE).
@@ -219,6 +250,17 @@ SIM_AC_CHECK_LOADLIBRARY(
   AC_DEFINE([HAVE_WIN32_LOADLIBRARY], 1, [Define to use Win32 LoadLibrary()])
 )
 
+
+# **************************************************************************
+# Check to see if fink is installed on the system
+
+SIM_AC_CHECK_FINK([
+  SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_fink_cppflags"
+  SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_fink_ldflags"
+])
+
+
+ 
 # **************************************************************************
 # Search and set up necessary stuff to use Open Inventor or Coin.
 
@@ -228,7 +270,9 @@ SIM_AC_CHECK_LOADLIBRARY(
 ## AC_PATH_XTRA uses $no_x="yes"? from AC_PATH_X to decide whether
 ## or not to define X_DISPLAY_MISSING on X11-less systems.
 
-AC_PATH_XTRA
+if test x"$sim_ac_want_x11" = xyes; then 
+  AC_PATH_XTRA
+fi
 
 # $with_inventor is from within SIM_AC_HAVE_INVENTOR_IFELSE, and can
 # be used here since the value is empty when it reaches this point
@@ -261,7 +305,7 @@ if test x"${with_inventor+set}" = x"set" &&
     SIM_AC_CHECK_X11MU(SOGUI_EXTRA_LIBS="$sim_ac_x11mu_libs $SOGUI_EXTRA_LIBS")
     SIM_AC_CHECK_X11XID(SOGUI_EXTRA_LIBS="$sim_ac_x11xid_libs $SOGUI_EXTRA_LIBS")
   fi
-
+ 
   SIM_AC_CHECK_OPENGL([
     SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_ogl_cppflags"
     SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_ogl_ldflags"
@@ -300,54 +344,53 @@ else
     SOGUI_EXTRA_LIBS="$sim_ac_coin_libs $SOGUI_EXTRA_LIBS"
   ], [AC_MSG_ERROR([couldn't compile and link against Coin])])
 
-  case $host_os in
-  darwin*)
-    ;;
-  *)
-    SIM_AC_CHECK_X11_READY(
-      [sim_ac_x11_ready=true],
-      [sim_ac_x11_ready=false])
+if test x"$sim_ac_want_x11" = xyes; then 
+  SIM_AC_CHECK_X11_READY(
+    [sim_ac_x11_ready=true],
+    [sim_ac_x11_ready=false])
 
-    if $sim_ac_x11_ready; then :; else
-      SIM_AC_CHECK_X11([
+  if $sim_ac_x11_ready; then :; else
+    SIM_AC_CHECK_X11([
         CPPFLAGS="$CPPFLAGS $sim_ac_x11_cppflags"
         LDFLAGS="$LDFLAGS $sim_ac_x11_ldflags"
         LIBS="$sim_ac_x11_libs $LIBS"
         SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_x11_cppflags"
         SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_x11_ldflags"
         SOGUI_EXTRA_LIBS="$sim_ac_x11_libs $SOGUI_EXTRA_LIBS"
-      ])
-      # FIXME: we just implicitly assume that -lXext and -lXmu is available
-      # if -lX11 is available from coin-config. Should really have macros
-      # SIM_AC_CHECK_[X11SHMEM|X11MU]_READY. 20001116 mortene.
-      if test x"$sim_ac_x11_avail" = xyes; then
-        SIM_AC_CHECK_X11SHMEM([
-          # LIBS="$sim_ac_x11shmem_libs $LIBS"
-          SOGUI_EXTRA_LIBS="$sim_ac_x11shmem_libs $SOGUI_EXTRA_LIBS"
-        ])
-        SIM_AC_CHECK_X11MU([
-          # LIBS="$sim_ac_x11mu_libs $LIBS"
-          SOGUI_EXTRA_LIBS="$sim_ac_x11mu_libs $SOGUI_EXTRA_LIBS"
-        ])
-      fi
-    fi
-    SIM_AC_CHECK_X11XID([
-  	SOGUI_EXTRA_LIBS="$sim_ac_x11xid_libs $SOGUI_EXTRA_LIBS"
     ])
-    ;;
-  esac
+    # FIXME: we just implicitly assume that -lXext and -lXmu is available
+    # if -lX11 is available from coin-config. Should really have macros
+    # SIM_AC_CHECK_[X11SHMEM|X11MU]_READY. 20001116 mortene.
+    if test x"$sim_ac_x11_avail" = xyes; then
+      SIM_AC_CHECK_X11SHMEM([
+        # LIBS="$sim_ac_x11shmem_libs $LIBS"
+        SOGUI_EXTRA_LIBS="$sim_ac_x11shmem_libs $SOGUI_EXTRA_LIBS"
+      ])
+      SIM_AC_CHECK_X11MU([
+        # LIBS="$sim_ac_x11mu_libs $LIBS"
+        SOGUI_EXTRA_LIBS="$sim_ac_x11mu_libs $SOGUI_EXTRA_LIBS"
+      ])
+    fi
+  fi
+  SIM_AC_CHECK_X11XID([
+    SOGUI_EXTRA_LIBS="$sim_ac_x11xid_libs $SOGUI_EXTRA_LIBS"
+  ])
+fi
+
   SIM_AC_CONFIGURATION_SETTING([Open Inventor brand], [Coin])
 fi
 
+if test x"$sim_ac_want_x11" = xyes; then 
 SIM_AC_HAVE_GLX_IFELSE([
   AC_DEFINE([HAVE_GLX], 1, [define if you have GLX X11 OpenGL bindings])
 ])
 
-## We need this extra, final X11 check to set up the HAVE_X11_AVAILABLE
-## define -- the X_DISPLAY_MISSING define provided by the built-in
-## Autoconf X11 check is not strict enough.
-SIM_AC_CHECK_X11_READY([AC_DEFINE([HAVE_X11_AVAILABLE],,
-                          [define if it is possible to build against X11])])
+    ## We need this extra, final X11 check to set up the HAVE_X11_AVAILABLE
+    ## define -- the X_DISPLAY_MISSING define provided by the built-in
+    ## Autoconf X11 check is not strict enough.
+    SIM_AC_CHECK_X11_READY([AC_DEFINE([HAVE_X11_AVAILABLE],,
+                           [define if it is possible to build against X11])])
+fi
 
 # Check for the availability of this node (it is used in the hidden
 # line rendering), which is not part of older Inventor implementations.
@@ -389,11 +432,13 @@ SIM_AC_INVENTOR_EXTENSIONS([
 # FIXME: why is this here? - it's duplicate from below AC_PROG_CC  20020110 larsa
 # AC_PROG_CPP
 
-if test x"$sim_ac_x11mu_avail" != xyes; then
-  ## It's really QGL that depends on Xmu, not Qt. But we need to do this
-  ## check before checking for the Qt library, not after, in case QGL is
-  ## embedded into Qt.
-  SIM_AC_CHECK_X11MU([SOGUI_EXTRA_LIBS="$sim_ac_x11mu_libs $SOGUI_EXTRA_LIBS"])
+if test x"$sim_ac_want_x11" = xyes; then 
+  if test x"$sim_ac_x11mu_avail" != xyes; then
+    ## It's really QGL that depends on Xmu, not Qt. But we need to do this
+    ## check before checking for the Qt library, not after, in case QGL is
+    ## embedded into Qt.
+    SIM_AC_CHECK_X11MU([SOGUI_EXTRA_LIBS="$sim_ac_x11mu_libs $SOGUI_EXTRA_LIBS"])
+  fi
 fi
 
 SIM_AC_CHECK_QT([
@@ -738,6 +783,9 @@ if $sim_ac_build_library; then
       SOGUI_EXTRA_CXXFLAGS="$SOGUI_EXTRA_CXXFLAGS $sim_ac_coin_cxxflags"
       SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_coin_ldflags"
       SOGUI_EXTRA_LIBS="$sim_ac_coin_libs $SOGUI_EXTRA_LIBS"
+      # adjust for Fink usage
+      SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_fink_cppflags"
+      SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_fink_ldflags"
     fi
   fi
 fi
