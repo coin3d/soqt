@@ -1726,8 +1726,8 @@ if $sim_ac_coin_desired; then
   sim_ac_path=$PATH
   test -z $sim_ac_coin_extrapath ||   ## search in --with-coin path
     sim_ac_path=$sim_ac_coin_extrapath/bin:$sim_ac_path
-  test x"$exec_prefix" != xNONE &&    ## search in --prefix path
-    sim_ac_path=$sim_ac_path:$exec_prefix/bin
+  test x"$prefix" = xNONE ||          ## search in --prefix path
+    sim_ac_path=$sim_ac_path:$prefix/bin
 
   AC_PATH_PROG(sim_ac_coin_configcmd, coin-config, false, $sim_ac_path)
   if $sim_ac_coin_configcmd; then
