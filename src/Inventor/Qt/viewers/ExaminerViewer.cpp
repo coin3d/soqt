@@ -204,15 +204,14 @@ SoQtExaminerViewer::setViewing(// virtual
 
 // *************************************************************************
 
-/*!
-  This method overloaded from parent class to toggle the camera type
-  selection button pixmap and string of the zoom/dolly thumbwheel.
-*/
-
+// Documented in superclass.
 void
-SoQtExaminerViewer::setCamera(// virtual
-  SoCamera * newCamera)
+SoQtExaminerViewer::setCamera(SoCamera * newCamera)
 {
+  // This method overridden from parent class to toggle the camera
+  // type selection button pixmap and string of the zoom/dolly
+  // thumbwheel.
+
   if (newCamera) {
     SoType camtype = newCamera->getTypeId();
     SbBool orthotype =
@@ -227,7 +226,7 @@ SoQtExaminerViewer::setCamera(// virtual
   }
 
   inherited::setCamera(newCamera);
-} // setCamera()
+}
 
 // *************************************************************************
 

@@ -101,14 +101,11 @@ SoQtWalkViewer::setViewing(// virtual
 
 // ************************************************************************
 
-/*!
-*/
-
+// Documented in superclass.
 void
-SoQtWalkViewer::setCamera(// virtual
-  SoCamera * camera)
+SoQtWalkViewer::setCamera(SoCamera * camera)
 {
-} // setCamera()
+}
 
 // ************************************************************************
 

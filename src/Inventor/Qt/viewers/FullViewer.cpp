@@ -616,14 +616,14 @@ SoQtFullViewer::setViewing(SbBool enable)
 
 // *************************************************************************
 
-/*!
-  Overloaded from parent to make sure the user interface indicators on
-  the camera features in the preferences sheet are updated correctly.
-*/
-
+// Documented in superclass.
 void
 SoQtFullViewer::setCamera(SoCamera * newCamera)
 {
+  // Overridden from parent to make sure the user interface indicators
+  // on the camera features in the preferences sheet are updated
+  // correctly.
+
   inherited::setCamera(newCamera);
 
   if (PRIVATE(this)->prefwindow) {
@@ -640,14 +640,14 @@ SoQtFullViewer::setCamera(SoCamera * newCamera)
 
 // *************************************************************************
 
-/*!
-  Overloaded from parent class to make sure the preferences window
-  will be hidden automatically whenever the viewer window is hidden.
-*/
-
+// Documented in superclass.
 void
 SoQtFullViewer::hide(void)
 {
+  // Overridden from parent class to make sure the preferences window
+  // will be hidden automatically whenever the viewer window is
+  // hidden.
+
   inherited::hide();
   if (PRIVATE(this)->prefwindow) PRIVATE(this)->prefwindow->hide();
 }
@@ -683,6 +683,9 @@ SoQtFullViewer::eventFilter(QObject * obj, QEvent * e)
 QWidget *
 SoQtFullViewer::buildWidget(QWidget * parent)
 {
+  // This will build the main view widgets, along with the decorations
+  // widgets and popup menu if they are enabled.
+
 #if SOQT_DEBUG && 0
   SoDebugError::postInfo("SoQtFullViewer::buildWidget", "[invoked]");
 #endif // SOQT_DEBUG
@@ -740,7 +743,7 @@ SoQtFullViewer::buildDecoration(QWidget * parent)
 // *************************************************************************
 
 /*!
-  Build decorations on the left of the render canvas.  Overload this
+  Build decorations on the left of the render canvas.  Override this
   method in subclasses if you want your own decorations on the viewer
   window.
 
@@ -774,7 +777,7 @@ SoQtFullViewer::buildLeftTrim(QWidget * parent)
 // *************************************************************************
 
 /*!
-  Build decorations on the bottom of the render canvas. Overload this
+  Build decorations on the bottom of the render canvas. Override this
   method in subclasses if you want your own decorations on the viewer window.
 */
 
@@ -835,7 +838,7 @@ SoQtFullViewer::buildBottomTrim(QWidget * parent)
 // *************************************************************************
 
 /*!
-  Build decorations on the right side of the render canvas. Overload this
+  Build decorations on the right side of the render canvas. Override this
   method in subclasses if you want your own decorations on the viewer window.
 */
 
@@ -1022,7 +1025,7 @@ SoQtFullViewer::openPopupMenu(const SbVec2s position)
 // *************************************************************************
 
 /*!
-  Overload this method in subclass viewers to append more widgets to
+  Override this method in subclass viewers to append more widgets to
   the bottom of the preferences sheet window.
 */
 
@@ -1050,7 +1053,7 @@ SoQtFullViewer::setPrefSheetString(const char * title)
 
 /*!
   Called when the user start to drag the thumbwheel in the left frame.
-  Overload this method in subclassed viewers to provide your own
+  Override this method in subclassed viewers to provide your own
   functionality on the thumbwheel.
 
   \sa leftWheelMotion(), leftWheelFinish()
@@ -1065,7 +1068,7 @@ SoQtFullViewer::leftWheelStart(void)
 
 /*!
   Called repeatedly as the user drags the thumbwheel in the left frame.
-  Overload this method in subclassed viewers to provide your own
+  Override this method in subclassed viewers to provide your own
   functionality on the thumbwheel.
 
   \sa leftWheelStart(), leftWheelFinish()
@@ -1080,7 +1083,7 @@ SoQtFullViewer::leftWheelMotion(float value)
 
 /*!
   Called as the user let go of the thumbwheel in the left frame after
-  a drag operation. Overload this method in subclassed viewers to provide
+  a drag operation. Override this method in subclassed viewers to provide
   your own functionality on the thumbwheel.
 
   \sa leftWheelStart(), leftWheelMotion()
@@ -1120,7 +1123,7 @@ SoQtFullViewer::setLeftWheelValue(const float value)
 
 /*!
   Called when the user start to drag the thumbwheel in the bottom frame.
-  Overload this method in subclassed viewers to provide your own
+  Override this method in subclassed viewers to provide your own
   functionality on the thumbwheel.
 
   \sa bottomWheelMotion(), bottomWheelFinish()
@@ -1135,7 +1138,7 @@ SoQtFullViewer::bottomWheelStart(void)
 
 /*!
   Called repeatedly as the user drags the thumbwheel in the bottom frame.
-  Overload this method in subclassed viewers to provide your own
+  Override this method in subclassed viewers to provide your own
   functionality on the thumbwheel.
 
   \sa bottomWheelStart(), bottomWheelFinish()
@@ -1150,7 +1153,7 @@ SoQtFullViewer::bottomWheelMotion(float value)
 
 /*!
   Called as the user let go of the thumbwheel in the bottom frame after
-  a drag operation. Overload this method in subclassed viewers to provide
+  a drag operation. Override this method in subclassed viewers to provide
   your own functionality on the thumbwheel.
 
   \sa bottomWheelStart(), bottomWheelMotion()
@@ -1190,7 +1193,7 @@ SoQtFullViewer::setBottomWheelValue(const float value)
 
 /*!
   Called when the user start to drag the thumbwheel in the right frame.
-  Overload this method in subclassed viewers to provide your own
+  Override this method in subclassed viewers to provide your own
   functionality on the thumbwheel.
 
   \sa rightWheelMotion(), rightWheelFinish()
@@ -1205,7 +1208,7 @@ SoQtFullViewer::rightWheelStart(void)
 
 /*!
   Called repeatedly as the user drags the thumbwheel in the right frame.
-  Overload this method in subclassed viewers to provide your own
+  Override this method in subclassed viewers to provide your own
   functionality on the thumbwheel.
 
   \sa rightWheelStart(), rightWheelFinish()
@@ -1220,7 +1223,7 @@ SoQtFullViewer::rightWheelMotion(float value)
 
 /*!
   Called as the user let go of the thumbwheel in the right frame after
-  a drag operation. Overload this method in subclassed viewers to provide
+  a drag operation. Override this method in subclassed viewers to provide
   your own functionality on the thumbwheel.
 
   \sa rightWheelStart(), rightWheelMotion()
@@ -1326,7 +1329,7 @@ SoQtFullViewer::setRightWheelString(const char * const string)
 // *************************************************************************
 
 /*!
-  Overload this method to provide functionality when the user clicks
+  Override this method to provide functionality when the user clicks
   the Help button. Default implementation does nothing.
 */
 

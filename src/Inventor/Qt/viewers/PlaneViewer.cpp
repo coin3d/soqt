@@ -151,10 +151,7 @@ SoQtPlaneViewer::~SoQtPlaneViewer()
 
 // ************************************************************************
 
-/*!
-  FIXME: write doc
-*/
-
+// Documented in superclass.
 void
 SoQtPlaneViewer::setCamera(SoCamera * camera)
 {
@@ -173,10 +170,7 @@ SoQtPlaneViewer::setCamera(SoCamera * camera)
 
 // ************************************************************************
 
-/*!
-  FIXME: write doc
-*/
-
+// Documented in superclass.
 QWidget *
 SoQtPlaneViewer::buildWidget(QWidget * parent)
 {

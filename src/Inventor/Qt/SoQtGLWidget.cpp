@@ -259,9 +259,7 @@ SoQtGLWidget::~SoQtGLWidget()
 
 // *************************************************************************
 
-/*!
-  FIXME: write function documentation
-*/
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
 QWidget *
 SoQtGLWidget::buildWidget(QWidget * parent)
 {
