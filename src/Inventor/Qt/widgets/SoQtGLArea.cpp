@@ -71,7 +71,7 @@ SoQtGLArea::SoQtGLArea(QGLFormat * const format,
                        const char * const name)
   // The 3rd argument is supposed to be the widget name, but when
   // running on QGL v4.30 and Qt v2.1.0 application code will crash on
-  // exit under freak conditions -- see Bugzilla #264. 20001120 mortene.
+  // exit under freak conditions.
   : inherited(*format, parent, NULL, sharewidget, WResizeNoErase)
 {
 #if HAVE_QGLWIDGET_SETAUTOBUFFERSWAP
@@ -156,6 +156,20 @@ SoQtGLArea::event(QEvent * e)
       return TRUE;
     }
   }
+
+  // The following is a workaround for what may be a Qt bug (or at
+  // least very peculiar behavior).
+  //
+  // In a Qt MDI application, with multiple windows, each containing a
+  // SoQtExaminerViewer, use of the mousewheel over a viewer that
+  // doesn't have the focus causes wheel events to end up in both the
+  // viewer under the mouse and the viewer that has the focus.
+  // 
+  // Our workaround is thus to ignore a wheel event when the widget
+  // doesn't have the focus.
+  //
+  // Problem found with Win2000 and Qt 3.3.2.
+  if (e->type() == QEvent::Wheel && ! this->hasFocus()) { return FALSE; }
 
   return QGLWidget::event(e);
 }
