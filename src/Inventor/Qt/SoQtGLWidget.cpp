@@ -179,14 +179,15 @@ SoQtGLWidget::buildWidget(
 void 
 SoQtGLWidget::buildGLWidget(void)
 {
-  if (this->glwidget) {
-    this->glwidget->removeEventFilter( this );
-    this->glwidget->setMouseTracking( FALSE );
-    QObject::disconnect( this->glwidget, SIGNAL(expose_sig()), this, SLOT(gl_exposed()));
-    QObject::disconnect( this->glwidget, SIGNAL(init_sig()), this, SLOT(gl_init()));
-    delete this->glwidget;
-    this->glwidget = NULL;
+  SoQtGLArea * oldglwidget = this->glwidget;
+
+  if (oldglwidget) {
+    oldglwidget->removeEventFilter( this );
+    oldglwidget->setMouseTracking( FALSE );
+    QObject::disconnect( oldglwidget, SIGNAL(expose_sig()), this, SLOT(gl_exposed()));
+    QObject::disconnect( oldglwidget, SIGNAL(init_sig()), this, SLOT(gl_init()));
   }
+
   QGLFormat f;
   f.setDoubleBuffer((this->glmodebits & SO_GLX_DOUBLE) ? true : false);
   f.setDepth((this->glmodebits & SO_GLX_ZBUFFER) ? true : false);
@@ -203,6 +204,9 @@ SoQtGLWidget::buildGLWidget(void)
   if ( ! this->glwidget->isValid() )
     SoDebugError::post("SoQtGLWidget::SoQtGLWidget",
                        "Your graphics hardware is weird! Can't use it.");
+
+  // FIXME: set this->glmodebits to the flags we actually managed to
+  // cover. 20001121 mortene.
 
   QRect temp = borderwidget->contentsRect();
 //  SoDebugError::postInfo( "", "rect = %d, %d, %d, %d",
@@ -224,6 +228,14 @@ SoQtGLWidget::buildGLWidget(void)
                          parent, this->glwidget);
 #endif // debug
 
+  if (oldglwidget) {
+    // If we are rebuilding, the parent widgets have already been
+    // realized.
+    this->glwidget->show();
+    // Do this last to avoid flickering the grey background of the
+    // parent widget.
+    delete oldglwidget;
+  }
 }
 
 // *************************************************************************
@@ -441,29 +453,13 @@ void
 SoQtGLWidget::setDoubleBuffer(
   const SbBool enable )
 {
-  if (this->glwidget) {
-//    if (enable != this->getQtGLArea()->doubleBuffer()) {
-    if ( enable != (SbBool) this->getQtGLArea()->doubleBuffer() ) {
-      QGLFormat format = this->getQtGLArea()->format();
-      format.setDoubleBuffer(enable);
-      this->getQtGLArea()->setFormat(format);
-      if(!this->getQtGLArea()->isValid()) {
-        SoDebugError::post("SoQtGLWidget::setDoubleBuffer",
-                           "Couldn't switch to %s buffer mode. "
-                           "Falling back on %s buffer.",
-                           enable ? "double" : "single",
-                           enable ? "single" : "double");
-        format.setDoubleBuffer(!enable);
-        this->getQtGLArea()->setFormat(format);
-      }
-
-      if (this->glwidget->doubleBuffer()) this->glmodebits |= SO_GLX_DOUBLE;
-      else this->glmodebits &= ~SO_GLX_DOUBLE;
-    }
-  }
-  else {
+  SbBool oldenable = (this->glmodebits & SO_GLX_DOUBLE) ? TRUE : FALSE;
+  if ( enable != oldenable ) {
     if (enable) this->glmodebits |= SO_GLX_DOUBLE;
     else this->glmodebits &= ~SO_GLX_DOUBLE;
+    // We're satisfied with just setting up the flag if no GL widget
+    // was built yet.
+    if (this->glwidget) this->buildGLWidget();
   }
 }
 
@@ -475,8 +471,7 @@ SoQtGLWidget::setDoubleBuffer(
 SbBool
 SoQtGLWidget::isDoubleBuffer(void) const
 {
-  if (this->glwidget) return this->glwidget->doubleBuffer();
-  else return (this->glmodebits & SO_GLX_DOUBLE) ? TRUE : FALSE;
+  return (this->glmodebits & SO_GLX_DOUBLE) ? TRUE : FALSE;
 }
 
 /*!
@@ -496,7 +491,7 @@ SoQtGLWidget::setQuadBufferStereo(const SbBool enable)
 }
 
 /*!
-  Returns TRUE if quad buffer stereo is enabled for this widget.
+  Returns \c TRUE if quad buffer stereo is enabled for this widget.
 */
 SbBool 
 SoQtGLWidget::isQuadBufferStereo(void) const
@@ -603,15 +598,6 @@ SoQtGLWidget::getGLAspectRatio(
   Returns a pointer to the Qt QGLWidget.
 */
 
-SoQtGLArea *
-SoQtGLWidget::getQtGLArea(void)
-{
-  return (SoQtGLArea *) this->glwidget;
-} // getQtGLArea()
-
-/*!
-*/
-
 QWidget *
 SoQtGLWidget::getGLWidget(void)
 {
@@ -645,14 +631,17 @@ SoQtGLWidget::sizeChanged(
   }
 } // sizeChanged()
 
+// *************************************************************************
+
 /*!
   This is the method which gets called whenever the OpenGL widget
-  changes in any way.  Should be overloaded in subclasses.
+  changes in any way, including if it gets destructed (and remade).
+
+  Should be overloaded in subclasses which in any form store the
+  return value from the SoQtGLWidget::getGLWidget() method.
 
   \sa sizeChanged()
 */
-
-// *************************************************************************
 
 void
 SoQtGLWidget::widgetChanged(
