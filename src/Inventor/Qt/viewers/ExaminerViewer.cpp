@@ -233,30 +233,6 @@ SoQtExaminerViewer::setCamera(// virtual
 // *************************************************************************
 
 /*!
-  FIXME: write doc
-*/
-
-void
-SoQtExaminerViewer::resetToHomePosition(
-  void)
-{
-  inherited::resetToHomePosition();
-} // resetToHomePosition()
-
-/*!
-  FIXME: write doc
-*/
-
-void
-SoQtExaminerViewer::viewAll(// virtual
-  void)
-{
-  inherited::viewAll();
-} // viewAll()
-
-// *************************************************************************
-
-/*!
   Overloaded to provide the examiner viewer functionality on the left
   thumbwheel (x axis rotation).
 */
