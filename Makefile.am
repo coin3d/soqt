@@ -56,12 +56,20 @@ endif
 
 EXTRA_DIST = \
 	FAQ \
+	INSTALL.GNU \
 	LICENSE.GPL \
 	README.DLL \
 	README.IRIX \
 	README.WIN32 \
 	README.MAC \
 	Info.plist \
+	bootstrap \
+	docs/announcement-1_0_0.txt \
+	docs/announcement-1_0_1.txt \
+	docs/announcement-1_0_2.txt \
+	docs/ChangeLog.v1.0.0 \
+	docs/ChangeLog.v1.0.1 \
+	docs/ChangeLog.v1.0.2 \
 	models/coin_soqt.iv \
 	models/coin_soqt.wrl \
 	test-code/README \
