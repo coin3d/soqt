@@ -22,9 +22,11 @@
 #ifndef __QTTHUMBWHEEL_H__
 #define __QTTHUMBWHEEL_H__
 
-#include "qwidget.h"
-#include "qrangecontrol.h"
+#include <qwidget.h>
+#include <qrangecontrol.h>
 
+class QPixmap;
+class ThumbWheel;
 
 class QtThumbwheel : public QWidget, public QRangeControl
 {
@@ -34,6 +36,7 @@ public:
 
   QtThumbwheel(QWidget * parent=0, const char * name=0);
   QtThumbwheel(Orientation, QWidget * parent=0, const char * name=0);
+  ~QtThumbwheel(void);
 
   void setOrientation(Orientation);
   Orientation orientation(void) const;
@@ -72,6 +75,13 @@ private:
 
   QtThumbwheel(const QtThumbwheel &);
   QtThumbwheel & operator=(const QtThumbwheel &);
-};
+
+  ThumbWheel * wheel;
+  QPixmap ** pixmaps;
+  int numPixmaps;
+
+  void initWheel( int diameter, int width );
+
+}; // class QtThumbwheel
 
 #endif // !__QTTHUMBWHEEL_H__

@@ -1,7 +1,7 @@
 ## Process this file with automake to generate Makefile.in.
 
 SUBDIRS = \
-	devices viewers widgets .
+	common devices viewers widgets .
 
 lib_LTLIBRARIES = libSoQt.la
 
@@ -76,7 +76,9 @@ libSoQt_la_SOURCES = \
 
 
 libSoQt_la_LIBADD = \
-	devices/libSoQtdevices.la viewers/libSoQtviewers.la \
+	common/libSoCommon.la \
+	devices/libSoQtdevices.la \
+	viewers/libSoQtviewers.la \
 	widgets/libSoQtwidgets.la
 
 ## Installation information.

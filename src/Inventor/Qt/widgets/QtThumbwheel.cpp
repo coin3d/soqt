@@ -26,14 +26,18 @@ static const char rcsid[] =
 
 #include <qpainter.h>
 #include <qdrawutil.h>
+#include <qimage.h>
+#include <qpixmap.h>
 
 #include <Inventor/SbBasic.h>
 
+#include <Inventor/Qt/common/ThumbWheel.h>
+
 #include <Inventor/Qt/widgets/QtThumbwheel.h>
 
+// *************************************************************************
 
 static const int SHADEBORDERWIDTH = 2;
-
 
 QtThumbwheel::QtThumbwheel(QWidget *parent, const char *name)
   : QWidget(parent, name)
@@ -57,7 +61,20 @@ QtThumbwheel::init(void)
   this->state = QtThumbwheel::Idle;
   this->midpositionvalue = 0.0f;
   this->wheelvalue = 0.0f;
+  this->wheel = new ThumbWheel;
+  this->pixmaps = NULL;
 }
+
+QtThumbwheel::~QtThumbwheel(
+  void )
+{
+  delete this->wheel;
+  if ( this->pixmaps ) {
+    for ( int i = 0; i < this->numPixmaps; i++ )
+      delete this->pixmaps[i];
+    delete [] this->pixmaps;
+  }
+} // ~QtThumbwheel()
 
 void
 QtThumbwheel::setOrientation(Orientation orientation)
@@ -103,64 +120,47 @@ QtThumbwheel::paintEvent(QPaintEvent *e)
   QColorGroup g = this->colorGroup();
   QBrush fill(g.background());
 
-
-  // FIXME: make this effect look a little better... 990418 mortene.
-
-  qDrawShadePanel(&p, 0, 0, this->width(), this->height(),
-                  g, FALSE, SHADEBORDERWIDTH, &fill);
-
   QRect wheelrect(SHADEBORDERWIDTH, SHADEBORDERWIDTH,
                   this->width() - 2*SHADEBORDERWIDTH,
                   this->height() - 2*SHADEBORDERWIDTH);
 
-//    const int numLines =
-//        (this->orient == QtThumbwheel::Vertical) ?
-//        wheelrect.height()/16 : wheelrect.width()/16;
+  qDrawShadePanel(&p, 0, 0, this->width(), this->height(),
+                  g, FALSE, SHADEBORDERWIDTH, &fill);
 
-
-  const int numLines = 10;
-
-  for (int i=0; i < numLines+1; i++) {
-    QPoint topleft, botright;
-    int length =
-      (this->orient == QtThumbwheel::Vertical) ?
-      wheelrect.height() : wheelrect.width();
-    float space = float(length) / float(numLines);
-    int offset = int(this->wheelvalue * length) % int(space);
-
-    float pos;
-
-    switch (this->orient) {
-    case QtThumbwheel::Vertical:
-      pos = wheelrect.top()  +
-        cosmap(float(wheelrect.height())/float(numLines) * i + offset,
-               length, 0.08);
-      topleft.setX(wheelrect.left());
-      topleft.setY(pos);
-      botright.setX(wheelrect.right());
-      botright.setY(pos);
-      break;
-    case QtThumbwheel::Horizontal:
-      pos = wheelrect.left() +
-        cosmap(float(wheelrect.width())/float(numLines) * i + offset,
-               length, 0.08);
-      topleft.setX(pos);
-      topleft.setY(wheelrect.top());
-      botright.setX(pos);
-      botright.setY(wheelrect.bottom());
-      break;
-    default:
-      assert(0); // shouldn't happen
-      break;
-    }
-
-    qDrawShadeLine(&p,
-                   topleft.x(),
-                   topleft.y(),
-                   botright.x(),
-                   botright.y(),
-                   g, FALSE, 1, 1);
+  if ( this->orient == Vertical ) {
+    wheelrect.setTop(    wheelrect.top() + 5 );
+    wheelrect.setBottom( wheelrect.bottom() - 5 );
+    wheelrect.setLeft(   wheelrect.left() + 2 );
+    wheelrect.setRight(  wheelrect.right() - 2 );
+  } else {
+    wheelrect.setTop(    wheelrect.top() + 2 );
+    wheelrect.setBottom( wheelrect.bottom() - 2 );
+    wheelrect.setLeft(   wheelrect.left() + 5 );
+    wheelrect.setRight(  wheelrect.right() - 5 );
   }
+  
+  qDrawPlainRect( &p, wheelrect.left(), wheelrect.top(),
+                  wheelrect.width(), wheelrect.height(), QColor( 0, 0, 0 ), 1 );
+  
+  wheelrect.setTop(    wheelrect.top() + 1 );
+  wheelrect.setBottom( wheelrect.bottom() - 1 );
+  wheelrect.setLeft(   wheelrect.left() + 1 );
+  wheelrect.setRight(  wheelrect.right() - 1 );
+
+  int w = (this->orient == Vertical) ? wheelrect.width() : wheelrect.height();
+  int d = (this->orient == Horizontal) ? wheelrect.width() : wheelrect.height();
+
+  this->initWheel( d, w );
+
+  int image = this->wheel->GetBitmapForValue( this->wheelvalue, true );
+  if ( this->orient == Vertical )
+  bitBlt( this, wheelrect.left(), wheelrect.top(), this->pixmaps[image], 0, 0,
+    w, d, CopyROP );
+  else
+  bitBlt( this, wheelrect.left(), wheelrect.top(), this->pixmaps[image], 0, 0,
+    d, w, CopyROP );
+//  this->images[image];
+
 }
 
 void
@@ -254,3 +254,38 @@ QtThumbwheel::wheelValue(void) const
 {
   return this->wheelvalue;
 }
+
+void
+QtThumbwheel::initWheel(
+  int diameter,
+  int width )
+{
+  int d, w;
+  this->wheel->GetWheelSize( d, w );
+  if ( d == diameter && w == width ) return;
+
+  this->wheel->SetWheelSize( diameter, width );
+
+  int pwidth = width;
+  int pheight = diameter;
+  if ( this->orient == Horizontal ) {
+    pwidth = diameter;
+    pheight = width;
+  }
+
+  if ( this->pixmaps != NULL ) {
+    for ( int i = 0; i < this->numPixmaps; i++ )
+      delete this->pixmaps[i];
+    delete [] this->pixmaps;
+  }
+
+  this->numPixmaps = this->wheel->BitmapsRequired();
+  this->pixmaps = new QPixmap * [this->numPixmaps];
+  QImage image( pwidth, pheight, 32 );
+  for ( int i = 0; i < this->numPixmaps; i++ ) {
+    this->wheel->DrawBitmap( i, image.bits(), this->orient == Vertical );
+    this->pixmaps[i] = new QPixmap( QSize( pwidth, pheight) );
+    this->pixmaps[i]->convertFromImage( image );
+  }
+} // initWheel()
+

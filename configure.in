@@ -151,9 +151,12 @@ test -d src/Inventor/Qt || mkdir src/Inventor/Qt
 AC_OUTPUT([
 	Makefile
 	src/Inventor/Qt/Makefile
+	src/Inventor/Qt/common/Makefile
 	src/Inventor/Qt/devices/Makefile
 	src/Inventor/Qt/viewers/Makefile
 	src/Inventor/Qt/widgets/Makefile
-] \
-	${EXAMPLEMAKEFILES} \
-)
+	examples/Makefile
+	examples/examinerviewer/Makefile
+	examples/widgets/Makefile
+])
+

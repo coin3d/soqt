@@ -75,6 +75,7 @@ MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
 MOC = @MOC@
 NM = @NM@
+OBJDUMP = @OBJDUMP@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
 SOQT_BINARY_AGE = @SOQT_BINARY_AGE@
@@ -83,10 +84,9 @@ SOQT_MAJOR_VERSION = @SOQT_MAJOR_VERSION@
 SOQT_MICRO_VERSION = @SOQT_MICRO_VERSION@
 SOQT_MINOR_VERSION = @SOQT_MINOR_VERSION@
 SOQT_VERSION = @SOQT_VERSION@
-USE_SYMBOL_UNDERSCORE = @USE_SYMBOL_UNDERSCORE@
 VERSION = @VERSION@
 
-SUBDIRS =  	devices viewers widgets .
+SUBDIRS =  	common devices viewers widgets .
 
 
 lib_LTLIBRARIES = libSoQt.la
@@ -99,7 +99,7 @@ BUILT_SOURCES =  	moc_SoQt.cpp 	moc_SoQtComponent.cpp 	moc_SoQtGLWidget.cpp 	moc
 libSoQt_la_SOURCES =  	SoQt.cpp 	SoQt.h 	SoQtComponent.cpp 	SoQtComponent.h 	SoQtCursors.cpp 	SoQtCursors.h 	SoQtGLWidget.cpp 	SoQtGLWidget.h 	SoQtLightSliderSet.cpp 	SoQtLightSliderSet.h 	SoQtMaterialSliderSet.cpp 	SoQtMaterialSliderSet.h 	SoQtRenderArea.cpp 	SoQtRenderArea.h 	SoQtSliderSet.cpp 	SoQtSliderSet.h 	SoQtSliderSetBase.cpp 	SoQtSliderSetBase.h 	SoQtTransformSliderSet.cpp 	SoQtTransformSliderSet.h 	$(BUILT_SOURCES)
 
 
-libSoQt_la_LIBADD =  	devices/libSoQtdevices.la viewers/libSoQtviewers.la 	widgets/libSoQtwidgets.la
+libSoQt_la_LIBADD =  	common/libSoCommon.la 	devices/libSoQtdevices.la 	viewers/libSoQtviewers.la 	widgets/libSoQtwidgets.la
 
 
 libSoQtincdir = $(includedir)/Inventor/Qt
@@ -123,8 +123,9 @@ X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libSoQt_la_DEPENDENCIES =  devices/libSoQtdevices.la \
-viewers/libSoQtviewers.la widgets/libSoQtwidgets.la
+libSoQt_la_DEPENDENCIES =  common/libSoCommon.la \
+devices/libSoQtdevices.la viewers/libSoQtviewers.la \
+widgets/libSoQtwidgets.la
 libSoQt_la_OBJECTS =  SoQt.lo SoQtComponent.lo SoQtCursors.lo \
 SoQtGLWidget.lo SoQtLightSliderSet.lo SoQtMaterialSliderSet.lo \
 SoQtRenderArea.lo SoQtSliderSet.lo SoQtSliderSetBase.lo \
