@@ -252,12 +252,9 @@ if test x"${with_inventor+set}" = x"set" &&
   fi
 
   SIM_AC_CHECK_OPENGL([
-    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_gl_cppflags"
-    SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_gl_ldflags"
-    SOGUI_EXTRA_LIBS="$sim_ac_gl_libs $SOGUI_EXTRA_LIBS"
-    CPPFLAGS="$CPPFLAGS $sim_ac_gl_cppflags"
-    LDFLAGS="$LDFLAGS $sim_ac_gl_ldflags"
-    LIBS="$sim_ac_gl_libs $LIBS"
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_ogl_cppflags"
+    SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_ogl_ldflags"
+    SOGUI_EXTRA_LIBS="$sim_ac_ogl_libs $SOGUI_EXTRA_LIBS"
   ], AC_MSG_ERROR([needs an OpenGL-compatible development system installation]))
 
   SIM_AC_CHECK_GLU([
