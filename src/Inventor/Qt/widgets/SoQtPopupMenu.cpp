@@ -108,7 +108,7 @@ SoQtPopupMenu::~SoQtPopupMenu(
 */
 
 int
-SoQtPopupMenu::NewMenu(
+SoQtPopupMenu::newMenu(
   char * name,
   int menuid )
 {
@@ -130,13 +130,13 @@ SoQtPopupMenu::NewMenu(
   rec->menuid = id;
   this->menus->append( (void *) rec );
   return id;
-} // NewMenu()
+} // newMenu()
 
 /*!
 */
 
 int
-SoQtPopupMenu::GetMenu(
+SoQtPopupMenu::getMenu(
   char * name )
 {
   const int numMenus = this->menus->getLength();
@@ -147,13 +147,13 @@ SoQtPopupMenu::GetMenu(
       return rec->menuid;
   }
   return -1;
-} // GetMenu()
+} // getMenu()
 
 /*!
 */
 
 void
-SoQtPopupMenu::SetMenuTitle(
+SoQtPopupMenu::setMenuTitle(
   int menuid,
   char * title )
 {
@@ -174,20 +174,20 @@ SoQtPopupMenu::SetMenuTitle(
   if ( rec->parent )
     rec->parent->changeItem( rec->title, rec->menuid );
 #endif // Qt version < 2.0.0
-} // SetMenuTitle()
+} // setMenuTitle()
 
 /*!
 */
 
 char *
-SoQtPopupMenu::GetMenuTitle(
+SoQtPopupMenu::getMenuTitle(
   int menuid )
 {
   MenuRecord * rec = this->getMenuRecord( menuid );
   if ( rec == NULL )
     return NULL;
   return rec->title;
-} // GetMenuTitle()
+} // getMenuTitle()
 
 // *************************************************************************
 
@@ -195,7 +195,7 @@ SoQtPopupMenu::GetMenuTitle(
 */
 
 int
-SoQtPopupMenu::NewMenuItem(
+SoQtPopupMenu::newMenuItem(
   char * name,
   int itemid )
 {
@@ -216,13 +216,13 @@ SoQtPopupMenu::NewMenuItem(
   rec->itemid = id;
   this->items->append( rec );
   return id;
-} // NewMenuItem()
+} // newMenuItem()
 
 /*!
 */
 
 int
-SoQtPopupMenu::GetMenuItem(
+SoQtPopupMenu::getMenuItem(
   char * name )
 {
   const int numItems = this->items->getLength();
@@ -233,13 +233,13 @@ SoQtPopupMenu::GetMenuItem(
       return rec->itemid;
   }
   return -1;
-} // GetMenuItem()
+} // getMenuItem()
 
 /*!
 */
 
 void
-SoQtPopupMenu::SetMenuItemTitle(
+SoQtPopupMenu::setMenuItemTitle(
   int itemid,
   char * title )
 {
@@ -257,25 +257,25 @@ SoQtPopupMenu::SetMenuItemTitle(
   if ( rec->parent )
     rec->parent->changeItem( rec->title, rec->itemid );
 #endif // Qt version < 2.0.0
-} // SetMenuItemTitle()
+} // setMenuItemTitle()
 
 /*!
 */
 
 char *
-SoQtPopupMenu::GetMenuItemTitle(
+SoQtPopupMenu::getMenuItemTitle(
   int itemid )
 {
   ItemRecord * rec = this->getItemRecord( itemid );
   if ( rec == NULL ) return NULL;
   return rec->title;
-} // GetMenuItemTitle()
+} // getMenuItemTitle()
 
 /*!
 */
 
 void
-SoQtPopupMenu::SetMenuItemEnabled(
+SoQtPopupMenu::setMenuItemEnabled(
   int itemid,
   SbBool enabled )
 {
@@ -283,20 +283,20 @@ SoQtPopupMenu::SetMenuItemEnabled(
   if ( rec == NULL )
     return;
   rec->parent->setItemEnabled( rec->itemid, enabled ? true : false );
-} // SetMenuItemEnabled()
+} // setMenuItemEnabled()
 
 /*!
 */
 
 SbBool
-SoQtPopupMenu::GetMenuItemEnabled(
+SoQtPopupMenu::getMenuItemEnabled(
   int itemid )
 {
   ItemRecord * rec = this->getItemRecord( itemid );
   if ( rec == NULL )
     return FALSE;
   return rec->parent->isItemEnabled( rec->itemid ) ? TRUE : FALSE;
-} // GetMenuItemEnabled()
+} // getMenuItemEnabled()
 
 /*!
 */
@@ -313,18 +313,15 @@ SoQtPopupMenu::_setMenuItemMarked(
     rec->flags |= ITEM_MARKED;
   else
     rec->flags &= ~ITEM_MARKED;
-  if ( rec->parent == NULL )
-    return;
-  rec->parent->setItemChecked( rec->itemid, marked ? true : false );
-  if ( marked )
-    this->SetRadioGroupMarkedItem( itemid );
+  if ( rec->parent != NULL )
+    rec->parent->setItemChecked( rec->itemid, marked ? true : false );
 } // _setMenuItemMarked()
 
 /*!
 */
 
 SbBool
-SoQtPopupMenu::GetMenuItemMarked(
+SoQtPopupMenu::getMenuItemMarked(
   int itemid )
 {
   ItemRecord * rec = this->getItemRecord( itemid );
@@ -333,7 +330,7 @@ SoQtPopupMenu::GetMenuItemMarked(
   if ( rec->parent == NULL )
     return (rec->flags & ITEM_MARKED) ? TRUE : FALSE;
   return rec->parent->isItemChecked( rec->itemid ) ? TRUE : FALSE;
-} // GetMenuItemMarked()
+} // getMenuItemMarked()
 
 // *************************************************************************
 
@@ -341,7 +338,7 @@ SoQtPopupMenu::GetMenuItemMarked(
 */
 
 void
-SoQtPopupMenu::AddMenu(
+SoQtPopupMenu::addMenu(
   int menuid,
   int submenuid,
   int pos )
@@ -361,13 +358,13 @@ SoQtPopupMenu::AddMenu(
     super->menu->insertItem( QString( sub->title ),
                              sub->menu, sub->menuid, pos );
   sub->parent = super->menu;
-} // AddMenu()
+} // addMenu()
 
 /*!
 */
 
 void
-SoQtPopupMenu::AddMenuItem(
+SoQtPopupMenu::addMenuItem(
   int menuid,
   int itemid,
   int pos )
@@ -388,10 +385,10 @@ SoQtPopupMenu::AddMenuItem(
   item->parent = menu->menu;
   if ( item->flags & ITEM_MARKED )
     item->parent->setItemChecked( item->itemid, true );
-} // AddMenuItem()
+} // addMenuItem()
 
 void
-SoQtPopupMenu::AddSeparator(
+SoQtPopupMenu::addSeparator(
   int menuid,
   int pos )
 {
@@ -407,7 +404,7 @@ SoQtPopupMenu::AddSeparator(
   menu->menu->insertSeparator( pos );
   rec->flags |= ITEM_SEPARATOR;
   this->items->append( rec );
-} // AddSeparator()
+} // addSeparator()
 
 /*!
   This method removes the submenu with the given \a menuid.
@@ -417,7 +414,7 @@ SoQtPopupMenu::AddSeparator(
 */
 
 void
-SoQtPopupMenu::RemoveMenu(
+SoQtPopupMenu::removeMenu(
   int menuid )
 {
   MenuRecord * rec = this->getMenuRecord( menuid );
@@ -441,7 +438,7 @@ SoQtPopupMenu::RemoveMenu(
   }
   rec->parent->removeItem( rec->menuid );
   rec->parent = NULL;
-} // RemoveMenu()
+} // removeMenu()
 
 /*!
   This method removes the menu item with the given \a itemid.
@@ -451,7 +448,7 @@ SoQtPopupMenu::RemoveMenu(
 */
 
 void
-SoQtPopupMenu::RemoveMenuItem(
+SoQtPopupMenu::removeMenuItem(
   int itemid )
 {
   ItemRecord * rec = this->getItemRecord( itemid );
@@ -469,7 +466,7 @@ SoQtPopupMenu::RemoveMenuItem(
   }
   rec->parent->removeItem( rec->itemid );
   rec->parent = NULL;
-} // RemoveMenuItem()
+} // removeMenuItem()
 
 // *************************************************************************
 
@@ -481,7 +478,7 @@ SoQtPopupMenu::RemoveMenuItem(
 */
 
 void
-SoQtPopupMenu::PopUp(
+SoQtPopupMenu::popUp(
   QWidget * inside,
   int x,
   int y )
@@ -565,7 +562,7 @@ void
 SoQtPopupMenu::itemActivation( // private slot
   int itemid )
 {
-  inherited::InvokeMenuSelection( itemid );
+  inherited::invokeMenuSelection( itemid );
 } // menuSelection()
 
 // *************************************************************************

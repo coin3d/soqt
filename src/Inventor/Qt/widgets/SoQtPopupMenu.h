@@ -40,26 +40,26 @@ public:
   SoQtPopupMenu(void);
   virtual ~SoQtPopupMenu(void);
 
-  virtual int NewMenu( char * name, int menuid = -1 );
-  virtual int GetMenu( char * name );
-  virtual void SetMenuTitle( int id, char * title );
-  virtual char * GetMenuTitle( int id );
+  virtual int newMenu( char * name, int menuid = -1 );
+  virtual int getMenu( char * name );
+  virtual void setMenuTitle( int id, char * title );
+  virtual char * getMenuTitle( int id );
 
-  virtual int NewMenuItem( char * name, int itemid = -1 );
-  virtual int GetMenuItem( char * name );
-  virtual void SetMenuItemTitle( int itemid, char * title );
-  virtual char * GetMenuItemTitle( int itemid );
-  virtual void SetMenuItemEnabled( int itemid, SbBool enabled );
-  virtual SbBool GetMenuItemEnabled( int itemid );
-  virtual SbBool GetMenuItemMarked( int itemid );
+  virtual int newMenuItem( char * name, int itemid = -1 );
+  virtual int getMenuItem( char * name );
+  virtual void setMenuItemTitle( int itemid, char * title );
+  virtual char * getMenuItemTitle( int itemid );
+  virtual void setMenuItemEnabled( int itemid, SbBool enabled );
+  virtual SbBool getMenuItemEnabled( int itemid );
+  virtual SbBool getMenuItemMarked( int itemid );
 
-  virtual void AddMenu( int menuid, int submenuid, int pos = -1 );
-  virtual void AddMenuItem( int menuid, int itemid, int pos = -1 );
-  virtual void AddSeparator( int menuid, int pos = -1 );
-  virtual void RemoveMenu( int menuid );
-  virtual void RemoveMenuItem( int itemid );
+  virtual void addMenu( int menuid, int submenuid, int pos = -1 );
+  virtual void addMenuItem( int menuid, int itemid, int pos = -1 );
+  virtual void addSeparator( int menuid, int pos = -1 );
+  virtual void removeMenu( int menuid );
+  virtual void removeMenuItem( int itemid );
 
-  virtual void PopUp( QWidget * inside, int x, int y );
+  virtual void popUp( QWidget * inside, int x, int y );
 
 protected:
   virtual void _setMenuItemMarked( int itemid, SbBool marked );
