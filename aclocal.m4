@@ -2060,35 +2060,6 @@ m4_do([popdef([cache_variable])],
 ]) # SIM_AC_HAVE_INVENTOR_NODE
 
 # **************************************************************************
-# SIM_AC_HAVE_SOMOUSEBUTTONEVENT_BUTTONS
-#
-# Authors:
-#   Lars J. Aas <larsa@sim.no>
-#
-# TODO:
-#   Check for enums generically instead.
-#
-
-AC_DEFUN([SIM_AC_HAVE_SOMOUSEBUTTONEVENT_BUTTONS],
-[AC_CACHE_CHECK(
-  [for SoMouseButtonEvent::BUTTON5 availability],
-  sim_cv_somousebuttonevent_buttons,
-  [AC_TRY_COMPILE(
-    [#include <Inventor/events/SoMouseButtonEvent.h>],
-    [int button = SoMouseButtonEvent::BUTTON5],
-    [sim_cv_somousebuttonevent_buttons=true],
-    [sim_cv_somousebuttonevent_buttons=false])])
-
-if $sim_cv_somousebuttonevent_buttons; then
-  AC_DEFINE(HAVE_SOMOUSEBUTTONEVENT_BUTTONS, 1,
-    [Define to enable use of SoMouseButtonEvent::BUTTON5])
-  $1
-else
-  ifelse([$2], , :, [$2])
-fi
-]) # SIM_AC_HAVE_SOMOUSEBUTTONEVENT_BUTTONS()
-
-# **************************************************************************
 # SIM_AC_HAVE_INVENTOR_FEATURE(MESSAGE, HEADERS, BODY, DEFINE
 #                              [, ACTION-IF-FOUND[, ACTION-IF-NOT-FOUND]])
 #
