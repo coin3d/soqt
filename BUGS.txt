@@ -145,3 +145,16 @@ Note: see also src/Inventor/Qt/common/BUGS.txt.
     mortene 20020703.
 
 =====================================================================
+
+005 Using SoQtComponent::setSize() to set a smaller size than the
+    default _after_ doing either SoQtExaminerViewer::show() or
+    SoQt::show(SoQtExaminerViewer*) fails, at least for an
+    SoQtExaminerViewer embedded in a top-level shell (like in the
+    SoGuiExamples/components/examinerviewer example.
+
+    The interior resizes correctly (?), but the exterior does not
+    shrink to fit.
+
+    mortene 20020808.
+
+=====================================================================
