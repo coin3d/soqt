@@ -26,6 +26,7 @@ bin_SCRIPTS = soqt-config
 
 BUILT_SOURCES = \
 	soqt-config \
+	soqtdefs.h \
 	src/Inventor/Qt/SoQtBasic.h \
 	src/Inventor/Qt/SoQtRenderArea.h \
 	src/Inventor/Qt/SoQtRenderArea.cpp \
@@ -77,6 +78,9 @@ m4data_DATA = conf-macros/soqt.m4 conf-macros/modifierlist.m4
 # Target which is present to make it simple to only generate the
 # sourcefiles from the common sources.
 built-sources: $(BUILT_SOURCES)
+
+soqtdefs.h: $(top_srcdir)/soqtdefs.h.in
+	@CONFIG_HEADERS= CONFIG_FILES=$@:soqtdefs.h.in ./config.status
 
 src/Inventor/Qt/SoQtBasic.h: \
   $(top_srcdir)/src/Inventor/Qt/common/SoGuiBasic.h.in
