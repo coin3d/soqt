@@ -158,6 +158,8 @@ SoQtSuperViewer::SoQtSuperViewer(
   PRIVATE(this)->linecolor = SbColor(1.0f, 0.0f, 0.0f);
   PRIVATE(this)->pointcolor = SbColor(0.0f, 1.0f, 1.0f);
 
+  //PRIVATE(this)->initializeMenus(buildFlag);
+
   PRIVATE(this)->menubarenabled = buildFlag & SoQtSuperViewer::BUILD_MENUBAR;
   PRIVATE(this)->filemenuenabled = buildFlag & SoQtSuperViewer::FILE_MENU;
   PRIVATE(this)->viewmenuenabled = buildFlag & SoQtSuperViewer::VIEW_MENU;
@@ -688,11 +690,6 @@ SoQtSuperViewer::toggleFlatshading()
     PRIVATE(this)->flatshadingenabled = FALSE : 
     PRIVATE(this)->flatshadingenabled = TRUE;
 
-
-  // FIXME: flatshading only works as long as the models viewed has no normals
-  // This cannot be remedied until Coin makes it possible to disable said
-  // normals by external users. larsivi 20020314
-
   if(PRIVATE(this)->flatshadingenabled){
     
     if(PRIVATE(this)->shapehints == NULL) 
@@ -723,7 +720,7 @@ SoQtSuperViewer::toggleFlatshading()
     ((SoSeparator *)this->getSceneManager()->getSceneGraph())
       ->removeChild(PRIVATE(this)->emptynormalbinding);
     PRIVATE(this)->emptynormalbinding = NULL;
-  }
+    }
 } //toggleFlatshading()
 
 // *************************************************************************
@@ -1198,15 +1195,17 @@ SoQtSuperViewer::isFlyMode()
 void
 SoQtSuperViewer::actualRedraw(void)
 {
+  SbBool changedComplexitySettings = FALSE;
   if(this->getInteractiveCount() && 
      PRIVATE(this)->howtomove != SoQtSuperViewerP::FULL)
     PRIVATE(this)->movingRedraw(TRUE);
-
+  
   // FIXME: look into if it is possible to make an init method for the viewer
   // where we can place setupNodes(). This is ugly.
   // larsivi 20020318
   if(PRIVATE(this)->polygonoffsetindex == -1) PRIVATE(this)->setupNodes();
   if(!PRIVATE(this)->filled){
+    changedComplexitySettings = TRUE;
     PRIVATE(this)->complexity->textureQuality = 0.0;
     PRIVATE(this)->drawstyleroot->whichChild = SO_SWITCH_ALL;
     PRIVATE(this)->drawstyle->style = SoDrawStyle::INVISIBLE;
@@ -1225,7 +1224,7 @@ SoQtSuperViewer::actualRedraw(void)
     }
   }
   else{
-    if(!PRIVATE(this)->texturesenabled){ 
+    if(!PRIVATE(this)->texturesenabled){
       PRIVATE(this)->complexity->textureQuality = 0.0;
       PRIVATE(this)->drawstyleroot->whichChild = PRIVATE(this)->complexityindex;
     }
@@ -1240,15 +1239,16 @@ SoQtSuperViewer::actualRedraw(void)
     PRIVATE(this)->complexity->type.setIgnored(FALSE); // as-is rendering space
     PRIVATE(this)->complexity->value.setIgnored(FALSE); // as-is complexity on non-simple shapes
   }
-
+  
   if(PRIVATE(this)->drawstyles) PRIVATE(this)->drawstyleRedraw();
   if(!PRIVATE(this)->filled){
     PRIVATE(this)->drawstyleroot->whichChild = PRIVATE(this)->complexityindex;
   }
   else{
-    PRIVATE(this)->complexity->textureQuality = PRIVATE(this)->texturequality;
+    if(changedComplexitySettings)
+      PRIVATE(this)->complexity->textureQuality = PRIVATE(this)->texturequality;
   }
-
+ 
   SbTime thisRedrawTime = SbTime::getTimeOfDay();
   unsigned long msecs =
     thisRedrawTime.getMsecValue() - PRIVATE(this)->prevRedrawTime.getMsecValue();
@@ -1266,7 +1266,7 @@ SoQtSuperViewer::actualRedraw(void)
   // the primitivescount
   if(PRIVATE(this)->currentindex >= 0 && this->isInformation()) 
     PRIVATE(this)->drawInformation();
-
+                            
 } // actualRedraw()
 
 // *************************************************************************

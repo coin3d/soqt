@@ -312,6 +312,14 @@ SoQtSuperViewerP::setupNodes()
 }
 
 void
+SoQtSuperViewerP::initializeMenus(SbBool buildFlag)
+{
+  //this->menus[0].ID = "MENU_BAR";
+  //this->menus[0].
+
+}
+
+void
 SoQtSuperViewerP::drawInformation()
 {
   if(countaction == NULL) resetCountAction();
@@ -1747,18 +1755,27 @@ SoQtSuperViewerP::snapshotSelected()
     new SoOffscreenRenderer(owner->getViewportRegion());
   wtf->render(owner->getSceneManager()->getSceneGraph());
   int numft = wtf->getNumWriteFiletypes();
-  
+
   SbString filter("");
   SbList<SbName> ext;
   SbList<SbName> extensions;
+  SbList<SbName> psrgbextensions;
   SbStringList filters;
   SbString fullname = "";
   SbString description = "";
 
+  psrgbextensions.append(SbName("rgb"));
+  psrgbextensions.append(SbName("ps"));
+  psrgbextensions.append(SbName("eps"));
+  
+  filter = "SGI RGB (*.rgb);;Adobe PostScript (*.ps *.eps)";
+  filters.append(&SbString("SGI RGB (*.rgb)"));
+  filters.append(&SbString("Adobe PostScript (*.ps *.eps)"));
+
   for(int i = 0; i < numft; i++){
     SbString * temp = new SbString;
     wtf->getWriteFiletypeInfo(i, ext, fullname, description);
-    if (i > 0) filter.operator+=(";;");
+    filter.operator+=(";;");
     (*temp) = fullname.getString();
     temp->operator+=(" (");
     for(int j = 0; j < ext.getLength(); j++){
@@ -1790,43 +1807,67 @@ SoQtSuperViewerP::snapshotSelected()
     }
 
     SbString filename(qss.latin1());
-    SbName extension;
-    wtf->getWriteFiletypeInfo(filtnum, ext, fullname, description);
-    for(int k = 0; k < ext.getLength(); k++){
-      SbIntList templist;
-      if(TRUE)
-	//      if(!filename.findAll(((SbName)ext.operator[](k)).getString(), templist))
-	continue;
-      if(templist.getLength() > 0 &&
-	 (filename[
-	  templist[templist.getLength() - 1] - 1] == '.') &&
-	  (templist[templist.getLength() - 1] == 
-	  (filename.getLength() - ((SbName)ext[k]).getLength()))){
-	extension = (SbName)ext[k];
-	break;
+    SbName extension = "";
+    if(filtnum < 2){
+      for(int k = 0; k < psrgbextensions.getLength(); k++){
+        SbIntList templist;
+        if(!filename.findAll(((SbName)psrgbextensions[k]).getString(), templist))
+          continue;
+       if(templist.getLength() > 0 &&
+           (filename[templist[templist.getLength() - 1] - 1] == '.') &&
+	    (templist[templist.getLength() - 1] == 
+	    (filename.getLength() - ((SbName)psrgbextensions[k]).getLength()))){
+          extension = (SbName)psrgbextensions[k];
+          break;
+        }
+      }
+    }
+    else{
+      wtf->getWriteFiletypeInfo(filtnum-2, ext, fullname, description);
+      for(int k = 0; k < ext.getLength(); k++){
+        SbIntList templist;
+        if(!filename.findAll(((SbName)ext[k]).getString(), templist))
+          continue;
+         if(templist.getLength() > 0 &&
+           (filename[templist[templist.getLength() - 1] - 1] == '.') &&
+	     (templist[templist.getLength() - 1] == 
+	     (filename.getLength() - ((SbName)ext[k]).getLength()))){
+          extension = (SbName)ext[k];
+          break;
+        }
       }
     }
     if(!extension.getLength()){
-      extension = (SbName)ext[0];
+      switch(filtnum){
+      case 0:
+        extension = (SbName)psrgbextensions[0];
+        break;
+      case 1:
+        extension = (SbName)psrgbextensions[1];
+        break;
+      default:
+        extension = (SbName)ext[0];
+        break;
+      }
       filename.operator+=(".");
       filename.operator+=(SbString(extension.getString()));
     }
     
     switch(filtnum){
-  case 0:
-    wtf->writeToRGB(filename.getString());
-    break;
-  case 1:
-    wtf->writeToPostScript(filename.getString());
-    break;
+    case 0:
+      wtf->writeToRGB(filename.getString());
+      break;
+    case 1:
+      wtf->writeToPostScript(filename.getString());
+      break;
     default:
       wtf->writeToFile(filename.getString(), extension);
       break;
     }
   }
 
-  for(int d = 0; d < filters.getLength(); d++) delete filters[d];
-
+  filters.truncate(0);
+  
   delete wtf;
   delete filedialog;
 

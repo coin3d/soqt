@@ -36,10 +36,22 @@ class SoQtSuperViewer : public SoQtViewer {
     SETTINGS_MENU    = 0x08,
     CAMERA_MENU      = 0x10,
     LIGHTS_MENU      = 0x20,
-    //FIXME: Popup menu presence not yet decided on.
-    //BUILD_POPUP    = 0x02,
     BUILD_ALL        = (BUILD_MENUBAR | FILE_MENU | VIEW_MENU | 
                         SETTINGS_MENU | CAMERA_MENU | LIGHTS_MENU)
+  };
+
+  enum BuildFileMenu {
+    OPEN_MODEL       = 0x00,
+    CLOSE_MODEL      = 0x01,
+    CLOSE_ALL        = 0x02,
+    NEXT_MODEL       = 0x04,
+    PREVIOUS_MODEL   = 0x08,
+    REFRESH_MODEL    = 0x10,
+    SNAPSHOT         = 0x20,
+    EXIT             = 0x40,
+    BUILD_FILE_MENU  = (OPEN_MODEL | CLOSE_MODEL | CLOSE_ALL |
+                        NEXT_MODEL | PREVIOUS_MODEL | REFRESH_MODEL |
+                        SNAPSHOT | EXIT)
   };
 
  public:

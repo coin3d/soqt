@@ -109,6 +109,19 @@ class SoQtSuperViewerP : QObject{
   SbBool cameramenuenabled;
   SbBool lightsmenuenabled;
 
+  struct menuItem {
+    SbString ID;
+    SbBool build;
+    SbBool enabled;
+    int index;
+  };
+
+  /*  menuItem[6] menus;
+  menuItem[8] filemenuItems;
+  menuItem[12] viewmenuItems;
+  menuItem[9] settingsmenuItems;
+  menuItem[5] cameramenuItems;
+ */
   int movingitemchk, transparencyitemchk, cameraitemchk, flymodeitemchk;
   SbBool mt, mf, mv, mw, mb;
 
@@ -201,6 +214,7 @@ class SoQtSuperViewerP : QObject{
  public:
 
   void setupNodes();
+  void initializeMenus(SbBool buildFlag);
   void drawInformation();
   void resetCountAction();
   void resetBBox();
