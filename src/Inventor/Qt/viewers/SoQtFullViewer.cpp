@@ -603,21 +603,21 @@ SoQtFullViewer::setComponentCursor(const SoQtCursor & cursor)
 
 // *************************************************************************
 
+// FIXME: there's common documentation for setViewing() in our
+// superclass -- move the relevant parts of this doc up. 20020104 mortene.
 /*!
   Set a flag to indicate whether we're in viewing mode (where the user
   can drag the model or scene around), or in interaction mode (where
   all window events from mouse, keyboard, etc are sent to the scene
   graph).
 
-  Overloaded from parent class to correctly set the user interface
+  Overridden from parent class to correctly set the user interface
   indicators on the current state, i.e. to flip the examine and
   interact pushbuttons and to grey out the seek mode activation button
   iff in interact mode.
 */
-
 void
-SoQtFullViewer::setViewing(
-  SbBool enable)
+SoQtFullViewer::setViewing(SbBool enable)
 {
   if ((enable && this->isViewing()) ||
        (!enable && !this->isViewing())) {
