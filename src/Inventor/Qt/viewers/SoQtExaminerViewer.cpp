@@ -746,7 +746,7 @@ SoQtExaminerViewer::processEvent(QEvent * event)
         this->zoomByCursor(norm_mousepos);
         break;
 
-      default: /* include default to avoid compiler warnings. */
+      default: // include default to avoid compiler warnings.
         break;
       }
     }
@@ -776,7 +776,7 @@ SoQtExaminerViewer::processEvent(QEvent * event)
     }
     break;
 
-  default: /* include default to avoid compiler warnings. */
+  default: // include default to avoid compiler warnings.
     break;
   }
 
@@ -900,7 +900,7 @@ SoQtExaminerViewer::setMode(const ViewerMode mode)
     }
     break;
 
-  default: /* include default to avoid compiler warnings. */
+  default: // include default to avoid compiler warnings.
     break;
   }
 
