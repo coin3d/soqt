@@ -34,14 +34,15 @@
 #include <qimage.h>
 #include <qpixmap.h>
 #include <qmetaobject.h>
-#include <Inventor/Qt/widgets/moc_SoQtThumbWheel.icc>
 
 #include <Inventor/SbBasic.h>
 #include <Inventor/errors/SoDebugError.h>
 
-#include <soqtdefs.h>
-#include <Inventor/Qt/widgets/SoAnyThumbWheel.h>
 #include <Inventor/Qt/widgets/SoQtThumbWheel.h>
+#include <Inventor/Qt/widgets/moc_SoQtThumbWheel.icc>
+#include <Inventor/Qt/widgets/SoAnyThumbWheel.h>
+
+#include <soqtdefs.h>
 
 // *************************************************************************
 

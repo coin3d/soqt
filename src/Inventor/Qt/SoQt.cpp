@@ -228,12 +228,6 @@
 #include <stdlib.h>
 #include <limits.h>
 
-/* The setting of this define needs to be added manually to
-   configure.in for all relevant projects. */
-#ifdef HAVE_X11_AVAILABLE
-#include <Inventor/Qt/devices/spwinput.h>
-#endif // HAVE_X11_AVAILABLE
-
 #include <qmainwindow.h>
 #include <qmessagebox.h>
 #include <qtimer.h>
@@ -241,8 +235,9 @@
 #include <qapplication.h>
 #include <qmetaobject.h>
 
-#include <Inventor/Qt/moc_SoQtP.icc>
-#include <Inventor/Qt/SoQtP.h>
+#ifdef Q_WS_X11
+#include <X11/Xlib.h>
+#endif // Q_WS_X11
 
 #include <Inventor/SoDB.h>
 #include <Inventor/SoInteraction.h>
@@ -250,17 +245,23 @@
 #include <Inventor/SbTime.h>
 #include <Inventor/errors/SoDebugError.h>
 
-#include <soqtdefs.h>
+#include <Inventor/Qt/SoQtP.h>
+#include <Inventor/Qt/moc_SoQtP.icc>
+
 #include <Inventor/Qt/SoQt.h>
 #include <Inventor/Qt/SoQtObject.h>
 #include <Inventor/Qt/devices/SoQtDevice.h>
+/* The setting of this define needs to be added manually to
+   configure.in for all relevant projects. */
+#ifdef HAVE_X11_AVAILABLE
+#include <Inventor/Qt/devices/spwinput.h>
+#endif // HAVE_X11_AVAILABLE
+
 #include <Inventor/Qt/SoQtComponent.h>
 #include <Inventor/Qt/SoAny.h>
 #include <Inventor/Qt/SoQtInternal.h>
 
-#ifdef Q_WS_X11
-#include <X11/Xlib.h>
-#endif // Q_WS_X11
+#include <soqtdefs.h>
 
 
 // *************************************************************************

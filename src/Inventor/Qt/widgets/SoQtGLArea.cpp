@@ -25,20 +25,22 @@
 // do our own initialization and event handling on resizes and expose
 // events.
 
-#include <assert.h>
 #if HAVE_CONFIG_H
 #include <config.h>
 #endif // HAVE_CONFIG_H
 
+#include <assert.h>
+
 #include <qmetaobject.h>
-#include <Inventor/Qt/widgets/moc_SoQtGLArea.icc>
 
 #if SOQT_DEBUG
 #include <Inventor/errors/SoDebugError.h>
 #endif // SOQT_DEBUG
 
-#include <soqtdefs.h>
 #include <Inventor/Qt/widgets/SoQtGLArea.h>
+#include <Inventor/Qt/widgets/moc_SoQtGLArea.icc>
+
+#include <soqtdefs.h>
 
 // *************************************************************************
 

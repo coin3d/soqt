@@ -23,13 +23,14 @@
 
 #include <qpopupmenu.h>
 #include <qmetaobject.h>
-#include <Inventor/Qt/widgets/moc_QtNativePopupMenu.icc>
 
 #include <Inventor/SoLists.h>
 #include <Inventor/errors/SoDebugError.h>
 
-#include <soqtdefs.h>
 #include <Inventor/Qt/widgets/QtNativePopupMenu.h>
+#include <Inventor/Qt/widgets/moc_QtNativePopupMenu.icc>
+
+#include <soqtdefs.h>
 
 /*!
   \class QtNativePopupMenu Inventor/Qt/widgets/QtNativePopupMenu.h

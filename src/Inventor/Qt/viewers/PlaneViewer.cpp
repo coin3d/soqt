@@ -41,18 +41,16 @@
 #include <qstylefactory.h>
 #endif // HAVE_QSTYLEFACTORY_H
 
-#include <Inventor/Qt/viewers/moc_SoQtPlaneViewerP.icc>
-#include <Inventor/Qt/viewers/SoQtPlaneViewerP.h>
-
 #include <Inventor/errors/SoDebugError.h>
 #include <Inventor/nodes/SoPerspectiveCamera.h>
 #include <Inventor/nodes/SoOrthographicCamera.h>
 
+#include <Inventor/Qt/viewers/SoQtPlaneViewerP.h>
+#include <Inventor/Qt/viewers/moc_SoQtPlaneViewerP.icc>
+
 #include <soqtdefs.h>
 #include <Inventor/Qt/widgets/SoQtThumbWheel.h>
-
 #include <Inventor/Qt/viewers/SoQtPlaneViewer.h>
-
 #include <Inventor/Qt/common/pixmaps/ortho.xpm>
 #include <Inventor/Qt/common/pixmaps/perspective.xpm>
 #include <Inventor/Qt/common/pixmaps/x.xpm>

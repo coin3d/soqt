@@ -427,11 +427,11 @@ DISTCLEANFILES = \
 ############################################################################
 # libtool setup
 libSoQtViewers_la_SOURCES = \
-	PlaneViewer.cpp \
 	FullViewer.cpp \
-	ExaminerViewer.cpp \
 	SoQtFullViewerP.h \
+	ExaminerViewer.cpp \
 	SoQtExaminerViewerP.h \
+	PlaneViewer.cpp \
 	SoQtPlaneViewerP.h
 
 
@@ -444,11 +444,11 @@ nodist_libSoQtViewers_la_SOURCES = \
 ############################################################################
 # custom setup
 viewers_lst_SOURCES = \
-	PlaneViewer.cpp \
 	FullViewer.cpp \
-	ExaminerViewer.cpp \
 	SoQtFullViewerP.h \
+	ExaminerViewer.cpp \
 	SoQtExaminerViewerP.h \
+	PlaneViewer.cpp \
 	SoQtPlaneViewerP.h
 
 
@@ -465,11 +465,11 @@ SoQtViewersinc_HEADERS =
 
 nodist_SoQtViewersinc_HEADERS = \
 	SoQtViewer.h \
-	SoQtConstrainedViewer.h \
 	SoQtFullViewer.h \
 	SoQtExaminerViewer.h \
-	SoQtFlyViewer.h \
-	SoQtPlaneViewer.h
+	SoQtPlaneViewer.h \
+	SoQtConstrainedViewer.h \
+	SoQtFlyViewer.h
 
 subdir = src/Inventor/Qt/viewers
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
@@ -479,8 +479,8 @@ LIBRARIES = $(noinst_LIBRARIES)
 
 viewers_lst_AR = $(AR) cru
 viewers_lst_LIBADD =
-am_viewers_lst_OBJECTS = PlaneViewer.$(OBJEXT) FullViewer.$(OBJEXT) \
-	ExaminerViewer.$(OBJEXT)
+am_viewers_lst_OBJECTS = FullViewer.$(OBJEXT) ExaminerViewer.$(OBJEXT) \
+	PlaneViewer.$(OBJEXT)
 nodist_viewers_lst_OBJECTS = So@Gui@Viewer.$(OBJEXT) \
 	So@Gui@ConstrainedViewer.$(OBJEXT) So@Gui@FlyViewer.$(OBJEXT) \
 	So@Gui@FullViewer.$(OBJEXT) So@Gui@ExaminerViewer.$(OBJEXT) \
@@ -491,8 +491,8 @@ LTLIBRARIES = $(noinst_LTLIBRARIES)
 
 libSoQtViewers_la_LDFLAGS =
 libSoQtViewers_la_LIBADD =
-am_libSoQtViewers_la_OBJECTS = PlaneViewer.lo FullViewer.lo \
-	ExaminerViewer.lo
+am_libSoQtViewers_la_OBJECTS = FullViewer.lo ExaminerViewer.lo \
+	PlaneViewer.lo
 nodist_libSoQtViewers_la_OBJECTS = So@Gui@Viewer.lo \
 	So@Gui@ConstrainedViewer.lo So@Gui@FlyViewer.lo \
 	So@Gui@FullViewer.lo So@Gui@ExaminerViewer.lo \
@@ -1111,53 +1111,53 @@ $(top_builddir)/man/man1/so@gui@-config.1: $(top_srcdir)/src/Inventor/@Gui@/comm
 
 @BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@P.icc: $(top_srcdir)/src/Inventor/@Gui@/So@Gui@P.h $(top_builddir)/config.status
 @BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
-@BUILD_METAFILES_TRUE@	echo " $(MOC) -o src/Inventor/@Gui@/@meta_prefix@So@Gui@P.icc $(top_srcdir)/src/Inventor/@Gui@/So@Gui@P.h"; \
-@BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/@meta_prefix@So@Gui@P.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/So@Gui@P.h` )
+@BUILD_METAFILES_TRUE@	echo " $(MOC) -i -o src/Inventor/@Gui@/@meta_prefix@So@Gui@P.icc $(top_srcdir)/src/Inventor/@Gui@/So@Gui@P.h"; \
+@BUILD_METAFILES_TRUE@	$(MOC) -i -o src/Inventor/@Gui@/@meta_prefix@So@Gui@P.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/So@Gui@P.h` )
 
 @BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@ComponentP.icc: $(top_srcdir)/src/Inventor/@Gui@/So@Gui@ComponentP.h $(top_builddir)/config.status
 @BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
-@BUILD_METAFILES_TRUE@	echo " $(MOC) -o src/Inventor/@Gui@/@meta_prefix@So@Gui@ComponentP.icc src/Inventor/@Gui@/So@Gui@ComponentP.h"; \
-@BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/@meta_prefix@So@Gui@ComponentP.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/So@Gui@ComponentP.h` )
+@BUILD_METAFILES_TRUE@	echo " $(MOC) -i -o src/Inventor/@Gui@/@meta_prefix@So@Gui@ComponentP.icc src/Inventor/@Gui@/So@Gui@ComponentP.h"; \
+@BUILD_METAFILES_TRUE@	$(MOC) -i -o src/Inventor/@Gui@/@meta_prefix@So@Gui@ComponentP.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/So@Gui@ComponentP.h` )
 
 @BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@GLWidgetP.icc: $(top_srcdir)/src/Inventor/@Gui@/So@Gui@GLWidgetP.h $(top_builddir)/config.status
 @BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
-@BUILD_METAFILES_TRUE@	echo " $(MOC) -o src/Inventor/@Gui@/@meta_prefix@So@Gui@GLWidgetP.icc src/Inventor/@Gui@/So@Gui@GLWidgetP.h"; \
-@BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/@meta_prefix@So@Gui@GLWidgetP.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/So@Gui@GLWidgetP.h` )
+@BUILD_METAFILES_TRUE@	echo " $(MOC) -i -o src/Inventor/@Gui@/@meta_prefix@So@Gui@GLWidgetP.icc src/Inventor/@Gui@/So@Gui@GLWidgetP.h"; \
+@BUILD_METAFILES_TRUE@	$(MOC) -i -o src/Inventor/@Gui@/@meta_prefix@So@Gui@GLWidgetP.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/So@Gui@GLWidgetP.h` )
 
 @BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@LinuxJoystickP.icc: $(top_srcdir)/src/Inventor/@Gui@/devices/So@Gui@LinuxJoystickP.h $(top_builddir)/config.status
 @BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
-@BUILD_METAFILES_TRUE@	echo " $(MOC) -o src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@LinuxJoystickP.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/devices/So@Gui@LinuxJoystickP.h`"; \
-@BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@LinuxJoystickP.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/devices/So@Gui@LinuxJoystickP.h` )
+@BUILD_METAFILES_TRUE@	echo " $(MOC) -i -o src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@LinuxJoystickP.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/devices/So@Gui@LinuxJoystickP.h`"; \
+@BUILD_METAFILES_TRUE@	$(MOC) -i -o src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@LinuxJoystickP.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/devices/So@Gui@LinuxJoystickP.h` )
 
 @BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FullViewerP.icc: $(top_srcdir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewerP.h $(top_builddir)/config.status
 @BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
-@BUILD_METAFILES_TRUE@	echo " $(MOC) -o src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FullViewerP.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewerP.h`"; \
-@BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FullViewerP.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewerP.h` )
+@BUILD_METAFILES_TRUE@	echo " $(MOC) -i -o src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FullViewerP.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewerP.h`"; \
+@BUILD_METAFILES_TRUE@	$(MOC) -i -o src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FullViewerP.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/viewers/So@Gui@FullViewerP.h` )
 
 @BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@ExaminerViewerP.icc: $(top_srcdir)/src/Inventor/@Gui@/viewers/So@Gui@ExaminerViewerP.h $(top_builddir)/config.status
 @BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
-@BUILD_METAFILES_TRUE@	echo " $(MOC) -o src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@ExaminerViewerP.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/viewers/So@Gui@ExaminerViewerP.h`"; \
-@BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@ExaminerViewerP.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/viewers/So@Gui@ExaminerViewerP.h` )
+@BUILD_METAFILES_TRUE@	echo " $(MOC) -i -o src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@ExaminerViewerP.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/viewers/So@Gui@ExaminerViewerP.h`"; \
+@BUILD_METAFILES_TRUE@	$(MOC) -i -o src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@ExaminerViewerP.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/viewers/So@Gui@ExaminerViewerP.h` )
 
 @BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@PlaneViewerP.icc: $(top_srcdir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewerP.h $(top_builddir)/config.status
 @BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
-@BUILD_METAFILES_TRUE@	echo " $(MOC) -o src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@PlaneViewerP.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewerP.h`"; \
-@BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@PlaneViewerP.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewerP.h` )
+@BUILD_METAFILES_TRUE@	echo " $(MOC) -i -o src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@PlaneViewerP.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewerP.h`"; \
+@BUILD_METAFILES_TRUE@	$(MOC) -i -o src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@PlaneViewerP.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/viewers/So@Gui@PlaneViewerP.h` )
 
 @BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@ThumbWheel.icc: $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@ThumbWheel.h $(top_builddir)/config.status
 @BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
-@BUILD_METAFILES_TRUE@	echo " $(MOC) -o src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@ThumbWheel.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@ThumbWheel.h`"; \
-@BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@ThumbWheel.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@ThumbWheel.h` )
+@BUILD_METAFILES_TRUE@	echo " $(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@ThumbWheel.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@ThumbWheel.h`"; \
+@BUILD_METAFILES_TRUE@	$(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@ThumbWheel.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@ThumbWheel.h` )
 
 @BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@GLArea.icc: $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@GLArea.h $(top_builddir)/config.status
 @BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
-@BUILD_METAFILES_TRUE@	echo " $(MOC) -o src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@GLArea.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@GLArea.h`"; \
-@BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@GLArea.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@GLArea.h` )
+@BUILD_METAFILES_TRUE@	echo " $(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@GLArea.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@GLArea.h`"; \
+@BUILD_METAFILES_TRUE@	$(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@GLArea.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/So@Gui@GLArea.h` )
 
 @BUILD_METAFILES_TRUE@$(top_builddir)/src/Inventor/@Gui@/widgets/@meta_prefix@@Gui@NativePopupMenu.icc: $(top_srcdir)/src/Inventor/@Gui@/widgets/@Gui@NativePopupMenu.h $(top_builddir)/config.status
 @BUILD_METAFILES_TRUE@	@( cd $(top_builddir); \
-@BUILD_METAFILES_TRUE@	echo " $(MOC) -o src/Inventor/@Gui@/widgets/@meta_prefix@@Gui@NativePopupMenu.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/@Gui@NativePopupMenu.h`"; \
-@BUILD_METAFILES_TRUE@	$(MOC) -o src/Inventor/@Gui@/widgets/@meta_prefix@@Gui@NativePopupMenu.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/@Gui@NativePopupMenu.h` )
+@BUILD_METAFILES_TRUE@	echo " $(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@@Gui@NativePopupMenu.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/@Gui@NativePopupMenu.h`"; \
+@BUILD_METAFILES_TRUE@	$(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@@Gui@NativePopupMenu.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/@Gui@NativePopupMenu.h` )
 
 ############################################################################
 #	$(SoGui_src_Inventor_Gui_viewers_BuiltMetaFiles)

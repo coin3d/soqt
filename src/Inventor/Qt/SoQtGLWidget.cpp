@@ -54,28 +54,31 @@
 // throughout the compilation of the SoQt library, not just for this
 // file. 20021021 mortene.
 
+
+#if HAVE_CONFIG_H
+#include <config.h>
+#endif // HAVE_CONFIG_H
+
+#include <stdlib.h>
+
 #define QT_CLEAN_NAMESPACE 1
 
 #include <qevent.h>
 #include <qframe.h>
-
 #include <qmetaobject.h>
+
+#include <Inventor/SbTime.h>
+#include <Inventor/errors/SoDebugError.h>
+#include <Inventor/misc/SoBasic.h>
+
+#include <Inventor/Qt/SoQtGLWidgetP.h>
 #include <Inventor/Qt/moc_SoQtGLWidgetP.icc>
 
 #include <Inventor/Qt/SoAny.h>
 #include <Inventor/Qt/SoQtBasic.h>
 #include <Inventor/Qt/SoQtGLWidget.h>
-#include <Inventor/Qt/SoQtGLWidgetP.h>
 #include <Inventor/Qt/widgets/SoQtGLArea.h>
-#include <Inventor/SbTime.h>
-#include <Inventor/errors/SoDebugError.h>
-#include <Inventor/misc/SoBasic.h>
 #include <soqtdefs.h>
-#include <stdlib.h>
-
-#if HAVE_CONFIG_H
-#include <config.h>
-#endif // HAVE_CONFIG_H
 
 // Abstract the overlay handling methods on QGLFormat and QGLWidget,
 // because they may or may not be there depending on the version of

@@ -36,14 +36,14 @@
 #include <qapplication.h>
 #include <qmetaobject.h>
 #include <qcursor.h>
-#include <Inventor/Qt/moc_SoQtComponentP.icc>
 
 #include <Inventor/errors/SoDebugError.h>
 
-#include <soqtdefs.h>
+#include <Inventor/Qt/SoQtComponentP.h>
+#include <Inventor/Qt/moc_SoQtComponentP.icc>
+
 #include <Inventor/Qt/SoQt.h>
 #include <Inventor/Qt/SoQtComponent.h>
-#include <Inventor/Qt/SoQtComponentP.h>
 #include <Inventor/Qt/SoQtGLWidget.h>
 #include <Inventor/Qt/SoQtRenderArea.h>
 #include <Inventor/Qt/viewers/SoQtViewer.h>
@@ -53,6 +53,8 @@
 #include <Inventor/Qt/viewers/SoQtConstrainedViewer.h>
 #include <Inventor/Qt/viewers/SoQtFlyViewer.h>
 #include <Inventor/Qt/SoAny.h>
+
+#include <soqtdefs.h>
 
 // debug
 #define SOQTCOMP_RESIZE_DEBUG 0

@@ -45,9 +45,6 @@
 #include <qstylefactory.h>
 #endif // HAVE_QSTYLEFACTORY_H
 
-#include <Inventor/Qt/viewers/moc_SoQtExaminerViewerP.icc>
-#include <Inventor/Qt/viewers/SoQtExaminerViewerP.h>
-
 #include <Inventor/nodes/SoPerspectiveCamera.h>
 #include <Inventor/nodes/SoOrthographicCamera.h>
 #include <Inventor/fields/SoSFTime.h>
@@ -57,10 +54,12 @@
 #include <Inventor/errors/SoDebugError.h>
 #endif // SOQT_DEBUG
 
+#include <Inventor/Qt/viewers/SoQtExaminerViewerP.h>
+#include <Inventor/Qt/viewers/moc_SoQtExaminerViewerP.icc>
+
 #include <soqtdefs.h>
 #include <Inventor/Qt/widgets/SoQtThumbWheel.h>
 #include <Inventor/Qt/SoQtCursor.h>
-
 #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
 
 // Icon graphic for the camera button.
