@@ -45,6 +45,7 @@ ColorCurve::~ColorCurve()
 {
   delete this->curve;
   delete [] this->curvepts;
+  delete [] this->colormap;
 }
 
 void
@@ -116,18 +117,16 @@ ColorCurve::interpolateColorMapping()
     this->ctrlpts.truncate(0);
 
     float scale = float(this->numcolors-1);
-
     this->ctrlpts.append(SbVec3f(0, float(this->colormap[0]) / scale, 0));
     
-    for (int i = 1; i < this->numcolors; i++) {
-      // if the curve is very steep, we'll throw in a few extra control points
-      int dy = abs(this->colormap[i] - this->colormap[i-1]);
-      if ((i % 32 == 0) || (dy > 15)) { 
+    for (int i = 2; i < this->numcolors; i+=2) {
+      // if the curve is very steep, we'll throw in an extra control point
+      int dy = abs(this->colormap[i] - this->colormap[i-2]);
+      if ((i % 32 == 0) || (dy > 16)) { 
           this->ctrlpts.append(SbVec3f(float(i) / scale, float(this->colormap[i]) / scale, 0));
         }
     }
     this->ctrlpts.append(SbVec3f(1, float(this->colormap[this->numcolors-1]) / scale, 0));
-
     this->curve->setControlPoints(this->ctrlpts.getArrayPtr(), this->ctrlpts.getLength());
     this->updateCurvePoints();
     this->needinterpol = FALSE;
@@ -175,8 +174,8 @@ ColorCurve::updateCurvePoints()
 void 
 ColorCurve::updateColorMap()
 {
-  for (int x = 0; x < this->numcolors; x++) {
-    this->colormap[x] = this->y(float(x) / float(this->numcolors-1));
+  for (int i = 0; i < this->numcolors; i++) {
+    this->colormap[i] = this->eval(float(i) / float(this->numcolors-1));
   }
 }
 
@@ -191,7 +190,7 @@ ColorCurve::getColors(uint8_t * colors, int num) const
 {
   if (num != this->numcolors) {
     for (int i = 0; i < num; i++) {
-      colors[i] = this->y(float(i) / float(this->numcolors-1));
+      colors[i] = this->eval(float(i) / float(this->numcolors-1));
     }
   } else {
     for (int i = 0; i < num; i++) {
@@ -203,6 +202,7 @@ ColorCurve::getColors(uint8_t * colors, int num) const
 void
 ColorCurve::setColors(uint8_t * colors, int num)
 {
+  assert((num == this->numcolors) && "wrong number of colors");
   for (int i = 0; i < this->numcolors; i++) {
     this->colormap[i] = colors[i];
   }
@@ -210,7 +210,7 @@ ColorCurve::setColors(uint8_t * colors, int num)
 }
 
 int
-ColorCurve::y(float x) const
+ColorCurve::eval(float x) const
 {
   int i = 0;
   while((this->curvepts[++i][0] < x) && (i < this->numpts));

@@ -34,10 +34,6 @@ class ColorCurve;
 class QCanvasItemList;
 class QMouseEvent;
 class QCanvasItem;
-class QPoint;
-class QKeyEvent;
-class QFocusEvent;
-class QResizeEvent;
 
 class CurveView : public QCanvasView 
 {
@@ -59,16 +55,14 @@ public:
   void setColors(uint8_t * colors, int num);
   void getColors(uint8_t * colors, int num) const;
   void setCallBack(ColorCurve::ChangeCB * cb, void * userData);
+  QPixmap getPixmap(int width, int height) const;
+  QPixmap getGradient(int width, int height) const;
 
 public slots:
   void changeColorMode(int mode);
   void changeCurveMode(int mode);
   void setConstantValue(int value);
   void resetActive(void);
-
-  QPixmap getPixmap(int width, int height) const;
-  QPixmap getGradient(int width, int height) const;
-
 signals:
   void curveChanged(void);
   
@@ -86,7 +80,7 @@ private:
   void updateCurve(void);
   void initGrid(void);
   
-  QPixmap makePixmap(int w, int h, const uint8_t * r, const uint8_t * g, const uint8_t * b, int num) const;
+  QPixmap makePixmap(int w, int h, const uint8_t * r, const uint8_t * g, const uint8_t * b) const;
   QCanvasRectangle * newControlPoint(int x, int y);
   QCanvasItemList newCanvasCtrlPtList(void);
   QCanvasItem * smallestItem(QCanvasItemList * list);
@@ -97,14 +91,13 @@ private:
   QCanvas * canvas;
   QCanvasItem * movingitem;
 
-  int colorindex;
   CurveType curvemode;
   SoQtCurveWidget::Mode colormode;
-  
+  int colorindex;
   const int ptsize;
-  float maxval;
   int size;
-
+  float maxval;
+  
   SbGuiList<QCanvasItemList> canvasctrlpts;
   SbGuiList<ColorCurve*> colorcurves;
     

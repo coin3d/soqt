@@ -43,6 +43,7 @@ class SoQtCurveWidgetP : public QObject {
 
 public:
   SoQtCurveWidgetP(SoQtCurveWidget * publ);
+  ~SoQtCurveWidgetP();
   static void curveCallBack(void * userData);
   SoQtCurveWidget * publ;
   QLabel * modetext;

@@ -58,7 +58,7 @@ public:
 private:
   void updateColorMap(void);
   void updateCurvePoints(void);
-  int y(float x) const;
+  int eval(float x) const;
   
   CurveType type;
 

@@ -43,6 +43,11 @@ SoQtCurveWidgetP::SoQtCurveWidgetP(class SoQtCurveWidget * publ)
   this->publ = publ;
 }
 
+SoQtCurveWidgetP::~SoQtCurveWidgetP()
+{
+  delete this->curveview;
+}
+
 void
 SoQtCurveWidgetP::toggleUpdate()
 {
@@ -182,7 +187,7 @@ SoQtCurveWidget::SoQtCurveWidget(int numcolors, QWidget * parent, const char * n
   curvelayout->addWidget(PRIVATE(this)->horgrad, 1, 1);
 
   PRIVATE(this)->curveview = 
-    new CurveView(numcolors, PRIVATE(this)->mode, new QCanvas, curvewidget); 
+    new CurveView(numcolors, PRIVATE(this)->mode, new QCanvas, curvewidget);
   PRIVATE(this)->curveview->show();
 
   curvelayout->addWidget(PRIVATE(this)->curveview, 0, 1);
@@ -235,7 +240,7 @@ SoQtCurveWidget::SoQtCurveWidget(int numcolors, QWidget * parent, const char * n
 
 SoQtCurveWidget::~SoQtCurveWidget()
 {
-  delete this->pimpl;
+  delete PRIVATE(this);
 }
 
 void 
@@ -275,6 +280,7 @@ SoQtCurveWidget::setMode(Mode mode)
   QPixmap pm(16,16);
   PRIVATE(this)->mode = mode;
   PRIVATE(this)->curveview->setMode(mode);
+
   PRIVATE(this)->colormodelist->clear();
 
   switch(mode) {

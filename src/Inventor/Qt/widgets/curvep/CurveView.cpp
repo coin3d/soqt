@@ -52,8 +52,8 @@ CurveView::CurveView(int numcolors,
   this->hideUnselected();
   
   this->curvemode = CurveView::SMOOTH;
-
   this->mousepressed = FALSE;
+  
   this->initGrid();
   this->initCanvasCurve();
   this->viewport()->setMouseTracking(TRUE);
@@ -178,7 +178,7 @@ CurveView::contentsMouseMoveEvent(QMouseEvent* e)
       this->setCursor(QCursor::ArrowCursor);
     }
   
-    if (this->movingitem && this->mousepressed) {
+    if (this->movingitem && this->mousepressed) { // move the control point
       int x = p.x();
       int y = p.y();
     
@@ -191,13 +191,15 @@ CurveView::contentsMouseMoveEvent(QMouseEvent* e)
 	    this->movingstart = QPoint(x, y);
       this->updateCurve();
     }
-  } else {
+  } else { // draw a color mapping
     if (this->mousepressed) {
       int lastx = lastpos.x();
       int lasty = lastpos.y();
       int currentx = p.x();
       int currenty = p.y();
-      if ((lastx >= 0) && (lastx <= this->maxval) && (currentx >= 0) && (currentx <= this->maxval)) {
+
+      if ((lastx >= 0) && (lastx <= this->maxval) && 
+          (currentx >= 0) && (currentx <= this->maxval)) {
 
         if (currentx < lastx) { // swap
           currentx ^= lastx ^= currentx ^= lastx;
@@ -243,10 +245,10 @@ CurveView::drawContents(QPainter * p, int cx, int cy, int cw, int ch)
     (*it)->draw(*p);
   }
   // draw the control points
-  it = this->canvasctrlpts[this->colorindex].begin();
-  for (; it != this->canvasctrlpts[this->colorindex].end(); ++it) {
-    if (this->curvemode == CurveView::SMOOTH) {
-      (*it)->draw(*p);
+  if (this->curvemode == CurveView::SMOOTH) {
+    it = this->canvasctrlpts[this->colorindex].begin();
+    for (; it != this->canvasctrlpts[this->colorindex].end(); ++it) {
+        (*it)->draw(*p);
     }
   }
 }
@@ -280,13 +282,9 @@ CurveView::resetActive()
   }
   this->canvasctrlpts[this->colorindex].clear();
   this->canvasctrlpts[this->colorindex] = this->newCanvasCtrlPtList();
-
   this->curvemode = CurveView::SMOOTH;
-
   this->updateCurve();
   this->canvas->update();
-  emit this->curveChanged();
-
 }
 
 QCanvasItemList
@@ -326,8 +324,7 @@ CurveView::updateCurve()
     
     // Sort the list of control points
     while ((it = list.begin()) != list.end()) {
-      QCanvasRectangle * smallest =
-        (QCanvasRectangle *) this->smallestItem(&list);
+      QCanvasRectangle * smallest = (QCanvasRectangle *) this->smallestItem(&list);
       smallest->setBrush(Qt::black);
       sortedlist.append(smallest);
       list.remove(smallest);
@@ -364,7 +361,6 @@ CurveView::smallestItem(QCanvasItemList * list)
       smallest = (*it);
     }
   }
-  int x = smallest->x();
   return smallest;
 }
 
@@ -473,35 +469,35 @@ CurveView::getPixmap(int width, int height) const
   QPixmap pm;
   if (this->colormode < 3) {
     const uint8_t * colors = this->colorcurves[0]->getColorMap();
-    pm = this->makePixmap(width, height, colors, colors, colors, width);
+    pm = this->makePixmap(width, height, colors, colors, colors);
   } else {
     const uint8_t * red = this->colorcurves[0]->getColorMap();
     const uint8_t * green = this->colorcurves[1]->getColorMap();
     const uint8_t * blue = this->colorcurves[2]->getColorMap();
-    pm = this->makePixmap(width, height, red, green, blue, width);
+    pm = this->makePixmap(width, height, red, green, blue);
   }
   return pm;
 }
 
 QPixmap
-CurveView::makePixmap(int w, int h, const uint8_t * r, const uint8_t * g, const uint8_t * b, int num) const
+CurveView::makePixmap(int w, int h, const uint8_t * r, const uint8_t * g, const uint8_t * b) const
 {
   // use an image since it is optimized for direct pixel access
   QImage img(w, h, 32);
+  // we'll split the image in half, making the bottom
+  // half show the 1 to 1 color mapping for comparison
   for (int i = 0; i < w; i++) {
-    int original = (int) ((float(i) / float(w)) * this->maxval);
-    // we'll split the image in half, making the bottom
-    // half show the default color mapping for comparison
-    for (int j = 0; j < h/2; j++) {
-      img.setPixel(i, j, qRgb(r[i], g[i], b[i]));
-    }
-    for (j = h/2; j < h; j++) {
-      img.setPixel(i, j, qRgb(original, original, original));
+    int org = (int) ((float(i) / float(w)) * this->maxval);
+    for (int j = 0; j < h; j++) {
+      QRgb pixel = (j < h/2) ? qRgb(r[i], g[i], b[i]) : qRgb(org, org, org);
+      img.setPixel(i, j, pixel);
     }
   }
   return QPixmap(img);
 }
 
+// just a convenient method used to get the vertical gradient
+// that indicates the y-axis
 QPixmap
 CurveView::getGradient(int width, int height) const
 {
