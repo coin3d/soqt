@@ -803,6 +803,7 @@ SoQtSuperViewerP::buildSettingsMenu(SbBool build,
                        this, SLOT(texturequalitySelected(int)));
       this->texturequalitysubmenu->insertItem(this->texturequalitylabel);
       this->texturequalitysubmenu->insertItem(slider);
+      idx++;
     }
     if(this->settingsmenuItems[8].build){
       this->settingsmenuItems[8].index = idx;
@@ -2649,18 +2650,17 @@ SoQtSuperViewerP::filledSelected()
 void
 SoQtSuperViewerP::informationSelected()
 {
-  if(owner->isInformation()){
-    this->viewmenu->setItemChecked(
-                    this->viewmenu->idAt(0), FALSE);
-    this->settingsmenu->setItemEnabled(
-                        this->settingsmenu->idAt(0), FALSE);
-  }
-  else{
-    this->viewmenu->setItemChecked(
-                    this->viewmenu->idAt(0), TRUE);
-    this->settingsmenu->setItemEnabled(
-                        this->settingsmenu->idAt(0), TRUE);
-  }
+  
+  owner->setViewMenuItems(0, 0, owner->isInformation() ?
+                          owner->getCheckedItems(SV::VIEW_MENU) &
+                          ~SV::INFORMATION :
+                          owner->getCheckedItems(SV::VIEW_MENU) |
+                          SV::INFORMATION);
+  owner->setSettingsMenuItems(0, owner->isInformation() ?
+                              owner->getEnabledItems(SV::SETTINGS_MENU) &
+                              ~SV::INFORMATION_SETTING : 
+                              owner->getEnabledItems(SV::SETTINGS_MENU) |
+                              SV::INFORMATION_SETTING);
 
   owner->toggleInformation();
 } // informationSelected()
@@ -2676,10 +2676,11 @@ SoQtSuperViewerP::informationSelected()
 void
 SoQtSuperViewerP::flatshadingSelected()
 {
-  owner->isFlatshading() ? this->viewmenu->setItemChecked(
-                            this->viewmenu->idAt(1), FALSE) :
-                          this->viewmenu->setItemChecked(
-                            this->viewmenu->idAt(1), TRUE);
+  owner->setViewMenuItems(0, 0, owner->isFlatshading() ?
+                          owner->getCheckedItems(SV::VIEW_MENU) &
+                          ~SV::FLATSHADING :
+                          owner->getCheckedItems(SV::VIEW_MENU) |
+                          SV::FLATSHADING);
 
   owner->toggleFlatshading();
 } // flatshadingSelected()
@@ -2695,10 +2696,11 @@ SoQtSuperViewerP::flatshadingSelected()
 void
 SoQtSuperViewerP::boundingboxesSelected()
 {
-  owner->isBoundingboxes() ? this->viewmenu->setItemChecked(
-                              this->viewmenu->idAt(4), FALSE) :
-                            this->viewmenu->setItemChecked(
-                              this->viewmenu->idAt(4), TRUE);
+  owner->setViewMenuItems(0, 0, owner->isBoundingboxes() ?
+                          owner->getCheckedItems(SV::VIEW_MENU) &
+                          ~SV::BOUNDINGBOXES :
+                          owner->getCheckedItems(SV::VIEW_MENU) |
+                          SV::BOUNDINGBOXES);
 
   owner->toggleBoundingboxes();
 
@@ -2715,11 +2717,11 @@ SoQtSuperViewerP::boundingboxesSelected()
 void
 SoQtSuperViewerP::wireframeSelected()
 {
-  
-  owner->isWireframe() ? this->viewmenu->setItemChecked(
-                              this->viewmenu->idAt(5), FALSE) :
-                            this->viewmenu->setItemChecked(
-                              this->viewmenu->idAt(5), TRUE);
+  owner->setViewMenuItems(0, 0, owner->isWireframe() ?
+                          owner->getCheckedItems(SV::VIEW_MENU) &
+                          ~SV::WIREFRAME :
+                          owner->getCheckedItems(SV::VIEW_MENU) |
+                          SV::WIREFRAME);
 
   owner->toggleWireframe();
 } // wireframeSelected()
@@ -2735,11 +2737,11 @@ SoQtSuperViewerP::wireframeSelected()
 void
 SoQtSuperViewerP::verticesSelected()
 {
-  
-  owner->isVertices() ? this->viewmenu->setItemChecked(
-                              this->viewmenu->idAt(6), FALSE) :
-                            this->viewmenu->setItemChecked(
-                              this->viewmenu->idAt(6), TRUE);
+  owner->setViewMenuItems(0, 0, owner->isVertices() ?
+                          owner->getCheckedItems(SV::VIEW_MENU) &
+                          ~SV::VERTICES :
+                          owner->getCheckedItems(SV::VIEW_MENU) |
+                          SV::VERTICES);
 
   owner->toggleVertices();
 } // verticesSelected()
@@ -2755,11 +2757,11 @@ SoQtSuperViewerP::verticesSelected()
 void
 SoQtSuperViewerP::hiddenpartsSelected()
 {
-  
-  owner->isHiddenparts() ? this->viewmenu->setItemChecked(
-                            this->viewmenu->idAt(7), FALSE) :
-                          this->viewmenu->setItemChecked(
-                            this->viewmenu->idAt(7), TRUE);
+  owner->setViewMenuItems(0, 0, owner->isHiddenparts() ?
+                          owner->getCheckedItems(SV::VIEW_MENU) &
+                          ~SV::HIDDEN_PARTS :
+                          owner->getCheckedItems(SV::VIEW_MENU) |
+                          SV::HIDDEN_PARTS);
 
   owner->toggleHiddenparts();
 } // hiddenpartsSelected()
@@ -2775,18 +2777,16 @@ SoQtSuperViewerP::hiddenpartsSelected()
 void
 SoQtSuperViewerP::texturesSelected()
 {
-  if(owner->isTextures()){
-    this->viewmenu->setItemChecked(
-                    this->viewmenu->idAt(8), FALSE);
-    this->settingsmenu->setItemEnabled(
-                        this->settingsmenu->idAt(7), FALSE);
-  }
-  else{
-    this->viewmenu->setItemChecked(
-                    this->viewmenu->idAt(8), TRUE);
-    this->settingsmenu->setItemEnabled(
-                        this->settingsmenu->idAt(7), TRUE);
-  }
+  owner->setViewMenuItems(0, 0, owner->isTextures() ?
+                          owner->getCheckedItems(SV::VIEW_MENU) &
+                          ~SV::TEXTURES :
+                          owner->getCheckedItems(SV::VIEW_MENU) |
+                          SV::TEXTURES);
+  owner->setSettingsMenuItems(0, owner->isTextures() ?
+                          owner->getEnabledItems(SV::SETTINGS_MENU) &
+                          ~SV::TEXTURE_QUALITY :
+                          owner->getEnabledItems(SV::SETTINGS_MENU) |
+                          SV::TEXTURE_QUALITY);
 
   owner->toggleTextures();
 } // hiddenpartsSelected()
@@ -3078,7 +3078,8 @@ void
 SoQtSuperViewerP::cameraSelected(int id)
 {
   owner->resetToHomePosition();
-  int indexoffset = this->frontcamera ? 7 : 6;
+  int indexoffset = this->frontcamera ? this->cameramenuItems[6].index + 2 : 
+                                        this->cameramenuItems[6].index + 1;
 
   owner->setCamera(this->cameras[
                    this->cameramenu->indexOf(id) - indexoffset]);

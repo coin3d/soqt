@@ -19,7 +19,7 @@ main(int argc, char **argv)
   SoQtSuperViewer * superViewer = new SoQtSuperViewer(svWindow);
 
   superViewer->setSceneGraph(root);
- 
+  superViewer->init(); 
   superViewer->viewAll();
 
   superViewer->show();  
