@@ -13420,16 +13420,24 @@ if $sim_ac_framework && $sim_ac_coin_desired && $sim_ac_coin_avail; then
     sim_ac_coin_frameworkdir=`$sim_ac_coin_configcmd --frameworkdir 2>/dev/null`
   fi
   if test x"$sim_ac_coin_frameworkdir" = x""; then
-    :
-  #  sim_ac_framework=false
+    if test x${sim_ac_configuration_warnings+set} != xset; then
+  sim_ac_configuration_warnings="Coin was not installed as a framework, so SoQt can't be either (option was disabled)."
+else
+  sim_ac_configuration_warnings="$sim_ac_configuration_warnings|Coin was not installed as a framework, so SoQt can't be either (option was disabled)."
+fi
+
+    sim_ac_framework=false
+    soqtincludedir=${includedir}/Inventor/Qt
+    ivincludedir=
+  else
+    ivframeworkdir=$sim_ac_coin_frameworkdir
+    ivincludedir=
+    if test x"$ivframeworkdir" != x""; then
+      ivincludedir=$ivframeworkdir/Headers
+    fi
+    frameworkdir=${sim_ac_framework_prefix}/${sim_ac_framework_name}.framework
+    soqtincludedir=${sim_ac_framework_prefix}/${sim_ac_framework_name}.framework/Headers
   fi
-  ivframeworkdir=$sim_ac_coin_frameworkdir
-  ivincludedir=
-  if test x"$ivframeworkdir" != x""; then
-    ivincludedir=$ivframeworkdir/Headers
-  fi
-  frameworkdir=${sim_ac_framework_prefix}/${sim_ac_framework_name}.framework
-  soqtincludedir=${sim_ac_framework_prefix}/${sim_ac_framework_name}.framework/Headers
 else
   sim_ac_framework=false
   soqtincludedir=${includedir}/Inventor/Qt
@@ -13474,7 +13482,7 @@ fi
 # absolute Cygwin-style path it needs conversion.
 # Extract the first word of "cygpath", so it can be a program name with args.
 set dummy cygpath; ac_word=$2
-echo "$as_me:13477: checking for $ac_word" >&5
+echo "$as_me:13485: checking for $ac_word" >&5
 echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
 if test "${ac_cv_path_UNIX2WINPATH+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
@@ -13491,7 +13499,7 @@ for ac_dir in $ac_dummy; do
   test -z "$ac_dir" && ac_dir=.
   if $as_executable_p "$ac_dir/$ac_word"; then
    ac_cv_path_UNIX2WINPATH="$ac_dir/$ac_word"
-   echo "$as_me:13494: found $ac_dir/$ac_word" >&5
+   echo "$as_me:13502: found $ac_dir/$ac_word" >&5
    break
 fi
 done
@@ -13503,10 +13511,10 @@ fi
 UNIX2WINPATH=$ac_cv_path_UNIX2WINPATH
 
 if test -n "$UNIX2WINPATH"; then
-  echo "$as_me:13506: result: $UNIX2WINPATH" >&5
+  echo "$as_me:13514: result: $UNIX2WINPATH" >&5
 echo "${ECHO_T}$UNIX2WINPATH" >&6
 else
-  echo "$as_me:13509: result: no" >&5
+  echo "$as_me:13517: result: no" >&5
 echo "${ECHO_T}no" >&6
 fi
 
@@ -13815,7 +13823,7 @@ else
 
   eval "soqt_configure_date=\"`date +%Y%m%d`\""
 
-  if $sim_ac_prefer_framework; then
+  if $sim_ac_framework; then
     # setup for SoQt usage
     SOGUI_EXTRA_CPPFLAGS=
     SOGUI_EXTRA_CFLAGS=
@@ -13933,7 +13941,7 @@ DEFS=-DHAVE_CONFIG_H
 : ${CONFIG_STATUS=./config.status}
 ac_clean_files_save=$ac_clean_files
 ac_clean_files="$ac_clean_files $CONFIG_STATUS"
-{ echo "$as_me:13936: creating $CONFIG_STATUS" >&5
+{ echo "$as_me:13944: creating $CONFIG_STATUS" >&5
 echo "$as_me: creating $CONFIG_STATUS" >&6;}
 cat >$CONFIG_STATUS <<_ACEOF
 #! $SHELL
@@ -14109,7 +14117,7 @@ cat >>$CONFIG_STATUS <<\EOF
     echo "$ac_cs_version"; exit 0 ;;
   --he | --h)
     # Conflict between --help and --header
-    { { echo "$as_me:14112: error: ambiguous option: $1
+    { { echo "$as_me:14120: error: ambiguous option: $1
 Try \`$0 --help' for more information." >&5
 echo "$as_me: error: ambiguous option: $1
 Try \`$0 --help' for more information." >&2;}
@@ -14128,7 +14136,7 @@ Try \`$0 --help' for more information." >&2;}
     ac_need_defaults=false;;
 
   # This is an error.
-  -*) { { echo "$as_me:14131: error: unrecognized option: $1
+  -*) { { echo "$as_me:14139: error: unrecognized option: $1
 Try \`$0 --help' for more information." >&5
 echo "$as_me: error: unrecognized option: $1
 Try \`$0 --help' for more information." >&2;}
@@ -14188,7 +14196,7 @@ do
   "build/soqt.spec" ) CONFIG_FILES="$CONFIG_FILES build/soqt.spec" ;;
   "default-1" ) CONFIG_COMMANDS="$CONFIG_COMMANDS default-1" ;;
   "src/config.h" ) CONFIG_HEADERS="$CONFIG_HEADERS src/config.h" ;;
-  *) { { echo "$as_me:14191: error: invalid argument: $ac_config_target" >&5
+  *) { { echo "$as_me:14199: error: invalid argument: $ac_config_target" >&5
 echo "$as_me: error: invalid argument: $ac_config_target" >&2;}
    { (exit 1); exit 1; }; };;
   esac
@@ -14514,7 +14522,7 @@ done; }
   esac
 
   if test x"$ac_file" != x-; then
-    { echo "$as_me:14517: creating $ac_file" >&5
+    { echo "$as_me:14525: creating $ac_file" >&5
 echo "$as_me: creating $ac_file" >&6;}
     rm -f "$ac_file"
   fi
@@ -14532,7 +14540,7 @@ echo "$as_me: creating $ac_file" >&6;}
       -) echo $tmp/stdin ;;
       [\\/$]*)
          # Absolute (can't be DOS-style, as IFS=:)
-         test -f "$f" || { { echo "$as_me:14535: error: cannot find input file: $f" >&5
+         test -f "$f" || { { echo "$as_me:14543: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          echo $f;;
@@ -14545,7 +14553,7 @@ echo "$as_me: error: cannot find input file: $f" >&2;}
            echo $srcdir/$f
          else
            # /dev/null tree
-           { { echo "$as_me:14548: error: cannot find input file: $f" >&5
+           { { echo "$as_me:14556: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          fi;;
@@ -14606,7 +14614,7 @@ for ac_file in : $CONFIG_HEADERS; do test "x$ac_file" = x: && continue
   * )   ac_file_in=$ac_file.in ;;
   esac
 
-  test x"$ac_file" != x- && { echo "$as_me:14609: creating $ac_file" >&5
+  test x"$ac_file" != x- && { echo "$as_me:14617: creating $ac_file" >&5
 echo "$as_me: creating $ac_file" >&6;}
 
   # First look for the input files in the build tree, otherwise in the
@@ -14617,7 +14625,7 @@ echo "$as_me: creating $ac_file" >&6;}
       -) echo $tmp/stdin ;;
       [\\/$]*)
          # Absolute (can't be DOS-style, as IFS=:)
-         test -f "$f" || { { echo "$as_me:14620: error: cannot find input file: $f" >&5
+         test -f "$f" || { { echo "$as_me:14628: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          echo $f;;
@@ -14630,7 +14638,7 @@ echo "$as_me: error: cannot find input file: $f" >&2;}
            echo $srcdir/$f
          else
            # /dev/null tree
-           { { echo "$as_me:14633: error: cannot find input file: $f" >&5
+           { { echo "$as_me:14641: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          fi;;
@@ -14747,7 +14755,7 @@ cat >>$CONFIG_STATUS <<\EOF
   rm -f $tmp/in
   if test x"$ac_file" != x-; then
     if cmp -s $ac_file $tmp/config.h 2>/dev/null; then
-      { echo "$as_me:14750: $ac_file is unchanged" >&5
+      { echo "$as_me:14758: $ac_file is unchanged" >&5
 echo "$as_me: $ac_file is unchanged" >&6;}
     else
       ac_dir=`$as_expr X"$ac_file" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
@@ -14909,7 +14917,7 @@ if test "$no_recursion" != yes; then
     # parts of a large source tree are present.
     test -d $srcdir/$ac_subdir || continue
 
-    { echo "$as_me:14912: configuring in $ac_subdir" >&5
+    { echo "$as_me:14920: configuring in $ac_subdir" >&5
 echo "$as_me: configuring in $ac_subdir" >&6;}
     case $srcdir in
     .) ;;
@@ -14931,7 +14939,7 @@ done; }
 
        if test -d ./$ac_subdir; then :;
        else
-         { { echo "$as_me:14934: error: cannot create \`pwd\`/$ac_subdir" >&5
+         { { echo "$as_me:14942: error: cannot create \`pwd\`/$ac_subdir" >&5
 echo "$as_me: error: cannot create \`pwd\`/$ac_subdir" >&2;}
    { (exit 1); exit 1; }; }
        fi
@@ -14962,7 +14970,7 @@ echo "$as_me: error: cannot create \`pwd\`/$ac_subdir" >&2;}
     elif test -f $ac_sub_srcdir/configure.in; then
       ac_sub_configure=$ac_configure
     else
-      { echo "$as_me:14965: WARNING: no configuration information is in $ac_subdir" >&5
+      { echo "$as_me:14973: WARNING: no configuration information is in $ac_subdir" >&5
 echo "$as_me: WARNING: no configuration information is in $ac_subdir" >&2;}
       ac_sub_configure=
     fi
@@ -14976,12 +14984,12 @@ echo "$as_me: WARNING: no configuration information is in $ac_subdir" >&2;}
         ac_sub_cache_file=$ac_dots$cache_file ;;
       esac
 
-      { echo "$as_me:14979: running $ac_sub_configure $ac_sub_configure_args --cache-file=$ac_sub_cache_file --srcdir=$ac_sub_srcdir" >&5
+      { echo "$as_me:14987: running $ac_sub_configure $ac_sub_configure_args --cache-file=$ac_sub_cache_file --srcdir=$ac_sub_srcdir" >&5
 echo "$as_me: running $ac_sub_configure $ac_sub_configure_args --cache-file=$ac_sub_cache_file --srcdir=$ac_sub_srcdir" >&6;}
       # The eval makes quoting arguments work.
       eval $ac_sub_configure $ac_sub_configure_args \
            --cache-file=$ac_sub_cache_file --srcdir=$ac_sub_srcdir ||
-        { { echo "$as_me:14984: error: $ac_sub_configure failed for $ac_subdir" >&5
+        { { echo "$as_me:14992: error: $ac_sub_configure failed for $ac_subdir" >&5
 echo "$as_me: error: $ac_sub_configure failed for $ac_subdir" >&2;}
    { (exit 1); exit 1; }; }
     fi
