@@ -50,6 +50,8 @@ public:
 
   static int DEBUG_LISTMODULES;
 
+  static int BRIL_X11_SILENCER;
+
   static QWidget * mainwidget;
   static bool didcreatemainwidget;
   static QApplication * appobject;

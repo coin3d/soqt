@@ -278,9 +278,12 @@ SoQtP * SoQtP::slotobj = NULL;
 bool SoQtP::didcreatemainwidget = FALSE;
 
 #define ENVVAR_NOT_INITED INT_MAX
+
 int SoQtP::DEBUG_X11SYNC = ENVVAR_NOT_INITED;
-int SoQtP::DEBUG_LISTMODULES = ENVVAR_NOT_INITED;
 SoQtP_XErrorHandler * SoQtP::previous_handler = NULL;
+
+int SoQtP::DEBUG_LISTMODULES = ENVVAR_NOT_INITED;
+int SoQtP::BRIL_X11_SILENCER = ENVVAR_NOT_INITED;
 
 // We're using the singleton pattern to create a single SoQtP object
 // instance (a dynamic object is needed for attaching slots to signals
@@ -297,6 +300,16 @@ int
 SoQtP::X11Errorhandler(void * d, void * ee)
 {
 #ifdef Q_WS_X11
+
+  // This is a hack provided for one of our Coin PEL holders, to
+  // silence X11 error output from some erroneous Qt code.
+  if (SoQtP::BRIL_X11_SILENCER == ENVVAR_NOT_INITED) {
+    const char * env = SoAny::si()->getenv("SOQT_BRIL_X11_SILENCER_HACK");
+    SoQtP::BRIL_X11_SILENCER = env ? atoi(env) : 0;
+  }
+  if (SoQtP::BRIL_X11_SILENCER) { return 0; }
+
+
   // Include misc information on the Display to aid further debugging
   // on our end upon bugreports.
 
