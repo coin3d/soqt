@@ -973,7 +973,7 @@ uninstall-am: uninstall-SoQtDevicesincHEADERS uninstall-info-am \
 
 $(top_builddir)/sogui.doxygen: $(top_srcdir)/src/Inventor/@Gui@/common/sogui.doxygen.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=sogui.doxygen:src/Inventor/@Gui@/common/sogui.doxygen.in )
-	@( cd $(top_builddir); $(top_srcdir)/cfg/m4/doxy4win.pl coin.doxygen )
+	@( cd $(top_builddir); $(top_srcdir)/cfg/m4/doxy4win.pl sogui.doxygen )
 
 $(top_builddir)/so@gui@-config: $(top_srcdir)/src/Inventor/@Gui@/common/sogui-config.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=so@gui@-config:src/Inventor/@Gui@/common/sogui-config.in && chmod +x so@gui@-config )
