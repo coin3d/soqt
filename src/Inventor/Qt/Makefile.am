@@ -129,7 +129,7 @@ install-SoQtincHEADERS: $(SoQtinc_HEADERS)
 	  src="$$d$$p"; dst="$(DESTDIR)$(SoQtincdir)/$$f"; \
 	  if cmp -s "$$src" "$$dst"; then :; else \
 	    echo " $(INSTALL_HEADER) $$src $$dst"; \
-	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst" || exit 1; \
 	  fi \
 	done
 
@@ -142,7 +142,7 @@ install-nodist_SoQtincHEADERS: $(nodist_SoQtinc_HEADERS)
 	  src="$$d$$p"; dst="$(DESTDIR)$(SoQtincdir)/$$f"; \
 	  if cmp -s "$$src" "$$dst"; then :; else \
 	    echo " $(INSTALL_HEADER) $$src $$dst"; \
-	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst" || exit 1; \
 	  fi \
 	done
 
@@ -181,10 +181,11 @@ install-data-local:
 	    if test -f "$$file"; then \
 	      $(mkinstalldirs) "$(DESTDIR)$(libdir)"; \
 	      echo " $(INSTALL_DATA)" "$$file" "$(DESTDIR)$(libdir)/$$file"; \
-	      $(INSTALL_DATA) "$$file" "$(DESTDIR)$(libdir)/$$file"; \
+	      $(INSTALL_DATA) "$$file" "$(DESTDIR)$(libdir)/$$file" || exit 1; \
 	    fi \
 	  done; \
-	else :; fi
+	else :; \
+	fi
 endif
 
 install-exec-local:
@@ -195,10 +196,11 @@ install-exec-local:
 	    if test -f "$$file"; then \
 	      $(mkinstalldirs) "$(DESTDIR)$(bindir)"; \
 	      echo " $(INSTALL_PROGRAM)" "$$file" "$(DESTDIR)$(bindir)/$$file"; \
-	      $(INSTALL_PROGRAM) "$$file" "$(DESTDIR)$(bindir)/$$file"; \
+	      $(INSTALL_PROGRAM) "$$file" "$(DESTDIR)$(bindir)/$$file" || exit 1; \
 	    fi \
 	  done; \
-	else :; fi
+	else :; \
+	fi
 
 uninstall-local: uninstall-SoQtincHEADERS uninstall-nodist_SoQtincHEADERS
 	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \

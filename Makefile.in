@@ -131,6 +131,7 @@ PACKAGE_STRING = @PACKAGE_STRING@
 PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
+QTDIR = @QTDIR@
 RANLIB = @RANLIB@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
@@ -671,7 +672,7 @@ RECURSIVE_TARGETS = info-recursive dvi-recursive pdf-recursive \
 	check-recursive installcheck-recursive
 DIST_COMMON = README $(dist_m4data_DATA) \
 	$(srcdir)/src/Inventor/Qt/common/Makefile.common AUTHORS \
-	COPYING ChangeLog INSTALL Makefile.am Makefile.in NEWS \
+	COPYING ChangeLog INSTALL Makefile.am Makefile.in NEWS TODO \
 	aclocal.m4 cfg/README cfg/config.guess cfg/config.sub \
 	cfg/depcomp cfg/install-sh cfg/ltmain.sh cfg/missing \
 	cfg/mkinstalldirs configure configure.ac

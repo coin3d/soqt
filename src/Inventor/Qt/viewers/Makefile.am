@@ -94,7 +94,7 @@ install-SoQtViewersincHEADERS: $(SoQtViewersinc_HEADERS)
 	  src="$$d$$p"; dst="$(DESTDIR)$(SoQtViewersincdir)/$$f"; \
 	  if cmp -s "$$src" "$$dst"; then :; else \
 	    echo " $(INSTALL_HEADER) $$src $$dst"; \
-	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst" || exit 1; \
 	  fi; \
 	done
 
@@ -107,7 +107,7 @@ install-nodist_SoQtViewersincHEADERS: $(nodist_SoQtViewersinc_HEADERS)
 	  src="$$d$$p"; dst="$(DESTDIR)$(SoQtViewersincdir)/$$f"; \
 	  if cmp -s "$$src" "$$dst"; then :; else \
 	    echo " $(INSTALL_HEADER) $$src $$dst"; \
-	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst" || exit 1; \
 	  fi; \
 	done
 

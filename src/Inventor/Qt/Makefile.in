@@ -131,6 +131,7 @@ PACKAGE_STRING = @PACKAGE_STRING@
 PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
+QTDIR = @QTDIR@
 RANLIB = @RANLIB@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
@@ -1857,7 +1858,7 @@ install-SoQtincHEADERS: $(SoQtinc_HEADERS)
 	  src="$$d$$p"; dst="$(DESTDIR)$(SoQtincdir)/$$f"; \
 	  if cmp -s "$$src" "$$dst"; then :; else \
 	    echo " $(INSTALL_HEADER) $$src $$dst"; \
-	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst" || exit 1; \
 	  fi \
 	done
 
@@ -1870,7 +1871,7 @@ install-nodist_SoQtincHEADERS: $(nodist_SoQtinc_HEADERS)
 	  src="$$d$$p"; dst="$(DESTDIR)$(SoQtincdir)/$$f"; \
 	  if cmp -s "$$src" "$$dst"; then :; else \
 	    echo " $(INSTALL_HEADER) $$src $$dst"; \
-	    $(INSTALL_HEADER) "$$src" "$$dst"; \
+	    $(INSTALL_HEADER) "$$src" "$$dst" || exit 1; \
 	  fi \
 	done
 
@@ -1907,10 +1908,11 @@ soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib: Makefile \
 @MAC_FRAMEWORK_FALSE@	    if test -f "$$file"; then \
 @MAC_FRAMEWORK_FALSE@	      $(mkinstalldirs) "$(DESTDIR)$(libdir)"; \
 @MAC_FRAMEWORK_FALSE@	      echo " $(INSTALL_DATA)" "$$file" "$(DESTDIR)$(libdir)/$$file"; \
-@MAC_FRAMEWORK_FALSE@	      $(INSTALL_DATA) "$$file" "$(DESTDIR)$(libdir)/$$file"; \
+@MAC_FRAMEWORK_FALSE@	      $(INSTALL_DATA) "$$file" "$(DESTDIR)$(libdir)/$$file" || exit 1; \
 @MAC_FRAMEWORK_FALSE@	    fi \
 @MAC_FRAMEWORK_FALSE@	  done; \
-@MAC_FRAMEWORK_FALSE@	else :; fi
+@MAC_FRAMEWORK_FALSE@	else :; \
+@MAC_FRAMEWORK_FALSE@	fi
 
 install-exec-local:
 	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
@@ -1920,10 +1922,11 @@ install-exec-local:
 	    if test -f "$$file"; then \
 	      $(mkinstalldirs) "$(DESTDIR)$(bindir)"; \
 	      echo " $(INSTALL_PROGRAM)" "$$file" "$(DESTDIR)$(bindir)/$$file"; \
-	      $(INSTALL_PROGRAM) "$$file" "$(DESTDIR)$(bindir)/$$file"; \
+	      $(INSTALL_PROGRAM) "$$file" "$(DESTDIR)$(bindir)/$$file" || exit 1; \
 	    fi \
 	  done; \
-	else :; fi
+	else :; \
+	fi
 
 uninstall-local: uninstall-SoQtincHEADERS uninstall-nodist_SoQtincHEADERS
 	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \

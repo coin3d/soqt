@@ -9415,83 +9415,6 @@ fi
 ]) # SIM_AC_HAVE_COIN_IFELSE()
 
 
-# Helper macros for the SIM_AC_CHECK_QT macro below.
-
-# SIM_AC_WITH_QT
-#
-# Sets sim_ac_with_qt (from --with-qt=[true|false]) and
-# sim_ac_qtdir (from either --with-qt=DIR or $QTDIR).
-
-AC_DEFUN([SIM_AC_WITH_QT], [
-sim_ac_qtdir=
-AC_ARG_WITH(
-  [qt],
-  AC_HELP_STRING([--with-qt=[true|false|DIR]],
-                 [specify if Qt should be used, and optionally the location of the Qt library [default=true]]),
-  [case $withval in
-  no | false ) sim_ac_with_qt=false ;;
-  yes | true ) sim_ac_with_qt=true ;;
-  *)
-    sim_ac_with_qt=true
-    sim_ac_qtdir=$withval
-    ;;
-  esac],
-  [sim_ac_with_qt=true])
-
-if $sim_ac_with_qt; then
-  if test -z "$sim_ac_qtdir"; then
-    # The Cygwin environment needs to invoke moc with a POSIX-style path.
-    AC_PATH_PROG(sim_ac_qt_cygpath, cygpath, false)
-    if test $sim_ac_qt_cygpath = "false"; then
-      sim_ac_qtdir=$QTDIR
-    else
-      # Quote $QTDIR in case it's empty.
-      sim_ac_qtdir=`$sim_ac_qt_cygpath -u "$QTDIR"`
-    fi
-
-    AC_MSG_CHECKING([value of the QTDIR environment variable])
-    if test x"$sim_ac_qtdir" = x""; then
-      AC_MSG_RESULT([empty])
-      AC_MSG_WARN([QTDIR environment variable not set -- this might be an indication of a problem])
-    else
-      AC_MSG_RESULT([$sim_ac_qtdir])
-
-      # list contents of what's in the qt dev environment into config.log
-      for i in "" bin lib; do
-        echo "Listing contents of $sim_ac_qtdir/$i:" >&5
-        ls -l $sim_ac_qtdir/$i >&5 2>&1
-      done
-    fi
-  fi
-fi
-])
-
-# SIM_AC_QT_PROG(VARIABLE, PROG-TO-CHECK-FOR)
-#
-# Substs VARIABLE to the path of the PROG-TO-CHECK-FOR, if found
-# in either $PATH, $QTDIR/bin or the --with-qt=DIR directories.
-#
-# If not found, VARIABLE will be set to false.
-
-AC_DEFUN([SIM_AC_QT_PROG], [
-AC_REQUIRE([SIM_AC_WITH_QT])
-
-if $sim_ac_with_qt; then
-
-  sim_ac_path=$PATH
-  if test -n "$sim_ac_qtdir"; then
-    sim_ac_path=$sim_ac_qtdir/bin:$PATH
-  fi
-
-  AC_PATH_PROG([$1], $2, false, $sim_ac_path)
-  if test x"$$1" = x"false"; then
-    AC_MSG_WARN([the ``$2'' Qt pre-processor tool not found])
-  fi
-else
-  AC_SUBST([$1], [false])
-fi
-])
-
 # Usage:
 #  SIM_AC_CHECK_QT([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 #
@@ -9512,7 +9435,12 @@ fi
 
 AC_DEFUN([SIM_AC_CHECK_QT], [
 
-AC_REQUIRE([SIM_AC_WITH_QT])
+AC_ARG_WITH(
+  [qt],
+  AC_HELP_STRING([--with-qt=DIR],
+                 [specify location of Qt library [default=yes]]),
+  [],
+  [with_qt=yes])
 
 AC_ARG_ENABLE(
   [qt-debug],
@@ -9525,27 +9453,68 @@ AC_ARG_ENABLE(
 
 sim_ac_qt_avail=no
 
-if $sim_ac_with_qt; then
+if test x"$with_qt" != xno; then
+  sim_ac_path=$PATH
+
+  # Remember over config.status re-runs of configure.
+  # FIXME: this doesn't work unless QTDIR is part of the configure
+  # argument line. We should be able to grab it from the
+  # environment settings. 20011018 mortene. 
+  AC_SUBST([QTDIR], [$QTDIR])
+
+  # The Cygwin environment needs to invoke moc with a POSIX-style path.
+  AC_PATH_PROG(sim_ac_qt_cygpath, cygpath, false)
+  if test $sim_ac_qt_cygpath = "false"; then
+    sim_ac_qt_dir=$QTDIR
+  else
+    # Quote $QTDIR in case it's empty.
+    sim_ac_qt_dir=`$sim_ac_qt_cygpath -u "$QTDIR"`
+  fi
+
+  if test x"$with_qt" != xyes; then
+    sim_ac_qt_incflags="-I${with_qt}/include"
+    sim_ac_qt_ldflags="-L${with_qt}/lib"
+    sim_ac_path=${with_qt}/bin:$PATH
+  else
+    AC_MSG_CHECKING([value of the QTDIR environment variable])
+    if test x"$sim_ac_qt_dir" = x""; then
+      AC_MSG_RESULT([empty])
+      AC_MSG_WARN([QTDIR environment variable not set -- this might be an indication of a problem])
+    else
+      AC_MSG_RESULT([$sim_ac_qt_dir])
+
+      # list contents of what's in the qt dev environment into config.log...
+      for i in "" bin lib; do
+        echo "Listing contents of $sim_ac_qt_dir/$i:" >&5
+        ls -l $sim_ac_qt_dir/$i >&5 2>&1
+      done
+
+      sim_ac_qt_incflags="-I$sim_ac_qt_dir/include"
+      sim_ac_qt_ldflags="-L$sim_ac_qt_dir/lib"
+      sim_ac_path=$sim_ac_qt_dir/bin:$PATH
+    fi
+  fi
 
   sim_ac_save_cppflags=$CPPFLAGS
   sim_ac_save_ldflags=$LDFLAGS
   sim_ac_save_libs=$LIBS
-
-  if test -n "$sim_ac_qtdir"; then
-    sim_ac_qt_incflags="-I$sim_ac_qtdir/include"
-    sim_ac_qt_ldflags="-L$sim_ac_qtdir/lib"
-  fi
 
   CPPFLAGS="$sim_ac_qt_incflags $CPPFLAGS"
   LDFLAGS="$LDFLAGS $sim_ac_qt_ldflags"
 
   sim_ac_qt_libs=UNRESOLVED
 
+  AC_PATH_PROG(MOC, moc, false, $sim_ac_path)
+
+  if test x"$MOC" = x"false"; then
+    AC_MSG_WARN([the ``moc'' Qt pre-processor tool not found])
+  else
+
   sim_ac_qglobal=false
   SIM_AC_CHECK_HEADER_SILENT([qglobal.h],
     [sim_ac_qglobal=true],
     # Debian Linux and Darwin fink have the Qt-dev installation headers in 
-    # a separate subdir.
+    #a separate subdir.
     [sim_ac_debian_qtheaders=/usr/include/qt
      if test -d $sim_ac_debian_qtheaders; then
        sim_ac_qt_incflags="-I$sim_ac_debian_qtheaders $sim_ac_qt_incflags"
@@ -9562,70 +9531,70 @@ if $sim_ac_with_qt; then
 
   if $sim_ac_qglobal; then
 
-    # Find version of the Qt library (MSWindows .dll is named with the
-    # version number.)
-    AC_MSG_CHECKING([version of Qt library])
-    cat > conftest.c << EOF
+  # Find version of the Qt library (MSWindows .dll is named with the
+  # version number.)
+  AC_MSG_CHECKING([version of Qt library])
+  cat > conftest.c << EOF
 #include <qglobal.h>
 int VerQt = QT_VERSION;
 EOF
-    # The " *"-parts of the last sed-expression on the next line are necessary
-    # because at least the Solaris/CC preprocessor adds extra spaces before and
-    # after the trailing semicolon.
-    sim_ac_qt_version=`$CXXCPP $CPPFLAGS conftest.c 2>/dev/null | grep '^int VerQt' | sed 's%^int VerQt = %%' | sed 's% *; *$%%'`
+  # The " *"-parts of the last sed-expression on the next line are necessary
+  # because at least the Solaris/CC preprocessor adds extra spaces before and
+  # after the trailing semicolon.
+  sim_ac_qt_version=`$CXXCPP $CPPFLAGS conftest.c 2>/dev/null | grep '^int VerQt' | sed 's%^int VerQt = %%' | sed 's% *; *$%%'`
 
-    case $sim_ac_qt_version in
-    0x* )
-      sim_ac_qt_version=`echo $sim_ac_qt_version | sed -e 's/^0x.\(.\).\(.\).\(.\)/\1\2\3/;'`
-      ;;
-    * )
-      # nada
-      ;;
-    esac
+  case $sim_ac_qt_version in
+  0x* )
+    sim_ac_qt_version=`echo $sim_ac_qt_version | sed -e 's/^0x.\(.\).\(.\).\(.\)/\1\2\3/;'`
+    ;;
+  * )
+    # nada
+    ;;
+  esac
 
-    rm -f conftest.c
-    AC_MSG_RESULT($sim_ac_qt_version)
+  rm -f conftest.c
+  AC_MSG_RESULT($sim_ac_qt_version)
 
-    if test $sim_ac_qt_version -lt 200; then
-      SIM_AC_ERROR([too-old-qt])
-    fi
+  if test $sim_ac_qt_version -lt 200; then
+    SIM_AC_ERROR([too-old-qt])
+  fi
 
-    # Too hard to feature-check for the Qt-on-Mac problems, as they involve
-    # obscure behavior of the QGLWidget -- so we just resort to do platform
-    # and version checking instead.
-    case $host_os in
-    darwin*)
-      if test $sim_ac_qt_version -lt 302; then
-        SIM_AC_CONFIGURATION_WARNING([The version of Qt you are using is
+  # Too hard to feature-check for the Qt-on-Mac problems, as they involve
+  # obscure behavior of the QGLWidget -- so we just resort to do platform
+  # and version checking instead.
+  case $host_os in
+  darwin*)
+    if test $sim_ac_qt_version -lt 302; then
+      SIM_AC_CONFIGURATION_WARNING([The version of Qt you are using is
 known to contain some serious bugs on MacOS X. We strongly recommend you to
 upgrade. (See $srcdir/README.MAC for details.)])
-      fi
-
-      if test x"$sim_ac_want_x11" = xno; then   
-      # Qt/X11 needs X11, which you need to enable by --enable-x11
-      AC_TRY_LINK([#include <qapplication.h>],
-                  [#if defined(__APPLE__) && defined(Q_WS_X11)
-                   #error blah!
-                   #endif],[],
-                  [SIM_AC_ERROR([x11-qt-on-mac])])
-      fi
-      ;;
-    esac
-
-    # Known problems:
-    #
-    #   * Qt v3.0.1 has a bug where SHIFT-PRESS + CTRL-PRESS + CTRL-RELEASE
-    #     results in the last key-event coming out completely wrong under X11.
-    #     Known to be fixed in 3.0.3, unknown status in 3.0.2.  <mortene@sim.no>.
-    #
-    if test $sim_ac_qt_version -lt 303; then
-      SIM_AC_CONFIGURATION_WARNING([The version of Qt you are compiling against
-is known to contain bugs which influences functionality in SoQt. We strongly
-recommend you to upgrade.])
     fi
 
-    sim_ac_qt_cppflags=
+    if test x"$sim_ac_want_x11" = xno; then   
+    # Qt/X11 needs X11, which you need to enable by --enable-x11
+    AC_TRY_LINK([#include <qapplication.h>],
+                [#if defined(__APPLE__) && defined(Q_WS_X11)
+                 #error blah!
+                 #endif],[],
+                [SIM_AC_ERROR([x11-qt-on-mac])])
+    fi
+    ;;
+  esac
 
+  # Known problems:
+  #
+  #   * Qt v3.0.1 has a bug where SHIFT-PRESS + CTRL-PRESS + CTRL-RELEASE
+  #     results in the last key-event coming out completely wrong under X11.
+  #     Known to be fixed in 3.0.3, unknown status in 3.0.2.  <mortene@sim.no>.
+  #
+  if test $sim_ac_qt_version -lt 303; then
+    SIM_AC_CONFIGURATION_WARNING([The version of Qt you are compiling against
+is known to contain bugs which influences functionality in SoQt. We strongly
+recommend you to upgrade.])
+  fi
+
+  sim_ac_qt_cppflags=
+  if test x"$MOC" != xfalse; then
     # Do not cache the result, as we might need to play tricks with
     # CPPFLAGS under MSWin.
 
@@ -9738,12 +9707,14 @@ recommend you to upgrade.])
 
       AC_MSG_RESULT($sim_ac_qt_cppflags $sim_ac_qt_libs)
     fi
+  fi
 
   else # sim_ac_qglobal = false
     AC_MSG_WARN([header file qglobal.h not found, can not compile Qt code])
   fi
+  fi # MOC = false
 
-  sim_ac_qt_install=`cd $sim_ac_qtdir; pwd`/bin/install
+  sim_ac_qt_install=`cd $sim_ac_qt_dir; pwd`/bin/install
 
   AC_MSG_CHECKING(install sanity)
   case $INSTALL in
@@ -9793,15 +9764,12 @@ fi
 # Author: Morten Eriksen, <mortene@sim.no>.
 
 AC_DEFUN([SIM_AC_CHECK_QGL], [
-
-AC_REQUIRE([SIM_AC_WITH_QT])
-
 sim_ac_qgl_avail=no
 sim_ac_qgl_cppflags=
 sim_ac_qgl_ldflags=
 sim_ac_qgl_libs=
 
-if $sim_ac_with_qt; then
+if test x"$with_qt" != xno; then
   # first check if we can link with the QGL widget already
   AC_CACHE_CHECK(
     [whether the QGL widget is part of main Qt library],
