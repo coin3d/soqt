@@ -118,9 +118,9 @@ ACLOCAL_AMFLAGS = -I cfg/m4
 
 SUFFIXES = .cpp .h .m4 .in .o .lo .Plo .TPlo
 
-SUBDIRS = . src/Inventor/Qt
+############################################################################
 
-bin_SCRIPTS = soqt-config
+SUBDIRS = . src/Inventor/Qt
 
 SoQtTemplateFiles = \
 	soqt-config \
@@ -182,10 +182,7 @@ BUILT_SOURCES = \
 	$(SoQtMocFiles)
 
 
-# This is necessary to set up a hook somewhere in the generated Makefile
-# so the sources are actually built.
-
-noinst_DATA = $(BUILT_SOURCES)
+bin_SCRIPTS = soqt-config
 
 EXTRA_DIST = cfg/m4/soqt.m4
 
@@ -199,7 +196,7 @@ CONFIG_CLEAN_FILES =  soqt-config
 SCRIPTS =  $(bin_SCRIPTS)
 
 DIST_SOURCES = 
-DATA =  $(m4data_DATA) $(noinst_DATA)
+DATA =  $(m4data_DATA)
 
 DIST_COMMON =  README ./stamp-h.in AUTHORS COPYING ChangeLog INSTALL \
 Makefile.am Makefile.in NEWS aclocal.m4 cfg/config.guess cfg/config.sub \
@@ -576,11 +573,15 @@ maintainer-clean
 
 soqt-config: soqt-config.in
 
+# This is necessary to set up a hook somewhere in the generated Makefile
+# so the sources are actually built.
+
+Makefile: $(BUILT_SOURCES)
+
 ############################################################################
 
-# Target which is present to make it simple to only generate the
-# sourcefiles from the common sources.
-
+# Target which is present to make it simple to only generate all the source
+# files from the common sources.
 built-sources: $(BUILT_SOURCES)
 
 soqtdefs.h: $(srcdir)/soqtdefs.h.in
@@ -779,6 +780,9 @@ src/Inventor/Qt/widgets/moc_SoQtPopupMenu.cpp: \
 	$(MOC) -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/widgets/SoQtPopupMenu.h`
 
 ############################################################################
+
+doxygen-docs:
+	@( cd build; @sim_ac_doxygen_exe@ sogtk.doxygen )
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

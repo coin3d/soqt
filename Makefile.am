@@ -5,9 +5,9 @@ ACLOCAL_AMFLAGS = -I cfg/m4
 
 SUFFIXES = .cpp .h .m4 .in .o .lo .Plo .TPlo
 
-SUBDIRS = . src/Inventor/Qt
+############################################################################
 
-bin_SCRIPTS = soqt-config
+SUBDIRS = . src/Inventor/Qt
 
 SoQtTemplateFiles = \
 	soqt-config \
@@ -66,10 +66,7 @@ BUILT_SOURCES = \
 	$(SoQtTemplateFiles) \
 	$(SoQtMocFiles)
 
-# This is necessary to set up a hook somewhere in the generated Makefile
-# so the sources are actually built.
-
-noinst_DATA = $(BUILT_SOURCES)
+bin_SCRIPTS = soqt-config
 
 soqt-config: soqt-config.in
 
@@ -78,11 +75,15 @@ EXTRA_DIST = cfg/m4/soqt.m4
 m4datadir = $(datadir)/aclocal
 m4data_DATA = cfg/m4/soqt.m4
 
+# This is necessary to set up a hook somewhere in the generated Makefile
+# so the sources are actually built.
+
+Makefile: $(BUILT_SOURCES)
+
 ############################################################################
 
-# Target which is present to make it simple to only generate the
-# sourcefiles from the common sources.
-
+# Target which is present to make it simple to only generate all the source
+# files from the common sources.
 built-sources: $(BUILT_SOURCES)
 
 soqtdefs.h: $(srcdir)/soqtdefs.h.in
@@ -282,3 +283,7 @@ src/Inventor/Qt/widgets/moc_SoQtPopupMenu.cpp: \
 	$(MOC) -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/widgets/SoQtPopupMenu.h`
 
 ############################################################################
+
+doxygen-docs:
+	@( cd build; @sim_ac_doxygen_exe@ sogtk.doxygen )
+
