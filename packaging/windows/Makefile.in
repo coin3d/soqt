@@ -135,6 +135,7 @@ build-docs/html/index.html: $(Project)-$(VERSION)
 	../$(Project)-$(VERSION)/configure \
 	  --disable-build \
 	  --enable-html htmldir=html/$(Project) \
+	  --enable-html-help htmlhelpdir=html \
 	  --enable-man \
 	  --prefix=$(sdk_prefix)
 	cd build-docs/; \
