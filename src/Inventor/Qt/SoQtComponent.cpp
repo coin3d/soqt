@@ -32,7 +32,6 @@
 #include <qbitmap.h>
 #include <qwidget.h>
 #include <qmainwindow.h>
-#include <qmessagebox.h>
 #include <qapplication.h>
 #include <qmetaobject.h>
 #include <qcursor.h>

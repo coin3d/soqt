@@ -961,7 +961,7 @@ SoQt::createSimpleErrorDialog(QWidget * widget,
     errstr += string2;
   }
 
-  QMessageBox::warning(widget, t.getString(), errstr.getString());
+  (void)QMessageBox::warning(widget, t.getString(), errstr.getString());
 }
 
 // *************************************************************************
