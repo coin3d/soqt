@@ -1,0 +1,16 @@
+The example sources found in the subdirectories of this directory is
+small, self-contained Qt- or SoQt-specific tests.
+
+Compilation after a correct SoQt-installation on your system is done
+by executing
+
+        $ soqt-config --build <executablename> <sourcefile.cpp>
+
+(``soqt-config'' must be in your $PATH).
+
+The sources are all under the GNU General Public License for Free
+Software users of Coin and/or SoQt, and available for any use for our
+Professional Edition licensees.
+
+-- 
+mortene@sim.no

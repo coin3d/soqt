@@ -2,13 +2,7 @@
 
 SUFFIXES = .cpp .h .m4 .in .o .lo .Plo .TPlo
 
-if BUILD_TESTS
-TESTDIR = test-code
-else
-TESTDIR =
-endif
-
-SUBDIRS = . src/Inventor/Qt $(TESTDIR)
+SUBDIRS = . src/Inventor/Qt
 
 bin_SCRIPTS = soqt-config
 
