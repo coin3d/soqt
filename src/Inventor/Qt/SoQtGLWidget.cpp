@@ -211,19 +211,16 @@ void
 SoQtGLWidget::setBorder(const SbBool enable)
 {
   PRIVATE(this)->borderthickness = (enable ? SO_BORDER_THICKNESS : 0);
-  if (PRIVATE(this)->borderwidget != NULL) {
-    PRIVATE(this)->borderwidget->setLineWidth(PRIVATE(this)->borderthickness);
-    PRIVATE(this)->currentglwidget->move(PRIVATE(this)->borderthickness, PRIVATE(this)->borderthickness);
-    QSize frame(PRIVATE(this)->borderwidget->size());
-    PRIVATE(this)->currentglwidget->setGeometry(QRect(PRIVATE(this)->borderthickness, PRIVATE(this)->borderthickness,
-                                                      frame.width() - 2 * PRIVATE(this)->borderthickness,
-                                                      frame.height() - 2 * PRIVATE(this)->borderthickness));
-    
-    // FIXME: uncommented, disabled code. 20020618 mortene.
-//    this->glwidget->resize(
-//      frame.width() - 2 * PRIVATE(this)->borderthickness,
-//      frame.height() - 2 * PRIVATE(this)->borderthickness);
-  }
+  assert(PRIVATE(this)->borderwidget != NULL);
+
+  PRIVATE(this)->borderwidget->setLineWidth(PRIVATE(this)->borderthickness);
+
+  QSize total(PRIVATE(this)->borderwidget->size());
+  QRect r(PRIVATE(this)->borderthickness, // xpos
+          PRIVATE(this)->borderthickness, // ypos
+          total.width() - 2 * PRIVATE(this)->borderthickness, // width
+          total.height() - 2 * PRIVATE(this)->borderthickness); // height
+  PRIVATE(this)->currentglwidget->setGeometry(r);
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
