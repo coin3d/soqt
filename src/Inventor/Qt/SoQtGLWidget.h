@@ -106,20 +106,7 @@ private slots:
   void gl_exposed(void);
 
 private:
-  SbVec2s glSize;
-
-  SoQtGLArea * currentglwidget;
-  SoQtGLArea * previousglwidget;
-  QWidget * glparent;
-  QFrame * borderwidget;
-  int borderthickness;
-  class QGLFormat * glformat;
-
-  struct {
-    unsigned int mouseinput    : 1;
-    unsigned int keyboardinput : 1;
-  } properties;
-
+  class SoQtGLWidgetP * pimpl;
   void buildGLWidget(void);
 
 }; // class SoQtGLWidget
