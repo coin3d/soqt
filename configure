@@ -23676,6 +23676,8 @@ fi
 
 
 
+# check for misc VRML97 features
+
 echo "$as_me:$LINENO: checking if the Open Inventor SoVRMLMaterial VRML node is available" >&5
 echo $ECHO_N "checking if the Open Inventor SoVRMLMaterial VRML node is available... $ECHO_C" >&6
 if test "${sim_cv_have_oiv_sovrmlmaterial_vrmlnode+set}" = set; then
@@ -23725,6 +23727,180 @@ if $sim_cv_have_oiv_sovrmlmaterial_vrmlnode; then
 
 cat >>confdefs.h <<\_ACEOF
 #define HAVE_SOVRMLMATERIAL 1
+_ACEOF
+
+
+else
+  :
+fi
+
+
+
+echo "$as_me:$LINENO: checking if the Open Inventor SoVRMLViewpoint VRML node is available" >&5
+echo $ECHO_N "checking if the Open Inventor SoVRMLViewpoint VRML node is available... $ECHO_C" >&6
+if test "${sim_cv_have_oiv_sovrmlviewpoint_vrmlnode+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+#include <Inventor/VRMLnodes/SoVRMLViewpoint.h>
+int
+main ()
+{
+SoVRMLViewpoint * p = new SoVRMLViewpoint;
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  sim_cv_have_oiv_sovrmlviewpoint_vrmlnode=true
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+sim_cv_have_oiv_sovrmlviewpoint_vrmlnode=false
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+fi
+echo "$as_me:$LINENO: result: $sim_cv_have_oiv_sovrmlviewpoint_vrmlnode" >&5
+echo "${ECHO_T}$sim_cv_have_oiv_sovrmlviewpoint_vrmlnode" >&6
+
+if $sim_cv_have_oiv_sovrmlviewpoint_vrmlnode; then
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_SOVRMLVIEWPOINT 1
+_ACEOF
+
+
+else
+  :
+fi
+
+
+
+echo "$as_me:$LINENO: checking if the Open Inventor SoVRMLBackground VRML node is available" >&5
+echo $ECHO_N "checking if the Open Inventor SoVRMLBackground VRML node is available... $ECHO_C" >&6
+if test "${sim_cv_have_oiv_sovrmlbackground_vrmlnode+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+#include <Inventor/VRMLnodes/SoVRMLBackground.h>
+int
+main ()
+{
+SoVRMLBackground * p = new SoVRMLBackground;
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  sim_cv_have_oiv_sovrmlbackground_vrmlnode=true
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+sim_cv_have_oiv_sovrmlbackground_vrmlnode=false
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+fi
+echo "$as_me:$LINENO: result: $sim_cv_have_oiv_sovrmlbackground_vrmlnode" >&5
+echo "${ECHO_T}$sim_cv_have_oiv_sovrmlbackground_vrmlnode" >&6
+
+if $sim_cv_have_oiv_sovrmlbackground_vrmlnode; then
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_SOVRMLBACKGROUND 1
+_ACEOF
+
+
+else
+  :
+fi
+
+
+
+echo "$as_me:$LINENO: checking if the Open Inventor SoVRMLFog VRML node is available" >&5
+echo $ECHO_N "checking if the Open Inventor SoVRMLFog VRML node is available... $ECHO_C" >&6
+if test "${sim_cv_have_oiv_sovrmlfog_vrmlnode+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+#include <Inventor/VRMLnodes/SoVRMLFog.h>
+int
+main ()
+{
+SoVRMLFog * p = new SoVRMLFog;
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  sim_cv_have_oiv_sovrmlfog_vrmlnode=true
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+sim_cv_have_oiv_sovrmlfog_vrmlnode=false
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+fi
+echo "$as_me:$LINENO: result: $sim_cv_have_oiv_sovrmlfog_vrmlnode" >&5
+echo "${ECHO_T}$sim_cv_have_oiv_sovrmlfog_vrmlnode" >&6
+
+if $sim_cv_have_oiv_sovrmlfog_vrmlnode; then
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_SOVRMLFOG 1
 _ACEOF
 
 
