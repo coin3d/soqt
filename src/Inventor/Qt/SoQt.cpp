@@ -464,6 +464,17 @@ public:
 
 // *************************************************************************
 
+#ifdef COIN_IV_EXTENSIONS
+#define COIN_IV_EXTENSION(ext)  \
+class ext {                     \
+public:                         \
+static void initClass(void);    \
+};                              \
+
+COIN_IV_EXTENSIONS
+#undef COIN_IV_EXTENSION
+#endif
+
 // documented in common/SoGuiCommon.cpp.in
 void
 SoQt::init(QWidget * toplevelwidget)
@@ -481,6 +492,11 @@ SoQt::init(QWidget * toplevelwidget)
   SoNodeKit::init();
   SoInteraction::init();
   SoQtObject::init();
+#ifdef COIN_IV_EXTENSIONS
+#define COIN_IV_EXTENSION(ext) ext::initClass();
+  COIN_IV_EXTENSIONS
+#undef COIN_IV_EXTENSION
+#endif
 
   SoDB::getSensorManager()->setChangedCallback(SoGuiP::sensorQueueChanged, NULL);
   SoQtP::mainwidget = toplevelwidget;
