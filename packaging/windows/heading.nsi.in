@@ -10,7 +10,7 @@ OutFile "soqt-@sdk_version@-install.exe"
 SilentInstall "normal"
 CRCCheck "on"
 
-LicenseText "GNU Lesser General Public License"
+LicenseText "GNU General Public License"
 LicenseData LICENSE.TXT
 
 ComponentText "Installing the SoQt library"
