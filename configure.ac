@@ -261,21 +261,6 @@ if test x"$want_html" != xno -o x"$want_man" != xno; then
   fi
 fi
 
-# path_tag is used to identify paths in docs/coin.doxygen that needs to be
-# transformed using cygpath under cygwin.
-
-# FIXME: I disabled the doxy4win.pl substitution of the <PATH> tag, as the
-# setup wasn't working for ``make distcheck'' for some reason, and it
-# also made an extra dependency in our build environment: Perl.
-# 20011211 mortene.
-
-case $host in
-*-cygwin) path_tag="<PATH>" ;;
-*)        path_tag= ;;
-esac
-
-AC_SUBST(path_tag)
-
 AM_CONDITIONAL([BUILD_METAFILES], [true])
 AC_SUBST([meta_prefix], [moc_])
 
