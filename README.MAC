@@ -21,23 +21,101 @@ upgrade to 10.1, you will be amazed by the increase in performance and
 stability anyway.
 
 
+Qt/Mac vs. Qt/X11
+=================
+
+SoQt is dependent on Trolltech's Qt library. On Mac OS X, you have two options:
+
+1. Use the native Qt/Mac
+2. Use X11 and Qt/X11
+
+Qt/Mac[0] is the Mac OS X native implementation of Qt. This will
+usually be your first choice, since it does not require any additional
+software to be installed, and provides the full Aqua look'n'feel.
+
+Alternatively, you can install Apple's X11 for Mac OS X, and use
+Qt/X11, the version of Qt used on all other UNIX systems. You will
+find instructions on how to do this below. One important reason why
+you might want to choose Qt/X11 is that there is no Free Software
+edition of Qt/Mac. If you are using Coin and SoQt under the GPL, you
+will probably want to go for the GPL'ed Qt/X11 as well.
+
+
+Using SoQt together with the X11 Window system
+==============================================
+
+Please note that Apple's X11 is currently in beta state, and SoQt's
+support for X11 is to be considered experimental, so there might be
+bugs and problems. Feel free to let us now if you encounter any
+issues!
+
+To use SoQt with X11 and Qt/X11, follow these steps:
+
+
+1. Install X11 for Mac OS X.
+
+X11 for Mac OS X offers a complete X Window System implementation for
+running X11-based applications on Mac OS X. It includes the full
+X11R6.6 technology including an X11 window server, Quartz window
+manager, libraries, and basic utilities such as xterm, and is fully
+integrated with Mac OS X. See [1] for more information about X11 for
+Mac OS X.
+
+You can download the X11 for Mac OS X Public beta from [2]. Note that
+you will also need the X11 SDK, a link to which can be found the same
+page.
+
+Installation of X11 is done through a standard Mac OS X Installer, so
+it should be no problem. After installation, run the
+/Applications/X11.app, which starts the X Server, the Quartz-based
+window manager, and an xterm.
+
+Please read the X11 FAQ[3] before installing, it contains important
+information!
+
+Note that only Apple's X11 is supported. (XDarwin, the X installation
+through fink, or anything else will probably not work.)
+
+
+2. Install Qt/X11.
+
+SoQt depends on Qt/X11. It does not really matter how you install Qt,
+but I suggest you use fink. Fink is a dpkg-based distribution of UNIX
+tools for Mac OS X that allows easy installation, updating, and
+removing of packages. See [4] for information about fink. It is
+really easy to use, and an extremely convenient way to install
+UNIX-tools on Mac OS X.
+
+If you have a working fink installation, you can install Qt/X11 by
+simply typing
+
+       $ fink install qt3 qt3-dev qt3-shlibs
+
+Note that neither fink nor Qt or SIM products, so please contact the
+respective maintainers if you find bugs or have problems using these
+pieces of software.
+
+
+3. Install SoQt.
+
+You have to tell configure to use X11 (otherwise, the Mac native
+window system is preferred) by specifying the --enable-x11 configure
+flag. 
+
+      $ /path/to/SoQt/configure --enable-x11
+      $ make 
+      $ sudo make install
+
+That should be all. 
+
+
+
 Common problems (and solutions)
 ===============================
 
 
-o "I installed qt from fink, but SoQt configure doesn't find it"
-   -------------------------------------------------------------
-
-That's because SoQt is looking for Qt/Mac -- the Mac OS X native
-version of the Qt toolkit. What you install using fink is *not*
-Qt/Mac but Qt/X11, i.e. the version of Qt that was created for X11.
-We do not yet support the X11 version of Qt, but we are planning to do
-so in the near future.                                 
-
-
-
 Problems with older versions of Qt/Mac
-======================================
+---------------------------------------
 
 The first Qt/Mac releases contained a number of serious bugs that also 
 affect SoQt. If you encounter strange behaviour, it might very well be
@@ -74,6 +152,13 @@ o Custom cursors do not work in Qt/Mac 3.1.x. Therefore, we display a
 
   This bug is present in Qt/Mac 3.1.0, 3.1.1 and 3.1.2. It will be
   fixed in Qt/Mac 3.1.3.
+
+
+[0] http://www.trolltech.com/products/qt/mac.html
+[1] http://www.apple.com/macosx/x11/
+[2] http://www.apple.com/macosx/x11/download/
+[3] http://developer.apple.com/qa/qa2001/qa1232.html
+[4] http://fink.sourceforge.net/
 
 --
 kyrah@sim.no
