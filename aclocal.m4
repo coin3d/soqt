@@ -981,17 +981,22 @@ fi
 # as we can get false positives and/or false negatives when running under
 # Cygwin, using the Microsoft Visual C++ compiler (the configure script will
 # pick the GCC preprocessor).
-AC_DEFUN([SIM_AC_CHECK_HEADER],
-[AC_VAR_PUSHDEF([ac_Header], [ac_cv_header_$1])dnl
-AC_ARG_VAR([CPPFLAGS], [C/C++ preprocessor flags, e.g. -I<include dir> if you ha
-ve headers in a nonstandard directory <include dir>])
-AC_CACHE_CHECK([for $1], ac_Header,
-[AC_TRY_COMPILE([#include <$1>
-], [],
-AC_VAR_SET(ac_Header, yes), AC_VAR_SET(ac_Header, no))])
-AC_SHELL_IFELSE([test AC_VAR_GET(ac_Header) = yes],
-                [$2], [$3])dnl
-AC_VAR_POPDEF([ac_Header])dnl
+
+AC_DEFUN([SIM_AC_CHECK_HEADER], [
+AC_VAR_PUSHDEF([ac_Header], [ac_cv_header_$1])
+AC_ARG_VAR([CPPFLAGS], [C/C++ preprocessor flags, e.g. -I<include dir> if you have headers in a nonstandard directory <include dir>])
+AC_CACHE_CHECK(
+  [for $1],
+  ac_Header,
+  [AC_TRY_COMPILE([#include <$1>],
+  [],
+  [AC_VAR_SET(ac_Header, yes)],
+  [AC_VAR_SET(ac_Header, no)])])
+AS_IFELSE(
+  [test AC_VAR_GET(ac_Header) = yes],
+  [$2],
+  [$3])
+AC_VAR_POPDEF([ac_Header])
 ])# SIM_AC_CHECK_HEADER
 
 
@@ -1001,9 +1006,10 @@ AC_VAR_POPDEF([ac_Header])dnl
 AC_DEFUN([SIM_AC_CHECK_HEADERS],
 [for ac_header in $1
 do
-SIM_AC_CHECK_HEADER($ac_header,
-                    [AC_DEFINE_UNQUOTED(AC_TR_CPP(HAVE_$ac_header)) $2],
-                    [$3])dnl
+SIM_AC_CHECK_HEADER(
+  [$ac_header],
+  [AC_DEFINE_UNQUOTED(AC_TR_CPP(HAVE_$ac_header)) $2],
+  [$3])
 done
 ])# SIM_AC_CHECK_HEADERS
 
@@ -1983,19 +1989,19 @@ if $sim_ac_want_inventor; then
   AC_CACHE_CHECK(
     [if linking with libimage is possible],
     sim_cv_have_inventor_image,
-    [AC_LANG_PUSH(C)
+    [
     CPPFLAGS="$sim_ac_inventor_image_cppflags $CPPFLAGS"
     LDFLAGS="$sim_ac_inventor_image_ldflags $LDFLAGS"
     LIBS="$sim_ac_inventor_image_libs $LIBS"
     AC_TRY_LINK(
       [],
-      [img_read();],
+      [],
       [sim_cv_have_inventor_image=true],
       [sim_cv_have_inventor_image=false])
     CPPFLAGS="$sim_ac_inventor_image_save_CPPFLAGS"
     LDFLAGS="$sim_ac_inventor_image_save_LDFLAGS"
     LIBS="$sim_ac_inventor_image_save_LIBS"
-    AC_LANG_POP])
+    ])
 
   if $sim_cv_have_inventor_image; then
     ifelse([$1], , :, [$1])
@@ -2258,9 +2264,7 @@ fi
 #  In addition, the variable $sim_ac_qt_avail is set to "yes" if
 #  the Qt development system is found.
 #
-#
 # Author: Morten Eriksen, <mortene@sim.no>.
-#
 
 AC_DEFUN([SIM_AC_CHECK_QT], [
 
@@ -2279,7 +2283,7 @@ if test x"$with_qt" != xno; then
   SIM_AC_DEBACKSLASH(sim_ac_qt_dir, $QTDIR)
 
   if test x"$with_qt" != xyes; then
-    sim_ac_qt_cppflags="-I${with_qt}/include"
+    sim_ac_qt_incflags="-I${with_qt}/include"
     sim_ac_qt_ldflags="-L${with_qt}/lib"
     sim_ac_path=${with_qt}/bin:$PATH
   else
@@ -2289,18 +2293,16 @@ if test x"$with_qt" != xno; then
       AC_MSG_WARN([QTDIR environment variable not set -- this might be an indication of a problem])
     else
       AC_MSG_RESULT([$sim_ac_qt_dir])
-      sim_ac_qt_cppflags="-I$sim_ac_qt_dir/include"
+      sim_ac_qt_incflags="-I$sim_ac_qt_dir/include"
       sim_ac_qt_ldflags="-L$sim_ac_qt_dir/lib"
       sim_ac_path=$sim_ac_qt_dir/bin:$PATH
     fi
   fi
 
-#    sim_ac_qt_libs="$sim_ac_qt_libs gdi32.lib ole32.lib imm32.lib comdlg32.lib"
   sim_ac_save_cppflags=$CPPFLAGS
   sim_ac_save_ldflags=$LDFLAGS
   sim_ac_save_libs=$LIBS
 
-  CPPFLAGS="$CPPFLAGS $sim_ac_qt_cppflags"
   LDFLAGS="$LDFLAGS $sim_ac_qt_ldflags"
 
   AC_PATH_PROG(MOC, moc, false, $sim_ac_path)
@@ -2309,40 +2311,45 @@ if test x"$with_qt" != xno; then
   # version number.)
   cat > conftest.c << EOF
 #include <qglobal.h>
-int SoQt = QT_VERSION;
+int VerQt = QT_VERSION;
 EOF
-  soqt_qt_version=`$CPP $CPPFLAGS conftest.c | egrep '^int SoQt' | sed 's%^int SoQt = %%' | sed 's%;$%%'`
+  sim_ac_qt_version=`$CPP $sim_ac_qt_incflags $CPPFLAGS conftest.c | egrep '^int VerQt' | sed 's%^int VerQt = %%' | sed 's%;$%%'`
   rm -f conftest.c
 
   if test x"$MOC" != xfalse; then
-    AC_CACHE_CHECK([whether the Qt library is available],
-      sim_cv_qtlibs,
-      [sim_cv_qtlibs=UNRESOLVED
-       #
-       # Test all known possible combinations of linking against the
-       # Troll Tech Qt library:
-       #
-       # * "-lqt" should work for all UNIX(-derived) platforms.
-       #
-       # * "-lqt{version} -lqtmain -lgdi32" w/QT_DLL defined should
-       #   cover with dynamic linking on Win32 platforms
-       #
-       for sim_ac_qt_libcheck in "-lqt" "-DQT_DLL -lqt$soqt_qt_version -lqtmain -lgdi32"; do
-         if test "x$sim_cv_qtlibs" = "xUNRESOLVED"; then
-           LIBS="$sim_ac_qt_libcheck $sim_ac_save_libs"
-           AC_TRY_LINK([#include <qapplication.h>],
-                       [int dummy=0;
-                        QApplication a(dummy, 0L);],
-                       [sim_cv_qtlibs="$sim_ac_qt_libcheck"])
-         fi
-       done
-      ]
-    )
+    # Do not cache the result, as we might need to play tricks with
+    # CPPFLAGS under MSWin.
+    AC_MSG_CHECKING([for Qt library devkit])
+    sim_ac_qt_libs=UNRESOLVED
+    sim_ac_qt_cppflags=
+
+    # Test all known possible combinations of linking against the
+    # Troll Tech Qt library:
+    #
+    # * "-lqt" should work for all UNIX(-derived) platforms.
+    # * "-lqt{version} -lqtmain -lgdi32" w/QT_DLL defined should
+    #   cover dynamic linking on Win32 platforms
+
+    for sim_ac_qt_cppflags_loop in "" "-DQT_DLL"; do
+      for sim_ac_qt_libcheck in "-lqt" "-lqt$sim_ac_qt_version -lqtmain -lgdi32"; do
+        if test "x$sim_ac_qt_libs" = "xUNRESOLVED"; then
+          CPPFLAGS="$sim_ac_qt_incflags $sim_ac_qt_cppflags_loop $sim_ac_save_cppflags"
+          LIBS="$sim_ac_qt_libcheck $sim_ac_save_libs"
+          AC_TRY_LINK([#include <qapplication.h>],
+                      [int dummy=0;
+                       QApplication a(dummy, 0L);],
+                      [sim_ac_qt_libs="$sim_ac_qt_libcheck"
+                       sim_ac_qt_cppflags="$sim_ac_qt_incflags $sim_ac_qt_cppflags_loop"])
+        fi
+      done
+    done
+
+    AC_MSG_RESULT($sim_ac_qt_cppflags $sim_ac_qt_libs)
   fi
 
-  if test ! x"$sim_cv_qtlibs" = xUNRESOLVED; then
+  if test ! x"$sim_ac_qt_libs" = xUNRESOLVED; then
     sim_ac_qt_avail=yes
-    sim_ac_qt_libs="$sim_cv_qtlibs"
+    CPPFLAGS="$sim_ac_qt_incflags $sim_ac_qt_cppflags_loop $sim_ac_save_cppflags"
     LIBS="$sim_ac_qt_libs $sim_ac_save_libs"
     $1
   else
