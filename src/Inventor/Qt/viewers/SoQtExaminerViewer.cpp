@@ -408,6 +408,7 @@ QWidget *
 SoQtExaminerViewer::makeSubPreferences(QWidget * parent)
 {
   QWidget * w = new QWidget(parent);
+//  w->setBackgroundColor( QColor( 250, 0, 0 ) );
 
   // Initialize objects keeping track of geometry data.
 
@@ -451,7 +452,7 @@ SoQtExaminerViewer::makeSubPreferences(QWidget * parent)
   this->feedbackwheel = new QtThumbwheel(QtThumbwheel::Horizontal, w);
   QObject::connect(this->feedbackwheel, SIGNAL(wheelMoved(float)),
                    this, SLOT(feedbackSizeChanged(float)));
-  this->feedbackwheel->setMidpointValue(float(this->getFeedbackSize())/10.0f);
+  this->feedbackwheel->setValue(float(this->getFeedbackSize())/10.0f);
   this->feedbackwheel->adjustSize();
   expandSize(tmpsize, this->feedbackwheel->size(), LayoutHorizontal);
 
@@ -1305,7 +1306,7 @@ SoQtExaminerViewer::feedbackEditPressed()
 {
   int val;
   if ((sscanf(this->feedbackedit->text(), "%d", &val) == 1) && (val > 0.0f)) {
-    this->feedbackwheel->setMidpointValue(float(val)/10.0f);
+    this->feedbackwheel->setValue(float(val)/10.0f);
     this->setFeedbackSize(val);
   }
   else {
@@ -1344,7 +1345,7 @@ SoQtExaminerViewer::feedbackSizeChanged(float val)
 {
   if (val <= 0.0f) {
     val = 0.1f;
-    this->feedbackwheel->setMidpointValue(val);
+    this->feedbackwheel->setValue(val);
   }
 
   this->setFeedbackSize(int(val * 10));

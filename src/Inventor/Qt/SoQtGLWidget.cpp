@@ -94,6 +94,7 @@ QWidget *
 SoQtGLWidget::buildWidget(QWidget * parent)
 {
   this->borderwidget = new QWidget(parent);
+  this->borderwidget->setBackgroundColor( QColor( 0, 0, 0 ) );
 
   QGLWidget * w = new PrivateGLWidget(this, this->borderwidget, NULL);
 

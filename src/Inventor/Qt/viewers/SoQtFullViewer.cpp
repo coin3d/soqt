@@ -619,6 +619,7 @@ QWidget *
 SoQtFullViewer::buildWidget(QWidget * parent)
 {
   this->viewerwidget = new QWidget(parent);
+  this->viewerwidget->setBackgroundColor( QColor( 250, 0, 0 ) );
 
   // Build and layout the widget components of the viewer window on
   // top of the manager widget.
@@ -648,21 +649,30 @@ SoQtFullViewer::buildDecoration(QWidget * parent)
 }
 
 /*!
-  Build decorations on the left of the render canvas . Overload this
-  method in subclasses if you want your own decorations on the viewer window.
- */
+  Build decorations on the left of the render canvas.  Overload this
+  method in subclasses if you want your own decorations on the viewer
+  window.
+*/
+
+/*
+  standard trim is guaranteed to be 30 pixels wide
+*/
+
 QWidget *
 SoQtFullViewer::buildLeftTrim(QWidget * parent)
 {
   QWidget * w = new QWidget(parent);
+  w->setFixedWidth( 30 );
 
-  QGridLayout * gl = new QGridLayout(w, 3, 1);
+  QGridLayout * gl = new QGridLayout(w, 3, 1, 2, -1 ); // , 0, -1);
   gl->addWidget(this->buildAppButtons(w), 0, 0);
 
   QtThumbwheel * t = this->wheels[LEFTDECORATION] =
     new QtThumbwheel(QtThumbwheel::Vertical, w);
-  t->adjustSize();
-  t->setFixedSize(t->size());
+//  t->adjustSize();
+//  QSize rect = t->size();
+//  rect.setWidth( 30 );
+  t->setFixedSize( QSize( 24, 88 ) );
   QObject::connect(t, SIGNAL(wheelMoved(float)),
                    this, SLOT(leftWheelChanged(float)));
   QObject::connect(t, SIGNAL(wheelPressed()),
@@ -670,7 +680,7 @@ SoQtFullViewer::buildLeftTrim(QWidget * parent)
   QObject::connect(t, SIGNAL(wheelReleased()),
                    this, SLOT(leftWheelReleased()));
 
-  this->wheelvalues[LEFTDECORATION] = t->getMidpointValue();
+  this->wheelvalues[LEFTDECORATION] = t->value();
 
   gl->addWidget(t, 2, 0, AlignBottom|AlignHCenter);
   gl->activate();
@@ -686,6 +696,7 @@ QWidget *
 SoQtFullViewer::buildBottomTrim(QWidget * parent)
 {
   QWidget * w = new QWidget(parent);
+  w->setFixedHeight( 30 );
 
   int alignments[] = { AlignLeft|AlignTop, AlignRight|AlignVCenter,
                        AlignRight|AlignTop, };
@@ -697,8 +708,9 @@ SoQtFullViewer::buildBottomTrim(QWidget * parent)
 
   QtThumbwheel * t = this->wheels[BOTTOMDECORATION] =
     new QtThumbwheel(QtThumbwheel::Horizontal, w);
-  t->adjustSize();
-  t->setFixedSize(t->size());
+  t->setFixedSize( QSize( 88, 24 ) );
+//  t->adjustSize();
+//  t->setFixedSize(t->size());
   QObject::connect(t, SIGNAL(wheelMoved(float)),
                    this, SLOT(bottomWheelChanged(float)));
   QObject::connect(t, SIGNAL(wheelPressed()),
@@ -706,7 +718,7 @@ SoQtFullViewer::buildBottomTrim(QWidget * parent)
   QObject::connect(t, SIGNAL(wheelReleased()),
                    this, SLOT(bottomWheelReleased()));
 
-  this->wheelvalues[BOTTOMDECORATION] = t->getMidpointValue();
+  this->wheelvalues[BOTTOMDECORATION] = t->value();
 
   QGridLayout * gl = new QGridLayout(w, 1, 5);
   gl->addWidget(this->wheellabels[RIGHTDECORATION], 0, 4, AlignRight);
@@ -725,11 +737,15 @@ QWidget *
 SoQtFullViewer::buildRightTrim(QWidget * parent)
 {
   QWidget * w = new QWidget(parent);
+  w->setFixedWidth( 30 );
 
   QtThumbwheel * t = this->wheels[RIGHTDECORATION] =
     new QtThumbwheel(QtThumbwheel::Vertical, w);
-  t->adjustSize();
-  t->setMaximumSize(t->size());
+//  t->adjustSize();
+//  t->setMaximumSize(t->size());
+  t->setFixedSize( QSize( 24, 88 ) );
+  t->setRangeBoundaryHandling( QtThumbwheel::ACCUMULATE );
+
   QObject::connect(t, SIGNAL(wheelMoved(float)),
                    this, SLOT(rightWheelChanged(float)));
   QObject::connect(t, SIGNAL(wheelPressed()),
@@ -737,12 +753,13 @@ SoQtFullViewer::buildRightTrim(QWidget * parent)
   QObject::connect(t, SIGNAL(wheelReleased()),
                    this, SLOT(rightWheelReleased()));
 
-  this->wheelvalues[RIGHTDECORATION] = t->getMidpointValue();
+  this->wheelvalues[RIGHTDECORATION] = t->value();
 
-  QGridLayout * l = new QGridLayout(w, 3, 1);
+  QGridLayout * l = new QGridLayout(w, 3, 1, 2, -1 );
   l->addWidget(this->buildViewerButtons(w), 0, 0);
   l->addWidget(t, 2, 0, AlignBottom|AlignHCenter);
   l->activate();
+
 
   return w;
 }
@@ -777,7 +794,7 @@ SoQtFullViewer::buildViewerButtons(QWidget * parent)
 
   for (int i=0; i < this->viewerbuttons->getLength(); i++) {
     QButton * b = VIEWERBUTTON(i);
-    b->setFixedSize(b->size());
+    b->setFixedSize( QSize( 26, 26 ) ); // b->size());
     if (i>0) { assert(VIEWERBUTTON(i)->width()==VIEWERBUTTON(i-1)->width()); }
     l->addWidget(b, i, 0);
   }
@@ -1209,24 +1226,24 @@ SoQtFullViewer::showDecorationWidgets(SbBool onOff)
       this->decorform[i]->show();
     }
 
-    QGridLayout * g = new QGridLayout(this->viewerwidget, 2, 1, VIEWERBORDER);
+    QGridLayout * g = new QGridLayout(this->viewerwidget, 2, 1, 0, -1 ); // VIEWERBORDER);
 
     g->addWidget(this->decorform[BOTTOMDECORATION], 1, 0);
 
-    QGridLayout * subLayout = new QGridLayout(1, 3);
+    QGridLayout * subLayout = new QGridLayout( 1, 3, 0 );
     g->addLayout(subLayout, 0, 0);
 
     subLayout->addWidget(this->decorform[LEFTDECORATION], 0, 0);
     subLayout->addWidget(this->canvasparent, 0, 1);
     subLayout->addWidget(this->decorform[RIGHTDECORATION], 0, 2);
 
-    subLayout->setColStretch(1, 1);
-    g->setRowStretch(0, 1);
+//     subLayout->setColStretch(1, 1);
+//     g->setRowStretch(0, 1);
 
     this->mainlayout = g;
   }
   else {
-    QGridLayout * g = new QGridLayout(this->viewerwidget, 1, 1);
+    QGridLayout * g = new QGridLayout(this->viewerwidget, 1, 1, 0, -1 );
     g->addWidget(this->canvasparent, 0, 0);
     this->mainlayout = g;
 
@@ -1412,7 +1429,8 @@ SoQtFullViewer::makeSeekDistancePreferences(QWidget * parent)
   expandSize(tmpsize, l->size(), LayoutHorizontal);
 
   this->seekdistancewheel = new QtThumbwheel(QtThumbwheel::Horizontal, w);
-  this->seekdistancewheel->setMidpointValue(sqrt(this->getSeekDistance()));
+  this->seekdistancewheel->setRangeBoundaryHandling( QtThumbwheel::ACCUMULATE );
+  this->seekdistancewheel->setValue(sqrt(this->getSeekDistance()));
   this->seekdistancewheel->adjustSize();
   expandSize(tmpsize, this->seekdistancewheel->size(),
                              LayoutHorizontal);
@@ -1598,8 +1616,8 @@ SoQtFullViewer::setEnabledClippingWidgets(bool flag)
   SoCamera * cam = this->getCamera();
   if (!cam) return;
 
-  this->nearclippingwheel->setMidpointValue(cam->nearDistance.getValue());
-  this->farclippingwheel->setMidpointValue(cam->farDistance.getValue());
+  this->nearclippingwheel->setValue(cam->nearDistance.getValue());
+  this->farclippingwheel->setValue(cam->farDistance.getValue());
 
   QString s;
   s.setNum(cam->nearDistance.getValue(), 'f', 3);
@@ -1646,6 +1664,7 @@ SoQtFullViewer::makeAutoclipPreferences(QWidget * dialog)
 
   this->nearclippingwheel = new QtThumbwheel(QtThumbwheel::Horizontal, w);
   this->nearclippingwheel->adjustSize();
+  this->nearclippingwheel->setEnabled( false );
   expandSize(tmpsize, this->nearclippingwheel->size(), LayoutHorizontal);
   QObject::connect(this->nearclippingwheel, SIGNAL(wheelPressed()),
                    this, SLOT(increaseInteractiveCount()));
@@ -1685,6 +1704,7 @@ SoQtFullViewer::makeAutoclipPreferences(QWidget * dialog)
 
   this->farclippingwheel = new QtThumbwheel(QtThumbwheel::Horizontal, w);
   this->farclippingwheel->adjustSize();
+  this->farclippingwheel->setEnabled( false );
   expandSize(tmpsize, this->farclippingwheel->size(), LayoutHorizontal);
   QObject::connect(this->farclippingwheel, SIGNAL(wheelPressed()),
                    this, SLOT(increaseInteractiveCount()));
@@ -2090,9 +2110,9 @@ SoQtFullViewer::seekDetailToggled(int id)
 void
 SoQtFullViewer::seekDistanceWheelChanged(float val)
 {
-  if (val < 0.0f) {
-    val = 0.0f;
-    this->seekdistancewheel->setMidpointValue(0.0f);
+  if (val < 0.1f) {
+    val = 0.1f;
+    this->seekdistancewheel->setValue( val );
   }
 
   this->setSeekDistance(val * val);
@@ -2111,9 +2131,9 @@ SoQtFullViewer::seekDistanceEdit()
 {
   float val;
   if ((sscanf(this->seekdistancefield->text(), "%f", &val) == 1) &&
-      (val >= 0.0f)) {
+      (val > 0.0f)) {
     this->setSeekDistance(val);
-    this->seekdistancewheel->setMidpointValue(sqrt(val));
+    this->seekdistancewheel->setValue(sqrt(val));
   }
   else {
     QString s;
@@ -2289,7 +2309,7 @@ SoQtFullViewer::nearclipEditPressed()
   if (sscanf(this->nearclippingedit->text(), "%f", &val) == 1) {
     // FIXME: sanity check on val? 990223 mortene.
     cam->nearDistance = val;
-    this->nearclippingwheel->setMidpointValue(val);
+    this->nearclippingwheel->setValue(val);
   }
   else {
     QString s;
@@ -2312,7 +2332,7 @@ SoQtFullViewer::farclipEditPressed()
   if (sscanf(this->farclippingedit->text(), "%f", &val) == 1) {
     // FIXME: sanity check on val? 990223 mortene.
     cam->farDistance = val;
-    this->farclippingwheel->setMidpointValue(val);
+    this->farclippingwheel->setValue(val);
   }
   else {
     QString s;
