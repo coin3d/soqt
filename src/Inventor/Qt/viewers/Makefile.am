@@ -73,25 +73,35 @@ SoAnyPlaneViewer.cpp: \
 # Qt moc-files must be generated like this:
 
 moc_SoQtViewer.cpp: $(top_builddir)/src/Inventor/Qt/viewers/SoQtViewer.h
-	$(MOC) -o moc_SoQtViewer.cpp $(top_builddir)/src/Inventor/Qt/viewers/SoQtViewer.h
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Qt/viewers/moc_SoQtViewer.cpp )
 
 moc_SoQtFullViewer.cpp: $(top_srcdir)/src/Inventor/Qt/viewers/SoQtFullViewer.h
-	$(MOC) -o moc_SoQtFullViewer.cpp $(top_srcdir)/src/Inventor/Qt/viewers/SoQtFullViewer.h
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Qt/viewers/moc_SoQtFullViewer.cpp )
 
-moc_SoQtExaminerViewer.cpp: $(top_srcdir)/src/Inventor/Qt/viewers/SoQtExaminerViewer.h
-	$(MOC) -o moc_SoQtExaminerViewer.cpp $(top_srcdir)/src/Inventor/Qt/viewers/SoQtExaminerViewer.h
+moc_SoQtExaminerViewer.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/viewers/SoQtExaminerViewer.h
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Qt/viewers/moc_SoQtExaminerViewer.cpp )
 
-moc_SoQtPlaneViewer.cpp: $(top_srcdir)/src/Inventor/Qt/viewers/SoQtPlaneViewer.h
-	$(MOC) -o moc_SoQtPlaneViewer.cpp $(top_srcdir)/src/Inventor/Qt/viewers/SoQtPlaneViewer.h
+moc_SoQtPlaneViewer.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/viewers/SoQtPlaneViewer.h
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Qt/viewers/moc_SoQtPlaneViewer.cpp )
 
-moc_SoQtConstrainedViewer.cpp: $(top_srcdir)/src/Inventor/Qt/viewers/SoQtConstrainedViewer.h
-	$(MOC) -o moc_SoQtConstrainedViewer.cpp $(top_srcdir)/src/Inventor/Qt/viewers/SoQtConstrainedViewer.h
+moc_SoQtConstrainedViewer.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/viewers/SoQtConstrainedViewer.h
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Qt/viewers/moc_SoQtConstrainedViewer.cpp )
 
 moc_SoQtWalkViewer.cpp: $(top_srcdir)/src/Inventor/Qt/viewers/SoQtWalkViewer.h
-	$(MOC) -o moc_SoQtWalkViewer.cpp $(top_srcdir)/src/Inventor/Qt/viewers/SoQtWalkViewer.h
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Qt/viewers/moc_SoQtWalkViewer.cpp )
 
 moc_SoQtFlyViewer.cpp: $(top_srcdir)/src/Inventor/Qt/viewers/SoQtFlyViewer.h
-	$(MOC) -o moc_SoQtFlyViewer.cpp $(top_srcdir)/src/Inventor/Qt/viewers/SoQtFlyViewer.h
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Qt/viewers/moc_SoQtFlyViewer.cpp )
 
 ############################################################################
 

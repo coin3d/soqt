@@ -40,7 +40,26 @@ BUILT_SOURCES = \
 	src/Inventor/Qt/widgets/SoAnyThumbWheel.h \
 	src/Inventor/Qt/widgets/SoAnyThumbWheel.cpp \
 	src/Inventor/Qt/widgets/SoAnyPopupMenu.h \
-	src/Inventor/Qt/widgets/SoAnyPopupMenu.cpp
+	src/Inventor/Qt/widgets/SoAnyPopupMenu.cpp \
+	src/Inventor/Qt/moc_SoQt.cpp \
+	src/Inventor/Qt/moc_SoQtComponent.cpp \
+	src/Inventor/Qt/moc_SoQtGLWidget.cpp \
+	src/Inventor/Qt/moc_SoQtLightSliderSet.cpp \
+	src/Inventor/Qt/moc_SoQtMaterialSliderSet.cpp \
+	src/Inventor/Qt/moc_SoQtRenderArea.cpp \
+	src/Inventor/Qt/moc_SoQtSliderSet.cpp \
+	src/Inventor/Qt/moc_SoQtSliderSetBase.cpp \
+	src/Inventor/Qt/moc_SoQtTransformSliderSet.cpp \
+	src/Inventor/Qt/viewers/moc_SoQtViewer.cpp \
+	src/Inventor/Qt/viewers/moc_SoQtFullViewer.cpp \
+	src/Inventor/Qt/viewers/moc_SoQtExaminerViewer.cpp \
+	src/Inventor/Qt/viewers/moc_SoQtPlaneViewer.cpp \
+	src/Inventor/Qt/viewers/moc_SoQtConstrainedViewer.cpp \
+	src/Inventor/Qt/viewers/moc_SoQtWalkViewer.cpp \
+	src/Inventor/Qt/viewers/moc_SoQtFlyViewer.cpp \
+	src/Inventor/Qt/widgets/moc_SoQtPopupMenu.cpp \
+	src/Inventor/Qt/widgets/moc_SoQtGLArea.cpp \
+	src/Inventor/Qt/widgets/moc_SoQtThumbWheel.cpp
 
 # This is necessary to set up a hook somewhere in the generated Makefile
 # so the sources are actually built.
@@ -148,5 +167,82 @@ src/Inventor/Qt/widgets/SoAnyPopupMenu.cpp: \
 	@CONFIG_HEADERS= \
 	CONFIG_FILES=$@:src/Inventor/Qt/common/SoAnyPopupMenu.cpp.in \
 	$(top_builddir)/config.status
+
+############################################################################
+
+src/Inventor/Qt/moc_SoQt.cpp: $(top_srcdir)/src/Inventor/Qt/SoQt.h
+	$(MOC) -o $@ $(top_srcdir)/src/Inventor/Qt/SoQt.h
+
+src/Inventor/Qt/moc_SoQtComponent.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/SoQtComponent.h
+	$(MOC) -o $@ $(top_srcdir)/src/Inventor/Qt/SoQtComponent.h
+
+src/Inventor/Qt/moc_SoQtGLWidget.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/SoQtGLWidget.h
+	$(MOC) -o $@ $(top_srcdir)/src/Inventor/Qt/SoQtGLWidget.h
+
+src/Inventor/Qt/moc_SoQtLightSliderSet.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/SoQtLightSliderSet.h
+	$(MOC) -o $@ $(top_srcdir)/src/Inventor/Qt/SoQtLightSliderSet.h
+
+src/Inventor/Qt/moc_SoQtMaterialSliderSet.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/SoQtMaterialSliderSet.h
+	$(MOC) -o $@ $(top_srcdir)/src/Inventor/Qt/SoQtMaterialSliderSet.h
+
+src/Inventor/Qt/moc_SoQtRenderArea.cpp: \
+  $(top_builddir)/src/Inventor/Qt/SoQtRenderArea.h
+	$(MOC) -o $@ $(top_builddir)/src/Inventor/Qt/SoQtRenderArea.h
+
+src/Inventor/Qt/moc_SoQtSliderSet.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/SoQtSliderSet.h
+	$(MOC) -o $@ $(top_srcdir)/src/Inventor/Qt/SoQtSliderSet.h
+
+src/Inventor/Qt/moc_SoQtSliderSetBase.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/SoQtSliderSetBase.h
+	$(MOC) -o $@ $(top_srcdir)/src/Inventor/Qt/SoQtSliderSetBase.h
+
+src/Inventor/Qt/moc_SoQtTransformSliderSet.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/SoQtTransformSliderSet.h
+	$(MOC) -o $@ $(top_srcdir)/src/Inventor/Qt/SoQtTransformSliderSet.h
+
+src/Inventor/Qt/viewers/moc_SoQtViewer.cpp: \
+  $(top_builddir)/src/Inventor/Qt/viewers/SoQtViewer.h
+	$(MOC) -o $@ $(top_builddir)/src/Inventor/Qt/viewers/SoQtViewer.h
+
+src/Inventor/Qt/viewers/moc_SoQtFullViewer.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/viewers/SoQtFullViewer.h
+	$(MOC) -o $@ $(top_srcdir)/src/Inventor/Qt/viewers/SoQtFullViewer.h
+
+src/Inventor/Qt/viewers/moc_SoQtExaminerViewer.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/viewers/SoQtExaminerViewer.h
+	$(MOC) -o $@ $(top_srcdir)/src/Inventor/Qt/viewers/SoQtExaminerViewer.h
+
+src/Inventor/Qt/viewers/moc_SoQtPlaneViewer.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/viewers/SoQtPlaneViewer.h
+	$(MOC) -o $@ $(top_srcdir)/src/Inventor/Qt/viewers/SoQtPlaneViewer.h
+
+src/Inventor/Qt/viewers/moc_SoQtConstrainedViewer.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/viewers/SoQtConstrainedViewer.h
+	$(MOC) -o $@ $(top_srcdir)/src/Inventor/Qt/viewers/SoQtConstrainedViewer.h
+
+src/Inventor/Qt/viewers/moc_SoQtWalkViewer.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/viewers/SoQtWalkViewer.h
+	$(MOC) -o $@ $(top_srcdir)/src/Inventor/Qt/viewers/SoQtWalkViewer.h
+
+src/Inventor/Qt/viewers/moc_SoQtFlyViewer.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/viewers/SoQtFlyViewer.h
+	$(MOC) -o $@ $(top_srcdir)/src/Inventor/Qt/viewers/SoQtFlyViewer.h
+
+src/Inventor/Qt/widgets/moc_SoQtThumbWheel.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/widgets/SoQtThumbWheel.h
+	$(MOC) -o $@ $(top_srcdir)/src/Inventor/Qt/widgets/SoQtThumbWheel.h
+
+src/Inventor/Qt/widgets/moc_SoQtGLArea.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/widgets/SoQtGLArea.h
+	$(MOC) -o $@ $(top_srcdir)/src/Inventor/Qt/widgets/SoQtGLArea.h
+
+src/Inventor/Qt/widgets/moc_SoQtPopupMenu.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/widgets/SoQtPopupMenu.h
+	$(MOC) -o $@ $(top_srcdir)/src/Inventor/Qt/widgets/SoQtPopupMenu.h
 
 ############################################################################

@@ -115,13 +115,13 @@ private:
 
   static void visibilityCB( void * data, SbBool visible );
 
+  SoAnyPlaneViewer * const common;
+
 private slots:
   void xClicked(void);
   void yClicked(void);
   void zClicked(void);
   void cameraToggleClicked(void);
-
-  SoAnyPlaneViewer * const common;
 
 }; // class SoQtPlaneViewer
 

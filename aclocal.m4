@@ -1888,29 +1888,33 @@ sim_ac_qt_avail=no
 if test x"$with_qt" != xno; then
   sim_ac_path=$PATH
 
+  # change \ to / in QTDIR
+  sim_ac_qt_dir="`echo $QTDIR | sed -e 's/\\\\/\\//g'`"
+
   if test x"$with_qt" != xyes; then
     sim_ac_qt_cppflags="-I${with_qt}/include"
     sim_ac_qt_ldflags="-L${with_qt}/lib"
     sim_ac_path=${with_qt}/bin:$PATH
   else
     AC_MSG_CHECKING([value of the QTDIR environment variable])
-    if test x"$QTDIR" = x""; then
+    if test x"$sim_ac_qt_dir" = x""; then
       AC_MSG_RESULT([empty])
       AC_MSG_WARN([QTDIR environment variable not set -- this might be an indication of a problem])
     else
-      AC_MSG_RESULT([$QTDIR])
-      sim_ac_qt_cppflags="-I$QTDIR/include"
-      sim_ac_qt_ldflags="-L$QTDIR/lib"
-      sim_ac_path=$QTDIR/bin:$PATH
+      AC_MSG_RESULT([$sim_ac_qt_dir])
+      sim_ac_qt_cppflags="-I$sim_ac_qt_dir/include"
+      sim_ac_qt_ldflags="-L$sim_ac_qt_dir/lib"
+      sim_ac_path=$sim_ac_qt_dir/bin:$PATH
     fi
   fi
 
+  # if we have to use mswin link style (.lib)
   if test x"$sim_ac_linking_style" = xmswin; then
     sim_ac_qt_libs=qt.lib
   else
     sim_ac_qt_libs=-lqt
   fi
-
+  
   sim_ac_save_cppflags=$CPPFLAGS
   sim_ac_save_ldflags=$LDFLAGS
   sim_ac_save_libs=$LIBS
@@ -1969,7 +1973,14 @@ AC_DEFUN([SIM_CHECK_QGL], [
 sim_ac_qgl_avail=no
 
 if test x"$with_qt" != xno; then
-  sim_ac_qgl_libs="-lqgl"
+
+  # if we have to use mswin link style (.lib)
+  if test x"$sim_ac_linking_style" = xmswin; then
+    sim_ac_qgl_libs=qgl.lib
+  else
+    sim_ac_qgl_libs=-lqgl
+  fi
+
   sim_ac_save_libs=$LIBS
   LIBS="$sim_ac_qgl_libs $LIBS"
 

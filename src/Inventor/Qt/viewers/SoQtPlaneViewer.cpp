@@ -339,18 +339,6 @@ SoQtPlaneViewer::processEvent( // virtual
             this->getGlxAspectRatio(), this->getCamera() );
         break;
 
-/*
-      case DRAGGING:
-        if (!this->spindetecttimer) this->spindetecttimer = new QTimer;
-        this->spindetecttimer->start(0, TRUE);
-        this->spin(norm_mousepos);
-        break;
-
-      case PANNING:
-        this->pan(norm_mousepos);
-        break;
-*/
-
       default: // include default to avoid compiler warnings.
         break;
 

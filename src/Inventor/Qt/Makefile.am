@@ -83,30 +83,36 @@ SoQtRenderArea.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoGuiRenderArea.cpp.in
 ############################################################################
 
 moc_SoQt.cpp: $(top_srcdir)/src/Inventor/Qt/SoQt.h
-	$(MOC) -o moc_SoQt.cpp $(top_srcdir)/src/Inventor/Qt/SoQt.h
+	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/moc_SoQt.cpp )
 
 moc_SoQtComponent.cpp: $(top_srcdir)/src/Inventor/Qt/SoQtComponent.h
-	$(MOC) -o moc_SoQtComponent.cpp $(top_srcdir)/src/Inventor/Qt/SoQtComponent.h
+	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/moc_SoQtComponent.cpp )
 
 moc_SoQtGLWidget.cpp: $(top_srcdir)/src/Inventor/Qt/SoQtGLWidget.h
-	$(MOC) -o moc_SoQtGLWidget.cpp $(top_srcdir)/src/Inventor/Qt/SoQtGLWidget.h
+	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/moc_SoQtGLWidget.cpp )
 
 moc_SoQtLightSliderSet.cpp: $(top_srcdir)/src/Inventor/Qt/SoQtLightSliderSet.h
-	$(MOC) -o moc_SoQtLightSliderSet.cpp $(top_srcdir)/src/Inventor/Qt/SoQtLightSliderSet.h
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Qt/moc_SoQtLightSliderSet.cpp )
 
-moc_SoQtMaterialSliderSet.cpp: $(top_srcdir)/src/Inventor/Qt/SoQtMaterialSliderSet.h
-	$(MOC) -o moc_SoQtMaterialSliderSet.cpp $(top_srcdir)/src/Inventor/Qt/SoQtMaterialSliderSet.h
+moc_SoQtMaterialSliderSet.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/SoQtMaterialSliderSet.h
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Qt/moc_SoQtMaterialSliderSet.cpp )
 
 moc_SoQtRenderArea.cpp: $(top_builddir)/src/Inventor/Qt/SoQtRenderArea.h
-	$(MOC) -o moc_SoQtRenderArea.cpp $(top_builddir)/src/Inventor/Qt/SoQtRenderArea.h
+	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/moc_SoQtRenderArea.cpp )
 
 moc_SoQtSliderSet.cpp: $(top_srcdir)/src/Inventor/Qt/SoQtSliderSet.h
-	$(MOC) -o moc_SoQtSliderSet.cpp $(top_srcdir)/src/Inventor/Qt/SoQtSliderSet.h
+	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/moc_SoQtSliderSet.cpp )
 
 moc_SoQtSliderSetBase.cpp: $(top_srcdir)/src/Inventor/Qt/SoQtSliderSetBase.h
-	$(MOC) -o moc_SoQtSliderSetBase.cpp $(top_srcdir)/src/Inventor/Qt/SoQtSliderSetBase.h
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Qt/moc_SoQtSliderSetBase.cpp )
 
-moc_SoQtTransformSliderSet.cpp: $(top_srcdir)/src/Inventor/Qt/SoQtTransformSliderSet.h
-	$(MOC) -o moc_SoQtTransformSliderSet.cpp $(top_srcdir)/src/Inventor/Qt/SoQtTransformSliderSet.h
+moc_SoQtTransformSliderSet.cpp: \
+  $(top_srcdir)/src/Inventor/Qt/SoQtTransformSliderSet.h
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Qt/moc_SoQtTransformSliderSet.cpp )
 
 ############################################################################

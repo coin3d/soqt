@@ -23,25 +23,32 @@ BUILT_SOURCES = \
 ############################################################################
 
 moc_SoQtThumbWheel.cpp: $(top_srcdir)/src/Inventor/Qt/widgets/SoQtThumbWheel.h
-	$(MOC) -o moc_SoQtThumbWheel.cpp $(top_srcdir)/src/Inventor/Qt/widgets/SoQtThumbWheel.h
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Qt/widgets/moc_SoQtThumbWheel.cpp )
 
 moc_SoQtGLArea.cpp: $(top_srcdir)/src/Inventor/Qt/widgets/SoQtGLArea.h
-	$(MOC) -o moc_SoQtGLArea.cpp $(top_srcdir)/src/Inventor/Qt/widgets/SoQtGLArea.h
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Qt/widgets/moc_SoQtGLArea.cpp )
 
 moc_SoQtPopupMenu.cpp: $(top_srcdir)/src/Inventor/Qt/widgets/SoQtPopupMenu.h
-	$(MOC) -o moc_SoQtPopupMenu.cpp $(top_srcdir)/src/Inventor/Qt/widgets/SoQtPopupMenu.h
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Qt/widgets/moc_SoQtPopupMenu.cpp )
 
 SoAnyPopupMenu.h: $(top_srcdir)/src/Inventor/Qt/common/SoAnyPopupMenu.h.in
-	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/widgets/SoAnyPopupMenu.h )
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Qt/widgets/SoAnyPopupMenu.h )
 
 SoAnyPopupMenu.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoAnyPopupMenu.cpp.in
-	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/widgets/SoAnyPopupMenu.cpp )
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Qt/widgets/SoAnyPopupMenu.cpp )
 
 SoAnyThumbWheel.h: $(top_srcdir)/src/Inventor/Qt/common/SoAnyThumbWheel.h.in
-	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/widgets/SoAnyThumbWheel.h )
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Qt/widgets/SoAnyThumbWheel.h )
 
 SoAnyThumbWheel.cpp: $(top_srcdir)/src/Inventor/Qt/common/SoAnyThumbWheel.cpp.in
-	@( cd $(top_builddir); $(MAKE) src/Inventor/Qt/widgets/SoAnyThumbWheel.cpp )
+	@( cd $(top_builddir); \
+	   $(MAKE) src/Inventor/Qt/widgets/SoAnyThumbWheel.cpp )
 
 ############################################################################
 
