@@ -65,12 +65,8 @@ static const char rcsid[] =
 #include <q1xcompatibility.h>
 #endif // Qt v2.x
 
-#if !defined(COIN_CONFIG_NO_SOPERSPECTIVECAMERA)
 #include <Inventor/nodes/SoPerspectiveCamera.h>
-#endif // !COIN_CONFIG_NO_SOPERSPECTIVECAMERA
-#if !defined(COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA)
 #include <Inventor/nodes/SoOrthographicCamera.h>
-#endif // !COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA
 #include <Inventor/errors/SoDebugError.h>
 
 #include <Inventor/Qt/SoQt.h>
@@ -1715,15 +1711,10 @@ SoQtFullViewer::setCameraZoom(const float val)
 
   SoType t = cam->getTypeId();
 
-  if (0);
-#if !defined(COIN_CONFIG_NO_SOPERSPECTIVECAMERA)
-  else if (t.isDerivedFrom(SoPerspectiveCamera::getClassTypeId()))
+  if (t.isDerivedFrom(SoPerspectiveCamera::getClassTypeId()))
     ((SoPerspectiveCamera *)cam)->heightAngle = val * 2.0f * M_PI / 360.0f;
-#endif // !COIN_CONFIG_NO_SOPERSPECTIVECAMERA
-#if !defined(COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA)
   else if (t.isDerivedFrom(SoOrthographicCamera::getClassTypeId()))
     ((SoOrthographicCamera *)cam)->height = val;
-#endif // !COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA
 #if SOQT_DEBUG
   else assert(0);
 #endif // SOQT_DEBUG
@@ -1740,15 +1731,11 @@ SoQtFullViewer::getCameraZoom(void)
 
   SoType t = cam->getTypeId();
 
-#if !defined(COIN_CONFIG_NO_SOPERSPECTIVECAMERA)
   if (t.isDerivedFrom(SoPerspectiveCamera::getClassTypeId()) )
     return ((SoPerspectiveCamera *)cam)->heightAngle.getValue() /
       2.0f * 360.0f / M_PI;
-#endif // !COIN_CONFIG_NO_SOPERSPECTIVECAMERA
-#if !defined(COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA)
-  if (t.isDerivedFrom(SoOrthographicCamera::getClassTypeId()) )
+  else if (t.isDerivedFrom(SoOrthographicCamera::getClassTypeId()) )
     return ((SoOrthographicCamera *)cam)->height.getValue();
-#endif // !COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA
 
 #if SOQT_DEBUG
   assert(0);

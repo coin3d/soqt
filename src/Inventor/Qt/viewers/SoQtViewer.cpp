@@ -48,69 +48,24 @@ static const char rcsid[] =
 
 #include <Inventor/SoDB.h>
 
-#if defined(COIN_CONFIG_NO_SOROTATION)
-#define NO_HEADLIGHT 1
-#endif // COIN_CONFIG_NO_SOROTATION
-#if defined(COIN_CONFIG_NO_SODIRECTIONALLIGHT)
-#define NO_HEADLIGHT 1
-#endif // COIN_CONFIG_NO_SODIRECTIONALLIGHT
-#if defined(COIN_CONFIG_NO_SORESETTRANSFORM)
-#define NO_HEADLIGHT 1
-#endif // COIN_CONFIG_NO_SORESETTRANSFOM
-
-#if defined(COIN_CONFIG_NO_SOSWITCH)
-#define NO_DRAWSTYLESETTING 1
-#endif // !COIN_CONFIG_NO_SOSWITCH
-#if defined(COIN_CONFIG_NO_SODRAWSTYLE)
-#define NO_DRAWSTYLESETTING 1
-#endif // !COIN_CONFIG_NO_SODRAWSTYLE
-#if defined(COIN_CONFIG_NO_SOLIGHTMODEL)
-#define NO_DRAWSTYLESETTING 1
-#endif // !COIN_CONFIG_NO_SOLIGHTMODEL
-#if defined(COIN_CONFIG_NO_SOBASECOLOR)
-#define NO_DRAWSTYLESETTING 1
-#endif // !COIN_CONFIG_NO_SOBASECOLOR
-#if defined(COIN_CONFIG_NO_SOMATERIALBINDING)
-#define NO_DRAWSTYLESETTING 1
-#endif // !COIN_CONFIG_NO_SOMATERIALBINDING
-#if defined(COIN_CONFIG_NO_SOCOMPLEXITY)
-#define NO_DRAWSTYLESETTING 1
-#endif // !COIN_CONFIG_NO_SOCOMPLEXITY
-
-#if !defined(NO_HEADLIGHT)
-#include <Inventor/nodes/SoRotation.h>
-#include <Inventor/nodes/SoDirectionalLight.h>
-#include <Inventor/nodes/SoResetTransform.h>
-#endif // !NO_HEADLIGHT
-
-#if !defined(NO_DRAWSTYLESETTING)
 #include <Inventor/nodes/SoBaseColor.h>
 #include <Inventor/nodes/SoComplexity.h>
+#include <Inventor/nodes/SoDirectionalLight.h>
 #include <Inventor/nodes/SoDrawStyle.h>
 #include <Inventor/nodes/SoLightModel.h>
-#include <Inventor/nodes/SoMaterialBinding.h>
-#include <Inventor/nodes/SoSwitch.h>
-#if !defined(COIN_CONFIG_NO_SOPOLYGONOFFSET)
-#include <Inventor/nodes/SoPolygonOffset.h>
-#endif // !COIN_CONFIG_NO_SOPOLYGONOFFSET
-#endif // !NO_DRAWSTYLESETTING
-
-#include <Inventor/nodes/SoSeparator.h>
-#if !defined(COIN_CONFIG_NO_SOLOCATEHIGHLIGHT)
 #include <Inventor/nodes/SoLocateHighlight.h>
-#endif // !COIN_CONFIG_NO_SOLOCATEHIGHLIGHT
-#if !defined(COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA)
+#include <Inventor/nodes/SoMaterialBinding.h>
 #include <Inventor/nodes/SoOrthographicCamera.h>
-#endif // !COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA
-#if !defined(COIN_CONFIG_NO_SOPERSPECTIVECAMERA)
 #include <Inventor/nodes/SoPerspectiveCamera.h>
-#endif // !COIN_CONFIG_NO_SOPERSPECTIVECAMERA
+#include <Inventor/nodes/SoPolygonOffset.h>
+#include <Inventor/nodes/SoResetTransform.h>
+#include <Inventor/nodes/SoRotation.h>
+#include <Inventor/nodes/SoSeparator.h>
+#include <Inventor/nodes/SoSwitch.h>
 
 #include <Inventor/actions/SoGetBoundingBoxAction.h>
 #include <Inventor/actions/SoSearchAction.h>
-#if !defined(COIN_CONFIG_NO_SORAYPICKACTION)
 #include <Inventor/actions/SoRayPickAction.h>
-#endif // !COIN_CONFIG_NO_SORAYPICKACTION
 
 #include <Inventor/errors/SoDebugError.h>
 #include <Inventor/misc/SoCallbackList.h>
@@ -292,7 +247,6 @@ SoQtViewer::SoQtViewer(QWidget * parent, const char * name,
   this->viewerroot->renderCaching.setValue(SoSeparator::OFF);
   this->viewerroot->renderCulling.setValue(SoSeparator::OFF);
 
-#if !defined(NO_DRAWSTYLESETTING)
   // Drawstyle subgraph.
   {
     this->drawstyleroot = new SoSwitch;
@@ -332,18 +286,15 @@ SoQtViewer::SoQtViewer(QWidget * parent, const char * name,
     this->somaterialbinding->value = SoMaterialBinding::OVERALL;
     this->hiddenlineroot->addChild(this->somaterialbinding);
 
-#if !defined(COIN_CONFIG_NO_SOPOLYGONOFFSET)
     this->polygonoffsetparent = new SoSwitch;
     this->polygonoffsetparent->whichChild = SO_SWITCH_NONE;
     this->sopolygonoffset = new SoPolygonOffset;
     this->polygonoffsetparent->addChild(this->sopolygonoffset);
     this->hiddenlineroot->addChild(this->polygonoffsetparent);
-#endif // !COIN_CONFIG_NO_SOPOLYGONOFFSET
 
     this->drawstyleroot->addChild(this->hiddenlineroot);
     this->hiddenlineroot->whichChild = SO_SWITCH_NONE;
   }
-#endif // !NO_DRAWSTYLESETTING
 
 
   this->drawstyles[STILL] = VIEW_AS_IS;
@@ -444,12 +395,8 @@ SoQtViewer::setCameraType(SoType t)
   if (t == SoType::badType()) valid = FALSE;
   if (valid) {
     valid = FALSE;
-#if !defined(COIN_CONFIG_NO_SOPERSPECTIVECAMERA)
     if (t.isDerivedFrom(SoPerspectiveCamera::getClassTypeId())) valid = TRUE;
-#endif // !COIN_CONFIG_NO_SOPERSPECTIVECAMERA
-#if !defined(COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA)
     if (t.isDerivedFrom(SoOrthographicCamera::getClassTypeId())) valid = TRUE;
-#endif // !COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA
   }
 
   if (!valid) {
@@ -504,16 +451,14 @@ SoQtViewer::saveHomePosition(void)
   this->storedposition = this->camera->position.getValue();
 
   SoType t = this->camera->getTypeId();
-#if !defined(COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA)
-  if (t.isDerivedFrom(SoOrthographicCamera::getClassTypeId()))
+  if (t.isDerivedFrom(SoOrthographicCamera::getClassTypeId())) {
     this->storedheightval =
       ((SoOrthographicCamera *)this->camera)->height.getValue();
-#endif // !COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA
-#if !defined(COIN_CONFIG_NO_SOPERSPECTIVECAMERA)
-  if (t.isDerivedFrom(SoPerspectiveCamera::getClassTypeId()))
+  }
+  else if (t.isDerivedFrom(SoPerspectiveCamera::getClassTypeId())) {
     this->storedheightval =
       ((SoPerspectiveCamera *)this->camera)->heightAngle.getValue();
-#endif // !COIN_CONFIG_NO_SOPERSPECTIVECAMERA
+  }
 }
 
 /*!
@@ -530,14 +475,10 @@ SoQtViewer::resetToHomePosition(void)
   this->camera->position = this->storedposition;
 
   SoType t = this->camera->getTypeId();
-#if !defined(COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA)
   if (t.isDerivedFrom(SoOrthographicCamera::getClassTypeId()))
     ((SoOrthographicCamera *)this->camera)->height = this->storedheightval;
-#endif // !COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA
-#if !defined(COIN_CONFIG_NO_SOPERSPECTIVECAMERA)
-  if (t.isDerivedFrom(SoPerspectiveCamera::getClassTypeId()))
+  else if (t.isDerivedFrom(SoPerspectiveCamera::getClassTypeId()))
     ((SoPerspectiveCamera *)this->camera)->heightAngle = this->storedheightval;
-#endif // !COIN_CONFIG_NO_SOPERSPECTIVECAMERA
 
   this->setClippingPlanes();
   this->camera->focalDistance =
@@ -565,7 +506,6 @@ SoQtViewer::setHeadlight(SbBool on)
   }
 #endif // SOQT_DEBUG
 
-#if !defined(NO_HEADLIGHT)
   SoSearchAction search;
 
   if (on) {
@@ -597,7 +537,6 @@ SoQtViewer::setHeadlight(SbBool on)
   }
 
   this->lighton = on;
-#endif // !NO_HEADLIGHT
 }
 
 /*!
@@ -626,16 +565,12 @@ SoQtViewer::isHeadlight(void) const
 SoDirectionalLight *
 SoQtViewer::getHeadlight(void) const
 {
-#if !defined(NO_HEADLIGHT)
   if (!this->lightroot) return NULL;
 
   SoDirectionalLight * dl =
     (SoDirectionalLight *) this->lightroot->getChild(1);
   assert(dl->isOfType(SoDirectionalLight::getClassTypeId()));
   return dl;
-#else // NO_HEADLIGHT
-  return NULL;
-#endif // NO_HEADLIGHT
 }
 
 /*!
@@ -766,14 +701,12 @@ SoQtViewer::setViewing(SbBool on)
   }
 #endif // SOQT_DEBUG
 
-#if !defined(COIN_CONFIG_NO_SOLOCATEHIGHLIGHT)
   // Turn off the selection indicators when we go back from picking
   // mode into viewing mode.
   if (on) {
     SoGLRenderAction * action = this->getGLRenderAction();
     if (action) SoLocateHighlight::turnOffCurrentHighlight(action);
   }
-#endif // !COIN_CONFIG_NO_SOLOCATEHIGHLIGHT
 
   this->viewmode = on;
 }
@@ -1398,7 +1331,6 @@ SoQtViewer::seekToPoint(const SbVec2s & screenpos)
 {
   assert(this->camera);
 
-#if !defined(COIN_CONFIG_NO_SORAYPICKACTION)
   SoRayPickAction rpaction(this->getViewportRegion());
   rpaction.setPoint(screenpos);
   rpaction.setRadius(2);
@@ -1436,14 +1368,6 @@ SoQtViewer::seekToPoint(const SbVec2s & screenpos)
   }
 
   return TRUE;
-#else // COIN_CONFIG_NO_SORAYPICKACTION
-//    this->setSeekMode(FALSE);
-#ifdef SOQT_DEBUG
-  SoDebugError::postWarning("SoQtViewer::seekToPoint",
-                            "no SoRayPickAction available");
-#endif // SOQT_DEBUG
-  return FALSE;
-#endif // COIN_CONFIG_NO_SORAYPICKACTION
 }
 
 /*!
@@ -1456,31 +1380,25 @@ SoQtViewer::actualRedraw(void)
   // Recalculate near/far planes.
   if (this->isAutoClipping()) this->setClippingPlanes();
 
-#if !defined(NO_DRAWSTYLESETTING)
   if (this->drawAsHiddenLine()) {
     this->sodrawstyle->style = SoDrawStyle::FILLED;
     this->somaterialbinding->value.setIgnored(FALSE);
     this->sobasecolor->rgb.setValue(this->getBackgroundColor());
     this->sobasecolor->rgb.setIgnored(FALSE);
 
-#if !defined(COIN_CONFIG_NO_SOPOLYGONOFFSET)
     this->polygonoffsetparent->whichChild = SO_SWITCH_ALL;
-#endif // !COIN_CONFIG_NO_SOPOLYGONOFFSET
 
     this->getSceneManager()->render(this->isClearBeforeRender(), TRUE);
 
     this->sodrawstyle->style = SoDrawStyle::LINES;
     this->somaterialbinding->value.setIgnored(TRUE);
     this->sobasecolor->rgb.setIgnored(TRUE);
-#if !defined(COIN_CONFIG_NO_SOPOLYGONOFFSET)
     this->polygonoffsetparent->whichChild = SO_SWITCH_NONE;
-#endif // !COIN_CONFIG_NO_SOPOLYGONOFFSET
 
     this->getSceneManager()->render(FALSE, FALSE);
 
     return;
   }
-#endif // NO_DRAWSTYLESETTING
 
   DrawStyle style = this->currentDrawStyle();
   SbBool clearzbuffer =
@@ -1717,14 +1635,6 @@ SoQtViewer::isSeekValuePercentage(void) const
 void
 SoQtViewer::toggleCameraType(void)
 {
-#if defined(COIN_CONFIG_NO_SOPERSPECTIVECAMERA)
-#define CAN_NOT_TOGGLE 1
-#endif // COIN_CONFIG_NO_SOPERSPECTIVECAMERA
-#if defined(COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA)
-#define CAN_NOT_TOGGLE 1
-#endif // COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA
-
-#if !defined(CAN_NOT_TOGGLE)
   assert(this->camera);
 
   SoType oldtype = this->camera->getTypeId();
@@ -1759,8 +1669,6 @@ SoQtViewer::toggleCameraType(void)
   this->setCamera(newcamera);
   this->deletecamera = TRUE;
   if (oldcamera) cameraparent->removeChild(oldcamera);
-#endif // !CAN_NOT_TOGGLE
-#undef CAN_NOT_TOGGLE
 }
 
 /*!
@@ -1820,7 +1728,6 @@ SoQtViewer::drawAsHiddenLine(void) const
 void
 SoQtViewer::changeDrawStyle(SoQtViewer::DrawStyle style)
 {
-#if !defined(NO_DRAWSTYLESETTING)
   // Turn on/off Z-buffering based on the style setting.
   this->getQGLWidget()->makeCurrent();
   DrawStyle s = this->currentDrawStyle();
@@ -1904,8 +1811,6 @@ SoQtViewer::changeDrawStyle(SoQtViewer::DrawStyle style)
                          this->socomplexity->value.getValue(),
                          this->socomplexity->value.isIgnored() ? "T" : "F");
 #endif // debug
-
-#endif // !NO_DRAWSTYLESETTING
 }
 
 /*!
@@ -2068,6 +1973,3 @@ SoQtViewer::seeksensorCB(void * data, SoSensor * s)
 
   if (end) thisp->setSeekMode(FALSE);
 }
-
-#undef NO_HEADLIGHT
-#undef NO_DRAWSTYLESETTING

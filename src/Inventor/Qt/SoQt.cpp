@@ -258,13 +258,6 @@ SoQt::clean(void)
   delete SoQt::delaytimeouttimer; SoQt::delaytimeouttimer = NULL;
 
   delete SoQt::slotobj; SoQt::slotobj = NULL;
-
-#if defined(__COIN__)
-  SoInteraction::clean();
-  SoNodeKit::clean();
-  SoDB::getSensorManager()->setChangedCallback(NULL, NULL);
-  SoDB::clean();
-#endif // __COIN__
 }
 #endif // re-code
 

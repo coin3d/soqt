@@ -60,12 +60,8 @@ static const char rcsid[] =
 #include <q1xcompatibility.h>
 #endif // Qt v2.x
 
-#if !defined(COIN_CONFIG_NO_SOPERSPECTIVECAMERA)
 #include <Inventor/nodes/SoPerspectiveCamera.h>
-#endif // !COIN_CONFIG_NO_SOPERSPECTIVECAMERA
-#if !defined(COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA)
 #include <Inventor/nodes/SoOrthographicCamera.h>
-#endif // !COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA
 #include <Inventor/fields/SoSFTime.h>
 #include <Inventor/sensors/SoTimerSensor.h>
 #include <Inventor/projectors/SbSphereSheetProjector.h>
@@ -87,12 +83,11 @@ static GLubyte xbmp[] = { 0x11,0x11,0x0a,0x04,0x0a,0x11,0x11 };
 static GLubyte ybmp[] = { 0x04,0x04,0x04,0x04,0x0a,0x11,0x11 };
 static GLubyte zbmp[] = { 0x1f,0x10,0x08,0x04,0x02,0x01,0x1f };
 
-#if !defined(__COIN__)
+// Inlined convenience methods.
 template <class Type>
-inline Type SbMin( const Type A, const Type B ) { return (A < B) ? A : B; }
+inline Type exvMin( const Type A, const Type B ) { return (A < B) ? A : B; }
 template <class Type>
-inline void SbSwap( Type & A, Type & B ) { Type T; T = A; A = B; B = T; }
-#endif // !__COIN__
+inline void exvSwap( Type & A, Type & B ) { Type T; T = A; A = B; B = T; }
 
 
 ///////// FIXME start //////////////////////////////////////////////////
@@ -344,12 +339,8 @@ SoQtExaminerViewer::setCamera(SoCamera * newCamera)
 {
   if (newCamera) {
     SoType camtype = newCamera->getTypeId();
-#if defined(COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA)
-    SbBool orthotype = FALSE;
-#else // !COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA
     SbBool orthotype =
       camtype.isDerivedFrom(SoOrthographicCamera::getClassTypeId());
-#endif // !COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA
 
     this->setRightWheelString(orthotype ? "Zoom" : "Dolly");
     if (this->cameratogglebutton) {
@@ -503,14 +494,6 @@ SoQtExaminerViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
 {
   inherited::createViewerButtons(parent, buttonlist);
 
-#if defined(COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA)
-#define NO_CAM_TOGGLE 1
-#endif // COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA
-#if defined(COIN_CONFIG_NO_SOPERSPECTIVECAMERA)
-#define NO_CAM_TOGGLE 1
-#endif // COIN_CONFIG_NO_SOPERSPECTIVECAMERA
-
-#if !defined(NO_CAM_TOGGLE)
   this->cameratogglebutton = new QPushButton(parent);
   assert(this->perspectivepixmap);
   assert(this->orthopixmap);
@@ -534,8 +517,6 @@ SoQtExaminerViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
                    this, SLOT(cameratoggleClicked()));
 
   buttonlist->append(this->cameratogglebutton);
-#endif // !NO_CAM_TOGGLE
-#undef NO_CAM_TOGGLE
 }
 
 /*!
@@ -942,7 +923,7 @@ SoQtExaminerViewer::drawAxisCross(void)
   // as a percentage of the total canvas size.
   SbVec2s view = this->getGlxSize();
   const int pixelarea =
-    int(float(this->axiscrossSize)/100.0f * SbMin(view[0], view[1]));
+    int(float(this->axiscrossSize)/100.0f * exvMin(view[0], view[1]));
 #if 0 // middle of canvas
   SbVec2s origin(view[0]/2 - pixelarea/2, view[1]/2 - pixelarea/2);
 #endif // middle of canvas
@@ -1004,9 +985,9 @@ SoQtExaminerViewer::drawAxisCross(void)
     float minval = xpos[2];
     float midval = ypos[2];
     float maxval = zpos[2];
-    if (minval > midval) SbSwap(minval, midval);
-    if (midval > maxval) SbSwap(midval, maxval);
-    if (minval > midval) SbSwap(minval, midval);
+    if (minval > midval) exvSwap(minval, midval);
+    if (midval > maxval) exvSwap(midval, maxval);
+    if (minval > midval) exvSwap(minval, midval);
     assert((minval <= midval) && (midval <= maxval)); // Just checking..
 
     // Find the order of rendering. Furthest away should render first,
@@ -1201,14 +1182,10 @@ SoQtExaminerViewer::zoom(const float diffvalue)
   // This will be in the range of <0, ->>.
   float multiplicator = exp(diffvalue);
 
-  if (0);
-#if !defined(COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA)
-  else if (t.isDerivedFrom(SoOrthographicCamera::getClassTypeId())) {
+  if (t.isDerivedFrom(SoOrthographicCamera::getClassTypeId())) {
     SoOrthographicCamera * oc = (SoOrthographicCamera *)cam;
     oc->height = oc->height.getValue() * multiplicator;
   }
-#endif // !COIN_CONFIG_NO_SOORTHOGRAPHICCAMERA
-#if !defined(COIN_CONFIG_NO_SOPERSPECTIVECAMERA)
   else if (t.isDerivedFrom(SoPerspectiveCamera::getClassTypeId())) {
     float oldfocaldist = cam->focalDistance.getValue();
     cam->focalDistance = oldfocaldist * multiplicator;
@@ -1219,7 +1196,6 @@ SoQtExaminerViewer::zoom(const float diffvalue)
       cam->position.getValue() +
       (cam->focalDistance.getValue() - oldfocaldist) * -direction;
   }
-#endif // !COIN_CONFIG_NO_SOPERSPECTIVECAMERA
   else {
     assert(0);
   }
