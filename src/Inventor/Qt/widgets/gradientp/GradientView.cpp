@@ -109,16 +109,6 @@ void GradientView::updateView()
   this->canvas->update();
 }
 
-/*
-void GradientView::drawContents(QPainter * p, int clipx, int clipy, int clipw, int cliph)
-{
-  QCanvasItemList list = this->canvas->allItems();
-  QCanvasItemList::Iterator iter = list.begin();
-  for (; iter != list.end(); iter++) {
-    (*iter)->draw(*p);
-  }
-}
-*/
 void GradientView::contentsMousePressEvent(QMouseEvent * e)
 {
   QPoint p = inverseWorldMatrix().map(e->pos());
@@ -359,6 +349,11 @@ void GradientView::chooseColorRight()
   if (this->rightcolor != initial) {
     this->setColorRight();
   }
+}
+
+void GradientView::setChangeCallback(changeCB * cb)
+{
+  this->grad.setChangeCallback(cb);
 }
 
 // FIXME: instead of building the menu each time, simply use QPopupMenu::changeItem

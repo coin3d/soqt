@@ -42,6 +42,7 @@ public:
   SoQtGradientDialog * pub;
   GradientEditor * gradEdit;
   QValueList<Gradient> gradients;
+  changeCB * changeCallBack;
   QComboBox * gradientList;
   int old_index;
   void saveCurrent();
@@ -50,7 +51,7 @@ public:
 void SoQtGradientDialogP::saveCurrent()
 {
   const Gradient & grad = this->gradEdit->getGradient();
-  QString description = this->gradientList->text(this->gradientList->currentItem());
+  QString description = this->gradientList->text(this->old_index);
   this->gradientList->changeItem(grad.getImage(60, 16, 32), description, this->old_index);
   this->gradients[old_index] = grad;
 }
@@ -58,9 +59,10 @@ void SoQtGradientDialogP::saveCurrent()
 SoQtGradientDialogP::SoQtGradientDialogP(SoQtGradientDialog * publ)
 {
   PUBLIC(this) = publ;
+  this->changeCallBack = NULL;
 }
 
-SoQtGradientDialog::SoQtGradientDialog(const Gradient & grad,
+SoQtGradientDialog::SoQtGradientDialog(Gradient & grad,
                                        QWidget * parent, 
                                        bool modal, 
                                        const char* name)
@@ -75,6 +77,7 @@ SoQtGradientDialog::SoQtGradientDialog(const Gradient & grad,
   PRIVATE(this)->gradientList->hide();
 
   QVBoxLayout * topLayout = new QVBoxLayout(this);
+  topLayout->setMargin(10);
   topLayout->addWidget(PRIVATE(this)->gradEdit);
 
   QHBoxLayout * buttonLayout = new QHBoxLayout();
@@ -106,8 +109,11 @@ SoQtGradientDialog::~SoQtGradientDialog()
   delete this->pimpl;
 }
 
-void SoQtGradientDialog::addGradient(const Gradient & grad, QString description)
+void SoQtGradientDialog::addGradient(Gradient & grad, QString description)
 {
+  if (PRIVATE(this)->changeCallBack)
+    grad.setChangeCallback(PRIVATE(this)->changeCallBack);
+
   PRIVATE(this)->gradients.append(grad);
   PRIVATE(this)->gradientList->insertItem(grad.getImage(60, 16, 32), description);
   PRIVATE(this)->old_index = PRIVATE(this)->gradientList->count() - 1;
@@ -119,30 +125,32 @@ void SoQtGradientDialog::addGradient(const Gradient & grad, QString description)
 
 void SoQtGradientDialog::loadGradient()
 {
-  // FIXME: add support for multiple selected files, and check
-  // that the files selected actually are gradient files. 20030925 frodo.
-  QString filename = QFileDialog::getOpenFileName("gradients",
-                                                  "*.grad",
-                                                  this,
-                                                  "Open Gradient Dialog",
-                                                  "Choose a Gradient to load");
-  if (!filename.isEmpty()) {
+  QStringList filenames = 
+    QFileDialog::getOpenFileNames("Gradients (*.grad)",
+                                  "gradients/",
+                                  this,
+                                  "Open Gradient Dialog",
+                                  "Choose a Gradient to load");
+  if (!filenames.isEmpty()) {
     PRIVATE(this)->saveCurrent();
-    Gradient grad(filename);
-    this->addGradient(grad, filename);
+    for (unsigned int i = 0; i < filenames.size(); i++) {
+      Gradient grad(filenames[i]);
+      this->addGradient(grad, filenames[i]);
+    }
   }
 }
 
 void SoQtGradientDialog::saveGradient()
 {
-  QString filename = QFileDialog::getSaveFileName("gradients",
-                                                  "*.grad",
-                                                  this,
-                                                  "Save Gradient Dialog",
-                                                  "Choose a filename");
+  QString filename = 
+    QFileDialog::getSaveFileName("gradients/",
+                                 "*.grad",
+                                 this,
+                                 "Save Gradient Dialog",
+                                 "Choose a filename");
 
   Gradient grad = PRIVATE(this)->gradEdit->getGradient();
-  grad.save(filename.ascii());
+  grad.save(filename);
 }
 
 void SoQtGradientDialog::chooseGradient(int i)
@@ -162,6 +170,12 @@ void SoQtGradientDialog::setDataLimits(float min, float max)
 {
   PRIVATE(this)->gradEdit->setMin(min);
   PRIVATE(this)->gradEdit->setMax(max);
+}
+
+void SoQtGradientDialog::setChangeCallback(changeCB * cb)
+{
+  PRIVATE(this)->changeCallBack = cb;
+  PRIVATE(this)->gradEdit->setChangeCallback(cb);
 }
 
 #undef PRIVATE

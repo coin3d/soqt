@@ -51,6 +51,7 @@ public:
   const Gradient & getGradient(void) const;
   void insertTick(float t);
   float getSelectedPos(void);
+  void setChangeCallback(changeCB * cb);
 
 public slots:
   void updateTicks(void);
@@ -75,7 +76,6 @@ protected:
   void contentsMousePressEvent(QMouseEvent *);
   void contentsMouseMoveEvent(QMouseEvent *);
   void viewportResizeEvent(QResizeEvent *);
-  //void drawContents (QPainter * p, int clipx, int clipy, int clipw, int cliph);
   void keyPressEvent(QKeyEvent * e);
   void buildMenu();
   void unselectAll(void);
