@@ -90,7 +90,7 @@ add_view(QWidget * viewparent, SoGroup * common, SbRotation cameraorientation)
   SoQtRenderArea * area = new SoQtRenderArea(viewparent);
   area->setSceneGraph(root);
   
-#ifndef __COIN_
+#ifndef __COIN__
   // IMPORTANT: make sure each GL context has a unique cache context
   // id.  this is needed for TGS/SGI Inventor. Coin handles this
   // automatically.
