@@ -97,9 +97,9 @@ if $sim_ac_make_dsp; then
     esac
   done
 
-  CC=[$]$3_src_dir/cfg/gendsp.sh
-  CXX=[$]$3_src_dir/cfg/gendsp.sh
-  CXXLD=[$]$3_src_dir/cfg/gendsp.sh
+  CC=[$]$3_build_dir/cfg/gendsp.sh
+  CXX=[$]$3_build_dir/cfg/gendsp.sh
+  CXXLD=[$]$3_build_dir/cfg/gendsp.sh
   # Yes, this is totally bogus stuff, but don't worry about it.  As long
   # as gendsp.sh recognizes it...  20030219 larsa
   CPPFLAGS="$CPPFLAGS -Ddspfile=[$]$3_build_dir/$3[$]$1_MAJOR_VERSION.dsp"
@@ -108,8 +108,8 @@ if $sim_ac_make_dsp; then
 
   # this can't be set up at the point the libtool script is generated
   mv libtool libtool.bak
-  sed -e "s%^CC=\"gcc\"%CC=\"[$]$3_src_dir/cfg/gendsp.sh\"%" \
-      -e "s%^CC=\".*/wrapmsvc.exe\"%CC=\"[$]$3_src_dir/cfg/gendsp.sh\"%" \
+  sed -e "s%^CC=\"gcc\"%CC=\"[$]$3_build_dir/cfg/gendsp.sh\"%" \
+      -e "s%^CC=\".*/wrapmsvc.exe\"%CC=\"[$]$3_build_dir/cfg/gendsp.sh\"%" \
       <libtool.bak >libtool
   rm -f libtool.bak
   chmod 755 libtool
@@ -425,6 +425,77 @@ AC_MSG_ERROR([invalid value "${withval}" for "$1" configure argument])
 AC_DEFUN([SIM_AC_ENABLE_ERROR], [
 AC_MSG_ERROR([invalid value "${enableval}" for "$1" configure argument])
 ]) # SIM_AC_ENABLE_ERROR
+
+
+# *******************************************************************
+# SIM_AC_RELATIVE_SRC_DIR
+#
+# Sets $sim_ac_relative_src_dir to the relative path to the source
+# directory, and $sim_ac_relative_src_dir_p to true or false depending
+# on whether a relative path can be used or not (in case of different
+# drives).
+#
+# Author:
+#   Lars J. Aas <larsa@sim.no>
+
+
+AC_DEFUN([SIM_AC_RELATIVE_SRC_DIR], [
+
+temp_build_dir=`pwd`
+temp_src_dir=`cd "$srcdir"; pwd`
+
+temp_up=""
+temp_down=""
+
+while test "$temp_build_dir" != "$temp_src_dir"; do
+  srclen=`echo "$temp_src_dir" | wc -c`
+  buildlen=`echo "$temp_build_dir" | wc -c`
+  if test $srclen -gt $buildlen; then
+    # cut source tail, insert into temp_up
+    temp_src_tail=`echo "$temp_src_dir" | sed -e 's,.*/,,g'`
+    temp_src_dir=`echo "$temp_src_dir" | sed -e 's,/[[^/]]*\$,,g'`
+    if test x"$temp_up" = "x"; then
+      temp_up="$temp_src_tail"
+    else
+      temp_up="$temp_src_tail/$temp_up"
+    fi
+  else
+    # cut build tail, increase temp_down
+    temp_build_dir=`echo "$temp_build_dir" | sed -e 's,/[[^/]]*\$,,g'`
+    if test x"$temp_down" = "x"; then
+      temp_down=..
+    else
+      temp_down="../$temp_down"
+    fi
+  fi
+done
+
+if test x"$temp_down" = "x"; then
+  if test x"$temp_up" = "x"; then
+    sim_ac_relative_src_dir="."
+  else
+    sim_ac_relative_src_dir="$temp_up"
+  fi
+else
+  if test x"$temp_up" = "x"; then
+    sim_ac_relative_src_dir="$temp_down"
+  else
+    sim_ac_relative_src_dir="$temp_down/$temp_up"
+  fi
+fi
+
+# this gives false positives on windows, but that's ok for now...
+if test -f $sim_ac_relative_src_dir/$ac_unique_file; then
+  sim_ac_relative_src_dir_p=true;
+else
+  sim_ac_relative_src_dir_p=false;
+fi
+
+AC_SUBST(ac_unique_file) # useful to have to check the relative path
+AC_SUBST(sim_ac_relative_src_dir)
+AC_SUBST(sim_ac_relative_src_dir_p)
+
+]) # SIM_AC_RELATIVE_SRC_DIR
 
 
 # Do all the work for Automake.                            -*- Autoconf -*-
@@ -8434,7 +8505,8 @@ fi
 #
 #                $sim_ac_ogl_cppflags
 #                $sim_ac_ogl_ldflags
-#                $sim_ac_ogl_libs
+#                $sim_ac_ogl_libs (OpenGL library and all dependencies)
+#                $sim_ac_ogl_lib (basename of OpenGL library)
 #
 # The necessary extra options are also automatically added to CPPFLAGS,
 # LDFLAGS and LIBS.
@@ -8445,6 +8517,7 @@ AC_DEFUN(SIM_AC_CHECK_OPENGL, [
 
 sim_ac_ogl_cppflags=
 sim_ac_ogl_ldflags=
+sim_ac_ogl_lib=
 sim_ac_ogl_libs=
 
 AC_ARG_WITH(
@@ -8455,8 +8528,8 @@ AC_ARG_WITH(
   [with_mesa=yes])
 
 
-sim_ac_ogl_glnames="-lGL -lopengl32"
-sim_ac_ogl_mesaglnames=-lMesaGL
+sim_ac_ogl_glnames="GL opengl32"
+sim_ac_ogl_mesaglnames=MesaGL
 
 if test "x$with_mesa" = "xyes"; then
   sim_ac_ogl_first=$sim_ac_ogl_mesaglnames
@@ -8509,6 +8582,7 @@ if test x"$with_opengl" != xno; then
     # hopefully, this is the default behavior and not needed. 20011005 larsa
     # sim_ac_ogl_cppflags="-F/System/Library/Frameworks/OpenGL.framework/"
     sim_ac_ogl_ldflags="-Wl,-framework,OpenGL"
+    sim_ac_ogl_lib=OpenGL
   fi
 
   sim_ac_save_cppflags=$CPPFLAGS
@@ -8542,7 +8616,11 @@ if test x"$with_opengl" != xno; then
       # Mac OS X uses nada (only LDFLAGS), which is why "" was set first
       for sim_ac_ogl_libcheck in "" $sim_ac_ogl_first $sim_ac_ogl_second; do
         if $sim_ac_glchk_hit; then :; else
-          LIBS="$sim_ac_ogl_libcheck $sim_ac_oglchk_pthreadslib $sim_ac_save_libs"
+          if test -n "${sim_ac_ogl_libcheck}"; then
+            LIBS="-l${sim_ac_ogl_libcheck} $sim_ac_oglchk_pthreadslib $sim_ac_save_libs"
+          else
+            LIBS="$sim_ac_oglchk_pthreadslib $sim_ac_save_libs"
+          fi
           AC_TRY_LINK(
             [#ifdef HAVE_WINDOWS_H
              #include <windows.h>
@@ -8558,7 +8636,11 @@ if test x"$with_opengl" != xno; then
             [glPointSize(1.0f);],
             [
              sim_ac_glchk_hit=true
-             sim_ac_ogl_libs="$sim_ac_ogl_libcheck $sim_ac_oglchk_pthreadslib"
+             sim_ac_ogl_libs=$sim_ac_oglchk_pthreadslib
+             if test -n "${sim_ac_ogl_libcheck}"; then
+               sim_ac_ogl_lib=$sim_ac_ogl_libcheck
+               sim_ac_ogl_libs="-l${sim_ac_ogl_libcheck} $sim_ac_oglchk_pthreadslib"
+             fi
             ]
           )
         fi
@@ -8981,7 +9063,6 @@ AC_DEFUN([SIM_AC_HAVE_AGL_PBUFFER], [
     ifelse([$2], , :, [$2])
   fi
 ])
-
 
 # Usage:
 #  SIM_AC_CHECK_PTHREAD([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
@@ -9705,6 +9786,7 @@ if $sim_ac_coin_desired; then
       LIBS=$sim_ac_save_libs
     ])
     sim_ac_coin_avail=$sim_cv_coin_avail
+
     if $sim_ac_coin_avail; then :; else
       AC_MSG_WARN([
 Compilation and/or linking with the Coin main library SDK failed, for
@@ -9717,15 +9799,61 @@ describing the situation where this failed.
 ])
     fi
   else # no 'coin-config' found
-    locations=`IFS="${sim_ac_pathsep}"; for p in $sim_ac_path; do echo " -> $p/coin-config"; done`
-    AC_MSG_WARN([cannot find 'coin-config' at any of these locations:
+
+# FIXME: test for Coin without coin-config script here
+    if test x"$COINDIR" != x""; then
+      sim_ac_coindir=`cygpath -u "$COINDIR" 2>/dev/null || echo "$COINDIR"`
+      if test -d $sim_ac_coindir/bin && test -d $sim_ac_coindir/lib && test -d $sim_ac_coindir/include/Inventor; then
+        # using newest version (last alphabetically) in case of multiple libs
+        sim_ac_coin_lib_file=`echo $sim_ac_coindir/lib/coin*.lib | sed -e 's,.* ,,g'`
+        if test -f $sim_ac_coin_lib_file; then
+          sim_ac_coin_lib_name=`echo $sim_ac_coin_lib_file | sed -e 's,.*/,,g' -e 's,.lib,,'`
+          sim_ac_save_cppflags=$CPPFLAGS
+          sim_ac_save_libs=$LIBS
+          sim_ac_save_ldflags=$LDFLAGS
+          CPPFLAGS="$CPPFLAGS -I$sim_ac_coindir/include"
+          if test -f $sim_ac_coindir/bin/$sim_ac_coin_lib_name.dll; then
+            CPPFLAGS="$CPPFLAGS -DCOIN_DLL"
+          fi
+          LDFLAGS="$LDFLAGS -L$sim_ac_coindir/lib"
+          LIBS="-l$sim_ac_coin_lib_name -lopengl32 $LIBS"
+          
+          AC_LANG_PUSH(C++)
+
+          AC_TRY_LINK(
+            [#include <Inventor/SoDB.h>],
+            [SoDB::init();],
+            [sim_cv_coin_avail=true],
+            [sim_cv_coin_avail=false])
+
+          AC_LANG_POP
+          CPPFLAGS=$sim_ac_save_cppflags
+          LDFLAGS=$sim_ac_save_ldflags
+          LIBS=$sim_ac_save_libs
+          sim_ac_coin_avail=$sim_cv_coin_avail
+        fi
+      fi
+    fi
+
+    if $sim_ac_coin_avail; then
+      sim_ac_coin_cppflags=-I$sim_ac_coindir/include
+      if test -f $sim_ac_coindir/bin/$sim_ac_coin_lib_name.dll; then
+        sim_ac_coin_cppflags="$sim_ac_coin_cppflags -DCOIN_DLL"
+      fi
+      sim_ac_coin_ldflags=-L$sim_ac_coindir/lib
+      sim_ac_coin_libs="-l$sim_ac_coin_lib_name -lopengl32"
+      sim_ac_coin_datadir=$sim_ac_coindir/data
+    else
+      locations=`IFS="${sim_ac_pathsep}"; for p in $sim_ac_path; do echo " -> $p/coin-config"; done`
+      AC_MSG_WARN([cannot find 'coin-config' at any of these locations:
 $locations])
-    AC_MSG_WARN([
+      AC_MSG_WARN([
 Need to be able to run 'coin-config' to figure out how to build and link
 against the Coin library. To rectify this problem, you most likely need
 to a) install Coin if it has not been installed, b) add the Coin install
 bin/ directory to your PATH environment variable.
 ])
+    fi
   fi
 fi
 
@@ -9925,7 +10053,7 @@ known to contain some serious bugs on MacOS X. We strongly recommend you to
 upgrade. (See $srcdir/README.MAC for details.)])
       fi
 
-      if test x"$sim_ac_want_x11" = xno; then   
+      if test x$sim_ac_enable_darwin_x11 = xfalse; then
       # Using Qt/X11 but option --enable-darwin-x11 not given
       AC_TRY_LINK([#include <qapplication.h>],
                   [#if defined(__APPLE__) && defined(Q_WS_X11)
