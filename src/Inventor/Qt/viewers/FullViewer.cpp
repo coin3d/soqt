@@ -364,39 +364,36 @@ SoQtFullViewer::buildWidget(QWidget * parent)
 
 #if SOQT_DEBUG && 0
   SoDebugError::postInfo("SoQtFullViewer::buildWidget", "[invoked]");
-#endif // SOQT_DEBUG
+#endif
 
   PRIVATE(this)->viewerwidget = new QWidget(parent);
   this->registerWidget(PRIVATE(this)->viewerwidget);
 
-
-//  PRIVATE(this)->viewerwidget->installEventFilter(this);
-
   PRIVATE(this)->viewerwidget->move(0, 0);
+
 #if SOQT_DEBUG && 0
   PRIVATE(this)->viewerwidget->setBackgroundColor(QColor(250, 0, 0));
-#endif // SOQT_DEBUG
+#endif
 
-  // Build and layout the widget components of the viewer window on
-  // top of the manager widget.
-
-//  PRIVATE(this)->canvasparent = new QWidget(PRIVATE(this)->viewerwidget);
-//  PRIVATE(this)->canvasparent->move(0, 0);
+  // FIXME: The scaling and layout of a viewer without decorations
+  // currently don't work, so here I create the widget /with/
+  // decorations, and desides if they should be visible afterwards. A
+  // nice side-effect is that this makes sure that the
+  // (SoQtFullViewer*)->setDecoration(SbBool) works for TRUE and
+  // FALSE, regardless of how the widget initially was built. I regard
+  // this more like a workaround than as a /fix/, and lots and lots of
+  // this should have a major brushing as there still are a lot of
+  // evil-doers in this county.... 20021022 rolvs.
 
   PRIVATE(this)->canvas = inherited::buildWidget(PRIVATE(this)->viewerwidget);
-  if (PRIVATE(this)->decorations) {
-    PRIVATE(this)->canvas->move(30, 0);
-    PRIVATE(this)->canvas->resize(QSize(PRIVATE(this)->viewerwidget->size().width() - 60,
-                                        PRIVATE(this)->viewerwidget->size().height() - 30));
-  } else {
-    PRIVATE(this)->canvas->move(0, 0);
-    PRIVATE(this)->canvas->resize(PRIVATE(this)->viewerwidget->size());
-  }
+ 
+  PRIVATE(this)->canvas->move(30, 0);
+  PRIVATE(this)->canvas->resize
+    (QSize(PRIVATE(this)->viewerwidget->size().width() - 60,
+           PRIVATE(this)->viewerwidget->size().height() - 30));
 
-  if (PRIVATE(this)->decorations) {
-    this->buildDecoration(PRIVATE(this)->viewerwidget);
-    PRIVATE(this)->showDecorationWidgets(TRUE);
-  }
+  this->buildDecoration( PRIVATE(this)->viewerwidget );
+  PRIVATE(this)->showDecorationWidgets( PRIVATE(this)->decorations );
 
   if (PRIVATE(this)->menuenabled)
     this->buildPopupMenu();
@@ -716,7 +713,7 @@ SoQtFullViewer::sizeChanged(const SbVec2s & size)
 #if SOQT_DEBUG && 0
   SoDebugError::postInfo("SoQtFullViewer::sizeChanged", "(%d, %d)",
                          size[0], size[1]);
-#endif // SOQT_DEBUG
+#endif
 
   SbVec2s newsize(size);
   if (PRIVATE(this)->decorations) { newsize -= SbVec2s(2 * 30, 30); }
