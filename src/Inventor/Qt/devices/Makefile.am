@@ -8,14 +8,14 @@ INCLUDES = -I$(top_srcdir)/src
 LIBS =
 
 BUILT_SOURCES = \
-	$(So@Gui@AllBuiltFiles)
+	$(SoGuiAllBuiltFiles)
 
 CLEANFILES = \
-	$(So@Gui@_src_Inventor_@Gui@_devices_BuiltMetaFiles)
+	$(SoGui_src_Inventor_Gui_devices_BuiltMetaFiles)
 
 DISTCLEANFILES = \
-	$(So@Gui@_src_Inventor_@Gui@_devices_BuiltFiles) \
-	$(So@Gui@_src_Inventor_@Gui@_devices_BuiltMetaFiles)
+	$(SoGui_src_Inventor_Gui_devices_BuiltFiles) \
+	$(SoGui_src_Inventor_Gui_devices_BuiltMetaFiles)
 
 ## Process this file with automake to generate Makefile.in.
 
@@ -74,8 +74,8 @@ libSoQtDevices_la_SOURCES = \
 	$(libSoQtDevicesConditionalSources)
 
 nodist_libSoQtDevices_la_SOURCES = \
-	$(So@Gui@_src_Inventor_@Gui@_devices_BuiltFiles) \
-	$(So@Gui@_src_Inventor_@Gui@_devices_BuiltMetaFiles)
+	$(SoGui_src_Inventor_Gui_devices_BuiltFiles) \
+	$(SoGui_src_Inventor_Gui_devices_BuiltMetaFiles)
 
 # all the sources that are conditional
 EXTRA_libSoQtDevices_la_SOURCES = \
@@ -99,8 +99,8 @@ devices_lst_SOURCES = \
 	$(libSoQtDevicesConditionalSources)
 
 nodist_devices_lst_SOURCES = \
-	$(So@Gui@_src_Inventor_@Gui@_devices_BuiltFiles) \
-	$(So@Gui@_src_Inventor_@Gui@_devices_BuiltMetaFiles)
+	$(SoGui_src_Inventor_Gui_devices_BuiltFiles) \
+	$(SoGui_src_Inventor_Gui_devices_BuiltMetaFiles)
 
 devices.lst: Makefile $(devices_lst_OBJECTS)
 	@echo "Linking devices.lst..."; \

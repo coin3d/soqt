@@ -26,14 +26,14 @@ EXTRA_DIST = \
 	SoNativeFlyViewer.cpp
 
 BUILT_SOURCES = \
-	$(So@Gui@AllBuiltFiles)
+	$(SoGuiAllBuiltFiles)
 
 CLEANFILES = \
-	$(So@Gui@_src_Inventor_@Gui@_viewers_BuiltMetaFiles)
+	$(SoGui_src_Inventor_Gui_viewers_BuiltMetaFiles)
 
 DISTCLEANFILES = \
-	$(So@Gui@_src_Inventor_@Gui@_viewers_BuiltFiles) \
-	$(So@Gui@_src_Inventor_@Gui@_viewers_BuiltMetaFiles)
+	$(SoGui_src_Inventor_Gui_viewers_BuiltFiles) \
+	$(SoGui_src_Inventor_Gui_viewers_BuiltMetaFiles)
 
 ############################################################################
 # libtool setup
@@ -49,8 +49,8 @@ libSoQtViewers_la_SOURCES = \
 	SoQtWalkViewer.h
 
 nodist_libSoQtViewers_la_SOURCES = \
-	$(So@Gui@_src_Inventor_@Gui@_viewers_BuiltFiles) \
-	$(So@Gui@_src_Inventor_@Gui@_viewers_BuiltMetaFiles)
+	$(SoGui_src_Inventor_Gui_viewers_BuiltFiles) \
+	$(SoGui_src_Inventor_Gui_viewers_BuiltMetaFiles)
 
 ############################################################################
 # custom setup
@@ -66,8 +66,8 @@ viewers_lst_SOURCES = \
 	SoQtWalkViewer.h
 
 nodist_viewers_lst_SOURCES = \
-	$(So@Gui@_src_Inventor_@Gui@_viewers_BuiltFiles) \
-	$(So@Gui@_src_Inventor_@Gui@_viewers_BuiltMetaFiles)
+	$(SoGui_src_Inventor_Gui_viewers_BuiltFiles) \
+	$(SoGui_src_Inventor_Gui_viewers_BuiltMetaFiles)
 
 viewers.lst: Makefile $(viewers_lst_OBJECTS)
 	@echo "Linking viewers.lst..."; \

@@ -15,16 +15,16 @@ SUFFIXES = .cpp .h .m4 .in .o .lo .Plo .TPlo
 SUBDIRS = . src
 
 BUILT_SOURCES = \
-	$(So@Gui@AllBuiltFiles)
+	$(SoGuiAllBuiltFiles)
 
 CLEANFILES = \
-	$(So@Gui@_BuiltMetaFiles)
+	$(SoGui_BuiltMetaFiles)
 
 DISTCLEANFILES = \
 	libtool \
 	build/so@gui@.doxygen \
-	$(So@Gui@_BuiltFiles) \
-	$(So@Gui@_BuiltMetaFiles)
+	$(SoGui_BuiltFiles) \
+	$(SoGui_BuiltMetaFiles)
 
 bin_SCRIPTS = so@gui@-config
 

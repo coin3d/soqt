@@ -11,14 +11,14 @@ SUBDIRS = devices viewers widgets
 INCLUDES = -I$(top_srcdir)/src
 
 BUILT_SOURCES = \
-	$(So@Gui@AllBuiltfiles)
+	$(SoGuiAllBuiltfiles)
 
 CLEANFILES = \
-	$(So@Gui@_src_Inventor_@Gui@_BuiltMetaFiles)
+	$(SoGui_src_Inventor_Gui_BuiltMetaFiles)
 
 DISTCLEANFILES = \
-	$(So@Gui@_src_Inventor_@Gui@_BuiltFiles) \
-	$(So@Gui@_src_Inventor_@Gui@_BuiltMetaFiles)
+	$(SoGui_src_Inventor_Gui_BuiltFiles) \
+	$(SoGui_src_Inventor_Gui_BuiltMetaFiles)
 
 ############################################################################
 
@@ -47,8 +47,8 @@ libSoQt@SUFFIX@_la_SOURCES = \
 	SoQtTransformSliderSet.h
 
 nodist_libSoQt@SUFFIX@_la_SOURCES = \
-	$(SoQt_src_Inventor_Qt_BuiltFiles) \
-	$(SoQt_src_Inventor_Qt_BuiltMetaFiles)
+	$(SoGui_src_Inventor_Gui_BuiltFiles) \
+	$(SoGui_src_Inventor_Gui_BuiltMetaFiles)
 
 libSoQt@SUFFIX@_la_LIBADD = \
 	devices/libSoQtDevices.la \
@@ -77,8 +77,8 @@ soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
 	SoQtTransformSliderSet.h
 
 nodist_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
-	$(So@Gui@_src_Inventor_@Gui@_BuiltFiles) \
-	$(So@Gui@_src_Inventor_@Gui@_BuiltMetaFiles)
+	$(SoGui_src_Inventor_Gui_BuiltFiles) \
+	$(SoGui_src_Inventor_Gui_BuiltMetaFiles)
 
 soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
 	devices/devices.lst \

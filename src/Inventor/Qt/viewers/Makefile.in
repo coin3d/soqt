@@ -137,16 +137,18 @@ soqt_dox_build_dir = @soqt_dox_build_dir@
 soqt_dox_src_dir = @soqt_dox_src_dir@
 win_srcdir = @win_srcdir@
 
-So@Gui@_BuiltFiles = \
+SoGui_BuiltFiles = \
   $(top_builddir)/so@gui@-config \
   $(top_builddir)/so@gui@-@CONFIG@.cfg
 
 
-So@Gui@_src_BuiltFiles = \
+SoGui_src_BuiltFiles = \
   $(top_builddir)/src/so@gui@defs.h
 
 
-So@Gui@_src_Inventor_@Gui@_BuiltFiles = \
+SoGui_src_Inventor_BuiltFiles = 
+
+SoGui_src_Inventor_Gui_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/SoAny.h \
   $(top_builddir)/src/Inventor/@Gui@/SoAny.cpp \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@Basic.h \
@@ -162,16 +164,16 @@ So@Gui@_src_Inventor_@Gui@_BuiltFiles = \
   $(So@Gui@_src_Inventor_@Gui@_common_BuiltFiles)
 
 
-So@Gui@_src_Inventor_@Gui@_common_BuiltFiles = \
+SoGui_src_Inventor_Gui_common_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/common/gl.h
 
 
-So@Gui@_src_Inventor_@Gui@_devices_BuiltFiles = \
+SoGui_src_Inventor_Gui_devices_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/devices/spwinput.h \
   $(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp
 
 
-So@Gui@_src_Inventor_@Gui@_viewers_BuiltFiles = \
+SoGui_src_Inventor_Gui_viewers_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.h \
   $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp \
   $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.h \
@@ -186,24 +188,28 @@ So@Gui@_src_Inventor_@Gui@_viewers_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyPlaneViewer.cpp
 
 
-So@Gui@_src_Inventor_@Gui@_widgets_BuiltFiles = \
+SoGui_src_Inventor_Gui_widgets_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.h \
   $(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp \
   $(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyPopupMenu.h \
   $(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyPopupMenu.cpp
 
 
-So@Gui@BuiltFiles = \
-  $(So@Gui@_BuiltFiles) \
-  $(So@Gui@_src_BuiltFiles) \
-  $(So@Gui@_src_Inventor_@Gui@_BuiltFiles) \
-  $(So@Gui@_src_Inventor_@Gui@_devices_BuiltFiles) \
-  $(So@Gui@_src_Inventor_@Gui@_viewers_BuiltFiles) \
-  $(So@Gui@_src_Inventor_@Gui@_widgets_BuiltFiles) \
-  $(So@Gui@_ExtraBuiltFiles)
+SoGuiBuiltFiles = \
+  $(SoGui_BuiltFiles) \
+  $(SoGui_src_BuiltFiles) \
+  $(SoGui_src_Inventor_BuiltFiles) \
+  $(SoGui_src_Inventor_Gui_BuiltFiles) \
+  $(SoGui_src_Inventor_Gui_devices_BuiltFiles) \
+  $(SoGui_src_Inventor_Gui_viewers_BuiltFiles) \
+  $(SoGui_src_Inventor_Gui_widgets_BuiltFiles)
 
 
-@BUILD_METAFILES_TRUE@So@Gui@_src_Inventor_@Gui@_BuiltMetaFiles = \
+@BUILD_METAFILES_TRUE@SoGui_BuiltMetaFiles = 
+@BUILD_METAFILES_TRUE@SoGui_src_BuiltMetaFiles = 
+@BUILD_METAFILES_TRUE@SoGui_src_Inventor_BuiltMetaFiles = 
+
+@BUILD_METAFILES_TRUE@SoGui_src_Inventor_Gui_BuiltMetaFiles = \
 @BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@.cpp \
 @BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@Object.cpp \
 @BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@Component.cpp \
@@ -215,9 +221,9 @@ So@Gui@BuiltFiles = \
 @BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@SliderSetBase.cpp \
 @BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/@meta_prefix@So@Gui@TransformSliderSet.cpp
 
-@BUILD_METAFILES_FALSE@So@Gui@_src_Inventor_@Gui@_BuiltMetaFiles = 
+@BUILD_METAFILES_FALSE@SoGui_src_Inventor_Gui_BuiltMetaFiles = 
 
-@BUILD_METAFILES_TRUE@So@Gui@_src_Inventor_@Gui@_devices_BuiltMetaFiles = \
+@BUILD_METAFILES_TRUE@SoGui_src_Inventor_Gui_devices_BuiltMetaFiles = \
 @BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@Device.cpp \
 @BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@InputFocus.cpp \
 @BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@Keyboard.cpp \
@@ -225,9 +231,9 @@ So@Gui@BuiltFiles = \
 @BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@Spaceball.cpp \
 @BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/devices/@meta_prefix@So@Gui@LinuxJoystick.cpp
 
-@BUILD_METAFILES_FALSE@So@Gui@_src_Inventor_@Gui@_devices_BuiltMetaFiles = 
+@BUILD_METAFILES_FALSE@SoGui_src_Inventor_Gui_devices_BuiltMetaFiles = 
 
-@BUILD_METAFILES_TRUE@So@Gui@_src_Inventor_@Gui@_viewers_BuiltMetaFiles = \
+@BUILD_METAFILES_TRUE@SoGui_src_Inventor_Gui_viewers_BuiltMetaFiles = \
 @BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@Viewer.cpp \
 @BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FullViewer.cpp \
 @BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@ExaminerViewer.cpp \
@@ -236,29 +242,31 @@ So@Gui@BuiltFiles = \
 @BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@WalkViewer.cpp \
 @BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FlyViewer.cpp
 
-@BUILD_METAFILES_FALSE@So@Gui@_src_Inventor_@Gui@_viewers_BuiltMetaFiles = 
+@BUILD_METAFILES_FALSE@SoGui_src_Inventor_Gui_viewers_BuiltMetaFiles = 
 
 @BUILD_METAFILES_TRUE@So@Gui@_src_Inventor_@Gui@_widgets_BuiltMetaFiles = \
 @BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@PopupMenu.cpp \
 @BUILD_METAFILES_TRUE@        $(top_builddir)/src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@GLArea.cpp \
 @BUILD_METAFILES_TRUE@  $(top_builddir)/src/Inventor/@Gui@/widgets/@meta_prefix@So@Gui@ThumbWheel.cpp
 
-@BUILD_METAFILES_FALSE@So@Gui@_src_Inventor_@Gui@_widgets_BuiltMetaFiles = 
+@BUILD_METAFILES_FALSE@SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles = 
 
-So@Gui@BuiltMetaFiles = \
-  $(So@Gui@_src_Inventor_@Gui@_BuiltMetaFiles) \
-  $(So@Gui@_src_Inventor_@Gui@_devices_BuiltMetaFiles) \
-  $(So@Gui@_src_Inventor_@Gui@_viewers_BuiltMetaFiles) \
-  $(So@Gui@_src_Inventor_@Gui@_widgets_BuiltMetaFiles) \
-  $(So@Gui@_ExtraBuiltMetaFiles)
-
-
-So@Gui@AllBuiltFiles = \
-  $(So@Gui@BuiltFiles) \
-  $(So@Gui@BuiltMetaFiles)
+SoGuiBuiltMetaFiles = \
+  $(SoGui_BuiltMetaFiles) \
+  $(SoGui_src_BuiltMetaFiles) \
+  $(SoGui_src_Inventor_BuiltMetaFiles) \
+  $(SoGui_src_Inventor_Gui_BuiltMetaFiles) \
+  $(SoGui_src_Inventor_Gui_devices_BuiltMetaFiles) \
+  $(SoGui_src_Inventor_Gui_viewers_BuiltMetaFiles) \
+  $(SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles)
 
 
-So@Gui@CommonDistFiles = \
+SoGuiAllBuiltFiles = \
+  $(SoGuiBuiltFiles) \
+  $(SoGuiBuiltMetaFiles)
+
+
+SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/ChangeLog \
   src/Inventor/@Gui@/common/Makefile.common \
   src/Inventor/@Gui@/common/sogui-config.in \
@@ -338,16 +346,16 @@ EXTRA_DIST = \
 
 
 BUILT_SOURCES = \
-	$(So@Gui@AllBuiltFiles)
+	$(SoGuiAllBuiltFiles)
 
 
 CLEANFILES = \
-	$(So@Gui@_src_Inventor_@Gui@_viewers_BuiltMetaFiles)
+	$(SoGui_src_Inventor_Gui_viewers_BuiltMetaFiles)
 
 
 DISTCLEANFILES = \
-	$(So@Gui@_src_Inventor_@Gui@_viewers_BuiltFiles) \
-	$(So@Gui@_src_Inventor_@Gui@_viewers_BuiltMetaFiles)
+	$(SoGui_src_Inventor_Gui_viewers_BuiltFiles) \
+	$(SoGui_src_Inventor_Gui_viewers_BuiltMetaFiles)
 
 
 
@@ -365,8 +373,8 @@ libSoQtViewers_la_SOURCES = \
 
 
 nodist_libSoQtViewers_la_SOURCES = \
-	$(So@Gui@_src_Inventor_@Gui@_viewers_BuiltFiles) \
-	$(So@Gui@_src_Inventor_@Gui@_viewers_BuiltMetaFiles)
+	$(SoGui_src_Inventor_Gui_viewers_BuiltFiles) \
+	$(SoGui_src_Inventor_Gui_viewers_BuiltMetaFiles)
 
 
 
@@ -384,8 +392,8 @@ viewers_lst_SOURCES = \
 
 
 nodist_viewers_lst_SOURCES = \
-	$(So@Gui@_src_Inventor_@Gui@_viewers_BuiltFiles) \
-	$(So@Gui@_src_Inventor_@Gui@_viewers_BuiltMetaFiles)
+	$(SoGui_src_Inventor_Gui_viewers_BuiltFiles) \
+	$(SoGui_src_Inventor_Gui_viewers_BuiltMetaFiles)
 
 
 
@@ -415,8 +423,27 @@ viewers_lst_LIBADD =
 am_viewers_lst_OBJECTS = SoQtFullViewer.$(OBJEXT) \
 	SoQtExaminerViewer.$(OBJEXT) SoQtPlaneViewer.$(OBJEXT) \
 	SoQtWalkViewer.$(OBJEXT)
-@BUILD_METAFILES_TRUE@nodist_viewers_lst_OBJECTS =
-@BUILD_METAFILES_FALSE@nodist_viewers_lst_OBJECTS =
+@BUILD_METAFILES_TRUE@nodist_viewers_lst_OBJECTS = \
+@BUILD_METAFILES_TRUE@	So@Gui@Viewer.$(OBJEXT) \
+@BUILD_METAFILES_TRUE@	So@Gui@ConstrainedViewer.$(OBJEXT) \
+@BUILD_METAFILES_TRUE@	So@Gui@FlyViewer.$(OBJEXT) \
+@BUILD_METAFILES_TRUE@	SoAnyFullViewer.$(OBJEXT) \
+@BUILD_METAFILES_TRUE@	SoAnyExaminerViewer.$(OBJEXT) \
+@BUILD_METAFILES_TRUE@	SoAnyPlaneViewer.$(OBJEXT) \
+@BUILD_METAFILES_TRUE@	@meta_prefix@So@Gui@Viewer.$(OBJEXT) \
+@BUILD_METAFILES_TRUE@	@meta_prefix@So@Gui@FullViewer.$(OBJEXT) \
+@BUILD_METAFILES_TRUE@	@meta_prefix@So@Gui@ExaminerViewer.$(OBJEXT) \
+@BUILD_METAFILES_TRUE@	@meta_prefix@So@Gui@PlaneViewer.$(OBJEXT) \
+@BUILD_METAFILES_TRUE@	@meta_prefix@So@Gui@ConstrainedViewer.$(OBJEXT) \
+@BUILD_METAFILES_TRUE@	@meta_prefix@So@Gui@WalkViewer.$(OBJEXT) \
+@BUILD_METAFILES_TRUE@	@meta_prefix@So@Gui@FlyViewer.$(OBJEXT)
+@BUILD_METAFILES_FALSE@nodist_viewers_lst_OBJECTS = \
+@BUILD_METAFILES_FALSE@	So@Gui@Viewer.$(OBJEXT) \
+@BUILD_METAFILES_FALSE@	So@Gui@ConstrainedViewer.$(OBJEXT) \
+@BUILD_METAFILES_FALSE@	So@Gui@FlyViewer.$(OBJEXT) \
+@BUILD_METAFILES_FALSE@	SoAnyFullViewer.$(OBJEXT) \
+@BUILD_METAFILES_FALSE@	SoAnyExaminerViewer.$(OBJEXT) \
+@BUILD_METAFILES_FALSE@	SoAnyPlaneViewer.$(OBJEXT)
 viewers_lst_OBJECTS = $(am_viewers_lst_OBJECTS) \
 	$(nodist_viewers_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
@@ -425,8 +452,25 @@ libSoQtViewers_la_LDFLAGS =
 libSoQtViewers_la_LIBADD =
 am_libSoQtViewers_la_OBJECTS = SoQtFullViewer.lo SoQtExaminerViewer.lo \
 	SoQtPlaneViewer.lo SoQtWalkViewer.lo
-@BUILD_METAFILES_TRUE@nodist_libSoQtViewers_la_OBJECTS =
-@BUILD_METAFILES_FALSE@nodist_libSoQtViewers_la_OBJECTS =
+@BUILD_METAFILES_TRUE@nodist_libSoQtViewers_la_OBJECTS = \
+@BUILD_METAFILES_TRUE@	So@Gui@Viewer.lo \
+@BUILD_METAFILES_TRUE@	So@Gui@ConstrainedViewer.lo \
+@BUILD_METAFILES_TRUE@	So@Gui@FlyViewer.lo SoAnyFullViewer.lo \
+@BUILD_METAFILES_TRUE@	SoAnyExaminerViewer.lo \
+@BUILD_METAFILES_TRUE@	SoAnyPlaneViewer.lo \
+@BUILD_METAFILES_TRUE@	@meta_prefix@So@Gui@Viewer.lo \
+@BUILD_METAFILES_TRUE@	@meta_prefix@So@Gui@FullViewer.lo \
+@BUILD_METAFILES_TRUE@	@meta_prefix@So@Gui@ExaminerViewer.lo \
+@BUILD_METAFILES_TRUE@	@meta_prefix@So@Gui@PlaneViewer.lo \
+@BUILD_METAFILES_TRUE@	@meta_prefix@So@Gui@ConstrainedViewer.lo \
+@BUILD_METAFILES_TRUE@	@meta_prefix@So@Gui@WalkViewer.lo \
+@BUILD_METAFILES_TRUE@	@meta_prefix@So@Gui@FlyViewer.lo
+@BUILD_METAFILES_FALSE@nodist_libSoQtViewers_la_OBJECTS = \
+@BUILD_METAFILES_FALSE@	So@Gui@Viewer.lo \
+@BUILD_METAFILES_FALSE@	So@Gui@ConstrainedViewer.lo \
+@BUILD_METAFILES_FALSE@	So@Gui@FlyViewer.lo SoAnyFullViewer.lo \
+@BUILD_METAFILES_FALSE@	SoAnyExaminerViewer.lo \
+@BUILD_METAFILES_FALSE@	SoAnyPlaneViewer.lo
 libSoQtViewers_la_OBJECTS = $(am_libSoQtViewers_la_OBJECTS) \
 	$(nodist_libSoQtViewers_la_OBJECTS)
 
@@ -435,7 +479,34 @@ DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
-@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/SoQtExaminerViewer.Plo \
+@AMDEP_TRUE@DEP_FILES = \
+@AMDEP_TRUE@	$(DEPDIR)/@meta_prefix@So@Gui@ConstrainedViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/@meta_prefix@So@Gui@ConstrainedViewer.Po \
+@AMDEP_TRUE@	$(DEPDIR)/@meta_prefix@So@Gui@ExaminerViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/@meta_prefix@So@Gui@ExaminerViewer.Po \
+@AMDEP_TRUE@	$(DEPDIR)/@meta_prefix@So@Gui@FlyViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/@meta_prefix@So@Gui@FlyViewer.Po \
+@AMDEP_TRUE@	$(DEPDIR)/@meta_prefix@So@Gui@FullViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/@meta_prefix@So@Gui@FullViewer.Po \
+@AMDEP_TRUE@	$(DEPDIR)/@meta_prefix@So@Gui@PlaneViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/@meta_prefix@So@Gui@PlaneViewer.Po \
+@AMDEP_TRUE@	$(DEPDIR)/@meta_prefix@So@Gui@Viewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/@meta_prefix@So@Gui@Viewer.Po \
+@AMDEP_TRUE@	$(DEPDIR)/@meta_prefix@So@Gui@WalkViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/@meta_prefix@So@Gui@WalkViewer.Po \
+@AMDEP_TRUE@	$(DEPDIR)/So@Gui@ConstrainedViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/So@Gui@ConstrainedViewer.Po \
+@AMDEP_TRUE@	$(DEPDIR)/So@Gui@FlyViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/So@Gui@FlyViewer.Po \
+@AMDEP_TRUE@	$(DEPDIR)/So@Gui@Viewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/So@Gui@Viewer.Po \
+@AMDEP_TRUE@	$(DEPDIR)/SoAnyExaminerViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoAnyExaminerViewer.Po \
+@AMDEP_TRUE@	$(DEPDIR)/SoAnyFullViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoAnyFullViewer.Po \
+@AMDEP_TRUE@	$(DEPDIR)/SoAnyPlaneViewer.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/SoAnyPlaneViewer.Po \
+@AMDEP_TRUE@	$(DEPDIR)/SoQtExaminerViewer.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/SoQtExaminerViewer.Po \
 @AMDEP_TRUE@	$(DEPDIR)/SoQtFullViewer.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/SoQtFullViewer.Po \
@@ -492,9 +563,61 @@ AR = ar
 
 clean-noinstLIBRARIES:
 	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
+So@Gui@Viewer.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp
+So@Gui@ConstrainedViewer.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp
+So@Gui@FlyViewer.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp
+SoAnyFullViewer.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyFullViewer.cpp
+SoAnyExaminerViewer.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyExaminerViewer.cpp
+SoAnyPlaneViewer.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyPlaneViewer.cpp
+@meta_prefix@So@Gui@Viewer.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@Viewer.cpp
+@meta_prefix@So@Gui@FullViewer.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FullViewer.cpp
+@meta_prefix@So@Gui@ExaminerViewer.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@ExaminerViewer.cpp
+@meta_prefix@So@Gui@PlaneViewer.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@PlaneViewer.cpp
+@meta_prefix@So@Gui@ConstrainedViewer.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@ConstrainedViewer.cpp
+@meta_prefix@So@Gui@WalkViewer.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@WalkViewer.cpp
+@meta_prefix@So@Gui@FlyViewer.$(OBJEXT): \
+	$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FlyViewer.cpp
 
 clean-noinstLTLIBRARIES:
 	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
+So@Gui@Viewer.lo: \
+	$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp
+So@Gui@ConstrainedViewer.lo: \
+	$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp
+So@Gui@FlyViewer.lo: \
+	$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp
+SoAnyFullViewer.lo: \
+	$(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyFullViewer.cpp
+SoAnyExaminerViewer.lo: \
+	$(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyExaminerViewer.cpp
+SoAnyPlaneViewer.lo: \
+	$(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyPlaneViewer.cpp
+@meta_prefix@So@Gui@Viewer.lo: \
+	$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@Viewer.cpp
+@meta_prefix@So@Gui@FullViewer.lo: \
+	$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FullViewer.cpp
+@meta_prefix@So@Gui@ExaminerViewer.lo: \
+	$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@ExaminerViewer.cpp
+@meta_prefix@So@Gui@PlaneViewer.lo: \
+	$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@PlaneViewer.cpp
+@meta_prefix@So@Gui@ConstrainedViewer.lo: \
+	$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@ConstrainedViewer.cpp
+@meta_prefix@So@Gui@WalkViewer.lo: \
+	$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@WalkViewer.cpp
+@meta_prefix@So@Gui@FlyViewer.lo: \
+	$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FlyViewer.cpp
 libSoQtViewers.la: $(libSoQtViewers_la_OBJECTS) $(libSoQtViewers_la_DEPENDENCIES) 
 	$(CXXLINK)  $(libSoQtViewers_la_LDFLAGS) $(libSoQtViewers_la_OBJECTS) $(libSoQtViewers_la_LIBADD) $(LIBS)
 
@@ -504,6 +627,32 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/@meta_prefix@So@Gui@ConstrainedViewer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/@meta_prefix@So@Gui@ConstrainedViewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/@meta_prefix@So@Gui@ExaminerViewer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/@meta_prefix@So@Gui@ExaminerViewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/@meta_prefix@So@Gui@FlyViewer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/@meta_prefix@So@Gui@FlyViewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/@meta_prefix@So@Gui@FullViewer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/@meta_prefix@So@Gui@FullViewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/@meta_prefix@So@Gui@PlaneViewer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/@meta_prefix@So@Gui@PlaneViewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/@meta_prefix@So@Gui@Viewer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/@meta_prefix@So@Gui@Viewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/@meta_prefix@So@Gui@WalkViewer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/@meta_prefix@So@Gui@WalkViewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@ConstrainedViewer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@ConstrainedViewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@FlyViewer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@FlyViewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@Viewer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/So@Gui@Viewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoAnyExaminerViewer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoAnyExaminerViewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoAnyFullViewer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoAnyFullViewer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoAnyPlaneViewer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoAnyPlaneViewer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtExaminerViewer.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtExaminerViewer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtFullViewer.Plo@am__quote@
@@ -533,6 +682,240 @@ distclean-depend:
 @AMDEP_TRUE@	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 	$(LTCXXCOMPILE) -c -o $@ `test -f $< || echo '$(srcdir)/'`$<
+
+So@Gui@Viewer.o: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp' object='So@Gui@Viewer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@Viewer.Po' tmpdepfile='$(DEPDIR)/So@Gui@Viewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@Viewer.o `test -f $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp
+
+So@Gui@Viewer.obj: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp' object='So@Gui@Viewer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@Viewer.Po' tmpdepfile='$(DEPDIR)/So@Gui@Viewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@Viewer.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp`
+
+So@Gui@Viewer.lo: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp' object='So@Gui@Viewer.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@Viewer.Plo' tmpdepfile='$(DEPDIR)/So@Gui@Viewer.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@Viewer.lo `test -f $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp
+
+So@Gui@ConstrainedViewer.o: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp' object='So@Gui@ConstrainedViewer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@ConstrainedViewer.Po' tmpdepfile='$(DEPDIR)/So@Gui@ConstrainedViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@ConstrainedViewer.o `test -f $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp
+
+So@Gui@ConstrainedViewer.obj: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp' object='So@Gui@ConstrainedViewer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@ConstrainedViewer.Po' tmpdepfile='$(DEPDIR)/So@Gui@ConstrainedViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@ConstrainedViewer.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp`
+
+So@Gui@ConstrainedViewer.lo: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp' object='So@Gui@ConstrainedViewer.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@ConstrainedViewer.Plo' tmpdepfile='$(DEPDIR)/So@Gui@ConstrainedViewer.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@ConstrainedViewer.lo `test -f $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp
+
+So@Gui@FlyViewer.o: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp' object='So@Gui@FlyViewer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@FlyViewer.Po' tmpdepfile='$(DEPDIR)/So@Gui@FlyViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@FlyViewer.o `test -f $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp
+
+So@Gui@FlyViewer.obj: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp' object='So@Gui@FlyViewer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@FlyViewer.Po' tmpdepfile='$(DEPDIR)/So@Gui@FlyViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@FlyViewer.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp`
+
+So@Gui@FlyViewer.lo: $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp' object='So@Gui@FlyViewer.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/So@Gui@FlyViewer.Plo' tmpdepfile='$(DEPDIR)/So@Gui@FlyViewer.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@FlyViewer.lo `test -f $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@FlyViewer.cpp
+
+SoAnyFullViewer.o: $(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyFullViewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyFullViewer.cpp' object='SoAnyFullViewer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/SoAnyFullViewer.Po' tmpdepfile='$(DEPDIR)/SoAnyFullViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o SoAnyFullViewer.o `test -f $(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyFullViewer.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyFullViewer.cpp
+
+SoAnyFullViewer.obj: $(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyFullViewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyFullViewer.cpp' object='SoAnyFullViewer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/SoAnyFullViewer.Po' tmpdepfile='$(DEPDIR)/SoAnyFullViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o SoAnyFullViewer.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyFullViewer.cpp`
+
+SoAnyFullViewer.lo: $(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyFullViewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyFullViewer.cpp' object='SoAnyFullViewer.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/SoAnyFullViewer.Plo' tmpdepfile='$(DEPDIR)/SoAnyFullViewer.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o SoAnyFullViewer.lo `test -f $(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyFullViewer.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyFullViewer.cpp
+
+SoAnyExaminerViewer.o: $(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyExaminerViewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyExaminerViewer.cpp' object='SoAnyExaminerViewer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/SoAnyExaminerViewer.Po' tmpdepfile='$(DEPDIR)/SoAnyExaminerViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o SoAnyExaminerViewer.o `test -f $(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyExaminerViewer.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyExaminerViewer.cpp
+
+SoAnyExaminerViewer.obj: $(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyExaminerViewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyExaminerViewer.cpp' object='SoAnyExaminerViewer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/SoAnyExaminerViewer.Po' tmpdepfile='$(DEPDIR)/SoAnyExaminerViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o SoAnyExaminerViewer.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyExaminerViewer.cpp`
+
+SoAnyExaminerViewer.lo: $(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyExaminerViewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyExaminerViewer.cpp' object='SoAnyExaminerViewer.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/SoAnyExaminerViewer.Plo' tmpdepfile='$(DEPDIR)/SoAnyExaminerViewer.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o SoAnyExaminerViewer.lo `test -f $(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyExaminerViewer.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyExaminerViewer.cpp
+
+SoAnyPlaneViewer.o: $(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyPlaneViewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyPlaneViewer.cpp' object='SoAnyPlaneViewer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/SoAnyPlaneViewer.Po' tmpdepfile='$(DEPDIR)/SoAnyPlaneViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o SoAnyPlaneViewer.o `test -f $(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyPlaneViewer.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyPlaneViewer.cpp
+
+SoAnyPlaneViewer.obj: $(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyPlaneViewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyPlaneViewer.cpp' object='SoAnyPlaneViewer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/SoAnyPlaneViewer.Po' tmpdepfile='$(DEPDIR)/SoAnyPlaneViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o SoAnyPlaneViewer.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyPlaneViewer.cpp`
+
+SoAnyPlaneViewer.lo: $(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyPlaneViewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyPlaneViewer.cpp' object='SoAnyPlaneViewer.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/SoAnyPlaneViewer.Plo' tmpdepfile='$(DEPDIR)/SoAnyPlaneViewer.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o SoAnyPlaneViewer.lo `test -f $(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyPlaneViewer.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/SoAnyPlaneViewer.cpp
+
+@meta_prefix@So@Gui@Viewer.o: $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@Viewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@Viewer.cpp' object='@meta_prefix@So@Gui@Viewer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/@meta_prefix@So@Gui@Viewer.Po' tmpdepfile='$(DEPDIR)/@meta_prefix@So@Gui@Viewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o @meta_prefix@So@Gui@Viewer.o `test -f $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@Viewer.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@Viewer.cpp
+
+@meta_prefix@So@Gui@Viewer.obj: $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@Viewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@Viewer.cpp' object='@meta_prefix@So@Gui@Viewer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/@meta_prefix@So@Gui@Viewer.Po' tmpdepfile='$(DEPDIR)/@meta_prefix@So@Gui@Viewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o @meta_prefix@So@Gui@Viewer.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@Viewer.cpp`
+
+@meta_prefix@So@Gui@Viewer.lo: $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@Viewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@Viewer.cpp' object='@meta_prefix@So@Gui@Viewer.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/@meta_prefix@So@Gui@Viewer.Plo' tmpdepfile='$(DEPDIR)/@meta_prefix@So@Gui@Viewer.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o @meta_prefix@So@Gui@Viewer.lo `test -f $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@Viewer.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@Viewer.cpp
+
+@meta_prefix@So@Gui@FullViewer.o: $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FullViewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FullViewer.cpp' object='@meta_prefix@So@Gui@FullViewer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/@meta_prefix@So@Gui@FullViewer.Po' tmpdepfile='$(DEPDIR)/@meta_prefix@So@Gui@FullViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o @meta_prefix@So@Gui@FullViewer.o `test -f $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FullViewer.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FullViewer.cpp
+
+@meta_prefix@So@Gui@FullViewer.obj: $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FullViewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FullViewer.cpp' object='@meta_prefix@So@Gui@FullViewer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/@meta_prefix@So@Gui@FullViewer.Po' tmpdepfile='$(DEPDIR)/@meta_prefix@So@Gui@FullViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o @meta_prefix@So@Gui@FullViewer.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FullViewer.cpp`
+
+@meta_prefix@So@Gui@FullViewer.lo: $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FullViewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FullViewer.cpp' object='@meta_prefix@So@Gui@FullViewer.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/@meta_prefix@So@Gui@FullViewer.Plo' tmpdepfile='$(DEPDIR)/@meta_prefix@So@Gui@FullViewer.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o @meta_prefix@So@Gui@FullViewer.lo `test -f $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FullViewer.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FullViewer.cpp
+
+@meta_prefix@So@Gui@ExaminerViewer.o: $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@ExaminerViewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@ExaminerViewer.cpp' object='@meta_prefix@So@Gui@ExaminerViewer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/@meta_prefix@So@Gui@ExaminerViewer.Po' tmpdepfile='$(DEPDIR)/@meta_prefix@So@Gui@ExaminerViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o @meta_prefix@So@Gui@ExaminerViewer.o `test -f $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@ExaminerViewer.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@ExaminerViewer.cpp
+
+@meta_prefix@So@Gui@ExaminerViewer.obj: $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@ExaminerViewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@ExaminerViewer.cpp' object='@meta_prefix@So@Gui@ExaminerViewer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/@meta_prefix@So@Gui@ExaminerViewer.Po' tmpdepfile='$(DEPDIR)/@meta_prefix@So@Gui@ExaminerViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o @meta_prefix@So@Gui@ExaminerViewer.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@ExaminerViewer.cpp`
+
+@meta_prefix@So@Gui@ExaminerViewer.lo: $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@ExaminerViewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@ExaminerViewer.cpp' object='@meta_prefix@So@Gui@ExaminerViewer.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/@meta_prefix@So@Gui@ExaminerViewer.Plo' tmpdepfile='$(DEPDIR)/@meta_prefix@So@Gui@ExaminerViewer.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o @meta_prefix@So@Gui@ExaminerViewer.lo `test -f $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@ExaminerViewer.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@ExaminerViewer.cpp
+
+@meta_prefix@So@Gui@PlaneViewer.o: $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@PlaneViewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@PlaneViewer.cpp' object='@meta_prefix@So@Gui@PlaneViewer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/@meta_prefix@So@Gui@PlaneViewer.Po' tmpdepfile='$(DEPDIR)/@meta_prefix@So@Gui@PlaneViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o @meta_prefix@So@Gui@PlaneViewer.o `test -f $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@PlaneViewer.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@PlaneViewer.cpp
+
+@meta_prefix@So@Gui@PlaneViewer.obj: $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@PlaneViewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@PlaneViewer.cpp' object='@meta_prefix@So@Gui@PlaneViewer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/@meta_prefix@So@Gui@PlaneViewer.Po' tmpdepfile='$(DEPDIR)/@meta_prefix@So@Gui@PlaneViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o @meta_prefix@So@Gui@PlaneViewer.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@PlaneViewer.cpp`
+
+@meta_prefix@So@Gui@PlaneViewer.lo: $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@PlaneViewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@PlaneViewer.cpp' object='@meta_prefix@So@Gui@PlaneViewer.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/@meta_prefix@So@Gui@PlaneViewer.Plo' tmpdepfile='$(DEPDIR)/@meta_prefix@So@Gui@PlaneViewer.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o @meta_prefix@So@Gui@PlaneViewer.lo `test -f $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@PlaneViewer.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@PlaneViewer.cpp
+
+@meta_prefix@So@Gui@ConstrainedViewer.o: $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@ConstrainedViewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@ConstrainedViewer.cpp' object='@meta_prefix@So@Gui@ConstrainedViewer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/@meta_prefix@So@Gui@ConstrainedViewer.Po' tmpdepfile='$(DEPDIR)/@meta_prefix@So@Gui@ConstrainedViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o @meta_prefix@So@Gui@ConstrainedViewer.o `test -f $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@ConstrainedViewer.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@ConstrainedViewer.cpp
+
+@meta_prefix@So@Gui@ConstrainedViewer.obj: $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@ConstrainedViewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@ConstrainedViewer.cpp' object='@meta_prefix@So@Gui@ConstrainedViewer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/@meta_prefix@So@Gui@ConstrainedViewer.Po' tmpdepfile='$(DEPDIR)/@meta_prefix@So@Gui@ConstrainedViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o @meta_prefix@So@Gui@ConstrainedViewer.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@ConstrainedViewer.cpp`
+
+@meta_prefix@So@Gui@ConstrainedViewer.lo: $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@ConstrainedViewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@ConstrainedViewer.cpp' object='@meta_prefix@So@Gui@ConstrainedViewer.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/@meta_prefix@So@Gui@ConstrainedViewer.Plo' tmpdepfile='$(DEPDIR)/@meta_prefix@So@Gui@ConstrainedViewer.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o @meta_prefix@So@Gui@ConstrainedViewer.lo `test -f $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@ConstrainedViewer.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@ConstrainedViewer.cpp
+
+@meta_prefix@So@Gui@WalkViewer.o: $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@WalkViewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@WalkViewer.cpp' object='@meta_prefix@So@Gui@WalkViewer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/@meta_prefix@So@Gui@WalkViewer.Po' tmpdepfile='$(DEPDIR)/@meta_prefix@So@Gui@WalkViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o @meta_prefix@So@Gui@WalkViewer.o `test -f $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@WalkViewer.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@WalkViewer.cpp
+
+@meta_prefix@So@Gui@WalkViewer.obj: $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@WalkViewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@WalkViewer.cpp' object='@meta_prefix@So@Gui@WalkViewer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/@meta_prefix@So@Gui@WalkViewer.Po' tmpdepfile='$(DEPDIR)/@meta_prefix@So@Gui@WalkViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o @meta_prefix@So@Gui@WalkViewer.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@WalkViewer.cpp`
+
+@meta_prefix@So@Gui@WalkViewer.lo: $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@WalkViewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@WalkViewer.cpp' object='@meta_prefix@So@Gui@WalkViewer.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/@meta_prefix@So@Gui@WalkViewer.Plo' tmpdepfile='$(DEPDIR)/@meta_prefix@So@Gui@WalkViewer.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o @meta_prefix@So@Gui@WalkViewer.lo `test -f $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@WalkViewer.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@WalkViewer.cpp
+
+@meta_prefix@So@Gui@FlyViewer.o: $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FlyViewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FlyViewer.cpp' object='@meta_prefix@So@Gui@FlyViewer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/@meta_prefix@So@Gui@FlyViewer.Po' tmpdepfile='$(DEPDIR)/@meta_prefix@So@Gui@FlyViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o @meta_prefix@So@Gui@FlyViewer.o `test -f $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FlyViewer.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FlyViewer.cpp
+
+@meta_prefix@So@Gui@FlyViewer.obj: $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FlyViewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FlyViewer.cpp' object='@meta_prefix@So@Gui@FlyViewer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/@meta_prefix@So@Gui@FlyViewer.Po' tmpdepfile='$(DEPDIR)/@meta_prefix@So@Gui@FlyViewer.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o @meta_prefix@So@Gui@FlyViewer.obj `cygpath -w $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FlyViewer.cpp`
+
+@meta_prefix@So@Gui@FlyViewer.lo: $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FlyViewer.cpp
+@AMDEP_TRUE@	source='$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FlyViewer.cpp' object='@meta_prefix@So@Gui@FlyViewer.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/@meta_prefix@So@Gui@FlyViewer.Plo' tmpdepfile='$(DEPDIR)/@meta_prefix@So@Gui@FlyViewer.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o @meta_prefix@So@Gui@FlyViewer.lo `test -f $(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FlyViewer.cpp || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/viewers/@meta_prefix@So@Gui@FlyViewer.cpp
 CXXDEPMODE = @CXXDEPMODE@
 uninstall-info-am:
 

@@ -6,9 +6,9 @@ include Qt/common/Makefile.common
 SUBDIRS = Qt
 
 BUILT_SOURCES = \
-	$(So@Gui@AllBuiltFiles)
+	$(SoGuiAllBuiltFiles)
 
 CLEANFILES = \
-	$(So@Gui@_src_Inventor_BuiltFiles) \
-	$(So@Gui@_src_Inventor_BuiltMetaFiles)
+	$(SoGui_src_Inventor_BuiltFiles) \
+	$(SoGui_src_Inventor_BuiltMetaFiles)
 

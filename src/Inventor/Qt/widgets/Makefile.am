@@ -27,8 +27,8 @@ CLEANFILES = \
 	$(So@Gui@_src_Inventor_@Gui@_widgets_BuiltMetaFiles)
 
 DISTCLEANFILES = \
-	$(So@Gui@_src_Inventor_@Gui@_widgets_BuiltFiles) \
-	$(So@Gui@_src_Inventor_@Gui@_widgets_BuiltMetaFiles)
+	$(SoGui_src_Inventor_Gui_widgets_BuiltFiles) \
+	$(SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles)
 
 ############################################################################
 # libtool setup
@@ -42,8 +42,8 @@ libSoQtWidgets_la_SOURCES = \
 	SoQtPopupMenu.h
 
 nodist_libSoQtWidgets_la_SOURCES = \
-	$(So@Gui@_src_Inventor_@Gui@_widgets_BuiltFiles) \
-	$(So@Gui@_src_Inventor_@Gui@_widgets_BuiltMetaFiles)
+	$(SoGui_src_Inventor_Gui_widgets_BuiltFiles) \
+	$(SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles)
 
 ############################################################################
 # custom setup
@@ -57,8 +57,8 @@ widgets_lst_SOURCES = \
 	SoQtPopupMenu.h
 
 nodist_widgets_lst_SOURCES = \
-	$(So@Gui@_src_Inventor_@Gui@_widgets_BuiltFiles) \
-	$(So@Gui@_src_Inventor_@Gui@_widgets_BuiltMetaFiles)
+	$(SoGui_src_Inventor_Gui_widgets_BuiltFiles) \
+	$(SoGui_src_Inventor_Gui_widgets_BuiltMetaFiles)
 
 widgets.lst: Makefile $(widgets_lst_OBJECTS)
 	@echo "Linking widgets.lst..."; \
