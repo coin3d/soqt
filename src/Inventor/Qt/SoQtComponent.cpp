@@ -165,6 +165,7 @@ SoQtComponent::addVisibilityChangeCallback(
 {
   if ( ! this->visibilitychangeCBs )
     this->visibilitychangeCBs = new SbPList;
+
   this->visibilitychangeCBs->append( (void *) func );
   this->visibilitychangeCBs->append( user );
 } // addVisibilityChangeCallback()
@@ -288,7 +289,7 @@ SoQtComponent::eventFilter( // virtual
   QObject * obj,
   QEvent * e )
 {
-#if 0 // debug
+#if SOQT_DEBUG && 0 // debug
   SoDebugError::postInfo("SoQtComponent::eventFilter", "obj: %p", obj);
 #endif // debug
 
@@ -362,7 +363,8 @@ SoQtComponent::eventFilter( // virtual
 
   }
   // Detect visibility changes.
-  else if (e->type() == Event_Show || e->type() == Event_Hide) {
+  else if (obj == this->widget &&
+           (e->type() == Event_Show || e->type() == Event_Hide)) {
     if (this->visibilitychangeCBs) {
       for (int i=0; i < this->visibilitychangeCBs->getLength()/2; i++) {
         SoQtComponentVisibilityCB * cb =
