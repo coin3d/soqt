@@ -19,10 +19,11 @@
 
 //  $Id$
 
-#ifndef __SOQT_FULLVIEWER_H__
-#define __SOQT_FULLVIEWER_H__
+#ifndef SOQT_FULLVIEWER_H
+#define SOQT_FULLVIEWER_H
 
 #include <Inventor/Qt/viewers/SoQtViewer.h>
+#include <Inventor/Qt/viewers/SoAnyFullViewer.h>
 
 class QPushButton;
 class QLayout;
@@ -35,8 +36,12 @@ class SoQtThumbWheel;
 
 // *************************************************************************
 
-class SoQtFullViewer : public SoQtViewer {
+class SoQtFullViewer :
+  public SoQtViewer,
+  public SoAnyFullViewer
+{
   typedef SoQtViewer inherited;
+  friend class SoAnyFullViewer;
 
   Q_OBJECT
 
@@ -74,9 +79,13 @@ public:
   virtual void hide(void);
 
 protected:
-  SoQtFullViewer(QWidget * parent, const char * name, SbBool buildInsideParent,
-                 BuildFlag flag, Type type,
-                 SbBool buildNow);
+  SoQtFullViewer(
+    QWidget * parent,
+    const char * name,
+    SbBool buildInsideParent,
+    BuildFlag flag,
+    Type type,
+    SbBool buildNow );
   ~SoQtFullViewer(void);
 
   virtual bool eventFilter(QObject * obj, QEvent * e);
@@ -93,8 +102,6 @@ protected:
 
   virtual void buildPopupMenu(void);
   void setPopupMenuString(const char * title);
-  virtual void menuSelection( int menuitemid );
-  static void menuSelectionCallback( int menuitemid, void * userdata );
 
   virtual QWidget * makeSubPreferences(QWidget * parent);
   void setPrefSheetString(const char * title);
@@ -241,4 +248,4 @@ private slots:
 
 // *************************************************************************
 
-#endif // ! __SOQT_FULLVIEWER_H__
+#endif // ! SOQT_FULLVIEWER_H
