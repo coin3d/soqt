@@ -256,8 +256,7 @@ SoQtExaminerViewer::leftWheelMotion(
     this->stopAnimating();
 
   inherited::leftWheelMotion(
-    SoAnyExaminerViewer::rotXWheelMotion( value, this->getLeftWheelValue(),
-                                          this->getCamera() ) );
+    rotXWheelMotion( value, this->getLeftWheelValue() ) );
 } // leftWheelMotion()
 
 /*!
@@ -273,8 +272,7 @@ SoQtExaminerViewer::bottomWheelMotion(
     this->stopAnimating();
 
   inherited::bottomWheelMotion(
-    SoAnyExaminerViewer::rotYWheelMotion( value, this->getBottomWheelValue(),
-                                          this->getCamera() ) );
+    rotYWheelMotion( value, this->getBottomWheelValue() ) );
 } // bottomWheelMotion()
 
 /*!
