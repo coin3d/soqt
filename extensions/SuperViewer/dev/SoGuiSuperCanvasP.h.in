@@ -54,6 +54,7 @@ class So@Gui@SuperCanvasP {
   SoSwitch * cameraswitch, * bboxroot;
   SbList<SoCamera *> cameras;
   SbList<SoLight *> lights;
+  SoLight * headlight;
 
   SoComplexity * complexity;
   SoDrawStyle * drawstyle;
@@ -74,6 +75,7 @@ class So@Gui@SuperCanvasP {
   int polygonoffsetindex ;
   int complexityindex, lightmodelindex;
   int antialiasvalue;
+  int cameraindex;
   float texturequality;
 
   SbColor linecolor, pointcolor;
@@ -196,11 +198,12 @@ class So@Gui@SuperCanvasP {
     LOCKEDMODE
   };
 
+  HelpMode lastmode;
   HelpMode currentmode;
   HelpMode flymode;
 
   void setMode(const HelpMode mode);
-  void setCursorRepresentation(int mode);
+  void setCursorRepresentation(const HelpMode mode);
   void findCameras();
   void findLights();
 

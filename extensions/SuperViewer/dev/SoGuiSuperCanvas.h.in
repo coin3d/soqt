@@ -115,11 +115,13 @@ public:
   float getTextureQuality(void) const;
 
   void setCamera(int index);
+  SoCamera * getOtherCamera(int index) const;
   int getNumCameras(void) const;
 
   void setLight(int index, SbBool on);
+  SbBool isLight(int index) const;
   int getNumLights(void) const;
-  SoLight * getLight(int index);
+  SoLight * getLight(int index) const;
 
   void enableMouse(SbBool enable);
   SbBool isMouseEnabled(void) const;

@@ -79,6 +79,7 @@ So@Gui@SuperCanvasP::So@Gui@SuperCanvasP(So@Gui@SuperCanvas * o)
   this->complexityindex = -1;
   this->texturequality = 1.0;
   this->antialiasvalue = 5;
+  this->cameraindex = 0;
 
   this->canvas = NULL;
   this->viewerwidget = NULL;
@@ -93,6 +94,7 @@ So@Gui@SuperCanvasP::So@Gui@SuperCanvasP(So@Gui@SuperCanvas * o)
   this->graphswitch = NULL;
   this->lightmodel = NULL;
   this->basecolor = NULL;
+  this->headlight = NULL;
 
   this->polygonoffset = NULL;
   this->materialbinding = NULL;
@@ -137,6 +139,7 @@ So@Gui@SuperCanvasP::So@Gui@SuperCanvasP(So@Gui@SuperCanvas * o)
   this->flying = FALSE;
   this->pause = FALSE;
   this->busy = FALSE;
+  this->lastmode = So@Gui@SuperCanvasP::EXAMINE;
   this->flymode = So@Gui@SuperCanvasP::FLYMODE;
   this->timersensor = 
     new SoTimerSensor(So@Gui@SuperCanvasP::timercb, this);
@@ -179,7 +182,7 @@ So@Gui@SuperCanvasP::getParentOfNode(SoNode * root, SoNode * node, int & index)
   SbBool oldsearch = SoBaseKit::isSearchingChildren();
   SoBaseKit::setSearchingChildren(TRUE);
 
-  assert(node && root && "get_parent_of_node() called with null argument");
+  assert(node && root && "getParentOfNode() called with null argument");
 
   this->searchaction = new SoSearchAction;
   this->searchaction->reset();
@@ -263,6 +266,7 @@ So@Gui@SuperCanvasP::setupNodes()
     } \
   } while (FALSE)
 
+  LOCATE_NODE(this->headlight, SoLight, "so@gui@->headlight");
   LOCATE_NODE(this->drawstyleroot, SoSwitch, "so@gui@->drawstyleroot");
   LOCATE_NODE(this->hiddenlineroot, SoSwitch, "so@gui@->hiddenlineroot");
   LOCATE_NODE(this->polygonoffsetparent, SoSwitch, "so@gui@->polygonoffsetparent");
@@ -272,7 +276,7 @@ So@Gui@SuperCanvasP::setupNodes()
   LOCATE_NODE(this->drawstyle, SoDrawStyle, "so@gui@->drawstyle");
   LOCATE_NODE(this->lightmodel, SoLightModel, "so@gui@->lightmodel");
   LOCATE_NODE(this->materialbinding, SoMaterialBinding, "so@gui@->materialbinding");
-  //LOCATE_NODE(usersg, SoSeparator, "soqt->userscenegraphroot");
+
 #ifdef HAVE_SOPOLYGONOFFSET
   LOCATE_NODE(this->polygonoffset, SoPolygonOffset, "so@gui@->polygonoffset");
   if(this->polygonoffset) this->polygonoffset->setOverride(TRUE);
@@ -282,6 +286,7 @@ So@Gui@SuperCanvasP::setupNodes()
       
   this->materialbinding->value.setIgnored(FALSE); // override with OVERALL
   this->polygonoffsetparent->whichChild = SO_SWITCH_ALL;
+  this->headlight->setName("Headlight");
   this->polygonoffsetindex = this->hiddenlineroot->findChild(this->polygonoffsetparent);
   this->complexityindex = this->drawstyleroot->findChild(this->complexity);
   this->lightmodelindex = this->drawstyleroot->findChild(this->lightmodel);
@@ -289,15 +294,6 @@ So@Gui@SuperCanvasP::setupNodes()
   this->basecolor->rgb.setIgnored(TRUE);
   this->complexity->value = 1.0;
   this->complexity->textureQuality = 1.0;
-  this->bbox = new SoIndexedLineSet;
-  this->bboxvertices = new SoVertexProperty;
-  this->bboxvertices->vertex.setNum(8);
-  this->bbox->vertexProperty = this->bboxvertices;
-  this->bboxroot = new SoSwitch;
-  this->bboxroot->addChild(new SoPerspectiveCamera);
-  this->bboxroot->addChild(this->bbox);
-  this->graphswitch->addChild(this->bboxroot);
-  this->graphswitch->whichChild = 0;
   this->drawstyle->lineWidth.setIgnored(FALSE);
   this->drawstyle->pointSize.setIgnored(FALSE);
   this->drawstyle->pointSize = 2.0f;
@@ -575,6 +571,12 @@ So@Gui@SuperCanvasP::resetCountAction()
 void
 So@Gui@SuperCanvasP::resetBBox()
 {
+  this->bboxvertices = new SoVertexProperty;
+  this->bboxvertices->vertex.setNum(8);
+  this->bboxroot = new SoSwitch;
+  this->bboxroot->addChild(new SoPerspectiveCamera);
+  this->graphswitch->addChild(this->bboxroot);
+  this->graphswitch->whichChild = 0;
   this->bboxaction = new SoGetBoundingBoxAction(owner->getViewportRegion());
   this->bboxaction->apply(this->currentroot);
   SbBox3f bboxvec = this->bboxaction->getBoundingBox();
@@ -589,6 +591,12 @@ So@Gui@SuperCanvasP::resetBBox()
   this->bboxvertices->vertex.set1Value(5, minx, maxy, maxz);
   this->bboxvertices->vertex.set1Value(6, maxx, maxy, maxz);
   this->bboxvertices->vertex.set1Value(7, maxx, maxy, minz);
+  this->bbox = new SoIndexedLineSet;
+  this->bbox->vertexProperty = this->bboxvertices;
+  if(this->bboxroot->getNumChildren() > 1)
+    this->bboxroot->replaceChild(1, this->bbox);
+  else
+    this->bboxroot->addChild(this->bbox);
   this->bbox->coordIndex.setValues(0, 36, indices);
 
   delete this->bboxaction;
@@ -821,7 +829,7 @@ So@Gui@SuperCanvasP::setMode(const HelpMode mode)
 */
 
 void
-So@Gui@SuperCanvasP::setCursorRepresentation(int mode)
+So@Gui@SuperCanvasP::setCursorRepresentation(const HelpMode mode)
 {
   // FIXME: with the new So@Gui@Cursor class, this has actually become
   // a possibly generic method for all So* toolkits. Move to common
@@ -1562,7 +1570,10 @@ So@Gui@SuperCanvasP::findCameras()
     this->cameras.append((SoCamera *)camerapaths[i]->getTail());
     if(cam->getNodeId() == cameras[i]->getNodeId()) this->frontcamera = FALSE;
   } 
-
+  if(this->frontcamera && this->cameras.getLength() == 0){
+    cam->setName("Default_camera");
+    this->cameras.insert(cam, 0);
+  }
   delete this->searchaction;
   this->searchaction = NULL;
 } // findCameras()
@@ -1585,6 +1596,7 @@ So@Gui@SuperCanvasP::findLights()
   SoPathList lightpaths = this->searchaction->getPaths();
   if(this->lights.getLength()) this->lights.truncate(0);
  
+  this->lights.append(this->headlight);
   for(int i = 0; i < lightpaths.getLength(); i++){
     SoLight * light = (SoLight *)lightpaths[i]->getTail();
     if(this->lights.find(light) == -1){

@@ -325,7 +325,13 @@ So@Gui@SuperCanvas::isFlatshading(void) const
 void
 So@Gui@SuperCanvas::setSeekMode(const SbBool enable)
 {
+  if(enable)
+    PRIVATE(this)->lastmode = PRIVATE(this)->currentmode;
+  if (this->isAnimating()) this->stopAnimating();
   So@Gui@Viewer::setSeekMode(enable);
+  PRIVATE(this)->setMode(enable ?
+                        So@Gui@SuperCanvasP::WAITING_FOR_SEEK :
+                        PRIVATE(this)->lastmode);
 }  // setSeekMode()
 
 // *************************************************************************
@@ -662,15 +668,17 @@ void
 So@Gui@SuperCanvas::setCamera(int index)
 {
   if(index < 0 || index >= PRIVATE(this)->cameras.getLength()) return;
-  
-  SoCamera * cam = PRIVATE(this)->cameras[PRIVATE(this)->frontcamera ? 
-                                         index + 1 : index];
+  SbString fc(PRIVATE(this)->cameras[0]->getName());
+  if(fc.find("Default_camera") == 0) return;
+
+  SoCamera * cam = PRIVATE(this)->cameras[index];
   So@Gui@Viewer::setCamera(cam);
-  
+
+  PRIVATE(this)->cameraindex = index;
   if(!PRIVATE(this)->currentroot || !cam) return;
   int idx = -1;
   SoGroup * node = PRIVATE(this)->getParentOfNode(
-                   PRIVATE(this)->currentroot, cam, idx);
+                     PRIVATE(this)->currentroot, cam, idx);
   if(!node){
     PRIVATE(this)->cameraswitch = NULL;
     return;
@@ -679,9 +687,24 @@ So@Gui@SuperCanvas::setCamera(int index)
     PRIVATE(this)->cameraswitch = (SoSwitch *)node;
     PRIVATE(this)->cameraswitch->whichChild = idx;
   }
+  
   if(PRIVATE(this)->flying) PRIVATE(this)->flyCameraSetup();
   PRIVATE(this)->setBBoxCameraType();
 } // setCamera()
+
+// *************************************************************************
+
+/*!
+  FIXME: More doc. larsivi 20020603
+*/
+
+SoCamera *
+So@Gui@SuperCanvas::getOtherCamera(int index) const
+{
+  if(index < 0 || index >= PRIVATE(this)->cameras.getLength()) return NULL;
+
+  return (SoCamera*)PRIVATE(this)->cameras[index];
+} // getCamera()
 
 // *************************************************************************
 
@@ -713,6 +736,21 @@ So@Gui@SuperCanvas::setLight(int index, SbBool enable)
 // *************************************************************************
 
 /*!
+  FIXME: More doc. larsivi 20020604
+*/
+
+SbBool
+So@Gui@SuperCanvas::isLight(int index) const
+{
+  if(index < 0 || index >= PRIVATE(this)->lights.getLength()) return FALSE;
+
+  return ((SoLight*)PRIVATE(this)->lights[index])->on.getValue();
+
+} // isLight()
+
+// *************************************************************************
+
+/*!
   FIXME: More doc. larsivi 20020603
 */
 
@@ -729,7 +767,7 @@ So@Gui@SuperCanvas::getNumLights(void) const
 */
 
 SoLight *
-So@Gui@SuperCanvas::getLight(int index)
+So@Gui@SuperCanvas::getLight(int index)const
 {
   if(index < 0 || index >= PRIVATE(this)->lights.getLength()) return NULL;
 
@@ -746,12 +784,13 @@ void
 So@Gui@SuperCanvas::setViewMode(ViewMode mode)
 {
   PRIVATE(this)->viewmode = mode;
-  if(mode == INTERACT){ 
+  if(mode == INTERACT && this->isViewing()){ 
     this->setViewing(FALSE);
     PRIVATE(this)->flying = FALSE;
   }
   else{ 
-    this->setViewing(TRUE);
+    if(!this->isViewing())
+      this->setViewing(TRUE);
     if(mode != EXAMINE)
       PRIVATE(this)->flying = TRUE;
     else
@@ -916,14 +955,14 @@ SbBool
 So@Gui@SuperCanvas::processSoEvent(const SoEvent * const ev)
 {
   // Events while in INTERACT mode are sent to So@Gui@Viewer
-  if (!this->isViewing()) { return inherited::processSoEvent(ev); }
+  if (!this->isViewing()) { return So@Gui@Viewer::processSoEvent(ev); }
     
   if(!PRIVATE(this)->mouseenabled) return TRUE;
 
   // Events during seeks are ignored, except those which influence the
   // seek mode itself -- these are handled further up the inheritance
   // hierarchy.
-  if (this->isSeekMode()) { return inherited::processSoEvent(ev); }
+  if (this->isSeekMode()) { return So@Gui@Viewer::processSoEvent(ev); }
 
   if (PRIVATE(this)->flying && 
       (ev->getTypeId() == LOCATION2_EVENT_TYPE ||
@@ -1194,7 +1233,7 @@ So@Gui@SuperCanvas::processSoEvent(const SoEvent * const ev)
 
   // If not handled in this class, pass on upwards in the inheritance
   // hierarchy.
-  return processed || inherited::processSoEvent(ev);
+  return processed || So@Gui@Viewer::processSoEvent(ev);
 } // processSoEvent()
 
 // *************************************************************************
@@ -1206,32 +1245,30 @@ So@Gui@SuperCanvas::processSoEvent(const SoEvent * const ev)
 void
 So@Gui@SuperCanvas::setSceneGraph(SoNode * scene)
 {
-  if(PRIVATE(this)->graphswitch == NULL){
-    PRIVATE(this)->graphswitch = new SoSwitch;
-    PRIVATE(this)->graphswitch->addChild(scene);
-    PRIVATE(this)->graphswitch->whichChild = 0;
+
+  PRIVATE(this)->graphswitch = new SoSwitch;
+  PRIVATE(this)->graphswitch->addChild(scene);
+  PRIVATE(this)->graphswitch->whichChild = 0;
   So@Gui@Viewer::setSceneGraph(PRIVATE(this)->graphswitch);
-  }
-  else
-    PRIVATE(this)->graphswitch->replaceChild(0, scene);
 
   PRIVATE(this)->currentroot = scene;
-
 
   // Fetching variables necessary for the viewers functionality
   if(PRIVATE(this)->supersg == NULL)
     PRIVATE(this)->setupNodes();
 
   PRIVATE(this)->findCameras();
+  PRIVATE(this)->findLights();
+
+  PRIVATE(this)->resetCountAction();
+  PRIVATE(this)->resetBBox();
   if(!PRIVATE(this)->frontcamera){
     PRIVATE(this)->bboxroot->whichChild = SO_SWITCH_ALL;
     PRIVATE(this)->setBBoxCameraType();
   }
   else
     PRIVATE(this)->bboxroot->whichChild = 1;
-  PRIVATE(this)->findLights();
-  PRIVATE(this)->resetCountAction();
-  PRIVATE(this)->resetBBox();
+
   this->saveHomePosition();
 } // setSceneGraph()
 

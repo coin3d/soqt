@@ -103,6 +103,13 @@ event_cb(void *userdata, SoEventCallback *node)
       mycanvas->setDistance(FALSE);
 
   }
+  else if (SO_KEY_PRESS_EVENT(event, S)) {
+    if(!mycanvas->isSeekMode())
+      mycanvas->setSeekMode(TRUE);
+    else
+      mycanvas->setSeekMode(FALSE);
+
+  }
 
 }
 
