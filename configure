@@ -9633,7 +9633,7 @@ else
 
 fi
 
-HTML_DOC_DIR=$datadir/share/SoQt/html
+HTML_DOC_DIR=`eval echo "$datadir/share/SoQt/html"`
 
 # **************************************************************************
 # Submodules that needs to be configured...

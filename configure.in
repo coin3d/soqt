@@ -715,7 +715,7 @@ else
   AC_SUBST(soqt_configure_date)
 fi
 
-HTML_DOC_DIR=$datadir/share/SoQt/html
+HTML_DOC_DIR=`eval echo "$datadir/share/SoQt/html"`
 AC_SUBST([HTML_DOC_DIR])
 
 # **************************************************************************
