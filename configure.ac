@@ -520,15 +520,14 @@ SIM_AC_INVENTOR_EXTENSIONS([
 ])
 
 # remove libs we don't want to link into library again
-LDFLAGS=$sim_ac_configure_save_ldflags
-LIBS=$sim_ac_configure_save_libs
+#LDFLAGS=$sim_ac_configure_save_ldflags
+#LIBS=$sim_ac_configure_save_libs
+# we carry the Coin libs a bit further, since they may include OpenGL which
+# may be necessary for QGL detection. 20041025 larsa
 
 # **************************************************************************
 # Check that the Qt installation looks ok and include the
 # necessary paths and link libraries.
-
-# FIXME: why is this here? - it's duplicate from below AC_PROG_CC  20020110 larsa
-# AC_PROG_CPP
 
 if test x"$sim_ac_want_x11" = xyes; then 
   if test x"$sim_ac_x11mu_avail" != xyes; then
@@ -544,8 +543,9 @@ if test x"$MOC" = x"false"; then
   SIM_AC_ERROR([no-moc])
 fi
 
-sim_ac_configure_save_ldflags=$LDFLAGS
-sim_ac_configure_save_libs=$LIBS
+# see commented-out restore above
+#sim_ac_configure_save_ldflags=$LDFLAGS
+#sim_ac_configure_save_libs=$LIBS
 
 if $sim_ac_build_library; then
   SIM_AC_CHECK_QT([
