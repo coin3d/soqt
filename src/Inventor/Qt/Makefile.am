@@ -77,7 +77,8 @@ soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
 	SoQtTransformSliderSet.h
 
 nodist_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
-	$(BUILT_SOURCES)
+	$(So@Gui@_src_Inventor_@Gui@_BuiltFiles) \
+	$(So@Gui@_src_Inventor_@Gui@_BuiltMetaFiles)
 
 soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
 	devices/devices.lst \

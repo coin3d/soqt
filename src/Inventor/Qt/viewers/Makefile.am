@@ -49,7 +49,8 @@ libSoQtViewers_la_SOURCES = \
 	SoQtWalkViewer.h
 
 nodist_libSoQtViewers_la_SOURCES = \
-	$(BUILT_SOURCES)
+	$(So@Gui@_src_Inventor_@Gui@_viewers_BuiltFiles) \
+	$(So@Gui@_src_Inventor_@Gui@_viewers_BuiltMetaFiles)
 
 ############################################################################
 # custom setup
@@ -65,8 +66,8 @@ viewers_lst_SOURCES = \
 	SoQtWalkViewer.h
 
 nodist_viewers_lst_SOURCES = \
-	$(SoQt_src_Inventor_Qt_viewers_BuiltFiles) \
-	$(SoQt_src_Inventor_Qt_viewers_BuiltMetaFiles)
+	$(So@Gui@_src_Inventor_@Gui@_viewers_BuiltFiles) \
+	$(So@Gui@_src_Inventor_@Gui@_viewers_BuiltMetaFiles)
 
 viewers.lst: Makefile $(viewers_lst_OBJECTS)
 	@echo "Linking viewers.lst..."; \

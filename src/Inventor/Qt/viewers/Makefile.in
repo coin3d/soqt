@@ -365,7 +365,8 @@ libSoQtViewers_la_SOURCES = \
 
 
 nodist_libSoQtViewers_la_SOURCES = \
-	$(BUILT_SOURCES)
+	$(So@Gui@_src_Inventor_@Gui@_viewers_BuiltFiles) \
+	$(So@Gui@_src_Inventor_@Gui@_viewers_BuiltMetaFiles)
 
 
 
@@ -383,8 +384,8 @@ viewers_lst_SOURCES = \
 
 
 nodist_viewers_lst_SOURCES = \
-	$(SoQt_src_Inventor_Qt_viewers_BuiltFiles) \
-	$(SoQt_src_Inventor_Qt_viewers_BuiltMetaFiles)
+	$(So@Gui@_src_Inventor_@Gui@_viewers_BuiltFiles) \
+	$(So@Gui@_src_Inventor_@Gui@_viewers_BuiltMetaFiles)
 
 
 
@@ -414,7 +415,8 @@ viewers_lst_LIBADD =
 am_viewers_lst_OBJECTS = SoQtFullViewer.$(OBJEXT) \
 	SoQtExaminerViewer.$(OBJEXT) SoQtPlaneViewer.$(OBJEXT) \
 	SoQtWalkViewer.$(OBJEXT)
-nodist_viewers_lst_OBJECTS =
+@BUILD_METAFILES_TRUE@nodist_viewers_lst_OBJECTS =
+@BUILD_METAFILES_FALSE@nodist_viewers_lst_OBJECTS =
 viewers_lst_OBJECTS = $(am_viewers_lst_OBJECTS) \
 	$(nodist_viewers_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)

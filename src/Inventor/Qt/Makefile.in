@@ -402,7 +402,8 @@ soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
 
 
 nodist_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
-	$(BUILT_SOURCES)
+	$(So@Gui@_src_Inventor_@Gui@_BuiltFiles) \
+	$(So@Gui@_src_Inventor_@Gui@_BuiltMetaFiles)
 
 
 soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
@@ -446,7 +447,8 @@ am_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS = SoQt.$(OBJEXT) \
 	SoQtLightSliderSet.$(OBJEXT) SoQtMaterialSliderSet.$(OBJEXT) \
 	SoQtSliderSet.$(OBJEXT) SoQtSliderSetBase.$(OBJEXT) \
 	SoQtTransformSliderSet.$(OBJEXT)
-nodist_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS =
+@BUILD_METAFILES_TRUE@nodist_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS =
+@BUILD_METAFILES_FALSE@nodist_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS =
 soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS = \
 	$(am_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) \
 	$(nodist_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS)
