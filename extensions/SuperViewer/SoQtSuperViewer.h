@@ -29,38 +29,82 @@ class SoQtSuperViewer : public SoQtViewer {
   SOQT_OBJECT_HEADER(SoQtSuperViewer, SoQtViewer);
 
   enum BuildFlag {
-    BUILD_NOTHING    = 0x00,
+    //    BUILD_NOTHING    = 0x00,
     BUILD_MENUBAR    = 0x01,
     BUILD_TOOLBAR    = 0x02,
     BUILD_ALL        = (BUILD_MENUBAR | BUILD_TOOLBAR)
   };
 
   enum BuildMenus {
-    FILE_MENU        = 0x00,
-    VIEW_MENU        = 0x01,
-    SETTINGS_MENU    = 0x02,
-    CAMERA_MENU      = 0x04,
-    LIGHTS_MENU      = 0x08,
+    FILE_MENU        = 0x01,
+    VIEW_MENU        = 0x02,
+    SETTINGS_MENU    = 0x04,
+    CAMERA_MENU      = 0x08,
+    LIGHTS_MENU      = 0x10,
     BUILD_ALL_MENUS = (FILE_MENU | VIEW_MENU | SETTINGS_MENU | 
                         CAMERA_MENU | LIGHTS_MENU)
   };
 
   enum BuildFileMenu {
-    OPEN_MODEL       = 0x00,
-    CLOSE_MODEL      = 0x01,
-    CLOSE_ALL        = 0x02,
-    NEXT_MODEL       = 0x04,
-    PREVIOUS_MODEL   = 0x08,
-    REFRESH_MODEL    = 0x10,
-    SNAPSHOT         = 0x20,
-    EXIT             = 0x40,
+    OPEN_MODEL       = 0x01,
+    CLOSE_MODEL      = 0x02,
+    CLOSE_ALL        = 0x04,
+    NEXT_MODEL       = 0x08,
+    PREVIOUS_MODEL   = 0x10,
+    REFRESH_MODEL    = 0x20,
+    SNAPSHOT         = 0x40,
+    EXIT             = 0x80,
+    SEPARATORS_FILE  = 0x100,
     BUILD_FILE_MENU  = (OPEN_MODEL | CLOSE_MODEL | CLOSE_ALL |
                         NEXT_MODEL | PREVIOUS_MODEL | REFRESH_MODEL |
-                        SNAPSHOT | EXIT)
+                        SNAPSHOT | EXIT | SEPARATORS_FILE)
   };
 
   enum BuildViewMenu {
+    INFORMATION      = 0x01,
+    FLATSHADING      = 0x02,
+    FILLED           = 0x04,
+    BOUNDINGBOXES    = 0x08,
+    WIREFRAME        = 0x10,
+    VERTICES         = 0x20,
+    HIDDEN_PARTS     = 0x40,
+    TEXTURES         = 0x80,
+    WHILE_MOVING     = 0x100,
+    SEPARATORS_VIEW  = 0x200,
+    BUILD_VIEW_MENU  = (INFORMATION | FLATSHADING | FILLED |
+                        BOUNDINGBOXES | WIREFRAME | VERTICES |
+                        HIDDEN_PARTS | TEXTURES | WHILE_MOVING |
+                        SEPARATORS_VIEW)
+  };
 
+  enum BuildSettingsMenu {
+    INFORMATION_SETTING = 0x01,
+    LINE_WIDTH          = 0x02,
+    POINT_SIZE          = 0x04,
+    LINE_COLOR          = 0x08,
+    POINT_COLOR         = 0x10,
+    BACKGROUND_COLOR    = 0x20,
+    RENDER_QUALITY      = 0x40,
+    TEXTURE_QUALITY     = 0x80,
+    TRANSPARENCY_TYPE   = 0x100,
+    BUILD_SETTINGS_MENU = (INFORMATION_SETTING | LINE_WIDTH |
+                           POINT_SIZE | LINE_COLOR |
+                           POINT_COLOR | BACKGROUND_COLOR |
+                           RENDER_QUALITY | TEXTURE_QUALITY |
+                           TRANSPARENCY_TYPE)
+  };
+
+  enum BuildCameraMenu {
+    VIEW_ALL          = 0x01,
+    RESET_VIEW        = 0x02,
+    SEEK              = 0x04,
+    VIEW_MODES        = 0x08,
+    FLY_MODES         = 0x10,
+    CAMERAS           = 0x20,
+    SEPARATORS_CAMERA = 0x40,
+    BUILD_CAMERA_MENU = (VIEW_ALL | RESET_VIEW | SEEK |
+                         VIEW_MODES | FLY_MODES | CAMERAS |
+                         SEPARATORS_CAMERA)
   };
 
  public:
@@ -74,6 +118,13 @@ class SoQtSuperViewer : public SoQtViewer {
   ~SoQtSuperViewer(void);
 
   void init(void);
+
+  void setBars(const int buildFlag);
+  void setMenus(const int buildFlag);
+  void setFileMenuItems(const int buildFlag);
+  void setViewMenuItems(const int buildFlag);
+  void setSettingsMenuItems(const int buildFlag);
+  void setCameraMenuItems(const int buildFlag);
 
   void setMenuBar(const SbBool on);
   SbBool isMenuBar(void) const;

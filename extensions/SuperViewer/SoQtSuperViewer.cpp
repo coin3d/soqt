@@ -168,6 +168,10 @@ SoQtSuperViewer::SoQtSuperViewer(
   PRIVATE(this)->lightsmenuenabled = buildFlag;
   
   PRIVATE(this)->defaultoverride = FALSE;
+  PRIVATE(this)->built = FALSE;
+  PRIVATE(this)->sepfm = TRUE;
+  PRIVATE(this)->sepvm = TRUE;
+  PRIVATE(this)->sepcm = TRUE;
 
   PRIVATE(this)->movingitemchk = 12;
   PRIVATE(this)->transparencyitemchk = 0;
@@ -273,11 +277,179 @@ SoQtSuperViewer::~SoQtSuperViewer(
   to build the viewer with other settings than the default settings, those
   must be set before init() is called.
 */
+
 void
 SoQtSuperViewer::init()
 {
-  PRIVATE(this)->actualInit();
+  PRIVATE(this)->actualInit(TRUE);
 } // init()
+
+// *************************************************************************
+
+/*!
+
+*/
+
+void
+SoQtSuperViewer::setBars(int buildFlag)
+{
+  PRIVATE(this)->bars[0].build = 
+    buildFlag & SoQtSuperViewer::BUILD_MENUBAR ? TRUE : FALSE;
+  PRIVATE(this)->bars[1].build = 
+    buildFlag & SoQtSuperViewer::BUILD_TOOLBAR ? TRUE : FALSE;
+
+  PRIVATE(this)->actualInit(PRIVATE(this)->built ? TRUE : FALSE);
+
+} // setBars()
+
+// *************************************************************************
+
+/*!
+
+*/
+
+void
+SoQtSuperViewer::setMenus(int buildFlag)
+{
+  PRIVATE(this)->menus[0].build = 
+    buildFlag & SoQtSuperViewer::FILE_MENU ? TRUE : FALSE;
+  PRIVATE(this)->menus[1].build = 
+    buildFlag & SoQtSuperViewer::VIEW_MENU ? TRUE : FALSE;
+  PRIVATE(this)->menus[2].build = 
+    buildFlag & SoQtSuperViewer::SETTINGS_MENU ? TRUE : FALSE;
+  PRIVATE(this)->menus[3].build = 
+    buildFlag & SoQtSuperViewer::CAMERA_MENU ? TRUE : FALSE;
+  PRIVATE(this)->menus[4].build = 
+    buildFlag & SoQtSuperViewer::LIGHTS_MENU ? TRUE : FALSE;
+
+  if(PRIVATE(this)->built) PRIVATE(this)->buildMenus();
+  else PRIVATE(this)->actualInit(FALSE);
+
+} // setMenus()
+
+// *************************************************************************
+
+/*!
+
+*/
+
+void
+SoQtSuperViewer::setFileMenuItems(int buildFlag)
+{
+  PRIVATE(this)->filemenuItems[0].build = 
+    buildFlag & SoQtSuperViewer::OPEN_MODEL ? TRUE : FALSE;
+  PRIVATE(this)->filemenuItems[1].build = 
+    buildFlag & SoQtSuperViewer::CLOSE_MODEL ? TRUE : FALSE;
+  PRIVATE(this)->filemenuItems[2].build = 
+    buildFlag & SoQtSuperViewer::CLOSE_ALL ? TRUE : FALSE;
+  PRIVATE(this)->filemenuItems[3].build = 
+    buildFlag & SoQtSuperViewer::NEXT_MODEL ? TRUE : FALSE;
+  PRIVATE(this)->filemenuItems[4].build = 
+    buildFlag & SoQtSuperViewer::PREVIOUS_MODEL ? TRUE : FALSE;
+  PRIVATE(this)->filemenuItems[5].build = 
+    buildFlag & SoQtSuperViewer::REFRESH_MODEL ? TRUE : FALSE;
+  PRIVATE(this)->filemenuItems[6].build = 
+    buildFlag & SoQtSuperViewer::SNAPSHOT ? TRUE : FALSE;
+  PRIVATE(this)->filemenuItems[7].build = 
+    buildFlag & SoQtSuperViewer::EXIT ? TRUE : FALSE;
+
+  if(PRIVATE(this)->built) PRIVATE(this)->buildFileMenu();
+  else PRIVATE(this)->actualInit(FALSE);
+
+} // setFileMenu()
+
+// *************************************************************************
+
+/*!
+
+*/
+
+void
+SoQtSuperViewer::setViewMenuItems(int buildFlag)
+{
+  PRIVATE(this)->viewmenuItems[0].build = 
+    buildFlag & SoQtSuperViewer::INFORMATION ? TRUE : FALSE;
+  PRIVATE(this)->viewmenuItems[1].build = 
+    buildFlag & SoQtSuperViewer::FLATSHADING ? TRUE : FALSE;
+  PRIVATE(this)->viewmenuItems[2].build = 
+    buildFlag & SoQtSuperViewer::FILLED ? TRUE : FALSE;
+  PRIVATE(this)->viewmenuItems[3].build = 
+    buildFlag & SoQtSuperViewer::BOUNDINGBOXES ? TRUE : FALSE;
+  PRIVATE(this)->viewmenuItems[4].build =
+    buildFlag & SoQtSuperViewer::WIREFRAME ? TRUE : FALSE;
+  PRIVATE(this)->viewmenuItems[5].build = 
+    buildFlag & SoQtSuperViewer::VERTICES ? TRUE : FALSE;
+  PRIVATE(this)->viewmenuItems[6].build = 
+    buildFlag & SoQtSuperViewer::HIDDEN_PARTS ? TRUE : FALSE;
+  PRIVATE(this)->viewmenuItems[7].build = 
+    buildFlag & SoQtSuperViewer::TEXTURES ? TRUE : FALSE;
+  PRIVATE(this)->viewmenuItems[8].build = 
+    buildFlag & SoQtSuperViewer::WHILE_MOVING ? TRUE : FALSE;
+
+  if(PRIVATE(this)->built) /*PRIVATE(this)->buildViewMenu()*/;
+  else PRIVATE(this)->actualInit(FALSE);
+
+} // setViewMenu()
+
+// *************************************************************************
+
+/*!
+
+*/
+
+void
+SoQtSuperViewer::setSettingsMenuItems(int buildFlag)
+{
+  PRIVATE(this)->settingsmenuItems[0].build = 
+    buildFlag & SoQtSuperViewer::INFORMATION_SETTING ? TRUE : FALSE;
+  PRIVATE(this)->settingsmenuItems[1].build = 
+    buildFlag & SoQtSuperViewer::LINE_WIDTH ? TRUE : FALSE;
+  PRIVATE(this)->settingsmenuItems[2].build = 
+    buildFlag & SoQtSuperViewer::POINT_SIZE ? TRUE : FALSE;
+  PRIVATE(this)->settingsmenuItems[3].build = 
+    buildFlag & SoQtSuperViewer::LINE_COLOR ? TRUE : FALSE;
+  PRIVATE(this)->settingsmenuItems[4].build = 
+    buildFlag & SoQtSuperViewer::POINT_COLOR ? TRUE : FALSE;
+  PRIVATE(this)->settingsmenuItems[5].build = 
+    buildFlag & SoQtSuperViewer::BACKGROUND_COLOR ? TRUE : FALSE;
+  PRIVATE(this)->settingsmenuItems[6].build = 
+    buildFlag & SoQtSuperViewer::RENDER_QUALITY ? TRUE : FALSE;
+  PRIVATE(this)->settingsmenuItems[7].build = 
+    buildFlag & SoQtSuperViewer::TEXTURE_QUALITY ? TRUE : FALSE;
+  PRIVATE(this)->settingsmenuItems[8].build = 
+    buildFlag & SoQtSuperViewer::TRANSPARENCY_TYPE ? TRUE : FALSE;
+
+  if(PRIVATE(this)->built) /*PRIVATE(this)->buildSettingsMenu()*/;
+  else PRIVATE(this)->actualInit(FALSE);
+
+} // setSettingsMenu()
+
+// *************************************************************************
+
+/*!
+
+*/
+
+void
+SoQtSuperViewer::setCameraMenuItems(int buildFlag)
+{
+  PRIVATE(this)->cameramenuItems[0].build = 
+    buildFlag & SoQtSuperViewer::VIEW_ALL ? TRUE : FALSE;
+  PRIVATE(this)->cameramenuItems[1].build = 
+    buildFlag & SoQtSuperViewer::RESET_VIEW ? TRUE : FALSE;
+  PRIVATE(this)->cameramenuItems[2].build = 
+    buildFlag & SoQtSuperViewer::SEEK ? TRUE : FALSE;
+  PRIVATE(this)->cameramenuItems[3].build = 
+    buildFlag & SoQtSuperViewer::VIEW_MODES ? TRUE : FALSE;
+  PRIVATE(this)->cameramenuItems[4].build = 
+    buildFlag & SoQtSuperViewer::FLY_MODES ? TRUE : FALSE;
+  PRIVATE(this)->cameramenuItems[5].build = 
+    buildFlag & SoQtSuperViewer::CAMERAS ? TRUE : FALSE;
+
+  if(PRIVATE(this)->built) /*PRIVATE(this)->buildCameraMenu()*/;
+  else PRIVATE(this)->actualInit(FALSE);
+
+} // setCameraMenuItems()
 
 // *************************************************************************
 
@@ -678,6 +850,10 @@ SoQtSuperViewer::isFilled() const
 void
 SoQtSuperViewer::toggleInformation()
 {
+  this->setBars(SoQtSuperViewer::BACKGROUND_COLOR);
+
+
+
   PRIVATE(this)->informationenabled ? 
     PRIVATE(this)->informationenabled = FALSE : 
     PRIVATE(this)->informationenabled = TRUE;

@@ -241,66 +241,58 @@ SoQtSuperViewerP::~SoQtSuperViewerP()
 {}
 
 void
-SoQtSuperViewerP::actualInit()
+SoQtSuperViewerP::actualInit(SbBool buildNow)
 {
+  if(!this->defaultoverride){
+    
+    this->bars[0].text = "Toolbar";
+    this->bars[1].text = "Menubar";
 
-  this->menus[0].text = "File";
-  this->menus[1].text = "View"; 
-  this->menus[2].text = "Settings"; 
-  this->menus[3].text = "Camera"; 
-  this->menus[4].text = "Lights";
+    this->menus[0].text = "File";
+    this->menus[1].text = "View"; 
+    this->menus[2].text = "Settings"; 
+    this->menus[3].text = "Camera"; 
+    this->menus[4].text = "Lights";
+    
+    this->filemenuItems[0].text = "Open model";
+    this->filemenuItems[1].text = "Close model";
+    this->filemenuItems[2].text = "Close all models";
+    this->filemenuItems[3].text = "Next model";
+    this->filemenuItems[4].text = "Previous model";
+    this->filemenuItems[5].text = "Refresh model";
+    this->filemenuItems[6].text = "Snapshot";
+    this->filemenuItems[7].text = "Exit";
+    
+    this->viewmenuItems[0].text = "Information";
+    this->viewmenuItems[1].text = "Flatshading";
+    this->viewmenuItems[2].text = "Filled";
+    this->viewmenuItems[3].text = "Boundingboxes";
+    this->viewmenuItems[4].text = "Wireframe";
+    this->viewmenuItems[5].text = "Vertices";
+    this->viewmenuItems[6].text = "Hidden parts";
+    this->viewmenuItems[7].text = "Textures";
+    this->viewmenuItems[8].text = "One boundingbox while moving";
+    this->viewmenuItems[9].text = "Boundingboxes while moving";
+    this->viewmenuItems[10].text = "Full model while moving";
+    this->viewmenuItems[11].text = "No textures while moving";
+    
+    this->settingsmenuItems[0].text = "Information settings";
+    this->settingsmenuItems[1].text = "Line width";
+    this->settingsmenuItems[2].text = "Point size";
+    this->settingsmenuItems[3].text = "Line color";
+    this->settingsmenuItems[4].text = "Point color";
+    this->settingsmenuItems[5].text = "Background color";
+    this->settingsmenuItems[6].text = "Render quality";
+    this->settingsmenuItems[7].text = "Texture Quality";
+    this->settingsmenuItems[8].text = "Transparency type";
+    
+    this->cameramenuItems[0].text = "View all";
+    this->cameramenuItems[1].text = "Reset view";
+    this->cameramenuItems[2].text = "Seek";
+    this->cameramenuItems[3].text = "View modes";
+    this->cameramenuItems[4].text = "Fly modes";
+    this->cameramenuItems[5].text = "Front camera";
 
-  this->filemenuItems[0].text = "Open model";
-  this->filemenuItems[1].text = "Close model";
-  this->filemenuItems[2].text = "Close all models";
-  this->filemenuItems[3].text = "Next model";
-  this->filemenuItems[4].text = "Previous model";
-  this->filemenuItems[5].text = "Refresh model";
-  this->filemenuItems[6].text = "Snapshot";
-  this->filemenuItems[7].text = "Exit";
-
-  this->viewmenuItems[0].text = "Information";
-  this->viewmenuItems[1].text = "Flatshading";
-  this->viewmenuItems[2].text = "Filled";
-  this->viewmenuItems[3].text = "Boundingboxes";
-  this->viewmenuItems[4].text = "Wireframe";
-  this->viewmenuItems[5].text = "Vertices";
-  this->viewmenuItems[6].text = "Hidden parts";
-  this->viewmenuItems[7].text = "Textures";
-  this->viewmenuItems[8].text = "One boundingbox while moving";
-  this->viewmenuItems[9].text = "Boundingboxes while moving";
-  this->viewmenuItems[10].text = "Full model while moving";
-  this->viewmenuItems[11].text = "No textures while moving";
-  
-  this->settingsmenuItems[0].text = "Information settings";
-  this->settingsmenuItems[1].text = "Line width";
-  this->settingsmenuItems[2].text = "Point size";
-  this->settingsmenuItems[3].text = "Line color";
-  this->settingsmenuItems[4].text = "Point color";
-  this->settingsmenuItems[5].text = "Background color";
-  this->settingsmenuItems[6].text = "Render quality";
-  this->settingsmenuItems[7].text = "Texture Quality";
-  this->settingsmenuItems[8].text = "Transparency type";
-  
-  this->cameramenuItems[0].text = "View all";
-  this->cameramenuItems[1].text = "Reset view";
-  this->cameramenuItems[2].text = "Seek";
-  this->cameramenuItems[3].text = "View modes";
-  this->cameramenuItems[4].text = "Fly modes";
-  
-  if(this->defaultoverride){
-    SbBool allmenus = this->bars[1].build;
-
-    //until toolbar is made
-    this->bars[0].build = FALSE;
-    int i, k;
-    i = k = 0;
-
-    for(;i < 2; i++){
-    }
-
-  }
-  else{
     int i = 0;
     //setup menubar and toolbars (2 elements)
     for(;i < 2; i++){
@@ -313,15 +305,12 @@ SoQtSuperViewerP::actualInit()
     this->bars[0].build = FALSE;
     this->bars[1].index = 0;
     //the rest should stay when the toolbar is finished
-    this->bars[0].text = "Toolbar";
-    this->bars[1].text = "Menubar";
-
+ 
     i = 0;
     //setup menus (5 elements)
     for(;i < 5; i++){
       this->menus[i].index = i;
       this->menus[i].build = TRUE;
-      this->menus[i].enabled = i < 1 ? TRUE : FALSE;
       this->menus[i].checked = FALSE;
     }
 
@@ -361,11 +350,174 @@ SoQtSuperViewerP::actualInit()
     for(;i < 5; i++){
       this->cameramenuItems[i].index = i;
       this->cameramenuItems[i].build = TRUE;
-      this->cameramenuItems[i].enabled = i < 4 ? TRUE : FALSE;
+      this->cameramenuItems[i].enabled = i == 4 ? FALSE : TRUE;
       this->cameramenuItems[i].checked = FALSE;
     }
   }
+
+  if(buildNow){
+    this->built = TRUE;
+    /*buildBars()*/;
+  }
+} // actualInit()
+
+void
+SoQtSuperViewerP::buildBars()
+{
+  //toolbar
+  if(this->bars[1].build){
+
+  }
+  //menubar
+  if(this->bars[0].build){
+    if(this->menubar = NULL)
+      this->menubar = new QMenuBar(this->viewerwidget);
+  }
+} // buildBars()
+
+void
+SoQtSuperViewerP::buildMenus()
+{
+
+  int idx = 0;
+  if(this->menus[0].build){
+    this->buildFileMenu(); this->menus[0].index = idx; idx++;
+    this->menus[0].enabled = TRUE;
+  }
+  if(this->menus[1].build){
+    //this->buildViewMenu(); this->menus[1].index = idx; idx++;
+    this->menus[1].enabled = menus[0].build ? FALSE : TRUE;
+  }
+  if(this->menus[2].build){
+    //this->buildSettingsMenu(); this->menus[2].index = idx; idx++;
+    this->menus[2].enabled = menus[0].build ? FALSE : TRUE;
+  }
+  if(this->menus[3].build){
+    //this->buildCameraMenu(); this->menus[3].index = idx; idx++;
+    this->menus[3].enabled = menus[0].build ? FALSE : TRUE;
+  }
+  if(this->menus[4].build){
+    //this->buildLightsMenu(); this->menus[4].index = idx;
+    this->menus[4].enabled = menus[0].build ? FALSE : TRUE;
+  }
 }
+
+void
+SoQtSuperViewerP::buildFileMenu()
+{
+  if(this->filemenu == NULL)
+    this->filemenu = new QPopupMenu(this->menubar);
+
+  int idx = 0;
+  if(this->filemenuItems[0].build){
+    this->filemenuItems[0].index = idx;
+    this->filemenu->insertItem(filemenuItems[0].text.getString(), this,
+                               SLOT(openModelSelected()), CTRL+Key_O);
+    this->filemenu->setItemEnabled(this->filemenu->idAt(filemenuItems[0].index),
+                                   filemenuItems[0].enabled);
+    this->filemenu->setItemChecked(this->filemenu->idAt(filemenuItems[0].index),
+                                   filemenuItems[0].checked);
+    idx++;
+  }
+  if(this->filemenuItems[1].build){
+    this->filemenuItems[1].index = idx;
+    this->filemenu->insertItem(filemenuItems[1].text.getString(), this,
+                               SLOT(closeModelSelected()), CTRL+Key_K);
+    this->filemenu->setItemEnabled(this->filemenu->idAt(filemenuItems[1].index),
+                                   filemenuItems[1].enabled);
+    this->filemenu->setItemChecked(this->filemenu->idAt(filemenuItems[1].index),
+                                   filemenuItems[1].checked);
+    idx++;
+  }
+  if(this->filemenuItems[2].build){
+    this->filemenuItems[2].index = idx;
+    this->filemenu->insertItem(filemenuItems[2].text.getString(), this,
+                               SLOT(closeAllSelected()));
+    this->filemenu->setItemEnabled(this->filemenu->idAt(filemenuItems[2].index),
+                                   filemenuItems[2].enabled);
+    this->filemenu->setItemChecked(this->filemenu->idAt(filemenuItems[2].index),
+                                   filemenuItems[2].checked);
+    idx++;
+  }
+
+  if(this->sepfm){ this->filemenu->insertSeparator(); idx++;  }
+
+  if(this->filemenuItems[3].build){
+    this->filemenuItems[3].index = idx;
+    this->filemenu->insertItem(filemenuItems[3].text.getString(), this,
+                               SLOT(nextModelSelected()), CTRL+Key_N);
+    this->filemenu->setItemEnabled(this->filemenu->idAt(filemenuItems[3].index),
+                                   filemenuItems[3].enabled);
+    this->filemenu->setItemChecked(this->filemenu->idAt(filemenuItems[3].index),
+                                   filemenuItems[3].checked);
+    idx++;
+  }
+  if(this->filemenuItems[4].build){
+    this->filemenuItems[4].index = idx;
+    this->filemenu->insertItem(filemenuItems[4].text.getString(), this,
+                               SLOT(previousModelSelected()), CTRL+Key_P);
+    this->filemenu->setItemEnabled(this->filemenu->idAt(filemenuItems[4].index),
+                                   filemenuItems[4].enabled);
+    this->filemenu->setItemChecked(this->filemenu->idAt(filemenuItems[4].index),
+                                   filemenuItems[4].checked);
+    idx++;
+  }
+  if(this->filemenuItems[5].build){
+    this->filemenuItems[5].index = idx;
+    this->filemenu->insertItem(filemenuItems[5].text.getString(), this,
+                               SLOT(refreshModelSelected()), CTRL+Key_R);
+    this->filemenu->setItemEnabled(this->filemenu->idAt(filemenuItems[5].index),
+                                   filemenuItems[5].enabled);
+    this->filemenu->setItemChecked(this->filemenu->idAt(filemenuItems[5].index),
+                                   filemenuItems[5].checked);
+    idx++;
+  }
+  if(this->filemenuItems[6].build){
+    this->filemenuItems[6].index = idx;
+    this->filemenu->insertItem(filemenuItems[6].text.getString(), this,
+                               SLOT(snapshotSelected()), CTRL+Key_S);
+    this->filemenu->setItemEnabled(this->filemenu->idAt(filemenuItems[6].index),
+                                   filemenuItems[6].enabled);
+    this->filemenu->setItemChecked(this->filemenu->idAt(filemenuItems[6].index),
+                                   filemenuItems[6].checked);
+    idx++;
+  }
+
+  //exit with separator left to do here
+
+  /*
+  PRIVATE(this)->filemenu->insertSeparator();
+  PRIVATE(this)->filemenu->insertItem( "Next model",
+                                       PRIVATE(this), SLOT(nextModelSelected()),
+                                       CTRL+Key_N );
+  PRIVATE(this)->filemenu->setItemEnabled(
+                           PRIVATE(this)->filemenu->idAt(4), FALSE);
+  PRIVATE(this)->filemenu->insertItem( "Previous model",
+                                       PRIVATE(this), SLOT(previousModelSelected()),
+                                       CTRL+Key_P );
+  PRIVATE(this)->filemenu->setItemEnabled(
+                           PRIVATE(this)->filemenu->idAt(5), FALSE);
+  PRIVATE(this)->filemenu->insertItem( "Refresh model",
+                                       PRIVATE(this), SLOT(refreshSelected()),
+                                       CTRL+Key_R );
+  PRIVATE(this)->filemenu->setItemEnabled(
+                           PRIVATE(this)->filemenu->idAt(6), FALSE);
+  PRIVATE(this)->filemenu->insertItem( "Snapshot",
+                                       PRIVATE(this), SLOT(snapshotSelected()),
+                                       CTRL+Key_S );
+  PRIVATE(this)->filemenu->setItemEnabled(
+                           PRIVATE(this)->filemenu->idAt(7), FALSE);
+  PRIVATE(this)->filemenu->insertSeparator();
+  PRIVATE(this)->filemenu->insertItem( "Exit",
+                                       PRIVATE(this), SLOT(quitSelected()),
+                                       Key_Q );
+  PRIVATE(this)->menubar->insertItem( "File", PRIVATE(this)->filemenu);
+*/
+    idx++;
+    
+  
+} // buildFileMenu()
+
 
 void
 SoQtSuperViewerP::setupNodes()
