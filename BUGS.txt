@@ -282,3 +282,17 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     UPDATE 20021017 rolvs: This should be fixed now, please verify.
 
 =====================================================================
+
+012 Error with SoQtExaminerViewer::getViewerTitle().
+
+    A bug-report from Paul van Santen of Hitec-O:
+
+         It seems that this method now returns an empty string, even
+         though we have set the title in the class' constructor. Is
+         this a bug or an intended code change?
+
+    Not yet investigated, but sounds very likely to be a bug.
+
+    20021018 mortene.
+
+=====================================================================
