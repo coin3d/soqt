@@ -245,6 +245,7 @@ INPUT                 = \
 	@path_tag@@soqt_src_dir@/src/Inventor/@Gui@/So@Gui@Component.cpp \
 	@path_tag@@soqt_build_dir@/src/Inventor/@Gui@/So@Gui@Component.h \
 	@path_tag@@soqt_src_dir@/src/Inventor/@Gui@/So@Gui@GLWidget.cpp \
+	@path_tag@@soqt_build_dir@/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp \
 	@path_tag@@soqt_build_dir@/src/Inventor/@Gui@/So@Gui@GLWidget.h \
 	@path_tag@@soqt_build_dir@/src/Inventor/@Gui@/So@Gui@RenderArea.cpp \
 	@path_tag@@soqt_build_dir@/src/Inventor/@Gui@/So@Gui@RenderArea.h \

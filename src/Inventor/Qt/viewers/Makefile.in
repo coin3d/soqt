@@ -166,6 +166,7 @@ SoGui_src_Inventor_Gui_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@.h \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@Component.h \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidget.h \
+  $(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.h \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp \
   $(top_builddir)/src/Inventor/@Gui@/So@Gui@MaterialList.h \
@@ -305,6 +306,7 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/SoGui.h.in \
   src/Inventor/@Gui@/common/SoGuiComponent.h.in \
   src/Inventor/@Gui@/common/SoGuiGLWidget.h.in \
+  src/Inventor/@Gui@/common/SoGuiGLWidgetCommon.cpp.in \
   src/Inventor/@Gui@/common/SoGuiRenderArea.h.in \
   src/Inventor/@Gui@/common/SoGuiRenderArea.cpp.in \
   src/Inventor/@Gui@/common/SoGuiViewer.h.in \
@@ -978,6 +980,9 @@ $(top_builddir)/src/Inventor/@Gui@/So@Gui@Component.h: $(top_srcdir)/src/Invento
 
 $(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidget.h: $(top_srcdir)/src/Inventor/@Gui@/common/SoGuiGLWidget.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/So@Gui@GLWidget.h:src/Inventor/@Gui@/common/SoGuiGLWidget.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/SoGuiGLWidgetCommon.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp:src/Inventor/@Gui@/common/SoGuiGLWidgetCommon.cpp.in )
 
 $(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.h: $(top_srcdir)/src/Inventor/@Gui@/common/SoGuiRenderArea.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/So@Gui@RenderArea.h:src/Inventor/@Gui@/common/SoGuiRenderArea.h.in )

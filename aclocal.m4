@@ -510,10 +510,7 @@ fi
 
 AC_DEFUN([AM_AUX_DIR_EXPAND], [
 # expand $ac_aux_dir to an absolute path
-if test "${CDPATH+set}" = set; then
-  CDPATH=${ZSH_VERSION+.}:   # as recommended in autoconf.texi
-fi
-am_aux_dir=`cd $ac_aux_dir && pwd`
+am_aux_dir=`CDPATH=:; cd $ac_aux_dir && pwd`
 ])
 
 # AM_PROG_INSTALL_SH
@@ -6238,12 +6235,14 @@ if test x"$with_qt" != xno; then
 
   # Find version of the Qt library (MSWindows .dll is named with the
   # version number.)
+  AC_MSG_CHECKING([version of Qt library, if available])
   cat > conftest.c << EOF
 #include <qglobal.h>
 int VerQt = QT_VERSION;
 EOF
   sim_ac_qt_version=`$CPP $sim_ac_qt_incflags $CPPFLAGS conftest.c | grep '^int VerQt' | sed 's%^int VerQt = %%' | sed 's%;$%%'`
   rm -f conftest.c
+  AC_MSG_RESULT($sim_ac_qt_version)
 
   sim_ac_qt_libs=UNRESOLVED
   sim_ac_qt_cppflags=
