@@ -34,24 +34,33 @@ class QtThumbwheel : public QWidget, public QRangeControl
 public:
   enum Orientation { Horizontal, Vertical };
 
-  QtThumbwheel(QWidget * parent=0, const char * name=0);
-  QtThumbwheel(Orientation, QWidget * parent=0, const char * name=0);
+  QtThumbwheel( QWidget * parent = 0, const char * name = 0 );
+  QtThumbwheel( Orientation, QWidget * parent = 0, const char * name = 0 );
   ~QtThumbwheel(void);
 
-  void setOrientation(Orientation);
+  void setOrientation( Orientation );
   Orientation orientation(void) const;
 
-  float getMidpointValue(void) const;
-  void setMidpointValue(float val);
+  void setValue( float value );
+  float value(void) const;
 
-  float wheelValue(void) const;
+  void setEnabled( bool enable );
+  bool isEnabled(void) const;
+
+  enum boundaryHandling {
+    CLAMP,
+    MODULATE,
+    ACCUMULATE
+  };
+  void setRangeBoundaryHandling( boundaryHandling handling );
+  boundaryHandling getRangeBoundaryHandling(void) const;
 
   QSize sizeHint(void) const;
 
 signals:
-  void wheelPressed();
+  void wheelPressed(void);
   void wheelMoved(float value);
-  void wheelReleased();
+  void wheelReleased(void);
 
 protected:
   void paintEvent(QPaintEvent *);
@@ -61,27 +70,23 @@ protected:
   void mouseMoveEvent(QMouseEvent *);
 
 private:
-  enum State { Idle, Dragging };
+  void constructor( Orientation );
 
-  void init(void);
-  int getWheelLength(void) const;
-  int orientedCoord(const QPoint &) const;
-  float getNormalizedValue(int pos) const;
+  QtThumbwheel( const QtThumbwheel & wheel );
+  QtThumbwheel & operator = ( const QtThumbwheel & wheel );
 
-  QCOORD clickOffset;
-  State state;
+  enum State { Idle, Dragging, Disabled } state;
+
   Orientation orient;
-  float midpositionvalue, wheelvalue;
+  float wheelValue, tempWheelValue;
+  int mouseDownPos;
 
-  QtThumbwheel(const QtThumbwheel &);
-  QtThumbwheel & operator=(const QtThumbwheel &);
+  void initWheel( int diameter, int width );
 
   ThumbWheel * wheel;
   QPixmap ** pixmaps;
   int numPixmaps;
-
-  void initWheel( int diameter, int width );
-
+  int currentPixmap;
 }; // class QtThumbwheel
 
 #endif // !__QTTHUMBWHEEL_H__
