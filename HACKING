@@ -2,26 +2,8 @@ This file describes some hacking techniques that are particular
 for the Open Inventor GUI toolkit family.
 
 Be sure to check Coin/HACKING for Coin-specific tricks and more
-generic information.
+generic information, plus the src/Inventor/Qt/common/HACKING file for
+some hints common to all GUI interface toolkits.
 
-This file is a work in progress, and was just started.
-
-Finding Component Information
-=============================
-
-  We have added some easter eggs to the debug versions of the
-  GUI toolkit libraries that can be used to find information
-  about which components are in use.
-
-  Typing 'glinfo' in a SoQt viewer will make SoQt probe all kinds
-  of information from the GL driver and open a window displaying
-  it.
-
-  Typing 'ivinfo' in a SoQt viewer will make SoQt probe information
-  about the underlying Open Inventor implementation and display
-  it in a new window.  The amount of information is not that great
-  yet.
-
-  Typing 'soinfo' in a SoQt viewer will make SoQt open a window
-  with some basic information about itself.
-
+[This file is a work in progress, and was just started. There is no
+specific information for SoQt available yet.]
