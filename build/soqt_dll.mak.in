@@ -25,6 +25,10 @@ NULL=
 NULL=nul
 !ENDIF 
 
+CPP=cl.exe
+MTL=midl.exe
+RSC=rc.exe
+
 !IF  "$(CFG)" == "soqt_dll - Win32 Release"
 
 OUTDIR=.\@libdir@
@@ -61,7 +65,6 @@ CLEAN :
 	-@erase "$(INTDIR)\SoAnyPlaneViewer.obj"
 	-@erase "$(INTDIR)\SoAnyPopupMenu.obj"
 	-@erase "$(INTDIR)\SoAnyThumbWheel.obj"
-	-@erase "$(INTDIR)\SoGLMaterialSphere.obj"
 	-@erase "$(INTDIR)\SoQt.obj"
 	-@erase "$(INTDIR)\SoQtCollisionViewer.obj"
 	-@erase "$(INTDIR)\SoQtComponent.obj"
@@ -101,42 +104,8 @@ CLEAN :
 "$(INTDIR)" :
     if not exist "$(INTDIR)/$(NULL)" mkdir "$(INTDIR)"
 
-CPP=cl.exe
 CPP_PROJ=/nologo /MT /W3 /GX /O2 /I "C:@soqt_build_dir@" /I "C:@soqt_build_dir@\src" /I "C:@soqt_src_dir@" /I "C:@soqt_src_dir@\src" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SOQT_DLL_EXPORTS" /D "SOQT_MAKE_DLL" /Fp"$(INTDIR)\soqt_dll.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
-
-.c{$(INTDIR)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cpp{$(INTDIR)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cxx{$(INTDIR)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.c{$(INTDIR)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cpp{$(INTDIR)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cxx{$(INTDIR)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-MTL=midl.exe
 MTL_PROJ=/nologo /D "NDEBUG" /mktyplib203 /win32 
-RSC=rc.exe
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\soqt_dll.bsc" 
 BSC32_SBRS= \
@@ -168,7 +137,6 @@ LINK32_OBJS= \
 	"$(INTDIR)\SoAnyPlaneViewer.obj" \
 	"$(INTDIR)\SoAnyPopupMenu.obj" \
 	"$(INTDIR)\SoAnyThumbWheel.obj" \
-	"$(INTDIR)\SoGLMaterialSphere.obj" \
 	"$(INTDIR)\SoQt.obj" \
 	"$(INTDIR)\SoQtCollisionViewer.obj" \
 	"$(INTDIR)\SoQtComponent.obj" \
@@ -239,7 +207,6 @@ CLEAN :
 	-@erase "$(INTDIR)\SoAnyPlaneViewer.obj"
 	-@erase "$(INTDIR)\SoAnyPopupMenu.obj"
 	-@erase "$(INTDIR)\SoAnyThumbWheel.obj"
-	-@erase "$(INTDIR)\SoGLMaterialSphere.obj"
 	-@erase "$(INTDIR)\SoQt.obj"
 	-@erase "$(INTDIR)\SoQtCollisionViewer.obj"
 	-@erase "$(INTDIR)\SoQtComponent.obj"
@@ -282,42 +249,8 @@ CLEAN :
 "$(INTDIR)" :
     if not exist "$(INTDIR)/$(NULL)" mkdir "$(INTDIR)"
 
-CPP=cl.exe
 CPP_PROJ=/nologo /MTd /W3 /Gm /GX /ZI /Od /I "C:@soqt_build_dir@" /I "C:@soqt_build_dir@\src" /I "C:@soqt_src_dir@" /I "C:@soqt_src_dir@\src" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SOQT_DLL_EXPORTS" /D "SOQT_MAKE_DLL" /Fp"$(INTDIR)\soqt_dll.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /GZ /c 
-
-.c{$(INTDIR)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cpp{$(INTDIR)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cxx{$(INTDIR)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.c{$(INTDIR)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cpp{$(INTDIR)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-.cxx{$(INTDIR)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $< 
-<<
-
-MTL=midl.exe
 MTL_PROJ=/nologo /D "_DEBUG" /mktyplib203 /win32 
-RSC=rc.exe
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\soqt_dll.bsc" 
 BSC32_SBRS= \
@@ -349,7 +282,6 @@ LINK32_OBJS= \
 	"$(INTDIR)\SoAnyPlaneViewer.obj" \
 	"$(INTDIR)\SoAnyPopupMenu.obj" \
 	"$(INTDIR)\SoAnyThumbWheel.obj" \
-	"$(INTDIR)\SoGLMaterialSphere.obj" \
 	"$(INTDIR)\SoQt.obj" \
 	"$(INTDIR)\SoQtCollisionViewer.obj" \
 	"$(INTDIR)\SoQtComponent.obj" \
@@ -385,6 +317,36 @@ LINK32_OBJS= \
 <<
 
 !ENDIF 
+
+.c{$(INTDIR)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(INTDIR)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(INTDIR)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.c{$(INTDIR)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(INTDIR)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(INTDIR)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
 
 
 !IF "$(NO_EXTERNAL_DEPS)" != "1"
@@ -538,12 +500,6 @@ SOURCE="\compile\soqt\src\Inventor\Qt\widgets\SoAnyPopupMenu.cpp"
 SOURCE="\compile\soqt\src\Inventor\Qt\widgets\SoAnyThumbWheel.cpp"
 
 "$(INTDIR)\SoAnyThumbWheel.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-SOURCE="\home\SoQt\src\Inventor\Qt\editors\SoGLMaterialSphere.cpp"
-
-"$(INTDIR)\SoGLMaterialSphere.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

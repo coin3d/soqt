@@ -191,10 +191,6 @@ SOURCE="\compile\soqt\src\Inventor\Qt\widgets\SoAnyThumbWheel.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE="\home\SoQt\src\Inventor\Qt\editors\SoGLMaterialSphere.cpp"
-# End Source File
-# Begin Source File
-
 SOURCE="\home\SoQt\src\Inventor\Qt\SoQt.cpp"
 # End Source File
 # Begin Source File
