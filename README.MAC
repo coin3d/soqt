@@ -114,6 +114,42 @@ Common problems (and solutions)
 ===============================
 
 
+Undefined QTDIR in bash
+-----------------------
+
+Note that if you use bash as your default shell, you must make it read
+your .bashrc file - it does not do that by default.
+
+So if you have defined QTDIR in your ~/.bashrc, and still configure
+fails with because it cannot find Qt, check if QTDIR is actually set:
+
+  % echo $QTDIR
+
+If this is empty, you have a problem. Make sure you are actually using
+bash -
+
+   % echo $SHELL
+
+... and that the content of your ~/.bashrc looks reasonable, something
+like this:
+
+  export QTDIR=/usr/local/qt
+  export PATH=$QTDIR/bin:$PATH
+  export MANPATH=$QTDIR/doc/man:$MANPATH
+  export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$QTDIR/lib
+
+If you are using bash, and your .bashrc is correct, but QTDIR doesn't
+get set, you have to make bash read your .bashrc file. To do that,
+create a file called ~/.bash_profile with the following content:
+
+  if [ -f ~/.bashrc ]; then
+    . ~/.bashrc
+  fi
+
+Open a new Terminal window - things should work now. If you still have
+problems, something else is wrong. In that case, feel free to let us know.
+
+
 Problems with older versions of Qt/Mac
 ---------------------------------------
 
