@@ -21,7 +21,10 @@ HTMLDIR =
 endif
 
 if BUILD_LIBRARY
-LIBDIR = data src
+# Material editor(s) not part of the public API yet, so there's
+# no point yet in installing the material data.
+#LIBDIR = data src
+LIBDIR = src
 else
 LIBDIR =
 endif

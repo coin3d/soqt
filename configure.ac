@@ -690,14 +690,16 @@ fi
 # **************************************************************************
 # Submodules that needs to be configured...
 
-AC_CONFIG_SUBDIRS(data)
+# Material editor(s) not part of the public API yet, so there's
+# no point yet in installing the material data.
+# AC_CONFIG_SUBDIRS(data)
 
 # **************************************************************************
 # List all files configure shall automatically generate.
 #
 # Note that soqt-$CONFIG.cfg needs to be generated from the configure
 # script -- not just from the Makefile -- as the data/configure script
-# depends on it.
+# depends on it. (data/configure is temporarily disabled, BTW, but anyway..)
 
 AC_OUTPUT([
 	soqt-$CONFIG.cfg:src/Inventor/Qt/common/sogui.cfg.in
