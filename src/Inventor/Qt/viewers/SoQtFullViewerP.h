@@ -103,6 +103,8 @@ public slots:
   void decreaseInteractiveCount();
 
 public:
+  static void setThumbWheelValue(void * wheel, float val);
+
   QWidget * makePreferencesWindow(void);
   QWidget * makeSeekPreferences(QWidget * parent);
   QWidget * makeSeekDistancePreferences(QWidget * parent);

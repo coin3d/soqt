@@ -2166,4 +2166,10 @@ SoQtFullViewerP::~SoQtFullViewerP()
 {
 }
 
+void
+SoQtFullViewerP::setThumbWheelValue(void * wheel, float val)
+{
+  ((SoQtThumbWheel *)wheel)->setValue(val);
+}
+
 // *************************************************************************
