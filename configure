@@ -8473,13 +8473,6 @@ fi
 fi
 
 if test x"$want_html" != xno -o x"$want_man" != xno; then
-  # Stop any attempts at using Doxygen under MSWin, as it's not working yet.
-  case $host in
-  *-cygwin) { { echo "$as_me:$LINENO: error: Sorry, Doxygen-generation of documentation does not work under Cygwin yet." >&5
-echo "$as_me: error: Sorry, Doxygen-generation of documentation does not work under Cygwin yet." >&2;}
-   { (exit 1); exit 1; }; } ;;
-  esac
-
 
 
 # Check whether --with-doxygen or --without-doxygen was given.
@@ -8618,6 +8611,17 @@ fi
 echo "$as_me: WARNING: Could not find the Perl executable" >&2;}
   fi
 fi
+
+# path_tag is used to identify paths in docs/coin.doxygen that needs to be
+# transformed using cygpath under cygwin.
+
+case $host in
+*-cygwin) path_tag="<PATH>" ;;
+*)        path_tag= ;;
+esac
+
+
+
 
 
 
@@ -16825,6 +16829,7 @@ s,@BUILD_HTMLPAGES_TRUE@,$BUILD_HTMLPAGES_TRUE,;t t
 s,@BUILD_HTMLPAGES_FALSE@,$BUILD_HTMLPAGES_FALSE,;t t
 s,@sim_ac_doxygen_exe@,$sim_ac_doxygen_exe,;t t
 s,@sim_ac_perl_exe@,$sim_ac_perl_exe,;t t
+s,@path_tag@,$path_tag,;t t
 s,@BUILD_METAFILES_TRUE@,$BUILD_METAFILES_TRUE,;t t
 s,@BUILD_METAFILES_FALSE@,$BUILD_METAFILES_FALSE,;t t
 s,@meta_prefix@,$meta_prefix,;t t

@@ -4602,11 +4602,6 @@ if test x"$want_html" = x"yes"; then
 fi
 
 if test x"$want_html" != xno -o x"$want_man" != xno; then
-  # Stop any attempts at using Doxygen under MSWin, as it's not working yet.
-  case $host in
-  *-cygwin) AC_MSG_ERROR([Sorry, Doxygen-generation of documentation does not work under Cygwin yet.]) ;;
-  esac
-
   SIM_AC_DOXYGEN_TOOL([], [SIM_AC_ERROR([no-doxygen])])
 
   AC_PATH_PROG(sim_ac_perl_exe, perl, false, $PATH)
@@ -4614,6 +4609,17 @@ if test x"$want_html" != xno -o x"$want_man" != xno; then
     AC_MSG_WARN(Could not find the Perl executable)
   fi
 fi
+
+# path_tag is used to identify paths in docs/coin.doxygen that needs to be
+# transformed using cygpath under cygwin.
+
+case $host in
+*-cygwin) path_tag="<PATH>" ;;
+*)        path_tag= ;;
+esac
+
+AC_SUBST(path_tag)
+
 ]) # SIM_AC_SOGUI_SETUP_DOXYGEN()
 
 # Usage:

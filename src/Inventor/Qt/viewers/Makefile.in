@@ -141,6 +141,7 @@ ivframeworkdir = @ivframeworkdir@
 ivincludedir = @ivincludedir@
 meta_prefix = @meta_prefix@
 nop = @nop@
+path_tag = @path_tag@
 sim_ac_coin_configcmd = @sim_ac_coin_configcmd@
 sim_ac_doxygen_exe = @sim_ac_doxygen_exe@
 sim_ac_perl_exe = @sim_ac_perl_exe@
@@ -919,6 +920,7 @@ uninstall-am: uninstall-SoQtViewersincHEADERS uninstall-info-am \
 
 $(top_builddir)/sogui.doxygen: $(top_srcdir)/src/Inventor/@Gui@/common/sogui.doxygen.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=sogui.doxygen:src/Inventor/@Gui@/common/sogui.doxygen.in )
+	@( cd $(top_builddir); $(top_srcdir)/cfg/m4/doxy4win.pl coin.doxygen )
 
 $(top_builddir)/so@gui@-config: $(top_srcdir)/src/Inventor/@Gui@/common/sogui-config.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=so@gui@-config:src/Inventor/@Gui@/common/sogui-config.in && chmod +x so@gui@-config )
