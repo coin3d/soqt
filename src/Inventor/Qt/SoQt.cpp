@@ -293,6 +293,19 @@ SoQt::mainLoop(void)
 }
 
 /*!
+  This funtcion will make the main event loop finish looping.
+
+  NOTE: exitMainLoop is not part of the original InventorXt API.
+*/
+
+void
+SoQt::exitMainLoop(
+  void )
+{
+  SOQT_STUB();
+} // exitMainLoop()
+
+/*!
   Returns a pointer to the Qt QApplication which was instantiated in
   init().
  */

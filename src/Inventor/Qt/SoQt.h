@@ -53,6 +53,7 @@ public:
   static void init(QWidget * const topLevelWidget);
 
   static void mainLoop(void);
+  static void exitMainLoop(void);
 
   static QApplication * getApplication(void);
   static QWidget * getTopLevelWidget(void);
