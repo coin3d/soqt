@@ -88,6 +88,9 @@ ToDo
 
 *** BUGS ***
 
+* [mortene:19991117] click seek, miss with the ray, click seek again
+  -- mode is still "grab". Click seek again to into seek mode.
+
 * [mortene:19991111] seems like there's a problem with camera focal
   point and floating point precision, here's how to reproduce: load a
   scene containing only a sphere (other shapes or complex scene graphs
