@@ -88,6 +88,8 @@ soqt_src_dir=`cd "$srcdir"; pwd`
 soqt_w32_build_dir=`cygpath -w "$soqt_build_dir" 2>/dev/null || echo "$soqt_build_dir"`
 soqt_w32_src_dir=`cygpath -w "$soqt_src_dir" 2>/dev/null || echo "$soqt_src_dir"`
 
+SIM_AC_RELATIVE_SRC_DIR
+
 # **************************************************************************
 # Miscellaneous options and initializations.
 
@@ -305,6 +307,26 @@ SIM_AC_CHECK_LOADLIBRARY(
   AC_DEFINE([HAVE_WIN32_LOADLIBRARY], 1, [Define to use Win32 LoadLibrary()])
 )
 
+# *******************************************************************
+# The GetClassName() Win32 API call needs user32.lib to be added to
+# the link line - that's the real purpose of this test.
+
+sim_ac_save_LIBS=$LIBS
+LIBS="$LIBS -luser32"
+AC_MSG_CHECKING([for GetClassName() function])
+AC_TRY_LINK([
+#ifdef HAVE_WINDOWS_H
+#include <windows.h>
+#endif
+], [
+  (void)GetClassName(NULL, NULL, 0);
+], [
+  AC_MSG_RESULT([yes])
+  SOQT_EXTRA_LIBS="$SOQT_EXTRA_LIBS -luser32"
+], [
+  AC_MSG_RESULT([no])
+  LIBS=$sim_ac_save_LIBS
+])
 
   
 # **************************************************************************
@@ -928,7 +950,12 @@ AC_OUTPUT([
 	man/man3/Makefile
 	html/Makefile
 	htmlhelp/Makefile
+        cfg/gendsp.sh
 ])
+
+if test -f cfg/gendsp.sh; then
+  chmod +x cfg/gendsp.sh
+fi
 
 if $sim_ac_make_dsp; then :; else
   SIM_AC_CONFIGURATION_SETTING([Installation Prefix], [$prefix])
