@@ -116,10 +116,7 @@ SoQtPlaneViewerP::cameraToggleClicked(void)
 
 // ************************************************************************
 
-/*!
-  The public constructor, to be used by application programmers who
-  want to instantiate the plain, standard SoQtPlaneViewer.
-*/
+// Documented in common/viewers/SoGuiPlaneViewer.cpp.in.
 SoQtPlaneViewer::SoQtPlaneViewer(QWidget * parent,
                                  const char * const name,
                                  SbBool embed,
@@ -133,10 +130,7 @@ SoQtPlaneViewer::SoQtPlaneViewer(QWidget * parent,
 
 // ************************************************************************
 
-/*!
-  A protected constructor, to be used by application programmers who
-  want to extend the SoQtPlaneViewer.
-*/
+// Documented in common/viewers/SoGuiPlaneViewer.cpp.in.
 SoQtPlaneViewer::SoQtPlaneViewer(QWidget * parent,
                                  const char * const name,
                                  SbBool embed,
@@ -151,9 +145,7 @@ SoQtPlaneViewer::SoQtPlaneViewer(QWidget * parent,
 
 // ************************************************************************
 
-/*!
-  The destructor.
-*/
+// Documented in common/viewers/SoGuiPlaneViewer.cpp.in.
 SoQtPlaneViewer::~SoQtPlaneViewer()
 {
   delete PRIVATE(this);
