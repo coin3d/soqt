@@ -5226,6 +5226,67 @@ fi
 ])# SIM_AC_CHECK_HEADER_GLU
 
 # **************************************************************************
+# SIM_AC_CHECK_HEADER_GLEXT([IF-FOUND], [IF-NOT-FOUND])
+#
+# This macro detects how to include the GLEXT header file, and gives you the
+# necessary CPPFLAGS in $sim_ac_glext_cppflags, and also sets the config.h
+# defines HAVE_GL_GLEXT_H or HAVE_OPENGL_GLEXT_H if one of them is found.
+
+AC_DEFUN([SIM_AC_CHECK_HEADER_GLEXT],
+[sim_ac_glext_header_avail=false
+AC_MSG_CHECKING([how to include glext.h])
+if test x"$with_opengl" != x"no"; then
+  sim_ac_glext_save_CPPFLAGS=$CPPFLAGS
+  if test x"$with_opengl" != xyes && test x"$with_opengl" != x""; then
+    sim_ac_glext_cppflags="-I${with_opengl}/include"
+    CPPFLAGS="$CPPFLAGS $sim_ac_glext_cppflags"
+  fi
+  SIM_AC_CHECK_HEADER_SILENT([GL/glext.h], [
+    sim_ac_glext_header_avail=true
+    sim_ac_glext_header=GL/glext.h
+    AC_DEFINE([HAVE_GL_GLEXT_H], 1, [define if the GLEXT header should be included as GL/glext.h])
+  ], [
+    SIM_AC_CHECK_HEADER_SILENT([OpenGL/gl.h], [
+      sim_ac_glext_header_avail=true
+      sim_ac_glext_header=OpenGL/glext.h
+      AC_DEFINE([HAVE_OPENGL_GLEXT_H], 1, [define if the GLEXT header should be included as OpenGL/glext.h])
+    ])
+  ])
+  sim_ac_gl_hpux=/opt/graphics/OpenGL
+  if test x$sim_ac_glext_header_avail = xfalse && test -d $sim_ac_gl_hpux; then
+    sim_ac_glext_cppflags=-I$sim_ac_gl_hpux/include
+    CPPFLAGS="$CPPFLAGS $sim_ac_glext_cppflags"
+    SIM_AC_CHECK_HEADER_SILENT([GL/glext.h], [
+      sim_ac_glext_header_avail=true
+      sim_ac_glext_header=GL/glext.h
+      AC_DEFINE([HAVE_GL_GLEXT_H], 1, [define if the GLEXT header should be included as GL/glext.h])
+    ], [
+      SIM_AC_CHECK_HEADER_SILENT([OpenGL/glext.h], [
+        sim_ac_glext_header_avail=true
+        sim_ac_glext_header=OpenGL/glext.h
+        AC_DEFINE([HAVE_OPENGL_GLEXT_H], 1, [define if the GLEXT header should be included as OpenGL/glext.h])
+      ])
+    ])
+  fi
+  CPPFLAGS="$sim_ac_glext_save_CPPFLAGS"
+  if $sim_ac_glext_header_avail; then
+    if test x"$sim_ac_glext_cppflags" = x""; then
+      AC_MSG_RESULT([@%:@include <$sim_ac_glext_header>])
+    else
+      AC_MSG_RESULT([$sim_ac_glext_cppflags, @%:@include <$sim_ac_glext_header>])
+    fi
+    $1
+  else
+    AC_MSG_RESULT([not found])
+    $2
+  fi
+else
+  AC_MSG_RESULT([disabled])
+  $2
+fi
+])# SIM_AC_CHECK_HEADER_GLEXT
+
+# **************************************************************************
 
 AC_DEFUN(SIM_AC_CHECK_OPENGL, [
 
@@ -5276,14 +5337,14 @@ if test x"$with_opengl" != xno; then
     sim_ac_gl_ldflags="-Wl,-framework,OpenGL"
   fi
 
-  SIM_AC_CHECK_HEADER_GL(, [AC_MSG_ERROR([could not find gl.h])])
-
   sim_ac_save_cppflags=$CPPFLAGS
   sim_ac_save_ldflags=$LDFLAGS
   sim_ac_save_libs=$LIBS
 
   CPPFLAGS="$CPPFLAGS $sim_ac_gl_cppflags"
   LDFLAGS="$LDFLAGS $sim_ac_gl_ldflags"
+
+  SIM_AC_CHECK_HEADER_GL(, [AC_MSG_ERROR([could not find gl.h])])
 
   AC_CACHE_CHECK(
     [whether OpenGL library is available],
@@ -5426,7 +5487,6 @@ glEnd();
     [sim_cv_glu_ready=true],
     [sim_cv_glu_ready=false])])
 
-CPPFLAGS=$sim_ac_glu_save_CPPFLAGS
 if $sim_cv_glu_ready; then
   ifelse([$1], , :, [$1])
 else
@@ -5445,7 +5505,7 @@ fi
 #    $sim_ac_glu_libs     (link libraries the linker needs for GLU)
 #
 #  The CPPFLAGS, LDFLAGS and LIBS flags will also be modified accordingly.
-#  In addition, the variable $sim_ac_gly_avail is set to "yes" if GLU
+#  In addition, the variable $sim_ac_glu_avail is set to "yes" if GLU
 #  is found.
 #
 #
@@ -6954,7 +7014,7 @@ fi
 ])
 
 # Usage:
-#   SIM_CHECK_EXCEPTION_HANDLING
+#   SIM_AC_EXCEPTION_HANDLING
 #
 # Description:
 #   Let the user decide if C++ exception handling should be compiled
@@ -6970,7 +7030,7 @@ fi
 #   * [mortene:19991114] make this work with compilers other than gcc/g++
 #
 
-AC_DEFUN([SIM_EXCEPTION_HANDLING], [
+AC_DEFUN([SIM_AC_EXCEPTION_HANDLING], [
 AC_PREREQ([2.13])
 AC_ARG_ENABLE(
   [exceptions],
@@ -7008,7 +7068,7 @@ fi
 
 
 # Usage:
-#   SIM_PROFILING_SUPPORT
+#   SIM_AC_PROFILING_SUPPORT
 #
 # Description:
 #   Let the user decide if profiling code should be compiled
@@ -7025,7 +7085,7 @@ fi
 #   * [mortene:19991114] make this work with compilers other than gcc/g++
 #
 
-AC_DEFUN([SIM_PROFILING_SUPPORT], [
+AC_DEFUN([SIM_AC_PROFILING_SUPPORT], [
 AC_PREREQ([2.13])
 AC_ARG_ENABLE(
   [profile],
@@ -7051,7 +7111,7 @@ fi
 
 
 # Usage:
-#   SIM_COMPILER_WARNINGS
+#   SIM_AC_COMPILER_WARNINGS
 #
 # Description:
 #   Take care of making a sensible selection of warning messages
@@ -7069,7 +7129,7 @@ fi
 #   * [larsa:20010504] rename to SIM_AC_COMPILER_WARNINGS and clean up
 #     the macro
 
-AC_DEFUN([SIM_COMPILER_WARNINGS], [
+AC_DEFUN([SIM_AC_COMPILER_WARNINGS], [
 AC_ARG_ENABLE(
   [warnings],
   AC_HELP_STRING([--enable-warnings],

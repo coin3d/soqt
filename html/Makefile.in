@@ -773,7 +773,7 @@ $(top_builddir)/man/man1/so@gui@-config.1: $(top_srcdir)/src/Inventor/@Gui@/comm
 @BUILD_HTMLPAGES_TRUE@	@sim_ac_doxygen_exe@ $(top_builddir)/sogui.doxygen
 
 @BUILD_HTMLPAGES_TRUE@filelist.txt: $(KEYHTMLPAGE)
-@BUILD_HTMLPAGES_TRUE@	@ls -1 | egrep '(\.html|\.gif|\.css)$$' >filelist.txt
+@BUILD_HTMLPAGES_TRUE@	@ls -1 | egrep '(\.html|\.gif|\.png|\.css)$$' >filelist.txt
 
 @BUILD_HTMLPAGES_TRUE@all-local: filelist.txt
 

@@ -10592,6 +10592,13 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
     sim_ac_gl_ldflags="-Wl,-framework,OpenGL"
   fi
 
+  sim_ac_save_cppflags=$CPPFLAGS
+  sim_ac_save_ldflags=$LDFLAGS
+  sim_ac_save_libs=$LIBS
+
+  CPPFLAGS="$CPPFLAGS $sim_ac_gl_cppflags"
+  LDFLAGS="$LDFLAGS $sim_ac_gl_ldflags"
+
   sim_ac_gl_header_avail=false
 echo "$as_me:$LINENO: checking how to include gl.h" >&5
 echo $ECHO_N "checking how to include gl.h... $ECHO_C" >&6
@@ -10813,13 +10820,6 @@ echo "$as_me: error: could not find gl.h" >&2;}
    { (exit 1); exit 1; }; }
 fi
 
-
-  sim_ac_save_cppflags=$CPPFLAGS
-  sim_ac_save_ldflags=$LDFLAGS
-  sim_ac_save_libs=$LIBS
-
-  CPPFLAGS="$CPPFLAGS $sim_ac_gl_cppflags"
-  LDFLAGS="$LDFLAGS $sim_ac_gl_ldflags"
 
   echo "$as_me:$LINENO: checking whether OpenGL library is available" >&5
 echo $ECHO_N "checking whether OpenGL library is available... $ECHO_C" >&6
