@@ -75,6 +75,9 @@
 /* Define to enable use of the Open Inventor SoPolygonOffset node */
 #undef HAVE_SOPOLYGONOFFSET
 
+/* Define to enable use of Inventor feature */
+#undef HAVE_SORTED_LAYERS_BLEND
+
 /* Define to enable use of the Open Inventor SoVRMLBackground VRML node */
 #undef HAVE_SOVRMLBACKGROUND
 

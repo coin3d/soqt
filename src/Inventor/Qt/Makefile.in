@@ -112,8 +112,8 @@ LTLIBOBJS = @LTLIBOBJS@
 LT_AGE = @LT_AGE@
 LT_CURRENT = @LT_CURRENT@
 LT_REVISION = @LT_REVISION@
-MACOSX_10_2_FALSE = @MACOSX_10_2_FALSE@
-MACOSX_10_2_TRUE = @MACOSX_10_2_TRUE@
+MACOSX_10_2FF_FALSE = @MACOSX_10_2FF_FALSE@
+MACOSX_10_2FF_TRUE = @MACOSX_10_2FF_TRUE@
 MAC_FRAMEWORK = @MAC_FRAMEWORK@
 MAC_FRAMEWORK_FALSE = @MAC_FRAMEWORK_FALSE@
 MAC_FRAMEWORK_NAME = @MAC_FRAMEWORK_NAME@
@@ -625,8 +625,8 @@ DISTCLEANFILES = \
 @BUILD_WITH_MSVC_TRUE@lib_LIBRARIES = soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib
 @BUILD_WITH_MSVC_FALSE@lib_LTLIBRARIES = libSoQt@SUFFIX@.la
 
-@MACOSX_10_2_TRUE@LibtoolLinkArgs = -Wl,-twolevel_namespace -Wl,-undefined,error -Wl,-prebind -Wl,-seg1addr,0x30000000
-@MACOSX_10_2_FALSE@LibtoolLinkArgs = -no-undefined
+@MACOSX_10_2FF_TRUE@LibtoolLinkArgs = -Wl,-twolevel_namespace -Wl,-undefined,error -Wl,-prebind -Wl,-seg1addr,0x30000000
+@MACOSX_10_2FF_FALSE@LibtoolLinkArgs = -no-undefined
 
 # hack to change libdir value when installing Mac OS X compiler framework
 @MAC_FRAMEWORK_TRUE@lib@nop@dir = $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$(MAC_FRAMEWORK_VERSION)/Libraries
