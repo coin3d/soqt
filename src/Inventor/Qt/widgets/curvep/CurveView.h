@@ -68,10 +68,10 @@ signals:
   void curveChanged(void);
   
 protected:
-  void contentsMousePressEvent(QMouseEvent * e);
-  void contentsMouseReleaseEvent(QMouseEvent * e);
-  void contentsMouseMoveEvent(QMouseEvent * e);
-  void drawContents(QPainter * p, int cx, int cy, int cw, int ch);
+  virtual void contentsMousePressEvent(QMouseEvent * e);
+  virtual void contentsMouseReleaseEvent(QMouseEvent * e);
+  virtual void contentsMouseMoveEvent(QMouseEvent * e);
+  virtual void drawContents(QPainter * p, int cx, int cy, int cw, int ch);
 
 private:
   void interpolateFromColors();

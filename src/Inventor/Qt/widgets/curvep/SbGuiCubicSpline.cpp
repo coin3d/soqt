@@ -256,7 +256,7 @@ SbGuiCubicSpline::initMatrix(const int q, SbMatrix & m)
     m[i][0] = this->ctrlpts[pnr[i]][0];
     m[i][1] = this->ctrlpts[pnr[i]][1];
     m[i][2] = this->ctrlpts[pnr[i]][2];
-    m[i][3] = this->ctrlpts[pnr[i]][3]; 
+    m[i][3] = this->ctrlpts[pnr[i]][3];
   }
   m.multLeft(this->basismatrix);
 }
