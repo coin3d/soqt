@@ -1015,6 +1015,7 @@ if test -n "$ac_init_help"; then
 Optional Features:
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
+  --enable-msvcdsp        build .dsp, not library
   --disable-msvc          don't require MS Visual C++ on Cygwin
   --disable-dependency-tracking Speeds up one-time builds
   --enable-dependency-tracking  Do not reject slow dependency extractors
@@ -1554,6 +1555,19 @@ test -n "$target_alias" &&
     NONENONEs,x,x, &&
   program_prefix=${target_alias}-
 
+# **************************************************************************
+
+# Check whether --enable-msvcdsp or --disable-msvcdsp was given.
+if test "${enable_msvcdsp+set}" = set; then
+  enableval="$enable_msvcdsp"
+  case $enableval in
+  no | false) sim_ac_make_dsp=false ;;
+  *)          sim_ac_make_dsp=true ;;
+  esac
+else
+  sim_ac_make_dsp=false
+fi;
+
 # Check whether --enable-msvc or --disable-msvc was given.
 if test "${enable_msvc+set}" = set; then
   enableval="$enable_msvc"
@@ -1673,6 +1687,13 @@ cat >>confdefs.h <<_ACEOF
 #define SOQT_VERSION "$SOQT_VERSION"
 _ACEOF
 
+
+# **************************************************************************
+
+soqt_build_dir=`pwd`
+soqt_src_dir=`cd "$srcdir"; pwd`
+soqt_w32_build_dir=`cygpath -w "$soqt_build_dir" 2>/dev/null || echo "$soqt_build_dir"`
+soqt_w32_src_dir=`cygpath -w "$soqt_src_dir" 2>/dev/null || echo "$soqt_src_dir"`
 
 # **************************************************************************
 # Miscellaneous options and initializations.
@@ -5130,7 +5151,7 @@ test "x$enable_libtool_lock" != xno && enable_libtool_lock=yes
 case $host in
 *-*-irix6*)
   # Find out which ABI we are using.
-  echo '#line 5133 "configure"' > conftest.$ac_ext
+  echo '#line 5154 "configure"' > conftest.$ac_ext
   if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
@@ -5666,7 +5687,7 @@ chmod -w .
 save_CFLAGS="$CFLAGS"
 CFLAGS="$CFLAGS -o out/conftest2.$ac_objext"
 compiler_c_o=no
-if { (eval echo configure:5669: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>out/conftest.err; } && test -s out/conftest2.$ac_objext; then
+if { (eval echo configure:5690: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>out/conftest.err; } && test -s out/conftest2.$ac_objext; then
   # The compiler can only warn and ignore the option if not recognized
   # So say no if there are warnings
   if test -s out/conftest.err; then
@@ -7459,7 +7480,7 @@ else
     lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 7462 "configure"
+#line 7483 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -7557,7 +7578,7 @@ else
     lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 7560 "configure"
+#line 7581 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -15523,6 +15544,13 @@ darwin*)
 esac
 
 # **************************************************************************
+
+
+
+
+
+
+# **************************************************************************
 # Remove redundant options from certain option lists.
 
 
@@ -15733,97 +15761,140 @@ else
   BUILD_WITH_MSVC_FALSE=
 fi
 
-if $BUILD_WITH_MSVC; then
-  rm -f vc60.pdb
-  ## Ensure that if we link with Coin, we use the same C library as Coin
-  if test x"$sim_ac_coin_msvcrt" != x"" &&
-     test x"$sim_ac_msvcrt" != x"$sim_ac_coin_msvcrt"; then
-      if test x${sim_ac_configuration_warnings+set} != xset; then
+# **************************************************************************
+
+if $sim_ac_make_dsp; then
+  if test x${sim_ac_configuration_settings+set} != xset; then
+  sim_ac_configuration_settings="SoQt build type:msvc .dsp"
+else
+  sim_ac_configuration_settings="$sim_ac_configuration_settings|SoQt build type:msvc .dsp"
+fi
+
+  CC=$soqt_src_dir/cfg/m4/gendsp.sh
+  CXX=$soqt_src_dir/cfg/m4/gendsp.sh
+  CXXLD=$soqt_src_dir/cfg/m4/gendsp.sh
+  # Yes, this is totally bogus stuff, but don't worry about it.  As long
+  # as gendsp.sh recognizes it...  20030219 larsa
+  CPPFLAGS="$CPPFLAGS -Ddspfile=$soqt_build_dir/soqt$SOQT_MAJOR_VERSION.dsp"
+  LDFLAGS="$LDFLAGS -Wl,-Ddspfile=$soqt_build_dir/soqt$SOQT_MAJOR_VERSION.dsp"
+  LIBFLAGS="$LIBFLAGS -o soqt$SOQT_MAJOR_VERSION.so.0"
+
+  SOQT_DSP_LIBS=
+  for arg in $LIBS; do
+    case $arg in
+    -l* )
+      libname=`echo $arg | cut -c3-`
+      if test x"$SOQT_DSP_LIBS" = x""; then
+        SOQT_DSP_LIBS="$libname.lib"
+      else
+        SOQT_DSP_LIBS="$SOQT_DSP_LIBS $libname.lib"
+      fi
+      ;;
+    esac
+  done
+
+
+  # this can't be set up at the point the libtool script is generated
+  mv libtool libtool.bak
+  sed -e "s%^CC=\"gcc\"%CC=\"$soqt_src_dir/cfg/m4/gendsp.sh\"%" \
+      -e "s%^CC=\".*/wrapmsvc.exe\"%CC=\"$soqt_src_dir/cfg/m4/gendsp.sh\"%" \
+      <libtool.bak >libtool
+  rm -f libtool.bak
+  chmod 755 libtool
+
+elif $sim_ac_build_library; then
+  if $BUILD_WITH_MSVC; then
+    rm -f vc60.pdb
+    ## Ensure that if we link with Coin, we use the same C library as Coin
+    if test x"$sim_ac_coin_msvcrt" != x"" &&
+       test x"$sim_ac_msvcrt" != x"$sim_ac_coin_msvcrt"; then
+        if test x${sim_ac_configuration_warnings+set} != xset; then
   sim_ac_configuration_warnings="You have built Coin with the $sim_ac_coin_msvcrt C library, while you try to build So$Gui with the $sim_ac_msvcrt C library.  This can cause mysterious crashes for you.  We recommend that you run So$Gui's configure script with the --with-msvcrt=$sim_ac_coin_msvcrt option."
 else
   sim_ac_configuration_warnings="$sim_ac_configuration_warnings|You have built Coin with the $sim_ac_coin_msvcrt C library, while you try to build So$Gui with the $sim_ac_msvcrt C library.  This can cause mysterious crashes for you.  We recommend that you run So$Gui's configure script with the --with-msvcrt=$sim_ac_coin_msvcrt option."
 fi
 
-  fi
-  LIBFLAGS="$LIBFLAGS $sim_ac_msvcrt_LIBLDFLAGS"
-  LIBS="$LIBS $sim_ac_msvcrt_LIBLIBS"
-  if $SOQT_STATIC; then
-    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS -DSOQT_NOT_DLL"
-  else
-    CPPFLAGS="-DSOQT_MAKE_DLL $CPPFLAGS"
-    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS -DSOQT_DLL"
-  fi
+    fi
+    LIBFLAGS="$LIBFLAGS $sim_ac_msvcrt_LIBLDFLAGS"
+    LIBS="$LIBS $sim_ac_msvcrt_LIBLIBS"
+    if $SOQT_STATIC; then
+      SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS -DSOQT_NOT_DLL"
+    else
+      CPPFLAGS="-DSOQT_MAKE_DLL $CPPFLAGS"
+      SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS -DSOQT_DLL"
+    fi
 
-  debugfile="`pwd`/src/Inventor/Qt/soqt${SOQT_MAJOR_VERSION}${SUFFIX}.pdb"
-  debugfile=`cygpath -w "$debugfile" | sed 's,\\\\,\\\\\\\\,g'`
-  if $SOQT_STATIC; then
-    if test x${sim_ac_configuration_settings+set} != xset; then
+    debugfile="`pwd`/src/Inventor/Qt/soqt${SOQT_MAJOR_VERSION}${SUFFIX}.pdb"
+    debugfile=`cygpath -w "$debugfile" | sed 's,\\\\,\\\\\\\\,g'`
+    if $SOQT_STATIC; then
+      if test x${sim_ac_configuration_settings+set} != xset; then
   sim_ac_configuration_settings="SoQt build type:static .lib"
 else
   sim_ac_configuration_settings="$sim_ac_configuration_settings|SoQt build type:static .lib"
 fi
 
-    LIBFLAGS="-LIB $LIBFLAGS"
-    LIBFLAGS="$LIBFLAGS /OUT:soqt$SOQT_MAJOR_VERSION$SUFFIX.lib"
-  else
-    LIBFLAGS="-DLL /INCREMENTAL:NO $LIBFLAGS"
-    case $enable_symbols in
-    no | false)
-      LIBFLAGS="$LIBFLAGS /RELEASE"
-      if test x${sim_ac_configuration_settings+set} != xset; then
+      LIBFLAGS="-LIB $LIBFLAGS"
+      LIBFLAGS="$LIBFLAGS /OUT:soqt$SOQT_MAJOR_VERSION$SUFFIX.lib"
+    else
+      LIBFLAGS="-DLL /INCREMENTAL:NO $LIBFLAGS"
+      case $enable_symbols in
+      no | false)
+        LIBFLAGS="$LIBFLAGS /RELEASE"
+        if test x${sim_ac_configuration_settings+set} != xset; then
   sim_ac_configuration_settings="SoQt build type:dynamic .dll, no symbols"
 else
   sim_ac_configuration_settings="$sim_ac_configuration_settings|SoQt build type:dynamic .dll, no symbols"
 fi
 
-      ;;
-    *)
-      if test x${sim_ac_configuration_settings+set} != xset; then
+        ;;
+      *)
+        if test x${sim_ac_configuration_settings+set} != xset; then
   sim_ac_configuration_settings="SoQt build type:dynamic .dll + .pdb"
 else
   sim_ac_configuration_settings="$sim_ac_configuration_settings|SoQt build type:dynamic .dll + .pdb"
 fi
 
-      CPPFLAGS="/Fd$debugfile $CPPFLAGS"
-      LIBFLAGS="$LIBFLAGS /DEBUG /PDB:soqt$SOQT_MAJOR_VERSION$SUFFIX.pdb"
-      ;;
-    esac
-    LIBFLAGS="$LIBFLAGS /OUT:soqt$SOQT_MAJOR_VERSION$SUFFIX.dll"
-  fi
+        CPPFLAGS="/Fd$debugfile $CPPFLAGS"
+        LIBFLAGS="$LIBFLAGS /DEBUG /PDB:soqt$SOQT_MAJOR_VERSION$SUFFIX.pdb"
+        ;;
+      esac
+      LIBFLAGS="$LIBFLAGS /OUT:soqt$SOQT_MAJOR_VERSION$SUFFIX.dll"
+    fi
 
-  # We use a version suffix on the .dll-file, so several incompatible
-  # (major) versions can be installed on a system.
-  #
-  # BTW, when linking DLLs, the 3rd-party .lib files will be
-  # linked into the .dll file. I believe it is still advisable to
-  # list all libs used upon `soqt-config --libs`, as we can then
-  # also use them from "parent" code (remember that their interfaces
-  # is not exposed from the DLL) without any fuss.
-  SOGUI_EXTRA_LIBS="-lsoqt$SOQT_MAJOR_VERSION$SUFFIX $SOGUI_EXTRA_LIBS"
-else
-  SOGUI_EXTRA_LIBS="-lSoQt$SUFFIX $SOGUI_EXTRA_LIBS"
+    # We use a version suffix on the .dll-file, so several incompatible
+    # (major) versions can be installed on a system.
+    #
+    # BTW, when linking DLLs, the 3rd-party .lib files will be
+    # linked into the .dll file. I believe it is still advisable to
+    # list all libs used upon `soqt-config --libs`, as we can then
+    # also use them from "parent" code (remember that their interfaces
+    # is not exposed from the DLL) without any fuss.
+    SOGUI_EXTRA_LIBS="-lsoqt$SOQT_MAJOR_VERSION$SUFFIX $SOGUI_EXTRA_LIBS"
+  else
+    SOGUI_EXTRA_LIBS="-lSoQt$SUFFIX $SOGUI_EXTRA_LIBS"
 
-  if $sim_ac_framework; then
-    # setup for SoQt usage
-    SOGUI_EXTRA_CPPFLAGS=
-    SOGUI_EXTRA_CFLAGS=
-    SOGUI_EXTRA_CXXFLAGS=
-    SOGUI_EXTRA_LDFLAGS="-Wl,-multiply_defined,suppress -framework SoQt"
-    SOGUI_EXTRA_LIBS=
-    # adjust for Qt usage
-    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qt_cppflags"
-    SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qt_ldflags"
-    SOGUI_EXTRA_LIBS="$sim_ac_qt_libs $SOGUI_EXTRA_LIBS"
-    # adjust for QGL usage
-    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qgl_cppflags"
-    SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qgl_ldflags"
-    SOGUI_EXTRA_LIBS="$sim_ac_qgl_libs $SOGUI_EXTRA_LIBS"
-    # adjust for Coin usage
-    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_coin_cppflags"
-    SOGUI_EXTRA_CFLAGS="$SOGUI_EXTRA_CFLAGS $sim_ac_coin_cflags"
-    SOGUI_EXTRA_CXXFLAGS="$SOGUI_EXTRA_CXXFLAGS $sim_ac_coin_cxxflags"
-    SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_coin_ldflags"
-    SOGUI_EXTRA_LIBS="$sim_ac_coin_libs $SOGUI_EXTRA_LIBS"
+    if $sim_ac_framework; then
+      # setup for SoQt usage
+      SOGUI_EXTRA_CPPFLAGS=
+      SOGUI_EXTRA_CFLAGS=
+      SOGUI_EXTRA_CXXFLAGS=
+      SOGUI_EXTRA_LDFLAGS="-Wl,-multiply_defined,suppress -framework SoQt"
+      SOGUI_EXTRA_LIBS=
+      # adjust for Qt usage
+      SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qt_cppflags"
+      SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qt_ldflags"
+      SOGUI_EXTRA_LIBS="$sim_ac_qt_libs $SOGUI_EXTRA_LIBS"
+      # adjust for QGL usage
+      SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qgl_cppflags"
+      SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qgl_ldflags"
+      SOGUI_EXTRA_LIBS="$sim_ac_qgl_libs $SOGUI_EXTRA_LIBS"
+      # adjust for Coin usage
+      SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_coin_cppflags"
+      SOGUI_EXTRA_CFLAGS="$SOGUI_EXTRA_CFLAGS $sim_ac_coin_cflags"
+      SOGUI_EXTRA_CXXFLAGS="$SOGUI_EXTRA_CXXFLAGS $sim_ac_coin_cxxflags"
+      SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_coin_ldflags"
+      SOGUI_EXTRA_LIBS="$sim_ac_coin_libs $SOGUI_EXTRA_LIBS"
+    fi
   fi
 fi
 
@@ -16543,9 +16614,14 @@ s,@GUI@,$GUI,;t t
 s,@WIDGET@,$WIDGET,;t t
 s,@EVENT@,$EVENT,;t t
 s,@COMPONENTHEADER@,$COMPONENTHEADER,;t t
+s,@soqt_build_dir@,$soqt_build_dir,;t t
+s,@soqt_w32_build_dir@,$soqt_w32_build_dir,;t t
+s,@soqt_src_dir@,$soqt_src_dir,;t t
+s,@soqt_w32_src_dir@,$soqt_w32_src_dir,;t t
 s,@LIBFLAGS@,$LIBFLAGS,;t t
 s,@BUILD_WITH_MSVC_TRUE@,$BUILD_WITH_MSVC_TRUE,;t t
 s,@BUILD_WITH_MSVC_FALSE@,$BUILD_WITH_MSVC_FALSE,;t t
+s,@SOQT_DSP_LIBS@,$SOQT_DSP_LIBS,;t t
 CEOF
 
 _ACEOF
