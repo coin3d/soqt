@@ -124,7 +124,7 @@ AC_SUBST(SOQT_LIBNAME)
 if test x"$with_inventor" = xyes; then
   # For Open Inventor linkage, we need to check for a shitload of libraries.
 
-  SIM_CHECK_DL([
+  SIM_AC_CHECK_DL([
     SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS $sim_ac_dl_cppflags"
     SOQT_EXTRA_LDFLAGS="$SOQT_EXTRA_LDFLAGS $sim_ac_dl_ldflags"
     SOQT_EXTRA_LIBS="$sim_ac_dl_libs $SOQT_EXTRA_LIBS"
