@@ -78,9 +78,19 @@ SoQtMouse::disable(QWidget * widget, SoQtEventHandler * handler, void * closure)
 const SoEvent *
 SoQtMouse::translateEvent(QEvent * event)
 {
-  SoEvent * super = NULL;
-  QMouseEvent * mouseevent = (QMouseEvent *)event;
+  SoEvent * conv = NULL;
 
+  QWheelEvent * wheelevent =
+    (event->type() == QEvent::Wheel) ? (QWheelEvent *)event : NULL;
+
+  QMouseEvent * mouseevent =
+    ((event->type() == QEvent::MouseButtonDblClick) ||
+     (event->type() == QEvent::MouseButtonPress) ||
+     (event->type() == QEvent::MouseButtonRelease) ||
+     (event->type() == QEvent::MouseMove)) ?
+    (QMouseEvent *)event : NULL;
+
+  if (!wheelevent && !mouseevent) return NULL;
 
   // Convert wheel mouse events to Coin SoMouseButtonEvents.
   //
@@ -89,22 +99,21 @@ SoQtMouse::translateEvent(QEvent * event)
   // coin-discuss.)
 
 #ifdef HAVE_SOMOUSEBUTTONEVENT_BUTTON5
-  if (event->type() == QEvent::Wheel) {
-    QWheelEvent * const wevent = (QWheelEvent *) event;
-    if (wevent->delta() > 0)
+  if (wheelevent) {
+    if (wheelevent->delta() > 0)
       PRIVATE(this)->buttonevent->setButton(SoMouseButtonEvent::BUTTON4);
-    else if (wevent->delta() < 0)
+    else if (wheelevent->delta() < 0)
       PRIVATE(this)->buttonevent->setButton(SoMouseButtonEvent::BUTTON5);
 #if SOQT_DEBUG
-    else
+    else {
       SoDebugError::postInfo("SoQtMouse::translateEvent",
                              "event, but no movement");
+    }
 #endif // SOQT_DEBUG
     PRIVATE(this)->buttonevent->setState(SoButtonEvent::DOWN);
-    super = PRIVATE(this)->buttonevent;
+    conv = PRIVATE(this)->buttonevent;
   }
 #endif // HAVE_SOMOUSEBUTTONEVENT_BUTTON5
-
 
   // Check for mousebutton press/release. Note that mousebutton
   // doubleclick events are handled by converting them to two
@@ -152,7 +161,7 @@ SoQtMouse::translateEvent(QEvent * event)
     else
       PRIVATE(this)->buttonevent->setState(SoButtonEvent::DOWN);
 
-    super = PRIVATE(this)->buttonevent;
+    conv = PRIVATE(this)->buttonevent;
   }
 
 
@@ -161,23 +170,31 @@ SoQtMouse::translateEvent(QEvent * event)
       // FIXME: is this correct? BUTTON_MOTION means "motion with
       // buttons down". 20020625 mortene.
       (PRIVATE(this)->eventmask & (POINTER_MOTION | BUTTON_MOTION))) {
-    super = PRIVATE(this)->locationevent;
+    conv = PRIVATE(this)->locationevent;
   }
 
 
   // Common settings for SoEvent superclass.
-  if (super) {
+  if (conv) {
     // Modifiers
-    super->setShiftDown(mouseevent->state() & Qt::ShiftButton);
-    super->setCtrlDown(mouseevent->state() & Qt::ControlButton);
-    super->setAltDown(mouseevent->state() & Qt::AltButton);
+    if (mouseevent) {
+      conv->setShiftDown(mouseevent->state() & Qt::ShiftButton);
+      conv->setCtrlDown(mouseevent->state() & Qt::ControlButton);
+      conv->setAltDown(mouseevent->state() & Qt::AltButton);
+      this->setEventPosition(conv, mouseevent->x(), mouseevent->y());
+    }
+    else { // wheelevent
+      conv->setShiftDown(wheelevent->state() & Qt::ShiftButton);
+      conv->setCtrlDown(wheelevent->state() & Qt::ControlButton);
+      conv->setAltDown(wheelevent->state() & Qt::AltButton);
+      this->setEventPosition(conv, wheelevent->x(), wheelevent->y());
+    }
 
-    this->setEventPosition(super, mouseevent->x(), mouseevent->y());
-    // FIXME: should be time of Qt event. 990211 mortene.
-    super->setTime(SbTime::getTimeOfDay());
+    // FIXME: should be time of Qt event. 19990211 mortene.
+    conv->setTime(SbTime::getTimeOfDay());
   }
 
-  return super;
+  return conv;
 }
 
 // *************************************************************************
