@@ -47,7 +47,8 @@ libSoQt@SUFFIX@_la_SOURCES = \
 	SoQtTransformSliderSet.h
 
 nodist_libSoQt@SUFFIX@_la_SOURCES = \
-	$(BUILT_SOURCES)
+	$(SoQt_src_Inventor_Qt_BuiltFiles) \
+	$(SoQt_src_Inventor_Qt_BuiltMetaFiles)
 
 libSoQt@SUFFIX@_la_LIBADD = \
 	devices/libSoQtDevices.la \

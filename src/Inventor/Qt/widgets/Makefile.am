@@ -56,7 +56,8 @@ widgets_lst_SOURCES = \
 	SoQtPopupMenu.h
 
 nodist_widgets_lst_SOURCES = \
-	$(BUILT_SOURCES)
+	$(SoQt_src_Inventor_Qt_widgets_BuiltFiles) \
+	$(SoQt_src_Inventor_Qt_widgets_BuiltMetaFiles)
 
 widgets.lst: Makefile $(widgets_lst_OBJECTS)
 	@echo "Linking widgets.lst..."; \

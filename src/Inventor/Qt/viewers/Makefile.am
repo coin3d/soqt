@@ -65,7 +65,8 @@ viewers_lst_SOURCES = \
 	SoQtWalkViewer.h
 
 nodist_viewers_lst_SOURCES = \
-	$(BUILT_SOURCES)
+	$(SoQt_src_Inventor_Qt_viewers_BuiltFiles) \
+	$(SoQt_src_Inventor_Qt_viewers_BuiltMetaFiles)
 
 viewers.lst: Makefile $(viewers_lst_OBJECTS)
 	@echo "Linking viewers.lst..."; \

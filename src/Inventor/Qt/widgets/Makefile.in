@@ -372,7 +372,8 @@ widgets_lst_SOURCES = \
 
 
 nodist_widgets_lst_SOURCES = \
-	$(BUILT_SOURCES)
+	$(SoQt_src_Inventor_Qt_widgets_BuiltFiles) \
+	$(SoQt_src_Inventor_Qt_widgets_BuiltMetaFiles)
 
 subdir = src/Inventor/Qt/widgets
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
@@ -384,8 +385,7 @@ widgets_lst_AR = $(AR) cru
 widgets_lst_LIBADD =
 am_widgets_lst_OBJECTS = SoQtGLArea.$(OBJEXT) SoQtThumbWheel.$(OBJEXT) \
 	SoQtPopupMenu.$(OBJEXT)
-@BUILD_METAFILES_TRUE@nodist_widgets_lst_OBJECTS =
-@BUILD_METAFILES_FALSE@nodist_widgets_lst_OBJECTS =
+nodist_widgets_lst_OBJECTS =
 widgets_lst_OBJECTS = $(am_widgets_lst_OBJECTS) \
 	$(nodist_widgets_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)

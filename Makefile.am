@@ -18,14 +18,13 @@ BUILT_SOURCES = \
 	$(So@Gui@AllBuiltFiles)
 
 CLEANFILES = \
-	$(So@Gui@BuiltMetaFiles)
+	$(So@Gui@_BuiltMetaFiles)
 
 DISTCLEANFILES = \
 	libtool \
 	build/so@gui@.doxygen \
-	so@gui@-*.cfg \
-	so@gui@-config \
-	$(BUILT_SOURCES)
+	$(So@Gui@_BuiltFiles) \
+	$(So@Gui@_BuiltMetaFiles)
 
 bin_SCRIPTS = so@gui@-config
 

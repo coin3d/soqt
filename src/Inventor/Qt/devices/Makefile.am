@@ -98,7 +98,8 @@ devices_lst_SOURCES = \
 	$(libSoQtDevicesConditionalSources)
 
 nodist_devices_lst_SOURCES = \
-	$(libSoQtDevicesBuiltSources)
+	$(SoQt_src_Inventor_Qt_devices_BuiltFiles) \
+	$(SoQt_src_Inventor_Qt_devices_BuiltMetaFiles)
 
 devices.lst: Makefile $(devices_lst_OBJECTS)
 	@echo "Linking devices.lst..."; \

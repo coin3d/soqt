@@ -423,7 +423,8 @@ devices_lst_SOURCES = \
 
 
 nodist_devices_lst_SOURCES = \
-	$(libSoQtDevicesBuiltSources)
+	$(SoQt_src_Inventor_Qt_devices_BuiltFiles) \
+	$(SoQt_src_Inventor_Qt_devices_BuiltMetaFiles)
 
 
 
@@ -447,10 +448,7 @@ devices_lst_LIBADD =
 am_devices_lst_OBJECTS = SoQtDevice.$(OBJEXT) SoQtInputFocus.$(OBJEXT) \
 	SoQtKeyboard.$(OBJEXT) SoQtMouse.$(OBJEXT) \
 	SoQtSpaceball.$(OBJEXT)
-nodist_devices_lst_OBJECTS = moc_SoQtDevice.$(OBJEXT) \
-	moc_SoQtInputFocus.$(OBJEXT) moc_SoQtKeyboard.$(OBJEXT) \
-	moc_SoQtMouse.$(OBJEXT) moc_SoQtSpaceball.$(OBJEXT) \
-	spwinput_x11.$(OBJEXT)
+nodist_devices_lst_OBJECTS =
 devices_lst_OBJECTS = $(am_devices_lst_OBJECTS) \
 	$(nodist_devices_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
@@ -480,17 +478,11 @@ depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 @AMDEP_TRUE@	$(DEPDIR)/SoQtSpaceball.Plo \
 @AMDEP_TRUE@	$(DEPDIR)/SoQtSpaceball.Po \
 @AMDEP_TRUE@	$(DEPDIR)/moc_SoQtDevice.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/moc_SoQtDevice.Po \
 @AMDEP_TRUE@	$(DEPDIR)/moc_SoQtInputFocus.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/moc_SoQtInputFocus.Po \
 @AMDEP_TRUE@	$(DEPDIR)/moc_SoQtKeyboard.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/moc_SoQtKeyboard.Po \
 @AMDEP_TRUE@	$(DEPDIR)/moc_SoQtMouse.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/moc_SoQtMouse.Po \
 @AMDEP_TRUE@	$(DEPDIR)/moc_SoQtSpaceball.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/moc_SoQtSpaceball.Po \
-@AMDEP_TRUE@	$(DEPDIR)/spwinput_x11.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/spwinput_x11.Po
+@AMDEP_TRUE@	$(DEPDIR)/spwinput_x11.Plo
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -565,17 +557,11 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtSpaceball.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/SoQtSpaceball.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/moc_SoQtDevice.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/moc_SoQtDevice.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/moc_SoQtInputFocus.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/moc_SoQtInputFocus.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/moc_SoQtKeyboard.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/moc_SoQtKeyboard.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/moc_SoQtMouse.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/moc_SoQtMouse.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/moc_SoQtSpaceball.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/moc_SoQtSpaceball.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/spwinput_x11.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/spwinput_x11.Po@am__quote@
 
 distclean-depend:
 	-rm -rf $(DEPDIR)
