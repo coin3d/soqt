@@ -554,7 +554,7 @@ if $BUILD_WITH_MSVC; then
   # don't use wrapmsvc from source hierarchy when later using soqt-config.
   COIN_COMPILER="wrapmsvc"
 fi
-AC_SUBST(COIN_COMPILER)
+AC_SUBST([COIN_COMPILER])
 
 else # $sim_ac_build_library == false
   AC_SUBST([MOC], [moc])
@@ -662,10 +662,15 @@ AC_SUBST([LIBFLAGS], [])
 # **************************************************************************
 # Remaining setup based on platform.
 
-AM_CONDITIONAL(BUILD_WITH_MSVC, $BUILD_WITH_MSVC)
+AM_CONDITIONAL([BUILD_WITH_MSVC], [$BUILD_WITH_MSVC])
 
 if $BUILD_WITH_MSVC; then
   rm -f vc60.pdb
+  ## Ensure that if we link with Coin, we use the same C library as Coin
+  if test x"$sim_ac_coin_msvcrt" != x"" &&
+     test x"$sim_ac_msvcrt" != x"$sim_ac_coin_msvcrt"; then
+      SIM_AC_CONFIGURATION_WARNING([You have built Coin with the $sim_ac_coin_msvcrt C library, while you try to build So$Gui with the $sim_ac_msvcrt C library.  This can cause mysterious crashes for you.  We recommend that you run So$Gui's configure script with the --with-msvcrt=$sim_ac_coin_msvcrt option.])
+  fi
   LIBFLAGS="$LIBFLAGS $sim_ac_msvcrt_LIBLDFLAGS"
   LIBS="$LIBS $sim_ac_msvcrt_LIBLIBS"
   if $SOQT_STATIC; then
