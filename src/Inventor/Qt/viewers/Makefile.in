@@ -462,7 +462,7 @@ moc_SoQtFlyViewer.cpp: $(top_srcdir)/src/Inventor/Qt/viewers/SoQtFlyViewer.h
 
 .cpp.lo:
 	@(source='$<'; \
-	set dummy $(libSoQtDevicesVPATH); \
+	set dummy $(libSoQtViewersVPATH); \
 	shift; \
 	for dir \
 	do \
@@ -472,7 +472,7 @@ moc_SoQtFlyViewer.cpp: $(top_srcdir)/src/Inventor/Qt/viewers/SoQtFlyViewer.h
 	done; \
 	eval $(CXXDEPMODE); \
 	if test x"$$depmode" = x""; then \
-	  depmode=sgi; \
+	  depmode=none; \
 	fi; \
 	source="$$source" object='$@' libtool=no \
 	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' \

@@ -65,7 +65,7 @@ libSoQtViewersVPATH = . $(srcdir) $(top_srcdir)/src/Inventor/Qt/common
 
 .cpp.lo:
 	@(source='$<'; \
-	set dummy $(libSoQtDevicesVPATH); \
+	set dummy $(libSoQtViewersVPATH); \
 	shift; \
 	for dir \
 	do \
@@ -75,7 +75,7 @@ libSoQtViewersVPATH = . $(srcdir) $(top_srcdir)/src/Inventor/Qt/common
 	done; \
 	eval $(CXXDEPMODE); \
 	if test x"$$depmode" = x""; then \
-	  depmode=sgi; \
+	  depmode=none; \
 	fi; \
 	source="$$source" object='$@' libtool=no \
 	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' \

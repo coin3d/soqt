@@ -369,7 +369,7 @@ moc_QtGLArea.cpp: $(top_srcdir)/src/Inventor/Qt/widgets/QtGLArea.h
 
 .cpp.lo:
 	@(source='$<'; \
-	set dummy $(libSoQtDevicesVPATH); \
+	set dummy $(libSoQtWidgetsVPATH); \
 	shift; \
 	for dir \
 	do \
@@ -379,7 +379,7 @@ moc_QtGLArea.cpp: $(top_srcdir)/src/Inventor/Qt/widgets/QtGLArea.h
 	done; \
 	eval $(CXXDEPMODE); \
 	if test x"$$depmode" = x""; then \
-	  depmode=sgi; \
+	  depmode=none; \
 	fi; \
 	source="$$source" object='$@' libtool=no \
 	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' \

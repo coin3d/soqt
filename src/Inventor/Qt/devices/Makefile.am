@@ -31,7 +31,7 @@ libSoQtDevicesVPATH = . $(srcdir)
 	done; \
 	eval $(CXXDEPMODE); \
 	if test x"$$depmode" = x""; then \
-	  depmode=sgi; \
+	  depmode=none; \
 	fi; \
 	source="$$source" object='$@' libtool=no \
 	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' \

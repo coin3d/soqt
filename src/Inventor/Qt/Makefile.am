@@ -28,7 +28,7 @@ libSoQtVPATH = . $(srcdir)
 
 .cpp.lo:
 	@(source='$<'; \
-	set dummy $(libSoQtDevicesVPATH); \
+	set dummy $(libSoQtVPATH); \
 	shift; \
 	for dir \
 	do \
@@ -38,7 +38,7 @@ libSoQtVPATH = . $(srcdir)
 	done; \
 	eval $(CXXDEPMODE); \
 	if test x"$$depmode" = x""; then \
-	  depmode=sgi; \
+	  depmode=none; \
 	fi; \
 	source="$$source" object='$@' libtool=no \
 	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' \
