@@ -64,15 +64,6 @@ SO_KIT_SOURCE(RGBCubeEditorKit);
 
 // *************************************************************************
 
-static const char RGBCUBE_draggergeometry[] =
-"#Inventor V2.1 ascii\n"
-"\n"
-" DEF DraggerX Scale1Dragger { }\n"
-" DEF DraggerY Scale1Dragger { }\n"
-" DEF DraggerZ Scale1Dragger { }\n";
-
-// *************************************************************************
-
 class RGBCubeEditorKitP {
 public:
   RGBCubeEditorKitP(RGBCubeEditorKit * master) {
@@ -154,25 +145,9 @@ RGBCubeEditorKit::RGBCubeEditorKit(void)
 
   SO_KIT_CONSTRUCTOR(RGBCubeEditorKit);
   SO_KIT_ADD_CATALOG_ENTRY(RGBCubeRoot, SoSeparator, TRUE, this,  "", TRUE);
-  SO_KIT_ADD_CATALOG_ENTRY(DraggerX, SoScale1Dragger, TRUE, RGBCubeRoot,  "", TRUE);
-  SO_KIT_ADD_CATALOG_ENTRY(DraggerY, SoScale1Dragger, TRUE, RGBCubeRoot,  "", TRUE);
-  SO_KIT_ADD_CATALOG_ENTRY(DraggerZ, SoScale1Dragger, TRUE, RGBCubeRoot,  "", TRUE);
-
-
-
-  if (SO_KIT_IS_FIRST_INSTANCE()) {
-    SoSeparator * draggerRoot = NULL;
-    SoInput input;
-    input.setBuffer((void *) RGBCUBE_draggergeometry, strlen(RGBCUBE_draggergeometry));
-    draggerRoot = SoDB::readAll(&input);
-  }
 
   SO_KIT_ADD_FIELD(rgb, (SbColor(0.8, 0.8, 0.8)));
   SO_KIT_INIT_INSTANCE();
-
-  this->setPartAsDefault("DraggerX", "DraggerX");
-  this->setPartAsDefault("DraggerY", "DraggerY");
-  this->setPartAsDefault("DraggerZ", "DraggerZ");
 
   PRIVATE(this)->draggerXValue = 0.8;
   PRIVATE(this)->draggerYValue = 0.8;
@@ -183,6 +158,7 @@ RGBCubeEditorKit::RGBCubeEditorKit(void)
 
 RGBCubeEditorKit::~RGBCubeEditorKit()
 {
+  delete PRIVATE(this);
 }
 
 void
@@ -192,9 +168,9 @@ RGBCubeEditorKit::initClass(void)
 }
 
 SbBool 
-RGBCubeEditorKit::affectsState() const
+RGBCubeEditorKit::affectsState(void) const
 {
-  return(FALSE);
+  return FALSE;
 }
 
 
@@ -765,9 +741,9 @@ RGBCubeEditorKitP::initRgbCube(void)
 
   
   // Setup diffuse cube geometry
-  this->draggerX =  (SoScale1Dragger *)SO_GET_PART(PUBLIC(this), "DraggerX", SoScale1Dragger)->copy();
-  this->draggerY =  (SoScale1Dragger *)SO_GET_PART(PUBLIC(this), "DraggerY", SoScale1Dragger)->copy();
-  this->draggerZ =  (SoScale1Dragger *)SO_GET_PART(PUBLIC(this), "DraggerZ", SoScale1Dragger)->copy();
+  this->draggerX =  new SoScale1Dragger;
+  this->draggerY =  new SoScale1Dragger;
+  this->draggerZ =  new SoScale1Dragger;
 
   
   // Modify dragger look

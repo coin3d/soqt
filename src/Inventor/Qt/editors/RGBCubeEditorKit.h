@@ -34,9 +34,6 @@ class RGBCubeEditorKit : public SoInteractionKit {
   SO_KIT_HEADER(RGBCubeEditorKit);
 
   SO_KIT_CATALOG_ENTRY_HEADER(RGBCubeRoot);
-  SO_KIT_CATALOG_ENTRY_HEADER(DraggerX);
-  SO_KIT_CATALOG_ENTRY_HEADER(DraggerY);
-  SO_KIT_CATALOG_ENTRY_HEADER(DraggerZ);
 
 public:
   SoMFColor rgb;
