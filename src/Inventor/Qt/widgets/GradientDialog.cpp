@@ -46,22 +46,36 @@ SoQtGradientDialogP::SoQtGradientDialogP(SoQtGradientDialog * publ)
 {
   PUBLIC(this) = publ;
   this->updatecontinuously = FALSE;
+  this->lastreportedgradient = NULL;
+}
+
+SoQtGradientDialogP::~SoQtGradientDialogP()
+{
+  delete this->lastreportedgradient;
 }
 
 void
 SoQtGradientDialogP::contupdateClicked()
 {
   this->updatecontinuously = this->contupdate->isChecked();
-  if (this->changeCallBack) {
-    this->changeCallBack(this->gradview->getGradient(), this->changeCallBackData);
-  }
+  this->invokeChangeCallback();
 }
 
 void
-SoQtGradientDialogP::callGradientUpdate()
+SoQtGradientDialogP::invokeChangeCallback()
 {  
   if (this->changeCallBack) {
-    this->changeCallBack(this->gradview->getGradient(), this->changeCallBackData);
+    const Gradient & g = this->gradview->getGradient();
+
+    if (!this->lastreportedgradient) {
+      this->lastreportedgradient = new Gradient(g);
+    }
+    else {
+      if (*this->lastreportedgradient == g) { return; }
+    }
+
+    *this->lastreportedgradient = g;
+    this->changeCallBack(g, this->changeCallBackData);
   }
 }
 
@@ -69,17 +83,13 @@ void
 SoQtGradientDialogP::gradientCallBack(const Gradient & g, void * userData)
 {
   SoQtGradientDialogP * thisp = (SoQtGradientDialogP *)userData;
-  if (thisp->updatecontinuously) {
-    if (thisp->changeCallBack) { thisp->changeCallBack(g, thisp->changeCallBackData); }
-  }
+  if (thisp->updatecontinuously) { thisp->invokeChangeCallback(); }
 }
 
 void
 SoQtGradientDialogP::done()
 {
-  if (this->changeCallBack && !this->updatecontinuously) {
-    this->changeCallBack(this->gradview->getGradient(), this->changeCallBackData);
-  }
+  if (!this->updatecontinuously) { this->invokeChangeCallback(); }
 }
 
 void
@@ -87,9 +97,7 @@ SoQtGradientDialogP::resetGradient()
 {
   this->gradview->setGradient(this->gradientcopy);
   this->saveCurrent();
-  if (this->changeCallBack) {
-    this->changeCallBack(this->gradview->getGradient(), this->changeCallBackData);
-  }
+  this->invokeChangeCallback();
 }
 
 void 
@@ -146,10 +154,7 @@ SoQtGradientDialogP::chooseGradient(int i)
   this->gradview->setGradient(this->gradients[i]);
   this->gradientcopy = this->gradients[i];
   this->old_index = i;
-  if (this->changeCallBack) {
-    this->changeCallBack(this->gradview->getGradient(), this->changeCallBackData);
-  }
-
+  this->invokeChangeCallback();
 }
 
 void SoQtGradientDialogP::saveCurrent()
@@ -238,7 +243,7 @@ SoQtGradientDialog::SoQtGradientDialog(const Gradient & grad,
 
   connect(loadbutton, SIGNAL(clicked()), PRIVATE(this), SLOT(loadGradient()));
   connect(savebutton, SIGNAL(clicked()), PRIVATE(this), SLOT(saveGradient()));
-  connect(PRIVATE(this)->applybutton, SIGNAL(clicked()), PRIVATE(this), SLOT(callGradientUpdate()));
+  connect(PRIVATE(this)->applybutton, SIGNAL(clicked()), PRIVATE(this), SLOT(invokeChangeCallback()));
   connect(resetbutton, SIGNAL(clicked()), PRIVATE(this), SLOT(resetGradient()));
   connect(donebutton, SIGNAL(clicked()), PRIVATE(this), SLOT(done()));
   connect(donebutton, SIGNAL(clicked()), this, SLOT(accept()));
@@ -268,9 +273,7 @@ void SoQtGradientDialog::addGradient(const Gradient & grad, QString description)
   PRIVATE(this)->gradview->setGradient(PRIVATE(this)->gradientcopy);
   PRIVATE(this)->gradientlist->show();
 
-  if (PRIVATE(this)->changeCallBack) {
-    PRIVATE(this)->gradientCallBack(PRIVATE(this)->gradientcopy, PRIVATE(this));
-  }
+  PRIVATE(this)->invokeChangeCallback();
 }
 
 const Gradient & SoQtGradientDialog::getGradient() const

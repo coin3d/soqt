@@ -42,7 +42,7 @@ class SoQtGradientDialogP : public QObject {
 
 public:
   SoQtGradientDialogP(SoQtGradientDialog * publ);
-  SoQtGradientDialog * pub;
+  ~SoQtGradientDialogP();
 
   static void gradientCallBack(const Gradient & thisp, void * userData);
   void saveCurrent();
@@ -54,6 +54,7 @@ public:
   QComboBox * gradientlist;
   QCheckBox * contupdate;
   Gradient gradientcopy;
+  Gradient * lastreportedgradient;
   Gradient::ChangeCB * changeCallBack;
   void * changeCallBackData;
   int old_index;
@@ -70,9 +71,12 @@ public slots:
   void saveGradient(void);
   void chooseGradient(int i);
   void contupdateClicked(void);
-  void callGradientUpdate(void);
+  void invokeChangeCallback(void);
   void resetGradient(void);
   void done(void);
+
+private:
+  SoQtGradientDialog * pub;
 };
 
 #endif // ! SOQTGRADIENTDIALOGP_H
