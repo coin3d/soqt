@@ -516,44 +516,35 @@ SoQt::getWidgetSize(const QWidget * w)
   return SbVec2s(w->width(), w->height());
 }
 
-/*!
-  This will pop up an error dialog. It's just a simple wrap-around for
-  the Qt QMessageBox::warning() call, provided for easier porting from
-  applications using the Open Inventor SoXt component classes.
-
-  If \a widget is \a NULL, the dialog will be modal for the whole
-  application (all windows will be blocked for input). If not,
-  only the window for the given \a widget will be blocked.
-
-  \a dialogTitle is the title of the dialog box. \a errorStr1 and
-  \a errorStr2 contains the text which will be shown in the dialog box.
-
-  There will only be a single "Ok" button for the user to press.
- */
+// Documented in common/SoGuiCommon.cpp.in.
+//
+// Just a simple wrap-around for the Qt QMessageBox::warning() call,
+// provided for easier porting from applications using the Open
+// Inventor SoXt component classes.
 void
 SoQt::createSimpleErrorDialog(QWidget * widget,
-                              const char * dialogTitle,
-                              const char * errorStr1,
-                              const char * errorStr2)
+                              const char * title,
+                              const char * string1,
+                              const char * string2)
 {
-  if (SOQT_DEBUG && !dialogTitle) {
+  if (SOQT_DEBUG && !title) {
     SoDebugError::postWarning("SoQt::createSimpleErrorDialog",
-                              "Called with NULL dialogTitle pointer.");
+                              "Called with NULL title pointer.");
   }
-  if (SOQT_DEBUG && !errorStr1) {
+  if (SOQT_DEBUG && !string1) {
     SoDebugError::postWarning("SoQt::createSimpleErrorDialog",
                               "Called with NULL error string pointer.");
   }
 
-  SbString title(dialogTitle ? dialogTitle : "");
-  SbString errstr(errorStr1 ? errorStr1 : "");
+  SbString t(title ? title : "");
+  SbString errstr(string1 ? string1 : "");
 
-  if (errorStr2) {
+  if (string2) {
     errstr += '\n';
-    errstr += errorStr2;
+    errstr += string2;
   }
 
-  QMessageBox::warning(widget, title.getString(), errstr.getString());
+  QMessageBox::warning(widget, t.getString(), errstr.getString());
 }
 
 
