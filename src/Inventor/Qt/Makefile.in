@@ -913,7 +913,7 @@ uninstall-local: uninstall-SoQtincHEADERS uninstall-nodist_SoQtincHEADERS
 	  "$$baseincdir"; do \
 	  if test -d "$$dir"; then \
 	    echo " rmdir" "$$dir"; \
-	    rmdir "$$dir"; \
+	    rmdir "$$dir" &>/dev/null; \
 	  fi \
 	done; \
 	:
