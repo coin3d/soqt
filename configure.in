@@ -135,13 +135,14 @@ AC_PROG_LIBTOOL
 # AC_LANG(C++)
 
 # These are used for constructing the soqt-config file.
-SOQT_EXTRA_CPPFLAGS=$CPPFLAGS
-SOQT_EXTRA_LDFLAGS=$LDFLAGS
-SOQT_EXTRA_LIBS=$LIBS
-AC_SUBST(SOQT_EXTRA_CPPFLAGS)
-AC_SUBST(SOQT_EXTRA_CXXFLAGS)
-AC_SUBST(SOQT_EXTRA_LDFLAGS)
-AC_SUBST(SOQT_EXTRA_LIBS)
+SOGUI_EXTRA_CPPFLAGS=$CPPFLAGS
+SOGUI_EXTRA_CXXFLAGS=$CXXFLAGS
+SOGUI_EXTRA_LDFLAGS=$LDFLAGS
+SOGUI_EXTRA_LIBS=$LIBS
+AC_SUBST(SOGUI_EXTRA_CPPFLAGS)
+AC_SUBST(SOGUI_EXTRA_CXXFLAGS)
+AC_SUBST(SOGUI_EXTRA_LDFLAGS)
+AC_SUBST(SOGUI_EXTRA_LIBS)
 
 # SIM_EXPAND_DIR_VARS
 
@@ -221,29 +222,29 @@ if test x"${with_inventor+set}" = x"set" &&
   # For Open Inventor linkage, we need to check for a shitload of libraries.
 
   SIM_AC_CHECK_DL([
-    SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS $sim_ac_dl_cppflags"
-    SOQT_EXTRA_LDFLAGS="$SOQT_EXTRA_LDFLAGS $sim_ac_dl_ldflags"
-    SOQT_EXTRA_LIBS="$sim_ac_dl_libs $SOQT_EXTRA_LIBS"
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_dl_cppflags"
+    SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_dl_ldflags"
+    SOGUI_EXTRA_LIBS="$sim_ac_dl_libs $SOGUI_EXTRA_LIBS"
   ])
 
   SIM_AC_CHECK_X11([
-    SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS $sim_ac_x11_cppflags"
-    SOQT_EXTRA_LDFLAGS="$SOQT_EXTRA_LDFLAGS $sim_ac_x11_ldflags"
-    SOQT_EXTRA_LIBS="$sim_ac_x11_libs $SOQT_EXTRA_LIBS"
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_x11_cppflags"
+    SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_x11_ldflags"
+    SOGUI_EXTRA_LIBS="$sim_ac_x11_libs $SOGUI_EXTRA_LIBS"
   ])
 
   if test x"$sim_ac_x11_avail" = xyes; then
-    SIM_AC_CHECK_X11SHMEM(SOQT_EXTRA_LIBS="$sim_ac_x11shmem_libs $SOQT_EXTRA_LIBS")
-    SIM_AC_CHECK_X11MU(SOQT_EXTRA_LIBS="$sim_ac_x11mu_libs $SOQT_EXTRA_LIBS")
-    SIM_AC_CHECK_X11XID(SOQT_EXTRA_LIBS="$sim_ac_x11xid_libs $SOQT_EXTRA_LIBS")
+    SIM_AC_CHECK_X11SHMEM(SOGUI_EXTRA_LIBS="$sim_ac_x11shmem_libs $SOGUI_EXTRA_LIBS")
+    SIM_AC_CHECK_X11MU(SOGUI_EXTRA_LIBS="$sim_ac_x11mu_libs $SOGUI_EXTRA_LIBS")
+    SIM_AC_CHECK_X11XID(SOGUI_EXTRA_LIBS="$sim_ac_x11xid_libs $SOGUI_EXTRA_LIBS")
   fi
 
   SIM_AC_CHECK_OPENGL([
-    SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS $sim_ac_gl_cppflags"
-    SOQT_EXTRA_CFLAGS="$SOQT_EXTRA_CFLAGS $sim_ac_gl_cflags"
-    SOQT_EXTRA_CXXFLAGS="$SOQT_EXTRA_CXXFLAGS $sim_ac_gl_cxxflags"
-    SOQT_EXTRA_LDFLAGS="$SOQT_EXTRA_LDFLAGS $sim_ac_gl_ldflags"
-    SOQT_EXTRA_LIBS="$sim_ac_gl_libs $SOQT_EXTRA_LIBS"
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_gl_cppflags"
+    SOGUI_EXTRA_CFLAGS="$SOGUI_EXTRA_CFLAGS $sim_ac_gl_cflags"
+    SOGUI_EXTRA_CXXFLAGS="$SOGUI_EXTRA_CXXFLAGS $sim_ac_gl_cxxflags"
+    SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_gl_ldflags"
+    SOGUI_EXTRA_LIBS="$sim_ac_gl_libs $SOGUI_EXTRA_LIBS"
     CPPFLAGS="$CPPFLAGS $sim_ac_gl_cppflags"
     CFLAGS="$CFLAGS $sim_ac_gl_cflags"
     CXXFLAGS="$CXXFLAGS $sim_ac_gl_cxxflags"
@@ -252,18 +253,18 @@ if test x"${with_inventor+set}" = x"set" &&
   ], AC_MSG_ERROR([needs an OpenGL-compatible development system installation]))
 
   SIM_AC_CHECK_GLU([
-    SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS $sim_ac_glu_cppflags"
-    SOQT_EXTRA_LDFLAGS="$SOQT_EXTRA_LDFLAGS $sim_ac_glu_ldflags"
-    SOQT_EXTRA_LIBS="$sim_ac_glu_libs $SOQT_EXTRA_LIBS"
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_glu_cppflags"
+    SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_glu_ldflags"
+    SOGUI_EXTRA_LIBS="$sim_ac_glu_libs $SOGUI_EXTRA_LIBS"
   ], AC_MSG_ERROR(needs the OpenGL utility library))
 
   SIM_AC_HAVE_INVENTOR_IFELSE(
     [CPPFLAGS="$sim_ac_inventor_cppflags $CPPFLAGS"
      LDFLAGS="$sim_ac_inventor_ldflags $LDFLAGS"
      LIBS="$sim_ac_inventor_libs $LIBS"
-     SOQT_EXTRA_CPPFLAGS="$sim_ac_inventor_cppflags $SOQT_EXTRA_CPPFLAGS"
-     SOQT_EXTRA_LDFLAGS="$sim_ac_inventor_ldflags $SOQT_EXTRA_LDFLAGS"
-     SOQT_EXTRA_LIBS="$sim_ac_inventor_libs $SOQT_EXTRA_LIBS"],
+     SOGUI_EXTRA_CPPFLAGS="$sim_ac_inventor_cppflags $SOGUI_EXTRA_CPPFLAGS"
+     SOGUI_EXTRA_LDFLAGS="$sim_ac_inventor_ldflags $SOGUI_EXTRA_LDFLAGS"
+     SOGUI_EXTRA_LIBS="$sim_ac_inventor_libs $SOGUI_EXTRA_LIBS"],
     AC_MSG_ERROR(couldn't compile and link against Open Inventor))
 
   SIM_AC_CONFIGURATION_SETTING([Open Inventor brand], [SGI/TGS Inventor])
@@ -276,9 +277,9 @@ else
     CPPFLAGS="$CPPFLAGS $sim_ac_coin_cppflags"
     LDFLAGS="$LDFLAGS $sim_ac_coin_ldflags"
     LIBS="$sim_ac_coin_libs $LIBS"
-    SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS $sim_ac_coin_cppflags"
-    SOQT_EXTRA_LDFLAGS="$SOQT_EXTRA_LDFLAGS $sim_ac_coin_ldflags"
-    SOQT_EXTRA_LIBS="$sim_ac_coin_libs $SOQT_EXTRA_LIBS"
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_coin_cppflags"
+    SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_coin_ldflags"
+    SOGUI_EXTRA_LIBS="$sim_ac_coin_libs $SOGUI_EXTRA_LIBS"
   ], [AC_MSG_ERROR([couldn't compile and link against Coin])])
 
   SIM_AC_CHECK_X11_READY(
@@ -290,9 +291,9 @@ else
       CPPFLAGS="$CPPFLAGS $sim_ac_x11_cppflags"
       LDFLAGS="$LDFLAGS $sim_ac_x11_ldflags"
       LIBS="$sim_ac_x11_libs $LIBS"
-      SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS $sim_ac_x11_cppflags"
-      SOQT_EXTRA_LDFLAGS="$SOQT_EXTRA_LDFLAGS $sim_ac_x11_ldflags"
-      SOQT_EXTRA_LIBS="$sim_ac_x11_libs $SOQT_EXTRA_LIBS"
+      SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_x11_cppflags"
+      SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_x11_ldflags"
+      SOGUI_EXTRA_LIBS="$sim_ac_x11_libs $SOGUI_EXTRA_LIBS"
     ])
     # FIXME: we just implicitly assume that -lXext and -lXmu is available
     # if -lX11 is available from coin-config. Should really have macros
@@ -300,16 +301,16 @@ else
     if test x"$sim_ac_x11_avail" = xyes; then
       SIM_AC_CHECK_X11SHMEM([
         # LIBS="$sim_ac_x11shmem_libs $LIBS"
-        SOQT_EXTRA_LIBS="$sim_ac_x11shmem_libs $SOQT_EXTRA_LIBS"
+        SOGUI_EXTRA_LIBS="$sim_ac_x11shmem_libs $SOGUI_EXTRA_LIBS"
       ])
       SIM_AC_CHECK_X11MU([
         # LIBS="$sim_ac_x11mu_libs $LIBS"
-        SOQT_EXTRA_LIBS="$sim_ac_x11mu_libs $SOQT_EXTRA_LIBS"
+        SOGUI_EXTRA_LIBS="$sim_ac_x11mu_libs $SOGUI_EXTRA_LIBS"
       ])
     fi
   fi
   SIM_AC_CHECK_X11XID([
-	SOQT_EXTRA_LIBS="$sim_ac_x11xid_libs $SOQT_EXTRA_LIBS"
+	SOGUI_EXTRA_LIBS="$sim_ac_x11xid_libs $SOGUI_EXTRA_LIBS"
   ])
   SIM_AC_CONFIGURATION_SETTING([Open Inventor brand], [Coin])
 fi
@@ -353,21 +354,21 @@ if test x"$sim_ac_x11mu_avail" != xyes; then
   ## It's really QGL that depends on Xmu, not Qt. But we need to do this
   ## check before checking for the Qt library, not after, in case QGL is
   ## embedded into Qt.
-  SIM_AC_CHECK_X11MU([SOQT_EXTRA_LIBS="$sim_ac_x11mu_libs $SOQT_EXTRA_LIBS"])
+  SIM_AC_CHECK_X11MU([SOGUI_EXTRA_LIBS="$sim_ac_x11mu_libs $SOGUI_EXTRA_LIBS"])
 fi
 
 SIM_AC_CHECK_QT([
-  SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS $sim_ac_qt_cppflags"
-  SOQT_EXTRA_LDFLAGS="$SOQT_EXTRA_LDFLAGS $sim_ac_qt_ldflags"
-  SOQT_EXTRA_LIBS="$sim_ac_qt_libs $SOQT_EXTRA_LIBS"
+  SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qt_cppflags"
+  SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qt_ldflags"
+  SOGUI_EXTRA_LIBS="$sim_ac_qt_libs $SOGUI_EXTRA_LIBS"
 ], [
   AC_MSG_ERROR([can't compile and link against Qt development kit])
 ])
 
 SIM_AC_CHECK_QGL([
-  SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS $sim_ac_qgl_cppflags"
-  SOQT_EXTRA_LDFLAGS="$SOQT_EXTRA_LDFLAGS $sim_ac_qgl_ldflags"
-  SOQT_EXTRA_LIBS="$sim_ac_qgl_libs $SOQT_EXTRA_LIBS"
+  SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qgl_cppflags"
+  SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qgl_ldflags"
+  SOGUI_EXTRA_LIBS="$sim_ac_qgl_libs $SOGUI_EXTRA_LIBS"
 ], [
   AC_MSG_ERROR([can't compile and link against the QGL extension library])
 ])
@@ -524,9 +525,9 @@ fi
 # **************************************************************************
 # Remove redundant options from certain option lists.
 
-SIM_AC_UNIQIFY_LIST(SOQT_EXTRA_CPPFLAGS, -I$includedir $SOQT_EXTRA_CPPFLAGS)
-SIM_AC_UNIQIFY_LIST(SOQT_EXTRA_LDFLAGS, -L$libdir $SOQT_EXTRA_LDFLAGS)
-SIM_AC_UNIQIFY_LIST(SOQT_EXTRA_LIBS, $SOQT_EXTRA_LIBS)
+SIM_AC_UNIQIFY_LIST(SOGUI_EXTRA_CPPFLAGS, -I$includedir $SOGUI_EXTRA_CPPFLAGS)
+SIM_AC_UNIQIFY_LIST(SOGUI_EXTRA_LDFLAGS, -L$libdir $SOGUI_EXTRA_LDFLAGS)
+SIM_AC_UNIQIFY_LIST(SOGUI_EXTRA_LIBS, $SOGUI_EXTRA_LIBS)
 
 SIM_AC_UNIQIFY_LIST(CPPFLAGS, $CPPFLAGS)
 SIM_AC_UNIQIFY_LIST(LDFLAGS, $LDFLAGS)
@@ -559,10 +560,10 @@ AM_CONDITIONAL(BUILD_WITH_MSVC, $BUILD_WITH_MSVC)
 
 if $BUILD_WITH_MSVC; then
   if $SOQT_STATIC; then
-    SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS -DSOQT_NOT_DLL"
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS -DSOQT_NOT_DLL"
   else
     CPPFLAGS="-DSOQT_MAKE_DLL $CPPFLAGS"
-    SOQT_EXTRA_CPPFLAGS="$SOQT_EXTRA_CPPFLAGS -DSOQT_DLL"
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS -DSOQT_DLL"
   fi
 
   debugfile="`pwd`/src/Inventor/Qt/soqt${SOQT_MAJOR_VERSION}${SUFFIX}.pdb"
@@ -596,14 +597,14 @@ if $BUILD_WITH_MSVC; then
   # list all libs used upon `soqt-config --libs`, as we can then
   # also use them from "parent" code (remember that their interfaces
   # is not exposed from the DLL) without any fuss.
-  SOQT_EXTRA_LIBS="-lsoqt$SOQT_MAJOR_VERSION$SUFFIX $SOQT_EXTRA_LIBS"
+  SOGUI_EXTRA_LIBS="-lsoqt$SOQT_MAJOR_VERSION$SUFFIX $SOGUI_EXTRA_LIBS"
 
   # For build/soqt.nsi
   win_srcdir=`cd $srcdir; pwd`
   win_srcdir=`cygpath -w "$srcdir" | sed 's,\\\\,\\\\\\\\,g'`
   AC_SUBST(win_srcdir)
 else
-  SOQT_EXTRA_LIBS="-lSoQt$SUFFIX $SOQT_EXTRA_LIBS"
+  SOGUI_EXTRA_LIBS="-lSoQt$SUFFIX $SOGUI_EXTRA_LIBS"
 
   # For the build/soqt.spec RPM specification file.
   SIM_AC_ISO8601_DATE(soqt_configure_date)
