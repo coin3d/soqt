@@ -450,3 +450,26 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     20031022 mortene.
 
 =====================================================================
+
+023 Fullscreen mode buggy for ATI (?) graphics on WinXP.
+
+    SoQtComponent::setFullScreen() sends the window with the OpenGL
+    canvas to the bottom of the window stack. Reproducible at least
+    with our Geo2k application (which uses the SoQtRenderArea).
+
+    Only happens with ATI cards/drivers, I believe, but I haven't
+    confirmed this.
+
+    Seems likely to be a Qt bug.
+
+    Should a) reproduce problem with a Geo2k-less test app, e.g. just
+    a SoQtRenderArea, b) test with the latest version of Qt, c) if the
+    problem is still present, make a test-case for submitting to Troll
+    Tech.
+
+    Nasty problem, this, and one which looks very bad for end-users,
+    likely to cause many support inquiries.
+
+    20031202 mortene, reported by pederb.
+
+=====================================================================
