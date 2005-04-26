@@ -367,6 +367,12 @@ SoQtExaminerViewer::processSoEvent(const SoEvent * const ev)
   // caused "alt" to stick - the release never got sent to the scene - the
   // alt key was rendered useless for the Coin envronment  - and I don't
   // think this is compatible behaviour with SGI SoXt either.  end larsa.
+  //
+  // UPDATE 20050310 mortene: IIRC, pressing the ALT key is a way to
+  // temporarily switch between examine mode and view mode in SGI's
+  // InventorXt, which is then reversed when the ALT key is
+  // released. So this functionality shouldn't simply be disabled, but
+  // rather debugged and fixed.
 
   // Let the end-user toggle between camera-interaction mode
   // ("viewing") and scenegraph-interaction mode with ALT key(s).

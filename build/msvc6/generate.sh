@@ -4,25 +4,36 @@
 #
 # 20041214 larsa
 
-rm -rf soqt1.dsp soqt1.dsw installsoqtheaders.bat
+rm -f soqt1.dsp soqt1.dsw installsoqtheaders.bat
 
 ../../configure --enable-msvcdsp --with-msvcrt=mt || exit 1
-make
+make || exit 1
 
 build_pwd=`pwd`
 build="`cygpath -w $build_pwd | sed -e 's/\\\\/\\\\\\\\/g'`"
+build_pwd="`pwd | sed -e 's/\\//\\\\\\\\/g'`\\\\"
+
 source_pwd=`cd ../..; pwd`
 source="`cygpath -w $source_pwd | sed -e 's/\\\\/\\\\\\\\/g'`"
-
-# cp soqt1.dsp orig.dsp
+source_pwd="`(cd ../..; pwd) | sed -e 's/\\//\\\\\\\\/g'`"
 
 sed \
   -e "s/$build/./g" \
+  -e "s/$build_pwd//g" \
   -e "s/$source/..\\\\../g" \
+  -e "s/$source_pwd/..\\\\../g" \
   -e 's/$/\r/g' \
   <soqt1.dsp >new.dsp
+
 mv new.dsp soqt1.dsp
 
-# How can I avoid the modal upgrade prompt-dialog for MSVC7.1 here???
-# devenv /command "File.OpenProject $build\\sowin1.dsp"
+sed \
+  -e "s/$build/./g" \
+  -e "s/$build_pwd//g" \
+  -e "s/$source/..\\\\../g" \
+  -e "s/$source_pwd/..\\\\../g" \
+  -e 's/$/\r/g' \
+  <installsoqtheaders.bat >new.bat
+
+mv new.bat installsoqtheaders.bat
 

@@ -77,6 +77,9 @@
 #define HAVE_SOCAMERA_SETSTEREOMODE 1
 
 /* Define to enable use of Inventor feature */
+#define HAVE_SOCONTEXTHANDLER 1
+
+/* Define to enable use of Inventor feature */
 #define HAVE_SOKEYBOARDEVENT_DELETE 1
 
 /* Define to enable use of Inventor feature */
@@ -182,7 +185,7 @@
 #define SOQT_VERSION "1.2.1a"
 
 /* Define to 1 if you have the ANSI C header files. */
-#define STDC_HEADERS 1
+/* #undef STDC_HEADERS */
 
 /* Version number of package */
 #define VERSION "1.2.1a"

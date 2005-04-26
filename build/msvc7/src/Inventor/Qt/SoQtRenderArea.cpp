@@ -603,12 +603,20 @@ SoQtRenderAreaP::setDevicesWindowSize(const SbVec2s size)
 void
 SoQtRenderAreaP::renderCB(void * closure, SoSceneManager * manager)
 {
+  assert(closure && manager);
   SoQtRenderArea * thisptr = (SoQtRenderArea *) closure;
-  if (manager == PRIVATE(thisptr)->normalManager)
+  if (manager == PRIVATE(thisptr)->normalManager) {
     thisptr->render();
-  else if (manager == PRIVATE(thisptr)->overlayManager)
+  } else if (manager == PRIVATE(thisptr)->overlayManager) {
     thisptr->renderOverlay();
-  else assert(0);
+  } else {
+#if SOQT_DEBUG
+    SoDebugError::post("SoQtRenderAreaP::renderCB",
+                       "invoked for unknown SoSceneManager (%p)", manager);
+#endif // SOQT_DEBUG
+    manager->setRenderCallback(NULL, NULL);
+    return;
+  }
 
   if (!thisptr->isAutoRedraw())
     manager->setRenderCallback(NULL, NULL);
@@ -1073,6 +1081,17 @@ SoQtRenderArea::getTransparencyType(void) const
 
 /*!
   This method sets the antialiasing used for the scene.
+
+  The \a smoothing flag signifies whether or not line and point
+  aliasing should be turned on. See documentation of
+  SoGLRenderAction::setSmoothing(), which will be called from this
+  function.
+
+  \a numPasses gives the number of re-renderings to do of the scene,
+  blending together the results from slight "jitters" of the camera
+  view, into the OpenGL accumulation buffer. For further information,
+  see documentation of SoGLRenderAction::setNumPasses() and
+  SoQtGLWidget::setAccumulationBuffer().
 */
 void
 SoQtRenderArea::setAntialiasing(SbBool smoothing, int numPasses)
@@ -1385,6 +1404,7 @@ void
 SoQtRenderArea::setSceneManager(SoSceneManager * manager)
 {
   assert(PRIVATE(this)->normalManager != NULL);
+  PRIVATE(this)->normalManager->setRenderCallback(NULL, NULL);
   delete PRIVATE(this)->normalManager;
   PRIVATE(this)->normalManager = manager;
 }

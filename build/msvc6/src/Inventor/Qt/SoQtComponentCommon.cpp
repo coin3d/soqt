@@ -444,7 +444,7 @@ SoQtComponent::getDefaultIconTitle(void) const
 void
 SoQtComponent::registerWidget(QWidget * widget)
 {
-#if SOQT_DEBUG && 0 // debug
+#if SOQT_DEBUG && 1 // debug
   SoDebugError::postInfo("SoQtComponent::registerWidget",
                          "registering widget %p", widget);
 #endif // debug
@@ -478,7 +478,7 @@ SoQtComponent::registerWidget(QWidget * widget)
 void
 SoQtComponent::unregisterWidget(QWidget * widget)
 {
-#if SOQT_DEBUG && 0 // debug
+#if SOQT_DEBUG && 1 // debug
   SoDebugError::postInfo("SoQtComponent::unregisterWidget",
                          "unregistering widget %p", widget);
 #endif // debug

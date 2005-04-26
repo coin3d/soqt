@@ -201,6 +201,8 @@
   you should therefore in succession use the
   SoQtGLWidget::getAccumulationBuffer() to query whether or not an
   accumulation buffer could actually be set up.
+
+  \sa SoQtRenderArea::setAntiAliasing()
 */
 
 /*!

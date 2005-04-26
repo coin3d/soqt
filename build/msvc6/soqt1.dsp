@@ -42,8 +42,8 @@ RSC=rc.exe
 # PROP Intermediate_Dir "Release"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "SOQT_DEBUG=0" /D "HAVE_CONFIG_H" /D "SOQT_MAKE_DLL" /D "COIN_DLL" /D "SOQT_INTERNAL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(QTDIR)\include" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O1 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "SOQT_DEBUG=0" /D "HAVE_CONFIG_H" /D "SOQT_MAKE_DLL" /D "COIN_DLL" /D "SOQT_INTERNAL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(QTDIR)\include" /YX /FD /c
+# ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "SOQT_DEBUG=0" /D "HAVE_CONFIG_H" /D "SOQT_MAKE_DLL" /D "COIN_DLL" /D "SOQT_INTERNAL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /I "$(QTDIR)\include" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O1 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "SOQT_DEBUG=0" /D "HAVE_CONFIG_H" /D "SOQT_MAKE_DLL" /D "COIN_DLL" /D "SOQT_INTERNAL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /I "$(QTDIR)\include" /YX /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
@@ -52,8 +52,8 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 $(QTDIR)\lib\qt-mt331.lib $(QTDIR)\lib\qtmain.lib gdi32.lib $(COINDIR)\lib\coin2d.lib opengl32.lib user32.lib /nologo /dll /machine:I386
-# ADD LINK32 $(QTDIR)\lib\qt-mt331.lib $(QTDIR)\lib\qtmain.lib gdi32.lib $(COINDIR)\lib\coin2d.lib opengl32.lib user32.lib /nologo /dll /machine:I386 /out:"soqt1.dll" /opt:nowin98
+# ADD BASE LINK32 $(QTDIR)\lib\qt-mt331.lib $(QTDIR)\lib\qtmain.lib gdi32.lib $(COINDIR)\lib\coin2.lib opengl32.lib winmm.lib user32.lib /nologo /dll /machine:I386
+# ADD LINK32 $(QTDIR)\lib\qt-mt331.lib $(QTDIR)\lib\qtmain.lib gdi32.lib $(COINDIR)\lib\coin2.lib opengl32.lib winmm.lib user32.lib /nologo /dll /machine:I386 /out:"soqt1.dll" /opt:nowin98
 # SUBTRACT LINK32 /pdb:none
 # Begin Special Build Tool
 SOURCE=
@@ -72,8 +72,8 @@ PostBuild_Cmds=installsoqt.bat
 # PROP Output_Dir "Debug"
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "SOQT_DEBUG=1" /D "HAVE_CONFIG_H" /D "SOQT_MAKE_DLL" /D "COIN_DLL" /D "SOQT_INTERNAL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(QTDIR)\include" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "SOQT_DEBUG=1" /D "HAVE_CONFIG_H" /D "SOQT_MAKE_DLL" /D "COIN_DLL" /D "SOQT_INTERNAL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(QTDIR)\include" /YX /FD /GZ /c
+# ADD BASE CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "SOQT_DEBUG=1" /D "HAVE_CONFIG_H" /D "SOQT_MAKE_DLL" /D "COIN_DLL" /D "SOQT_INTERNAL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /I "$(QTDIR)\include" /YX /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "SOQT_DEBUG=1" /D "HAVE_CONFIG_H" /D "SOQT_MAKE_DLL" /D "COIN_DLL" /D "SOQT_INTERNAL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /I "$(QTDIR)\include" /YX /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
@@ -82,8 +82,8 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 $(QTDIR)\lib\qt-mt331.lib $(QTDIR)\lib\qtmain.lib gdi32.lib $(COINDIR)\lib\coin2d.lib opengl32.lib user32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 $(QTDIR)\lib\qt-mt331.lib $(QTDIR)\lib\qtmain.lib gdi32.lib $(COINDIR)\lib\coin2d.lib opengl32.lib user32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept /out:"soqt1d.dll"
+# ADD BASE LINK32 $(QTDIR)\lib\qt-mt331.lib $(QTDIR)\lib\qtmain.lib gdi32.lib $(COINDIR)\lib\coin2d.lib opengl32.lib winmm.lib user32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 $(QTDIR)\lib\qt-mt331.lib $(QTDIR)\lib\qtmain.lib gdi32.lib $(COINDIR)\lib\coin2d.lib opengl32.lib winmm.lib user32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept /out:"soqt1d.dll"
 # Begin Special Build Tool
 SOURCE=
 PostBuild_Cmds=installsoqt.bat
@@ -433,7 +433,7 @@ SOURCE=..\..\src\Inventor\Qt\viewers\SoQtFullViewerP.h
 InputPath=..\..\src\Inventor\Qt\viewers\SoQtFullViewerP.h
 
 "src\Inventor\Qt\viewers\moc_SoQtFullViewerP.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtFullViewerP.icc $(InputPath)
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtFullViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtFullViewerP.h
 
 # End Custom Build
 
@@ -444,7 +444,7 @@ InputPath=..\..\src\Inventor\Qt\viewers\SoQtFullViewerP.h
 InputPath=..\..\src\Inventor\Qt\viewers\SoQtFullViewerP.h
 
 "src\Inventor\Qt\viewers\moc_SoQtFullViewerP.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtFullViewerP.icc $(InputPath)
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtFullViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtFullViewerP.h
 
 # End Custom Build
 
@@ -471,7 +471,7 @@ SOURCE=..\..\src\Inventor\Qt\viewers\SoQtExaminerViewerP.h
 InputPath=..\..\src\Inventor\Qt\viewers\SoQtExaminerViewerP.h
 
 "src\Inventor\Qt\viewers\moc_SoQtExaminerViewerP.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtExaminerViewerP.icc $(InputPath)
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtExaminerViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtExaminerViewerP.h
 
 # End Custom Build
 
@@ -482,7 +482,7 @@ InputPath=..\..\src\Inventor\Qt\viewers\SoQtExaminerViewerP.h
 InputPath=..\..\src\Inventor\Qt\viewers\SoQtExaminerViewerP.h
 
 "src\Inventor\Qt\viewers\moc_SoQtExaminerViewerP.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtExaminerViewerP.icc $(InputPath)
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtExaminerViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtExaminerViewerP.h
 
 # End Custom Build
 
@@ -509,7 +509,7 @@ SOURCE=..\..\src\Inventor\Qt\viewers\SoQtPlaneViewerP.h
 InputPath=..\..\src\Inventor\Qt\viewers\SoQtPlaneViewerP.h
 
 "src\Inventor\Qt\viewers\moc_SoQtPlaneViewerP.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtPlaneViewerP.icc $(InputPath)
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtPlaneViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtPlaneViewerP.h
 
 # End Custom Build
 
@@ -520,7 +520,7 @@ InputPath=..\..\src\Inventor\Qt\viewers\SoQtPlaneViewerP.h
 InputPath=..\..\src\Inventor\Qt\viewers\SoQtPlaneViewerP.h
 
 "src\Inventor\Qt\viewers\moc_SoQtPlaneViewerP.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtPlaneViewerP.icc $(InputPath)
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtPlaneViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtPlaneViewerP.h
 
 # End Custom Build
 
@@ -601,7 +601,7 @@ SOURCE=..\..\src\Inventor\Qt\widgets\SoQtGLArea.h
 InputPath=..\..\src\Inventor\Qt\widgets\SoQtGLArea.h
 
 "src\Inventor\Qt\widgets\moc_SoQtGLArea.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_SoQtGLArea.icc $(InputPath)
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_SoQtGLArea.icc ..\..\src\Inventor\Qt\widgets\SoQtGLArea.h
 
 # End Custom Build
 
@@ -612,7 +612,7 @@ InputPath=..\..\src\Inventor\Qt\widgets\SoQtGLArea.h
 InputPath=..\..\src\Inventor\Qt\widgets\SoQtGLArea.h
 
 "src\Inventor\Qt\widgets\moc_SoQtGLArea.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_SoQtGLArea.icc $(InputPath)
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_SoQtGLArea.icc ..\..\src\Inventor\Qt\widgets\SoQtGLArea.h
 
 # End Custom Build
 
@@ -639,7 +639,7 @@ SOURCE=..\..\src\Inventor\Qt\widgets\SoQtThumbWheel.h
 InputPath=..\..\src\Inventor\Qt\widgets\SoQtThumbWheel.h
 
 "src\Inventor\Qt\widgets\moc_SoQtThumbWheel.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_SoQtThumbWheel.icc $(InputPath)
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_SoQtThumbWheel.icc ..\..\src\Inventor\Qt\widgets\SoQtThumbWheel.h
 
 # End Custom Build
 
@@ -650,7 +650,7 @@ InputPath=..\..\src\Inventor\Qt\widgets\SoQtThumbWheel.h
 InputPath=..\..\src\Inventor\Qt\widgets\SoQtThumbWheel.h
 
 "src\Inventor\Qt\widgets\moc_SoQtThumbWheel.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_SoQtThumbWheel.icc $(InputPath)
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_SoQtThumbWheel.icc ..\..\src\Inventor\Qt\widgets\SoQtThumbWheel.h
 
 # End Custom Build
 
@@ -677,7 +677,7 @@ SOURCE=..\..\src\Inventor\Qt\widgets\QtNativePopupMenu.h
 InputPath=..\..\src\Inventor\Qt\widgets\QtNativePopupMenu.h
 
 "src\Inventor\Qt\widgets\moc_QtNativePopupMenu.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_QtNativePopupMenu.icc $(InputPath)
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_QtNativePopupMenu.icc ..\..\src\Inventor\Qt\widgets\QtNativePopupMenu.h
 
 # End Custom Build
 
@@ -688,7 +688,7 @@ InputPath=..\..\src\Inventor\Qt\widgets\QtNativePopupMenu.h
 InputPath=..\..\src\Inventor\Qt\widgets\QtNativePopupMenu.h
 
 "src\Inventor\Qt\widgets\moc_QtNativePopupMenu.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_QtNativePopupMenu.icc $(InputPath)
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_QtNativePopupMenu.icc ..\..\src\Inventor\Qt\widgets\QtNativePopupMenu.h
 
 # End Custom Build
 
@@ -733,7 +733,7 @@ SOURCE=..\..\src\Inventor\Qt\SoQtP.h
 InputPath=..\..\src\Inventor\Qt\SoQtP.h
 
 "src\Inventor\Qt\moc_SoQtP.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtP.icc $(InputPath)
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtP.icc ..\..\src\Inventor\Qt\SoQtP.h
 
 # End Custom Build
 
@@ -744,7 +744,7 @@ InputPath=..\..\src\Inventor\Qt\SoQtP.h
 InputPath=..\..\src\Inventor\Qt\SoQtP.h
 
 "src\Inventor\Qt\moc_SoQtP.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtP.icc $(InputPath)
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtP.icc ..\..\src\Inventor\Qt\SoQtP.h
 
 # End Custom Build
 
@@ -771,7 +771,7 @@ SOURCE=..\..\src\Inventor\Qt\SoQtComponentP.h
 InputPath=..\..\src\Inventor\Qt\SoQtComponentP.h
 
 "src\Inventor\Qt\moc_SoQtComponentP.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtComponentP.icc $(InputPath)
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtComponentP.icc ..\..\src\Inventor\Qt\SoQtComponentP.h
 
 # End Custom Build
 
@@ -782,7 +782,7 @@ InputPath=..\..\src\Inventor\Qt\SoQtComponentP.h
 InputPath=..\..\src\Inventor\Qt\SoQtComponentP.h
 
 "src\Inventor\Qt\moc_SoQtComponentP.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtComponentP.icc $(InputPath)
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtComponentP.icc ..\..\src\Inventor\Qt\SoQtComponentP.h
 
 # End Custom Build
 
@@ -809,7 +809,7 @@ SOURCE=..\..\src\Inventor\Qt\SoQtGLWidgetP.h
 InputPath=..\..\src\Inventor\Qt\SoQtGLWidgetP.h
 
 "src\Inventor\Qt\moc_SoQtGLWidgetP.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtGLWidgetP.icc $(InputPath)
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtGLWidgetP.icc ..\..\src\Inventor\Qt\SoQtGLWidgetP.h
 
 # End Custom Build
 
@@ -820,7 +820,7 @@ InputPath=..\..\src\Inventor\Qt\SoQtGLWidgetP.h
 InputPath=..\..\src\Inventor\Qt\SoQtGLWidgetP.h
 
 "src\Inventor\Qt\moc_SoQtGLWidgetP.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtGLWidgetP.icc $(InputPath)
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtGLWidgetP.icc ..\..\src\Inventor\Qt\SoQtGLWidgetP.h
 
 # End Custom Build
 
@@ -921,6 +921,10 @@ SOURCE=src\Inventor\Qt\editors\SoQtMaterialEditor.h
 # Begin Source File
 
 SOURCE=src\Inventor\Qt\nodes\SoGuiColorEditor.h
+# End Source File
+# Begin Source File
+
+SOURCE=src\Inventor\Qt\nodes\SoGuiMaterialEditor.h
 # End Source File
 # Begin Source File
 

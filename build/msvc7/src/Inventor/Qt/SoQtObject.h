@@ -49,6 +49,18 @@ public:
 
 // *************************************************************************
 
+// For a discussion about this #define, see Coin's SbBasic.h.
+
+#define SOQT_SUN_CC_4_0_SOTYPE_INIT_BUG 0 /* assume compiler is ok for now */
+
+#if SOQT_SUN_CC_4_0_SOTYPE_INIT_BUG
+#define SOQT_STATIC_SOTYPE_INIT
+#else
+#define SOQT_STATIC_SOTYPE_INIT = SoType::badType()
+#endif
+
+// *************************************************************************
+
 // The getTypeId() method should be abstract for abstract objects, but doing
 // that would cause custom components derived from abstract components to
 // have to include the typed object header / source, which could be a
@@ -87,7 +99,7 @@ SoType classname::getClassTypeId(void) { \
 SoType classname::getTypeId(void) const { \
   return classname::classTypeId; \
 } \
-SoType classname::classTypeId
+SoType classname::classTypeId SOQT_STATIC_SOTYPE_INIT
 
 #define SOQT_OBJECT_SOURCE(classname) \
 void classname::initClass(void) { \
@@ -107,7 +119,7 @@ void * classname::createInstance(void) { \
   assert(classname::classTypeId != SoType::badType()); \
   return (void *) new classname; \
 } \
-SoType classname::classTypeId
+SoType classname::classTypeId SOQT_STATIC_SOTYPE_INIT
 
 // *************************************************************************
 
