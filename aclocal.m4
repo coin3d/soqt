@@ -10181,14 +10181,14 @@ upgrade. (See $srcdir/README.MAC for details.)])
 
       if test x$sim_ac_enable_darwin_x11 = xfalse; then
       # Using Qt/X11 but option --enable-darwin-x11 not given
-      AC_TRY_LINK([#include <qapplication.h>],
+      AC_TRY_COMPILE([#include <qapplication.h>],
                   [#if defined(__APPLE__) && defined(Q_WS_X11)
                    #error blah!
                    #endif],[],
                   [SIM_AC_ERROR([x11-qt-but-no-x11-requested])])
       else 
       # --enable-darwin-x11 specified but attempting Qt/Mac linkage
-      AC_TRY_LINK([#include <qapplication.h>],
+      AC_TRY_COMPILE([#include <qapplication.h>],
                   [#if defined(__APPLE__) && defined(Q_WS_MAC)
                    #error blah!
                    #endif],[],
@@ -10810,12 +10810,10 @@ AC_ARG_ENABLE(
   esac],
   [enable_symbols=yes])
 
-# FIXME: don't mangle options like -fno-gnu-linker and -fvolatile-global
-# 20020104 larsa
+# weird seds to don't mangle options like -fno-gnu-linker and -fvolatile-global
 if test x"$enable_symbols" = x"no"; then
-  # CPPFLAGS="`echo $CPPFLAGS | sed 's/-g\>//'`"
-  CFLAGS="`echo $CFLAGS | sed 's/ -g //' | sed 's/^-g //' | sed 's/ -g$//'`"
-  CXXFLAGS="`echo $CXXFLAGS | sed 's/ -g //' | sed 's/^-g //' | sed 's/ -g$//'`"
+  CFLAGS="`echo $CFLAGS | sed 's/ -g //g' | sed 's/^-g //g' | sed 's/ -g$//g' | sed 's/^-g$//'`"
+  CXXFLAGS="`echo $CXXFLAGS | sed 's/ -g //g' | sed 's/^-g //g' | sed 's/ -g$//g' | sed 's/^-g$//'`"
 fi
 ]) # SIM_AC_DEBUGSYMBOLS
 
