@@ -1,5 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 8.00
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "soqt1", "soqt1.vcproj", "{FDFEA308-4BF1-4D69-88ED-82AC4729C515}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "soqt1", "soqt1.vcproj", "{1BF1FFB2-DE26-4071-9BD6-D505BCC700BA}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -9,10 +9,10 @@ Global
 		Release = Release
 	EndGlobalSection
 	GlobalSection(ProjectConfiguration) = postSolution
-		{FDFEA308-4BF1-4D69-88ED-82AC4729C515}.Debug.ActiveCfg = Debug|Win32
-		{FDFEA308-4BF1-4D69-88ED-82AC4729C515}.Debug.Build.0 = Debug|Win32
-		{FDFEA308-4BF1-4D69-88ED-82AC4729C515}.Release.ActiveCfg = Release|Win32
-		{FDFEA308-4BF1-4D69-88ED-82AC4729C515}.Release.Build.0 = Release|Win32
+		{1BF1FFB2-DE26-4071-9BD6-D505BCC700BA}.Debug.ActiveCfg = Debug|Win32
+		{1BF1FFB2-DE26-4071-9BD6-D505BCC700BA}.Debug.Build.0 = Debug|Win32
+		{1BF1FFB2-DE26-4071-9BD6-D505BCC700BA}.Release.ActiveCfg = Release|Win32
+		{1BF1FFB2-DE26-4071-9BD6-D505BCC700BA}.Release.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection

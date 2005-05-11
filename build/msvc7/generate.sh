@@ -6,7 +6,7 @@
 
 rm -f soqt1.dsp soqt1.dsw installsoqtheaders.bat
 
-../../configure --enable-msvcdsp --with-msvcrt=mt || exit 1
+../../configure --prefix=/cygdrive/c/Coin3D --enable-msvcdsp --with-msvcrt=mt || exit 1
 make || exit 1
 
 build_pwd=`pwd`
@@ -37,5 +37,6 @@ sed \
 
 mv new.bat installsoqtheaders.bat
 
-echo "Run 'devenv soqt1.dsw', save all solution files, and then run './fixproj.sh'"
+echo "Run 'devenv soqt1.dsw' and save all solution files."
+echo "Then run './fixvcproj.sh'."
 
