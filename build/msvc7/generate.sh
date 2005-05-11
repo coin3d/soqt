@@ -37,3 +37,5 @@ sed \
 
 mv new.bat installsoqtheaders.bat
 
+echo "Run 'devenv soqt1.dsw', save all solution files, and then run './fixproj.sh'"
+
