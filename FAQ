@@ -135,7 +135,7 @@ A:    There has been various reports about problems with Qt 3.0, particularly
 Q1.4: Where is the qt-mt230nc.dll file?
 
 A:    This file is the Windows Qt 2.3.0 NonCommercial Edition DLL, which
-      you can fetch from the TrollTech web site (www.troll.com).
+      you can fetch from the TrollTech web site (http://www.trolltech.com).
 
 
 Q1.5: Does SoQt work with the Qt port for Mac OS X/Darwin?
