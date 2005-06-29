@@ -228,6 +228,10 @@
 #include <config.h>
 #endif // HAVE_CONFIG_H
 
+// FIXME: get rid of this define. We should fix up the compile issues
+// wrt Qt 4 properly. 20050629 mortene.
+#define QT3_SUPPORT
+
 #include <stdlib.h>
 #include <limits.h>
 
@@ -240,6 +244,9 @@
 
 #ifdef Q_WS_X11
 #include <X11/Xlib.h>
+#if QT_VERSION >= 0x040000 // pre Qt 4
+#include <qx11info_x11.h> // for QX11Info
+#endif // Qt 4+
 #endif // Q_WS_X11
 
 #include <Inventor/SoDB.h>
@@ -750,7 +757,13 @@ SoQt::init(QWidget * toplevelwidget)
       if (SoQtP::DEBUG_X11SYNC) {
         // FIXME: SoDebugError::initClass() not yet invoked! 20021021 mortene.
         SoDebugError::postInfo("SoQt::init", "Turning on X synchronization.");
-        XSynchronize(qt_xdisplay(), True);
+        Display * d;
+#if QT_VERSION < 0x040000 // pre Qt 4
+        d = qt_xdisplay();
+#else // Qt 4.0.0+
+        d = QX11Info::display();
+#endif
+        XSynchronize(d, True);
       }
     }
   }

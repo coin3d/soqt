@@ -29,12 +29,17 @@
 #include <config.h>
 #endif // HAVE_CONFIG_H
 
+// FIXME: get rid of this define. We should fix up the compile issues
+// wrt Qt 4 properly. 20050629 mortene.
+#define QT3_SUPPORT
+
 #include <qbitmap.h>
 #include <qwidget.h>
 #include <qmainwindow.h>
 #include <qapplication.h>
 #include <qmetaobject.h>
 #include <qcursor.h>
+#include <qevent.h>
 
 #include <Inventor/errors/SoDebugError.h>
 
