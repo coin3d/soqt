@@ -1,0 +1,9 @@
+moc_*.icc
+*.lo
+.deps
+.libs
+Makefile
+SoAnyThumbWheel.cpp
+SoAnyThumbWheel.h
+SoQtPopupMenu.cpp
+SoQtPopupMenu.h
