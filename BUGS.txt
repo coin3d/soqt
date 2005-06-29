@@ -347,6 +347,17 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
 
     20030204 mortene.
 
+    UPDATE 20050621 mortene: some additional information from pederb,
+    in a support reply:
+
+        You might run into problems if you're using SoQt, since Qt's
+        QTimer isn't (or at least wasn't) thread safe. If you change
+        something in a thread that causes some sensor to trigger,
+        SoSensorManager will make a callback into SoQt, which will set
+        up timers (QTimer) to process the sensor queues. Creating
+        QTimers in some other thread than the main thread isn't
+        possible in Qt.
+
 =====================================================================
 
 019 Incompatibilities with TGS Inventor v3.1.
@@ -845,5 +856,14 @@ main(int argc, char ** argv)
     High priority item.
 
     20041213 mortene.
+
+=====================================================================
+
+037 Qt 4 not supported.
+
+    There are both internal and external requests to fix this. Should
+    be given priority.
+
+    20050629 mortene.
 
 =====================================================================
