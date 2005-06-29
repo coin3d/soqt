@@ -26,7 +26,7 @@
 #endif // HAVE_CONFIG_H
 
 #include <qevent.h>
-#include <qkeycode.h>
+#include <qnamespace.h>
 
 #include <Inventor/SbDict.h>
 #include <Inventor/events/SoKeyboardEvent.h>
@@ -97,9 +97,9 @@ struct SoQtKeyboardP::key1map SoQtKeyboardP::QtToSoMapping[] = {
   {Qt::Key_Up, SoKeyboardEvent::UP_ARROW, '.'},
   {Qt::Key_Right, SoKeyboardEvent::RIGHT_ARROW, '.'},
   {Qt::Key_Down, SoKeyboardEvent::DOWN_ARROW, '.'},
-  {Qt::Key_Prior, SoKeyboardEvent::PRIOR, '.'},
+  {Qt::Key_PageUp, SoKeyboardEvent::PRIOR, '.'},
   {Qt::Key_PageUp, SoKeyboardEvent::PAGE_UP, '.'},
-  {Qt::Key_Next, SoKeyboardEvent::NEXT, '.'},
+  {Qt::Key_PageDown, SoKeyboardEvent::NEXT, '.'},
   {Qt::Key_PageDown, SoKeyboardEvent::PAGE_DOWN, '.'},
 
   {Qt::Key_Shift, SoKeyboardEvent::LEFT_SHIFT, '.'},
