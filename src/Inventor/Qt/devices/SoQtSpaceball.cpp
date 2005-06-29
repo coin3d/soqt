@@ -25,15 +25,21 @@
 #include <config.h>
 #endif // HAVE_CONFIG_H
 
+// FIXME: get rid of this define. We should fix up the compile issues
+// wrt Qt 4 properly. 20050629 mortene.
+#define QT3_SUPPORT
+
+#include <qwidget.h>
+
+#include <Inventor/events/SoMotion3Event.h>
+#include <Inventor/events/SoSpaceballButtonEvent.h>
+
 #include <soqtdefs.h>
 #include <Inventor/Qt/SoQt.h>
 #include <Inventor/Qt/SoQtBasic.h>
 #include <Inventor/Qt/devices/SoQtSpaceball.h>
 #include <Inventor/Qt/devices/SoQtSpaceballP.h>
 #include <Inventor/Qt/SoQtInternal.h>
-#include <Inventor/events/SoMotion3Event.h>
-#include <Inventor/events/SoSpaceballButtonEvent.h>
-#include <qwidget.h>
 
 /* The setting of this define needs to be added manually to
    configure.in for all relevant projects. */
