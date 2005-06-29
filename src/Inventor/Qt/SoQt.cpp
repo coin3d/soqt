@@ -244,9 +244,9 @@
 
 #ifdef Q_WS_X11
 #include <X11/Xlib.h>
-#if QT_VERSION >= 0x040000 // pre Qt 4
+#if QT_VERSION >= 0x040000 // Qt 4.0.0+
 #include <qx11info_x11.h> // for QX11Info
-#endif // Qt 4+
+#endif // Qt 4.0.0+
 #endif // Q_WS_X11
 
 #include <Inventor/SoDB.h>

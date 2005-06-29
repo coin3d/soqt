@@ -59,6 +59,10 @@
 #include <config.h>
 #endif // HAVE_CONFIG_H
 
+// FIXME: get rid of this define. We should fix up the compile issues
+// wrt Qt 4 properly. 20050629 mortene.
+#define QT3_SUPPORT
+
 #include <stdlib.h>
 
 #define QT_CLEAN_NAMESPACE 1
@@ -66,6 +70,12 @@
 #include <qevent.h>
 #include <qframe.h>
 #include <qmetaobject.h>
+
+#ifdef Q_WS_X11
+#if QT_VERSION >= 0x040000 // Qt 4.0.0+
+#include <qx11info_x11.h> // for QX11Info
+#endif // Qt 4.0.0+
+#endif // Q_WS_X11
 
 #include <Inventor/SbTime.h>
 #include <Inventor/errors/SoDebugError.h>
@@ -79,6 +89,8 @@
 #include <Inventor/Qt/SoQtGLWidget.h>
 #include <Inventor/Qt/widgets/SoQtGLArea.h>
 #include <soqtdefs.h>
+
+// *************************************************************************
 
 #define PRIVATE(obj) ((obj)->pimpl)
 #define PUBLIC(obj) ((obj)->pub)
@@ -221,7 +233,6 @@ SoQtGLWidget::buildWidget(QWidget * parent)
 
   PRIVATE(this)->borderwidget->setFrameStyle(QFrame::Panel | QFrame::Raised);
   PRIVATE(this)->borderwidget->setLineWidth(PRIVATE(this)->borderthickness);
-  PRIVATE(this)->borderwidget->setMargin(0);
   PRIVATE(this)->borderwidget->move(0, 0);
 
   // Remember our parent widget so we can use it in tests in the
@@ -1203,7 +1214,13 @@ SoQtGLWidgetP::isDirectRendering(void)
                               "Could not get hold of current context.");
     return TRUE;
   }
-  Bool isdirect = glXIsDirect(qt_xdisplay(), ctx);
+  Display * d;
+#if QT_VERSION < 0x040000 // pre Qt 4
+  d = qt_xdisplay();
+#else // Qt 4.0.0+
+  d = QX11Info::display();
+#endif
+  Bool isdirect = glXIsDirect(d, ctx);
   PUBLIC(this)->glUnlockNormal();
   return isdirect ? TRUE : FALSE;
 #else // ! X11
