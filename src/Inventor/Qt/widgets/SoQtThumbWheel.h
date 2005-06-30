@@ -1,3 +1,6 @@
+#ifndef SOQT_THUMBWHEEL_H
+#define SOQT_THUMBWHEEL_H
+
 /**************************************************************************\
  *
  *  This file is part of the Coin 3D visualization library.
@@ -21,11 +24,7 @@
  *
 \**************************************************************************/
 
-#ifndef SOQT_THUMBWHEEL_H
-#define SOQT_THUMBWHEEL_H
-
 #include <qwidget.h>
-#include <qrangecontrol.h>
 
 #include <Inventor/Qt/SoQtBasic.h>
 
@@ -34,7 +33,7 @@ class SoAnyThumbWheel;
 
 // *************************************************************************
 
-class SOQT_DLL_API SoQtThumbWheel : public QWidget, public QRangeControl
+class SOQT_DLL_API SoQtThumbWheel : public QWidget
 {
   Q_OBJECT
 
