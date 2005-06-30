@@ -153,10 +153,10 @@ SoQtThumbWheel::paintEvent(QPaintEvent * event)
 
   if (this->orient == Vertical)
     bitBlt(this, wheelrect.left(), wheelrect.top(), this->pixmaps[pixmap],
-           0, 0, w, dval, CopyROP);
+           0, 0, w, dval);
   else
     bitBlt(this, wheelrect.left(), wheelrect.top(), this->pixmaps[pixmap],
-           0, 0, dval, w, CopyROP);
+           0, 0, dval, w);
   this->currentPixmap = pixmap;
 }
 
