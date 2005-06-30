@@ -28,9 +28,14 @@
 #error this is a private header file
 #endif /* !SOQT_INTERNAL */
 
+// *************************************************************************
+
 #include <qobject.h>
+
 #include <Inventor/Qt/SoGuiGLWidgetP.h>
 #include <Inventor/SbLinear.h>
+
+class QKeyEvent;
 
 // ************************************************************************
 
