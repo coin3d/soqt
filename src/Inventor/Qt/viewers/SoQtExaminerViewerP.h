@@ -28,11 +28,15 @@
 #error this is a private header file
 #endif /* !SOQT_INTERNAL */
 
+// *************************************************************************
+
 #include <qobject.h>
+
 #include <Inventor/SbBasic.h>
 #include <Inventor/Qt/viewers/SoGuiExaminerViewerP.h>
 
 class SoQtExaminerViewer;
+class QPixmap;
 
 // ************************************************************************
 
