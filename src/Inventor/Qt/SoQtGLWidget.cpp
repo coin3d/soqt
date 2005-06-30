@@ -1071,8 +1071,8 @@ SoQtGLWidgetP::buildGLWidget(void)
   //
   // 20031218 mortene.
   //
-  // UPDATE 20040624 mortene: some additional suggestions made to
-  // another SoQt user experiencing the same problems:
+  // UPDATE 20040624 mortene: some additional suggestions made by me
+  // to another SoQt user experiencing the same problems:
   //
   // -------8<------ [snip] -------------------8<------ [snip] ------------
   // As mentioned in the FIXME at SoQtGLWidget.cpp:1014 [i.e. this
@@ -1096,6 +1096,41 @@ SoQtGLWidgetP::buildGLWidget(void)
   // it should be possible to a) find a work-around (e.g. by avoiding
   // certain features for the QGLWidget?), and b) get assistance from
   // TT's support personnel.
+  // -------8<------ [snip] -------------------8<------ [snip] ------------
+  //
+  //
+  // UPDATE 20050201 mortene: our dGB customer found the cause of this
+  // problems. See below. This should be useful to know in case we get
+  // more problem reports about this.
+  // 
+  // -------8<------ [snip] -------------------8<------ [snip] ------------
+  // Subject: Workaround for Sun<->linux problems
+  // To: Morten Eriksen <mortene@sim.no>
+  // Date: Tue, 01 Feb 2005 08:59:12 +0100
+  //
+  // As I have reported previously we have had problems with
+  // applications run on a Sun host and displayed on a linux host (the
+  // "Cannot setup a valid OpenGL canvas" problem in
+  // SoQt/src/Inventor/Qt/SoQtGLWidget.cpp:1089)
+  //
+  // [...]
+  //
+  // It turned out that NVidia's default XF86Config turns off
+  // Xinerama, but the driver does still report to the Sun that
+  // Xinerama is supported. The result is that when the sun starts
+  // sending questions about xinerama, the linux-host fails to answer
+  // them.
+  //
+  // The solution is to change the line
+  //
+  // Option "Xinerama" "off"
+  // to
+  // Option "Xinerama" "on"
+  // in XF86Config.
+  //
+  // The only drawback of this change is that the screen behaves
+  // differently - a maximize does for instance maximize over both
+  // screen instead of one (as before).
   // -------8<------ [snip] -------------------8<------ [snip] ------------
 
   if (!this->currentglwidget->isValid()) {
