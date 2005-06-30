@@ -10282,7 +10282,8 @@ recommend you to upgrade.])
       ## Test all known possible combinations of linking against the
       ## Troll Tech Qt library:
       ##
-      ## * "-lQtGui": Qt 4 on UNIX-like systems
+      ## * "-lQtGui -lQt3Support": Qt 4 on UNIX-like systems (with some
+      ##   obsoleted Qt 3 widgets)
       ##
       ## * "-lqt-gl": links against the standard Debian version of the
       ##   Qt library with embedded QGL
@@ -10338,7 +10339,7 @@ recommend you to upgrade.])
 
       for sim_ac_qt_cppflags_loop in "" "-DQT_DLL"; do
         for sim_ac_qt_libcheck in \
-            "-lQtGui" \
+            "-lQtGui -lQt3Support" \
             "-lqt-gl" \
             "-lqt-mt" \
             "-lqt" \
