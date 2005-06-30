@@ -31,10 +31,14 @@
 #include <config.h>
 #endif // HAVE_CONFIG_H
 
+// FIXME: get rid of this define. We should fix up the compile issues
+// wrt Qt 4 properly. 20050629 mortene.
+#define QT3_SUPPORT
+
 #include <qevent.h>
 #include <qpushbutton.h>
 #include <qpixmap.h>
-#include <qkeycode.h>
+#include <qnamespace.h>
 #include <qmetaobject.h>
 
 #ifdef HAVE_QSTYLEFACTORY_H
@@ -56,6 +60,16 @@
 #include <Inventor/Qt/common/pixmaps/x.xpm>
 #include <Inventor/Qt/common/pixmaps/y.xpm>
 #include <Inventor/Qt/common/pixmaps/z.xpm>
+
+// ************************************************************************
+
+// Take care of namespace incompatibilities between Qt 3 and Qt 4.
+
+#if QT_VERSION < 0x040000 // pre Qt 4
+#define QTWIDGET_NOFOCUS QWidget::NoFocus
+#else // Qt 4.0.0+
+#define QTWIDGET_NOFOCUS Qt::NoFocus
+#endif // Qt 4.0.0+
 
 // ************************************************************************
 
@@ -103,21 +117,21 @@ SoQtPlaneViewer::createViewerButtons(QWidget * parent,
 
   // add X, Y, Z viewpoint buttons
   PRIVATE(this)->buttons.x = new QPushButton(parent);
-  PRIVATE(this)->buttons.x->setFocusPolicy(QWidget::NoFocus);
+  PRIVATE(this)->buttons.x->setFocusPolicy(QTWIDGET_NOFOCUS);
   PRIVATE(this)->buttons.x->setToggleButton(FALSE);
   PRIVATE(this)->buttons.x->setPixmap(QPixmap((const char **) x_xpm));
   QObject::connect(PRIVATE(this)->buttons.x, SIGNAL(clicked()),
                    PRIVATE(this), SLOT(xClicked()));
   buttons->append(PRIVATE(this)->buttons.x);
   PRIVATE(this)->buttons.y = new QPushButton(parent);
-  PRIVATE(this)->buttons.y->setFocusPolicy(QWidget::NoFocus);
+  PRIVATE(this)->buttons.y->setFocusPolicy(QTWIDGET_NOFOCUS);
   PRIVATE(this)->buttons.y->setToggleButton(FALSE);
   PRIVATE(this)->buttons.y->setPixmap(QPixmap((const char **) y_xpm));
   QObject::connect(PRIVATE(this)->buttons.y, SIGNAL(clicked()),
                    PRIVATE(this), SLOT(yClicked()));
   buttons->append(PRIVATE(this)->buttons.y);
   PRIVATE(this)->buttons.z = new QPushButton(parent);
-  PRIVATE(this)->buttons.z->setFocusPolicy(QWidget::NoFocus);
+  PRIVATE(this)->buttons.z->setFocusPolicy(QTWIDGET_NOFOCUS);
   PRIVATE(this)->buttons.z->setToggleButton(FALSE);
   PRIVATE(this)->buttons.z->setPixmap(QPixmap((const char **) z_xpm));
   QObject::connect(PRIVATE(this)->buttons.z, SIGNAL(clicked()),
@@ -128,7 +142,7 @@ SoQtPlaneViewer::createViewerButtons(QWidget * parent,
   assert(PRIVATE(this)->pixmaps.perspective != NULL);
   assert(PRIVATE(this)->pixmaps.orthogonal != NULL);
   PRIVATE(this)->buttons.camera = new QPushButton(parent);
-  PRIVATE(this)->buttons.camera->setFocusPolicy(QWidget::NoFocus);
+  PRIVATE(this)->buttons.camera->setFocusPolicy(QTWIDGET_NOFOCUS);
 
 #if (defined Q_WS_MAC && QT_VERSION >= 0x030100) && defined(HAVE_QSTYLEFACTORY_H)
   // Since Qt/Mac 3.1.x, all pushbuttons (even those < 32x32) are

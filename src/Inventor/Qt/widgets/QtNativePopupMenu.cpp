@@ -21,7 +21,32 @@
  *
 \**************************************************************************/
 
+/*!
+  \class QtNativePopupMenu Inventor/Qt/widgets/QtNativePopupMenu.h
+  \brief The QtNativePopupMenu class implements a common interface for popup
+  menu management for all the Coin GUI toolkit libraries.
+*/
+
+// *************************************************************************
+
+// FIXME: get rid of this define. We should fix up the compile issues
+// wrt Qt 4 properly. 20050629 mortene.
+#define QT3_SUPPORT
+
+// *************************************************************************
+
+// Take care of class name incompatibilities between Qt 3 and Qt 4.
+
+#if QT_VERSION < 0x040000 // pre Qt 4
 #include <qpopupmenu.h>
+#define QPOPUPMENU_CLASS QPopupMenu
+#else // Qt 4.0.0+
+#include <q3popupmenu.h>
+#define QPOPUPMENU_CLASS Q3PopupMenu
+#endif // Qt 4.0.0+
+
+// ************************************************************************
+
 #include <qmetaobject.h>
 
 #include <Inventor/SoLists.h>
@@ -32,20 +57,14 @@
 
 #include <soqtdefs.h>
 
-/*!
-  \class QtNativePopupMenu Inventor/Qt/widgets/QtNativePopupMenu.h
-  \brief The QtNativePopupMenu class implements a common interface for popup
-  menu management for all the Coin GUI toolkit libraries.
-*/
-
 // *************************************************************************
 
 struct MenuRecord {
   int menuid;
   char * name;
   char * title;
-  QPopupMenu * menu;
-  QPopupMenu * parent;
+  QPOPUPMENU_CLASS * menu;
+  QPOPUPMENU_CLASS * parent;
 }; // struct MenuRecord
 
 struct ItemRecord {
@@ -53,7 +72,7 @@ struct ItemRecord {
   int flags;
   char * name;
   char * title;
-  QPopupMenu * parent;
+  QPOPUPMENU_CLASS * parent;
 }; // struct ItemRecord
 
 #define ITEM_MARKED       0x0001
@@ -501,7 +520,7 @@ QtNativePopupMenu::createMenuRecord(
   rec->menuid = -1;
   rec->name = strcpy(new char [strlen(name)+1], name);
   rec->title = strcpy(new char [strlen(name)+1], name);
-  rec->menu = new QPopupMenu((QWidget *) NULL, name);
+  rec->menu = new QPOPUPMENU_CLASS((QWidget *) NULL, name);
   QObject::connect(rec->menu, SIGNAL(activated(int)),
                     this, SLOT(itemActivation(int)));
   rec->parent = NULL;

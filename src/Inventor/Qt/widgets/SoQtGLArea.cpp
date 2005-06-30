@@ -31,16 +31,29 @@
 
 #include <assert.h>
 
-#include <qmetaobject.h>
+// FIXME: get rid of this define. We should fix up the compile issues
+// wrt Qt 4 properly. 20050629 mortene.
+#define QT3_SUPPORT
 
-#if SOQT_DEBUG
+#include <qmetaobject.h>
+#include <qnamespace.h>
+#include <qevent.h>
+
 #include <Inventor/errors/SoDebugError.h>
-#endif // SOQT_DEBUG
 
 #include <Inventor/Qt/widgets/SoQtGLArea.h>
 #include <Inventor/Qt/widgets/moc_SoQtGLArea.icc>
-
 #include <soqtdefs.h>
+
+// ************************************************************************
+
+// Take care of namespace incompatibilities between Qt 3 and Qt 4.
+
+#if QT_VERSION < 0x040000 // pre Qt 4
+#define QTWIDGET_STRONGFOCUS QWidget::StrongFocus
+#else // Qt 4.0.0+
+#define QTWIDGET_STRONGFOCUS Qt::StrongFocus
+#endif // Qt 4.0.0+
 
 // *************************************************************************
 
@@ -72,7 +85,7 @@ SoQtGLArea::SoQtGLArea(QGLFormat * const format,
   // The 3rd argument is supposed to be the widget name, but when
   // running on QGL v4.30 and Qt v2.1.0 application code will crash on
   // exit under freak conditions.
-  : inherited(*format, parent, NULL, sharewidget, WResizeNoErase)
+  : inherited(*format, parent, NULL, sharewidget, Qt::WResizeNoErase)
 {
 #if HAVE_QGLWIDGET_SETAUTOBUFFERSWAP
   // We'll handle the OpenGL buffer swapping ourselves, to support the
@@ -83,7 +96,7 @@ SoQtGLArea::SoQtGLArea(QGLFormat * const format,
 #endif // HAVE_QGLWIDGET_SETAUTOBUFFERSWAP
 
   this->keycb = NULL;
-  this->setFocusPolicy(QWidget::StrongFocus);
+  this->setFocusPolicy(QTWIDGET_STRONGFOCUS);
 }
 
 SoQtGLArea::~SoQtGLArea()
@@ -95,7 +108,7 @@ void
 SoQtGLArea::initializeGL(void)
 {
   SOQT_GLAREA_DEBUG_START(initializeGL);
-  this->setBackgroundMode(QWidget::NoBackground); // Avoid unnecessary flicker.
+  this->setBackgroundMode(Qt::NoBackground); // Avoid unnecessary flicker.
   emit this->init_sig();
   SOQT_GLAREA_DEBUG_DONE(initializeGL);
 }

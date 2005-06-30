@@ -29,8 +29,12 @@
 #include <config.h>
 #endif // HAVE_CONFIG_H
 
+// FIXME: get rid of this define. We should fix up the compile issues
+// wrt Qt 4 properly. 20050629 mortene.
+#define QT3_SUPPORT
+
 #include <qpushbutton.h>
-#include <qkeycode.h>
+#include <qnamespace.h>
 #include <qlabel.h>
 #include <qcheckbox.h>
 #include <qlineedit.h>
@@ -65,6 +69,18 @@
 // Icon graphic for the camera button.
 #include <Inventor/Qt/common/pixmaps/ortho.xpm>
 #include <Inventor/Qt/common/pixmaps/perspective.xpm>
+
+// ************************************************************************
+
+// Take care of namespace incompatibilities between Qt 3 and Qt 4.
+
+#if QT_VERSION < 0x040000 // pre Qt 4
+#define QTWIDGET_NOFOCUS QWidget::NoFocus
+#else // Qt 4.0.0+
+#define QTWIDGET_NOFOCUS Qt::NoFocus
+#endif // Qt 4.0.0+
+
+// *************************************************************************
 
 #define PRIVATE(obj) ((obj)->pimpl)
 #define PUBLIC(obj) ((obj)->pub)
@@ -155,7 +171,7 @@ SoQtExaminerViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
   if (style) { PRIVATE(this)->cameratogglebutton->setStyle(style); }
 #endif
 
-  PRIVATE(this)->cameratogglebutton->setFocusPolicy(QWidget::NoFocus);
+  PRIVATE(this)->cameratogglebutton->setFocusPolicy(QTWIDGET_NOFOCUS);
   assert(PRIVATE(this)->perspectivepixmap);
   assert(PRIVATE(this)->orthopixmap);
 

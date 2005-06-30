@@ -42,17 +42,21 @@
 #include <config.h>
 #endif // HAVE_CONFIG_H
 
-#include <qpushbutton.h>
-#include <qlayout.h>
-#include <qlabel.h>
-#include <qpixmap.h>
-#include <qlineedit.h>
+// FIXME: get rid of this define. We should fix up the compile issues
+// wrt Qt 4 properly. 20050629 mortene.
+#define QT3_SUPPORT
+
 #include <qbuttongroup.h>
-#include <qradiobutton.h>
-#include <qframe.h>
-#include <qslider.h>
 #include <qcheckbox.h>
+#include <qframe.h>
+#include <qlabel.h>
+#include <qlayout.h>
+#include <qlineedit.h>
 #include <qmetaobject.h>
+#include <qpixmap.h>
+#include <qpushbutton.h>
+#include <qradiobutton.h>
+#include <qslider.h>
 
 #ifdef HAVE_QSTYLEFACTORY_H
 #include <qstylefactory.h>
@@ -80,11 +84,20 @@
 #include <Inventor/Qt/common/pixmaps/view_all.xpm>
 #include <Inventor/Qt/common/pixmaps/seek.xpm>
 
+
+// ************************************************************************
+
+// Take care of namespace incompatibilities between Qt 3 and Qt 4.
+
+#if QT_VERSION < 0x040000 // pre Qt 4
+#define QTWIDGET_NOFOCUS QWidget::NoFocus
+#else // Qt 4.0.0+
+#define QTWIDGET_NOFOCUS Qt::NoFocus
+#endif // Qt 4.0.0+
+
 // *************************************************************************
 
 SOQT_OBJECT_ABSTRACT_SOURCE(SoQtFullViewer);
-
-// *************************************************************************
 
 // *************************************************************************
 
@@ -571,9 +584,9 @@ SoQtFullViewer::buildViewerButtons(QWidget * parent)
 
   const int numViewerButtons = PRIVATE(this)->viewerbuttons->getLength();
   for (int i = 0; i < numViewerButtons; i++) {
-    QButton * b = PRIVATE(this)->getViewerbutton(i);
+    QPushButton * b = PRIVATE(this)->getViewerbutton(i);
     b->setFixedSize(30, 30);
-    b->setFocusPolicy(QWidget::NoFocus);
+    b->setFocusPolicy(QTWIDGET_NOFOCUS);
     l->addWidget(b, i, 0);
   }
 
@@ -591,7 +604,7 @@ SoQtFullViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
     QPushButton * p = new QPushButton(parent);
     // Button focus doesn't really make sense in the way we're using
     // the pushbuttons.
-    p->setFocusPolicy(QWidget::NoFocus);
+    p->setFocusPolicy(QTWIDGET_NOFOCUS);
 
 #if (defined Q_WS_MAC && QT_VERSION >= 0x030100) && defined(HAVE_QSTYLEFACTORY_H)
     // Since Qt/Mac 3.1.x, all pushbuttons (even those < 32x32) are drawn 

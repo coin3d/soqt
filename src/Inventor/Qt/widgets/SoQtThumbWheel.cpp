@@ -36,11 +36,16 @@
 #include <assert.h>
 #include <stdio.h>
 
+// FIXME: get rid of this define. We should fix up the compile issues
+// wrt Qt 4 properly. 20050629 mortene.
+#define QT3_SUPPORT
+
 #include <qpainter.h>
 #include <qdrawutil.h>
 #include <qimage.h>
 #include <qpixmap.h>
 #include <qmetaobject.h>
+#include <qevent.h>
 
 #include <Inventor/SbBasic.h>
 #include <Inventor/errors/SoDebugError.h>
@@ -170,7 +175,7 @@ SoQtThumbWheel::mousePressEvent(QMouseEvent * event)
   if (this->state != SoQtThumbWheel::Idle)
     return;
 
-  if (event->button() != LeftButton)
+  if (event->button() != Qt::LeftButton)
     return;
 
   QRect wheelrect;
@@ -235,7 +240,7 @@ SoQtThumbWheel::mouseReleaseEvent(QMouseEvent * event)
   if (this->state != SoQtThumbWheel::Dragging)
     return;
 
-  if (event->button() != LeftButton)
+  if (event->button() != Qt::LeftButton)
     return;
 
   this->wheelValue = this->tempWheelValue;
