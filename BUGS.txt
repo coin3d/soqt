@@ -859,11 +859,45 @@ main(int argc, char ** argv)
 
 =====================================================================
 
-037 Qt 4 not supported.
+037 Qt 4 support has various problems.
 
-    There are both internal and external requests to fix this. Should
-    be given priority.
+    This is the current list of issues to fix or look into before we
+    can reasonably say that Qt 4 is properly supported:
 
-    20050629 mortene.
+    - Get rid of Q3PopupMenu-use in QNativePopupMenu, since it's the
+      sole reason that we still have to link against the Qt3Support
+      library.
+
+    - Menu "on" tick-markers are not shown anywhere in the RMB
+      popup-menu.
+
+    - In the RMB popup-menu, clicking on already selected sub-menu
+      does not bring up its sub-sub-menu.
+
+    - SoQt/configure Qt 4 detection and setup on MS Windows and Mac OS
+      X. (Fix in simacros/cfg/m4/qt.m4.)
+
+    - Button pixmaps on right-side trim buttons are tiny for the
+      SoQtExaminerViewer.
+
+    - The SoQtFullViewer-derived viewers' thumbwheels are thicker (at
+      least when horizontal).
+
+    - The SoGuiExamples/component/simpleexviewer comes up with a
+      different default size than with Qt 3. (Note that it may be Qt 3
+      which we're buggy with -- sizing and resizing has been a
+      long-standing problem in various ways.)
+
+    - Select quadbuffer stereo from the RMB popupmenu for one of the
+      SoQtFullViewer-derived viewer classes on a system not capable of
+      it: application seg faults when it tries to fall back on the
+      previous GL context (the "not supported..."-warning also comes
+      out *twice* -- this may be related to the crash).
+
+    - Needs more testing! Check SoQtRenderArea, the other
+      SoQtFullViewer-derived viewer classes apart from the
+      SoQtExaminerViewer, and any features we can think of.
+
+    20050630 mortene.
 
 =====================================================================
