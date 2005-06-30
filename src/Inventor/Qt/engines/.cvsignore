@@ -1,0 +1,11 @@
+*.lo
+.deps
+.libs
+libSoGuiEngines.la
+Makefile
+Engines.cpp
+Format.cpp
+RadioGroup.cpp
+SoGuiEngines.h
+SoGuiFormat.h
+SoGuiRadioGroup.h
