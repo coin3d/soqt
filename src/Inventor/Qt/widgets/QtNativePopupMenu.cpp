@@ -33,6 +33,8 @@
 // wrt Qt 4 properly. 20050629 mortene.
 #define QT3_SUPPORT
 
+#include <qmetaobject.h>
+
 // *************************************************************************
 
 // Take care of class name incompatibilities between Qt 3 and Qt 4.
@@ -46,8 +48,6 @@
 #endif // Qt 4.0.0+
 
 // ************************************************************************
-
-#include <qmetaobject.h>
 
 #include <Inventor/SoLists.h>
 #include <Inventor/errors/SoDebugError.h>
