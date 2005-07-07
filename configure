@@ -465,7 +465,7 @@ ac_includes_default="\
 # include <unistd.h>
 #endif"
 
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os target target_cpu target_vendor target_os BUILD_WITH_MSVC SOQT_MAJOR_VERSION SOQT_MINOR_VERSION SOQT_MICRO_VERSION SOQT_BETA_VERSION SOQT_VERSION LT_CURRENT LT_REVISION LT_AGE SOQT_SO_VERSION ac_unique_file sim_ac_relative_src_dir sim_ac_relative_src_dir_p INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE am__leading_dot MAINTAINER_MODE_TRUE MAINTAINER_MODE_FALSE MAINT CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE CPP CXX CXXFLAGS ac_ct_CXX CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE CXXCPP SOGUI_MSVC_LIBC EGREP LN_S ECHO AR ac_ct_AR RANLIB ac_ct_RANLIB F77 FFLAGS ac_ct_F77 LIBTOOL SOGUI_EXTRA_CPPFLAGS SOGUI_EXTRA_CFLAGS SOGUI_EXTRA_CXXFLAGS SOGUI_EXTRA_LDFLAGS SOGUI_EXTRA_LIBS HACKING_COMPACT_BUILD_TRUE HACKING_COMPACT_BUILD_FALSE CONFIG SUFFIX BUILD_LIBRARY_TRUE BUILD_LIBRARY_FALSE htmldir htmlhelpdir SOGUI_DOC_HTML SOGUI_DOC_MAN SOGUI_DOC_HTML_HELP sogui_build_dir sogui_src_dir sogui_html_dir sogui_html_help_dir sogui_man_dir BUILD_MANPAGES_TRUE BUILD_MANPAGES_FALSE BUILD_HTMLPAGES_TRUE BUILD_HTMLPAGES_FALSE BUILD_HTMLHELP_TRUE BUILD_HTMLHELP_FALSE sim_ac_hhc_exe sim_ac_doxygen_exe sim_ac_perl_exe path_tag SOGUI_MAJOR_VERSION SOGUI_MINOR_VERSION BUILD_METAFILES_TRUE BUILD_METAFILES_FALSE meta_prefix X_CFLAGS X_PRE_LIBS X_LIBS X_EXTRA_LIBS sim_ac_coin_configcmd sim_ac_qt_cygpath MOC HAVE_JOYSTICK_LINUX_TRUE HAVE_JOYSTICK_LINUX_FALSE DSUFFIX COIN_COMPILER ac_compiler_gnu ivframeworkdir frameworkdir ivincludedir soguiincludedir MAC_FRAMEWORK MAC_FRAMEWORK_NAME MAC_FRAMEWORK_PREFIX MAC_FRAMEWORK_VERSION nop MAC_FRAMEWORK_TRUE MAC_FRAMEWORK_FALSE MACOSX_TRUE MACOSX_FALSE MACOSX_10_2FF_TRUE MACOSX_10_2FF_FALSE UNIX2WINPATH Gui gui GUI WIDGET EVENT COMPONENTHEADER soqt_build_dir soqt_w32_build_dir soqt_src_dir soqt_w32_src_dir LIBFLAGS BUILD_WITH_MSVC_TRUE BUILD_WITH_MSVC_FALSE SOQT_DSP_LIBS SOQT_DSP_INCS SOQT_DSP_DEFS LIBOBJS LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os target target_cpu target_vendor target_os BUILD_WITH_MSVC SOQT_MAJOR_VERSION SOQT_MINOR_VERSION SOQT_MICRO_VERSION SOQT_BETA_VERSION SOQT_VERSION LT_CURRENT LT_REVISION LT_AGE SOQT_SO_VERSION ac_unique_file sim_ac_relative_src_dir sim_ac_relative_src_dir_p INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE am__leading_dot MAINTAINER_MODE_TRUE MAINTAINER_MODE_FALSE MAINT CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE CPP CXX CXXFLAGS ac_ct_CXX CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE CXXCPP SOGUI_MSVC_LIBC EGREP LN_S ECHO AR ac_ct_AR RANLIB ac_ct_RANLIB F77 FFLAGS ac_ct_F77 LIBTOOL SOGUI_EXTRA_CPPFLAGS SOGUI_EXTRA_CFLAGS SOGUI_EXTRA_CXXFLAGS SOGUI_EXTRA_LDFLAGS SOGUI_EXTRA_LIBS HACKING_COMPACT_BUILD_TRUE HACKING_COMPACT_BUILD_FALSE CONFIG SUFFIX BUILD_LIBRARY_TRUE BUILD_LIBRARY_FALSE htmldir htmlhelpdir SOGUI_DOC_HTML SOGUI_DOC_MAN SOGUI_DOC_HTML_HELP sogui_build_dir sogui_src_dir sogui_html_dir sogui_html_help_dir sogui_man_dir BUILD_MANPAGES_TRUE BUILD_MANPAGES_FALSE BUILD_HTMLPAGES_TRUE BUILD_HTMLPAGES_FALSE BUILD_HTMLHELP_TRUE BUILD_HTMLHELP_FALSE sim_ac_hhc_exe sim_ac_doxygen_exe sim_ac_perl_exe path_tag SOGUI_MAJOR_VERSION SOGUI_MINOR_VERSION BUILD_METAFILES_TRUE BUILD_METAFILES_FALSE meta_prefix X_CFLAGS X_PRE_LIBS X_LIBS X_EXTRA_LIBS sim_ac_coin_configcmd sim_ac_qt_cygpath MOC HAVE_JOYSTICK_LINUX_TRUE HAVE_JOYSTICK_LINUX_FALSE DSUFFIX COIN_COMPILER ac_compiler_gnu ivframeworkdir frameworkdir ivincludedir soguiincludedir MAC_FRAMEWORK MAC_FRAMEWORK_NAME MAC_FRAMEWORK_PREFIX MAC_FRAMEWORK_VERSION nop MAC_FRAMEWORK_TRUE MAC_FRAMEWORK_FALSE MACOSX_TRUE MACOSX_FALSE MACOSX_10_2FF_TRUE MACOSX_10_2FF_FALSE UNIX2WINPATH Gui gui GUI WIDGET EVENT COMPONENTHEADER soqt_build_dir soqt_w32_build_dir soqt_src_dir soqt_w32_src_dir LIBFLAGS BUILD_WITH_MSVC_TRUE BUILD_WITH_MSVC_FALSE SOQT_DSP_LIBS SOQT_DSP_INCS SOQT_DSP_DEFS SOQT_LIB_DSP_DEFS LIBOBJS LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -29957,6 +29957,66 @@ fi
 done
 
 
+  # We've had an external report about soqt.dll link failing due to missing
+  # the qt_win_use_simple_timers symbol in the installed Qt library. This
+  # was with Qt 3.3.1 MT under  Windows.
+  echo "$as_me:$LINENO: checking for qt_win_use_simple_timers symbol" >&5
+echo $ECHO_N "checking for qt_win_use_simple_timers symbol... $ECHO_C" >&6
+  cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+#include <qglobal.h>
+               Q_EXPORT extern bool qt_win_use_simple_timers;
+int
+main ()
+{
+qt_win_use_simple_timers = true;
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; } &&
+	 { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_QT_WIN_USE_SIMPLE_TIMERS 1
+_ACEOF
+
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+fi
+rm -f conftest.err conftest.$ac_objext \
+      conftest$ac_exeext conftest.$ac_ext
+
 fi # sim_ac_build_library
 
 if test $sim_ac_inventor_brand=coin && $SOQT_STATIC && $BUILD_WITH_MSVC; then
@@ -30046,6 +30106,7 @@ if $enable_debug; then
     case $CXX in
     *wrapmsvc* )
       # uninitialized checks
+      if test ${sim_ac_msvc_version-0} -gt 6; then
 
 
 
@@ -30198,7 +30259,7 @@ ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ex
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
-      # stack frame checks
+        # stack frame checks
 
 
 
@@ -30351,6 +30412,7 @@ ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ex
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
+      fi
       ;;
     esac
   fi
@@ -31363,57 +31425,6 @@ echo "${ECHO_T}release version" >&6
 esac
 
 
-echo "$as_me:$LINENO: checking Visual Studio C++ version" >&5
-echo $ECHO_N "checking Visual Studio C++ version... $ECHO_C" >&6
-cat >conftest.$ac_ext <<_ACEOF
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-
-int
-main ()
-{
-long long number = 0;
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext
-if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
-  (eval $ac_compile) 2>conftest.er1
-  ac_status=$?
-  grep -v '^ *+' conftest.er1 >conftest.err
-  rm -f conftest.er1
-  cat conftest.err >&5
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_cxx_werror_flag"
-			 || test ! -s conftest.err'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; } &&
-	 { ac_try='test -s conftest.$ac_objext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-  sim_ac_msvc_version=7
-  sim_ac_msvc_version=6
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-fi
-rm -f conftest.err conftest.$ac_objext conftest.$ac_ext
-echo "$as_me:$LINENO: result: $sim_ac_msvc_version" >&5
-echo "${ECHO_T}$sim_ac_msvc_version" >&6
-
-
 
 
 
@@ -31442,6 +31453,7 @@ if $enable_debug; then
     case $CXX in
     *wrapmsvc* )
       # uninitialized checks
+      if test ${sim_ac_msvc_version-0} -gt 6; then
 
 
 
@@ -31594,7 +31606,7 @@ ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ex
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
-      # stack frame checks
+        # stack frame checks
 
 
 
@@ -31747,6 +31759,7 @@ ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ex
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
+      fi
       ;;
     esac
   fi
@@ -32761,7 +32774,6 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
   else
     case $CXX in
     *wrapmsvc* )
-
       if $sim_ac_simian; then
         if $sim_ac_source_release; then :; else
           # break build on warnings, except for in official source code releases
@@ -33074,7 +33086,7 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 
-      if test x$sim_ac_msvc_version = x7; then
+      if test ${sim_ac_msvc_version-0} -gt 6; then
         # 64-bit porting warnings
 
 
@@ -33914,6 +33926,7 @@ fi # !BUILD_WITH_MSVC
 SOQT_DSP_LIBDIRS=
 SOQT_DSP_LIBS=
 SOQT_DSP_INCS=
+SOQT_LIB_DSP_DEFS=
 SOQT_DSP_DEFS=
 
 if $sim_ac_make_dsp; then
@@ -33970,6 +33983,15 @@ fi
       else
         SOQT_DSP_DEFS="$SOQT_DSP_DEFS /D \"$define\""
       fi
+      if echo $define | grep _MAKE_DLL; then
+        :
+      else
+        if test x"$SOQT_DSP_DEFS" = x""; then
+          SOQT_LIB_DSP_DEFS="/D \"$define\""
+        else
+          SOQT_LIB_DSP_DEFS="$SOQT_LIB_DSP_DEFS /D \"$define\""
+        fi
+      fi
       ;;
     esac
   done
@@ -33991,6 +34013,7 @@ fi
   rm -f libtool.bak
   chmod 755 libtool
 fi
+
 
 
 
@@ -34926,6 +34949,7 @@ s,@BUILD_WITH_MSVC_FALSE@,$BUILD_WITH_MSVC_FALSE,;t t
 s,@SOQT_DSP_LIBS@,$SOQT_DSP_LIBS,;t t
 s,@SOQT_DSP_INCS@,$SOQT_DSP_INCS,;t t
 s,@SOQT_DSP_DEFS@,$SOQT_DSP_DEFS,;t t
+s,@SOQT_LIB_DSP_DEFS@,$SOQT_LIB_DSP_DEFS,;t t
 s,@LIBOBJS@,$LIBOBJS,;t t
 s,@LTLIBOBJS@,$LTLIBOBJS,;t t
 CEOF

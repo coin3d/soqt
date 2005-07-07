@@ -611,6 +611,17 @@ if $sim_ac_build_library; then
   # QStyleFactory was added in Qt 3.0.
   AC_CHECK_HEADERS([qstylefactory.h])
 
+  # We've had an external report about soqt.dll link failing due to missing
+  # the qt_win_use_simple_timers symbol in the installed Qt library. This
+  # was with Qt 3.3.1 MT under  Windows.
+  AC_MSG_CHECKING([for qt_win_use_simple_timers symbol])
+  AC_TRY_LINK([#include <qglobal.h>
+               Q_EXPORT extern bool qt_win_use_simple_timers;],
+              [qt_win_use_simple_timers = true;],
+              [AC_MSG_RESULT([yes])
+               AC_DEFINE([HAVE_QT_WIN_USE_SIMPLE_TIMERS], 1, [Defined if qt_win_use_simple_timers is available])],
+              [AC_MSG_RESULT([no])])
+
 fi # sim_ac_build_library
 
 if test $sim_ac_inventor_brand=coin && $SOQT_STATIC && $BUILD_WITH_MSVC; then

@@ -66,6 +66,9 @@
 /* Define this if Qt::Keypad is available */
 #undef HAVE_QT_KEYPAD_DEFINE
 
+/* Defined if qt_win_use_simple_timers is available */
+#undef HAVE_QT_WIN_USE_SIMPLE_TIMERS
+
 /* Define this if QWidget::setWindowState() is available */
 #undef HAVE_QWIDGET_SETWINDOWSTATE
 
