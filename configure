@@ -29557,7 +29557,12 @@ cat >>conftest.$ac_ext <<_ACEOF
 int
 main ()
 {
-QGLFormat f; f.setOverlay(TRUE);
+/* The basics: */
+                QGLFormat f; f.setOverlay(TRUE);
+                /* We've had a bug report about soqt.dll linking fail due
+                   to missing the QGLWidget::overlayContext() symbol: */
+                QGLWidget * w = NULL; (void)w->overlayContext();
+
   ;
   return 0;
 }

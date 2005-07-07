@@ -10527,7 +10527,12 @@ AC_CACHE_CHECK(
   [whether QGLFormat::setOverlay() is available],
   sim_cv_func_qglformat_setoverlay,
   [AC_TRY_LINK([#include <qgl.h>],
-               [QGLFormat f; f.setOverlay(TRUE);],
+               [/* The basics: */
+                QGLFormat f; f.setOverlay(TRUE);
+                /* We've had a bug report about soqt.dll linking fail due
+                   to missing the QGLWidget::overlayContext() symbol: */
+                QGLWidget * w = NULL; (void)w->overlayContext();
+               ],
                [sim_cv_func_qglformat_setoverlay=yes],
                [sim_cv_func_qglformat_setoverlay=no])])
 
