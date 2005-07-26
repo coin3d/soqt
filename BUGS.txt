@@ -888,12 +888,6 @@ main(int argc, char ** argv)
       which we're buggy with -- sizing and resizing has been a
       long-standing problem in various ways.)
 
-    - Select quadbuffer stereo from the RMB popupmenu for one of the
-      SoQtFullViewer-derived viewer classes on a system not capable of
-      it: application seg faults when it tries to fall back on the
-      previous GL context (the "not supported..."-warning also comes
-      out *twice* -- this may be related to the crash).
-
     - Needs more testing! Check SoQtRenderArea, the other
       SoQtFullViewer-derived viewer classes apart from the
       SoQtExaminerViewer, and any features we can think of.
