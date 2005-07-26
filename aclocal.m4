@@ -284,7 +284,29 @@ if $sim_ac_try_msvc; then
       export CC CXX
       BUILD_WITH_MSVC=true
       AC_MSG_RESULT([working])
+
+      # FIXME: why is this here, larsa? 20050714 mortene.
       # SIM_AC_MSVC_VERSION
+
+      # Robustness: we had multiple reports of Cygwin ''link'' getting in
+      # the way of MSVC link.exe, so do a little sanity check for that.
+      #
+      # FIXME: a better fix would be to call link.exe with full path from
+      # the wrapmsvc wrapper, to avoid any trouble with this -- I believe
+      # that should be possible, using the dirname of the full cl.exe path.
+      # 20050714 mortene.
+      sim_ac_check_link=`type link`
+      AC_MSG_CHECKING([whether Cygwin's /usr/bin/link shadows MSVC link.exe])
+      case x"$sim_ac_check_link" in
+      x"link is /usr/bin/link"* )
+        AC_MSG_RESULT(yes)
+        SIM_AC_ERROR([cygwin-link])
+        ;;
+      * )
+        AC_MSG_RESULT(no)
+        ;;
+      esac
+
     else
       case $host in
       *-cygwin)
@@ -10158,12 +10180,19 @@ if $sim_ac_with_qt; then
        CPPFLAGS="-I$sim_ac_debian_qtheaders $CPPFLAGS"
        SIM_AC_CHECK_HEADER_SILENT([qglobal.h], [sim_ac_qglobal=true])
      else
-     sim_ac_fink_qtheaders=/sw/include/qt
-     if test -d $sim_ac_fink_qtheaders; then
-       sim_ac_qt_incpath="-I$sim_ac_fink_qtheaders $sim_ac_qt_incpath"
-       CPPFLAGS="-I$sim_ac_fink_qtheaders $CPPFLAGS"
-       SIM_AC_CHECK_HEADER_SILENT([qglobal.h], [sim_ac_qglobal=true])
-     fi
+       sim_ac_fink_qtheaders=/sw/include/qt
+       if test -d $sim_ac_fink_qtheaders; then
+         sim_ac_qt_incpath="-I$sim_ac_fink_qtheaders $sim_ac_qt_incpath"
+         CPPFLAGS="-I$sim_ac_fink_qtheaders $CPPFLAGS"
+         SIM_AC_CHECK_HEADER_SILENT([qglobal.h], [sim_ac_qglobal=true])
+       else
+       sim_ac_darwinports_qtheaders=/opt/local/include/qt3
+         if test -d $sim_ac_darwinports_qtheaders; then
+           sim_ac_qt_incpath="-I$sim_ac_darwinports_qtheaders $sim_ac_qt_incpath"
+           CPPFLAGS="-I$sim_ac_darwinports_qtheaders $CPPFLAGS"
+           SIM_AC_CHECK_HEADER_SILENT([qglobal.h], [sim_ac_qglobal=true])
+         fi     
+       fi
      fi])
 
   # Qt 4 has the headers in various new subdirectories vs Qt 3.
