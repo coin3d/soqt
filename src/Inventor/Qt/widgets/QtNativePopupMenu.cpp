@@ -357,6 +357,17 @@ QtNativePopupMenu::addMenu(int menuid,
   MenuRecord * sub = this->getMenuRecord(submenuid);
   assert(super && sub && "no such menu");
 
+  // disconnect the submenu from the activated() signal. In Qt 4.0
+  // only the parent menu should be connected, since both the parent
+  // menu and the submenu will generate a call to
+  // itemActivation(). Multiple calls to itemActivation() causes a
+  // segfault when selecting Quadbuffer stereo, at least when it's not
+  // supported. (20050726 frodo)
+#if QT_VERSION >= 0x040000 // Qt 4.*
+  QObject::disconnect(sub->menu, SIGNAL(activated(int)),
+                      this, SLOT(itemActivation(int)));
+#endif
+
   if (pos == -1)
     super->menu->insertItem(QString(sub->title), sub->menu, sub->menuid);
   else
