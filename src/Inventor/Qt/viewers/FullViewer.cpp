@@ -606,6 +606,13 @@ SoQtFullViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
     // the pushbuttons.
     p->setFocusPolicy(QTWIDGET_NOFOCUS);
 
+#if QT_VERSION >= 0x040000 // Qt 4.*
+    // In some GUI styles in Qt4, a default button is drawn with an
+    // extra frame around it, up to 3 pixels or more. This causes
+    // pixmaps on buttons to look tiny, which is not what we want.
+    p->setIconSize(QSize(24, 24));
+#endif
+
 #if (defined Q_WS_MAC && QT_VERSION >= 0x030100) && defined(HAVE_QSTYLEFACTORY_H)
     // Since Qt/Mac 3.1.x, all pushbuttons (even those < 32x32) are drawn 
     // using the Aqua style, i.e. with rounded edges and shading. This
