@@ -874,9 +874,6 @@ main(int argc, char ** argv)
     - SoQt/configure Qt 4 detection and setup on MS Windows and Mac OS
       X. (Fix in simacros/cfg/m4/qt.m4.)
 
-    - Button pixmaps on right-side trim buttons are tiny for the
-      SoQtExaminerViewer.
-
     - The SoQtFullViewer-derived viewers' thumbwheels are thicker (at
       least when horizontal).
 
