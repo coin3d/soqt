@@ -868,9 +868,6 @@ main(int argc, char ** argv)
       sole reason that we still have to link against the Qt3Support
       library.
 
-    - Menu "on" tick-markers are not shown anywhere in the RMB
-      popup-menu.
-
     - In the RMB popup-menu, clicking on already selected sub-menu
       does not bring up its sub-sub-menu.
 
