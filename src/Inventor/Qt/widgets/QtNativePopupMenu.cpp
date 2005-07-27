@@ -43,8 +43,8 @@
 #include <qpopupmenu.h>
 #define QPOPUPMENU_CLASS QPopupMenu
 #else // Qt 4.0.0+
-#include <q3popupmenu.h>
-#define QPOPUPMENU_CLASS Q3PopupMenu
+#include <QMenu>
+#define QPOPUPMENU_CLASS QMenu
 #endif // Qt 4.0.0+
 
 // ************************************************************************
@@ -325,8 +325,15 @@ QtNativePopupMenu::_setMenuItemMarked(int itemid, SbBool marked)
     rec->flags |= ITEM_MARKED;
   else
     rec->flags &= ~ITEM_MARKED;
-  if (rec->parent != NULL)
+  if (rec->parent != NULL) {
+#if QT_VERSION >= 0x040000 // Qt 4.*
+    // FIXME: is this really safe? (20050727 frodo)
+    QAction * action = (QAction *) rec->parent->findItem(itemid);
+    if (action) action->setChecked(marked ? true : false);
+#else
     rec->parent->setItemChecked(rec->itemid, marked ? true : false);
+#endif
+  }
 }
 
 /*!
@@ -370,7 +377,7 @@ QtNativePopupMenu::addMenu(int menuid,
 
   if (pos == -1)
     super->menu->insertItem(QString(sub->title), sub->menu, sub->menuid);
-  else
+  else 
     super->menu->insertItem(QString(sub->title),
                              sub->menu, sub->menuid, pos);
   sub->parent = super->menu;
@@ -394,8 +401,20 @@ QtNativePopupMenu::addMenuItem(int menuid,
   else
     menu->menu->insertItem(QString(item->title), item->itemid, pos);
   item->parent = menu->menu;
-  if (item->flags & ITEM_MARKED)
+
+#if QT_VERSION >= 0x040000 // Qt 4.*
+  // FIXME: is this really safe? (20050726 frodo)
+  QAction * action = (QAction *) item->parent->findItem(itemid);
+  if (action) action->setCheckable(true);
+#endif // Qt 4.*
+  
+  if (item->flags & ITEM_MARKED) {
+#if QT_VERSION >= 0x040000 // Qt 4.*
+    if (action) action->setChecked(true);
+#else
     item->parent->setItemChecked(item->itemid, true);
+#endif
+  }
 } // addMenuItem()
 
 void
@@ -404,7 +423,7 @@ QtNativePopupMenu::addSeparator(int menuid,
 {
   MenuRecord * menu = this->getMenuRecord(menuid);
   assert(menu && "no such menu");
-
+  
   ItemRecord * rec = createItemRecord("separator");
   menu->menu->insertSeparator(pos);
   rec->flags |= ITEM_SEPARATOR;
@@ -531,9 +550,16 @@ QtNativePopupMenu::createMenuRecord(
   rec->menuid = -1;
   rec->name = strcpy(new char [strlen(name)+1], name);
   rec->title = strcpy(new char [strlen(name)+1], name);
+
+#if QT_VERSION >= 0x040000 // Qt 4.*
+  rec->menu = new QPOPUPMENU_CLASS(QString(name));
+#else
   rec->menu = new QPOPUPMENU_CLASS((QWidget *) NULL, name);
+#endif
+
   QObject::connect(rec->menu, SIGNAL(activated(int)),
-                    this, SLOT(itemActivation(int)));
+                   this, SLOT(itemActivation(int)));
+
   rec->parent = NULL;
   return rec;
 } // create()
