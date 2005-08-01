@@ -28533,10 +28533,10 @@ fi
 
 
      else
-       sim_ac_fink_qtheaders=/sw/include/qt
-       if test -d $sim_ac_fink_qtheaders; then
-         sim_ac_qt_incpath="-I$sim_ac_fink_qtheaders $sim_ac_qt_incpath"
-         CPPFLAGS="-I$sim_ac_fink_qtheaders $CPPFLAGS"
+     sim_ac_fink_qtheaders=/sw/include/qt
+     if test -d $sim_ac_fink_qtheaders; then
+       sim_ac_qt_incpath="-I$sim_ac_fink_qtheaders $sim_ac_qt_incpath"
+       CPPFLAGS="-I$sim_ac_fink_qtheaders $CPPFLAGS"
 
 cat >conftest.$ac_ext <<_ACEOF
 /* confdefs.h.  */
@@ -28578,54 +28578,7 @@ fi
 
 
 
-       else
-       sim_ac_darwinports_qtheaders=/opt/local/include/qt3
-         if test -d $sim_ac_darwinports_qtheaders; then
-           sim_ac_qt_incpath="-I$sim_ac_darwinports_qtheaders $sim_ac_qt_incpath"
-           CPPFLAGS="-I$sim_ac_darwinports_qtheaders $CPPFLAGS"
-
-cat >conftest.$ac_ext <<_ACEOF
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-#include <qglobal.h>
-_ACEOF
-if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
-  (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
-  ac_status=$?
-  grep -v '^ *+' conftest.er1 >conftest.err
-  rm -f conftest.er1
-  cat conftest.err >&5
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } >/dev/null; then
-  if test -s conftest.err; then
-    ac_cpp_err=$ac_cxx_preproc_warn_flag
-    ac_cpp_err=$ac_cpp_err$ac_cxx_werror_flag
-  else
-    ac_cpp_err=
-  fi
-else
-  ac_cpp_err=yes
-fi
-if test -z "$ac_cpp_err"; then
-  ac_cv_header_qglobal_h=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-  ac_cv_header_qglobal_h=no
-fi
-rm -f conftest.err conftest.$ac_ext
-if test $ac_cv_header_qglobal_h = yes; then
-  sim_ac_qglobal=true
-fi
-
-
-
-         fi
-       fi
+     fi
      fi
 fi
 

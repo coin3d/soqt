@@ -10180,19 +10180,12 @@ if $sim_ac_with_qt; then
        CPPFLAGS="-I$sim_ac_debian_qtheaders $CPPFLAGS"
        SIM_AC_CHECK_HEADER_SILENT([qglobal.h], [sim_ac_qglobal=true])
      else
-       sim_ac_fink_qtheaders=/sw/include/qt
-       if test -d $sim_ac_fink_qtheaders; then
-         sim_ac_qt_incpath="-I$sim_ac_fink_qtheaders $sim_ac_qt_incpath"
-         CPPFLAGS="-I$sim_ac_fink_qtheaders $CPPFLAGS"
-         SIM_AC_CHECK_HEADER_SILENT([qglobal.h], [sim_ac_qglobal=true])
-       else
-       sim_ac_darwinports_qtheaders=/opt/local/include/qt3
-         if test -d $sim_ac_darwinports_qtheaders; then
-           sim_ac_qt_incpath="-I$sim_ac_darwinports_qtheaders $sim_ac_qt_incpath"
-           CPPFLAGS="-I$sim_ac_darwinports_qtheaders $CPPFLAGS"
-           SIM_AC_CHECK_HEADER_SILENT([qglobal.h], [sim_ac_qglobal=true])
-         fi     
-       fi
+     sim_ac_fink_qtheaders=/sw/include/qt
+     if test -d $sim_ac_fink_qtheaders; then
+       sim_ac_qt_incpath="-I$sim_ac_fink_qtheaders $sim_ac_qt_incpath"
+       CPPFLAGS="-I$sim_ac_fink_qtheaders $CPPFLAGS"
+       SIM_AC_CHECK_HEADER_SILENT([qglobal.h], [sim_ac_qglobal=true])
+     fi
      fi])
 
   # Qt 4 has the headers in various new subdirectories vs Qt 3.

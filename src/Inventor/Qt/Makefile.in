@@ -1947,8 +1947,7 @@ install-nodist_SoQtincHEADERS: $(nodist_SoQtinc_HEADERS)
 
 soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib: Makefile \
   $(soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) \
-  $(soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_DEPENDENCIES) \
-  soqt@SOQT_MAJOR_VERSION@@SUFFIX@.dll
+  $(soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_DEPENDENCIES)
 	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
 	rm -f "$$basename.lib" "$$basename.dll"; \
 	  echo "Linking $@..." \
