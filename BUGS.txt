@@ -871,8 +871,8 @@ main(int argc, char ** argv)
     - In the RMB popup-menu, clicking on already selected sub-menu
       does not bring up its sub-sub-menu.
 
-    - SoQt/configure Qt 4 detection and setup on MS Windows and Mac OS
-      X. (Fix in simacros/cfg/m4/qt.m4.)
+    - SoQt/configure Qt 4 detection and setup on MS Windows. (Fix in
+      simacros/cfg/m4/qt.m4.)
 
     - The SoQtFullViewer-derived viewers' thumbwheels are thicker (at
       least when horizontal).
@@ -886,6 +886,18 @@ main(int argc, char ** argv)
       SoQtFullViewer-derived viewer classes apart from the
       SoQtExaminerViewer, and any features we can think of.
 
-    20050630 mortene.
+    - Mac OS X specific:
+
+      - thumbwheels are rendered incorrectly (only the outlines
+        are drawn)
+
+      - switching back from fullscreen to windowed mode does not work 
+
+      - redraw problem while resizing the window - the OpenGL render
+        area seems to flicker in and out of existance. (This is 
+        a Qt bug that it also happens with the hellogl 
+        Qt example - I've reported it to the Trolls.)
+
+    20050630 mortene, updated 20050802 kyrah.
 
 =====================================================================
