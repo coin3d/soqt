@@ -10167,6 +10167,25 @@ if $sim_ac_with_qt; then
 
   sim_ac_qt_libs=UNRESOLVED
 
+  # Check for Mac OS framework installation
+  if test -z "$QTDIR"; then
+    sim_ac_qt_framework_dir=/Library/Frameworks
+    # FIXME: Should we also look for the Qt framework in other  
+    # default framework locations (such as ~/Library/Frameworks)?
+    # Or require the user to specify this explicitly, e.g. by
+    # passing --with-qt-framework=xxx? 20050802 kyrah.
+  else
+    sim_ac_qt_framework_dir=$sim_ac_qtdir/lib
+  fi
+
+  SIM_AC_HAVE_QT_FRAMEWORK
+
+  if $sim_ac_have_qt_framework; then 
+    sim_ac_qt_cppflags="-I$sim_ac_qt_framework_dir/QtCore.framework/Headers -I$sim_ac_qt_framework_dir/QtOpenGL.framework/Headers -I$sim_ac_qt_framework_dir/QtGui.framework/Headers -F$sim_ac_qt_framework_dir"
+    sim_ac_qt_libs="-Wl,-F$sim_ac_qt_framework_dir -Wl,-framework,QtGui -Wl,-framework,QtOpenGL -Wl,-framework,QtCore"
+
+  else
+
   sim_ac_qglobal=false
   SIM_AC_CHECK_HEADER_SILENT([qglobal.h],
     [sim_ac_qglobal=true],
@@ -10180,12 +10199,19 @@ if $sim_ac_with_qt; then
        CPPFLAGS="-I$sim_ac_debian_qtheaders $CPPFLAGS"
        SIM_AC_CHECK_HEADER_SILENT([qglobal.h], [sim_ac_qglobal=true])
      else
-     sim_ac_fink_qtheaders=/sw/include/qt
-     if test -d $sim_ac_fink_qtheaders; then
-       sim_ac_qt_incpath="-I$sim_ac_fink_qtheaders $sim_ac_qt_incpath"
-       CPPFLAGS="-I$sim_ac_fink_qtheaders $CPPFLAGS"
-       SIM_AC_CHECK_HEADER_SILENT([qglobal.h], [sim_ac_qglobal=true])
-     fi
+       sim_ac_fink_qtheaders=/sw/include/qt
+       if test -d $sim_ac_fink_qtheaders; then
+         sim_ac_qt_incpath="-I$sim_ac_fink_qtheaders $sim_ac_qt_incpath"
+         CPPFLAGS="-I$sim_ac_fink_qtheaders $CPPFLAGS"
+         SIM_AC_CHECK_HEADER_SILENT([qglobal.h], [sim_ac_qglobal=true])
+       else
+       sim_ac_darwinports_qtheaders=/opt/local/include/qt3
+         if test -d $sim_ac_darwinports_qtheaders; then
+           sim_ac_qt_incpath="-I$sim_ac_darwinports_qtheaders $sim_ac_qt_incpath"
+           CPPFLAGS="-I$sim_ac_darwinports_qtheaders $CPPFLAGS"
+           SIM_AC_CHECK_HEADER_SILENT([qglobal.h], [sim_ac_qglobal=true])
+         fi     
+       fi
      fi])
 
   # Qt 4 has the headers in various new subdirectories vs Qt 3.
@@ -10409,6 +10435,8 @@ recommend you to upgrade.])
   else # sim_ac_qglobal = false
     AC_MSG_WARN([header file qglobal.h not found, can not compile Qt code])
   fi
+
+  fi # sim_ac_have_qt_framework
 
   # We should only *test* availability, not mutate the LIBS/CPPFLAGS
   # variables ourselves inside this macro. 20041021 larsa
@@ -10720,6 +10748,51 @@ if $sim_cv_exists_qlineedit_setinputmask; then
             [Define this if QLineEdit::setInputMask() is available])
 fi
 ]) # SIM_AC_QLINEEDIT_HASSETINPUTMASK
+
+
+
+# SIM_AC_HAVE_QT_FRAMEWORK
+# ----------------------
+#
+# Determine whether Qt is installed as a Mac OS X framework.  
+#
+# Uses the variable $sim_ac_qt_framework_dir which should either 
+# point to /Library/Frameworks or $QTDIR/lib. 
+#
+# Sets sim_ac_have_qt_framework to true if Qt is installed as 
+# a framework, and to false otherwise. 
+#
+# Author: Karin Kosina, <kyrah@sim.no>.
+
+AC_DEFUN([SIM_AC_HAVE_QT_FRAMEWORK], [
+case $host_os in
+  darwin*)
+    # First check if framework exists in the specified location, then
+    # try to actually link against the framework. This precaution is
+    # needed to catch the case where Qt-4 is installed in the default
+    # location /Library/Frameworks, but the user wants to override it
+    # by setting QTDIR to point to a non-framework install.
+    if test -d $sim_ac_qt_framework_dir/QtCore.framework; then
+      sim_ac_save_ldflags_fw=$LDFLAGS 
+      LDFLAGS="$LDFLAGS -F$sim_ac_qt_framework_dir -framework QtCore"
+      AC_CACHE_CHECK(
+        [whether Qt is installed as a framework],
+        sim_ac_have_qt_framework,
+        [AC_TRY_LINK([#include <QtCore/qglobal.h>],
+                 [],
+                 [sim_ac_have_qt_framework=true],
+                 [sim_ac_have_qt_framework=false])
+        ])
+        LDFLAGS=$sim_ac_save_ldflags_fw
+    else 
+      sim_ac_have_qt_framework=false
+    fi 
+    ;;
+  *)
+    sim_ac_have_qt_framework=false
+    ;;
+esac
+])
 
 
 # Usage:
