@@ -888,15 +888,11 @@ main(int argc, char ** argv)
 
     - Mac OS X specific:
 
-      - thumbwheels are rendered incorrectly (only the outlines
-        are drawn)
-
       - switching back from fullscreen to windowed mode does not work 
 
       - redraw problem while resizing the window - the OpenGL render
-        area seems to flicker in and out of existance. (This is 
-        a Qt bug that it also happens with the hellogl 
-        Qt example - I've reported it to the Trolls.)
+        area seems to flicker in and out of existance. (This is
+        a Qt bug, reported and confirmed - Issue N81112.)
 
     20050630 mortene, updated 20050802 kyrah.
 
