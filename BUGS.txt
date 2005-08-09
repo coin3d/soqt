@@ -864,9 +864,16 @@ main(int argc, char ** argv)
     This is the current list of issues to fix or look into before we
     can reasonably say that Qt 4 is properly supported:
 
-    - Get rid of Q3PopupMenu-use in QNativePopupMenu, since it's the
+    - Get rid of Q3PopupMenu-use in QtNativePopupMenu, since it's the
       sole reason that we still have to link against the Qt3Support
       library.
+
+        => frodo & mortene believes this is best done by splitting the
+           QtNativePopupMenu class into both a Qt-3 and a Qt-4 version
+
+           (and before doing that, audit the code in
+           QtNativePopupMenu.cpp to see if some of that can be moved
+           up into the toolkit-neutral superclass first)
 
     - In the RMB popup-menu, clicking on already selected sub-menu
       does not bring up its sub-sub-menu.
