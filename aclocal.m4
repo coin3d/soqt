@@ -10716,7 +10716,7 @@ AC_CACHE_CHECK(
   [whether QWidget::setWindowState() exists],
   sim_cv_exists_qwidget_setwindowstate,
 
-  [AC_TRY_LINK([#include <qapplication.h>],
+  [AC_TRY_LINK([#include <qwidget.h>],
                [QWidget * w = NULL; w->setWindowState(0);],
                [sim_cv_exists_qwidget_setwindowstate=true],
                [sim_cv_exists_qwidget_setwindowstate=false])])
