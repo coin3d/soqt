@@ -897,8 +897,6 @@ main(int argc, char ** argv)
 
     - Mac OS X specific:
 
-      - switching back from fullscreen to windowed mode does not work 
-
       - redraw problem while resizing the window - the OpenGL render
         area seems to flicker in and out of existance. (This is
         a Qt bug, reported and confirmed - Issue N81112.)
