@@ -4,7 +4,7 @@
 
 # TARGTYPE "Win32 (x86) Dynamic-Link Library" 0x0102
 
-CFG=soqt1 - Win32 Debug
+CFG=soqt1 - Win32 DLL (Debug)
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE
@@ -13,12 +13,14 @@ CFG=soqt1 - Win32 Debug
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE
-!MESSAGE NMAKE /f "soqt1.mak" CFG="soqt1 - Win32 Debug"
+!MESSAGE NMAKE /f "soqt1.mak" CFG="soqt1 - Win32 DLL (Debug)"
 !MESSAGE
 !MESSAGE Possible choices for configuration are:
 !MESSAGE
-!MESSAGE "soqt1 - Win32 Release" (based on "Win32 (x86) Dynamic-Link Library")
-!MESSAGE "soqt1 - Win32 Debug" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "soqt1 - Win32 LIB (Release)" (based on "Win32 (x86) Static Library")
+!MESSAGE "soqt1 - Win32 LIB (Debug)" (based on "Win32 (x86) Static Library")
+!MESSAGE "soqt1 - Win32 DLL (Release)" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "soqt1 - Win32 DLL (Debug)" (based on "Win32 (x86) Dynamic-Link Library")
 !MESSAGE
 
 # Begin Project
@@ -29,7 +31,7 @@ CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
 
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 0
@@ -42,8 +44,8 @@ RSC=rc.exe
 # PROP Intermediate_Dir "Release"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "SOQT_DEBUG=0" /D "HAVE_CONFIG_H" /D "SOQT_MAKE_DLL" /D "COIN_DLL" /D "SOQT_INTERNAL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /I "$(QTDIR)\include" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O1 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "SOQT_DEBUG=0" /D "HAVE_CONFIG_H" /D "SOQT_MAKE_DLL" /D "COIN_DLL" /D "SOQT_INTERNAL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /I "$(QTDIR)\include" /YX /FD /c
+# ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "SOQT_DEBUG=0" /D "HAVE_CONFIG_H" /D "SOQT_MAKE_DLL" /D "COIN_DLL" /D "SOQT_INTERNAL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /I "c:\Qt\4.0.1\include" /I "c:\Qt\4.0.1\include\Qt" /I "c:\Qt\4.0.1\include\QtOpenGL" /I "c:\Qt\4.0.1\include\QtGui" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O1 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "SOQT_DEBUG=0" /D "HAVE_CONFIG_H" /D "SOQT_MAKE_DLL" /D "COIN_DLL" /D "SOQT_INTERNAL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /I "c:\Qt\4.0.1\include" /I "c:\Qt\4.0.1\include\Qt" /I "c:\Qt\4.0.1\include\QtOpenGL" /I "c:\Qt\4.0.1\include\QtGui" /YX /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
@@ -52,15 +54,15 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 $(QTDIR)\lib\qt-mt331.lib $(QTDIR)\lib\qtmain.lib gdi32.lib $(COINDIR)\lib\coin2.lib opengl32.lib winmm.lib user32.lib /nologo /dll /machine:I386
-# ADD LINK32 $(QTDIR)\lib\qt-mt331.lib $(QTDIR)\lib\qtmain.lib gdi32.lib $(COINDIR)\lib\coin2.lib opengl32.lib winmm.lib user32.lib /nologo /dll /machine:I386 /out:"soqt1.dll" /opt:nowin98
+# ADD BASE LINK32 c:\Qt\4.0.1\lib\QtOpenGL4.lib c:\Qt\4.0.1\lib\QtGui4.lib c:\Qt\4.0.1\lib\QtCore4.lib c:\Qt\4.0.1\lib\Qt3Support4.lib $(COINDIR)\lib\coin3.lib opengl32.lib gdi32.lib winmm.lib user32.lib /nologo /dll /machine:I386
+# ADD LINK32 c:\Qt\4.0.1\lib\QtOpenGL4.lib c:\Qt\4.0.1\lib\QtGui4.lib c:\Qt\4.0.1\lib\QtCore4.lib c:\Qt\4.0.1\lib\Qt3Support4.lib $(COINDIR)\lib\coin3.lib opengl32.lib gdi32.lib winmm.lib user32.lib /nologo /dll /machine:I386 /out:"soqt1.dll" /opt:nowin98
 # SUBTRACT LINK32 /pdb:none
 # Begin Special Build Tool
-SOURCE=
-PostBuild_Cmds=installsoqt.bat
+SOURCE="$(InputPath)"
+PostBuild_Cmds=install-dll-release.bat
 # End Special Build Tool
 
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 1
@@ -72,8 +74,8 @@ PostBuild_Cmds=installsoqt.bat
 # PROP Output_Dir "Debug"
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "SOQT_DEBUG=1" /D "HAVE_CONFIG_H" /D "SOQT_MAKE_DLL" /D "COIN_DLL" /D "SOQT_INTERNAL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /I "$(QTDIR)\include" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "SOQT_DEBUG=1" /D "HAVE_CONFIG_H" /D "SOQT_MAKE_DLL" /D "COIN_DLL" /D "SOQT_INTERNAL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /I "$(QTDIR)\include" /YX /FD /GZ /c
+# ADD BASE CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "SOQT_DEBUG=1" /D "HAVE_CONFIG_H" /D "SOQT_MAKE_DLL" /D "COIN_DLL" /D "SOQT_INTERNAL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /I "c:\Qt\4.0.1\include" /I "c:\Qt\4.0.1\include\Qt" /I "c:\Qt\4.0.1\include\QtOpenGL" /I "c:\Qt\4.0.1\include\QtGui" /YX /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "SOQT_DEBUG=1" /D "HAVE_CONFIG_H" /D "SOQT_MAKE_DLL" /D "COIN_DLL" /D "SOQT_INTERNAL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /I "c:\Qt\4.0.1\include" /I "c:\Qt\4.0.1\include\Qt" /I "c:\Qt\4.0.1\include\QtOpenGL" /I "c:\Qt\4.0.1\include\QtGui" /YX /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
@@ -82,351 +84,550 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 $(QTDIR)\lib\qt-mt331.lib $(QTDIR)\lib\qtmain.lib gdi32.lib $(COINDIR)\lib\coin2d.lib opengl32.lib winmm.lib user32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 $(QTDIR)\lib\qt-mt331.lib $(QTDIR)\lib\qtmain.lib gdi32.lib $(COINDIR)\lib\coin2d.lib opengl32.lib winmm.lib user32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept /out:"soqt1d.dll"
+# ADD BASE LINK32 c:\Qt\4.0.1\lib\QtOpenGL4.lib c:\Qt\4.0.1\lib\QtGui4.lib c:\Qt\4.0.1\lib\QtCore4.lib c:\Qt\4.0.1\lib\Qt3Support4.lib $(COINDIR)\lib\coin3d.lib opengl32.lib gdi32.lib winmm.lib user32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 c:\Qt\4.0.1\lib\QtOpenGL4.lib c:\Qt\4.0.1\lib\QtGui4.lib c:\Qt\4.0.1\lib\QtCore4.lib c:\Qt\4.0.1\lib\Qt3Support4.lib $(COINDIR)\lib\coin3d.lib opengl32.lib gdi32.lib winmm.lib user32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept /out:"soqt1d.dll"
 # Begin Special Build Tool
-SOURCE=
-PostBuild_Cmds=installsoqt.bat
+SOURCE="$(InputPath)"
+PostBuild_Cmds=install-dll-debug.bat
 # End Special Build Tool
 
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+
+# PROP BASE Use_MFC 0
+# PROP BASE Use_Debug_Libraries 0
+# PROP BASE Output_Dir "StaticRelease"
+# PROP BASE Intermediate_Dir "StaticRelease"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 0
+# PROP Output_Dir "StaticRelease"
+# PROP Intermediate_Dir "StaticRelease"
+# PROP Target_Dir ""
+# ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_LIB" /D "SOQT_DEBUG=0"  /D "HAVE_CONFIG_H" /D "COIN_DLL" /D "SOQT_INTERNAL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /I "c:\Qt\4.0.1\include" /I "c:\Qt\4.0.1\include\Qt" /I "c:\Qt\4.0.1\include\QtOpenGL" /I "c:\Qt\4.0.1\include\QtGui" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_LIB" /D "SOQT_DEBUG=0"  /D "HAVE_CONFIG_H" /D "COIN_DLL" /D "SOQT_INTERNAL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /I "c:\Qt\4.0.1\include" /I "c:\Qt\4.0.1\include\Qt" /I "c:\Qt\4.0.1\include\QtOpenGL" /I "c:\Qt\4.0.1\include\QtGui" /YX /FD /c
+# ADD BASE RSC /l 0x414 /d "NDEBUG"
+# ADD RSC /l 0x414 /d "NDEBUG"
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LIB32=link.exe -lib
+# ADD BASE LIB32 /nologo /machine:I386 /out:"soqt1s.lib"
+# ADD LIB32 /nologo /machine:I386 /out:"soqt1s.lib"
+# Begin Special Build Tool
+SOURCE="$(InputPath)"
+PostBuild_Cmds=install-lib-release.bat
+# End Special Build Tool
+
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+
+# PROP BASE Use_MFC 0
+# PROP BASE Use_Debug_Libraries 1
+# PROP BASE Output_Dir "StaticDebug"
+# PROP BASE Intermediate_Dir "StaticDebug"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 1
+# PROP Output_Dir "StaticDebug"
+# PROP Intermediate_Dir "StaticDebug"
+# PROP Target_Dir ""
+# ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_LIB" /D "SOQT_DEBUG=1"  /D "HAVE_CONFIG_H" /D "COIN_DLL" /D "SOQT_INTERNAL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /I "c:\Qt\4.0.1\include" /I "c:\Qt\4.0.1\include\Qt" /I "c:\Qt\4.0.1\include\QtOpenGL" /I "c:\Qt\4.0.1\include\QtGui" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_LIB" /D "SOQT_DEBUG=1"  /D "HAVE_CONFIG_H" /D "COIN_DLL" /D "SOQT_INTERNAL" /I ".\src" /I ".\data" /I "..\..\src" /I "$(COINDIR)\include" /I "$(COINDIR)\include\Inventor\annex" /I "c:\Qt\4.0.1\include" /I "c:\Qt\4.0.1\include\Qt" /I "c:\Qt\4.0.1\include\QtOpenGL" /I "c:\Qt\4.0.1\include\QtGui" /YX /FD /c
+# ADD BASE RSC /l 0x414 /d "_DEBUG"
+# ADD RSC /l 0x414 /d "_DEBUG"
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LIB32=link.exe -lib
+# ADD BASE LIB32 /nologo /machine:I386 /out:"soqt1sd.lib"
+# ADD LIB32 /nologo /machine:I386 /out:"soqt1sd.lib"
+# Begin Special Build Tool
+SOURCE="$(InputPath)"
+PostBuild_Cmds=install-lib-debug.bat
+# End Special Build Tool
 !ENDIF
 
 # Begin Target
 
-# Name "soqt1 - Win32 Release"
-# Name "soqt1 - Win32 Debug"
+# Name "soqt1 - Win32 DLL (Release)"
+# Name "soqt1 - Win32 DLL (Debug)"
+# Name "soqt1 - Win32 LIB (Release)"
+# Name "soqt1 - Win32 LIB (Debug)"
 # Begin Group "Source Files"
 
 # PROP Default_Filter "cpp;c;ic;icc"
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Qt\devices\SoQtDevice.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\devices"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\devices"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\devices"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\devices"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Qt\devices\SoQtInputFocus.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\devices"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\devices"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\devices"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\devices"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Qt\devices\SoQtKeyboard.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\devices"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\devices"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\devices"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\devices"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Qt\devices\SoQtMouse.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\devices"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\devices"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\devices"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\devices"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Qt\devices\SoQtSpaceball.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\devices"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\devices"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\devices"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\devices"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Qt\devices\6DOFEvents.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\devices"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\devices"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\devices"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\devices"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\devices\spwinput_x11.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\devices"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\devices"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\devices"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\devices"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\devices\spwinput_win32.c
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\devices"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\devices"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\devices"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\devices"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\devices\SoQtDeviceCommon.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\devices"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\devices"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\devices"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\devices"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\devices\SoQtInputFocusCommon.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\devices"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\devices"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\devices"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\devices"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\devices\SoQtKeyboardCommon.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\devices"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\devices"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\devices"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\devices"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\devices\SoQtMouseCommon.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\devices"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\devices"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\devices"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\devices"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\devices"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\devices"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\devices"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\devices"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\editors\SoQtColorEditor.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\editors"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\editors"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\editors"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\editors"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\editors\SoQtMaterialEditor.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\editors"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\editors"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\editors"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\editors"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\engines\Engines.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\engines"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\engines"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\engines"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\engines"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\engines\RadioGroup.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\engines"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\engines"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\engines"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\engines"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\engines\Format.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\engines"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\engines"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\engines"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\engines"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\nodes\Nodes.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\nodes"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\nodes"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\nodes"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\nodes"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\nodes\SceneTexture2.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\nodes"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\nodes"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\nodes"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\nodes"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\nodes\ViewportFix.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\nodes"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\nodes"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\nodes"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\nodes"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\nodes\ViewpointWrapper.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\nodes"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\nodes"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\nodes"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\nodes"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\nodes\Pane.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\nodes"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\nodes"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\nodes"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\nodes"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\nodes\Position.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\nodes"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\nodes"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\nodes"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\nodes"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\nodes\Translation.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\nodes"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\nodes"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\nodes"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\nodes"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\nodes\Frame.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\nodes"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\nodes"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\nodes"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\nodes"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\nodes\Image.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\nodes"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\nodes"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\nodes"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\nodes"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\nodes\Label.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\nodes"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\nodes"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\nodes"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\nodes"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\nodes\ToggleButton.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\nodes"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\nodes"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\nodes"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\nodes"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\nodes\RadioButton.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\nodes"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\nodes"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\nodes"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\nodes"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\nodes\ClickCounter.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\nodes"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\nodes"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\nodes"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\nodes"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\nodes\Slider1.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\nodes"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\nodes"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\nodes"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\nodes"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\nodes\Slider2.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\nodes"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\nodes"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\nodes"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\nodes"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\nodes\ColorEditor.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\nodes"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\nodes"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\nodes"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\nodes"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\nodes\MaterialEditor.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\nodes"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\nodes"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\nodes"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\nodes"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Qt\viewers\FullViewer.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\viewers"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\viewers"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\viewers"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\viewers"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Qt\viewers\SoQtFullViewerP.h
 
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 
 # PROP IgnoreDefaultTool 1
 #Begin Custom Build - moc'ing $(InputPath)
@@ -437,7 +638,29 @@ InputPath=..\..\src\Inventor\Qt\viewers\SoQtFullViewerP.h
 
 # End Custom Build
 
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - moc'ing $(InputPath)
+InputPath=..\..\src\Inventor\Qt\viewers\SoQtFullViewerP.h
+
+"src\Inventor\Qt\viewers\moc_SoQtFullViewerP.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtFullViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtFullViewerP.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - moc'ing $(InputPath)
+InputPath=..\..\src\Inventor\Qt\viewers\SoQtFullViewerP.h
+
+"src\Inventor\Qt\viewers\moc_SoQtFullViewerP.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtFullViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtFullViewerP.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
 
 # PROP IgnoreDefaultTool 1
 #Begin Custom Build - moc'ing $(InputPath)
@@ -454,17 +677,21 @@ InputPath=..\..\src\Inventor\Qt\viewers\SoQtFullViewerP.h
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Qt\viewers\ExaminerViewer.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\viewers"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\viewers"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\viewers"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\viewers"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Qt\viewers\SoQtExaminerViewerP.h
 
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 
 # PROP IgnoreDefaultTool 1
 #Begin Custom Build - moc'ing $(InputPath)
@@ -475,7 +702,29 @@ InputPath=..\..\src\Inventor\Qt\viewers\SoQtExaminerViewerP.h
 
 # End Custom Build
 
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - moc'ing $(InputPath)
+InputPath=..\..\src\Inventor\Qt\viewers\SoQtExaminerViewerP.h
+
+"src\Inventor\Qt\viewers\moc_SoQtExaminerViewerP.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtExaminerViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtExaminerViewerP.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - moc'ing $(InputPath)
+InputPath=..\..\src\Inventor\Qt\viewers\SoQtExaminerViewerP.h
+
+"src\Inventor\Qt\viewers\moc_SoQtExaminerViewerP.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtExaminerViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtExaminerViewerP.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
 
 # PROP IgnoreDefaultTool 1
 #Begin Custom Build - moc'ing $(InputPath)
@@ -492,17 +741,21 @@ InputPath=..\..\src\Inventor\Qt\viewers\SoQtExaminerViewerP.h
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Qt\viewers\PlaneViewer.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\viewers"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\viewers"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\viewers"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\viewers"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Qt\viewers\SoQtPlaneViewerP.h
 
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 
 # PROP IgnoreDefaultTool 1
 #Begin Custom Build - moc'ing $(InputPath)
@@ -513,7 +766,29 @@ InputPath=..\..\src\Inventor\Qt\viewers\SoQtPlaneViewerP.h
 
 # End Custom Build
 
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - moc'ing $(InputPath)
+InputPath=..\..\src\Inventor\Qt\viewers\SoQtPlaneViewerP.h
+
+"src\Inventor\Qt\viewers\moc_SoQtPlaneViewerP.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtPlaneViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtPlaneViewerP.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - moc'ing $(InputPath)
+InputPath=..\..\src\Inventor\Qt\viewers\SoQtPlaneViewerP.h
+
+"src\Inventor\Qt\viewers\moc_SoQtPlaneViewerP.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtPlaneViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtPlaneViewerP.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
 
 # PROP IgnoreDefaultTool 1
 #Begin Custom Build - moc'ing $(InputPath)
@@ -530,71 +805,99 @@ InputPath=..\..\src\Inventor\Qt\viewers\SoQtPlaneViewerP.h
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\viewers\SoQtViewer.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\viewers"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\viewers"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\viewers"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\viewers"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\viewers\SoQtConstrainedViewer.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\viewers"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\viewers"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\viewers"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\viewers"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\viewers\SoQtFlyViewer.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\viewers"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\viewers"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\viewers"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\viewers"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\viewers\SoQtFullViewer.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\viewers"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\viewers"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\viewers"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\viewers"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\viewers\SoQtExaminerViewer.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\viewers"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\viewers"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\viewers"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\viewers"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\viewers\SoQtPlaneViewer.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\viewers"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\viewers"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\viewers"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\viewers"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Qt\widgets\SoQtGLArea.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\widgets"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\widgets"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\widgets"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\widgets"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Qt\widgets\SoQtGLArea.h
 
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 
 # PROP IgnoreDefaultTool 1
 #Begin Custom Build - moc'ing $(InputPath)
@@ -605,7 +908,29 @@ InputPath=..\..\src\Inventor\Qt\widgets\SoQtGLArea.h
 
 # End Custom Build
 
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - moc'ing $(InputPath)
+InputPath=..\..\src\Inventor\Qt\widgets\SoQtGLArea.h
+
+"src\Inventor\Qt\widgets\moc_SoQtGLArea.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_SoQtGLArea.icc ..\..\src\Inventor\Qt\widgets\SoQtGLArea.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - moc'ing $(InputPath)
+InputPath=..\..\src\Inventor\Qt\widgets\SoQtGLArea.h
+
+"src\Inventor\Qt\widgets\moc_SoQtGLArea.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_SoQtGLArea.icc ..\..\src\Inventor\Qt\widgets\SoQtGLArea.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
 
 # PROP IgnoreDefaultTool 1
 #Begin Custom Build - moc'ing $(InputPath)
@@ -622,17 +947,21 @@ InputPath=..\..\src\Inventor\Qt\widgets\SoQtGLArea.h
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Qt\widgets\SoQtThumbWheel.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\widgets"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\widgets"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\widgets"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\widgets"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Qt\widgets\SoQtThumbWheel.h
 
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 
 # PROP IgnoreDefaultTool 1
 #Begin Custom Build - moc'ing $(InputPath)
@@ -643,7 +972,29 @@ InputPath=..\..\src\Inventor\Qt\widgets\SoQtThumbWheel.h
 
 # End Custom Build
 
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - moc'ing $(InputPath)
+InputPath=..\..\src\Inventor\Qt\widgets\SoQtThumbWheel.h
+
+"src\Inventor\Qt\widgets\moc_SoQtThumbWheel.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_SoQtThumbWheel.icc ..\..\src\Inventor\Qt\widgets\SoQtThumbWheel.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - moc'ing $(InputPath)
+InputPath=..\..\src\Inventor\Qt\widgets\SoQtThumbWheel.h
+
+"src\Inventor\Qt\widgets\moc_SoQtThumbWheel.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_SoQtThumbWheel.icc ..\..\src\Inventor\Qt\widgets\SoQtThumbWheel.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
 
 # PROP IgnoreDefaultTool 1
 #Begin Custom Build - moc'ing $(InputPath)
@@ -660,17 +1011,21 @@ InputPath=..\..\src\Inventor\Qt\widgets\SoQtThumbWheel.h
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Qt\widgets\QtNativePopupMenu.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\widgets"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\widgets"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\widgets"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\widgets"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Qt\widgets\QtNativePopupMenu.h
 
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 
 # PROP IgnoreDefaultTool 1
 #Begin Custom Build - moc'ing $(InputPath)
@@ -681,7 +1036,29 @@ InputPath=..\..\src\Inventor\Qt\widgets\QtNativePopupMenu.h
 
 # End Custom Build
 
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - moc'ing $(InputPath)
+InputPath=..\..\src\Inventor\Qt\widgets\QtNativePopupMenu.h
+
+"src\Inventor\Qt\widgets\moc_QtNativePopupMenu.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_QtNativePopupMenu.icc ..\..\src\Inventor\Qt\widgets\QtNativePopupMenu.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - moc'ing $(InputPath)
+InputPath=..\..\src\Inventor\Qt\widgets\QtNativePopupMenu.h
+
+"src\Inventor\Qt\widgets\moc_QtNativePopupMenu.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_QtNativePopupMenu.icc ..\..\src\Inventor\Qt\widgets\QtNativePopupMenu.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
 
 # PROP IgnoreDefaultTool 1
 #Begin Custom Build - moc'ing $(InputPath)
@@ -698,35 +1075,47 @@ InputPath=..\..\src\Inventor\Qt\widgets\QtNativePopupMenu.h
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\widgets\SoAnyThumbWheel.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\widgets"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\widgets"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\widgets"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\widgets"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\widgets\SoQtPopupMenu.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\widgets"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\widgets"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\widgets"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\widgets"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Qt\SoQt.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\Qt"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\Qt"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\Qt"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\Qt"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Qt\SoQtP.h
 
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 
 # PROP IgnoreDefaultTool 1
 #Begin Custom Build - moc'ing $(InputPath)
@@ -737,7 +1126,29 @@ InputPath=..\..\src\Inventor\Qt\SoQtP.h
 
 # End Custom Build
 
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - moc'ing $(InputPath)
+InputPath=..\..\src\Inventor\Qt\SoQtP.h
+
+"src\Inventor\Qt\moc_SoQtP.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtP.icc ..\..\src\Inventor\Qt\SoQtP.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - moc'ing $(InputPath)
+InputPath=..\..\src\Inventor\Qt\SoQtP.h
+
+"src\Inventor\Qt\moc_SoQtP.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtP.icc ..\..\src\Inventor\Qt\SoQtP.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
 
 # PROP IgnoreDefaultTool 1
 #Begin Custom Build - moc'ing $(InputPath)
@@ -754,17 +1165,21 @@ InputPath=..\..\src\Inventor\Qt\SoQtP.h
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Qt\SoQtComponent.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\Qt"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\Qt"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\Qt"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\Qt"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Qt\SoQtComponentP.h
 
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 
 # PROP IgnoreDefaultTool 1
 #Begin Custom Build - moc'ing $(InputPath)
@@ -775,7 +1190,29 @@ InputPath=..\..\src\Inventor\Qt\SoQtComponentP.h
 
 # End Custom Build
 
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - moc'ing $(InputPath)
+InputPath=..\..\src\Inventor\Qt\SoQtComponentP.h
+
+"src\Inventor\Qt\moc_SoQtComponentP.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtComponentP.icc ..\..\src\Inventor\Qt\SoQtComponentP.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - moc'ing $(InputPath)
+InputPath=..\..\src\Inventor\Qt\SoQtComponentP.h
+
+"src\Inventor\Qt\moc_SoQtComponentP.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtComponentP.icc ..\..\src\Inventor\Qt\SoQtComponentP.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
 
 # PROP IgnoreDefaultTool 1
 #Begin Custom Build - moc'ing $(InputPath)
@@ -792,17 +1229,21 @@ InputPath=..\..\src\Inventor\Qt\SoQtComponentP.h
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Qt\SoQtGLWidget.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\Qt"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\Qt"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\Qt"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\Qt"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Qt\SoQtGLWidgetP.h
 
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 
 # PROP IgnoreDefaultTool 1
 #Begin Custom Build - moc'ing $(InputPath)
@@ -813,7 +1254,29 @@ InputPath=..\..\src\Inventor\Qt\SoQtGLWidgetP.h
 
 # End Custom Build
 
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - moc'ing $(InputPath)
+InputPath=..\..\src\Inventor\Qt\SoQtGLWidgetP.h
+
+"src\Inventor\Qt\moc_SoQtGLWidgetP.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtGLWidgetP.icc ..\..\src\Inventor\Qt\SoQtGLWidgetP.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - moc'ing $(InputPath)
+InputPath=..\..\src\Inventor\Qt\SoQtGLWidgetP.h
+
+"src\Inventor\Qt\moc_SoQtGLWidgetP.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtGLWidgetP.icc ..\..\src\Inventor\Qt\SoQtGLWidgetP.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
 
 # PROP IgnoreDefaultTool 1
 #Begin Custom Build - moc'ing $(InputPath)
@@ -830,64 +1293,92 @@ InputPath=..\..\src\Inventor\Qt\SoQtGLWidgetP.h
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\SoAny.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\Qt"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\Qt"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\Qt"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\Qt"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\SoQtCursor.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\Qt"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\Qt"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\Qt"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\Qt"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\SoQtObject.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\Qt"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\Qt"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\Qt"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\Qt"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\SoQtCommon.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\Qt"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\Qt"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\Qt"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\Qt"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\SoQtComponentCommon.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\Qt"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\Qt"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\Qt"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\Qt"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\SoQtGLWidgetCommon.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\Qt"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\Qt"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\Qt"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\Qt"
 !ENDIF 
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\SoQtRenderArea.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 Release"
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\Qt"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
 # PROP Intermediate_Dir "Debug\Qt"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+# PROP Intermediate_Dir "StaticRelease\Qt"
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+# PROP Intermediate_Dir "StaticDebug\Qt"
 !ENDIF 
 # End Source File
 # End Group
@@ -996,7 +1487,12 @@ SOURCE=src\Inventor\Qt\SoQtRenderArea.h
 # PROP Default_Filter "h;ic;icc"
 # Begin Source File
 
-SOURCE=.\src\config.h
+SOURCE=.\src\config-debug.h
+# PROP Exclude_From_Build 1
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\config-release.h
 # PROP Exclude_From_Build 1
 # End Source File
 # Begin Source File
@@ -1151,7 +1647,12 @@ SOURCE=.\src\soqtdefs.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\config.h
+SOURCE=.\src\config-debug.h
+# PROP Exclude_From_Build 1
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\config-release.h
 # PROP Exclude_From_Build 1
 # End Source File
 # Begin Source File

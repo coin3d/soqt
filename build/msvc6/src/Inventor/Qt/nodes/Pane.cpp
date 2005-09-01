@@ -107,7 +107,7 @@ SoGuiPane::doAction(SoAction * action)
     SbVec3f campos = SoViewVolumeElement::get(state).getProjectionPoint();
     SbVec3f center = (SbVec3f(0.0f, 0.0f, 0.0f) + this->objectSize.getValue()) / 2.0f;
     PRIVATE(this)->modelmatrix.multVecMatrix(center, center);
-    SbVec3f camdir = camdir = center - campos;
+    SbVec3f camdir = center - campos;
     camdir.normalize();
     backface = (normal.dot(camdir) >= 0.0f) ? TRUE : FALSE;
   }

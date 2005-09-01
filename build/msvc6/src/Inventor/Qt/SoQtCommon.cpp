@@ -175,7 +175,7 @@ SoQt::init(const char * appname, const char * classname)
   initialization.
 
   Is called implicitly from the end of SoQt::mainLoop(), so the
-  application programmer don't have to use it explicitly unless she
+  application programmer should not call it explicitly unless she
   has taken control over the native event loop herself, and is
   therefore not using SoQt::mainLoop().
 

@@ -1,5 +1,7 @@
 Debug
 Release
+StaticRelease
+StaticDebug
 man
 html
 htmlhelp
@@ -17,3 +19,5 @@ sogui.doxygen
 soqt*.ncb
 soqt*.opt
 soqt*.plg
+soqt1s.lib
+soqt1sd.lib

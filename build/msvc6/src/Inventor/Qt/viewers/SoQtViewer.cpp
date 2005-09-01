@@ -425,6 +425,9 @@ SoQtViewerP::createSuperScene(void)
     "    }",
     "  }",
     "  DEF soqt->userscenegraphroot Separator {",
+    // turn off caching to make it possible for users to disable
+    // caching in their scene graphs.
+    "    renderCaching OFF\n", 
     "  }",
     "}",
     NULL
@@ -3147,6 +3150,21 @@ SoQtViewer::seekToPoint(const SbVec2s screenpos)
     hitpoint = bbox.getCenter();
   }
 
+  this->seekToPoint(hitpoint);
+  return TRUE;
+}
+
+/*!
+  Call this method to initiate a seek action towards the give 3D world
+  coordinate point in the scene, \a scenepos.
+
+  \since SoQt 1.3.0
+*/
+void
+SoQtViewer::seekToPoint(const SbVec3f & scenepos)
+{
+  SbVec3f hitpoint(scenepos);
+
   PRIVATE(this)->camerastartposition = PRIVATE(this)->camera->position.getValue();
   PRIVATE(this)->camerastartorient = PRIVATE(this)->camera->orientation.getValue();
 
@@ -3183,9 +3201,9 @@ SoQtViewer::seekToPoint(const SbVec2s screenpos)
   PRIVATE(this)->seeksensor->setBaseTime(SbTime::getTimeOfDay());
   PRIVATE(this)->seeksensor->schedule();
   this->interactiveCountInc();
-
-  return TRUE;
 }
+
+// *************************************************************************
 
 void
 SoQtViewerP::setStereoEye(SoCamera * thecamera,

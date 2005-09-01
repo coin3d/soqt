@@ -1,3 +1,4 @@
 Makefile
+.deps
 *.lst
 moc_*.icc
