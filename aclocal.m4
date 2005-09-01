@@ -10226,7 +10226,7 @@ if $sim_ac_with_qt; then
     CPPFLAGS="$sim_ac_qt_incpath $sim_ac_qt_incpath/Qt $sim_ac_save_cppflags"
     SIM_AC_CHECK_HEADER_SILENT([qglobal.h],
                                [sim_ac_qglobal=true
-                                sim_ac_qt_incpath="$sim_ac_qt_incpath $sim_ac_qt_incpath/Qt $sim_ac_qt_incpath/QtOpenGL"
+                                sim_ac_qt_incpath="$sim_ac_qt_incpath $sim_ac_qt_incpath/Qt $sim_ac_qt_incpath/QtOpenGL $sim_ac_qt_incpath/QtGui"
                                 ])
     AC_MSG_RESULT($sim_ac_qglobal)
   fi

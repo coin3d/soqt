@@ -28774,7 +28774,7 @@ fi
 rm -f conftest.err conftest.$ac_ext
 if test $ac_cv_header_qglobal_h = yes; then
   sim_ac_qglobal=true
-                                sim_ac_qt_incpath="$sim_ac_qt_incpath $sim_ac_qt_incpath/Qt $sim_ac_qt_incpath/QtOpenGL"
+                                sim_ac_qt_incpath="$sim_ac_qt_incpath $sim_ac_qt_incpath/Qt $sim_ac_qt_incpath/QtOpenGL $sim_ac_qt_incpath/QtGui"
 
 fi
 
