@@ -10253,6 +10253,7 @@ EOF
       # nada
       ;;
     esac
+    sim_ac_qt_major_version=`echo $sim_ac_qt_version | cut -c1`
 
     rm -f conftest.c
     AC_MSG_RESULT($sim_ac_qt_version)
@@ -10406,7 +10407,7 @@ recommend you to upgrade.])
 
       for sim_ac_qt_cppflags_loop in "" "-DQT_DLL"; do
         for sim_ac_qt_libcheck in \
-            "-lQtGui4 -lQtCore4 -lQt3Support4" \
+            "-lQtGui${sim_ac_qt_suffix}${sim_ac_qt_major_version} -lQtCore${sim_ac_qt_suffix}${sim_ac_qt_major_version} -lQt3Support${sim_ac_qt_suffix}${sim_ac_qt_major_version}" \
             "-lQtGui -lQt3Support" \
             "-lqt-gl" \
             "-lqt-mt" \
