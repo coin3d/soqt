@@ -114,13 +114,13 @@ SoQtSpaceball::enable(QWidget * widget, SoQtEventHandler * handler, void * closu
 {
 #ifdef HAVE_X11_AVAILABLE
   static char sbtestx[] = "sbtestx";
-  if (SPW_CheckForSpaceballX11((void*) widget->x11Display(),
-                               widget->winId(), sbtestx) == TRUE) {
+  if (((int) SPW_CheckForSpaceballX11((void*) widget->x11Display(),
+                               widget->winId(), sbtestx)) != FALSE) {
   }
 #endif // HAVE_X11_AVAILABLE
 
 #ifdef HAVE_WIN32_API
-  if (SPW_CheckForSpaceballWin32(widget->winId()) == TRUE) {
+  if (((int) SPW_CheckForSpaceballWin32(widget->winId())) != FALSE) {
     
   }
 #endif // HAVE_WIN32_API
