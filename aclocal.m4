@@ -9298,7 +9298,10 @@ if test x"$with_pthread" != xno; then
   for sim_ac_pthreads_libcheck in "-lpthread" "-pthread"; do
     if $sim_ac_pthread_avail; then :; else
       LIBS="$sim_ac_pthreads_libcheck $sim_ac_save_libs"
-      AC_TRY_LINK([#include <pthread.h>],
+      AC_TRY_LINK([#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+#include <pthread.h>],
                   [(void)pthread_create(0L, 0L, 0L, 0L);],
                   [sim_ac_pthread_avail=true
                    sim_ac_pthread_libs="$sim_ac_pthreads_libcheck"
@@ -9316,7 +9319,10 @@ if test x"$with_pthread" != xno; then
     AC_CACHE_CHECK(
       [the struct timespec resolution],
       sim_cv_lib_pthread_timespec_resolution,
-      [AC_TRY_COMPILE([#include <pthread.h>],
+      [AC_TRY_COMPILE([#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+#include <pthread.h>],
                       [struct timespec timeout;
                        timeout.tv_nsec = 0;],
                       [sim_cv_lib_pthread_timespec_resolution=nsecs],
@@ -10216,11 +10222,13 @@ if $sim_ac_with_qt; then
 
   # Qt 4 has the headers in various new subdirectories vs Qt 3.
   if $sim_ac_qglobal; then :; else
-    CPPFLAGS="$sim_ac_qt_incpath/Qt $sim_ac_save_cppflags"
+    AC_MSG_CHECKING([if Qt4 include paths must be used])
+    CPPFLAGS="$sim_ac_qt_incpath $sim_ac_qt_incpath/Qt $sim_ac_save_cppflags"
     SIM_AC_CHECK_HEADER_SILENT([qglobal.h],
                                [sim_ac_qglobal=true
-                                sim_ac_qt_incpath="$sim_ac_qt_incpath/Qt $sim_ac_qt_incpath/QtOpenGL"
+                                sim_ac_qt_incpath="$sim_ac_qt_incpath $sim_ac_qt_incpath/Qt $sim_ac_qt_incpath/QtOpenGL"
                                 ])
+    AC_MSG_RESULT($sim_ac_qglobal)
   fi
 
   if $sim_ac_qglobal; then
@@ -10398,6 +10406,7 @@ recommend you to upgrade.])
 
       for sim_ac_qt_cppflags_loop in "" "-DQT_DLL"; do
         for sim_ac_qt_libcheck in \
+            "-lQtGui4 -lQtCore4 -lQt3Support4" \
             "-lQtGui -lQt3Support" \
             "-lqt-gl" \
             "-lqt-mt" \
@@ -10521,7 +10530,7 @@ if $sim_ac_with_qt; then
     AC_MSG_CHECKING([for the QGL extension library])
 
     sim_ac_qgl_libs=UNRESOLVED
-    for sim_ac_qgl_libcheck in "-lQtOpenGL" "-lqgl" "-lqgl -luser32"; do
+    for sim_ac_qgl_libcheck in "-lQtOpenGL4" "-lQtOpenGL" "-lqgl" "-lqgl -luser32"; do
       if test "x$sim_ac_qgl_libs" = "xUNRESOLVED"; then
         LIBS="$sim_ac_qgl_libcheck $sim_ac_save_LIBS"
         AC_TRY_LINK([#include <qgl.h>],

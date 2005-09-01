@@ -24986,6 +24986,9 @@ _ACEOF
 cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
+#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
 #include <pthread.h>
 int
 main ()
@@ -25050,6 +25053,9 @@ _ACEOF
 cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
+#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
 #include <pthread.h>
 int
 main ()
@@ -28728,7 +28734,9 @@ fi
 
   # Qt 4 has the headers in various new subdirectories vs Qt 3.
   if $sim_ac_qglobal; then :; else
-    CPPFLAGS="$sim_ac_qt_incpath/Qt $sim_ac_save_cppflags"
+    echo "$as_me:$LINENO: checking if Qt4 include paths must be used" >&5
+echo $ECHO_N "checking if Qt4 include paths must be used... $ECHO_C" >&6
+    CPPFLAGS="$sim_ac_qt_incpath $sim_ac_qt_incpath/Qt $sim_ac_save_cppflags"
 
 cat >conftest.$ac_ext <<_ACEOF
 /* confdefs.h.  */
@@ -28766,12 +28774,14 @@ fi
 rm -f conftest.err conftest.$ac_ext
 if test $ac_cv_header_qglobal_h = yes; then
   sim_ac_qglobal=true
-                                sim_ac_qt_incpath="$sim_ac_qt_incpath/Qt $sim_ac_qt_incpath/QtOpenGL"
+                                sim_ac_qt_incpath="$sim_ac_qt_incpath $sim_ac_qt_incpath/Qt $sim_ac_qt_incpath/QtOpenGL"
 
 fi
 
 
 
+    echo "$as_me:$LINENO: result: $sim_ac_qglobal" >&5
+echo "${ECHO_T}$sim_ac_qglobal" >&6
   fi
 
   if $sim_ac_qglobal; then
@@ -29175,6 +29185,7 @@ echo $ECHO_N "checking for Qt library devkit... $ECHO_C" >&6
 
       for sim_ac_qt_cppflags_loop in "" "-DQT_DLL"; do
         for sim_ac_qt_libcheck in \
+            "-lQtGui4 -lQtCore4 -lQt3Support4" \
             "-lQtGui -lQt3Support" \
             "-lqt-gl" \
             "-lqt-mt" \
@@ -29440,7 +29451,7 @@ echo "${ECHO_T}$sim_cv_lib_qgl_integrated" >&6
 echo $ECHO_N "checking for the QGL extension library... $ECHO_C" >&6
 
     sim_ac_qgl_libs=UNRESOLVED
-    for sim_ac_qgl_libcheck in "-lQtOpenGL" "-lqgl" "-lqgl -luser32"; do
+    for sim_ac_qgl_libcheck in "-lQtOpenGL4" "-lQtOpenGL" "-lqgl" "-lqgl -luser32"; do
       if test "x$sim_ac_qgl_libs" = "xUNRESOLVED"; then
         LIBS="$sim_ac_qgl_libcheck $sim_ac_save_LIBS"
         cat >conftest.$ac_ext <<_ACEOF
