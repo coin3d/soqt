@@ -35,8 +35,15 @@
 #include <soqtdefs.h>
 #include <Inventor/Qt/devices/SoQtDeviceP.h>
 
+#include <qglobal.h>
+#if (QT_VERSION > 400)
+#include <q3memarray.h>
+#endif
+
 #define PRIVATE(obj) ((obj)->pimpl)
 #define PUBLIC(obj) ((obj)->pub)
+
+// static QMemArray<int> dummyarray;
 
 // *************************************************************************
 

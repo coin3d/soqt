@@ -33,6 +33,11 @@
 #include <Inventor/Qt/devices/SoQtInputFocus.h>
 #include <Inventor/Qt/devices/SoGuiInputFocusP.h>
 
+#include <qglobal.h>
+#if (QT_VERSION > 400)
+#include <q3memarray.h>
+#endif
+
 #define PRIVATE(obj) ((obj)->pimpl)
 #define PUBLIC(obj) ((obj)->pub)
 

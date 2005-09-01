@@ -25,8 +25,12 @@
 #include <config.h>
 #endif
 
-
 #include "6DOFEvents.h"
+
+#include <qglobal.h>
+#if (QT_VERSION > 400)
+#include <q3memarray.h>
+#endif
 
 SoQt6dofDevicePressureEvent::SoQt6dofDevicePressureEvent(void)
   : inherited(QEvent::User, NULL)
