@@ -67,7 +67,14 @@ public:
   void addRadioGroupItem(int groupid, int itemid);
   void removeRadioGroupItem(int itemid);
 
+  // FIXME: bad interface. Should be internal/private, and the name is
+  // wrong.  According to what this actually does, it should be
+  // something like "unmarkOtherOfRadioGroup()". 20050622 mortene.
   void setRadioGroupMarkedItem(int itemid);
+#if SOQT_MAJOR_VERSION == 2
+#error fix API above
+#endif // SOQT_MAJOR_VERSION
+
   int getRadioGroupMarkedItem(int groupid);
 
   void addMenuSelectionCallback(SoQtMenuSelectionCallback * callback,

@@ -113,17 +113,19 @@ SoQtPopupMenu::~SoQtPopupMenu()
 
 // *************************************************************************
 
-/*!
-*/
-
 void
-SoQtPopupMenu::setMenuItemMarked(
-  int itemid,
-  SbBool marked)
+SoQtPopupMenu::setMenuItemMarked(int itemid, SbBool marked)
 {
   // forward to native implementation
   this->_setMenuItemMarked(itemid, marked);
-} // setMenuItemMarked()
+
+  if (marked) {
+    const int radiogroupid = this->getRadioGroup(itemid);
+    if (radiogroupid != -1) {
+      this->setRadioGroupMarkedItem(itemid);
+    }
+  }
+}
 
 // *************************************************************************
 
@@ -235,34 +237,37 @@ SoQtPopupMenu::removeRadioGroupItem(
   }
 } // removeRadioGroupItem()
 
+// *************************************************************************
+
 void
-SoQtPopupMenu::setRadioGroupMarkedItem(
-  int itemid)
+SoQtPopupMenu::setRadioGroupMarkedItem(int itemid)
 {
-  const int numItems = PRIVATE(this)->menuitems.getLength();
-  int i;
-  int groupid = -1;
-  for (i = 0; i < numItems && groupid == -1; i++) {
-    if (PRIVATE(this)->menuitems[i] == itemid)
-      groupid = PRIVATE(this)->radiogroups[i];
-  }
-  if (groupid == -1)
+  const int idx = PRIVATE(this)->menuitems.find(itemid);
+  assert(idx != -1);
+  const int groupid = PRIVATE(this)->radiogroups[idx];
+
+  if (groupid == -1) {
+    SoDebugError::post("SoQtPopupMenu::setRadioGroupMarkedItem",
+                       "item not in a radio group");
     return;
-  for (i = 0; i < numItems; i++) {
+  }
+
+  const int numItems = PRIVATE(this)->menuitems.getLength();
+  for (int i = 0; i < numItems; i++) {
+    if (i == idx) { continue; }
     if (PRIVATE(this)->radiogroups[i] == groupid) {
-      int item = PRIVATE(this)->menuitems[i];
-      if ((item != -1) && (item != itemid)) {
+      const int item = PRIVATE(this)->menuitems[i];
+      if (item != -1) { // FIXME: should this be an assert? 20050622 mortene.
         if ( this->getMenuItemMarked(item) ) {
           this->setMenuItemMarked(item, FALSE);
         }
       }
     }
   }
-} // setRadioGroupItemEnabled()
+}
 
 int
-SoQtPopupMenu::getRadioGroupMarkedItem(
-  int groupid)
+SoQtPopupMenu::getRadioGroupMarkedItem(int groupid)
 {
   const int numItems = PRIVATE(this)->menuitems.getLength();
   int i;
@@ -274,7 +279,7 @@ SoQtPopupMenu::getRadioGroupMarkedItem(
     }
   }
   return -1;
-} // setRadioGroupItemEnabled()
+}
 
 // *************************************************************************
 

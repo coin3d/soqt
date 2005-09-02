@@ -11,72 +11,7 @@
 	</Platforms>
 	<Configurations>
 		<Configuration
-			Name="Debug|Win32"
-			OutputDirectory=".\Debug"
-			IntermediateDirectory=".\Debug"
-			ConfigurationType="2"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE">
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories=".\src,.\data,..\..\src,$(COINDIR)\include,$(QTDIR)\include"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderFile=".\Debug/soqt1.pch"
-				AssemblerListingLocation=".\Debug/"
-				ObjectFile=".\Debug/"
-				ProgramDataBaseFileName=".\Debug/"
-				WarningLevel="3"
-				SuppressStartupBanner="TRUE"
-				DebugInformationFormat="4"
-				CompileAs="0"/>
-			<Tool
-				Name="VCCustomBuildTool"/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="$(QTDIR)\lib\qt-mt331.lib $(QTDIR)\lib\qtmain.lib $(COINDIR)\lib\coin2d.lib opengl32.lib"
-				OutputFile="soqt1d.dll"
-				LinkIncremental="1"
-				SuppressStartupBanner="TRUE"
-				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\Debug/soqt1d.pdb"
-				ImportLibrary=".\Debug/soqt1d.lib"
-				TargetMachine="1"/>
-			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG"
-				MkTypLibCompatible="TRUE"
-				SuppressStartupBanner="TRUE"
-				TargetEnvironment="1"
-				TypeLibraryName=".\Debug/soqt1.tlb"
-				HeaderFileName=""/>
-			<Tool
-				Name="VCPostBuildEventTool"
-				CommandLine="installsoqt.bat"/>
-			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG"
-				Culture="1033"/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"/>
-			<Tool
-				Name="VCWebDeploymentTool"/>
-			<Tool
-				Name="VCManagedWrapperGeneratorTool"/>
-			<Tool
-				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
-		</Configuration>
-		<Configuration
-			Name="Release|Win32"
+			Name="DLL (Release)|Win32"
 			OutputDirectory=".\Release"
 			IntermediateDirectory=".\Release"
 			ConfigurationType="2"
@@ -86,7 +21,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="1"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories=".\src,.\data,..\..\src,$(COINDIR)\include,$(QTDIR)\include"
+				AdditionalIncludeDirectories=".\src,.\data,..\..\src,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex,$(QTDIR)\include,$(QTDIR)\include\Qt,$(QTDIR)\include\QtOpenGL,$(QTDIR)\include\QtGui"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
@@ -103,7 +38,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(QTDIR)\lib\qt-mt331.lib $(QTDIR)\lib\qtmain.lib $(COINDIR)\lib\coin2.lib opengl32.lib"
+				AdditionalDependencies="$(QTDIR)\lib\QtOpenGL4.lib $(QTDIR)\lib\QtGui4.lib $(QTDIR)\lib\QtCore4.lib $(QTDIR)\lib\Qt3Support4.lib $(COINDIR)\lib\coin2.lib opengl32.lib winmm.lib"
 				OutputFile="soqt1.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
@@ -121,7 +56,7 @@
 				HeaderFileName=""/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="installsoqt.bat"/>
+				CommandLine="install-dll-release.bat"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -129,6 +64,175 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
+				Culture="1033"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
+		<Configuration
+			Name="LIB (Release)|Win32"
+			OutputDirectory=".\StaticRelease"
+			IntermediateDirectory=".\StaticRelease"
+			ConfigurationType="4"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories=".\src,.\data,..\..\src,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex,$(QTDIR)\include,$(QTDIR)\include\Qt,$(QTDIR)\include\QtOpenGL,$(QTDIR)\include\QtGui"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_LIB;SOQT_DEBUG=0;HAVE_CONFIG_H;COIN_DLL;SOQT_INTERNAL"
+				StringPooling="TRUE"
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="TRUE"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderFile=".\StaticRelease/soqt1.pch"
+				AssemblerListingLocation=".\StaticRelease/"
+				ObjectFile=".\StaticRelease/"
+				ProgramDataBaseFileName=".\StaticRelease/"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				CompileAs="0"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="soqt1s.lib"
+				SuppressStartupBanner="TRUE"/>
+			<Tool
+				Name="VCMIDLTool"/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="install-lib-release.bat"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
+				Culture="1044"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
+		<Configuration
+			Name="LIB (Debug)|Win32"
+			OutputDirectory=".\StaticDebug"
+			IntermediateDirectory=".\StaticDebug"
+			ConfigurationType="4"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories=".\src,.\data,..\..\src,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex,$(QTDIR)\include,$(QTDIR)\include\Qt,$(QTDIR)\include\QtOpenGL,$(QTDIR)\include\QtGui"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_LIB;SOQT_DEBUG=1;HAVE_CONFIG_H;COIN_DLL;SOQT_INTERNAL"
+				StringPooling="TRUE"
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="TRUE"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderFile=".\StaticDebug/soqt1.pch"
+				AssemblerListingLocation=".\StaticDebug/"
+				ObjectFile=".\StaticDebug/"
+				ProgramDataBaseFileName=".\StaticDebug/"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				CompileAs="0"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="soqt1sd.lib"
+				SuppressStartupBanner="TRUE"/>
+			<Tool
+				Name="VCMIDLTool"/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="install-lib-debug.bat"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG"
+				Culture="1044"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
+		<Configuration
+			Name="DLL (Debug)|Win32"
+			OutputDirectory=".\Debug"
+			IntermediateDirectory=".\Debug"
+			ConfigurationType="2"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories=".\src,.\data,..\..\src,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex,$(QTDIR)\include,$(QTDIR)\include\Qt,$(QTDIR)\include\QtOpenGL,$(QTDIR)\include\QtGui"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderFile=".\Debug/soqt1.pch"
+				AssemblerListingLocation=".\Debug/"
+				ObjectFile=".\Debug/"
+				ProgramDataBaseFileName=".\Debug/"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				DebugInformationFormat="4"
+				CompileAs="0"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="$(QTDIR)\lib\QtOpenGL4.lib $(QTDIR)\lib\QtGui4.lib $(QTDIR)\lib\QtCore4.lib $(QTDIR)\lib\Qt3Support4.lib $(COINDIR)\lib\coin2d.lib opengl32.lib winmm.lib"
+				OutputFile="soqt1d.dll"
+				LinkIncremental="1"
+				SuppressStartupBanner="TRUE"
+				GenerateDebugInformation="TRUE"
+				ProgramDatabaseFile=".\Debug/soqt1d.pdb"
+				ImportLibrary=".\Debug/soqt1d.lib"
+				TargetMachine="1"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName=".\Debug/soqt1.tlb"
+				HeaderFileName=""/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="install-dll-debug.bat"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -151,7 +255,37 @@
 			<File
 				RelativePath="..\..\src\Inventor\Qt\devices\6DOFEvents.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\devices/"
+						ProgramDataBaseFileName="Release\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\devices/"
+						ProgramDataBaseFileName="StaticRelease\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\devices/"
+						ProgramDataBaseFileName="StaticDebug\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -161,21 +295,41 @@
 						ObjectFile=".\Debug\devices/"
 						ProgramDataBaseFileName="Debug\devices/"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="src\Inventor\Qt\nodes\ClickCounter.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\devices/"
-						ProgramDataBaseFileName="Release\devices/"/>
+						ObjectFile=".\Release\nodes/"
+						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="src\Inventor\Qt\nodes\ClickCounter.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\nodes/"
+						ProgramDataBaseFileName="StaticRelease\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\nodes/"
+						ProgramDataBaseFileName="StaticDebug\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -184,22 +338,42 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\nodes/"
 						ProgramDataBaseFileName="Debug\nodes/"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\nodes/"
-						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Qt\nodes\ColorEditor.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\nodes/"
+						ProgramDataBaseFileName="Release\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\nodes/"
+						ProgramDataBaseFileName="StaticRelease\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\nodes/"
+						ProgramDataBaseFileName="StaticDebug\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -208,22 +382,42 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\nodes/"
 						ProgramDataBaseFileName="Debug\nodes/"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\nodes/"
-						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Qt\engines\Engines.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\engines/"
+						ProgramDataBaseFileName="Release\engines/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\engines/"
+						ProgramDataBaseFileName="StaticRelease\engines/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\engines/"
+						ProgramDataBaseFileName="StaticDebug\engines/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -232,22 +426,42 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\engines/"
 						ProgramDataBaseFileName="Debug\engines/"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\engines/"
-						ProgramDataBaseFileName="Release\engines/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\Inventor\Qt\viewers\ExaminerViewer.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\viewers/"
+						ProgramDataBaseFileName="Release\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\viewers/"
+						ProgramDataBaseFileName="StaticRelease\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\viewers/"
+						ProgramDataBaseFileName="StaticDebug\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -257,21 +471,41 @@
 						ObjectFile=".\Debug\viewers/"
 						ProgramDataBaseFileName="Debug\viewers/"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="src\Inventor\Qt\engines\Format.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\viewers/"
-						ProgramDataBaseFileName="Release\viewers/"/>
+						ObjectFile=".\Release\engines/"
+						ProgramDataBaseFileName="Release\engines/"/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="src\Inventor\Qt\engines\Format.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\engines/"
+						ProgramDataBaseFileName="StaticRelease\engines/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\engines/"
+						ProgramDataBaseFileName="StaticDebug\engines/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -281,21 +515,41 @@
 						ObjectFile=".\Debug\engines/"
 						ProgramDataBaseFileName="Debug\engines/"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="src\Inventor\Qt\nodes\Frame.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\engines/"
-						ProgramDataBaseFileName="Release\engines/"/>
+						ObjectFile=".\Release\nodes/"
+						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="src\Inventor\Qt\nodes\Frame.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\nodes/"
+						ProgramDataBaseFileName="StaticRelease\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\nodes/"
+						ProgramDataBaseFileName="StaticDebug\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -304,22 +558,42 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\nodes/"
 						ProgramDataBaseFileName="Debug\nodes/"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\nodes/"
-						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\Inventor\Qt\viewers\FullViewer.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\viewers/"
+						ProgramDataBaseFileName="Release\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\viewers/"
+						ProgramDataBaseFileName="StaticRelease\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\viewers/"
+						ProgramDataBaseFileName="StaticDebug\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -328,22 +602,42 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\viewers/"
 						ProgramDataBaseFileName="Debug\viewers/"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\viewers/"
-						ProgramDataBaseFileName="Release\viewers/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Qt\nodes\Image.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\nodes/"
+						ProgramDataBaseFileName="Release\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\nodes/"
+						ProgramDataBaseFileName="StaticRelease\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\nodes/"
+						ProgramDataBaseFileName="StaticDebug\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -352,22 +646,42 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\nodes/"
 						ProgramDataBaseFileName="Debug\nodes/"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\nodes/"
-						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Qt\nodes\Label.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\nodes/"
+						ProgramDataBaseFileName="Release\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\nodes/"
+						ProgramDataBaseFileName="StaticRelease\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\nodes/"
+						ProgramDataBaseFileName="StaticDebug\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -376,22 +690,42 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\nodes/"
 						ProgramDataBaseFileName="Debug\nodes/"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\nodes/"
-						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Qt\nodes\MaterialEditor.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\nodes/"
+						ProgramDataBaseFileName="Release\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\nodes/"
+						ProgramDataBaseFileName="StaticRelease\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\nodes/"
+						ProgramDataBaseFileName="StaticDebug\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -400,22 +734,42 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\nodes/"
 						ProgramDataBaseFileName="Debug\nodes/"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\nodes/"
-						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Qt\nodes\Nodes.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\nodes/"
+						ProgramDataBaseFileName="Release\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\nodes/"
+						ProgramDataBaseFileName="StaticRelease\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\nodes/"
+						ProgramDataBaseFileName="StaticDebug\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -424,22 +778,42 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\nodes/"
 						ProgramDataBaseFileName="Debug\nodes/"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\nodes/"
-						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Qt\nodes\Pane.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\nodes/"
+						ProgramDataBaseFileName="Release\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\nodes/"
+						ProgramDataBaseFileName="StaticRelease\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\nodes/"
+						ProgramDataBaseFileName="StaticDebug\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -449,21 +823,41 @@
 						ObjectFile=".\Debug\nodes/"
 						ProgramDataBaseFileName="Debug\nodes/"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\viewers\PlaneViewer.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\nodes/"
-						ProgramDataBaseFileName="Release\nodes/"/>
+						ObjectFile=".\Release\viewers/"
+						ProgramDataBaseFileName="Release\viewers/"/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\src\Inventor\Qt\viewers\PlaneViewer.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\viewers/"
+						ProgramDataBaseFileName="StaticRelease\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\viewers/"
+						ProgramDataBaseFileName="StaticDebug\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -473,21 +867,41 @@
 						ObjectFile=".\Debug\viewers/"
 						ProgramDataBaseFileName="Debug\viewers/"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="src\Inventor\Qt\nodes\Position.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\viewers/"
-						ProgramDataBaseFileName="Release\viewers/"/>
+						ObjectFile=".\Release\nodes/"
+						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="src\Inventor\Qt\nodes\Position.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\nodes/"
+						ProgramDataBaseFileName="StaticRelease\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\nodes/"
+						ProgramDataBaseFileName="StaticDebug\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -497,21 +911,41 @@
 						ObjectFile=".\Debug\nodes/"
 						ProgramDataBaseFileName="Debug\nodes/"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\widgets\QtNativePopupMenu.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\nodes/"
-						ProgramDataBaseFileName="Release\nodes/"/>
+						ObjectFile=".\Release\widgets/"
+						ProgramDataBaseFileName="Release\widgets/"/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\src\Inventor\Qt\widgets\QtNativePopupMenu.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\widgets/"
+						ProgramDataBaseFileName="StaticRelease\widgets/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\widgets/"
+						ProgramDataBaseFileName="StaticDebug\widgets/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -521,21 +955,11 @@
 						ObjectFile=".\Debug\widgets/"
 						ProgramDataBaseFileName="Debug\widgets/"/>
 				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\widgets/"
-						ProgramDataBaseFileName="Release\widgets/"/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\Inventor\Qt\widgets\QtNativePopupMenu.h">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="moc&apos;ing $(InputPath)"
@@ -543,7 +967,23 @@
 						Outputs="src\Inventor\Qt\widgets\moc_QtNativePopupMenu.icc"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="moc&apos;ing $(InputPath)"
+						CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_QtNativePopupMenu.icc ..\..\src\Inventor\Qt\widgets\QtNativePopupMenu.h"
+						Outputs="src\Inventor\Qt\widgets\moc_QtNativePopupMenu.icc"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="moc&apos;ing $(InputPath)"
+						CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_QtNativePopupMenu.icc ..\..\src\Inventor\Qt\widgets\QtNativePopupMenu.h"
+						Outputs="src\Inventor\Qt\widgets\moc_QtNativePopupMenu.icc"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="moc&apos;ing $(InputPath)"
@@ -554,7 +994,37 @@
 			<File
 				RelativePath="src\Inventor\Qt\nodes\RadioButton.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\nodes/"
+						ProgramDataBaseFileName="Release\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\nodes/"
+						ProgramDataBaseFileName="StaticRelease\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\nodes/"
+						ProgramDataBaseFileName="StaticDebug\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -564,21 +1034,41 @@
 						ObjectFile=".\Debug\nodes/"
 						ProgramDataBaseFileName="Debug\nodes/"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="src\Inventor\Qt\engines\RadioGroup.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\nodes/"
-						ProgramDataBaseFileName="Release\nodes/"/>
+						ObjectFile=".\Release\engines/"
+						ProgramDataBaseFileName="Release\engines/"/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="src\Inventor\Qt\engines\RadioGroup.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\engines/"
+						ProgramDataBaseFileName="StaticRelease\engines/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\engines/"
+						ProgramDataBaseFileName="StaticDebug\engines/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -588,21 +1078,41 @@
 						ObjectFile=".\Debug\engines/"
 						ProgramDataBaseFileName="Debug\engines/"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="src\Inventor\Qt\nodes\SceneTexture2.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\engines/"
-						ProgramDataBaseFileName="Release\engines/"/>
+						ObjectFile=".\Release\nodes/"
+						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="src\Inventor\Qt\nodes\SceneTexture2.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\nodes/"
+						ProgramDataBaseFileName="StaticRelease\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\nodes/"
+						ProgramDataBaseFileName="StaticDebug\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -611,22 +1121,42 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\nodes/"
 						ProgramDataBaseFileName="Debug\nodes/"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\nodes/"
-						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Qt\nodes\Slider1.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\nodes/"
+						ProgramDataBaseFileName="Release\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\nodes/"
+						ProgramDataBaseFileName="StaticRelease\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\nodes/"
+						ProgramDataBaseFileName="StaticDebug\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -635,22 +1165,42 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\nodes/"
 						ProgramDataBaseFileName="Debug\nodes/"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\nodes/"
-						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Qt\nodes\Slider2.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\nodes/"
+						ProgramDataBaseFileName="Release\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\nodes/"
+						ProgramDataBaseFileName="StaticRelease\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\nodes/"
+						ProgramDataBaseFileName="StaticDebug\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -660,21 +1210,41 @@
 						ObjectFile=".\Debug\nodes/"
 						ProgramDataBaseFileName="Debug\nodes/"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="src\Inventor\Qt\SoAny.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\nodes/"
-						ProgramDataBaseFileName="Release\nodes/"/>
+						ObjectFile=".\Release\Qt/"
+						ProgramDataBaseFileName="Release\Qt/"/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="src\Inventor\Qt\SoAny.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\Qt/"
+						ProgramDataBaseFileName="StaticRelease\Qt/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\Qt/"
+						ProgramDataBaseFileName="StaticDebug\Qt/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -684,21 +1254,41 @@
 						ObjectFile=".\Debug\Qt/"
 						ProgramDataBaseFileName="Debug\Qt/"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="src\Inventor\Qt\widgets\SoAnyThumbWheel.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\Qt/"
-						ProgramDataBaseFileName="Release\Qt/"/>
+						ObjectFile=".\Release\widgets/"
+						ProgramDataBaseFileName="Release\widgets/"/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="src\Inventor\Qt\widgets\SoAnyThumbWheel.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\widgets/"
+						ProgramDataBaseFileName="StaticRelease\widgets/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\widgets/"
+						ProgramDataBaseFileName="StaticDebug\widgets/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -708,21 +1298,41 @@
 						ObjectFile=".\Debug\widgets/"
 						ProgramDataBaseFileName="Debug\widgets/"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\SoQt.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\widgets/"
-						ProgramDataBaseFileName="Release\widgets/"/>
+						ObjectFile=".\Release\Qt/"
+						ProgramDataBaseFileName="Release\Qt/"/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\src\Inventor\Qt\SoQt.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\Qt/"
+						ProgramDataBaseFileName="StaticRelease\Qt/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\Qt/"
+						ProgramDataBaseFileName="StaticDebug\Qt/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -732,21 +1342,41 @@
 						ObjectFile=".\Debug\Qt/"
 						ProgramDataBaseFileName="Debug\Qt/"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="src\Inventor\Qt\editors\SoQtColorEditor.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\Qt/"
-						ProgramDataBaseFileName="Release\Qt/"/>
+						ObjectFile=".\Release\editors/"
+						ProgramDataBaseFileName="Release\editors/"/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="src\Inventor\Qt\editors\SoQtColorEditor.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\editors/"
+						ProgramDataBaseFileName="StaticRelease\editors/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\editors/"
+						ProgramDataBaseFileName="StaticDebug\editors/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -756,21 +1386,41 @@
 						ObjectFile=".\Debug\editors/"
 						ProgramDataBaseFileName="Debug\editors/"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="src\Inventor\Qt\SoQtCommon.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\editors/"
-						ProgramDataBaseFileName="Release\editors/"/>
+						ObjectFile=".\Release\Qt/"
+						ProgramDataBaseFileName="Release\Qt/"/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="src\Inventor\Qt\SoQtCommon.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\Qt/"
+						ProgramDataBaseFileName="StaticRelease\Qt/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\Qt/"
+						ProgramDataBaseFileName="StaticDebug\Qt/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -779,22 +1429,42 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\Qt/"
 						ProgramDataBaseFileName="Debug\Qt/"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\Qt/"
-						ProgramDataBaseFileName="Release\Qt/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\Inventor\Qt\SoQtComponent.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\Qt/"
+						ProgramDataBaseFileName="Release\Qt/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\Qt/"
+						ProgramDataBaseFileName="StaticRelease\Qt/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\Qt/"
+						ProgramDataBaseFileName="StaticDebug\Qt/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -803,22 +1473,42 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\Qt/"
 						ProgramDataBaseFileName="Debug\Qt/"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\Qt/"
-						ProgramDataBaseFileName="Release\Qt/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Qt\SoQtComponentCommon.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\Qt/"
+						ProgramDataBaseFileName="Release\Qt/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\Qt/"
+						ProgramDataBaseFileName="StaticRelease\Qt/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\Qt/"
+						ProgramDataBaseFileName="StaticDebug\Qt/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -828,21 +1518,11 @@
 						ObjectFile=".\Debug\Qt/"
 						ProgramDataBaseFileName="Debug\Qt/"/>
 				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\Qt/"
-						ProgramDataBaseFileName="Release\Qt/"/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\Inventor\Qt\SoQtComponentP.h">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="moc&apos;ing $(InputPath)"
@@ -850,7 +1530,23 @@
 						Outputs="src\Inventor\Qt\moc_SoQtComponentP.icc"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="moc&apos;ing $(InputPath)"
+						CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtComponentP.icc ..\..\src\Inventor\Qt\SoQtComponentP.h"
+						Outputs="src\Inventor\Qt\moc_SoQtComponentP.icc"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="moc&apos;ing $(InputPath)"
+						CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtComponentP.icc ..\..\src\Inventor\Qt\SoQtComponentP.h"
+						Outputs="src\Inventor\Qt\moc_SoQtComponentP.icc"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="moc&apos;ing $(InputPath)"
@@ -861,7 +1557,37 @@
 			<File
 				RelativePath="src\Inventor\Qt\viewers\SoQtConstrainedViewer.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\viewers/"
+						ProgramDataBaseFileName="Release\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\viewers/"
+						ProgramDataBaseFileName="StaticRelease\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\viewers/"
+						ProgramDataBaseFileName="StaticDebug\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -871,21 +1597,41 @@
 						ObjectFile=".\Debug\viewers/"
 						ProgramDataBaseFileName="Debug\viewers/"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="src\Inventor\Qt\SoQtCursor.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\viewers/"
-						ProgramDataBaseFileName="Release\viewers/"/>
+						ObjectFile=".\Release\Qt/"
+						ProgramDataBaseFileName="Release\Qt/"/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="src\Inventor\Qt\SoQtCursor.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\Qt/"
+						ProgramDataBaseFileName="StaticRelease\Qt/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\Qt/"
+						ProgramDataBaseFileName="StaticDebug\Qt/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -895,21 +1641,41 @@
 						ObjectFile=".\Debug\Qt/"
 						ProgramDataBaseFileName="Debug\Qt/"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\devices\SoQtDevice.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\Qt/"
-						ProgramDataBaseFileName="Release\Qt/"/>
+						ObjectFile=".\Release\devices/"
+						ProgramDataBaseFileName="Release\devices/"/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\src\Inventor\Qt\devices\SoQtDevice.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\devices/"
+						ProgramDataBaseFileName="StaticRelease\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\devices/"
+						ProgramDataBaseFileName="StaticDebug\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -918,22 +1684,42 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\devices/"
 						ProgramDataBaseFileName="Debug\devices/"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\devices/"
-						ProgramDataBaseFileName="Release\devices/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Qt\devices\SoQtDeviceCommon.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\devices/"
+						ProgramDataBaseFileName="Release\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\devices/"
+						ProgramDataBaseFileName="StaticRelease\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\devices/"
+						ProgramDataBaseFileName="StaticDebug\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -943,21 +1729,41 @@
 						ObjectFile=".\Debug\devices/"
 						ProgramDataBaseFileName="Debug\devices/"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="src\Inventor\Qt\viewers\SoQtExaminerViewer.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\devices/"
-						ProgramDataBaseFileName="Release\devices/"/>
+						ObjectFile=".\Release\viewers/"
+						ProgramDataBaseFileName="Release\viewers/"/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="src\Inventor\Qt\viewers\SoQtExaminerViewer.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\viewers/"
+						ProgramDataBaseFileName="StaticRelease\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\viewers/"
+						ProgramDataBaseFileName="StaticDebug\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -967,21 +1773,11 @@
 						ObjectFile=".\Debug\viewers/"
 						ProgramDataBaseFileName="Debug\viewers/"/>
 				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\viewers/"
-						ProgramDataBaseFileName="Release\viewers/"/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\Inventor\Qt\viewers\SoQtExaminerViewerP.h">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="moc&apos;ing $(InputPath)"
@@ -989,7 +1785,23 @@
 						Outputs="src\Inventor\Qt\viewers\moc_SoQtExaminerViewerP.icc"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="moc&apos;ing $(InputPath)"
+						CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtExaminerViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtExaminerViewerP.h"
+						Outputs="src\Inventor\Qt\viewers\moc_SoQtExaminerViewerP.icc"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="moc&apos;ing $(InputPath)"
+						CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtExaminerViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtExaminerViewerP.h"
+						Outputs="src\Inventor\Qt\viewers\moc_SoQtExaminerViewerP.icc"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="moc&apos;ing $(InputPath)"
@@ -1000,7 +1812,37 @@
 			<File
 				RelativePath="src\Inventor\Qt\viewers\SoQtFlyViewer.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\viewers/"
+						ProgramDataBaseFileName="Release\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\viewers/"
+						ProgramDataBaseFileName="StaticRelease\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\viewers/"
+						ProgramDataBaseFileName="StaticDebug\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1009,22 +1851,42 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\viewers/"
 						ProgramDataBaseFileName="Debug\viewers/"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\viewers/"
-						ProgramDataBaseFileName="Release\viewers/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Qt\viewers\SoQtFullViewer.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\viewers/"
+						ProgramDataBaseFileName="Release\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\viewers/"
+						ProgramDataBaseFileName="StaticRelease\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\viewers/"
+						ProgramDataBaseFileName="StaticDebug\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1034,21 +1896,11 @@
 						ObjectFile=".\Debug\viewers/"
 						ProgramDataBaseFileName="Debug\viewers/"/>
 				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\viewers/"
-						ProgramDataBaseFileName="Release\viewers/"/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\Inventor\Qt\viewers\SoQtFullViewerP.h">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="moc&apos;ing $(InputPath)"
@@ -1056,7 +1908,23 @@
 						Outputs="src\Inventor\Qt\viewers\moc_SoQtFullViewerP.icc"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="moc&apos;ing $(InputPath)"
+						CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtFullViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtFullViewerP.h"
+						Outputs="src\Inventor\Qt\viewers\moc_SoQtFullViewerP.icc"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="moc&apos;ing $(InputPath)"
+						CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtFullViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtFullViewerP.h"
+						Outputs="src\Inventor\Qt\viewers\moc_SoQtFullViewerP.icc"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="moc&apos;ing $(InputPath)"
@@ -1067,7 +1935,37 @@
 			<File
 				RelativePath="..\..\src\Inventor\Qt\widgets\SoQtGLArea.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\widgets/"
+						ProgramDataBaseFileName="Release\widgets/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\widgets/"
+						ProgramDataBaseFileName="StaticRelease\widgets/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\widgets/"
+						ProgramDataBaseFileName="StaticDebug\widgets/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1077,21 +1975,11 @@
 						ObjectFile=".\Debug\widgets/"
 						ProgramDataBaseFileName="Debug\widgets/"/>
 				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\widgets/"
-						ProgramDataBaseFileName="Release\widgets/"/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\Inventor\Qt\widgets\SoQtGLArea.h">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="moc&apos;ing $(InputPath)"
@@ -1099,7 +1987,23 @@
 						Outputs="src\Inventor\Qt\widgets\moc_SoQtGLArea.icc"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="moc&apos;ing $(InputPath)"
+						CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_SoQtGLArea.icc ..\..\src\Inventor\Qt\widgets\SoQtGLArea.h"
+						Outputs="src\Inventor\Qt\widgets\moc_SoQtGLArea.icc"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="moc&apos;ing $(InputPath)"
+						CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_SoQtGLArea.icc ..\..\src\Inventor\Qt\widgets\SoQtGLArea.h"
+						Outputs="src\Inventor\Qt\widgets\moc_SoQtGLArea.icc"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="moc&apos;ing $(InputPath)"
@@ -1110,7 +2014,37 @@
 			<File
 				RelativePath="..\..\src\Inventor\Qt\SoQtGLWidget.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\Qt/"
+						ProgramDataBaseFileName="Release\Qt/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\Qt/"
+						ProgramDataBaseFileName="StaticRelease\Qt/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\Qt/"
+						ProgramDataBaseFileName="StaticDebug\Qt/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1119,22 +2053,42 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\Qt/"
 						ProgramDataBaseFileName="Debug\Qt/"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\Qt/"
-						ProgramDataBaseFileName="Release\Qt/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Qt\SoQtGLWidgetCommon.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\Qt/"
+						ProgramDataBaseFileName="Release\Qt/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\Qt/"
+						ProgramDataBaseFileName="StaticRelease\Qt/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\Qt/"
+						ProgramDataBaseFileName="StaticDebug\Qt/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1144,21 +2098,11 @@
 						ObjectFile=".\Debug\Qt/"
 						ProgramDataBaseFileName="Debug\Qt/"/>
 				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\Qt/"
-						ProgramDataBaseFileName="Release\Qt/"/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\Inventor\Qt\SoQtGLWidgetP.h">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="moc&apos;ing $(InputPath)"
@@ -1166,7 +2110,23 @@
 						Outputs="src\Inventor\Qt\moc_SoQtGLWidgetP.icc"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="moc&apos;ing $(InputPath)"
+						CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtGLWidgetP.icc ..\..\src\Inventor\Qt\SoQtGLWidgetP.h"
+						Outputs="src\Inventor\Qt\moc_SoQtGLWidgetP.icc"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="moc&apos;ing $(InputPath)"
+						CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtGLWidgetP.icc ..\..\src\Inventor\Qt\SoQtGLWidgetP.h"
+						Outputs="src\Inventor\Qt\moc_SoQtGLWidgetP.icc"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="moc&apos;ing $(InputPath)"
@@ -1177,7 +2137,37 @@
 			<File
 				RelativePath="..\..\src\Inventor\Qt\devices\SoQtInputFocus.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\devices/"
+						ProgramDataBaseFileName="Release\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\devices/"
+						ProgramDataBaseFileName="StaticRelease\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\devices/"
+						ProgramDataBaseFileName="StaticDebug\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1186,22 +2176,42 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\devices/"
 						ProgramDataBaseFileName="Debug\devices/"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\devices/"
-						ProgramDataBaseFileName="Release\devices/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Qt\devices\SoQtInputFocusCommon.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\devices/"
+						ProgramDataBaseFileName="Release\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\devices/"
+						ProgramDataBaseFileName="StaticRelease\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\devices/"
+						ProgramDataBaseFileName="StaticDebug\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1210,22 +2220,42 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\devices/"
 						ProgramDataBaseFileName="Debug\devices/"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\devices/"
-						ProgramDataBaseFileName="Release\devices/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\Inventor\Qt\devices\SoQtKeyboard.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\devices/"
+						ProgramDataBaseFileName="Release\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\devices/"
+						ProgramDataBaseFileName="StaticRelease\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\devices/"
+						ProgramDataBaseFileName="StaticDebug\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1234,22 +2264,42 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\devices/"
 						ProgramDataBaseFileName="Debug\devices/"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\devices/"
-						ProgramDataBaseFileName="Release\devices/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Qt\devices\SoQtKeyboardCommon.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\devices/"
+						ProgramDataBaseFileName="Release\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\devices/"
+						ProgramDataBaseFileName="StaticRelease\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\devices/"
+						ProgramDataBaseFileName="StaticDebug\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1259,21 +2309,41 @@
 						ObjectFile=".\Debug\devices/"
 						ProgramDataBaseFileName="Debug\devices/"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="src\Inventor\Qt\editors\SoQtMaterialEditor.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\devices/"
-						ProgramDataBaseFileName="Release\devices/"/>
+						ObjectFile=".\Release\editors/"
+						ProgramDataBaseFileName="Release\editors/"/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="src\Inventor\Qt\editors\SoQtMaterialEditor.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\editors/"
+						ProgramDataBaseFileName="StaticRelease\editors/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\editors/"
+						ProgramDataBaseFileName="StaticDebug\editors/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1283,21 +2353,41 @@
 						ObjectFile=".\Debug\editors/"
 						ProgramDataBaseFileName="Debug\editors/"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\devices\SoQtMouse.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\editors/"
-						ProgramDataBaseFileName="Release\editors/"/>
+						ObjectFile=".\Release\devices/"
+						ProgramDataBaseFileName="Release\devices/"/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\src\Inventor\Qt\devices\SoQtMouse.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\devices/"
+						ProgramDataBaseFileName="StaticRelease\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\devices/"
+						ProgramDataBaseFileName="StaticDebug\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1306,22 +2396,42 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\devices/"
 						ProgramDataBaseFileName="Debug\devices/"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\devices/"
-						ProgramDataBaseFileName="Release\devices/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Qt\devices\SoQtMouseCommon.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\devices/"
+						ProgramDataBaseFileName="Release\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\devices/"
+						ProgramDataBaseFileName="StaticRelease\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\devices/"
+						ProgramDataBaseFileName="StaticDebug\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1331,21 +2441,41 @@
 						ObjectFile=".\Debug\devices/"
 						ProgramDataBaseFileName="Debug\devices/"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="src\Inventor\Qt\SoQtObject.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\devices/"
-						ProgramDataBaseFileName="Release\devices/"/>
+						ObjectFile=".\Release\Qt/"
+						ProgramDataBaseFileName="Release\Qt/"/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="src\Inventor\Qt\SoQtObject.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\Qt/"
+						ProgramDataBaseFileName="StaticRelease\Qt/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\Qt/"
+						ProgramDataBaseFileName="StaticDebug\Qt/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1355,21 +2485,11 @@
 						ObjectFile=".\Debug\Qt/"
 						ProgramDataBaseFileName="Debug\Qt/"/>
 				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\Qt/"
-						ProgramDataBaseFileName="Release\Qt/"/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\Inventor\Qt\SoQtP.h">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="moc&apos;ing $(InputPath)"
@@ -1377,7 +2497,23 @@
 						Outputs="src\Inventor\Qt\moc_SoQtP.icc"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="moc&apos;ing $(InputPath)"
+						CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtP.icc ..\..\src\Inventor\Qt\SoQtP.h"
+						Outputs="src\Inventor\Qt\moc_SoQtP.icc"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="moc&apos;ing $(InputPath)"
+						CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtP.icc ..\..\src\Inventor\Qt\SoQtP.h"
+						Outputs="src\Inventor\Qt\moc_SoQtP.icc"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="moc&apos;ing $(InputPath)"
@@ -1388,7 +2524,37 @@
 			<File
 				RelativePath="src\Inventor\Qt\viewers\SoQtPlaneViewer.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\viewers/"
+						ProgramDataBaseFileName="Release\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\viewers/"
+						ProgramDataBaseFileName="StaticRelease\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\viewers/"
+						ProgramDataBaseFileName="StaticDebug\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1398,21 +2564,11 @@
 						ObjectFile=".\Debug\viewers/"
 						ProgramDataBaseFileName="Debug\viewers/"/>
 				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\viewers/"
-						ProgramDataBaseFileName="Release\viewers/"/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\Inventor\Qt\viewers\SoQtPlaneViewerP.h">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="moc&apos;ing $(InputPath)"
@@ -1420,7 +2576,23 @@
 						Outputs="src\Inventor\Qt\viewers\moc_SoQtPlaneViewerP.icc"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="moc&apos;ing $(InputPath)"
+						CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtPlaneViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtPlaneViewerP.h"
+						Outputs="src\Inventor\Qt\viewers\moc_SoQtPlaneViewerP.icc"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="moc&apos;ing $(InputPath)"
+						CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtPlaneViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtPlaneViewerP.h"
+						Outputs="src\Inventor\Qt\viewers\moc_SoQtPlaneViewerP.icc"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="moc&apos;ing $(InputPath)"
@@ -1431,7 +2603,37 @@
 			<File
 				RelativePath="src\Inventor\Qt\widgets\SoQtPopupMenu.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\widgets/"
+						ProgramDataBaseFileName="Release\widgets/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\widgets/"
+						ProgramDataBaseFileName="StaticRelease\widgets/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\widgets/"
+						ProgramDataBaseFileName="StaticDebug\widgets/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1441,21 +2643,41 @@
 						ObjectFile=".\Debug\widgets/"
 						ProgramDataBaseFileName="Debug\widgets/"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="src\Inventor\Qt\SoQtRenderArea.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\widgets/"
-						ProgramDataBaseFileName="Release\widgets/"/>
+						ObjectFile=".\Release\Qt/"
+						ProgramDataBaseFileName="Release\Qt/"/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="src\Inventor\Qt\SoQtRenderArea.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\Qt/"
+						ProgramDataBaseFileName="StaticRelease\Qt/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\Qt/"
+						ProgramDataBaseFileName="StaticDebug\Qt/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1465,21 +2687,41 @@
 						ObjectFile=".\Debug\Qt/"
 						ProgramDataBaseFileName="Debug\Qt/"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\devices\SoQtSpaceball.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\Qt/"
-						ProgramDataBaseFileName="Release\Qt/"/>
+						ObjectFile=".\Release\devices/"
+						ProgramDataBaseFileName="Release\devices/"/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\src\Inventor\Qt\devices\SoQtSpaceball.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\devices/"
+						ProgramDataBaseFileName="StaticRelease\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\devices/"
+						ProgramDataBaseFileName="StaticDebug\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1488,22 +2730,42 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\devices/"
 						ProgramDataBaseFileName="Debug\devices/"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\devices/"
-						ProgramDataBaseFileName="Release\devices/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\devices/"
+						ProgramDataBaseFileName="Release\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\devices/"
+						ProgramDataBaseFileName="StaticRelease\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\devices/"
+						ProgramDataBaseFileName="StaticDebug\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1513,21 +2775,41 @@
 						ObjectFile=".\Debug\devices/"
 						ProgramDataBaseFileName="Debug\devices/"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\widgets\SoQtThumbWheel.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\devices/"
-						ProgramDataBaseFileName="Release\devices/"/>
+						ObjectFile=".\Release\widgets/"
+						ProgramDataBaseFileName="Release\widgets/"/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\src\Inventor\Qt\widgets\SoQtThumbWheel.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\widgets/"
+						ProgramDataBaseFileName="StaticRelease\widgets/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\widgets/"
+						ProgramDataBaseFileName="StaticDebug\widgets/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1537,21 +2819,11 @@
 						ObjectFile=".\Debug\widgets/"
 						ProgramDataBaseFileName="Debug\widgets/"/>
 				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\widgets/"
-						ProgramDataBaseFileName="Release\widgets/"/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\Inventor\Qt\widgets\SoQtThumbWheel.h">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="moc&apos;ing $(InputPath)"
@@ -1559,7 +2831,23 @@
 						Outputs="src\Inventor\Qt\widgets\moc_SoQtThumbWheel.icc"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="moc&apos;ing $(InputPath)"
+						CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_SoQtThumbWheel.icc ..\..\src\Inventor\Qt\widgets\SoQtThumbWheel.h"
+						Outputs="src\Inventor\Qt\widgets\moc_SoQtThumbWheel.icc"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="moc&apos;ing $(InputPath)"
+						CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_SoQtThumbWheel.icc ..\..\src\Inventor\Qt\widgets\SoQtThumbWheel.h"
+						Outputs="src\Inventor\Qt\widgets\moc_SoQtThumbWheel.icc"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="moc&apos;ing $(InputPath)"
@@ -1570,7 +2858,37 @@
 			<File
 				RelativePath="src\Inventor\Qt\viewers\SoQtViewer.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\viewers/"
+						ProgramDataBaseFileName="Release\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\viewers/"
+						ProgramDataBaseFileName="StaticRelease\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\viewers/"
+						ProgramDataBaseFileName="StaticDebug\viewers/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1580,21 +2898,41 @@
 						ObjectFile=".\Debug\viewers/"
 						ProgramDataBaseFileName="Debug\viewers/"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="src\Inventor\Qt\devices\spwinput_win32.c">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\viewers/"
-						ProgramDataBaseFileName="Release\viewers/"/>
+						ObjectFile=".\Release\devices/"
+						ProgramDataBaseFileName="Release\devices/"/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="src\Inventor\Qt\devices\spwinput_win32.c">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\devices/"
+						ProgramDataBaseFileName="StaticRelease\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\devices/"
+						ProgramDataBaseFileName="StaticDebug\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1603,22 +2941,42 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\devices/"
 						ProgramDataBaseFileName="Debug\devices/"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\devices/"
-						ProgramDataBaseFileName="Release\devices/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Qt\devices\spwinput_x11.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\devices/"
+						ProgramDataBaseFileName="Release\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\devices/"
+						ProgramDataBaseFileName="StaticRelease\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\devices/"
+						ProgramDataBaseFileName="StaticDebug\devices/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1628,21 +2986,41 @@
 						ObjectFile=".\Debug\devices/"
 						ProgramDataBaseFileName="Debug\devices/"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="src\Inventor\Qt\nodes\ToggleButton.cpp">
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="DLL (Release)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="1"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\devices/"
-						ProgramDataBaseFileName="Release\devices/"/>
+						ObjectFile=".\Release\nodes/"
+						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="src\Inventor\Qt\nodes\ToggleButton.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\nodes/"
+						ProgramDataBaseFileName="StaticRelease\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\nodes/"
+						ProgramDataBaseFileName="StaticDebug\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1651,22 +3029,42 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\nodes/"
 						ProgramDataBaseFileName="Debug\nodes/"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\nodes/"
-						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Qt\nodes\Translation.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\nodes/"
+						ProgramDataBaseFileName="Release\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\nodes/"
+						ProgramDataBaseFileName="StaticRelease\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\nodes/"
+						ProgramDataBaseFileName="StaticDebug\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1675,22 +3073,42 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\nodes/"
 						ProgramDataBaseFileName="Debug\nodes/"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\nodes/"
-						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Qt\nodes\ViewpointWrapper.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\nodes/"
+						ProgramDataBaseFileName="Release\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\nodes/"
+						ProgramDataBaseFileName="StaticRelease\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\nodes/"
+						ProgramDataBaseFileName="StaticDebug\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1699,22 +3117,42 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\nodes/"
 						ProgramDataBaseFileName="Debug\nodes/"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\nodes/"
-						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="src\Inventor\Qt\nodes\ViewportFix.cpp">
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="1"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+						ObjectFile=".\Release\nodes/"
+						ProgramDataBaseFileName="Release\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticRelease\nodes/"
+						ProgramDataBaseFileName="StaticRelease\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+						ObjectFile=".\StaticDebug\nodes/"
+						ProgramDataBaseFileName="StaticDebug\nodes/"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
@@ -1723,16 +3161,6 @@
 						BasicRuntimeChecks="3"
 						ObjectFile=".\Debug\nodes/"
 						ProgramDataBaseFileName="Debug\nodes/"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-						ObjectFile=".\Release\nodes/"
-						ProgramDataBaseFileName="Release\nodes/"/>
 				</FileConfiguration>
 			</File>
 		</Filter>
@@ -1816,15 +3244,108 @@
 			Name="Private Headers"
 			Filter="h;ic;icc">
 			<File
-				RelativePath="src\config.h">
+				RelativePath="src\config-debug.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="src\config-debug.h">
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="src\config-release.h">
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="src\config-release.h">
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -1833,13 +3354,52 @@
 			<File
 				RelativePath="src\config.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="src\config.h">
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -1848,13 +3408,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\widgets\moc_QtNativePopupMenu.icc">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -1863,13 +3435,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\widgets\moc_QtNativePopupMenu.icc">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -1878,13 +3462,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\moc_SoQtComponentP.icc">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -1893,13 +3489,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\moc_SoQtComponentP.icc">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -1908,13 +3516,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\viewers\moc_SoQtExaminerViewerP.icc">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -1923,13 +3543,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\viewers\moc_SoQtExaminerViewerP.icc">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -1938,13 +3570,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\viewers\moc_SoQtFullViewerP.icc">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -1953,13 +3597,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\viewers\moc_SoQtFullViewerP.icc">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -1968,13 +3624,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\widgets\moc_SoQtGLArea.icc">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -1983,13 +3651,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\widgets\moc_SoQtGLArea.icc">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -1998,13 +3678,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\moc_SoQtGLWidgetP.icc">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2013,13 +3705,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\moc_SoQtGLWidgetP.icc">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2028,13 +3732,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\moc_SoQtP.icc">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2043,13 +3759,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\moc_SoQtP.icc">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2058,13 +3786,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\viewers\moc_SoQtPlaneViewerP.icc">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2073,13 +3813,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\viewers\moc_SoQtPlaneViewerP.icc">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2088,13 +3840,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\widgets\moc_SoQtThumbWheel.icc">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2103,13 +3867,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\widgets\moc_SoQtThumbWheel.icc">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2118,13 +3894,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\nodes\SoGuiClickCounter.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2133,13 +3921,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\nodes\SoGuiClickCounter.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2148,13 +3948,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\SoGuiComponentP.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2163,13 +3975,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\SoGuiComponentP.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2178,13 +4002,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\devices\SoGuiDeviceP.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2193,13 +4029,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\devices\SoGuiDeviceP.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2208,13 +4056,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\engines\SoGuiEngines.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2223,13 +4083,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\engines\SoGuiEngines.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2238,13 +4110,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\viewers\SoGuiExaminerViewerP.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2253,13 +4137,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\viewers\SoGuiExaminerViewerP.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2268,13 +4164,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\engines\SoGuiFormat.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2283,13 +4191,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\engines\SoGuiFormat.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2298,13 +4218,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\nodes\SoGuiFrame.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2313,13 +4245,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\nodes\SoGuiFrame.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2328,13 +4272,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\viewers\SoGuiFullViewerP.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2343,13 +4299,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\viewers\SoGuiFullViewerP.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2358,13 +4326,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\SoGuiGLWidgetP.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2373,13 +4353,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\SoGuiGLWidgetP.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2388,13 +4380,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\nodes\SoGuiImage.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2403,13 +4407,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\nodes\SoGuiImage.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2418,13 +4434,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\devices\SoGuiInputFocusP.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2433,13 +4461,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\devices\SoGuiInputFocusP.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2448,13 +4488,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\devices\SoGuiKeyboardP.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2463,13 +4515,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\devices\SoGuiKeyboardP.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2478,13 +4542,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\nodes\SoGuiLabel.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2493,13 +4569,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\nodes\SoGuiLabel.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2508,13 +4596,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\devices\SoGuiMouseP.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2523,13 +4623,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\devices\SoGuiMouseP.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2538,13 +4650,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\nodes\SoGuiNodes.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2553,13 +4677,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\nodes\SoGuiNodes.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2568,13 +4704,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\SoGuiP.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2583,13 +4731,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\SoGuiP.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2598,13 +4758,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\nodes\SoGuiPane.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2613,13 +4785,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\nodes\SoGuiPane.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2628,13 +4812,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\viewers\SoGuiPlaneViewerP.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2643,13 +4839,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\viewers\SoGuiPlaneViewerP.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2658,13 +4866,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\nodes\SoGuiPosition.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2673,13 +4893,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\nodes\SoGuiPosition.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2688,13 +4920,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\nodes\SoGuiRadioButton.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2703,13 +4947,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\nodes\SoGuiRadioButton.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2718,13 +4974,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\engines\SoGuiRadioGroup.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2733,13 +5001,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\engines\SoGuiRadioGroup.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2748,13 +5028,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\nodes\SoGuiSceneTexture2.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2763,13 +5055,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\nodes\SoGuiSceneTexture2.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2778,13 +5082,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\nodes\SoGuiSlider1.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2793,13 +5109,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\nodes\SoGuiSlider1.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2808,13 +5136,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\nodes\SoGuiSlider2.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2823,13 +5163,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\nodes\SoGuiSlider2.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2838,13 +5190,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\devices\SoGuiSpaceballP.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2853,13 +5217,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\devices\SoGuiSpaceballP.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2868,13 +5244,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\nodes\SoGuiToggleButton.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2883,13 +5271,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\nodes\SoGuiToggleButton.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2898,13 +5298,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\nodes\SoGuiTranslation.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2913,13 +5325,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\nodes\SoGuiTranslation.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2928,13 +5352,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\nodes\SoGuiViewpointWrapper.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2943,13 +5379,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\nodes\SoGuiViewpointWrapper.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2958,13 +5406,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\nodes\SoGuiViewportFix.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2973,13 +5433,25 @@
 			<File
 				RelativePath="src\Inventor\Qt\nodes\SoGuiViewportFix.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -2988,13 +5460,25 @@
 			<File
 				RelativePath="src\soqtdefs.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
@@ -3003,13 +5487,25 @@
 			<File
 				RelativePath="src\soqtdefs.h">
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DLL (Release)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="LIB (Release)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCustomBuildTool"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
 					ExcludedFromBuild="TRUE">
 					<Tool
 						Name="VCCustomBuildTool"/>

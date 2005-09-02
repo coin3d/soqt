@@ -928,6 +928,9 @@ SoGuiFullViewerP::setupStandardPopupMenu(void)
     };
 
     struct menutransparencyitem items[] = {
+#ifdef __COIN__
+      { "none", _("none"), NONE_TRANSPARENCY_ITEM },
+#endif // __COIN__
       { "screen_door", _("screen door"), SCREEN_DOOR_TRANSPARENCY_ITEM },
       { "add", _("add"), ADD_TRANSPARENCY_ITEM },
       { "delayed_add", _("delayed add"), DELAYED_ADD_TRANSPARENCY_ITEM },
@@ -1061,6 +1064,9 @@ SoGuiFullViewerP::prepareMenu(SoQtPopupMenu * menu)
     menu->setMenuItemMarked(SORTED_OBJECT_BLEND_TRANSPARENCY_ITEM, TRUE);
     break;
 #ifdef __COIN__  // Coin extensions
+  case SoGLRenderAction::NONE:
+    menu->setMenuItemMarked(NONE_TRANSPARENCY_ITEM, TRUE);
+    break;
   case SoGLRenderAction::SORTED_OBJECT_SORTED_TRIANGLE_ADD:
     menu->setMenuItemMarked(SORTED_OBJECT_SORTED_TRIANGLE_ADD_TRANSPARENCY_ITEM, TRUE);
     break;
@@ -1197,6 +1203,7 @@ SoGuiFullViewerP::menuSelection(int menuitemid)
   case SORTED_OBJECT_BLEND_TRANSPARENCY_ITEM:
   case SORTED_OBJECT_SORTED_TRIANGLE_ADD_TRANSPARENCY_ITEM:
   case SORTED_OBJECT_SORTED_TRIANGLE_BLEND_TRANSPARENCY_ITEM:
+  case NONE_TRANSPARENCY_ITEM:
   case SORTED_LAYERS_BLEND_ITEM: // define test is not needed. This enum is always defined
     this->drawstyleActivated(menuitemid);
     PUBLIC(this)->scheduleRedraw();
@@ -1391,6 +1398,9 @@ SoGuiFullViewerP::drawstyleActivated(int menuitemid)
     PUBLIC(this)->setTransparencyType(SoGLRenderAction::SORTED_OBJECT_BLEND);
     return;
 #ifdef __COIN__ // Coin extensions
+  case NONE_TRANSPARENCY_ITEM:
+    PUBLIC(this)->setTransparencyType(SoGLRenderAction::NONE);
+    return;
   case SORTED_OBJECT_SORTED_TRIANGLE_ADD_TRANSPARENCY_ITEM:
     PUBLIC(this)->setTransparencyType(SoGLRenderAction::SORTED_OBJECT_SORTED_TRIANGLE_ADD);
     return;
