@@ -183,9 +183,14 @@ EXTRA_DIST = \
 	build/msvc6/src/Inventor/Qt/widgets/SoQtPopupMenu.cpp \
 	build/msvc6/src/Inventor/Qt/widgets/SoQtPopupMenu.h \
 	build/msvc6/src/config.h \
+	build/msvc6/src/config-debug.h \
+	build/msvc6/src/config-release.h \
 	build/msvc6/src/soqtdefs.h \
-	build/msvc6/installsoqt.bat \
-	build/msvc6/installsoqtheaders.bat \
+	build/msvc6/install-lib-debug.bat \
+	build/msvc6/install-lib-release.bat \
+	build/msvc6/install-dll-debug.bat \
+	build/msvc6/install-dll-release.bat \
+	build/msvc6/install-headers.bat \
 	build/msvc6/soqt1.dsp \
 	build/msvc6/soqt1.dsw \
 	build/msvc7/src/Inventor/Qt/common/gl.h \
@@ -292,9 +297,14 @@ EXTRA_DIST = \
 	build/msvc7/src/Inventor/Qt/widgets/SoQtPopupMenu.cpp \
 	build/msvc7/src/Inventor/Qt/widgets/SoQtPopupMenu.h \
 	build/msvc7/src/config.h \
+	build/msvc7/src/config-release.h \
+	build/msvc7/src/config-debug.h \
 	build/msvc7/src/soqtdefs.h \
-	build/msvc7/installsoqt.bat \
-	build/msvc7/installsoqtheaders.bat \
+	build/msvc7/install-lib-debug.bat \
+	build/msvc7/install-lib-release.bat \
+	build/msvc7/install-dll-debug.bat \
+	build/msvc7/install-dll-release.bat \
+	build/msvc7/install-headers.bat \
 	build/msvc7/soqt1.sln \
 	build/msvc7/soqt1.vcproj \
 	cfg/soqt.m4 \
