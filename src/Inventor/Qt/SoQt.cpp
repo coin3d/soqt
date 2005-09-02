@@ -657,7 +657,7 @@ public:
         QApplication::sendEvent(focus, &qevent);
       }
     }
-#if (QT_VERSION >= 400)
+#if (QT_VERSION >= 0x400000)
     long result = 0;
     return QApplication::winEventFilter(msg, &result);
 #else

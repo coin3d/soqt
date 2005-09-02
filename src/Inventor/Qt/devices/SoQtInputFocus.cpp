@@ -34,7 +34,7 @@
 #include <Inventor/Qt/devices/SoGuiInputFocusP.h>
 
 #include <qglobal.h>
-#if (QT_VERSION > 400)
+#if (QT_VERSION >= 0x400000)
 #include <q3memarray.h>
 #endif
 
