@@ -1,5 +1,7 @@
 Debug
+StaticDebug
 Release
+StaticRelease
 cfg
 html
 htmlhelp
@@ -20,3 +22,4 @@ sogui.doxygen
 *.suo
 *.dsp
 *.dsw
+*.lib
