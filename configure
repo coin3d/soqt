@@ -28682,7 +28682,9 @@ fi
        sim_ac_darwinports_qtheaders=/opt/local/include/qt3
          if test -d $sim_ac_darwinports_qtheaders; then
            sim_ac_qt_incpath="-I$sim_ac_darwinports_qtheaders $sim_ac_qt_incpath"
+           sim_ac_qt_ldflags="-L/opt/local/lib $sim_ac_qt_ldflags"
            CPPFLAGS="-I$sim_ac_darwinports_qtheaders $CPPFLAGS"
+           LDFLAGS="$LDFLAGS $sim_ac_qt_ldflags"
 
 cat >conftest.$ac_ext <<_ACEOF
 /* confdefs.h.  */
@@ -29260,8 +29262,8 @@ rm -f conftest.err conftest.$ac_objext \
         done
       done
 
-      echo "$as_me:$LINENO: result: $sim_ac_qt_cppflags $sim_ac_qt_libs" >&5
-echo "${ECHO_T}$sim_ac_qt_cppflags $sim_ac_qt_libs" >&6
+      echo "$as_me:$LINENO: result: $sim_ac_qt_cppflags $sim_ac_qt_ldflags $sim_ac_qt_libs" >&5
+echo "${ECHO_T}$sim_ac_qt_cppflags $sim_ac_qt_ldflags $sim_ac_qt_libs" >&6
     fi
 
   else # sim_ac_qglobal = false

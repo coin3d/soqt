@@ -10214,7 +10214,9 @@ if $sim_ac_with_qt; then
        sim_ac_darwinports_qtheaders=/opt/local/include/qt3
          if test -d $sim_ac_darwinports_qtheaders; then
            sim_ac_qt_incpath="-I$sim_ac_darwinports_qtheaders $sim_ac_qt_incpath"
+           sim_ac_qt_ldflags="-L/opt/local/lib $sim_ac_qt_ldflags"
            CPPFLAGS="-I$sim_ac_darwinports_qtheaders $CPPFLAGS"
+           LDFLAGS="$LDFLAGS $sim_ac_qt_ldflags"
            SIM_AC_CHECK_HEADER_SILENT([qglobal.h], [sim_ac_qglobal=true])
          fi     
        fi
@@ -10439,7 +10441,7 @@ recommend you to upgrade.])
         done
       done
 
-      AC_MSG_RESULT($sim_ac_qt_cppflags $sim_ac_qt_libs)
+      AC_MSG_RESULT($sim_ac_qt_cppflags $sim_ac_qt_ldflags $sim_ac_qt_libs)
     fi
 
   else # sim_ac_qglobal = false
