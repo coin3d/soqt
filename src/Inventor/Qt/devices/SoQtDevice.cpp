@@ -36,7 +36,7 @@
 #include <Inventor/Qt/devices/SoQtDeviceP.h>
 
 #include <qglobal.h>
-#if (QT_VERSION >= 0x400000)
+#if (QT_VERSION >= 0x040000)
 #include <q3memarray.h>
 #endif
 
