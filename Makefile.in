@@ -779,6 +779,8 @@ EXTRA_DIST = \
 	build/msvc6/delete-moc-files.bat \
 	build/msvc6/soqt1.dsp \
 	build/msvc6/soqt1.dsw \
+	build/msvc6/generate.sh \
+	build/msvc6/config-wrapper.h \
 	build/msvc7/src/Inventor/Qt/common/gl.h \
 	build/msvc7/src/Inventor/Qt/SoAny.cpp \
 	build/msvc7/src/Inventor/Qt/SoAny.h \
@@ -894,6 +896,8 @@ EXTRA_DIST = \
 	build/msvc7/delete-moc-files.bat \
 	build/msvc7/soqt1.sln \
 	build/msvc7/soqt1.vcproj \
+	build/msvc7/generate.sh \
+	build/msvc7/config-wrapper.h \
 	cfg/soqt.m4 \
 	cfg/gendsp.sh.in \
 	docs/announcement-1_0_0.txt \
