@@ -1,14 +1,10 @@
 # **************************************************************************
 # SoQt/configure.ac
 
-# FIXME: I believe there has been numerous API additions since the
-# 1.2.0 release. Diff all header files against that release, and
-# check what has been done. If there are only a few, consider taking them
-# out and releasing as 1.2.1 -- if not, release as 1.3.0. 20050701 mortene.
 m4_define([SOQT_MAJOR], [1])
-m4_define([SOQT_MINOR], [2])
-m4_define([SOQT_MICRO], [1])
-m4_define([SOQT_BETA], [a])
+m4_define([SOQT_MINOR], [3])
+m4_define([SOQT_MICRO], [0])
+m4_define([SOQT_BETA], [])
 
 m4_define([VERSION_STRING], [SOQT_MAJOR.SOQT_MINOR.SOQT_MICRO[]SOQT_BETA])
 
