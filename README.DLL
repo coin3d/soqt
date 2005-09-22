@@ -1,4 +1,0 @@
-When SoQt is compiled as a DLL and you try to link against it, make sure
-you define SOQT_DLL for your project.  Things will seems to work without
-it for a while, but eventually you start getting strange exceptions and
-heap errors.
