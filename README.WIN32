@@ -1,38 +1,20 @@
-You should be able to build the library if you have these components
-installed on your system:
+Make sure you have built Coin before building SoQt.  You can substitute
+another Open Inventor implementation for Coin, but expect to need to
+tweak source code or compile/link settings if doing so.  We try to be
+as compatible as possible, but it can take a long while between every
+time we test the compatibility.
 
-        * Cygwin[1], latest release
-        * Microsoft Visual C++ v6.x
+If you built Coin through the Visual Studio project files under build/,
+then do the same for SoQt.  The project files are in the same location
+under SoQt.  If you on the other hand built Coin from the Cygwin shell
+using the configure + make process, then proceed in the same way for
+SoQt.  You can not use the configure + make process to build SoQt if you
+did not build Coin the same way.  The necessary coin-config script is
+not set up and installed if you used Visual Studio to build Coin.
 
-Configure and build the same way as you would on UNIX-based systems,
-i.e.
+See Coin/README and Coin/README.WIN32 for more instructions.
 
-        $ [srcdir]/configure
-        $ make install
-
-To decide which C library to link against, you use the option
-"--with-msvcrt=<crt>" for the configure script.  The alternatives
-are (short aliases on the right):
-
-  * singlethread-static        [ /ml  | ml  | libc    ]
-    singlethread-static-debug  [ /mld | mld | libcd   ]
-    multithread-static         [ /mt  | mt  | libcmt  ]
-    multithread-static-debug   [ /mtd | mtd | libcmtd ]
-    multithread-dynamic        [ /md  | md  | msvcrt  ]
-    multithread-dynamic-debug  [ /mdd | mdd | msvcrtd ]
-
-  [*] default choice
-
-Note that if you encounter any problems when trying to build on
-MSWindows, it is expected that you are able to do a minimum of
-troubleshooting yourself before contacting us.  (If this is not an
-option, please consider using the pre-built binary installation
-packages we provide. Follow the download link from
-<URL:http://www.coin3d.org/>.)
-
-If you are confident that configure and/or build fails due to a
-mistake on our part, or you otherwise feel completely stuck, we will
-be happy to assist.
-
----
-[1] <URL:http://www.cygwin.com>
+The Visual Studio project files are BTW set up for linking against a
+particular version of Qt, which is probably not the Qt version you are
+using.  You will therefore need to manually update/change which Qt
+libraries are used when linking.
