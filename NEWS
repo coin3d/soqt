@@ -1,5 +1,9 @@
-New in SoQt v1.2.1a (so far):
+New in SoQt v1.3.0 (2005-09-22):
+* install SoGuiMaterialEditor.h
+* SoQtGLWidget::setStealFocus()/isStealFocus()
 * support for Mac OS 10.4 "Tiger"
+* complete Visual Studio project file setup under build/
+* misc minor fixes
 
 New in SoQt v1.2.0 (2004-08-27):
 * New classes SoQtColorEditor, SoQtMaterialEditor
