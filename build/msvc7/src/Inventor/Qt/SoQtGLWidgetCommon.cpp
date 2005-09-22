@@ -496,7 +496,7 @@
   Default is \c TRUE.
 
   \sa isStealFocus
-  \since 2004-12-08
+  \since SoQt 1.3.0
 */
 
 /*!
@@ -508,7 +508,7 @@
   Default is \c TRUE.
 
   \sa setStealFocus
-  \since 2004-12-08
+  \since SoQt 1.3.0
 */
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.

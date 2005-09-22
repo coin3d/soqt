@@ -65,10 +65,10 @@
 #define HAVE_QSTYLEFACTORY_H 1
 
 /* Define this if Qt::Keypad is available */
-/* #undef HAVE_QT_KEYPAD_DEFINE */
+#define HAVE_QT_KEYPAD_DEFINE 1
 
 /* Defined if qt_win_use_simple_timers is available */
-/* #undef HAVE_QT_WIN_USE_SIMPLE_TIMERS */
+#define HAVE_QT_WIN_USE_SIMPLE_TIMERS 1
 
 /* Define this if QWidget::setWindowState() is available */
 #define HAVE_QWIDGET_SETWINDOWSTATE 1
@@ -164,34 +164,34 @@
 #define PACKAGE_NAME "SoQt"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "SoQt 1.2.1a"
+#define PACKAGE_STRING "SoQt 1.3.0"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "soqt"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.2.1a"
+#define PACKAGE_VERSION "1.3.0"
 
 /* define this to the SoQt beta version letter */
-#define SOQT_BETA_VERSION a
+/* #undef SOQT_BETA_VERSION */
 
 /* Define to the major version of SoQt */
 #define SOQT_MAJOR_VERSION 1
 
 /* Define to the micro version of SoQt */
-#define SOQT_MICRO_VERSION 1
+#define SOQT_MICRO_VERSION 0
 
 /* Define to the minor version of SoQt */
-#define SOQT_MINOR_VERSION 2
+#define SOQT_MINOR_VERSION 3
 
 /* Version string for SoQt */
-#define SOQT_VERSION "1.2.1a"
+#define SOQT_VERSION "1.3.0"
 
 /* Define to 1 if you have the ANSI C header files. */
 /* #undef STDC_HEADERS */
 
 /* Version number of package */
-#define VERSION "1.2.1a"
+#define VERSION "1.3.0"
 
 /* Define this if you want defaults to be linked into SoXt */
 #define WITH_STATIC_DEFAULTS 

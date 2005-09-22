@@ -30,7 +30,9 @@
 #include <assert.h>
 #include <math.h>
 #include <stdio.h>
+#ifdef __COIN_SOQT__
 #include <qglobal.h> // for Q_WS_MAC
+#endif
 
 #include <soqtdefs.h>
 #include <Inventor/Qt/widgets/SoAnyThumbWheel.h>
@@ -466,7 +468,7 @@ SoAnyThumbWheel::swapWord(
     // FIXME: QImage::hasAlphaBuffer() is ignored on Qt4 on Mac OS X,
     // thus we must explicitly set the alpha component to 0xff (opaque).
     // Bug reported to Trolltech. 20050805 kyrah.
-#if (defined Q_WS_MAC && QT_VERSION >= 0x040000)
+#if (defined(Q_WS_MAC) && (QT_VERSION >= 0x040000))
     copy |= 0xff << 24;  // A    
 #else
     copy |= (orig & 0xff) << 24;  // A    
