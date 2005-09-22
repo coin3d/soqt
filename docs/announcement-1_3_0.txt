@@ -1,0 +1,35 @@
+SoQt 1.3.0 Released
+===================
+
+SoQt 1.3.0 is a minor release.  The release contains build setup
+improvements, bugfixes, and documentation improvements.  It also
+contains some minor API extensions beyond the previous release.
+
+
+NEWS File Excerpt:
+------------------
+
+New in SoQt v1.3.0 (2005-09-22):
+* install SoGuiMaterialEditor.h
+* SoQtGLWidget::setStealFocus()/isStealFocus()
+* support for Mac OS 10.4 "Tiger"
+* complete Visual Studio project file setup under build/
+* misc minor fixes
+
+
+Download Information:
+---------------------
+
+Source Code by FTP: 
+  ftp://ftp.coin3d.org/pub/coin/src/SoQt-1.3.0.tar.gz 
+
+We do not provide pre-compiled binary packages of the SoQt library
+for any platform. The reason behind this is that the Qt library on
+which SoQt depends can be installed on client systems in so many
+different configurations and different names, that this task seems
+difficult to do in a way that will be useful for the majority of
+our users.
+
+Regards,
+
+  Lars J
