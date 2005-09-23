@@ -896,6 +896,7 @@ EXTRA_DIST = \
 	build/msvc7/soqt1.sln \
 	build/msvc7/soqt1.vcproj \
 	build/msvc7/generate.sh \
+	build/msvc7/fixvcproj.sh \
 	build/msvc7/config-wrapper.h \
 	cfg/soqt.m4 \
 	cfg/gendsp.sh.in \
