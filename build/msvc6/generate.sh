@@ -48,6 +48,9 @@ mv new.bat install-headers.bat
 
 find . -name "moc_*" | xargs rm
 
+echo "Done."
+echo "Make sure there are no absolute paths in the project files!"
+
 # How can I avoid the modal upgrade prompt-dialog for MSVC7.1 here???
 # devenv /command "File.OpenProject $build\\soqt1.dsp"
 

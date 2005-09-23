@@ -50,6 +50,7 @@ find . -name "moc_*" | xargs rm
 
 echo "Run 'devenv soqt1.dsw' and save all solution files."
 echo "Then run './fixvcproj.sh'."
+echo "Make sure there are no absolute paths in the project files!"
 
 # How can I avoid the modal upgrade prompt-dialog for MSVC7.1 here???
 # devenv /command "File.OpenProject $build\\soqt1.dsp"
