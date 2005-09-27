@@ -188,10 +188,6 @@ if MAC_FRAMEWORK
 install-data-local:
 	@echo " ln -sf Versions/Current/Libraries/libSoQt.dylib $(DESTDIR)$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/$(MAC_FRAMEWORK_NAME)"; \
 	ln -sf Versions/Current/Libraries/libSoQt.dylib $(DESTDIR)$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/$(MAC_FRAMEWORK_NAME);
-	@if test x"$(ivincludedir)" != x""; then \
-	  echo " ln -sf $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Headers $(DESTDIR)$(ivincludedir)/Qt"; \
-	  ln -sf $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Headers $(DESTDIR)$(ivincludedir)/Qt; \
-	fi
 else
 install-data-local:
 	@$(NORMAL_INSTALL)
