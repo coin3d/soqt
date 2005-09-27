@@ -727,7 +727,7 @@ sim_ac_framework_version="MAC_FRAMEWORK_VERSION_DEFAULT"
 
 frameworkdir=
 ivframeworkdir=
-# we don't allow SoQt as framework if Coin isn't instralled as a framework
+# we don't allow SoQt as framework if Coin isn't installed as a framework
 if $sim_ac_framework && $sim_ac_coin_desired && $sim_ac_coin_avail; then
   if test x"$CONFIG" != x"set"; then
     sim_ac_coin_frameworkdir=`$sim_ac_coin_configcmd --alternate=$CONFIG --frameworkdir 2>/dev/null`
@@ -747,6 +747,12 @@ if $sim_ac_framework && $sim_ac_coin_desired && $sim_ac_coin_avail; then
     ivincludedir=
     if test x"$ivframeworkdir" != x""; then
       ivincludedir=$ivframeworkdir/Headers
+      # Inventor.framework and SoQt.framework must be in the same location
+      ivframeworkprefix=`dirname "${ivframeworkdir}"`
+      if test x"${ivframeworkprefix}" != x"${sim_ac_framework_prefix}"; then
+        SIM_AC_CONFIGURATION_WARNING([SoQt.framework must be installed in the same location as Inventor.framework. Changed SoQt framework directory to ${ivframeworkprefix}.])
+        sim_ac_framework_prefix=${ivframeworkprefix}
+      fi
     fi
     frameworkdir=${sim_ac_framework_prefix}/${sim_ac_framework_name}.framework
     soguiincludedir=${sim_ac_framework_prefix}/${sim_ac_framework_name}.framework/Headers
