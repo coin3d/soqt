@@ -1963,10 +1963,6 @@ soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib: Makefile \
 @MAC_FRAMEWORK_TRUE@install-data-local:
 @MAC_FRAMEWORK_TRUE@	@echo " ln -sf Versions/Current/Libraries/libSoQt.dylib $(DESTDIR)$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/$(MAC_FRAMEWORK_NAME)"; \
 @MAC_FRAMEWORK_TRUE@	ln -sf Versions/Current/Libraries/libSoQt.dylib $(DESTDIR)$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/$(MAC_FRAMEWORK_NAME);
-@MAC_FRAMEWORK_TRUE@	@if test x"$(ivincludedir)" != x""; then \
-@MAC_FRAMEWORK_TRUE@	  echo " ln -sf $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Headers $(DESTDIR)$(ivincludedir)/Qt"; \
-@MAC_FRAMEWORK_TRUE@	  ln -sf $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Headers $(DESTDIR)$(ivincludedir)/Qt; \
-@MAC_FRAMEWORK_TRUE@	fi
 @MAC_FRAMEWORK_FALSE@install-data-local:
 @MAC_FRAMEWORK_FALSE@	@$(NORMAL_INSTALL)
 @MAC_FRAMEWORK_FALSE@	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
