@@ -1,0 +1,55 @@
+# **************************************************************************
+# Makefile
+#
+# Makefile for creating Mac OS X installers for the SoQt binary SDK
+# builds SoQt and creates the following files:
+#   SoQt-$(VERSION).dmg         - DMG containing install packages
+#   SoQt-$(VERSION)-no_inst.dmg - DMG containing only Inventor.framework
+#
+# Usage:
+#   make VERSION=<version> (e.g. make VERSION=2.1.0)
+#
+# Dependencies:
+#   - SoQt-$(VERSION).tar.gz must be placed in ../
+#
+# Authors:
+#   Marius Kintel <kintel@sim.no>
+# **************************************************************************
+
+#VERBOSE = -v
+
+install_prefix = $(PWD)/install
+soqttools_prefix = $(install_prefix)/usr/local
+framework_prefix = $(install_prefix)/Library/Frameworks
+top_srcdir = @top_srcdir@
+builddir = build-shared-release
+
+SOQTDIST = SoQt-$(VERSION).tar.gz
+SOQT = SoQt-$(VERSION)
+SOQTLIB = $(builddir)/src/libSoQt.la
+BUILDOPTIONS = --enable-optimization --disable-debug --disable-symbols
+
+# **************************************************************************
+
+all: $(SOQT).dmg $(SOQT)-no_inst.dmg 
+
+$(SOQT)-no_inst.dmg: $(SOQTLIB)
+	@sh makenoinstdmg.sh $(VERBOSE) -f $(framework_prefix)/SoQt.framework -c $(SOQT)
+
+$(SOQT).dmg: SoQt.pkg SoQtTools.pkg
+	@sh makeinstdmg.sh $(VERBOSE) -c $(SOQT)
+
+SoQt.pkg: $(SOQTLIB)
+	@sh makesoqtpkg.sh $(VERBOSE) -f $(framework_prefix)/SoQt.framework
+
+SoQtTools.pkg: $(SOQTLIB)
+	@sh makesoqttoolspkg.sh $(VERBOSE) -r $(soqttools_prefix)
+
+# Configure, build and install SoQt
+$(SOQTLIB): ../$(SOQT) 
+	@if test -d $(builddir); then :; else mkdir $(builddir); fi
+	@cd $(builddir); \
+	../../$(SOQT)/configure $(BUILDOPTIONS)
+	cd $(builddir); $(MAKE) MACOSX_DEPLOYMENT_TARGET=10.2
+	cd $(builddir); $(MAKE) DESTDIR=$(install_prefix) install
+	touch $(SOQTLIB)

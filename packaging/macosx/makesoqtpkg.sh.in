@@ -1,0 +1,60 @@
+#!/bin/sh
+#
+# Copyright 2004-2005 Systems in Motion AS, All rights reserved.
+#
+# This script creates the main SoQt.pkg.
+# The pkg file will be put in the current directory.
+# 
+# Usage: makesoqtpkg.sh [-v] -f /path/including/SoQt.framework
+#  -v   verbose
+#  -f   Location of framework, e.g. "-f /Library/Frameworks/SoQt.framework"
+#
+# Authors:
+#   Marius Kintel <kintel@sim.no>
+
+while getopts 'vf:' c
+do
+  case $c in
+    v) VERBOSE=-v ;;
+    f) FRAMEWORK=$OPTARG;;
+  esac
+done
+
+if test -z "$FRAMEWORK"; then
+  echo "Usage: $0 [-v] -f /path/including/SoQt.framework"
+  exit 1
+fi
+
+if test ! -d $FRAMEWORK; then
+  echo "$FRAMEWORK not found or not a directory"
+  exit 1
+fi
+
+if test $VERBOSE; then
+  set -x
+fi
+
+# Remove old generated files
+rm -rf SoQt.pkg
+rm -rf pkgroot pkgresources
+
+# Copy package files to pkgroot and pkgresources
+ditto -rsrcFork $FRAMEWORK pkgroot/Library/Frameworks/SoQt.framework
+ditto -rsrcFork @top_srcdir@/packaging/macosx/License.rtf pkgresources/License.rtf
+ditto -rsrcFork @top_srcdir@/packaging/macosx/SoQt_Welcome.rtf pkgresources/Welcome.rtf
+ditto -rsrcFork @top_srcdir@/packaging/macosx/background.tiff pkgresources/background.tiff
+
+# Set framework permissions to root:admin (same as /Library/Frameworks)
+# Note that due to a bug in the installer in Mac OS 10.3, we have to set 
+# the permissions for the root directory and not just for SoQt.framework 
+# or else the permissions of / would be modified to the installing user!
+sudo chown -R root:admin pkgroot
+
+# Package creation using PackageMaker
+if test x$VERBOSE = x; then
+  REDIRECT='> /dev/null 2>&1'
+fi
+eval "@sim_ac_packagemaker_app@/Contents/MacOS/PackageMaker -build -p $PWD/SoQt.pkg -f $PWD/pkgroot -r $PWD/pkgresources -i SoQt_Info.plist -d SoQt_Description.plist $REDIRECT"
+
+# Remove temporary files
+sudo rm -rf pkgroot pkgresources

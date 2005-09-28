@@ -330,6 +330,35 @@ EXTRA_DIST = \
 	test-code/README \
 	test-code/components/scrollview.cpp \
 	test-code/components/tripleview.cpp \
+  packaging/macosx/checklist.txt \
+  packaging/macosx/SoQt_Description.plist.in \
+  packaging/macosx/SoQt_Info.plist.in \
+  packaging/macosx/SoQt_Welcome.rtf \
+  packaging/macosx/SoQtTools_Description.plist.in \
+  packaging/macosx/SoQtTools_Info.plist.in \
+  packaging/macosx/SoQtTools_Welcome.rtf \
+  packaging/macosx/inst-dmg-files/.DS_Store \
+  packaging/macosx/inst-dmg-files/.VolumeIcon.icns \
+  packaging/macosx/inst-dmg-files/dmg_bg.tiff \
+  packaging/macosx/inst-dmg-files/Desktop_DB \
+  packaging/macosx/inst-dmg-files/Desktop_DF \
+  packaging/macosx/License.rtf \
+  packaging/macosx/makesoqtpkg.sh.in \
+  packaging/macosx/makesoqttoolspkg.sh.in \
+  packaging/macosx/makedmg.sh.in \
+  packaging/macosx/Makefile.in \
+  packaging/macosx/makeinstdmg.sh.in \
+  packaging/macosx/makenoinstdmg.sh.in \
+  packaging/macosx/noinst-dmg-files/.DS_Store \
+  packaging/macosx/noinst-dmg-files/.VolumeIcon.icns \
+  packaging/macosx/noinst-dmg-files/dmg_bg.tiff \
+  packaging/macosx/noinst-dmg-files/Desktop_DB \
+  packaging/macosx/noinst-dmg-files/Desktop_DF \
+  packaging/macosx/noinst-README-gcc4.txt.in \
+  packaging/macosx/noinst-README-gcc3.txt.in \
+  packaging/macosx/inst-README-gcc4.txt.in \
+  packaging/macosx/inst-README-gcc3.txt.in \
+  packaging/macosx/background.tiff \
 	packaging/windows/Makefile.in \
 	packaging/windows/bfheader.nsi.in \
 	packaging/windows/footer.nsi.in \
@@ -417,6 +446,21 @@ src/Inventor/Qt/widgets/moc_SoQtThumbWheel.icc: $(srcdir)/src/Inventor/Qt/widget
 
 src/Inventor/Qt/widgets/moc_SoQtGLArea.icc: $(srcdir)/src/Inventor/Qt/widgets/SoQtGLArea.h
 	$(MOC) -i -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/widgets/SoQtGLArea.h`
+
+# FIXME: use MACOSX_PACKAGEABLE as in Coin build setup? 20050928 kyrah 
+
+macosx-files:
+	@if test -d macosx; then :; else mkdir macosx; fi
+	@for file in $(top_srcdir)/packaging/macosx/*.in; do \
+	  basename=`basename $$file .in`; \
+          if ! test -f macosx/$$basename; then \
+	    ./config.status --file=macosx/$$basename:$$file; \
+          fi \
+	done
+
+macosx-packages: macosx-files
+macosx-packages:
+	@( cd macosx; $(MAKE) VERSION=$(VERSION) )
 
 # **************************************************************************
 

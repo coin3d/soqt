@@ -1,0 +1,65 @@
+#!/bin/sh
+#
+# Copyright 2004-2005 Systems in Motion AS, All rights reserved.
+#
+# This script creates the main SoQt-x.x.x.dmg image.
+# The dmg file will be put in the current directory.
+# 
+# Usage: makeinstdmg.sh [-v] -c <SoQt-version>
+#  -v   verbose
+#  -c   SoQt version string including name, e.g. "-c SoQt-2.1.0"
+#
+# Authors:
+#   Marius Kintel <kintel@sim.no>
+
+printUsage()
+{
+  echo "Usage: $0 [-v] -c <SoQt-version>"
+  echo
+  echo "  Example: $0 -c SoQt-2.1.0"
+}
+
+while getopts 'vc:' c
+do
+  case $c in
+    v) VERBOSE=-v ;;
+    c) VOLNAME=$OPTARG;;
+  esac
+done
+
+if test -z "$VOLNAME"; then
+  printUsage
+  exit 1
+fi
+
+if test $VERBOSE; then
+  set -x
+fi
+
+if test -e /Volumes/$VOLNAME; then
+  echo "/Volumes/SoQt-$VOLNAME already exists. Please unmount before running this script."
+  exit 1
+fi
+
+# Remove old generated files
+rm -rf inst-dmg-root
+rm -rf $VOLNAME.dmg
+
+# Create dmgroot from template dir
+ditto -rsrcFork @top_srcdir@/packaging/macosx/inst-dmg-files inst-dmg-root
+mv inst-dmg-root/Desktop_DB inst-dmg-root/Desktop\ DB 
+mv inst-dmg-root/Desktop_DF inst-dmg-root/Desktop\ DF
+
+# Copy dist files
+# FIXME: Replace gcc4 by chosen gcc version
+cp inst-README-gcc4.txt inst-dmg-root/README.txt
+ditto -rsrcFork SoQt.pkg inst-dmg-root/SoQt.pkg
+ditto -rsrcFork SoQtTools.pkg inst-dmg-root/SoQtTools.pkg
+#FIXME: doc disabled for now
+#ditto -rsrcFork @top_srcdir@/packaging/macosx/doc inst-dmg-root/doc
+
+# Build dmg file from dmgroot
+sh makedmg.sh -v $VOLNAME -o $VOLNAME.dmg -r inst-dmg-root
+
+# Remove temporary files
+rm -rf inst-dmg-root

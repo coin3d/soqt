@@ -1,0 +1,54 @@
+#!/bin/sh
+#
+# Copyright 2004-2005 Systems in Motion AS, All rights reserved.
+#
+# This script creates the SoQtTools.pkg.
+# The pkg file will be put in the current directory.
+# 
+# Usage: makesoqttoolspkg.sh [-v] -r /path/to/soqt/prefix
+#  -v   verbose
+#  -r   Location of tools intallation dir (SoQt configure prefix)
+#
+# Authors:
+#   Marius Kintel <kintel@sim.no>
+
+while getopts 'vr:' c
+do
+  case $c in
+    v) VERBOSE=-v ;;
+    r) ROOT=$OPTARG;;
+  esac
+done
+
+if test -z "$ROOT"; then
+  echo "Usage: $0 [-v] -r /path/to/prefix"
+  exit 1
+fi
+
+if test ! -d $ROOT; then
+  echo "$ROOT not found or not a directory"
+  exit 1
+fi
+
+if test $VERBOSE; then
+  set -x
+fi
+
+# Remove old generated files
+rm -rf SoQtTools.pkg
+rm -rf pkgroot pkgresources
+
+# Copy package files to pkgroot and pkgresources
+ditto $ROOT pkgroot
+ditto -rsrcFork @top_srcdir@/packaging/macosx/License.rtf pkgresources/License.rtf
+ditto -rsrcFork @top_srcdir@/packaging/macosx/SoQtTools_Welcome.rtf pkgresources/Welcome.rtf
+ditto -rsrcFork @top_srcdir@/packaging/macosx/background.tiff pkgresources/background.tiff
+
+# Package creation using PackageMaker
+if test x$VERBOSE = x; then
+  REDIRECT='> /dev/null 2>&1'
+fi
+eval "@sim_ac_packagemaker_app@/Contents/MacOS/PackageMaker -build -p $PWD/SoQtTools.pkg -f $PWD/pkgroot -r $PWD/pkgresources -i SoQtTools_Info.plist -d SoQtTools_Description.plist $REDIRECT"
+
+# Remove temporary files
+rm -rf pkgroot pkgresources
