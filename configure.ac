@@ -938,6 +938,19 @@ fi # !BUILD_WITH_MSVC
 
 SIM_AC_MSVC_DSP_SETUP([SOQT], [SoQt], [soqt], [-I$soqt_build_dir/src -I$soqt_build_dir/data -I$soqt_src_dir/src])
 
+
+# **************************************************************************
+# Mac OS X packaging 
+
+SIM_AC_PACKAGEMAKER_APP
+AC_SUBST([sim_ac_packagemaker_app])
+sim_ac_macosx_packageable=true
+if test x"$sim_ac_packagemaker_app" = xfalse; then
+  sim_ac_macosx_packageable=false
+fi
+
+AM_CONDITIONAL([MACOSX_PACKAGEABLE], [$sim_ac_macosx_packageable])
+
 # **************************************************************************
 # Submodules that needs to be configured...
 
