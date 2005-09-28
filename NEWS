@@ -1,3 +1,6 @@
+New in SoQt v1.3.1 (so far):
+* full support for Qt-4 on Mac OS 10.4 "Tiger"
+
 New in SoQt v1.3.0 (2005-09-22):
 * install SoGuiMaterialEditor.h
 * SoQtGLWidget::setStealFocus()/isStealFocus()
