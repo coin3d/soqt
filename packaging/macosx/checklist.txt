@@ -5,13 +5,14 @@
 Prerequisites: 
 - An official SoQt-$(VERSION).tar.gz
 - Make sure compiler version is set correctly (gcc_select)
+- Qt frameworks installed in /Library/Frameworks, QTDIR unset
 
 o Build & package SoQt 
 
   cp /path/to/SoQt-$(VERSION).tar.gz .
   tar xzf SoQt-$(VERSION).tar.gz
-  MACOSX_DEPLOYMENT_TARGET=10.2 ./SoQt-$(VERSION)/configure
-  MACOSX_DEPLOYMENT_TARGET=10.2 make macosx-packages
+  PATH=/usr/local/Trolltech/Qt-4.x.x/bin/:$PATH ./SoQt-$(VERSION)/configure
+  make macosx-packages
 
   Note: Do not manually unmount the volume after setting the
   background image, it will be automatically unmounted!
