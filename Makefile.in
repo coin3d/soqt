@@ -117,6 +117,8 @@ LT_REVISION = @LT_REVISION@
 MACOSX_10_2FF_FALSE = @MACOSX_10_2FF_FALSE@
 MACOSX_10_2FF_TRUE = @MACOSX_10_2FF_TRUE@
 MACOSX_FALSE = @MACOSX_FALSE@
+MACOSX_PACKAGEABLE_FALSE = @MACOSX_PACKAGEABLE_FALSE@
+MACOSX_PACKAGEABLE_TRUE = @MACOSX_PACKAGEABLE_TRUE@
 MACOSX_TRUE = @MACOSX_TRUE@
 MAC_FRAMEWORK = @MAC_FRAMEWORK@
 MAC_FRAMEWORK_FALSE = @MAC_FRAMEWORK_FALSE@
@@ -222,6 +224,7 @@ sharedstatedir = @sharedstatedir@
 sim_ac_coin_configcmd = @sim_ac_coin_configcmd@
 sim_ac_doxygen_exe = @sim_ac_doxygen_exe@
 sim_ac_hhc_exe = @sim_ac_hhc_exe@
+sim_ac_packagemaker_app = @sim_ac_packagemaker_app@
 sim_ac_perl_exe = @sim_ac_perl_exe@
 sim_ac_qt_cygpath = @sim_ac_qt_cygpath@
 sim_ac_relative_src_dir = @sim_ac_relative_src_dir@
@@ -915,6 +918,35 @@ EXTRA_DIST = \
 	test-code/README \
 	test-code/components/scrollview.cpp \
 	test-code/components/tripleview.cpp \
+  packaging/macosx/checklist.txt \
+  packaging/macosx/SoQt_Description.plist.in \
+  packaging/macosx/SoQt_Info.plist.in \
+  packaging/macosx/SoQt_Welcome.rtf \
+  packaging/macosx/SoQtTools_Description.plist.in \
+  packaging/macosx/SoQtTools_Info.plist.in \
+  packaging/macosx/SoQtTools_Welcome.rtf \
+  packaging/macosx/inst-dmg-files/.DS_Store \
+  packaging/macosx/inst-dmg-files/.VolumeIcon.icns \
+  packaging/macosx/inst-dmg-files/dmg_bg.tiff \
+  packaging/macosx/inst-dmg-files/Desktop_DB \
+  packaging/macosx/inst-dmg-files/Desktop_DF \
+  packaging/macosx/License.rtf \
+  packaging/macosx/makesoqtpkg.sh.in \
+  packaging/macosx/makesoqttoolspkg.sh.in \
+  packaging/macosx/makedmg.sh.in \
+  packaging/macosx/Makefile.in \
+  packaging/macosx/makeinstdmg.sh.in \
+  packaging/macosx/makenoinstdmg.sh.in \
+  packaging/macosx/noinst-dmg-files/.DS_Store \
+  packaging/macosx/noinst-dmg-files/.VolumeIcon.icns \
+  packaging/macosx/noinst-dmg-files/dmg_bg.tiff \
+  packaging/macosx/noinst-dmg-files/Desktop_DB \
+  packaging/macosx/noinst-dmg-files/Desktop_DF \
+  packaging/macosx/noinst-README-gcc4.txt.in \
+  packaging/macosx/noinst-README-gcc3.txt.in \
+  packaging/macosx/inst-README-gcc4.txt.in \
+  packaging/macosx/inst-README-gcc3.txt.in \
+  packaging/macosx/background.tiff \
 	packaging/windows/Makefile.in \
 	packaging/windows/bfheader.nsi.in \
 	packaging/windows/footer.nsi.in \
@@ -1196,7 +1228,7 @@ distcleancheck_listfiles = find . -type f -print
 distdir: $(DISTFILES)
 	$(am__remove_distdir)
 	mkdir $(distdir)
-	$(mkinstalldirs) $(distdir)/./src/Inventor/Qt/common $(distdir)/build/msvc6 $(distdir)/build/msvc6/src $(distdir)/build/msvc6/src/Inventor/Qt $(distdir)/build/msvc6/src/Inventor/Qt/common $(distdir)/build/msvc6/src/Inventor/Qt/devices $(distdir)/build/msvc6/src/Inventor/Qt/editors $(distdir)/build/msvc6/src/Inventor/Qt/engines $(distdir)/build/msvc6/src/Inventor/Qt/nodes $(distdir)/build/msvc6/src/Inventor/Qt/viewers $(distdir)/build/msvc6/src/Inventor/Qt/widgets $(distdir)/build/msvc7 $(distdir)/build/msvc7/src $(distdir)/build/msvc7/src/Inventor/Qt $(distdir)/build/msvc7/src/Inventor/Qt/common $(distdir)/build/msvc7/src/Inventor/Qt/devices $(distdir)/build/msvc7/src/Inventor/Qt/editors $(distdir)/build/msvc7/src/Inventor/Qt/engines $(distdir)/build/msvc7/src/Inventor/Qt/nodes $(distdir)/build/msvc7/src/Inventor/Qt/viewers $(distdir)/build/msvc7/src/Inventor/Qt/widgets $(distdir)/cfg $(distdir)/docs $(distdir)/models $(distdir)/packaging/windows $(distdir)/src/Inventor/@Gui@/common $(distdir)/src/Inventor/@Gui@/common/devices $(distdir)/src/Inventor/@Gui@/common/docs/doxygen $(distdir)/src/Inventor/@Gui@/common/editors $(distdir)/src/Inventor/@Gui@/common/engines $(distdir)/src/Inventor/@Gui@/common/nodes $(distdir)/src/Inventor/@Gui@/common/pixmaps $(distdir)/src/Inventor/@Gui@/common/viewers $(distdir)/src/Inventor/@Gui@/common/widgets $(distdir)/src/Inventor/Qt/common $(distdir)/test-code $(distdir)/test-code/components
+	$(mkinstalldirs) $(distdir)/./src/Inventor/Qt/common $(distdir)/build/msvc6 $(distdir)/build/msvc6/src $(distdir)/build/msvc6/src/Inventor/Qt $(distdir)/build/msvc6/src/Inventor/Qt/common $(distdir)/build/msvc6/src/Inventor/Qt/devices $(distdir)/build/msvc6/src/Inventor/Qt/editors $(distdir)/build/msvc6/src/Inventor/Qt/engines $(distdir)/build/msvc6/src/Inventor/Qt/nodes $(distdir)/build/msvc6/src/Inventor/Qt/viewers $(distdir)/build/msvc6/src/Inventor/Qt/widgets $(distdir)/build/msvc7 $(distdir)/build/msvc7/src $(distdir)/build/msvc7/src/Inventor/Qt $(distdir)/build/msvc7/src/Inventor/Qt/common $(distdir)/build/msvc7/src/Inventor/Qt/devices $(distdir)/build/msvc7/src/Inventor/Qt/editors $(distdir)/build/msvc7/src/Inventor/Qt/engines $(distdir)/build/msvc7/src/Inventor/Qt/nodes $(distdir)/build/msvc7/src/Inventor/Qt/viewers $(distdir)/build/msvc7/src/Inventor/Qt/widgets $(distdir)/cfg $(distdir)/docs $(distdir)/models $(distdir)/packaging/macosx $(distdir)/packaging/macosx/inst-dmg-files $(distdir)/packaging/macosx/noinst-dmg-files $(distdir)/packaging/windows $(distdir)/src/Inventor/@Gui@/common $(distdir)/src/Inventor/@Gui@/common/devices $(distdir)/src/Inventor/@Gui@/common/docs/doxygen $(distdir)/src/Inventor/@Gui@/common/editors $(distdir)/src/Inventor/@Gui@/common/engines $(distdir)/src/Inventor/@Gui@/common/nodes $(distdir)/src/Inventor/@Gui@/common/pixmaps $(distdir)/src/Inventor/@Gui@/common/viewers $(distdir)/src/Inventor/@Gui@/common/widgets $(distdir)/src/Inventor/Qt/common $(distdir)/test-code $(distdir)/test-code/components
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
@@ -1882,6 +1914,21 @@ src/Inventor/Qt/widgets/moc_SoQtThumbWheel.icc: $(srcdir)/src/Inventor/Qt/widget
 
 src/Inventor/Qt/widgets/moc_SoQtGLArea.icc: $(srcdir)/src/Inventor/Qt/widgets/SoQtGLArea.h
 	$(MOC) -i -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/widgets/SoQtGLArea.h`
+
+# FIXME: use MACOSX_PACKAGEABLE as in Coin build setup? 20050928 kyrah 
+
+macosx-files:
+	@if test -d macosx; then :; else mkdir macosx; fi
+	@for file in $(top_srcdir)/packaging/macosx/*.in; do \
+	  basename=`basename $$file .in`; \
+          if ! test -f macosx/$$basename; then \
+	    ./config.status --file=macosx/$$basename:$$file; \
+          fi \
+	done
+
+macosx-packages: macosx-files
+macosx-packages:
+	@( cd macosx; $(MAKE) VERSION=$(VERSION) )
 
 # **************************************************************************
 
