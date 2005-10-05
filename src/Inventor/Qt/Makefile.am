@@ -186,8 +186,8 @@ soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib: Makefile \
 
 if MAC_FRAMEWORK
 install-data-local:
-	@echo " ln -sf Versions/Current/Libraries/libSoQt.dylib $(DESTDIR)$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/$(MAC_FRAMEWORK_NAME)"; \
-	ln -sf Versions/Current/Libraries/libSoQt.dylib $(DESTDIR)$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/$(MAC_FRAMEWORK_NAME);
+	cd $(DESTDIR)$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/Current && ln -sf Libraries/libSoQt.dylib $(MAC_FRAMEWORK_NAME) && cd -; \
+  cd $(DESTDIR)$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework && ln -sf Versions/Current/$(MAC_FRAMEWORK_NAME) $(MAC_FRAMEWORK_NAME) && cd -;
 else
 install-data-local:
 	@$(NORMAL_INSTALL)
