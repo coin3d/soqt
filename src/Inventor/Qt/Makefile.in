@@ -1964,8 +1964,8 @@ soqt@SOQT_MAJOR_VERSION@@SUFFIX@.lib: Makefile \
 ############################################################################
 
 @MAC_FRAMEWORK_TRUE@install-data-local:
-@MAC_FRAMEWORK_TRUE@	@echo " ln -sf Versions/Current/Libraries/libSoQt.dylib $(DESTDIR)$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/$(MAC_FRAMEWORK_NAME)"; \
-@MAC_FRAMEWORK_TRUE@	ln -sf Versions/Current/Libraries/libSoQt.dylib $(DESTDIR)$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/$(MAC_FRAMEWORK_NAME);
+@MAC_FRAMEWORK_TRUE@	cd $(DESTDIR)$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/Current && ln -sf Libraries/libSoQt.dylib $(MAC_FRAMEWORK_NAME) && cd -; \
+@MAC_FRAMEWORK_TRUE@  cd $(DESTDIR)$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework && ln -sf Versions/Current/$(MAC_FRAMEWORK_NAME) $(MAC_FRAMEWORK_NAME) && install_name_tool -id $(MAC_FRAMEWORK_NAME).framework/Versions/$(MAC_FRAMEWORK_VERSION)/$(MAC_FRAMEWORK_NAME) $(MAC_FRAMEWORK_NAME) && cd -;
 @MAC_FRAMEWORK_FALSE@install-data-local:
 @MAC_FRAMEWORK_FALSE@	@$(NORMAL_INSTALL)
 @MAC_FRAMEWORK_FALSE@	@basename="soqt@SOQT_MAJOR_VERSION@@SUFFIX@"; \
