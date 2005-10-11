@@ -11,7 +11,8 @@ o Build & package SoQt
 
   cp /path/to/SoQt-$(VERSION).tar.gz .
   tar xzf SoQt-$(VERSION).tar.gz
-  PATH=/usr/local/Trolltech/Qt-4.x.x/bin/:$PATH ./SoQt-$(VERSION)/configure
+  export PATH=/usr/local/Trolltech/Qt-4.x.x/bin/:$PATH 
+  ./SoQt-$(VERSION)/configure
   make macosx-packages
 
   Note: Do not manually unmount the volume after setting the
