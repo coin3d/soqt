@@ -120,8 +120,14 @@
   and 'scenegraph interaction' mode (see setViewing()
   documentation)</li>
 
+  <!-- 
+    FIXME: This functionality has been disabled. See FIXME comment
+    20050202 larsa below.
+      
   <li>hold down the 'ALT' key to temporary toggle from
   camera-interaction mode to scenegraph-interaction mode</li>
+
+  //-->
 
   <li>'q' quits the application</li>
 
@@ -373,6 +379,9 @@ SoQtExaminerViewer::processSoEvent(const SoEvent * const ev)
   // InventorXt, which is then reversed when the ALT key is
   // released. So this functionality shouldn't simply be disabled, but
   // rather debugged and fixed.
+  //
+  // Note: All changes made here should also be applied to
+  // common/viewers/SoGuiPlaneViewer.cpp.in
 
   // Let the end-user toggle between camera-interaction mode
   // ("viewing") and scenegraph-interaction mode with ALT key(s).

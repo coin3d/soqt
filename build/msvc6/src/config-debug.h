@@ -49,33 +49,6 @@
 /* define if pthread's struct timespec uses nsecs and not usecs */
 /* #undef HAVE_PTHREAD_TIMESPEC_NSEC */
 
-/* Define this if QApplication::hasPendingEvents() is available */
-#define HAVE_QAPPLICATION_HASPENDINGEVENTS 1
-
-/* Define this to 1 if operator==(QGLFormat&, QGLFormat&) is available */
-#define HAVE_QGLFORMAT_EQ_OP 1
-
-/* Define this to 1 if QGLFormat::setOverlay() is available */
-#define HAVE_QGLFORMAT_SETOVERLAY 1
-
-/* Define this to 1 if QGLWidget::setAutoBufferSwap() is available */
-#define HAVE_QGLWIDGET_SETAUTOBUFFERSWAP 1
-
-/* Define to 1 if you have the <qstylefactory.h> header file. */
-#define HAVE_QSTYLEFACTORY_H 1
-
-/* Define this if Qt::Keypad is available */
-#define HAVE_QT_KEYPAD_DEFINE 1
-
-/* Defined if qt_win_use_simple_timers is available */
-#define HAVE_QT_WIN_USE_SIMPLE_TIMERS 1
-
-/* Define this if QWidget::setWindowState() is available */
-#define HAVE_QWIDGET_SETWINDOWSTATE 1
-
-/* Define this if QWidget::showFullScreen() is available */
-#define HAVE_QWIDGET_SHOWFULLSCREEN 1
-
 /* Define to enable use of Inventor feature */
 #define HAVE_SOCAMERA_SETSTEREOMODE 1
 
@@ -198,3 +171,7 @@
 
 /* Define to 1 if the X Window System is missing or not being used. */
 /* #undef X_DISPLAY_MISSING */
+
+
+#include <qt-config.h>
+
