@@ -1019,6 +1019,7 @@ SoGuiFullViewerP::setupStandardPopupMenu(void)
   menu->addMenuSelectionCallback(SoGuiFullViewerP::menuSelectionCallback,
                                  (void *) this);
 
+  // this instance is freed in the native viewer component
   PUBLIC(this)->prefmenu = menu;
   return menu;
 }

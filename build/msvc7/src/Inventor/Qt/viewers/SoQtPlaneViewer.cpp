@@ -59,8 +59,14 @@
   <li>click 'ESC' key to switch to and from 'view' mode and
   'scenegraph interaction' mode (see setViewing() documentation)</li>
 
-  <li>hold down the 'ALT' key to temporary toggle from
-  camera-interaction mode to scenegraph-interaction mode</li>
+  <!-- 
+    FIXME: This functionality has been disabled. See FIXME comment
+    20050202 larsa below.
+
+  <li>hold down the 'ALT' key to temporary toggle from  
+      camera-interaction mode to scenegraph-interaction mode</li>  
+
+  //-->
 
   </ul>
 
@@ -194,6 +200,23 @@ SoQtPlaneViewer::processSoEvent(const SoEvent * const ev)
                          PRIVATE(this)->mode);
 #endif // debug
 
+#if 0
+  // [copied from common/viewers/SoGuiExaminerViewer.cpp.in]
+  // 
+  // 20050202 larsa: I have disabled the below functionality because it
+  // caused "alt" to stick - the release never got sent to the scene - the
+  // alt key was rendered useless for the Coin envronment  - and I don't
+  // think this is compatible behaviour with SGI SoXt either.  end larsa.
+  //
+  // UPDATE 20050310 mortene: IIRC, pressing the ALT key is a way to
+  // temporarily switch between examine mode and view mode in SGI's
+  // InventorXt, which is then reversed when the ALT key is
+  // released. So this functionality shouldn't simply be disabled, but
+  // rather debugged and fixed.
+  // 
+  // Note: All changes made here should also be applied to
+  // common/viewers/SoGuiExaminerViewer.cpp.in
+
   // Let the end-user toggle between camera-interaction mode
   // ("viewing") and scenegraph-interaction mode with ALT key(s).
   if (ev->getTypeId().isDerivedFrom(SoKeyboardEvent::getClassTypeId())) {
@@ -213,6 +236,7 @@ SoQtPlaneViewer::processSoEvent(const SoEvent * const ev)
       break;
     }
   }
+#endif // 0 - alt-key
 
   // We're in "interact" mode (ie *not* the camera modification mode),
   // so don't handle the event here. It should either be forwarded to

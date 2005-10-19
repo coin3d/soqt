@@ -1,24 +1,24 @@
-copy src\Inventor\Qt\devices\SoQtDevice.h %COINDIR%\include\Inventor\Qt\devices\SoQtDevice.h >nul:
-copy src\Inventor\Qt\devices\SoQtKeyboard.h %COINDIR%\include\Inventor\Qt\devices\SoQtKeyboard.h >nul:
-copy src\Inventor\Qt\devices\SoQtMouse.h %COINDIR%\include\Inventor\Qt\devices\SoQtMouse.h >nul:
-copy src\Inventor\Qt\devices\SoQtSpaceball.h %COINDIR%\include\Inventor\Qt\devices\SoQtSpaceball.h >nul:
-copy src\Inventor\Qt\editors\SoQtColorEditor.h %COINDIR%\include\Inventor\Qt\editors\SoQtColorEditor.h >nul:
-copy src\Inventor\Qt\editors\SoQtMaterialEditor.h %COINDIR%\include\Inventor\Qt\editors\SoQtMaterialEditor.h >nul:
-copy src\Inventor\Qt\nodes\SoGuiColorEditor.h %COINDIR%\include\Inventor\Qt\nodes\SoGuiColorEditor.h >nul:
-copy src\Inventor\Qt\nodes\SoGuiMaterialEditor.h %COINDIR%\include\Inventor\Qt\nodes\SoGuiMaterialEditor.h >nul:
-copy src\Inventor\Qt\viewers\SoQtViewer.h %COINDIR%\include\Inventor\Qt\viewers\SoQtViewer.h >nul:
-copy src\Inventor\Qt\viewers\SoQtFullViewer.h %COINDIR%\include\Inventor\Qt\viewers\SoQtFullViewer.h >nul:
-copy src\Inventor\Qt\viewers\SoQtExaminerViewer.h %COINDIR%\include\Inventor\Qt\viewers\SoQtExaminerViewer.h >nul:
-copy src\Inventor\Qt\viewers\SoQtPlaneViewer.h %COINDIR%\include\Inventor\Qt\viewers\SoQtPlaneViewer.h >nul:
-copy src\Inventor\Qt\viewers\SoQtConstrainedViewer.h %COINDIR%\include\Inventor\Qt\viewers\SoQtConstrainedViewer.h >nul:
-copy src\Inventor\Qt\viewers\SoQtFlyViewer.h %COINDIR%\include\Inventor\Qt\viewers\SoQtFlyViewer.h >nul:
-copy ..\..\src\Inventor\Qt\widgets\SoQtThumbWheel.h %COINDIR%\include\Inventor\Qt\widgets\SoQtThumbWheel.h >nul:
-copy src\Inventor\Qt\widgets\SoQtPopupMenu.h %COINDIR%\include\Inventor\Qt\widgets\SoQtPopupMenu.h >nul:
-copy src\Inventor\Qt\SoQt.h %COINDIR%\include\Inventor\Qt\SoQt.h >nul:
-copy src\Inventor\Qt\SoQtBasic.h %COINDIR%\include\Inventor\Qt\SoQtBasic.h >nul:
-copy src\Inventor\Qt\SoQtObject.h %COINDIR%\include\Inventor\Qt\SoQtObject.h >nul:
-copy src\Inventor\Qt\SoQtCursor.h %COINDIR%\include\Inventor\Qt\SoQtCursor.h >nul:
-copy src\Inventor\Qt\SoQtComponent.h %COINDIR%\include\Inventor\Qt\SoQtComponent.h >nul:
-copy src\Inventor\Qt\SoQtGLWidget.h %COINDIR%\include\Inventor\Qt\SoQtGLWidget.h >nul:
-copy src\Inventor\Qt\SoQtColorEditor.h %COINDIR%\include\Inventor\Qt\SoQtColorEditor.h >nul:
-copy src\Inventor\Qt\SoQtRenderArea.h %COINDIR%\include\Inventor\Qt\SoQtRenderArea.h >nul:
+copy /Y src\Inventor\Qt\devices\SoQtDevice.h %COINDIR%\include\Inventor\Qt\devices\SoQtDevice.h >nul:
+copy /Y src\Inventor\Qt\devices\SoQtKeyboard.h %COINDIR%\include\Inventor\Qt\devices\SoQtKeyboard.h >nul:
+copy /Y src\Inventor\Qt\devices\SoQtMouse.h %COINDIR%\include\Inventor\Qt\devices\SoQtMouse.h >nul:
+copy /Y src\Inventor\Qt\devices\SoQtSpaceball.h %COINDIR%\include\Inventor\Qt\devices\SoQtSpaceball.h >nul:
+copy /Y src\Inventor\Qt\editors\SoQtColorEditor.h %COINDIR%\include\Inventor\Qt\editors\SoQtColorEditor.h >nul:
+copy /Y src\Inventor\Qt\editors\SoQtMaterialEditor.h %COINDIR%\include\Inventor\Qt\editors\SoQtMaterialEditor.h >nul:
+copy /Y src\Inventor\Qt\nodes\SoGuiColorEditor.h %COINDIR%\include\Inventor\Qt\nodes\SoGuiColorEditor.h >nul:
+copy /Y src\Inventor\Qt\nodes\SoGuiMaterialEditor.h %COINDIR%\include\Inventor\Qt\nodes\SoGuiMaterialEditor.h >nul:
+copy /Y src\Inventor\Qt\viewers\SoQtViewer.h %COINDIR%\include\Inventor\Qt\viewers\SoQtViewer.h >nul:
+copy /Y src\Inventor\Qt\viewers\SoQtFullViewer.h %COINDIR%\include\Inventor\Qt\viewers\SoQtFullViewer.h >nul:
+copy /Y src\Inventor\Qt\viewers\SoQtExaminerViewer.h %COINDIR%\include\Inventor\Qt\viewers\SoQtExaminerViewer.h >nul:
+copy /Y src\Inventor\Qt\viewers\SoQtPlaneViewer.h %COINDIR%\include\Inventor\Qt\viewers\SoQtPlaneViewer.h >nul:
+copy /Y src\Inventor\Qt\viewers\SoQtConstrainedViewer.h %COINDIR%\include\Inventor\Qt\viewers\SoQtConstrainedViewer.h >nul:
+copy /Y src\Inventor\Qt\viewers\SoQtFlyViewer.h %COINDIR%\include\Inventor\Qt\viewers\SoQtFlyViewer.h >nul:
+copy /Y ..\..\src\Inventor\Qt\widgets\SoQtThumbWheel.h %COINDIR%\include\Inventor\Qt\widgets\SoQtThumbWheel.h >nul:
+copy /Y src\Inventor\Qt\widgets\SoQtPopupMenu.h %COINDIR%\include\Inventor\Qt\widgets\SoQtPopupMenu.h >nul:
+copy /Y src\Inventor\Qt\SoQt.h %COINDIR%\include\Inventor\Qt\SoQt.h >nul:
+copy /Y src\Inventor\Qt\SoQtBasic.h %COINDIR%\include\Inventor\Qt\SoQtBasic.h >nul:
+copy /Y src\Inventor\Qt\SoQtObject.h %COINDIR%\include\Inventor\Qt\SoQtObject.h >nul:
+copy /Y src\Inventor\Qt\SoQtCursor.h %COINDIR%\include\Inventor\Qt\SoQtCursor.h >nul:
+copy /Y src\Inventor\Qt\SoQtComponent.h %COINDIR%\include\Inventor\Qt\SoQtComponent.h >nul:
+copy /Y src\Inventor\Qt\SoQtGLWidget.h %COINDIR%\include\Inventor\Qt\SoQtGLWidget.h >nul:
+copy /Y src\Inventor\Qt\SoQtColorEditor.h %COINDIR%\include\Inventor\Qt\SoQtColorEditor.h >nul:
+copy /Y src\Inventor\Qt\SoQtRenderArea.h %COINDIR%\include\Inventor\Qt\SoQtRenderArea.h >nul:

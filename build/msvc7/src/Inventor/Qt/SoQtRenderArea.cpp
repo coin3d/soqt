@@ -2103,6 +2103,13 @@ SoQtRenderArea::processSoEvent(const SoEvent * const event)
 void
 SoQtRenderArea::processEvent(QEvent * event)
 {
+  // FIXME: This method is not reentrant, but certain GUI toolkits may
+  // run the event-loop recursively with events injected while processing
+  // other events. We must detect when this happens, and queue up the
+  // event for delayed processing after the primary event is done processing.
+  // This means event instances can not be static and rewritten in the
+  // device handlers like they are currently...  20051013 larsa
+
   if (PRIVATE(this)->invokeAppCB(event)) { return; }
 
   const SoEvent * soevent = PRIVATE(this)->getSoEvent(event);
