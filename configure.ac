@@ -39,6 +39,10 @@ AH_TOP([
 #endif
 ])
 
+AH_BOTTOM([
+#include <qt-config.h>
+])
+
 # **************************************************************************
 
 AC_CANONICAL_SYSTEM
@@ -596,27 +600,27 @@ if $sim_ac_build_library; then
 
   # Check misc capabilities of the Qt and QGL libraries which depends
   # on the exact version available to us.
-  SIM_AC_QT_KEYPAD_DEFINE
-  SIM_AC_QWIDGET_SHOWFULLSCREEN
-  SIM_AC_QGLFORMAT_EQ_OP
-  SIM_AC_QGLFORMAT_SETOVERLAY
-  SIM_AC_QGLWIDGET_SETAUTOBUFFERSWAP
-  SIM_AC_QAPPLICATION_HASPENDINGEVENTS
-  SIM_AC_QWIDGET_HASSETWINDOWSTATE
+  # SIM_AC_QT_KEYPAD_DEFINE
+  # SIM_AC_QWIDGET_SHOWFULLSCREEN
+  # SIM_AC_QGLFORMAT_EQ_OP
+  # SIM_AC_QGLFORMAT_SETOVERLAY
+  # SIM_AC_QGLWIDGET_SETAUTOBUFFERSWAP
+  # SIM_AC_QAPPLICATION_HASPENDINGEVENTS
+  # SIM_AC_QWIDGET_HASSETWINDOWSTATE
   
   # QStyleFactory was added in Qt 3.0.
-  AC_CHECK_HEADERS([qstylefactory.h])
+  # AC_CHECK_HEADERS([qstylefactory.h])
 
   # We've had an external report about soqt.dll link failing due to missing
   # the qt_win_use_simple_timers symbol in the installed Qt library. This
   # was with Qt 3.3.1 MT under  Windows.
-  AC_MSG_CHECKING([for qt_win_use_simple_timers symbol])
-  AC_TRY_LINK([#include <qglobal.h>
-               Q_EXPORT extern bool qt_win_use_simple_timers;],
-              [qt_win_use_simple_timers = true;],
-              [AC_MSG_RESULT([yes])
-               AC_DEFINE([HAVE_QT_WIN_USE_SIMPLE_TIMERS], 1, [Defined if qt_win_use_simple_timers is available])],
-              [AC_MSG_RESULT([no])])
+  # AC_MSG_CHECKING([for qt_win_use_simple_timers symbol])
+  # AC_TRY_LINK([#include <qglobal.h>
+  #              Q_EXPORT extern bool qt_win_use_simple_timers;],
+  #             [qt_win_use_simple_timers = true;],
+  #             [AC_MSG_RESULT([yes])
+  #              AC_DEFINE([HAVE_QT_WIN_USE_SIMPLE_TIMERS], 1, [Defined if qt_win_use_simple_timers is available])],
+  #             [AC_MSG_RESULT([no])])
 
 fi # sim_ac_build_library
 
