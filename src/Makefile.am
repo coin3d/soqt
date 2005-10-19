@@ -3,6 +3,9 @@
 
 include Inventor/Qt/common/Makefile.common
 
+EXTRA_DIST = \
+	qt-config.h
+
 SUBDIRS = . Inventor
 
 BUILT_SOURCES = \

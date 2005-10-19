@@ -604,6 +604,10 @@ SoQt_ExtraBuiltMetaFiles = \
   $(top_builddir)/src/Inventor/Qt/widgets/moc_SoQtGLArea.cpp
 
 
+EXTRA_DIST = \
+	qt-config.h
+
+
 SUBDIRS = . Inventor
 
 BUILT_SOURCES = \
