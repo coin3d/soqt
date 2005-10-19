@@ -598,6 +598,13 @@ if $sim_ac_build_library; then
     SIM_AC_ERROR([no-qgl])
   ])
 
+  # ALERT: We have disabled these Qt checks because Qt features are now
+  # to be set up in src/qt-config.h.  Do not reenable them, unless 
+  # we for some reason decide to go back from this system again.
+  # It is still OK to use Qt-checking features for other projects, but
+  # SoQt must be buildable from pregenerated files against several
+  # different versions of Qt.
+  #
   # Check misc capabilities of the Qt and QGL libraries which depends
   # on the exact version available to us.
   # SIM_AC_QT_KEYPAD_DEFINE
@@ -607,10 +614,8 @@ if $sim_ac_build_library; then
   # SIM_AC_QGLWIDGET_SETAUTOBUFFERSWAP
   # SIM_AC_QAPPLICATION_HASPENDINGEVENTS
   # SIM_AC_QWIDGET_HASSETWINDOWSTATE
-  
   # QStyleFactory was added in Qt 3.0.
   # AC_CHECK_HEADERS([qstylefactory.h])
-
   # We've had an external report about soqt.dll link failing due to missing
   # the qt_win_use_simple_timers symbol in the installed Qt library. This
   # was with Qt 3.3.1 MT under  Windows.
