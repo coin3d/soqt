@@ -39,10 +39,6 @@ AH_TOP([
 #endif
 ])
 
-AH_BOTTOM([
-#include <qt-config.h>
-])
-
 # **************************************************************************
 
 AC_CANONICAL_SYSTEM
