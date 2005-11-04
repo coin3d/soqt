@@ -159,7 +159,11 @@ SoQtThumbWheel::paintEvent(QPaintEvent * event)
   /* Somewhere deep inside Qt (inside the bitBlt functions, which are
      used next), a second painter is created, which conflicts with the
      one created and used here, unless we explicitly call
-     QPainter::end(). */
+     QPainter::end(). This leads to a warning message with the Qt
+     4.1.0 snapshots (for Qt/X11, I believe).
+
+     -mortene, information supplied by Markus Grabner.
+  */
   p.end();
 
   if (this->orient == Vertical)
