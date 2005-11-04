@@ -108,8 +108,12 @@
 /* #undef HAVE_QT_WIN_USE_SIMPLE_TIMERS */
 #endif
 
+#if (QT_VERSION <= 0x030102) /*  known to be missing from Qt 3.1.2 */
+/* #undef HAVE_QWIDGET_SETWINDOWSTATE */
+#else /* QT_VERSION > 0x030102 (i.e. 3.1.2) */
 /* Define this if QWidget::setWindowState() is available */
 #define HAVE_QWIDGET_SETWINDOWSTATE 1
+#endif
 
 /* Define this if QWidget::showFullScreen() is available */
 #define HAVE_QWIDGET_SHOWFULLSCREEN 1
