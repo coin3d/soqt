@@ -156,6 +156,8 @@ SoQtThumbWheel::paintEvent(QPaintEvent * event)
   wheelrect.setRight( wheelrect.right() - 1);
   // wheelrect is now wheel-only
 
+  p.end();
+
   if (this->orient == Vertical)
     bitBlt(this, wheelrect.left(), wheelrect.top(), this->pixmaps[pixmap],
            0, 0, w, dval);
