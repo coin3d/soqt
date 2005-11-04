@@ -156,6 +156,10 @@ SoQtThumbWheel::paintEvent(QPaintEvent * event)
   wheelrect.setRight( wheelrect.right() - 1);
   // wheelrect is now wheel-only
 
+  /* Somewhere deep inside Qt (inside the bitBlt functions, which are
+     used next), a second painter is created, which conflicts with the
+     one created and used here, unless we explicitly call
+     QPainter::end(). */
   p.end();
 
   if (this->orient == Vertical)
