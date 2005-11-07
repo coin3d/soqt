@@ -10422,6 +10422,7 @@ recommend you to upgrade.])
             "-lqt${sim_ac_qt_version}${sim_ac_qt_suffix} -lqtmain -lgdi32" \
             "-lqt -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32" \
             "-lqt-mt-eval" \
+            "-lqt-mteval${sim_ac_qt_version}" \
             "-lqt-mtnc${sim_ac_qt_version}"
         do
           if test "x$sim_ac_qt_libs" = "xUNRESOLVED"; then
