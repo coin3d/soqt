@@ -33,7 +33,7 @@
 #include <qglobal.h> /* QT_VERSION */
 
 #if (QT_VERSION < 200)
-#error your Qt version is way too old
+#error Your Qt version is too old, and no longer supported by SoQt.
 #endif /* QT_VERSION < 200 */
 
 /* FIXME: we will most likely need to access platform information
