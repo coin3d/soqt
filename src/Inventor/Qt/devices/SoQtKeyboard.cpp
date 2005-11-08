@@ -30,20 +30,27 @@
 #include <qnamespace.h>
 
 #include <Inventor/SbDict.h>
+#include <Inventor/errors/SoDebugError.h>
 #include <Inventor/events/SoKeyboardEvent.h>
 
-#include <Inventor/Qt/devices/SoQtKeyboard.h>
 #include <Inventor/Qt/devices/SoGuiKeyboardP.h>
-#include <Inventor/errors/SoDebugError.h>
+#include <Inventor/Qt/devices/SoQtKeyboard.h>
 
-// The reason for this is that SoQt _compiled_ against Qt versions
-// 2.0.0 <= X < 2.2.0 should still detect keypad presses when _run_
-// against Qt versions >= 2.2.0.
-#define QT_KEYPAD_MASK_ASSUMED 0x4000
+// *************************************************************************
 
 #if defined(Q_WS_MAC) || (defined(__APPLE__) && defined(Q_WS_X11))
 #define QT_ON_MAC 1
 #endif
+
+/*
+  The Qt::Keypad define was not added in Qt until version 2.2.0.
+
+  We still want to use it when building against earlier versions, as
+  SoQt would then be able to still work properly in this regard when
+  built against earlier Qt 2-versions, while run on later Qt
+  2-versions.
+*/
+#define QT_KEYPAD_MASK_ASSUMED 0x4000
 
 #if HAVE_QT_KEYPAD_DEFINE
 #define QT_KEYPAD_MASK Qt::Keypad
@@ -52,17 +59,6 @@
 #endif // !HAVE_QT_KEYPAD_DEFINE
 
 // *************************************************************************
-
-#if QT_VERSION < 200
-#error Qt version too old!
-#endif // QT_VERSION < 200
-
-// *************************************************************************
-
-#define PRIVATE(obj) ((obj)->pimpl)
-#define PUBLIC(obj) ((obj)->pub)
-
-#ifndef DOXYGEN_SKIP_THIS
 
 class SoQtKeyboardP : public SoGuiKeyboardP {
 public:
@@ -239,7 +235,10 @@ struct SoQtKeyboardP::key1map SoQtKeyboardP::QtToSoMapping_kp[] = {
 SbDict * SoQtKeyboardP::translatetable = NULL;
 SbDict * SoQtKeyboardP::kp_translatetable = NULL;
 
-#endif // !DOXYGEN_SKIP_THIS
+#define PRIVATE(obj) ((obj)->pimpl)
+#define PUBLIC(obj) ((obj)->pub)
+
+// *************************************************************************
 
 static void
 soqtkeyboard_cleanup(void)
@@ -260,8 +259,14 @@ SoQtKeyboard::SoQtKeyboard(int mask)
   static bool mask_tested = false;
   if (!mask_tested) {
     mask_tested = true;
+#if (QT_VERSION < 0x030000) // Qt version < 3.0.0. Should not use for
+                            // later versions, as the define in
+                            // question could very well have changed
+                            // without breaking Troll Tech's
+                            // self-imposed rules about API changes.
     assert((QT_KEYPAD_MASK == QT_KEYPAD_MASK_ASSUMED) &&
            "value of Qt::Keypad has changed!");
+#endif // Qt version < 3.0.0
   }
 }
 
