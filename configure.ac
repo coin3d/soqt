@@ -603,7 +603,6 @@ if $sim_ac_build_library; then
   #
   # Check misc capabilities of the Qt and QGL libraries which depends
   # on the exact version available to us.
-  # SIM_AC_QT_KEYPAD_DEFINE
   # SIM_AC_QWIDGET_SHOWFULLSCREEN
   # SIM_AC_QGLFORMAT_EQ_OP
   # SIM_AC_QGLFORMAT_SETOVERLAY

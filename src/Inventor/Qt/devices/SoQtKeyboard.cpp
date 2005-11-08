@@ -49,14 +49,15 @@
   SoQt would then be able to still work properly in this regard when
   built against earlier Qt 2-versions, while run on later Qt
   2-versions.
-*/
-#define QT_KEYPAD_MASK_ASSUMED 0x4000
 
-#if HAVE_QT_KEYPAD_DEFINE
+  (To keep ABI compatibility, it had to be the same for all 2.x.y
+  releases.)
+*/
+#if (QT_VERSION >= 0x030000)
 #define QT_KEYPAD_MASK Qt::Keypad
-#else // !HAVE_QT_KEYPAD_DEFINE
-#define QT_KEYPAD_MASK QT_KEYPAD_MASK_ASSUMED
-#endif // !HAVE_QT_KEYPAD_DEFINE
+#else // Qt ver < 3.0.0
+#define QT_KEYPAD_MASK 0x4000
+#endif // Qt ver < 3.0.0
 
 // *************************************************************************
 
@@ -252,22 +253,7 @@ soqtkeyboard_cleanup(void)
 SoQtKeyboard::SoQtKeyboard(int mask)
 {
   PRIVATE(this) = new SoQtKeyboardP;
-
   PRIVATE(this)->eventmask = mask;
-
-  // Protect against surprises in future Qt version (>= v3).
-  static bool mask_tested = false;
-  if (!mask_tested) {
-    mask_tested = true;
-#if (QT_VERSION < 0x030000) // Qt version < 3.0.0. Should not use for
-                            // later versions, as the define in
-                            // question could very well have changed
-                            // without breaking Troll Tech's
-                            // self-imposed rules about API changes.
-    assert((QT_KEYPAD_MASK == QT_KEYPAD_MASK_ASSUMED) &&
-           "value of Qt::Keypad has changed!");
-#endif // Qt version < 3.0.0
-  }
 }
 
 SoQtKeyboard::~SoQtKeyboard()

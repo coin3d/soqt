@@ -59,9 +59,6 @@
 /** QStyleFactory was added in Qt 3.0. */
 #define HAVE_QSTYLEFACTORY_H 1
 
-/* Define this if Qt::Keypad is available */
-/* #undef HAVE_QT_KEYPAD_DEFINE */
-
 /* Defined if qt_win_use_simple_timers is available */
 /** We've had an external report about soqt.dll link failing due to
   missing the qt_win_use_simple_timers symbol in the installed Qt
@@ -94,9 +91,6 @@
 /* Define to 1 if you have the <qstylefactory.h> header file. */
 /** QStyleFactory was added in Qt 3.0. **/
 #define HAVE_QSTYLEFACTORY_H 1
-
-/* Define this if Qt::Keypad is available */
-#define HAVE_QT_KEYPAD_DEFINE 1
 
 /* Defined if qt_win_use_simple_timers is available */
 /** We've had an external report about soqt.dll link failing due to
