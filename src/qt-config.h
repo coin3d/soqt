@@ -36,45 +36,14 @@
 #error Your Qt version is too old, and no longer supported by SoQt.
 #endif /* QT_VERSION < 200 */
 
-/* FIXME: we will most likely need to access platform information
-   defines in this header. */
+#if (QT_VERSION >= 200) && (QT_VERSION < 0x030000) /* Qt 2.* */
+#error The SoQt developers have not had the chance to try Qt 2 compatibility for a while, and have not updated qt-config.h to supoprt Qt 2. You can proceed on your own by removing this error and duplicating the above define settings, toggling them the correct way. If you succeed, notify coin-support@coin3d.org and we will include your setup in the distribution.
+#endif /* Qt 2.* */
 
 // *************************************************************************
+// Config for Qt 3 or later.  Checked and known to work with 3.3.1.
 
-#if (QT_VERSION >= 0x040000) /* Qt 4.* - known to work with 4.0.1 */
-
-/* Define this if QCoreApplication::hasPendingEvents() is available */
-#define HAVE_QAPPLICATION_HASPENDINGEVENTS 1
-
-/* Define this to 1 if operator==(QGLFormat&, QGLFormat&) is available */
-#define HAVE_QGLFORMAT_EQ_OP 1
-
-/* Define this to 1 if QGLFormat::setOverlay() is available */
-#define HAVE_QGLFORMAT_SETOVERLAY 1
-
-/* Define this to 1 if QGLWidget::setAutoBufferSwap() is available */
-#define HAVE_QGLWIDGET_SETAUTOBUFFERSWAP 1
-
-/* Define to 1 if you have the <qstylefactory.h> header file. */
-/** QStyleFactory was added in Qt 3.0. */
-#define HAVE_QSTYLEFACTORY_H 1
-
-/* Defined if qt_win_use_simple_timers is available */
-/** We've had an external report about soqt.dll link failing due to
-  missing the qt_win_use_simple_timers symbol in the installed Qt
-  library. This was with Qt 3.3.1 MT under Windows. **/
-/* #undef HAVE_QT_WIN_USE_SIMPLE_TIMERS */
-
-/* Define this if QWidget::setWindowState() is available */
-#define HAVE_QWIDGET_SETWINDOWSTATE 1
-
-/* Define this if QWidget::showFullScreen() is available */
-#define HAVE_QWIDGET_SHOWFULLSCREEN 1
-
-/* ********************************************************************** */
-
-#else
-#if (QT_VERSION >= 0x030000) /* Qt 3.* - known to work with 3.3.1 */
+#if (QT_VERSION >= 0x030000)
 
 /* Define this if QApplication::hasPendingEvents() is available */
 #define HAVE_QAPPLICATION_HASPENDINGEVENTS 1
@@ -92,35 +61,37 @@
 /** QStyleFactory was added in Qt 3.0. **/
 #define HAVE_QSTYLEFACTORY_H 1
 
-/* Defined if qt_win_use_simple_timers is available */
-/** We've had an external report about soqt.dll link failing due to
-  missing the qt_win_use_simple_timers symbol in the installed Qt
-  library. This was with Qt 3.3.1 MT under Windows. **/
-#if (QT_VERSION == 0x030301) && defined(_MSC_VER)
+/* Define if qt_win_use_simple_timers is available */
 #define HAVE_QT_WIN_USE_SIMPLE_TIMERS 1
-#else
-/* #undef HAVE_QT_WIN_USE_SIMPLE_TIMERS */
-#endif
-
-#if (QT_VERSION <= 0x030102) /*  known to be missing from Qt 3.1.2 */
-/* #undef HAVE_QWIDGET_SETWINDOWSTATE */
-#else /* QT_VERSION > 0x030102 (i.e. 3.1.2) */
-/* Define this if QWidget::setWindowState() is available */
-#define HAVE_QWIDGET_SETWINDOWSTATE 1
-#endif
 
 /* Define this if QWidget::showFullScreen() is available */
 #define HAVE_QWIDGET_SHOWFULLSCREEN 1
 
+#endif /* Qt 3.* */
+
+// *************************************************************************
+// Special cases for certain Qt 3.* versions.
+
+/* We've had an external report about soqt.dll link failing due to
+   missing the qt_win_use_simple_timers symbol in the installed Qt
+   library. This was with Qt 3.3.1 MT under Windows. **/
+#if (QT_VERSION == 0x030301) && defined(_MSC_VER)
+#undef HAVE_QT_WIN_USE_SIMPLE_TIMERS
+#endif
+
+#if (QT_VERSION > 0x030102) /*  known to be missing from Qt 3.1.2 */
+/* Define this if QWidget::setWindowState() is available */
+#define HAVE_QWIDGET_SETWINDOWSTATE 1
+#endif
+
+// *************************************************************************
+// Config for Qt 4 or later.  Checked and known to work with 4.0.1.
+
+#if (QT_VERSION >= 0x040000)
+/* Simple timers was removed from Qt 4. */
+#undef HAVE_QT_WIN_USE_SIMPLE_TIMERS
+#endif /* Qt 4.* */
+
 /* ********************************************************************** */
-
-#else
-#if (QT_VERSION >= 200) /* Qt 2.* */
-
-#error The SoQt developers have not had the chance to try Qt 2 compatibility for a while, and have not updated qt-config.h to supoprt Qt 2. You can proceed on your own by removing this error and duplicating the above define settings, toggling them the correct way. If you succeed, notify coin-support@coin3d.org and we will include your setup in the distribution.
-
-#endif /* Qt 2.* */
-#endif /* Qt 3.* (else clause) */
-#endif /* Qt 4.* (else clause) */
 
 #endif /* !COIN_QTCONFIG_H */
