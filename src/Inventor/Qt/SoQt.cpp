@@ -280,7 +280,6 @@
 
 #include <soqtdefs.h>
 
-
 // *************************************************************************
 
 // The private data for the SoQt class.
@@ -330,6 +329,8 @@ const char * SoQtP::SOQT_X11_ERRORHANDLER = "SOQT_X11_ERRORHANDLER";
 SoQtP_XErrorHandler * SoQtP::previous_handler = NULL;
 
 int SoQtP::DEBUG_LISTMODULES = ENVVAR_NOT_INITED;
+
+// *************************************************************************
 
 // We're using the singleton pattern to create a single SoQtP object
 // instance (a dynamic object is needed for attaching slots to signals
@@ -450,7 +451,28 @@ SoQtP::slot_idleSensor()
   } 
 #endif // HAVE_QAPPLICATION_HASPENDINGEVENTS
 
-#ifdef HAVE_QAPPLICATION_HASPENDINGEVENTS  
+#ifdef HAVE_QAPPLICATION_HASPENDINGEVENTS
+#if 0 // This code has been disabled, because we discovered that for
+      // Qt 4 on MS Windows, there are *always* pending events when we
+      // get here. That seems to be against the documentation of
+      // QTimer::start(0), but when code talks, documentation walks.
+      //
+      // I disabled it completely, because I'm skeptical to whether or
+      // not it is really needed at all, even for Qt 3. If we however
+      // get reports of unacceptable latency in Qt handling GUI
+      // events, updating widgets, etc, we should probably choose to
+      // reenable it.
+      //
+      // If so, I suggest two changes:
+      //
+      // 1) only reenable it for Qt versions < 4
+      //
+      // 2) put in a counter which checks how many times in a row
+      //    we've returned without processing the queues, and do so
+      //    anyway if we get over a certain threshold
+      //
+      // --mortene.
+
   // If there are still events in the Qt event queue, push the
   // idle-timer at the end of the queue again.
   if (SoQtP::appobject->hasPendingEvents()) {
@@ -458,6 +480,7 @@ SoQtP::slot_idleSensor()
     SoQtP::idletimer->start(0, TRUE);
     return;
   }
+#endif
 #endif // HAVE_QAPPLICATION_HASPENDINGEVENTS
 
   SoDB::getSensorManager()->processTimerQueue();
