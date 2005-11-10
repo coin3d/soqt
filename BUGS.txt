@@ -857,6 +857,10 @@ main(int argc, char ** argv)
 
     20041213 mortene.
 
+    UPDATE 20051110 mortene: the timers seems to work just fine in Qt
+    4, without any need for the internal Qt flag for simple timers to
+    be set to ''false''. So this bug ticket can probably be killed.
+
 =====================================================================
 
 037 Qt 4 support has various problems.
