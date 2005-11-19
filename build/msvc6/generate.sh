@@ -31,6 +31,8 @@ sed \
   -e "s/$build_pwd//g" \
   -e "s/$source/..\\\\../g" \
   -e "s/$source_pwd/..\\\\../g" \
+  -e 's/COIN_DLL/COIN_NOT_DLL/g' \
+  -e '/_MAKE_DLL/ { s/COIN_NOT_DLL/COIN_DLL/g; }' \
   -e 's/$/\r/g' \
   <soqt1.dsp >new.dsp
 
