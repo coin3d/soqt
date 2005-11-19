@@ -50,6 +50,7 @@ find . -name "moc_*" | xargs rm
 
 echo "Done."
 echo "Make sure there are no absolute paths in the project files!"
+echo "Modify so the static configurations are built with COIN_NOT_DLL"
 
 # How can I avoid the modal upgrade prompt-dialog for MSVC7.1 here???
 # devenv /command "File.OpenProject $build\\soqt1.dsp"
