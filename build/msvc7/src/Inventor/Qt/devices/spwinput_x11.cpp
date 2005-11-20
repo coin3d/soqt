@@ -21,6 +21,10 @@
    suffix on the file -- so we don't get tempted to pollute
    it. 20010821 mortene. */
 
+#ifdef QT_VERSION
+#error 0
+#endif
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif /* HAVE_CONFIG_H */
@@ -29,7 +33,15 @@
 #define SPW_DEBUG 1
 #endif // debug
 
+#ifdef QT_VERSION
+#error 1
+#endif
+
 #include "spwinput.h"
+
+#ifdef QT_VERSION
+#error 2
+#endif
 
 /* The setting of this define needs to be added manually to
    configure.in for all relevant projects. */
