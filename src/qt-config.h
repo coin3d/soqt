@@ -62,7 +62,9 @@
 #define HAVE_QSTYLEFACTORY_H 1
 
 /* Define if qt_win_use_simple_timers is available */
+#if defined(Q_OS_WIN32) || defined(Q_OS_WIN64) /* only available under Windows */
 #define HAVE_QT_WIN_USE_SIMPLE_TIMERS 1
+#endif /* Qt windows test */
 
 /* Define this if QWidget::showFullScreen() is available */
 #define HAVE_QWIDGET_SHOWFULLSCREEN 1
