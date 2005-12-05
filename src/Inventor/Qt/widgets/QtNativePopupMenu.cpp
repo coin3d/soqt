@@ -105,9 +105,12 @@ QtNativePopupMenu::~QtNativePopupMenu()
     MenuRecord * rec = (MenuRecord *) (*this->menus)[i];
     delete [] rec->name;
     delete [] rec->title;
-    // If top-level QPopupMenu is not attached to any parent instance,
-    // we dealloc it ourselves.
-    if (rec->parent == NULL) delete rec->menu;
+    // We used to delete only the root menu, and trust that Qt cleaned
+    // up all submenus, but after doing some testing with huge menus,
+    // we found that Qt does _not_ automatically delete submenus when
+    // the parent is destructed. We therefore delete all menus
+    // manually here. pederb, 2005-12-05
+    delete rec->menu;
     delete rec;
   }
 
