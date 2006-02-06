@@ -518,15 +518,6 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
 
 =====================================================================
 
-026 setMinimumSize() ignored on SoQt/Mac
-
-    Doug Epps reported that "a window pops up at some 'default' size
-    regardless of 'setMinimumSize ()'. Not verified yet.
-
-    20040624 kyrah
-
-=====================================================================
-
 027 Zooming can cause internal errors.
 
     Reproduce by doing the following in the standard examinerviewer,
