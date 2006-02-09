@@ -898,6 +898,7 @@ SoQt::done(void)
     const char * env = SoAny::si()->getenv("SOQT_DELETE_QAPPLICATION");
     if (env && atoi(env) > 0) {
       delete SoQtP::appobject; SoQtP::appobject = NULL;
+      SoQtP::madeappobject = FALSE;
     }
   }
 }
