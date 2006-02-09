@@ -275,9 +275,6 @@
 #include <Inventor/Qt/SoAny.h>
 #include <Inventor/Qt/SoQtInternal.h>
 
-#include <Inventor/Qt/nodes/SoGuiNodes.h>
-#include <Inventor/Qt/engines/SoGuiEngines.h>
-
 #include <soqtdefs.h>
 
 // *************************************************************************
@@ -744,15 +741,12 @@ SoQt::init(QWidget * toplevelwidget)
     return;
   }
 
-  SoQtObject::init();
+  SoAny::init();
 #ifdef COIN_IV_EXTENSIONS
 #define COIN_IV_EXTENSION(ext) ext::initClass();
   COIN_IV_EXTENSIONS
 #undef COIN_IV_EXTENSION
 #endif
-
-  SoGuiNodes::initClasses();
-  SoGuiEngines::initClasses();
 
   // This is _extremely_ useful for debugging X errors: activate this
   // code (set the SOQT_XSYNC environment variable on your system to
