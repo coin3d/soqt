@@ -901,6 +901,8 @@ SoQt::done(void)
       SoQtP::madeappobject = FALSE;
     }
   }
+
+  SoDB::finish();
 }
 
 
