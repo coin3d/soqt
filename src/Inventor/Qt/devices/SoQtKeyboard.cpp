@@ -245,7 +245,9 @@ static void
 soqtkeyboard_cleanup(void)
 {
   delete SoQtKeyboardP::translatetable;
+  SoQtKeyboardP::translatetable = NULL;
   delete SoQtKeyboardP::kp_translatetable;
+  SoQtKeyboardP::kp_translatetable = NULL;
 }
 
 // *************************************************************************
