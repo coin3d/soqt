@@ -49,6 +49,7 @@ public:
   static class QCursor * getNativeCursor(const SoQtCursor::CustomCursor * cc);
 
   static void fatalerrorHandler(void * userdata);
+  static void atexit_cleanup();
   void cleanupQtReferences(void);
 
   // Variables.

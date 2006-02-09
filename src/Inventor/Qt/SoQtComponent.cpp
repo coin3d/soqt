@@ -100,13 +100,29 @@ SoQtComponentP::cleanupQtReferences(void)
   this->parent->removeEventFilter(this);
 }
 
+static void delete_dict_value(unsigned long key, void * value)
+{
+  delete (QCursor *)value;
+}
+
+void
+SoQtComponentP::atexit_cleanup()
+{
+  if (SoQtComponentP::cursordict) {
+    SoQtComponentP::cursordict->applyToAll(delete_dict_value);
+    delete SoQtComponentP::cursordict;
+    SoQtComponentP::cursordict = NULL;
+  }
+}
+
 // Converts from the common generic cursor format to a QCursor
 // instance.
 QCursor *
 SoQtComponentP::getNativeCursor(const SoQtCursor::CustomCursor * cc)
 {
   if (SoQtComponentP::cursordict == NULL) { // first call, initialize
-    SoQtComponentP::cursordict = new SbDict; // FIXME: mem leak. 20011121 mortene.
+    SoQtComponentP::cursordict = new SbDict;
+    sogui_atexit((sogui_atexit_f*)SoQtComponentP::atexit_cleanup, 0);
   }
 
   void * qc;
@@ -151,7 +167,6 @@ SoQtComponentP::getNativeCursor(const SoQtCursor::CustomCursor * cc)
   assert(bitmap.depth() == 1);
   assert(mask.depth() == 1);
 
-  // FIXME: currently a memory leak here. 20011121 mortene.
   QCursor * c = new QCursor(bitmap, mask, cc->hotspot[0], cc->hotspot[1]);
   SoQtComponentP::cursordict->enter((unsigned long)cc, c);
   return c;
