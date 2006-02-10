@@ -848,11 +848,21 @@ SoQt::mainLoop(void)
 {
   (void) qApp->exec();
 
+// Disabled invocation of SoQt::done(), since this calls SoDB::finish(), 
+// which means we would run into issues doing the usual...
+//    SoQt::mainLoop();
+//    root->unref();
+// FIXME: Is this what we want? Should the user explicitly have to call
+// SoQt::done()? If so, we should fix up our sample code to do so
+// too... 20060210 kyrah
+
+#if 0
   // The invocation of SoQt::done() used to be triggered from
   // atexit(), but this was changed as we were getting mysterious
   // crashes. No wonder, perhaps, as for all we know the Qt library is
   // cleaned up _before_ our atexit() methods are invoked.
   SoQt::done();
+#endif
 }
 
 // documented in common/SoGuiCommon.cpp.in
