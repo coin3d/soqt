@@ -869,6 +869,7 @@ SoQt::mainLoop(void)
 void
 SoQt::exitMainLoop(void)
 {
+  // FIXME: Should we call SoQt::done() here? 20060210 kyrah 
   qApp->exit(0);
 }
 
@@ -912,6 +913,11 @@ SoQt::done(void)
     }
   }
 
+#if 0 // FIXME: These methods exist in TGS Inventor. We should add 
+      // them, and then call them from here. 20060210 kyrah
+  SoInteraction::finish();
+  SoNodeKit::finish();
+#endif
   SoDB::finish();
 }
 
