@@ -873,12 +873,6 @@ main(int argc, char ** argv)
       SoQtFullViewer-derived viewer classes apart from the
       SoQtExaminerViewer, and any features we can think of.
 
-    - Mac OS X specific:
-
-      - redraw problem while resizing the window - the OpenGL render
-        area seems to flicker in and out of existance. (This is
-        a Qt bug, reported and confirmed - Issue N81112.)
-
     20050630 mortene, updated 20050802 kyrah.
 
 =====================================================================
