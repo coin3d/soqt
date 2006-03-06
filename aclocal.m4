@@ -8487,17 +8487,17 @@ if test x"$with_opengl" != x"no"; then
   CPPFLAGS="$CPPFLAGS $sim_ac_gl_cppflags"
 
   # Mac OS X framework (no X11, -framework OpenGL) 
-  if test x$sim_ac_enable_darwin_x11 = xfalse; then
-    SIM_AC_CHECK_HEADER_SILENT([OpenGL/gl.h], [
-      sim_ac_gl_header_avail=true
-      sim_ac_gl_header=OpenGL/gl.h
-      AC_DEFINE([HAVE_OPENGL_GL_H], 1, [define if the GL header should be included as OpenGL/gl.h])
-    ])
-  else
+  if test x$sim_ac_enable_darwin_x11 = xtrue; then
     SIM_AC_CHECK_HEADER_SILENT([GL/gl.h], [
       sim_ac_gl_header_avail=true
       sim_ac_gl_header=GL/gl.h
       AC_DEFINE([HAVE_GL_GL_H], 1, [define if the GL header should be included as GL/gl.h])
+    ])
+  else
+    SIM_AC_CHECK_HEADER_SILENT([OpenGL/gl.h], [
+      sim_ac_gl_header_avail=true
+      sim_ac_gl_header=OpenGL/gl.h
+      AC_DEFINE([HAVE_OPENGL_GL_H], 1, [define if the GL header should be included as OpenGL/gl.h])
     ])
   fi
 
@@ -8560,17 +8560,17 @@ if test x"$with_opengl" != x"no"; then
   CPPFLAGS="$CPPFLAGS $sim_ac_glu_cppflags"
 
   # Mac OS X framework (no X11, -framework OpenGL) 
-  if test x$sim_ac_enable_darwin_x11 = xfalse; then
-    SIM_AC_CHECK_HEADER_SILENT([OpenGL/glu.h], [
-      sim_ac_glu_header_avail=true
-      sim_ac_glu_header=OpenGL/glu.h
-      AC_DEFINE([HAVE_OPENGL_GLU_H], 1, [define if the GLU header should be included as OpenGL/glu.h])
-    ])
-  else
+  if test x$sim_ac_enable_darwin_x11 = xtrue; then
     SIM_AC_CHECK_HEADER_SILENT([GL/glu.h], [
       sim_ac_glu_header_avail=true
       sim_ac_glu_header=GL/glu.h
       AC_DEFINE([HAVE_GL_GLU_H], 1, [define if the GLU header should be included as GL/glu.h])
+    ])
+  else
+    SIM_AC_CHECK_HEADER_SILENT([OpenGL/glu.h], [
+      sim_ac_glu_header_avail=true
+      sim_ac_glu_header=OpenGL/glu.h
+      AC_DEFINE([HAVE_OPENGL_GLU_H], 1, [define if the GLU header should be included as OpenGL/glu.h])
     ])
   fi
  
@@ -8633,17 +8633,17 @@ if test x"$with_opengl" != x"no"; then
   CPPFLAGS="$CPPFLAGS $sim_ac_glext_cppflags"
 
   # Mac OS X framework (no X11, -framework OpenGL) 
-  if test x$sim_ac_enable_darwin_x11 = xfalse; then
-    SIM_AC_CHECK_HEADER_SILENT([OpenGL/glext.h], [
-      sim_ac_glext_header_avail=true
-      sim_ac_glext_header=OpenGL/glext.h
-      AC_DEFINE([HAVE_OPENGL_GLEXT_H], 1, [define if the GLEXT header should be included as OpenGL/glext.h])
-    ])
-  else
+  if test x$sim_ac_enable_darwin_x11 = xtrue; then
     SIM_AC_CHECK_HEADER_SILENT([GL/glext.h], [
       sim_ac_glext_header_avail=true
       sim_ac_glext_header=GL/glext.h
       AC_DEFINE([HAVE_GL_GLEXT_H], 1, [define if the GLEXT header should be included as GL/glext.h])
+    ])
+  else
+    SIM_AC_CHECK_HEADER_SILENT([OpenGL/glext.h], [
+      sim_ac_glext_header_avail=true
+      sim_ac_glext_header=OpenGL/glext.h
+      AC_DEFINE([HAVE_OPENGL_GLEXT_H], 1, [define if the GLEXT header should be included as OpenGL/glext.h])
     ])
   fi
 
@@ -8693,9 +8693,9 @@ sim_ac_ogl_libs=
 AC_ARG_WITH(
   [mesa],
   AC_HELP_STRING([--with-mesa],
-                 [prefer MesaGL (if found) over OpenGL [[default=yes]]]),
+                 [prefer MesaGL (if found) over OpenGL [[default=no]]]),
   [],
-  [with_mesa=yes])
+  [with_mesa=no])
 
 
 sim_ac_ogl_glnames="GL opengl32"
@@ -8735,15 +8735,15 @@ if test x"$with_opengl" != xno; then
   case $host_os in
   darwin*)
     AC_REQUIRE([SIM_AC_CHECK_X11])
-    if test x"$GCC" = x"yes" -a x$sim_ac_enable_darwin_x11 = xfalse; then
-      SIM_AC_CC_COMPILER_OPTION([-framework OpenGL], [sim_ac_use_framework_option=true])
-    else
+    if test x"$GCC" = x"yes" -a x$sim_ac_enable_darwin_x11 = xtrue; then
       # On Mac OS X, OpenGL is installed as part of the optional X11 SDK.
       sim_ac_gl_darwin_x11=/usr/X11R6
       if test -d $sim_ac_gl_darwin_x11; then
         sim_ac_ogl_cppflags=-I$sim_ac_gl_darwin_x11/include
         sim_ac_ogl_ldflags=-L$sim_ac_gl_darwin_x11/lib
       fi
+    else
+      SIM_AC_CC_COMPILER_OPTION([-framework OpenGL], [sim_ac_use_framework_option=true])
     fi
     ;;
   esac
@@ -10125,6 +10125,41 @@ fi
 ])
 
 # Usage:
+#  SIM_AC_QT_VERSION
+#
+# Find version number of the Qt library. sim_ac_qt_version will contain
+# the full version number string, and sim_ac_qt_major_version will contain
+# only the major version number.
+
+AC_DEFUN([SIM_AC_QT_VERSION], [
+
+AC_MSG_CHECKING([version of Qt library])
+
+cat > conftest.c << EOF
+#include <qglobal.h>
+int VerQt = QT_VERSION;
+EOF
+
+# The " *"-parts of the last sed-expression on the next line are necessary
+# because at least the Solaris/CC preprocessor adds extra spaces before and
+# after the trailing semicolon.
+sim_ac_qt_version=`$CXXCPP $CPPFLAGS conftest.c 2>/dev/null | grep '^int VerQt' | sed 's%^int VerQt = %%' | sed 's% *; *$%%'`
+
+case $sim_ac_qt_version in
+0x* )
+  sim_ac_qt_version=`echo $sim_ac_qt_version | sed -e 's/^0x.\(.\).\(.\).\(.\)/\1\2\3/;'`
+  ;;
+* )
+  # nada
+  ;;
+esac
+sim_ac_qt_major_version=`echo $sim_ac_qt_version | cut -c1`
+
+rm -f conftest.c
+AC_MSG_RESULT($sim_ac_qt_version)
+])
+
+# Usage:
 #  SIM_AC_CHECK_QT([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 #
 #  Try to find the Qt development system. If it is found, these
@@ -10235,30 +10270,7 @@ if $sim_ac_with_qt; then
 
   if $sim_ac_qglobal; then
 
-    # Find version of the Qt library (MSWindows .dll is named with the
-    # version number.)
-    AC_MSG_CHECKING([version of Qt library])
-    cat > conftest.c << EOF
-#include <qglobal.h>
-int VerQt = QT_VERSION;
-EOF
-    # The " *"-parts of the last sed-expression on the next line are necessary
-    # because at least the Solaris/CC preprocessor adds extra spaces before and
-    # after the trailing semicolon.
-    sim_ac_qt_version=`$CXXCPP $CPPFLAGS conftest.c 2>/dev/null | grep '^int VerQt' | sed 's%^int VerQt = %%' | sed 's% *; *$%%'`
-
-    case $sim_ac_qt_version in
-    0x* )
-      sim_ac_qt_version=`echo $sim_ac_qt_version | sed -e 's/^0x.\(.\).\(.\).\(.\)/\1\2\3/;'`
-      ;;
-    * )
-      # nada
-      ;;
-    esac
-    sim_ac_qt_major_version=`echo $sim_ac_qt_version | cut -c1`
-
-    rm -f conftest.c
-    AC_MSG_RESULT($sim_ac_qt_version)
+    SIM_AC_QT_VERSION
 
     if test $sim_ac_qt_version -lt 200; then
       SIM_AC_ERROR([too-old-qt])
@@ -11432,6 +11444,9 @@ fi
 #
 # BUGS:
 #   Items with spaces are probably not supported.
+#
+# Note that this macro is obsolete! You should use the alternative
+# macro SIM_AC_UNIQIFY_OPTION_LIST instead, which supports spaces.
 #
 # Authors:
 #   Lars J. Aas <larsa@sim.no>
