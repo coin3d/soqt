@@ -111,9 +111,9 @@ case $host_os in
       CFLAGS="$sim_ac_universal_flags $CFLAGS"
       CXXFLAGS="$sim_ac_universal_flags $CXXFLAGS"
       LDFLAGS="$sim_ac_universal_flags $LDFLAGS"
-      COIN_EXTRA_CFLAGS="$sim_ac_universal_flags $COIN_EXTRA_CFLAGS"
-      COIN_EXTRA_CXXFLAGS="$sim_ac_universal_flags $COIN_EXTRA_CXXFLAGS"
-      COIN_EXTRA_LDFLAGS="$sim_ac_universal_flags $COIN_EXTRA_LDFLAGS"
+      SOGUI_EXTRA_CFLAGS="$sim_ac_universal_flags $SOGUI_EXTRA_CFLAGS"
+      SOGUI_EXTRA_CXXFLAGS="$sim_ac_universal_flags $SOGUI_EXTRA_CXXFLAGS"
+      SOGUI_EXTRA_LDFLAGS="$sim_ac_universal_flags $SOGUI_EXTRA_LDFLAGS"
       # disable dependency tracking since we can't use -MD when cross-compiling  
       enable_dependency_tracking=no
     else
