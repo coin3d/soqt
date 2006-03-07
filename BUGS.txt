@@ -876,3 +876,15 @@ main(int argc, char ** argv)
     20050630 mortene, updated 20050802 kyrah.
 
 =====================================================================
+
+038 configure Qt-check doesn't find 64-bit libraries.
+
+    We only look in $QTDIR/lib, but 64-bit libraries are typically
+    found under $QTDIR/lib64, and we don't handle the case where these
+    are the ones wanted for the build.
+
+    Not sure how this should be handled properly.
+
+    20060307 mortene.
+
+=====================================================================
