@@ -93,10 +93,7 @@ SIM_AC_RELATIVE_SRC_DIR
 # **************************************************************************
 # Universal Binary support (Mac OS X)
 
-SIM_AC_UNIVERSAL_BINARIES([
-  SOGUI_EXTRA_CFLAGS="$sim_ac_universal_flags $SOGUI_EXTRA_CFLAGS"
-  SOGUI_EXTRA_CXXFLAGS="$sim_ac_universal_flags $SOGUI_EXTRA_CXXFLAGS"
-])
+SIM_AC_UNIVERSAL_BINARIES
 
 # **************************************************************************
 # Miscellaneous options and initializations.
