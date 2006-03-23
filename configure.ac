@@ -93,33 +93,10 @@ SIM_AC_RELATIVE_SRC_DIR
 # **************************************************************************
 # Universal Binary support (Mac OS X)
 
-sim_ac_enable_universal=false
-
-case $host_os in
-  darwin* ) 
-    AC_ARG_ENABLE(
-      [universal],
-      AC_HELP_STRING([--enable-universal], [build Universal Binaries]), [
-        case $enableval in
-          yes | true) sim_ac_enable_universal=true ;;
-          *) ;;
-        esac])
-
-    if $sim_ac_enable_universal; then
-      SIM_AC_CONFIGURATION_SETTING([Build Universal Binaries], [Yes])
-      sim_ac_universal_flags="-arch i386 -arch ppc"
-      CFLAGS="$sim_ac_universal_flags $CFLAGS"
-      CXXFLAGS="$sim_ac_universal_flags $CXXFLAGS"
-      LDFLAGS="$sim_ac_universal_flags $LDFLAGS"
-      SOGUI_EXTRA_CFLAGS="$sim_ac_universal_flags $SOGUI_EXTRA_CFLAGS"
-      SOGUI_EXTRA_CXXFLAGS="$sim_ac_universal_flags $SOGUI_EXTRA_CXXFLAGS"
-      SOGUI_EXTRA_LDFLAGS="$sim_ac_universal_flags $SOGUI_EXTRA_LDFLAGS"
-      # disable dependency tracking since we can't use -MD when cross-compiling  
-      enable_dependency_tracking=no
-    else
-      SIM_AC_CONFIGURATION_SETTING([Build Universal Binaries], [No (default)])
-    fi
-esac
+SIM_AC_UNIVERSAL_BINARIES([
+  SOGUI_EXTRA_CFLAGS="$sim_ac_universal_flags $SOGUI_EXTRA_CFLAGS"
+  SOGUI_EXTRA_CXXFLAGS="$sim_ac_universal_flags $SOGUI_EXTRA_CXXFLAGS"
+])
 
 # **************************************************************************
 # Miscellaneous options and initializations.
