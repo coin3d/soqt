@@ -700,6 +700,17 @@ fi
 
 AC_SUBST([ac_compiler_gnu])
 
+# FIXME: gcc-4 generates a warning when a class has virtual functions 
+# but no virtual destructor. We cannot add a virtual destructor without
+# breaking the ABI, so just silence the warning until the next major
+# version (see also FIXME in SoGuiObject.h.in) 20060404 kyrah
+
+if test x"$ac_compiler_gnu"=x"yes"; then
+  gccversion4=`cpp -dM /dev/null | grep __VERSION__ |grep '__VERSION__ "4'`
+  if test "$gccversion4"; then
+    CXXFLAGS="$CXXFLAGS -Wno-non-virtual-dtor"
+  fi
+fi
 
 # **************************************************************************
 # To test the Mac OS X framework setup on non-Mac systems, run configure
