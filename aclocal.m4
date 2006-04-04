@@ -543,6 +543,230 @@ AC_SUBST(sim_ac_relative_src_dir_p)
 ]) # SIM_AC_RELATIVE_SRC_DIR
 
 
+# **************************************************************************
+# SIM_AC_MAC_CPP_ADJUSTMENTS
+#
+# Add --no-cpp-precomp if necessary. Without this option, the
+# Apple preprocessor is used on Mac OS X platforms, and it is
+# known to be very buggy.  It's better to use this option, so
+# the GNU preprocessor is preferred.
+#
+
+
+AC_DEFUN([SIM_AC_MAC_CPP_ADJUSTMENTS],
+[case $host_os in
+darwin*)
+  if test x"$GCC" = x"yes"; then
+    # FIXME: create a SIM_AC_CPP_OPTION macro
+    SIM_AC_CC_COMPILER_OPTION([-no-cpp-precomp], [CPPFLAGS="$CPPFLAGS -no-cpp-precomp"])
+  fi
+  ;;
+esac
+]) # SIM_AC_MAC_CPP_ADJUSTMENTS
+
+
+# **************************************************************************
+# This macro sets up the MAC_FRAMEWORK automake conditional, depending on
+# the host OS and whether $sim_ac_prefer_framework has been overridden or
+# not.
+
+AC_DEFUN([SIM_AC_MAC_FRAMEWORK],
+[case $host_os in
+darwin*)
+  : ${sim_ac_prefer_framework=true}
+  ;;
+esac
+: ${sim_ac_prefer_framework=false}
+# This AM_CONDITIONAL can be used to make Mac OS X specific make-rules
+# related to installing proper Frameworks instead.
+AM_CONDITIONAL([MAC_FRAMEWORK], [$sim_ac_prefer_framework])
+
+if $sim_ac_prefer_framework; then
+  ifelse([$1], , :, [$1])
+else
+  ifelse([$2], , :, [$2])
+fi
+]) # SIM_AC_MAC_FRAMEWORK
+
+
+# Usage:
+#  SIM_AC_UNIVERSAL_BINARIES([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+#
+#  Determine whether we should build Universal Binaries. If yes, these
+#  shell variables are set:
+#
+#    $sim_ac_enable_universal (true if we are building Universal Binaries)
+#    $sim_ac_universal_flags (extra flags needed for Universal Binaries)
+#  
+#  The CFLAGS and CXXFLAGS variables will also be modified accordingly.
+#
+#  Note that when building Universal Binaries, dependency tracking will 
+#  be turned off.
+#
+#  Important: This macro must be called _before_ AM_INIT_AUTOMAKE.
+#
+# Author: Karin Kosina <kyrah@sim.no>.
+
+AC_DEFUN([SIM_AC_UNIVERSAL_BINARIES], [
+
+sim_ac_enable_universal=false
+
+
+case $host_os in
+  darwin* ) 
+    AC_ARG_ENABLE(
+      [universal],
+      AC_HELP_STRING([--enable-universal], [build Universal Binaries]), [
+        case $enableval in
+          yes | true) sim_ac_enable_universal=true ;;
+          *) ;;
+        esac])
+
+    AC_MSG_CHECKING([whether we should build Universal Binaries])   
+    if $sim_ac_enable_universal; then
+      AC_MSG_RESULT([yes])
+      SIM_AC_CONFIGURATION_SETTING([Build Universal Binaries], [Yes])
+
+      # need to build against Universal Binary SDK on PPC
+      if test x"$host_cpu" = x"powerpc"; then
+        sim_ac_universal_sdk_flags="-isysroot /Developer/SDKs/MacOSX10.4u.sdk"
+      fi
+
+      sim_ac_universal_flags="-arch i386 -arch ppc $sim_ac_universal_sdk_flags"
+      
+      CFLAGS="$sim_ac_universal_flags $CFLAGS"
+      CXXFLAGS="$sim_ac_universal_flags $CXXFLAGS"
+
+      # disable dependency tracking since we can't use -MD when cross-compiling
+      enable_dependency_tracking=no
+    else
+      AC_MSG_RESULT([no])
+      SIM_AC_CONFIGURATION_SETTING([Build Universal Binaries], [No (default)])
+    fi
+esac
+]) # SIM_AC_UNIVERSAL_BINARIES
+
+#   Use this file to store miscellaneous macros related to checking
+#   compiler features.
+
+# Usage:
+#   SIM_AC_CC_COMPILER_OPTION(OPTION-TO-TEST, ACTION-IF-TRUE [, ACTION-IF-FALSE])
+#   SIM_AC_CXX_COMPILER_OPTION(OPTION-TO-TEST, ACTION-IF-TRUE [, ACTION-IF-FALSE])
+#
+# Description:
+#
+#   Check whether the current C or C++ compiler can handle a
+#   particular command-line option.
+#
+#
+# Author: Morten Eriksen, <mortene@sim.no>.
+#
+#   * [mortene:19991218] improve macros by catching and analyzing
+#     stderr (at least to see if there was any output there)?
+#
+
+AC_DEFUN([SIM_AC_COMPILER_OPTION], [
+sim_ac_save_cppflags=$CPPFLAGS
+CPPFLAGS="$CPPFLAGS $1"
+AC_TRY_COMPILE([], [], [sim_ac_accept_result=yes], [sim_ac_accept_result=no])
+AC_MSG_RESULT([$sim_ac_accept_result])
+CPPFLAGS=$sim_ac_save_cppflags
+# This need to go last, in case CPPFLAGS is modified in arg 2 or arg 3.
+if test $sim_ac_accept_result = yes; then
+  ifelse([$2], , :, [$2])
+else
+  ifelse([$3], , :, [$3])
+fi
+])
+
+AC_DEFUN([SIM_AC_COMPILER_BEHAVIOR_OPTION_QUIET], [
+sim_ac_save_cppflags=$CPPFLAGS
+CPPFLAGS="$CPPFLAGS $1"
+AC_TRY_COMPILE([], [$2], [sim_ac_accept_result=yes], [sim_ac_accept_result=no])
+CPPFLAGS=$sim_ac_save_cppflags
+# This need to go last, in case CPPFLAGS is modified in arg 3 or arg 4.
+if test $sim_ac_accept_result = yes; then
+  ifelse([$3], , :, [$3])
+else
+  ifelse([$4], , :, [$4])
+fi
+])
+
+
+AC_DEFUN([SIM_AC_CC_COMPILER_OPTION], [
+AC_LANG_SAVE
+AC_LANG(C)
+AC_MSG_CHECKING([whether $CC accepts $1])
+SIM_AC_COMPILER_OPTION([$1], [$2], [$3])
+AC_LANG_RESTORE
+])
+
+AC_DEFUN([SIM_AC_CC_COMPILER_BEHAVIOR_OPTION_QUIET], [
+AC_LANG_SAVE
+AC_LANG(C)
+SIM_AC_COMPILER_BEHAVIOR_OPTION_QUIET([$1], [$2], [$3], [$4])
+AC_LANG_RESTORE
+])
+
+AC_DEFUN([SIM_AC_CXX_COMPILER_OPTION], [
+AC_LANG_SAVE
+AC_LANG(C++)
+AC_MSG_CHECKING([whether $CXX accepts $1])
+SIM_AC_COMPILER_OPTION([$1], [$2], [$3])
+AC_LANG_RESTORE
+])
+
+AC_DEFUN([SIM_AC_CXX_COMPILER_BEHAVIOR_OPTION_QUIET], [
+AC_LANG_SAVE
+AC_LANG(C++)
+SIM_AC_COMPILER_BEHAVIOR_OPTION_QUIET([$1], [$2], [$3], [$4])
+AC_LANG_RESTORE
+])
+
+# AM_CONDITIONAL                                              -*- Autoconf -*-
+
+# Copyright 1997, 2000, 2001 Free Software Foundation, Inc.
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2, or (at your option)
+# any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+# 02111-1307, USA.
+
+# serial 5
+
+AC_PREREQ(2.52)
+
+# AM_CONDITIONAL(NAME, SHELL-CONDITION)
+# -------------------------------------
+# Define a conditional.
+AC_DEFUN([AM_CONDITIONAL],
+[ifelse([$1], [TRUE],  [AC_FATAL([$0: invalid condition: $1])],
+        [$1], [FALSE], [AC_FATAL([$0: invalid condition: $1])])dnl
+AC_SUBST([$1_TRUE])
+AC_SUBST([$1_FALSE])
+if $2; then
+  $1_TRUE=
+  $1_FALSE='#'
+else
+  $1_TRUE='#'
+  $1_FALSE=
+fi
+AC_CONFIG_COMMANDS_PRE(
+[if test -z "${$1_TRUE}" && test -z "${$1_FALSE}"; then
+  AC_MSG_ERROR([conditional "$1" was never defined.
+Usually this means the macro was only invoked conditionally.])
+fi])])
+
 # Do all the work for Automake.                            -*- Autoconf -*-
 
 # This macro actually does too much some checks are only needed if
@@ -1305,50 +1529,6 @@ AC_SUBST([am__quote])
 AC_MSG_RESULT([$_am_result])
 rm -f confinc confmf
 ])
-
-# AM_CONDITIONAL                                              -*- Autoconf -*-
-
-# Copyright 1997, 2000, 2001 Free Software Foundation, Inc.
-
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2, or (at your option)
-# any later version.
-
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-# 02111-1307, USA.
-
-# serial 5
-
-AC_PREREQ(2.52)
-
-# AM_CONDITIONAL(NAME, SHELL-CONDITION)
-# -------------------------------------
-# Define a conditional.
-AC_DEFUN([AM_CONDITIONAL],
-[ifelse([$1], [TRUE],  [AC_FATAL([$0: invalid condition: $1])],
-        [$1], [FALSE], [AC_FATAL([$0: invalid condition: $1])])dnl
-AC_SUBST([$1_TRUE])
-AC_SUBST([$1_FALSE])
-if $2; then
-  $1_TRUE=
-  $1_FALSE='#'
-else
-  $1_TRUE='#'
-  $1_FALSE=
-fi
-AC_CONFIG_COMMANDS_PRE(
-[if test -z "${$1_TRUE}" && test -z "${$1_FALSE}"; then
-  AC_MSG_ERROR([conditional "$1" was never defined.
-Usually this means the macro was only invoked conditionally.])
-fi])])
 
 # Like AC_CONFIG_HEADER, but automatically create stamp file. -*- Autoconf -*-
 
@@ -7379,128 +7559,6 @@ AC_DEFUN([AM_MAINTAINER_MODE],
 )
 
 AU_DEFUN([jm_MAINTAINER_MODE], [AM_MAINTAINER_MODE])
-
-# **************************************************************************
-# SIM_AC_MAC_CPP_ADJUSTMENTS
-#
-# Add --no-cpp-precomp if necessary. Without this option, the
-# Apple preprocessor is used on Mac OS X platforms, and it is
-# known to be very buggy.  It's better to use this option, so
-# the GNU preprocessor is preferred.
-#
-
-
-AC_DEFUN([SIM_AC_MAC_CPP_ADJUSTMENTS],
-[case $host_os in
-darwin*)
-  if test x"$GCC" = x"yes"; then
-    # FIXME: create a SIM_AC_CPP_OPTION macro
-    SIM_AC_CC_COMPILER_OPTION([-no-cpp-precomp], [CPPFLAGS="$CPPFLAGS -no-cpp-precomp"])
-  fi
-  ;;
-esac
-]) # SIM_AC_MAC_CPP_ADJUSTMENTS
-
-# **************************************************************************
-# This macro sets up the MAC_FRAMEWORK automake conditional, depending on
-# the host OS and whether $sim_ac_prefer_framework has been overridden or
-# not.
-
-AC_DEFUN([SIM_AC_MAC_FRAMEWORK],
-[case $host_os in
-darwin*)
-  : ${sim_ac_prefer_framework=true}
-  ;;
-esac
-: ${sim_ac_prefer_framework=false}
-# This AM_CONDITIONAL can be used to make Mac OS X specific make-rules
-# related to installing proper Frameworks instead.
-AM_CONDITIONAL([MAC_FRAMEWORK], [$sim_ac_prefer_framework])
-
-if $sim_ac_prefer_framework; then
-  ifelse([$1], , :, [$1])
-else
-  ifelse([$2], , :, [$2])
-fi
-]) # SIM_AC_MAC_FRAMEWORK
-
-
-#   Use this file to store miscellaneous macros related to checking
-#   compiler features.
-
-# Usage:
-#   SIM_AC_CC_COMPILER_OPTION(OPTION-TO-TEST, ACTION-IF-TRUE [, ACTION-IF-FALSE])
-#   SIM_AC_CXX_COMPILER_OPTION(OPTION-TO-TEST, ACTION-IF-TRUE [, ACTION-IF-FALSE])
-#
-# Description:
-#
-#   Check whether the current C or C++ compiler can handle a
-#   particular command-line option.
-#
-#
-# Author: Morten Eriksen, <mortene@sim.no>.
-#
-#   * [mortene:19991218] improve macros by catching and analyzing
-#     stderr (at least to see if there was any output there)?
-#
-
-AC_DEFUN([SIM_AC_COMPILER_OPTION], [
-sim_ac_save_cppflags=$CPPFLAGS
-CPPFLAGS="$CPPFLAGS $1"
-AC_TRY_COMPILE([], [], [sim_ac_accept_result=yes], [sim_ac_accept_result=no])
-AC_MSG_RESULT([$sim_ac_accept_result])
-CPPFLAGS=$sim_ac_save_cppflags
-# This need to go last, in case CPPFLAGS is modified in arg 2 or arg 3.
-if test $sim_ac_accept_result = yes; then
-  ifelse([$2], , :, [$2])
-else
-  ifelse([$3], , :, [$3])
-fi
-])
-
-AC_DEFUN([SIM_AC_COMPILER_BEHAVIOR_OPTION_QUIET], [
-sim_ac_save_cppflags=$CPPFLAGS
-CPPFLAGS="$CPPFLAGS $1"
-AC_TRY_COMPILE([], [$2], [sim_ac_accept_result=yes], [sim_ac_accept_result=no])
-CPPFLAGS=$sim_ac_save_cppflags
-# This need to go last, in case CPPFLAGS is modified in arg 3 or arg 4.
-if test $sim_ac_accept_result = yes; then
-  ifelse([$3], , :, [$3])
-else
-  ifelse([$4], , :, [$4])
-fi
-])
-
-
-AC_DEFUN([SIM_AC_CC_COMPILER_OPTION], [
-AC_LANG_SAVE
-AC_LANG(C)
-AC_MSG_CHECKING([whether $CC accepts $1])
-SIM_AC_COMPILER_OPTION([$1], [$2], [$3])
-AC_LANG_RESTORE
-])
-
-AC_DEFUN([SIM_AC_CC_COMPILER_BEHAVIOR_OPTION_QUIET], [
-AC_LANG_SAVE
-AC_LANG(C)
-SIM_AC_COMPILER_BEHAVIOR_OPTION_QUIET([$1], [$2], [$3], [$4])
-AC_LANG_RESTORE
-])
-
-AC_DEFUN([SIM_AC_CXX_COMPILER_OPTION], [
-AC_LANG_SAVE
-AC_LANG(C++)
-AC_MSG_CHECKING([whether $CXX accepts $1])
-SIM_AC_COMPILER_OPTION([$1], [$2], [$3])
-AC_LANG_RESTORE
-])
-
-AC_DEFUN([SIM_AC_CXX_COMPILER_BEHAVIOR_OPTION_QUIET], [
-AC_LANG_SAVE
-AC_LANG(C++)
-SIM_AC_COMPILER_BEHAVIOR_OPTION_QUIET([$1], [$2], [$3], [$4])
-AC_LANG_RESTORE
-])
 
 #
 # This file contains misc "macro-containers" for stuff that is
