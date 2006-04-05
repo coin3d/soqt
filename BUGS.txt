@@ -888,3 +888,21 @@ main(int argc, char ** argv)
     20060307 mortene.
 
 =====================================================================
+
+039 Render Buffer Type ignored on Mac OS X
+
+    Reported by kintel on 20060404:
+
+      Switching between single, double, interactive buffer doesn't
+      seem to work under Mac OS X (see context menu: Draw Styles ->
+      Render Buffer Type). 
+
+    Since with early versions of Qt/Mac, it was hard to get _any_ 
+    kind of correct OpenGL rendering working at all, there might 
+    be some hacks in SoQt that need to be cleaned up. Need to 
+    investigate this further.
+
+    20060405 kyrah.
+  
+=====================================================================
+
