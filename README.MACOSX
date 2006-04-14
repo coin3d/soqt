@@ -7,18 +7,17 @@ Building SoQt on Mac OS X should be straightforward. If it isn't, we
 consider this a bug, so please let us know and we'll be happy to fix it.
 
 If you install Coin from the binary SDK, please note that you also
-have to install the CoinTools.pkg (in the tools directory of the
-Coin-2.0.1 binary distribution), since the coin-config utility is
+have to install the CoinTools.pkg, since the coin-config utility is
 needed by SoQt/configure.
 
 SoQt is installed as SoQt.framework by default. For more information
-about frameworks, please refer to the README.MAC file that comes with
-Coin. 
+about frameworks, please refer to the README.MACOSX file that comes 
+with Coin. 
 
 Note that we do not support Mac OS 10.0.x. It will probably work just
 fine if you compile SoQt yourself, but we don't guarantee that. Please
-upgrade to 10.1, you will be amazed by the increase in performance and
-stability anyway.
+upgrade at least to 10.1, you will be amazed by the increase in 
+performance and stability. 
 
 
 Qt/Mac vs. Qt/X11
@@ -29,8 +28,8 @@ SoQt is dependent on Trolltech's Qt library. On Mac OS X, you have two options:
 1. Use the native Qt/Mac
 2. Use X11 and Qt/X11
 
-Qt/Mac[0] is the Mac OS X native implementation of Qt. This will
-usually be your first choice, since it does not require any additional
+Qt/Mac is the Mac OS X native implementation of Qt. This will usually
+be your first choice, since it does not require any additional
 software to be installed, and provides the full Aqua look'n'feel.
 
 Alternatively, you can install Apple's X11 for Mac OS X, and use
@@ -50,60 +49,50 @@ X11 for Mac OS X offers a complete X Window System implementation for
 running X11-based applications on Mac OS X. It includes the full
 X11R6.6 technology including an X11 window server, Quartz window
 manager, libraries, and basic utilities such as xterm, and is fully
-integrated with Mac OS X. See [1] for more information about X11 for
-Mac OS X.
+integrated with Mac OS X. 
 
-You can download the X11 for Mac OS X Public beta from [2]. Note that
-you will also need the X11 SDK, a link to which can be found the same
-page.
-
-Installation of X11 is done through a standard Mac OS X Installer, so
-it should be no problem. After installation, run the
-/Applications/X11.app, which starts the X Server, the Quartz-based
-window manager, and an xterm.
-
-Please read the X11 FAQ[3] before installing, it contains important
-information!
+X11 is not installed by default, but in installer package should be
+included with your Mac OS X CDs. (If X11 is installed, you should be
+able to launch it via /Applications/Utilities/X11.app. If you do not
+have this application, you need to install X11.)
 
 Note that only Apple's X11 is supported. (XDarwin, the X installation
 through fink, or anything else will probably not work.)
 
+2. Build and install the X11 version of Coin.
 
-2. Install Qt/X11.
+In order to use X11 instead of Quartz/Aqua, use the --enable-darwin-x11 
+configure option. You need to build both Coin and SoQt using this option.
+
+So:
+
+      $ /path/to/Coin/configure --enable-darwin-x11
+      $ make && sudo make install
+
+3. Install Qt/X11.
 
 SoQt depends on Qt/X11. It does not really matter how you install Qt,
-but I suggest you use fink. Fink is a dpkg-based distribution of UNIX
-tools for Mac OS X that allows easy installation, updating, and
-removing of packages. See [4] for information about fink. It is
-really easy to use, and an extremely convenient way to install
-UNIX-tools on Mac OS X.
+but I suggest you use fink or DarwinPorts. 
 
-If you have a working fink installation, you can install Qt/X11 by
-simply typing
+4. Install SoQt.
 
-       $ fink install qt3 qt3-dev qt3-shlibs
+Again, use the --enable-darwin-x11 configure option like you did for Coin.
 
-Note that neither fink nor Qt or SIM products, so please contact the
-respective maintainers if you find bugs or have problems using these
-pieces of software.
-
-
-3. Install SoQt.
-
-You have to tell configure to use X11 (otherwise, the Mac native
-window system is preferred) by specifying the --enable-x11 configure
-flag. 
-
-      $ /path/to/SoQt/configure --enable-x11
-      $ make 
-      $ sudo make install
+      $ /path/to/SoQt/configure --enable-darwin-x11
+      $ make && sudo make install
 
 That should be all. 
 
 
-
 Common problems (and solutions)
 ===============================
+
+Problems with older versions of Qt/Mac
+---------------------------------------
+
+The first Qt/Mac releases contained a number of serious bugs that also 
+affect SoQt. If you encounter strange behaviour, it might very well be
+that upgrading to the latest version of Qt/Mac will fix the problem. 
 
 
 Undefined QTDIR in bash
@@ -140,53 +129,6 @@ create a file called ~/.bash_profile with the following content:
 
 Open a new Terminal window - things should work now. If you still have
 problems, something else is wrong. In that case, feel free to let us know.
-
-
-Problems with older versions of Qt/Mac
----------------------------------------
-
-The first Qt/Mac releases contained a number of serious bugs that also 
-affect SoQt. If you encounter strange behaviour, it might very well be
-that upgrading to the latest version of Qt/Mac will fix the problem. 
-
-
-Qt/Mac 3.1 problems
--------------------
-
-Qt/Mac 3.1.x contained major improvements vs. Qt/Mac 3.0.x. Unfortunately, 
-it also introduced a number of bugs. SoQt/Mac contains workarounds for
-the relevant problems. Every time that one of these is used, a warning will 
-be displayed. You can disable these warning messages by setting the 
-environment variable SOQT_NO_QTMAC_BUG_WARNINGS=1.
-
-
-o If the OpenGL context overlaps the QSizeGrip in the lower right corner
-  of the window (present in all Mac OS X windows by default), resizing of 
-  the OpenGL context does not work. Therefore, in SoQtRenderArea and 
-  SoQtExaminerViewer without decorations, we have to leave 15 pixel at the 
-  bottom blank. 
-
-  This bug is present in Qt/Mac 3.1.0 and 3.1.1. It has been fixed in
-  Qt/Mac 3.1.2.
-
-  If you are using a newer snapshot of Qt/Mac 3.1.1 (after 20030121),
-  the problem should be fixed there. In this case, you can override the
-  workaround by setting the environment variable
-  FORCE_NO_QTMAC_31_RESIZE_WORKAROUND=1.  
-
-
-o Custom cursors do not work in Qt/Mac 3.1.x. Therefore, we display a
-  standard "arrow" cursor. 
-
-  This bug is present in Qt/Mac 3.1.0, 3.1.1 and 3.1.2. It will be
-  fixed in Qt/Mac 3.1.3.
-
-
-[0] http://www.trolltech.com/products/qt/mac.html
-[1] http://www.apple.com/macosx/x11/
-[2] http://www.apple.com/macosx/x11/download/
-[3] http://developer.apple.com/qa/qa2001/qa1232.html
-[4] http://fink.sourceforge.net/
 
 --
 kyrah@sim.no
