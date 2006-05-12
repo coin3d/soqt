@@ -1857,6 +1857,7 @@ all-local: built-sources
 @BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_TRUE@	@$(mkinstalldirs) $(DESTDIR)$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$(MAC_FRAMEWORK_VERSION)
 @BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_TRUE@	@ln -sf $(MAC_FRAMEWORK_VERSION) $(DESTDIR)$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/Current
 @BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_TRUE@	@ln -sf Versions/Current/Headers $(DESTDIR)$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Headers
+@BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_TRUE@	@ln -sf Versions/Current/Libraries $(DESTDIR)$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Libraries
 @BUILD_LIBRARY_TRUE@@MAC_FRAMEWORK_TRUE@	@ln -sf Versions/Current/Resources $(DESTDIR)$(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Resources
 #	@case "@ivincludedir@" in \
 #	/Library/Frameworks/Inventor.framework/* ) \
