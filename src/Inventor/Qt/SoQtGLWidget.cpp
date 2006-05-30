@@ -984,7 +984,7 @@ SoQtGLWidgetP::buildGLWidget(void)
 
   // the following Qt methods are only available under X11
   display = (void*) QPaintDevice::x11AppDisplay();
-  screen = (void*) ((unsigned int) QPaintDevice::x11AppScreen());
+  screen = (void*) ((unsigned long) QPaintDevice::x11AppScreen());
 #endif // Q_WS_X11
 
   if (wascurrent) {
