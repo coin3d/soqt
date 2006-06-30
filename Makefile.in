@@ -901,6 +901,124 @@ EXTRA_DIST = \
 	build/msvc7/generate.sh \
 	build/msvc7/fixvcproj.sh \
 	build/msvc7/config-wrapper.h \
+	build/msvc8/src/Inventor/Qt/common/gl.h \
+	build/msvc8/src/Inventor/Qt/SoAny.cpp \
+	build/msvc8/src/Inventor/Qt/SoAny.h \
+	build/msvc8/src/Inventor/Qt/SoGuiComponentP.h \
+	build/msvc8/src/Inventor/Qt/SoGuiGLWidgetP.h \
+	build/msvc8/src/Inventor/Qt/SoGuiP.h \
+	build/msvc8/src/Inventor/Qt/SoQt.h \
+	build/msvc8/src/Inventor/Qt/SoQtBasic.h \
+	build/msvc8/src/Inventor/Qt/SoQtColorEditor.h \
+	build/msvc8/src/Inventor/Qt/SoQtCommon.cpp \
+	build/msvc8/src/Inventor/Qt/SoQtComponent.h \
+	build/msvc8/src/Inventor/Qt/SoQtComponentCommon.cpp \
+	build/msvc8/src/Inventor/Qt/SoQtCursor.cpp \
+	build/msvc8/src/Inventor/Qt/SoQtCursor.h \
+	build/msvc8/src/Inventor/Qt/SoQtGLWidget.h \
+	build/msvc8/src/Inventor/Qt/SoQtGLWidgetCommon.cpp \
+	build/msvc8/src/Inventor/Qt/SoQtMaterialEditor.h \
+	build/msvc8/src/Inventor/Qt/SoQtObject.cpp \
+	build/msvc8/src/Inventor/Qt/devices/SoGuiDeviceP.h \
+	build/msvc8/src/Inventor/Qt/devices/SoGuiInputFocusP.h \
+	build/msvc8/src/Inventor/Qt/devices/SoGuiKeyboardP.h \
+	build/msvc8/src/Inventor/Qt/devices/SoGuiMouseP.h \
+	build/msvc8/src/Inventor/Qt/devices/SoGuiSpaceballP.h \
+	build/msvc8/src/Inventor/Qt/devices/SoQtDevice.h \
+	build/msvc8/src/Inventor/Qt/devices/SoQtDeviceCommon.cpp \
+	build/msvc8/src/Inventor/Qt/devices/SoQtInputFocus.h \
+	build/msvc8/src/Inventor/Qt/devices/SoQtInputFocusCommon.cpp \
+	build/msvc8/src/Inventor/Qt/devices/SoQtKeyboard.h \
+	build/msvc8/src/Inventor/Qt/devices/SoQtKeyboardCommon.cpp \
+	build/msvc8/src/Inventor/Qt/devices/SoQtMouse.h \
+	build/msvc8/src/Inventor/Qt/devices/SoQtMouseCommon.cpp \
+	build/msvc8/src/Inventor/Qt/devices/SoQtSpaceball.h \
+	build/msvc8/src/Inventor/Qt/devices/SoQtSpaceballCommon.cpp \
+	build/msvc8/src/Inventor/Qt/devices/spwinput.h \
+	build/msvc8/src/Inventor/Qt/devices/spwinput_win32.c \
+	build/msvc8/src/Inventor/Qt/devices/spwinput_win32.h \
+	build/msvc8/src/Inventor/Qt/devices/spwinput_x11.cpp \
+	build/msvc8/src/Inventor/Qt/SoQtObject.h \
+	build/msvc8/src/Inventor/Qt/SoQtRenderArea.cpp \
+	build/msvc8/src/Inventor/Qt/SoQtRenderArea.h \
+	build/msvc8/src/Inventor/Qt/editors/SoQtColorEditor.cpp \
+	build/msvc8/src/Inventor/Qt/editors/SoQtColorEditor.h \
+	build/msvc8/src/Inventor/Qt/editors/SoQtMaterialEditor.cpp \
+	build/msvc8/src/Inventor/Qt/editors/SoQtMaterialEditor.h \
+	build/msvc8/src/Inventor/Qt/engines/Engines.cpp \
+	build/msvc8/src/Inventor/Qt/engines/Format.cpp \
+	build/msvc8/src/Inventor/Qt/engines/RadioGroup.cpp \
+	build/msvc8/src/Inventor/Qt/engines/SoGuiEngines.h \
+	build/msvc8/src/Inventor/Qt/engines/SoGuiFormat.h \
+	build/msvc8/src/Inventor/Qt/engines/SoGuiRadioGroup.h \
+	build/msvc8/src/Inventor/Qt/nodes/ClickCounter.cpp \
+	build/msvc8/src/Inventor/Qt/nodes/ColorEditor.cpp \
+	build/msvc8/src/Inventor/Qt/nodes/Frame.cpp \
+	build/msvc8/src/Inventor/Qt/nodes/Image.cpp \
+	build/msvc8/src/Inventor/Qt/nodes/Label.cpp \
+	build/msvc8/src/Inventor/Qt/nodes/MaterialEditor.cpp \
+	build/msvc8/src/Inventor/Qt/nodes/Nodes.cpp \
+	build/msvc8/src/Inventor/Qt/nodes/Pane.cpp \
+	build/msvc8/src/Inventor/Qt/nodes/Position.cpp \
+	build/msvc8/src/Inventor/Qt/nodes/RadioButton.cpp \
+	build/msvc8/src/Inventor/Qt/nodes/SceneTexture2.cpp \
+	build/msvc8/src/Inventor/Qt/nodes/Slider1.cpp \
+	build/msvc8/src/Inventor/Qt/nodes/Slider2.cpp \
+	build/msvc8/src/Inventor/Qt/nodes/SoGuiClickCounter.h \
+	build/msvc8/src/Inventor/Qt/nodes/SoGuiColorEditor.h \
+	build/msvc8/src/Inventor/Qt/nodes/SoGuiFrame.h \
+	build/msvc8/src/Inventor/Qt/nodes/SoGuiImage.h \
+	build/msvc8/src/Inventor/Qt/nodes/SoGuiLabel.h \
+	build/msvc8/src/Inventor/Qt/nodes/SoGuiMaterialEditor.h \
+	build/msvc8/src/Inventor/Qt/nodes/SoGuiNodes.h \
+	build/msvc8/src/Inventor/Qt/nodes/SoGuiPane.h \
+	build/msvc8/src/Inventor/Qt/nodes/SoGuiPosition.h \
+	build/msvc8/src/Inventor/Qt/nodes/SoGuiRadioButton.h \
+	build/msvc8/src/Inventor/Qt/nodes/SoGuiSceneTexture2.h \
+	build/msvc8/src/Inventor/Qt/nodes/SoGuiSlider1.h \
+	build/msvc8/src/Inventor/Qt/nodes/SoGuiSlider2.h \
+	build/msvc8/src/Inventor/Qt/nodes/SoGuiToggleButton.h \
+	build/msvc8/src/Inventor/Qt/nodes/SoGuiTranslation.h \
+	build/msvc8/src/Inventor/Qt/nodes/SoGuiViewpointWrapper.h \
+	build/msvc8/src/Inventor/Qt/nodes/SoGuiViewportFix.h \
+	build/msvc8/src/Inventor/Qt/nodes/ToggleButton.cpp \
+	build/msvc8/src/Inventor/Qt/nodes/Translation.cpp \
+	build/msvc8/src/Inventor/Qt/nodes/ViewpointWrapper.cpp \
+	build/msvc8/src/Inventor/Qt/nodes/ViewportFix.cpp \
+	build/msvc8/src/Inventor/Qt/viewers/SoGuiExaminerViewerP.h \
+	build/msvc8/src/Inventor/Qt/viewers/SoGuiFullViewerP.h \
+	build/msvc8/src/Inventor/Qt/viewers/SoGuiPlaneViewerP.h \
+	build/msvc8/src/Inventor/Qt/viewers/SoQtConstrainedViewer.cpp \
+	build/msvc8/src/Inventor/Qt/viewers/SoQtConstrainedViewer.h \
+	build/msvc8/src/Inventor/Qt/viewers/SoQtExaminerViewer.cpp \
+	build/msvc8/src/Inventor/Qt/viewers/SoQtExaminerViewer.h \
+	build/msvc8/src/Inventor/Qt/viewers/SoQtFlyViewer.cpp \
+	build/msvc8/src/Inventor/Qt/viewers/SoQtFlyViewer.h \
+	build/msvc8/src/Inventor/Qt/viewers/SoQtFullViewer.cpp \
+	build/msvc8/src/Inventor/Qt/viewers/SoQtFullViewer.h \
+	build/msvc8/src/Inventor/Qt/viewers/SoQtPlaneViewer.cpp \
+	build/msvc8/src/Inventor/Qt/viewers/SoQtPlaneViewer.h \
+	build/msvc8/src/Inventor/Qt/viewers/SoQtViewer.cpp \
+	build/msvc8/src/Inventor/Qt/viewers/SoQtViewer.h \
+	build/msvc8/src/Inventor/Qt/widgets/SoAnyThumbWheel.cpp \
+	build/msvc8/src/Inventor/Qt/widgets/SoAnyThumbWheel.h \
+	build/msvc8/src/Inventor/Qt/widgets/SoQtPopupMenu.cpp \
+	build/msvc8/src/Inventor/Qt/widgets/SoQtPopupMenu.h \
+	build/msvc8/src/config.h \
+	build/msvc8/src/config-release.h \
+	build/msvc8/src/config-debug.h \
+	build/msvc8/src/soqtdefs.h \
+	build/msvc8/install-lib-debug.bat \
+	build/msvc8/install-lib-release.bat \
+	build/msvc8/install-dll-debug.bat \
+	build/msvc8/install-dll-release.bat \
+	build/msvc8/install-headers.bat \
+	build/msvc8/delete-moc-files.bat \
+	build/msvc8/soqt1.sln \
+	build/msvc8/soqt1.vcproj \
+	build/msvc8/generate.sh \
+	build/msvc8/fixvcproj.sh \
+	build/msvc8/config-wrapper.h \
 	cfg/soqt.m4 \
 	cfg/gendsp.sh.in \
 	docs/announcement-1_0_0.txt \
@@ -918,35 +1036,35 @@ EXTRA_DIST = \
 	test-code/README \
 	test-code/components/scrollview.cpp \
 	test-code/components/tripleview.cpp \
-  packaging/macosx/checklist.txt \
-  packaging/macosx/SoQt_Description.plist.in \
-  packaging/macosx/SoQt_Info.plist.in \
-  packaging/macosx/SoQt_Welcome.rtf \
-  packaging/macosx/SoQtTools_Description.plist.in \
-  packaging/macosx/SoQtTools_Info.plist.in \
-  packaging/macosx/SoQtTools_Welcome.rtf \
-  packaging/macosx/inst-dmg-files/.DS_Store \
-  packaging/macosx/inst-dmg-files/.VolumeIcon.icns \
-  packaging/macosx/inst-dmg-files/dmg_bg.tiff \
-  packaging/macosx/inst-dmg-files/Desktop_DB \
-  packaging/macosx/inst-dmg-files/Desktop_DF \
-  packaging/macosx/License.rtf \
-  packaging/macosx/makesoqtpkg.sh.in \
-  packaging/macosx/makesoqttoolspkg.sh.in \
-  packaging/macosx/makedmg.sh.in \
-  packaging/macosx/Makefile.in \
-  packaging/macosx/makeinstdmg.sh.in \
-  packaging/macosx/makenoinstdmg.sh.in \
-  packaging/macosx/noinst-dmg-files/.DS_Store \
-  packaging/macosx/noinst-dmg-files/.VolumeIcon.icns \
-  packaging/macosx/noinst-dmg-files/dmg_bg.tiff \
-  packaging/macosx/noinst-dmg-files/Desktop_DB \
-  packaging/macosx/noinst-dmg-files/Desktop_DF \
-  packaging/macosx/noinst-README-gcc4.txt.in \
-  packaging/macosx/noinst-README-gcc3.txt.in \
-  packaging/macosx/inst-README-gcc4.txt.in \
-  packaging/macosx/inst-README-gcc3.txt.in \
-  packaging/macosx/background.tiff \
+	packaging/macosx/checklist.txt \
+	packaging/macosx/SoQt_Description.plist.in \
+	packaging/macosx/SoQt_Info.plist.in \
+	packaging/macosx/SoQt_Welcome.rtf \
+	packaging/macosx/SoQtTools_Description.plist.in \
+	packaging/macosx/SoQtTools_Info.plist.in \
+	packaging/macosx/SoQtTools_Welcome.rtf \
+	packaging/macosx/inst-dmg-files/.DS_Store \
+	packaging/macosx/inst-dmg-files/.VolumeIcon.icns \
+	packaging/macosx/inst-dmg-files/dmg_bg.tiff \
+	packaging/macosx/inst-dmg-files/Desktop_DB \
+	packaging/macosx/inst-dmg-files/Desktop_DF \
+	packaging/macosx/License.rtf \
+	packaging/macosx/makesoqtpkg.sh.in \
+	packaging/macosx/makesoqttoolspkg.sh.in \
+	packaging/macosx/makedmg.sh.in \
+	packaging/macosx/Makefile.in \
+	packaging/macosx/makeinstdmg.sh.in \
+	packaging/macosx/makenoinstdmg.sh.in \
+	packaging/macosx/noinst-dmg-files/.DS_Store \
+	packaging/macosx/noinst-dmg-files/.VolumeIcon.icns \
+	packaging/macosx/noinst-dmg-files/dmg_bg.tiff \
+	packaging/macosx/noinst-dmg-files/Desktop_DB \
+	packaging/macosx/noinst-dmg-files/Desktop_DF \
+	packaging/macosx/noinst-README-gcc4.txt.in \
+	packaging/macosx/noinst-README-gcc3.txt.in \
+	packaging/macosx/inst-README-gcc4.txt.in \
+	packaging/macosx/inst-README-gcc3.txt.in \
+	packaging/macosx/background.tiff \
 	packaging/windows/Makefile.in \
 	packaging/windows/bfheader.nsi.in \
 	packaging/windows/footer.nsi.in \
@@ -1228,7 +1346,7 @@ distcleancheck_listfiles = find . -type f -print
 distdir: $(DISTFILES)
 	$(am__remove_distdir)
 	mkdir $(distdir)
-	$(mkinstalldirs) $(distdir)/./src/Inventor/Qt/common $(distdir)/build/msvc6 $(distdir)/build/msvc6/src $(distdir)/build/msvc6/src/Inventor/Qt $(distdir)/build/msvc6/src/Inventor/Qt/common $(distdir)/build/msvc6/src/Inventor/Qt/devices $(distdir)/build/msvc6/src/Inventor/Qt/editors $(distdir)/build/msvc6/src/Inventor/Qt/engines $(distdir)/build/msvc6/src/Inventor/Qt/nodes $(distdir)/build/msvc6/src/Inventor/Qt/viewers $(distdir)/build/msvc6/src/Inventor/Qt/widgets $(distdir)/build/msvc7 $(distdir)/build/msvc7/src $(distdir)/build/msvc7/src/Inventor/Qt $(distdir)/build/msvc7/src/Inventor/Qt/common $(distdir)/build/msvc7/src/Inventor/Qt/devices $(distdir)/build/msvc7/src/Inventor/Qt/editors $(distdir)/build/msvc7/src/Inventor/Qt/engines $(distdir)/build/msvc7/src/Inventor/Qt/nodes $(distdir)/build/msvc7/src/Inventor/Qt/viewers $(distdir)/build/msvc7/src/Inventor/Qt/widgets $(distdir)/cfg $(distdir)/docs $(distdir)/models $(distdir)/packaging/macosx $(distdir)/packaging/macosx/inst-dmg-files $(distdir)/packaging/macosx/noinst-dmg-files $(distdir)/packaging/windows $(distdir)/src/Inventor/@Gui@/common $(distdir)/src/Inventor/@Gui@/common/devices $(distdir)/src/Inventor/@Gui@/common/docs/doxygen $(distdir)/src/Inventor/@Gui@/common/editors $(distdir)/src/Inventor/@Gui@/common/engines $(distdir)/src/Inventor/@Gui@/common/nodes $(distdir)/src/Inventor/@Gui@/common/pixmaps $(distdir)/src/Inventor/@Gui@/common/viewers $(distdir)/src/Inventor/@Gui@/common/widgets $(distdir)/src/Inventor/Qt/common $(distdir)/test-code $(distdir)/test-code/components
+	$(mkinstalldirs) $(distdir)/./src/Inventor/Qt/common $(distdir)/build/msvc6 $(distdir)/build/msvc6/src $(distdir)/build/msvc6/src/Inventor/Qt $(distdir)/build/msvc6/src/Inventor/Qt/common $(distdir)/build/msvc6/src/Inventor/Qt/devices $(distdir)/build/msvc6/src/Inventor/Qt/editors $(distdir)/build/msvc6/src/Inventor/Qt/engines $(distdir)/build/msvc6/src/Inventor/Qt/nodes $(distdir)/build/msvc6/src/Inventor/Qt/viewers $(distdir)/build/msvc6/src/Inventor/Qt/widgets $(distdir)/build/msvc7 $(distdir)/build/msvc7/src $(distdir)/build/msvc7/src/Inventor/Qt $(distdir)/build/msvc7/src/Inventor/Qt/common $(distdir)/build/msvc7/src/Inventor/Qt/devices $(distdir)/build/msvc7/src/Inventor/Qt/editors $(distdir)/build/msvc7/src/Inventor/Qt/engines $(distdir)/build/msvc7/src/Inventor/Qt/nodes $(distdir)/build/msvc7/src/Inventor/Qt/viewers $(distdir)/build/msvc7/src/Inventor/Qt/widgets $(distdir)/build/msvc8 $(distdir)/build/msvc8/src $(distdir)/build/msvc8/src/Inventor/Qt $(distdir)/build/msvc8/src/Inventor/Qt/common $(distdir)/build/msvc8/src/Inventor/Qt/devices $(distdir)/build/msvc8/src/Inventor/Qt/editors $(distdir)/build/msvc8/src/Inventor/Qt/engines $(distdir)/build/msvc8/src/Inventor/Qt/nodes $(distdir)/build/msvc8/src/Inventor/Qt/viewers $(distdir)/build/msvc8/src/Inventor/Qt/widgets $(distdir)/cfg $(distdir)/docs $(distdir)/models $(distdir)/packaging/macosx $(distdir)/packaging/macosx/inst-dmg-files $(distdir)/packaging/macosx/noinst-dmg-files $(distdir)/packaging/windows $(distdir)/src/Inventor/@Gui@/common $(distdir)/src/Inventor/@Gui@/common/devices $(distdir)/src/Inventor/@Gui@/common/docs/doxygen $(distdir)/src/Inventor/@Gui@/common/editors $(distdir)/src/Inventor/@Gui@/common/engines $(distdir)/src/Inventor/@Gui@/common/nodes $(distdir)/src/Inventor/@Gui@/common/pixmaps $(distdir)/src/Inventor/@Gui@/common/viewers $(distdir)/src/Inventor/@Gui@/common/widgets $(distdir)/src/Inventor/Qt/common $(distdir)/test-code $(distdir)/test-code/components
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
