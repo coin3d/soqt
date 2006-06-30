@@ -46,6 +46,8 @@ class SoSearchAction;
 
 class SoAny {
 public:
+  static void init();
+
   // use the singleton design pattern for access
   static SoAny * si(void);
 

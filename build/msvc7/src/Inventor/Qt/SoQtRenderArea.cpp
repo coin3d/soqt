@@ -342,6 +342,11 @@ SoQtRenderAreaP::showOpenGLDriverInformation(void)
               accumbits[0], accumbits[1], accumbits[2], accumbits[3]);
     info += s;
 
+    GLint stencilbits;
+    glGetIntegerv(GL_STENCIL_BITS, &stencilbits);
+    s.sprintf("GL_STENCIL_BITS==%d\n", stencilbits);
+    info += s;
+
     GLint maxdims[2];
     glGetIntegerv(GL_MAX_VIEWPORT_DIMS, maxdims);
     s.sprintf("GL_MAX_VIEWPORT_DIMS==<%d, %d>\n", maxdims[0], maxdims[1]);

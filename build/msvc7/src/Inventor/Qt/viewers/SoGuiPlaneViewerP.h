@@ -93,6 +93,8 @@ public:
 
   SbPlane panningplane;
 
+  class SoDrawStyle * lineds[2];
+
   class SoNode * superimposition;
   struct superdata {
     class SoCoordinate3 * coords;

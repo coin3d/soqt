@@ -174,6 +174,7 @@ SoQt::init(const char * appname, const char * classname)
   Cleans up all static data allocated by the SoQt library on
   initialization.
 
+  <!-- (Disabled: see FIXME in SoQt.cpp:855)
   Is called implicitly from the end of SoQt::mainLoop(), so the
   application programmer should not call it explicitly unless she
   has taken control over the native event loop herself, and is
@@ -184,8 +185,9 @@ SoQt::init(const char * appname, const char * classname)
   an application exits. This method is mainly provided as a manner to
   be able to clean up in "unusual" run-time environments, for instance
   if SoQt is used as a component in a browser plug-in.)
+  -->
 
-  Nevertheless, it should never be invoked more than \e once, and that
+  It should never be invoked more than \e once, and that
   is just before application exit, as it deallocates \e static data
   allocated as "one-off" operations in SoQt::init().
 
@@ -560,3 +562,13 @@ SoGuiP::abort(SoGuiP::ABIError error)
 */
 
 // *************************************************************************
+
+// FIXME: Dummy implementation of sogui_atexit(). Replace with real
+// implementation. kintel 20060209
+void sogui_atexit(sogui_atexit_f * fp, int priority)
+{
+  // disabled this, as it is not safe to clean up SoQt after Coin
+  // has been cleaned up. -mortene
+  //
+  // atexit(fp);
+}

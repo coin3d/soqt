@@ -32,6 +32,7 @@
 #include <Inventor/SbTime.h>
 
 class SoQtExaminerViewer;
+class SoCamera;
 
 // ************************************************************************
 
@@ -49,6 +50,7 @@ public:
   void setMotion3OnCamera(SbBool enable);
   SbBool getMotion3OnCamera(void) const;
 
+  static void rotateCamera(SoCamera * cam, const SbVec3f & aroundaxis, const float delta);
   float rotXWheelMotion(float value, float old);
   float rotYWheelMotion(float value, float old);
 

@@ -45,6 +45,15 @@ public:
 
   static void init(void);
 
+  // FIXME: gcc-4 generates a warning when a class has virtual functions 
+  // but no virtual destructor. Currently this warning is suppressed using 
+  // the -Wno-non-virtual-dtor option, but this should be addressed for the
+  // next major version... 20060404 kyrah
+
+#if (SOQT_MAJOR_VERSION > 1)
+#error Resolve missing virtual destructor issue for the new major release!
+#endif
+
 }; // SoQtObject
 
 // *************************************************************************

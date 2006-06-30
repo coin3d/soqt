@@ -559,6 +559,7 @@ SoAnyThumbWheel::drawEnabledWheel(
   float radian = modulo - (((2.0f * (float)M_PI) / this->numsquares) * (((float) (number - 1)) / (float) numEnabledBitmaps));
 
   int newsquare = 1;
+  int flag = 1;
   unsigned int * buffer = (unsigned int *) bitmap;
   for (int j = 0; j < this->diameter; j++) {
     unsigned int lightval, frontval, normalval, shadeval, color;
@@ -583,7 +584,6 @@ SoAnyThumbWheel::drawEnabledWheel(
       shadeval = this->swapWord(shadeval);
     }
 
-    static int flag = 0;
     if (newsquare) {
       color=frontval;
       newsquare = 0;

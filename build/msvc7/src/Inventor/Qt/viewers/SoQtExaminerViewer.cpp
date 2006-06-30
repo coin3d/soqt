@@ -452,7 +452,6 @@ SoQtExaminerViewer::processSoEvent(const SoEvent * const ev)
     const int button = event->getButton();
     const SbBool press = event->getState() == SoButtonEvent::DOWN ? TRUE : FALSE;
 
-    // SoDebugError::postInfo("processSoEvent", "button = %d", button);
     switch (button) {
     case SoMouseButtonEvent::BUTTON1:
       PRIVATE(this)->button1down = press;
@@ -848,27 +847,40 @@ SoGuiExaminerViewerP::genericDestructor(void)
 
 // ************************************************************************
 
+// rotate a camera around its focalpoint, in the direction around the
+// given axis, by the given delta value (in radians)
+void
+SoGuiExaminerViewerP::rotateCamera(SoCamera * cam,
+                                   const SbVec3f & aroundaxis,
+                                   const float delta)
+{
+  const SbVec3f DEFAULTDIRECTION(0, 0, -1);
+  const SbRotation currentorientation = cam->orientation.getValue();
+
+  SbVec3f currentdir;
+  currentorientation.multVec(DEFAULTDIRECTION, currentdir);
+
+  const SbVec3f focalpoint = cam->position.getValue() +
+    cam->focalDistance.getValue() * currentdir;
+
+  // set new orientation
+  cam->orientation = SbRotation(aroundaxis, delta) * currentorientation;
+
+  SbVec3f newdir;
+  cam->orientation.getValue().multVec(DEFAULTDIRECTION, newdir);
+  cam->position = focalpoint - cam->focalDistance.getValue() * newdir;
+}
+
 // The "rotX" wheel is the wheel on the left decoration on the
 // examiner viewer.  This function translates interaction with the
 // "rotX" wheel into camera movement.
 float
 SoGuiExaminerViewerP::rotXWheelMotion(float value, float oldvalue)
 {
-  SoCamera * camera = PUBLIC(this)->getCamera();
-  if (camera == NULL) return 0.0f; // can happen for empty scenegraph
+  SoCamera * cam = PUBLIC(this)->getCamera();
+  if (cam == NULL) return 0.0f; // can happen for empty scenegraph
 
-  SbVec3f dir;
-  camera->orientation.getValue().multVec(SbVec3f(0, 0, -1), dir);
-
-  SbVec3f focalpoint = camera->position.getValue() +
-    camera->focalDistance.getValue() * dir;
-
-  camera->orientation = SbRotation(SbVec3f(-1, 0, 0), value - oldvalue) *
-    camera->orientation.getValue();
-
-  camera->orientation.getValue().multVec(SbVec3f(0, 0, -1), dir);
-  camera->position = focalpoint - camera->focalDistance.getValue() * dir;
-
+  SoGuiExaminerViewerP::rotateCamera(cam, SbVec3f(-1, 0, 0), value - oldvalue);
   return value;
 }
 
@@ -878,21 +890,10 @@ SoGuiExaminerViewerP::rotXWheelMotion(float value, float oldvalue)
 float
 SoGuiExaminerViewerP::rotYWheelMotion(float value, float oldvalue)
 {
-  SoCamera * camera = PUBLIC(this)->getCamera();
-  if (camera == NULL) return 0.0f; // can happen for empty scenegraph
+  SoCamera * cam = PUBLIC(this)->getCamera();
+  if (cam == NULL) return 0.0f; // can happen for empty scenegraph
 
-  SbVec3f dir;
-  camera->orientation.getValue().multVec(SbVec3f(0, 0, -1), dir);
-
-  SbVec3f focalpoint = camera->position.getValue() +
-    camera->focalDistance.getValue() * dir;
-
-  camera->orientation = SbRotation(SbVec3f(0, 1, 0), oldvalue - value) *
-    camera->orientation.getValue();
-
-  camera->orientation.getValue().multVec(SbVec3f(0, 0, -1), dir);
-  camera->position = focalpoint - camera->focalDistance.getValue() * dir;
-
+  SoGuiExaminerViewerP::rotateCamera(cam, SbVec3f(0, -1, 0), value - oldvalue);
   return value;
 }
 

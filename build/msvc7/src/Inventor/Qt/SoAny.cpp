@@ -50,6 +50,10 @@
 #include <Inventor/actions/SoSearchAction.h>
 #include <Inventor/SoInput.h>
 #include <Inventor/SoDB.h>
+#include <Inventor/Qt/SoQtObject.h>
+#include <Inventor/Qt/SoQtCursor.h>
+#include <Inventor/Qt/nodes/SoGuiNodes.h>
+#include <Inventor/Qt/engines/SoGuiEngines.h>
 
 #include <Inventor/Qt/SoAny.h>
 
@@ -145,6 +149,19 @@ int soany_cache_context::oiv_counter = 0;
 
 // *************************************************************************
 
+static void soany_atexit_cleanup(void);
+
+void
+SoAny::init()
+{
+  SoQtObject::init();
+  SoQtCursor::initClass();
+  SoGuiNodes::initClasses();
+  SoGuiEngines::initClasses();
+  sogui_atexit((sogui_atexit_f*)soany_atexit_cleanup, 0);
+  sogui_atexit((sogui_atexit_f*)SoAny::cleanup_si, 0);
+}
+
 // private constructor
 SoAny::SoAny(void) 
   : fatalcb(NULL)
@@ -159,11 +176,6 @@ SoAny::~SoAny()
   }
 }
 
-// This little hack used to make the OSF1/cxx compiler accept the
-// argument to the atexit() call below. Problem reported by Guy
-// Barrand.
-extern "C" { typedef void(*SoAny_C_func)(void); }
-
 /*!
   Returns pointer to the single instance of this class (implemented
   according to the singleton design pattern).
@@ -171,13 +183,9 @@ extern "C" { typedef void(*SoAny_C_func)(void); }
 SoAny * 
 SoAny::si(void)
 {
-  if (single_instance == NULL) {
-    single_instance = new SoAny;
-    (void)atexit((SoAny_C_func)cleanup_si);
-  }
+  if (single_instance == NULL) single_instance = new SoAny;
   return single_instance;
 }
-
 
 //  Free memory/resources used by the singleton object. Will be called
 //  automatically on exit.
@@ -186,9 +194,9 @@ SoAny::cleanup_si(void)
 {
   delete single_instance;
   single_instance = NULL;
-  if ( SoAny::finder ) {
-    delete finder;
-    finder = NULL;
+  if (SoAny::finder) {
+    delete SoAny::finder;
+    SoAny::finder = NULL;
   }
 }
 
@@ -382,26 +390,12 @@ struct envvar_data {
 };
 
 static void
-envlist_cleanup(void)
-{
-  struct envvar_data * ptr = envlist_head;
-  while (ptr != NULL) {
-    struct envvar_data * tmp = ptr;
-    free(ptr->name);
-    free(ptr->val);
-    ptr = ptr->next;
-    free(tmp);
-  }
-}
-
-static void
 envlist_append(struct envvar_data * item)
 {
   item->next = NULL;
   if (envlist_head == NULL) {
     envlist_head = item;
     envlist_tail = item;
-    (void)atexit((SoAny_C_func)envlist_cleanup);
   }
   else {
     envlist_tail->next = item;
@@ -517,9 +511,9 @@ typedef HANDLE (WINAPI * CreateToolhelp32Snapshot_t)(DWORD, DWORD);
 typedef BOOL (WINAPI * Module32First_t)(HANDLE, LPMODULEENTRY32);
 typedef BOOL (WINAPI * Module32Next_t)(HANDLE, LPMODULEENTRY32);
 
-static CreateToolhelp32Snapshot_t funCreateToolhelp32Snapshot;
-static Module32First_t funModule32First;
-static Module32Next_t funModule32Next;
+static CreateToolhelp32Snapshot_t funCreateToolhelp32Snapshot = NULL;
+static Module32First_t funModule32First = NULL;
+static Module32Next_t funModule32Next = NULL;
 
 
 void
@@ -650,6 +644,27 @@ SoAny::scanSceneForName(SoNode * scene, const char * name, SbBool searchAll)
   SoAny::finder->apply(scene);
   path = SoAny::finder->getPath();
   return path ? path->getTail() : NULL;
+}
+
+static void
+soany_atexit_cleanup(void)
+{
+  struct envvar_data * ptr = envlist_head;
+  while (ptr != NULL) {
+    struct envvar_data * tmp = ptr;
+    free(ptr->name);
+    free(ptr->val);
+    ptr = ptr->next;
+    free(tmp);
+  }
+  envlist_head = NULL;
+  envlist_tail = NULL;
+
+#if defined(HAVE_WIN32_LOADLIBRARY) && defined(HAVE_TLHELP32_H)
+  funCreateToolhelp32Snapshot = NULL;
+  funModule32First = NULL;
+  funModule32Next = NULL;
+#endif
 }
 
 /**************************************************************************/

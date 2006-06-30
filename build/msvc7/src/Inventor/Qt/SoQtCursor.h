@@ -29,6 +29,8 @@
 
 class SOQT_DLL_API SoQtCursor {
 public:
+  static void initClass(void);
+
   struct CustomCursor {
     SbVec2s dim;
     SbVec2s hotspot;

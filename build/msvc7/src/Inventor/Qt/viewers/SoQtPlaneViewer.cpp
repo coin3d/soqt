@@ -644,6 +644,21 @@ SoQtPlaneViewer::afterRealizeHook(void)
 
 #ifndef DOXYGEN_SKIP_THIS
 
+// This method locates a named node in the superimposed scene.
+static SoNode *
+get_scenegraph_node(SoSearchAction * search, SoNode * root, const char * name)
+{
+  search->reset();
+  search->setName(SbName(name));
+  search->setInterest(SoSearchAction::FIRST);
+  search->setSearchingAll(TRUE);
+  search->apply(root);
+  assert(search->getPath());
+  return search->getPath()->getTail();
+}
+
+// *************************************************************************
+
 // Remaining code is for the SoGuiPlaneViewerP "private
 // implementation" class.
 
@@ -660,19 +675,6 @@ SoGuiPlaneViewerP::~SoGuiPlaneViewerP()
     PUBLIC(this)->removeSuperimposition(this->superimposition);
     this->superimposition->unref();
   }
-}
-
-// This method locates a named node in the superimposed scene.
-static SoNode *
-get_scenegraph_node(SoSearchAction * search, SoNode * root, const char * name)
-{
-  search->reset();
-  search->setName(SbName(name));
-  search->setInterest(SoSearchAction::FIRST);
-  search->setSearchingAll(TRUE);
-  search->apply(root);
-  assert(search->getPath());
-  return search->getPath()->getTail();
 }
 
 void
@@ -739,6 +741,13 @@ SoGuiPlaneViewerP::commonConstructor(void)
     get_scenegraph_node(&s, this->superimposition, "soqt->geometry");
   this->super.camera = (SoOrthographicCamera *)
     get_scenegraph_node(&s, this->superimposition, "soqt->orthocam");
+
+  // drawstyle settings for the superimposed lines will be updated on
+  // demand, according to the capabilities of the GL driver & context.
+  this->lineds[0] = (SoDrawStyle *)
+    get_scenegraph_node(&s, this->superimposition, "soqt->style0");
+  this->lineds[1] = (SoDrawStyle *)
+    get_scenegraph_node(&s, this->superimposition, "soqt->style1");
 
   PUBLIC(this)->addSuperimposition(this->superimposition);
   PUBLIC(this)->setSuperimpositionEnabled(this->superimposition, FALSE);
@@ -871,25 +880,17 @@ SoGuiPlaneViewerP::getPointerOrigoMotionAngle(void) const
 void
 SoGuiPlaneViewerP::updateAnchorScenegraph(void) const
 {
-  static SbBool first = TRUE;
-  if (first) {
-    // Can't be done in constructor, as we need a valid OpenGL canvas
-    // for the getLineWidthLimits() call.
-    first = FALSE;
-    SbVec2f range;
-    float granularity;
-    PUBLIC(this)->getLineWidthLimits(range, granularity);
+  // must re-check this, since the GL context may be different between
+  // invocations:
+  SbVec2f range;
+  float granularity;
+  PUBLIC(this)->getLineWidthLimits(range, granularity);
+  // Draw a thinner line on top of a fat line, to make an outline.
+  const float lw0 = SoQtClamp(5.0f, range[0], range[1]);
+  const float lw1 = SoQtClamp(3.0f, range[0], range[1]);
+  if (this->lineds[0]->lineWidth.getValue() != lw0) { this->lineds[0]->lineWidth = lw0; }
+  if (this->lineds[1]->lineWidth.getValue() != lw1) { this->lineds[1]->lineWidth = lw1; }
 
-    SoSearchAction s;
-    SoDrawStyle * ds0 = (SoDrawStyle *)
-      get_scenegraph_node(&s, this->superimposition, "soqt->style0");
-    SoDrawStyle * ds1 = (SoDrawStyle *)
-      get_scenegraph_node(&s, this->superimposition, "soqt->style1");
-
-    // Draw a thinner line on top of a fat line, to make an outline.
-    ds0->lineWidth = SoQtMin(5.0f, range[1]);
-    ds1->lineWidth = SoQtMax(3.0f, range[0]);
-  }
 
   float x = float(this->pointer.now[0]) / float(this->canvas[0]);
   float y = float(this->pointer.now[1]) / float(this->canvas[1]);

@@ -2351,7 +2351,7 @@ SoQtViewer::isCursorEnabled(void) const
   to fine-tune the near/far clipping plane settings.
 
   On a major note, be aware that turning auto-updating of near and far
-  clip planes have a potentially serious detrimental effect on
+  clip planes \e off have a potentially serious detrimental effect on
   performance, due to an important side effect: updating the near and
   far clip planes triggers an SoGetBoundingBoxAction to traverse the
   scene graph, which causes bounding boxes to be calculated and stored

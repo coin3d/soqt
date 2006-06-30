@@ -201,13 +201,57 @@ static unsigned char blank_mask_bitmap[BLANK_BYTES] = { 0x00 };
 
 /***********************************************************************/
 
-
 static SoQtCursor::CustomCursor zoom;
 static SoQtCursor::CustomCursor pan;
 static SoQtCursor::CustomCursor rotate;
 static SoQtCursor::CustomCursor blank;
-static SbBool first = TRUE;
 
+static SoQtCursor * soguicursor_zoomcursor = NULL;
+static SoQtCursor * soguicursor_pancursor = NULL;
+static SoQtCursor * soguicursor_rotatecursor = NULL;
+static SoQtCursor * soguicursor_blankcursor = NULL;
+
+static void soguicursor_atexit_cleanup(void)
+{
+  delete soguicursor_zoomcursor;
+  delete soguicursor_pancursor;
+  delete soguicursor_rotatecursor;
+  delete soguicursor_blankcursor;
+  soguicursor_zoomcursor = NULL;
+  soguicursor_pancursor = NULL;
+  soguicursor_rotatecursor = NULL;
+  soguicursor_blankcursor = NULL;
+}
+
+void
+SoQtCursor::initClass(void)
+{
+  zoom.dim = SbVec2s(ZOOM_WIDTH, ZOOM_HEIGHT);
+  zoom.hotspot = SbVec2s(ZOOM_HOT_X, ZOOM_HOT_Y);
+  zoom.bitmap = zoom_bitmap;
+  zoom.mask = zoom_mask_bitmap;
+  
+  pan.dim = SbVec2s(PAN_WIDTH, PAN_HEIGHT);
+  pan.hotspot = SbVec2s(PAN_HOT_X, PAN_HOT_Y);
+  pan.bitmap = pan_bitmap;
+  pan.mask = pan_mask_bitmap;
+  
+  rotate.dim = SbVec2s(ROTATE_WIDTH, ROTATE_HEIGHT);
+  rotate.hotspot = SbVec2s(ROTATE_HOT_X, ROTATE_HOT_Y);
+  rotate.bitmap = rotate_bitmap;
+  rotate.mask = rotate_mask_bitmap;
+  
+  blank.dim = SbVec2s(BLANK_WIDTH, BLANK_HEIGHT);
+  blank.hotspot = SbVec2s(BLANK_HOT_X, BLANK_HOT_Y);
+  blank.bitmap = blank_bitmap;
+  blank.mask = blank_mask_bitmap;
+
+  soguicursor_zoomcursor = new SoQtCursor(&zoom);
+  soguicursor_pancursor = new SoQtCursor(&pan);
+  soguicursor_rotatecursor = new SoQtCursor(&rotate);
+  soguicursor_blankcursor = new SoQtCursor(&blank);
+  sogui_atexit((sogui_atexit_f*)soguicursor_atexit_cleanup, 0);
+}
 
 /*!
   Default constructor. Creates a default cursor.
@@ -248,30 +292,6 @@ SoQtCursor::commonConstructor(const Shape shapearg, const CustomCursor * ccarg)
 { 
   this->shape = shapearg;
   this->cc = NULL;
-
-  if (first) {
-    zoom.dim = SbVec2s(ZOOM_WIDTH, ZOOM_HEIGHT);
-    zoom.hotspot = SbVec2s(ZOOM_HOT_X, ZOOM_HOT_Y);
-    zoom.bitmap = zoom_bitmap;
-    zoom.mask = zoom_mask_bitmap;
-
-    pan.dim = SbVec2s(PAN_WIDTH, PAN_HEIGHT);
-    pan.hotspot = SbVec2s(PAN_HOT_X, PAN_HOT_Y);
-    pan.bitmap = pan_bitmap;
-    pan.mask = pan_mask_bitmap;
-
-    rotate.dim = SbVec2s(ROTATE_WIDTH, ROTATE_HEIGHT);
-    rotate.hotspot = SbVec2s(ROTATE_HOT_X, ROTATE_HOT_Y);
-    rotate.bitmap = rotate_bitmap;
-    rotate.mask = rotate_mask_bitmap;
-
-    blank.dim = SbVec2s(BLANK_WIDTH, BLANK_HEIGHT);
-    blank.hotspot = SbVec2s(BLANK_HOT_X, BLANK_HOT_Y);
-    blank.bitmap = blank_bitmap;
-    blank.mask = blank_mask_bitmap;
-
-    first = FALSE;
-  }
 
   if (ccarg) {
     assert(shape == CUSTOM_BITMAP);
@@ -348,10 +368,7 @@ SoQtCursor::getCustomCursor(void) const
 const SoQtCursor &
 SoQtCursor::getZoomCursor(void)
 {
-  static SoQtCursor * zoomcursor = NULL;
-  // FIXME: memory leak. 20011120 mortene.
-  if (!zoomcursor) { zoomcursor = new SoQtCursor(&zoom); }
-  return *zoomcursor;
+  return *soguicursor_zoomcursor;
 }
 
 /*!
@@ -361,10 +378,7 @@ SoQtCursor::getZoomCursor(void)
 const SoQtCursor &
 SoQtCursor::getPanCursor(void)
 {
-  static SoQtCursor * pancursor = NULL;
-  // FIXME: memory leak. 20011120 mortene.
-  if (!pancursor) { pancursor = new SoQtCursor(&pan); }
-  return *pancursor;
+  return *soguicursor_pancursor;
 }
 
 /*!
@@ -373,10 +387,7 @@ SoQtCursor::getPanCursor(void)
 const SoQtCursor &
 SoQtCursor::getRotateCursor(void)
 {
-  static SoQtCursor * rotatecursor = NULL;
-  // FIXME: memory leak. 20011120 mortene.
-  if (!rotatecursor) { rotatecursor = new SoQtCursor(&rotate); }
-  return *rotatecursor;
+  return *soguicursor_rotatecursor;
 }
 
 /*!
@@ -387,8 +398,5 @@ SoQtCursor::getRotateCursor(void)
 const SoQtCursor &
 SoQtCursor::getBlankCursor(void)
 {
-  static SoQtCursor * blankcursor = NULL;
-  // FIXME: memory leak. 20011120 mortene.
-  if (!blankcursor) { blankcursor = new SoQtCursor(&blank); }
-  return *blankcursor;
+  return *soguicursor_blankcursor;
 }
