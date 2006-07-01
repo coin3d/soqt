@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8,00"
 	Name="soqt1"
-	ProjectGUID="{4E403AEA-C7C9-4632-AA1C-93429B311153}"
+	ProjectGUID="{375274F8-DEB6-4BC6-81F3-7E2219881081}"
 	>
 	<Platforms>
 		<Platform
@@ -47,7 +47,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="1"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories=".\src,.\data,..\..\src,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex,$(QTDIR)\include"
+				AdditionalIncludeDirectories=".\src,.\data,..\..\src,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex,$(QTDIR)\include,$(QTDIR)\include\Qt,$(QTDIR)\include\QtOpenGL,$(QTDIR)\include\QtGui"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -72,7 +72,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(QTDIR)\lib\qt-mt331.lib $(QTDIR)\lib\qtmain.lib $(COINDIR)\lib\coin2.lib opengl32.lib winmm.lib"
+				AdditionalDependencies="$(QTDIR)\lib\QtOpenGL4.lib $(QTDIR)\lib\QtGui4.lib $(QTDIR)\lib\QtCore4.lib $(QTDIR)\lib\Qt3Support4.lib $(COINDIR)\lib\coin2.lib opengl32.lib winmm.lib"
 				OutputFile="soqt1.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -137,7 +137,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories=".\src,.\data,..\..\src,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex,$(QTDIR)\include"
+				AdditionalIncludeDirectories=".\src,.\data,..\..\src,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex,$(QTDIR)\include,$(QTDIR)\include\Qt,$(QTDIR)\include\QtOpenGL,$(QTDIR)\include\QtGui"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_LIB;SOQT_DEBUG=0;HAVE_CONFIG_H;COIN_DLL;SOQT_INTERNAL"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -212,7 +212,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories=".\src,.\data,..\..\src,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex,$(QTDIR)\include"
+				AdditionalIncludeDirectories=".\src,.\data,..\..\src,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex,$(QTDIR)\include,$(QTDIR)\include\Qt,$(QTDIR)\include\QtOpenGL,$(QTDIR)\include\QtGui"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_LIB;SOQT_DEBUG=1;HAVE_CONFIG_H;COIN_DLL;SOQT_INTERNAL"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -292,7 +292,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\src,.\data,..\..\src,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex,$(QTDIR)\include"
+				AdditionalIncludeDirectories=".\src,.\data,..\..\src,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex,$(QTDIR)\include,$(QTDIR)\include\Qt,$(QTDIR)\include\QtOpenGL,$(QTDIR)\include\QtGui"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -318,7 +318,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(QTDIR)\lib\qt-mt331.lib $(QTDIR)\lib\qtmain.lib $(COINDIR)\lib\coin2d.lib opengl32.lib winmm.lib"
+				AdditionalDependencies="$(QTDIR)\lib\QtOpenGL4.lib $(QTDIR)\lib\QtGui4.lib $(QTDIR)\lib\QtCore4.lib $(QTDIR)\lib\Qt3Support4.lib $(COINDIR)\lib\coin2d.lib opengl32.lib winmm.lib"
 				OutputFile="soqt1d.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"

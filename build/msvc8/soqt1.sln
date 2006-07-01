@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "soqt1", "soqt1.vcproj", "{4E403AEA-C7C9-4632-AA1C-93429B311153}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "soqt1", "soqt1.vcproj", "{375274F8-DEB6-4BC6-81F3-7E2219881081}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,14 +11,14 @@ Global
 		LIB (Release)|Win32 = LIB (Release)|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4E403AEA-C7C9-4632-AA1C-93429B311153}.DLL (Debug)|Win32.ActiveCfg = DLL (Debug)|Win32
-		{4E403AEA-C7C9-4632-AA1C-93429B311153}.DLL (Debug)|Win32.Build.0 = DLL (Debug)|Win32
-		{4E403AEA-C7C9-4632-AA1C-93429B311153}.DLL (Release)|Win32.ActiveCfg = DLL (Release)|Win32
-		{4E403AEA-C7C9-4632-AA1C-93429B311153}.DLL (Release)|Win32.Build.0 = DLL (Release)|Win32
-		{4E403AEA-C7C9-4632-AA1C-93429B311153}.LIB (Debug)|Win32.ActiveCfg = LIB (Debug)|Win32
-		{4E403AEA-C7C9-4632-AA1C-93429B311153}.LIB (Debug)|Win32.Build.0 = LIB (Debug)|Win32
-		{4E403AEA-C7C9-4632-AA1C-93429B311153}.LIB (Release)|Win32.ActiveCfg = LIB (Release)|Win32
-		{4E403AEA-C7C9-4632-AA1C-93429B311153}.LIB (Release)|Win32.Build.0 = LIB (Release)|Win32
+		{375274F8-DEB6-4BC6-81F3-7E2219881081}.DLL (Debug)|Win32.ActiveCfg = DLL (Debug)|Win32
+		{375274F8-DEB6-4BC6-81F3-7E2219881081}.DLL (Debug)|Win32.Build.0 = DLL (Debug)|Win32
+		{375274F8-DEB6-4BC6-81F3-7E2219881081}.DLL (Release)|Win32.ActiveCfg = DLL (Release)|Win32
+		{375274F8-DEB6-4BC6-81F3-7E2219881081}.DLL (Release)|Win32.Build.0 = DLL (Release)|Win32
+		{375274F8-DEB6-4BC6-81F3-7E2219881081}.LIB (Debug)|Win32.ActiveCfg = LIB (Debug)|Win32
+		{375274F8-DEB6-4BC6-81F3-7E2219881081}.LIB (Debug)|Win32.Build.0 = LIB (Debug)|Win32
+		{375274F8-DEB6-4BC6-81F3-7E2219881081}.LIB (Release)|Win32.ActiveCfg = LIB (Release)|Win32
+		{375274F8-DEB6-4BC6-81F3-7E2219881081}.LIB (Release)|Win32.Build.0 = LIB (Release)|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
