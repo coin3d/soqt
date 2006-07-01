@@ -1,0 +1,4 @@
+.deps
+Makefile
+moc_*.icc
+*.lst
