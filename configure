@@ -28764,6 +28764,8 @@ echo $ECHO_N "checking whether Qt's install tool shadows the system install... $
     "${sim_ac_qt_install}"* )
       echo "$as_me:$LINENO: result: yes" >&5
 echo "${ECHO_T}yes" >&6
+      echo "\$INSTALL is '$INSTALL', which matches '$QTDIR/bin/install*'." >&5
+      echo "\$QTDIR part is '$QTDIR'." >&5
 
 echo >&2 ""
 

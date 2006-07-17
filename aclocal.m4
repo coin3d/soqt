@@ -10961,6 +10961,8 @@ recommend you to upgrade.])
     case $INSTALL in
     "${sim_ac_qt_install}"* )
       AC_MSG_RESULT(yes)
+      echo "\$INSTALL is '$INSTALL', which matches '$QTDIR/bin/install*'." >&5
+      echo "\$QTDIR part is '$QTDIR'." >&5
       SIM_AC_ERROR([qt-install])
       ;;
     * )
