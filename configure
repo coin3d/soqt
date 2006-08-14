@@ -28049,10 +28049,10 @@ else
      # Debian Linux and Darwin fink have the Qt-dev installation headers in
      # a separate subdir, so we reset CPPFLAGS and try with those.
      CPPFLAGS="$sim_ac_save_cppflags"
-     sim_ac_debian_qtheaders=/usr/include/qt
-     if test -d $sim_ac_debian_qtheaders; then
-       sim_ac_qt_incpath="-I$sim_ac_debian_qtheaders $sim_ac_qt_incpath"
-       CPPFLAGS="-I$sim_ac_debian_qtheaders $CPPFLAGS"
+     sim_ac_debian_qt4headers=/usr/include/qt4
+     if test -d $sim_ac_debian_qt4headers; then
+       sim_ac_qt_incpath="-I$sim_ac_debian_qt4headers $sim_ac_qt_incpath"
+       CPPFLAGS="-I$sim_ac_debian_qt4headers $CPPFLAGS"
 
 cat >conftest.$ac_ext <<_ACEOF
 /* confdefs.h.  */
@@ -28095,10 +28095,10 @@ fi
 
 
      else
-       sim_ac_fink_qtheaders=/sw/include/qt
-       if test -d $sim_ac_fink_qtheaders; then
-         sim_ac_qt_incpath="-I$sim_ac_fink_qtheaders $sim_ac_qt_incpath"
-         CPPFLAGS="-I$sim_ac_fink_qtheaders $CPPFLAGS"
+       sim_ac_debian_qtheaders=/usr/include/qt
+       if test -d $sim_ac_debian_qtheaders; then
+         sim_ac_qt_incpath="-I$sim_ac_debian_qtheaders $sim_ac_qt_incpath"
+         CPPFLAGS="-I$sim_ac_debian_qtheaders $CPPFLAGS"
 
 cat >conftest.$ac_ext <<_ACEOF
 /* confdefs.h.  */
@@ -28141,12 +28141,10 @@ fi
 
 
        else
-       sim_ac_darwinports_qtheaders=/opt/local/include/qt3
-         if test -d $sim_ac_darwinports_qtheaders; then
-           sim_ac_qt_incpath="-I$sim_ac_darwinports_qtheaders $sim_ac_qt_incpath"
-           sim_ac_qt_ldflags="-L/opt/local/lib $sim_ac_qt_ldflags"
-           CPPFLAGS="-I$sim_ac_darwinports_qtheaders $CPPFLAGS"
-           LDFLAGS="$LDFLAGS $sim_ac_qt_ldflags"
+         sim_ac_fink_qtheaders=/sw/include/qt
+         if test -d $sim_ac_fink_qtheaders; then
+           sim_ac_qt_incpath="-I$sim_ac_fink_qtheaders $sim_ac_qt_incpath"
+           CPPFLAGS="-I$sim_ac_fink_qtheaders $CPPFLAGS"
 
 cat >conftest.$ac_ext <<_ACEOF
 /* confdefs.h.  */
@@ -28188,6 +28186,55 @@ fi
 
 
 
+         else
+           sim_ac_darwinports_qtheaders=/opt/local/include/qt3
+           if test -d $sim_ac_darwinports_qtheaders; then
+             sim_ac_qt_incpath="-I$sim_ac_darwinports_qtheaders $sim_ac_qt_incpath"
+             sim_ac_qt_ldflags="-L/opt/local/lib $sim_ac_qt_ldflags"
+             CPPFLAGS="-I$sim_ac_darwinports_qtheaders $CPPFLAGS"
+             LDFLAGS="$LDFLAGS $sim_ac_qt_ldflags"
+
+cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+#include <qglobal.h>
+_ACEOF
+if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
+  (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } >/dev/null; then
+  if test -s conftest.err; then
+    ac_cpp_err=$ac_cxx_preproc_warn_flag
+    ac_cpp_err=$ac_cpp_err$ac_cxx_werror_flag
+  else
+    ac_cpp_err=
+  fi
+else
+  ac_cpp_err=yes
+fi
+if test -z "$ac_cpp_err"; then
+  ac_cv_header_qglobal_h=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+  ac_cv_header_qglobal_h=no
+fi
+rm -f conftest.err conftest.$ac_ext
+if test $ac_cv_header_qglobal_h = yes; then
+  sim_ac_qglobal=true
+fi
+
+
+
+           fi
          fi
        fi
      fi
@@ -28197,10 +28244,15 @@ fi
 
 
   # Qt 4 has the headers in various new subdirectories vs Qt 3.
-  if $sim_ac_qglobal; then :; else
-    echo "$as_me:$LINENO: checking if Qt4 include paths must be used" >&5
+  if $sim_ac_qglobal; then
+    :
+  else
+    if test x"$sim_ac_qt_incpath" = x""; then
+      :
+    else
+      echo "$as_me:$LINENO: checking if Qt4 include paths must be used" >&5
 echo $ECHO_N "checking if Qt4 include paths must be used... $ECHO_C" >&6
-    CPPFLAGS="$sim_ac_qt_incpath $sim_ac_qt_incpath/Qt $sim_ac_save_cppflags"
+      CPPFLAGS="$sim_ac_qt_incpath $sim_ac_qt_incpath/Qt $sim_ac_save_cppflags"
 
 cat >conftest.$ac_ext <<_ACEOF
 /* confdefs.h.  */
@@ -28238,14 +28290,15 @@ fi
 rm -f conftest.err conftest.$ac_ext
 if test $ac_cv_header_qglobal_h = yes; then
   sim_ac_qglobal=true
-                                sim_ac_qt_incpath="$sim_ac_qt_incpath $sim_ac_qt_incpath/Qt $sim_ac_qt_incpath/QtOpenGL $sim_ac_qt_incpath/QtGui"
+                                  sim_ac_qt_incpath="$sim_ac_qt_incpath $sim_ac_qt_incpath/Qt $sim_ac_qt_incpath/QtOpenGL $sim_ac_qt_incpath/QtGui"
 
 fi
 
 
 
-    echo "$as_me:$LINENO: result: $sim_ac_qglobal" >&5
+      echo "$as_me:$LINENO: result: $sim_ac_qglobal" >&5
 echo "${ECHO_T}$sim_ac_qglobal" >&6
+    fi
   fi
 
   if $sim_ac_qglobal; then

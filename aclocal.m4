@@ -10716,38 +10716,51 @@ if $sim_ac_with_qt; then
      # Debian Linux and Darwin fink have the Qt-dev installation headers in 
      # a separate subdir, so we reset CPPFLAGS and try with those.
      CPPFLAGS="$sim_ac_save_cppflags"
-     sim_ac_debian_qtheaders=/usr/include/qt
-     if test -d $sim_ac_debian_qtheaders; then
-       sim_ac_qt_incpath="-I$sim_ac_debian_qtheaders $sim_ac_qt_incpath"
-       CPPFLAGS="-I$sim_ac_debian_qtheaders $CPPFLAGS"
+     sim_ac_debian_qt4headers=/usr/include/qt4
+     if test -d $sim_ac_debian_qt4headers; then
+       sim_ac_qt_incpath="-I$sim_ac_debian_qt4headers $sim_ac_qt_incpath"
+       CPPFLAGS="-I$sim_ac_debian_qt4headers $CPPFLAGS"
        SIM_AC_CHECK_HEADER_SILENT([qglobal.h], [sim_ac_qglobal=true])
      else
-       sim_ac_fink_qtheaders=/sw/include/qt
-       if test -d $sim_ac_fink_qtheaders; then
-         sim_ac_qt_incpath="-I$sim_ac_fink_qtheaders $sim_ac_qt_incpath"
-         CPPFLAGS="-I$sim_ac_fink_qtheaders $CPPFLAGS"
+       sim_ac_debian_qtheaders=/usr/include/qt
+       if test -d $sim_ac_debian_qtheaders; then
+         sim_ac_qt_incpath="-I$sim_ac_debian_qtheaders $sim_ac_qt_incpath"
+         CPPFLAGS="-I$sim_ac_debian_qtheaders $CPPFLAGS"
          SIM_AC_CHECK_HEADER_SILENT([qglobal.h], [sim_ac_qglobal=true])
        else
-       sim_ac_darwinports_qtheaders=/opt/local/include/qt3
-         if test -d $sim_ac_darwinports_qtheaders; then
-           sim_ac_qt_incpath="-I$sim_ac_darwinports_qtheaders $sim_ac_qt_incpath"
-           sim_ac_qt_ldflags="-L/opt/local/lib $sim_ac_qt_ldflags"
-           CPPFLAGS="-I$sim_ac_darwinports_qtheaders $CPPFLAGS"
-           LDFLAGS="$LDFLAGS $sim_ac_qt_ldflags"
+         sim_ac_fink_qtheaders=/sw/include/qt
+         if test -d $sim_ac_fink_qtheaders; then
+           sim_ac_qt_incpath="-I$sim_ac_fink_qtheaders $sim_ac_qt_incpath"
+           CPPFLAGS="-I$sim_ac_fink_qtheaders $CPPFLAGS"
            SIM_AC_CHECK_HEADER_SILENT([qglobal.h], [sim_ac_qglobal=true])
-         fi     
+         else
+           sim_ac_darwinports_qtheaders=/opt/local/include/qt3
+           if test -d $sim_ac_darwinports_qtheaders; then
+             sim_ac_qt_incpath="-I$sim_ac_darwinports_qtheaders $sim_ac_qt_incpath"
+             sim_ac_qt_ldflags="-L/opt/local/lib $sim_ac_qt_ldflags"
+             CPPFLAGS="-I$sim_ac_darwinports_qtheaders $CPPFLAGS"
+             LDFLAGS="$LDFLAGS $sim_ac_qt_ldflags"
+             SIM_AC_CHECK_HEADER_SILENT([qglobal.h], [sim_ac_qglobal=true])
+           fi     
+         fi
        fi
      fi])
 
   # Qt 4 has the headers in various new subdirectories vs Qt 3.
-  if $sim_ac_qglobal; then :; else
-    AC_MSG_CHECKING([if Qt4 include paths must be used])
-    CPPFLAGS="$sim_ac_qt_incpath $sim_ac_qt_incpath/Qt $sim_ac_save_cppflags"
-    SIM_AC_CHECK_HEADER_SILENT([qglobal.h],
-                               [sim_ac_qglobal=true
-                                sim_ac_qt_incpath="$sim_ac_qt_incpath $sim_ac_qt_incpath/Qt $sim_ac_qt_incpath/QtOpenGL $sim_ac_qt_incpath/QtGui"
-                                ])
-    AC_MSG_RESULT($sim_ac_qglobal)
+  if $sim_ac_qglobal; then
+    :
+  else
+    if test x"$sim_ac_qt_incpath" = x""; then
+      :
+    else
+      AC_MSG_CHECKING([if Qt4 include paths must be used])
+      CPPFLAGS="$sim_ac_qt_incpath $sim_ac_qt_incpath/Qt $sim_ac_save_cppflags"
+      SIM_AC_CHECK_HEADER_SILENT([qglobal.h],
+                                 [sim_ac_qglobal=true
+                                  sim_ac_qt_incpath="$sim_ac_qt_incpath $sim_ac_qt_incpath/Qt $sim_ac_qt_incpath/QtOpenGL $sim_ac_qt_incpath/QtGui"
+                                  ])
+      AC_MSG_RESULT($sim_ac_qglobal)
+    fi
   fi
 
   if $sim_ac_qglobal; then
