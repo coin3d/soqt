@@ -292,6 +292,8 @@ QTimer * SoQtP::delaytimeouttimer = NULL;
 SoQtP * SoQtP::slotobj = NULL;
 bool SoQtP::didcreatemainwidget = FALSE;
 
+// *************************************************************************
+
 #ifdef HAVE_QT_WIN_USE_SIMPLE_TIMERS
 // Qt 3.3 seems to use simple timers by default. Since simple timers
 // causes idle sensors to trigger only 100 times per second, we set
@@ -315,6 +317,8 @@ static void soqt_reset_simple_timers(void)
   }
 #endif // HAVE_QT_WIN_USE_SIMPLE_TIMERS
 }
+
+// *************************************************************************
 
 #define ENVVAR_NOT_INITED INT_MAX
 
@@ -874,6 +878,8 @@ SoQt::exitMainLoop(void)
 }
 
 // documented in common/SoGuiCommon.cpp.in
+//
+// FIXME: in Mercury/TGS So*, this method is called finish(). 20051004 mortene.
 void
 SoQt::done(void)
 {
