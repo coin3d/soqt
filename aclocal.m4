@@ -10852,7 +10852,9 @@ if $sim_ac_with_qt; then
                        #endif
                        qApp->exit(0);],
                       [sim_ac_qt_libs="$CONFIG_QTLIBS"
-                       sim_ac_qt_cppflags="$sim_ac_QTDIR_cppflags $sim_ac_qt_cppflags_loop"])
+                       sim_ac_qt_cppflags="$sim_ac_QTDIR_cppflags $sim_ac_qt_cppflags_loop"
+                       sim_ac_qt_ldflags="$sim_ac_QTDIR_ldflags"
+                      ])
         done
 
         if test "x$sim_ac_qt_libs" = "xUNRESOLVED"; then
@@ -10952,7 +10954,9 @@ if $sim_ac_with_qt; then
                            #endif
                            qApp->exit(0);],
                           [sim_ac_qt_libs="$sim_ac_qt_libcheck"
-                           sim_ac_qt_cppflags="$sim_ac_QTDIR_cppflags $sim_ac_qt_cppflags_loop"])
+                           sim_ac_qt_cppflags="$sim_ac_QTDIR_cppflags $sim_ac_qt_cppflags_loop"
+                           sim_ac_qt_ldflags="$sim_ac_QTDIR_ldflags"
+                          ])
             fi
           done
         done
