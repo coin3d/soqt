@@ -1,0 +1,976 @@
+2006-08-28 14:12  mortene
+
+	* src/Inventor/Qt/SoQt.cpp:
+	
+	Doc: fixme about method name.
+
+2006-08-25 15:38  mortene
+
+	* src/Inventor/Qt/widgets/QtNativePopupMenu.cpp:
+	
+	Compile fix: for Qt 4.
+
+2006-07-02 00:28  larsa
+
+	* build/msvc8/: .cvsignore, src/.cvsignore,
+	src/Inventor/.cvsignore, src/Inventor/Qt/.cvsignore,
+	src/Inventor/Qt/devices/.cvsignore,
+	src/Inventor/Qt/editors/.cvsignore,
+	src/Inventor/Qt/engines/.cvsignore,
+	src/Inventor/Qt/nodes/.cvsignore,
+	src/Inventor/Qt/viewers/.cvsignore,
+	src/Inventor/Qt/widgets/.cvsignore:
+	
+	.cvsignore-files
+
+2006-07-02 00:14  larsa
+
+	* build/msvc8/: soqt1.sln, soqt1.vcproj:
+	
+	use Qt4 libs and include paths
+
+2006-06-30 23:13  larsa
+
+	* Makefile.am, build/msvc6/src/Inventor/Qt/SoAny.cpp,
+	build/msvc6/src/Inventor/Qt/SoAny.h,
+	build/msvc6/src/Inventor/Qt/SoQtBasic.h,
+	build/msvc6/src/Inventor/Qt/SoQtCommon.cpp,
+	build/msvc6/src/Inventor/Qt/SoQtCursor.cpp,
+	build/msvc6/src/Inventor/Qt/SoQtCursor.h,
+	build/msvc6/src/Inventor/Qt/SoQtObject.h,
+	build/msvc6/src/Inventor/Qt/SoQtRenderArea.cpp,
+	build/msvc6/src/Inventor/Qt/viewers/SoGuiExaminerViewerP.h,
+	build/msvc6/src/Inventor/Qt/viewers/SoGuiPlaneViewerP.h,
+	build/msvc6/src/Inventor/Qt/viewers/SoQtExaminerViewer.cpp,
+	build/msvc6/src/Inventor/Qt/viewers/SoQtPlaneViewer.cpp,
+	build/msvc6/src/Inventor/Qt/viewers/SoQtViewer.cpp,
+	build/msvc6/src/Inventor/Qt/widgets/SoAnyThumbWheel.cpp,
+	build/msvc7/soqt1.sln, build/msvc7/src/Inventor/Qt/SoAny.cpp,
+	build/msvc7/src/Inventor/Qt/SoAny.h,
+	build/msvc7/src/Inventor/Qt/SoQtBasic.h,
+	build/msvc7/src/Inventor/Qt/SoQtCommon.cpp,
+	build/msvc7/src/Inventor/Qt/SoQtCursor.cpp,
+	build/msvc7/src/Inventor/Qt/SoQtCursor.h,
+	build/msvc7/src/Inventor/Qt/SoQtObject.h,
+	build/msvc7/src/Inventor/Qt/SoQtRenderArea.cpp,
+	build/msvc7/src/Inventor/Qt/viewers/SoGuiExaminerViewerP.h,
+	build/msvc7/src/Inventor/Qt/viewers/SoGuiPlaneViewerP.h,
+	build/msvc7/src/Inventor/Qt/viewers/SoQtExaminerViewer.cpp,
+	build/msvc7/src/Inventor/Qt/viewers/SoQtPlaneViewer.cpp,
+	build/msvc7/src/Inventor/Qt/viewers/SoQtViewer.cpp,
+	build/msvc7/src/Inventor/Qt/widgets/SoAnyThumbWheel.cpp,
+	build/msvc8/config-wrapper.h, build/msvc8/delete-moc-files.bat,
+	build/msvc8/generate.sh, build/msvc8/install-dll-debug.bat,
+	build/msvc8/install-dll-release.bat,
+	build/msvc8/install-headers.bat, build/msvc8/install-lib-debug.bat,
+	build/msvc8/install-lib-release.bat, build/msvc8/soqt1.sln,
+	build/msvc8/soqt1.vcproj, build/msvc8/src/config-debug.h,
+	build/msvc8/src/config-release.h, build/msvc8/src/config.h,
+	build/msvc8/src/soqtdefs.h, build/msvc8/src/Inventor/Qt/SoAny.cpp,
+	build/msvc8/src/Inventor/Qt/SoAny.h,
+	build/msvc8/src/Inventor/Qt/SoGuiComponentP.h,
+	build/msvc8/src/Inventor/Qt/SoGuiGLWidgetP.h,
+	build/msvc8/src/Inventor/Qt/SoGuiP.h,
+	build/msvc8/src/Inventor/Qt/SoQt.h,
+	build/msvc8/src/Inventor/Qt/SoQtBasic.h,
+	build/msvc8/src/Inventor/Qt/SoQtColorEditor.h,
+	build/msvc8/src/Inventor/Qt/SoQtCommon.cpp,
+	build/msvc8/src/Inventor/Qt/SoQtComponent.h,
+	build/msvc8/src/Inventor/Qt/SoQtComponentCommon.cpp,
+	build/msvc8/src/Inventor/Qt/SoQtCursor.cpp,
+	build/msvc8/src/Inventor/Qt/SoQtCursor.h,
+	build/msvc8/src/Inventor/Qt/SoQtGLWidget.h,
+	build/msvc8/src/Inventor/Qt/SoQtGLWidgetCommon.cpp,
+	build/msvc8/src/Inventor/Qt/SoQtMaterialEditor.h,
+	build/msvc8/src/Inventor/Qt/SoQtObject.cpp,
+	build/msvc8/src/Inventor/Qt/SoQtObject.h,
+	build/msvc8/src/Inventor/Qt/SoQtRenderArea.cpp,
+	build/msvc8/src/Inventor/Qt/SoQtRenderArea.h,
+	build/msvc8/src/Inventor/Qt/devices/SoGuiDeviceP.h,
+	build/msvc8/src/Inventor/Qt/devices/SoGuiInputFocusP.h,
+	build/msvc8/src/Inventor/Qt/devices/SoGuiKeyboardP.h,
+	build/msvc8/src/Inventor/Qt/devices/SoGuiMouseP.h,
+	build/msvc8/src/Inventor/Qt/devices/SoGuiSpaceballP.h,
+	build/msvc8/src/Inventor/Qt/devices/SoQtDevice.h,
+	build/msvc8/src/Inventor/Qt/devices/SoQtDeviceCommon.cpp,
+	build/msvc8/src/Inventor/Qt/devices/SoQtInputFocus.h,
+	build/msvc8/src/Inventor/Qt/devices/SoQtInputFocusCommon.cpp,
+	build/msvc8/src/Inventor/Qt/devices/SoQtKeyboard.h,
+	build/msvc8/src/Inventor/Qt/devices/SoQtKeyboardCommon.cpp,
+	build/msvc8/src/Inventor/Qt/devices/SoQtMouse.h,
+	build/msvc8/src/Inventor/Qt/devices/SoQtMouseCommon.cpp,
+	build/msvc8/src/Inventor/Qt/devices/SoQtSpaceball.h,
+	build/msvc8/src/Inventor/Qt/devices/SoQtSpaceballCommon.cpp,
+	build/msvc8/src/Inventor/Qt/devices/spwinput.h,
+	build/msvc8/src/Inventor/Qt/devices/spwinput_win32.c,
+	build/msvc8/src/Inventor/Qt/devices/spwinput_win32.h,
+	build/msvc8/src/Inventor/Qt/devices/spwinput_x11.cpp,
+	build/msvc8/src/Inventor/Qt/editors/SoQtColorEditor.cpp,
+	build/msvc8/src/Inventor/Qt/editors/SoQtColorEditor.h,
+	build/msvc8/src/Inventor/Qt/editors/SoQtMaterialEditor.cpp,
+	build/msvc8/src/Inventor/Qt/editors/SoQtMaterialEditor.h,
+	build/msvc8/src/Inventor/Qt/engines/Engines.cpp,
+	build/msvc8/src/Inventor/Qt/engines/Format.cpp,
+	build/msvc8/src/Inventor/Qt/engines/RadioGroup.cpp,
+	build/msvc8/src/Inventor/Qt/engines/SoGuiEngines.h,
+	build/msvc8/src/Inventor/Qt/engines/SoGuiFormat.h,
+	build/msvc8/src/Inventor/Qt/engines/SoGuiRadioGroup.h,
+	build/msvc8/src/Inventor/Qt/nodes/ClickCounter.cpp,
+	build/msvc8/src/Inventor/Qt/nodes/ColorEditor.cpp,
+	build/msvc8/src/Inventor/Qt/nodes/Frame.cpp,
+	build/msvc8/src/Inventor/Qt/nodes/Image.cpp,
+	build/msvc8/src/Inventor/Qt/nodes/Label.cpp,
+	build/msvc8/src/Inventor/Qt/nodes/MaterialEditor.cpp,
+	build/msvc8/src/Inventor/Qt/nodes/Nodes.cpp,
+	build/msvc8/src/Inventor/Qt/nodes/Pane.cpp,
+	build/msvc8/src/Inventor/Qt/nodes/Position.cpp,
+	build/msvc8/src/Inventor/Qt/nodes/RadioButton.cpp,
+	build/msvc8/src/Inventor/Qt/nodes/SceneTexture2.cpp,
+	build/msvc8/src/Inventor/Qt/nodes/Slider1.cpp,
+	build/msvc8/src/Inventor/Qt/nodes/Slider2.cpp,
+	build/msvc8/src/Inventor/Qt/nodes/SoGuiClickCounter.h,
+	build/msvc8/src/Inventor/Qt/nodes/SoGuiColorEditor.h,
+	build/msvc8/src/Inventor/Qt/nodes/SoGuiFrame.h,
+	build/msvc8/src/Inventor/Qt/nodes/SoGuiImage.h,
+	build/msvc8/src/Inventor/Qt/nodes/SoGuiLabel.h,
+	build/msvc8/src/Inventor/Qt/nodes/SoGuiMaterialEditor.h,
+	build/msvc8/src/Inventor/Qt/nodes/SoGuiNodes.h,
+	build/msvc8/src/Inventor/Qt/nodes/SoGuiPane.h,
+	build/msvc8/src/Inventor/Qt/nodes/SoGuiPosition.h,
+	build/msvc8/src/Inventor/Qt/nodes/SoGuiRadioButton.h,
+	build/msvc8/src/Inventor/Qt/nodes/SoGuiSceneTexture2.h,
+	build/msvc8/src/Inventor/Qt/nodes/SoGuiSlider1.h,
+	build/msvc8/src/Inventor/Qt/nodes/SoGuiSlider2.h,
+	build/msvc8/src/Inventor/Qt/nodes/SoGuiToggleButton.h,
+	build/msvc8/src/Inventor/Qt/nodes/SoGuiTranslation.h,
+	build/msvc8/src/Inventor/Qt/nodes/SoGuiViewpointWrapper.h,
+	build/msvc8/src/Inventor/Qt/nodes/SoGuiViewportFix.h,
+	build/msvc8/src/Inventor/Qt/nodes/ToggleButton.cpp,
+	build/msvc8/src/Inventor/Qt/nodes/Translation.cpp,
+	build/msvc8/src/Inventor/Qt/nodes/ViewpointWrapper.cpp,
+	build/msvc8/src/Inventor/Qt/nodes/ViewportFix.cpp,
+	build/msvc8/src/Inventor/Qt/viewers/SoGuiExaminerViewerP.h,
+	build/msvc8/src/Inventor/Qt/viewers/SoGuiFullViewerP.h,
+	build/msvc8/src/Inventor/Qt/viewers/SoGuiPlaneViewerP.h,
+	build/msvc8/src/Inventor/Qt/viewers/SoQtConstrainedViewer.cpp,
+	build/msvc8/src/Inventor/Qt/viewers/SoQtConstrainedViewer.h,
+	build/msvc8/src/Inventor/Qt/viewers/SoQtExaminerViewer.cpp,
+	build/msvc8/src/Inventor/Qt/viewers/SoQtExaminerViewer.h,
+	build/msvc8/src/Inventor/Qt/viewers/SoQtFlyViewer.cpp,
+	build/msvc8/src/Inventor/Qt/viewers/SoQtFlyViewer.h,
+	build/msvc8/src/Inventor/Qt/viewers/SoQtFullViewer.cpp,
+	build/msvc8/src/Inventor/Qt/viewers/SoQtFullViewer.h,
+	build/msvc8/src/Inventor/Qt/viewers/SoQtPlaneViewer.cpp,
+	build/msvc8/src/Inventor/Qt/viewers/SoQtPlaneViewer.h,
+	build/msvc8/src/Inventor/Qt/viewers/SoQtViewer.cpp,
+	build/msvc8/src/Inventor/Qt/viewers/SoQtViewer.h,
+	build/msvc8/src/Inventor/Qt/widgets/SoAnyThumbWheel.cpp,
+	build/msvc8/src/Inventor/Qt/widgets/SoAnyThumbWheel.h,
+	build/msvc8/src/Inventor/Qt/widgets/SoQtPopupMenu.cpp,
+	build/msvc8/src/Inventor/Qt/widgets/SoQtPopupMenu.h:
+	
+	regenerate files and add msvc8 setup
+
+2006-05-30 10:14  tamer
+
+	* src/Inventor/Qt/SoQtGLWidget.cpp:
+	
+	amd64 gcc-3.4.5 compile fix (casting pointers to different size).
+
+2006-04-14 16:31  kyrah
+
+	* README.MACOSX:
+	
+	General update, removed obsolete information, fixed broken links
+	etc.
+
+2006-04-05 14:36  kyrah
+
+	* BUGS.txt:
+	
+	New item.
+
+2006-04-04 17:06  kyrah
+
+	* Makefile.am:
+	
+	Create top-level SoQt.framework/Libraries symlink (added to be
+	consistent with Coin's framework directory structure).
+
+2006-04-04 16:12  kyrah
+
+	* configure.ac:
+	
+	Silence gcc-4 warning about virtual functions but non-virtual
+	destructor.
+
+2006-03-23 16:52  kyrah
+
+	* configure.ac:
+	
+	Don't inherit universal binary options into soqt-config settings.
+
+2006-03-23 15:24  kyrah
+
+	* configure.ac:
+	
+	Use SIM_AC_UNIVERSAL_BINARIES macro. This also adds support for
+	building UBs on PowerPC machines.
+
+2006-03-13 12:19  mortene
+
+	* cfg/wrapmsvc.exe:
+	
+	bootstrap, fixes bug with wrapmsvc.exe on recent Cygwin versions
+
+2006-03-07 16:46  kyrah
+
+	* configure.ac:
+	
+	Fixed copy-paste error.
+
+2006-03-07 16:41  kyrah
+
+	* configure.ac:
+	
+	Universal Binary support. Note that this needs to be bootstrapped
+	against libtool 1.5.22 to work properly.
+
+2006-03-07 15:51  mortene
+
+	* BUGS.txt:
+	
+	New item.
+
+2006-03-06 16:56  kyrah
+
+	* configure.ac:
+	
+	Make it possible to build both static and shared libraries.
+	
+	Judging from Coin/configure.ac, the autoconf problem that required
+	us to disable shared libraries when building static libraries is
+	only relevant when building with MSVC.
+	
+	Note that the Fink build requires having both --enable-shared and
+	--enable-static enabled at the same time.
+
+2006-02-22 18:16  kyrah
+
+	* BUGS.txt:
+	
+	Update on entry 037: Qt issue 81112 has been fixed in Qt 4.1.0
+
+2006-02-10 12:02  kyrah
+
+	* src/Inventor/Qt/SoQt.cpp:
+	
+	Added two FIXMEs
+
+2006-02-10 11:44  kyrah
+
+	* src/Inventor/Qt/SoQt.cpp:
+	
+	Disabled invocation of SoQt::done() from SoQt::mainLoop()
+
+2006-02-09 22:33  kintel
+
+	* src/Inventor/Qt/SoQt.cpp:
+	
+	Call SoDB::finish() from SoQt::done()
+
+2006-02-09 22:15  kintel
+
+	* src/Inventor/Qt/: SoQtComponent.cpp, SoQtComponentP.h:
+	
+	Plugged memory leak
+
+2006-02-09 22:15  kintel
+
+	* src/Inventor/Qt/SoQt.cpp:
+	
+	resource reset
+
+2006-02-09 17:06  kintel
+
+	* src/Inventor/Qt/SoQt.cpp:
+	
+	Use SoAny::init()
+
+2006-02-09 16:06  kintel
+
+	* src/Inventor/Qt/devices/SoQtKeyboard.cpp:
+	
+	Better cleanup
+
+2006-02-06 13:47  kyrah
+
+	* BUGS.txt, src/Inventor/Qt/SoQtComponent.cpp:
+	
+	Update on issue 024: This apparently was a bug in Qt which has been
+	fixed by now (works both in 3.3.5 and 4.1.0) => apply workaround on
+	affected Qt versions only, and get on with life.
+
+2006-02-06 13:19  kyrah
+
+	* BUGS.txt:
+	
+	Killed Bug # 026:
+	
+	setMinimumSize() works as expected on both Qt-3.3.5 and Qt-4.0.1...
+	 and in any case, this was a pure Qt (not SoQt) issue.
+
+2005-12-05 16:42  pederb
+
+	* src/Inventor/Qt/widgets/QtNativePopupMenu.cpp:
+	
+	Resource leak fix.
+
+2005-11-27 11:06  pederb
+
+	* src/qt-config.h:
+	
+	Build fix.
+
+2005-11-21 00:50  larsa
+
+	* build/: msvc6/soqt1.dsp, msvc6/src/config-debug.h,
+	msvc6/src/config-release.h,
+	msvc6/src/Inventor/Qt/devices/spwinput_x11.cpp,
+	msvc6/src/Inventor/Qt/viewers/SoQtViewer.cpp, msvc7/soqt1.sln,
+	msvc7/src/config-debug.h, msvc7/src/config-release.h,
+	msvc7/src/Inventor/Qt/devices/spwinput_x11.cpp,
+	msvc7/src/Inventor/Qt/viewers/SoQtViewer.cpp:
+	
+	sync-update
+
+2005-11-19 19:27  larsa
+
+	* build/: msvc6/generate.sh, msvc7/generate.sh:
+	
+	automatic dsp-problem-fixes
+
+2005-11-19 16:26  larsa
+
+	* build/: msvc6/generate.sh, msvc7/generate.sh:
+	
+	mention problem with dsp-generation and static configs
+
+2005-11-14 11:00  mortene
+
+	* NEWS:
+	
+	Mention the Qt bug & work-around.
+
+2005-11-10 15:04  mortene
+
+	* BUGS.txt:
+	
+	Update, simple timers in Qt 4.
+
+2005-11-10 15:00  mortene
+
+	* src/Inventor/Qt/SoQt.cpp:
+	
+	Bugfix: redraw loop would starve under Qt 4, due to Qt 4's
+	seemingly buggy QTimer::start(0) handling.
+
+2005-11-08 13:23  mortene
+
+	* src/qt-config.h:
+	
+	Clean-up: major. There was no reason to duplicate the #defines for
+	Qt 3 for Qt 4. Also fixed at least one bug, where the check was
+	inverted. And simple timers are reported to be gone from Qt 4.
+
+2005-11-08 12:58  mortene
+
+	* configure.ac, src/qt-config.h,
+	src/Inventor/Qt/devices/SoQtKeyboard.cpp:
+	
+	Bugfix: a better fix for the Qt::Keypad issue.
+
+2005-11-08 12:46  mortene
+
+	* src/qt-config.h:
+	
+	Doc: a little more precision in error message.
+
+2005-11-08 12:46  mortene
+
+	* src/Inventor/Qt/devices/SoQtKeyboard.cpp:
+	
+	Robustness: corrects define-check assert.
+
+2005-11-04 16:33  mortene
+
+	* src/Inventor/Qt/widgets/: SoQtThumbWheel.cpp, SoQtThumbWheel.cpp:
+	
+	Doc: leave a code comment explaining some Qt quirkiness.
+	Information by Markus Grabner.
+
+2005-11-04 16:29  mortene
+
+	* src/qt-config.h:
+	
+	Compile fix: QWidget::setWindowState() was not yet in place for Qt
+	3.1.2, at least.
+
+2005-11-04 16:11  mortene
+
+	* src/Inventor/Qt/widgets/SoQtThumbWheel.cpp:
+	
+	Bugfix: takes care of a warning/problem with Qt 4, when QPainter
+	was not explicitly told to finish up. Problem reported and fix
+	suggested by Markus Grabner.
+
+2005-10-26 12:40  mortene
+
+	* configure.ac:
+	
+	Clean-up: detach qt-config.h from config.h.
+
+2005-10-26 12:32  mortene
+
+	* src/: qt-config.h, Inventor/Qt/SoQt.cpp,
+	Inventor/Qt/SoQtComponent.cpp, Inventor/Qt/SoQtGLWidget.cpp,
+	Inventor/Qt/devices/SoQtKeyboard.cpp,
+	Inventor/Qt/viewers/ExaminerViewer.cpp,
+	Inventor/Qt/viewers/FullViewer.cpp,
+	Inventor/Qt/viewers/PlaneViewer.cpp,
+	Inventor/Qt/widgets/SoQtGLArea.cpp:
+	
+	Clean-up: detach qt-config.h from config.h.
+
+2005-10-19 17:39  larsa
+
+	* build/msvc6/: install-headers.bat, soqt1.dsp, src/config-debug.h,
+	src/config-release.h, src/Inventor/Qt/SoQtRenderArea.cpp,
+	src/Inventor/Qt/viewers/SoQtExaminerViewer.cpp,
+	src/Inventor/Qt/viewers/SoQtFullViewer.cpp,
+	src/Inventor/Qt/viewers/SoQtPlaneViewer.cpp,
+	src/Inventor/Qt/widgets/SoAnyThumbWheel.cpp,
+	src/Inventor/Qt/widgets/SoQtPopupMenu.cpp:
+	
+	update
+
+2005-10-19 15:46  larsa
+
+	* build/msvc7/: install-headers.bat, soqt1.sln, soqt1.vcproj,
+	src/config-debug.h, src/config-release.h,
+	src/Inventor/Qt/SoQtRenderArea.cpp,
+	src/Inventor/Qt/viewers/SoQtExaminerViewer.cpp,
+	src/Inventor/Qt/viewers/SoQtFullViewer.cpp,
+	src/Inventor/Qt/viewers/SoQtPlaneViewer.cpp,
+	src/Inventor/Qt/widgets/SoAnyThumbWheel.cpp,
+	src/Inventor/Qt/widgets/SoQtPopupMenu.cpp:
+	
+	updated build files
+
+2005-10-19 15:18  larsa
+
+	* configure.ac:
+	
+	note about why macros are disabled
+
+2005-10-19 15:01  larsa
+
+	* configure.ac:
+	
+	can't put Qt-conditionals in config.h since pre-generated files
+	should work against multiple Qt versions
+
+2005-10-19 15:00  larsa
+
+	* src/qt-config.h:
+	
+	compile fix (new header)
+
+2005-10-19 14:57  larsa
+
+	* src/: Makefile.am, qt-config.h:
+	
+	compile fix
+
+2005-10-11 16:10  kyrah
+
+	* packaging/macosx/checklist.txt:
+	
+	Minor update: Correct path to moc is also needed for make
+	macosx-packages.
+
+2005-10-06 14:15  kyrah
+
+	* src/Inventor/Qt/Makefile.am:
+	
+	Make framework relocatable by using a non-absolute install_name.
+
+2005-10-05 20:09  kyrah
+
+	* src/Inventor/Qt/Makefile.am:
+	
+	Minor framework structure fix, added Versions/Current/SoQt symlink.
+
+2005-09-30 14:41  kyrah
+
+	* packaging/macosx/noinst-README-gcc4.txt.in:
+	
+	There won't be a gcc3/pre-Tiger version of the SoQt SDK...
+
+2005-09-30 14:34  kyrah
+
+	* packaging/macosx/inst-README-gcc4.txt.in:
+	
+	There won't be a gcc3/pre-Tiger version of the SoQt SDK...
+
+2005-09-30 13:29  kyrah
+
+	* packaging/macosx/checklist.txt:
+	
+	Minor additions.
+
+2005-09-28 21:16  kyrah
+
+	* packaging/macosx/License.rtf,
+	packaging/macosx/SoQtTools_Description.plist.in,
+	packaging/macosx/SoQtTools_Info.plist.in,
+	packaging/macosx/SoQtTools_Welcome.rtf,
+	packaging/macosx/SoQt_Description.plist.in,
+	packaging/macosx/SoQt_Info.plist.in,
+	packaging/macosx/SoQt_Welcome.rtf,
+	packaging/macosx/background.tiff, packaging/macosx/checklist.txt,
+	packaging/macosx/inst-README-gcc3.txt.in,
+	packaging/macosx/inst-README-gcc4.txt.in,
+	packaging/macosx/makedmg.sh.in, packaging/macosx/makeinstdmg.sh.in,
+	packaging/macosx/makenoinstdmg.sh.in,
+	packaging/macosx/makesoqtpkg.sh.in,
+	packaging/macosx/makesoqttoolspkg.sh.in,
+	packaging/macosx/noinst-README-gcc3.txt.in,
+	packaging/macosx/noinst-README-gcc4.txt.in,
+	packaging/macosx/inst-dmg-files/.DS_Store,
+	packaging/macosx/inst-dmg-files/.VolumeIcon.icns,
+	packaging/macosx/inst-dmg-files/Desktop_DB,
+	packaging/macosx/inst-dmg-files/Desktop_DF,
+	packaging/macosx/inst-dmg-files/dmg_bg.tiff,
+	packaging/macosx/noinst-dmg-files/.DS_Store,
+	packaging/macosx/noinst-dmg-files/.VolumeIcon.icns,
+	packaging/macosx/noinst-dmg-files/Desktop_DB,
+	packaging/macosx/noinst-dmg-files/Desktop_DF,
+	packaging/macosx/noinst-dmg-files/dmg_bg.tiff, Makefile.am:
+	
+	Setup for building binary SDK on Mac OS X. Requires further testing
+	before shipping.
+
+2005-09-28 21:12  kyrah
+
+	* configure.ac:
+	
+	Setup for building binary SDK on Mac OS X.
+
+2005-09-28 13:35  larsa
+
+	* cfg/gendsp.sh.in:
+	
+	bootstrap
+
+2005-09-28 13:28  kyrah
+
+	* NEWS:
+	
+	Mention Qt-4/Tiger support in upcoming 1.3.1 release.
+
+2005-09-28 13:26  larsa
+
+	* build/: msvc6/install-dll-debug.bat,
+	msvc6/install-dll-release.bat, msvc6/install-lib-debug.bat,
+	msvc6/install-lib-release.bat, msvc7/install-dll-debug.bat,
+	msvc7/install-dll-release.bat, msvc7/install-lib-debug.bat,
+	msvc7/install-lib-release.bat:
+	
+	misc fixes
+
+2005-09-27 18:59  kyrah
+
+	* src/Inventor/Qt/Makefile.am:
+	
+	Remove creation of Symlink from Inventor.framework to
+	SoQt.framework.  This is now done when installing Coin, making it
+	possible to drag and drop the frameworks indvidually without
+	running any scripts.
+
+2005-09-27 18:56  kyrah
+
+	* configure.ac:
+	
+	Require SoQt.framework to be installed in the same location as
+	Inventor.framework. (Necessary to avoid trouble with the symlink
+	from Inventor.framework to SoQt.framework, which is needed for
+	#include <Inventor/Qt/foo.h> to work.)
+
+2005-09-23 12:40  larsa
+
+	* Makefile.am:
+	
+	dist tweak
+
+2005-09-23 12:35  larsa
+
+	* build/: msvc6/soqt1.dsp, msvc6/src/config-debug.h,
+	msvc6/src/config-release.h, msvc6/src/Inventor/Qt/SoQtBasic.h,
+	msvc7/soqt1.sln, msvc7/soqt1.vcproj, msvc7/src/config-debug.h,
+	msvc7/src/config-release.h, msvc7/src/Inventor/Qt/SoQtBasic.h:
+	
+	regenerate for intermediate versioning
+
+2005-09-23 11:57  larsa
+
+	* build/: msvc6/generate.sh, msvc7/generate.sh:
+	
+	echo reminder
+
+2005-09-22 17:27  larsa
+
+	* configure.ac:
+	
+	new intermediate version
+
+2005-09-22 17:24  larsa
+
+	* docs/ChangeLog.v1.3.0:
+	
+	move ChangeLog
+
+2005-09-22 17:17  larsa
+
+	* build/: msvc6/soqt1.dsp, msvc6/src/config-debug.h,
+	msvc6/src/config-release.h, msvc6/src/Inventor/Qt/SoQtBasic.h,
+	msvc6/src/Inventor/Qt/SoQtGLWidgetCommon.cpp,
+	msvc6/src/Inventor/Qt/widgets/SoAnyThumbWheel.cpp, msvc7/soqt1.sln,
+	msvc7/soqt1.vcproj, msvc7/src/config-debug.h,
+	msvc7/src/config-release.h, msvc7/src/Inventor/Qt/SoQtBasic.h,
+	msvc7/src/Inventor/Qt/SoQtGLWidgetCommon.cpp,
+	msvc7/src/Inventor/Qt/widgets/SoAnyThumbWheel.cpp:
+	
+	regenerate
+
+2005-09-22 16:50  larsa
+
+	* configure.ac:
+	
+	stamp version 1.3.0
+
+2005-09-22 16:49  larsa
+
+	* docs/announcement-1_3_0.txt:
+	
+	tweak
+
+2005-09-22 15:06  larsa
+
+	* Makefile.am, docs/ChangeLog.v1.3.0, docs/announcement-1_3_0.txt:
+	
+	stub docs and dist fixes
+
+2005-09-22 14:56  larsa
+
+	* Makefile.am:
+	
+	dist fix
+
+2005-09-22 14:55  larsa
+
+	* INSTALL, RELEASE.txt:
+	
+	update
+
+2005-09-22 14:53  larsa
+
+	* README.DLL:
+	
+	old info from before requiring SOQT_NOT_DLL do be defined
+
+2005-09-22 14:52  larsa
+
+	* README.WIN32:
+	
+	new contents
+
+2005-09-22 12:31  larsa
+
+	* build/msvc6/src/soqtdefs.h,
+	build/msvc6/src/Inventor/Qt/SoAny.cpp,
+	build/msvc6/src/Inventor/Qt/SoAny.h,
+	build/msvc6/src/Inventor/Qt/SoGuiComponentP.h,
+	build/msvc6/src/Inventor/Qt/SoGuiGLWidgetP.h,
+	build/msvc6/src/Inventor/Qt/SoGuiP.h,
+	build/msvc6/src/Inventor/Qt/SoQt.h,
+	build/msvc6/src/Inventor/Qt/SoQtBasic.h,
+	build/msvc6/src/Inventor/Qt/SoQtCommon.cpp,
+	build/msvc6/src/Inventor/Qt/SoQtComponent.h,
+	build/msvc6/src/Inventor/Qt/SoQtComponentCommon.cpp,
+	build/msvc6/src/Inventor/Qt/SoQtCursor.cpp,
+	build/msvc6/src/Inventor/Qt/SoQtCursor.h,
+	build/msvc6/src/Inventor/Qt/SoQtGLWidget.h,
+	build/msvc6/src/Inventor/Qt/SoQtGLWidgetCommon.cpp,
+	build/msvc6/src/Inventor/Qt/SoQtObject.cpp,
+	build/msvc6/src/Inventor/Qt/SoQtObject.h,
+	build/msvc6/src/Inventor/Qt/SoQtRenderArea.cpp,
+	build/msvc6/src/Inventor/Qt/SoQtRenderArea.h,
+	build/msvc6/src/Inventor/Qt/devices/SoGuiDeviceP.h,
+	build/msvc6/src/Inventor/Qt/devices/SoGuiInputFocusP.h,
+	build/msvc6/src/Inventor/Qt/devices/SoGuiKeyboardP.h,
+	build/msvc6/src/Inventor/Qt/devices/SoGuiMouseP.h,
+	build/msvc6/src/Inventor/Qt/devices/SoGuiSpaceballP.h,
+	build/msvc6/src/Inventor/Qt/devices/SoQtDevice.h,
+	build/msvc6/src/Inventor/Qt/devices/SoQtDeviceCommon.cpp,
+	build/msvc6/src/Inventor/Qt/devices/SoQtInputFocus.h,
+	build/msvc6/src/Inventor/Qt/devices/SoQtInputFocusCommon.cpp,
+	build/msvc6/src/Inventor/Qt/devices/SoQtKeyboard.h,
+	build/msvc6/src/Inventor/Qt/devices/SoQtKeyboardCommon.cpp,
+	build/msvc6/src/Inventor/Qt/devices/SoQtMouse.h,
+	build/msvc6/src/Inventor/Qt/devices/SoQtMouseCommon.cpp,
+	build/msvc6/src/Inventor/Qt/devices/SoQtSpaceball.h,
+	build/msvc6/src/Inventor/Qt/devices/SoQtSpaceballCommon.cpp,
+	build/msvc6/src/Inventor/Qt/editors/SoQtColorEditor.cpp,
+	build/msvc6/src/Inventor/Qt/editors/SoQtColorEditor.h,
+	build/msvc6/src/Inventor/Qt/editors/SoQtMaterialEditor.cpp,
+	build/msvc6/src/Inventor/Qt/editors/SoQtMaterialEditor.h,
+	build/msvc6/src/Inventor/Qt/engines/Engines.cpp,
+	build/msvc6/src/Inventor/Qt/engines/Format.cpp,
+	build/msvc6/src/Inventor/Qt/engines/RadioGroup.cpp,
+	build/msvc6/src/Inventor/Qt/engines/SoGuiEngines.h,
+	build/msvc6/src/Inventor/Qt/engines/SoGuiFormat.h,
+	build/msvc6/src/Inventor/Qt/engines/SoGuiRadioGroup.h,
+	build/msvc6/src/Inventor/Qt/nodes/ClickCounter.cpp,
+	build/msvc6/src/Inventor/Qt/nodes/ColorEditor.cpp,
+	build/msvc6/src/Inventor/Qt/nodes/Frame.cpp,
+	build/msvc6/src/Inventor/Qt/nodes/Image.cpp,
+	build/msvc6/src/Inventor/Qt/nodes/Label.cpp,
+	build/msvc6/src/Inventor/Qt/nodes/MaterialEditor.cpp,
+	build/msvc6/src/Inventor/Qt/nodes/Nodes.cpp,
+	build/msvc6/src/Inventor/Qt/nodes/Pane.cpp,
+	build/msvc6/src/Inventor/Qt/nodes/Position.cpp,
+	build/msvc6/src/Inventor/Qt/nodes/RadioButton.cpp,
+	build/msvc6/src/Inventor/Qt/nodes/SceneTexture2.cpp,
+	build/msvc6/src/Inventor/Qt/nodes/Slider1.cpp,
+	build/msvc6/src/Inventor/Qt/nodes/Slider2.cpp,
+	build/msvc6/src/Inventor/Qt/nodes/SoGuiClickCounter.h,
+	build/msvc6/src/Inventor/Qt/nodes/SoGuiColorEditor.h,
+	build/msvc6/src/Inventor/Qt/nodes/SoGuiFrame.h,
+	build/msvc6/src/Inventor/Qt/nodes/SoGuiImage.h,
+	build/msvc6/src/Inventor/Qt/nodes/SoGuiLabel.h,
+	build/msvc6/src/Inventor/Qt/nodes/SoGuiMaterialEditor.h,
+	build/msvc6/src/Inventor/Qt/nodes/SoGuiNodes.h,
+	build/msvc6/src/Inventor/Qt/nodes/SoGuiPane.h,
+	build/msvc6/src/Inventor/Qt/nodes/SoGuiPosition.h,
+	build/msvc6/src/Inventor/Qt/nodes/SoGuiRadioButton.h,
+	build/msvc6/src/Inventor/Qt/nodes/SoGuiSceneTexture2.h,
+	build/msvc6/src/Inventor/Qt/nodes/SoGuiSlider1.h,
+	build/msvc6/src/Inventor/Qt/nodes/SoGuiSlider2.h,
+	build/msvc6/src/Inventor/Qt/nodes/SoGuiToggleButton.h,
+	build/msvc6/src/Inventor/Qt/nodes/SoGuiTranslation.h,
+	build/msvc6/src/Inventor/Qt/nodes/SoGuiViewpointWrapper.h,
+	build/msvc6/src/Inventor/Qt/nodes/SoGuiViewportFix.h,
+	build/msvc6/src/Inventor/Qt/nodes/ToggleButton.cpp,
+	build/msvc6/src/Inventor/Qt/nodes/Translation.cpp,
+	build/msvc6/src/Inventor/Qt/nodes/ViewpointWrapper.cpp,
+	build/msvc6/src/Inventor/Qt/nodes/ViewportFix.cpp,
+	build/msvc6/src/Inventor/Qt/viewers/SoGuiExaminerViewerP.h,
+	build/msvc6/src/Inventor/Qt/viewers/SoGuiFullViewerP.h,
+	build/msvc6/src/Inventor/Qt/viewers/SoGuiPlaneViewerP.h,
+	build/msvc6/src/Inventor/Qt/viewers/SoQtConstrainedViewer.cpp,
+	build/msvc6/src/Inventor/Qt/viewers/SoQtConstrainedViewer.h,
+	build/msvc6/src/Inventor/Qt/viewers/SoQtExaminerViewer.cpp,
+	build/msvc6/src/Inventor/Qt/viewers/SoQtExaminerViewer.h,
+	build/msvc6/src/Inventor/Qt/viewers/SoQtFlyViewer.cpp,
+	build/msvc6/src/Inventor/Qt/viewers/SoQtFlyViewer.h,
+	build/msvc6/src/Inventor/Qt/viewers/SoQtFullViewer.cpp,
+	build/msvc6/src/Inventor/Qt/viewers/SoQtFullViewer.h,
+	build/msvc6/src/Inventor/Qt/viewers/SoQtPlaneViewer.cpp,
+	build/msvc6/src/Inventor/Qt/viewers/SoQtPlaneViewer.h,
+	build/msvc6/src/Inventor/Qt/viewers/SoQtViewer.cpp,
+	build/msvc6/src/Inventor/Qt/viewers/SoQtViewer.h,
+	build/msvc6/src/Inventor/Qt/widgets/SoAnyThumbWheel.cpp,
+	build/msvc6/src/Inventor/Qt/widgets/SoAnyThumbWheel.h,
+	build/msvc6/src/Inventor/Qt/widgets/SoQtPopupMenu.cpp,
+	build/msvc6/src/Inventor/Qt/widgets/SoQtPopupMenu.h,
+	build/msvc7/src/soqtdefs.h, build/msvc7/src/Inventor/Qt/SoAny.cpp,
+	build/msvc7/src/Inventor/Qt/SoAny.h,
+	build/msvc7/src/Inventor/Qt/SoGuiComponentP.h,
+	build/msvc7/src/Inventor/Qt/SoGuiGLWidgetP.h,
+	build/msvc7/src/Inventor/Qt/SoGuiP.h,
+	build/msvc7/src/Inventor/Qt/SoQt.h,
+	build/msvc7/src/Inventor/Qt/SoQtBasic.h,
+	build/msvc7/src/Inventor/Qt/SoQtCommon.cpp,
+	build/msvc7/src/Inventor/Qt/SoQtComponent.h,
+	build/msvc7/src/Inventor/Qt/SoQtComponentCommon.cpp,
+	build/msvc7/src/Inventor/Qt/SoQtCursor.cpp,
+	build/msvc7/src/Inventor/Qt/SoQtCursor.h,
+	build/msvc7/src/Inventor/Qt/SoQtGLWidget.h,
+	build/msvc7/src/Inventor/Qt/SoQtGLWidgetCommon.cpp,
+	build/msvc7/src/Inventor/Qt/SoQtObject.cpp,
+	build/msvc7/src/Inventor/Qt/SoQtObject.h,
+	build/msvc7/src/Inventor/Qt/SoQtRenderArea.cpp,
+	build/msvc7/src/Inventor/Qt/SoQtRenderArea.h,
+	build/msvc7/src/Inventor/Qt/devices/SoGuiDeviceP.h,
+	build/msvc7/src/Inventor/Qt/devices/SoGuiInputFocusP.h,
+	build/msvc7/src/Inventor/Qt/devices/SoGuiKeyboardP.h,
+	build/msvc7/src/Inventor/Qt/devices/SoGuiMouseP.h,
+	build/msvc7/src/Inventor/Qt/devices/SoGuiSpaceballP.h,
+	build/msvc7/src/Inventor/Qt/devices/SoQtDevice.h,
+	build/msvc7/src/Inventor/Qt/devices/SoQtDeviceCommon.cpp,
+	build/msvc7/src/Inventor/Qt/devices/SoQtInputFocus.h,
+	build/msvc7/src/Inventor/Qt/devices/SoQtInputFocusCommon.cpp,
+	build/msvc7/src/Inventor/Qt/devices/SoQtKeyboard.h,
+	build/msvc7/src/Inventor/Qt/devices/SoQtKeyboardCommon.cpp,
+	build/msvc7/src/Inventor/Qt/devices/SoQtMouse.h,
+	build/msvc7/src/Inventor/Qt/devices/SoQtMouseCommon.cpp,
+	build/msvc7/src/Inventor/Qt/devices/SoQtSpaceball.h,
+	build/msvc7/src/Inventor/Qt/devices/SoQtSpaceballCommon.cpp,
+	build/msvc7/src/Inventor/Qt/editors/SoQtColorEditor.cpp,
+	build/msvc7/src/Inventor/Qt/editors/SoQtColorEditor.h,
+	build/msvc7/src/Inventor/Qt/editors/SoQtMaterialEditor.cpp,
+	build/msvc7/src/Inventor/Qt/editors/SoQtMaterialEditor.h,
+	build/msvc7/src/Inventor/Qt/engines/Engines.cpp,
+	build/msvc7/src/Inventor/Qt/engines/Format.cpp,
+	build/msvc7/src/Inventor/Qt/engines/RadioGroup.cpp,
+	build/msvc7/src/Inventor/Qt/engines/SoGuiEngines.h,
+	build/msvc7/src/Inventor/Qt/engines/SoGuiFormat.h,
+	build/msvc7/src/Inventor/Qt/engines/SoGuiRadioGroup.h,
+	build/msvc7/src/Inventor/Qt/nodes/ClickCounter.cpp,
+	build/msvc7/src/Inventor/Qt/nodes/ColorEditor.cpp,
+	build/msvc7/src/Inventor/Qt/nodes/Frame.cpp,
+	build/msvc7/src/Inventor/Qt/nodes/Image.cpp,
+	build/msvc7/src/Inventor/Qt/nodes/Label.cpp,
+	build/msvc7/src/Inventor/Qt/nodes/MaterialEditor.cpp,
+	build/msvc7/src/Inventor/Qt/nodes/Nodes.cpp,
+	build/msvc7/src/Inventor/Qt/nodes/Pane.cpp,
+	build/msvc7/src/Inventor/Qt/nodes/Position.cpp,
+	build/msvc7/src/Inventor/Qt/nodes/RadioButton.cpp,
+	build/msvc7/src/Inventor/Qt/nodes/SceneTexture2.cpp,
+	build/msvc7/src/Inventor/Qt/nodes/Slider1.cpp,
+	build/msvc7/src/Inventor/Qt/nodes/Slider2.cpp,
+	build/msvc7/src/Inventor/Qt/nodes/SoGuiClickCounter.h,
+	build/msvc7/src/Inventor/Qt/nodes/SoGuiColorEditor.h,
+	build/msvc7/src/Inventor/Qt/nodes/SoGuiFrame.h,
+	build/msvc7/src/Inventor/Qt/nodes/SoGuiImage.h,
+	build/msvc7/src/Inventor/Qt/nodes/SoGuiLabel.h,
+	build/msvc7/src/Inventor/Qt/nodes/SoGuiMaterialEditor.h,
+	build/msvc7/src/Inventor/Qt/nodes/SoGuiNodes.h,
+	build/msvc7/src/Inventor/Qt/nodes/SoGuiPane.h,
+	build/msvc7/src/Inventor/Qt/nodes/SoGuiPosition.h,
+	build/msvc7/src/Inventor/Qt/nodes/SoGuiRadioButton.h,
+	build/msvc7/src/Inventor/Qt/nodes/SoGuiSceneTexture2.h,
+	build/msvc7/src/Inventor/Qt/nodes/SoGuiSlider1.h,
+	build/msvc7/src/Inventor/Qt/nodes/SoGuiSlider2.h,
+	build/msvc7/src/Inventor/Qt/nodes/SoGuiToggleButton.h,
+	build/msvc7/src/Inventor/Qt/nodes/SoGuiTranslation.h,
+	build/msvc7/src/Inventor/Qt/nodes/SoGuiViewpointWrapper.h,
+	build/msvc7/src/Inventor/Qt/nodes/SoGuiViewportFix.h,
+	build/msvc7/src/Inventor/Qt/nodes/ToggleButton.cpp,
+	build/msvc7/src/Inventor/Qt/nodes/Translation.cpp,
+	build/msvc7/src/Inventor/Qt/nodes/ViewpointWrapper.cpp,
+	build/msvc7/src/Inventor/Qt/nodes/ViewportFix.cpp,
+	build/msvc7/src/Inventor/Qt/viewers/SoGuiExaminerViewerP.h,
+	build/msvc7/src/Inventor/Qt/viewers/SoGuiFullViewerP.h,
+	build/msvc7/src/Inventor/Qt/viewers/SoGuiPlaneViewerP.h,
+	build/msvc7/src/Inventor/Qt/viewers/SoQtConstrainedViewer.cpp,
+	build/msvc7/src/Inventor/Qt/viewers/SoQtConstrainedViewer.h,
+	build/msvc7/src/Inventor/Qt/viewers/SoQtExaminerViewer.cpp,
+	build/msvc7/src/Inventor/Qt/viewers/SoQtExaminerViewer.h,
+	build/msvc7/src/Inventor/Qt/viewers/SoQtFlyViewer.cpp,
+	build/msvc7/src/Inventor/Qt/viewers/SoQtFlyViewer.h,
+	build/msvc7/src/Inventor/Qt/viewers/SoQtFullViewer.cpp,
+	build/msvc7/src/Inventor/Qt/viewers/SoQtFullViewer.h,
+	build/msvc7/src/Inventor/Qt/viewers/SoQtPlaneViewer.cpp,
+	build/msvc7/src/Inventor/Qt/viewers/SoQtPlaneViewer.h,
+	build/msvc7/src/Inventor/Qt/viewers/SoQtViewer.cpp,
+	build/msvc7/src/Inventor/Qt/viewers/SoQtViewer.h,
+	build/msvc7/src/Inventor/Qt/widgets/SoAnyThumbWheel.cpp,
+	build/msvc7/src/Inventor/Qt/widgets/SoAnyThumbWheel.h,
+	build/msvc7/src/Inventor/Qt/widgets/SoQtPopupMenu.cpp,
+	build/msvc7/src/Inventor/Qt/widgets/SoQtPopupMenu.h,
+	src/Inventor/Qt/SoQt.cpp, src/Inventor/Qt/SoQtColorEditor.h,
+	src/Inventor/Qt/SoQtComponent.cpp,
+	src/Inventor/Qt/SoQtComponentP.h, src/Inventor/Qt/SoQtGLWidget.cpp,
+	src/Inventor/Qt/SoQtGLWidgetP.h, src/Inventor/Qt/SoQtInternal.h,
+	src/Inventor/Qt/SoQtLightSliderSet.cpp,
+	src/Inventor/Qt/SoQtLightSliderSet.h,
+	src/Inventor/Qt/SoQtMaterialList.cpp,
+	src/Inventor/Qt/SoQtMaterialSliderSet.cpp,
+	src/Inventor/Qt/SoQtMaterialSliderSet.h, src/Inventor/Qt/SoQtP.h,
+	src/Inventor/Qt/SoQtSliderSet.cpp, src/Inventor/Qt/SoQtSliderSet.h,
+	src/Inventor/Qt/SoQtSliderSetBase.cpp,
+	src/Inventor/Qt/SoQtSliderSetBase.h,
+	src/Inventor/Qt/SoQtTransformSliderSet.cpp,
+	src/Inventor/Qt/SoQtTransformSliderSet.h,
+	src/Inventor/Qt/all-soqt-cpp.cpp,
+	src/Inventor/Qt/all-soqt2-cpp.cpp,
+	src/Inventor/Qt/devices/6DOFEvents.cpp,
+	src/Inventor/Qt/devices/6DOFEvents.h,
+	src/Inventor/Qt/devices/SoQtDevice.cpp,
+	src/Inventor/Qt/devices/SoQtDeviceP.h,
+	src/Inventor/Qt/devices/SoQtInputFocus.cpp,
+	src/Inventor/Qt/devices/SoQtKeyboard.cpp,
+	src/Inventor/Qt/devices/SoQtLinuxJoystick.cpp,
+	src/Inventor/Qt/devices/SoQtLinuxJoystick.h,
+	src/Inventor/Qt/devices/SoQtLinuxJoystickP.h,
+	src/Inventor/Qt/devices/SoQtMouse.cpp,
+	src/Inventor/Qt/devices/SoQtSpaceball.cpp,
+	src/Inventor/Qt/devices/SoQtSpaceballP.h,
+	src/Inventor/Qt/devices/all-devices-cpp.cpp,
+	src/Inventor/Qt/devices/all-devices2-cpp.cpp,
+	src/Inventor/Qt/editors/RGBCubeEditorKit.cpp,
+	src/Inventor/Qt/editors/RGBCubeEditorKit.h,
+	src/Inventor/Qt/editors/RadioGroupKit.cpp,
+	src/Inventor/Qt/editors/RadioGroupKit.h,
+	src/Inventor/Qt/editors/SoQtMaterialEditor.cpp,
+	src/Inventor/Qt/editors/SoQtMaterialEditor.h,
+	src/Inventor/Qt/editors/old/QColorSelection.cpp,
+	src/Inventor/Qt/editors/old/QColorSelection.h,
+	src/Inventor/Qt/editors/old/SoGLMaterialSphere.cpp,
+	src/Inventor/Qt/editors/old/SoGLMaterialSphere.h,
+	src/Inventor/Qt/editors/old/SoQtColorSlider.cpp,
+	src/Inventor/Qt/editors/old/SoQtColorSlider.h,
+	src/Inventor/Qt/editors/old/SoQtMaterialEditor.cpp,
+	src/Inventor/Qt/editors/old/SoQtMaterialEditor.h,
+	src/Inventor/Qt/editors/old/SoQtMaterialList.cpp,
+	src/Inventor/Qt/editors/old/SoQtMaterialList.h,
+	src/Inventor/Qt/engines/all-engines-cpp.cpp,
+	src/Inventor/Qt/nodes/all-nodes-cpp.cpp,
+	src/Inventor/Qt/viewers/ExaminerViewer.cpp,
+	src/Inventor/Qt/viewers/FullViewer.cpp,
+	src/Inventor/Qt/viewers/PlaneViewer.cpp,
+	src/Inventor/Qt/viewers/SoQtExaminerViewerP.h,
+	src/Inventor/Qt/viewers/SoQtFullViewerP.h,
+	src/Inventor/Qt/viewers/SoQtPlaneViewerP.h,
+	src/Inventor/Qt/viewers/WalkViewer.cpp,
+	src/Inventor/Qt/viewers/all-viewers-cpp.cpp,
+	src/Inventor/Qt/widgets/QtNativePopupMenu.cpp,
+	src/Inventor/Qt/widgets/QtNativePopupMenu.h,
+	src/Inventor/Qt/widgets/SoQtGLArea.cpp,
+	src/Inventor/Qt/widgets/SoQtGLArea.h,
+	src/Inventor/Qt/widgets/SoQtThumbWheel.cpp,
+	src/Inventor/Qt/widgets/SoQtThumbWheel.h,
+	src/Inventor/Qt/widgets/all-widgets-cpp.cpp:
+	
+	copyright header update
+
+2005-09-22 12:15  larsa
+
+	* NEWS:
+	
+	update
+
+2005-09-21 17:54  larsa
+
+	* cfg/errors.txt:
+	
+	bootstrap
+
+2005-09-21 17:54  larsa
+
+	* Makefile.am:
+	
+	dist tweak
+
