@@ -69,16 +69,16 @@ inline void SoQtSwap(Type & a, Type & b) {
 #define SOQT_MAJOR_VERSION 1
 #endif /* ! SOQT_MAJOR_VERSION */
 #if ! defined(SOQT_MINOR_VERSION)
-#define SOQT_MINOR_VERSION 3
+#define SOQT_MINOR_VERSION 4
 #endif /* ! SOQT_MINOR_VERSION */
 #if ! defined(SOQT_MICRO_VERSION)
-#define SOQT_MICRO_VERSION 1
+#define SOQT_MICRO_VERSION 0
 #endif /* ! SOQT_MICRO_VERSION */
 #if ! defined(SOQT_BETA_VERSION)
-#define SOQT_BETA_VERSION a
+/* #undef SOQT_BETA_VERSION */
 #endif /* ! SOQT_BETA_VERSION */
 #if ! defined(SOQT_VERSION)
-#define SOQT_VERSION "1.3.1a"
+#define SOQT_VERSION "1.4.0"
 #endif /* ! SOQT_VERSION */
 
 // *************************************************************************
