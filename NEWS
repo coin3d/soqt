@@ -1,7 +1,8 @@
-New in SoQt v1.3.1 (so far):
-* full support for Qt-4 on Mac OS 10.4 "Tiger"
+New in SoQt v1.4.0 (2006-08-29):
+* full support for Qt 4 on all platforms, including Mac OS 10.4 "Tiger"
 * worked around a Qt bug causing the maximum framerate with Qt-4 on
   Windows to be ~ 20fps
+* many bug fixes
 
 New in SoQt v1.3.0 (2005-09-22):
 * install SoGuiMaterialEditor.h
