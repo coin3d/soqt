@@ -228,9 +228,6 @@ public:
   float seekdistance;
   SbBool seekdistanceabs;
 
-  // Camera handling
-  SbBool deletecamera;
-
   // Home position storage.
   SoNode * storedcamera;
 
@@ -316,7 +313,9 @@ public:
   void getCameraCoordinateSystem(SoCamera * camera, SoNode * root,
                                  SbMatrix & matrix, SbMatrix & inverse);
 
+  SoGroup * getParentOfNode(SoNode * root, SoNode * node) const;
   SoSearchAction * searchaction;
+
   SoGetMatrixAction * matrixaction;
   SbPList * superimpositions;
   SbGuiList<SbBool> superimpositionsenabled;
@@ -1658,44 +1657,38 @@ SOQT_OBJECT_ABSTRACT_SOURCE(SoQtViewer);
 
 // *************************************************************************
 
-/*!
-  \internal
-
+/*
   Return the parent node in the scene graph of the given \a node.
   NB: this is just a quick'n'dirty thing for often executed code,
   and doesn't cover cases where nodes have multiple parents.
 */
 
-static SoGroup *
-get_parent_of_node(SoQtViewerP * pimpl, SoNode * root, SoNode * node)
+SoGroup *
+SoQtViewerP::getParentOfNode(SoNode * root, SoNode * node) const
 {
-  SbBool oldsearch = SoBaseKit::isSearchingChildren();
+  assert(node && root && "called with null argument");
+
+  const SbBool oldsearch = SoBaseKit::isSearchingChildren();
   SoBaseKit::setSearchingChildren(TRUE);
 
-  assert(node && root && "get_parent_of_node() called with null argument");
-  if (pimpl == NULL) {
-    SoSearchAction search;
-    search.setSearchingAll(TRUE);
-    search.setNode(node);
-    search.apply(root);
-    assert(search.getPath() && "node not found in scenegraph");
-    SoNode * parent = ((SoFullPath *)search.getPath())->getNodeFromTail(1);
+  this->searchaction->reset();
+  this->searchaction->setSearchingAll(TRUE);
+  this->searchaction->setNode(node);
+  this->searchaction->apply(root);
+
+  SoPath * p = this->searchaction->getPath();
+
+  SoGroup * parent = NULL;
+  if (p) {
+    parent = (SoGroup *) ((SoFullPath *)p)->getNodeFromTail(1);
     assert(parent && "couldn't find parent");
-    SoBaseKit::setSearchingChildren(oldsearch);
-    return (SoGroup *)parent;
-  } else {
-    pimpl->searchaction->reset();
-    pimpl->searchaction->setSearchingAll(TRUE);
-    pimpl->searchaction->setNode(node);
-    pimpl->searchaction->apply(root);
-    assert(pimpl->searchaction->getPath() && "node not found in scenegraph");
-    SoNode * parent =
-      ((SoFullPath *) pimpl->searchaction->getPath())->getNodeFromTail(1);
-    assert(parent && "couldn't find parent");
-    pimpl->searchaction->reset();
-    SoBaseKit::setSearchingChildren(oldsearch);
-    return (SoGroup *)parent;
   }
+
+  this->searchaction->reset();
+
+  SoBaseKit::setSearchingChildren(oldsearch);
+
+  return parent;
 }
 
 // *************************************************************************
@@ -1736,7 +1729,6 @@ SoQtViewer::SoQtViewer(QWidget * parent,
   PRIVATE(this)->localsetbuffertype = FALSE;
 
   PRIVATE(this)->cameratype = SoPerspectiveCamera::getClassTypeId();
-  PRIVATE(this)->deletecamera = FALSE;
   PRIVATE(this)->buffertype = this->isDoubleBuffer() ? BUFFER_DOUBLE : BUFFER_SINGLE;
 
   PRIVATE(this)->interactionstartCallbacks = new SoCallbackList;
@@ -1829,25 +1821,17 @@ void
 SoQtViewer::setCamera(SoCamera * cam)
 {
   if (PRIVATE(this)->camera) {
-    // If we made the camera, detach it. Otherwise just leave it in
-    // the graph.
-    if (PRIVATE(this)->deletecamera) {
-      SoGroup * cameraparent =
-	get_parent_of_node(PRIVATE(this), PRIVATE(this)->sceneroot, PRIVATE(this)->camera);
-      cameraparent->removeChild(PRIVATE(this)->camera);
-      PRIVATE(this)->deletecamera = FALSE;
-    }
-
     PRIVATE(this)->camera->unref();
+  }
+  
+  if (cam) {
+    cam->ref();
+    PRIVATE(this)->cameratype = cam->getTypeId();
   }
 
   PRIVATE(this)->camera = cam;
 
-  if (PRIVATE(this)->camera) {
-    PRIVATE(this)->camera->ref();
-    this->saveHomePosition();
-    PRIVATE(this)->cameratype = PRIVATE(this)->camera->getTypeId();
-  }
+  this->saveHomePosition();
 }
 
 // *************************************************************************
@@ -1936,38 +1920,52 @@ SoQtViewer::setCameraType(SoType t)
     }
   }
 
-  if (PRIVATE(this)->camera != NULL) {
-    SoCamera * newcamera = (SoCamera *)t.createInstance();
+  SoCamera * currentcam = PRIVATE(this)->camera;
 
-    // Transfer and convert values from one camera type to the other.
-    if (newisperspective) {
-      SoQtViewerP::convertOrtho2Perspective((SoOrthographicCamera *)PRIVATE(this)->camera,
-                                               (SoPerspectiveCamera *)newcamera);
-    }
-    else {
-      SoQtViewerP::convertPerspective2Ortho((SoPerspectiveCamera *)PRIVATE(this)->camera,
-                                               (SoOrthographicCamera *)newcamera);
-    }
-
-    SoGroup * cameraparent =
-      get_parent_of_node(PRIVATE(this), PRIVATE(this)->sceneroot, PRIVATE(this)->camera);
-    cameraparent->insertChild(newcamera,
-                              cameraparent->findChild(PRIVATE(this)->camera));
-    SoCamera * oldcamera = !PRIVATE(this)->deletecamera ? PRIVATE(this)->camera : NULL;
-
-    // The setCamera() invokation below will set the saved "home"
-    // position of the camera to the current camera position. We make
-    // no attempt to avoid this, as it would involve nasty hacks, and
-    // it shouldn't really matter.
-
-    this->setCamera(newcamera); // This will set PRIVATE(this)->cameratype.
-
-    PRIVATE(this)->deletecamera = TRUE;
-    if (oldcamera) { cameraparent->removeChild(oldcamera); }
+  if (currentcam == NULL) {
+    // A camera has not been set up for the scene yet, so just store
+    // the type and short-cut the rest of this function.
+    PRIVATE(this)->cameratype = t;
+    return;
   }
-  else { // A camera has not been instantiated for the scene.
-    PRIVATE(this)->cameratype = t; // No call to setCamera(), so set type explicitly.
+
+  SoCamera * newcamera = (SoCamera *)t.createInstance();
+
+  // Transfer and convert values from one camera type to the other.
+  if (newisperspective) {
+    SoQtViewerP::convertOrtho2Perspective((SoOrthographicCamera *)currentcam,
+                                             (SoPerspectiveCamera *)newcamera);
   }
+  else {
+    SoQtViewerP::convertPerspective2Ortho((SoPerspectiveCamera *)currentcam,
+                                             (SoOrthographicCamera *)newcamera);
+  }
+
+  SoGroup * cameraparent =
+    PRIVATE(this)->getParentOfNode(PRIVATE(this)->sceneroot, currentcam);
+  if (cameraparent) { cameraparent->replaceChild(currentcam, newcamera); }
+  else {
+    // camera not actually present in the scene graph, so just NULL
+    // and void.
+    newcamera->ref();
+    newcamera->unref();
+    newcamera = NULL;
+
+    // Yes, this can "legally" happen, if e.g. the camera is taken out
+    // of the scene graph by the app programmer, and no new camera was
+    // set with setCamera() -- but this is a quite odd thing to do, so
+    // we warn about this for now.
+    SoDebugError::postWarning("SoQtViewer::setCameraType",
+                              "Could not find the current camera in the "
+                              "scene graph, for some odd reason.");
+  }
+
+  // The setCamera() invokation below will set the saved "home"
+  // position of the camera to the current camera position. We make
+  // no attempt to avoid this, as it would involve nasty hacks, and
+  // it shouldn't really matter.
+
+  this->setCamera(newcamera); // This will set PRIVATE(this)->cameratype.
 }
 
 // *************************************************************************
@@ -2933,7 +2931,7 @@ SoQtViewer::setDoubleBuffer(const SbBool on)
 // *************************************************************************
 
 /*!
-  Give the viewer a scenegraph to render and interact with. Overloaded
+  Give the viewer a scenegraph to render and interact with. Overridden
   from parent class so the viewer can add it's own nodes to control
   rendering in different styles, rendering with a headlight, etc.
 
@@ -2941,8 +2939,9 @@ SoQtViewer::setDoubleBuffer(const SbBool on)
   which also covers the nodes necessary to implement the different
   preferences drawing style settings.
 
-  If no camera is part of the scene graph under \a root, one will be
-  added automatically.
+  If no camera is part of the scene graph under \a root, one will
+  automatically be instantiated and added. You can get a reference to
+  this camera by using the SoQtViewer::getCamera() method.
 
   \sa getSceneGraph(), setCameraType()
 */
@@ -3011,7 +3010,6 @@ SoQtViewer::setSceneGraph(SoNode * root)
     else {
       scenecamera = (SoCamera *) PRIVATE(this)->cameratype.createInstance();
     }
-    PRIVATE(this)->deletecamera = TRUE;
     
     // If type==BROWSER, camera should be inserted in the private
     // viewer "supergraph", if it's equal to EDITOR it should be
