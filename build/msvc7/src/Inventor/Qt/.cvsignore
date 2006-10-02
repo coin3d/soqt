@@ -1,5 +1,0 @@
-Makefile
-.deps
-soqt*.so.*
-stamp-*
-moc_*.icc

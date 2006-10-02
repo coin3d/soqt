@@ -1,7 +1,0 @@
-*.lo
-.deps
-.libs
-Makefile
-SoQtColorEditor.cpp
-SoQtColorEditor.h
-libSoQtEditors.la
