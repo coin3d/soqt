@@ -1821,6 +1821,11 @@ void
 SoQtViewer::setCamera(SoCamera * cam)
 {
   if (PRIVATE(this)->camera) {
+    // remove the camera from the super scene graph if we inserted a camera there
+    int idx = PRIVATE(this)->sceneroot->findChild(PRIVATE(this)->camera);
+    if (idx >= 0) {
+      PRIVATE(this)->sceneroot->removeChild(idx);
+    }
     PRIVATE(this)->camera->unref();
   }
   
