@@ -38,7 +38,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(QTDIR)\lib\QtOpenGL4.lib $(QTDIR)\lib\QtGui4.lib $(QTDIR)\lib\QtCore4.lib $(QTDIR)\lib\Qt3Support4.lib $(COINDIR)\lib\coin2d.lib opengl32.lib"
+				AdditionalDependencies="$(QTDIR)\lib\QtOpenGL4.lib $(QTDIR)\lib\QtGui4.lib $(QTDIR)\lib\QtCore4.lib $(QTDIR)\lib\Qt3Support4.lib $(COINDIR)\lib\coin2.lib opengl32.lib"
 				OutputFile="soqt1.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
@@ -88,7 +88,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories=".\src,.\data,..\..\src,$(COINDIR)\include,$(QTDIR)\include,$(QTDIR)\include\Qt"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_LIB;SOQT_DEBUG=0;HAVE_CONFIG_H;COIN_DLL;SOQT_INTERNAL"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_LIB;SOQT_DEBUG=0;HAVE_CONFIG_H;COIN_NOT_DLL;SOQT_INTERNAL"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
@@ -140,7 +140,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories=".\src,.\data,..\..\src,$(COINDIR)\include,$(QTDIR)\include,$(QTDIR)\include\Qt"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_LIB;SOQT_DEBUG=1;HAVE_CONFIG_H;COIN_DLL;SOQT_INTERNAL"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_LIB;SOQT_DEBUG=1;HAVE_CONFIG_H;COIN_NOT_DLL;SOQT_INTERNAL"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
@@ -207,7 +207,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(QTDIR)\lib\QtOpenGL4.lib $(QTDIR)\lib\QtGui4.lib $(QTDIR)\lib\QtCore4.lib $(QTDIR)\lib\Qt3Support4.lib $(COINDIR)\lib\coin2d.lib opengl32.lib"
+				AdditionalDependencies="$(QTDIR)\lib\QtOpenGLd4.lib $(QTDIR)\lib\QtGuid4.lib $(QTDIR)\lib\QtCored4.lib $(QTDIR)\lib\Qt3Supportd4.lib $(COINDIR)\lib\coin2d.lib opengl32.lib"
 				OutputFile="soqt1d.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"

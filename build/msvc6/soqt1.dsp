@@ -84,8 +84,8 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 $(QTDIR)\lib\QtOpenGL4.lib $(QTDIR)\lib\QtGui4.lib $(QTDIR)\lib\QtCore4.lib $(QTDIR)\lib\Qt3Support4.lib $(COINDIR)\lib\coin2d.lib opengl32.lib user32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 $(QTDIR)\lib\QtOpenGL4.lib $(QTDIR)\lib\QtGui4.lib $(QTDIR)\lib\QtCore4.lib $(QTDIR)\lib\Qt3Support4.lib $(COINDIR)\lib\coin2d.lib opengl32.lib user32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept /out:"soqt1d.dll"
+# ADD BASE LINK32 $(QTDIR)\lib\QtOpenGLd4.lib $(QTDIR)\lib\QtGuid4.lib $(QTDIR)\lib\QtCored4.lib $(QTDIR)\lib\Qt3Supportd4.lib $(COINDIR)\lib\coin2d.lib opengl32.lib user32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 $(QTDIR)\lib\QtOpenGLd4.lib $(QTDIR)\lib\QtGuid4.lib $(QTDIR)\lib\QtCored4.lib $(QTDIR)\lib\Qt3Supportd4.lib $(COINDIR)\lib\coin2d.lib opengl32.lib user32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept /out:"soqt1d.dll"
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
 PostBuild_Cmds=install-dll-debug.bat

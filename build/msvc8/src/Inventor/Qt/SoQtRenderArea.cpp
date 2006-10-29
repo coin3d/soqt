@@ -1507,6 +1507,9 @@ SoQtRenderArea::setEventCallback(SoQtRenderAreaEventCB * func,
 
 /*!
   This method sets the normal scene SoSceneManager object.
+
+  The previous set scene manager is deleted, and there is no way to
+  currently avoid that.  This might change in the future.
 */
 void
 SoQtRenderArea::setSceneManager(SoSceneManager * manager)
@@ -1551,6 +1554,9 @@ SoQtRenderArea::getSceneManager(void) const
 
 /*!
   This method sets the overlay scene SoSceneManager object.
+
+  The previous set scene manager is not freed and will leak unless
+  the user frees it.
 */
 void
 SoQtRenderArea::setOverlaySceneManager(SoSceneManager * manager)
