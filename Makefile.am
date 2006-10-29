@@ -439,12 +439,14 @@ EXTRA_DIST = \
 	docs/announcement-1_2_0.txt \
 	docs/announcement-1_3_0.txt \
 	docs/announcement-1_4_0.txt \
+	docs/announcement-1_4_1.txt \
 	docs/ChangeLog.v1.0.0 \
 	docs/ChangeLog.v1.0.1 \
 	docs/ChangeLog.v1.0.2 \
 	docs/ChangeLog.v1.2.0 \
 	docs/ChangeLog.v1.3.0 \
 	docs/ChangeLog.v1.4.0 \
+	docs/ChangeLog.v1.4.1 \
 	models/coin_soqt.iv \
 	models/coin_soqt.wrl \
 	test-code/README \

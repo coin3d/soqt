@@ -1,0 +1,28 @@
+SoQt 1.4.1 Released
+===================
+
+SoQt 1.4.1 is a patchlevel release, meaning there are no updates to the
+public interface. Changes from previous release are primarily bugfixes.
+
+
+NEWS File Excerpt:
+------------------
+
+New in SoQt v1.4.1 (2006-10-29):
+* critical viewer/camera-related bugfix
+
+
+Download Information:
+---------------------
+
+Source Code by FTP: 
+  ftp://ftp.coin3d.org/pub/coin/src/SoQt-1.4.1.tar.gz 
+
+
+We do still not provide pre-compiled binary packages of the SoQt library
+for any platform.
+
+Regards,
+
+  Lars J. Aas
+  Systems in Motion
