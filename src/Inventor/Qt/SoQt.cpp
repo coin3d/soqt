@@ -622,7 +622,8 @@ SoGuiP::sensorQueueChanged(void *)
 // spaceball devices.)
 class SoQtApplication : public QApplication {
 public:
-  SoQtApplication(int argc, char ** argv) : QApplication(argc, argv) { 
+  SoQtApplication(int & argc, char ** argv) : QApplication(argc, argv) {
+
 #ifdef HAVE_X11_AVAILABLE
     this->display = NULL;
 #endif // HAVE_X11_AVAILABLE
@@ -719,7 +720,8 @@ SoQt::init(QWidget * toplevelwidget)
     // use a static char array to store the dummy argv parameters
     static char * dummyargv[1];
     dummyargv[0] = "SoQt";
-    SoQtP::appobject = new SoQtApplication(1, (char **) dummyargv);
+    int argc = 1;
+    SoQtP::appobject = new SoQtApplication(argc, (char **) dummyargv);
     SoQtP::madeappobject = TRUE;
   }
   else {
