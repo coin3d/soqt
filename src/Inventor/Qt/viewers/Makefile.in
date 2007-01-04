@@ -366,6 +366,7 @@ SoGui_src_Inventor_Gui_engines_BuiltFiles = \
 
 SoGui_src_Inventor_Gui_viewers_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.h \
+  $(top_builddir)/src/Inventor/@Gui@/viewers/SoGuiViewerP.h \
   $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp \
   $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.h \
   $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@ConstrainedViewer.cpp \
@@ -586,6 +587,7 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/viewers/SoGuiPlaneViewerP.h.in \
   src/Inventor/@Gui@/common/viewers/SoGuiViewer.cpp.in \
   src/Inventor/@Gui@/common/viewers/SoGuiViewer.h.in \
+  src/Inventor/@Gui@/common/viewers/SoGuiViewerP.h.in \
   src/Inventor/@Gui@/common/pixmaps/home.xpm \
   src/Inventor/@Gui@/common/pixmaps/ortho.xpm \
   src/Inventor/@Gui@/common/pixmaps/perspective.xpm \
@@ -630,6 +632,7 @@ DISTCLEANFILES = \
 # libtool setup
 RegularSources = \
 	FullViewer.cpp \
+	So@Gui@ViewerP.h \
 	So@Gui@FullViewerP.h \
 	ExaminerViewer.cpp \
 	So@Gui@ExaminerViewerP.h \
@@ -694,9 +697,10 @@ LIBRARIES = $(noinst_LIBRARIES)
 
 viewers_lst_AR = $(AR) cru
 viewers_lst_LIBADD =
-am__viewers_lst_SOURCES_DIST = FullViewer.cpp So@Gui@FullViewerP.h \
-	ExaminerViewer.cpp So@Gui@ExaminerViewerP.h PlaneViewer.cpp \
-	So@Gui@PlaneViewerP.h all-viewers-cpp.cpp
+am__viewers_lst_SOURCES_DIST = FullViewer.cpp So@Gui@ViewerP.h \
+	So@Gui@FullViewerP.h ExaminerViewer.cpp \
+	So@Gui@ExaminerViewerP.h PlaneViewer.cpp So@Gui@PlaneViewerP.h \
+	all-viewers-cpp.cpp
 am__objects_1 = all-viewers-cpp.$(OBJEXT)
 am__objects_2 = FullViewer.$(OBJEXT) ExaminerViewer.$(OBJEXT) \
 	PlaneViewer.$(OBJEXT)
@@ -717,9 +721,10 @@ LTLIBRARIES = $(noinst_LTLIBRARIES)
 
 libSoQtViewers_la_LDFLAGS =
 libSoQtViewers_la_LIBADD =
-am__libSoQtViewers_la_SOURCES_DIST = FullViewer.cpp So@Gui@FullViewerP.h \
-	ExaminerViewer.cpp So@Gui@ExaminerViewerP.h PlaneViewer.cpp \
-	So@Gui@PlaneViewerP.h all-viewers-cpp.cpp
+am__libSoQtViewers_la_SOURCES_DIST = FullViewer.cpp So@Gui@ViewerP.h \
+	So@Gui@FullViewerP.h ExaminerViewer.cpp \
+	So@Gui@ExaminerViewerP.h PlaneViewer.cpp So@Gui@PlaneViewerP.h \
+	all-viewers-cpp.cpp
 am__objects_7 = all-viewers-cpp.lo
 am__objects_8 = FullViewer.lo ExaminerViewer.lo PlaneViewer.lo
 @HACKING_COMPACT_BUILD_TRUE@am__objects_9 = $(am__objects_7)
@@ -1559,6 +1564,9 @@ $(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp: $(top_srcdir)/src/I
 
 $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.h: $(top_srcdir)/src/Inventor/@Gui@/common/viewers/SoGuiViewer.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/viewers/So@Gui@Viewer.h:src/Inventor/@Gui@/common/viewers/SoGuiViewer.h.in )
+
+$(top_builddir)/src/Inventor/@Gui@/viewers/SoGuiViewerP.h: $(top_srcdir)/src/Inventor/@Gui@/common/viewers/SoGuiViewerP.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/viewers/SoGuiViewerP.h:src/Inventor/@Gui@/common/viewers/SoGuiViewerP.h.in )
 
 $(top_builddir)/src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/viewers/SoGuiViewer.cpp.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/viewers/So@Gui@Viewer.cpp:src/Inventor/@Gui@/common/viewers/SoGuiViewer.cpp.in )
