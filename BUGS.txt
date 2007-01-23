@@ -906,3 +906,13 @@ main(int argc, char ** argv)
   
 =====================================================================
 
+040 soqt-config weaknesses under Mac OS X
+
+    soqt-config --build-app:
+    o Missing documentation
+    o Not possible to specify multiple source files
+      (e.g. soqt-config --build-app executable source1.cpp source2.cpp)
+
+    20070123 kintel.
+  
+=====================================================================
