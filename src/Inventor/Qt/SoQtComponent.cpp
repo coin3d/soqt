@@ -122,7 +122,7 @@ SoQtComponentP::getNativeCursor(const SoQtCursor::CustomCursor * cc)
 {
   if (SoQtComponentP::cursordict == NULL) { // first call, initialize
     SoQtComponentP::cursordict = new SbDict;
-    sogui_atexit((sogui_atexit_f*)SoQtComponentP::atexit_cleanup, 0);
+    SoAny::atexit((SoAny::atexit_f*)SoQtComponentP::atexit_cleanup, 0);
   }
 
   void * qc;
