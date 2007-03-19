@@ -342,9 +342,15 @@ SoQtGLWidget::isQuadBufferStereo(void) const
 void 
 SoQtGLWidget::setAccumulationBuffer(const SbBool enable)
 {
+// FIXME: Qt/Mac falsely reports that an accumulation buffer 
+// is available if it has been requested in the QGLFormat, 
+// regardless of whether it actually IS available. This should
+// be investigated further and reported to TT. 20070319 kyrah
+#ifndef Q_WS_MAC
   if ((enable && PRIVATE(this)->glformat->accum()) ||
        (!enable && !PRIVATE(this)->glformat->accum()))
     return;
+#endif
 
   PRIVATE(this)->glformat->setAccum(enable);
 
