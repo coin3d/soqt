@@ -84,7 +84,7 @@ if $sim_ac_make_dsp; then
     -D$1_DEBUG* | -DNDEBUG )
       # Defines that vary between release/debug configurations can't be
       # set up dynamically in <lib>_DSP_DEFS - they must be static in the
-      # gendsp.sh script.  We therefore catch them here so we can ignore
+      # gendsp.pl script.  We therefore catch them here so we can ignore
       # checking for them below.
       ;;
     -D*=* | -D* )
@@ -107,19 +107,19 @@ if $sim_ac_make_dsp; then
     esac
   done
 
-  CC=[$]$3_build_dir/cfg/gendsp.sh
-  CXX=[$]$3_build_dir/cfg/gendsp.sh
-  CXXLD=[$]$3_build_dir/cfg/gendsp.sh
+  CC=[$]$3_build_dir/cfg/gendsp.pl
+  CXX=[$]$3_build_dir/cfg/gendsp.pl
+  CXXLD=[$]$3_build_dir/cfg/gendsp.pl
   # Yes, this is totally bogus stuff, but don't worry about it.  As long
-  # as gendsp.sh recognizes it...  20030219 larsa
+  # as gendsp.pl recognizes it...  20030219 larsa
   CPPFLAGS="$CPPFLAGS -Ddspfile=[$]$3_build_dir/$3[$]$1_MAJOR_VERSION.dsp"
   LDFLAGS="$LDFLAGS -Wl,-Ddspfile=[$]$3_build_dir/$3[$]$1_MAJOR_VERSION.dsp"
   LIBFLAGS="$LIBFLAGS -o $3[$]$1_MAJOR_VERSION.so.0"
 
   # this can't be set up at the point the libtool script is generated
   mv libtool libtool.bak
-  sed -e "s%^CC=\"gcc\"%CC=\"[$]$3_build_dir/cfg/gendsp.sh\"%" \
-      -e "s%^CC=\".*/wrapmsvc.exe\"%CC=\"[$]$3_build_dir/cfg/gendsp.sh\"%" \
+  sed -e "s%^CC=\"gcc\"%CC=\"[$]$3_build_dir/cfg/gendsp.pl\"%" \
+      -e "s%^CC=\".*/wrapmsvc.exe\"%CC=\"[$]$3_build_dir/cfg/gendsp.pl\"%" \
       <libtool.bak >libtool
   rm -f libtool.bak
   chmod 755 libtool
@@ -10696,8 +10696,8 @@ if $sim_ac_with_qt; then
   SIM_AC_HAVE_QT_FRAMEWORK
 
   if $sim_ac_have_qt_framework; then 
-    sim_ac_qt_cppflags="-I$sim_ac_qt_framework_dir/QtCore.framework/Headers -I$sim_ac_qt_framework_dir/QtOpenGL.framework/Headers -I$sim_ac_qt_framework_dir/QtGui.framework/Headers -I$sim_ac_qt_framework_dir/Qt3Support.framework/Headers -F$sim_ac_qt_framework_dir"
-    sim_ac_qt_libs="-Wl,-F$sim_ac_qt_framework_dir -Wl,-framework,QtGui -Wl,-framework,QtOpenGL -Wl,-framework,QtCore -Wl,-framework,Qt3Support -Wl,-framework,QtXml -Wl,-framework,QtNetwork -Wl,-framework,QtSql"
+    sim_ac_qt_cppflags="-I$sim_ac_qt_framework_dir/QtCore.framework/Headers -I$sim_ac_qt_framework_dir/QtOpenGL.framework/Headers -I$sim_ac_qt_framework_dir/QtGui.framework/Headers -F$sim_ac_qt_framework_dir"
+    sim_ac_qt_libs="-Wl,-F$sim_ac_qt_framework_dir -Wl,-framework,QtGui -Wl,-framework,QtOpenGL -Wl,-framework,QtCore -Wl,-framework,QtXml -Wl,-framework,QtNetwork -Wl,-framework,QtSql"
   else
 
     sim_ac_qglobal_unresolved=true
@@ -10869,8 +10869,7 @@ if $sim_ac_with_qt; then
         ## Test all known possible combinations of linking against the
         ## Troll Tech Qt library:
         ##
-        ## * "-lQtGui -lQt3Support": Qt 4 on UNIX-like systems (with some
-        ##   obsoleted Qt 3 widgets)
+        ## * "-lQtGui": Qt 4 on UNIX-like systems 
         ##
         ## * "-lqt-gl": links against the standard Debian version of the
         ##   Qt library with embedded QGL
@@ -10926,8 +10925,8 @@ if $sim_ac_with_qt; then
 
         for sim_ac_qt_cppflags_loop in "" "-DQT_DLL"; do
           for sim_ac_qt_libcheck in \
-              "-lQtGui${sim_ac_qt_suffix}${sim_ac_qt_major_version} -lQtCore${sim_ac_qt_suffix}${sim_ac_qt_major_version} -lQt3Support${sim_ac_qt_suffix}${sim_ac_qt_major_version}" \
-              "-lQtGui -lQt3Support" \
+              "-lQtGui${sim_ac_qt_suffix}${sim_ac_qt_major_version} -lQtCore${sim_ac_qt_suffix}${sim_ac_qt_major_version}" \
+              "-lQtGui" \
               "-lqt-gl" \
               "-lqt-mt" \
               "-lqt" \
@@ -11863,8 +11862,8 @@ ifelse($1, [], :, $1)
 AC_DEFUN([SIM_AC_COMPILER_NOBOOL], [
 sim_ac_nobool_CXXFLAGS=
 sim_ac_have_nobool=false
+AC_MSG_CHECKING([whether $CXX accepts /noBool])
 if $BUILD_WITH_MSVC && test x$sim_ac_msvc_version = x6; then
-  AC_MSG_CHECKING([whether $CXX accepts /noBool])
   SIM_AC_CXX_COMPILER_BEHAVIOR_OPTION_QUIET(
     [/noBool],
     [int temp],
