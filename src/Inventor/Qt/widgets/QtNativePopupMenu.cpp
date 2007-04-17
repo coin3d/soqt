@@ -121,6 +121,10 @@ QtNativePopupMenu::~QtNativePopupMenu()
     delete [] rec->title;
     delete rec;
   }
+
+  delete this->menus;
+  delete this->items;
+
 } // ~QtNativePopupMenu()
 
 // *************************************************************************

@@ -200,6 +200,10 @@ SoQtFullViewer::~SoQtFullViewer()
   delete [] this->rightWheelStr;
   delete [] this->bottomWheelStr;
 
+  if (this->prefmenu) {
+    delete this->prefmenu;
+  }
+
   delete PRIVATE(this);
 }
 
