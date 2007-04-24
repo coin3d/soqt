@@ -125,6 +125,7 @@
 #include <soqtdefs.h>
 
 #include <Inventor/Qt/viewers/SoGuiFullViewerP.h> // for pan() and zoom()
+#include <Inventor/Qt/viewers/SoGuiViewerP.h> // for adjusting final camera orientation before seek
 #include <Inventor/Qt/viewers/SoQtPlaneViewerP.h>
 
 // *************************************************************************
@@ -960,6 +961,19 @@ SoGuiPlaneViewerP::setCursorRepresentation(PlaneViewerMode modearg)
     break;
   }
 }
+
+
+/*!  
+  Overridden to make sure camera orientation is not affected by a
+  seek
+ */
+void
+SoQtPlaneViewer::computeSeekFinalOrientation(void)
+{
+  SoQtViewerP * thisp = ((SoQtViewer *)this)->pimpl;
+  thisp->cameraendorient = thisp->camera->orientation.getValue();
+}
+
 
 void
 SoGuiPlaneViewerP::changeMode(PlaneViewerMode newmode)

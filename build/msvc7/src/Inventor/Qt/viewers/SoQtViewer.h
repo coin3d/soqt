@@ -227,6 +227,7 @@ protected:
 private:
   class SoQtViewerP * pimpl;
   friend class SoQtViewerP;
+  friend class SoQtPlaneViewer;
 };
 
 // *************************************************************************

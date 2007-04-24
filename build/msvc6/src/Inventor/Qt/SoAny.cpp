@@ -158,8 +158,8 @@ SoAny::init()
   SoQtCursor::initClass();
   SoGuiNodes::initClasses();
   SoGuiEngines::initClasses();
-  sogui_atexit((sogui_atexit_f*)soany_atexit_cleanup, 0);
-  sogui_atexit((sogui_atexit_f*)SoAny::cleanup_si, 0);
+  SoAny::atexit((SoAny::atexit_f*)soany_atexit_cleanup, 0);
+  SoAny::atexit((SoAny::atexit_f*)SoAny::cleanup_si, 0);
 }
 
 // private constructor
@@ -644,6 +644,17 @@ SoAny::scanSceneForName(SoNode * scene, const char * name, SbBool searchAll)
   SoAny::finder->apply(scene);
   path = SoAny::finder->getPath();
   return path ? path->getTail() : NULL;
+}
+
+// FIXME: Dummy implementation of sogui_atexit(). Replace with real
+// implementation. kintel 20060209
+void 
+SoAny::atexit(SoAny::atexit_f * fp, int priority)
+{
+  // disabled this, as it is not safe to clean up SoQt after Coin
+  // has been cleaned up. -mortene
+  //
+  // atexit(fp);
 }
 
 static void

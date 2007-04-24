@@ -136,8 +136,8 @@ public:
                                 float d_tilt, 
                                 float d_pan, 
                                 float dt );
-  float calculateChangeInTime();
-  void  updateCurrentSpeed( float dt );
+  double calculateChangeInTime();
+  void  updateCurrentSpeed(double dt);
 
 
   // Current keyboard state.
@@ -181,15 +181,15 @@ public:
   // FIXME: Refactor event handlers and PUBLIC(this)->processSoEvent
   // in a way similar to that in SoGuiExaminerViewer, where only
   // internal state is red/set. 20021017 rolvs
-  SbBool processKeyboardEvent( const SoKeyboardEvent * const kevt );
-  SbBool processMouseButtonEvent( const SoMouseButtonEvent * const mevt );
-  SbBool processLocation2Event( const SoLocation2Event * const levt );
+  SbBool processKeyboardEvent(const SoKeyboardEvent * const kevt);
+  SbBool processMouseButtonEvent(const SoMouseButtonEvent * const mevt);
+  SbBool processLocation2Event(const SoLocation2Event * const levt);
 private:
   SoQtFlyViewer * publ;
   ViewerMode viewermode;
 };
 
-SoQtFlyViewerP::SoQtFlyViewerP( SoQtFlyViewer * owner )
+SoQtFlyViewerP::SoQtFlyViewerP(SoQtFlyViewer * owner)
 {
   this->searcher = NULL;
   this->publ = owner;
@@ -207,8 +207,8 @@ SoQtFlyViewerP::SoQtFlyViewerP( SoQtFlyViewer * owner )
   this->lshiftdown = FALSE;
   this->rshiftdown = FALSE;
   this->lastrender = new SbTime;
-  this->tilt_increment = 0;
-  this->pan_increment = 0;
+  this->tilt_increment = 0.0f;
+  this->pan_increment = 0.0f;
 }
 
 SoQtFlyViewerP::~SoQtFlyViewerP(void)
@@ -438,7 +438,7 @@ SoQtFlyViewerP::getSuperimpositionNode(const char * name)
 }
 
 SbBool
-SoQtFlyViewerP::processKeyboardEvent( const SoKeyboardEvent * const ke )
+SoQtFlyViewerP::processKeyboardEvent(const SoKeyboardEvent * const ke)
 {
   assert( ke != NULL );
   switch (ke->getState()) {
@@ -659,7 +659,7 @@ SoQtFlyViewerP::processMouseButtonEvent( const SoMouseButtonEvent * const me )
 }
 
 SbBool
-SoQtFlyViewerP::processLocation2Event( const SoLocation2Event * const lev )
+SoQtFlyViewerP::processLocation2Event(const SoLocation2Event * const lev)
 {  
   this->mouseloc = lev->getPosition();
 
@@ -761,122 +761,146 @@ SoQtFlyViewerP::updateSpeedIndicator(void)
     this->scurrentspeedswitch->whichChild.setValue(SO_SWITCH_NONE);
 }
 
-float SoQtFlyViewerP::calculateChangeInTime()
+double SoQtFlyViewerP::calculateChangeInTime()
 {
   SbTime thisrender; 
   thisrender.setToTimeOfDay();
 
-  float t = 0.0f;
-
   if (this->currentspeed == 0.0f)
     this->lastrender->setValue(thisrender.getValue() - 0.01);
 
-  t = float(thisrender.getValue() - this->lastrender->getValue()) * 10.0f;
+  // We've had a report on Coin-support that floats may have too low
+  // precision for the subtraction of these two values (ie it becomes
+  // zero), so don't cast to float.
+  //
+  // FIXME: it doesn't sound likely that this was the real cause of
+  // the problem. First of all, it seems improbably that precision
+  // could be so bad for floats, as the time between render frames
+  // should almost be guaranteed to be milliseconds, at least.  It is
+  // suspicious that the error only shows up with the Intel C++
+  // compiler, and not when the reported built with MSVC++ instead.
+  //
+  // Second, the fix is not sufficient. What if the
+  // SbTime::getTimeOfDay() resolution is too low on the particular
+  // system, so we often get zero difference here? That case must be
+  // handled, and from the original bug report, it sounds like it
+  // isn't, which is a separate bug in itself.
+  //
+  // Third, what's up with that magic multiplication factor of 10?
+  // That doesn't seem to make sense.
+  //
+  // 20061212 mortene.
 
-  if (t >= 1.0f) 
-    t = 1.0f;
-  return t; 
+  // This is only a problem on release builds which makes it sound
+  // like it's just some value that is not properly
+  // initialized. (20061212 frodo)
+
+  double t = (thisrender.getValue() - this->lastrender->getValue()) * 10.0;
+
+  if (t >= 1.0) 
+    t = 1.0;
+
+  return t;
 }
 
-void SoQtFlyViewerP::updateCurrentSpeed( float dt )
+void SoQtFlyViewerP::updateCurrentSpeed(double dt)
 {
-  float curveSpeedReductionFactor = 
+  float speedscale = 
     1.0f - (this->pan_increment * this->pan_increment 
-            + this->tilt_increment * this->tilt_increment);  
-
+            + this->tilt_increment * this->tilt_increment);
+  
   // NOTE: I don't believe that this boundary condition could ever
   // happen. 20021022 rolvs
-  if( curveSpeedReductionFactor < 0 )
-    curveSpeedReductionFactor = 0;
-
+  if (speedscale < 0.0f)
+    speedscale = 0.0f;
+  
   this->currentspeed +=
     (((this->currentspeed +
-      this->maxspeed * curveSpeedReductionFactor) / 2.0f) - 
+       this->maxspeed * speedscale) / 2.0f) - 
      this->currentspeed) * dt;
 }
 
-void SoQtFlyViewerP::updateCameraPosition( SoCamera * camera, 
-                                              float current_speed,
-                                              float dt )
+void SoQtFlyViewerP::updateCameraPosition(SoCamera * camera, 
+                                             float current_speed,
+                                             float dt)
 {
-  assert( camera != NULL );
-
-  SbRotation orientation = camera->orientation.getValue();
+  assert(camera != NULL);
   SbVec3f dir;
-  camera->orientation.getValue().multVec( SbVec3f(0,0,-1), dir );
+  camera->orientation.getValue().multVec(SbVec3f(0, 0, -1), dir);
   dir.normalize();
   camera->position.setValue(camera->position.getValue() +
-                            dir * (current_speed * dt ));
+                            dir * (current_speed * dt));
 }
  
-void SoQtFlyViewerP::updateCameraOrientation( SoCamera * camera, 
-                                                 float d_tilt, 
-                                                 float d_pan, 
-                                                 float dt )
+void SoQtFlyViewerP::updateCameraOrientation(SoCamera * camera, 
+                                                float d_tilt, 
+                                                float d_pan, 
+                                                float dt)
 {
-  assert( camera != NULL );
+  assert(camera != NULL);
   // FIXME: Make sure that the angle between direction and up-vector
   // stays larger than zero, or else it gets 'locked' in an undefined
   // state and starts to act weird. This should probably be done in
   // parent class. 20021017 rolvs
-  PUBLIC( this )->tiltCamera( d_tilt*dt );
-
+  PUBLIC(this)->tiltCamera(d_tilt * dt);
+  
   camera->orientation = camera->orientation.getValue() *
-    SbRotation( PUBLIC(this)->getUpDirection(), d_pan*dt );
+    SbRotation(PUBLIC(this)->getUpDirection(), d_pan * dt);
 }
 
 void
-SoQtFlyViewerP::incrementMaxSpeed()
+SoQtFlyViewerP::incrementMaxSpeed(void)
 {
   this->max_speed_factor++;
-  updateMaxSpeed();
+  this->updateMaxSpeed();
 }
 
 
 void
-SoQtFlyViewerP::decrementMaxSpeed()
+SoQtFlyViewerP::decrementMaxSpeed(void)
 {	
   this->max_speed_factor--;
-  updateMaxSpeed();
+  this->updateMaxSpeed();
 }
 
 
-void SoQtFlyViewerP::updateSpeedScalingFactor()
+void 
+SoQtFlyViewerP::updateSpeedScalingFactor(void)
 {
-  SoNode *n = PUBLIC(this)->getSceneGraph();
-  if( n == NULL )
+  SoNode * n = PUBLIC(this)->getSceneGraph();
+  if(n == NULL)
     return; // Scenegraph not set yet?
 
-  SoGetBoundingBoxAction bbact( PUBLIC(this)->getViewportRegion() );
-  bbact.apply( n );  
+  SoGetBoundingBoxAction bbact(PUBLIC(this)->getViewportRegion());
+  bbact.apply(n);
   
   SbBox3f bbox = bbact.getBoundingBox();
   float bbox_diagonal = (bbox.getMax() - bbox.getMin()).length();
 
   // FIXME: It should be possible to create a simple scaling function,
   // based on some logaritmic evaluation. 20021017 rolvs.
-  if( bbox_diagonal>100 )
+  if (bbox_diagonal > 100)
     this->speed_scaling_factor = 1.0f; // log(bbox_diagonal);
-  else if( bbox_diagonal>10 && bbox_diagonal < 100 )
+  else if (bbox_diagonal > 10 && bbox_diagonal < 100)
     this->speed_scaling_factor = 0.4f; 
-  else if( bbox_diagonal>1 && bbox_diagonal<10 )
+  else if (bbox_diagonal > 1 && bbox_diagonal < 10)
     this->speed_scaling_factor = 0.3f; 
-  else if( bbox_diagonal>0.1 && bbox_diagonal<1)
+  else if (bbox_diagonal > 0.1 && bbox_diagonal < 1)
     this->speed_scaling_factor = 0.1f; 
   else
-    this->speed_scaling_factor = 0.1f*bbox_diagonal;
+    this->speed_scaling_factor = 0.1f * bbox_diagonal;
 }
 
-void SoQtFlyViewerP::stopMoving()
+void SoQtFlyViewerP::stopMoving(void)
 {
-  maxspeed = 0;
-  currentspeed = 0; 
-  max_speed_factor = 0;
+  this->maxspeed = 0.0f;
+  this->currentspeed = 0.0f; 
+  this->max_speed_factor = 0;
 }
 
-void SoQtFlyViewerP::updateMaxSpeed()
+void SoQtFlyViewerP::updateMaxSpeed(void)
 {
-  if( this->max_speed_factor == 0 ){
+  if (this->max_speed_factor == 0) {
     this->stopMoving();
     return;
   }
@@ -887,13 +911,13 @@ void SoQtFlyViewerP::updateMaxSpeed()
 
   this->maxspeed = 
     this->max_speed_factor 
-    * float(pow( SOQT_INC_FACTOR, abs( this->max_speed_factor ) ))
+    * float(pow(SOQT_INC_FACTOR, abs( this->max_speed_factor)))
     * this->speed_scaling_factor;
 
-  if( this->maxspeed > SOQT_MAX_SPEED )
+  if (this->maxspeed > SOQT_MAX_SPEED)
     this->maxspeed = SOQT_MAX_SPEED;
-  else if( this->maxspeed < -1*SOQT_MAX_SPEED )
-    this->maxspeed = -1*SOQT_MAX_SPEED;
+  else if (this->maxspeed < -1*SOQT_MAX_SPEED)
+    this->maxspeed = -1 * SOQT_MAX_SPEED;
 }
 
 
@@ -1202,18 +1226,23 @@ SoQtFlyViewer::actualRedraw(void)
   switch (PRIVATE(this)->getMode()) {
   case SoQtFlyViewerP::FLYING:
     {
-      float dt = PRIVATE(this)->calculateChangeInTime();
-      PRIVATE(this)->updateCurrentSpeed( dt );
-
+      PRIVATE(this)->updateCurrentSpeed(PRIVATE(this)->calculateChangeInTime());
       PRIVATE(this)->updateSpeedIndicator();
 
       SbTime thisrender; 
       thisrender.setToTimeOfDay();
 
       if (PRIVATE(this)->currentspeed != 0.0f) {
-        float t = float(thisrender.getValue() -
-                        PRIVATE(this)->lastrender->getValue()) * 2.0f;
-        if (t > 0.0f) {
+        // We've had a report on Coin-support that floats may have too
+        // low precision for the subtraction of these two values (ie
+        // it becomes zero), so don't cast to float.
+        // 
+        // Note: there's some additional information about this, see
+        // the FIXME comment in the
+        // SoQtFlyViewerP::calculateChangeInTime() function.
+        double t = (thisrender.getValue() -
+                    PRIVATE(this)->lastrender->getValue()) * 2.0;
+        if (t > 0.0) {
           SoCamera * camera = this->getCamera();
 
           if (camera){ // could be a sceneless viewer

@@ -76,6 +76,7 @@ protected:
   virtual void createViewerButtons(QWidget * parent, SbPList * buttons);
 
   virtual void afterRealizeHook(void);
+  virtual void computeSeekFinalOrientation(void);
 
 private:
   class SoQtPlaneViewerP * pimpl;

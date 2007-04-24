@@ -644,15 +644,26 @@ SoQtRenderAreaP::offScreenGrab(void)
     return;
   }
 
-  if ( !os.writeToFile(filename, ext) && (strcmp(ext, "rgb") != 0) ) {
-    SbString fname2;
-    fname2.sprintf("%s.rgb", filename.getString());
-    os.writeToRGB(fname2.getString());
+  SbBool written = FALSE;
+  if (strcmp(ext, "rgb") == 0) {
+    written = os.writeToRGB(filename.getString());
+  }
+  else {
+    written = os.writeToFile(filename, ext);
   }
 
-  SoDebugError::postInfo("SoQtRenderAreaP::offScreenGrab",
-                         "wrote image #%d, %dx%d",
-                         counter, osvp[0], osvp[1]);
+  if (written) {
+    SoDebugError::postInfo("SoQtRenderAreaP::offScreenGrab",
+                           "wrote image #%d, %dx%d as '%s'",
+                           counter, osvp[0], osvp[1],
+                           filename.getString());
+  }
+  else {
+    SoDebugError::post("SoQtRenderAreaP::offScreenGrab",
+                       "tried to write image '%s', but failed for unknown "
+                       "reason",
+                       filename.getString());
+  }
 #endif // DEBUGGING_EGGS
 }
 
