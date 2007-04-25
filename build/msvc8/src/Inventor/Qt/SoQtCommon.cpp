@@ -560,15 +560,3 @@ SoGuiP::abort(SoGuiP::ABIError error)
   There will only be a single "Ok" button for the user to press and
   continue with the application.
 */
-
-// *************************************************************************
-
-// FIXME: Dummy implementation of sogui_atexit(). Replace with real
-// implementation. kintel 20060209
-void sogui_atexit(sogui_atexit_f * fp, int priority)
-{
-  // disabled this, as it is not safe to clean up SoQt after Coin
-  // has been cleaned up. -mortene
-  //
-  // atexit(fp);
-}

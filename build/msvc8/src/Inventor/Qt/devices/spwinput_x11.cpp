@@ -1359,7 +1359,7 @@ void SPW_InputBeep (Display *display, char *string)
       cntrl.duration = (short) string[i++];
       XChangeFeedbackControl(display, pSpaceballDev,
                              DvPercent | DvPitch | DvDuration,
-                             (XFeedbackControl *) &cntrl);
+                             (XFeedbackControl *)(void *)&cntrl);
         }
 #endif /* HAVE_XCHANGEFEEDBACKCONTROL */
     }
@@ -1422,7 +1422,7 @@ void SPW_InputRezero (Display *display)
       cntrl.duration = 0;
       XChangeFeedbackControl (display, pSpaceballDev,
                               DvPercent | DvPitch | DvDuration, 
-                              (XFeedbackControl *)&cntrl);
+                              (XFeedbackControl *)(void *)&cntrl);
 #endif /* HAVE_X11_XPROTO_H */
     }
 #endif /* HAVE_X11_EXTENSIONS_XINPUT_H */

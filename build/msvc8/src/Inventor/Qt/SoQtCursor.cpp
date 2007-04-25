@@ -35,6 +35,7 @@
 */
 
 #include <Inventor/Qt/SoQtCursor.h>
+#include <Inventor/Qt/SoAny.h>
 #include <assert.h>
 
 /*!
@@ -250,7 +251,7 @@ SoQtCursor::initClass(void)
   soguicursor_pancursor = new SoQtCursor(&pan);
   soguicursor_rotatecursor = new SoQtCursor(&rotate);
   soguicursor_blankcursor = new SoQtCursor(&blank);
-  sogui_atexit((sogui_atexit_f*)soguicursor_atexit_cleanup, 0);
+  SoAny::atexit((SoAny::atexit_f*)soguicursor_atexit_cleanup, 0);
 }
 
 /*!

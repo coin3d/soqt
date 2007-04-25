@@ -71,6 +71,11 @@ public:
   static SoNode * loadSceneGraph(char * buffer, unsigned int bufsize = 0);
   static SoNode * scanSceneForName(SoNode * scene, const char * name, SbBool searchAll = FALSE);
 
+  // FIXME: Dummy sogui_atexit(). Replace with real
+  // implementation. kintel 20060209
+  typedef void atexit_f(void);
+  static void atexit(atexit_f * fp, int priority);
+
 private:
   SoAny(void);
   ~SoAny();
