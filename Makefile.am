@@ -165,6 +165,7 @@ EXTRA_DIST = \
 	build/msvc6/src/Inventor/Qt/viewers/SoGuiExaminerViewerP.h \
 	build/msvc6/src/Inventor/Qt/viewers/SoGuiFullViewerP.h \
 	build/msvc6/src/Inventor/Qt/viewers/SoGuiPlaneViewerP.h \
+	build/msvc6/src/Inventor/Qt/viewers/SoGuiViewerP.h \
 	build/msvc6/src/Inventor/Qt/viewers/SoQtConstrainedViewer.cpp \
 	build/msvc6/src/Inventor/Qt/viewers/SoQtConstrainedViewer.h \
 	build/msvc6/src/Inventor/Qt/viewers/SoQtExaminerViewer.cpp \
@@ -282,6 +283,7 @@ EXTRA_DIST = \
 	build/msvc7/src/Inventor/Qt/viewers/SoGuiExaminerViewerP.h \
 	build/msvc7/src/Inventor/Qt/viewers/SoGuiFullViewerP.h \
 	build/msvc7/src/Inventor/Qt/viewers/SoGuiPlaneViewerP.h \
+	build/msvc7/src/Inventor/Qt/viewers/SoGuiViewerP.h \
 	build/msvc7/src/Inventor/Qt/viewers/SoQtConstrainedViewer.cpp \
 	build/msvc7/src/Inventor/Qt/viewers/SoQtConstrainedViewer.h \
 	build/msvc7/src/Inventor/Qt/viewers/SoQtExaminerViewer.cpp \
@@ -400,6 +402,7 @@ EXTRA_DIST = \
 	build/msvc8/src/Inventor/Qt/viewers/SoGuiExaminerViewerP.h \
 	build/msvc8/src/Inventor/Qt/viewers/SoGuiFullViewerP.h \
 	build/msvc8/src/Inventor/Qt/viewers/SoGuiPlaneViewerP.h \
+	build/msvc8/src/Inventor/Qt/viewers/SoGuiViewerP.h \
 	build/msvc8/src/Inventor/Qt/viewers/SoQtConstrainedViewer.cpp \
 	build/msvc8/src/Inventor/Qt/viewers/SoQtConstrainedViewer.h \
 	build/msvc8/src/Inventor/Qt/viewers/SoQtExaminerViewer.cpp \
@@ -433,6 +436,7 @@ EXTRA_DIST = \
 	build/msvc8/config-wrapper.h \
 	cfg/soqt.m4 \
 	cfg/gendsp.sh.in \
+	cfg/gendsp.pl.in \
 	docs/announcement-1_0_0.txt \
 	docs/announcement-1_0_1.txt \
 	docs/announcement-1_0_2.txt \
