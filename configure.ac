@@ -1004,10 +1004,15 @@ AC_OUTPUT([
 	html/Makefile
 	htmlhelp/Makefile
         cfg/gendsp.sh
+        cfg/gendsp.pl
 ])
 
 if test -f cfg/gendsp.sh; then
   chmod +x cfg/gendsp.sh
+fi
+
+if test -f cfg/gendsp.pl; then
+  chmod +x cfg/gendsp.pl
 fi
 
 if $sim_ac_make_dsp; then :; else
