@@ -549,6 +549,32 @@ SIM_AC_INVENTOR_EXTENSIONS([
   SOGUI_EXTRA_LIBS="$sim_ac_iv_extension_LIBS $SOGUI_EXTRA_LIBS"
 ])
 
+
+sim_ac_enable_pkgconfig=false
+AC_ARG_ENABLE(
+  [pkgconfig],
+  AC_HELP_STRING([--enable-pkgconfig], [enable pkgconfig usage for Qt4 detection [[default=no]]]), [
+  case $enableval in
+    yes) sim_ac_enable_pkgconfig=true ;;
+    *) ;;
+  esac])
+
+if $sim_ac_build_library && $sim_ac_enable_pkgconfig; then
+  AC_PATH_PROG([MOC], [moc], [false], [$PATH])
+  if test x"$MOC" = x"false"; then
+    SIM_AC_ERROR([no-moc])
+  fi
+
+  PKG_CHECK_MODULES([QT4], [QtCore QtGui QtOpenGL], [
+    SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $QT4_CFLAGS"
+    SOGUI_EXTRA_LIBS="$QT4_LIBS $SOGUI_EXTRA_LIBS"
+    CPPFLAGS="$CPPFLAGS $QT4_CFLAGS"
+    LIBS="$QT4_LIBS $LIBS"
+  ], [
+    SIM_AC_ERROR([no-qt])
+  ])
+fi
+
 # remove libs we don't want to link into library again
 #LDFLAGS=$sim_ac_configure_save_ldflags
 #LIBS=$sim_ac_configure_save_libs
@@ -568,16 +594,18 @@ if test x"$sim_ac_want_x11" = xyes; then
   fi
 fi
 
-SIM_AC_QT_PROG(MOC, moc)
-if test x"$MOC" = x"false"; then
-  SIM_AC_ERROR([no-moc])
+if test x"$sim_ac_enable_pkgconfig" = xfalse; then
+  SIM_AC_QT_PROG(MOC, moc)
+  if test x"$MOC" = x"false"; then
+    SIM_AC_ERROR([no-moc])
+  fi
 fi
 
 # see commented-out restore above
 #sim_ac_configure_save_ldflags=$LDFLAGS
 #sim_ac_configure_save_libs=$LIBS
 
-if $sim_ac_build_library; then
+if $sim_ac_build_library && test x"$sim_ac_enable_pkgconfig" = xfalse; then
   SIM_AC_CHECK_QT([
     SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qt_cppflags"
     SOGUI_EXTRA_LDFLAGS="$SOGUI_EXTRA_LDFLAGS $sim_ac_qt_ldflags"
