@@ -1,3 +1,8 @@
+#ifndef SOQT_INTERNALDEFS_H
+#define SOQT_INTERNALDEFS_H
+
+// src/soqtdefs.h.  Generated from soguidefs.h.in by configure.
+
 /**************************************************************************\
  *
  *  This file is part of the Coin 3D visualization library.
@@ -20,9 +25,6 @@
  *  <URL:http://www.sim.no/>.
  *
 \**************************************************************************/
-
-#ifndef SOQT_INTERNALDEFS_H
-#define SOQT_INTERNALDEFS_H
 
 /* ********************************************************************** */
 

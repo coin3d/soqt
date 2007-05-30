@@ -15,6 +15,33 @@ Package=<4>
 
 ###############################################################################
 
+Project: "soqt1_install"=.\soqt1_install.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name soqt1
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "soqt1_uninstall"=.\soqt1_uninstall.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Global:
 
 Package=<5>

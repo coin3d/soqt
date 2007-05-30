@@ -531,10 +531,10 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/docs/doxygen/footer.html \
   src/Inventor/@Gui@/common/docs/doxygen/stylesheet.css \
   src/Inventor/@Gui@/common/docs/doxygen/Coin_logo.png \
-  src/Inventor/@Gui@/common/editors/ColorEditor.h.in \
-  src/Inventor/@Gui@/common/editors/ColorEditor.cpp.in \
-  src/Inventor/@Gui@/common/editors/MaterialEditor.h.in \
-  src/Inventor/@Gui@/common/editors/MaterialEditor.cpp.in \
+  src/Inventor/@Gui@/common/editors/SoGuiColorEditor.h.in \
+  src/Inventor/@Gui@/common/editors/SoGuiColorEditor.cpp.in \
+  src/Inventor/@Gui@/common/editors/SoGuiMaterialEditor.h.in \
+  src/Inventor/@Gui@/common/editors/SoGuiMaterialEditor.cpp.in \
   src/Inventor/@Gui@/common/engines/Engines.h.in \
   src/Inventor/@Gui@/common/engines/Engines.cpp.in \
   src/Inventor/@Gui@/common/engines/RadioGroup.h.in \
@@ -1278,17 +1278,17 @@ $(top_builddir)/src/Inventor/@Gui@/devices/spwinput_x11.cpp: $(top_srcdir)/src/I
 $(top_builddir)/src/Inventor/@Gui@/devices/spwinput_win32.c: $(top_srcdir)/src/Inventor/@Gui@/common/spwinput_win32.c.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/spwinput_win32.c:src/Inventor/@Gui@/common/spwinput_win32.c.in )
 
-$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.h: $(top_srcdir)/src/Inventor/@Gui@/common/editors/ColorEditor.h.in $(top_builddir)/config.status
-	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/editors/So@Gui@ColorEditor.h:src/Inventor/@Gui@/common/editors/ColorEditor.h.in )
+$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.h: $(top_srcdir)/src/Inventor/@Gui@/common/editors/SoGuiColorEditor.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/editors/So@Gui@ColorEditor.h:src/Inventor/@Gui@/common/editors/SoGuiColorEditor.h.in )
 
-$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/editors/ColorEditor.cpp.in $(top_builddir)/config.status
-	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp:src/Inventor/@Gui@/common/editors/ColorEditor.cpp.in )
+$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/editors/SoGuiColorEditor.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp:src/Inventor/@Gui@/common/editors/SoGuiColorEditor.cpp.in )
 
-$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.h: $(top_srcdir)/src/Inventor/@Gui@/common/editors/MaterialEditor.h.in $(top_builddir)/config.status
-	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.h:src/Inventor/@Gui@/common/editors/MaterialEditor.h.in )
+$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.h: $(top_srcdir)/src/Inventor/@Gui@/common/editors/SoGuiMaterialEditor.h.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.h:src/Inventor/@Gui@/common/editors/SoGuiMaterialEditor.h.in )
 
-$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/editors/MaterialEditor.cpp.in $(top_builddir)/config.status
-	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp:src/Inventor/@Gui@/common/editors/MaterialEditor.cpp.in )
+$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/editors/SoGuiMaterialEditor.cpp.in $(top_builddir)/config.status
+	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp:src/Inventor/@Gui@/common/editors/SoGuiMaterialEditor.cpp.in )
 
 $(top_builddir)/src/Inventor/@Gui@/engines/SoGuiEngines.h: $(top_srcdir)/src/Inventor/@Gui@/common/engines/Engines.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/engines/SoGuiEngines.h:src/Inventor/@Gui@/common/engines/Engines.h.in )

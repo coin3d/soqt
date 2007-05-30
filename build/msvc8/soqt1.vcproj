@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="soqt1"
-	ProjectGUID="{D12B0EDA-61D2-4EFE-85CC-9BC554A40580}"
+	ProjectGUID="{09047807-E640-4A57-B2D5-34F1EB77988B}"
 	>
 	<Platforms>
 		<Platform
@@ -108,7 +108,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="..\misc\install-sdk.bat dll release"
 			/>
 		</Configuration>
 		<Configuration
@@ -143,7 +142,7 @@
 				EnableIntrinsicFunctions="true"
 				OmitFramePointers="true"
 				AdditionalIncludeDirectories="src,data,..\..\src,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex,$(QTDIR)\include,$(QTDIR)\include\Qt"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_LIB;SOQT_DEBUG=0;HAVE_CONFIG_H;COIN_DLL;SOQT_INTERNAL"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_LIB;SOQT_DEBUG=0;HAVE_CONFIG_H;COIN_NOT_DLL;SOQT_INTERNAL"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				PrecompiledHeaderFile=".\StaticRelease/soqt1.pch"
@@ -185,7 +184,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="..\misc\install-sdk.bat lib release"
 			/>
 		</Configuration>
 		<Configuration
@@ -216,7 +214,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="src,data,..\..\src,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex,$(QTDIR)\include,$(QTDIR)\include\Qt"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_LIB;SOQT_DEBUG=1;HAVE_CONFIG_H;COIN_DLL;SOQT_INTERNAL"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_LIB;SOQT_DEBUG=1;HAVE_CONFIG_H;COIN_NOT_DLL;SOQT_INTERNAL"
 				RuntimeLibrary="2"
 				PrecompiledHeaderFile=".\StaticDebug/soqt1.pch"
 				AssemblerListingLocation=".\StaticDebug/"
@@ -257,7 +255,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="..\misc\install-sdk.bat lib debug"
 			/>
 		</Configuration>
 		<Configuration
@@ -353,13 +350,4578 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="..\misc\install-sdk.bat dll debug"
 			/>
 		</Configuration>
 	</Configurations>
 	<References>
 	</References>
 	<Files>
+		<Filter
+			Name="Documents"
+			Filter=";txt"
+			>
+			<File
+				RelativePath="..\..\ChangeLog"
+				>
+			</File>
+			<File
+				RelativePath="..\..\COPYING"
+				>
+			</File>
+			<File
+				RelativePath="..\..\LICENSE.GPL"
+				>
+			</File>
+			<File
+				RelativePath="..\..\NEWS"
+				>
+			</File>
+			<File
+				RelativePath="..\..\README"
+				>
+			</File>
+			<File
+				RelativePath="..\..\README.WIN32"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Template Files"
+			Filter="in"
+			>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\nodes\ClickCounter.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ClickCounter.cpp.in:src\Inventor\Qt\nodes\ClickCounter.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\ClickCounter.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ClickCounter.cpp.in:src\Inventor\Qt\nodes\ClickCounter.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\ClickCounter.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ClickCounter.cpp.in:src\Inventor\Qt\nodes\ClickCounter.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\ClickCounter.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ClickCounter.cpp.in:src\Inventor\Qt\nodes\ClickCounter.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\ClickCounter.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\nodes\ClickCounter.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ClickCounter.h.in:src\Inventor\Qt\nodes\SoGuiClickCounter.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiClickCounter.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ClickCounter.h.in:src\Inventor\Qt\nodes\SoGuiClickCounter.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiClickCounter.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ClickCounter.h.in:src\Inventor\Qt\nodes\SoGuiClickCounter.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiClickCounter.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ClickCounter.h.in:src\Inventor\Qt\nodes\SoGuiClickCounter.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiClickCounter.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\nodes\ColorEditor.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ColorEditor.cpp.in:src\Inventor\Qt\nodes\ColorEditor.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\ColorEditor.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ColorEditor.cpp.in:src\Inventor\Qt\nodes\ColorEditor.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\ColorEditor.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ColorEditor.cpp.in:src\Inventor\Qt\nodes\ColorEditor.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\ColorEditor.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ColorEditor.cpp.in:src\Inventor\Qt\nodes\ColorEditor.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\ColorEditor.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\nodes\ColorEditor.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ColorEditor.h.in:src\Inventor\Qt\nodes\SoGuiColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiColorEditor.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ColorEditor.h.in:src\Inventor\Qt\nodes\SoGuiColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiColorEditor.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ColorEditor.h.in:src\Inventor\Qt\nodes\SoGuiColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiColorEditor.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ColorEditor.h.in:src\Inventor\Qt\nodes\SoGuiColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiColorEditor.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\engines\Engines.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\Engines.cpp.in:src\Inventor\Qt\engines\Engines.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\engines\Engines.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\Engines.cpp.in:src\Inventor\Qt\engines\Engines.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\engines\Engines.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\Engines.cpp.in:src\Inventor\Qt\engines\Engines.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\engines\Engines.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\Engines.cpp.in:src\Inventor\Qt\engines\Engines.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\engines\Engines.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\engines\Engines.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\Engines.h.in:src\Inventor\Qt\engines\SoGuiEngines.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\engines\SoGuiEngines.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\Engines.h.in:src\Inventor\Qt\engines\SoGuiEngines.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\engines\SoGuiEngines.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\Engines.h.in:src\Inventor\Qt\engines\SoGuiEngines.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\engines\SoGuiEngines.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\Engines.h.in:src\Inventor\Qt\engines\SoGuiEngines.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\engines\SoGuiEngines.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\engines\Format.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\Format.cpp.in:src\Inventor\Qt\engines\Format.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\engines\Format.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\Format.cpp.in:src\Inventor\Qt\engines\Format.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\engines\Format.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\Format.cpp.in:src\Inventor\Qt\engines\Format.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\engines\Format.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\Format.cpp.in:src\Inventor\Qt\engines\Format.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\engines\Format.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\engines\Format.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\Format.h.in:src\Inventor\Qt\engines\SoGuiFormat.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\engines\SoGuiFormat.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\Format.h.in:src\Inventor\Qt\engines\SoGuiFormat.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\engines\SoGuiFormat.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\Format.h.in:src\Inventor\Qt\engines\SoGuiFormat.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\engines\SoGuiFormat.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\Format.h.in:src\Inventor\Qt\engines\SoGuiFormat.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\engines\SoGuiFormat.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\nodes\Frame.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Frame.cpp.in:src\Inventor\Qt\nodes\Frame.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Frame.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Frame.cpp.in:src\Inventor\Qt\nodes\Frame.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Frame.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Frame.cpp.in:src\Inventor\Qt\nodes\Frame.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Frame.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Frame.cpp.in:src\Inventor\Qt\nodes\Frame.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Frame.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\nodes\Frame.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Frame.h.in:src\Inventor\Qt\nodes\SoGuiFrame.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiFrame.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Frame.h.in:src\Inventor\Qt\nodes\SoGuiFrame.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiFrame.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Frame.h.in:src\Inventor\Qt\nodes\SoGuiFrame.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiFrame.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Frame.h.in:src\Inventor\Qt\nodes\SoGuiFrame.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiFrame.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\gl.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\gl.h.in:src\Inventor\Qt\common\gl.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\common\gl.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\gl.h.in:src\Inventor\Qt\common\gl.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\common\gl.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\gl.h.in:src\Inventor\Qt\common\gl.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\common\gl.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\gl.h.in:src\Inventor\Qt\common\gl.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\common\gl.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\nodes\Image.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Image.cpp.in:src\Inventor\Qt\nodes\Image.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Image.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Image.cpp.in:src\Inventor\Qt\nodes\Image.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Image.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Image.cpp.in:src\Inventor\Qt\nodes\Image.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Image.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Image.cpp.in:src\Inventor\Qt\nodes\Image.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Image.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\nodes\Image.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Image.h.in:src\Inventor\Qt\nodes\SoGuiImage.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiImage.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Image.h.in:src\Inventor\Qt\nodes\SoGuiImage.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiImage.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Image.h.in:src\Inventor\Qt\nodes\SoGuiImage.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiImage.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Image.h.in:src\Inventor\Qt\nodes\SoGuiImage.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiImage.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\nodes\Label.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Label.cpp.in:src\Inventor\Qt\nodes\Label.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Label.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Label.cpp.in:src\Inventor\Qt\nodes\Label.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Label.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Label.cpp.in:src\Inventor\Qt\nodes\Label.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Label.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Label.cpp.in:src\Inventor\Qt\nodes\Label.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Label.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\nodes\Label.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Label.h.in:src\Inventor\Qt\nodes\SoGuiLabel.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiLabel.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Label.h.in:src\Inventor\Qt\nodes\SoGuiLabel.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiLabel.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Label.h.in:src\Inventor\Qt\nodes\SoGuiLabel.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiLabel.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Label.h.in:src\Inventor\Qt\nodes\SoGuiLabel.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiLabel.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\nodes\MaterialEditor.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\MaterialEditor.cpp.in:src\Inventor\Qt\nodes\MaterialEditor.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\MaterialEditor.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\MaterialEditor.cpp.in:src\Inventor\Qt\nodes\MaterialEditor.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\MaterialEditor.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\MaterialEditor.cpp.in:src\Inventor\Qt\nodes\MaterialEditor.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\MaterialEditor.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\MaterialEditor.cpp.in:src\Inventor\Qt\nodes\MaterialEditor.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\MaterialEditor.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\nodes\MaterialEditor.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\MaterialEditor.h.in:src\Inventor\Qt\nodes\SoGuiMaterialEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiMaterialEditor.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\MaterialEditor.h.in:src\Inventor\Qt\nodes\SoGuiMaterialEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiMaterialEditor.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\MaterialEditor.h.in:src\Inventor\Qt\nodes\SoGuiMaterialEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiMaterialEditor.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\MaterialEditor.h.in:src\Inventor\Qt\nodes\SoGuiMaterialEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiMaterialEditor.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\nodes\Nodes.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Nodes.cpp.in:src\Inventor\Qt\nodes\Nodes.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Nodes.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Nodes.cpp.in:src\Inventor\Qt\nodes\Nodes.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Nodes.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Nodes.cpp.in:src\Inventor\Qt\nodes\Nodes.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Nodes.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Nodes.cpp.in:src\Inventor\Qt\nodes\Nodes.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Nodes.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\nodes\Nodes.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Nodes.h.in:src\Inventor\Qt\nodes\SoGuiNodes.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiNodes.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Nodes.h.in:src\Inventor\Qt\nodes\SoGuiNodes.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiNodes.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Nodes.h.in:src\Inventor\Qt\nodes\SoGuiNodes.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiNodes.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Nodes.h.in:src\Inventor\Qt\nodes\SoGuiNodes.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiNodes.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\nodes\Pane.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Pane.cpp.in:src\Inventor\Qt\nodes\Pane.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Pane.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Pane.cpp.in:src\Inventor\Qt\nodes\Pane.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Pane.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Pane.cpp.in:src\Inventor\Qt\nodes\Pane.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Pane.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Pane.cpp.in:src\Inventor\Qt\nodes\Pane.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Pane.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\nodes\Pane.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Pane.h.in:src\Inventor\Qt\nodes\SoGuiPane.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiPane.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Pane.h.in:src\Inventor\Qt\nodes\SoGuiPane.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiPane.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Pane.h.in:src\Inventor\Qt\nodes\SoGuiPane.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiPane.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Pane.h.in:src\Inventor\Qt\nodes\SoGuiPane.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiPane.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\nodes\Position.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Position.cpp.in:src\Inventor\Qt\nodes\Position.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Position.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Position.cpp.in:src\Inventor\Qt\nodes\Position.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Position.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Position.cpp.in:src\Inventor\Qt\nodes\Position.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Position.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Position.cpp.in:src\Inventor\Qt\nodes\Position.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Position.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\nodes\Position.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Position.h.in:src\Inventor\Qt\nodes\SoGuiPosition.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiPosition.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Position.h.in:src\Inventor\Qt\nodes\SoGuiPosition.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiPosition.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Position.h.in:src\Inventor\Qt\nodes\SoGuiPosition.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiPosition.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Position.h.in:src\Inventor\Qt\nodes\SoGuiPosition.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiPosition.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\nodes\RadioButton.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\RadioButton.cpp.in:src\Inventor\Qt\nodes\RadioButton.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\RadioButton.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\RadioButton.cpp.in:src\Inventor\Qt\nodes\RadioButton.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\RadioButton.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\RadioButton.cpp.in:src\Inventor\Qt\nodes\RadioButton.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\RadioButton.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\RadioButton.cpp.in:src\Inventor\Qt\nodes\RadioButton.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\RadioButton.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\nodes\RadioButton.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\RadioButton.h.in:src\Inventor\Qt\nodes\SoGuiRadioButton.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiRadioButton.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\RadioButton.h.in:src\Inventor\Qt\nodes\SoGuiRadioButton.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiRadioButton.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\RadioButton.h.in:src\Inventor\Qt\nodes\SoGuiRadioButton.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiRadioButton.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\RadioButton.h.in:src\Inventor\Qt\nodes\SoGuiRadioButton.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiRadioButton.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\engines\RadioGroup.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\RadioGroup.cpp.in:src\Inventor\Qt\engines\RadioGroup.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\engines\RadioGroup.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\RadioGroup.cpp.in:src\Inventor\Qt\engines\RadioGroup.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\engines\RadioGroup.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\RadioGroup.cpp.in:src\Inventor\Qt\engines\RadioGroup.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\engines\RadioGroup.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\RadioGroup.cpp.in:src\Inventor\Qt\engines\RadioGroup.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\engines\RadioGroup.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\engines\RadioGroup.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\RadioGroup.h.in:src\Inventor\Qt\engines\SoGuiRadioGroup.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\engines\SoGuiRadioGroup.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\RadioGroup.h.in:src\Inventor\Qt\engines\SoGuiRadioGroup.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\engines\SoGuiRadioGroup.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\RadioGroup.h.in:src\Inventor\Qt\engines\SoGuiRadioGroup.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\engines\SoGuiRadioGroup.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\RadioGroup.h.in:src\Inventor\Qt\engines\SoGuiRadioGroup.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\engines\SoGuiRadioGroup.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\nodes\SceneTexture2.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\SceneTexture2.cpp.in:src\Inventor\Qt\nodes\SceneTexture2.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SceneTexture2.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\SceneTexture2.cpp.in:src\Inventor\Qt\nodes\SceneTexture2.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SceneTexture2.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\SceneTexture2.cpp.in:src\Inventor\Qt\nodes\SceneTexture2.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SceneTexture2.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\SceneTexture2.cpp.in:src\Inventor\Qt\nodes\SceneTexture2.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SceneTexture2.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\nodes\SceneTexture2.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\SceneTexture2.h.in:src\Inventor\Qt\nodes\SoGuiSceneTexture2.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiSceneTexture2.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\SceneTexture2.h.in:src\Inventor\Qt\nodes\SoGuiSceneTexture2.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiSceneTexture2.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\SceneTexture2.h.in:src\Inventor\Qt\nodes\SoGuiSceneTexture2.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiSceneTexture2.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\SceneTexture2.h.in:src\Inventor\Qt\nodes\SoGuiSceneTexture2.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiSceneTexture2.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\nodes\Slider1.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Slider1.cpp.in:src\Inventor\Qt\nodes\Slider1.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Slider1.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Slider1.cpp.in:src\Inventor\Qt\nodes\Slider1.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Slider1.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Slider1.cpp.in:src\Inventor\Qt\nodes\Slider1.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Slider1.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Slider1.cpp.in:src\Inventor\Qt\nodes\Slider1.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Slider1.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\nodes\Slider1.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Slider1.h.in:src\Inventor\Qt\nodes\SoGuiSlider1.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiSlider1.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Slider1.h.in:src\Inventor\Qt\nodes\SoGuiSlider1.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiSlider1.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Slider1.h.in:src\Inventor\Qt\nodes\SoGuiSlider1.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiSlider1.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Slider1.h.in:src\Inventor\Qt\nodes\SoGuiSlider1.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiSlider1.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\nodes\Slider2.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Slider2.cpp.in:src\Inventor\Qt\nodes\Slider2.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Slider2.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Slider2.cpp.in:src\Inventor\Qt\nodes\Slider2.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Slider2.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Slider2.cpp.in:src\Inventor\Qt\nodes\Slider2.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Slider2.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Slider2.cpp.in:src\Inventor\Qt\nodes\Slider2.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Slider2.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\nodes\Slider2.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Slider2.h.in:src\Inventor\Qt\nodes\SoGuiSlider2.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiSlider2.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Slider2.h.in:src\Inventor\Qt\nodes\SoGuiSlider2.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiSlider2.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Slider2.h.in:src\Inventor\Qt\nodes\SoGuiSlider2.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiSlider2.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Slider2.h.in:src\Inventor\Qt\nodes\SoGuiSlider2.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiSlider2.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\SoAny.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoAny.cpp.in:src\Inventor\Qt\SoAny.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoAny.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoAny.cpp.in:src\Inventor\Qt\SoAny.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoAny.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoAny.cpp.in:src\Inventor\Qt\SoAny.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoAny.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoAny.cpp.in:src\Inventor\Qt\SoAny.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoAny.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\SoAny.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoAny.h.in:src\Inventor\Qt\SoAny.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoAny.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoAny.h.in:src\Inventor\Qt\SoAny.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoAny.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoAny.h.in:src\Inventor\Qt\SoAny.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoAny.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoAny.h.in:src\Inventor\Qt\SoAny.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoAny.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\widgets\SoAnyThumbWheel.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\widgets\SoAnyThumbWheel.cpp.in:src\Inventor\Qt\widgets\SoAnyThumbWheel.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\widgets\SoAnyThumbWheel.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\widgets\SoAnyThumbWheel.cpp.in:src\Inventor\Qt\widgets\SoAnyThumbWheel.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\widgets\SoAnyThumbWheel.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\widgets\SoAnyThumbWheel.cpp.in:src\Inventor\Qt\widgets\SoAnyThumbWheel.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\widgets\SoAnyThumbWheel.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\widgets\SoAnyThumbWheel.cpp.in:src\Inventor\Qt\widgets\SoAnyThumbWheel.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\widgets\SoAnyThumbWheel.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\widgets\SoAnyThumbWheel.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\widgets\SoAnyThumbWheel.h.in:src\Inventor\Qt\widgets\SoAnyThumbWheel.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\widgets\SoAnyThumbWheel.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\widgets\SoAnyThumbWheel.h.in:src\Inventor\Qt\widgets\SoAnyThumbWheel.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\widgets\SoAnyThumbWheel.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\widgets\SoAnyThumbWheel.h.in:src\Inventor\Qt\widgets\SoAnyThumbWheel.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\widgets\SoAnyThumbWheel.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\widgets\SoAnyThumbWheel.h.in:src\Inventor\Qt\widgets\SoAnyThumbWheel.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\widgets\SoAnyThumbWheel.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\SoGui.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGui.h.in:src\Inventor\Qt\SoQt.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQt.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGui.h.in:src\Inventor\Qt\SoQt.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQt.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGui.h.in:src\Inventor\Qt\SoQt.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQt.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGui.h.in:src\Inventor\Qt\SoQt.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQt.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.cpp.in:src\Inventor\Qt\editors\SoQtColorEditor.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.cpp.in:src\Inventor\Qt\editors\SoQtColorEditor.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.cpp.in:src\Inventor\Qt\editors\SoQtColorEditor.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.cpp.in:src\Inventor\Qt\editors\SoQtColorEditor.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\SoQtColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtColorEditor.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\SoQtColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtColorEditor.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\SoQtColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtColorEditor.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\SoQtColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtColorEditor.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\editors\SoQtColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\editors\SoQtColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\editors\SoQtColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\editors\SoQtColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\SoGuiCommon.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiCommon.cpp.in:src\Inventor\Qt\SoQtCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtCommon.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiCommon.cpp.in:src\Inventor\Qt\SoQtCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtCommon.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiCommon.cpp.in:src\Inventor\Qt\SoQtCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtCommon.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiCommon.cpp.in:src\Inventor\Qt\SoQtCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtCommon.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\SoGuiComponent.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiComponent.h.in:src\Inventor\Qt\SoQtComponent.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtComponent.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiComponent.h.in:src\Inventor\Qt\SoQtComponent.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtComponent.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiComponent.h.in:src\Inventor\Qt\SoQtComponent.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtComponent.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiComponent.h.in:src\Inventor\Qt\SoQtComponent.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtComponent.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\SoGuiComponentCommon.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiComponentCommon.cpp.in:src\Inventor\Qt\SoQtComponentCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtComponentCommon.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiComponentCommon.cpp.in:src\Inventor\Qt\SoQtComponentCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtComponentCommon.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiComponentCommon.cpp.in:src\Inventor\Qt\SoQtComponentCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtComponentCommon.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiComponentCommon.cpp.in:src\Inventor\Qt\SoQtComponentCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtComponentCommon.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\SoGuiComponentP.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiComponentP.h.in:src\Inventor\Qt\SoGuiComponentP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoGuiComponentP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiComponentP.h.in:src\Inventor\Qt\SoGuiComponentP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoGuiComponentP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiComponentP.h.in:src\Inventor\Qt\SoGuiComponentP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoGuiComponentP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiComponentP.h.in:src\Inventor\Qt\SoGuiComponentP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoGuiComponentP.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\viewers\SoGuiConstrainedViewer.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiConstrainedViewer.cpp.in:src\Inventor\Qt\viewers\SoQtConstrainedViewer.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtConstrainedViewer.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiConstrainedViewer.cpp.in:src\Inventor\Qt\viewers\SoQtConstrainedViewer.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtConstrainedViewer.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiConstrainedViewer.cpp.in:src\Inventor\Qt\viewers\SoQtConstrainedViewer.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtConstrainedViewer.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiConstrainedViewer.cpp.in:src\Inventor\Qt\viewers\SoQtConstrainedViewer.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtConstrainedViewer.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\viewers\SoGuiConstrainedViewer.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiConstrainedViewer.h.in:src\Inventor\Qt\viewers\SoQtConstrainedViewer.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtConstrainedViewer.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiConstrainedViewer.h.in:src\Inventor\Qt\viewers\SoQtConstrainedViewer.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtConstrainedViewer.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiConstrainedViewer.h.in:src\Inventor\Qt\viewers\SoQtConstrainedViewer.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtConstrainedViewer.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiConstrainedViewer.h.in:src\Inventor\Qt\viewers\SoQtConstrainedViewer.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtConstrainedViewer.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\SoGuiCursor.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiCursor.cpp.in:src\Inventor\Qt\SoQtCursor.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtCursor.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiCursor.cpp.in:src\Inventor\Qt\SoQtCursor.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtCursor.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiCursor.cpp.in:src\Inventor\Qt\SoQtCursor.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtCursor.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiCursor.cpp.in:src\Inventor\Qt\SoQtCursor.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtCursor.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\SoGuiCursor.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiCursor.h.in:src\Inventor\Qt\SoQtCursor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtCursor.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiCursor.h.in:src\Inventor\Qt\SoQtCursor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtCursor.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiCursor.h.in:src\Inventor\Qt\SoQtCursor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtCursor.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiCursor.h.in:src\Inventor\Qt\SoQtCursor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtCursor.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\devices\SoGuiDevice.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiDevice.cpp.in:src\Inventor\Qt\devices\SoQtDeviceCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtDeviceCommon.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiDevice.cpp.in:src\Inventor\Qt\devices\SoQtDeviceCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtDeviceCommon.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiDevice.cpp.in:src\Inventor\Qt\devices\SoQtDeviceCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtDeviceCommon.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiDevice.cpp.in:src\Inventor\Qt\devices\SoQtDeviceCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtDeviceCommon.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\devices\SoGuiDevice.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiDevice.h.in:src\Inventor\Qt\devices\SoQtDevice.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtDevice.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiDevice.h.in:src\Inventor\Qt\devices\SoQtDevice.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtDevice.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiDevice.h.in:src\Inventor\Qt\devices\SoQtDevice.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtDevice.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiDevice.h.in:src\Inventor\Qt\devices\SoQtDevice.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtDevice.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\devices\SoGuiDeviceP.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiDeviceP.h.in:src\Inventor\Qt\devices\SoGuiDeviceP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoGuiDeviceP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiDeviceP.h.in:src\Inventor\Qt\devices\SoGuiDeviceP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoGuiDeviceP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiDeviceP.h.in:src\Inventor\Qt\devices\SoGuiDeviceP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoGuiDeviceP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiDeviceP.h.in:src\Inventor\Qt\devices\SoGuiDeviceP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoGuiDeviceP.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\viewers\SoGuiExaminerViewer.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiExaminerViewer.cpp.in:src\Inventor\Qt\viewers\SoQtExaminerViewer.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtExaminerViewer.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiExaminerViewer.cpp.in:src\Inventor\Qt\viewers\SoQtExaminerViewer.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtExaminerViewer.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiExaminerViewer.cpp.in:src\Inventor\Qt\viewers\SoQtExaminerViewer.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtExaminerViewer.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiExaminerViewer.cpp.in:src\Inventor\Qt\viewers\SoQtExaminerViewer.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtExaminerViewer.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\viewers\SoGuiExaminerViewer.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiExaminerViewer.h.in:src\Inventor\Qt\viewers\SoQtExaminerViewer.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtExaminerViewer.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiExaminerViewer.h.in:src\Inventor\Qt\viewers\SoQtExaminerViewer.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtExaminerViewer.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiExaminerViewer.h.in:src\Inventor\Qt\viewers\SoQtExaminerViewer.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtExaminerViewer.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiExaminerViewer.h.in:src\Inventor\Qt\viewers\SoQtExaminerViewer.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtExaminerViewer.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\viewers\SoGuiExaminerViewerP.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiExaminerViewerP.h.in:src\Inventor\Qt\viewers\SoGuiExaminerViewerP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoGuiExaminerViewerP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiExaminerViewerP.h.in:src\Inventor\Qt\viewers\SoGuiExaminerViewerP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoGuiExaminerViewerP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiExaminerViewerP.h.in:src\Inventor\Qt\viewers\SoGuiExaminerViewerP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoGuiExaminerViewerP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiExaminerViewerP.h.in:src\Inventor\Qt\viewers\SoGuiExaminerViewerP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoGuiExaminerViewerP.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\viewers\SoGuiFlyViewer.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFlyViewer.cpp.in:src\Inventor\Qt\viewers\SoQtFlyViewer.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtFlyViewer.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFlyViewer.cpp.in:src\Inventor\Qt\viewers\SoQtFlyViewer.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtFlyViewer.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFlyViewer.cpp.in:src\Inventor\Qt\viewers\SoQtFlyViewer.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtFlyViewer.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFlyViewer.cpp.in:src\Inventor\Qt\viewers\SoQtFlyViewer.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtFlyViewer.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\viewers\SoGuiFlyViewer.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFlyViewer.h.in:src\Inventor\Qt\viewers\SoQtFlyViewer.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtFlyViewer.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFlyViewer.h.in:src\Inventor\Qt\viewers\SoQtFlyViewer.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtFlyViewer.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFlyViewer.h.in:src\Inventor\Qt\viewers\SoQtFlyViewer.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtFlyViewer.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFlyViewer.h.in:src\Inventor\Qt\viewers\SoQtFlyViewer.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtFlyViewer.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\viewers\SoGuiFullViewer.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFullViewer.cpp.in:src\Inventor\Qt\viewers\SoQtFullViewer.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtFullViewer.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFullViewer.cpp.in:src\Inventor\Qt\viewers\SoQtFullViewer.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtFullViewer.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFullViewer.cpp.in:src\Inventor\Qt\viewers\SoQtFullViewer.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtFullViewer.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFullViewer.cpp.in:src\Inventor\Qt\viewers\SoQtFullViewer.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtFullViewer.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\viewers\SoGuiFullViewer.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFullViewer.h.in:src\Inventor\Qt\viewers\SoQtFullViewer.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtFullViewer.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFullViewer.h.in:src\Inventor\Qt\viewers\SoQtFullViewer.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtFullViewer.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFullViewer.h.in:src\Inventor\Qt\viewers\SoQtFullViewer.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtFullViewer.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFullViewer.h.in:src\Inventor\Qt\viewers\SoQtFullViewer.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtFullViewer.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\viewers\SoGuiFullViewerP.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFullViewerP.h.in:src\Inventor\Qt\viewers\SoGuiFullViewerP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoGuiFullViewerP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFullViewerP.h.in:src\Inventor\Qt\viewers\SoGuiFullViewerP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoGuiFullViewerP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFullViewerP.h.in:src\Inventor\Qt\viewers\SoGuiFullViewerP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoGuiFullViewerP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFullViewerP.h.in:src\Inventor\Qt\viewers\SoGuiFullViewerP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoGuiFullViewerP.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\SoGuiGLWidget.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiGLWidget.h.in:src\Inventor\Qt\SoQtGLWidget.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtGLWidget.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiGLWidget.h.in:src\Inventor\Qt\SoQtGLWidget.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtGLWidget.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiGLWidget.h.in:src\Inventor\Qt\SoQtGLWidget.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtGLWidget.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiGLWidget.h.in:src\Inventor\Qt\SoQtGLWidget.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtGLWidget.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\SoGuiGLWidgetCommon.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiGLWidgetCommon.cpp.in:src\Inventor\Qt\SoQtGLWidgetCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtGLWidgetCommon.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiGLWidgetCommon.cpp.in:src\Inventor\Qt\SoQtGLWidgetCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtGLWidgetCommon.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiGLWidgetCommon.cpp.in:src\Inventor\Qt\SoQtGLWidgetCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtGLWidgetCommon.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiGLWidgetCommon.cpp.in:src\Inventor\Qt\SoQtGLWidgetCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtGLWidgetCommon.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\SoGuiGLWidgetP.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiGLWidgetP.h.in:src\Inventor\Qt\SoGuiGLWidgetP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoGuiGLWidgetP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiGLWidgetP.h.in:src\Inventor\Qt\SoGuiGLWidgetP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoGuiGLWidgetP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiGLWidgetP.h.in:src\Inventor\Qt\SoGuiGLWidgetP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoGuiGLWidgetP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiGLWidgetP.h.in:src\Inventor\Qt\SoGuiGLWidgetP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoGuiGLWidgetP.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\devices\SoGuiInputFocus.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiInputFocus.cpp.in:src\Inventor\Qt\devices\SoQtInputFocusCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtInputFocusCommon.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiInputFocus.cpp.in:src\Inventor\Qt\devices\SoQtInputFocusCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtInputFocusCommon.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiInputFocus.cpp.in:src\Inventor\Qt\devices\SoQtInputFocusCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtInputFocusCommon.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiInputFocus.cpp.in:src\Inventor\Qt\devices\SoQtInputFocusCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtInputFocusCommon.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\devices\SoGuiInputFocus.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiInputFocus.h.in:src\Inventor\Qt\devices\SoQtInputFocus.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtInputFocus.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiInputFocus.h.in:src\Inventor\Qt\devices\SoQtInputFocus.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtInputFocus.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiInputFocus.h.in:src\Inventor\Qt\devices\SoQtInputFocus.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtInputFocus.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiInputFocus.h.in:src\Inventor\Qt\devices\SoQtInputFocus.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtInputFocus.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\devices\SoGuiInputFocusP.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiInputFocusP.h.in:src\Inventor\Qt\devices\SoGuiInputFocusP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoGuiInputFocusP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiInputFocusP.h.in:src\Inventor\Qt\devices\SoGuiInputFocusP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoGuiInputFocusP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiInputFocusP.h.in:src\Inventor\Qt\devices\SoGuiInputFocusP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoGuiInputFocusP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiInputFocusP.h.in:src\Inventor\Qt\devices\SoGuiInputFocusP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoGuiInputFocusP.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\devices\SoGuiKeyboard.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiKeyboard.cpp.in:src\Inventor\Qt\devices\SoQtKeyboardCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtKeyboardCommon.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiKeyboard.cpp.in:src\Inventor\Qt\devices\SoQtKeyboardCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtKeyboardCommon.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiKeyboard.cpp.in:src\Inventor\Qt\devices\SoQtKeyboardCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtKeyboardCommon.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiKeyboard.cpp.in:src\Inventor\Qt\devices\SoQtKeyboardCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtKeyboardCommon.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\devices\SoGuiKeyboard.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiKeyboard.h.in:src\Inventor\Qt\devices\SoQtKeyboard.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtKeyboard.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiKeyboard.h.in:src\Inventor\Qt\devices\SoQtKeyboard.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtKeyboard.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiKeyboard.h.in:src\Inventor\Qt\devices\SoQtKeyboard.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtKeyboard.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiKeyboard.h.in:src\Inventor\Qt\devices\SoQtKeyboard.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtKeyboard.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\devices\SoGuiKeyboardP.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiKeyboardP.h.in:src\Inventor\Qt\devices\SoGuiKeyboardP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoGuiKeyboardP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiKeyboardP.h.in:src\Inventor\Qt\devices\SoGuiKeyboardP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoGuiKeyboardP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiKeyboardP.h.in:src\Inventor\Qt\devices\SoGuiKeyboardP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoGuiKeyboardP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiKeyboardP.h.in:src\Inventor\Qt\devices\SoGuiKeyboardP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoGuiKeyboardP.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.cpp.in:src\Inventor\Qt\editors\SoQtMaterialEditor.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtMaterialEditor.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.cpp.in:src\Inventor\Qt\editors\SoQtMaterialEditor.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtMaterialEditor.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.cpp.in:src\Inventor\Qt\editors\SoQtMaterialEditor.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtMaterialEditor.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.cpp.in:src\Inventor\Qt\editors\SoQtMaterialEditor.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtMaterialEditor.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\editors\SoQtMaterialEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtMaterialEditor.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\editors\SoQtMaterialEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtMaterialEditor.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\editors\SoQtMaterialEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtMaterialEditor.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\editors\SoQtMaterialEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtMaterialEditor.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\SoQtMaterialEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtMaterialEditor.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\SoQtMaterialEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtMaterialEditor.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\SoQtMaterialEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtMaterialEditor.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\SoQtMaterialEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtMaterialEditor.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\devices\SoGuiMouse.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiMouse.cpp.in:src\Inventor\Qt\devices\SoQtMouseCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtMouseCommon.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiMouse.cpp.in:src\Inventor\Qt\devices\SoQtMouseCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtMouseCommon.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiMouse.cpp.in:src\Inventor\Qt\devices\SoQtMouseCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtMouseCommon.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiMouse.cpp.in:src\Inventor\Qt\devices\SoQtMouseCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtMouseCommon.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\devices\SoGuiMouse.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiMouse.h.in:src\Inventor\Qt\devices\SoQtMouse.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtMouse.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiMouse.h.in:src\Inventor\Qt\devices\SoQtMouse.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtMouse.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiMouse.h.in:src\Inventor\Qt\devices\SoQtMouse.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtMouse.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiMouse.h.in:src\Inventor\Qt\devices\SoQtMouse.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtMouse.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\devices\SoGuiMouseP.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiMouseP.h.in:src\Inventor\Qt\devices\SoGuiMouseP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoGuiMouseP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiMouseP.h.in:src\Inventor\Qt\devices\SoGuiMouseP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoGuiMouseP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiMouseP.h.in:src\Inventor\Qt\devices\SoGuiMouseP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoGuiMouseP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiMouseP.h.in:src\Inventor\Qt\devices\SoGuiMouseP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoGuiMouseP.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\SoGuiObject.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiObject.cpp.in:src\Inventor\Qt\SoQtObject.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtObject.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiObject.cpp.in:src\Inventor\Qt\SoQtObject.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtObject.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiObject.cpp.in:src\Inventor\Qt\SoQtObject.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtObject.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiObject.cpp.in:src\Inventor\Qt\SoQtObject.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtObject.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\SoGuiObject.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiObject.h.in:src\Inventor\Qt\SoQtObject.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtObject.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiObject.h.in:src\Inventor\Qt\SoQtObject.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtObject.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiObject.h.in:src\Inventor\Qt\SoQtObject.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtObject.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiObject.h.in:src\Inventor\Qt\SoQtObject.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtObject.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\SoGuiP.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiP.h.in:src\Inventor\Qt\SoGuiP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoGuiP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiP.h.in:src\Inventor\Qt\SoGuiP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoGuiP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiP.h.in:src\Inventor\Qt\SoGuiP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoGuiP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiP.h.in:src\Inventor\Qt\SoGuiP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoGuiP.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\viewers\SoGuiPlaneViewer.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiPlaneViewer.cpp.in:src\Inventor\Qt\viewers\SoQtPlaneViewer.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtPlaneViewer.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiPlaneViewer.cpp.in:src\Inventor\Qt\viewers\SoQtPlaneViewer.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtPlaneViewer.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiPlaneViewer.cpp.in:src\Inventor\Qt\viewers\SoQtPlaneViewer.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtPlaneViewer.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiPlaneViewer.cpp.in:src\Inventor\Qt\viewers\SoQtPlaneViewer.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtPlaneViewer.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\viewers\SoGuiPlaneViewer.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiPlaneViewer.h.in:src\Inventor\Qt\viewers\SoQtPlaneViewer.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtPlaneViewer.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiPlaneViewer.h.in:src\Inventor\Qt\viewers\SoQtPlaneViewer.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtPlaneViewer.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiPlaneViewer.h.in:src\Inventor\Qt\viewers\SoQtPlaneViewer.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtPlaneViewer.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiPlaneViewer.h.in:src\Inventor\Qt\viewers\SoQtPlaneViewer.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtPlaneViewer.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\viewers\SoGuiPlaneViewerP.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiPlaneViewerP.h.in:src\Inventor\Qt\viewers\SoGuiPlaneViewerP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoGuiPlaneViewerP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiPlaneViewerP.h.in:src\Inventor\Qt\viewers\SoGuiPlaneViewerP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoGuiPlaneViewerP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiPlaneViewerP.h.in:src\Inventor\Qt\viewers\SoGuiPlaneViewerP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoGuiPlaneViewerP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiPlaneViewerP.h.in:src\Inventor\Qt\viewers\SoGuiPlaneViewerP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoGuiPlaneViewerP.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\widgets\SoGuiPopupMenu.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\widgets\SoGuiPopupMenu.cpp.in:src\Inventor\Qt\widgets\SoQtPopupMenu.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\widgets\SoQtPopupMenu.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\widgets\SoGuiPopupMenu.cpp.in:src\Inventor\Qt\widgets\SoQtPopupMenu.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\widgets\SoQtPopupMenu.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\widgets\SoGuiPopupMenu.cpp.in:src\Inventor\Qt\widgets\SoQtPopupMenu.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\widgets\SoQtPopupMenu.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\widgets\SoGuiPopupMenu.cpp.in:src\Inventor\Qt\widgets\SoQtPopupMenu.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\widgets\SoQtPopupMenu.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\widgets\SoGuiPopupMenu.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\widgets\SoGuiPopupMenu.h.in:src\Inventor\Qt\widgets\SoQtPopupMenu.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\widgets\SoQtPopupMenu.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\widgets\SoGuiPopupMenu.h.in:src\Inventor\Qt\widgets\SoQtPopupMenu.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\widgets\SoQtPopupMenu.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\widgets\SoGuiPopupMenu.h.in:src\Inventor\Qt\widgets\SoQtPopupMenu.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\widgets\SoQtPopupMenu.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\widgets\SoGuiPopupMenu.h.in:src\Inventor\Qt\widgets\SoQtPopupMenu.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\widgets\SoQtPopupMenu.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\SoGuiRenderArea.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiRenderArea.cpp.in:src\Inventor\Qt\SoQtRenderArea.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtRenderArea.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiRenderArea.cpp.in:src\Inventor\Qt\SoQtRenderArea.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtRenderArea.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiRenderArea.cpp.in:src\Inventor\Qt\SoQtRenderArea.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtRenderArea.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiRenderArea.cpp.in:src\Inventor\Qt\SoQtRenderArea.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtRenderArea.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\SoGuiRenderArea.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiRenderArea.h.in:src\Inventor\Qt\SoQtRenderArea.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtRenderArea.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiRenderArea.h.in:src\Inventor\Qt\SoQtRenderArea.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtRenderArea.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiRenderArea.h.in:src\Inventor\Qt\SoQtRenderArea.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtRenderArea.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiRenderArea.h.in:src\Inventor\Qt\SoQtRenderArea.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtRenderArea.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.h.in:src\Inventor\Qt\devices\SoQtSpaceball.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtSpaceball.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.h.in:src\Inventor\Qt\devices\SoQtSpaceball.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtSpaceball.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.h.in:src\Inventor\Qt\devices\SoQtSpaceball.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtSpaceball.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.h.in:src\Inventor\Qt\devices\SoQtSpaceball.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoQtSpaceball.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\devices\SoGuiSpaceballP.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceballP.h.in:src\Inventor\Qt\devices\SoGuiSpaceballP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoGuiSpaceballP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceballP.h.in:src\Inventor\Qt\devices\SoGuiSpaceballP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoGuiSpaceballP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceballP.h.in:src\Inventor\Qt\devices\SoGuiSpaceballP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoGuiSpaceballP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceballP.h.in:src\Inventor\Qt\devices\SoGuiSpaceballP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\SoGuiSpaceballP.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\viewers\SoGuiViewer.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiViewer.cpp.in:src\Inventor\Qt\viewers\SoQtViewer.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtViewer.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiViewer.cpp.in:src\Inventor\Qt\viewers\SoQtViewer.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtViewer.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiViewer.cpp.in:src\Inventor\Qt\viewers\SoQtViewer.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtViewer.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiViewer.cpp.in:src\Inventor\Qt\viewers\SoQtViewer.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtViewer.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\viewers\SoGuiViewer.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiViewer.h.in:src\Inventor\Qt\viewers\SoQtViewer.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtViewer.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiViewer.h.in:src\Inventor\Qt\viewers\SoQtViewer.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtViewer.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiViewer.h.in:src\Inventor\Qt\viewers\SoQtViewer.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtViewer.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiViewer.h.in:src\Inventor\Qt\viewers\SoQtViewer.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoQtViewer.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\viewers\SoGuiViewerP.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiViewerP.h.in:src\Inventor\Qt\viewers\SoGuiViewerP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoGuiViewerP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiViewerP.h.in:src\Inventor\Qt\viewers\SoGuiViewerP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoGuiViewerP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiViewerP.h.in:src\Inventor\Qt\viewers\SoGuiViewerP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoGuiViewerP.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiViewerP.h.in:src\Inventor\Qt\viewers\SoGuiViewerP.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\viewers\SoGuiViewerP.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\spwinput.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\spwinput.h.in:src\Inventor\Qt\devices\spwinput.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\spwinput.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\spwinput.h.in:src\Inventor\Qt\devices\spwinput.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\spwinput.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\spwinput.h.in:src\Inventor\Qt\devices\spwinput.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\spwinput.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\spwinput.h.in:src\Inventor\Qt\devices\spwinput.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\spwinput.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\spwinput_win32.c.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\spwinput_win32.c.in:src\Inventor\Qt\devices\spwinput_win32.c&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\spwinput_win32.c"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\spwinput_win32.c.in:src\Inventor\Qt\devices\spwinput_win32.c&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\spwinput_win32.c"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\spwinput_win32.c.in:src\Inventor\Qt\devices\spwinput_win32.c&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\spwinput_win32.c"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\spwinput_win32.c.in:src\Inventor\Qt\devices\spwinput_win32.c&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\spwinput_win32.c"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\spwinput_win32.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\spwinput_win32.h.in:src\Inventor\Qt\devices\spwinput_win32.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\spwinput_win32.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\spwinput_win32.h.in:src\Inventor\Qt\devices\spwinput_win32.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\spwinput_win32.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\spwinput_win32.h.in:src\Inventor\Qt\devices\spwinput_win32.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\spwinput_win32.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\spwinput_win32.h.in:src\Inventor\Qt\devices\spwinput_win32.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\spwinput_win32.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\spwinput_x11.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\spwinput_x11.cpp.in:src\Inventor\Qt\devices\spwinput_x11.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\spwinput_x11.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\spwinput_x11.cpp.in:src\Inventor\Qt\devices\spwinput_x11.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\spwinput_x11.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\spwinput_x11.cpp.in:src\Inventor\Qt\devices\spwinput_x11.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\spwinput_x11.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\spwinput_x11.cpp.in:src\Inventor\Qt\devices\spwinput_x11.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\devices\spwinput_x11.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\nodes\ToggleButton.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ToggleButton.cpp.in:src\Inventor\Qt\nodes\ToggleButton.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\ToggleButton.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ToggleButton.cpp.in:src\Inventor\Qt\nodes\ToggleButton.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\ToggleButton.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ToggleButton.cpp.in:src\Inventor\Qt\nodes\ToggleButton.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\ToggleButton.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ToggleButton.cpp.in:src\Inventor\Qt\nodes\ToggleButton.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\ToggleButton.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\nodes\ToggleButton.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ToggleButton.h.in:src\Inventor\Qt\nodes\SoGuiToggleButton.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiToggleButton.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ToggleButton.h.in:src\Inventor\Qt\nodes\SoGuiToggleButton.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiToggleButton.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ToggleButton.h.in:src\Inventor\Qt\nodes\SoGuiToggleButton.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiToggleButton.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ToggleButton.h.in:src\Inventor\Qt\nodes\SoGuiToggleButton.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiToggleButton.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\nodes\Translation.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Translation.cpp.in:src\Inventor\Qt\nodes\Translation.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Translation.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Translation.cpp.in:src\Inventor\Qt\nodes\Translation.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Translation.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Translation.cpp.in:src\Inventor\Qt\nodes\Translation.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Translation.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Translation.cpp.in:src\Inventor\Qt\nodes\Translation.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\Translation.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\nodes\Translation.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Translation.h.in:src\Inventor\Qt\nodes\SoGuiTranslation.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiTranslation.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Translation.h.in:src\Inventor\Qt\nodes\SoGuiTranslation.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiTranslation.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Translation.h.in:src\Inventor\Qt\nodes\SoGuiTranslation.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiTranslation.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Translation.h.in:src\Inventor\Qt\nodes\SoGuiTranslation.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiTranslation.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\nodes\ViewpointWrapper.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ViewpointWrapper.cpp.in:src\Inventor\Qt\nodes\ViewpointWrapper.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\ViewpointWrapper.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ViewpointWrapper.cpp.in:src\Inventor\Qt\nodes\ViewpointWrapper.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\ViewpointWrapper.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ViewpointWrapper.cpp.in:src\Inventor\Qt\nodes\ViewpointWrapper.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\ViewpointWrapper.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ViewpointWrapper.cpp.in:src\Inventor\Qt\nodes\ViewpointWrapper.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\ViewpointWrapper.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\nodes\ViewpointWrapper.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ViewpointWrapper.h.in:src\Inventor\Qt\nodes\SoGuiViewpointWrapper.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiViewpointWrapper.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ViewpointWrapper.h.in:src\Inventor\Qt\nodes\SoGuiViewpointWrapper.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiViewpointWrapper.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ViewpointWrapper.h.in:src\Inventor\Qt\nodes\SoGuiViewpointWrapper.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiViewpointWrapper.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ViewpointWrapper.h.in:src\Inventor\Qt\nodes\SoGuiViewpointWrapper.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiViewpointWrapper.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\nodes\ViewportFix.cpp.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ViewportFix.cpp.in:src\Inventor\Qt\nodes\ViewportFix.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\ViewportFix.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ViewportFix.cpp.in:src\Inventor\Qt\nodes\ViewportFix.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\ViewportFix.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ViewportFix.cpp.in:src\Inventor\Qt\nodes\ViewportFix.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\ViewportFix.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ViewportFix.cpp.in:src\Inventor\Qt\nodes\ViewportFix.cpp&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\ViewportFix.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\Inventor\Qt\common\nodes\ViewportFix.h.in"
+				>
+				<FileConfiguration
+					Name="DLL (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ViewportFix.h.in:src\Inventor\Qt\nodes\SoGuiViewportFix.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiViewportFix.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ViewportFix.h.in:src\Inventor\Qt\nodes\SoGuiViewportFix.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiViewportFix.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ViewportFix.h.in:src\Inventor\Qt\nodes\SoGuiViewportFix.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiViewportFix.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ViewportFix.h.in:src\Inventor\Qt\nodes\SoGuiViewportFix.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\nodes\SoGuiViewportFix.h"
+					/>
+				</FileConfiguration>
+			</File>
+		</Filter>
 		<Filter
 			Name="Source Files"
 			Filter="c;cpp;ic;icc;h"
@@ -5664,11 +10226,6 @@
 					</FileConfiguration>
 				</File>
 			</Filter>
-		</Filter>
-		<Filter
-			Name="Documents"
-			Filter=";txt"
-			>
 		</Filter>
 	</Files>
 	<Globals>
