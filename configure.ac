@@ -117,6 +117,9 @@ AC_PROG_CC
 AC_PROG_CPP
 AC_PROG_CXX
 AC_PROG_CXXCPP
+
+SIM_AC_STRIP_EXIT_DECLARATION
+
 AC_LANG(C++)
 
 AC_OBJEXT
@@ -1031,13 +1034,8 @@ AC_OUTPUT([
 	man/man3/Makefile
 	html/Makefile
 	htmlhelp/Makefile
-        cfg/gendsp.sh
         cfg/gendsp.pl
 ])
-
-if test -f cfg/gendsp.sh; then
-  chmod +x cfg/gendsp.sh
-fi
 
 if test -f cfg/gendsp.pl; then
   chmod +x cfg/gendsp.pl
