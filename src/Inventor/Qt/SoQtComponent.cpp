@@ -100,7 +100,7 @@ SoQtComponentP::cleanupQtReferences(void)
   this->parent->removeEventFilter(this);
 }
 
-static void delete_dict_value(SbDict::Key key, void * value)
+static void delete_dict_value(unsigned long key, void * value)
 {
   delete (QCursor *)value;
 }
