@@ -27874,8 +27874,8 @@ echo "${ECHO_T}yes" >&6
 
 fi
 
-  echo "$as_me:$LINENO: checking for the location of moc" >&5
-echo $ECHO_N "checking for the location of moc... $ECHO_C" >&6
+  echo "$as_me:$LINENO: checking for moc" >&5
+echo $ECHO_N "checking for moc... $ECHO_C" >&6
   MOC=`$PKG_CONFIG --variable=moc_location QtCore`
   if test -z $MOC; then
 
