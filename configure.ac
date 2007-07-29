@@ -572,7 +572,7 @@ if $sim_ac_build_library && $sim_ac_enable_pkgconfig; then
     SIM_AC_ERROR([no-pkgconfig-qt])
   ])
 
-  AC_MSG_CHECKING([for the location of moc])
+  AC_MSG_CHECKING([for moc])
   MOC=`$PKG_CONFIG --variable=moc_location QtCore`
   if test -z $MOC; then
     SIM_AC_ERROR([no-moc])
