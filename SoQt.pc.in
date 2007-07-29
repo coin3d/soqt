@@ -1,0 +1,20 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: SoQt
+Description: a Qt Gui-toolkit binding for Coin
+URL: http://www.coin3d.org
+Version: @SOQT_VERSION@
+Requires: Coin
+Conflicts:
+Libs: -L${libdir} @SOGUI_EXTRA_LDFLAGS@ @SOQT_EXTRA_LIBS@
+Cflags: -I${includedir} @SOGUI_EXTRA_CFLAGS@ @SOGUI_EXTRA_CPPFLAGS@
+
+soqt_host=@host@
+compiler=@COIN_COMPILER@
+compiler_is_gcc=@ac_compiler_gnu@
+datadir=@datadir@
+frameworkdir=@frameworkdir@
+msvcrt=@SOGUI_MSVC_LIBC@
