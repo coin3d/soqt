@@ -70,6 +70,9 @@ cfgdata_DATA = so@gui@-@CONFIG@.cfg
 
 endif
 
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA= SoQt.pc
+
 EXTRA_DIST = \
 	FAQ \
 	INSTALL.GNU \
@@ -78,6 +81,7 @@ EXTRA_DIST = \
 	README.WIN32 \
 	README.MACOSX \
 	Info.plist \
+	SoQt.pc.in \
 	build/misc/generate.sh \
 	build/misc/config-wrapper.h \
 	build/misc/install-sdk.bat \

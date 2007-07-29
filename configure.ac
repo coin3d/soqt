@@ -563,19 +563,24 @@ AC_ARG_ENABLE(
   esac])
 
 if $sim_ac_build_library && $sim_ac_enable_pkgconfig; then
-  AC_PATH_PROG([MOC], [moc], [false], [$PATH])
-  if test x"$MOC" = x"false"; then
-    SIM_AC_ERROR([no-moc])
-  fi
-
   PKG_CHECK_MODULES([QT4], [QtCore QtGui QtOpenGL], [
     SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $QT4_CFLAGS"
     SOGUI_EXTRA_LIBS="$QT4_LIBS $SOGUI_EXTRA_LIBS"
     CPPFLAGS="$CPPFLAGS $QT4_CFLAGS"
     LIBS="$QT4_LIBS $LIBS"
   ], [
-    SIM_AC_ERROR([no-qt])
+    SIM_AC_ERROR([no-pkgconfig-qt])
   ])
+
+  AC_MSG_CHECKING([for the location of moc])
+  MOC=`$PKG_CONFIG --variable=moc_location QtCore`
+  if test -z $MOC; then
+    SIM_AC_ERROR([no-moc])
+  fi
+  AC_MSG_RESULT([$MOC])
+
+  QT_VERSION=`$PKG_CONFIG --modversion QtCore`
+  AC_SUBST([QT_VERSION])
 fi
 
 # remove libs we don't want to link into library again
@@ -1019,6 +1024,7 @@ AM_CONDITIONAL([MACOSX_PACKAGEABLE], [$sim_ac_macosx_packageable])
 
 AC_OUTPUT([
 	soqt-$CONFIG.cfg:src/Inventor/Qt/common/sogui.cfg.in
+	SoQt.pc
 	Makefile
 	src/Makefile
 	src/Inventor/Makefile
