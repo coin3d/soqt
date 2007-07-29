@@ -9,7 +9,7 @@ URL: http://www.coin3d.org
 Version: @SOQT_VERSION@
 Requires: Coin
 Conflicts:
-Libs: -L${libdir} @SOGUI_EXTRA_LDFLAGS@ @SOQT_EXTRA_LIBS@
+Libs: -L${libdir} @SOGUI_EXTRA_LDFLAGS@ @SOGUI_EXTRA_LIBS@
 Cflags: -I${includedir} @SOGUI_EXTRA_CFLAGS@ @SOGUI_EXTRA_CPPFLAGS@
 
 soqt_host=@host@
@@ -18,3 +18,4 @@ compiler_is_gcc=@ac_compiler_gnu@
 datadir=@datadir@
 frameworkdir=@frameworkdir@
 msvcrt=@SOGUI_MSVC_LIBC@
+qt_version=@QT_VERSION@
