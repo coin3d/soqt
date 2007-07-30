@@ -583,7 +583,7 @@ if $sim_ac_build_library && $sim_ac_enable_pkgconfig; then
     AC_MSG_RESULT([$MOC])
   else
     AC_MSG_RESULT([QtCore pkg-config provided moc_location points to non-existing path])
-
+    MOC=""
     AC_PATH_PROG([MOC], [moc], [false], [$PATH])
     if test x"$MOC" = x"false"; then
       SIM_AC_ERROR([no-moc])
