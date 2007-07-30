@@ -577,7 +577,18 @@ if $sim_ac_build_library && $sim_ac_enable_pkgconfig; then
   if test -z $MOC; then
     SIM_AC_ERROR([no-moc])
   fi
-  AC_MSG_RESULT([$MOC])
+
+  # Debian provides a wrong moc_location path (Bug#401807)
+  if test -x $MOC; then
+    AC_MSG_RESULT([$MOC])
+  else
+    AC_MSG_RESULT([QtCore pkg-config provided moc_location points to non-existing path])
+
+    AC_PATH_PROG([MOC], [moc], [false], [$PATH])
+    if test x"$MOC" = x"false"; then
+      SIM_AC_ERROR([no-moc])
+    fi
+  fi
 
   QT_VERSION=`$PKG_CONFIG --modversion QtCore`
   AC_SUBST([QT_VERSION])
