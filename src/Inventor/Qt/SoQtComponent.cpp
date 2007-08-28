@@ -100,11 +100,17 @@ SoQtComponentP::cleanupQtReferences(void)
   this->parent->removeEventFilter(this);
 }
 
+#if COIN_MAJOR_VERSION >= 3
+static void delete_dict_value(SbDict::Key key, void * value)
+{
+  delete (QCursor *)value;
+}
+#else // COIN_MAJOR_VERSION >= 3
 static void delete_dict_value(unsigned long key, void * value)
 {
   delete (QCursor *)value;
 }
-
+#endif // COIN_MAJOR_VERSION < 3
 void
 SoQtComponentP::atexit_cleanup()
 {
