@@ -60,6 +60,8 @@ endif
 RegularSources = \
 	SoQt.cpp \
 	SoQtP.h \
+	SoQtSignalThread.h \
+	SoQtSignalThread.cpp \
 	SoQtInternal.h \
 	SoQtComponent.cpp \
 	SoQtComponentP.h \

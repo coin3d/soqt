@@ -7979,6 +7979,9 @@ AU_DEFUN([jm_MAINTAINER_MODE], [AM_MAINTAINER_MODE])
 # compilers.  This macro edits out the exit-declaration (which we
 # really don't need anyway) from the confdefs.h file.
 #
+# Typically, it should be inserted as early as possible, but after
+# AC_PROG_CXX / AC_PROG_CXXCPP.
+#
 # 2007-05-30 larsa
 
 AC_DEFUN([SIM_AC_STRIP_EXIT_DECLARATION], [
