@@ -20,7 +20,8 @@ SUBDIRS = devices editors engines nodes viewers widgets
 DEFAULT_INCLUDES = -I$(top_builddir)/src -I$(top_builddir)/data -I$(top_srcdir)/src
 
 BUILT_SOURCES = \
-	$(SoGuiAllBuiltFiles)
+	$(SoGuiAllBuiltFiles) \
+	moc_SoQtSignalThread.icc
 
 CLEANFILES = \
 	$(SoGui_src_Inventor_Gui_BuiltMetaFiles)

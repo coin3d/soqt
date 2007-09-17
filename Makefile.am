@@ -34,7 +34,8 @@ SUBDIRS = . $(LIBDIR) $(DOCDIRS)
 SoQtBuiltFiles = \
 	src/Inventor/Qt/widgets/moc_QtNativePopupMenu.icc \
 	src/Inventor/Qt/widgets/moc_SoQtGLArea.icc \
-	src/Inventor/Qt/widgets/moc_SoQtThumbWheel.icc
+	src/Inventor/Qt/widgets/moc_SoQtThumbWheel.icc \
+	src/Inventor/Qt/moc_SoQtSignalThread.icc
 
 
 BUILT_SOURCES = \
@@ -254,6 +255,9 @@ src/Inventor/Qt/widgets/moc_SoQtThumbWheel.icc: $(srcdir)/src/Inventor/Qt/widget
 
 src/Inventor/Qt/widgets/moc_SoQtGLArea.icc: $(srcdir)/src/Inventor/Qt/widgets/SoQtGLArea.h
 	$(MOC) -i -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/widgets/SoQtGLArea.h`
+
+src/Inventor/Qt/moc_SoQtSignalThread.icc: $(srcdir)/src/Inventor/Qt/SoQtSignalThread.h
+	$(MOC) -i -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/SoQtSignalThread.h`
 
 # FIXME: use MACOSX_PACKAGEABLE as in Coin build setup? 20050928 kyrah 
 
