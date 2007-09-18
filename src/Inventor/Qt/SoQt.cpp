@@ -238,6 +238,8 @@
 #include <qevent.h>
 #include <qapplication.h>
 #include <qmetaobject.h>
+#include <Inventor/C/threads/thread.h>
+
 
 #ifdef Q_WS_X11
 #include <X11/Xlib.h>
@@ -272,6 +274,7 @@
 
 
 #include <Inventor/Qt/SoQtComponent.h>
+#include <Inventor/Qt/SoQtSignalThread.h>
 #include <Inventor/Qt/SoAny.h>
 #include <Inventor/Qt/SoQtInternal.h>
 
@@ -331,6 +334,11 @@ SoQtP_XErrorHandler * SoQtP::previous_handler = NULL;
 
 int SoQtP::DEBUG_LISTMODULES = ENVVAR_NOT_INITED;
 
+// these two are used to make SoQt thread safe (changing a scene graph
+// from a separate thread won't make Qt go haywire).
+unsigned long SoQtP::original_thread;
+SoQtSignalThread * SoQtP::signalthread = NULL;
+
 // *************************************************************************
 
 // We're using the singleton pattern to create a single SoQtP object
@@ -340,7 +348,18 @@ int SoQtP::DEBUG_LISTMODULES = ENVVAR_NOT_INITED;
 SoQtP *
 SoQtP::soqt_instance(void)
 {
-  if (!SoQtP::slotobj) { SoQtP::slotobj = new SoQtP; }
+  if (!SoQtP::slotobj) { 
+    SoQtP::slotobj = new SoQtP; 
+#ifdef __COIN__
+    // store the thread SoQt::init() is called from, and start a signal thread to
+    // handle scene graph changes from other threads
+    SoQtP::original_thread = cc_thread_id();
+    SoQtP::signalthread = new SoQtSignalThread();
+    QObject::connect(SoQtP::signalthread, SIGNAL(triggerSignal()),
+                     SoQtP::slotobj, SLOT(slot_sensorQueueChanged()));
+    SoQtP::signalthread->start();
+#endif // __COIN__
+  }
   return SoQtP::slotobj;
 }
 
@@ -519,8 +538,21 @@ SoQtP::slot_delaytimeoutSensor()
 // This function gets called whenever something has happened to any of
 // the sensor queues. It starts or reschedules a timer which will
 // trigger when a sensor is ripe for plucking.
+
 void
 SoGuiP::sensorQueueChanged(void *)
+{
+#ifdef __COIN__
+  if (SoQtP::signalthread->isRunning() && (cc_thread_id() != SoQtP::original_thread)) {
+    SoQtP::signalthread->trigger();
+    return;
+  }
+#endif // __COIN_CC
+  SoQtP::soqt_instance()->slot_sensorQueueChanged();
+}
+
+void
+SoQtP::slot_sensorQueueChanged(void)
 {
   // We need three different mechanisms to interface Coin sensor
   // handling with Qt event handling, which are:
@@ -708,6 +740,9 @@ COIN_IV_EXTENSIONS
 void
 SoQt::init(QWidget * toplevelwidget)
 {
+  // make sure the SoQtP slotinstance is initialized in the main thread
+  SoQtP::soqt_instance();
+
   // workaround for Qt bug under Windows. See above for comments
   soqt_reset_simple_timers();
 
@@ -808,6 +843,8 @@ SoQt::init(QWidget * toplevelwidget)
 QWidget *
 SoQt::init(int & argc, char ** argv, const char * appname, const char * classname)
 {
+  // make sure the SoQtP instance is initialized in the main thread
+  SoQtP::soqt_instance();
   // Must do this here so SoDebugError is initialized before it could
   // be attempted used.
   if (!SoDB::isInitialized()) { SoDB::init(); }
@@ -853,7 +890,6 @@ void
 SoQt::mainLoop(void)
 {
   (void) qApp->exec();
-
 // Disabled invocation of SoQt::done(), since this calls SoDB::finish(), 
 // which means we would run into issues doing the usual...
 //    SoQt::mainLoop();
@@ -885,6 +921,13 @@ SoQt::exitMainLoop(void)
 void
 SoQt::done(void)
 {
+#ifdef __COIN__
+  SoQtP::signalthread->stopThread();
+  SoQtP::signalthread->wait();
+  delete SoQtP::signalthread;
+  SoQtP::signalthread = NULL;
+#endif //__COIN__
+
   // To avoid getting any further invokations of
   // SoGuiP::sensorQueueChanged() (which would re-allocate the timers
   // we destruct below). This could for instance happen when

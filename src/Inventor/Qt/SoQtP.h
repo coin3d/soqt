@@ -33,6 +33,7 @@
 #include <qwidget.h>
 
 #include <Inventor/Qt/SoGuiP.h>
+#include <Inventor/SbBasic.h>
 
 // ************************************************************************
 
@@ -40,6 +41,7 @@ typedef int SoQtP_XErrorHandler(void *, void *);
 
 // This class contains private data and methods used within the SoQt
 // class.
+class SoQtSignalThread;
 
 class SoQtP : public QObject, public SoGuiP
 {
@@ -66,13 +68,18 @@ public:
   static QTimer * timerqueuetimer;
   static QTimer * idletimer;
   static QTimer * delaytimeouttimer;
+  static SoQtSignalThread * signalthread;
 
+  static unsigned long original_thread;
   static SoQtP * slotobj;
 
 public slots:
+  void slot_sensorQueueChanged(void);
+
   void slot_timedOutSensor(void);
   void slot_idleSensor(void);
   void slot_delaytimeoutSensor(void);
+
 };
 
 // ************************************************************************
