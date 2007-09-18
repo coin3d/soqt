@@ -36,25 +36,30 @@ SoQtSignalThread::~SoQtSignalThread()
 void
 SoQtSignalThread::trigger(void)
 {
+#ifdef SOQT_SIGNAL_THREAD_ACTIVE
   // lock first to make sure the QThread is actually waiting for a signal
   this->mutex.lock();
   this->waitcond.wakeOne();
   this->mutex.unlock();
+#endif // SOQT_SIGNAL_THREAD_ACTIVE
 }
 
 void
 SoQtSignalThread::stopThread(void)
 {
+#ifdef SOQT_SIGNAL_THREAD_ACTIVE
   this->mutex.lock();
   this->isstopped = true;
   this->waitcond.wakeOne();
   this->mutex.unlock();
+#endif // SOQT_SIGNAL_THREAD_ACTIVE
 }
 
 
 void 
 SoQtSignalThread::run(void)
 {
+#ifdef SOQT_SIGNAL_THREAD_ACTIVE
   this->mutex.lock();
   while (!this->isstopped) {
     // just wait, and trigger every time we receive a signal
@@ -64,4 +69,5 @@ SoQtSignalThread::run(void)
     }
   }
   this->mutex.unlock();
+#endif // SOQT_SIGNAL_THREAD_ACTIVE
 }

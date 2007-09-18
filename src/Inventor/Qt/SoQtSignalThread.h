@@ -28,13 +28,26 @@
 #error this is a private header file
 #endif /* !SOQT_INTERNAL */
 
+#include <qobject.h>
+
+// FIXME: i had to make this hack to work around different versions of
+// Qt. We could consider adding a test-for-QThread configure test, but
+// we'd still need a hack to avoid that moc comlains about this file
+// if we're unable to inherit from QThread. pederb, 2008-09-18
+
+#if QT_VERSION > 0x040000 && !defined(QT_NO_THREAD)
 #include <qthread.h>
 #include <qwaitcondition.h>
 #include <qmutex.h>
+#define SOQT_SIGNAL_THREAD_ACTIVE 1
+#define SOQT_TMP_QTHREAD_NAME QThread
+#else // Qt 4 and thread subsystem
+#define SOQT_TMP_QTHREAD_NAME QObject
+#endif // no QThread
 
 class SoQtP;
 
-class SoQtSignalThread : public QThread {
+class SoQtSignalThread : public SOQT_TMP_QTHREAD_NAME {
   Q_OBJECT
 public:
   SoQtSignalThread(void);
@@ -49,8 +62,10 @@ signals:
   void triggerSignal(void);
 
 private:
+#ifdef SOQT_SIGNAL_THREAD_ACTIVE
   QWaitCondition waitcond;
   QMutex mutex;
+#endif // SOQT_SIGNAL_THREAD_ACTIVE
   bool isstopped;
 };
 

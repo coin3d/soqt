@@ -350,7 +350,7 @@ SoQtP::soqt_instance(void)
 {
   if (!SoQtP::slotobj) { 
     SoQtP::slotobj = new SoQtP; 
-#ifdef __COIN__
+#if defined(__COIN__) && defined(SOQT_SIGNAL_THREAD_ACTIVE)
     // store the thread SoQt::init() is called from, and start a signal thread to
     // handle scene graph changes from other threads
     SoQtP::original_thread = cc_thread_id();
@@ -542,12 +542,12 @@ SoQtP::slot_delaytimeoutSensor()
 void
 SoGuiP::sensorQueueChanged(void *)
 {
-#ifdef __COIN__
+#if defined(__COIN__) && defined(SOQT_SIGNAL_THREAD_ACTIVE)
   if (SoQtP::signalthread->isRunning() && (cc_thread_id() != SoQtP::original_thread)) {
     SoQtP::signalthread->trigger();
     return;
   }
-#endif // __COIN_CC
+#endif // __COIN__ && SOQT_SIGNAL_THREAD_ACTIVE
   SoQtP::soqt_instance()->slot_sensorQueueChanged();
 }
 
@@ -921,12 +921,12 @@ SoQt::exitMainLoop(void)
 void
 SoQt::done(void)
 {
-#ifdef __COIN__
+#if defined(__COIN__) && defined(SOQT_SIGNAL_THREAD_ACTIVE)
   SoQtP::signalthread->stopThread();
   SoQtP::signalthread->wait();
   delete SoQtP::signalthread;
   SoQtP::signalthread = NULL;
-#endif //__COIN__
+#endif //__COIN__ && SOQT_SIGNAL_THREAD_ACTIVE
 
   // To avoid getting any further invokations of
   // SoGuiP::sensorQueueChanged() (which would re-allocate the timers
