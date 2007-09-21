@@ -6477,6 +6477,57 @@ SOURCE=..\..\src\Inventor\Qt\SoQtSignalThread.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\src\Inventor\Qt\SoQtSignalThread.h
+
+!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - moc'ing $(InputPath)
+InputPath=..\..\src\Inventor\Qt\SoQtSignalThread.h
+
+"src\Inventor\Qt\moc_SoQtSignalThread.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtSignalThread.icc ..\..\src\Inventor\Qt\SoQtSignalThread.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - moc'ing $(InputPath)
+InputPath=..\..\src\Inventor\Qt\SoQtSignalThread.h
+
+"src\Inventor\Qt\moc_SoQtSignalThread.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtSignalThread.icc ..\..\src\Inventor\Qt\SoQtSignalThread.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - moc'ing $(InputPath)
+InputPath=..\..\src\Inventor\Qt\SoQtSignalThread.h
+
+"src\Inventor\Qt\moc_SoQtSignalThread.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtSignalThread.icc ..\..\src\Inventor\Qt\SoQtSignalThread.h
+
+# End Custom Build
+  
+!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
+
+# PROP IgnoreDefaultTool 1
+#Begin Custom Build - moc'ing $(InputPath)
+InputPath=..\..\src\Inventor\Qt\SoQtSignalThread.h
+
+"src\Inventor\Qt\moc_SoQtSignalThread.icc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtSignalThread.icc ..\..\src\Inventor\Qt\SoQtSignalThread.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\src\Inventor\Qt\SoQtComponent.cpp
 !IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\Inventor\Qt"
@@ -7125,6 +7176,12 @@ SOURCE=..\..\src\Inventor\Qt\SoQtGLWidgetP.h
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Qt\SoQtP.h
+
+# PROP Exclude_From_Build 1
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\Inventor\Qt\SoQtSignalThread.h
 
 # PROP Exclude_From_Build 1
 # End Source File

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="soqt1"
-	ProjectGUID="{EF403D2C-C6F2-42A1-986B-96FBF5A8FA65}"
+	ProjectGUID="{53148C1B-8B88-4E8B-9BF1-647C35C4C51A}"
 	>
 	<Platforms>
 		<Platform
@@ -8236,6 +8236,50 @@
 						/>
 					</FileConfiguration>
 				</File>
+				<File
+					RelativePath="..\..\src\Inventor\Qt\SoQtSignalThread.h"
+					>
+					<FileConfiguration
+						Name="DLL (Release)|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="moc&apos;ing $(InputPath)"
+							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtSignalThread.icc ..\..\src\Inventor\Qt\SoQtSignalThread.h&#x0D;&#x0A;"
+							Outputs="src\Inventor\Qt\moc_SoQtSignalThread.icc"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="LIB (Release)|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="moc&apos;ing $(InputPath)"
+							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtSignalThread.icc ..\..\src\Inventor\Qt\SoQtSignalThread.h&#x0D;&#x0A;"
+							Outputs="src\Inventor\Qt\moc_SoQtSignalThread.icc"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="LIB (Debug)|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="moc&apos;ing $(InputPath)"
+							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtSignalThread.icc ..\..\src\Inventor\Qt\SoQtSignalThread.h&#x0D;&#x0A;"
+							Outputs="src\Inventor\Qt\moc_SoQtSignalThread.icc"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="DLL (Debug)|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="moc&apos;ing $(InputPath)"
+							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtSignalThread.icc ..\..\src\Inventor\Qt\SoQtSignalThread.h&#x0D;&#x0A;"
+							Outputs="src\Inventor\Qt\moc_SoQtSignalThread.icc"
+						/>
+					</FileConfiguration>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -8697,6 +8741,42 @@
 				</File>
 				<File
 					RelativePath="..\..\src\Inventor\Qt\SoQtP.h"
+					>
+					<FileConfiguration
+						Name="DLL (Release)|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="LIB (Release)|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="LIB (Debug)|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="DLL (Debug)|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\src\Inventor\Qt\SoQtSignalThread.h"
 					>
 					<FileConfiguration
 						Name="DLL (Release)|Win32"

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="soqt1_uninstall"
-	ProjectGUID="{FBFD7940-6122-4213-8C43-BF6DA40F4713}"
+	ProjectGUID="{8F5A2395-4454-4F3F-B76B-1D5DA0180DE4}"
 	Keyword="MakeFileProj"
 	>
 	<Platforms>

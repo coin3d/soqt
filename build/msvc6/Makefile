@@ -47,14 +47,14 @@ POST_UNINSTALL = :
 build_triplet = i686-pc-cygwin
 host_triplet = i686-pc-cygwin
 target_triplet = i686-pc-cygwin
-ACLOCAL = ${SHELL} /cygdrive/c/home/larsa/svn/clean/SoQt/cfg/missing --run aclocal-1.7
+ACLOCAL = ${SHELL} /cygdrive/c/home/larsa/svn/clean/SoQt-clean/cfg/missing --run aclocal-1.7
 AMDEP_FALSE = 
 AMDEP_TRUE = #
-AMTAR = ${SHELL} /cygdrive/c/home/larsa/svn/clean/SoQt/cfg/missing --run tar
+AMTAR = ${SHELL} /cygdrive/c/home/larsa/svn/clean/SoQt-clean/cfg/missing --run tar
 AR = ar
-AUTOCONF = ${SHELL} /cygdrive/c/home/larsa/svn/clean/SoQt/cfg/missing --run autoconf
-AUTOHEADER = ${SHELL} /cygdrive/c/home/larsa/svn/clean/SoQt/cfg/missing --run autoheader
-AUTOMAKE = ${SHELL} /cygdrive/c/home/larsa/svn/clean/SoQt/cfg/missing --run automake-1.7
+AUTOCONF = ${SHELL} /cygdrive/c/home/larsa/svn/clean/SoQt-clean/cfg/missing --run autoconf
+AUTOHEADER = ${SHELL} /cygdrive/c/home/larsa/svn/clean/SoQt-clean/cfg/missing --run autoheader
+AUTOMAKE = ${SHELL} /cygdrive/c/home/larsa/svn/clean/SoQt-clean/cfg/missing --run automake-1.7
 AWK = gawk
 BUILD_HTMLHELP_FALSE = 
 BUILD_HTMLHELP_TRUE = #
@@ -69,16 +69,16 @@ BUILD_METAFILES_TRUE =
 BUILD_WITH_MSVC = true
 BUILD_WITH_MSVC_FALSE = #
 BUILD_WITH_MSVC_TRUE = 
-CC = /cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc6/cfg/gendsp.pl
+CC = /cygdrive/c/home/larsa/svn/clean/SoQt-clean/build/msvc6/cfg/gendsp.pl
 CCDEPMODE = depmode=none
 CFLAGS =  /MT 
 COIN_COMPILER = wrapmsvc
 COMPONENTHEADER = Q_OBJECT
 CONFIG = default
-CPP = /cygdrive/c/home/larsa/svn/clean/SoQt/cfg/wrapmsvc.exe -E
-CPPFLAGS = -DSOQT_MAKE_DLL -I/cygdrive/c/Coin3D-6/include -I/cygdrive/c/Coin3D-6/include/Inventor/annex -DCOIN_DLL -I/cygdrive/c/Qt/4.2.2/include -I/cygdrive/c/Qt/4.2.2/include/Qt -DNDEBUG -DSOQT_DEBUG=0 -DSOQT_INTERNAL -Ddspfile=/cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc6/soqt1.dsp
-CXX = /cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc6/cfg/gendsp.pl
-CXXCPP = /cygdrive/c/home/larsa/svn/clean/SoQt/cfg/wrapmsvc.exe -E
+CPP = /cygdrive/c/home/larsa/svn/clean/SoQt-clean/cfg/wrapmsvc.exe -E
+CPPFLAGS = -DSOQT_MAKE_DLL -I/cygdrive/c/Coin3D-6/include -I/cygdrive/c/Coin3D-6/include/Inventor/annex -DCOIN_DLL -I/cygdrive/c/Qt/4.2.2/include -I/cygdrive/c/Qt/4.2.2/include/Qt -DNDEBUG -DSOQT_DEBUG=0 -DSOQT_INTERNAL -Ddspfile=/cygdrive/c/home/larsa/svn/clean/SoQt-clean/build/msvc6/soqt1.dsp
+CXX = /cygdrive/c/home/larsa/svn/clean/SoQt-clean/build/msvc6/cfg/gendsp.pl
+CXXCPP = /cygdrive/c/home/larsa/svn/clean/SoQt-clean/cfg/wrapmsvc.exe -E
 CXXDEPMODE = depmode=none
 CXXFLAGS =  /MT 
 CYGPATH_W = cygpath -w
@@ -104,7 +104,7 @@ INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = ${SHELL} $(install_sh) -c -s
-LDFLAGS = -L/cygdrive/c/Coin3D-6/lib -L/cygdrive/c/Qt/4.2.2/lib -Wl,-Ddspfile=/cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc6/soqt1.dsp
+LDFLAGS = -L/cygdrive/c/Coin3D-6/lib -L/cygdrive/c/Qt/4.2.2/lib -Wl,-Ddspfile=/cygdrive/c/home/larsa/svn/clean/SoQt-clean/build/msvc6/soqt1.dsp
 LIBFLAGS = -DLL /INCREMENTAL:NO   /RELEASE /OUT:soqt1.dll -o soqt1.so.0
 LIBOBJS = 
 LIBS = -lQtOpenGL4 -lQtGui4 -lQtCore4 -lcoin2 -lopengl32 -lgdi32 -lwinmm -luser32 
@@ -129,7 +129,7 @@ MAC_FRAMEWORK_VERSION = A
 MAINT = #
 MAINTAINER_MODE_FALSE = 
 MAINTAINER_MODE_TRUE = #
-MAKEINFO = ${SHELL} /cygdrive/c/home/larsa/svn/clean/SoQt/cfg/missing --run makeinfo
+MAKEINFO = ${SHELL} /cygdrive/c/home/larsa/svn/clean/SoQt-clean/cfg/missing --run makeinfo
 MOC = /cygdrive/c/Qt/4.2.2/bin/moc
 OBJEXT = obj
 PACKAGE = SoQt
@@ -159,7 +159,7 @@ SOGUI_MINOR_VERSION = 4
 SOGUI_MSVC_LIBC = multithread-static
 SOQT_BETA_VERSION = a
 SOQT_DSP_DEFS = /D "HAVE_CONFIG_H" /D "SOQT_MAKE_DLL" /D "COIN_DLL" /D "SOQT_INTERNAL"
-SOQT_DSP_INCS = /I "c:\home\larsa\svn\clean\SoQt\build\msvc6\src" /I "c:\home\larsa\svn\clean\SoQt\build\msvc6\data" /I "c:\home\larsa\svn\clean\SoQt\src" /I "c:\Coin3D-6\include" /I "c:\Coin3D-6\include\Inventor\annex" /I "c:\Qt\4.2.2\include" /I "c:\Qt\4.2.2\include\Qt"
+SOQT_DSP_INCS = /I "c:\home\larsa\svn\clean\SoQt-clean\build\msvc6\src" /I "c:\home\larsa\svn\clean\SoQt-clean\build\msvc6\data" /I "c:\home\larsa\svn\clean\SoQt-clean\src" /I "c:\Coin3D-6\include" /I "c:\Coin3D-6\include\Inventor\annex" /I "c:\Qt\4.2.2\include" /I "c:\Qt\4.2.2\include\Qt"
 SOQT_DSP_LIBS = c:\Qt\4.2.2\lib\QtOpenGL4.lib c:\Qt\4.2.2\lib\QtGui4.lib c:\Qt\4.2.2\lib\QtCore4.lib c:\Coin3D-6\lib\coin2.lib opengl32.lib gdi32.lib winmm.lib user32.lib
 SOQT_LIB_DSP_DEFS =  /D "HAVE_CONFIG_H" /D "COIN_DLL" /D "SOQT_INTERNAL"
 SOQT_MAJOR_VERSION = 1
@@ -178,7 +178,7 @@ X_LIBS =  -LNONE
 X_PRE_LIBS = 
 ac_compiler_gnu = no
 ac_ct_AR = ar
-ac_ct_CC = /cygdrive/c/home/larsa/svn/clean/SoQt/cfg/wrapmsvc.exe
+ac_ct_CC = /cygdrive/c/home/larsa/svn/clean/SoQt-clean/cfg/wrapmsvc.exe
 ac_ct_CXX = 
 ac_ct_F77 = 
 ac_ct_RANLIB = :
@@ -211,7 +211,7 @@ htmldir = ${prefix}/share/SoQt/html
 htmlhelpdir = ${prefix}/share/SoQt/htmlhelp
 includedir = ${prefix}/include
 infodir = ${prefix}/info
-install_sh = /cygdrive/c/home/larsa/svn/clean/SoQt/cfg/install-sh
+install_sh = /cygdrive/c/home/larsa/svn/clean/SoQt-clean/cfg/install-sh
 ivframeworkdir = 
 ivincludedir = 
 libdir = /cygdrive/c/Qt/4.2.2/lib
@@ -234,16 +234,16 @@ sim_ac_perl_exe =
 sim_ac_qt_cygpath = /usr/bin/cygpath
 sim_ac_relative_src_dir = ../..
 sim_ac_relative_src_dir_p = true
-sogui_build_dir = /cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc6
-sogui_html_dir = /cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc6/html
-sogui_html_help_dir = /cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc6/htmlhelp
-sogui_man_dir = /cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc6/man
-sogui_src_dir = /cygdrive/c/home/larsa/svn/clean/SoQt
+sogui_build_dir = /cygdrive/c/home/larsa/svn/clean/SoQt-clean/build/msvc6
+sogui_html_dir = /cygdrive/c/home/larsa/svn/clean/SoQt-clean/build/msvc6/html
+sogui_html_help_dir = /cygdrive/c/home/larsa/svn/clean/SoQt-clean/build/msvc6/htmlhelp
+sogui_man_dir = /cygdrive/c/home/larsa/svn/clean/SoQt-clean/build/msvc6/man
+sogui_src_dir = /cygdrive/c/home/larsa/svn/clean/SoQt-clean
 soguiincludedir = ${prefix}/include/Inventor/Qt
-soqt_build_dir = /cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc6
-soqt_src_dir = /cygdrive/c/home/larsa/svn/clean/SoQt
-soqt_w32_build_dir = c:\home\larsa\svn\clean\SoQt\build\msvc6
-soqt_w32_src_dir = c:\home\larsa\svn\clean\SoQt
+soqt_build_dir = /cygdrive/c/home/larsa/svn/clean/SoQt-clean/build/msvc6
+soqt_src_dir = /cygdrive/c/home/larsa/svn/clean/SoQt-clean
+soqt_w32_build_dir = c:\home\larsa\svn\clean\SoQt-clean\build\msvc6
+soqt_w32_src_dir = c:\home\larsa\svn\clean\SoQt-clean
 sysconfdir = ${prefix}/etc
 target = i686-pc-cygwin
 target_alias = 
@@ -420,7 +420,8 @@ SoGui_src_Inventor_BuiltMetaFiles =
 SoGui_src_Inventor_Gui_BuiltMetaFiles = \
   $(top_builddir)/src/Inventor/Qt/moc_SoQtP.icc \
   $(top_builddir)/src/Inventor/Qt/moc_SoQtComponentP.icc \
-  $(top_builddir)/src/Inventor/Qt/moc_SoQtGLWidgetP.icc
+  $(top_builddir)/src/Inventor/Qt/moc_SoQtGLWidgetP.icc \
+  $(top_builddir)/src/Inventor/Qt/moc_SoQtSignalThread.icc
 
 
 #SoGui_src_Inventor_Gui_BuiltMetaFiles = 
