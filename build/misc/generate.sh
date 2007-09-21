@@ -11,7 +11,7 @@ rm -f ${project}.dsp ${project}.dsw ${project}.vcproj ${project}.sln \
       ${project}_install.vcproj ${project}_install.sln \
       ${project}_uninstall.dsp ${project}_uninstall.dsw \
       ${project}_uninstall.vcproj ${project}_uninstall.sln \
-      ../misc/install-headers.bat ../misc/uninstall-headers.bat
+      install-headers.bat uninstall-headers.bat
 
 build_pwd=`pwd`
 build="`cygpath -w $build_pwd | sed -e 's/\\\\/\\\\\\\\/g'`"
@@ -51,9 +51,19 @@ sed \
   -e "s/$source/..\\\\../g" \
   -e "s/$source_pwd/..\\\\../g" \
   -e 's/$/\r/g' \
-  <../misc/install-headers.bat >new.bat
+  <install-headers.bat >new.bat
 
 mv new.bat ../misc/install-headers.bat
+
+sed \
+  -e "s/$build/./g" \
+  -e "s/$build_pwd//g" \
+  -e "s/$source/..\\\\../g" \
+  -e "s/$source_pwd/..\\\\../g" \
+  -e 's/$/\r/g' \
+  <uninstall-headers.bat >new.bat
+
+mv new.bat ../misc/uninstall-headers.bat
 
 echo "Done."
 echo "Modify so the static configurations are built with COIN_NOT_DLL"

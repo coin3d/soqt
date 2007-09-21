@@ -47,14 +47,14 @@ POST_UNINSTALL = :
 build_triplet = i686-pc-cygwin
 host_triplet = i686-pc-cygwin
 target_triplet = i686-pc-cygwin
-ACLOCAL = ${SHELL} /cygdrive/g/svn/work/SoQt/cfg/missing --run aclocal-1.7
+ACLOCAL = ${SHELL} /cygdrive/c/home/larsa/svn/clean/SoQt/cfg/missing --run aclocal-1.7
 AMDEP_FALSE = 
 AMDEP_TRUE = #
-AMTAR = ${SHELL} /cygdrive/g/svn/work/SoQt/cfg/missing --run tar
+AMTAR = ${SHELL} /cygdrive/c/home/larsa/svn/clean/SoQt/cfg/missing --run tar
 AR = ar
-AUTOCONF = ${SHELL} /cygdrive/g/svn/work/SoQt/cfg/missing --run autoconf
-AUTOHEADER = ${SHELL} /cygdrive/g/svn/work/SoQt/cfg/missing --run autoheader
-AUTOMAKE = ${SHELL} /cygdrive/g/svn/work/SoQt/cfg/missing --run automake-1.7
+AUTOCONF = ${SHELL} /cygdrive/c/home/larsa/svn/clean/SoQt/cfg/missing --run autoconf
+AUTOHEADER = ${SHELL} /cygdrive/c/home/larsa/svn/clean/SoQt/cfg/missing --run autoheader
+AUTOMAKE = ${SHELL} /cygdrive/c/home/larsa/svn/clean/SoQt/cfg/missing --run automake-1.7
 AWK = gawk
 BUILD_HTMLHELP_FALSE = 
 BUILD_HTMLHELP_TRUE = #
@@ -69,16 +69,16 @@ BUILD_METAFILES_TRUE =
 BUILD_WITH_MSVC = true
 BUILD_WITH_MSVC_FALSE = #
 BUILD_WITH_MSVC_TRUE = 
-CC = /cygdrive/g/svn/work/SoQt/build/msvc6/cfg/gendsp.pl
+CC = /cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc6/cfg/gendsp.pl
 CCDEPMODE = depmode=none
 CFLAGS =  /MT 
 COIN_COMPILER = wrapmsvc
 COMPONENTHEADER = Q_OBJECT
 CONFIG = default
-CPP = /cygdrive/g/svn/work/SoQt/cfg/wrapmsvc.exe -E
-CPPFLAGS = -DSOQT_MAKE_DLL -I/cygdrive/c/home/larsa/include -I/cygdrive/c/home/larsa/include/Inventor/annex -DCOIN_DLL -I/cygdrive/c/Qt/4.2.2/include -I/cygdrive/c/Qt/4.2.2/include/Qt -DNDEBUG -DSOQT_DEBUG=0 -DSOQT_INTERNAL -Ddspfile=/cygdrive/g/svn/work/SoQt/build/msvc6/soqt1.dsp
-CXX = /cygdrive/g/svn/work/SoQt/build/msvc6/cfg/gendsp.pl
-CXXCPP = /cygdrive/g/svn/work/SoQt/cfg/wrapmsvc.exe -E
+CPP = /cygdrive/c/home/larsa/svn/clean/SoQt/cfg/wrapmsvc.exe -E
+CPPFLAGS = -DSOQT_MAKE_DLL -I/cygdrive/c/Coin3D-6/include -I/cygdrive/c/Coin3D-6/include/Inventor/annex -DCOIN_DLL -I/cygdrive/c/Qt/4.2.2/include -I/cygdrive/c/Qt/4.2.2/include/Qt -DNDEBUG -DSOQT_DEBUG=0 -DSOQT_INTERNAL -Ddspfile=/cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc6/soqt1.dsp
+CXX = /cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc6/cfg/gendsp.pl
+CXXCPP = /cygdrive/c/home/larsa/svn/clean/SoQt/cfg/wrapmsvc.exe -E
 CXXDEPMODE = depmode=none
 CXXFLAGS =  /MT 
 CYGPATH_W = cygpath -w
@@ -104,7 +104,7 @@ INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = ${SHELL} $(install_sh) -c -s
-LDFLAGS = -L/cygdrive/c/home/larsa/lib -L/cygdrive/c/Qt/4.2.2/lib -Wl,-Ddspfile=/cygdrive/g/svn/work/SoQt/build/msvc6/soqt1.dsp
+LDFLAGS = -L/cygdrive/c/Coin3D-6/lib -L/cygdrive/c/Qt/4.2.2/lib -Wl,-Ddspfile=/cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc6/soqt1.dsp
 LIBFLAGS = -DLL /INCREMENTAL:NO   /RELEASE /OUT:soqt1.dll -o soqt1.so.0
 LIBOBJS = 
 LIBS = -lQtOpenGL4 -lQtGui4 -lQtCore4 -lcoin2 -lopengl32 -lgdi32 -lwinmm -luser32 
@@ -129,7 +129,7 @@ MAC_FRAMEWORK_VERSION = A
 MAINT = #
 MAINTAINER_MODE_FALSE = 
 MAINTAINER_MODE_TRUE = #
-MAKEINFO = ${SHELL} /cygdrive/g/svn/work/SoQt/cfg/missing --run makeinfo
+MAKEINFO = ${SHELL} /cygdrive/c/home/larsa/svn/clean/SoQt/cfg/missing --run makeinfo
 MOC = /cygdrive/c/Qt/4.2.2/bin/moc
 OBJEXT = obj
 PACKAGE = SoQt
@@ -142,6 +142,7 @@ PATH_SEPARATOR = :
 PKG_CONFIG = 
 QT4_CFLAGS = 
 QT4_LIBS = 
+QT_VERSION = 
 RANLIB = :
 SET_MAKE = 
 SHELL = /bin/sh
@@ -149,17 +150,17 @@ SOGUI_DOC_HTML = NO
 SOGUI_DOC_HTML_HELP = NO
 SOGUI_DOC_MAN = NO
 SOGUI_EXTRA_CFLAGS = -g /MT
-SOGUI_EXTRA_CPPFLAGS = -I${prefix}/include -I/cygdrive/c/home/larsa/include -I/cygdrive/c/home/larsa/include/Inventor/annex -DCOIN_DLL -I/cygdrive/c/Qt/4.2.2/include -I/cygdrive/c/Qt/4.2.2/include/Qt -DSOQT_DLL
+SOGUI_EXTRA_CPPFLAGS = -I${prefix}/include -I/cygdrive/c/Coin3D-6/include -I/cygdrive/c/Coin3D-6/include/Inventor/annex -DCOIN_DLL -I/cygdrive/c/Qt/4.2.2/include -I/cygdrive/c/Qt/4.2.2/include/Qt -DSOQT_DLL
 SOGUI_EXTRA_CXXFLAGS = -g /MT
-SOGUI_EXTRA_LDFLAGS = -L${exec_prefix}/lib -L/cygdrive/c/home/larsa/lib -L/cygdrive/c/Qt/4.2.2/lib
+SOGUI_EXTRA_LDFLAGS = -L${exec_prefix}/lib -L/cygdrive/c/Coin3D-6/lib -L/cygdrive/c/Qt/4.2.2/lib
 SOGUI_EXTRA_LIBS = -lsoqt1 -lQtOpenGL4 -lQtGui4 -lQtCore4 -lcoin2 -lopengl32 -lgdi32 -lwinmm -luser32
 SOGUI_MAJOR_VERSION = 1
 SOGUI_MINOR_VERSION = 4
 SOGUI_MSVC_LIBC = multithread-static
 SOQT_BETA_VERSION = a
 SOQT_DSP_DEFS = /D "HAVE_CONFIG_H" /D "SOQT_MAKE_DLL" /D "COIN_DLL" /D "SOQT_INTERNAL"
-SOQT_DSP_INCS = /I "g:\svn\work\SoQt\build\msvc6\src" /I "g:\svn\work\SoQt\build\msvc6\data" /I "g:\svn\work\SoQt\src" /I "c:\home\larsa\include" /I "c:\home\larsa\include\Inventor\annex" /I "c:\Qt\4.2.2\include" /I "c:\Qt\4.2.2\include\Qt"
-SOQT_DSP_LIBS = c:\Qt\4.2.2\lib\QtOpenGL4.lib c:\Qt\4.2.2\lib\QtGui4.lib c:\Qt\4.2.2\lib\QtCore4.lib c:\home\larsa\lib\coin2.lib opengl32.lib gdi32.lib winmm.lib user32.lib
+SOQT_DSP_INCS = /I "c:\home\larsa\svn\clean\SoQt\build\msvc6\src" /I "c:\home\larsa\svn\clean\SoQt\build\msvc6\data" /I "c:\home\larsa\svn\clean\SoQt\src" /I "c:\Coin3D-6\include" /I "c:\Coin3D-6\include\Inventor\annex" /I "c:\Qt\4.2.2\include" /I "c:\Qt\4.2.2\include\Qt"
+SOQT_DSP_LIBS = c:\Qt\4.2.2\lib\QtOpenGL4.lib c:\Qt\4.2.2\lib\QtGui4.lib c:\Qt\4.2.2\lib\QtCore4.lib c:\Coin3D-6\lib\coin2.lib opengl32.lib gdi32.lib winmm.lib user32.lib
 SOQT_LIB_DSP_DEFS =  /D "HAVE_CONFIG_H" /D "COIN_DLL" /D "SOQT_INTERNAL"
 SOQT_MAJOR_VERSION = 1
 SOQT_MICRO_VERSION = 2
@@ -177,7 +178,7 @@ X_LIBS =  -LNONE
 X_PRE_LIBS = 
 ac_compiler_gnu = no
 ac_ct_AR = ar
-ac_ct_CC = /cygdrive/g/svn/work/SoQt/cfg/wrapmsvc.exe
+ac_ct_CC = /cygdrive/c/home/larsa/svn/clean/SoQt/cfg/wrapmsvc.exe
 ac_ct_CXX = 
 ac_ct_F77 = 
 ac_ct_RANLIB = :
@@ -210,7 +211,7 @@ htmldir = ${prefix}/share/SoQt/html
 htmlhelpdir = ${prefix}/share/SoQt/htmlhelp
 includedir = ${prefix}/include
 infodir = ${prefix}/info
-install_sh = /cygdrive/g/svn/work/SoQt/cfg/install-sh
+install_sh = /cygdrive/c/home/larsa/svn/clean/SoQt/cfg/install-sh
 ivframeworkdir = 
 ivincludedir = 
 libdir = /cygdrive/c/Qt/4.2.2/lib
@@ -225,7 +226,7 @@ prefix = /usr/local
 program_transform_name = s,x,x,
 sbindir = ${exec_prefix}/sbin
 sharedstatedir = ${prefix}/com
-sim_ac_coin_configcmd = /cygdrive/c/home/larsa/bin/coin-config --alternate=default
+sim_ac_coin_configcmd = /cygdrive/c/Coin3D-6/bin/coin-config --alternate=default
 sim_ac_doxygen_exe = 
 sim_ac_hhc_exe = 
 sim_ac_packagemaker_app = false
@@ -233,16 +234,16 @@ sim_ac_perl_exe =
 sim_ac_qt_cygpath = /usr/bin/cygpath
 sim_ac_relative_src_dir = ../..
 sim_ac_relative_src_dir_p = true
-sogui_build_dir = /cygdrive/g/svn/work/SoQt/build/msvc6
-sogui_html_dir = /cygdrive/g/svn/work/SoQt/build/msvc6/html
-sogui_html_help_dir = /cygdrive/g/svn/work/SoQt/build/msvc6/htmlhelp
-sogui_man_dir = /cygdrive/g/svn/work/SoQt/build/msvc6/man
-sogui_src_dir = /cygdrive/g/svn/work/SoQt
+sogui_build_dir = /cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc6
+sogui_html_dir = /cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc6/html
+sogui_html_help_dir = /cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc6/htmlhelp
+sogui_man_dir = /cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc6/man
+sogui_src_dir = /cygdrive/c/home/larsa/svn/clean/SoQt
 soguiincludedir = ${prefix}/include/Inventor/Qt
-soqt_build_dir = /cygdrive/g/svn/work/SoQt/build/msvc6
-soqt_src_dir = /cygdrive/g/svn/work/SoQt
-soqt_w32_build_dir = g:\svn\work\SoQt\build\msvc6
-soqt_w32_src_dir = g:\svn\work\SoQt
+soqt_build_dir = /cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc6
+soqt_src_dir = /cygdrive/c/home/larsa/svn/clean/SoQt
+soqt_w32_build_dir = c:\home\larsa\svn\clean\SoQt\build\msvc6
+soqt_w32_src_dir = c:\home\larsa\svn\clean\SoQt
 sysconfdir = ${prefix}/etc
 target = i686-pc-cygwin
 target_alias = 
@@ -631,7 +632,8 @@ SUBDIRS = . $(LIBDIR) $(DOCDIRS)
 SoQtBuiltFiles = \
 	src/Inventor/Qt/widgets/moc_QtNativePopupMenu.icc \
 	src/Inventor/Qt/widgets/moc_SoQtGLArea.icc \
-	src/Inventor/Qt/widgets/moc_SoQtThumbWheel.icc
+	src/Inventor/Qt/widgets/moc_SoQtThumbWheel.icc \
+	src/Inventor/Qt/moc_SoQtSignalThread.icc
 
 
 BUILT_SOURCES = \
@@ -664,6 +666,9 @@ dist_m4data_DATA = cfg/soqt.m4
 cfgdatadir = $(datadir)/Coin/conf
 cfgdata_DATA = soqt-default.cfg
 
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = SoQt.pc
+
 EXTRA_DIST = \
 	FAQ \
 	INSTALL.GNU \
@@ -672,12 +677,14 @@ EXTRA_DIST = \
 	README.WIN32 \
 	README.MACOSX \
 	Info.plist \
+	SoQt.pc.in \
 	build/misc/generate.sh \
 	build/misc/config-wrapper.h \
 	build/misc/install-sdk.bat \
 	build/misc/install-headers.bat \
 	build/misc/uninstall-headers.bat \
 	build/misc/delete-moc-files.bat \
+	build/misc/fixvcproj.sh \
 	build/msvc6/src/Inventor/Qt/SoQtBasic.h \
 	build/msvc6/src/config.h \
 	build/msvc6/src/config-debug.h \
@@ -696,7 +703,6 @@ EXTRA_DIST = \
 	build/msvc7/soqt1.vcproj \
 	build/msvc7/soqt1_install.vcproj \
 	build/msvc7/soqt1_uninstall.vcproj \
-	build/msvc7/fixvcproj.sh \
 	build/msvc8/src/Inventor/Qt/SoQtBasic.h \
 	build/msvc8/src/config.h \
 	build/msvc8/src/config-release.h \
@@ -706,7 +712,6 @@ EXTRA_DIST = \
 	build/msvc8/soqt1.vcproj \
 	build/msvc8/soqt1_install.vcproj \
 	build/msvc8/soqt1_uninstall.vcproj \
-	build/msvc8/fixvcproj.sh \
 	cfg/soqt.m4 \
 	cfg/gendsp.pl.in \
 	docs/announcement-1_0_0.txt \
@@ -770,11 +775,12 @@ subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/src/config.h
-CONFIG_CLEAN_FILES = soqt-$CONFIG.cfg cfg/gendsp.pl
+CONFIG_CLEAN_FILES = soqt-$CONFIG.cfg SoQt.pc cfg/gendsp.pl
 SCRIPTS = $(bin_SCRIPTS)
 
 DIST_SOURCES =
-DATA = $(cfgdata_DATA) $(dist_m4data_DATA) $(frameworkdata_DATA)
+DATA = $(cfgdata_DATA) $(dist_m4data_DATA) $(frameworkdata_DATA) \
+	$(pkgconfig_DATA)
 
 
 RECURSIVE_TARGETS = info-recursive dvi-recursive pdf-recursive \
@@ -785,9 +791,9 @@ RECURSIVE_TARGETS = info-recursive dvi-recursive pdf-recursive \
 DIST_COMMON = README $(dist_m4data_DATA) \
 	$(srcdir)/src/Inventor/Qt/common/Makefile.common AUTHORS \
 	COPYING ChangeLog INSTALL Makefile.am Makefile.in NEWS \
-	aclocal.m4 cfg/README cfg/config.guess cfg/config.sub \
-	cfg/depcomp cfg/install-sh cfg/ltmain.sh cfg/missing \
-	cfg/mkinstalldirs configure configure.ac
+	SoQt.pc.in aclocal.m4 cfg/README cfg/config.guess \
+	cfg/config.sub cfg/depcomp cfg/install-sh cfg/ltmain.sh \
+	cfg/missing cfg/mkinstalldirs configure configure.ac
 DIST_SUBDIRS = . src man html htmlhelp
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
@@ -810,6 +816,8 @@ $(srcdir)/configure: # $(srcdir)/configure.ac $(ACLOCAL_M4) $(CONFIGURE_DEPENDEN
 $(ACLOCAL_M4): # configure.ac 
 	cd $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 soqt-$CONFIG.cfg: $(top_builddir)/config.status $(top_srcdir)/src/Inventor/Qt/common/sogui.cfg.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+SoQt.pc: $(top_builddir)/config.status SoQt.pc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 cfg/gendsp.pl: $(top_builddir)/config.status $(top_srcdir)/cfg/gendsp.pl.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
@@ -896,6 +904,24 @@ uninstall-frameworkdataDATA:
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
 	  echo " rm -f $(DESTDIR)$(frameworkdatadir)/$$f"; \
 	  rm -f $(DESTDIR)$(frameworkdatadir)/$$f; \
+	done
+pkgconfigDATA_INSTALL = $(INSTALL_DATA)
+install-pkgconfigDATA: $(pkgconfig_DATA)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(pkgconfigdir)
+	@list='$(pkgconfig_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " $(pkgconfigDATA_INSTALL) $$d$$p $(DESTDIR)$(pkgconfigdir)/$$f"; \
+	  $(pkgconfigDATA_INSTALL) $$d$$p $(DESTDIR)$(pkgconfigdir)/$$f; \
+	done
+
+uninstall-pkgconfigDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(pkgconfig_DATA)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(pkgconfigdir)/$$f"; \
+	  rm -f $(DESTDIR)$(pkgconfigdir)/$$f; \
 	done
 
 # This directory's subdirectories are mostly independent; you can cd
@@ -1038,7 +1064,7 @@ distcleancheck_listfiles = find . -type f -print
 distdir: $(DISTFILES)
 	$(am__remove_distdir)
 	mkdir $(distdir)
-	$(mkinstalldirs) $(distdir)/./src/Inventor/Qt/common $(distdir)/build/misc $(distdir)/build/msvc6 $(distdir)/build/msvc6/src $(distdir)/build/msvc6/src/Inventor/Qt $(distdir)/build/msvc7 $(distdir)/build/msvc7/src $(distdir)/build/msvc7/src/Inventor/Qt $(distdir)/build/msvc8 $(distdir)/build/msvc8/src $(distdir)/build/msvc8/src/Inventor/Qt $(distdir)/cfg $(distdir)/docs $(distdir)/models $(distdir)/packaging/macosx $(distdir)/packaging/macosx/inst-dmg-files $(distdir)/packaging/macosx/noinst-dmg-files $(distdir)/packaging/windows $(distdir)/src/Inventor/Qt/common $(distdir)/src/Inventor/Qt/common/devices $(distdir)/src/Inventor/Qt/common/docs/doxygen $(distdir)/src/Inventor/Qt/common/editors $(distdir)/src/Inventor/Qt/common/engines $(distdir)/src/Inventor/Qt/common/nodes $(distdir)/src/Inventor/Qt/common/pixmaps $(distdir)/src/Inventor/Qt/common/viewers $(distdir)/src/Inventor/Qt/common/widgets $(distdir)/src/Inventor/Qt/common $(distdir)/test-code $(distdir)/test-code/components
+	$(mkinstalldirs) $(distdir)/. $(distdir)/./src/Inventor/Qt/common $(distdir)/build/misc $(distdir)/build/msvc6 $(distdir)/build/msvc6/src $(distdir)/build/msvc6/src/Inventor/Qt $(distdir)/build/msvc7 $(distdir)/build/msvc7/src $(distdir)/build/msvc7/src/Inventor/Qt $(distdir)/build/msvc8 $(distdir)/build/msvc8/src $(distdir)/build/msvc8/src/Inventor/Qt $(distdir)/cfg $(distdir)/docs $(distdir)/models $(distdir)/packaging/macosx $(distdir)/packaging/macosx/inst-dmg-files $(distdir)/packaging/macosx/noinst-dmg-files $(distdir)/packaging/windows $(distdir)/src/Inventor/Qt/common $(distdir)/src/Inventor/Qt/common/devices $(distdir)/src/Inventor/Qt/common/docs/doxygen $(distdir)/src/Inventor/Qt/common/editors $(distdir)/src/Inventor/Qt/common/engines $(distdir)/src/Inventor/Qt/common/nodes $(distdir)/src/Inventor/Qt/common/pixmaps $(distdir)/src/Inventor/Qt/common/viewers $(distdir)/src/Inventor/Qt/common/widgets $(distdir)/src/Inventor/Qt/common $(distdir)/test-code $(distdir)/test-code/components
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
@@ -1153,7 +1179,7 @@ check: $(BUILT_SOURCES)
 all-am: Makefile $(SCRIPTS) $(DATA) all-local
 installdirs: installdirs-recursive
 installdirs-am:
-	$(mkinstalldirs) $(DESTDIR)$(bindir) $(DESTDIR)$(cfgdatadir) $(DESTDIR)$(m4datadir) $(DESTDIR)$(frameworkdatadir)
+	$(mkinstalldirs) $(DESTDIR)$(bindir) $(DESTDIR)$(cfgdatadir) $(DESTDIR)$(m4datadir) $(DESTDIR)$(frameworkdatadir) $(DESTDIR)$(pkgconfigdir)
 
 install: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) install-recursive
@@ -1201,7 +1227,8 @@ info: info-recursive
 info-am:
 
 install-data-am: install-cfgdataDATA install-data-local \
-	install-dist_m4dataDATA install-frameworkdataDATA
+	install-dist_m4dataDATA install-frameworkdataDATA \
+	install-pkgconfigDATA
 
 install-exec-am: install-binSCRIPTS install-exec-local
 
@@ -1230,7 +1257,7 @@ ps-am:
 
 uninstall-am: uninstall-binSCRIPTS uninstall-cfgdataDATA \
 	uninstall-dist_m4dataDATA uninstall-frameworkdataDATA \
-	uninstall-info-am
+	uninstall-info-am uninstall-pkgconfigDATA
 
 uninstall-info: uninstall-info-recursive
 
@@ -1246,16 +1273,18 @@ uninstall-info: uninstall-info-recursive
 	install-dist_m4dataDATA install-exec install-exec-am \
 	install-exec-local install-exec-recursive \
 	install-frameworkdataDATA install-info install-info-am \
-	install-info-recursive install-man install-recursive \
-	install-strip installcheck installcheck-am installdirs \
-	installdirs-am installdirs-recursive maintainer-clean \
-	maintainer-clean-generic maintainer-clean-recursive mostlyclean \
-	mostlyclean-generic mostlyclean-libtool mostlyclean-recursive \
-	pdf pdf-am pdf-recursive ps ps-am ps-recursive tags \
-	tags-recursive uninstall uninstall-am uninstall-binSCRIPTS \
+	install-info-recursive install-man install-pkgconfigDATA \
+	install-recursive install-strip installcheck installcheck-am \
+	installdirs installdirs-am installdirs-recursive \
+	maintainer-clean maintainer-clean-generic \
+	maintainer-clean-recursive mostlyclean mostlyclean-generic \
+	mostlyclean-libtool mostlyclean-recursive pdf pdf-am \
+	pdf-recursive ps ps-am ps-recursive tags tags-recursive \
+	uninstall uninstall-am uninstall-binSCRIPTS \
 	uninstall-cfgdataDATA uninstall-dist_m4dataDATA \
 	uninstall-frameworkdataDATA uninstall-info-am \
-	uninstall-info-recursive uninstall-recursive
+	uninstall-info-recursive uninstall-pkgconfigDATA \
+	uninstall-recursive
 
 
 ############################################################################
@@ -1728,6 +1757,9 @@ src/Inventor/Qt/widgets/moc_SoQtThumbWheel.icc: $(srcdir)/src/Inventor/Qt/widget
 
 src/Inventor/Qt/widgets/moc_SoQtGLArea.icc: $(srcdir)/src/Inventor/Qt/widgets/SoQtGLArea.h
 	$(MOC) -i -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/widgets/SoQtGLArea.h`
+
+src/Inventor/Qt/moc_SoQtSignalThread.icc: $(srcdir)/src/Inventor/Qt/SoQtSignalThread.h
+	$(MOC) -i -o $@ `$(UNIX2WINPATH) $(srcdir)/src/Inventor/Qt/SoQtSignalThread.h`
 
 # FIXME: use MACOSX_PACKAGEABLE as in Coin build setup? 20050928 kyrah 
 

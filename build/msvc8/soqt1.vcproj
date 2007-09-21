@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="soqt1"
-	ProjectGUID="{09047807-E640-4A57-B2D5-34F1EB77988B}"
+	ProjectGUID="{EF403D2C-C6F2-42A1-986B-96FBF5A8FA65}"
 	>
 	<Platforms>
 		<Platform
@@ -316,7 +316,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(QTDIR)\lib\QtOpenGLd4.lib $(QTDIR)\lib\QtGuid4.lib $(QTDIR)\lib\QtCored4.lib $(COINDIR)\lib\coin2d.lib opengl32.lib winmm.lib"
+				AdditionalDependencies="$(QTDIR)\lib\QtOpenGL4.lib $(QTDIR)\lib\QtGui4.lib $(QTDIR)\lib\QtCore4.lib $(COINDIR)\lib\coin2.lib opengl32.lib winmm.lib"
 				OutputFile="soqt1d.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
@@ -2114,8 +2114,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\SoQtColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\SoQtColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\editors\SoQtColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2124,8 +2124,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\SoQtColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\SoQtColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\editors\SoQtColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2134,8 +2134,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\SoQtColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\SoQtColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\editors\SoQtColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2144,8 +2144,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\SoQtColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\SoQtColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\editors\SoQtColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.h"
 					/>
 				</FileConfiguration>
 			</File>
@@ -2158,8 +2158,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\editors\SoQtColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\SoQtColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtColorEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2168,8 +2168,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\editors\SoQtColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\SoQtColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtColorEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2178,8 +2178,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\editors\SoQtColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\SoQtColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtColorEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2188,8 +2188,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\editors\SoQtColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\SoQtColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtColorEditor.h"
 					/>
 				</FileConfiguration>
 			</File>
@@ -3478,8 +3478,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\editors\SoQtMaterialEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\editors\SoQtMaterialEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\SoQtMaterialEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtMaterialEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3488,8 +3488,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\editors\SoQtMaterialEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\editors\SoQtMaterialEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\SoQtMaterialEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtMaterialEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3498,8 +3498,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\editors\SoQtMaterialEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\editors\SoQtMaterialEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\SoQtMaterialEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtMaterialEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3508,8 +3508,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\editors\SoQtMaterialEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\editors\SoQtMaterialEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\SoQtMaterialEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtMaterialEditor.h"
 					/>
 				</FileConfiguration>
 			</File>
@@ -3522,8 +3522,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\SoQtMaterialEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\SoQtMaterialEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\editors\SoQtMaterialEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtMaterialEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3532,8 +3532,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\SoQtMaterialEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\SoQtMaterialEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\editors\SoQtMaterialEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtMaterialEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3542,8 +3542,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\SoQtMaterialEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\SoQtMaterialEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\editors\SoQtMaterialEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtMaterialEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3552,8 +3552,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\SoQtMaterialEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\SoQtMaterialEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\editors\SoQtMaterialEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtMaterialEditor.h"
 					/>
 				</FileConfiguration>
 			</File>
@@ -8188,6 +8188,54 @@
 						/>
 					</FileConfiguration>
 				</File>
+				<File
+					RelativePath="..\..\src\Inventor\Qt\SoQtSignalThread.cpp"
+					>
+					<FileConfiguration
+						Name="DLL (Release)|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
+							ObjectFile=".\Release\Inventor\Qt/"
+							ProgramDataBaseFileName="Release\Inventor\Qt/"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="LIB (Release)|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
+							ObjectFile=".\StaticRelease\Inventor\Qt/"
+							ProgramDataBaseFileName="StaticRelease\Inventor\Qt/"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="LIB (Debug)|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
+							ObjectFile=".\StaticDebug\Inventor\Qt/"
+							ProgramDataBaseFileName="StaticDebug\Inventor\Qt/"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="DLL (Debug)|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
+							ObjectFile=".\Debug\Inventor\Qt/"
+							ProgramDataBaseFileName="Debug\Inventor\Qt/"
+						/>
+					</FileConfiguration>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -8397,6 +8445,42 @@
 				</File>
 				<File
 					RelativePath="src\Inventor\Qt\moc_SoQtP.icc"
+					>
+					<FileConfiguration
+						Name="DLL (Release)|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="LIB (Release)|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="LIB (Debug)|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="DLL (Debug)|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="src\Inventor\Qt\moc_SoQtSignalThread.icc"
 					>
 					<FileConfiguration
 						Name="DLL (Release)|Win32"

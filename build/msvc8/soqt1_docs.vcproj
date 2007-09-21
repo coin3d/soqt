@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="soqt1_install"
-	ProjectGUID="{DE30842B-3F2A-4C9E-8B86-A195462C80D0}"
+	Name="soqt1_docs"
+	ProjectGUID="{72F2A929-7664-488C-B9AB-88FD0BF11F7F}"
 	Keyword="MakeFileProj"
 	>
 	<Platforms>
@@ -15,9 +15,9 @@
 	</ToolFiles>
 	<Configurations>
 		<Configuration
-			Name="LIB (Release)|Win32"
-			OutputDirectory=".\StaticRelease"
-			IntermediateDirectory=".\StaticRelease"
+			Name="DLL (Debug)|Win32"
+			OutputDirectory=".\Debug"
+			IntermediateDirectory=".\Debug"
 			ConfigurationType="0"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -25,10 +25,10 @@
 			>
 			<Tool
 				Name="VCNMakeTool"
-				BuildCommandLine="..\misc\install-sdk.bat lib release msvc8 soqt1"
-				ReBuildCommandLine="..\misc\install-sdk.bat lib release msvc8 soqt1 "
+				BuildCommandLine="..\misc\build-docs.bat dll debug msvc8 soqt1"
+				ReBuildCommandLine="..\misc\build-docs.bat dll debug msvc8 soqt1 "
 				CleanCommandLine=""
-				Output="soqt1_install.exe"
+				Output="soqt1_docs.exe"
 				PreprocessorDefinitions=""
 				IncludeSearchPath=""
 				ForcedIncludes=""
@@ -48,33 +48,10 @@
 			>
 			<Tool
 				Name="VCNMakeTool"
-				BuildCommandLine="..\misc\install-sdk.bat lib debug msvc8 soqt1"
-				ReBuildCommandLine="..\misc\install-sdk.bat lib debug msvc8 soqt1 "
+				BuildCommandLine="..\misc\build-docs.bat lib debug msvc8 soqt1"
+				ReBuildCommandLine="..\misc\build-docs.bat lib debug msvc8 soqt1 "
 				CleanCommandLine=""
-				Output="soqt1_install.exe"
-				PreprocessorDefinitions=""
-				IncludeSearchPath=""
-				ForcedIncludes=""
-				AssemblySearchPath=""
-				ForcedUsingAssemblies=""
-				CompileAsManaged=""
-			/>
-		</Configuration>
-		<Configuration
-			Name="DLL (Debug)|Win32"
-			OutputDirectory=".\Debug"
-			IntermediateDirectory=".\Debug"
-			ConfigurationType="0"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			>
-			<Tool
-				Name="VCNMakeTool"
-				BuildCommandLine="..\misc\install-sdk.bat dll debug msvc8 soqt1"
-				ReBuildCommandLine="..\misc\install-sdk.bat dll debug msvc8 soqt1 "
-				CleanCommandLine=""
-				Output="soqt1_install.exe"
+				Output="soqt1_docs.exe"
 				PreprocessorDefinitions=""
 				IncludeSearchPath=""
 				ForcedIncludes=""
@@ -94,10 +71,33 @@
 			>
 			<Tool
 				Name="VCNMakeTool"
-				BuildCommandLine="..\misc\install-sdk.bat dll release msvc8 soqt1"
-				ReBuildCommandLine="..\misc\install-sdk.bat dll release msvc8 soqt1 "
+				BuildCommandLine="..\misc\build-docs.bat dll release msvc8 soqt1"
+				ReBuildCommandLine="..\misc\build-docs.bat dll release msvc8 soqt1 "
 				CleanCommandLine=""
-				Output="soqt1_install.exe"
+				Output="soqt1_docs.exe"
+				PreprocessorDefinitions=""
+				IncludeSearchPath=""
+				ForcedIncludes=""
+				AssemblySearchPath=""
+				ForcedUsingAssemblies=""
+				CompileAsManaged=""
+			/>
+		</Configuration>
+		<Configuration
+			Name="LIB (Release)|Win32"
+			OutputDirectory=".\StaticRelease"
+			IntermediateDirectory=".\StaticRelease"
+			ConfigurationType="0"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			>
+			<Tool
+				Name="VCNMakeTool"
+				BuildCommandLine="..\misc\build-docs.bat lib release msvc8 soqt1"
+				ReBuildCommandLine="..\misc\build-docs.bat lib release msvc8 soqt1 "
+				CleanCommandLine=""
+				Output="soqt1_docs.exe"
 				PreprocessorDefinitions=""
 				IncludeSearchPath=""
 				ForcedIncludes=""
@@ -115,15 +115,15 @@
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;bat"
 			>
 			<File
-				RelativePath="..\misc\create-directories.bat"
+				RelativePath="..\misc\build-docs.bat"
 				>
 			</File>
 			<File
-				RelativePath="..\misc\install-headers.bat"
+				RelativePath="..\html\index.html"
 				>
 			</File>
 			<File
-				RelativePath="..\misc\install-sdk.bat"
+				RelativePath="docs\soqt1.doxygen"
 				>
 			</File>
 		</Filter>
