@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="soqt1"
-	ProjectGUID="{53148C1B-8B88-4E8B-9BF1-647C35C4C51A}"
+	ProjectGUID="{2886560D-40D6-4809-BEA5-7C1C15F1BEB7}"
 	>
 	<Platforms>
 		<Platform
@@ -316,7 +316,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(QTDIR)\lib\QtOpenGL4.lib $(QTDIR)\lib\QtGui4.lib $(QTDIR)\lib\QtCore4.lib $(COINDIR)\lib\coin2.lib opengl32.lib winmm.lib"
+				AdditionalDependencies="$(QTDIR)\lib\QtOpenGLd4.lib $(QTDIR)\lib\QtGuid4.lib $(QTDIR)\lib\QtCored4.lib $(COINDIR)\lib\coin2d.lib opengl32.lib winmm.lib"
 				OutputFile="soqt1d.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"

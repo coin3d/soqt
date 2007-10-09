@@ -66,9 +66,13 @@ sed \
 mv new.bat ../misc/uninstall-headers.bat
 
 echo "Done."
-echo "Modify so the static configurations are built with COIN_NOT_DLL"
-echo "Then make sure there are no absolute paths in the project files"
+echo ""
+echo "* Make sure there are no absolute paths in the project files"
 grep -i c: ${project}.dsp ${project}.dsw
+echo "* Make sure 'Public Headers' group is preceded by 2s 'End Group' lines."
+echo "* Fix up DLL library dependencies, so Debug Builds use debug dependencies."
+echo "* Upgrade project files by running devenv soqt1.dsw"
+echo "* Run ./fixvcproj.sh if you are using msvc7."
 
 find . -name "moc_*" | xargs rm
 

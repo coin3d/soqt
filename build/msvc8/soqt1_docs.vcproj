@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="soqt1_docs"
-	ProjectGUID="{DAD2046D-5225-4A76-BBC6-000E1B134618}"
+	ProjectGUID="{CACBBC3A-9969-43D1-8145-8B6200A50409}"
 	Keyword="MakeFileProj"
 	>
 	<Platforms>
