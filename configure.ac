@@ -592,6 +592,9 @@ if $sim_ac_build_library && $sim_ac_enable_pkgconfig; then
 
   QT_VERSION=`$PKG_CONFIG --modversion QtCore`
   AC_SUBST([QT_VERSION])
+
+  AC_DEFINE_UNQUOTED([GUI_TOOLKIT_VERSION], ["$QT_VERSION"],
+                     [Version string for Qt])
 fi
 
 # remove libs we don't want to link into library again
@@ -674,6 +677,9 @@ if $sim_ac_build_library && test x"$sim_ac_enable_pkgconfig" = xfalse; then
   #             [AC_MSG_RESULT([yes])
   #              AC_DEFINE([HAVE_QT_WIN_USE_SIMPLE_TIMERS], 1, [Defined if qt_win_use_simple_timers is available])],
   #             [AC_MSG_RESULT([no])])
+
+  AC_DEFINE_UNQUOTED([GUI_TOOLKIT_VERSION], ["$sim_ac_qt_version"],
+                     [Version string for Qt])
 
 fi # sim_ac_build_library
 
