@@ -5,7 +5,6 @@ includedir=@includedir@
 
 Name: SoQt
 Description: a Qt Gui-toolkit binding for Coin
-URL: http://www.coin3d.org
 Version: @SOQT_VERSION@
 Requires: Coin
 Conflicts:
