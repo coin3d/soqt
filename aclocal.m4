@@ -628,10 +628,10 @@ fi
 #
 #    $sim_ac_enable_universal (true if we are building Universal Binaries)
 #    $sim_ac_universal_flags (extra flags needed for Universal Binaries)
-#  
+#
 #  The CFLAGS and CXXFLAGS variables will also be modified accordingly.
 #
-#  Note that when building Universal Binaries, dependency tracking will 
+#  Note that when building Universal Binaries, dependency tracking will
 #  be turned off.
 #
 #  Important: This macro must be called _before_ AM_INIT_AUTOMAKE.
@@ -644,7 +644,7 @@ sim_ac_enable_universal=false
 
 
 case $host_os in
-  darwin* ) 
+  darwin* )
     AC_ARG_ENABLE(
       [universal],
       AC_HELP_STRING([--enable-universal], [build Universal Binaries]), [
@@ -653,7 +653,7 @@ case $host_os in
           *) ;;
         esac])
 
-    AC_MSG_CHECKING([whether we should build Universal Binaries])   
+    AC_MSG_CHECKING([whether we should build Universal Binaries])
     if $sim_ac_enable_universal; then
       AC_MSG_RESULT([yes])
       SIM_AC_CONFIGURATION_SETTING([Build Universal Binaries], [Yes])
@@ -664,7 +664,7 @@ case $host_os in
       fi
 
       sim_ac_universal_flags="-arch i386 -arch ppc $sim_ac_universal_sdk_flags"
-      
+
       CFLAGS="$sim_ac_universal_flags $CFLAGS"
       CXXFLAGS="$sim_ac_universal_flags $CXXFLAGS"
 
@@ -8230,7 +8230,7 @@ AC_REQUIRE([AC_PATH_XTRA])
 sim_ac_enable_darwin_x11=false
 
 case $host_os in
-  darwin* ) 
+  darwin* )
     AC_ARG_ENABLE([darwin-x11],
       AC_HELP_STRING([--enable-darwin-x11],
                      [enable X11 on Darwin [[default=--disable-darwin-x11]]]),
@@ -8862,7 +8862,7 @@ AC_DEFUN([SIM_AC_CHECK_DLD], [
 # SIM_AC_CHECK_DYLD([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 # -------------------------------------------------------------------
 #
-#  Try to use the Mac OS X dynamik link editor method 
+#  Try to use the Mac OS X dynamik link editor method
 #  NSLookupAndBindSymbol()
 #
 # Author: Karin Kosina, <kyrah@sim.no>
@@ -8870,7 +8870,7 @@ AC_DEFUN([SIM_AC_CHECK_DLD], [
 AC_DEFUN([SIM_AC_CHECK_DYLD], [
 AC_ARG_ENABLE(
   [dyld],
-  [AC_HELP_STRING([--disable-dyld], 
+  [AC_HELP_STRING([--disable-dyld],
                   [don't use run-time link bindings under Mac OS X])],
   [case $enableval in
   yes | true ) sim_ac_dyld=true ;;
@@ -8906,7 +8906,7 @@ fi
 #   SIM_AC_CHECK_FINK ([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 #
 # Description:
-#   This macro checks for the availability of the Fink system. Fink is 
+#   This macro checks for the availability of the Fink system. Fink is
 #   dpkg-based distribution of UNIX tools for Mac OS X that installs
 #   libraries and headers into /sw.
 #
@@ -8931,7 +8931,7 @@ if test -d /sw/include && test -d /sw/lib; then
   sim_ac_fink_ldflags="-L/sw/lib"
   CPPFLAGS="$CPPFLAGS $sim_ac_fink_cppflags"
   LDFLAGS="$LDFLAGS $sim_ac_fink_ldflags"
-else 
+else
   AC_MSG_RESULT([no])
   sim_ac_fink_cppflags=
   sim_ac_fink_ldflags=
@@ -8948,7 +8948,7 @@ fi
 
 # **************************************************************************
 # SIM_AC_CHECK_HEADER_SILENT([header], [if-found], [if-not-found], [includes])
-# 
+#
 # This macro will not output any header checking information, nor will it
 # cache the result, so it can be used multiple times on the same header,
 # trying out different compiler options.
@@ -9007,7 +9007,7 @@ if test x"$with_opengl" != x"no"; then
 
   CPPFLAGS="$CPPFLAGS $sim_ac_gl_cppflags"
 
-  # Mac OS X framework (no X11, -framework OpenGL) 
+  # Mac OS X framework (no X11, -framework OpenGL)
   if $sim_ac_enable_darwin_x11; then :
   else
     SIM_AC_CHECK_HEADER_SILENT([OpenGL/gl.h], [
@@ -9084,7 +9084,7 @@ if test x"$with_opengl" != x"no"; then
 
   CPPFLAGS="$CPPFLAGS $sim_ac_glu_cppflags"
 
-  # Mac OS X framework (no X11, -framework OpenGL) 
+  # Mac OS X framework (no X11, -framework OpenGL)
   if $sim_ac_enable_darwin_x11; then :
   else
     SIM_AC_CHECK_HEADER_SILENT([OpenGL/glu.h], [
@@ -9102,7 +9102,7 @@ if test x"$with_opengl" != x"no"; then
       AC_DEFINE([HAVE_GL_GLU_H], 1, [define if the GLU header should be included as GL/glu.h])
     ])
   fi
- 
+
   CPPFLAGS="$sim_ac_glu_save_CPPFLAGS"
   if $sim_ac_glu_header_avail; then
     if test x"$sim_ac_glu_cppflags" = x""; then
@@ -9161,7 +9161,7 @@ if test x"$with_opengl" != x"no"; then
 
   CPPFLAGS="$CPPFLAGS $sim_ac_glext_cppflags"
 
-  # Mac OS X framework (no X11, -framework OpenGL) 
+  # Mac OS X framework (no X11, -framework OpenGL)
   if $sim_ac_enable_darwin_x11; then :
   else
     SIM_AC_CHECK_HEADER_SILENT([OpenGL/glext.h], [
@@ -9732,14 +9732,14 @@ sim_ac_agl_ldflags="-Wl,-framework,ApplicationServices -Wl,-framework,AGL"
 
 LDFLAGS="$LDFLAGS $sim_ac_agl_ldflags"
 
-# see comment in Coin/src/glue/gl_agl.c: regarding __CARBONSOUND__ define 
+# see comment in Coin/src/glue/gl_agl.c: regarding __CARBONSOUND__ define
 
 AC_CACHE_CHECK(
   [whether AGL is on the system],
   sim_cv_have_agl,
   AC_TRY_LINK(
     [#include <AGL/agl.h>
-     #define __CARBONSOUND__ 
+     #define __CARBONSOUND__
      #include <Carbon/Carbon.h>],
     [aglGetCurrentContext();],
     [sim_cv_have_agl=true],
@@ -9752,7 +9752,7 @@ else
   ifelse([$2], , :, [$2])
 fi
 ]) # SIM_AC_HAVE_AGL_IFELSE()
- 
+
 
 AC_DEFUN([SIM_AC_HAVE_AGL_PBUFFER], [
   AC_CACHE_CHECK([whether we can use AGL pBuffers],
@@ -9761,7 +9761,7 @@ AC_DEFUN([SIM_AC_HAVE_AGL_PBUFFER], [
                  [AGLPbuffer pbuffer;],
                  [sim_cv_agl_pbuffer_avail=yes],
                  [sim_cv_agl_pbuffer_avail=no])])
-  
+
   if test x"$sim_cv_agl_pbuffer_avail" = xyes; then
     ifelse([$1], , :, [$1])
   else
@@ -10191,7 +10191,7 @@ AC_DEFUN([AC_TOLOWER], [translit([$1], [[A-Z]], [[a-z]])])
 #   Lars J. Aas  <larsa@sim.no>
 #   Morten Eriksen  <mortene@sim.no>
 
-AC_DEFUN([SIM_AC_HAVE_INVENTOR_NODE], 
+AC_DEFUN([SIM_AC_HAVE_INVENTOR_NODE],
 [m4_do([pushdef([cache_variable], sim_cv_have_oiv_[]AC_TOLOWER([$1])_node)],
        [pushdef([DEFINE_VARIABLE], HAVE_[]AC_TOUPPER([$1]))])
 AC_CACHE_CHECK(
@@ -10223,7 +10223,7 @@ m4_do([popdef([cache_variable])],
 #   Lars J. Aas  <larsa@sim.no>
 #   Morten Eriksen  <mortene@sim.no>
 
-AC_DEFUN([SIM_AC_HAVE_INVENTOR_VRMLNODE], 
+AC_DEFUN([SIM_AC_HAVE_INVENTOR_VRMLNODE],
 [m4_do([pushdef([cache_variable], sim_cv_have_oiv_[]AC_TOLOWER([$1])_vrmlnode)],
        [pushdef([DEFINE_VARIABLE], HAVE_[]AC_TOUPPER([$1]))])
 AC_CACHE_CHECK(
@@ -10529,7 +10529,7 @@ describing the situation where this failed.
           fi
           LDFLAGS="$LDFLAGS -L$sim_ac_coindir/lib"
           LIBS="-l$sim_ac_coin_lib_name -lopengl32 $LIBS"
-          
+
           AC_LANG_PUSH(C++)
 
           AC_TRY_LINK(
@@ -10578,7 +10578,7 @@ fi
 
 
 # pkg.m4 - Macros to locate and utilise pkg-config.            -*- Autoconf -*-
-# 
+#
 # Copyright © 2004 Scott James Remnant <scott@netsplit.com>.
 #
 # This program is free software; you can redistribute it and/or modify
@@ -10618,7 +10618,7 @@ if test -n "$PKG_CONFIG"; then
 		AC_MSG_RESULT([no])
 		PKG_CONFIG=""
 	fi
-		
+
 fi[]dnl
 ])# PKG_PROG_PKG_CONFIG
 
@@ -10699,7 +10699,7 @@ if test $pkg_failed = yes; then
         _PKG_SHORT_ERRORS_SUPPORTED
         if test $_pkg_short_errors_supported = yes; then
 	        $1[]_PKG_ERRORS=`$PKG_CONFIG --short-errors --errors-to-stdout --print-errors "$2"`
-        else 
+        else
 	        $1[]_PKG_ERRORS=`$PKG_CONFIG --errors-to-stdout --print-errors "$2"`
         fi
 	# Put the nasty error message in config.log where it belongs
@@ -10892,7 +10892,7 @@ if $sim_ac_with_qt; then
   # Check for Mac OS framework installation
   if test -z "$QTDIR"; then
     sim_ac_qt_framework_dir=/Library/Frameworks
-    # FIXME: Should we also look for the Qt framework in other  
+    # FIXME: Should we also look for the Qt framework in other
     # default framework locations (such as ~/Library/Frameworks)?
     # Or require the user to specify this explicitly, e.g. by
     # passing --with-qt-framework=xxx? 20050802 kyrah.
@@ -10902,7 +10902,7 @@ if $sim_ac_with_qt; then
 
   SIM_AC_HAVE_QT_FRAMEWORK
 
-  if $sim_ac_have_qt_framework; then 
+  if $sim_ac_have_qt_framework; then
     sim_ac_qt_cppflags="-I$sim_ac_qt_framework_dir/QtCore.framework/Headers -I$sim_ac_qt_framework_dir/QtOpenGL.framework/Headers -I$sim_ac_qt_framework_dir/QtGui.framework/Headers -F$sim_ac_qt_framework_dir"
     sim_ac_qt_libs="-Wl,-F$sim_ac_qt_framework_dir -Wl,-framework,QtGui -Wl,-framework,QtOpenGL -Wl,-framework,QtCore -Wl,-framework,QtXml -Wl,-framework,QtNetwork -Wl,-framework,QtSql"
   else
@@ -11006,7 +11006,7 @@ if $sim_ac_with_qt; then
                        #error blah!
                        #endif],[],
                       [SIM_AC_ERROR([mac-qt-but-x11-requested])])
-        else 
+        else
           # Using Qt/X11 but option --enable-darwin-x11 not given
           AC_TRY_COMPILE([#include <qapplication.h>],
                     [#if defined(__APPLE__) && defined(Q_WS_X11)
@@ -11043,7 +11043,7 @@ if $sim_ac_with_qt; then
       # user's system.)
       #
       # mortene.
-  
+
       if test x"$CONFIG_QTLIBS" != x""; then
         AC_MSG_CHECKING([for Qt linking with $CONFIG_QTLIBS])
 
@@ -11076,7 +11076,10 @@ if $sim_ac_with_qt; then
         ## Test all known possible combinations of linking against the
         ## Troll Tech Qt library:
         ##
-        ## * "-lQtGui": Qt 4 on UNIX-like systems 
+        ## * "-lQtGui": Qt 4 on UNIX-like systems
+        ##
+        ## * "-lQtGui -lQtCore -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32 -lwinspool -lwinmm -ladvapi32 -lws2_32 -lshell32"
+        ##   Should cover static linking against Qt4 on win32
         ##
         ## * "-lqt-gl": links against the standard Debian version of the
         ##   Qt library with embedded QGL
@@ -11134,7 +11137,7 @@ if $sim_ac_with_qt; then
           for sim_ac_qt_libcheck in \
               "-lQtGui${sim_ac_qt_suffix}${sim_ac_qt_major_version} -lQtCore${sim_ac_qt_suffix}${sim_ac_qt_major_version}" \
               "-lQtGui -lQtCore" \
-              "-lQtGui -lQtCore -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32 -lwinspool -lwinmm -ladvapi32 -lws2_32 -lshell32" \
+              "-lQtGui${sim_ac_qt_suffix} -lQtCore${sim_ac_qt_suffix} -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32 -lwinspool -lwinmm -ladvapi32 -lws2_32 -lshell32" \
               "-lqt-gl" \
               "-lqt-mt" \
               "-lqt" \
@@ -11263,7 +11266,7 @@ if $sim_ac_with_qt; then
     fi
 
     sim_ac_qgl_libs=UNRESOLVED
-    for sim_ac_qgl_libcheck in "-lQtOpenGL${sim_ac_qt_suffix}${sim_ac_qt_major_version}" "-lQtOpenGL" "-lqgl" "-lqgl -luser32"; do
+    for sim_ac_qgl_libcheck in "-lQtOpenGL${sim_ac_qt_suffix}${sim_ac_qt_major_version}" "-lQtOpenGL${sim_ac_qt_suffix}" "-lqgl" "-lqgl -luser32"; do
       if test "x$sim_ac_qgl_libs" = "xUNRESOLVED"; then
         LIBS="$sim_ac_qgl_libcheck $sim_ac_save_LIBS"
         AC_TRY_LINK([#include <qgl.h>],
@@ -11402,8 +11405,8 @@ fi
 # SIM_AC_QAPPLICATION_HASPENDINGEVENTS
 # -----------------------------
 #
-# Use the macro for its side-effect: it defines 
-# HAVE_QAPPLICATION_HASPENDINGEVENTS to 1 in config.h if 
+# Use the macro for its side-effect: it defines
+# HAVE_QAPPLICATION_HASPENDINGEVENTS to 1 in config.h if
 # QApplication::hasPendingEvents() is available (that
 # function wasn't introduced in Qt until version 3.0).
 #
@@ -11496,13 +11499,13 @@ fi
 # SIM_AC_HAVE_QT_FRAMEWORK
 # ----------------------
 #
-# Determine whether Qt is installed as a Mac OS X framework.  
+# Determine whether Qt is installed as a Mac OS X framework.
 #
-# Uses the variable $sim_ac_qt_framework_dir which should either 
-# point to /Library/Frameworks or $QTDIR/lib. 
+# Uses the variable $sim_ac_qt_framework_dir which should either
+# point to /Library/Frameworks or $QTDIR/lib.
 #
-# Sets sim_ac_have_qt_framework to true if Qt is installed as 
-# a framework, and to false otherwise. 
+# Sets sim_ac_have_qt_framework to true if Qt is installed as
+# a framework, and to false otherwise.
 #
 # Author: Karin Kosina, <kyrah@sim.no>.
 
@@ -11515,7 +11518,7 @@ case $host_os in
     # location /Library/Frameworks, but the user wants to override it
     # by setting QTDIR to point to a non-framework install.
     if test -d $sim_ac_qt_framework_dir/QtCore.framework; then
-      sim_ac_save_ldflags_fw=$LDFLAGS 
+      sim_ac_save_ldflags_fw=$LDFLAGS
       LDFLAGS="$LDFLAGS -F$sim_ac_qt_framework_dir -framework QtCore"
       AC_CACHE_CHECK(
         [whether Qt is installed as a framework],
@@ -11526,9 +11529,9 @@ case $host_os in
                  [sim_ac_have_qt_framework=false])
         ])
         LDFLAGS=$sim_ac_save_ldflags_fw
-    else 
+    else
       sim_ac_have_qt_framework=false
-    fi 
+    fi
     ;;
   *)
     sim_ac_have_qt_framework=false
@@ -11602,16 +11605,16 @@ AC_SUBST(DSUFFIX)
 # Description:
 #   Let the user decide if optimization should be attempted turned off
 #   by stripping off an "-O[0-9]" option.
-# 
+#
 #   Note: this macro must be placed after either AC_PROG_CC or AC_PROG_CXX
 #   in the configure.in script.
 #
 # FIXME: this is pretty much just a dirty hack. Unfortunately, this
 # seems to be the best we can do without fixing Autoconf to behave
 # properly wrt setting optimization options. 20011021 mortene.
-# 
+#
 # Author: Morten Eriksen, <mortene@sim.no>.
-# 
+#
 
 AC_DEFUN([SIM_AC_COMPILER_OPTIMIZATION], [
 AC_ARG_ENABLE(
@@ -11739,12 +11742,12 @@ AC_DEFUN([SIM_AC_CHECK_VAR_FUNCTIONNAME], [
 #   Let the user decide if debug symbol information should be compiled
 #   in. The compiled libraries/executables will use a lot less space
 #   if stripped for their symbol information.
-# 
+#
 #   Note: this macro must be placed after either AC_PROG_CC or AC_PROG_CXX
 #   in the configure.in script.
-# 
+#
 # Author: Morten Eriksen, <mortene@sim.no>.
-# 
+#
 
 AC_DEFUN([SIM_AC_DEBUGSYMBOLS], [
 AC_ARG_ENABLE(
@@ -11773,10 +11776,10 @@ fi
 #   Let the user decide if RTTI should be compiled in. The compiled
 #   libraries/executables will use a lot less space if they don't
 #   contain RTTI.
-# 
+#
 #   Note: this macro must be placed after AC_PROG_CXX in the
 #   configure.in script.
-# 
+#
 # Author: Morten Eriksen, <mortene@sim.no>.
 
 AC_DEFUN([SIM_AC_RTTI_SUPPORT], [
@@ -12094,7 +12097,7 @@ if $BUILD_WITH_MSVC && test x$sim_ac_msvc_version = x6; then
       [],
       [sim_ac_have_nobool=true])])
 fi
- 
+
 if $sim_ac_have_nobool; then
   sim_ac_nobool_CXXFLAGS="/noBool"
   AC_MSG_RESULT([yes])
