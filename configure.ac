@@ -678,6 +678,7 @@ if $sim_ac_build_library && test x"$sim_ac_enable_pkgconfig" = xfalse; then
   #              AC_DEFINE([HAVE_QT_WIN_USE_SIMPLE_TIMERS], 1, [Defined if qt_win_use_simple_timers is available])],
   #             [AC_MSG_RESULT([no])])
 
+  SIM_AC_QT_VERSION
   AC_DEFINE_UNQUOTED([GUI_TOOLKIT_VERSION], ["$sim_ac_qt_version"],
                      [Version string for Qt])
 
