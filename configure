@@ -29548,6 +29548,35 @@ fi
   #             [AC_MSG_RESULT([no])])
 
 
+
+echo "$as_me:$LINENO: checking version of Qt library" >&5
+echo $ECHO_N "checking version of Qt library... $ECHO_C" >&6
+
+cat > conftest.c << EOF
+#include <qglobal.h>
+int VerQt = QT_VERSION;
+EOF
+
+# The " *"-parts of the last sed-expression on the next line are necessary
+# because at least the Solaris/CC preprocessor adds extra spaces before and
+# after the trailing semicolon.
+sim_ac_qt_version=`$CXXCPP $CPPFLAGS conftest.c 2>/dev/null | grep '^int VerQt' | sed 's%^int VerQt = %%' | sed 's% *;.*$%%'`
+
+case $sim_ac_qt_version in
+0x* )
+  sim_ac_qt_version=`echo $sim_ac_qt_version | sed -e 's/^0x.\(.\).\(.\).\(.\)/\1\2\3/;'`
+  ;;
+* )
+  # nada
+  ;;
+esac
+sim_ac_qt_major_version=`echo $sim_ac_qt_version | cut -c1`
+
+rm -f conftest.c
+echo "$as_me:$LINENO: result: $sim_ac_qt_version" >&5
+echo "${ECHO_T}$sim_ac_qt_version" >&6
+
+
 cat >>confdefs.h <<_ACEOF
 #define GUI_TOOLKIT_VERSION "$sim_ac_qt_version"
 _ACEOF
@@ -30372,9 +30401,88 @@ echo "$as_me: WARNING: couldn't find a valid option for avoiding exception handl
     fi
   fi
 else
-  if test x"$GXX" != x"yes"; then
-    { echo "$as_me:$LINENO: WARNING: --enable-exceptions only has effect when using GNU g++" >&5
+  if $BUILD_WITH_MSVC; then
+
+
+
+ac_ext=cc
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+echo "$as_me:$LINENO: checking whether $CXX accepts /EHsc" >&5
+echo $ECHO_N "checking whether $CXX accepts /EHsc... $ECHO_C" >&6
+
+sim_ac_save_cppflags=$CPPFLAGS
+CPPFLAGS="$CPPFLAGS /EHsc"
+cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext
+if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
+  (eval $ac_compile) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; } &&
+	 { ac_try='test -s conftest.$ac_objext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  sim_ac_accept_result=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+sim_ac_accept_result=no
+fi
+rm -f conftest.err conftest.$ac_objext conftest.$ac_ext
+echo "$as_me:$LINENO: result: $sim_ac_accept_result" >&5
+echo "${ECHO_T}$sim_ac_accept_result" >&6
+CPPFLAGS=$sim_ac_save_cppflags
+# This need to go last, in case CPPFLAGS is modified in arg 2 or arg 3.
+if test $sim_ac_accept_result = yes; then
+  CXXFLAGS="$CXXFLAGS /EHsc"
+else
+  :
+fi
+
+ac_ext=cc
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+
+  else
+    if test x"$GXX" != x"yes"; then
+      { echo "$as_me:$LINENO: WARNING: --enable-exceptions only has effect when using GNU g++" >&5
 echo "$as_me: WARNING: --enable-exceptions only has effect when using GNU g++" >&2;}
+    fi
   fi
 fi
 
