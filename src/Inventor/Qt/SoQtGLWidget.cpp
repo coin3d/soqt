@@ -166,7 +166,7 @@ SoQtGLWidget::SoQtGLWidget(QWidget * const parent,
   PRIVATE(this)->glSize = SbVec2s(0, 0);
   PRIVATE(this)->wasresized = FALSE;
 
-  PRIVATE(this)->glformat = new QGLFormat;
+  PRIVATE(this)->glformat = new QGLFormat(0);
   PRIVATE(this)->glformat->setDoubleBuffer((glmodes & SO_GL_DOUBLE) ? true : false);
   PRIVATE(this)->glformat->setDepth((glmodes & SO_GL_ZBUFFER) ? true : false);
   PRIVATE(this)->glformat->setRgba((glmodes & SO_GL_RGB) ? true : false);
@@ -1164,6 +1164,7 @@ SoQtGLWidgetP::buildGLWidget(void)
     GLWIDGET_FEATURECMP(depth, "visual with depthbuffer", "visual without depthbuffer");
     GLWIDGET_FEATURECMP(rgba, "RGBA buffer", "colorindex buffer");
     GLWIDGET_FEATURECMP(stereo, "stereo buffers", "mono buffer");
+    GLWIDGET_FEATURECMP(sampleBuffers, "sample buffers", "no sample buffers");
 
     if (QGLFormat_hasOverlay(w) != QGLFormat_hasOverlay(&g)) {
       SoDebugError::postWarning("SoQtGLWidgetP::buildGLWidget",
