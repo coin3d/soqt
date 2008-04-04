@@ -511,6 +511,12 @@ SIM_AC_HAVE_INVENTOR_VRMLNODE(SoVRMLBackground)
 SIM_AC_HAVE_INVENTOR_VRMLNODE(SoVRMLFog)
 
 SIM_AC_HAVE_INVENTOR_FEATURE(
+  [for SbColor4f SoSceneManager::getBackgroundColor],
+  [#include <Inventor/SoSceneManager.h>], [
+   SbColor4f col = SoSceneManager().getBackgroundColor();],
+  [HAVE_SBCOLOR4F_GETBACKGROUNDCOLOR])
+
+SIM_AC_HAVE_INVENTOR_FEATURE(
   [for SoContextHandler class],
   [#include <Inventor/misc/SoContextHandler.h>], [
    SoContextHandler::destructingContext(0);],
