@@ -52,9 +52,6 @@
 #undef HAVE_PTHREAD_TIMESPEC_NSEC
 
 /* Define to enable use of Inventor feature */
-#undef HAVE_SBCOLOR4F_GETBACKGROUNDCOLOR
-
-/* Define to enable use of Inventor feature */
 #undef HAVE_SOCAMERA_SETSTEREOMODE
 
 /* Define to enable use of Inventor feature */
