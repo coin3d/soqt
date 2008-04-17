@@ -33043,7 +33043,7 @@ else
 fi
 
     sim_ac_framework=false
-    soguiincludedir=${includedir}/Inventor/Qt
+    soguiincludedir=${includedir}
     ivincludedir=
   else
     ivframeworkdir=$sim_ac_coin_frameworkdir
@@ -33064,11 +33064,11 @@ fi
       fi
     fi
     frameworkdir=${sim_ac_framework_prefix}/${sim_ac_framework_name}.framework
-    soguiincludedir=${sim_ac_framework_prefix}/${sim_ac_framework_name}.framework/Headers
+    soguiincludedir="" # ${sim_ac_framework_prefix}/${sim_ac_framework_name}.framework/Headers
   fi
 else
   sim_ac_framework=false
-  soguiincludedir=${includedir}/Inventor/Qt
+  soguiincludedir=${includedir}
   ivincludedir=
 fi
 
