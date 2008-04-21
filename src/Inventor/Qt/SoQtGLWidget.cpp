@@ -92,6 +92,14 @@
 #define PRIVATE(obj) ((obj)->pimpl)
 #define PUBLIC(obj) ((obj)->pub)
 
+// FIXME: Consider moving the check below to a separate file, e.g. 
+//        SoQt/lib/qtconfig.h. 20080421 thammer.
+#if QT_VERSION >= 0x040000
+  // Note: QGLFormat::sampleBuffers isn't defined in Qt versions < 4.
+  //       20080421 thammer.
+  #define HAVE_QT_SAMPLE_BUFFERS 1
+#endif
+
 // Abstract the overlay handling methods on QGLFormat and QGLWidget,
 // because they may or may not be there depending on the version of
 // the QGL library installed on the developer's system.
@@ -1164,7 +1172,11 @@ SoQtGLWidgetP::buildGLWidget(void)
     GLWIDGET_FEATURECMP(depth, "visual with depthbuffer", "visual without depthbuffer");
     GLWIDGET_FEATURECMP(rgba, "RGBA buffer", "colorindex buffer");
     GLWIDGET_FEATURECMP(stereo, "stereo buffers", "mono buffer");
-    GLWIDGET_FEATURECMP(sampleBuffers, "sample buffers", "no sample buffers");
+
+    #if HAVE_QT_SAMPLE_BUFFERS
+      GLWIDGET_FEATURECMP(sampleBuffers, "sample buffers", 
+                          "no sample buffers");
+    #endif 
 
     if (QGLFormat_hasOverlay(w) != QGLFormat_hasOverlay(&g)) {
       SoDebugError::postWarning("SoQtGLWidgetP::buildGLWidget",
