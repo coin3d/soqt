@@ -33,6 +33,9 @@
 // wrt Qt 4 properly. 20050629 mortene.
 #define QT3_SUPPORT
 
+// FIXME: create a new Qt4NativePopupMenu. There are just too
+// many differences between Qt3 menu handling and Qt4 menu handling.
+
 #include <qmetaobject.h>
 
 // *************************************************************************
@@ -332,11 +335,14 @@ QtNativePopupMenu::_setMenuItemMarked(int itemid, SbBool marked)
     rec->flags |= ITEM_MARKED;
   else
     rec->flags &= ~ITEM_MARKED;
+
   if (rec->parent != NULL) {
-#if QT_VERSION >= 0x040000 // Qt 4.*
+#if QT_VERSION >= QT_VERSION_CHECK(4, 0, 0)
     // FIXME: is this really safe? (20050727 frodo)
     QAction * action = (QAction *) rec->parent->findItem(itemid);
-    if (action) action->setChecked(marked ? true : false);
+    if (action) {
+      action->setChecked(marked ? true : false);
+    }
 #else
     rec->parent->setItemChecked(rec->itemid, marked ? true : false);
 #endif
@@ -354,6 +360,11 @@ QtNativePopupMenu::getMenuItemMarked(
   assert(rec && "no such menu");
   if (rec->parent == NULL)
     return (rec->flags & ITEM_MARKED) ? TRUE : FALSE;
+
+#if QT_VERSION >= QT_VERSION_CHECK(4, 4, 0)
+    QAction * action = (QAction *) rec->parent->findItem(itemid);
+    if (action) return action->isChecked();
+#endif
   return rec->parent->isItemChecked(rec->itemid) ? TRUE : FALSE;
 } // getMenuItemMarked()
 
@@ -377,10 +388,14 @@ QtNativePopupMenu::addMenu(int menuid,
   // itemActivation(). Multiple calls to itemActivation() causes a
   // segfault when selecting Quadbuffer stereo, at least when it's not
   // supported. (20050726 frodo)
-#if QT_VERSION >= 0x040000 // Qt 4.*
+
+  // this was changed/fixed again in Qt 4.4.0, so now we shouldn't
+  // disconnect menu items if this version is detected... 
+  // (20070530 pederb)
+#if (QT_VERSION >= QT_VERSION_CHECK(4, 0, 0)) && (QT_VERSION < QT_VERSION_CHECK(4, 4, 0))
   QObject::disconnect(sub->menu, SIGNAL(activated(int)),
                       this, SLOT(itemActivation(int)));
-#endif
+#endif // QT-version >= 400 && QT-version < 4.4.0
 
   if (pos == -1)
     super->menu->insertItem(QString(sub->title), sub->menu, sub->menuid);
@@ -409,14 +424,14 @@ QtNativePopupMenu::addMenuItem(int menuid,
     menu->menu->insertItem(QString(item->title), item->itemid, pos);
   item->parent = menu->menu;
 
-#if QT_VERSION >= 0x040000 // Qt 4.*
+#if QT_VERSION >= QT_VERSION_CHECK(4, 0, 0)
   // FIXME: is this really safe? (20050726 frodo)
   QAction * action = (QAction *) item->parent->findItem(itemid);
   if (action) action->setCheckable(true);
 #endif // Qt 4.*
   
   if (item->flags & ITEM_MARKED) {
-#if QT_VERSION >= 0x040000 // Qt 4.*
+#if QT_VERSION >= QT_VERSION_CHECK(4, 0, 0)
     if (action) action->setChecked(true);
 #else
     item->parent->setItemChecked(item->itemid, true);
@@ -558,7 +573,7 @@ QtNativePopupMenu::createMenuRecord(
   rec->name = strcpy(new char [strlen(name)+1], name);
   rec->title = strcpy(new char [strlen(name)+1], name);
 
-#if QT_VERSION >= 0x040000 // Qt 4.*
+#if QT_VERSION >= QT_VERSION_CHECK(4, 0, 0)
   rec->menu = new QPOPUPMENU_CLASS(QString(name));
 #else
   rec->menu = new QPOPUPMENU_CLASS((QWidget *) NULL, name);
