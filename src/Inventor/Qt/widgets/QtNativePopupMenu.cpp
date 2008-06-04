@@ -337,7 +337,7 @@ QtNativePopupMenu::_setMenuItemMarked(int itemid, SbBool marked)
     rec->flags &= ~ITEM_MARKED;
 
   if (rec->parent != NULL) {
-#if QT_VERSION >= QT_VERSION_CHECK(4, 0, 0)
+#if QT_VERSION >= 0x040000
     // FIXME: is this really safe? (20050727 frodo)
     QAction * action = (QAction *) rec->parent->findItem(itemid);
     if (action) {
@@ -361,7 +361,7 @@ QtNativePopupMenu::getMenuItemMarked(
   if (rec->parent == NULL)
     return (rec->flags & ITEM_MARKED) ? TRUE : FALSE;
 
-#if QT_VERSION >= QT_VERSION_CHECK(4, 4, 0)
+#if QT_VERSION >= 0x040400
     QAction * action = (QAction *) rec->parent->findItem(itemid);
     if (action) return action->isChecked();
 #endif
@@ -392,7 +392,7 @@ QtNativePopupMenu::addMenu(int menuid,
   // this was changed/fixed again in Qt 4.4.0, so now we shouldn't
   // disconnect menu items if this version is detected... 
   // (20070530 pederb)
-#if (QT_VERSION >= QT_VERSION_CHECK(4, 0, 0)) && (QT_VERSION < QT_VERSION_CHECK(4, 4, 0))
+#if (QT_VERSION >= 0x040000) && (QT_VERSION < 0x040400)
   QObject::disconnect(sub->menu, SIGNAL(activated(int)),
                       this, SLOT(itemActivation(int)));
 #endif // QT-version >= 400 && QT-version < 4.4.0
@@ -424,14 +424,14 @@ QtNativePopupMenu::addMenuItem(int menuid,
     menu->menu->insertItem(QString(item->title), item->itemid, pos);
   item->parent = menu->menu;
 
-#if QT_VERSION >= QT_VERSION_CHECK(4, 0, 0)
+#if QT_VERSION >= 0x040000
   // FIXME: is this really safe? (20050726 frodo)
   QAction * action = (QAction *) item->parent->findItem(itemid);
   if (action) action->setCheckable(true);
 #endif // Qt 4.*
   
   if (item->flags & ITEM_MARKED) {
-#if QT_VERSION >= QT_VERSION_CHECK(4, 0, 0)
+#if QT_VERSION >= 0x040000
     if (action) action->setChecked(true);
 #else
     item->parent->setItemChecked(item->itemid, true);
@@ -573,7 +573,7 @@ QtNativePopupMenu::createMenuRecord(
   rec->name = strcpy(new char [strlen(name)+1], name);
   rec->title = strcpy(new char [strlen(name)+1], name);
 
-#if QT_VERSION >= QT_VERSION_CHECK(4, 0, 0)
+#if QT_VERSION >= 0x040000
   rec->menu = new QPOPUPMENU_CLASS(QString(name));
 #else
   rec->menu = new QPOPUPMENU_CLASS((QWidget *) NULL, name);
