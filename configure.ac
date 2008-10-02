@@ -553,12 +553,12 @@ SIM_AC_INVENTOR_EXTENSIONS([
 ])
 
 
-sim_ac_enable_pkgconfig=false
+sim_ac_enable_pkgconfig=true
 AC_ARG_ENABLE(
   [pkgconfig],
-  AC_HELP_STRING([--enable-pkgconfig], [enable pkgconfig usage for Qt4 detection [[default=no]]]), [
+  AC_HELP_STRING([--enable-pkgconfig], [enable pkgconfig usage for Qt4 detection [[default=yes]]]), [
   case $enableval in
-    yes) sim_ac_enable_pkgconfig=true ;;
+    no) sim_ac_enable_pkgconfig=false ;;
     *) ;;
   esac])
 
@@ -569,32 +569,35 @@ if $sim_ac_build_library && $sim_ac_enable_pkgconfig; then
     CPPFLAGS="$CPPFLAGS $QT4_CFLAGS"
     LIBS="$QT4_LIBS $LIBS"
   ], [
-    SIM_AC_ERROR([no-pkgconfig-qt])
+    SIM_AC_WARN([no-pkgconfig-qt])
+    sim_ac_enable_pkgconfig=false
   ])
 
-  AC_MSG_CHECKING([for moc])
-  MOC=`$PKG_CONFIG --variable=moc_location QtCore`
-  if test -z $MOC; then
-    SIM_AC_ERROR([no-moc])
-  fi
-
-  # Debian provides a wrong moc_location path (Bug#401807)
-  if test -x $MOC; then
-    AC_MSG_RESULT([$MOC])
-  else
-    AC_MSG_RESULT([QtCore pkg-config provided moc_location points to non-existing path])
-    MOC=""
-    AC_PATH_PROG([MOC], [moc], [false], [$PATH])
-    if test x"$MOC" = x"false"; then
+  if $sim_ac_enable_pkgconfig; then
+    AC_MSG_CHECKING([for moc])
+    MOC=`$PKG_CONFIG --variable=moc_location QtCore`
+    if test -z $MOC; then
       SIM_AC_ERROR([no-moc])
     fi
+  
+    # Debian provides a wrong moc_location path (Bug#401807)
+    if test -x $MOC; then
+      AC_MSG_RESULT([$MOC])
+    else
+      AC_MSG_RESULT([QtCore pkg-config provided moc_location points to non-existing path])
+      MOC=""
+      AC_PATH_PROG([MOC], [moc], [false], [$PATH])
+      if test x"$MOC" = x"false"; then
+        SIM_AC_ERROR([no-moc])
+      fi
+    fi
+  
+    QT_VERSION=`$PKG_CONFIG --modversion QtCore`
+    AC_SUBST([QT_VERSION])
+  
+    AC_DEFINE_UNQUOTED([GUI_TOOLKIT_VERSION], ["$QT_VERSION"],
+                       [Version string for Qt])
   fi
-
-  QT_VERSION=`$PKG_CONFIG --modversion QtCore`
-  AC_SUBST([QT_VERSION])
-
-  AC_DEFINE_UNQUOTED([GUI_TOOLKIT_VERSION], ["$QT_VERSION"],
-                     [Version string for Qt])
 fi
 
 # remove libs we don't want to link into library again
