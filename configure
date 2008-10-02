@@ -1076,7 +1076,7 @@ Optional Features:
   --disable-loadlibrary   don't use run-time link bindings under Win32
   --enable-inventor-debug use debug version of TGS inventor
   --enable-pkgconfig      enable pkgconfig usage for Qt4 detection
-                          [default=no]
+                          [default=yes]
   --enable-qt-debug       win32: link with debug versions of Qt libraries
   --enable-debug          compile in debug mode [default=yes]
   --enable-symbols        include symbol debug information [default=yes]
@@ -27623,13 +27623,13 @@ LIBS=$sim_ac_iv_extension_save_LIBS
 
 
 
-sim_ac_enable_pkgconfig=false
+sim_ac_enable_pkgconfig=true
 # Check whether --enable-pkgconfig or --disable-pkgconfig was given.
 if test "${enable_pkgconfig+set}" = set; then
   enableval="$enable_pkgconfig"
 
   case $enableval in
-    yes) sim_ac_enable_pkgconfig=true ;;
+    no) sim_ac_enable_pkgconfig=false ;;
     *) ;;
   esac
 fi;
@@ -27823,10 +27823,8 @@ fi
 
 
 echo >&2 ""
-{ { echo "$as_me:$LINENO: error: aborting" >&5
-echo "$as_me: error: aborting" >&2;}
-   { (exit 1); exit 1; }; }
 
+    sim_ac_enable_pkgconfig=false
 
 elif test $pkg_failed = untried; then
 
@@ -27853,10 +27851,8 @@ fi
 
 
 echo >&2 ""
-{ { echo "$as_me:$LINENO: error: aborting" >&5
-echo "$as_me: error: aborting" >&2;}
-   { (exit 1); exit 1; }; }
 
+    sim_ac_enable_pkgconfig=false
 
 else
 	QT4_CFLAGS=$pkg_cv_QT4_CFLAGS
@@ -27871,10 +27867,11 @@ echo "${ECHO_T}yes" >&6
 
 fi
 
-  echo "$as_me:$LINENO: checking for moc" >&5
+  if $sim_ac_enable_pkgconfig; then
+    echo "$as_me:$LINENO: checking for moc" >&5
 echo $ECHO_N "checking for moc... $ECHO_C" >&6
-  MOC=`$PKG_CONFIG --variable=moc_location QtCore`
-  if test -z $MOC; then
+    MOC=`$PKG_CONFIG --variable=moc_location QtCore`
+    if test -z $MOC; then
 
 echo >&2 ""
 
@@ -27902,17 +27899,17 @@ echo >&2 ""
 echo "$as_me: error: aborting" >&2;}
    { (exit 1); exit 1; }; }
 
-  fi
+    fi
 
-  # Debian provides a wrong moc_location path (Bug#401807)
-  if test -x $MOC; then
-    echo "$as_me:$LINENO: result: $MOC" >&5
+    # Debian provides a wrong moc_location path (Bug#401807)
+    if test -x $MOC; then
+      echo "$as_me:$LINENO: result: $MOC" >&5
 echo "${ECHO_T}$MOC" >&6
-  else
-    echo "$as_me:$LINENO: result: QtCore pkg-config provided moc_location points to non-existing path" >&5
+    else
+      echo "$as_me:$LINENO: result: QtCore pkg-config provided moc_location points to non-existing path" >&5
 echo "${ECHO_T}QtCore pkg-config provided moc_location points to non-existing path" >&6
-    MOC=""
-    # Extract the first word of "moc", so it can be a program name with args.
+      MOC=""
+      # Extract the first word of "moc", so it can be a program name with args.
 set dummy moc; ac_word=$2
 echo "$as_me:$LINENO: checking for $ac_word" >&5
 echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
@@ -27952,7 +27949,7 @@ else
 echo "${ECHO_T}no" >&6
 fi
 
-    if test x"$MOC" = x"false"; then
+      if test x"$MOC" = x"false"; then
 
 echo >&2 ""
 
@@ -27980,10 +27977,10 @@ echo >&2 ""
 echo "$as_me: error: aborting" >&2;}
    { (exit 1); exit 1; }; }
 
+      fi
     fi
-  fi
 
-  QT_VERSION=`$PKG_CONFIG --modversion QtCore`
+    QT_VERSION=`$PKG_CONFIG --modversion QtCore`
 
 
 
@@ -27991,6 +27988,7 @@ cat >>confdefs.h <<_ACEOF
 #define GUI_TOOLKIT_VERSION "$QT_VERSION"
 _ACEOF
 
+  fi
 fi
 
 # remove libs we don't want to link into library again
