@@ -138,4 +138,8 @@ inline void SoQtSwap(Type & a, Type & b) {
 # define SOQT_DLL_API
 #endif /* !SOQT_DLL_API */
 
+#ifndef GUI_TOOLKIT_VERSION
+#define GUI_TOOLKIT_VERSION "422"
+#endif /* GUI_TOOLKIT_VERSION */
+
 #endif // ! SOQT_BASIC_H

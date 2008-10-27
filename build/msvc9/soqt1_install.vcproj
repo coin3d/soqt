@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
-	Name="soqt1_docs"
-	ProjectGUID="{B1E572D1-9869-42EC-9B57-FD7DE040CF85}"
+	Version="9.00"
+	Name="soqt1_install"
+	ProjectGUID="{721AC3D6-A2FC-4F98-A9B1-ED69BCEE59F3}"
 	Keyword="MakeFileProj"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -15,9 +16,9 @@
 	</ToolFiles>
 	<Configurations>
 		<Configuration
-			Name="DLL (Debug)|Win32"
-			OutputDirectory=".\Debug"
-			IntermediateDirectory=".\Debug"
+			Name="LIB (Release)|Win32"
+			OutputDirectory=".\StaticRelease"
+			IntermediateDirectory=".\StaticRelease"
 			ConfigurationType="0"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -25,10 +26,10 @@
 			>
 			<Tool
 				Name="VCNMakeTool"
-				BuildCommandLine="..\misc\build-docs.bat dll debug msvc8 soqt1"
-				ReBuildCommandLine="..\misc\build-docs.bat dll debug msvc8 soqt1 "
+				BuildCommandLine="..\misc\install-sdk.bat lib release msvc9 soqt1"
+				ReBuildCommandLine="..\misc\install-sdk.bat lib release msvc9 soqt1 "
 				CleanCommandLine=""
-				Output="soqt1_docs.exe"
+				Output="soqt1_install.exe"
 				PreprocessorDefinitions=""
 				IncludeSearchPath=""
 				ForcedIncludes=""
@@ -48,10 +49,33 @@
 			>
 			<Tool
 				Name="VCNMakeTool"
-				BuildCommandLine="..\misc\build-docs.bat lib debug msvc8 soqt1"
-				ReBuildCommandLine="..\misc\build-docs.bat lib debug msvc8 soqt1 "
+				BuildCommandLine="..\misc\install-sdk.bat lib debug msvc9 soqt1"
+				ReBuildCommandLine="..\misc\install-sdk.bat lib debug msvc9 soqt1 "
 				CleanCommandLine=""
-				Output="soqt1_docs.exe"
+				Output="soqt1_install.exe"
+				PreprocessorDefinitions=""
+				IncludeSearchPath=""
+				ForcedIncludes=""
+				AssemblySearchPath=""
+				ForcedUsingAssemblies=""
+				CompileAsManaged=""
+			/>
+		</Configuration>
+		<Configuration
+			Name="DLL (Debug)|Win32"
+			OutputDirectory=".\Debug"
+			IntermediateDirectory=".\Debug"
+			ConfigurationType="0"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			>
+			<Tool
+				Name="VCNMakeTool"
+				BuildCommandLine="..\misc\install-sdk.bat dll debug msvc9 soqt1"
+				ReBuildCommandLine="..\misc\install-sdk.bat dll debug msvc9 soqt1 "
+				CleanCommandLine=""
+				Output="soqt1_install.exe"
 				PreprocessorDefinitions=""
 				IncludeSearchPath=""
 				ForcedIncludes=""
@@ -71,33 +95,10 @@
 			>
 			<Tool
 				Name="VCNMakeTool"
-				BuildCommandLine="..\misc\build-docs.bat dll release msvc8 soqt1"
-				ReBuildCommandLine="..\misc\build-docs.bat dll release msvc8 soqt1 "
+				BuildCommandLine="..\misc\install-sdk.bat dll release msvc9 soqt1"
+				ReBuildCommandLine="..\misc\install-sdk.bat dll release msvc9 soqt1 "
 				CleanCommandLine=""
-				Output="soqt1_docs.exe"
-				PreprocessorDefinitions=""
-				IncludeSearchPath=""
-				ForcedIncludes=""
-				AssemblySearchPath=""
-				ForcedUsingAssemblies=""
-				CompileAsManaged=""
-			/>
-		</Configuration>
-		<Configuration
-			Name="LIB (Release)|Win32"
-			OutputDirectory=".\StaticRelease"
-			IntermediateDirectory=".\StaticRelease"
-			ConfigurationType="0"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			>
-			<Tool
-				Name="VCNMakeTool"
-				BuildCommandLine="..\misc\build-docs.bat lib release msvc8 soqt1"
-				ReBuildCommandLine="..\misc\build-docs.bat lib release msvc8 soqt1 "
-				CleanCommandLine=""
-				Output="soqt1_docs.exe"
+				Output="soqt1_install.exe"
 				PreprocessorDefinitions=""
 				IncludeSearchPath=""
 				ForcedIncludes=""
@@ -115,15 +116,15 @@
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;bat"
 			>
 			<File
-				RelativePath="..\misc\build-docs.bat"
+				RelativePath="..\misc\create-directories.bat"
 				>
 			</File>
 			<File
-				RelativePath="..\html\index.html"
+				RelativePath="..\misc\install-headers.bat"
 				>
 			</File>
 			<File
-				RelativePath="docs\soqt1.doxygen"
+				RelativePath="..\misc\install-sdk.bat"
 				>
 			</File>
 		</Filter>

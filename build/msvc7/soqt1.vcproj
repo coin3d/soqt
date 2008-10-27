@@ -19,34 +19,31 @@
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/Gs "
-				Optimization="4"
-				GlobalOptimizations="TRUE"
-				InlineFunctionExpansion="2"
-				EnableIntrinsicFunctions="TRUE"
-				OmitFramePointers="TRUE"
+				Optimization="3"
+				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="src,data,..\..\src,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex,$(QTDIR)\include,$(QTDIR)\include\Qt"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
-				UsePrecompiledHeader="2"
 				PrecompiledHeaderFile=".\Release/soqt1.pch"
 				AssemblerListingLocation=".\Release/"
 				ObjectFile=".\Release/"
 				ProgramDataBaseFileName=".\Release/"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
+				DebugInformationFormat="3"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(QTDIR)\lib\QtOpenGL4.lib $(QTDIR)\lib\QtGui4.lib $(QTDIR)\lib\QtCore4.lib $(COINDIR)\lib\coin2.lib opengl32.lib winmm.lib"
+				AdditionalDependencies="$(QTDIR)\lib\QtOpenGL4.lib $(QTDIR)\lib\QtGui4.lib $(QTDIR)\lib\QtCore4.lib $(COINDIR)\lib\coin3.lib opengl32.lib winmm.lib"
 				OutputFile="soqt1.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				ProgramDatabaseFile=".\Release/soqt1.pdb"
 				OptimizeForWindows98="1"
+				SetChecksum="TRUE"
 				ImportLibrary=".\Release/soqt1.lib"
 				TargetMachine="1"/>
 			<Tool
@@ -87,23 +84,19 @@
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/Gs "
-				Optimization="4"
-				GlobalOptimizations="TRUE"
-				InlineFunctionExpansion="2"
-				EnableIntrinsicFunctions="TRUE"
-				OmitFramePointers="TRUE"
+				Optimization="3"
+				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="src,data,..\..\src,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex,$(QTDIR)\include,$(QTDIR)\include\Qt"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_LIB;SOQT_DEBUG=0;HAVE_CONFIG_H;COIN_NOT_DLL;SOQT_INTERNAL"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
-				UsePrecompiledHeader="2"
 				PrecompiledHeaderFile=".\StaticRelease/soqt1.pch"
 				AssemblerListingLocation=".\StaticRelease/"
 				ObjectFile=".\StaticRelease/"
 				ProgramDataBaseFileName=".\StaticRelease/"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
+				DebugInformationFormat="3"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -144,14 +137,15 @@
 				Optimization="0"
 				AdditionalIncludeDirectories="src,data,..\..\src,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex,$(QTDIR)\include,$(QTDIR)\include\Qt"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_LIB;SOQT_DEBUG=1;HAVE_CONFIG_H;COIN_NOT_DLL;SOQT_INTERNAL"
-				RuntimeLibrary="2"
-				UsePrecompiledHeader="2"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
 				PrecompiledHeaderFile=".\StaticDebug/soqt1.pch"
 				AssemblerListingLocation=".\StaticDebug/"
 				ObjectFile=".\StaticDebug/"
 				ProgramDataBaseFileName=".\StaticDebug/"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
+				DebugInformationFormat="3"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -194,25 +188,25 @@
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				UsePrecompiledHeader="2"
 				PrecompiledHeaderFile=".\Debug/soqt1.pch"
 				AssemblerListingLocation=".\Debug/"
 				ObjectFile=".\Debug/"
 				ProgramDataBaseFileName=".\Debug/"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				DebugInformationFormat="4"
+				DebugInformationFormat="3"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(QTDIR)\lib\QtOpenGLd4.lib $(QTDIR)\lib\QtGuid4.lib $(QTDIR)\lib\QtCored4.lib $(COINDIR)\lib\coin2d.lib opengl32.lib winmm.lib"
+				AdditionalDependencies="$(QTDIR)\lib\QtOpenGLd4.lib $(QTDIR)\lib\QtGuid4.lib $(QTDIR)\lib\QtCored4.lib $(COINDIR)\lib\coin3d.lib opengl32.lib winmm.lib"
 				OutputFile="soqt1d.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\Debug/soqt1d.pdb"
+				OptimizeForWindows98="1"
 				ImportLibrary=".\Debug/soqt1d.lib"
 				TargetMachine="1"/>
 			<Tool
@@ -280,7 +274,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ClickCounter.cpp.in:src\Inventor\Qt\nodes\ClickCounter.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ClickCounter.cpp.in:src\Inventor\Qt\nodes\ClickCounter.cpp"
 						Outputs="src\Inventor\Qt\nodes\ClickCounter.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -288,7 +282,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ClickCounter.cpp.in:src\Inventor\Qt\nodes\ClickCounter.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ClickCounter.cpp.in:src\Inventor\Qt\nodes\ClickCounter.cpp"
 						Outputs="src\Inventor\Qt\nodes\ClickCounter.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -296,7 +290,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ClickCounter.cpp.in:src\Inventor\Qt\nodes\ClickCounter.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ClickCounter.cpp.in:src\Inventor\Qt\nodes\ClickCounter.cpp"
 						Outputs="src\Inventor\Qt\nodes\ClickCounter.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -304,7 +298,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ClickCounter.cpp.in:src\Inventor\Qt\nodes\ClickCounter.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ClickCounter.cpp.in:src\Inventor\Qt\nodes\ClickCounter.cpp"
 						Outputs="src\Inventor\Qt\nodes\ClickCounter.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -350,7 +344,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ColorEditor.cpp.in:src\Inventor\Qt\nodes\ColorEditor.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ColorEditor.cpp.in:src\Inventor\Qt\nodes\ColorEditor.cpp"
 						Outputs="src\Inventor\Qt\nodes\ColorEditor.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -358,7 +352,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ColorEditor.cpp.in:src\Inventor\Qt\nodes\ColorEditor.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ColorEditor.cpp.in:src\Inventor\Qt\nodes\ColorEditor.cpp"
 						Outputs="src\Inventor\Qt\nodes\ColorEditor.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -366,7 +360,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ColorEditor.cpp.in:src\Inventor\Qt\nodes\ColorEditor.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ColorEditor.cpp.in:src\Inventor\Qt\nodes\ColorEditor.cpp"
 						Outputs="src\Inventor\Qt\nodes\ColorEditor.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -374,7 +368,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ColorEditor.cpp.in:src\Inventor\Qt\nodes\ColorEditor.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ColorEditor.cpp.in:src\Inventor\Qt\nodes\ColorEditor.cpp"
 						Outputs="src\Inventor\Qt\nodes\ColorEditor.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -420,7 +414,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\Engines.cpp.in:src\Inventor\Qt\engines\Engines.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\Engines.cpp.in:src\Inventor\Qt\engines\Engines.cpp"
 						Outputs="src\Inventor\Qt\engines\Engines.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -428,7 +422,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\Engines.cpp.in:src\Inventor\Qt\engines\Engines.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\Engines.cpp.in:src\Inventor\Qt\engines\Engines.cpp"
 						Outputs="src\Inventor\Qt\engines\Engines.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -436,7 +430,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\Engines.cpp.in:src\Inventor\Qt\engines\Engines.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\Engines.cpp.in:src\Inventor\Qt\engines\Engines.cpp"
 						Outputs="src\Inventor\Qt\engines\Engines.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -444,7 +438,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\Engines.cpp.in:src\Inventor\Qt\engines\Engines.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\Engines.cpp.in:src\Inventor\Qt\engines\Engines.cpp"
 						Outputs="src\Inventor\Qt\engines\Engines.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -490,7 +484,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\Format.cpp.in:src\Inventor\Qt\engines\Format.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\Format.cpp.in:src\Inventor\Qt\engines\Format.cpp"
 						Outputs="src\Inventor\Qt\engines\Format.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -498,7 +492,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\Format.cpp.in:src\Inventor\Qt\engines\Format.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\Format.cpp.in:src\Inventor\Qt\engines\Format.cpp"
 						Outputs="src\Inventor\Qt\engines\Format.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -506,7 +500,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\Format.cpp.in:src\Inventor\Qt\engines\Format.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\Format.cpp.in:src\Inventor\Qt\engines\Format.cpp"
 						Outputs="src\Inventor\Qt\engines\Format.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -514,7 +508,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\Format.cpp.in:src\Inventor\Qt\engines\Format.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\Format.cpp.in:src\Inventor\Qt\engines\Format.cpp"
 						Outputs="src\Inventor\Qt\engines\Format.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -560,7 +554,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Frame.cpp.in:src\Inventor\Qt\nodes\Frame.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Frame.cpp.in:src\Inventor\Qt\nodes\Frame.cpp"
 						Outputs="src\Inventor\Qt\nodes\Frame.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -568,7 +562,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Frame.cpp.in:src\Inventor\Qt\nodes\Frame.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Frame.cpp.in:src\Inventor\Qt\nodes\Frame.cpp"
 						Outputs="src\Inventor\Qt\nodes\Frame.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -576,7 +570,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Frame.cpp.in:src\Inventor\Qt\nodes\Frame.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Frame.cpp.in:src\Inventor\Qt\nodes\Frame.cpp"
 						Outputs="src\Inventor\Qt\nodes\Frame.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -584,7 +578,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Frame.cpp.in:src\Inventor\Qt\nodes\Frame.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Frame.cpp.in:src\Inventor\Qt\nodes\Frame.cpp"
 						Outputs="src\Inventor\Qt\nodes\Frame.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -665,7 +659,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Image.cpp.in:src\Inventor\Qt\nodes\Image.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Image.cpp.in:src\Inventor\Qt\nodes\Image.cpp"
 						Outputs="src\Inventor\Qt\nodes\Image.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -673,7 +667,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Image.cpp.in:src\Inventor\Qt\nodes\Image.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Image.cpp.in:src\Inventor\Qt\nodes\Image.cpp"
 						Outputs="src\Inventor\Qt\nodes\Image.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -681,7 +675,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Image.cpp.in:src\Inventor\Qt\nodes\Image.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Image.cpp.in:src\Inventor\Qt\nodes\Image.cpp"
 						Outputs="src\Inventor\Qt\nodes\Image.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -689,7 +683,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Image.cpp.in:src\Inventor\Qt\nodes\Image.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Image.cpp.in:src\Inventor\Qt\nodes\Image.cpp"
 						Outputs="src\Inventor\Qt\nodes\Image.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -735,7 +729,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Label.cpp.in:src\Inventor\Qt\nodes\Label.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Label.cpp.in:src\Inventor\Qt\nodes\Label.cpp"
 						Outputs="src\Inventor\Qt\nodes\Label.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -743,7 +737,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Label.cpp.in:src\Inventor\Qt\nodes\Label.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Label.cpp.in:src\Inventor\Qt\nodes\Label.cpp"
 						Outputs="src\Inventor\Qt\nodes\Label.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -751,7 +745,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Label.cpp.in:src\Inventor\Qt\nodes\Label.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Label.cpp.in:src\Inventor\Qt\nodes\Label.cpp"
 						Outputs="src\Inventor\Qt\nodes\Label.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -759,7 +753,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Label.cpp.in:src\Inventor\Qt\nodes\Label.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Label.cpp.in:src\Inventor\Qt\nodes\Label.cpp"
 						Outputs="src\Inventor\Qt\nodes\Label.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -805,7 +799,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\MaterialEditor.cpp.in:src\Inventor\Qt\nodes\MaterialEditor.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\MaterialEditor.cpp.in:src\Inventor\Qt\nodes\MaterialEditor.cpp"
 						Outputs="src\Inventor\Qt\nodes\MaterialEditor.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -813,7 +807,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\MaterialEditor.cpp.in:src\Inventor\Qt\nodes\MaterialEditor.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\MaterialEditor.cpp.in:src\Inventor\Qt\nodes\MaterialEditor.cpp"
 						Outputs="src\Inventor\Qt\nodes\MaterialEditor.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -821,7 +815,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\MaterialEditor.cpp.in:src\Inventor\Qt\nodes\MaterialEditor.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\MaterialEditor.cpp.in:src\Inventor\Qt\nodes\MaterialEditor.cpp"
 						Outputs="src\Inventor\Qt\nodes\MaterialEditor.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -829,7 +823,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\MaterialEditor.cpp.in:src\Inventor\Qt\nodes\MaterialEditor.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\MaterialEditor.cpp.in:src\Inventor\Qt\nodes\MaterialEditor.cpp"
 						Outputs="src\Inventor\Qt\nodes\MaterialEditor.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -875,7 +869,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Nodes.cpp.in:src\Inventor\Qt\nodes\Nodes.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Nodes.cpp.in:src\Inventor\Qt\nodes\Nodes.cpp"
 						Outputs="src\Inventor\Qt\nodes\Nodes.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -883,7 +877,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Nodes.cpp.in:src\Inventor\Qt\nodes\Nodes.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Nodes.cpp.in:src\Inventor\Qt\nodes\Nodes.cpp"
 						Outputs="src\Inventor\Qt\nodes\Nodes.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -891,7 +885,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Nodes.cpp.in:src\Inventor\Qt\nodes\Nodes.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Nodes.cpp.in:src\Inventor\Qt\nodes\Nodes.cpp"
 						Outputs="src\Inventor\Qt\nodes\Nodes.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -899,7 +893,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Nodes.cpp.in:src\Inventor\Qt\nodes\Nodes.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Nodes.cpp.in:src\Inventor\Qt\nodes\Nodes.cpp"
 						Outputs="src\Inventor\Qt\nodes\Nodes.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -945,7 +939,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Pane.cpp.in:src\Inventor\Qt\nodes\Pane.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Pane.cpp.in:src\Inventor\Qt\nodes\Pane.cpp"
 						Outputs="src\Inventor\Qt\nodes\Pane.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -953,7 +947,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Pane.cpp.in:src\Inventor\Qt\nodes\Pane.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Pane.cpp.in:src\Inventor\Qt\nodes\Pane.cpp"
 						Outputs="src\Inventor\Qt\nodes\Pane.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -961,7 +955,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Pane.cpp.in:src\Inventor\Qt\nodes\Pane.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Pane.cpp.in:src\Inventor\Qt\nodes\Pane.cpp"
 						Outputs="src\Inventor\Qt\nodes\Pane.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -969,7 +963,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Pane.cpp.in:src\Inventor\Qt\nodes\Pane.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Pane.cpp.in:src\Inventor\Qt\nodes\Pane.cpp"
 						Outputs="src\Inventor\Qt\nodes\Pane.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -1015,7 +1009,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Position.cpp.in:src\Inventor\Qt\nodes\Position.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Position.cpp.in:src\Inventor\Qt\nodes\Position.cpp"
 						Outputs="src\Inventor\Qt\nodes\Position.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1023,7 +1017,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Position.cpp.in:src\Inventor\Qt\nodes\Position.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Position.cpp.in:src\Inventor\Qt\nodes\Position.cpp"
 						Outputs="src\Inventor\Qt\nodes\Position.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1031,7 +1025,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Position.cpp.in:src\Inventor\Qt\nodes\Position.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Position.cpp.in:src\Inventor\Qt\nodes\Position.cpp"
 						Outputs="src\Inventor\Qt\nodes\Position.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1039,7 +1033,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Position.cpp.in:src\Inventor\Qt\nodes\Position.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Position.cpp.in:src\Inventor\Qt\nodes\Position.cpp"
 						Outputs="src\Inventor\Qt\nodes\Position.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -1085,7 +1079,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\RadioButton.cpp.in:src\Inventor\Qt\nodes\RadioButton.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\RadioButton.cpp.in:src\Inventor\Qt\nodes\RadioButton.cpp"
 						Outputs="src\Inventor\Qt\nodes\RadioButton.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1093,7 +1087,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\RadioButton.cpp.in:src\Inventor\Qt\nodes\RadioButton.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\RadioButton.cpp.in:src\Inventor\Qt\nodes\RadioButton.cpp"
 						Outputs="src\Inventor\Qt\nodes\RadioButton.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1101,7 +1095,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\RadioButton.cpp.in:src\Inventor\Qt\nodes\RadioButton.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\RadioButton.cpp.in:src\Inventor\Qt\nodes\RadioButton.cpp"
 						Outputs="src\Inventor\Qt\nodes\RadioButton.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1109,7 +1103,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\RadioButton.cpp.in:src\Inventor\Qt\nodes\RadioButton.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\RadioButton.cpp.in:src\Inventor\Qt\nodes\RadioButton.cpp"
 						Outputs="src\Inventor\Qt\nodes\RadioButton.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -1155,7 +1149,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\RadioGroup.cpp.in:src\Inventor\Qt\engines\RadioGroup.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\RadioGroup.cpp.in:src\Inventor\Qt\engines\RadioGroup.cpp"
 						Outputs="src\Inventor\Qt\engines\RadioGroup.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1163,7 +1157,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\RadioGroup.cpp.in:src\Inventor\Qt\engines\RadioGroup.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\RadioGroup.cpp.in:src\Inventor\Qt\engines\RadioGroup.cpp"
 						Outputs="src\Inventor\Qt\engines\RadioGroup.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1171,7 +1165,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\RadioGroup.cpp.in:src\Inventor\Qt\engines\RadioGroup.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\RadioGroup.cpp.in:src\Inventor\Qt\engines\RadioGroup.cpp"
 						Outputs="src\Inventor\Qt\engines\RadioGroup.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1179,7 +1173,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\RadioGroup.cpp.in:src\Inventor\Qt\engines\RadioGroup.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\engines\RadioGroup.cpp.in:src\Inventor\Qt\engines\RadioGroup.cpp"
 						Outputs="src\Inventor\Qt\engines\RadioGroup.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -1225,7 +1219,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\SceneTexture2.cpp.in:src\Inventor\Qt\nodes\SceneTexture2.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\SceneTexture2.cpp.in:src\Inventor\Qt\nodes\SceneTexture2.cpp"
 						Outputs="src\Inventor\Qt\nodes\SceneTexture2.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1233,7 +1227,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\SceneTexture2.cpp.in:src\Inventor\Qt\nodes\SceneTexture2.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\SceneTexture2.cpp.in:src\Inventor\Qt\nodes\SceneTexture2.cpp"
 						Outputs="src\Inventor\Qt\nodes\SceneTexture2.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1241,7 +1235,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\SceneTexture2.cpp.in:src\Inventor\Qt\nodes\SceneTexture2.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\SceneTexture2.cpp.in:src\Inventor\Qt\nodes\SceneTexture2.cpp"
 						Outputs="src\Inventor\Qt\nodes\SceneTexture2.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1249,7 +1243,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\SceneTexture2.cpp.in:src\Inventor\Qt\nodes\SceneTexture2.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\SceneTexture2.cpp.in:src\Inventor\Qt\nodes\SceneTexture2.cpp"
 						Outputs="src\Inventor\Qt\nodes\SceneTexture2.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -1295,7 +1289,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Slider1.cpp.in:src\Inventor\Qt\nodes\Slider1.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Slider1.cpp.in:src\Inventor\Qt\nodes\Slider1.cpp"
 						Outputs="src\Inventor\Qt\nodes\Slider1.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1303,7 +1297,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Slider1.cpp.in:src\Inventor\Qt\nodes\Slider1.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Slider1.cpp.in:src\Inventor\Qt\nodes\Slider1.cpp"
 						Outputs="src\Inventor\Qt\nodes\Slider1.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1311,7 +1305,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Slider1.cpp.in:src\Inventor\Qt\nodes\Slider1.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Slider1.cpp.in:src\Inventor\Qt\nodes\Slider1.cpp"
 						Outputs="src\Inventor\Qt\nodes\Slider1.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1319,7 +1313,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Slider1.cpp.in:src\Inventor\Qt\nodes\Slider1.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Slider1.cpp.in:src\Inventor\Qt\nodes\Slider1.cpp"
 						Outputs="src\Inventor\Qt\nodes\Slider1.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -1365,7 +1359,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Slider2.cpp.in:src\Inventor\Qt\nodes\Slider2.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Slider2.cpp.in:src\Inventor\Qt\nodes\Slider2.cpp"
 						Outputs="src\Inventor\Qt\nodes\Slider2.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1373,7 +1367,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Slider2.cpp.in:src\Inventor\Qt\nodes\Slider2.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Slider2.cpp.in:src\Inventor\Qt\nodes\Slider2.cpp"
 						Outputs="src\Inventor\Qt\nodes\Slider2.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1381,7 +1375,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Slider2.cpp.in:src\Inventor\Qt\nodes\Slider2.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Slider2.cpp.in:src\Inventor\Qt\nodes\Slider2.cpp"
 						Outputs="src\Inventor\Qt\nodes\Slider2.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1389,7 +1383,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Slider2.cpp.in:src\Inventor\Qt\nodes\Slider2.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Slider2.cpp.in:src\Inventor\Qt\nodes\Slider2.cpp"
 						Outputs="src\Inventor\Qt\nodes\Slider2.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -1435,7 +1429,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoAny.cpp.in:src\Inventor\Qt\SoAny.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoAny.cpp.in:src\Inventor\Qt\SoAny.cpp"
 						Outputs="src\Inventor\Qt\SoAny.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1443,7 +1437,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoAny.cpp.in:src\Inventor\Qt\SoAny.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoAny.cpp.in:src\Inventor\Qt\SoAny.cpp"
 						Outputs="src\Inventor\Qt\SoAny.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1451,7 +1445,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoAny.cpp.in:src\Inventor\Qt\SoAny.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoAny.cpp.in:src\Inventor\Qt\SoAny.cpp"
 						Outputs="src\Inventor\Qt\SoAny.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1459,7 +1453,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoAny.cpp.in:src\Inventor\Qt\SoAny.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoAny.cpp.in:src\Inventor\Qt\SoAny.cpp"
 						Outputs="src\Inventor\Qt\SoAny.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -1505,7 +1499,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\widgets\SoAnyThumbWheel.cpp.in:src\Inventor\Qt\widgets\SoAnyThumbWheel.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\widgets\SoAnyThumbWheel.cpp.in:src\Inventor\Qt\widgets\SoAnyThumbWheel.cpp"
 						Outputs="src\Inventor\Qt\widgets\SoAnyThumbWheel.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1513,7 +1507,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\widgets\SoAnyThumbWheel.cpp.in:src\Inventor\Qt\widgets\SoAnyThumbWheel.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\widgets\SoAnyThumbWheel.cpp.in:src\Inventor\Qt\widgets\SoAnyThumbWheel.cpp"
 						Outputs="src\Inventor\Qt\widgets\SoAnyThumbWheel.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1521,7 +1515,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\widgets\SoAnyThumbWheel.cpp.in:src\Inventor\Qt\widgets\SoAnyThumbWheel.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\widgets\SoAnyThumbWheel.cpp.in:src\Inventor\Qt\widgets\SoAnyThumbWheel.cpp"
 						Outputs="src\Inventor\Qt\widgets\SoAnyThumbWheel.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1529,7 +1523,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\widgets\SoAnyThumbWheel.cpp.in:src\Inventor\Qt\widgets\SoAnyThumbWheel.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\widgets\SoAnyThumbWheel.cpp.in:src\Inventor\Qt\widgets\SoAnyThumbWheel.cpp"
 						Outputs="src\Inventor\Qt\widgets\SoAnyThumbWheel.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -1610,7 +1604,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.cpp.in:src\Inventor\Qt\editors\SoQtColorEditor.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.cpp.in:src\Inventor\Qt\editors\SoQtColorEditor.cpp"
 						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1618,7 +1612,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.cpp.in:src\Inventor\Qt\editors\SoQtColorEditor.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.cpp.in:src\Inventor\Qt\editors\SoQtColorEditor.cpp"
 						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1626,7 +1620,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.cpp.in:src\Inventor\Qt\editors\SoQtColorEditor.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.cpp.in:src\Inventor\Qt\editors\SoQtColorEditor.cpp"
 						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1634,7 +1628,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.cpp.in:src\Inventor\Qt\editors\SoQtColorEditor.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.cpp.in:src\Inventor\Qt\editors\SoQtColorEditor.cpp"
 						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -1715,7 +1709,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiCommon.cpp.in:src\Inventor\Qt\SoQtCommon.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiCommon.cpp.in:src\Inventor\Qt\SoQtCommon.cpp"
 						Outputs="src\Inventor\Qt\SoQtCommon.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1723,7 +1717,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiCommon.cpp.in:src\Inventor\Qt\SoQtCommon.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiCommon.cpp.in:src\Inventor\Qt\SoQtCommon.cpp"
 						Outputs="src\Inventor\Qt\SoQtCommon.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1731,7 +1725,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiCommon.cpp.in:src\Inventor\Qt\SoQtCommon.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiCommon.cpp.in:src\Inventor\Qt\SoQtCommon.cpp"
 						Outputs="src\Inventor\Qt\SoQtCommon.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1739,7 +1733,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiCommon.cpp.in:src\Inventor\Qt\SoQtCommon.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiCommon.cpp.in:src\Inventor\Qt\SoQtCommon.cpp"
 						Outputs="src\Inventor\Qt\SoQtCommon.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -1785,7 +1779,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiComponentCommon.cpp.in:src\Inventor\Qt\SoQtComponentCommon.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiComponentCommon.cpp.in:src\Inventor\Qt\SoQtComponentCommon.cpp"
 						Outputs="src\Inventor\Qt\SoQtComponentCommon.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1793,7 +1787,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiComponentCommon.cpp.in:src\Inventor\Qt\SoQtComponentCommon.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiComponentCommon.cpp.in:src\Inventor\Qt\SoQtComponentCommon.cpp"
 						Outputs="src\Inventor\Qt\SoQtComponentCommon.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1801,7 +1795,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiComponentCommon.cpp.in:src\Inventor\Qt\SoQtComponentCommon.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiComponentCommon.cpp.in:src\Inventor\Qt\SoQtComponentCommon.cpp"
 						Outputs="src\Inventor\Qt\SoQtComponentCommon.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1809,7 +1803,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiComponentCommon.cpp.in:src\Inventor\Qt\SoQtComponentCommon.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiComponentCommon.cpp.in:src\Inventor\Qt\SoQtComponentCommon.cpp"
 						Outputs="src\Inventor\Qt\SoQtComponentCommon.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -1855,7 +1849,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiConstrainedViewer.cpp.in:src\Inventor\Qt\viewers\SoQtConstrainedViewer.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiConstrainedViewer.cpp.in:src\Inventor\Qt\viewers\SoQtConstrainedViewer.cpp"
 						Outputs="src\Inventor\Qt\viewers\SoQtConstrainedViewer.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1863,7 +1857,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiConstrainedViewer.cpp.in:src\Inventor\Qt\viewers\SoQtConstrainedViewer.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiConstrainedViewer.cpp.in:src\Inventor\Qt\viewers\SoQtConstrainedViewer.cpp"
 						Outputs="src\Inventor\Qt\viewers\SoQtConstrainedViewer.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1871,7 +1865,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiConstrainedViewer.cpp.in:src\Inventor\Qt\viewers\SoQtConstrainedViewer.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiConstrainedViewer.cpp.in:src\Inventor\Qt\viewers\SoQtConstrainedViewer.cpp"
 						Outputs="src\Inventor\Qt\viewers\SoQtConstrainedViewer.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1879,7 +1873,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiConstrainedViewer.cpp.in:src\Inventor\Qt\viewers\SoQtConstrainedViewer.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiConstrainedViewer.cpp.in:src\Inventor\Qt\viewers\SoQtConstrainedViewer.cpp"
 						Outputs="src\Inventor\Qt\viewers\SoQtConstrainedViewer.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -1925,7 +1919,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiCursor.cpp.in:src\Inventor\Qt\SoQtCursor.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiCursor.cpp.in:src\Inventor\Qt\SoQtCursor.cpp"
 						Outputs="src\Inventor\Qt\SoQtCursor.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1933,7 +1927,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiCursor.cpp.in:src\Inventor\Qt\SoQtCursor.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiCursor.cpp.in:src\Inventor\Qt\SoQtCursor.cpp"
 						Outputs="src\Inventor\Qt\SoQtCursor.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1941,7 +1935,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiCursor.cpp.in:src\Inventor\Qt\SoQtCursor.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiCursor.cpp.in:src\Inventor\Qt\SoQtCursor.cpp"
 						Outputs="src\Inventor\Qt\SoQtCursor.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1949,7 +1943,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiCursor.cpp.in:src\Inventor\Qt\SoQtCursor.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiCursor.cpp.in:src\Inventor\Qt\SoQtCursor.cpp"
 						Outputs="src\Inventor\Qt\SoQtCursor.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -1995,7 +1989,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiDevice.cpp.in:src\Inventor\Qt\devices\SoQtDeviceCommon.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiDevice.cpp.in:src\Inventor\Qt\devices\SoQtDeviceCommon.cpp"
 						Outputs="src\Inventor\Qt\devices\SoQtDeviceCommon.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2003,7 +1997,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiDevice.cpp.in:src\Inventor\Qt\devices\SoQtDeviceCommon.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiDevice.cpp.in:src\Inventor\Qt\devices\SoQtDeviceCommon.cpp"
 						Outputs="src\Inventor\Qt\devices\SoQtDeviceCommon.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2011,7 +2005,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiDevice.cpp.in:src\Inventor\Qt\devices\SoQtDeviceCommon.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiDevice.cpp.in:src\Inventor\Qt\devices\SoQtDeviceCommon.cpp"
 						Outputs="src\Inventor\Qt\devices\SoQtDeviceCommon.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2019,7 +2013,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiDevice.cpp.in:src\Inventor\Qt\devices\SoQtDeviceCommon.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiDevice.cpp.in:src\Inventor\Qt\devices\SoQtDeviceCommon.cpp"
 						Outputs="src\Inventor\Qt\devices\SoQtDeviceCommon.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -2100,7 +2094,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiExaminerViewer.cpp.in:src\Inventor\Qt\viewers\SoQtExaminerViewer.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiExaminerViewer.cpp.in:src\Inventor\Qt\viewers\SoQtExaminerViewer.cpp"
 						Outputs="src\Inventor\Qt\viewers\SoQtExaminerViewer.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2108,7 +2102,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiExaminerViewer.cpp.in:src\Inventor\Qt\viewers\SoQtExaminerViewer.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiExaminerViewer.cpp.in:src\Inventor\Qt\viewers\SoQtExaminerViewer.cpp"
 						Outputs="src\Inventor\Qt\viewers\SoQtExaminerViewer.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2116,7 +2110,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiExaminerViewer.cpp.in:src\Inventor\Qt\viewers\SoQtExaminerViewer.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiExaminerViewer.cpp.in:src\Inventor\Qt\viewers\SoQtExaminerViewer.cpp"
 						Outputs="src\Inventor\Qt\viewers\SoQtExaminerViewer.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2124,7 +2118,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiExaminerViewer.cpp.in:src\Inventor\Qt\viewers\SoQtExaminerViewer.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiExaminerViewer.cpp.in:src\Inventor\Qt\viewers\SoQtExaminerViewer.cpp"
 						Outputs="src\Inventor\Qt\viewers\SoQtExaminerViewer.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -2205,7 +2199,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFlyViewer.cpp.in:src\Inventor\Qt\viewers\SoQtFlyViewer.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFlyViewer.cpp.in:src\Inventor\Qt\viewers\SoQtFlyViewer.cpp"
 						Outputs="src\Inventor\Qt\viewers\SoQtFlyViewer.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2213,7 +2207,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFlyViewer.cpp.in:src\Inventor\Qt\viewers\SoQtFlyViewer.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFlyViewer.cpp.in:src\Inventor\Qt\viewers\SoQtFlyViewer.cpp"
 						Outputs="src\Inventor\Qt\viewers\SoQtFlyViewer.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2221,7 +2215,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFlyViewer.cpp.in:src\Inventor\Qt\viewers\SoQtFlyViewer.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFlyViewer.cpp.in:src\Inventor\Qt\viewers\SoQtFlyViewer.cpp"
 						Outputs="src\Inventor\Qt\viewers\SoQtFlyViewer.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2229,7 +2223,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFlyViewer.cpp.in:src\Inventor\Qt\viewers\SoQtFlyViewer.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFlyViewer.cpp.in:src\Inventor\Qt\viewers\SoQtFlyViewer.cpp"
 						Outputs="src\Inventor\Qt\viewers\SoQtFlyViewer.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -2275,7 +2269,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFullViewer.cpp.in:src\Inventor\Qt\viewers\SoQtFullViewer.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFullViewer.cpp.in:src\Inventor\Qt\viewers\SoQtFullViewer.cpp"
 						Outputs="src\Inventor\Qt\viewers\SoQtFullViewer.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2283,7 +2277,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFullViewer.cpp.in:src\Inventor\Qt\viewers\SoQtFullViewer.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFullViewer.cpp.in:src\Inventor\Qt\viewers\SoQtFullViewer.cpp"
 						Outputs="src\Inventor\Qt\viewers\SoQtFullViewer.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2291,7 +2285,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFullViewer.cpp.in:src\Inventor\Qt\viewers\SoQtFullViewer.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFullViewer.cpp.in:src\Inventor\Qt\viewers\SoQtFullViewer.cpp"
 						Outputs="src\Inventor\Qt\viewers\SoQtFullViewer.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2299,7 +2293,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFullViewer.cpp.in:src\Inventor\Qt\viewers\SoQtFullViewer.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiFullViewer.cpp.in:src\Inventor\Qt\viewers\SoQtFullViewer.cpp"
 						Outputs="src\Inventor\Qt\viewers\SoQtFullViewer.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -2415,7 +2409,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiGLWidgetCommon.cpp.in:src\Inventor\Qt\SoQtGLWidgetCommon.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiGLWidgetCommon.cpp.in:src\Inventor\Qt\SoQtGLWidgetCommon.cpp"
 						Outputs="src\Inventor\Qt\SoQtGLWidgetCommon.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2423,7 +2417,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiGLWidgetCommon.cpp.in:src\Inventor\Qt\SoQtGLWidgetCommon.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiGLWidgetCommon.cpp.in:src\Inventor\Qt\SoQtGLWidgetCommon.cpp"
 						Outputs="src\Inventor\Qt\SoQtGLWidgetCommon.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2431,7 +2425,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiGLWidgetCommon.cpp.in:src\Inventor\Qt\SoQtGLWidgetCommon.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiGLWidgetCommon.cpp.in:src\Inventor\Qt\SoQtGLWidgetCommon.cpp"
 						Outputs="src\Inventor\Qt\SoQtGLWidgetCommon.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2439,7 +2433,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiGLWidgetCommon.cpp.in:src\Inventor\Qt\SoQtGLWidgetCommon.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiGLWidgetCommon.cpp.in:src\Inventor\Qt\SoQtGLWidgetCommon.cpp"
 						Outputs="src\Inventor\Qt\SoQtGLWidgetCommon.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -2485,7 +2479,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiInputFocus.cpp.in:src\Inventor\Qt\devices\SoQtInputFocusCommon.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiInputFocus.cpp.in:src\Inventor\Qt\devices\SoQtInputFocusCommon.cpp"
 						Outputs="src\Inventor\Qt\devices\SoQtInputFocusCommon.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2493,7 +2487,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiInputFocus.cpp.in:src\Inventor\Qt\devices\SoQtInputFocusCommon.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiInputFocus.cpp.in:src\Inventor\Qt\devices\SoQtInputFocusCommon.cpp"
 						Outputs="src\Inventor\Qt\devices\SoQtInputFocusCommon.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2501,7 +2495,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiInputFocus.cpp.in:src\Inventor\Qt\devices\SoQtInputFocusCommon.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiInputFocus.cpp.in:src\Inventor\Qt\devices\SoQtInputFocusCommon.cpp"
 						Outputs="src\Inventor\Qt\devices\SoQtInputFocusCommon.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2509,7 +2503,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiInputFocus.cpp.in:src\Inventor\Qt\devices\SoQtInputFocusCommon.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiInputFocus.cpp.in:src\Inventor\Qt\devices\SoQtInputFocusCommon.cpp"
 						Outputs="src\Inventor\Qt\devices\SoQtInputFocusCommon.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -2590,7 +2584,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiKeyboard.cpp.in:src\Inventor\Qt\devices\SoQtKeyboardCommon.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiKeyboard.cpp.in:src\Inventor\Qt\devices\SoQtKeyboardCommon.cpp"
 						Outputs="src\Inventor\Qt\devices\SoQtKeyboardCommon.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2598,7 +2592,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiKeyboard.cpp.in:src\Inventor\Qt\devices\SoQtKeyboardCommon.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiKeyboard.cpp.in:src\Inventor\Qt\devices\SoQtKeyboardCommon.cpp"
 						Outputs="src\Inventor\Qt\devices\SoQtKeyboardCommon.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2606,7 +2600,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiKeyboard.cpp.in:src\Inventor\Qt\devices\SoQtKeyboardCommon.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiKeyboard.cpp.in:src\Inventor\Qt\devices\SoQtKeyboardCommon.cpp"
 						Outputs="src\Inventor\Qt\devices\SoQtKeyboardCommon.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2614,7 +2608,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiKeyboard.cpp.in:src\Inventor\Qt\devices\SoQtKeyboardCommon.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiKeyboard.cpp.in:src\Inventor\Qt\devices\SoQtKeyboardCommon.cpp"
 						Outputs="src\Inventor\Qt\devices\SoQtKeyboardCommon.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -2695,7 +2689,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.cpp.in:src\Inventor\Qt\editors\SoQtMaterialEditor.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.cpp.in:src\Inventor\Qt\editors\SoQtMaterialEditor.cpp"
 						Outputs="src\Inventor\Qt\editors\SoQtMaterialEditor.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2703,7 +2697,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.cpp.in:src\Inventor\Qt\editors\SoQtMaterialEditor.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.cpp.in:src\Inventor\Qt\editors\SoQtMaterialEditor.cpp"
 						Outputs="src\Inventor\Qt\editors\SoQtMaterialEditor.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2711,7 +2705,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.cpp.in:src\Inventor\Qt\editors\SoQtMaterialEditor.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.cpp.in:src\Inventor\Qt\editors\SoQtMaterialEditor.cpp"
 						Outputs="src\Inventor\Qt\editors\SoQtMaterialEditor.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2719,7 +2713,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.cpp.in:src\Inventor\Qt\editors\SoQtMaterialEditor.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.cpp.in:src\Inventor\Qt\editors\SoQtMaterialEditor.cpp"
 						Outputs="src\Inventor\Qt\editors\SoQtMaterialEditor.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -2800,7 +2794,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiMouse.cpp.in:src\Inventor\Qt\devices\SoQtMouseCommon.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiMouse.cpp.in:src\Inventor\Qt\devices\SoQtMouseCommon.cpp"
 						Outputs="src\Inventor\Qt\devices\SoQtMouseCommon.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2808,7 +2802,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiMouse.cpp.in:src\Inventor\Qt\devices\SoQtMouseCommon.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiMouse.cpp.in:src\Inventor\Qt\devices\SoQtMouseCommon.cpp"
 						Outputs="src\Inventor\Qt\devices\SoQtMouseCommon.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2816,7 +2810,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiMouse.cpp.in:src\Inventor\Qt\devices\SoQtMouseCommon.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiMouse.cpp.in:src\Inventor\Qt\devices\SoQtMouseCommon.cpp"
 						Outputs="src\Inventor\Qt\devices\SoQtMouseCommon.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2824,7 +2818,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiMouse.cpp.in:src\Inventor\Qt\devices\SoQtMouseCommon.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiMouse.cpp.in:src\Inventor\Qt\devices\SoQtMouseCommon.cpp"
 						Outputs="src\Inventor\Qt\devices\SoQtMouseCommon.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -2905,7 +2899,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiObject.cpp.in:src\Inventor\Qt\SoQtObject.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiObject.cpp.in:src\Inventor\Qt\SoQtObject.cpp"
 						Outputs="src\Inventor\Qt\SoQtObject.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2913,7 +2907,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiObject.cpp.in:src\Inventor\Qt\SoQtObject.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiObject.cpp.in:src\Inventor\Qt\SoQtObject.cpp"
 						Outputs="src\Inventor\Qt\SoQtObject.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2921,7 +2915,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiObject.cpp.in:src\Inventor\Qt\SoQtObject.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiObject.cpp.in:src\Inventor\Qt\SoQtObject.cpp"
 						Outputs="src\Inventor\Qt\SoQtObject.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2929,7 +2923,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiObject.cpp.in:src\Inventor\Qt\SoQtObject.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiObject.cpp.in:src\Inventor\Qt\SoQtObject.cpp"
 						Outputs="src\Inventor\Qt\SoQtObject.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -3010,7 +3004,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiPlaneViewer.cpp.in:src\Inventor\Qt\viewers\SoQtPlaneViewer.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiPlaneViewer.cpp.in:src\Inventor\Qt\viewers\SoQtPlaneViewer.cpp"
 						Outputs="src\Inventor\Qt\viewers\SoQtPlaneViewer.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3018,7 +3012,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiPlaneViewer.cpp.in:src\Inventor\Qt\viewers\SoQtPlaneViewer.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiPlaneViewer.cpp.in:src\Inventor\Qt\viewers\SoQtPlaneViewer.cpp"
 						Outputs="src\Inventor\Qt\viewers\SoQtPlaneViewer.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3026,7 +3020,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiPlaneViewer.cpp.in:src\Inventor\Qt\viewers\SoQtPlaneViewer.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiPlaneViewer.cpp.in:src\Inventor\Qt\viewers\SoQtPlaneViewer.cpp"
 						Outputs="src\Inventor\Qt\viewers\SoQtPlaneViewer.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3034,7 +3028,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiPlaneViewer.cpp.in:src\Inventor\Qt\viewers\SoQtPlaneViewer.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiPlaneViewer.cpp.in:src\Inventor\Qt\viewers\SoQtPlaneViewer.cpp"
 						Outputs="src\Inventor\Qt\viewers\SoQtPlaneViewer.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -3115,7 +3109,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\widgets\SoGuiPopupMenu.cpp.in:src\Inventor\Qt\widgets\SoQtPopupMenu.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\widgets\SoGuiPopupMenu.cpp.in:src\Inventor\Qt\widgets\SoQtPopupMenu.cpp"
 						Outputs="src\Inventor\Qt\widgets\SoQtPopupMenu.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3123,7 +3117,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\widgets\SoGuiPopupMenu.cpp.in:src\Inventor\Qt\widgets\SoQtPopupMenu.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\widgets\SoGuiPopupMenu.cpp.in:src\Inventor\Qt\widgets\SoQtPopupMenu.cpp"
 						Outputs="src\Inventor\Qt\widgets\SoQtPopupMenu.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3131,7 +3125,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\widgets\SoGuiPopupMenu.cpp.in:src\Inventor\Qt\widgets\SoQtPopupMenu.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\widgets\SoGuiPopupMenu.cpp.in:src\Inventor\Qt\widgets\SoQtPopupMenu.cpp"
 						Outputs="src\Inventor\Qt\widgets\SoQtPopupMenu.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3139,7 +3133,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\widgets\SoGuiPopupMenu.cpp.in:src\Inventor\Qt\widgets\SoQtPopupMenu.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\widgets\SoGuiPopupMenu.cpp.in:src\Inventor\Qt\widgets\SoQtPopupMenu.cpp"
 						Outputs="src\Inventor\Qt\widgets\SoQtPopupMenu.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -3185,7 +3179,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiRenderArea.cpp.in:src\Inventor\Qt\SoQtRenderArea.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiRenderArea.cpp.in:src\Inventor\Qt\SoQtRenderArea.cpp"
 						Outputs="src\Inventor\Qt\SoQtRenderArea.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3193,7 +3187,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiRenderArea.cpp.in:src\Inventor\Qt\SoQtRenderArea.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiRenderArea.cpp.in:src\Inventor\Qt\SoQtRenderArea.cpp"
 						Outputs="src\Inventor\Qt\SoQtRenderArea.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3201,7 +3195,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiRenderArea.cpp.in:src\Inventor\Qt\SoQtRenderArea.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiRenderArea.cpp.in:src\Inventor\Qt\SoQtRenderArea.cpp"
 						Outputs="src\Inventor\Qt\SoQtRenderArea.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3209,7 +3203,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiRenderArea.cpp.in:src\Inventor\Qt\SoQtRenderArea.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\SoGuiRenderArea.cpp.in:src\Inventor\Qt\SoQtRenderArea.cpp"
 						Outputs="src\Inventor\Qt\SoQtRenderArea.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -3255,7 +3249,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"
 						Outputs="src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3263,7 +3257,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"
 						Outputs="src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3271,7 +3265,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"
 						Outputs="src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3279,7 +3273,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"
 						Outputs="src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -3360,7 +3354,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiViewer.cpp.in:src\Inventor\Qt\viewers\SoQtViewer.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiViewer.cpp.in:src\Inventor\Qt\viewers\SoQtViewer.cpp"
 						Outputs="src\Inventor\Qt\viewers\SoQtViewer.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3368,7 +3362,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiViewer.cpp.in:src\Inventor\Qt\viewers\SoQtViewer.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiViewer.cpp.in:src\Inventor\Qt\viewers\SoQtViewer.cpp"
 						Outputs="src\Inventor\Qt\viewers\SoQtViewer.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3376,7 +3370,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiViewer.cpp.in:src\Inventor\Qt\viewers\SoQtViewer.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiViewer.cpp.in:src\Inventor\Qt\viewers\SoQtViewer.cpp"
 						Outputs="src\Inventor\Qt\viewers\SoQtViewer.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3384,7 +3378,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiViewer.cpp.in:src\Inventor\Qt\viewers\SoQtViewer.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiViewer.cpp.in:src\Inventor\Qt\viewers\SoQtViewer.cpp"
 						Outputs="src\Inventor\Qt\viewers\SoQtViewer.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -3500,7 +3494,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\spwinput_win32.c.in:src\Inventor\Qt\devices\spwinput_win32.c
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\spwinput_win32.c.in:src\Inventor\Qt\devices\spwinput_win32.c"
 						Outputs="src\Inventor\Qt\devices\spwinput_win32.c"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3508,7 +3502,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\spwinput_win32.c.in:src\Inventor\Qt\devices\spwinput_win32.c
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\spwinput_win32.c.in:src\Inventor\Qt\devices\spwinput_win32.c"
 						Outputs="src\Inventor\Qt\devices\spwinput_win32.c"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3516,7 +3510,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\spwinput_win32.c.in:src\Inventor\Qt\devices\spwinput_win32.c
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\spwinput_win32.c.in:src\Inventor\Qt\devices\spwinput_win32.c"
 						Outputs="src\Inventor\Qt\devices\spwinput_win32.c"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3524,7 +3518,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\spwinput_win32.c.in:src\Inventor\Qt\devices\spwinput_win32.c
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\spwinput_win32.c.in:src\Inventor\Qt\devices\spwinput_win32.c"
 						Outputs="src\Inventor\Qt\devices\spwinput_win32.c"/>
 				</FileConfiguration>
 			</File>
@@ -3570,7 +3564,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\spwinput_x11.cpp.in:src\Inventor\Qt\devices\spwinput_x11.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\spwinput_x11.cpp.in:src\Inventor\Qt\devices\spwinput_x11.cpp"
 						Outputs="src\Inventor\Qt\devices\spwinput_x11.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3578,7 +3572,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\spwinput_x11.cpp.in:src\Inventor\Qt\devices\spwinput_x11.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\spwinput_x11.cpp.in:src\Inventor\Qt\devices\spwinput_x11.cpp"
 						Outputs="src\Inventor\Qt\devices\spwinput_x11.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3586,7 +3580,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\spwinput_x11.cpp.in:src\Inventor\Qt\devices\spwinput_x11.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\spwinput_x11.cpp.in:src\Inventor\Qt\devices\spwinput_x11.cpp"
 						Outputs="src\Inventor\Qt\devices\spwinput_x11.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3594,7 +3588,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\spwinput_x11.cpp.in:src\Inventor\Qt\devices\spwinput_x11.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\spwinput_x11.cpp.in:src\Inventor\Qt\devices\spwinput_x11.cpp"
 						Outputs="src\Inventor\Qt\devices\spwinput_x11.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -3605,7 +3599,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ToggleButton.cpp.in:src\Inventor\Qt\nodes\ToggleButton.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ToggleButton.cpp.in:src\Inventor\Qt\nodes\ToggleButton.cpp"
 						Outputs="src\Inventor\Qt\nodes\ToggleButton.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3613,7 +3607,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ToggleButton.cpp.in:src\Inventor\Qt\nodes\ToggleButton.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ToggleButton.cpp.in:src\Inventor\Qt\nodes\ToggleButton.cpp"
 						Outputs="src\Inventor\Qt\nodes\ToggleButton.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3621,7 +3615,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ToggleButton.cpp.in:src\Inventor\Qt\nodes\ToggleButton.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ToggleButton.cpp.in:src\Inventor\Qt\nodes\ToggleButton.cpp"
 						Outputs="src\Inventor\Qt\nodes\ToggleButton.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3629,7 +3623,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ToggleButton.cpp.in:src\Inventor\Qt\nodes\ToggleButton.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ToggleButton.cpp.in:src\Inventor\Qt\nodes\ToggleButton.cpp"
 						Outputs="src\Inventor\Qt\nodes\ToggleButton.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -3675,7 +3669,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Translation.cpp.in:src\Inventor\Qt\nodes\Translation.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Translation.cpp.in:src\Inventor\Qt\nodes\Translation.cpp"
 						Outputs="src\Inventor\Qt\nodes\Translation.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3683,7 +3677,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Translation.cpp.in:src\Inventor\Qt\nodes\Translation.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Translation.cpp.in:src\Inventor\Qt\nodes\Translation.cpp"
 						Outputs="src\Inventor\Qt\nodes\Translation.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3691,7 +3685,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Translation.cpp.in:src\Inventor\Qt\nodes\Translation.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Translation.cpp.in:src\Inventor\Qt\nodes\Translation.cpp"
 						Outputs="src\Inventor\Qt\nodes\Translation.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3699,7 +3693,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Translation.cpp.in:src\Inventor\Qt\nodes\Translation.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\Translation.cpp.in:src\Inventor\Qt\nodes\Translation.cpp"
 						Outputs="src\Inventor\Qt\nodes\Translation.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -3745,7 +3739,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ViewpointWrapper.cpp.in:src\Inventor\Qt\nodes\ViewpointWrapper.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ViewpointWrapper.cpp.in:src\Inventor\Qt\nodes\ViewpointWrapper.cpp"
 						Outputs="src\Inventor\Qt\nodes\ViewpointWrapper.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3753,7 +3747,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ViewpointWrapper.cpp.in:src\Inventor\Qt\nodes\ViewpointWrapper.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ViewpointWrapper.cpp.in:src\Inventor\Qt\nodes\ViewpointWrapper.cpp"
 						Outputs="src\Inventor\Qt\nodes\ViewpointWrapper.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3761,7 +3755,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ViewpointWrapper.cpp.in:src\Inventor\Qt\nodes\ViewpointWrapper.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ViewpointWrapper.cpp.in:src\Inventor\Qt\nodes\ViewpointWrapper.cpp"
 						Outputs="src\Inventor\Qt\nodes\ViewpointWrapper.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3769,7 +3763,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ViewpointWrapper.cpp.in:src\Inventor\Qt\nodes\ViewpointWrapper.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ViewpointWrapper.cpp.in:src\Inventor\Qt\nodes\ViewpointWrapper.cpp"
 						Outputs="src\Inventor\Qt\nodes\ViewpointWrapper.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -3815,7 +3809,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ViewportFix.cpp.in:src\Inventor\Qt\nodes\ViewportFix.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ViewportFix.cpp.in:src\Inventor\Qt\nodes\ViewportFix.cpp"
 						Outputs="src\Inventor\Qt\nodes\ViewportFix.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3823,7 +3817,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ViewportFix.cpp.in:src\Inventor\Qt\nodes\ViewportFix.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ViewportFix.cpp.in:src\Inventor\Qt\nodes\ViewportFix.cpp"
 						Outputs="src\Inventor\Qt\nodes\ViewportFix.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3831,7 +3825,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ViewportFix.cpp.in:src\Inventor\Qt\nodes\ViewportFix.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ViewportFix.cpp.in:src\Inventor\Qt\nodes\ViewportFix.cpp"
 						Outputs="src\Inventor\Qt\nodes\ViewportFix.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3839,7 +3833,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ViewportFix.cpp.in:src\Inventor\Qt\nodes\ViewportFix.cpp
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\nodes\ViewportFix.cpp.in:src\Inventor\Qt\nodes\ViewportFix.cpp"
 						Outputs="src\Inventor\Qt\nodes\ViewportFix.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -3891,6 +3885,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\devices/"
@@ -3900,6 +3895,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\devices/"
@@ -3912,6 +3908,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\devices/"
 							ProgramDataBaseFileName="StaticDebug\Qt\devices/"/>
 					</FileConfiguration>
@@ -3933,6 +3930,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\devices/"
@@ -3942,6 +3940,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\devices/"
@@ -3954,6 +3953,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\devices/"
 							ProgramDataBaseFileName="StaticDebug\Qt\devices/"/>
 					</FileConfiguration>
@@ -3975,6 +3975,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\devices/"
@@ -3984,6 +3985,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\devices/"
@@ -3996,6 +3998,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\devices/"
 							ProgramDataBaseFileName="StaticDebug\Qt\devices/"/>
 					</FileConfiguration>
@@ -4017,6 +4020,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\devices/"
@@ -4026,6 +4030,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\devices/"
@@ -4038,6 +4043,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\devices/"
 							ProgramDataBaseFileName="StaticDebug\Qt\devices/"/>
 					</FileConfiguration>
@@ -4059,6 +4065,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\devices/"
@@ -4068,6 +4075,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\devices/"
@@ -4080,6 +4088,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\devices/"
 							ProgramDataBaseFileName="StaticDebug\Qt\devices/"/>
 					</FileConfiguration>
@@ -4101,6 +4110,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\devices/"
@@ -4110,6 +4120,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\devices/"
@@ -4122,6 +4133,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\devices/"
 							ProgramDataBaseFileName="StaticDebug\Qt\devices/"/>
 					</FileConfiguration>
@@ -4143,6 +4155,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\devices/"
@@ -4152,6 +4165,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\devices/"
@@ -4164,6 +4178,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\devices/"
 							ProgramDataBaseFileName="StaticDebug\Qt\devices/"/>
 					</FileConfiguration>
@@ -4185,6 +4200,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\devices/"
@@ -4194,6 +4210,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\devices/"
@@ -4206,6 +4223,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\devices/"
 							ProgramDataBaseFileName="StaticDebug\Qt\devices/"/>
 					</FileConfiguration>
@@ -4227,6 +4245,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\devices/"
@@ -4236,6 +4255,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\devices/"
@@ -4248,6 +4268,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\devices/"
 							ProgramDataBaseFileName="StaticDebug\Qt\devices/"/>
 					</FileConfiguration>
@@ -4269,6 +4290,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\devices/"
@@ -4278,6 +4300,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\devices/"
@@ -4290,6 +4313,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\devices/"
 							ProgramDataBaseFileName="StaticDebug\Qt\devices/"/>
 					</FileConfiguration>
@@ -4311,6 +4335,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\devices/"
@@ -4320,6 +4345,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\devices/"
@@ -4332,6 +4358,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\devices/"
 							ProgramDataBaseFileName="StaticDebug\Qt\devices/"/>
 					</FileConfiguration>
@@ -4353,6 +4380,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\devices/"
@@ -4362,6 +4390,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\devices/"
@@ -4374,6 +4403,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\devices/"
 							ProgramDataBaseFileName="StaticDebug\Qt\devices/"/>
 					</FileConfiguration>
@@ -4395,6 +4425,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\devices/"
@@ -4404,6 +4435,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\devices/"
@@ -4416,6 +4448,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\devices/"
 							ProgramDataBaseFileName="StaticDebug\Qt\devices/"/>
 					</FileConfiguration>
@@ -4441,6 +4474,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\editors/"
@@ -4450,6 +4484,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\editors/"
@@ -4462,6 +4497,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\editors/"
 							ProgramDataBaseFileName="StaticDebug\Qt\editors/"/>
 					</FileConfiguration>
@@ -4483,6 +4519,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\editors/"
@@ -4492,6 +4529,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\editors/"
@@ -4504,6 +4542,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\editors/"
 							ProgramDataBaseFileName="StaticDebug\Qt\editors/"/>
 					</FileConfiguration>
@@ -4529,6 +4568,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\engines/"
@@ -4538,6 +4578,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\engines/"
@@ -4550,6 +4591,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\engines/"
 							ProgramDataBaseFileName="StaticDebug\Qt\engines/"/>
 					</FileConfiguration>
@@ -4571,6 +4613,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\engines/"
@@ -4580,6 +4623,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\engines/"
@@ -4592,6 +4636,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\engines/"
 							ProgramDataBaseFileName="StaticDebug\Qt\engines/"/>
 					</FileConfiguration>
@@ -4613,6 +4658,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\engines/"
@@ -4622,6 +4668,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\engines/"
@@ -4634,6 +4681,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\engines/"
 							ProgramDataBaseFileName="StaticDebug\Qt\engines/"/>
 					</FileConfiguration>
@@ -4659,6 +4707,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\nodes/"
@@ -4668,6 +4717,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\nodes/"
@@ -4680,6 +4730,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Qt\nodes/"/>
 					</FileConfiguration>
@@ -4701,6 +4752,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\nodes/"
@@ -4710,6 +4762,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\nodes/"
@@ -4722,6 +4775,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Qt\nodes/"/>
 					</FileConfiguration>
@@ -4743,6 +4797,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\nodes/"
@@ -4752,6 +4807,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\nodes/"
@@ -4764,6 +4820,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Qt\nodes/"/>
 					</FileConfiguration>
@@ -4785,6 +4842,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\nodes/"
@@ -4794,6 +4852,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\nodes/"
@@ -4806,6 +4865,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Qt\nodes/"/>
 					</FileConfiguration>
@@ -4827,6 +4887,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\nodes/"
@@ -4836,6 +4897,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\nodes/"
@@ -4848,6 +4910,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Qt\nodes/"/>
 					</FileConfiguration>
@@ -4869,6 +4932,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\nodes/"
@@ -4878,6 +4942,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\nodes/"
@@ -4890,6 +4955,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Qt\nodes/"/>
 					</FileConfiguration>
@@ -4911,6 +4977,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\nodes/"
@@ -4920,6 +4987,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\nodes/"
@@ -4932,6 +5000,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Qt\nodes/"/>
 					</FileConfiguration>
@@ -4953,6 +5022,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\nodes/"
@@ -4962,6 +5032,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\nodes/"
@@ -4974,6 +5045,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Qt\nodes/"/>
 					</FileConfiguration>
@@ -4995,6 +5067,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\nodes/"
@@ -5004,6 +5077,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\nodes/"
@@ -5016,6 +5090,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Qt\nodes/"/>
 					</FileConfiguration>
@@ -5037,6 +5112,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\nodes/"
@@ -5046,6 +5122,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\nodes/"
@@ -5058,6 +5135,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Qt\nodes/"/>
 					</FileConfiguration>
@@ -5079,6 +5157,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\nodes/"
@@ -5088,6 +5167,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\nodes/"
@@ -5100,6 +5180,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Qt\nodes/"/>
 					</FileConfiguration>
@@ -5121,6 +5202,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\nodes/"
@@ -5130,6 +5212,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\nodes/"
@@ -5142,6 +5225,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Qt\nodes/"/>
 					</FileConfiguration>
@@ -5163,6 +5247,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\nodes/"
@@ -5172,6 +5257,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\nodes/"
@@ -5184,6 +5270,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Qt\nodes/"/>
 					</FileConfiguration>
@@ -5205,6 +5292,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\nodes/"
@@ -5214,6 +5302,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\nodes/"
@@ -5226,6 +5315,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Qt\nodes/"/>
 					</FileConfiguration>
@@ -5247,6 +5337,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\nodes/"
@@ -5256,6 +5347,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\nodes/"
@@ -5268,6 +5360,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Qt\nodes/"/>
 					</FileConfiguration>
@@ -5289,6 +5382,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\nodes/"
@@ -5298,6 +5392,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\nodes/"
@@ -5310,6 +5405,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Qt\nodes/"/>
 					</FileConfiguration>
@@ -5331,6 +5427,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\nodes/"
@@ -5340,6 +5437,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\nodes/"
@@ -5352,6 +5450,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Qt\nodes/"/>
 					</FileConfiguration>
@@ -5377,6 +5476,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\viewers/"
@@ -5386,6 +5486,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\viewers/"
@@ -5398,6 +5499,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\viewers/"
 							ProgramDataBaseFileName="StaticDebug\Qt\viewers/"/>
 					</FileConfiguration>
@@ -5419,6 +5521,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\viewers/"
@@ -5428,6 +5531,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\viewers/"
@@ -5440,6 +5544,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\viewers/"
 							ProgramDataBaseFileName="StaticDebug\Qt\viewers/"/>
 					</FileConfiguration>
@@ -5461,6 +5566,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\viewers/"
@@ -5470,6 +5576,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\viewers/"
@@ -5482,6 +5589,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\viewers/"
 							ProgramDataBaseFileName="StaticDebug\Qt\viewers/"/>
 					</FileConfiguration>
@@ -5503,6 +5611,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\viewers/"
@@ -5512,6 +5621,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\viewers/"
@@ -5524,6 +5634,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\viewers/"
 							ProgramDataBaseFileName="StaticDebug\Qt\viewers/"/>
 					</FileConfiguration>
@@ -5545,6 +5656,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\viewers/"
@@ -5554,6 +5666,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\viewers/"
@@ -5566,6 +5679,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\viewers/"
 							ProgramDataBaseFileName="StaticDebug\Qt\viewers/"/>
 					</FileConfiguration>
@@ -5622,6 +5736,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\viewers/"
@@ -5631,6 +5746,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\viewers/"
@@ -5643,6 +5759,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\viewers/"
 							ProgramDataBaseFileName="StaticDebug\Qt\viewers/"/>
 					</FileConfiguration>
@@ -5664,6 +5781,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\viewers/"
@@ -5673,6 +5791,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\viewers/"
@@ -5685,6 +5804,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\viewers/"
 							ProgramDataBaseFileName="StaticDebug\Qt\viewers/"/>
 					</FileConfiguration>
@@ -5741,6 +5861,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\viewers/"
@@ -5750,6 +5871,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\viewers/"
@@ -5762,6 +5884,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\viewers/"
 							ProgramDataBaseFileName="StaticDebug\Qt\viewers/"/>
 					</FileConfiguration>
@@ -5818,6 +5941,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\viewers/"
@@ -5827,6 +5951,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\viewers/"
@@ -5839,6 +5964,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\viewers/"
 							ProgramDataBaseFileName="StaticDebug\Qt\viewers/"/>
 					</FileConfiguration>
@@ -5864,6 +5990,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\widgets/"
@@ -5873,6 +6000,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\widgets/"
@@ -5885,6 +6013,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\widgets/"
 							ProgramDataBaseFileName="StaticDebug\Qt\widgets/"/>
 					</FileConfiguration>
@@ -5941,6 +6070,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\widgets/"
@@ -5950,6 +6080,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\widgets/"
@@ -5962,6 +6093,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\widgets/"
 							ProgramDataBaseFileName="StaticDebug\Qt\widgets/"/>
 					</FileConfiguration>
@@ -5983,6 +6115,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\widgets/"
@@ -5992,6 +6125,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\widgets/"
@@ -6004,6 +6138,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\widgets/"
 							ProgramDataBaseFileName="StaticDebug\Qt\widgets/"/>
 					</FileConfiguration>
@@ -6060,6 +6195,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\widgets/"
@@ -6069,6 +6205,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\widgets/"
@@ -6081,6 +6218,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\widgets/"
 							ProgramDataBaseFileName="StaticDebug\Qt\widgets/"/>
 					</FileConfiguration>
@@ -6102,6 +6240,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\widgets/"
@@ -6111,6 +6250,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\widgets/"
@@ -6123,6 +6263,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\widgets/"
 							ProgramDataBaseFileName="StaticDebug\Qt\widgets/"/>
 					</FileConfiguration>
@@ -6183,6 +6324,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Inventor\Qt/"
@@ -6192,6 +6334,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Inventor\Qt/"
@@ -6204,6 +6347,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Inventor\Qt/"
 							ProgramDataBaseFileName="StaticDebug\Inventor\Qt/"/>
 					</FileConfiguration>
@@ -6225,6 +6369,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Inventor\Qt/"
@@ -6234,6 +6379,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Inventor\Qt/"
@@ -6246,6 +6392,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Inventor\Qt/"
 							ProgramDataBaseFileName="StaticDebug\Inventor\Qt/"/>
 					</FileConfiguration>
@@ -6267,6 +6414,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Inventor\Qt/"
@@ -6276,6 +6424,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Inventor\Qt/"
@@ -6288,6 +6437,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Inventor\Qt/"
 							ProgramDataBaseFileName="StaticDebug\Inventor\Qt/"/>
 					</FileConfiguration>
@@ -6309,6 +6459,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Inventor\Qt/"
@@ -6318,6 +6469,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Inventor\Qt/"
@@ -6330,6 +6482,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Inventor\Qt/"
 							ProgramDataBaseFileName="StaticDebug\Inventor\Qt/"/>
 					</FileConfiguration>
@@ -6351,6 +6504,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Inventor\Qt/"
@@ -6360,6 +6514,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Inventor\Qt/"
@@ -6372,6 +6527,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Inventor\Qt/"
 							ProgramDataBaseFileName="StaticDebug\Inventor\Qt/"/>
 					</FileConfiguration>
@@ -6428,6 +6584,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Inventor\Qt/"
@@ -6437,6 +6594,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Inventor\Qt/"
@@ -6449,6 +6607,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Inventor\Qt/"
 							ProgramDataBaseFileName="StaticDebug\Inventor\Qt/"/>
 					</FileConfiguration>
@@ -6470,6 +6629,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Inventor\Qt/"
@@ -6479,6 +6639,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Inventor\Qt/"
@@ -6491,6 +6652,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Inventor\Qt/"
 							ProgramDataBaseFileName="StaticDebug\Inventor\Qt/"/>
 					</FileConfiguration>
@@ -6512,6 +6674,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Inventor\Qt/"
@@ -6521,6 +6684,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Inventor\Qt/"
@@ -6533,6 +6697,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Inventor\Qt/"
 							ProgramDataBaseFileName="StaticDebug\Inventor\Qt/"/>
 					</FileConfiguration>
@@ -6589,6 +6754,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Inventor\Qt/"
@@ -6598,6 +6764,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Inventor\Qt/"
@@ -6610,6 +6777,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Inventor\Qt/"
 							ProgramDataBaseFileName="StaticDebug\Inventor\Qt/"/>
 					</FileConfiguration>
@@ -6666,6 +6834,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Inventor\Qt/"
@@ -6675,6 +6844,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Inventor\Qt/"
@@ -6687,6 +6857,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Inventor\Qt/"
 							ProgramDataBaseFileName="StaticDebug\Inventor\Qt/"/>
 					</FileConfiguration>
@@ -6708,6 +6879,7 @@
 						Name="DLL (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Inventor\Qt/"
@@ -6717,6 +6889,7 @@
 						Name="LIB (Release)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Inventor\Qt/"
@@ -6729,6 +6902,7 @@
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Inventor\Qt/"
 							ProgramDataBaseFileName="StaticDebug\Inventor\Qt/"/>
 					</FileConfiguration>

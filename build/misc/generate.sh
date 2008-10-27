@@ -6,12 +6,25 @@
 
 project=soqt1
 
-rm -f ${project}.dsp ${project}.dsw ${project}.vcproj ${project}.sln \
-      ${project}_install.dsp ${project}_install.dsw \
-      ${project}_install.vcproj ${project}_install.sln \
-      ${project}_uninstall.dsp ${project}_uninstall.dsw \
-      ${project}_uninstall.vcproj ${project}_uninstall.sln \
-      install-headers.bat uninstall-headers.bat
+function cleansolution() {
+  name=$1;
+  rm -f ${name}.dsw ${name}.sln;
+}
+
+function cleanproject() {
+  name=$1;
+  rm -f ${name}.dsp ${name}.vcproj;
+}
+
+proper=true;
+
+cleansolution ${project}
+cleanproject ${project}
+cleanproject ${project}_install
+cleanproject ${project}_uninstall
+cleanproject ${project}_docs
+
+rm -f install-headers.bat uninstall-headers.bat
 
 build_pwd=`pwd`
 build="`cygpath -w $build_pwd | sed -e 's/\\\\/\\\\\\\\/g'`"
@@ -40,6 +53,8 @@ sed \
   -e "s/$source_pwd/..\\\\../g" \
   -e 's/COIN_DLL/COIN_NOT_DLL/g' \
   -e '/_MAKE_DLL/ { s/COIN_NOT_DLL/COIN_DLL/g; }' \
+  -e '/^# ADD .*LINK32.*\/debug/ { s/COINDIR)\\lib\\coin3.lib/COINDIR)\\lib\\coin3d.lib/g; }' \
+  -e '/^# ADD .*LINK32.*\/debug/ { s/QTDIR)\\lib\\Qt\([^ ]*\)4.lib/QTDIR)\\lib\\Qt\1d4.lib/g; }' \
   -e 's/$/\r/g' \
   <${project}.dsp >new.dsp
 

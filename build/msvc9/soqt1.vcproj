@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="9.00"
 	Name="soqt1"
-	ProjectGUID="{85F9AA76-122B-449B-8DC2-62562166E7DC}"
+	ProjectGUID="{40078A1A-3582-4D27-B598-BC22883EE58A}"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -79,6 +80,8 @@
 				ProgramDatabaseFile=".\Release/soqt1.pdb"
 				OptimizeForWindows98="1"
 				SetChecksum="true"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				ImportLibrary=".\Release/soqt1.lib"
 				TargetMachine="1"
 			/>
@@ -101,9 +104,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -322,6 +322,8 @@
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Debug/soqt1d.pdb"
 				OptimizeForWindows98="1"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				ImportLibrary=".\Debug/soqt1d.lib"
 				TargetMachine="1"
 			/>
@@ -344,9 +346,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -2114,8 +2113,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\SoQtColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\SoQtColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\editors\SoQtColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2124,8 +2123,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\SoQtColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\SoQtColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\editors\SoQtColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2134,8 +2133,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\SoQtColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\SoQtColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\editors\SoQtColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2144,8 +2143,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\SoQtColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\SoQtColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\editors\SoQtColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.h"
 					/>
 				</FileConfiguration>
 			</File>
@@ -2158,8 +2157,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\editors\SoQtColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\SoQtColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtColorEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2168,8 +2167,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\editors\SoQtColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\SoQtColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtColorEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2178,8 +2177,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\editors\SoQtColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\SoQtColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtColorEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2188,8 +2187,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\editors\SoQtColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\SoQtColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtColorEditor.h"
 					/>
 				</FileConfiguration>
 			</File>

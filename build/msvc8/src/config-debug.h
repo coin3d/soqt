@@ -10,6 +10,9 @@
 /* Open Inventor extensions */
 #define COIN_IV_EXTENSIONS 
 
+/* Version string for Qt */
+#define GUI_TOOLKIT_VERSION "422"
+
 /* The CPP compiler has a variable containing the current function name */
 #define HAVE_CPP_COMPILER_FUNCTION_NAME_VAR __FUNCTION__
 

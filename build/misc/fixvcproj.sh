@@ -11,7 +11,10 @@ mv $file $file.new
 
 # remove the unwanted end-of-string newline and remove the &quot; parts
 grep -v "^\"" $file.new \
-  | sed -e 's,&quot;$(QTDIR)&quot;,$(QTDIR),g' -e 's/\.h$/.h"/' \
+  | sed -e 's,&quot;$(QTDIR)&quot;,$(QTDIR),g' \
+        -e 's/\.h$/.h"/' \
+        -e 's/\.c$/.c"/' \
+        -e 's/\.cpp$/.cpp"/' \
   | sed -e 's/$/\r/g' >$file
 rm $file.new
 

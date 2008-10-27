@@ -69,15 +69,15 @@ BUILD_METAFILES_TRUE =
 BUILD_WITH_MSVC = true
 BUILD_WITH_MSVC_FALSE = #
 BUILD_WITH_MSVC_TRUE = 
-CC = /cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc7/cfg/gendsp.pl
+CC = /cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc9/cfg/gendsp.pl
 CCDEPMODE = depmode=none
 CFLAGS =  /MT 
 COIN_COMPILER = wrapmsvc
 COMPONENTHEADER = Q_OBJECT
 CONFIG = default
 CPP = /cygdrive/c/home/larsa/svn/clean/SoQt/cfg/wrapmsvc.exe -E
-CPPFLAGS = -DSOQT_MAKE_DLL -I/cygdrive/c/Coin3D-7/include -I/cygdrive/c/Coin3D-7/include/Inventor/annex -DCOIN_DLL -I/cygdrive/c/Qt/4.2.2/include -I/cygdrive/c/Qt/4.2.2/include/Qt -DNDEBUG -DSOQT_DEBUG=0 -DSOQT_INTERNAL -Ddspfile=/cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc7/soqt1.dsp
-CXX = /cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc7/cfg/gendsp.pl
+CPPFLAGS = -DSOQT_MAKE_DLL -I/cygdrive/c/Coin3D-9/include -I/cygdrive/c/Coin3D-9/include/Inventor/annex -D_CRT_NONSTDC_NO_DEPRECATE -D_CRT_SECURE_NO_WARNINGS -DCOIN_DLL -I/cygdrive/c/Qt/4.2.2/include -I/cygdrive/c/Qt/4.2.2/include/Qt -DNDEBUG -DSOQT_DEBUG=0 -DSOQT_INTERNAL -Ddspfile=/cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc9/soqt1.dsp
+CXX = /cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc9/cfg/gendsp.pl
 CXXCPP = /cygdrive/c/home/larsa/svn/clean/SoQt/cfg/wrapmsvc.exe -E
 CXXDEPMODE = depmode=none
 CXXFLAGS =  /MT 
@@ -104,7 +104,7 @@ INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = ${SHELL} $(install_sh) -c -s
-LDFLAGS = -L/cygdrive/c/Coin3D-7/lib -L/cygdrive/c/Qt/4.2.2/lib -Wl,-Ddspfile=/cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc7/soqt1.dsp
+LDFLAGS = -L/cygdrive/c/Coin3D-9/lib -L/cygdrive/c/Qt/4.2.2/lib -Wl,-Ddspfile=/cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc9/soqt1.dsp
 LIBFLAGS = -DLL /INCREMENTAL:NO   /RELEASE /OUT:soqt1.dll -o soqt1.so.0
 LIBOBJS = 
 LIBS = -lQtOpenGL4 -lQtGui4 -lQtCore4 -lcoin3 -lopengl32 -lgdi32 -lwinmm -luser32 
@@ -150,18 +150,18 @@ SOGUI_DOC_HTML = NO
 SOGUI_DOC_HTML_HELP = NO
 SOGUI_DOC_MAN = NO
 SOGUI_EXTRA_CFLAGS = -g /MT
-SOGUI_EXTRA_CPPFLAGS = -I${prefix}/include -I/cygdrive/c/Coin3D-7/include -I/cygdrive/c/Coin3D-7/include/Inventor/annex -DCOIN_DLL -I/cygdrive/c/Qt/4.2.2/include -I/cygdrive/c/Qt/4.2.2/include/Qt -DSOQT_DLL
+SOGUI_EXTRA_CPPFLAGS = -I${prefix}/include -I/cygdrive/c/Coin3D-9/include -I/cygdrive/c/Coin3D-9/include/Inventor/annex -D_CRT_NONSTDC_NO_DEPRECATE -D_CRT_SECURE_NO_WARNINGS -DCOIN_DLL -I/cygdrive/c/Qt/4.2.2/include -I/cygdrive/c/Qt/4.2.2/include/Qt -DSOQT_DLL
 SOGUI_EXTRA_CXXFLAGS = -g /MT
-SOGUI_EXTRA_LDFLAGS = -L${exec_prefix}/lib -L/cygdrive/c/Coin3D-7/lib -L/cygdrive/c/Qt/4.2.2/lib
+SOGUI_EXTRA_LDFLAGS = -L${exec_prefix}/lib -L/cygdrive/c/Coin3D-9/lib -L/cygdrive/c/Qt/4.2.2/lib
 SOGUI_EXTRA_LIBS = -lsoqt1 -lQtOpenGL4 -lQtGui4 -lQtCore4 -lcoin3 -lopengl32 -lgdi32 -lwinmm -luser32
 SOGUI_MAJOR_VERSION = 1
 SOGUI_MINOR_VERSION = 4
 SOGUI_MSVC_LIBC = multithread-static
 SOQT_BETA_VERSION = a
-SOQT_DSP_DEFS = /D "HAVE_CONFIG_H" /D "SOQT_MAKE_DLL" /D "COIN_DLL" /D "SOQT_INTERNAL"
-SOQT_DSP_INCS = /I "c:\home\larsa\svn\clean\SoQt\build\msvc7\src" /I "c:\home\larsa\svn\clean\SoQt\build\msvc7\data" /I "c:\home\larsa\svn\clean\SoQt\src" /I "c:\Coin3D-7\include" /I "c:\Coin3D-7\include\Inventor\annex" /I "c:\Qt\4.2.2\include" /I "c:\Qt\4.2.2\include\Qt"
-SOQT_DSP_LIBS = c:\Qt\4.2.2\lib\QtOpenGL4.lib c:\Qt\4.2.2\lib\QtGui4.lib c:\Qt\4.2.2\lib\QtCore4.lib c:\Coin3D-7\lib\coin3.lib opengl32.lib gdi32.lib winmm.lib user32.lib
-SOQT_LIB_DSP_DEFS =  /D "HAVE_CONFIG_H" /D "COIN_DLL" /D "SOQT_INTERNAL"
+SOQT_DSP_DEFS = /D "HAVE_CONFIG_H" /D "SOQT_MAKE_DLL" /D "_CRT_NONSTDC_NO_DEPRECATE" /D "_CRT_SECURE_NO_WARNINGS" /D "COIN_DLL" /D "SOQT_INTERNAL"
+SOQT_DSP_INCS = /I "c:\home\larsa\svn\clean\SoQt\build\msvc9\src" /I "c:\home\larsa\svn\clean\SoQt\build\msvc9\data" /I "c:\home\larsa\svn\clean\SoQt\src" /I "c:\Coin3D-9\include" /I "c:\Coin3D-9\include\Inventor\annex" /I "c:\Qt\4.2.2\include" /I "c:\Qt\4.2.2\include\Qt"
+SOQT_DSP_LIBS = c:\Qt\4.2.2\lib\QtOpenGL4.lib c:\Qt\4.2.2\lib\QtGui4.lib c:\Qt\4.2.2\lib\QtCore4.lib c:\Coin3D-9\lib\coin3.lib opengl32.lib gdi32.lib winmm.lib user32.lib
+SOQT_LIB_DSP_DEFS =  /D "HAVE_CONFIG_H" /D "_CRT_NONSTDC_NO_DEPRECATE" /D "_CRT_SECURE_NO_WARNINGS" /D "COIN_DLL" /D "SOQT_INTERNAL"
 SOQT_MAJOR_VERSION = 1
 SOQT_MICRO_VERSION = 2
 SOQT_MINOR_VERSION = 4
@@ -226,7 +226,7 @@ prefix = /usr/local
 program_transform_name = s,x,x,
 sbindir = ${exec_prefix}/sbin
 sharedstatedir = ${prefix}/com
-sim_ac_coin_configcmd = /cygdrive/c/Coin3D-7/bin/coin-config --alternate=default
+sim_ac_coin_configcmd = /cygdrive/c/Coin3D-9/bin/coin-config --alternate=default
 sim_ac_doxygen_exe = 
 sim_ac_hhc_exe = 
 sim_ac_packagemaker_app = false
@@ -234,15 +234,15 @@ sim_ac_perl_exe =
 sim_ac_qt_cygpath = /usr/bin/cygpath
 sim_ac_relative_src_dir = ../..
 sim_ac_relative_src_dir_p = true
-sogui_build_dir = /cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc7
-sogui_html_dir = /cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc7/html
-sogui_html_help_dir = /cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc7/htmlhelp
-sogui_man_dir = /cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc7/man
+sogui_build_dir = /cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc9
+sogui_html_dir = /cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc9/html
+sogui_html_help_dir = /cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc9/htmlhelp
+sogui_man_dir = /cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc9/man
 sogui_src_dir = /cygdrive/c/home/larsa/svn/clean/SoQt
 soguiincludedir = ${prefix}/include
-soqt_build_dir = /cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc7
+soqt_build_dir = /cygdrive/c/home/larsa/svn/clean/SoQt/build/msvc9
 soqt_src_dir = /cygdrive/c/home/larsa/svn/clean/SoQt
-soqt_w32_build_dir = c:\home\larsa\svn\clean\SoQt\build\msvc7
+soqt_w32_build_dir = c:\home\larsa\svn\clean\SoQt\build\msvc9
 soqt_w32_src_dir = c:\home\larsa\svn\clean\SoQt
 sysconfdir = ${prefix}/etc
 target = i686-pc-cygwin
