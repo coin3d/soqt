@@ -8,22 +8,41 @@ set libname=%4
 rem ************************************************************************
 rem * check script arguments
 
-if "%1"=="dll" goto argonegiven
-if "%1"=="lib" goto argonegiven
+if "%type%"=="dll" goto argonegiven
+if "%type%"=="lib" goto argonegiven
 goto argproblem
-
 :argonegiven
-if "%2"=="release" goto argtwogiven
-if "%2"=="debug" goto argtwogiven
-goto argproblem
 
+if "%mode%"=="release" goto argtwogiven
+if "%mode%"=="debug" goto argtwogiven
+goto argproblem
 :argtwogiven
+
+if "%msvc%"=="msvc6" goto argthreegiven
+if "%msvc%"=="msvc7" goto argthreegiven
+if "%msvc%"=="msvc8" goto argthreegiven
+if "%msvc%"=="msvc9" goto argthreegiven
+goto argproblem
+:argthreegiven
+
+if "%libname%"=="coin2" goto argfourgiven
+if "%libname%"=="coin3" goto argfourgiven
+if "%libname%"=="simage1" goto argfourgiven
+if "%libname%"=="smallchange1" goto argfourgiven
+if "%libname%"=="simvoleon1" goto argfourgiven
+if "%libname%"=="simvoleon2" goto argfourgiven
+if "%libname%"=="nutsnbolts0" goto argfourgiven
+if "%libname%"=="soqt1" goto argfourgiven
+if "%libname%"=="sowin1" goto argfourgiven
+rem goto argproblem
+:argfourgiven
+
 goto argtestdone
 
 :argproblem
-echo Error with script arguments %1 %2.
+echo Error with script arguments "%1" "%2" "%3" "%4".
 echo Usage:
-echo   install-sdk.bat dll/lib release/debug
+echo   install-sdk.bat {dll,lib} {release,debug} {msvc6,msvc7,msvc8,msvc9} libname
 exit
 
 :argtestdone
@@ -44,22 +63,78 @@ exit
 
 :coindirexists
 
+rem **********************************************************************
+rem * Check that build has been performed...
+
+if "%1"=="dll" goto checkdll
+goto checklib
+
+:checkdll
+
+if "%2"=="debug" goto checkdlldebug
+goto checkdllrelease
+
+:checkdlldebug
+if exist %libname%d.dll goto checkdone
+goto checkfailed
+
+:checkdllrelease
+if exist %libname%.dll goto checkdone
+goto checkfailed
+
+:checklib
+
+if "%2"=="debug" goto checklibdebug
+goto checklibrelease
+
+:checklibdebug
+if exist %libname%sd.lib goto checkdone
+goto checkfailed
+
+:checklibrelease
+if exist %libname%s.lib goto checkdone
+goto checkfailed
+
+:checkfailed
+echo ERROR: You do not seem to have compiled the %2-version of %libname% yet.
+exit
+
+:checkdone
+
+rem **********************************************************************
+
 echo Installing to %COINDIR%
 
 rem **********************************************************************
 rem * Create all the directories
 
+if exist ..\misc\create-directories.bat goto createdirsexists
+goto donecreatedirs
+:createdirsexists
+echo Creating necessary directories...
 call ..\misc\create-directories.bat
+:donecreatedirs
 
 rem **********************************************************************
 rem * Copy files
 
+if exist ..\misc\install-headers.bat goto installheadersexists
+goto doneinstallheaders
+:installheadersexists
 echo Installing header files...
 call ..\misc\install-headers.bat %msvc%
+:doneinstallheaders
 
-echo Installing binaries...
+if exist ..\misc\install-data.bat goto installdetaexists
+goto doneinstalldata
+:installdataexists
+echo Installing data files...
+call ..\misc\install-data.bat %msvc%
+:doneinstalldata
 
 rem **********************************************************************
+
+echo Installing binaries...
 
 if "%1"=="dll" goto installdll
 goto installlib
@@ -86,13 +161,11 @@ if "%2"=="debug" goto installlibdebug
 goto installlibrelease
 
 :installlibdebug
-xcopy StaticDebug\%libname%sd.lib %COINDIR%\lib\ /R /Y
+xcopy %libname%sd.lib %COINDIR%\lib\ /R /Y
 goto binariesdone
 
 :installlibrelease
-xcopy StaticRelease\%libname%s.lib %COINDIR%\lib\ /R /Y
+xcopy %libname%s.lib %COINDIR%\lib\ /R /Y
 goto binariesdone
 
 :binariesdone
-
-rem ** EOF ***************************************************************
