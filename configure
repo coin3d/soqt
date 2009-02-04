@@ -1081,7 +1081,7 @@ Optional Features:
   --enable-debug          compile in debug mode [default=yes]
   --enable-symbols        include symbol debug information [default=yes]
   --enable-rtti           (g++ only) compile with RTTI [default=yes]
-  --enable-exceptions     (g++ only) compile with exceptions [default=no]
+  --enable-exceptions     (g++ only) compile with exceptions [default=yes]
   --enable-profile        (GCC only) turn on inclusion of profiling code
                           [default=no]
   --enable-warnings       turn on warnings when compiling [default=yes]
@@ -27623,6 +27623,74 @@ LIBS=$sim_ac_iv_extension_save_LIBS
 
 
 
+echo "$as_me:$LINENO: checking for SbImage::addReadImageCB" >&5
+echo $ECHO_N "checking for SbImage::addReadImageCB... $ECHO_C" >&6
+if test "${sim_cv_have_oiv_have_sbimage_addreadimagecb+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+#include <Inventor/SbImage.h>
+int
+main ()
+{
+SbImage::addReadImageCB(NULL, NULL);
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; } &&
+	 { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  sim_cv_have_oiv_have_sbimage_addreadimagecb=true
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+sim_cv_have_oiv_have_sbimage_addreadimagecb=false
+fi
+rm -f conftest.err conftest.$ac_objext \
+      conftest$ac_exeext conftest.$ac_ext
+fi
+echo "$as_me:$LINENO: result: $sim_cv_have_oiv_have_sbimage_addreadimagecb" >&5
+echo "${ECHO_T}$sim_cv_have_oiv_have_sbimage_addreadimagecb" >&6
+
+if $sim_cv_have_oiv_have_sbimage_addreadimagecb; then
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_SBIMAGE_ADDREADIMAGECB 1
+_ACEOF
+
+
+else
+  :
+fi
+
+
+
 sim_ac_enable_pkgconfig=true
 # Check whether --enable-pkgconfig or --disable-pkgconfig was given.
 if test "${enable_pkgconfig+set}" = set; then
@@ -30237,7 +30305,7 @@ echo "$as_me: error: bad value \"${enableval}\" for --enable-exceptions" >&2;}
    { (exit 1); exit 1; }; } ;;
   esac
 else
-  enable_exceptions=no
+  enable_exceptions=yes
 fi;
 
 if test x"$enable_exceptions" = x"no"; then

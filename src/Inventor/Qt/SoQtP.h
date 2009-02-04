@@ -42,6 +42,7 @@ typedef int SoQtP_XErrorHandler(void *, void *);
 // This class contains private data and methods used within the SoQt
 // class.
 class SoQtSignalThread;
+class SoQtImageReader;
 
 class SoQtP : public QObject, public SoGuiP
 {
@@ -49,7 +50,8 @@ class SoQtP : public QObject, public SoGuiP
 
 public:
   static SoQtP * soqt_instance(void);
-
+  
+  static SoQtImageReader * imagereader;
   static int DEBUG_X11SYNC;
   static const char * SOQT_XSYNC;
   static int X11_ERRORHANDLER;

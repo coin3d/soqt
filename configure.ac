@@ -552,6 +552,10 @@ SIM_AC_INVENTOR_EXTENSIONS([
   SOGUI_EXTRA_LIBS="$sim_ac_iv_extension_LIBS $SOGUI_EXTRA_LIBS"
 ])
 
+SIM_AC_HAVE_INVENTOR_FEATURE(
+  [for SbImage::addReadImageCB],
+  [#include <Inventor/SbImage.h>], [SbImage::addReadImageCB(NULL, NULL);],
+  [HAVE_SBIMAGE_ADDREADIMAGECB])
 
 sim_ac_enable_pkgconfig=true
 AC_ARG_ENABLE(

@@ -52,6 +52,9 @@
 #undef HAVE_PTHREAD_TIMESPEC_NSEC
 
 /* Define to enable use of Inventor feature */
+#undef HAVE_SBIMAGE_ADDREADIMAGECB
+
+/* Define to enable use of Inventor feature */
 #undef HAVE_SOCAMERA_SETSTEREOMODE
 
 /* Define to enable use of Inventor feature */

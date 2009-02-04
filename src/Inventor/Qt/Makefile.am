@@ -67,7 +67,9 @@ RegularSources = \
 	SoQtComponent.cpp \
 	SoQtComponentP.h \
 	SoQtGLWidget.cpp \
-	SoQtGLWidgetP.h
+	SoQtGLWidgetP.h \
+        SoQtImageReader.cpp \
+        SoQtImageReader.h
 
 BuiltSources = \
 	$(SoGui_src_Inventor_Gui_BuiltFiles)

@@ -272,12 +272,11 @@
 #include <Inventor/Qt/devices/spwinput_win32.h>
 #endif // HAVE_WIN32_API
 
-
 #include <Inventor/Qt/SoQtComponent.h>
 #include <Inventor/Qt/SoQtSignalThread.h>
 #include <Inventor/Qt/SoAny.h>
 #include <Inventor/Qt/SoQtInternal.h>
-
+#include <Inventor/Qt/SoQtImageReader.h>
 #include <soqtdefs.h>
 
 // *************************************************************************
@@ -294,6 +293,7 @@ QTimer * SoQtP::timerqueuetimer = NULL;
 QTimer * SoQtP::delaytimeouttimer = NULL;
 SoQtP * SoQtP::slotobj = NULL;
 bool SoQtP::didcreatemainwidget = FALSE;
+SoQtImageReader * SoQtP::imagereader = NULL;
 
 // *************************************************************************
 
@@ -360,6 +360,12 @@ SoQtP::soqt_instance(void)
     SoQtP::signalthread->start();
 #endif // __COIN__
   }
+  
+#if HAVE_SBIMAGE_ADDREADIMAGECB
+  if (!SoQtP::imagereader) {
+    SoQtP::imagereader = new SoQtImageReader();
+  }
+#endif // HAVE_SBIMAGE_ADDREADIMAGECB
   return SoQtP::slotobj;
 }
 
@@ -927,6 +933,8 @@ SoQt::done(void)
   delete SoQtP::signalthread;
   SoQtP::signalthread = NULL;
 #endif //__COIN__ && SOQT_SIGNAL_THREAD_ACTIVE
+  delete SoQtP::imagereader;
+  SoQtP::imagereader = NULL;
 
   // To avoid getting any further invokations of
   // SoGuiP::sensorQueueChanged() (which would re-allocate the timers

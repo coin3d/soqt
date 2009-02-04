@@ -666,7 +666,9 @@ RegularSources = \
 	SoQtComponent.cpp \
 	SoQtComponentP.h \
 	SoQtGLWidget.cpp \
-	SoQtGLWidgetP.h
+	SoQtGLWidgetP.h \
+        SoQtImageReader.cpp \
+        SoQtImageReader.h
 
 
 BuiltSources = \
@@ -761,10 +763,12 @@ soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_DEPENDENCIES = devices/devices.lst \
 am__soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_SOURCES_DIST = SoQt.cpp SoQtP.h \
 	SoQtSignalThread.h SoQtSignalThread.cpp SoQtInternal.h \
 	SoQtComponent.cpp SoQtComponentP.h SoQtGLWidget.cpp \
-	SoQtGLWidgetP.h all-soqt-cpp.cpp all-soqt2-cpp.cpp
+	SoQtGLWidgetP.h SoQtImageReader.cpp SoQtImageReader.h \
+	all-soqt-cpp.cpp all-soqt2-cpp.cpp
 am__objects_1 = all-soqt-cpp.$(OBJEXT) all-soqt2-cpp.$(OBJEXT)
 am__objects_2 = SoQt.$(OBJEXT) SoQtSignalThread.$(OBJEXT) \
-	SoQtComponent.$(OBJEXT) SoQtGLWidget.$(OBJEXT)
+	SoQtComponent.$(OBJEXT) SoQtGLWidget.$(OBJEXT) \
+	SoQtImageReader.$(OBJEXT)
 @HACKING_COMPACT_BUILD_TRUE@am__objects_3 = $(am__objects_1)
 @HACKING_COMPACT_BUILD_FALSE@am__objects_3 = $(am__objects_2)
 am_soqt@SOQT_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS = $(am__objects_3)
@@ -790,10 +794,11 @@ libSoQt@SUFFIX@_la_DEPENDENCIES = devices/libSoQtDevices.la \
 am__libSoQt@SUFFIX@_la_SOURCES_DIST = SoQt.cpp SoQtP.h \
 	SoQtSignalThread.h SoQtSignalThread.cpp SoQtInternal.h \
 	SoQtComponent.cpp SoQtComponentP.h SoQtGLWidget.cpp \
-	SoQtGLWidgetP.h all-soqt-cpp.cpp all-soqt2-cpp.cpp
+	SoQtGLWidgetP.h SoQtImageReader.cpp SoQtImageReader.h \
+	all-soqt-cpp.cpp all-soqt2-cpp.cpp
 am__objects_8 = all-soqt-cpp.lo all-soqt2-cpp.lo
 am__objects_9 = SoQt.lo SoQtSignalThread.lo SoQtComponent.lo \
-	SoQtGLWidget.lo
+	SoQtGLWidget.lo SoQtImageReader.lo
 @HACKING_COMPACT_BUILD_TRUE@am__objects_10 = $(am__objects_8)
 @HACKING_COMPACT_BUILD_FALSE@am__objects_10 = $(am__objects_9)
 am_libSoQt@SUFFIX@_la_OBJECTS = $(am__objects_10)
@@ -826,6 +831,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/SoQtComponent.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/SoQtGLWidget.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SoQtGLWidget.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/SoQtImageReader.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/SoQtImageReader.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/SoQtSignalThread.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SoQtSignalThread.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/all-soqt-cpp.Plo \
@@ -959,6 +966,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQtComponent.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQtGLWidget.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQtGLWidget.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQtImageReader.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQtImageReader.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQtSignalThread.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQtSignalThread.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/all-soqt-cpp.Plo@am__quote@
