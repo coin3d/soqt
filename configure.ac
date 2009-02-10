@@ -797,7 +797,10 @@ sim_ac_framework_name="MAC_FRAMEWORK_NAME_DEFAULT"
 
 AC_ARG_WITH([framework-prefix],
   [  --with-framework-prefix=<path>  (default: "MAC_FRAMEWORK_PREFIX_DEFAULT")],
-  [sim_ac_framework_prefix="$withval"],
+  [sim_ac_framework_prefix="$withval"
+  if test x"$sim_ac_framework_prefix" = x""; then
+    sim_ac_framework_prefix=\${prefix}
+  fi],
   [sim_ac_framework_prefix="MAC_FRAMEWORK_PREFIX_DEFAULT"])
 
 # don't allow version to be overrided
