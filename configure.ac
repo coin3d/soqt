@@ -994,9 +994,16 @@ else # !BUILD_WITH_MSVC
   if $sim_ac_framework; then
     # setup for SoQt usage
     SOGUI_EXTRA_CPPFLAGS=
+    if test x"$sim_ac_framework_prefix" != x"MAC_FRAMEWORK_PREFIX_DEFAULT"; then
+      SOGUI_EXTRA_CPPFLAGS="-F$sim_ac_framework_prefix"
+    fi
     SOGUI_EXTRA_CFLAGS=
     SOGUI_EXTRA_CXXFLAGS=
-    SOGUI_EXTRA_LDFLAGS="-Wl,-multiply_defined,suppress -Wl,-framework,SoQt"
+    SOGUI_EXTRA_FP_LDFLAGS=
+    if test x"$sim_ac_framework_prefix" != x"MAC_FRAMEWORK_PREFIX_DEFAULT"; then
+      SOGUI_EXTRA_FP_LDFLAGS="-Wl,-F$sim_ac_framework_prefix"
+    fi
+    SOGUI_EXTRA_LDFLAGS="-Wl,-multiply_defined,suppress $SOGUI_EXTRA_FP_LDFLAGS -Wl,-framework,SoQt"
     SOGUI_EXTRA_LIBS=
     # adjust for Qt usage
     SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $sim_ac_qt_cppflags"
