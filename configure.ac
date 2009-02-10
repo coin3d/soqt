@@ -834,7 +834,8 @@ if $sim_ac_framework && $sim_ac_coin_desired && $sim_ac_coin_avail; then
       ivincludedir=$ivframeworkdir/Headers
       # Inventor.framework and SoQt.framework must be in the same location
       ivframeworkprefix=`dirname "${ivframeworkdir}"`
-      if test x"${ivframeworkprefix}" != x"${sim_ac_framework_prefix}"; then
+      if test x"${sim_ac_framework_prefix}" != x"\${prefix}" && \
+         test x"${ivframeworkprefix}" != x"${sim_ac_framework_prefix}"; then
         SIM_AC_CONFIGURATION_WARNING([SoQt.framework must be installed in the same location as Inventor.framework. Changed SoQt framework directory to ${ivframeworkprefix}.])
         sim_ac_framework_prefix=${ivframeworkprefix}
       fi
