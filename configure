@@ -33083,6 +33083,9 @@ sim_ac_framework_name="SoQt"
 if test "${with_framework_prefix+set}" = set; then
   withval="$with_framework_prefix"
   sim_ac_framework_prefix="$withval"
+  if test x"$sim_ac_framework_prefix" = x""; then
+    sim_ac_framework_prefix=\${prefix}
+  fi
 else
   sim_ac_framework_prefix="/Library/Frameworks"
 fi;
