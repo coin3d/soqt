@@ -139,7 +139,7 @@ inline void SoQtSwap(Type & a, Type & b) {
 #endif /* !SOQT_DLL_API */
 
 #ifndef GUI_TOOLKIT_VERSION
-#define GUI_TOOLKIT_VERSION "422"
+#define GUI_TOOLKIT_VERSION "443"
 #endif /* GUI_TOOLKIT_VERSION */
 
 #endif // ! SOQT_BASIC_H

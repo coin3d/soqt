@@ -11,7 +11,7 @@
 #define COIN_IV_EXTENSIONS 
 
 /* Version string for Qt */
-#define GUI_TOOLKIT_VERSION "422"
+#define GUI_TOOLKIT_VERSION "443"
 
 /* The CPP compiler has a variable containing the current function name */
 #define HAVE_CPP_COMPILER_FUNCTION_NAME_VAR __FUNCTION__
@@ -51,6 +51,9 @@
 
 /* define if pthread's struct timespec uses nsecs and not usecs */
 /* #undef HAVE_PTHREAD_TIMESPEC_NSEC */
+
+/* Define to enable use of Inventor feature */
+#define HAVE_SBIMAGE_ADDREADIMAGECB 1
 
 /* Define to enable use of Inventor feature */
 #define HAVE_SOCAMERA_SETSTEREOMODE 1
