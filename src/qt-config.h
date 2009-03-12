@@ -92,6 +92,10 @@
 #if (QT_VERSION >= 0x040000)
 /* Simple timers was removed from Qt 4. */
 #undef HAVE_QT_WIN_USE_SIMPLE_TIMERS
+
+/* QGLFormat::setSampleBuffers() was introduced in Qt 4.0 */
+#define HAVE_QGLFORMAT_SETSAMPLEBUFFERS 1
+
 #endif /* Qt 4.* */
 
 /* ********************************************************************** */

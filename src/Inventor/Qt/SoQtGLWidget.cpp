@@ -375,6 +375,34 @@ SoQtGLWidget::getAccumulationBuffer(void) const
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
 void 
+SoQtGLWidget::setSampleBuffers(const int numsamples)
+{
+#if HAVE_QGLFORMAT_SETSAMPLEBUFFERS
+  if (numsamples > 1) {
+    PRIVATE(this)->glformat->setSampleBuffers(true);
+    PRIVATE(this)->glformat->setSamples(numsamples);
+  }
+  else {
+    PRIVATE(this)->glformat->setSampleBuffers(false);
+  }
+  if (PRIVATE(this)->currentglwidget) PRIVATE(this)->buildGLWidget();
+#endif // HAVE_QGLFORMAT_SETSAMPLEBUFFERS
+}
+
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
+int 
+SoQtGLWidget::getSampleBuffers() const
+{
+#if HAVE_QGLFORMAT_SETSAMPLEBUFFERS
+  if (PRIVATE(this)->glformat->sampleBuffers()) {
+    return PRIVATE(this)->glformat->samples();
+  }
+#endif // HAVE_QGLFORMAT_SETSAMPLEBUFFERS
+  return 1;
+}
+
+// Documented in common/SoGuiGLWidgetCommon.cpp.in.
+void 
 SoQtGLWidget::setStencilBuffer(const SbBool enable)
 {
   if ((enable && PRIVATE(this)->glformat->stencil()) ||
@@ -755,7 +783,7 @@ SoQtGLWidgetP::gl_exposed(void)
 
   if (PUBLIC(this)->waitForExpose) {
     PUBLIC(this)->waitForExpose = FALSE; // Gets flipped from TRUE on first expose.
-#if 0 // tmp disabled
+#if 1 // tmp disabled
     // The Qt library uses QApplication::sendPostedEvents() for
     // passing out various delayed events upon show(), among them a
     // bunch of bl**dy resize events which will overload any size

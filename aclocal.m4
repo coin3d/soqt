@@ -10945,6 +10945,7 @@ if $sim_ac_with_qt; then
   fi
 
   SIM_AC_HAVE_QT_FRAMEWORK
+  # sim_ac_have_qt_framework=false
 
   if $sim_ac_have_qt_framework; then
     sim_ac_qt_cppflags="-I$sim_ac_qt_framework_dir/QtCore.framework/Headers -I$sim_ac_qt_framework_dir/QtOpenGL.framework/Headers -I$sim_ac_qt_framework_dir/QtGui.framework/Headers -F$sim_ac_qt_framework_dir"
