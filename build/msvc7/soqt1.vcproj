@@ -200,7 +200,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(QTDIR)\lib\QtOpenGL4.lib $(QTDIR)\lib\QtGui4.lib $(QTDIR)\lib\QtCore4.lib $(COINDIR)\lib\coin3.lib opengl32.lib winmm.lib"
+				AdditionalDependencies="$(QTDIR)\lib\QtOpenGLd4.lib $(QTDIR)\lib\QtGuid4.lib $(QTDIR)\lib\QtCored4.lib $(COINDIR)\lib\coin3d.lib opengl32.lib winmm.lib"
 				OutputFile="soqt1d.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
@@ -7001,106 +7001,6 @@
 			</Filter>
 		</Filter>
 		<Filter
-			Name="Public Headers"
-			Filter="h;ic;icc">
-			<Filter
-				Name="Inventor\Qt\devices headers"
-				Filter="">
-				<File
-					RelativePath="src\Inventor\Qt\devices\SoQtDevice.h">
-				</File>
-				<File
-					RelativePath="src\Inventor\Qt\devices\SoQtKeyboard.h">
-				</File>
-				<File
-					RelativePath="src\Inventor\Qt\devices\SoQtMouse.h">
-				</File>
-				<File
-					RelativePath="src\Inventor\Qt\devices\SoQtSpaceball.h">
-				</File>
-			</Filter>
-			<Filter
-				Name="Inventor\Qt\editors headers"
-				Filter="">
-				<File
-					RelativePath="src\Inventor\Qt\editors\SoQtColorEditor.h">
-				</File>
-				<File
-					RelativePath="src\Inventor\Qt\editors\SoQtMaterialEditor.h">
-				</File>
-			</Filter>
-			<Filter
-				Name="Inventor\Qt\nodes headers"
-				Filter="">
-				<File
-					RelativePath="src\Inventor\Qt\nodes\SoGuiColorEditor.h">
-				</File>
-				<File
-					RelativePath="src\Inventor\Qt\nodes\SoGuiMaterialEditor.h">
-				</File>
-			</Filter>
-			<Filter
-				Name="Inventor\Qt\viewers headers"
-				Filter="">
-				<File
-					RelativePath="src\Inventor\Qt\viewers\SoQtConstrainedViewer.h">
-				</File>
-				<File
-					RelativePath="src\Inventor\Qt\viewers\SoQtExaminerViewer.h">
-				</File>
-				<File
-					RelativePath="src\Inventor\Qt\viewers\SoQtFlyViewer.h">
-				</File>
-				<File
-					RelativePath="src\Inventor\Qt\viewers\SoQtFullViewer.h">
-				</File>
-				<File
-					RelativePath="src\Inventor\Qt\viewers\SoQtPlaneViewer.h">
-				</File>
-				<File
-					RelativePath="src\Inventor\Qt\viewers\SoQtViewer.h">
-				</File>
-			</Filter>
-			<Filter
-				Name="Inventor\Qt\widgets headers"
-				Filter="">
-				<File
-					RelativePath="src\Inventor\Qt\widgets\SoQtPopupMenu.h">
-				</File>
-				<File
-					RelativePath="..\..\src\Inventor\Qt\widgets\SoQtThumbWheel.h">
-				</File>
-			</Filter>
-			<Filter
-				Name="Inventor\Qt headers"
-				Filter="">
-				<File
-					RelativePath="src\Inventor\Qt\SoQt.h">
-				</File>
-				<File
-					RelativePath="src\Inventor\Qt\SoQtBasic.h">
-				</File>
-				<File
-					RelativePath="src\Inventor\Qt\SoQtColorEditor.h">
-				</File>
-				<File
-					RelativePath="src\Inventor\Qt\SoQtComponent.h">
-				</File>
-				<File
-					RelativePath="src\Inventor\Qt\SoQtCursor.h">
-				</File>
-				<File
-					RelativePath="src\Inventor\Qt\SoQtGLWidget.h">
-				</File>
-				<File
-					RelativePath="src\Inventor\Qt\SoQtObject.h">
-				</File>
-				<File
-					RelativePath="src\Inventor\Qt\SoQtRenderArea.h">
-				</File>
-			</Filter>
-		</Filter>
-		<Filter
 			Name="Private Headers"
 			Filter="h;ic;icc">
 			<Filter
@@ -8589,6 +8489,10 @@
 					</FileConfiguration>
 				</File>
 			</Filter>
+		</Filter>
+		<Filter
+			Name="Public Headers"
+			Filter="h;ic;icc">
 		</Filter>
 	</Files>
 	<Globals>

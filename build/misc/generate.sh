@@ -4,6 +4,16 @@
 #
 # 20041214 larsa
 
+if test x"$COINDIR" = x""; then
+  echo >&2 "error: you must have the environment variable COINDIR set."
+  exit 1
+fi
+
+if test x"$QTDIR" = x""; then
+  echo >&2 "error: you must have the environment variable QTDIR set."
+  exit 1
+fi
+
 project=soqt1
 
 function cleansolution() {
