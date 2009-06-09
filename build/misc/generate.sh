@@ -103,4 +103,3 @@ find . -name "moc_*" | xargs rm
 
 # How can I avoid the modal upgrade prompt-dialog for MSVC7.1 here???
 # devenv /command "File.OpenProject $build\\${project}.dsp"
-

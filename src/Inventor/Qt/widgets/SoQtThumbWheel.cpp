@@ -1,7 +1,7 @@
 /**************************************************************************\
  *
  *  This file is part of the Coin 3D visualization library.
- *  Copyright (C) 1998-2005 by Systems in Motion.  All rights reserved.
+ *  Copyright (C) 1998-2009 by Systems in Motion.  All rights reserved.
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -146,10 +146,10 @@ SoQtThumbWheel::paintEvent(QPaintEvent * event)
     wheelrect.setLeft(  wheelrect.left() + 2);
     wheelrect.setRight( wheelrect.right() - 2);
   }
-  
+
   qDrawPlainRect(&p, wheelrect.left(), wheelrect.top(), wheelrect.width(),
                  wheelrect.height(), QColor(0, 0, 0), 1);
-  
+
   wheelrect.setTop(   wheelrect.top() + 1);
   wheelrect.setBottom(wheelrect.bottom() - 1);
   wheelrect.setLeft(  wheelrect.left() + 1);
@@ -230,7 +230,7 @@ SoQtThumbWheel::mouseMoveEvent(QMouseEvent * event)
     this->mouseLastPos = event->pos().y() - SHADEBORDERWIDTH - 6;
   else
     this->mouseLastPos = event->pos().x() - SHADEBORDERWIDTH - 6;
- 
+
 
   this->tempWheelValue = this->wheel->calculateValue(this->wheelValue,
       this->mouseDownPos, this->mouseLastPos - this->mouseDownPos);

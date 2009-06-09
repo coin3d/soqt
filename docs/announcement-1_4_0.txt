@@ -20,8 +20,8 @@ New in SoQt v1.4.0 (2006-08-29):
 Download Information:
 ---------------------
 
-Source Code by FTP: 
-  ftp://ftp.coin3d.org/pub/coin/src/all/SoQt-1.3.0.tar.gz 
+Source Code by FTP:
+  ftp://ftp.coin3d.org/pub/coin/src/all/SoQt-1.3.0.tar.gz
 
 We do not provide pre-compiled binary packages of the SoQt library
 for any platform. The reason behind this is that the Qt library on

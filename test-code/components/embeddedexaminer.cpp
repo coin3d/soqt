@@ -1,7 +1,7 @@
 /**************************************************************************\
  *
  *  This file is part of the Coin 3D visualization library.
- *  Copyright (C) 1998-2005 by Systems in Motion.  All rights reserved.
+ *  Copyright (C) 1998-2009 by Systems in Motion.  All rights reserved.
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -54,7 +54,7 @@ public:
 
       SoCone * cone = new SoCone;
       root->addChild(cone);
-  
+
       // Add the examinerviewer.
 
       SoQtExaminerViewer * examinerviewer = new SoQtExaminerViewer(glw);

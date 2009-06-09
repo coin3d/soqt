@@ -17,4 +17,3 @@ grep -v "^\"" $file.new \
         -e 's/\.cpp$/.cpp"/' \
   | sed -e 's/$/\r/g' >$file
 rm $file.new
-

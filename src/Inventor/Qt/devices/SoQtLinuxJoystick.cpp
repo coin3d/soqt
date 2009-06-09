@@ -1,7 +1,7 @@
 /**************************************************************************\
  *
  *  This file is part of the Coin 3D visualization library.
- *  Copyright (C) 1998-2005 by Systems in Motion.  All rights reserved.
+ *  Copyright (C) 1998-2009 by Systems in Motion.  All rights reserved.
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -191,7 +191,7 @@ SoQtLinuxJoystick::enable(QWidget * widget,
     this->axisvalues = new int32_t [this->numaxes];
     for (i = 0; i < this->numaxes; i++)
       this->axisvalues[i] = 0;
-    
+
     this->buttonvalues = new int32_t [this->numbuttons];
     for (i = 0; i < this->numbuttons; i++)
       this->buttonvalues[i] = FALSE;
@@ -497,7 +497,7 @@ SoQtLinuxJoystickP::device_event(int device)
         SbBool negative = FALSE;
         if (value < 0) negative = TRUE;
         value = (value * value) / 0x8000;
-        if (negative) value = 0 - value; 
+        if (negative) value = 0 - value;
         assert(value >= -32768 && value <= 32767);
         this->axisvalues[event.number] = value;
       } else {
@@ -518,7 +518,7 @@ SoQtLinuxJoystickP::device_event(int device)
       SbBool negative = FALSE;
       if (value < 0) negative = TRUE;
       value = (value * value) / 0x8000;
-      if (negative) value = 0 - value; 
+      if (negative) value = 0 - value;
       assert(value >= -32768 && value <= 32767);
       this->axisvalues[event.number] = value;
       motion = TRUE;

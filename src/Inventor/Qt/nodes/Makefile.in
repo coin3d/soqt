@@ -309,10 +309,7 @@ SoGui_src_Inventor_Gui_devices_BuiltFiles = \
   $(top_builddir)/src/Inventor/@Gui@/devices/SoGuiKeyboardP.h \
   $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@MouseCommon.cpp \
   $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Mouse.h \
-  $(top_builddir)/src/Inventor/@Gui@/devices/SoGuiMouseP.h \
-  $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpaceballCommon.cpp \
-  $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Spaceball.h \
-  $(top_builddir)/src/Inventor/@Gui@/devices/SoGuiSpaceballP.h
+  $(top_builddir)/src/Inventor/@Gui@/devices/SoGuiMouseP.h
 
 
 SoGui_src_Inventor_Gui_editors_BuiltFiles = \
@@ -525,9 +522,6 @@ SoGuiCommonDistFiles = \
   src/Inventor/@Gui@/common/devices/SoGuiMouse.cpp.in \
   src/Inventor/@Gui@/common/devices/SoGuiMouse.h.in \
   src/Inventor/@Gui@/common/devices/SoGuiMouseP.h.in \
-  src/Inventor/@Gui@/common/devices/SoGuiSpaceball.cpp.in \
-  src/Inventor/@Gui@/common/devices/SoGuiSpaceball.h.in \
-  src/Inventor/@Gui@/common/devices/SoGuiSpaceballP.h.in \
   src/Inventor/@Gui@/common/docs/doxygen/header.html \
   src/Inventor/@Gui@/common/docs/doxygen/footer.html \
   src/Inventor/@Gui@/common/docs/doxygen/stylesheet.css \
@@ -1793,15 +1787,6 @@ $(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Mouse.h: $(top_srcdir)/src/Inv
 
 $(top_builddir)/src/Inventor/@Gui@/devices/SoGuiMouseP.h: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiMouseP.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/SoGuiMouseP.h:src/Inventor/@Gui@/common/devices/SoGuiMouseP.h.in )
-
-$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@SpaceballCommon.cpp: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiSpaceball.cpp.in $(top_builddir)/config.status
-	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/So@Gui@SpaceballCommon.cpp:src/Inventor/@Gui@/common/devices/SoGuiSpaceball.cpp.in )
-
-$(top_builddir)/src/Inventor/@Gui@/devices/So@Gui@Spaceball.h: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiSpaceball.h.in $(top_builddir)/config.status
-	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/So@Gui@Spaceball.h:src/Inventor/@Gui@/common/devices/SoGuiSpaceball.h.in )
-
-$(top_builddir)/src/Inventor/@Gui@/devices/SoGuiSpaceballP.h: $(top_srcdir)/src/Inventor/@Gui@/common/devices/SoGuiSpaceballP.h.in $(top_builddir)/config.status
-	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/SoGuiSpaceballP.h:src/Inventor/@Gui@/common/devices/SoGuiSpaceballP.h.in )
 
 $(top_builddir)/src/Inventor/@Gui@/devices/spwinput.h: $(top_srcdir)/src/Inventor/@Gui@/common/spwinput.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/@Gui@/devices/spwinput.h:src/Inventor/@Gui@/common/spwinput.h.in )

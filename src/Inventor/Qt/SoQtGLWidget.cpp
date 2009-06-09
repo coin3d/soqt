@@ -1,7 +1,7 @@
 /**************************************************************************\
  *
  *  This file is part of the Coin 3D visualization library.
- *  Copyright (C) 1998-2005 by Systems in Motion.  All rights reserved.
+ *  Copyright (C) 1998-2009 by Systems in Motion.  All rights reserved.
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -67,6 +67,7 @@
 #include <qevent.h>
 #include <qframe.h>
 #include <qmetaobject.h>
+#include <QColormap>
 
 #ifdef Q_WS_X11
 #if QT_VERSION >= 0x040000 // Qt 4.0.0+
@@ -92,7 +93,7 @@
 #define PRIVATE(obj) ((obj)->pimpl)
 #define PUBLIC(obj) ((obj)->pub)
 
-// FIXME: Consider moving the check below to a separate file, e.g. 
+// FIXME: Consider moving the check below to a separate file, e.g.
 //        SoQt/lib/qtconfig.h. 20080421 thammer.
 #if QT_VERSION >= 0x040000
   // Note: QGLFormat::sampleBuffers isn't defined in Qt versions < 4.
@@ -218,7 +219,7 @@ SoQtGLWidget::~SoQtGLWidget()
   if (PRIVATE(this)->currentglwidget) {
     SoAny::si()->unregisterGLContext((void *)this);
   }
-  
+
   delete PRIVATE(this)->glformat;
   delete PRIVATE(this);
 }
@@ -347,11 +348,11 @@ SoQtGLWidget::isQuadBufferStereo(void) const
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
-void 
+void
 SoQtGLWidget::setAccumulationBuffer(const SbBool enable)
 {
-// FIXME: Qt/Mac falsely reports that an accumulation buffer 
-// is available if it has been requested in the QGLFormat, 
+// FIXME: Qt/Mac falsely reports that an accumulation buffer
+// is available if it has been requested in the QGLFormat,
 // regardless of whether it actually IS available. This should
 // be investigated further and reported to TT. 20070319 kyrah
 #ifndef Q_WS_MAC
@@ -367,14 +368,14 @@ SoQtGLWidget::setAccumulationBuffer(const SbBool enable)
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
-SbBool 
+SbBool
 SoQtGLWidget::getAccumulationBuffer(void) const
 {
   return (SbBool) (PRIVATE(this)->glformat->accum());
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
-void 
+void
 SoQtGLWidget::setSampleBuffers(const int numsamples)
 {
 #if HAVE_QGLFORMAT_SETSAMPLEBUFFERS
@@ -390,7 +391,7 @@ SoQtGLWidget::setSampleBuffers(const int numsamples)
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
-int 
+int
 SoQtGLWidget::getSampleBuffers() const
 {
 #if HAVE_QGLFORMAT_SETSAMPLEBUFFERS
@@ -402,7 +403,7 @@ SoQtGLWidget::getSampleBuffers() const
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
-void 
+void
 SoQtGLWidget::setStencilBuffer(const SbBool enable)
 {
   if ((enable && PRIVATE(this)->glformat->stencil()) ||
@@ -416,14 +417,14 @@ SoQtGLWidget::setStencilBuffer(const SbBool enable)
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
-SbBool 
+SbBool
 SoQtGLWidget::getStencilBuffer(void) const
 {
   return (SbBool) (PRIVATE(this)->glformat->stencil());
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
-void 
+void
 SoQtGLWidget::setAlphaChannel(const SbBool enable)
 {
   if ((enable && PRIVATE(this)->glformat->alpha()) ||
@@ -437,7 +438,7 @@ SoQtGLWidget::setAlphaChannel(const SbBool enable)
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
-SbBool 
+SbBool
 SoQtGLWidget::getAlphaChannel(void) const
 {
   return (SbBool) (PRIVATE(this)->glformat->alpha());
@@ -506,19 +507,19 @@ SoQtGLWidget::setGLSize(const SbVec2s size)
   }
 
 // Due to an internal hack in Qt/Mac 3.1.x, sometimes the OpenGL context
-// is destroyed and re-created (see QGLWidget::macInternalRecreateContext()). 
+// is destroyed and re-created (see QGLWidget::macInternalRecreateContext()).
 // In this case, we must register a new context as well in order to get
 // a new SoGLRenderAction cache context id.
-#if (defined Q_WS_MAC && QT_VERSION >= 0x030100) 
+#if (defined Q_WS_MAC && QT_VERSION >= 0x030100)
   QGLWidget * w = (QGLWidget*) this->getGLWidget();
-  if (w && PRIVATE(this)->oldcontext != w->context()) { 
-    if (SOQT_DEBUG && 0) { 
-      SoDebugError::postInfo("SoQtGLWidget::setGLSize", 
+  if (w && PRIVATE(this)->oldcontext != w->context()) {
+    if (SOQT_DEBUG && 0) {
+      SoDebugError::postInfo("SoQtGLWidget::setGLSize",
                              "OpenGL context recreated by Qt, "
                              "registering new context.");
     }
     SoAny::si()->unregisterGLContext((void *)this);
-    SoAny::si()->registerGLContext((void *)this, 0, 0);  
+    SoAny::si()->registerGLContext((void *)this, 0, 0);
   }
   if (w) PRIVATE(this)->oldcontext = w->context();
 #endif
@@ -594,7 +595,7 @@ SoQtGLWidget::glSwapBuffers(void)
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
-void 
+void
 SoQtGLWidget::glFlushBuffer(void)
 {
   // might be called for both normal and overlay widgets
@@ -649,39 +650,46 @@ SoQtGLWidget::glLockOverlay(void)
 void
 SoQtGLWidget::glUnlockOverlay(void)
 {
-  // does nothing under Qt. Under BeOS the buffer needs to be unlocked  
+  // does nothing under Qt. Under BeOS the buffer needs to be unlocked
 }
 
 // *************************************************************************
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
-unsigned long 
+unsigned long
 SoQtGLWidget::getOverlayTransparentPixel(void)
 {
   const QGLContext * ctx = PRIVATE(this)->getOverlayContext();
   if (ctx) {
     QColor color = QGLContext_overlayTransparentColor(ctx);
-    return color.pixel();
+#ifdef Q_WS_X11
+    int screen = this->getGLWidget()->x11Info().screen();
+#else
+    int screen = -1;
+#endif //Q_WS_X11
+
+    QColormap cmap = QColormap::instance();
+    return cmap.pixel(color);
   }
   return 0;
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
-SbBool 
+SbBool
 SoQtGLWidget::isRGBMode(void)
 {
   return (SbBool) PRIVATE(this)->glformat->rgba();
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
-void 
+void
 SoQtGLWidget::redrawOverlay(void)
 {
   // should be empty. It's up subclasses to do some work here
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
-void 
+void
 SoQtGLWidget::initGraphic(void)
 {
   this->glLockNormal();
@@ -693,7 +701,7 @@ SoQtGLWidget::initGraphic(void)
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
-void 
+void
 SoQtGLWidget::initOverlayGraphic(void)
 {
   // FIXME: can't see this function called from anywhere within SoQt.
@@ -707,22 +715,22 @@ SoQtGLWidget::sizeChanged(const SbVec2s & size)
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
-SbBool 
+SbBool
 SoQtGLWidget::glScheduleRedraw(void)
 {
   return FALSE;
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
-SbBool 
-SoQtGLWidget::hasOverlayGLArea(void) const 
+SbBool
+SoQtGLWidget::hasOverlayGLArea(void) const
 {
   return this->getOverlayWidget() != NULL;
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
-SbBool 
-SoQtGLWidget::hasNormalGLArea(void) const 
+SbBool
+SoQtGLWidget::hasNormalGLArea(void) const
 {
   return this->getNormalWidget() != NULL;
 }
@@ -859,7 +867,8 @@ bool
 SoQtGLWidgetP::eventFilter(QObject * obj, QEvent * e)
 {
   if (SOQT_DEBUG && 0) { // debug
-    SbString w = obj->name();
+    QByteArray qba = obj->objectName().toAscii();
+    SbString w = qba.constData();
     SbBool istoplevel = obj == this->currentglwidget->topLevelWidget();
 
     if (obj == this->glparent) { w = "glparent"; }
@@ -869,26 +878,12 @@ SoQtGLWidgetP::eventFilter(QObject * obj, QEvent * e)
 
     SoDebugError::postInfo("SoQtGLWidgetP::eventFilter",
                            "[invoked] QEvent==%p obj==%p==\"%s\"==%s (%s) %s (typecode==%d)",
-                           e, obj, w.getString(), obj->className(),
+                           e, obj, w.getString(), obj->metaObject()->className(),
                            istoplevel ? "TOPLEVEL" : "",
                            eventnaming[e->type()], e->type());
   }
 
   QEvent::Type etype = e->type();
-#if QT_VERSION >= 200
-  // Qt 2 introduced "accelerator" type keyboard events, which should
-  // simply be ignored (all keyboard events are first attempted passed
-  // by the Qt event engine as accelerator events, before they are
-  // re-sent as "ordinary" keyboard events).
-  if (etype == QEvent::Accel || etype == QEvent::AccelAvailable) {
-    ((QKeyEvent *)e)->ignore();
-    // It might not matter whether we return TRUE or FALSE here, but
-    // it seems more natural to return FALSE according to the
-    // semantics of the eventFilter() method (FALSE means Qt should
-    // re-dispatch "normally").
-    return FALSE;
-  }
-#endif // Qt v2.0
 
   // FIXME: Under Qt 3.0.0 we got buggy mouse event handling, since
   // mouse events were routed to the gl widget, even if it was
@@ -1020,13 +1015,18 @@ SoQtGLWidgetP::buildGLWidget(void)
   void * display = NULL;
   void * screen = NULL;
 
-#if defined(Q_WS_X11) // Qt defines this under X11
+#if defined(Q_WS_X11)
+  // Qt defines this under X11
   // FIXME: should make context sharing work for other Qt
   // base-platforms (MSWin, MacOS X) aswell. 20020118 mortene.
 
   // the following Qt methods are only available under X11
-  display = (void*) QPaintDevice::x11AppDisplay();
-  screen = (void*) ((unsigned long) QPaintDevice::x11AppScreen());
+
+  if (PUBLIC(this)->getGLWidget()) {
+    QX11Info info = PUBLIC(this)->getGLWidget()->x11Info();
+    display = info.display();
+    screen = reinterpret_cast<void *>(info.screen());
+  }
 #endif // Q_WS_X11
 
   if (wascurrent) {
@@ -1062,8 +1062,9 @@ SoQtGLWidgetP::buildGLWidget(void)
       new SoQtGLArea(this->glformat, this->borderwidget,
                      sharewidget ? (const QGLWidget*) sharewidget->getGLWidget() : NULL);
     this->currentglwidget->registerQKeyEventHandler(SoQtGLWidgetP::GLAreaKeyEvent, PUBLIC(this));
+    this->currentglwidget->setSizePolicy(QSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding));
     SoAny::si()->registerGLContext((void *)PUBLIC(this), display, screen);
-    // Send this one to the final hunting grounds.    
+    // Send this one to the final hunting grounds.
     delete wasprevious;
   }
 
@@ -1080,30 +1081,30 @@ SoQtGLWidgetP::buildGLWidget(void)
   // context. We check for the QGLWidget::isValid() flag, and in your
   // customer's case it returns FALSE. According to the API documentation
   // of QGLWidget::isValid():
-  // 
+  //
   //         [...] A widget will be invalid if the system has no OpenGL
   //         support.
-  // 
+  //
   // You said your customer know for sure other OpenGL programs work on his
   // display, so this is obviously bogus.
-  // 
+  //
   // I.e. it's technically not our bug, but Troll Tech's.
-  // 
-  // 
+  //
+  //
   // I would like to tell you there is a quick workaround fix we could
   // apply, but I'm afraid TT has made that difficult, because the OpenGL
   // context selection is almost totally opaque -- we just have to work
   // with what we get from Qt.
-  // 
+  //
   // You could try to upgrade your Qt library version, but I doubt it would
   // help, as I would guess that this is a quite obscure bug.
-  // 
+  //
   // From our own experiences with low-level OpenGL/windowsystem handling
   // with SoWin, I would say that it is probably triggered by QGLWidget's
   // selection of a resource-intensive pixelformat for the OpenGL canvas
   // (by using the Win32 API's ChoosePixelFormat()), which when attempted
   // set up will actually find itself short on available resources.
-  // 
+  //
   // Having then painted itself into a corner, the QGLWidget has not been
   // written in a robust enough manner that it can deploy any fallback.
   // -------8<------ [snip] -------------------8<------ [snip] ------------
@@ -1118,19 +1119,19 @@ SoQtGLWidgetP::buildGLWidget(void)
   // FIXME], this is a tough problem, and it will probably take some
   // hacking around inside the workings of Qt's QGLWidget to debug and
   // solve properly.
-  // 
+  //
   // The first thing to do is perhaps to upgrade Qt to the very latest
   // version, and re-try with that. It could be that Troll Tech has
   // fixed the problem in their later Qt versions.
-  // 
+  //
   // Second, ask for assistance on their support channels.
-  // 
+  //
   // If that doesn't help, perhaps make a stand-alone QGLWidget
   // example (i.e.  with no SoQt or Coin), and try to get it
   // reproduced with that. It will perhaps not be flawed in the
   // default QGLFormat configuration, you might have to try to match
   // exactly the features we ask for for the QGLWidget in SoQt.
-  // 
+  //
   // With a stand-alone Qt example which demonstrates the bug, I guess
   // it should be possible to a) find a work-around (e.g. by avoiding
   // certain features for the QGLWidget?), and b) get assistance from
@@ -1141,7 +1142,7 @@ SoQtGLWidgetP::buildGLWidget(void)
   // UPDATE 20050201 mortene: our dGB customer found the cause of this
   // problems. See below. This should be useful to know in case we get
   // more problem reports about this.
-  // 
+  //
   // -------8<------ [snip] -------------------8<------ [snip] ------------
   // Subject: Workaround for Sun<->linux problems
   // To: Morten Eriksen <mortene@sim.no>
@@ -1202,9 +1203,9 @@ SoQtGLWidgetP::buildGLWidget(void)
     GLWIDGET_FEATURECMP(stereo, "stereo buffers", "mono buffer");
 
     #if HAVE_QT_SAMPLE_BUFFERS
-      GLWIDGET_FEATURECMP(sampleBuffers, "sample buffers", 
+      GLWIDGET_FEATURECMP(sampleBuffers, "sample buffers",
                           "no sample buffers");
-    #endif 
+    #endif
 
     if (QGLFormat_hasOverlay(w) != QGLFormat_hasOverlay(&g)) {
       SoDebugError::postWarning("SoQtGLWidgetP::buildGLWidget",
@@ -1254,7 +1255,7 @@ SoQtGLWidgetP::buildGLWidget(void)
 }
 
 // Returns the normal GL context.
-const QGLContext * 
+const QGLContext *
 SoQtGLWidgetP::getNormalContext(void)
 {
   QGLWidget * w = (QGLWidget*) PUBLIC(this)->getGLWidget();
@@ -1263,7 +1264,7 @@ SoQtGLWidgetP::getNormalContext(void)
 }
 
 // Returns the overlay GL context.
-const QGLContext * 
+const QGLContext *
 SoQtGLWidgetP::getOverlayContext(void)
 {
   QGLWidget * w = (QGLWidget*) PUBLIC(this)->getGLWidget();
@@ -1311,4 +1312,3 @@ SoQtGLWidgetP::isDirectRendering(void)
 
 #undef PRIVATE
 #undef PUBLIC
-

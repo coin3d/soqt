@@ -1,7 +1,7 @@
 /**************************************************************************\
  *
  *  This file is part of the Coin 3D visualization library.
- *  Copyright (C) 1998-2005 by Systems in Motion.  All rights reserved.
+ *  Copyright (C) 1998-2009 by Systems in Motion.  All rights reserved.
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -366,13 +366,9 @@ SoQtKeyboard::translateEvent(QEvent * event)
     }
 #endif // Q_WS_X11
   }
-    
+
   SbBool keypress = event->type() == QEvent::KeyPress;
   SbBool keyrelease = event->type() == QEvent::KeyRelease;
-
-  // Qt 2 introduced "accelerator" type keyboard events.
-  keypress = keypress || (event->type() == QEvent::Accel);
-  keyrelease = keyrelease || (event->type() == QEvent::AccelAvailable);
 
   SbBool keyevent = keypress || keyrelease;
 
@@ -390,7 +386,7 @@ SoQtKeyboard::translateEvent(QEvent * event)
 
     // FIXME: check for Qt::Key_unknown. 19990212 mortene.
 
-    SbBool keypad = (keyevent->state() & QT_KEYPAD_MASK) != 0;
+    SbBool keypad = (keyevent->modifiers() & Qt::KeypadModifier) != 0;
 
     // Translate keycode Qt -> So
     void * table;
@@ -400,7 +396,7 @@ SoQtKeyboard::translateEvent(QEvent * event)
 #if 0 // disabled. Breaks build when compiling against OIV
       if (map->printable) PRIVATE(this)->kbdevent->setPrintableCharacter(map->printable);
 #endif // disabled
-    } 
+    }
     else if (!keypad && SoQtKeyboardP::translatetable->find(key, table)) {
       struct SoQtKeyboardP::key1map * map = (struct SoQtKeyboardP::key1map *)table;
       PRIVATE(this)->kbdevent->setKey(map->to);
@@ -421,39 +417,12 @@ SoQtKeyboard::translateEvent(QEvent * event)
     if (keyrelease) PRIVATE(this)->kbdevent->setState(SoButtonEvent::UP);
     else PRIVATE(this)->kbdevent->setState(SoButtonEvent::DOWN);
 
-    // Need to mask in or out modifiers to get the correct state, as
-    // the state() function gives us the situation immediately
-    // _before_ the event happened.
-    int state = keyevent->state();
-    if (keypress) {
-      switch (keyevent->key()) {
-      case Qt::Key_Shift: state |= Qt::ShiftButton; break;
-      case Qt::Key_Control: state |= Qt::ControlButton; break;
-      case Qt::Key_Alt: state |= Qt::AltButton; break;
-#if !(defined QT_ON_MAC && QT_VERSION >= 0x030100)
-// Since Qt/Mac 3.1.x, the "ctrl" key is mapped to Qt::MetaButton (not
-// Qt::ControlButton) => We must not handle META as ALT on Mac OS X.
-      case Qt::Key_Meta: state |= Qt::AltButton; break;
-#endif
-      }
-    }
-    else {
-      switch (keyevent->key()) {
-      case Qt::Key_Shift: state &= ~Qt::ShiftButton; break;
-      case Qt::Key_Control: state &= ~Qt::ControlButton; break;
-      case Qt::Key_Alt: state &= ~Qt::AltButton; break;
-#if !(defined Q_WS_MAC && QT_VERSION >= 0x030100)
-// Since Qt/Mac 3.1.x, the "ctrl" key is mapped to Qt::MetaButton (not
-// Qt::ControlButton) => We must not handle META as ALT on Mac OS X.
-      case Qt::Key_Meta: state &= ~Qt::AltButton; break;
-#endif
-      }
-    }
+    Qt::KeyboardModifiers state = keyevent->modifiers();
 
     // Modifiers
-    PRIVATE(this)->kbdevent->setShiftDown(state & Qt::ShiftButton);
-    PRIVATE(this)->kbdevent->setCtrlDown(state & Qt::ControlButton);
-    PRIVATE(this)->kbdevent->setAltDown(state & Qt::AltButton);
+    PRIVATE(this)->kbdevent->setShiftDown(state & Qt::ShiftModifier);
+    PRIVATE(this)->kbdevent->setCtrlDown(state & Qt::ControlModifier);
+    PRIVATE(this)->kbdevent->setAltDown(state & Qt::AltModifier);
 
     // FIXME: read QCursor::position() instead,
     // and clean up this mess. 19990222 mortene.
@@ -475,4 +444,3 @@ SoQtKeyboard::translateEvent(QEvent * event)
 
 #undef PRIVATE
 #undef PUBLIC
-

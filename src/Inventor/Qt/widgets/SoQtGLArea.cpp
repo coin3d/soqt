@@ -1,7 +1,7 @@
 /**************************************************************************\
  *
  *  This file is part of the Coin 3D visualization library.
- *  Copyright (C) 1998-2005 by Systems in Motion.  All rights reserved.
+ *  Copyright (C) 1998-2009 by Systems in Motion.  All rights reserved.
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -79,11 +79,9 @@ SoQtGLArea::SoQtGLArea(QGLFormat * const format,
                        QWidget * const parent,
                        const QGLWidget * sharewidget,
                        const char * const name)
-  // The 3rd argument is supposed to be the widget name, but when
-  // running on QGL v4.30 and Qt v2.1.0 application code will crash on
-  // exit under freak conditions.
-  : inherited(*format, parent, NULL, sharewidget, Qt::WResizeNoErase)
+  : inherited(*format, parent, sharewidget)
 {
+  this->setObjectName(name);
 #if HAVE_QGLWIDGET_SETAUTOBUFFERSWAP
   // We'll handle the OpenGL buffer swapping ourselves, to support the
   // different combinations of rendering options (doublebuffer with
@@ -105,7 +103,6 @@ void
 SoQtGLArea::initializeGL(void)
 {
   SOQT_GLAREA_DEBUG_START(initializeGL);
-  this->setBackgroundMode(Qt::NoBackground); // Avoid unnecessary flicker.
   emit this->init_sig();
   SOQT_GLAREA_DEBUG_DONE(initializeGL);
 }
@@ -137,10 +134,10 @@ SoQtGLArea::focusInEvent(QFocusEvent * e)
   // Here's what the QWidget implementation of this method does:
 
 //     if ( focusPolicy() != NoFocus || !isTopLevel() ) {
-// 	update();
-// 	if ( testWState(WState_AutoMask) )
-// 	    updateMask();
-// 	setMicroFocusHint(width()/2, 0, 1, height(), FALSE);
+//        update();
+//        if ( testWState(WState_AutoMask) )
+//            updateMask();
+//        setMicroFocusHint(width()/2, 0, 1, height(), FALSE);
 //     }
 
   // QWidget::update() calls repaint(), which causes paintGL() to be
@@ -174,7 +171,7 @@ SoQtGLArea::event(QEvent * e)
   // SoQtExaminerViewer, use of the mousewheel over a viewer that
   // doesn't have the focus causes wheel events to end up in both the
   // viewer under the mouse and the viewer that has the focus.
-  // 
+  //
   // Our workaround is thus to ignore a wheel event when the widget
   // doesn't have the focus.
   //

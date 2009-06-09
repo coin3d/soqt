@@ -19,8 +19,7 @@ DISTCLEANFILES = \
 	SoQtDevice.h \
 	SoQtInputFocus.h \
 	SoQtKeyboard.h \
-	SoQtMouse.h \
-	SoQtSpaceball.h
+	SoQtMouse.h
 
 ## Process this file with automake to generate Makefile.in.
 
@@ -61,8 +60,6 @@ RegularSources = \
 	SoQtInputFocus.cpp \
 	SoQtKeyboard.cpp \
 	SoQtMouse.cpp \
-	SoQtSpaceball.cpp \
-	SoQtSpaceballP.h \
 	6DOFEvents.cpp \
 	6DOFEvents.h \
 	$(libSoQtDevicesConditionalSources)
@@ -121,8 +118,7 @@ SoQtDevicesinc_HEADERS =
 nodist_SoQtDevicesinc_HEADERS = \
 	SoQtDevice.h \
 	SoQtKeyboard.h \
-	SoQtMouse.h \
-	SoQtSpaceball.h
+	SoQtMouse.h
 
 install-SoQtDevicesincHEADERS: $(SoQtDevicesinc_HEADERS)
 	@$(NORMAL_INSTALL)

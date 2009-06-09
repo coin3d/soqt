@@ -4,7 +4,7 @@
 /**************************************************************************\
  *
  *  This file is part of the Coin 3D visualization library.
- *  Copyright (C) 1998-2005 by Systems in Motion.  All rights reserved.
+ *  Copyright (C) 1998-2009 by Systems in Motion.  All rights reserved.
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -50,7 +50,7 @@ class SoQtP : public QObject, public SoGuiP
 
 public:
   static SoQtP * soqt_instance(void);
-  
+
   static SoQtImageReader * imagereader;
   static int DEBUG_X11SYNC;
   static const char * SOQT_XSYNC;

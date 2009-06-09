@@ -1,7 +1,7 @@
 /**************************************************************************\
  *
  *  This file is part of the Coin 3D visualization library.
- *  Copyright (C) 1998-2005 by Systems in Motion.  All rights reserved.
+ *  Copyright (C) 1998-2009 by Systems in Motion.  All rights reserved.
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -83,9 +83,17 @@ SoQtPlaneViewer::setCamera(SoCamera * camera)
     SoType type = camera->getTypeId();
     SbBool orthogonal =
       type.isDerivedFrom(SoOrthographicCamera::getClassTypeId());
-    this->setRightWheelString(orthogonal ? "Zoom" : "Dolly");
+    const char * oldLabel = this->getRightWheelString();
+    if (oldLabel) {
+      if (orthogonal) {
+        if (strcmp("Dolly",oldLabel) == 0)
+          this->setRightWheelString("Zoom");
+      }
+      else if (strcmp("Zoom",oldLabel) == 0)
+        this->setRightWheelString("Dolly");
+    }
     if (PRIVATE(this)->buttons.camera) {
-      PRIVATE(this)->buttons.camera->setPixmap(orthogonal ?
+      PRIVATE(this)->buttons.camera->setIcon(orthogonal ?
         *(PRIVATE(this)->pixmaps.orthogonal) : *(PRIVATE(this)->pixmaps.perspective));
     }
   }
@@ -115,22 +123,22 @@ SoQtPlaneViewer::createViewerButtons(QWidget * parent,
   // add X, Y, Z viewpoint buttons
   PRIVATE(this)->buttons.x = new QPushButton(parent);
   PRIVATE(this)->buttons.x->setFocusPolicy(QTWIDGET_NOFOCUS);
-  PRIVATE(this)->buttons.x->setToggleButton(FALSE);
-  PRIVATE(this)->buttons.x->setPixmap(QPixmap((const char **) x_xpm));
+  PRIVATE(this)->buttons.x->setCheckable(FALSE);
+  PRIVATE(this)->buttons.x->setIcon(QPixmap((const char **) x_xpm));
   QObject::connect(PRIVATE(this)->buttons.x, SIGNAL(clicked()),
                    PRIVATE(this), SLOT(xClicked()));
   buttons->append(PRIVATE(this)->buttons.x);
   PRIVATE(this)->buttons.y = new QPushButton(parent);
   PRIVATE(this)->buttons.y->setFocusPolicy(QTWIDGET_NOFOCUS);
-  PRIVATE(this)->buttons.y->setToggleButton(FALSE);
-  PRIVATE(this)->buttons.y->setPixmap(QPixmap((const char **) y_xpm));
+  PRIVATE(this)->buttons.y->setCheckable(FALSE);
+  PRIVATE(this)->buttons.y->setIcon(QPixmap((const char **) y_xpm));
   QObject::connect(PRIVATE(this)->buttons.y, SIGNAL(clicked()),
                    PRIVATE(this), SLOT(yClicked()));
   buttons->append(PRIVATE(this)->buttons.y);
   PRIVATE(this)->buttons.z = new QPushButton(parent);
   PRIVATE(this)->buttons.z->setFocusPolicy(QTWIDGET_NOFOCUS);
-  PRIVATE(this)->buttons.z->setToggleButton(FALSE);
-  PRIVATE(this)->buttons.z->setPixmap(QPixmap((const char **) z_xpm));
+  PRIVATE(this)->buttons.z->setCheckable(FALSE);
+  PRIVATE(this)->buttons.z->setIcon(QPixmap((const char **) z_xpm));
   QObject::connect(PRIVATE(this)->buttons.z, SIGNAL(clicked()),
                    PRIVATE(this), SLOT(zClicked()));
   buttons->append(PRIVATE(this)->buttons.z);
@@ -164,7 +172,7 @@ SoQtPlaneViewer::createViewerButtons(QWidget * parent,
     pixmap = PRIVATE(this)->pixmaps.perspective;
   else assert(0 && "unsupported cameratype");
 
-  PRIVATE(this)->buttons.camera->setPixmap(*pixmap);
+  PRIVATE(this)->buttons.camera->setIcon(*pixmap);
   buttons->append(PRIVATE(this)->buttons.camera);
 
   QObject::connect(PRIVATE(this)->buttons.camera, SIGNAL(clicked()),
@@ -244,4 +252,3 @@ SoQtPlaneViewerP::cameraToggleClicked(void)
 
 #undef PUBLIC
 #undef PRIVATE
-

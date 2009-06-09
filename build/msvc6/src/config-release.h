@@ -8,7 +8,7 @@
 
 
 /* Open Inventor extensions */
-#define COIN_IV_EXTENSIONS 
+#define COIN_IV_EXTENSIONS
 
 /* Version string for Qt */
 #define GUI_TOOLKIT_VERSION "443"
@@ -173,7 +173,7 @@
 #define VERSION "1.4.2a"
 
 /* Define this if you want defaults to be linked into SoXt */
-#define WITH_STATIC_DEFAULTS 
+#define WITH_STATIC_DEFAULTS
 
 /* Define to 1 if the X Window System is missing or not being used. */
 /* #undef X_DISPLAY_MISSING */

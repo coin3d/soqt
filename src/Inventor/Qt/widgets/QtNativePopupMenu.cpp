@@ -1,7 +1,7 @@
 /**************************************************************************\
  *
  *  This file is part of the Coin 3D visualization library.
- *  Copyright (C) 1998-2005 by Systems in Motion.  All rights reserved.
+ *  Copyright (C) 1998-2009 by Systems in Motion.  All rights reserved.
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -310,7 +310,7 @@ QtNativePopupMenu::setMenuItemEnabled(int itemid,
 */
 
 SbBool
-QtNativePopupMenu::getMenuItemEnabled(int itemid) 
+QtNativePopupMenu::getMenuItemEnabled(int itemid)
 {
   ItemRecord * rec = this->getItemRecord(itemid);
   if (rec) return rec->parent->isItemEnabled(rec->itemid) ? TRUE : FALSE;
@@ -318,7 +318,7 @@ QtNativePopupMenu::getMenuItemEnabled(int itemid)
   MenuRecord * mrec = this->getMenuRecord(itemid);
   assert(mrec && "no such menu");
   assert(mrec->parent && "a menuitem must have a parent to be enabled/disabled");
-  
+
   return mrec->parent->isItemEnabled(mrec->menuid) ? TRUE : FALSE;
 } // getMenuItemEnabled()
 
@@ -390,7 +390,7 @@ QtNativePopupMenu::addMenu(int menuid,
   // supported. (20050726 frodo)
 
   // this was changed/fixed again in Qt 4.4.0, so now we shouldn't
-  // disconnect menu items if this version is detected... 
+  // disconnect menu items if this version is detected...
   // (20070530 pederb)
 #if (QT_VERSION >= 0x040000) && (QT_VERSION < 0x040400)
   QObject::disconnect(sub->menu, SIGNAL(activated(int)),
@@ -399,7 +399,7 @@ QtNativePopupMenu::addMenu(int menuid,
 
   if (pos == -1)
     super->menu->insertItem(QString(sub->title), sub->menu, sub->menuid);
-  else 
+  else
     super->menu->insertItem(QString(sub->title),
                              sub->menu, sub->menuid, pos);
   sub->parent = super->menu;
@@ -429,7 +429,7 @@ QtNativePopupMenu::addMenuItem(int menuid,
   QAction * action = (QAction *) item->parent->findItem(itemid);
   if (action) action->setCheckable(true);
 #endif // Qt 4.*
-  
+
   if (item->flags & ITEM_MARKED) {
 #if QT_VERSION >= 0x040000
     if (action) action->setChecked(true);
@@ -445,7 +445,7 @@ QtNativePopupMenu::addSeparator(int menuid,
 {
   MenuRecord * menu = this->getMenuRecord(menuid);
   assert(menu && "no such menu");
-  
+
   ItemRecord * rec = createItemRecord("separator");
   menu->menu->insertSeparator(pos);
   rec->flags |= ITEM_SEPARATOR;
@@ -514,7 +514,7 @@ QtNativePopupMenu::popUp(QWidget * inside, int x, int y)
 
   // Use exec() and not popup(). popup() doesn't seem to work properly
   // with a GL widget (the GL-redraw seems to overwrite the popup
-  // widget or something). pederb, 2003-10-01 
+  // widget or something). pederb, 2003-10-01
   //
   // An additional piece of information: the popup-menu misbehavior is
   // that at first attempt just a "shadow" comes up, and then on the

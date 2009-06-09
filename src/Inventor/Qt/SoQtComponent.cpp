@@ -1,7 +1,7 @@
 /**************************************************************************\
  *
  *  This file is part of the Coin 3D visualization library.
- *  Copyright (C) 1998-2005 by Systems in Motion.  All rights reserved.
+ *  Copyright (C) 1998-2009 by Systems in Motion.  All rights reserved.
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -62,7 +62,16 @@
 
 static const char nullstring[] = "(null)";
 
-#define PRIVATE(obj) ((obj)->pimpl)
+static void setAndAllocString(char * & dst, const char * src) {
+  if (dst != NULL)
+    delete [] dst;
+
+  size_t n = strlen(src);
+  dst = new char [n+1];
+  strcpy(dst,src);
+}
+
+#define PRIVATE(obj) (obj)
 #define PUBLIC(obj) ((obj)->pub)
 
 // *************************************************************************
@@ -74,12 +83,20 @@ static const char nullstring[] = "(null)";
 SbDict * SoQtComponentP::cursordict = NULL;
 
 SoQtComponentP::SoQtComponentP(SoQtComponent * o)
-  : SoGuiComponentP(o)
+  : SoGuiComponentP(o),classname(NULL), widgetname(NULL), icontext(NULL), captiontext(NULL)
 {
 }
 
 SoQtComponentP::~SoQtComponentP()
 {
+  if (PRIVATE(this)->classname)
+    delete [] PRIVATE(this)->classname;
+  if (PRIVATE(this)->widgetname)
+    delete [] PRIVATE(this)->widgetname;
+  if (PRIVATE(this)->icontext)
+    delete [] PRIVATE(this)->icontext;
+  if (PRIVATE(this)->captiontext)
+    delete [] PRIVATE(this)->captiontext;
 }
 
 void
@@ -164,8 +181,8 @@ SoQtComponentP::getNativeCursor(const SoQtCursor::CustomCursor * cc)
   // Always 32x32 because that's what is recommended in the Qt
   // documentation for QCursor.  At least WinNT 4 will give us
   // "interesting" bugs for other cursor sizes.
-  QBitmap bitmap(32, 32, cursorbitmap, TRUE);
-  QBitmap mask(32, 32, cursormask, TRUE);
+  QBitmap bitmap = QBitmap::fromData(QSize(32, 32), cursorbitmap, QImage::Format_MonoLSB);
+  QBitmap mask = QBitmap::fromData(QSize(32, 32), cursormask, QImage::Format_MonoLSB);
 
   // Sanity checks.
   assert(bitmap.size().width() > 0 && bitmap.size().height() > 0);
@@ -301,6 +318,12 @@ SoQtComponentP::eventFilter(QObject * obj, QEvent * e)
 
 #endif // DOXYGEN_SKIP_THIS
 
+#undef PUBLIC
+#undef PRIVATE
+
+#define PRIVATE(obj) ((obj)->pimpl)
+#define PUBLIC(obj) ((obj)->pub)
+
 // *************************************************************************
 
 SOQT_OBJECT_ABSTRACT_SOURCE(SoQtComponent);
@@ -342,12 +365,12 @@ SoQtComponent::SoQtComponent(QWidget * const parent,
   PRIVATE(this)->fullscreen = FALSE;
 
   if (name)
-    PRIVATE(this)->widgetname = name;
+    setAndAllocString(PRIVATE(this)->widgetname,name);
 
-  PRIVATE(this)->classname = "SoQtComponent";
+  this->setClassName("SoQtComponent");
 
   PRIVATE(this)->storesize.setValue(-1, -1);
-#ifdef Q_WS_MAC 
+#ifdef Q_WS_MAC
   PRIVATE(this)->windowsize.setValue(-1, -1);
 #endif
 
@@ -355,7 +378,8 @@ SoQtComponent::SoQtComponent(QWidget * const parent,
                                             PRIVATE(this));
 
   if ((parent == NULL) || ! embed) {
-    PRIVATE(this)->parent = (QWidget *) new QMainWindow(NULL, name);
+    PRIVATE(this)->parent = new QMainWindow();
+    PRIVATE(this)->parent->setObjectName(name);
     PRIVATE(this)->embedded = FALSE;
     PRIVATE(this)->shelled = TRUE;
   }
@@ -434,7 +458,7 @@ SoQtComponent::removeVisibilityChangeCallback(SoQtComponentVisibilityCB * const 
 void
 SoQtComponent::setClassName(const char * const name)
 {
-  PRIVATE(this)->classname = name;
+  setAndAllocString(PRIVATE(this)->classname,name);
 }
 
 // *************************************************************************
@@ -464,16 +488,18 @@ SoQtComponent::setBaseWidget(QWidget * widget)
 
 
   if (!PRIVATE(this)->parent || PRIVATE(this)->parent->isTopLevel()) {
-    if (PRIVATE(this)->captiontext.isNull()) PRIVATE(this)->captiontext = this->getDefaultTitle();
-    this->setTitle((const char *)PRIVATE(this)->captiontext.local8Bit());
+    if (PRIVATE(this)->captiontext==NULL)
+      setAndAllocString(PRIVATE(this)->captiontext,this->getDefaultTitle());
+    this->setTitle(PRIVATE(this)->captiontext);
 
-    if (PRIVATE(this)->icontext.isNull()) PRIVATE(this)->icontext = this->getDefaultIconTitle();
-    SoQt::getShellWidget(this->getWidget())->setIconText(PRIVATE(this)->icontext);
+    if (PRIVATE(this)->icontext==NULL)
+      setAndAllocString(PRIVATE(this)->icontext,this->getDefaultIconTitle());
+    SoQt::getShellWidget(this->getWidget())->setWindowIconText(PRIVATE(this)->icontext);
   }
 
-  if (PRIVATE(this)->widgetname.isNull())
-    PRIVATE(this)->widgetname = this->getDefaultWidgetName();
-  PRIVATE(this)->widget->setName(PRIVATE(this)->widgetname);
+  if (PRIVATE(this)->widgetname==NULL)
+    setAndAllocString(PRIVATE(this)->widgetname,this->getDefaultWidgetName());
+  PRIVATE(this)->widget->setObjectName(PRIVATE(this)->widgetname);
 
   // Need this to auto-detect resize events.
 //  if (PRIVATE(this)->parent)
@@ -605,7 +631,7 @@ SbBool
 SoQtComponent::isVisible(void)
 {
   if (! PRIVATE(this)->widget) { return FALSE; }
-  return PRIVATE(this)->widget->isVisible() && PRIVATE(this)->widget->isVisibleToTLW();
+  return PRIVATE(this)->widget->isVisible();
 }
 
 // documented in common/SoGuiComponentCommon.cpp.in.
@@ -647,7 +673,7 @@ SoQtComponent::getParentWidget(void) const
 void
 SoQtComponent::setTitle(const char * const title)
 {
-  PRIVATE(this)->captiontext = title;
+  setAndAllocString(PRIVATE(this)->captiontext,title);
 
   if (this->getWidget()) {
     QWidget * toplevel = this->getWidget();
@@ -655,7 +681,7 @@ SoQtComponent::setTitle(const char * const title)
       toplevel = toplevel->parentWidget();
     }
     if (toplevel) {
-      toplevel->setCaption(title);
+      toplevel->setWindowTitle(title);
     }
   }
 }
@@ -665,18 +691,19 @@ const char *
 SoQtComponent::getTitle(void) const
 {
   return
-    PRIVATE(this)->captiontext.isNull() ? nullstring : (const char *) PRIVATE(this)->captiontext;
+    PRIVATE(this)->captiontext == NULL ? nullstring : PRIVATE(this)->captiontext;
 }
 
 // documented in common/SoGuiComponentCommon.cpp.in.
 void
 SoQtComponent::setIconTitle(const char * const title)
 {
-  PRIVATE(this)->icontext = title;
+  setAndAllocString(PRIVATE(this)->icontext,title);
+
 
   QWidget * w = this->getWidget();
   if (w && this->isTopLevelShell()) {
-    SoQt::getShellWidget(w)->setIconText(title);
+    SoQt::getShellWidget(w)->setWindowIconText(title);
   }
 }
 
@@ -684,7 +711,7 @@ SoQtComponent::setIconTitle(const char * const title)
 const char *
 SoQtComponent::getIconTitle(void) const
 {
-  return PRIVATE(this)->icontext.isNull() ? nullstring : (const char *)PRIVATE(this)->icontext;
+  return PRIVATE(this)->icontext == NULL ? nullstring : PRIVATE(this)->icontext;
 }
 
 // documented in common/SoGuiComponentCommon.cpp.in.
@@ -692,14 +719,14 @@ const char *
 SoQtComponent::getWidgetName(void) const
 {
   return
-    PRIVATE(this)->widgetname.isNull() ? nullstring : (const char *)PRIVATE(this)->widgetname;
+    PRIVATE(this)->widgetname==NULL ? nullstring : PRIVATE(this)->widgetname;
 }
 
 // documented in common/SoGuiComponentCommon.cpp.in.
 const char *
 SoQtComponent::getClassName(void) const
 {
-  return (const char *)PRIVATE(this)->classname;
+  return PRIVATE(this)->classname;
 }
 
 // *************************************************************************
@@ -713,7 +740,7 @@ SoQtComponent::getClassName(void) const
 // regressions). The tests should at least cover these usage contexts
 // for SoQt component classes:
 //
-// 
+//
 //   * an SoQt-component viewer embedded in other Qt-widgets
 //   * a top-level (ie "free window") viewer
 //
@@ -820,7 +847,7 @@ SoQtComponent::setFullScreen(const SbBool onoff)
   // setWindowState() will preserve other window flags/states.
 #if HAVE_QWIDGET_SETWINDOWSTATE
   if (onoff) {
-#ifdef Q_WS_MAC 
+#ifdef Q_WS_MAC
     // Qt/Mac does not remember the window size when going fullscreen,
     // so when going back to windowed mode, the window will be 1x1 pixels
     // small -> we have to store the window size ourselves...
@@ -831,13 +858,13 @@ SoQtComponent::setFullScreen(const SbBool onoff)
     PRIVATE(this)->windowsize[1] = w->size().height();
 #endif
     w->setWindowState(w->windowState() | Qt::WindowFullScreen);
-#ifdef Q_WS_MAC 
+#ifdef Q_WS_MAC
     // Explicit show needed for Mac OS X, otherwise the window "vanishes"
     w->show();
 #endif
   } else {
     w->setWindowState(w->windowState() & ~Qt::WindowFullScreen);
-#ifdef Q_WS_MAC 
+#ifdef Q_WS_MAC
     w->resize(QSize(PRIVATE(this)->windowsize[0], PRIVATE(this)->windowsize[1]));
     w->show();
 #endif
@@ -852,7 +879,7 @@ SoQtComponent::setFullScreen(const SbBool onoff)
                             "QWidget::showFullScreen() method",
                             QT_VERSION_STR);
   return FALSE;
-#endif // !HAVE_QWIDGET_SHOWFULLSCREEN && !HAVE_QWIDGET_SETWINDOWSTATE 
+#endif // !HAVE_QWIDGET_SHOWFULLSCREEN && !HAVE_QWIDGET_SETWINDOWSTATE
   PRIVATE(this)->fullscreen = onoff;
   return TRUE;
 }
@@ -905,7 +932,7 @@ SoQtComponent::setWidgetCursor(QWidget * w, const SoQtCursor & cursor)
                                   "SOQT_NO_QTMAC_BUG_WARNINGS=1.\n");
       warningdisplayed = TRUE;
     }
-#else 
+#else
     const SoQtCursor::CustomCursor * cc = &cursor.getCustomCursor();
     w->setCursor(*SoQtComponentP::getNativeCursor(cc));
 #endif
@@ -913,19 +940,19 @@ SoQtComponent::setWidgetCursor(QWidget * w, const SoQtCursor & cursor)
   else {
     switch (cursor.getShape()) {
     case SoQtCursor::DEFAULT:
-      w->setCursor(QCursor(Qt::arrowCursor));
+      w->setCursor(QCursor(Qt::ArrowCursor));
       break;
 
     case SoQtCursor::BUSY:
-      w->setCursor(QCursor(Qt::waitCursor));
+      w->setCursor(QCursor(Qt::WaitCursor));
       break;
 
     case SoQtCursor::CROSSHAIR:
-      w->setCursor(QCursor(Qt::crossCursor));
+      w->setCursor(QCursor(Qt::CrossCursor));
       break;
 
     case SoQtCursor::UPARROW:
-      w->setCursor(QCursor(Qt::upArrowCursor));
+      w->setCursor(QCursor(Qt::UpArrowCursor));
       break;
 
     default:
@@ -959,4 +986,3 @@ SoQtComponent::setWidgetCursor(QWidget * w, const SoQtCursor & cursor)
 
 #undef PRIVATE
 #undef PUBLIC
-

@@ -1,7 +1,7 @@
 /**************************************************************************\
  *
  *  This file is part of the Coin 3D visualization library.
- *  Copyright (C) 1998-2005 by Systems in Motion.  All rights reserved.
+ *  Copyright (C) 1998-2009 by Systems in Motion.  All rights reserved.
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -30,11 +30,11 @@
 #include <qwidget.h>
 
 // This makes sure that building a widget with BUILD_NONE, and then
-// calling setDecoration( TRUE ) works. 
+// calling setDecoration( TRUE ) works.
 int main(int argc, char ** argv)
 {
   QWidget * window = SoQt::init(argc, argv, argv[0]);
-  
+
   SoQtExaminerViewer * viewer = new SoQtExaminerViewer
     (window, "Examiner Viewer" ,TRUE,
      SoQtFullViewer::BUILD_NONE);
@@ -43,12 +43,11 @@ int main(int argc, char ** argv)
   viewer->setDecoration( TRUE );
   viewer->show();
   SoQt::show(window);
-  
+
   window->resize(500, 500);
-  
+
   SoQt::mainLoop();
-  
+
   delete viewer;
   return 0;
 }
-

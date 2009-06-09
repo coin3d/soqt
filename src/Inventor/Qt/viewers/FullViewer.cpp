@@ -1,7 +1,7 @@
 /**************************************************************************\
  *
  *  This file is part of the Coin 3D visualization library.
- *  Copyright (C) 1998-2005 by Systems in Motion.  All rights reserved.
+ *  Copyright (C) 1998-2009 by Systems in Motion.  All rights reserved.
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -71,7 +71,7 @@
 #include <Inventor/Qt/widgets/SoQtThumbWheel.h>
 #include <Inventor/Qt/widgets/SoQtPopupMenu.h>
 #include <Inventor/Qt/viewers/SoQtFullViewer.h>
-#include <Inventor/Qt/SoAny.h> 
+#include <Inventor/Qt/SoAny.h>
 
 // Button icons.
 #include <Inventor/Qt/common/pixmaps/pick.xpm>
@@ -370,8 +370,8 @@ SoQtFullViewer::setViewing(SbBool enable)
   // Must check that buttons have been built, in case this viewer
   // component was made without decorations.
   if (PRIVATE(this)->viewerbuttons->getLength() > 0) {
-    PRIVATE(this)->getViewerbutton(EXAMINE_BUTTON)->setOn(enable);
-    PRIVATE(this)->getViewerbutton(INTERACT_BUTTON)->setOn(enable ? FALSE : TRUE);
+    PRIVATE(this)->getViewerbutton(EXAMINE_BUTTON)->setChecked(enable);
+    PRIVATE(this)->getViewerbutton(INTERACT_BUTTON)->setChecked(enable ? FALSE : TRUE);
     PRIVATE(this)->getViewerbutton(SEEK_BUTTON)->setEnabled(enable);
   }
 }
@@ -444,7 +444,8 @@ SoQtFullViewer::buildLeftTrim(QWidget * parent)
   QWidget * w = new QWidget(parent);
   w->setFixedWidth(30);
 
-  QGridLayout * gl = new QGridLayout(w, 3, 1, 2, -1);
+  QGridLayout * gl = new QGridLayout(w);
+  gl->setContentsMargins(0,0,0,0);
   gl->addWidget(this->buildAppButtons(w), 0, 0);
 
   SoQtThumbWheel * t = new SoQtThumbWheel(SoQtThumbWheel::Vertical, w);
@@ -456,7 +457,7 @@ SoQtFullViewer::buildLeftTrim(QWidget * parent)
   QObject::connect(t, SIGNAL(wheelPressed()), PRIVATE(this), SLOT(leftWheelPressed()));
   QObject::connect(t, SIGNAL(wheelReleased()), PRIVATE(this), SLOT(leftWheelReleased()));
 
-  gl->addWidget(t, 2, 0, Qt::AlignBottom | Qt::AlignHCenter);
+  gl->addWidget(t, 1, 0, Qt::AlignBottom | Qt::AlignHCenter);
   gl->activate();
 
   return w;
@@ -502,20 +503,15 @@ SoQtFullViewer::buildBottomTrim(QWidget * parent)
 
   this->bottomWheelVal = t->value();
 
-  QGridLayout * gl = new QGridLayout(w, 1, 5);
-  gl->setColStretch(0, 0);
-  gl->setColStretch(1, 0);
-  gl->setColStretch(2, 0);
-  gl->setColStretch(3, 1);
-  gl->setColStretch(4, 0);
+  QGridLayout * layout = new QGridLayout(w);
+  layout->setContentsMargins(0,0,0,0);
+  layout->addWidget(this->leftWheelLabel, 0, 0, Qt::AlignVCenter | Qt::AlignHCenter);
+  layout->addWidget(this->bottomWheelLabel, 0,1,  Qt::AlignVCenter | Qt::AlignRight);
+  layout->addWidget(t, 0,2, Qt::AlignVCenter | Qt::AlignLeft);
+  layout->addItem(new QSpacerItem(0,0,QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding),0, 3);
+  layout->addWidget(this->rightWheelLabel, 0, 4,Qt::AlignVCenter | Qt::AlignRight);
 
-  gl->addWidget(this->leftWheelLabel, 0, 0, Qt::AlignVCenter | Qt::AlignHCenter);
-  gl->addWidget(this->bottomWheelLabel, 0, 1, Qt::AlignVCenter | Qt::AlignRight);
-  gl->addWidget(t, 0, 2, Qt::AlignVCenter | Qt::AlignLeft);
-  gl->addWidget(this->rightWheelLabel, 0, 4, Qt::AlignVCenter | Qt::AlignRight);
-
-  gl->activate();
-
+  layout->activate();
   return w;
 }
 
@@ -543,7 +539,9 @@ SoQtFullViewer::buildRightTrim(QWidget * parent)
   QObject::connect(t, SIGNAL(wheelReleased()),
                    PRIVATE(this), SLOT(rightWheelReleased()));
 
-  QGridLayout * l = new QGridLayout(w, 3, 1, 2, -1);
+  QGridLayout * l = new QGridLayout(w);
+  l->setContentsMargins(0,0,0,0);
+  l->setVerticalSpacing(0);
   l->setMargin(0);
   l->addWidget(this->buildViewerButtons(w), 0, 0);
   l->addWidget(t, 2, 0, Qt::AlignBottom | Qt::AlignHCenter);
@@ -579,9 +577,9 @@ SoQtFullViewer::buildViewerButtons(QWidget * parent)
 
   // assert(PRIVATE(this)->viewerbuttons->getLength() != 0);
   QGridLayout * l =
-    new QGridLayout(w, PRIVATE(this)->viewerbuttons->getLength(), 1);
+    new QGridLayout(w);
   l->setMargin(0);
-  l->setSpacing(0);
+  l->setVerticalSpacing(0);
 
   const int numViewerButtons = PRIVATE(this)->viewerbuttons->getLength();
   for (int i = 0; i < numViewerButtons; i++) {
@@ -615,7 +613,7 @@ SoQtFullViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
 #endif
 
 #if (defined Q_WS_MAC && QT_VERSION >= 0x030100) && defined(HAVE_QSTYLEFACTORY_H)
-    // Since Qt/Mac 3.1.x, all pushbuttons (even those < 32x32) are drawn 
+    // Since Qt/Mac 3.1.x, all pushbuttons (even those < 32x32) are drawn
     // using the Aqua style, i.e. with rounded edges and shading. This
     // looks really ugly in the viewer decoration. Drawing the buttons
     // in the Windows style gives us the flat, square buttons we want.
@@ -632,37 +630,37 @@ SoQtFullViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
     switch (i) {
     case INTERACT_BUTTON:
       PRIVATE(this)->interactbutton = p;
-      p->setToggleButton(TRUE);
-      p->setPixmap(QPixmap((const char **)pick_xpm));
-      p->setOn(this->isViewing() ? FALSE : TRUE);
+      p->setCheckable(TRUE);
+      p->setIcon(QPixmap((const char **)pick_xpm));
+      p->setChecked(this->isViewing() ? FALSE : TRUE);
       QObject::connect(p, SIGNAL(clicked()),
                        PRIVATE(this), SLOT(interactbuttonClicked()));
       break;
     case EXAMINE_BUTTON:
       PRIVATE(this)->viewbutton = p;
-      p->setToggleButton(TRUE);
-      p->setPixmap(QPixmap((const char **)view_xpm));
-      p->setOn(this->isViewing());
+      p->setCheckable(TRUE);
+      p->setIcon(QPixmap((const char **)view_xpm));
+      p->setChecked(this->isViewing());
       QObject::connect(p, SIGNAL(clicked()),
                        PRIVATE(this), SLOT(viewbuttonClicked()));
       break;
     case HOME_BUTTON:
       QObject::connect(p, SIGNAL(clicked()), PRIVATE(this), SLOT(homebuttonClicked()));
-      p->setPixmap(QPixmap((const char **)home_xpm));
+      p->setIcon(QPixmap((const char **)home_xpm));
       break;
     case SET_HOME_BUTTON:
       QObject::connect(p, SIGNAL(clicked()),
                        PRIVATE(this), SLOT(sethomebuttonClicked()));
-      p->setPixmap(QPixmap((const char **)set_home_xpm));
+      p->setIcon(QPixmap((const char **)set_home_xpm));
       break;
     case VIEW_ALL_BUTTON:
       QObject::connect(p, SIGNAL(clicked()),
                        PRIVATE(this), SLOT(viewallbuttonClicked()));
-      p->setPixmap(QPixmap((const char **)view_all_xpm));
+      p->setIcon(QPixmap((const char **)view_all_xpm));
       break;
     case SEEK_BUTTON:
       QObject::connect(p, SIGNAL(clicked()), PRIVATE(this), SLOT(seekbuttonClicked()));
-      p->setPixmap(QPixmap((const char **)seek_xpm));
+      p->setIcon(QPixmap((const char **)seek_xpm));
       break;
     default:
       assert(0);
@@ -732,6 +730,13 @@ SoQtFullViewer::setBottomWheelString(const char * const string)
 // *************************************************************************
 
 // Documented in common/viewers/SoGuiFullViewer.cpp.in.
+const char *
+SoQtFullViewer::getRightWheelString() const
+{
+  return this->rightWheelStr;
+}
+
+// Documented in common/viewers/SoGuiFullViewer.cpp.in.
 void
 SoQtFullViewer::setRightWheelString(const char * const string)
 {
@@ -773,7 +778,7 @@ SoQtFullViewer::sizeChanged(const SbVec2s & size)
 #if defined Q_WS_MAC && ((QT_VERSION == 0x030100) || (QT_VERSION == 0x030101))
 
   // Environment variable to override Qt/Mac 3.1.x workarounds.
-  const char * forcenoresizeworkaround = 
+  const char * forcenoresizeworkaround =
     SoAny::si()->getenv("FORCE_NO_QTMAC_31_RESIZE_WORKAROUND");
   if (!forcenoresizeworkaround || (atoi(forcenoresizeworkaround) == 0)) {
 
@@ -782,10 +787,10 @@ SoQtFullViewer::sizeChanged(const SbVec2s & size)
 
       // spit out a warning that this is a Qt/Mac bug, not an SoQt problem
       const char * env = SoAny::si()->getenv("SOQT_NO_QTMAC_BUG_WARNINGS");
-      if (!env || !atoi(env)) {        
-        SoDebugError::postWarning("SoQtFullViewer::sizeChanged", 
+      if (!env || !atoi(env)) {
+        SoDebugError::postWarning("SoQtFullViewer::sizeChanged",
                                   "\nThis version of Qt/Mac contains a bug "
-                                  "that makes it necessary to leave the\n"  
+                                  "that makes it necessary to leave the\n"
                                   "lowermost 15 pixels of the viewer window "
                                   "blank. Set the environment variable\n"
                                   "FORCE_NO_QTMAC_31_RESIZE_WORKAROUND=1 to "
@@ -793,11 +798,11 @@ SoQtFullViewer::sizeChanged(const SbVec2s & size)
                                   "You can turn off warnings about Qt/Mac "
                                   "bugs permanently by setting \n"
                                   "SOQT_NO_QTMAC_BUG_WARNINGS=1.\n");
-      } 
-    } 
+      }
+    }
   }
 
-#endif 
+#endif
 
   newsize = SbVec2s(SoQtMax(newsize[0], (short)1),
                     SoQtMax(newsize[1], (short)1));
@@ -829,23 +834,35 @@ SoQtFullViewerP::showDecorationWidgets(SbBool onOff)
     PUBLIC(this)->bottomDecoration->show();
     PUBLIC(this)->rightDecoration->show();
 
-    QGridLayout * g = new QGridLayout(this->viewerwidget, 2, 1, 0, -1); // VIEWERBORDER);
+    this->viewerwidget->setContentsMargins(0,0,0,0);
+
+    QGridLayout * g = new QGridLayout(this->viewerwidget); // VIEWERBORDER);
+    g->setSpacing(0);
+    /*
+    g->setHorizontalSpacing(0);
+    g->setVerticalSpacing(0);
+    */
+    g->setContentsMargins(0,0,0,0);
 
     g->addWidget(PUBLIC(this)->bottomDecoration, 1, 0);
 
-    QGridLayout * subLayout = new QGridLayout(1, 3, 0);
+    QGridLayout * subLayout = new QGridLayout();
     g->addLayout(subLayout, 0, 0);
+    subLayout->setVerticalSpacing(0);
+    subLayout->setContentsMargins(0,0,0,0);
+
+    PUBLIC(this)->leftDecoration->setSizePolicy(QSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum));
 
     subLayout->addWidget(PUBLIC(this)->leftDecoration, 0, 0);
+    this->canvas->setSizePolicy(QSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding));
     subLayout->addWidget(this->canvas, 0, 1);
     subLayout->addWidget(PUBLIC(this)->rightDecoration, 0, 2);
-
-//     subLayout->setColStretch(1, 1);
+//     subLayout->setColumnStretch(1, 1);
 //     g->setRowStretch(0, 1);
 
     this->mainlayout = g;
   } else {
-    QGridLayout * g = new QGridLayout(this->viewerwidget, 1, 1, 0, -1);
+    QGridLayout * g = new QGridLayout(this->viewerwidget);
     g->addWidget(this->canvas, 0, 0);
     this->mainlayout = g;
 
@@ -871,7 +888,7 @@ SoQtFullViewerP::layoutAppButtons(QWidget * form)
   int nrbuttons = this->appbuttonlist->getLength();
   if (nrbuttons == 0) return;
 
-  this->appbuttonlayout = new QGridLayout(form, nrbuttons, 1);
+  this->appbuttonlayout = new QGridLayout(form);
 
   for (int i=0; i < nrbuttons; i++) {
     QWidget * button = (QWidget *)((*(this->appbuttonlist))[i]);
@@ -889,9 +906,9 @@ void
 SoQtFullViewerP::interactbuttonClicked(void)
 {
   if (this->interactbutton)
-    ((QPushButton *)this->interactbutton)->setOn(TRUE);
+    ((QPushButton *)this->interactbutton)->setChecked(TRUE);
   if (this->viewbutton)
-    ((QPushButton *)this->viewbutton)->setOn(FALSE);
+    ((QPushButton *)this->viewbutton)->setChecked(FALSE);
   if (PUBLIC(this)->isViewing())
     PUBLIC(this)->setViewing(FALSE);
 }
@@ -903,9 +920,9 @@ void
 SoQtFullViewerP::viewbuttonClicked(void)
 {
   if (this->interactbutton)
-    ((QPushButton *)this->interactbutton)->setOn(FALSE);
+    ((QPushButton *)this->interactbutton)->setChecked(FALSE);
   if (this->viewbutton)
-    ((QPushButton *)this->viewbutton)->setOn(TRUE);
+    ((QPushButton *)this->viewbutton)->setChecked(TRUE);
   if (!PUBLIC(this)->isViewing())
     PUBLIC(this)->setViewing(TRUE);
 }
@@ -1027,4 +1044,3 @@ void SoQtFullViewerP::rightWheelReleased(void) { PUBLIC(this)->rightWheelFinish(
 
 #undef PUBLIC
 #undef PRIVATE
-

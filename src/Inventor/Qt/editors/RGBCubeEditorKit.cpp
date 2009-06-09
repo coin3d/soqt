@@ -1,7 +1,7 @@
 /**************************************************************************\
  *
  *  This file is part of the Coin 3D visualization library.
- *  Copyright (C) 1998-2005 by Systems in Motion.  All rights reserved.
+ *  Copyright (C) 1998-2009 by Systems in Motion.  All rights reserved.
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -38,7 +38,7 @@
   static void myRgbChangeCallback(void * userData, SoSensor * sensor)
   {
     SoFieldSensor * fieldSensor = (SoFieldSensor *) sensor;
-    SoMFColor * color = (SoMFColor *) fieldSensor->getAttachedField();    
+    SoMFColor * color = (SoMFColor *) fieldSensor->getAttachedField();
   }
 
   int
@@ -46,14 +46,14 @@
   {
     QWidget * mainwin = SoQt::init(argc, argv, argv[0]);
     RGBCubeEditorKit::initClass();
-    
+
     SoSeparator * root = new SoSeparator;
     root->ref();
 
     // Creating the cube object
     RGBCubeEditorKit *rgbCube = new RGBCubeEditorKit;
     root->addChild(rgbCube);
-    
+
     // Attaching a sensor to the 'rgb' field in the RGBCubeEditorKit
     SoFieldSensor * rgbCubeSensor = new SoFieldSensor(myRgbChangeCallback,this);
     rgbCubeSensor->attach(&rgbCube->rgb);
@@ -62,52 +62,52 @@
     SoQtExaminerViewer * viewer = new SoQtExaminerViewer(mainwin);
     viewer->setSceneGraph(root);
     viewer->show();
-    
+
     SoQt::show(mainwin);
     SoQt::mainLoop();
-    
+
     delete viewer;
     root->unref();
-    
+
     return 0;
   }
   \endcode
 */
 
 #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
-#include <Inventor/SoPickedPoint.h> 
+#include <Inventor/SoPickedPoint.h>
 
 #include <Inventor/nodes/SoCube.h>
 #include <Inventor/draggers/SoScale1Dragger.h>
-#include <Inventor/nodes/SoTranslation.h> 
-#include <Inventor/nodes/SoSeparator.h> 
+#include <Inventor/nodes/SoTranslation.h>
+#include <Inventor/nodes/SoSeparator.h>
 #include <Inventor/nodes/SoRotation.h>
-#include <Inventor/nodes/SoMaterial.h> 
-#include <Inventor/nodes/SoText2.h> 
-#include <Inventor/nodes/SoFont.h> 
-#include <Inventor/nodes/SoBaseColor.h> 
-#include <Inventor/nodes/SoFaceSet.h> 
-#include <Inventor/nodes/SoCoordinate3.h> 
-#include <Inventor/nodes/SoMaterialBinding.h> 
-#include <Inventor/nodes/SoLightModel.h> 
-#include <Inventor/nodes/SoLight.h> 
-#include <Inventor/nodes/SoIndexedFaceSet.h> 
-#include <Inventor/nodes/SoVertexProperty.h> 
-#include <Inventor/nodes/SoIndexedLineSet.h> 
-#include <Inventor/nodes/SoSphere.h> 
-#include <Inventor/nodes/SoTransformSeparator.h> 
-#include <Inventor/nodes/SoSelection.h> 
-#include <Inventor/nodes/SoShapeHints.h> 
-#include <Inventor/nodes/SoEventCallback.h> 
-#include <Inventor/events/SoMouseButtonEvent.h> 
-#include <Inventor/actions/SoRayPickAction.h> 
-#include <Inventor/nodes/SoMarkerSet.h> 
-#include <Inventor/nodes/SoCylinder.h> 
-#include <Inventor/nodes/SoRotationXYZ.h> 
-#include <Inventor/nodes/SoAntiSquish.h> 
-#include <Inventor/nodes/SoTransformation.h> 
-#include <Inventor/nodes/SoPickStyle.h> 
-#include <Inventor/actions/SoGetMatrixAction.h> 
+#include <Inventor/nodes/SoMaterial.h>
+#include <Inventor/nodes/SoText2.h>
+#include <Inventor/nodes/SoFont.h>
+#include <Inventor/nodes/SoBaseColor.h>
+#include <Inventor/nodes/SoFaceSet.h>
+#include <Inventor/nodes/SoCoordinate3.h>
+#include <Inventor/nodes/SoMaterialBinding.h>
+#include <Inventor/nodes/SoLightModel.h>
+#include <Inventor/nodes/SoLight.h>
+#include <Inventor/nodes/SoIndexedFaceSet.h>
+#include <Inventor/nodes/SoVertexProperty.h>
+#include <Inventor/nodes/SoIndexedLineSet.h>
+#include <Inventor/nodes/SoSphere.h>
+#include <Inventor/nodes/SoTransformSeparator.h>
+#include <Inventor/nodes/SoSelection.h>
+#include <Inventor/nodes/SoShapeHints.h>
+#include <Inventor/nodes/SoEventCallback.h>
+#include <Inventor/events/SoMouseButtonEvent.h>
+#include <Inventor/actions/SoRayPickAction.h>
+#include <Inventor/nodes/SoMarkerSet.h>
+#include <Inventor/nodes/SoCylinder.h>
+#include <Inventor/nodes/SoRotationXYZ.h>
+#include <Inventor/nodes/SoAntiSquish.h>
+#include <Inventor/nodes/SoTransformation.h>
+#include <Inventor/nodes/SoPickStyle.h>
+#include <Inventor/actions/SoGetMatrixAction.h>
 
 #include "RGBCubeEditorKit.h"
 
@@ -134,36 +134,36 @@ public:
   SoScale1Dragger * draggerY;
   SoScale1Dragger * draggerZ;
   SoMaterial * cubeMaterial;              // Rgb cube material
-  SoCoordinate3 * colorCubeCoords; 
+  SoCoordinate3 * colorCubeCoords;
   SoIndexedFaceSet * cubeIndexedFacelist;
   SoTransformSeparator * cubeRoot;
-  SoText2 * textRedValue;                 // Text on axis 
+  SoText2 * textRedValue;                 // Text on axis
   SoText2 * textGreenValue;
   SoText2 * textBlueValue;
   SoTranslation * colorIndicatorPosition; // Current color indicator 'o'
-  SbVec3f * cubeVertices;              
+  SbVec3f * cubeVertices;
   SoFieldSensor * rgbSensor;
 
   void draggerCallback(void);
 
   void initRgbCube(void);
 
-  void initCubeFacelist(SoTransformSeparator * root, 
-			SoCoordinate3 * colorCubeCoords,
-			SoMaterial * cubeMaterial);
+  void initCubeFacelist(SoTransformSeparator * root,
+                     SoCoordinate3 * colorCubeCoords,
+                     SoMaterial * cubeMaterial);
 
-  void initCubeDraggers(SoSeparator * root, 
-			SoScale1Dragger * draggerX,
-			SoScale1Dragger * draggerY,
-			SoScale1Dragger * draggerZ,
-			SoDraggerCB * cb1, 
-			SoDraggerCB * cb2, 
-			SoDraggerCB * cb3,
-			float value1, float value2, float value3);
+  void initCubeDraggers(SoSeparator * root,
+                     SoScale1Dragger * draggerX,
+                     SoScale1Dragger * draggerY,
+                     SoScale1Dragger * draggerZ,
+                     SoDraggerCB * cb1,
+                     SoDraggerCB * cb2,
+                     SoDraggerCB * cb3,
+                     float value1, float value2, float value3);
 
-  void updateCubeVertices(SoCoordinate3 * colorCubeCoords, 
-			  SoMaterial * cubeMaterial,
-			  float x, float y, float z); 
+  void updateCubeVertices(SoCoordinate3 * colorCubeCoords,
+                       SoMaterial * cubeMaterial,
+                       float x, float y, float z);
 
   void modifyDraggerWidget(SoScale1Dragger * dragger);
 
@@ -200,7 +200,7 @@ RGBCubeEditorKit::RGBCubeEditorKit(void)
   PRIVATE(this)->draggerXValue = 0.8;
   PRIVATE(this)->draggerYValue = 0.8;
   PRIVATE(this)->draggerZValue = 0.8;
- 
+
   PRIVATE(this)->initRgbCube();
 
   PRIVATE(this)->rgbSensor = new SoFieldSensor(pimpl->rgbChangedCallback,PRIVATE(this));
@@ -221,18 +221,18 @@ RGBCubeEditorKit::initClass(void)
   SO_KIT_INIT_CLASS(RGBCubeEditorKit, SoInteractionKit, "InteractionKit");
 }
 
-SbBool 
+SbBool
 RGBCubeEditorKit::affectsState(void) const
 {
   return FALSE;
 }
 
-void 
+void
 RGBCubeEditorKitP::rgbChangedCallback(void * classObject, SoSensor * sensor)
 {
 
   RGBCubeEditorKitP * rgbCubeP = (RGBCubeEditorKitP *) classObject;  // Fetch caller object
-  
+
   rgbCubeP->draggerXValue = rgbCubeP->master->rgb[0][0];
   rgbCubeP->draggerYValue = rgbCubeP->master->rgb[0][1];
   rgbCubeP->draggerZValue = rgbCubeP->master->rgb[0][2];
@@ -249,7 +249,7 @@ RGBCubeEditorKitP::rgbChangedCallback(void * classObject, SoSensor * sensor)
 
 }
 
-void 
+void
 RGBCubeEditorKitP::mouseClickCallback(void * classObject, SoEventCallback * cb)
 {
 
@@ -257,7 +257,7 @@ RGBCubeEditorKitP::mouseClickCallback(void * classObject, SoEventCallback * cb)
 
   if(mouseEvent->getButton() == SoMouseButtonEvent::BUTTON1 &&
      mouseEvent->getState() == SoButtonEvent::UP) return;
-  
+
   RGBCubeEditorKitP * rgbCubeP = (RGBCubeEditorKitP *) classObject;  // Fetch caller object
 
   // Fetch viewport and scenegraph
@@ -288,18 +288,18 @@ RGBCubeEditorKitP::mouseClickCallback(void * classObject, SoEventCallback * cb)
   SoPickedPoint * myPP = rayPickAction.getPickedPoint();
   if(myPP == NULL)
     return;  // no object were selected. aborting.
-  
+
 
   SoFullPath * path = (SoFullPath *)myPP->getPath();
   SoNode * end = path->getTail();
 
-  
+
   if(end == rgbCubeP->cubeIndexedFacelist){  // Is this the IndexedFaceSet object?
 
     SbVec3f ipoint = myPP->getPoint();
 
     SbVec3f cubeOrigo = rgbCubeP->colorCubeCoords->point[0];
-    cubeOrigo[0] += translation[0]; 
+    cubeOrigo[0] += translation[0];
     cubeOrigo[1] += translation[1];
     cubeOrigo[2] += translation[2];
 
@@ -321,12 +321,12 @@ RGBCubeEditorKitP::mouseClickCallback(void * classObject, SoEventCallback * cb)
     rgbCubeP->draggerYValue = newPoint[1];
     rgbCubeP->draggerZValue = newPoint[2];
     rgbCubeP->draggerCallback();
-    
+
   }
 }
 
 
-void 
+void
 RGBCubeEditorKitP::updateColorValueText(float red, float green, float blue)
 {
 
@@ -348,7 +348,7 @@ RGBCubeEditorKitP::updateColorValueText(float red, float green, float blue)
 }
 
 
-void 
+void
 RGBCubeEditorKitP::draggerCallback(void)
 {
   this->updateCubeVertices(this->colorCubeCoords,
@@ -363,7 +363,7 @@ RGBCubeEditorKitP::draggerCallback(void)
 }
 
 
-void 
+void
 RGBCubeEditorKitP::draggerXCallback(void * obj, SoDragger * dragger)
 {
   RGBCubeEditorKit * rgbCube = (RGBCubeEditorKit *)obj;
@@ -377,7 +377,7 @@ RGBCubeEditorKitP::draggerXCallback(void * obj, SoDragger * dragger)
 }
 
 
-void 
+void
 RGBCubeEditorKitP::draggerYCallback(void * obj, SoDragger * dragger)
 {
   RGBCubeEditorKit * rgbCube = (RGBCubeEditorKit *)obj;
@@ -391,7 +391,7 @@ RGBCubeEditorKitP::draggerYCallback(void * obj, SoDragger * dragger)
 }
 
 
-void 
+void
 RGBCubeEditorKitP::draggerZCallback(void * obj, SoDragger * dragger)
 {
   RGBCubeEditorKit * rgbCube = (RGBCubeEditorKit *)obj;
@@ -405,10 +405,10 @@ RGBCubeEditorKitP::draggerZCallback(void * obj, SoDragger * dragger)
 }
 
 
-void 
+void
 RGBCubeEditorKitP::updateCubeVertices(SoCoordinate3 * cubeCoords,
-				  SoMaterial * cubeMaterial,
-				  float x, float y, float z)
+                              SoMaterial * cubeMaterial,
+                              float x, float y, float z)
 {
 
   // X-face
@@ -416,11 +416,11 @@ RGBCubeEditorKitP::updateCubeVertices(SoCoordinate3 * cubeCoords,
   cubeCoords->point.set1Value(2, x*CUBE_SIZE_X, y*CUBE_SIZE_Y, 0);
   cubeCoords->point.set1Value(1, x*CUBE_SIZE_X, 0, 0);
   cubeCoords->point.set1Value(5, x*CUBE_SIZE_X, 0, z*CUBE_SIZE_Z);
-  
+
   // Y-face
   cubeCoords->point.set1Value(3, 0, y*CUBE_SIZE_Y, 0);
   cubeCoords->point.set1Value(7, 0, y*CUBE_SIZE_Y, z*CUBE_SIZE_Z);
-  
+
   // Z-face
   cubeCoords->point.set1Value(7, 0, y*CUBE_SIZE_Y, z*CUBE_SIZE_Z);
   cubeCoords->point.set1Value(4, 0, 0, z*CUBE_SIZE_Z);
@@ -433,50 +433,50 @@ RGBCubeEditorKitP::updateCubeVertices(SoCoordinate3 * cubeCoords,
   cubeMaterial->diffuseColor.set1Value(6, x, y, z);
   cubeMaterial->diffuseColor.set1Value(7, 0, y, z);
 
-  colorIndicatorPosition->translation.setValue(cubeCoords->point[6]);  
+  colorIndicatorPosition->translation.setValue(cubeCoords->point[6]);
 
 }
 
 
-void 
-RGBCubeEditorKitP::initCubeFacelist(SoTransformSeparator * root, 
-				SoCoordinate3 * cubeCoords,
-				SoMaterial * cubeMaterial)
+void
+RGBCubeEditorKitP::initCubeFacelist(SoTransformSeparator * root,
+                            SoCoordinate3 * cubeCoords,
+                            SoMaterial * cubeMaterial)
 {
-  
+
   SbVec3f cubeVerts[4*2];
   int32_t cubeVertexIndices[] = {3,2,1,0, SO_END_FACE_INDEX,
-				 5,6,7,4, SO_END_FACE_INDEX,
-				 4,7,3,0, SO_END_FACE_INDEX,
-				 5,1,2,6, SO_END_FACE_INDEX,
-				 7,6,2,3, SO_END_FACE_INDEX,
-				 5,4,0,1, SO_END_FACE_INDEX };
+                             5,6,7,4, SO_END_FACE_INDEX,
+                             4,7,3,0, SO_END_FACE_INDEX,
+                             5,1,2,6, SO_END_FACE_INDEX,
+                             7,6,2,3, SO_END_FACE_INDEX,
+                             5,4,0,1, SO_END_FACE_INDEX };
 
   // Back
   cubeVerts[0].setValue(0, 0, 0);
   cubeVerts[1].setValue(CUBE_SIZE_X, 0, 0);
   cubeVerts[2].setValue(CUBE_SIZE_X, CUBE_SIZE_Y, 0);
   cubeVerts[3].setValue(0, CUBE_SIZE_Y, 0);
-  
+
   // Front
   cubeVerts[4].setValue(0, 0, CUBE_SIZE_Z);
   cubeVerts[5].setValue(CUBE_SIZE_X, 0, CUBE_SIZE_Z);
   cubeVerts[6].setValue(CUBE_SIZE_X, CUBE_SIZE_Y, CUBE_SIZE_Z);
   cubeVerts[7].setValue(0, CUBE_SIZE_Y, CUBE_SIZE_Z);
- 
+
 
   // Vertex colors
   cubeMaterial->diffuseColor.set1Value(0, 0,0,0);
   cubeMaterial->diffuseColor.set1Value(1, 1,0,0);
   cubeMaterial->diffuseColor.set1Value(2, 1,1,0);
   cubeMaterial->diffuseColor.set1Value(3, 0,1,0);
-  
+
   cubeMaterial->diffuseColor.set1Value(4, 0,0,1);
   cubeMaterial->diffuseColor.set1Value(5, 1,0,1);
   cubeMaterial->diffuseColor.set1Value(6, 1,1,1);
   cubeMaterial->diffuseColor.set1Value(7, 0,1,1);
-  
- 
+
+
   // ColorCube + LineCube coordinates
   SoCoordinate3 * lineCubeCoords = new SoCoordinate3;
   lineCubeCoords->point.setValues(0,4*2,cubeVerts);
@@ -499,12 +499,12 @@ RGBCubeEditorKitP::initCubeFacelist(SoTransformSeparator * root,
   SoMaterialBinding * cubeMatBind = new SoMaterialBinding;
   cubeMatBind->value = SoMaterialBinding::PER_VERTEX_INDEXED;
 
-  
+
   // No lighting of color-cube
   SoLightModel * cubeLight = new SoLightModel;
   cubeLight->model = SoLightModel::BASE_COLOR;
 
-   
+
   // Current color indicator
   SoSeparator * colorIndicatorRoot = new SoSeparator;
 
@@ -516,11 +516,11 @@ RGBCubeEditorKitP::initCubeFacelist(SoTransformSeparator * root,
   colorIndicatorColor->rgb.setValue(1,0,0);
   colorIndicatorRoot = new SoSeparator;
   colorIndicatorPosition->translation.setValue(cubeVerts[6].getValue());
- 
+
   colorIndicatorRoot->addChild(colorIndicatorPosition);
   colorIndicatorRoot->addChild(colorIndicatorColor);
   colorIndicatorRoot->addChild(colorIndicator);
-  
+
 
   // build scenegraph
   root->addChild(cubeMatBind);
@@ -531,12 +531,12 @@ RGBCubeEditorKitP::initCubeFacelist(SoTransformSeparator * root,
 
   SoPickStyle * pickStyle = new SoPickStyle;
   pickStyle->style = SoPickStyle::UNPICKABLE;
-  
+
   SoSeparator * lineRoot = new SoSeparator;
   lineRoot->addChild(pickStyle);              // Make the linecube unpickable
   lineRoot->addChild(lineCubeCoords);
   lineRoot->addChild(cubeLineMaterial);
-  lineRoot->addChild(cubeLineList);  
+  lineRoot->addChild(cubeLineList);
   root->addChild(lineRoot);
 
   root->addChild(colorIndicatorRoot);
@@ -544,15 +544,15 @@ RGBCubeEditorKitP::initCubeFacelist(SoTransformSeparator * root,
 }
 
 
-void 
+void
 RGBCubeEditorKitP::initCubeDraggers(SoSeparator * root,
-				   SoScale1Dragger * draggerX,
-				   SoScale1Dragger * draggerY,
-				   SoScale1Dragger * draggerZ,
-				   SoDraggerCB * cb1, 
-				   SoDraggerCB * cb2, 
-				   SoDraggerCB * cb3, 
-				   float value1,float value2, float value3)
+                               SoScale1Dragger * draggerX,
+                               SoScale1Dragger * draggerY,
+                               SoScale1Dragger * draggerZ,
+                               SoDraggerCB * cb1,
+                               SoDraggerCB * cb2,
+                               SoDraggerCB * cb3,
+                               float value1,float value2, float value3)
 {
 
   draggerX->scaleFactor.setValue(value1,1,1);
@@ -564,8 +564,8 @@ RGBCubeEditorKitP::initCubeDraggers(SoSeparator * root,
   draggerZ->addMotionCallback(cb3, PUBLIC(this));
 
 
-  SoTranslation * draggerXTrans = new SoTranslation;  
-  SoTranslation * draggerYTrans = new SoTranslation;  
+  SoTranslation * draggerXTrans = new SoTranslation;
+  SoTranslation * draggerYTrans = new SoTranslation;
   SoTranslation * draggerZTrans = new SoTranslation;
 
   SoSeparator * sep = new SoSeparator;
@@ -609,19 +609,19 @@ RGBCubeEditorKitP::initCubeDraggers(SoSeparator * root,
   textRedSep->addChild(pickStyle);
   textRedSep->addChild(textRedColor);
   textRedSep->addChild(textTrans);
-  textRedSep->addChild(this->textRedValue);   
-  
+  textRedSep->addChild(this->textRedValue);
+
   textGreenSep->addChild(pickStyle);
   textGreenSep->addChild(textGreenColor);
   textGreenSep->addChild(textTrans);
   textGreenSep->addChild(this->textGreenValue);
-  
+
   textBlueSep->addChild(pickStyle);
   textBlueSep->addChild(textBlueColor);
   textBlueSep->addChild(textTrans);
   textBlueSep->addChild(this->textBlueValue);
 
-  
+
   // build scene graph
   root->addChild(sep);
 
@@ -631,7 +631,7 @@ RGBCubeEditorKitP::initCubeDraggers(SoSeparator * root,
   root->addChild(textRedSep);
 
   root->addChild(sep);
-  
+
   root->addChild(draggerYTrans);
   root->addChild(draggerYRotation);
   root->addChild(draggerY);
@@ -648,10 +648,10 @@ RGBCubeEditorKitP::initCubeDraggers(SoSeparator * root,
 
 
 
-void 
+void
 RGBCubeEditorKitP::modifyDraggerWidget(SoScale1Dragger * dragger)
 {
-  
+
   SoSeparator * newDragger = new SoSeparator;
   newDragger->ref();
 
@@ -693,7 +693,7 @@ RGBCubeEditorKitP::modifyDraggerWidget(SoScale1Dragger * dragger)
 
   SoCube * cube1 = new SoCube; // Axis cross
   SoCube * cube2 = new SoCube;
-  
+
   cube1->width = 0.0;
   cube1->height = .5;
   cube1->depth = .1;
@@ -716,12 +716,12 @@ RGBCubeEditorKitP::modifyDraggerWidget(SoScale1Dragger * dragger)
   SoSeparator * endPoint1Sep = new SoSeparator;
   SoSeparator * endPoint2Sep = new SoSeparator;
 
-  
+
   // Build scene graph
   endPoint1Sep->addChild(endPointTrans1);
   endPoint1Sep->addChild(antiSquish);
   endPoint1Sep->addChild(endPoint);
-  
+
   endPoint2Sep->addChild(endPointTrans2);
   endPoint2Sep->addChild(antiSquish);
   endPoint2Sep->addChild(endPoint);
@@ -744,7 +744,7 @@ RGBCubeEditorKitP::modifyDraggerWidget(SoScale1Dragger * dragger)
 }
 
 
-void 
+void
 RGBCubeEditorKitP::initRgbCube(void)
 {
   SoSeparator * root = new SoSeparator;
@@ -758,22 +758,22 @@ RGBCubeEditorKitP::initRgbCube(void)
 
 
   // Creating dragger-text objects
-  this->textRedValue = new SoText2; 
+  this->textRedValue = new SoText2;
   this->textGreenValue = new SoText2;
   this->textBlueValue = new SoText2;
 
-  
+
   // Setup diffuse cube geometry
   this->draggerX =  new SoScale1Dragger;
   this->draggerY =  new SoScale1Dragger;
   this->draggerZ =  new SoScale1Dragger;
 
-  
+
   // Modify dragger look
   this->modifyDraggerWidget(this->draggerX);
   this->modifyDraggerWidget(this->draggerY);
   this->modifyDraggerWidget(this->draggerZ);
-  
+
 
   // Create 'o' point translation for cube-corner
   this->colorIndicatorPosition = new SoTranslation;
@@ -798,7 +798,7 @@ RGBCubeEditorKitP::initRgbCube(void)
   this->cubeRoot->addChild(cubeRootDraggers);
   this->cubeRoot->ref();
 
-  
+
   root->addChild(this->cubeRoot);
   draggerCallback();
 }

@@ -4,7 +4,7 @@
 /**************************************************************************\
  *
  *  This file is part of the Coin 3D visualization library.
- *  Copyright (C) 1998-2005 by Systems in Motion.  All rights reserved.
+ *  Copyright (C) 1998-2009 by Systems in Motion.  All rights reserved.
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -57,13 +57,13 @@ public:
   QWidget * parent;
   QWidget * widget;
   SbBool embedded, shelled;
-  QString classname, widgetname, captiontext, icontext;
+  char * classname, * widgetname, * icontext, * captiontext;
   SoQtComponentCB * closeCB;
   void * closeCBdata;
   SbPList * visibilitychangeCBs;
   SbBool realized;
   SbVec2s storesize;
-#ifdef Q_WS_MAC 
+#ifdef Q_WS_MAC
   // Workaround: Qt/Mac does not remember windowsize when going fullscreen
   SbVec2s windowsize;
 #endif

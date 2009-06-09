@@ -10,27 +10,27 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
     #include <Inventor/nodes/SoCone.h>
     #include <qpushbutton.h>
-    
-    
+
+
     int
     main(int argc,  char ** argv)
     {
       QWidget * window = SoQt::init("");
-    
+
       SoQtExaminerViewer * examinerviewer = new SoQtExaminerViewer(window);
       examinerviewer->setSceneGraph(new SoCone);
-    
+
       QWidget * parent = examinerviewer->getAppPushButtonParent();
       QPushButton * button = new QPushButton(parent);
       examinerviewer->addAppPushButton(button);
-    
+
       examinerviewer->show();
       SoQt::show(window);
       SoQt::mainLoop();
-    
+
       delete examinerviewer;
       return 0;
-    } 
+    }
     ----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] ---
 
     I see at least two problems in the SoQtFullViewer::buildLeftTrim()
@@ -49,8 +49,8 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     #include <Inventor/nodes/SoSeparator.h>
     #include <qapplication.h>
     #include <qwidget.h>
-    
-    
+
+
     class NewViewer : public SoQtViewer {
     public:
       NewViewer(QWidget * parent)
@@ -58,17 +58,17 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
       {
         QWidget * widget = this->buildWidget(parent);
         this->setBaseWidget(widget);
-    
+
         SoSeparator * root = new SoSeparator;
         root->addChild(new SoCone);
         this->setSceneGraph(root);
-    
+
         // FIXME: this causes the bug, remove the next line and all is
         // well. 20020619 mortene.
         this->show();
       }
     };
-    
+
     int
     main(int argc, char ** argv)
     {
@@ -81,7 +81,7 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     ----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] ---
 
     20020619 mortene.
-    
+
     UPDATE: Not seeing the scene-graph displayed in the main window in
     the above example is actually correct behavior: Note the FALSE
     flag passed on for 'embed'. The fact that the scene-graph is
@@ -127,27 +127,27 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
     #include <Inventor/nodes/SoCone.h>
     #include <qwidget.h>
-    
+
     int
     main(int argc, char ** argv)
     {
       QWidget * window = SoQt::init(argv[0]);
-    
+
       SoQtExaminerViewer * viewer = new SoQtExaminerViewer(window);
       viewer->setSceneGraph(new SoCone);
       viewer->setDecoration(FALSE);
-    
+
       viewer->show();
       SoQt::show(window);
-    
+
       window->resize(100, 100);
-    
+
       SoQt::mainLoop();
-    
+
       delete viewer;
       return 0;
     }
-    
+
     ----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] ---
 
     mortene 20020703.
@@ -212,7 +212,7 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     and embedded in an application Qt widget.
 
     20021018 mortene.
-    
+
     UPDATE: I've tried to recreate this bug by creating QMainWindow
     with an embedded ExaminerViewer, and fetching the title of the
     viewer after initialization. This does not demonstrate the
@@ -271,30 +271,30 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     #include <Inventor/nodes/SoBaseColor.h>
     #include <Inventor/nodes/SoCone.h>
     #include <Inventor/nodes/SoSeparator.h>
-    
+
     int main(int argc, char ** argv)
     {
        QApplication app(argc, argv);
        SoQt::init("");
-    
-       QWidget * parent = new QWidget;  
+
+       QWidget * parent = new QWidget;
        app.setMainWidget(parent);
-    
+
         SoSeparator * root = new SoSphere;
         root->ref();
         root->addChild(new SoCone());
-      
+
         SoQtExaminerViewer * viewer = new SoQtExaminerViewer(parent);
         viewer->setSceneGraph(root);
         viewer->show();
         delete viewer;
-    
-        SoQtPlaneViewer* planeviewer = new SoQtPlaneViewer(parent); 
+
+        SoQtPlaneViewer* planeviewer = new SoQtPlaneViewer(parent);
         planeviewer->setSceneGraph(root);
         planeviewer->show();
-    	
+
         app.exec();
-    
+
         return 0;
     }
     ----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] ---
@@ -381,23 +381,23 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
     ----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] ---
     #include <stdio.h>
     #include <conio.h>
-    
+
     #include <qapplication.h>
     #include <qwidget.h>
-    
+
     #include <Inventor/Qt/SoQt.h>
     #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
-    
+
     int main()
     {
       QWidget *unusedwidget = SoQt::init("memtest");
-    
+
       QWidget *widget;
       SoQtExaminerViewer *viewer;
       // SoQtRenderArea *viewer;
-    
+
       char c = 0;
-    
+
       while (c != 'q') {
         printf("Creating widget... ");
         getch();
@@ -615,7 +615,7 @@ main(int argc, char ** argv)
     class's implementation. I.e. when calling "new QApplication", the
     memory allocation actually happens within the Qt DLL's heap, and
     not the one in SoQt.
- 
+
     (If it were not like this, we would run into trouble with
     e.g. SoQt or application code new'ing a Coin node -- as Coin nodes
     are always deallocated from within the Coin DLL by "delete this".)
@@ -632,7 +632,7 @@ main(int argc, char ** argv)
     code parts of the test system:
 
     Header-file for DLL, "dll.h":
- 
+
 --------8<------------ [snip] -------------------------------------------
 class QApplication;
 
@@ -895,15 +895,15 @@ main(int argc, char ** argv)
 
       Switching between single, double, interactive buffer doesn't
       seem to work under Mac OS X (see context menu: Draw Styles ->
-      Render Buffer Type). 
+      Render Buffer Type).
 
-    Since with early versions of Qt/Mac, it was hard to get _any_ 
-    kind of correct OpenGL rendering working at all, there might 
-    be some hacks in SoQt that need to be cleaned up. Need to 
+    Since with early versions of Qt/Mac, it was hard to get _any_
+    kind of correct OpenGL rendering working at all, there might
+    be some hacks in SoQt that need to be cleaned up. Need to
     investigate this further.
 
     20060405 kyrah.
-  
+
 =====================================================================
 
 040 soqt-config weaknesses under Mac OS X
@@ -914,5 +914,5 @@ main(int argc, char ** argv)
       (e.g. soqt-config --build-app executable source1.cpp source2.cpp)
 
     20070123 kintel.
-  
+
 =====================================================================

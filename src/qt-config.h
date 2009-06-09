@@ -24,12 +24,6 @@
  * should be fixed over time...
  */
 
-/* must be defined before including qglobal.h to get
-   QT3_SUPPORT_CONSTRUCTOR and QT3_SUPPORT_VARIABLE defined */
-/* FIXME: get rid of this define. We should fix up the compile issues
-   wrt Qt 4 properly. 20050629 mortene. */
-#define QT3_SUPPORT
-
 #include <qglobal.h> /* QT_VERSION */
 
 #if (QT_VERSION < 200)

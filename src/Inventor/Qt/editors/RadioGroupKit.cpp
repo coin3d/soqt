@@ -1,7 +1,7 @@
 /**************************************************************************\
  *
  *  This file is part of the Coin 3D visualization library.
- *  Copyright (C) 1998-2005 by Systems in Motion.  All rights reserved.
+ *  Copyright (C) 1998-2009 by Systems in Motion.  All rights reserved.
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -34,50 +34,50 @@
   #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
   #include <Inventor/nodes/SoSeparator.h>
   #include "RadioGroupKit.h"
-  
-  
+
+
   static void
   myRadioButtonCallback(void * userdata, SoSensor * sensor)
-  { 
+  {
     SoFieldSensor * fieldsensor = (SoFieldSensor *)sensor;
     SoSFInt32 * button = (SoSFInt32 *)fieldsensor->getAttachedField();
     SoDebugError::postInfo("myRadioButtonCallback",
                            "Button '%d' clicked",
                            button->getValue());
   }
-  
+
   int
   main(int argc, char ** argv)
   {
     QWidget * mainwin = SoQt::init(argc, argv, argv[0]);
     RadioGroupKit::initClass();
-  
+
     SoSeparator * root = new SoSeparator;
     root->ref();
-  
+
     // Creating a basic radiobutton group
     RadioGroupKit * radiogroup = new RadioGroupKit;
     radiogroup->labels.set1Value(0,"Item #1");
     radiogroup->labels.set1Value(1,"Item #2");
     radiogroup->labels.set1Value(2,"Item #3");
     root->addChild(radiogroup);
-  
+
     // Setting up a callback sensor for the radiobuttons
     SoFieldSensor * radioGroupSensor =
       new SoFieldSensor(myRadioButtonCallback, NULL);
     radioGroupSensor->attach(&radiogroup->selected);
-  
+
     // Setting up scene
     SoQtExaminerViewer * viewer = new SoQtExaminerViewer(mainwin);
     viewer->setSceneGraph(root);
     viewer->show();
-  
+
     SoQt::show(mainwin);
     SoQt::mainLoop();
-  
+
     delete viewer;
     root->unref();
-  
+
     return 0;
   }
   \endcode
@@ -236,7 +236,7 @@ RadioGroupKitP::buttonClickedCallback(void * userData, SoPath * path)
     tail = (SoNode *) ((SoFullPath*)path)->getNodeFromTail(1);
   else
     tail = (SoNode *) ((SoFullPath*)path)->getNodeFromTail(2);
-  
+
   int index = (radioGroupP->root->findChild(tail))/2;
   assert(index != -1); // Failsafe
 
@@ -260,7 +260,7 @@ RadioGroupKitP::buttonClickedCallback(void * userData, SoPath * path)
 #if 0 // debug
   SoDebugError::postInfo("RadioGroupKitP::buttonClickedCallback","RadioGroupKit::selected = %d", index);
 #endif // debug
-  
+
 }
 
 void
@@ -294,9 +294,9 @@ RadioGroupKitP::removeAllRadioButtons()
 {
 
   // Remove all registrated buttons for list
-  for(int i=0;i<this->buttonList->getLength();++i)    
+  for(int i=0;i<this->buttonList->getLength();++i)
     this->buttonList->remove(i);
-  
+
   this->root->removeAllChildren();
   this->buttonCounter = 0;
 

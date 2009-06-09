@@ -1,7 +1,7 @@
 /**************************************************************************\
  *
  *  This file is part of the Coin 3D visualization library.
- *  Copyright (C) 1998-2005 by Systems in Motion.  All rights reserved.
+ *  Copyright (C) 1998-2009 by Systems in Motion.  All rights reserved.
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -74,14 +74,14 @@
   #include <Inventor/nodes/SoBaseColor.h>
   #include <Inventor/nodes/SoCone.h>
   #include <Inventor/nodes/SoSeparator.h>
-  
+
   int
   main(int argc, char ** argv)
   {
     // Initializes SoQt library (and implicitly also the Coin and Qt
     // libraries). Returns a top-level / shell Qt window to use.
     QWidget * mainwin = SoQt::init(argc, argv, argv[0]);
-  
+
     // Make a dead simple scene graph by using the Coin library, only
     // containing a single yellow cone under the scenegraph root.
     SoSeparator * root = new SoSeparator;
@@ -92,12 +92,12 @@
     root->addChild(col);
 
     root->addChild(new SoCone);
-  
+
     // Use one of the convenient SoQt viewer classes.
     SoQtExaminerViewer * eviewer = new SoQtExaminerViewer(mainwin);
     eviewer->setSceneGraph(root);
     eviewer->show();
-  
+
     // Pop up the main window.
     SoQt::show(mainwin);
     // Loop until exit.
@@ -229,6 +229,11 @@
 #endif // HAVE_CONFIG_H
 #include <qt-config.h>
 
+//Due to the niceties of the preprocessor, and X11's exquisite use
+//thereof. Make sure this is included before any X11 includes, to
+//avoid seemingly ludicrous error messages.
+#include <Inventor/Qt/SoQtInternal.h>
+
 #include <stdlib.h>
 #include <limits.h>
 
@@ -275,7 +280,6 @@
 #include <Inventor/Qt/SoQtComponent.h>
 #include <Inventor/Qt/SoQtSignalThread.h>
 #include <Inventor/Qt/SoAny.h>
-#include <Inventor/Qt/SoQtInternal.h>
 #include <Inventor/Qt/SoQtImageReader.h>
 #include <soqtdefs.h>
 
@@ -348,8 +352,8 @@ SoQtSignalThread * SoQtP::signalthread = NULL;
 SoQtP *
 SoQtP::soqt_instance(void)
 {
-  if (!SoQtP::slotobj) { 
-    SoQtP::slotobj = new SoQtP; 
+  if (!SoQtP::slotobj) {
+    SoQtP::slotobj = new SoQtP;
 #if defined(__COIN__) && defined(SOQT_SIGNAL_THREAD_ACTIVE)
     // store the thread SoQt::init() is called from, and start a signal thread to
     // handle scene graph changes from other threads
@@ -360,7 +364,7 @@ SoQtP::soqt_instance(void)
     SoQtP::signalthread->start();
 #endif // __COIN__
   }
-  
+
 #if HAVE_SBIMAGE_ADDREADIMAGECB
   if (!SoQtP::imagereader) {
     SoQtP::imagereader = new SoQtImageReader();
@@ -474,7 +478,7 @@ SoQtP::slot_idleSensor()
                            SoQtP::appobject->hasPendingEvents());
     SoDebugError::postInfo("SoQt::idleSensor", "is %s",
                            SoQtP::idletimer->isActive() ? "active" : "inactive");
-  } 
+  }
 #endif // HAVE_QAPPLICATION_HASPENDINGEVENTS
 
 #ifdef HAVE_QAPPLICATION_HASPENDINGEVENTS
@@ -580,9 +584,11 @@ SoQtP::slot_sensorQueueChanged(void)
 
   if (!SoQtP::timerqueuetimer) {
     SoQtP::timerqueuetimer = new QTimer;
+    SoQtP::timerqueuetimer->setSingleShot(TRUE);
     QObject::connect(SoQtP::timerqueuetimer, SIGNAL(timeout()),
                      SoQtP::soqt_instance(), SLOT(slot_timedOutSensor()));
     SoQtP::idletimer = new QTimer;
+    SoQtP::idletimer->setSingleShot(TRUE);
     QObject::connect(SoQtP::idletimer, SIGNAL(timeout()),
                      SoQtP::soqt_instance(), SLOT(slot_idleSensor()));
     SoQtP::delaytimeouttimer = new QTimer;
@@ -614,11 +620,11 @@ SoQtP::slot_sensorQueueChanged(void)
     }
 
     // Change interval of timerqueuetimer when head node of the
-    // timer-sensor queue of SoSensorManager changes. 
+    // timer-sensor queue of SoSensorManager changes.
     if (!SoQtP::timerqueuetimer->isActive())
-      SoQtP::timerqueuetimer->start((int)interval.getMsecValue(), TRUE);
+      SoQtP::timerqueuetimer->start((int)interval.getMsecValue());
     else
-      SoQtP::timerqueuetimer->changeInterval((int)interval.getMsecValue());
+      SoQtP::timerqueuetimer->setInterval((int)interval.getMsecValue());
   }
   // Stop timerqueuetimer if queue is completely empty.
   else if (SoQtP::timerqueuetimer->isActive()) {
@@ -634,16 +640,16 @@ SoQtP::slot_sensorQueueChanged(void)
                              "delaysensor pending");
     }
 
-    // Start idletimer at 0 seconds in the future. -- That means it will 
-    // trigger when the Qt event queue has been run through, i.e. when 
+    // Start idletimer at 0 seconds in the future. -- That means it will
+    // trigger when the Qt event queue has been run through, i.e. when
     // the application is idle.
-    if (!SoQtP::idletimer->isActive()) SoQtP::idletimer->start(0, TRUE);
+    if (!SoQtP::idletimer->isActive()) SoQtP::idletimer->start(0);
 
     if (!SoQtP::delaytimeouttimer->isActive()) {
       const SbTime & t = SoDB::getDelaySensorTimeout();
       if (t != SbTime::zero()) {
         unsigned long timeout = t.getMsecValue();
-        SoQtP::delaytimeouttimer->start((int)timeout, TRUE);
+        SoQtP::delaytimeouttimer->start((int)timeout);
       }
     }
   }
@@ -654,78 +660,6 @@ SoQtP::slot_sensorQueueChanged(void)
 }
 
 // *************************************************************************
-
-// We overload the QApplication class to be able to get hold of the
-// X11 events directly. (This is necessary to handle Spacetec
-// spaceball devices.)
-class SoQtApplication : public QApplication {
-public:
-  SoQtApplication(int & argc, char ** argv) : QApplication(argc, argv) {
-
-#ifdef HAVE_X11_AVAILABLE
-    this->display = NULL;
-#endif // HAVE_X11_AVAILABLE
-  }
-#ifdef HAVE_X11_AVAILABLE
-  virtual bool x11EventFilter(XEvent * e) {
-    SPW_InputEvent sbEvent;
-    if (SPW_TranslateEventX11(this->getDisplay(), e, &sbEvent)) {
-      QWidget * focus = this->focusWidget();
-      if (!focus) focus = this->activeWindow();
-      if (focus) {
-        QCustomEvent qevent((QEvent::Type)SoQtInternal::SPACEBALL_EVENT,
-                            (void *)&sbEvent);
-        QApplication::sendEvent(focus, &qevent);
-      }
-    }
-    return QApplication::x11EventFilter(e);
-  }
-  Display * getDisplay(void) {
-    QWidget * topw = SoQt::getTopLevelWidget();
-    if (topw) return topw->x11Display();
-    if (this->display == NULL) {
-      // Keep a single display-ptr.
-      // 
-      // This resource is never deallocated explicitly (but of course
-      // implicitly by the system on application close-down). This to
-      // work around some strange problems with the NVidia-driver 29.60
-      // on XFree86 v4 when using XCloseDisplay() -- like doublebuffered
-      // visuals not working correctly.
-      //
-      // Also, XCloseDisplay() has been known to cause crashes when
-      // running remotely from some old Mesa version on Red Hat Linux
-      // 6.2 onto an IRIX6.5 display. It seems likely that this was
-      // caused by a bug in that particular old Mesa version.
-      //
-      // mortene@sim.no
-      this->display = XOpenDisplay(NULL);
-    }
-    return this->display;
-  }
-  Display * display;
-#endif // HAVE_X11_AVAILABLE
-
-#ifdef HAVE_WIN32_API
-  virtual bool winEventFilter(MSG * msg) {
-    SPW_InputEvent sbEvent;
-    if (SPW_TranslateEventWin32(msg, &sbEvent)) {
-      QWidget * focus = this->focusWidget();
-      if (!focus) focus = this->activeWindow();
-      if (focus) {
-        QCustomEvent qevent((QEvent::Type)SoQtInternal::SPACEBALL_EVENT,
-                            (void *)&sbEvent);
-        QApplication::sendEvent(focus, &qevent);
-      }
-    }
-#if (QT_VERSION >= 0x040000)
-    long result = 0;
-    return QApplication::winEventFilter(msg, &result);
-#else
-    return QApplication::winEventFilter(msg);
-#endif
-  }
-#endif // HAVE_WIN32_API
-};
 
 #endif // DOXYGEN_SKIP_THIS
 
@@ -759,10 +693,11 @@ SoQt::init(QWidget * toplevelwidget)
     // subclass to catch spaceball events.
 
     // use a static char array to store the dummy argv parameters
-    static char * dummyargv[1];
+    static const char * dummyargv[1];
     dummyargv[0] = "SoQt";
     int argc = 1;
-    SoQtP::appobject = new SoQtApplication(argc, (char **) dummyargv);
+    SoQtP::appobject = new QApplication(argc, (char **) dummyargv);
+    //new SoQtApplication(argc, (char **) dummyargv);
     SoQtP::madeappobject = TRUE;
   }
   else {
@@ -810,7 +745,7 @@ SoQt::init(QWidget * toplevelwidget)
     const char * env = SoAny::si()->getenv(SoQtP::SOQT_X11_ERRORHANDLER);
     SoQtP::X11_ERRORHANDLER = env ? atoi(env) : 0;
   }
-      
+
   if (SoQtP::X11_ERRORHANDLER) {
     // Intervene upon X11 errors.
     SoQtP::previous_handler = (SoQtP_XErrorHandler*)XSetErrorHandler((XErrorHandler)SoQtP::X11Errorhandler);
@@ -840,7 +775,7 @@ SoQt::init(QWidget * toplevelwidget)
     SoQtP::DEBUG_LISTMODULES = env ? atoi(env) : 0;
     if (SoQtP::DEBUG_LISTMODULES) { SoAny::listWin32ProcessModules(); }
   }
-  
+
   SoDB::getSensorManager()->setChangedCallback(SoGuiP::sensorQueueChanged, NULL);
   SoQtP::mainwidget = toplevelwidget;
 }
@@ -871,7 +806,7 @@ SoQt::init(int & argc, char ** argv, const char * appname, const char * classnam
   if (qApp == NULL) {
     // Set up the QApplication instance which we have derived into a
     // subclass to catch spaceball events.
-    SoQtP::appobject = new SoQtApplication(argc, argv);
+    SoQtP::appobject = new QApplication(argc, argv);
     SoQtP::madeappobject = TRUE;
   }
   else {
@@ -882,12 +817,12 @@ SoQt::init(int & argc, char ** argv, const char * appname, const char * classnam
     SoQtP::appobject = qApp;
   }
 
-  QWidget * mainw = new QWidget(NULL, classname);
+  QWidget * mainw = new QWidget();
+  mainw->setObjectName(classname);
   SoQtP::didcreatemainwidget = TRUE;
   SoQt::init(mainw);
 
-  if (appname) { SoQtP::mainwidget->setCaption(appname); }
-  SoQtP::appobject->setMainWidget(SoQtP::mainwidget);
+  if (appname) { SoQtP::mainwidget->setWindowTitle(appname); }
   return SoQtP::mainwidget;
 }
 
@@ -896,7 +831,7 @@ void
 SoQt::mainLoop(void)
 {
   (void) qApp->exec();
-// Disabled invocation of SoQt::done(), since this calls SoDB::finish(), 
+// Disabled invocation of SoQt::done(), since this calls SoDB::finish(),
 // which means we would run into issues doing the usual...
 //    SoQt::mainLoop();
 //    root->unref();
@@ -917,7 +852,7 @@ SoQt::mainLoop(void)
 void
 SoQt::exitMainLoop(void)
 {
-  // FIXME: Should we call SoQt::done() here? 20060210 kyrah 
+  // FIXME: Should we call SoQt::done() here? 20060210 kyrah
   qApp->exit(0);
 }
 
@@ -972,7 +907,7 @@ SoQt::done(void)
     }
   }
 
-#if 0 // FIXME: These methods exist in TGS Inventor. We should add 
+#if 0 // FIXME: These methods exist in TGS Inventor. We should add
       // them, and then call them from here. 20060210 kyrah
   SoInteraction::finish();
   SoNodeKit::finish();

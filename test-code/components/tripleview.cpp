@@ -1,7 +1,7 @@
 /**************************************************************************\
  *
  *  This file is part of the Coin 3D visualization library.
- *  Copyright (C) 1998-2005 by Systems in Motion.  All rights reserved.
+ *  Copyright (C) 1998-2009 by Systems in Motion.  All rights reserved.
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -84,12 +84,12 @@ add_view(QWidget * viewparent, SoGroup * common, SbRotation cameraorientation)
   SoPerspectiveCamera * camera = new SoPerspectiveCamera;
   camera->orientation = cameraorientation;
   root->addChild(camera);
-  
+
   root->addChild(common);
-  
+
   SoQtRenderArea * area = new SoQtRenderArea(viewparent);
   area->setSceneGraph(root);
-  
+
 #ifndef __COIN__
   // IMPORTANT: make sure each GL context has a unique cache context
   // id.  this is needed for TGS/SGI Inventor. Coin handles this

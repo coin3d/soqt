@@ -1,7 +1,7 @@
 /**************************************************************************\
  *
  *  This file is part of the Coin 3D visualization library.
- *  Copyright (C) 1998-2005 by Systems in Motion.  All rights reserved.
+ *  Copyright (C) 1998-2009 by Systems in Motion.  All rights reserved.
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -155,18 +155,18 @@ SoQtMouse::translateEvent(QEvent * event)
 // compiled on Mac OS X), Qt::ControlButton is mapped to the "Ctrl"
 // key. Since Qt/Mac version 3.1.x, Qt::ControlButton is mapped to the
 // "Apple" key. (According to qt-support, this is intended
-// and not a bug.) 
+// and not a bug.)
 
 // Since the standard way of emulating right-click in the Mac world is
 // ctrl-click, we have to check for "meta" on Qt/Mac >= 3.1.x
 
-#if (defined(__APPLE__) && defined(Q_WS_X11)) || (defined(Q_WS_MAC) && QT_VERSION < 0x030100)  
+#if (defined(__APPLE__) && defined(Q_WS_X11)) || (defined(Q_WS_MAC) && QT_VERSION < 0x030100)
       if (mouseevent->state() & Qt::ControlButton)
         PRIVATE(this)->buttonevent->setButton(SoMouseButtonEvent::BUTTON2);
 #elif (defined(Q_WS_MAC) && QT_VERSION >= 0x030100)
-      if (mouseevent->state() & Qt::MetaButton) 
+      if (mouseevent->state() & Qt::MetaButton)
         PRIVATE(this)->buttonevent->setButton(SoMouseButtonEvent::BUTTON2);
-#endif 
+#endif
       break;
 
     case Qt::RightButton:
@@ -241,4 +241,3 @@ SoQtMouse::translateEvent(QEvent * event)
 
 #undef PRIVATE
 #undef PUBLIC
-

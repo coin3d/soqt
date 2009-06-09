@@ -4,7 +4,7 @@
 /**************************************************************************\
  *
  *  This file is part of the Coin 3D visualization library.
- *  Copyright (C) 1998-2005 by Systems in Motion.  All rights reserved.
+ *  Copyright (C) 1998-2009 by Systems in Motion.  All rights reserved.
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -33,7 +33,7 @@ class SoQtImageReader {
 public:
   SoQtImageReader(void);
   ~SoQtImageReader(void);
-  
+
   SbBool readImage(const SbString & filename, SbImage * image) const;
 
 private:

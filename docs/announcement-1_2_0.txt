@@ -21,8 +21,8 @@ New in SoQt v1.2.0 (2004-08-27):
 Download Information:
 ---------------------
 
-Source Code by FTP: 
-  ftp://ftp.coin3d.org/pub/coin/src/SoQt-1.2.0.tar.gz 
+Source Code by FTP:
+  ftp://ftp.coin3d.org/pub/coin/src/SoQt-1.2.0.tar.gz
 
 
 We do not provide pre-compiled binary packages of the SoQt library

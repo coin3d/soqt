@@ -1,7 +1,7 @@
 /**************************************************************************\
  *
  *  This file is part of the Coin 3D visualization library.
- *  Copyright (C) 1998-2005 by Systems in Motion.  All rights reserved.
+ *  Copyright (C) 1998-2009 by Systems in Motion.  All rights reserved.
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -134,12 +134,20 @@ SoQtExaminerViewer::setCamera(SoCamera * newCamera)
 
   if (newCamera) {
     SoType camtype = newCamera->getTypeId();
-    SbBool orthotype =
+    SbBool orthogonal =
       camtype.isDerivedFrom(SoOrthographicCamera::getClassTypeId());
 
-    this->setRightWheelString(orthotype ? "Zoom" : "Dolly");
+    const char * oldLabel = this->getRightWheelString();
+    if (oldLabel) {
+      if (orthogonal) {
+        if (strcmp("Dolly",oldLabel) == 0)
+          this->setRightWheelString("Zoom");
+      }
+      else if (strcmp("Zoom",oldLabel) == 0)
+        this->setRightWheelString("Dolly");
+    }
     if (PRIVATE(this)->cameratogglebutton) {
-      PRIVATE(this)->cameratogglebutton->setPixmap(orthotype ?
+      PRIVATE(this)->cameratogglebutton->setIcon(orthogonal ?
                                                    * (PRIVATE(this)->orthopixmap) :
                                                    * (PRIVATE(this)->perspectivepixmap));
     }
@@ -180,7 +188,7 @@ SoQtExaminerViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
     p = PRIVATE(this)->perspectivepixmap;
   else assert(0 && "unsupported cameratype");
 
-  PRIVATE(this)->cameratogglebutton->setPixmap(*p);
+  PRIVATE(this)->cameratogglebutton->setIcon(*p);
   PRIVATE(this)->cameratogglebutton->adjustSize();
 
   QObject::connect(PRIVATE(this)->cameratogglebutton, SIGNAL(clicked()),
@@ -246,4 +254,3 @@ SoQtExaminerViewerP::cameratoggleClicked()
 
 #undef PRIVATE
 #undef PUBLIC
-

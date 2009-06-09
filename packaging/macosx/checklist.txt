@@ -2,16 +2,16 @@
 # SoQt binary packaging for Mac OS X checklist
 #
 
-Prerequisites: 
+Prerequisites:
 - An official SoQt-$(VERSION).tar.gz
 - Make sure compiler version is set correctly (gcc_select)
 - Qt frameworks installed in /Library/Frameworks, QTDIR unset
 
-o Build & package SoQt 
+o Build & package SoQt
 
   cp /path/to/SoQt-$(VERSION).tar.gz .
   tar xzf SoQt-$(VERSION).tar.gz
-  export PATH=/usr/local/Trolltech/Qt-4.x.x/bin/:$PATH 
+  export PATH=/usr/local/Trolltech/Qt-4.x.x/bin/:$PATH
   ./SoQt-$(VERSION)/configure
   make macosx-packages
 
