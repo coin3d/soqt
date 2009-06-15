@@ -67,7 +67,7 @@
 #include <qevent.h>
 #include <qframe.h>
 #include <qmetaobject.h>
-#include <QColormap>
+#include <QtGui/QColormap>
 
 #ifdef Q_WS_X11
 #if QT_VERSION >= 0x040000 // Qt 4.0.0+
