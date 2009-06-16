@@ -3243,111 +3243,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.cpp.in">
-				<FileConfiguration
-					Name="DLL (Release)|Win32">
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"
-						Outputs="src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="LIB (Release)|Win32">
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"
-						Outputs="src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="LIB (Debug)|Win32">
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"
-						Outputs="src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="DLL (Debug)|Win32">
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"
-						Outputs="src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.h.in">
-				<FileConfiguration
-					Name="DLL (Release)|Win32">
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.h.in:src\Inventor\Qt\devices\SoQtSpaceball.h"
-						Outputs="src\Inventor\Qt\devices\SoQtSpaceball.h"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="LIB (Release)|Win32">
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.h.in:src\Inventor\Qt\devices\SoQtSpaceball.h"
-						Outputs="src\Inventor\Qt\devices\SoQtSpaceball.h"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="LIB (Debug)|Win32">
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.h.in:src\Inventor\Qt\devices\SoQtSpaceball.h"
-						Outputs="src\Inventor\Qt\devices\SoQtSpaceball.h"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="DLL (Debug)|Win32">
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.h.in:src\Inventor\Qt\devices\SoQtSpaceball.h"
-						Outputs="src\Inventor\Qt\devices\SoQtSpaceball.h"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\src\Inventor\Qt\common\devices\SoGuiSpaceballP.h.in">
-				<FileConfiguration
-					Name="DLL (Release)|Win32">
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceballP.h.in:src\Inventor\Qt\devices\SoGuiSpaceballP.h"
-						Outputs="src\Inventor\Qt\devices\SoGuiSpaceballP.h"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="LIB (Release)|Win32">
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceballP.h.in:src\Inventor\Qt\devices\SoGuiSpaceballP.h"
-						Outputs="src\Inventor\Qt\devices\SoGuiSpaceballP.h"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="LIB (Debug)|Win32">
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceballP.h.in:src\Inventor\Qt\devices\SoGuiSpaceballP.h"
-						Outputs="src\Inventor\Qt\devices\SoGuiSpaceballP.h"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="DLL (Debug)|Win32">
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceballP.h.in:src\Inventor\Qt\devices\SoGuiSpaceballP.h"
-						Outputs="src\Inventor\Qt\devices\SoGuiSpaceballP.h"/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\src\Inventor\Qt\common\viewers\SoGuiViewer.cpp.in">
 				<FileConfiguration
 					Name="DLL (Release)|Win32">
@@ -3450,6 +3345,111 @@
 						Description="subst&apos;ing $(InputPath)"
 						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\viewers\SoGuiViewerP.h.in:src\Inventor\Qt\viewers\SoGuiViewerP.h"
 						Outputs="src\Inventor\Qt\viewers\SoGuiViewerP.h"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\..\SoQt">
+				<FileConfiguration
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"
+						Outputs="src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"
+						Outputs="src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"
+						Outputs="src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"
+						Outputs="src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\..\SoQt">
+				<FileConfiguration
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoQtSpaceball.h"
+						Outputs="src\Inventor\Qt\devices\SoQtSpaceball.h"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoQtSpaceball.h"
+						Outputs="src\Inventor\Qt\devices\SoQtSpaceball.h"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoQtSpaceball.h"
+						Outputs="src\Inventor\Qt\devices\SoQtSpaceball.h"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoQtSpaceball.h"
+						Outputs="src\Inventor\Qt\devices\SoQtSpaceball.h"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\..\SoQt">
+				<FileConfiguration
+					Name="DLL (Release)|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoGuiSpaceballP.h"
+						Outputs="src\Inventor\Qt\devices\SoGuiSpaceballP.h"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Release)|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoGuiSpaceballP.h"
+						Outputs="src\Inventor\Qt\devices\SoGuiSpaceballP.h"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="LIB (Debug)|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoGuiSpaceballP.h"
+						Outputs="src\Inventor\Qt\devices\SoGuiSpaceballP.h"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DLL (Debug)|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="subst&apos;ing $(InputPath)"
+						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoGuiSpaceballP.h"
+						Outputs="src\Inventor\Qt\devices\SoGuiSpaceballP.h"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -4241,96 +4241,6 @@
 				</File>
 				<File
 					RelativePath="src\Inventor\Qt\devices\SoQtMouseCommon.cpp">
-					<FileConfiguration
-						Name="DLL (Release)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="3"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-							ObjectFile=".\Release\Qt\devices/"
-							ProgramDataBaseFileName="Release\Qt\devices/"/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="LIB (Release)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="3"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-							ObjectFile=".\StaticRelease\Qt\devices/"
-							ProgramDataBaseFileName="StaticRelease\Qt\devices/"/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="LIB (Debug)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="0"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-							BasicRuntimeChecks="3"
-							ObjectFile=".\StaticDebug\Qt\devices/"
-							ProgramDataBaseFileName="StaticDebug\Qt\devices/"/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="DLL (Debug)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="0"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-							BasicRuntimeChecks="3"
-							ObjectFile=".\Debug\Qt\devices/"
-							ProgramDataBaseFileName="Debug\Qt\devices/"/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\src\Inventor\Qt\devices\SoQtSpaceball.cpp">
-					<FileConfiguration
-						Name="DLL (Release)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="3"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-							ObjectFile=".\Release\Qt\devices/"
-							ProgramDataBaseFileName="Release\Qt\devices/"/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="LIB (Release)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="3"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-							ObjectFile=".\StaticRelease\Qt\devices/"
-							ProgramDataBaseFileName="StaticRelease\Qt\devices/"/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="LIB (Debug)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="0"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-							BasicRuntimeChecks="3"
-							ObjectFile=".\StaticDebug\Qt\devices/"
-							ProgramDataBaseFileName="StaticDebug\Qt\devices/"/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="DLL (Debug)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="0"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
-							BasicRuntimeChecks="3"
-							ObjectFile=".\Debug\Qt\devices/"
-							ProgramDataBaseFileName="Debug\Qt\devices/"/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp">
 					<FileConfiguration
 						Name="DLL (Release)|Win32">
 						<Tool
@@ -7001,6 +6911,103 @@
 			</Filter>
 		</Filter>
 		<Filter
+			Name="Public Headers"
+			Filter="h;ic;icc">
+			<Filter
+				Name="Inventor\Qt\devices headers"
+				Filter="">
+				<File
+					RelativePath="src\Inventor\Qt\devices\SoQtDevice.h">
+				</File>
+				<File
+					RelativePath="src\Inventor\Qt\devices\SoQtKeyboard.h">
+				</File>
+				<File
+					RelativePath="src\Inventor\Qt\devices\SoQtMouse.h">
+				</File>
+			</Filter>
+			<Filter
+				Name="Inventor\Qt\editors headers"
+				Filter="">
+				<File
+					RelativePath="src\Inventor\Qt\editors\SoQtColorEditor.h">
+				</File>
+				<File
+					RelativePath="src\Inventor\Qt\editors\SoQtMaterialEditor.h">
+				</File>
+			</Filter>
+			<Filter
+				Name="Inventor\Qt\nodes headers"
+				Filter="">
+				<File
+					RelativePath="src\Inventor\Qt\nodes\SoGuiColorEditor.h">
+				</File>
+				<File
+					RelativePath="src\Inventor\Qt\nodes\SoGuiMaterialEditor.h">
+				</File>
+			</Filter>
+			<Filter
+				Name="Inventor\Qt\viewers headers"
+				Filter="">
+				<File
+					RelativePath="src\Inventor\Qt\viewers\SoQtConstrainedViewer.h">
+				</File>
+				<File
+					RelativePath="src\Inventor\Qt\viewers\SoQtExaminerViewer.h">
+				</File>
+				<File
+					RelativePath="src\Inventor\Qt\viewers\SoQtFlyViewer.h">
+				</File>
+				<File
+					RelativePath="src\Inventor\Qt\viewers\SoQtFullViewer.h">
+				</File>
+				<File
+					RelativePath="src\Inventor\Qt\viewers\SoQtPlaneViewer.h">
+				</File>
+				<File
+					RelativePath="src\Inventor\Qt\viewers\SoQtViewer.h">
+				</File>
+			</Filter>
+			<Filter
+				Name="Inventor\Qt\widgets headers"
+				Filter="">
+				<File
+					RelativePath="src\Inventor\Qt\widgets\SoQtPopupMenu.h">
+				</File>
+				<File
+					RelativePath="..\..\src\Inventor\Qt\widgets\SoQtThumbWheel.h">
+				</File>
+			</Filter>
+			<Filter
+				Name="Inventor\Qt headers"
+				Filter="">
+				<File
+					RelativePath="src\Inventor\Qt\SoQt.h">
+				</File>
+				<File
+					RelativePath="src\Inventor\Qt\SoQtBasic.h">
+				</File>
+				<File
+					RelativePath="src\Inventor\Qt\SoQtColorEditor.h">
+				</File>
+				<File
+					RelativePath="src\Inventor\Qt\SoQtComponent.h">
+				</File>
+				<File
+					RelativePath="src\Inventor\Qt\SoQtCursor.h">
+				</File>
+				<File
+					RelativePath="src\Inventor\Qt\SoQtGLWidget.h">
+				</File>
+				<File
+					RelativePath="src\Inventor\Qt\SoQtObject.h">
+				</File>
+				<File
+					RelativePath="src\Inventor\Qt\SoQtRenderArea.h">
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
 			Name="Private Headers"
 			Filter="h;ic;icc">
 			<Filter
@@ -7471,33 +7478,6 @@
 				</File>
 				<File
 					RelativePath="..\..\src\Inventor\Qt\devices\SoQtLinuxJoystickP.h">
-					<FileConfiguration
-						Name="DLL (Release)|Win32"
-						ExcludedFromBuild="TRUE">
-						<Tool
-							Name="VCCustomBuildTool"/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="LIB (Release)|Win32"
-						ExcludedFromBuild="TRUE">
-						<Tool
-							Name="VCCustomBuildTool"/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="LIB (Debug)|Win32"
-						ExcludedFromBuild="TRUE">
-						<Tool
-							Name="VCCustomBuildTool"/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="DLL (Debug)|Win32"
-						ExcludedFromBuild="TRUE">
-						<Tool
-							Name="VCCustomBuildTool"/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\src\Inventor\Qt\devices\SoQtSpaceballP.h">
 					<FileConfiguration
 						Name="DLL (Release)|Win32"
 						ExcludedFromBuild="TRUE">
@@ -8489,10 +8469,6 @@
 					</FileConfiguration>
 				</File>
 			</Filter>
-		</Filter>
-		<Filter
-			Name="Public Headers"
-			Filter="h;ic;icc">
 		</Filter>
 	</Files>
 	<Globals>

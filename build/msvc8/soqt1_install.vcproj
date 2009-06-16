@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="soqt1_install"
-	ProjectGUID="{4FC27C6E-CE88-423A-ADD6-7674DB0C76ED}"
+	ProjectGUID="{B7C16725-023C-4205-8609-BCF2B9F81045}"
 	Keyword="MakeFileProj"
 	>
 	<Platforms>

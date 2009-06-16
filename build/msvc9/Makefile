@@ -111,9 +111,9 @@ LIBS = -lQtOpenGL4 -lQtGui4 -lQtCore4 -lcoin3 -lopengl32 -lgdi32 -lwinmm -luser3
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
 LN_S = ln -s
 LTLIBOBJS = 
-LT_AGE = 4
-LT_CURRENT = 24
-LT_REVISION = 2
+LT_AGE = 5
+LT_CURRENT = 25
+LT_REVISION = 0
 MACOSX_10_2FF_FALSE = 
 MACOSX_10_2FF_TRUE = #
 MACOSX_FALSE = 
@@ -135,9 +135,9 @@ OBJEXT = obj
 PACKAGE = SoQt
 PACKAGE_BUGREPORT = coin-support@coin3d.org
 PACKAGE_NAME = SoQt
-PACKAGE_STRING = SoQt 1.4.2a
+PACKAGE_STRING = SoQt 1.5.0a
 PACKAGE_TARNAME = soqt
-PACKAGE_VERSION = 1.4.2a
+PACKAGE_VERSION = 1.5.0a
 PATH_SEPARATOR = :
 PKG_CONFIG = /usr/local/bin/pkg-config
 QT4_CFLAGS = 
@@ -155,7 +155,7 @@ SOGUI_EXTRA_CXXFLAGS = -g /MT
 SOGUI_EXTRA_LDFLAGS = -L${exec_prefix}/lib -L/cygdrive/c/Coin3D-9/lib -L/cygdrive/c/Qt/4.4.3/lib
 SOGUI_EXTRA_LIBS = -lsoqt1 -lQtOpenGL4 -lQtGui4 -lQtCore4 -lcoin3 -lopengl32 -lgdi32 -lwinmm -luser32
 SOGUI_MAJOR_VERSION = 1
-SOGUI_MINOR_VERSION = 4
+SOGUI_MINOR_VERSION = 5
 SOGUI_MSVC_LIBC = multithread-static
 SOQT_BETA_VERSION = a
 SOQT_DSP_DEFS = /D "HAVE_CONFIG_H" /D "SOQT_MAKE_DLL" /D "_CRT_NONSTDC_NO_DEPRECATE" /D "_CRT_SECURE_NO_WARNINGS" /D "COIN_DLL" /D "SOQT_INTERNAL"
@@ -163,14 +163,14 @@ SOQT_DSP_INCS = /I "c:\home\larsa\svn\clean\SoQt\build\msvc9\src" /I "c:\home\la
 SOQT_DSP_LIBS = c:\Qt\4.4.3\lib\QtOpenGL4.lib c:\Qt\4.4.3\lib\QtGui4.lib c:\Qt\4.4.3\lib\QtCore4.lib c:\Coin3D-9\lib\coin3.lib opengl32.lib gdi32.lib winmm.lib user32.lib
 SOQT_LIB_DSP_DEFS =  /D "HAVE_CONFIG_H" /D "_CRT_NONSTDC_NO_DEPRECATE" /D "_CRT_SECURE_NO_WARNINGS" /D "COIN_DLL" /D "SOQT_INTERNAL"
 SOQT_MAJOR_VERSION = 1
-SOQT_MICRO_VERSION = 2
-SOQT_MINOR_VERSION = 4
+SOQT_MICRO_VERSION = 0
+SOQT_MINOR_VERSION = 5
 SOQT_SO_VERSION = 20
-SOQT_VERSION = 1.4.2a
+SOQT_VERSION = 1.5.0a
 STRIP = strip
 SUFFIX = 
 UNIX2WINPATH = CYGWIN= /usr/bin/cygpath -w
-VERSION = 1.4.2a
+VERSION = 1.5.0a
 WIDGET = QWidget *
 X_CFLAGS =  -INONE
 X_EXTRA_LIBS = 
@@ -309,10 +309,7 @@ SoGui_src_Inventor_Gui_devices_BuiltFiles = \
   $(top_builddir)/src/Inventor/Qt/devices/SoGuiKeyboardP.h \
   $(top_builddir)/src/Inventor/Qt/devices/SoQtMouseCommon.cpp \
   $(top_builddir)/src/Inventor/Qt/devices/SoQtMouse.h \
-  $(top_builddir)/src/Inventor/Qt/devices/SoGuiMouseP.h \
-  $(top_builddir)/src/Inventor/Qt/devices/SoQtSpaceballCommon.cpp \
-  $(top_builddir)/src/Inventor/Qt/devices/SoQtSpaceball.h \
-  $(top_builddir)/src/Inventor/Qt/devices/SoGuiSpaceballP.h
+  $(top_builddir)/src/Inventor/Qt/devices/SoGuiMouseP.h
 
 
 SoGui_src_Inventor_Gui_editors_BuiltFiles = \
@@ -525,9 +522,6 @@ SoGuiCommonDistFiles = \
   src/Inventor/Qt/common/devices/SoGuiMouse.cpp.in \
   src/Inventor/Qt/common/devices/SoGuiMouse.h.in \
   src/Inventor/Qt/common/devices/SoGuiMouseP.h.in \
-  src/Inventor/Qt/common/devices/SoGuiSpaceball.cpp.in \
-  src/Inventor/Qt/common/devices/SoGuiSpaceball.h.in \
-  src/Inventor/Qt/common/devices/SoGuiSpaceballP.h.in \
   src/Inventor/Qt/common/docs/doxygen/header.html \
   src/Inventor/Qt/common/docs/doxygen/footer.html \
   src/Inventor/Qt/common/docs/doxygen/stylesheet.css \
@@ -1412,15 +1406,6 @@ $(top_builddir)/src/Inventor/Qt/devices/SoQtMouse.h: $(top_srcdir)/src/Inventor/
 
 $(top_builddir)/src/Inventor/Qt/devices/SoGuiMouseP.h: $(top_srcdir)/src/Inventor/Qt/common/devices/SoGuiMouseP.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/Qt/devices/SoGuiMouseP.h:src/Inventor/Qt/common/devices/SoGuiMouseP.h.in )
-
-$(top_builddir)/src/Inventor/Qt/devices/SoQtSpaceballCommon.cpp: $(top_srcdir)/src/Inventor/Qt/common/devices/SoGuiSpaceball.cpp.in $(top_builddir)/config.status
-	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/Qt/devices/SoQtSpaceballCommon.cpp:src/Inventor/Qt/common/devices/SoGuiSpaceball.cpp.in )
-
-$(top_builddir)/src/Inventor/Qt/devices/SoQtSpaceball.h: $(top_srcdir)/src/Inventor/Qt/common/devices/SoGuiSpaceball.h.in $(top_builddir)/config.status
-	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/Qt/devices/SoQtSpaceball.h:src/Inventor/Qt/common/devices/SoGuiSpaceball.h.in )
-
-$(top_builddir)/src/Inventor/Qt/devices/SoGuiSpaceballP.h: $(top_srcdir)/src/Inventor/Qt/common/devices/SoGuiSpaceballP.h.in $(top_builddir)/config.status
-	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/Qt/devices/SoGuiSpaceballP.h:src/Inventor/Qt/common/devices/SoGuiSpaceballP.h.in )
 
 $(top_builddir)/src/Inventor/Qt/devices/spwinput.h: $(top_srcdir)/src/Inventor/Qt/common/spwinput.h.in $(top_builddir)/config.status
 	@( cd $(top_builddir); $(SHELL) config.status --file=src/Inventor/Qt/devices/spwinput.h:src/Inventor/Qt/common/spwinput.h.in )
