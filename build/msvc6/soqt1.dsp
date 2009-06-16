@@ -435,16 +435,16 @@ InputPath=
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceballP.h.in
+SOURCE=..\..\
 
 !IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 
 # PROP IgnoreDefaultTool 1
 #Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceballP.h.in
+InputPath=..\..\
 
 "src\Inventor\Qt\devices\SoGuiSpaceballP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceballP.h.in:src\Inventor\Qt\devices\SoGuiSpaceballP.h
+	..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoGuiSpaceballP.h
 
 # End Custom Build
 
@@ -455,7 +455,7 @@ InputPath=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceballP.h.in
 InputPath=
 
 "src\Inventor\Qt\devices\SoGuiSpaceballP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceballP.h.in:src\Inventor\Qt\devices\SoGuiSpaceballP.h
+	..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoGuiSpaceballP.h
 
 # End Custom Build
 
@@ -466,7 +466,7 @@ InputPath=
 InputPath=
 
 "src\Inventor\Qt\devices\SoGuiSpaceballP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceballP.h.in:src\Inventor\Qt\devices\SoGuiSpaceballP.h
+	..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoGuiSpaceballP.h
 
 # End Custom Build
   
@@ -477,7 +477,7 @@ InputPath=
 InputPath=
 
 "src\Inventor\Qt\devices\SoGuiSpaceballP.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceballP.h.in:src\Inventor\Qt\devices\SoGuiSpaceballP.h
+	..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoGuiSpaceballP.h
 
 # End Custom Build
 
@@ -894,16 +894,16 @@ InputPath=
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.h.in
+SOURCE=..\..\
 
 !IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 
 # PROP IgnoreDefaultTool 1
 #Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.h.in
+InputPath=..\..\
 
 "src\Inventor\Qt\devices\SoQtSpaceball.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.h.in:src\Inventor\Qt\devices\SoQtSpaceball.h
+	..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoQtSpaceball.h
 
 # End Custom Build
 
@@ -914,7 +914,7 @@ InputPath=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.h.in
 InputPath=
 
 "src\Inventor\Qt\devices\SoQtSpaceball.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.h.in:src\Inventor\Qt\devices\SoQtSpaceball.h
+	..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoQtSpaceball.h
 
 # End Custom Build
 
@@ -925,7 +925,7 @@ InputPath=
 InputPath=
 
 "src\Inventor\Qt\devices\SoQtSpaceball.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.h.in:src\Inventor\Qt\devices\SoQtSpaceball.h
+	..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoQtSpaceball.h
 
 # End Custom Build
   
@@ -936,7 +936,7 @@ InputPath=
 InputPath=
 
 "src\Inventor\Qt\devices\SoQtSpaceball.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.h.in:src\Inventor\Qt\devices\SoQtSpaceball.h
+	..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoQtSpaceball.h
 
 # End Custom Build
 
@@ -945,16 +945,16 @@ InputPath=
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.cpp.in
+SOURCE=..\..\
 
 !IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 
 # PROP IgnoreDefaultTool 1
 #Begin Custom Build - subst'ing $(InputPath)
-InputPath=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.cpp.in
+InputPath=..\..\
 
 "src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp
+	..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp
 
 # End Custom Build
 
@@ -965,7 +965,7 @@ InputPath=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.cpp.in
 InputPath=
 
 "src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp
+	..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp
 
 # End Custom Build
 
@@ -976,7 +976,7 @@ InputPath=
 InputPath=
 
 "src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp
+	..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp
 
 # End Custom Build
   
@@ -987,7 +987,7 @@ InputPath=
 InputPath=
 
 "src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\devices\SoGuiSpaceball.cpp.in:src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp
+	..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp
 
 # End Custom Build
 
@@ -5491,19 +5491,6 @@ SOURCE=..\..\src\Inventor\Qt\devices\SoQtMouse.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\Inventor\Qt\devices\SoQtSpaceball.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\Qt\devices"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\Qt\devices"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\Qt\devices"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\Qt\devices"
-!ENDIF
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\src\Inventor\Qt\devices\6DOFEvents.cpp
 !IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\Qt\devices"
@@ -5583,19 +5570,6 @@ SOURCE=.\src\Inventor\Qt\devices\SoQtKeyboardCommon.cpp
 # Begin Source File
 
 SOURCE=.\src\Inventor\Qt\devices\SoQtMouseCommon.cpp
-!IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
-# PROP Intermediate_Dir "Release\Qt\devices"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
-# PROP Intermediate_Dir "Debug\Qt\devices"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Release)"
-# PROP Intermediate_Dir "StaticRelease\Qt\devices"
-!ELSEIF  "$(CFG)" == "soqt1 - Win32 LIB (Debug)"
-# PROP Intermediate_Dir "StaticDebug\Qt\devices"
-!ENDIF
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp
 !IF  "$(CFG)" == "soqt1 - Win32 DLL (Release)"
 # PROP Intermediate_Dir "Release\Qt\devices"
 !ELSEIF  "$(CFG)" == "soqt1 - Win32 DLL (Debug)"
@@ -6777,10 +6751,6 @@ SOURCE=src\Inventor\Qt\devices\SoQtKeyboard.h
 
 SOURCE=src\Inventor\Qt\devices\SoQtMouse.h
 # End Source File
-# Begin Source File
-
-SOURCE=src\Inventor\Qt\devices\SoQtSpaceball.h
-# End Source File
 # End Group
 # Begin Group "Inventor\Qt\editors headers"
 # Set Default_Filter "h"
@@ -7211,12 +7181,6 @@ SOURCE=..\..\src\Inventor\Qt\devices\SoQtDeviceP.h
 # Begin Source File
 
 SOURCE=..\..\src\Inventor\Qt\devices\SoQtLinuxJoystickP.h
-
-# PROP Exclude_From_Build 1
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\Inventor\Qt\devices\SoQtSpaceballP.h
 
 # PROP Exclude_From_Build 1
 # End Source File

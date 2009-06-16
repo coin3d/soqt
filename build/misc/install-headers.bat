@@ -5,7 +5,6 @@ set msvc=%1
 copy /Y ..\%msvc%\src\Inventor\Qt\devices\SoQtDevice.h %COINDIR%\include\Inventor\Qt\devices\SoQtDevice.h >nul:
 copy /Y ..\%msvc%\src\Inventor\Qt\devices\SoQtKeyboard.h %COINDIR%\include\Inventor\Qt\devices\SoQtKeyboard.h >nul:
 copy /Y ..\%msvc%\src\Inventor\Qt\devices\SoQtMouse.h %COINDIR%\include\Inventor\Qt\devices\SoQtMouse.h >nul:
-copy /Y ..\%msvc%\src\Inventor\Qt\devices\SoQtSpaceball.h %COINDIR%\include\Inventor\Qt\devices\SoQtSpaceball.h >nul:
 copy /Y ..\%msvc%\src\Inventor\Qt\editors\SoQtColorEditor.h %COINDIR%\include\Inventor\Qt\editors\SoQtColorEditor.h >nul:
 copy /Y ..\%msvc%\src\Inventor\Qt\editors\SoQtMaterialEditor.h %COINDIR%\include\Inventor\Qt\editors\SoQtMaterialEditor.h >nul:
 copy /Y ..\%msvc%\src\Inventor\Qt\nodes\SoGuiColorEditor.h %COINDIR%\include\Inventor\Qt\nodes\SoGuiColorEditor.h >nul:

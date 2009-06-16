@@ -8,7 +8,7 @@
 
 
 /* Open Inventor extensions */
-#define COIN_IV_EXTENSIONS
+#define COIN_IV_EXTENSIONS 
 
 /* Version string for Qt */
 #define GUI_TOOLKIT_VERSION "443"
@@ -143,13 +143,13 @@
 #define PACKAGE_NAME "SoQt"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "SoQt 1.4.2a"
+#define PACKAGE_STRING "SoQt 1.5.0a"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "soqt"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.4.2a"
+#define PACKAGE_VERSION "1.5.0a"
 
 /* define this to the SoQt beta version letter */
 #define SOQT_BETA_VERSION a
@@ -158,22 +158,22 @@
 #define SOQT_MAJOR_VERSION 1
 
 /* Define to the micro version of SoQt */
-#define SOQT_MICRO_VERSION 2
+#define SOQT_MICRO_VERSION 0
 
 /* Define to the minor version of SoQt */
-#define SOQT_MINOR_VERSION 4
+#define SOQT_MINOR_VERSION 5
 
 /* Version string for SoQt */
-#define SOQT_VERSION "1.4.2a"
+#define SOQT_VERSION "1.5.0a"
 
 /* Define to 1 if you have the ANSI C header files. */
 /* #undef STDC_HEADERS */
 
 /* Version number of package */
-#define VERSION "1.4.2a"
+#define VERSION "1.5.0a"
 
 /* Define this if you want defaults to be linked into SoXt */
-#define WITH_STATIC_DEFAULTS
+#define WITH_STATIC_DEFAULTS 
 
 /* Define to 1 if the X Window System is missing or not being used. */
 /* #undef X_DISPLAY_MISSING */

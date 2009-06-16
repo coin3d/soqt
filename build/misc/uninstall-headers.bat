@@ -5,7 +5,6 @@ set msvc=%1
 del %COINDIR%\include\Inventor\Qt\devices\SoQtDevice.h
 del %COINDIR%\include\Inventor\Qt\devices\SoQtKeyboard.h
 del %COINDIR%\include\Inventor\Qt\devices\SoQtMouse.h
-del %COINDIR%\include\Inventor\Qt\devices\SoQtSpaceball.h
 del %COINDIR%\include\Inventor\Qt\editors\SoQtColorEditor.h
 del %COINDIR%\include\Inventor\Qt\editors\SoQtMaterialEditor.h
 del %COINDIR%\include\Inventor\Qt\nodes\SoGuiColorEditor.h
