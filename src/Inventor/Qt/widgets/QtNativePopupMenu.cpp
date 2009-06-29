@@ -29,10 +29,6 @@
 
 // *************************************************************************
 
-// FIXME: get rid of this define. We should fix up the compile issues
-// wrt Qt 4 properly. 20050629 mortene.
-#define QT3_SUPPORT
-
 // FIXME: create a new Qt4NativePopupMenu. There are just too
 // many differences between Qt3 menu handling and Qt4 menu handling.
 
@@ -66,6 +62,7 @@ struct MenuRecord {
   int menuid;
   char * name;
   char * title;
+  QAction * action;
   QPOPUPMENU_CLASS * menu;
   QPOPUPMENU_CLASS * parent;
 }; // struct MenuRecord
@@ -75,6 +72,7 @@ struct ItemRecord {
   int flags;
   char * name;
   char * title;
+  QAction * action;
   QPOPUPMENU_CLASS * parent;
 }; // struct ItemRecord
 
@@ -190,8 +188,10 @@ QtNativePopupMenu::setMenuTitle(
   delete [] rec->title;
   rec->title = strcpy(new char [strlen(title)+1], title);
 #if QT_VERSION >= 200
-  if (rec->parent)
-    rec->parent->changeItem(rec->menuid, QString(rec->title));
+  if (rec->parent) {
+    //rec->parent->actionAt(QPoint(rec->menuid,0))->setText(rec->title);
+    getMenuRecord(rec->menuid)->action->setText(rec->title);
+  }
 #else // Qt version < 2.0.0
   // This QMenuData::changeItem() method is being obsoleted from Qt
   // from version 2.0.0 onwards.
@@ -267,7 +267,7 @@ QtNativePopupMenu::setMenuItemTitle(
   rec->title = strcpy(new char [strlen(title)+1], title);
 #if QT_VERSION >= 200
   if (rec->parent)
-    rec->parent->changeItem(rec->itemid, QString(rec->title));
+    rec->parent->actionAt(QPoint(rec->itemid,0))->setText(rec->title);
 #else // Qt version < 2.0.0
   // This QMenuData::changeItem() method is being obsoleted from Qt
   // from version 2.0.0 onwards.
@@ -297,13 +297,13 @@ QtNativePopupMenu::setMenuItemEnabled(int itemid,
 {
   ItemRecord * rec = this->getItemRecord(itemid);
   if (rec) {
-    rec->parent->setItemEnabled(rec->itemid, enabled ? true : false);
+    rec->parent->actionAt(QPoint(rec->itemid,0))->setEnabled(enabled ? true:false);
     return;
   }
   MenuRecord * mrec = this->getMenuRecord(itemid);
   assert(mrec && "no such menu");
   assert(mrec->parent && "a menuitem must have a parent to be enabled/disabled");
-  mrec->parent->setItemEnabled(mrec->menuid, enabled ? true : false);
+  mrec->parent->actionAt(QPoint(mrec->menuid,0))->setEnabled(enabled ? true:false);
 } // setMenuItemEnabled()
 
 /*!
@@ -313,13 +313,14 @@ SbBool
 QtNativePopupMenu::getMenuItemEnabled(int itemid)
 {
   ItemRecord * rec = this->getItemRecord(itemid);
-  if (rec) return rec->parent->isItemEnabled(rec->itemid) ? TRUE : FALSE;
+
+  if (rec) return   rec->parent->actionAt(QPoint(rec->itemid,0))->isEnabled();
 
   MenuRecord * mrec = this->getMenuRecord(itemid);
   assert(mrec && "no such menu");
   assert(mrec->parent && "a menuitem must have a parent to be enabled/disabled");
 
-  return mrec->parent->isItemEnabled(mrec->menuid) ? TRUE : FALSE;
+  return   mrec->parent->actionAt(QPoint(mrec->menuid,0))->isEnabled();
 } // getMenuItemEnabled()
 
 /*!
@@ -339,7 +340,7 @@ QtNativePopupMenu::_setMenuItemMarked(int itemid, SbBool marked)
   if (rec->parent != NULL) {
 #if QT_VERSION >= 0x040000
     // FIXME: is this really safe? (20050727 frodo)
-    QAction * action = (QAction *) rec->parent->findItem(itemid);
+    QAction * action = (QAction *) rec->parent->actionAt(QPoint(itemid,0));
     if (action) {
       action->setChecked(marked ? true : false);
     }
@@ -361,11 +362,9 @@ QtNativePopupMenu::getMenuItemMarked(
   if (rec->parent == NULL)
     return (rec->flags & ITEM_MARKED) ? TRUE : FALSE;
 
-#if QT_VERSION >= 0x040400
-    QAction * action = (QAction *) rec->parent->findItem(itemid);
-    if (action) return action->isChecked();
-#endif
-  return rec->parent->isItemChecked(rec->itemid) ? TRUE : FALSE;
+  QAction * action = rec->action;
+  if (!action) return false;
+  return action->isChecked();
 } // getMenuItemMarked()
 
 // *************************************************************************
@@ -397,11 +396,18 @@ QtNativePopupMenu::addMenu(int menuid,
                       this, SLOT(itemActivation(int)));
 #endif // QT-version >= 400 && QT-version < 4.4.0
 
-  if (pos == -1)
-    super->menu->insertItem(QString(sub->title), sub->menu, sub->menuid);
-  else
-    super->menu->insertItem(QString(sub->title),
-                             sub->menu, sub->menuid, pos);
+  
+
+  QAction * action;
+  if (pos == -1) {
+    action = super->menu->addMenu(sub->menu);
+  }    
+  else {
+    QAction * before = super->menu->actionAt(QPoint(pos,0));
+    action = super->menu->insertMenu(before,sub->menu);
+  }
+  
+  action->setText(QString(sub->title));
   sub->parent = super->menu;
 } // addMenu()
 
@@ -418,15 +424,19 @@ QtNativePopupMenu::addMenuItem(int menuid,
   ItemRecord * item = this->getItemRecord(itemid);
   assert(item && "invalid child menu id");
 
-  if (pos == -1)
-    menu->menu->insertItem(QString(item->title), item->itemid);
-  else
-    menu->menu->insertItem(QString(item->title), item->itemid, pos);
+  item->action = new QAction(menu->menu);
+  item->action->setText(item->title);
+  if (pos == -1) {
+    menu->menu->addAction(item->action);
+  }
+  else {
+    menu->menu->insertAction(menu->menu->actionAt(QPoint(pos,0)),item->action);
+  }
   item->parent = menu->menu;
 
 #if QT_VERSION >= 0x040000
   // FIXME: is this really safe? (20050726 frodo)
-  QAction * action = (QAction *) item->parent->findItem(itemid);
+  QAction * action = (QAction *) item->parent->actionAt(QPoint(itemid,0));
   if (action) action->setCheckable(true);
 #endif // Qt 4.*
 
@@ -447,7 +457,7 @@ QtNativePopupMenu::addSeparator(int menuid,
   assert(menu && "no such menu");
 
   ItemRecord * rec = createItemRecord("separator");
-  menu->menu->insertSeparator(pos);
+  menu->menu->insertSeparator(menu->menu->actionAt(QPoint(pos,0)));
   rec->flags |= ITEM_SEPARATOR;
   this->items->append(rec);
 } // addSeparator()
@@ -477,7 +487,7 @@ QtNativePopupMenu::removeMenu(int menuid)
 #endif // SOQT_DEBUG
     return;
   }
-  rec->parent->removeItem(rec->menuid);
+  rec->parent->removeAction(rec->parent->actionAt(QPoint(rec->menuid,0)));
   rec->parent = NULL;
 } // removeMenu()
 
@@ -500,7 +510,7 @@ QtNativePopupMenu::removeMenuItem(int itemid)
 #endif // SOQT_DEBUG
     return;
   }
-  rec->parent->removeItem(rec->itemid);
+  rec->parent->removeAction(rec->parent->actionAt(QPoint(rec->itemid,0)));
   rec->parent = NULL;
 } // removeMenuItem()
 
@@ -563,6 +573,22 @@ QtNativePopupMenu::getItemRecord(int itemid)
 
 /*!
 */
+ItemRecord *
+QtNativePopupMenu::getItemRecordFromAction(QAction * action)
+{
+  const int numItems = this->items->getLength();
+  for (int i = 0; i < numItems; i++) {
+    const ItemRecord * rec = static_cast<ItemRecord *>((*this->items)[i]);
+    if (rec->action == action) { return (ItemRecord *) (*this->items)[i]; }
+  }
+
+  return (ItemRecord *) NULL;
+}
+
+// *************************************************************************
+
+/*!
+*/
 
 MenuRecord *
 QtNativePopupMenu::createMenuRecord(
@@ -579,10 +605,11 @@ QtNativePopupMenu::createMenuRecord(
   rec->menu = new QPOPUPMENU_CLASS((QWidget *) NULL, name);
 #endif
 
-  QObject::connect(rec->menu, SIGNAL(activated(int)),
-                   this, SLOT(itemActivation(int)));
+  QObject::connect(rec->menu, SIGNAL(triggered(QAction *)),
+                   this, SLOT(itemActivation(QAction *)));
 
   rec->parent = NULL;
+  rec->action = NULL;
   return rec;
 } // create()
 
@@ -599,6 +626,7 @@ QtNativePopupMenu::createItemRecord(
   rec->name = strcpy(new char [strlen(name)+1], name);
   rec->title = strcpy(new char [strlen(name)+1], name);
   rec->parent = NULL;
+  rec->action = NULL;
   return rec;
 } // create()
 
@@ -606,9 +634,11 @@ QtNativePopupMenu::createItemRecord(
 
 void
 QtNativePopupMenu::itemActivation(// private slot
-  int itemid)
+  QAction * action)
 {
-  inherited::invokeMenuSelection(itemid);
+  ItemRecord * rec = getItemRecordFromAction(action);
+  assert(rec);
+  inherited::invokeMenuSelection(rec->itemid);
 } // menuSelection()
 
 // *************************************************************************

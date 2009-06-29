@@ -32,6 +32,7 @@
 
 struct MenuRecord;
 struct ItemRecord;
+class QAction;
 
 class QtNativePopupMenu : public QObject, public SoQtPopupMenu
 {
@@ -68,11 +69,12 @@ protected:
 
   MenuRecord * getMenuRecord(int menuid);
   ItemRecord * getItemRecord(int itemid);
+  ItemRecord * getItemRecordFromAction(QAction * action);
   MenuRecord * createMenuRecord(const char * name);
   ItemRecord * createItemRecord(const char * name);
 
 private slots:
-  void itemActivation(int itemid);
+  void itemActivation(QAction *);
 
 private:
   SbPList * menus;

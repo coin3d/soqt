@@ -26,10 +26,6 @@
 
 // *************************************************************************
 
-// FIXME: get rid of this define. We should fix up the compile issues
-// wrt Qt 4 properly. 20050629 mortene.
-#define QT3_SUPPORT
-
 #include <qevent.h>
 
 // *************************************************************************
@@ -42,8 +38,8 @@ enum SoQtCustomEvents {
   soqt6dofDevicePressureEvent
 };
 
-class SoQt6dofDevicePressureEvent : public QCustomEvent {
-  typedef QCustomEvent inherited;
+class SoQt6dofDevicePressureEvent : public QEvent {
+  typedef QEvent inherited;
 
 public:
   SoQt6dofDevicePressureEvent(void);
@@ -60,8 +56,8 @@ private:
 
 };
 
-class SoQt6dofDeviceButtonEvent : public QCustomEvent {
-  typedef QCustomEvent inherited;
+class SoQt6dofDeviceButtonEvent : public QEvent {
+  typedef QEvent inherited;
 
 public:
   SoQt6dofDeviceButtonEvent(void);

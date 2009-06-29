@@ -36,10 +36,6 @@
 #include <assert.h>
 #include <stdio.h>
 
-// FIXME: get rid of this define. We should fix up the compile issues
-// wrt Qt 4 properly. 20050629 mortene.
-#define QT3_SUPPORT
-
 #include <qpainter.h>
 #include <qdrawutil.h>
 #include <qimage.h>
@@ -62,16 +58,18 @@ static const int SHADEBORDERWIDTH = 0;
 
 SoQtThumbWheel::SoQtThumbWheel(QWidget * parent,
                                const char * name)
-  : QWidget(parent, name)
+  : QWidget(parent)
 {
+  this->setObjectName(name);
   this->constructor(SoQtThumbWheel::Vertical);
 }
 
 SoQtThumbWheel::SoQtThumbWheel(Orientation orientation,
                                QWidget * parent,
                                const char * name)
-  : QWidget(parent, name)
+  : QWidget(parent)
 {
+  this->setObjectName(name);
   this->constructor(orientation);
 }
 
@@ -103,7 +101,7 @@ void
 SoQtThumbWheel::setOrientation(Orientation orientation)
 {
   this->orient = orientation;
-  this->repaint(FALSE);
+  this->repaint();
 }
 
 void
@@ -112,7 +110,6 @@ SoQtThumbWheel::paintEvent(QPaintEvent * event)
   QPainter p(this);
   QRect paintRect = event->rect();
   p.setClipRect(paintRect);
-  QColorGroup g = this->colorGroup();
 
   int w, dval;
   if (this->orient == SoQtThumbWheel::Vertical) {
@@ -166,12 +163,19 @@ SoQtThumbWheel::paintEvent(QPaintEvent * event)
   */
   p.end();
 
-  if (this->orient == Vertical)
-    bitBlt(this, wheelrect.left(), wheelrect.top(), this->pixmaps[pixmap],
-           0, 0, w, dval);
-  else
-    bitBlt(this, wheelrect.left(), wheelrect.top(), this->pixmaps[pixmap],
-           0, 0, dval, w);
+  QPainter painter(this);
+  QRect sRect;
+  QRect dRect;
+  if (this->orient == Vertical) {
+    sRect = QRect(0,0,w,dval);
+    dRect = QRect(wheelrect.left(),wheelrect.top(),w,dval);
+  }
+  else {
+    sRect = QRect(0,0,dval,w);
+    dRect = QRect(wheelrect.left(),wheelrect.top(),dval,w);
+  }
+  painter.drawPixmap(dRect,*this->pixmaps[pixmap],sRect);
+
   this->currentPixmap = pixmap;
 }
 
@@ -237,7 +241,7 @@ SoQtThumbWheel::mouseMoveEvent(QMouseEvent * event)
 
   emit wheelMoved(this->tempWheelValue);
 
-  this->repaint(FALSE);
+  this->repaint();
 }
 
 /*!
@@ -335,17 +339,12 @@ SoQtThumbWheel::initWheel(int diameter, int width)
 
   this->numPixmaps = this->wheel->getNumBitmaps();
   this->pixmaps = new QPixmap * [this->numPixmaps];
-  QImage image(pwidth, pheight, 32);
+  QImage image(pwidth, pheight,QImage::Format_RGB32);
   for (int i = 0; i < this->numPixmaps; i++) {
     this->wheel->drawBitmap(i, image.bits(), (this->orient == Vertical) ?
                             SoAnyThumbWheel::VERTICAL : SoAnyThumbWheel::HORIZONTAL);
     this->pixmaps[i] = new QPixmap(QSize(pwidth, pheight));
-    bool s = this->pixmaps[i]->convertFromImage(image);
-    if (!s && SOQT_DEBUG) {
-      SoDebugError::post("SoQtThumbWheel::initWheel",
-                         "Could not convert QImage to QPixmap, "
-                         "for unknown reason.");
-    }
+    *this->pixmaps[i] = QPixmap::fromImage(image);
   }
 }
 
@@ -358,7 +357,7 @@ SoQtThumbWheel::setEnabled(bool enable)
     this->state = SoQtThumbWheel::Idle;
   else
     this->state = SoQtThumbWheel::Disabled;
-  this->repaint(FALSE);
+  this->repaint();
 }
 
 bool
@@ -372,7 +371,7 @@ SoQtThumbWheel::setValue(float value)
 {
   this->wheelValue = this->tempWheelValue = value;
   this->mouseDownPos = this->mouseLastPos;
-  this->repaint(FALSE);
+  this->repaint();
 }
 
 // *************************************************************************

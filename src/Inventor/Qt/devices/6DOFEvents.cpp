@@ -30,7 +30,7 @@
 #include <qglobal.h>
 
 SoQt6dofDevicePressureEvent::SoQt6dofDevicePressureEvent(void)
-  : inherited(QEvent::User, NULL)
+  : inherited(QEvent::User)
 {
   this->t = (QEvent::Type) soqt6dofDevicePressureEvent;
   this->trans_x = 0.0f;
@@ -78,7 +78,7 @@ SoQt6dofDevicePressureEvent::getRotation(float & x, float & y, float & z) const
 // *************************************************************************
 
 SoQt6dofDeviceButtonEvent::SoQt6dofDeviceButtonEvent(void)
-  : inherited(QEvent::User, NULL)
+  : inherited(QEvent::User)
 {
   this->t = (QEvent::Type) soqt6dofDeviceButtonReleasedEvent;
   this->state = 0;

@@ -25,10 +25,6 @@
 #include <config.h>
 #endif // HAVE_CONFIG_H
 
-// FIXME: get rid of this define. We should fix up the compile issues
-// wrt Qt 4 properly. 20050629 mortene.
-#define QT3_SUPPORT
-
 #include <qevent.h>
 
 #include <Inventor/errors/SoDebugError.h>
@@ -218,15 +214,15 @@ SoQtMouse::translateEvent(QEvent * event)
   if (conv) {
     // Modifiers
     if (mouseevent) {
-      conv->setShiftDown(mouseevent->state() & Qt::ShiftButton);
-      conv->setCtrlDown(mouseevent->state() & Qt::ControlButton);
-      conv->setAltDown(mouseevent->state() & Qt::AltButton);
+      conv->setShiftDown(mouseevent->modifiers() & Qt::ShiftModifier);
+      conv->setCtrlDown(mouseevent->modifiers() & Qt::ControlModifier);
+      conv->setAltDown(mouseevent->modifiers() & Qt::AltModifier);
       this->setEventPosition(conv, mouseevent->x(), mouseevent->y());
     }
     else { // wheelevent
-      conv->setShiftDown(wheelevent->state() & Qt::ShiftButton);
-      conv->setCtrlDown(wheelevent->state() & Qt::ControlButton);
-      conv->setAltDown(wheelevent->state() & Qt::AltButton);
+      conv->setShiftDown(wheelevent->modifiers() & Qt::ShiftModifier);
+      conv->setCtrlDown(wheelevent->modifiers() & Qt::ControlModifier);
+      conv->setAltDown(wheelevent->modifiers() & Qt::AltModifier);
       this->setEventPosition(conv, wheelevent->x(), wheelevent->y());
     }
 
