@@ -160,7 +160,7 @@ SoQtMouse::translateEvent(QEvent * event)
       if (mouseevent->state() & Qt::ControlButton)
         PRIVATE(this)->buttonevent->setButton(SoMouseButtonEvent::BUTTON2);
 #elif (defined(Q_WS_MAC) && QT_VERSION >= 0x030100)
-      if (mouseevent->state() & Qt::MetaButton)
+      if (mouseevent->modifiers() & Qt::MetaModifier)
         PRIVATE(this)->buttonevent->setButton(SoMouseButtonEvent::BUTTON2);
 #endif
       break;
