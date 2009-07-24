@@ -3354,7 +3354,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"
 						Outputs="src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3362,7 +3362,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"
 						Outputs="src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3370,7 +3370,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"
 						Outputs="src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3378,7 +3378,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"
 						Outputs="src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"/>
 				</FileConfiguration>
 			</File>
@@ -3389,7 +3389,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoQtSpaceball.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\devices\SoQtSpaceball.h"
 						Outputs="src\Inventor\Qt\devices\SoQtSpaceball.h"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3397,7 +3397,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoQtSpaceball.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\devices\SoQtSpaceball.h"
 						Outputs="src\Inventor\Qt\devices\SoQtSpaceball.h"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3405,7 +3405,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoQtSpaceball.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\devices\SoQtSpaceball.h"
 						Outputs="src\Inventor\Qt\devices\SoQtSpaceball.h"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3413,7 +3413,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoQtSpaceball.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\devices\SoQtSpaceball.h"
 						Outputs="src\Inventor\Qt\devices\SoQtSpaceball.h"/>
 				</FileConfiguration>
 			</File>
@@ -3424,7 +3424,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoGuiSpaceballP.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\devices\SoGuiSpaceballP.h"
 						Outputs="src\Inventor\Qt\devices\SoGuiSpaceballP.h"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3432,7 +3432,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoGuiSpaceballP.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\devices\SoGuiSpaceballP.h"
 						Outputs="src\Inventor\Qt\devices\SoGuiSpaceballP.h"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3440,7 +3440,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoGuiSpaceballP.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\devices\SoGuiSpaceballP.h"
 						Outputs="src\Inventor\Qt\devices\SoGuiSpaceballP.h"/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3448,7 +3448,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\devices\SoGuiSpaceballP.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\devices\SoGuiSpaceballP.h"
 						Outputs="src\Inventor\Qt\devices\SoGuiSpaceballP.h"/>
 				</FileConfiguration>
 			</File>
