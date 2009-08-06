@@ -557,6 +557,7 @@ QWidget *
 SoQtFullViewer::buildAppButtons(QWidget * parent)
 {
   PRIVATE(this)->appbuttonform = new QWidget(parent);
+  PRIVATE(this)->appbuttonform->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
 
   if (this->lengthAppPushButton() > 0)
     PRIVATE(this)->layoutAppButtons(PRIVATE(this)->appbuttonform);
@@ -889,11 +890,13 @@ SoQtFullViewerP::layoutAppButtons(QWidget * form)
   if (nrbuttons == 0) return;
 
   this->appbuttonlayout = new QGridLayout(form);
+  this->appbuttonlayout->setContentsMargins(0,0,0,0);
+  this->appbuttonlayout->setSpacing(0);
 
   for (int i=0; i < nrbuttons; i++) {
     QWidget * button = (QWidget *)((*(this->appbuttonlist))[i]);
-    button->show();
     ((QGridLayout *)this->appbuttonlayout)->addWidget(button, i, 0);
+    button->show();
   }
 
   this->appbuttonlayout->activate();
