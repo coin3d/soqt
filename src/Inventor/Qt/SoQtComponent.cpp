@@ -63,8 +63,9 @@
 static const char nullstring[] = "(null)";
 
 static void setAndAllocString(char * & dst, const char * src) {
-  if (dst != NULL)
-    delete [] dst;
+  if (dst==src)
+    return;
+  delete [] dst;
 
   size_t n = strlen(src);
   dst = new char [n+1];
