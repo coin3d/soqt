@@ -63,12 +63,12 @@
 static const char nullstring[] = "(null)";
 
 static void setAndAllocString(char * & dst, const char * src) {
-  if (dst==src)
+  if (dst == src)
     return;
   delete [] dst;
 
-  if(src==NULL) {
-    dst=NULL;
+  if(src == NULL) {
+    dst = NULL;
     return;
   }
 
