@@ -67,6 +67,11 @@ static void setAndAllocString(char * & dst, const char * src) {
     return;
   delete [] dst;
 
+  if(src==NULL) {
+    dst=NULL;
+    return;
+  }
+
   size_t n = strlen(src);
   dst = new char [n+1];
   strcpy(dst,src);
