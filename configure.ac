@@ -841,7 +841,7 @@ if $sim_ac_framework && $sim_ac_coin_desired && $sim_ac_coin_avail; then
       fi
     fi
     frameworkdir=${sim_ac_framework_prefix}/${sim_ac_framework_name}.framework
-    soguiincludedir="" # ${sim_ac_framework_prefix}/${sim_ac_framework_name}.framework/Headers
+    soguiincludedir="${ivframeworkdir}/Resources/include"
   fi
 else
   sim_ac_framework=false
