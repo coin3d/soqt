@@ -339,9 +339,10 @@ QtNativePopupMenu::_setMenuItemMarked(int itemid, SbBool marked)
 
   if (rec->parent != NULL) {
 #if QT_VERSION >= 0x040000
-    // FIXME: is this really safe? (20050727 frodo)
-    QAction * action = (QAction *) rec->parent->actionAt(QPoint(itemid,0));
+    QAction * action = rec->action;
     if (action) {
+      //FIXME: Could this be done on creation? - BFG 20090910
+      action->setCheckable(true);
       action->setChecked(marked ? true : false);
     }
 #else
