@@ -89,7 +89,7 @@ static void setAndAllocString(char * & dst, const char * src) {
 SbDict * SoQtComponentP::cursordict = NULL;
 
 SoQtComponentP::SoQtComponentP(SoQtComponent * o)
-  : SoGuiComponentP(o),classname(NULL), widgetname(NULL), icontext(NULL), captiontext(NULL)
+  : SoGuiComponentP(o),classname(NULL), widgetname(NULL), icontext(NULL)
 {
 }
 
@@ -101,8 +101,6 @@ SoQtComponentP::~SoQtComponentP()
     delete [] PRIVATE(this)->widgetname;
   if (PRIVATE(this)->icontext)
     delete [] PRIVATE(this)->icontext;
-  if (PRIVATE(this)->captiontext)
-    delete [] PRIVATE(this)->captiontext;
 }
 
 void
@@ -494,9 +492,8 @@ SoQtComponent::setBaseWidget(QWidget * widget)
 
 
   if (!PRIVATE(this)->parent || PRIVATE(this)->parent->isTopLevel()) {
-    if (PRIVATE(this)->captiontext==NULL)
-      setAndAllocString(PRIVATE(this)->captiontext,this->getDefaultTitle());
-    this->setTitle(PRIVATE(this)->captiontext);
+    if (PRIVATE(this)->widget->windowTitle()=="")
+      this->setTitle(this->getDefaultTitle());
 
     if (PRIVATE(this)->icontext==NULL)
       setAndAllocString(PRIVATE(this)->icontext,this->getDefaultIconTitle());
@@ -679,8 +676,6 @@ SoQtComponent::getParentWidget(void) const
 void
 SoQtComponent::setTitle(const char * const title)
 {
-  setAndAllocString(PRIVATE(this)->captiontext,title);
-
   if (this->getWidget()) {
     QWidget * toplevel = this->getWidget();
     while (!toplevel->isTopLevel() ) {
@@ -696,8 +691,17 @@ SoQtComponent::setTitle(const char * const title)
 const char *
 SoQtComponent::getTitle(void) const
 {
-  return
-    PRIVATE(this)->captiontext == NULL ? nullstring : PRIVATE(this)->captiontext;
+  if (this->getWidget()) {
+    QWidget * toplevel = this->getWidget();
+    while (!toplevel->isTopLevel() ) {
+      toplevel = toplevel->parentWidget();
+    }
+    if (toplevel) {
+      return toplevel->windowTitle().toLatin1();
+		  
+    }
+  }
+	return "";
 }
 
 // documented in common/SoGuiComponentCommon.cpp.in.

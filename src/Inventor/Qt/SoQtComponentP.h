@@ -57,7 +57,7 @@ public:
   QWidget * parent;
   QWidget * widget;
   SbBool embedded, shelled;
-  char * classname, * widgetname, * icontext, * captiontext;
+  char * classname, * widgetname, * icontext;
   SoQtComponentCB * closeCB;
   void * closeCBdata;
   SbPList * visibilitychangeCBs;
