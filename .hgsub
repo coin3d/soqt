@@ -1,1 +1,2 @@
 data = http://hg.sim.no/SoAnyData/default
+src/Inventor/Qt/common = http://hg.sim.no/SoGUI/default
