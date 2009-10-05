@@ -398,16 +398,6 @@ SoQtFullViewer::buildWidget(QWidget * parent)
   PRIVATE(this)->viewerwidget->setBackgroundColor(QColor(250, 0, 0));
 #endif
 
-  // FIXME: The scaling and layout of a viewer without decorations
-  // currently don't work, so here I create the widget /with/
-  // decorations, and desides if they should be visible afterwards. A
-  // nice side-effect is that this makes sure that the
-  // (SoQtFullViewer*)->setDecoration(SbBool) works for TRUE and
-  // FALSE, regardless of how the widget initially was built. I regard
-  // this more like a workaround than as a /fix/, and lots and lots of
-  // this should have a major brushing as there still are a lot of
-  // evil-doers in this county.... 20021022 rolvs.
-
   PRIVATE(this)->canvas = inherited::buildWidget(PRIVATE(this)->viewerwidget);
 
   QSize s(PRIVATE(this)->viewerwidget->size().width(),
@@ -827,7 +817,6 @@ SoQtFullViewerP::showDecorationWidgets(SbBool onOff)
   if (this->mainlayout) delete this->mainlayout;
 
   assert(this->viewerwidget);
-//  assert(this->canvasparent);
 
   assert(PUBLIC(this)->leftDecoration && PUBLIC(this)->bottomDecoration && PUBLIC(this)->rightDecoration);
   if (onOff) {
@@ -839,10 +828,6 @@ SoQtFullViewerP::showDecorationWidgets(SbBool onOff)
 
     QGridLayout * g = new QGridLayout(this->viewerwidget); // VIEWERBORDER);
     g->setSpacing(0);
-    /*
-    g->setHorizontalSpacing(0);
-    g->setVerticalSpacing(0);
-    */
     g->setContentsMargins(0,0,0,0);
 
     g->addWidget(PUBLIC(this)->bottomDecoration, 1, 0);
@@ -858,13 +843,12 @@ SoQtFullViewerP::showDecorationWidgets(SbBool onOff)
     this->canvas->setSizePolicy(QSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding));
     subLayout->addWidget(this->canvas, 0, 1);
     subLayout->addWidget(PUBLIC(this)->rightDecoration, 0, 2);
-//     subLayout->setColumnStretch(1, 1);
-//     g->setRowStretch(0, 1);
 
     this->mainlayout = g;
   } else {
     QGridLayout * g = new QGridLayout(this->viewerwidget);
     g->addWidget(this->canvas, 0, 0);
+    g->setContentsMargins(0,0,0,0);
     this->mainlayout = g;
 
     PUBLIC(this)->leftDecoration->hide();
