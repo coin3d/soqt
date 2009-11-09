@@ -3,7 +3,6 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="soqt1"
-	ProjectGUID="{B1CD961E-7B6D-4463-BFF2-B58CCDFC8F19}"
 	>
 	<Platforms>
 		<Platform
@@ -18,7 +17,7 @@
 			OutputDirectory=".\Release"
 			IntermediateDirectory=".\Release"
 			ConfigurationType="2"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			>
@@ -45,10 +44,10 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
+				Optimization="3"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="src,data,..\..\src,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex,$(QTDIR)\include,$(QTDIR)\include\Qt"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;COIN_DLL;SOQT_INTERNAL"
+				AdditionalIncludeDirectories="src,data,..\..\src,c:\Coin3D\include,c:\Qt\4.5.0-default\include,c:\Qt\4.5.0-default\include\Qt"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				PrecompiledHeaderFile=".\Release/soqt1.pch"
@@ -58,6 +57,7 @@
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
+				CompileAs="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -72,7 +72,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(QTDIR)\lib\QtOpenGL4.lib $(QTDIR)\lib\QtGui4.lib $(QTDIR)\lib\QtCore4.lib $(COINDIR)\lib\coin3.lib opengl32.lib winmm.lib"
+				AdditionalDependencies="c:\Qt\4.5.0-default\lib\QtOpenGL4.lib c:\Qt\4.5.0-default\lib\QtGui4.lib c:\Qt\4.5.0-default\lib\QtCore4.lib c:\Coin3D\lib\coin3d.lib opengl32.lib"
 				OutputFile="soqt1.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -93,8 +93,6 @@
 			/>
 			<Tool
 				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
-				OutputFile=".\Release/soqt1.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -114,7 +112,7 @@
 			OutputDirectory=".\StaticRelease"
 			IntermediateDirectory=".\StaticRelease"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			>
@@ -135,10 +133,10 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
+				Optimization="3"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="src,data,..\..\src,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex,$(QTDIR)\include,$(QTDIR)\include\Qt"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_LIB;SOQT_DEBUG=0;HAVE_CONFIG_H;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;COIN_NOT_DLL;SOQT_INTERNAL"
+				AdditionalIncludeDirectories="src,data,..\..\src,c:\Coin3D\include,c:\Qt\4.5.0-default\include,c:\Qt\4.5.0-default\include\Qt"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_LIB;SOQT_DEBUG=0;HAVE_CONFIG_H;COIN_NOT_DLL;SOQT_INTERNAL"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				PrecompiledHeaderFile=".\StaticRelease/soqt1.pch"
@@ -148,6 +146,7 @@
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
+				CompileAs="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -173,8 +172,6 @@
 			/>
 			<Tool
 				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
-				OutputFile=".\StaticRelease/soqt1.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -188,7 +185,7 @@
 			OutputDirectory=".\StaticDebug"
 			IntermediateDirectory=".\StaticDebug"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			>
@@ -210,8 +207,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="src,data,..\..\src,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex,$(QTDIR)\include,$(QTDIR)\include\Qt"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_LIB;SOQT_DEBUG=1;HAVE_CONFIG_H;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;COIN_NOT_DLL;SOQT_INTERNAL"
+				AdditionalIncludeDirectories="src,data,..\..\src,c:\Coin3D\include,c:\Qt\4.5.0-default\include,c:\Qt\4.5.0-default\include\Qt"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_LIB;SOQT_DEBUG=1;HAVE_CONFIG_H;COIN_NOT_DLL;SOQT_INTERNAL"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				PrecompiledHeaderFile=".\StaticDebug/soqt1.pch"
@@ -221,6 +218,7 @@
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
+				CompileAs="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -246,8 +244,6 @@
 			/>
 			<Tool
 				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
-				OutputFile=".\StaticDebug/soqt1.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -261,7 +257,7 @@
 			OutputDirectory=".\Debug"
 			IntermediateDirectory=".\Debug"
 			ConfigurationType="2"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			>
@@ -289,9 +285,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="src,data,..\..\src,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex,$(QTDIR)\include,$(QTDIR)\include\Qt"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;COIN_DLL;SOQT_INTERNAL"
-				MinimalRebuild="true"
+				AdditionalIncludeDirectories="src,data,..\..\src,c:\Coin3D\include,c:\Qt\4.5.0-default\include,c:\Qt\4.5.0-default\include\Qt"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				PrecompiledHeaderFile=".\Debug/soqt1.pch"
@@ -301,6 +296,7 @@
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
+				CompileAs="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -315,9 +311,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(QTDIR)\lib\QtOpenGLd4.lib $(QTDIR)\lib\QtGuid4.lib $(QTDIR)\lib\QtCored4.lib $(COINDIR)\lib\coin3d.lib opengl32.lib winmm.lib"
+				AdditionalDependencies="c:\Qt\4.5.0-default\lib\QtOpenGL4.lib c:\Qt\4.5.0-default\lib\QtGui4.lib c:\Qt\4.5.0-default\lib\QtCore4.lib c:\Coin3D\lib\coin3d.lib opengl32.lib"
 				OutputFile="soqt1d.dll"
-				LinkIncremental="2"
+				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Debug/soqt1d.pdb"
@@ -336,8 +332,6 @@
 			/>
 			<Tool
 				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
-				OutputFile=".\Debug/soqt1.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -360,10 +354,6 @@
 			Name="Documents"
 			Filter=";txt"
 			>
-			<File
-				RelativePath="..\..\ChangeLog"
-				>
-			</File>
 			<File
 				RelativePath="..\..\COPYING"
 				>
@@ -2114,8 +2104,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\editors\SoQtColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\SoQtColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtColorEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2124,8 +2114,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\editors\SoQtColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\SoQtColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtColorEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2134,8 +2124,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\editors\SoQtColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\SoQtColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtColorEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2144,8 +2134,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\editors\SoQtColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\SoQtColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtColorEditor.h"
 					/>
 				</FileConfiguration>
 			</File>
@@ -2158,8 +2148,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\SoQtColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\SoQtColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\editors\SoQtColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2168,8 +2158,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\SoQtColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\SoQtColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\editors\SoQtColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2178,8 +2168,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\SoQtColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\SoQtColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\editors\SoQtColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2188,8 +2178,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\SoQtColorEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\SoQtColorEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiColorEditor.h.in:src\Inventor\Qt\editors\SoQtColorEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtColorEditor.h"
 					/>
 				</FileConfiguration>
 			</File>
@@ -3478,8 +3468,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\SoQtMaterialEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\SoQtMaterialEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\editors\SoQtMaterialEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtMaterialEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3488,8 +3478,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\SoQtMaterialEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\SoQtMaterialEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\editors\SoQtMaterialEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtMaterialEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3498,8 +3488,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\SoQtMaterialEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\SoQtMaterialEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\editors\SoQtMaterialEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtMaterialEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3508,8 +3498,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\SoQtMaterialEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\SoQtMaterialEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\editors\SoQtMaterialEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\editors\SoQtMaterialEditor.h"
 					/>
 				</FileConfiguration>
 			</File>
@@ -3522,8 +3512,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\editors\SoQtMaterialEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\editors\SoQtMaterialEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\SoQtMaterialEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtMaterialEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3532,8 +3522,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\editors\SoQtMaterialEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\editors\SoQtMaterialEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\SoQtMaterialEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtMaterialEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3542,8 +3532,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\editors\SoQtMaterialEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\editors\SoQtMaterialEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\SoQtMaterialEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtMaterialEditor.h"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -3552,8 +3542,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\editors\SoQtMaterialEditor.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\editors\SoQtMaterialEditor.h"
+						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\common\editors\SoGuiMaterialEditor.h.in:src\Inventor\Qt\SoQtMaterialEditor.h&#x0D;&#x0A;"
+						Outputs="src\Inventor\Qt\SoQtMaterialEditor.h"
 					/>
 				</FileConfiguration>
 			</File>
@@ -4262,138 +4252,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\..\SoQt"
-				>
-				<FileConfiguration
-					Name="DLL (Release)|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="LIB (Release)|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="LIB (Debug)|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="DLL (Debug)|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\devices\SoQtSpaceballCommon.cpp"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\..\SoQt"
-				>
-				<FileConfiguration
-					Name="DLL (Release)|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\devices\SoQtSpaceball.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\devices\SoQtSpaceball.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="LIB (Release)|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\devices\SoQtSpaceball.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\devices\SoQtSpaceball.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="LIB (Debug)|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\devices\SoQtSpaceball.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\devices\SoQtSpaceball.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="DLL (Debug)|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\devices\SoQtSpaceball.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\devices\SoQtSpaceball.h"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\..\SoQt"
-				>
-				<FileConfiguration
-					Name="DLL (Release)|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\devices\SoGuiSpaceballP.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\devices\SoGuiSpaceballP.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="LIB (Release)|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\devices\SoGuiSpaceballP.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\devices\SoGuiSpaceballP.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="LIB (Debug)|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\devices\SoGuiSpaceballP.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\devices\SoGuiSpaceballP.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="DLL (Debug)|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\src\Inventor\Qt\devices\SoGuiSpaceballP.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\devices\SoGuiSpaceballP.h"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\src\Inventor\Qt\common\spwinput.h.in"
 				>
 				<FileConfiguration
@@ -4938,9 +4796,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\devices/"
 							ProgramDataBaseFileName="Release\Qt\devices/"
 						/>
@@ -4950,7 +4808,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\devices/"
@@ -4962,8 +4820,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\devices/"
 							ProgramDataBaseFileName="StaticDebug\Qt\devices/"
 						/>
@@ -4973,8 +4833,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\devices/"
 							ProgramDataBaseFileName="Debug\Qt\devices/"
 						/>
@@ -4988,9 +4850,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\devices/"
 							ProgramDataBaseFileName="Release\Qt\devices/"
 						/>
@@ -5000,7 +4862,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\devices/"
@@ -5012,8 +4874,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\devices/"
 							ProgramDataBaseFileName="StaticDebug\Qt\devices/"
 						/>
@@ -5023,8 +4887,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\devices/"
 							ProgramDataBaseFileName="Debug\Qt\devices/"
 						/>
@@ -5038,9 +4904,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\devices/"
 							ProgramDataBaseFileName="Release\Qt\devices/"
 						/>
@@ -5050,7 +4916,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\devices/"
@@ -5062,8 +4928,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\devices/"
 							ProgramDataBaseFileName="StaticDebug\Qt\devices/"
 						/>
@@ -5073,8 +4941,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\devices/"
 							ProgramDataBaseFileName="Debug\Qt\devices/"
 						/>
@@ -5088,9 +4958,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\devices/"
 							ProgramDataBaseFileName="Release\Qt\devices/"
 						/>
@@ -5100,7 +4970,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\devices/"
@@ -5112,8 +4982,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\devices/"
 							ProgramDataBaseFileName="StaticDebug\Qt\devices/"
 						/>
@@ -5123,8 +4995,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\devices/"
 							ProgramDataBaseFileName="Debug\Qt\devices/"
 						/>
@@ -5138,9 +5012,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\devices/"
 							ProgramDataBaseFileName="Release\Qt\devices/"
 						/>
@@ -5150,7 +5024,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\devices/"
@@ -5162,8 +5036,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\devices/"
 							ProgramDataBaseFileName="StaticDebug\Qt\devices/"
 						/>
@@ -5173,8 +5049,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\devices/"
 							ProgramDataBaseFileName="Debug\Qt\devices/"
 						/>
@@ -5188,9 +5066,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\devices/"
 							ProgramDataBaseFileName="Release\Qt\devices/"
 						/>
@@ -5200,7 +5078,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\devices/"
@@ -5212,8 +5090,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\devices/"
 							ProgramDataBaseFileName="StaticDebug\Qt\devices/"
 						/>
@@ -5223,8 +5103,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\devices/"
 							ProgramDataBaseFileName="Debug\Qt\devices/"
 						/>
@@ -5238,9 +5120,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\devices/"
 							ProgramDataBaseFileName="Release\Qt\devices/"
 						/>
@@ -5250,7 +5132,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\devices/"
@@ -5262,8 +5144,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\devices/"
 							ProgramDataBaseFileName="StaticDebug\Qt\devices/"
 						/>
@@ -5273,8 +5157,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\devices/"
 							ProgramDataBaseFileName="Debug\Qt\devices/"
 						/>
@@ -5288,9 +5174,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\devices/"
 							ProgramDataBaseFileName="Release\Qt\devices/"
 						/>
@@ -5300,7 +5186,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\devices/"
@@ -5312,8 +5198,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\devices/"
 							ProgramDataBaseFileName="StaticDebug\Qt\devices/"
 						/>
@@ -5323,8 +5211,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\devices/"
 							ProgramDataBaseFileName="Debug\Qt\devices/"
 						/>
@@ -5338,9 +5228,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\devices/"
 							ProgramDataBaseFileName="Release\Qt\devices/"
 						/>
@@ -5350,7 +5240,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\devices/"
@@ -5362,8 +5252,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\devices/"
 							ProgramDataBaseFileName="StaticDebug\Qt\devices/"
 						/>
@@ -5373,8 +5265,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\devices/"
 							ProgramDataBaseFileName="Debug\Qt\devices/"
 						/>
@@ -5388,9 +5282,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\devices/"
 							ProgramDataBaseFileName="Release\Qt\devices/"
 						/>
@@ -5400,7 +5294,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\devices/"
@@ -5412,8 +5306,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\devices/"
 							ProgramDataBaseFileName="StaticDebug\Qt\devices/"
 						/>
@@ -5423,8 +5319,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\devices/"
 							ProgramDataBaseFileName="Debug\Qt\devices/"
 						/>
@@ -5438,9 +5336,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\devices/"
 							ProgramDataBaseFileName="Release\Qt\devices/"
 						/>
@@ -5450,7 +5348,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\devices/"
@@ -5462,8 +5360,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\devices/"
 							ProgramDataBaseFileName="StaticDebug\Qt\devices/"
 						/>
@@ -5473,8 +5373,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\devices/"
 							ProgramDataBaseFileName="Debug\Qt\devices/"
 						/>
@@ -5493,9 +5395,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\editors/"
 							ProgramDataBaseFileName="Release\Qt\editors/"
 						/>
@@ -5505,7 +5407,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\editors/"
@@ -5517,8 +5419,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\editors/"
 							ProgramDataBaseFileName="StaticDebug\Qt\editors/"
 						/>
@@ -5528,8 +5432,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\editors/"
 							ProgramDataBaseFileName="Debug\Qt\editors/"
 						/>
@@ -5543,9 +5449,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\editors/"
 							ProgramDataBaseFileName="Release\Qt\editors/"
 						/>
@@ -5555,7 +5461,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\editors/"
@@ -5567,8 +5473,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\editors/"
 							ProgramDataBaseFileName="StaticDebug\Qt\editors/"
 						/>
@@ -5578,8 +5486,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\editors/"
 							ProgramDataBaseFileName="Debug\Qt\editors/"
 						/>
@@ -5598,9 +5508,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\engines/"
 							ProgramDataBaseFileName="Release\Qt\engines/"
 						/>
@@ -5610,7 +5520,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\engines/"
@@ -5622,8 +5532,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\engines/"
 							ProgramDataBaseFileName="StaticDebug\Qt\engines/"
 						/>
@@ -5633,8 +5545,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\engines/"
 							ProgramDataBaseFileName="Debug\Qt\engines/"
 						/>
@@ -5648,9 +5562,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\engines/"
 							ProgramDataBaseFileName="Release\Qt\engines/"
 						/>
@@ -5660,7 +5574,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\engines/"
@@ -5672,8 +5586,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\engines/"
 							ProgramDataBaseFileName="StaticDebug\Qt\engines/"
 						/>
@@ -5683,8 +5599,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\engines/"
 							ProgramDataBaseFileName="Debug\Qt\engines/"
 						/>
@@ -5698,9 +5616,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\engines/"
 							ProgramDataBaseFileName="Release\Qt\engines/"
 						/>
@@ -5710,7 +5628,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\engines/"
@@ -5722,8 +5640,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\engines/"
 							ProgramDataBaseFileName="StaticDebug\Qt\engines/"
 						/>
@@ -5733,8 +5653,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\engines/"
 							ProgramDataBaseFileName="Debug\Qt\engines/"
 						/>
@@ -5753,9 +5675,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\nodes/"
 							ProgramDataBaseFileName="Release\Qt\nodes/"
 						/>
@@ -5765,7 +5687,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\nodes/"
@@ -5777,8 +5699,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Qt\nodes/"
 						/>
@@ -5788,8 +5712,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\nodes/"
 							ProgramDataBaseFileName="Debug\Qt\nodes/"
 						/>
@@ -5803,9 +5729,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\nodes/"
 							ProgramDataBaseFileName="Release\Qt\nodes/"
 						/>
@@ -5815,7 +5741,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\nodes/"
@@ -5827,8 +5753,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Qt\nodes/"
 						/>
@@ -5838,8 +5766,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\nodes/"
 							ProgramDataBaseFileName="Debug\Qt\nodes/"
 						/>
@@ -5853,9 +5783,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\nodes/"
 							ProgramDataBaseFileName="Release\Qt\nodes/"
 						/>
@@ -5865,7 +5795,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\nodes/"
@@ -5877,8 +5807,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Qt\nodes/"
 						/>
@@ -5888,8 +5820,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\nodes/"
 							ProgramDataBaseFileName="Debug\Qt\nodes/"
 						/>
@@ -5903,9 +5837,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\nodes/"
 							ProgramDataBaseFileName="Release\Qt\nodes/"
 						/>
@@ -5915,7 +5849,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\nodes/"
@@ -5927,8 +5861,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Qt\nodes/"
 						/>
@@ -5938,8 +5874,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\nodes/"
 							ProgramDataBaseFileName="Debug\Qt\nodes/"
 						/>
@@ -5953,9 +5891,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\nodes/"
 							ProgramDataBaseFileName="Release\Qt\nodes/"
 						/>
@@ -5965,7 +5903,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\nodes/"
@@ -5977,8 +5915,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Qt\nodes/"
 						/>
@@ -5988,8 +5928,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\nodes/"
 							ProgramDataBaseFileName="Debug\Qt\nodes/"
 						/>
@@ -6003,9 +5945,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\nodes/"
 							ProgramDataBaseFileName="Release\Qt\nodes/"
 						/>
@@ -6015,7 +5957,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\nodes/"
@@ -6027,8 +5969,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Qt\nodes/"
 						/>
@@ -6038,8 +5982,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\nodes/"
 							ProgramDataBaseFileName="Debug\Qt\nodes/"
 						/>
@@ -6053,9 +5999,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\nodes/"
 							ProgramDataBaseFileName="Release\Qt\nodes/"
 						/>
@@ -6065,7 +6011,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\nodes/"
@@ -6077,8 +6023,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Qt\nodes/"
 						/>
@@ -6088,8 +6036,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\nodes/"
 							ProgramDataBaseFileName="Debug\Qt\nodes/"
 						/>
@@ -6103,9 +6053,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\nodes/"
 							ProgramDataBaseFileName="Release\Qt\nodes/"
 						/>
@@ -6115,7 +6065,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\nodes/"
@@ -6127,8 +6077,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Qt\nodes/"
 						/>
@@ -6138,8 +6090,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\nodes/"
 							ProgramDataBaseFileName="Debug\Qt\nodes/"
 						/>
@@ -6153,9 +6107,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\nodes/"
 							ProgramDataBaseFileName="Release\Qt\nodes/"
 						/>
@@ -6165,7 +6119,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\nodes/"
@@ -6177,8 +6131,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Qt\nodes/"
 						/>
@@ -6188,8 +6144,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\nodes/"
 							ProgramDataBaseFileName="Debug\Qt\nodes/"
 						/>
@@ -6203,9 +6161,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\nodes/"
 							ProgramDataBaseFileName="Release\Qt\nodes/"
 						/>
@@ -6215,7 +6173,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\nodes/"
@@ -6227,8 +6185,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Qt\nodes/"
 						/>
@@ -6238,8 +6198,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\nodes/"
 							ProgramDataBaseFileName="Debug\Qt\nodes/"
 						/>
@@ -6253,9 +6215,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\nodes/"
 							ProgramDataBaseFileName="Release\Qt\nodes/"
 						/>
@@ -6265,7 +6227,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\nodes/"
@@ -6277,8 +6239,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Qt\nodes/"
 						/>
@@ -6288,8 +6252,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\nodes/"
 							ProgramDataBaseFileName="Debug\Qt\nodes/"
 						/>
@@ -6303,9 +6269,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\nodes/"
 							ProgramDataBaseFileName="Release\Qt\nodes/"
 						/>
@@ -6315,7 +6281,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\nodes/"
@@ -6327,8 +6293,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Qt\nodes/"
 						/>
@@ -6338,8 +6306,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\nodes/"
 							ProgramDataBaseFileName="Debug\Qt\nodes/"
 						/>
@@ -6353,9 +6323,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\nodes/"
 							ProgramDataBaseFileName="Release\Qt\nodes/"
 						/>
@@ -6365,7 +6335,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\nodes/"
@@ -6377,8 +6347,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Qt\nodes/"
 						/>
@@ -6388,8 +6360,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\nodes/"
 							ProgramDataBaseFileName="Debug\Qt\nodes/"
 						/>
@@ -6403,9 +6377,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\nodes/"
 							ProgramDataBaseFileName="Release\Qt\nodes/"
 						/>
@@ -6415,7 +6389,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\nodes/"
@@ -6427,8 +6401,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Qt\nodes/"
 						/>
@@ -6438,8 +6414,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\nodes/"
 							ProgramDataBaseFileName="Debug\Qt\nodes/"
 						/>
@@ -6453,9 +6431,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\nodes/"
 							ProgramDataBaseFileName="Release\Qt\nodes/"
 						/>
@@ -6465,7 +6443,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\nodes/"
@@ -6477,8 +6455,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Qt\nodes/"
 						/>
@@ -6488,8 +6468,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\nodes/"
 							ProgramDataBaseFileName="Debug\Qt\nodes/"
 						/>
@@ -6503,9 +6485,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\nodes/"
 							ProgramDataBaseFileName="Release\Qt\nodes/"
 						/>
@@ -6515,7 +6497,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\nodes/"
@@ -6527,8 +6509,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Qt\nodes/"
 						/>
@@ -6538,8 +6522,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\nodes/"
 							ProgramDataBaseFileName="Debug\Qt\nodes/"
 						/>
@@ -6553,9 +6539,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\nodes/"
 							ProgramDataBaseFileName="Release\Qt\nodes/"
 						/>
@@ -6565,7 +6551,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\nodes/"
@@ -6577,8 +6563,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\nodes/"
 							ProgramDataBaseFileName="StaticDebug\Qt\nodes/"
 						/>
@@ -6588,8 +6576,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\nodes/"
 							ProgramDataBaseFileName="Debug\Qt\nodes/"
 						/>
@@ -6608,9 +6598,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\viewers/"
 							ProgramDataBaseFileName="Release\Qt\viewers/"
 						/>
@@ -6620,7 +6610,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\viewers/"
@@ -6632,8 +6622,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\viewers/"
 							ProgramDataBaseFileName="StaticDebug\Qt\viewers/"
 						/>
@@ -6643,8 +6635,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\viewers/"
 							ProgramDataBaseFileName="Debug\Qt\viewers/"
 						/>
@@ -6658,9 +6652,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\viewers/"
 							ProgramDataBaseFileName="Release\Qt\viewers/"
 						/>
@@ -6670,7 +6664,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\viewers/"
@@ -6682,8 +6676,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\viewers/"
 							ProgramDataBaseFileName="StaticDebug\Qt\viewers/"
 						/>
@@ -6693,8 +6689,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\viewers/"
 							ProgramDataBaseFileName="Debug\Qt\viewers/"
 						/>
@@ -6708,9 +6706,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\viewers/"
 							ProgramDataBaseFileName="Release\Qt\viewers/"
 						/>
@@ -6720,7 +6718,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\viewers/"
@@ -6732,8 +6730,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\viewers/"
 							ProgramDataBaseFileName="StaticDebug\Qt\viewers/"
 						/>
@@ -6743,8 +6743,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\viewers/"
 							ProgramDataBaseFileName="Debug\Qt\viewers/"
 						/>
@@ -6758,9 +6760,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\viewers/"
 							ProgramDataBaseFileName="Release\Qt\viewers/"
 						/>
@@ -6770,7 +6772,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\viewers/"
@@ -6782,8 +6784,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\viewers/"
 							ProgramDataBaseFileName="StaticDebug\Qt\viewers/"
 						/>
@@ -6793,8 +6797,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\viewers/"
 							ProgramDataBaseFileName="Debug\Qt\viewers/"
 						/>
@@ -6808,9 +6814,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\viewers/"
 							ProgramDataBaseFileName="Release\Qt\viewers/"
 						/>
@@ -6820,7 +6826,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\viewers/"
@@ -6832,8 +6838,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\viewers/"
 							ProgramDataBaseFileName="StaticDebug\Qt\viewers/"
 						/>
@@ -6843,8 +6851,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\viewers/"
 							ProgramDataBaseFileName="Debug\Qt\viewers/"
 						/>
@@ -6859,7 +6869,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtExaminerViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtExaminerViewerP.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtExaminerViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtExaminerViewerP.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\viewers\moc_SoQtExaminerViewerP.icc"
 						/>
 					</FileConfiguration>
@@ -6869,7 +6879,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtExaminerViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtExaminerViewerP.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtExaminerViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtExaminerViewerP.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\viewers\moc_SoQtExaminerViewerP.icc"
 						/>
 					</FileConfiguration>
@@ -6879,7 +6889,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtExaminerViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtExaminerViewerP.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtExaminerViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtExaminerViewerP.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\viewers\moc_SoQtExaminerViewerP.icc"
 						/>
 					</FileConfiguration>
@@ -6889,7 +6899,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtExaminerViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtExaminerViewerP.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtExaminerViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtExaminerViewerP.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\viewers\moc_SoQtExaminerViewerP.icc"
 						/>
 					</FileConfiguration>
@@ -6902,9 +6912,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\viewers/"
 							ProgramDataBaseFileName="Release\Qt\viewers/"
 						/>
@@ -6914,7 +6924,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\viewers/"
@@ -6926,8 +6936,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\viewers/"
 							ProgramDataBaseFileName="StaticDebug\Qt\viewers/"
 						/>
@@ -6937,8 +6949,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\viewers/"
 							ProgramDataBaseFileName="Debug\Qt\viewers/"
 						/>
@@ -6952,9 +6966,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\viewers/"
 							ProgramDataBaseFileName="Release\Qt\viewers/"
 						/>
@@ -6964,7 +6978,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\viewers/"
@@ -6976,8 +6990,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\viewers/"
 							ProgramDataBaseFileName="StaticDebug\Qt\viewers/"
 						/>
@@ -6987,8 +7003,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\viewers/"
 							ProgramDataBaseFileName="Debug\Qt\viewers/"
 						/>
@@ -7003,7 +7021,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtFullViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtFullViewerP.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtFullViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtFullViewerP.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\viewers\moc_SoQtFullViewerP.icc"
 						/>
 					</FileConfiguration>
@@ -7013,7 +7031,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtFullViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtFullViewerP.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtFullViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtFullViewerP.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\viewers\moc_SoQtFullViewerP.icc"
 						/>
 					</FileConfiguration>
@@ -7023,7 +7041,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtFullViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtFullViewerP.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtFullViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtFullViewerP.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\viewers\moc_SoQtFullViewerP.icc"
 						/>
 					</FileConfiguration>
@@ -7033,7 +7051,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtFullViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtFullViewerP.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtFullViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtFullViewerP.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\viewers\moc_SoQtFullViewerP.icc"
 						/>
 					</FileConfiguration>
@@ -7046,9 +7064,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\viewers/"
 							ProgramDataBaseFileName="Release\Qt\viewers/"
 						/>
@@ -7058,7 +7076,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\viewers/"
@@ -7070,8 +7088,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\viewers/"
 							ProgramDataBaseFileName="StaticDebug\Qt\viewers/"
 						/>
@@ -7081,8 +7101,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\viewers/"
 							ProgramDataBaseFileName="Debug\Qt\viewers/"
 						/>
@@ -7097,7 +7119,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtPlaneViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtPlaneViewerP.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtPlaneViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtPlaneViewerP.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\viewers\moc_SoQtPlaneViewerP.icc"
 						/>
 					</FileConfiguration>
@@ -7107,7 +7129,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtPlaneViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtPlaneViewerP.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtPlaneViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtPlaneViewerP.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\viewers\moc_SoQtPlaneViewerP.icc"
 						/>
 					</FileConfiguration>
@@ -7117,7 +7139,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtPlaneViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtPlaneViewerP.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtPlaneViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtPlaneViewerP.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\viewers\moc_SoQtPlaneViewerP.icc"
 						/>
 					</FileConfiguration>
@@ -7127,7 +7149,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtPlaneViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtPlaneViewerP.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\viewers\moc_SoQtPlaneViewerP.icc ..\..\src\Inventor\Qt\viewers\SoQtPlaneViewerP.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\viewers\moc_SoQtPlaneViewerP.icc"
 						/>
 					</FileConfiguration>
@@ -7140,9 +7162,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\viewers/"
 							ProgramDataBaseFileName="Release\Qt\viewers/"
 						/>
@@ -7152,7 +7174,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\viewers/"
@@ -7164,8 +7186,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\viewers/"
 							ProgramDataBaseFileName="StaticDebug\Qt\viewers/"
 						/>
@@ -7175,8 +7199,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\viewers/"
 							ProgramDataBaseFileName="Debug\Qt\viewers/"
 						/>
@@ -7195,9 +7221,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\widgets/"
 							ProgramDataBaseFileName="Release\Qt\widgets/"
 						/>
@@ -7207,7 +7233,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\widgets/"
@@ -7219,8 +7245,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\widgets/"
 							ProgramDataBaseFileName="StaticDebug\Qt\widgets/"
 						/>
@@ -7230,8 +7258,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\widgets/"
 							ProgramDataBaseFileName="Debug\Qt\widgets/"
 						/>
@@ -7246,7 +7276,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_QtNativePopupMenu.icc ..\..\src\Inventor\Qt\widgets\QtNativePopupMenu.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\widgets\moc_QtNativePopupMenu.icc ..\..\src\Inventor\Qt\widgets\QtNativePopupMenu.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\widgets\moc_QtNativePopupMenu.icc"
 						/>
 					</FileConfiguration>
@@ -7256,7 +7286,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_QtNativePopupMenu.icc ..\..\src\Inventor\Qt\widgets\QtNativePopupMenu.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\widgets\moc_QtNativePopupMenu.icc ..\..\src\Inventor\Qt\widgets\QtNativePopupMenu.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\widgets\moc_QtNativePopupMenu.icc"
 						/>
 					</FileConfiguration>
@@ -7266,7 +7296,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_QtNativePopupMenu.icc ..\..\src\Inventor\Qt\widgets\QtNativePopupMenu.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\widgets\moc_QtNativePopupMenu.icc ..\..\src\Inventor\Qt\widgets\QtNativePopupMenu.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\widgets\moc_QtNativePopupMenu.icc"
 						/>
 					</FileConfiguration>
@@ -7276,7 +7306,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_QtNativePopupMenu.icc ..\..\src\Inventor\Qt\widgets\QtNativePopupMenu.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\widgets\moc_QtNativePopupMenu.icc ..\..\src\Inventor\Qt\widgets\QtNativePopupMenu.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\widgets\moc_QtNativePopupMenu.icc"
 						/>
 					</FileConfiguration>
@@ -7289,9 +7319,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\widgets/"
 							ProgramDataBaseFileName="Release\Qt\widgets/"
 						/>
@@ -7301,7 +7331,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\widgets/"
@@ -7313,8 +7343,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\widgets/"
 							ProgramDataBaseFileName="StaticDebug\Qt\widgets/"
 						/>
@@ -7324,8 +7356,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\widgets/"
 							ProgramDataBaseFileName="Debug\Qt\widgets/"
 						/>
@@ -7339,9 +7373,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\widgets/"
 							ProgramDataBaseFileName="Release\Qt\widgets/"
 						/>
@@ -7351,7 +7385,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\widgets/"
@@ -7363,8 +7397,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\widgets/"
 							ProgramDataBaseFileName="StaticDebug\Qt\widgets/"
 						/>
@@ -7374,8 +7410,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\widgets/"
 							ProgramDataBaseFileName="Debug\Qt\widgets/"
 						/>
@@ -7390,7 +7428,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_SoQtGLArea.icc ..\..\src\Inventor\Qt\widgets\SoQtGLArea.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\widgets\moc_SoQtGLArea.icc ..\..\src\Inventor\Qt\widgets\SoQtGLArea.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\widgets\moc_SoQtGLArea.icc"
 						/>
 					</FileConfiguration>
@@ -7400,7 +7438,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_SoQtGLArea.icc ..\..\src\Inventor\Qt\widgets\SoQtGLArea.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\widgets\moc_SoQtGLArea.icc ..\..\src\Inventor\Qt\widgets\SoQtGLArea.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\widgets\moc_SoQtGLArea.icc"
 						/>
 					</FileConfiguration>
@@ -7410,7 +7448,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_SoQtGLArea.icc ..\..\src\Inventor\Qt\widgets\SoQtGLArea.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\widgets\moc_SoQtGLArea.icc ..\..\src\Inventor\Qt\widgets\SoQtGLArea.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\widgets\moc_SoQtGLArea.icc"
 						/>
 					</FileConfiguration>
@@ -7420,7 +7458,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_SoQtGLArea.icc ..\..\src\Inventor\Qt\widgets\SoQtGLArea.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\widgets\moc_SoQtGLArea.icc ..\..\src\Inventor\Qt\widgets\SoQtGLArea.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\widgets\moc_SoQtGLArea.icc"
 						/>
 					</FileConfiguration>
@@ -7433,9 +7471,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\widgets/"
 							ProgramDataBaseFileName="Release\Qt\widgets/"
 						/>
@@ -7445,7 +7483,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\widgets/"
@@ -7457,8 +7495,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\widgets/"
 							ProgramDataBaseFileName="StaticDebug\Qt\widgets/"
 						/>
@@ -7468,8 +7508,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\widgets/"
 							ProgramDataBaseFileName="Debug\Qt\widgets/"
 						/>
@@ -7483,9 +7525,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Qt\widgets/"
 							ProgramDataBaseFileName="Release\Qt\widgets/"
 						/>
@@ -7495,7 +7537,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Qt\widgets/"
@@ -7507,8 +7549,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Qt\widgets/"
 							ProgramDataBaseFileName="StaticDebug\Qt\widgets/"
 						/>
@@ -7518,8 +7562,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Qt\widgets/"
 							ProgramDataBaseFileName="Debug\Qt\widgets/"
 						/>
@@ -7534,7 +7580,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_SoQtThumbWheel.icc ..\..\src\Inventor\Qt\widgets\SoQtThumbWheel.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\widgets\moc_SoQtThumbWheel.icc ..\..\src\Inventor\Qt\widgets\SoQtThumbWheel.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\widgets\moc_SoQtThumbWheel.icc"
 						/>
 					</FileConfiguration>
@@ -7544,7 +7590,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_SoQtThumbWheel.icc ..\..\src\Inventor\Qt\widgets\SoQtThumbWheel.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\widgets\moc_SoQtThumbWheel.icc ..\..\src\Inventor\Qt\widgets\SoQtThumbWheel.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\widgets\moc_SoQtThumbWheel.icc"
 						/>
 					</FileConfiguration>
@@ -7554,7 +7600,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_SoQtThumbWheel.icc ..\..\src\Inventor\Qt\widgets\SoQtThumbWheel.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\widgets\moc_SoQtThumbWheel.icc ..\..\src\Inventor\Qt\widgets\SoQtThumbWheel.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\widgets\moc_SoQtThumbWheel.icc"
 						/>
 					</FileConfiguration>
@@ -7564,7 +7610,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\widgets\moc_SoQtThumbWheel.icc ..\..\src\Inventor\Qt\widgets\SoQtThumbWheel.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\widgets\moc_SoQtThumbWheel.icc ..\..\src\Inventor\Qt\widgets\SoQtThumbWheel.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\widgets\moc_SoQtThumbWheel.icc"
 						/>
 					</FileConfiguration>
@@ -7582,9 +7628,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Inventor\Qt/"
 							ProgramDataBaseFileName="Release\Inventor\Qt/"
 						/>
@@ -7594,7 +7640,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Inventor\Qt/"
@@ -7606,8 +7652,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Inventor\Qt/"
 							ProgramDataBaseFileName="StaticDebug\Inventor\Qt/"
 						/>
@@ -7617,8 +7665,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Inventor\Qt/"
 							ProgramDataBaseFileName="Debug\Inventor\Qt/"
 						/>
@@ -7632,9 +7682,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Inventor\Qt/"
 							ProgramDataBaseFileName="Release\Inventor\Qt/"
 						/>
@@ -7644,7 +7694,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Inventor\Qt/"
@@ -7656,8 +7706,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Inventor\Qt/"
 							ProgramDataBaseFileName="StaticDebug\Inventor\Qt/"
 						/>
@@ -7667,8 +7719,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Inventor\Qt/"
 							ProgramDataBaseFileName="Debug\Inventor\Qt/"
 						/>
@@ -7682,9 +7736,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Inventor\Qt/"
 							ProgramDataBaseFileName="Release\Inventor\Qt/"
 						/>
@@ -7694,7 +7748,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Inventor\Qt/"
@@ -7706,8 +7760,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Inventor\Qt/"
 							ProgramDataBaseFileName="StaticDebug\Inventor\Qt/"
 						/>
@@ -7717,8 +7773,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Inventor\Qt/"
 							ProgramDataBaseFileName="Debug\Inventor\Qt/"
 						/>
@@ -7732,9 +7790,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Inventor\Qt/"
 							ProgramDataBaseFileName="Release\Inventor\Qt/"
 						/>
@@ -7744,7 +7802,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Inventor\Qt/"
@@ -7756,8 +7814,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Inventor\Qt/"
 							ProgramDataBaseFileName="StaticDebug\Inventor\Qt/"
 						/>
@@ -7767,8 +7827,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Inventor\Qt/"
 							ProgramDataBaseFileName="Debug\Inventor\Qt/"
 						/>
@@ -7782,9 +7844,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Inventor\Qt/"
 							ProgramDataBaseFileName="Release\Inventor\Qt/"
 						/>
@@ -7794,7 +7856,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Inventor\Qt/"
@@ -7806,8 +7868,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Inventor\Qt/"
 							ProgramDataBaseFileName="StaticDebug\Inventor\Qt/"
 						/>
@@ -7817,8 +7881,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Inventor\Qt/"
 							ProgramDataBaseFileName="Debug\Inventor\Qt/"
 						/>
@@ -7833,7 +7899,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtComponentP.icc ..\..\src\Inventor\Qt\SoQtComponentP.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\moc_SoQtComponentP.icc ..\..\src\Inventor\Qt\SoQtComponentP.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\moc_SoQtComponentP.icc"
 						/>
 					</FileConfiguration>
@@ -7843,7 +7909,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtComponentP.icc ..\..\src\Inventor\Qt\SoQtComponentP.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\moc_SoQtComponentP.icc ..\..\src\Inventor\Qt\SoQtComponentP.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\moc_SoQtComponentP.icc"
 						/>
 					</FileConfiguration>
@@ -7853,7 +7919,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtComponentP.icc ..\..\src\Inventor\Qt\SoQtComponentP.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\moc_SoQtComponentP.icc ..\..\src\Inventor\Qt\SoQtComponentP.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\moc_SoQtComponentP.icc"
 						/>
 					</FileConfiguration>
@@ -7863,7 +7929,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtComponentP.icc ..\..\src\Inventor\Qt\SoQtComponentP.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\moc_SoQtComponentP.icc ..\..\src\Inventor\Qt\SoQtComponentP.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\moc_SoQtComponentP.icc"
 						/>
 					</FileConfiguration>
@@ -7876,9 +7942,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Inventor\Qt/"
 							ProgramDataBaseFileName="Release\Inventor\Qt/"
 						/>
@@ -7888,7 +7954,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Inventor\Qt/"
@@ -7900,8 +7966,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Inventor\Qt/"
 							ProgramDataBaseFileName="StaticDebug\Inventor\Qt/"
 						/>
@@ -7911,8 +7979,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Inventor\Qt/"
 							ProgramDataBaseFileName="Debug\Inventor\Qt/"
 						/>
@@ -7926,9 +7996,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Inventor\Qt/"
 							ProgramDataBaseFileName="Release\Inventor\Qt/"
 						/>
@@ -7938,7 +8008,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Inventor\Qt/"
@@ -7950,8 +8020,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Inventor\Qt/"
 							ProgramDataBaseFileName="StaticDebug\Inventor\Qt/"
 						/>
@@ -7961,8 +8033,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Inventor\Qt/"
 							ProgramDataBaseFileName="Debug\Inventor\Qt/"
 						/>
@@ -7976,9 +8050,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Inventor\Qt/"
 							ProgramDataBaseFileName="Release\Inventor\Qt/"
 						/>
@@ -7988,7 +8062,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Inventor\Qt/"
@@ -8000,8 +8074,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Inventor\Qt/"
 							ProgramDataBaseFileName="StaticDebug\Inventor\Qt/"
 						/>
@@ -8011,8 +8087,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Inventor\Qt/"
 							ProgramDataBaseFileName="Debug\Inventor\Qt/"
 						/>
@@ -8027,7 +8105,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtGLWidgetP.icc ..\..\src\Inventor\Qt\SoQtGLWidgetP.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\moc_SoQtGLWidgetP.icc ..\..\src\Inventor\Qt\SoQtGLWidgetP.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\moc_SoQtGLWidgetP.icc"
 						/>
 					</FileConfiguration>
@@ -8037,7 +8115,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtGLWidgetP.icc ..\..\src\Inventor\Qt\SoQtGLWidgetP.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\moc_SoQtGLWidgetP.icc ..\..\src\Inventor\Qt\SoQtGLWidgetP.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\moc_SoQtGLWidgetP.icc"
 						/>
 					</FileConfiguration>
@@ -8047,7 +8125,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtGLWidgetP.icc ..\..\src\Inventor\Qt\SoQtGLWidgetP.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\moc_SoQtGLWidgetP.icc ..\..\src\Inventor\Qt\SoQtGLWidgetP.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\moc_SoQtGLWidgetP.icc"
 						/>
 					</FileConfiguration>
@@ -8057,7 +8135,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtGLWidgetP.icc ..\..\src\Inventor\Qt\SoQtGLWidgetP.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\moc_SoQtGLWidgetP.icc ..\..\src\Inventor\Qt\SoQtGLWidgetP.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\moc_SoQtGLWidgetP.icc"
 						/>
 					</FileConfiguration>
@@ -8070,9 +8148,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Inventor\Qt/"
 							ProgramDataBaseFileName="Release\Inventor\Qt/"
 						/>
@@ -8082,7 +8160,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Inventor\Qt/"
@@ -8094,8 +8172,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Inventor\Qt/"
 							ProgramDataBaseFileName="StaticDebug\Inventor\Qt/"
 						/>
@@ -8105,8 +8185,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Inventor\Qt/"
 							ProgramDataBaseFileName="Debug\Inventor\Qt/"
 						/>
@@ -8120,9 +8202,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Inventor\Qt/"
 							ProgramDataBaseFileName="Release\Inventor\Qt/"
 						/>
@@ -8132,7 +8214,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Inventor\Qt/"
@@ -8144,8 +8226,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Inventor\Qt/"
 							ProgramDataBaseFileName="StaticDebug\Inventor\Qt/"
 						/>
@@ -8155,8 +8239,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Inventor\Qt/"
 							ProgramDataBaseFileName="Debug\Inventor\Qt/"
 						/>
@@ -8171,7 +8257,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtP.icc ..\..\src\Inventor\Qt\SoQtP.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\moc_SoQtP.icc ..\..\src\Inventor\Qt\SoQtP.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\moc_SoQtP.icc"
 						/>
 					</FileConfiguration>
@@ -8181,7 +8267,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtP.icc ..\..\src\Inventor\Qt\SoQtP.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\moc_SoQtP.icc ..\..\src\Inventor\Qt\SoQtP.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\moc_SoQtP.icc"
 						/>
 					</FileConfiguration>
@@ -8191,7 +8277,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtP.icc ..\..\src\Inventor\Qt\SoQtP.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\moc_SoQtP.icc ..\..\src\Inventor\Qt\SoQtP.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\moc_SoQtP.icc"
 						/>
 					</FileConfiguration>
@@ -8201,7 +8287,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtP.icc ..\..\src\Inventor\Qt\SoQtP.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\moc_SoQtP.icc ..\..\src\Inventor\Qt\SoQtP.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\moc_SoQtP.icc"
 						/>
 					</FileConfiguration>
@@ -8214,9 +8300,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Inventor\Qt/"
 							ProgramDataBaseFileName="Release\Inventor\Qt/"
 						/>
@@ -8226,7 +8312,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Inventor\Qt/"
@@ -8238,8 +8324,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Inventor\Qt/"
 							ProgramDataBaseFileName="StaticDebug\Inventor\Qt/"
 						/>
@@ -8249,8 +8337,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Inventor\Qt/"
 							ProgramDataBaseFileName="Debug\Inventor\Qt/"
 						/>
@@ -8264,9 +8354,9 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;SOQT_DEBUG=0;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
 							ObjectFile=".\Release\Inventor\Qt/"
 							ProgramDataBaseFileName="Release\Inventor\Qt/"
 						/>
@@ -8276,7 +8366,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							Optimization="2"
+							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
 							ObjectFile=".\StaticRelease\Inventor\Qt/"
@@ -8288,8 +8378,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
+							BasicRuntimeChecks="3"
 							ObjectFile=".\StaticDebug\Inventor\Qt/"
 							ProgramDataBaseFileName="StaticDebug\Inventor\Qt/"
 						/>
@@ -8299,8 +8391,10 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
+							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
+							PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;SOQT_DEBUG=1;HAVE_CONFIG_H;SOQT_MAKE_DLL;COIN_DLL;SOQT_INTERNAL;$(NoInherit)"
+							BasicRuntimeChecks="3"
 							ObjectFile=".\Debug\Inventor\Qt/"
 							ProgramDataBaseFileName="Debug\Inventor\Qt/"
 						/>
@@ -8315,7 +8409,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtSignalThread.icc ..\..\src\Inventor\Qt\SoQtSignalThread.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\moc_SoQtSignalThread.icc ..\..\src\Inventor\Qt\SoQtSignalThread.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\moc_SoQtSignalThread.icc"
 						/>
 					</FileConfiguration>
@@ -8325,7 +8419,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtSignalThread.icc ..\..\src\Inventor\Qt\SoQtSignalThread.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\moc_SoQtSignalThread.icc ..\..\src\Inventor\Qt\SoQtSignalThread.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\moc_SoQtSignalThread.icc"
 						/>
 					</FileConfiguration>
@@ -8335,7 +8429,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtSignalThread.icc ..\..\src\Inventor\Qt\SoQtSignalThread.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\moc_SoQtSignalThread.icc ..\..\src\Inventor\Qt\SoQtSignalThread.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\moc_SoQtSignalThread.icc"
 						/>
 					</FileConfiguration>
@@ -8345,7 +8439,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="moc&apos;ing $(InputPath)"
-							CommandLine="$(QTDIR)\bin\moc -o src\Inventor\Qt\moc_SoQtSignalThread.icc ..\..\src\Inventor\Qt\SoQtSignalThread.h&#x0D;&#x0A;"
+							CommandLine="&quot;$(QTDIR)&quot;\bin\moc -o src\Inventor\Qt\moc_SoQtSignalThread.icc ..\..\src\Inventor\Qt\SoQtSignalThread.h&#x0D;&#x0A;"
 							Outputs="src\Inventor\Qt\moc_SoQtSignalThread.icc"
 						/>
 					</FileConfiguration>
@@ -8992,42 +9086,6 @@
 				</File>
 				<File
 					RelativePath="src\Inventor\Qt\devices\SoGuiMouseP.h"
-					>
-					<FileConfiguration
-						Name="DLL (Release)|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="LIB (Release)|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="LIB (Debug)|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="DLL (Debug)|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="src\Inventor\Qt\devices\SoGuiSpaceballP.h"
 					>
 					<FileConfiguration
 						Name="DLL (Release)|Win32"
