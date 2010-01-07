@@ -784,10 +784,10 @@ RECURSIVE_TARGETS = info-recursive dvi-recursive pdf-recursive \
 	check-recursive installcheck-recursive
 DIST_COMMON = README $(dist_m4data_DATA) \
 	$(srcdir)/src/Inventor/Qt/common/Makefile.common AUTHORS \
-	COPYING ChangeLog INSTALL Makefile.am Makefile.in NEWS \
-	SoQt.pc.in aclocal.m4 cfg/README cfg/config.guess \
-	cfg/config.sub cfg/depcomp cfg/install-sh cfg/ltmain.sh \
-	cfg/missing cfg/mkinstalldirs configure configure.ac
+	COPYING INSTALL Makefile.am Makefile.in NEWS SoQt.pc.in \
+	aclocal.m4 cfg/README cfg/config.guess cfg/config.sub \
+	cfg/depcomp cfg/install-sh cfg/ltmain.sh cfg/missing \
+	cfg/mkinstalldirs configure configure.ac
 DIST_SUBDIRS = . src man html htmlhelp
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
@@ -798,7 +798,7 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(srcdir)/src/Inventor/Qt/common/Makefile.common $(top_srcdir)/configure.ac $(ACLOCAL_M4)
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu  Makefile
+	  $(AUTOMAKE) --foreign  Makefile
 Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__depfiles_maybe)
 
