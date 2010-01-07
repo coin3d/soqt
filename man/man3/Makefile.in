@@ -468,10 +468,9 @@ SoGuiCommonDistFiles = \
   \
   cfg/errors.txt \
   cfg/doxy4win.pl \
-  cfg/gendsp.sh \
+  cfg/gendsp.pl \
   cfg/wrapmsvc.exe \
   \
-  src/Inventor/@Gui@/common/ChangeLog \
   src/Inventor/@Gui@/common/Makefile.common \
   src/Inventor/@Gui@/common/sogui-config.in \
   src/Inventor/@Gui@/common/sogui.doxygen.in \
