@@ -175,6 +175,7 @@ EXTRA_DIST = \
 	packaging/windows/post.nsi.in \
 	packaging/windows/soqt-sdk.html.in \
 	$(SoGuiCommonDistFiles)
+	$(SoGuiCommonWinFiles)
 
 # Target which is present to make it simple to only generate all the source
 # files from the common sources.
