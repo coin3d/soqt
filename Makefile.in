@@ -764,7 +764,8 @@ EXTRA_DIST = \
 	packaging/windows/middle.nsi.in \
 	packaging/windows/post.nsi.in \
 	packaging/windows/soqt-sdk.html.in \
-	$(SoGuiCommonDistFiles)
+	$(SoGuiCommonDistFiles) \
+	$(SoGuiCommonWinFiles)
 
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -1669,7 +1670,6 @@ $(top_builddir)/man/man1/so@gui@-config.1: $(top_srcdir)/src/Inventor/@Gui@/comm
 # 	$(MOC) -i -o src/Inventor/@Gui@/widgets/@meta_prefix@@Gui@NativePopupMenu.icc `$(UNIX2WINPATH) $(top_srcdir)/src/Inventor/@Gui@/widgets/@Gui@NativePopupMenu.h` )
 
 ############################################################################
-	$(SoGuiCommonWinFiles)
 
 # Target which is present to make it simple to only generate all the source
 # files from the common sources.
