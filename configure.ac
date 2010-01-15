@@ -552,6 +552,10 @@ SIM_AC_INVENTOR_EXTENSIONS([
   SOGUI_EXTRA_LIBS="$sim_ac_iv_extension_LIBS $SOGUI_EXTRA_LIBS"
 ])
 
+BASIC_HEADER_TOP='#include <QtGlobal>'
+AC_SUBST([BASIC_HEADER_TOP])
+
+
 SIM_AC_HAVE_INVENTOR_FEATURE(
   [for SbImage::addReadImageCB],
   [#include <Inventor/SbImage.h>], [SbImage::addReadImageCB(NULL, NULL);],
@@ -599,7 +603,7 @@ if $sim_ac_build_library && $sim_ac_enable_pkgconfig; then
     QT_VERSION=`$PKG_CONFIG --modversion QtCore`
     AC_SUBST([QT_VERSION])
   
-    AC_DEFINE_UNQUOTED([GUI_TOOLKIT_VERSION], ["$QT_VERSION"],
+    AC_DEFINE_UNQUOTED([GUI_TOOLKIT_VERSION], [qVersion()],
                        [Version string for Qt])
   fi
 fi
