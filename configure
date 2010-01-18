@@ -27628,7 +27628,7 @@ LIBS=$sim_ac_iv_extension_save_LIBS
 
 
 
-BASIC_HEADER_TOP='#include <QtGlobal>'
+BASIC_HEADER_TOP='#include <QtCore/QtGlobal>'
 
 
 
