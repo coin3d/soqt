@@ -552,7 +552,7 @@ SIM_AC_INVENTOR_EXTENSIONS([
   SOGUI_EXTRA_LIBS="$sim_ac_iv_extension_LIBS $SOGUI_EXTRA_LIBS"
 ])
 
-BASIC_HEADER_TOP='#include <QtGlobal>'
+BASIC_HEADER_TOP='#include <QtCore/QtGlobal>'
 AC_SUBST([BASIC_HEADER_TOP])
 
 
