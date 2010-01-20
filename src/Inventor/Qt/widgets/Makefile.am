@@ -64,6 +64,9 @@ endif
 libSoQtWidgets_la_SOURCES = \
 	$(BuildSources)
 
+libSoQtWidgets_la_CXXFLAGS = \
+	$(AM_CXXFLAGS)
+
 nodist_libSoQtWidgets_la_SOURCES = \
 	$(NoDistSources)
 

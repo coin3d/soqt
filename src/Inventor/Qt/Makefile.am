@@ -94,6 +94,9 @@ endif
 libSoQt@SUFFIX@_la_SOURCES = \
 	$(BuildSources)
 
+libSoQt@SUFFIX@_la_CXXFLAGS = \
+	$(AM_CXXFLAGS)
+
 nodist_libSoQt@SUFFIX@_la_SOURCES = \
 	$(NoDistSources)
 

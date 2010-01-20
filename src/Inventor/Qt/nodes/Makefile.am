@@ -47,6 +47,9 @@ endif
 libSoGuiNodes_la_SOURCES = \
 	$(BuildSources)
 
+libSoGuiNodes_la_CXXFLAGS = \
+	$(AM_CXXFLAGS)
+
 nodist_libSoGuiNodes_la_SOURCES = \
 	$(NoDistSources)
 
