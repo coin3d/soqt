@@ -17675,9 +17675,7 @@ else
 fi
 
 
-## Mac OS X uses some weird "framework" options.
 
-## It's usually libGL.so on UNIX systems and opengl32.lib on MSWindows.
 sim_ac_ogl_glnames="GL opengl32"
 sim_ac_ogl_mesaglnames=MesaGL
 
@@ -24369,7 +24367,6 @@ fi # !BUILD_WITH_MSVC
 
 
 
-## Microsoft Developer Studio Project files
 SOQT_DSP_LIBDIRS=
 SOQT_DSP_LIBS=
 SOQT_DSP_INCS=
