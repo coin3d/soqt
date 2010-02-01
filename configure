@@ -20019,7 +20019,7 @@ if test "${enable_pkgconfig+set}" = set; then :
 fi
 
 
-if $sim_ac_build_library && $sim_ac_enable_pkgconfig; then
+if $sim_ac_enable_pkgconfig; then
 
 
 if test "x$ac_cv_env_PKG_CONFIG_set" != "xset"; then
