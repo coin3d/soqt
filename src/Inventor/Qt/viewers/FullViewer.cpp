@@ -370,8 +370,13 @@ SoQtFullViewer::setViewing(SbBool enable)
   // Must check that buttons have been built, in case this viewer
   // component was made without decorations.
   if (PRIVATE(this)->viewerbuttons->getLength() > 0) {
+#if QT_VERSION >= 0x040000
     PRIVATE(this)->getViewerbutton(EXAMINE_BUTTON)->setChecked(enable);
     PRIVATE(this)->getViewerbutton(INTERACT_BUTTON)->setChecked(enable ? FALSE : TRUE);
+#else
+    PRIVATE(this)->getViewerbutton(EXAMINE_BUTTON)->setOn(enable);
+    PRIVATE(this)->getViewerbutton(INTERACT_BUTTON)->setOn(enable ? FALSE : TRUE);
+#endif
     PRIVATE(this)->getViewerbutton(SEEK_BUTTON)->setEnabled(enable);
   }
 }
@@ -435,7 +440,9 @@ SoQtFullViewer::buildLeftTrim(QWidget * parent)
   w->setFixedWidth(30);
 
   QGridLayout * gl = new QGridLayout(w);
+#if QT_VERSION >= 0x040000
   gl->setContentsMargins(0,0,0,0);
+#endif
   gl->addWidget(this->buildAppButtons(w), 0, 0);
 
   SoQtThumbWheel * t = new SoQtThumbWheel(SoQtThumbWheel::Vertical, w);
@@ -494,7 +501,9 @@ SoQtFullViewer::buildBottomTrim(QWidget * parent)
   this->bottomWheelVal = t->value();
 
   QGridLayout * layout = new QGridLayout(w);
+#if QT_VERSION >= 0x040000
   layout->setContentsMargins(0,0,0,0);
+#endif
   layout->addWidget(this->leftWheelLabel, 0, 0, Qt::AlignVCenter | Qt::AlignHCenter);
   layout->addWidget(this->bottomWheelLabel, 0,1,  Qt::AlignVCenter | Qt::AlignRight);
   layout->addWidget(t, 0,2, Qt::AlignVCenter | Qt::AlignLeft);
@@ -530,8 +539,10 @@ SoQtFullViewer::buildRightTrim(QWidget * parent)
                    PRIVATE(this), SLOT(rightWheelReleased()));
 
   QGridLayout * l = new QGridLayout(w);
+#if QT_VERSION >= 0x040000
   l->setContentsMargins(0,0,0,0);
   l->setVerticalSpacing(0);
+#endif
   l->setMargin(0);
   l->addWidget(this->buildViewerButtons(w), 0, 0);
   l->addWidget(t, 2, 0, Qt::AlignBottom | Qt::AlignHCenter);
@@ -570,7 +581,9 @@ SoQtFullViewer::buildViewerButtons(QWidget * parent)
   QGridLayout * l =
     new QGridLayout(w);
   l->setMargin(0);
+#if QT_VERSION >= 0x040000
   l->setVerticalSpacing(0);
+#endif
 
   const int numViewerButtons = PRIVATE(this)->viewerbuttons->getLength();
   for (int i = 0; i < numViewerButtons; i++) {
@@ -621,17 +634,27 @@ SoQtFullViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
     switch (i) {
     case INTERACT_BUTTON:
       PRIVATE(this)->interactbutton = p;
+#if QT_VERSION >= 0x040000
       p->setCheckable(TRUE);
-      p->setIcon(QPixmap((const char **)pick_xpm));
       p->setChecked(this->isViewing() ? FALSE : TRUE);
+#else
+      p->setToggleButton(TRUE);
+      p->setOn(this->isViewing() ? FALSE : TRUE);
+#endif
+      p->setIcon(QPixmap((const char **)pick_xpm));
       QObject::connect(p, SIGNAL(clicked()),
                        PRIVATE(this), SLOT(interactbuttonClicked()));
       break;
     case EXAMINE_BUTTON:
       PRIVATE(this)->viewbutton = p;
+#if QT_VERSION >= 0x040000
       p->setCheckable(TRUE);
-      p->setIcon(QPixmap((const char **)view_xpm));
       p->setChecked(this->isViewing());
+#else
+      p->setToggleButton(TRUE);
+      p->setOn(this->isViewing());
+#endif
+      p->setIcon(QPixmap((const char **)view_xpm));
       QObject::connect(p, SIGNAL(clicked()),
                        PRIVATE(this), SLOT(viewbuttonClicked()));
       break;
@@ -824,18 +847,24 @@ SoQtFullViewerP::showDecorationWidgets(SbBool onOff)
     PUBLIC(this)->bottomDecoration->show();
     PUBLIC(this)->rightDecoration->show();
 
+#if QT_VERSION >= 0x040000
     this->viewerwidget->setContentsMargins(0,0,0,0);
+#endif
 
     QGridLayout * g = new QGridLayout(this->viewerwidget); // VIEWERBORDER);
     g->setSpacing(0);
+#if QT_VERSION >= 0x040000
     g->setContentsMargins(0,0,0,0);
+#endif
 
     g->addWidget(PUBLIC(this)->bottomDecoration, 1, 0);
 
     QGridLayout * subLayout = new QGridLayout();
     g->addLayout(subLayout, 0, 0);
+#if QT_VERSION >= 0x040000
     subLayout->setVerticalSpacing(0);
     subLayout->setContentsMargins(0,0,0,0);
+#endif
 
     PUBLIC(this)->leftDecoration->setSizePolicy(QSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum));
 
@@ -848,7 +877,9 @@ SoQtFullViewerP::showDecorationWidgets(SbBool onOff)
   } else {
     QGridLayout * g = new QGridLayout(this->viewerwidget);
     g->addWidget(this->canvas, 0, 0);
+#if QT_VERSION >= 0x040000
     g->setContentsMargins(0,0,0,0);
+#endif
     this->mainlayout = g;
 
     PUBLIC(this)->leftDecoration->hide();
@@ -874,7 +905,9 @@ SoQtFullViewerP::layoutAppButtons(QWidget * form)
   if (nrbuttons == 0) return;
 
   this->appbuttonlayout = new QGridLayout(form);
+#if QT_VERSION >= 0x040000
   this->appbuttonlayout->setContentsMargins(0,0,0,0);
+#endif
   this->appbuttonlayout->setSpacing(0);
 
   for (int i=0; i < nrbuttons; i++) {
@@ -893,9 +926,17 @@ void
 SoQtFullViewerP::interactbuttonClicked(void)
 {
   if (this->interactbutton)
+#if QT_VERSION >= 0x040000
     ((QPushButton *)this->interactbutton)->setChecked(TRUE);
+#else
+    ((QPushButton *)this->interactbutton)->setOn(TRUE);
+#endif
   if (this->viewbutton)
+#if QT_VERSION >= 0x040000
     ((QPushButton *)this->viewbutton)->setChecked(FALSE);
+#else
+    ((QPushButton *)this->viewbutton)->setOn(FALSE);
+#endif
   if (PUBLIC(this)->isViewing())
     PUBLIC(this)->setViewing(FALSE);
 }
@@ -907,9 +948,17 @@ void
 SoQtFullViewerP::viewbuttonClicked(void)
 {
   if (this->interactbutton)
+#if QT_VERSION >= 0x040000
     ((QPushButton *)this->interactbutton)->setChecked(FALSE);
+#else
+    ((QPushButton *)this->interactbutton)->setOn(FALSE);
+#endif
   if (this->viewbutton)
+#if QT_VERSION >= 0x040000
     ((QPushButton *)this->viewbutton)->setChecked(TRUE);
+#else
+    ((QPushButton *)this->viewbutton)->setOn(TRUE);
+#endif
   if (!PUBLIC(this)->isViewing())
     PUBLIC(this)->setViewing(TRUE);
 }

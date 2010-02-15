@@ -123,21 +123,33 @@ SoQtPlaneViewer::createViewerButtons(QWidget * parent,
   // add X, Y, Z viewpoint buttons
   PRIVATE(this)->buttons.x = new QPushButton(parent);
   PRIVATE(this)->buttons.x->setFocusPolicy(QTWIDGET_NOFOCUS);
+#if QT_VERSION >= 0x040000
   PRIVATE(this)->buttons.x->setCheckable(FALSE);
+#else
+  PRIVATE(this)->buttons.x->setToggleButton(FALSE);
+#endif
   PRIVATE(this)->buttons.x->setIcon(QPixmap((const char **) x_xpm));
   QObject::connect(PRIVATE(this)->buttons.x, SIGNAL(clicked()),
                    PRIVATE(this), SLOT(xClicked()));
   buttons->append(PRIVATE(this)->buttons.x);
   PRIVATE(this)->buttons.y = new QPushButton(parent);
   PRIVATE(this)->buttons.y->setFocusPolicy(QTWIDGET_NOFOCUS);
+#if QT_VERSION >= 0x040000
   PRIVATE(this)->buttons.y->setCheckable(FALSE);
+#else
+  PRIVATE(this)->buttons.y->setToggleButton(FALSE);
+#endif
   PRIVATE(this)->buttons.y->setIcon(QPixmap((const char **) y_xpm));
   QObject::connect(PRIVATE(this)->buttons.y, SIGNAL(clicked()),
                    PRIVATE(this), SLOT(yClicked()));
   buttons->append(PRIVATE(this)->buttons.y);
   PRIVATE(this)->buttons.z = new QPushButton(parent);
   PRIVATE(this)->buttons.z->setFocusPolicy(QTWIDGET_NOFOCUS);
+#if QT_VERSION >= 0x040000
   PRIVATE(this)->buttons.z->setCheckable(FALSE);
+#else
+  PRIVATE(this)->buttons.z->setToggleButton(FALSE);
+#endif
   PRIVATE(this)->buttons.z->setIcon(QPixmap((const char **) z_xpm));
   QObject::connect(PRIVATE(this)->buttons.z, SIGNAL(clicked()),
                    PRIVATE(this), SLOT(zClicked()));

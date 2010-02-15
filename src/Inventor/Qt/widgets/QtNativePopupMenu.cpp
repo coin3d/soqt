@@ -39,6 +39,7 @@
 // Take care of class name incompatibilities between Qt 3 and Qt 4.
 
 #if QT_VERSION < 0x040000 // pre Qt 4
+#include <qaction.h>
 #include <qpopupmenu.h>
 #define QPOPUPMENU_CLASS QPopupMenu
 #else // Qt 4.0.0+
@@ -267,7 +268,11 @@ QtNativePopupMenu::setMenuItemTitle(
   rec->title = strcpy(new char [strlen(title)+1], title);
 #if QT_VERSION >= 200
   if (rec->parent)
+#if QT_VERSION >= 0x040000
     rec->parent->actionAt(QPoint(rec->itemid,0))->setText(rec->title);
+#else
+    rec->parent->changeItem(rec->itemid, QString(rec->title));
+#endif
 #else // Qt version < 2.0.0
   // This QMenuData::changeItem() method is being obsoleted from Qt
   // from version 2.0.0 onwards.
@@ -297,13 +302,22 @@ QtNativePopupMenu::setMenuItemEnabled(int itemid,
 {
   ItemRecord * rec = this->getItemRecord(itemid);
   if (rec) {
-    rec->parent->actionAt(QPoint(rec->itemid,0))->setEnabled(enabled ? true:false);
+#if QT_VERSION >= 0x040000
+    rec->parent->actionAt(QPoint(rec->itemid,0))->setEnabled(enabled ? true : false);
+#else
+    rec->parent->setItemEnabled(rec->itemid, enabled ? true : false);
+#endif
     return;
   }
   MenuRecord * mrec = this->getMenuRecord(itemid);
   assert(mrec && "no such menu");
   assert(mrec->parent && "a menuitem must have a parent to be enabled/disabled");
-  mrec->parent->actionAt(QPoint(mrec->menuid,0))->setEnabled(enabled ? true:false);
+
+#if QT_VERSION >= 0x040000
+  mrec->parent->actionAt(QPoint(mrec->menuid,0))->setEnabled(enabled ? true : false);
+#else
+  mrec->parent->setItemEnabled(mrec->menuid, enabled ? true : false);
+#endif
 } // setMenuItemEnabled()
 
 /*!
@@ -314,13 +328,23 @@ QtNativePopupMenu::getMenuItemEnabled(int itemid)
 {
   ItemRecord * rec = this->getItemRecord(itemid);
 
-  if (rec) return   rec->parent->actionAt(QPoint(rec->itemid,0))->isEnabled();
+  if (rec) {
+#if QT_VERSION >= 0x040000
+    return rec->parent->actionAt(QPoint(rec->itemid,0))->isEnabled();
+#else
+    return rec->parent->isItemEnabled(rec->itemid) ? TRUE : FALSE;
+#endif
+  }
 
   MenuRecord * mrec = this->getMenuRecord(itemid);
   assert(mrec && "no such menu");
   assert(mrec->parent && "a menuitem must have a parent to be enabled/disabled");
 
-  return   mrec->parent->actionAt(QPoint(mrec->menuid,0))->isEnabled();
+#if QT_VERSION >= 0x040000
+  return mrec->parent->actionAt(QPoint(mrec->menuid,0))->isEnabled();
+#else
+  return mrec->parent->isItemEnabled(mrec->menuid) ? TRUE : FALSE;
+#endif
 } // getMenuItemEnabled()
 
 /*!
@@ -363,9 +387,13 @@ QtNativePopupMenu::getMenuItemMarked(
   if (rec->parent == NULL)
     return (rec->flags & ITEM_MARKED) ? TRUE : FALSE;
 
+#if QT_VERSION >= 0x040000
   QAction * action = rec->action;
   if (!action) return false;
   return action->isChecked();
+#else
+  return rec->parent->isItemChecked(rec->itemid) ? TRUE : FALSE;
+#endif
 } // getMenuItemMarked()
 
 // *************************************************************************
@@ -397,18 +425,23 @@ QtNativePopupMenu::addMenu(int menuid,
                       this, SLOT(itemActivation(int)));
 #endif // QT-version >= 400 && QT-version < 4.4.0
 
-  
-
+#if QT_VERSION >= 0x040000
   QAction * action;
   if (pos == -1) {
     action = super->menu->addMenu(sub->menu);
-  }    
+  }
   else {
     QAction * before = super->menu->actionAt(QPoint(pos,0));
     action = super->menu->insertMenu(before,sub->menu);
   }
-  
   action->setText(QString(sub->title));
+#else
+  if (pos == -1)
+    super->menu->insertItem(QString(sub->title), sub->menu, sub->menuid);
+  else
+    super->menu->insertItem(QString(sub->title),
+			    sub->menu, sub->menuid, pos);
+#endif
   sub->parent = super->menu;
 } // addMenu()
 
@@ -425,6 +458,7 @@ QtNativePopupMenu::addMenuItem(int menuid,
   ItemRecord * item = this->getItemRecord(itemid);
   assert(item && "invalid child menu id");
 
+#if QT_VERSION >= 0x040000
   item->action = new QAction(menu->menu);
   item->action->setText(item->title);
   if (pos == -1) {
@@ -433,6 +467,12 @@ QtNativePopupMenu::addMenuItem(int menuid,
   else {
     menu->menu->insertAction(menu->menu->actionAt(QPoint(pos,0)),item->action);
   }
+#else
+  if (pos == -1)
+    menu->menu->insertItem(QString(item->title), item->itemid);
+  else
+    menu->menu->insertItem(QString(item->title), item->itemid, pos);
+#endif
   item->parent = menu->menu;
 
 #if QT_VERSION >= 0x040000
@@ -458,7 +498,11 @@ QtNativePopupMenu::addSeparator(int menuid,
   assert(menu && "no such menu");
 
   ItemRecord * rec = createItemRecord("separator");
+#if QT_VERSION >= 0x040000
   menu->menu->insertSeparator(menu->menu->actionAt(QPoint(pos,0)));
+#else
+  menu->menu->insertSeparator(pos);
+#endif
   rec->flags |= ITEM_SEPARATOR;
   this->items->append(rec);
 } // addSeparator()
@@ -488,7 +532,11 @@ QtNativePopupMenu::removeMenu(int menuid)
 #endif // SOQT_DEBUG
     return;
   }
+#if QT_VERSION >= 0x040000
   rec->parent->removeAction(rec->parent->actionAt(QPoint(rec->menuid,0)));
+#else
+  rec->parent->removeItem(rec->menuid);
+#endif
   rec->parent = NULL;
 } // removeMenu()
 
@@ -511,7 +559,11 @@ QtNativePopupMenu::removeMenuItem(int itemid)
 #endif // SOQT_DEBUG
     return;
   }
+#if QT_VERSION >= 0x040000
   rec->parent->removeAction(rec->parent->actionAt(QPoint(rec->itemid,0)));
+#else
+  rec->parent->removeItem(rec->itemid);
+#endif
   rec->parent = NULL;
 } // removeMenuItem()
 

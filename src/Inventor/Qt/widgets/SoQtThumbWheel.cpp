@@ -60,7 +60,11 @@ SoQtThumbWheel::SoQtThumbWheel(QWidget * parent,
                                const char * name)
   : QWidget(parent)
 {
+#if QT_VERSION >= 0x040000
   this->setObjectName(name);
+#else
+  this->setName(name);
+#endif
   this->constructor(SoQtThumbWheel::Vertical);
 }
 
@@ -69,7 +73,11 @@ SoQtThumbWheel::SoQtThumbWheel(Orientation orientation,
                                const char * name)
   : QWidget(parent)
 {
+#if QT_VERSION >= 0x040000
   this->setObjectName(name);
+#else
+  this->setName(name);
+#endif
   this->constructor(orientation);
 }
 
@@ -174,8 +182,11 @@ SoQtThumbWheel::paintEvent(QPaintEvent * event)
     sRect = QRect(0,0,dval,w);
     dRect = QRect(wheelrect.left(),wheelrect.top(),dval,w);
   }
+#if QT_VERSION >= 0x040000
   painter.drawPixmap(dRect,*this->pixmaps[pixmap],sRect);
-
+#else
+  painter.drawPixmap(QPoint(dRect.x(), dRect.y()),*this->pixmaps[pixmap],sRect);
+#endif
   this->currentPixmap = pixmap;
 }
 
@@ -339,12 +350,20 @@ SoQtThumbWheel::initWheel(int diameter, int width)
 
   this->numPixmaps = this->wheel->getNumBitmaps();
   this->pixmaps = new QPixmap * [this->numPixmaps];
-  QImage image(pwidth, pheight,QImage::Format_RGB32);
+#if QT_VERSION >= 0x040000
+  QImage image(pwidth, pheight, QImage::Format_RGB32);
+#else
+  QImage image(pwidth, pheight, 32);
+#endif
   for (int i = 0; i < this->numPixmaps; i++) {
     this->wheel->drawBitmap(i, image.bits(), (this->orient == Vertical) ?
                             SoAnyThumbWheel::VERTICAL : SoAnyThumbWheel::HORIZONTAL);
     this->pixmaps[i] = new QPixmap(QSize(pwidth, pheight));
+#if QT_VERSION >= 0x040000
     *this->pixmaps[i] = QPixmap::fromImage(image);
+#else
+    *this->pixmaps[i] = QPixmap(image);
+#endif
   }
 }
 

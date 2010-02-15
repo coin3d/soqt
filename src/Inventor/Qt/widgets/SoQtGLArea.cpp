@@ -79,9 +79,17 @@ SoQtGLArea::SoQtGLArea(QGLFormat * const format,
                        QWidget * const parent,
                        const QGLWidget * sharewidget,
                        const char * const name)
-  : inherited(*format, parent, sharewidget)
+#if QT_VERSION >= 0x040000
+   : inherited(*format, parent, sharewidget)
+#else
+   : inherited(*format, parent, NULL, sharewidget, Qt::WResizeNoErase)
+#endif
 {
+#if QT_VERSION >= 0x040000
   this->setObjectName(name);
+#else
+  this->setName(name);
+#endif
 #if HAVE_QGLWIDGET_SETAUTOBUFFERSWAP
   // We'll handle the OpenGL buffer swapping ourselves, to support the
   // different combinations of rendering options (doublebuffer with

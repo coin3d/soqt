@@ -164,8 +164,13 @@ SoQtComponentP::getNativeCursor(const SoQtCursor::CustomCursor * cc)
   // Always 32x32 because that's what is recommended in the Qt
   // documentation for QCursor.  At least WinNT 4 will give us
   // "interesting" bugs for other cursor sizes.
+#if QT_VERSION >= 0x040000
   QBitmap bitmap = QBitmap::fromData(QSize(32, 32), cursorbitmap, QImage::Format_MonoLSB);
   QBitmap mask = QBitmap::fromData(QSize(32, 32), cursormask, QImage::Format_MonoLSB);
+#else
+  QBitmap bitmap(32, 32, cursorbitmap, TRUE);
+  QBitmap mask(32, 32, cursormask, TRUE);
+#endif
 
   // Sanity checks.
   assert(bitmap.size().width() > 0 && bitmap.size().height() > 0);
@@ -361,8 +366,12 @@ SoQtComponent::SoQtComponent(QWidget * const parent,
 			       this->getDefaultWidgetName());
 
   if (!parent || !embed) {
+#if QT_VERSION >= 0x040000
     PRIVATE(this)->parent = new QMainWindow();
     PRIVATE(this)->parent->setObjectName(PRIVATE(this)->widgetname);
+#else
+    PRIVATE(this)->parent = (QWidget *) new QMainWindow(NULL, name);
+#endif
     PRIVATE(this)->embedded = FALSE;
     PRIVATE(this)->shelled = TRUE;
   }
@@ -456,12 +465,21 @@ SoQtComponent::setBaseWidget(QWidget * widget)
   assert(widget);
 
   if (PRIVATE(this)->widget) {
+#if QT_VERSION >= 0x040000
     iconText = (PRIVATE(this)->widget->windowIconText().isEmpty() ?
-		PRIVATE(this)->widget->windowIconText() :
-		iconText);
+		iconText :
+		PRIVATE(this)->widget->windowIconText());
     widgetName = (PRIVATE(this)->widget->objectName().isEmpty() ?
-		  PRIVATE(this)->widget->objectName() :
-		  widgetName);
+		  widgetName :
+		  PRIVATE(this)->widget->objectName());
+#else
+    iconText = (PRIVATE(this)->widget->iconText().isEmpty() ?
+		iconText :
+		PRIVATE(this)->widget->iconText());
+    widgetName = (PRIVATE(this)->widget->name() == "" ?
+		  widgetName :
+		  QString(PRIVATE(this)->widget->name()));
+#endif
 
     PRIVATE(this)->widget->removeEventFilter(PRIVATE(this));
     this->unregisterWidget(PRIVATE(this)->widget);
@@ -476,14 +494,25 @@ SoQtComponent::setBaseWidget(QWidget * widget)
 #endif // debug
 
   if (!PRIVATE(this)->parent || PRIVATE(this)->parent->isTopLevel()) {
+#if QT_VERSION >= 0x040000
     if (PRIVATE(this)->widget->windowTitle() == "") {
+#else
+    if (PRIVATE(this)->widget->caption() == "") {
+#endif
       this->setTitle(this->getDefaultTitle());
     }
 
+#if QT_VERSION >= 0x040000
     SoQt::getShellWidget(this->getWidget())->setWindowIconText(iconText);
+#else
+    SoQt::getShellWidget(this->getWidget())->setIconText(iconText);
+#endif
   }
+#if QT_VERSION >= 0x040000
   PRIVATE(this)->widget->setObjectName(widgetName);
-
+#else
+  PRIVATE(this)->widget->setName(widgetName);
+#endif
   // Need this to auto-detect resize events.
   PRIVATE(this)->widget->installEventFilter(PRIVATE(this));
 
@@ -656,7 +685,11 @@ SoQtComponent::setTitle(const char * const title)
       toplevel = toplevel->parentWidget();
     }
     if (toplevel) {
+#if QT_VERSION >= 0x040000
       toplevel->setWindowTitle(title);
+#else
+      toplevel->setCaption(title);
+#endif
     }
   }
 }
@@ -677,7 +710,7 @@ SoQtComponent::getTitle(void) const
       result = toplevel->windowTitle().toUtf8().constData();
 #else
       // Qt3 featured an implicit operator const char * () const
-      result = toplevel->windowTitle();
+      result = toplevel->caption();
 #endif
     }
   }
@@ -691,7 +724,11 @@ SoQtComponent::setIconTitle(const char * const title)
 {
   QWidget * w = this->getWidget();
   if (w && this->isTopLevelShell()) {
+#if QT_VERSION >= 0x040000
     SoQt::getShellWidget(w)->setWindowIconText(title);
+#else
+    SoQt::getShellWidget(w)->setIconText(title);
+#endif
   }
 }
 
@@ -703,7 +740,11 @@ SoQtComponent::getIconTitle(void) const
 
   QWidget * w = this->getWidget();
   if (w && this->isTopLevelShell()) {
+#if QT_VERSION >= 0x040000
     QString iconText = SoQt::getShellWidget(w)->windowIconText();
+#else
+    QString iconText = SoQt::getShellWidget(w)->iconText();
+#endif
 
     if (!iconText.isEmpty()) {
 #if QT_VERSION >= 0x040000

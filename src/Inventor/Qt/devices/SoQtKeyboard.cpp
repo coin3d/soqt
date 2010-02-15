@@ -385,8 +385,11 @@ SoQtKeyboard::translateEvent(QEvent * event)
     if (!PRIVATE(this)->kbdevent) PRIVATE(this)->kbdevent = new SoKeyboardEvent;
 
     // FIXME: check for Qt::Key_unknown. 19990212 mortene.
-
+#if QT_VERSION >= 0x040000
     SbBool keypad = (keyevent->modifiers() & Qt::KeypadModifier) != 0;
+#else
+    SbBool keypad = (keyevent->state() & QT_KEYPAD_MASK) != 0;
+#endif
 
     // Translate keycode Qt -> So
     void * table;
@@ -417,12 +420,22 @@ SoQtKeyboard::translateEvent(QEvent * event)
     if (keyrelease) PRIVATE(this)->kbdevent->setState(SoButtonEvent::UP);
     else PRIVATE(this)->kbdevent->setState(SoButtonEvent::DOWN);
 
+#if QT_VERSION >= 0x040000
     Qt::KeyboardModifiers state = keyevent->modifiers();
+#else
+    Qt::ButtonState state = keyevent->state();
+#endif
 
     // Modifiers
+#if QT_VERSION >= 0x040000
     PRIVATE(this)->kbdevent->setShiftDown(state & Qt::ShiftModifier);
     PRIVATE(this)->kbdevent->setCtrlDown(state & Qt::ControlModifier);
     PRIVATE(this)->kbdevent->setAltDown(state & Qt::AltModifier);
+#else
+    PRIVATE(this)->kbdevent->setShiftDown(state & Qt::ShiftButton);
+    PRIVATE(this)->kbdevent->setCtrlDown(state & Qt::ControlButton);
+    PRIVATE(this)->kbdevent->setAltDown(state & Qt::AltButton);
+#endif
 
     // FIXME: read QCursor::position() instead,
     // and clean up this mess. 19990222 mortene.
