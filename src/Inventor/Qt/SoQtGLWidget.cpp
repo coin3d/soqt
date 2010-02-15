@@ -68,12 +68,13 @@
 #include <qframe.h>
 #include <qmetaobject.h>
 
-#ifdef Q_WS_X11
-#if QT_VERSION >= 0x040000 // Qt 4.0.0+
+#if (defined Q_WS_X11 && QT_VERSION >= 0x040000) // Qt 4.0.0+
 #include <qx11info_x11.h> // for QX11Info
+#endif // Q_WS_X11
+
+#if QT_VERSION >= 0x040000 // Qt 4.0.0+
 #include <QtGui/QColormap> // for QX11Info
 #endif // Qt 4.0.0+
-#endif // Q_WS_X11
 
 #include <Inventor/SbTime.h>
 #include <Inventor/errors/SoDebugError.h>
