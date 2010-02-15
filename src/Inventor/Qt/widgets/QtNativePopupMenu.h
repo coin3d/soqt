@@ -75,6 +75,7 @@ protected:
 
 private slots:
   void itemActivation(QAction *);
+  void itemActivation(int itemid);
 
 private:
   SbPList * menus;

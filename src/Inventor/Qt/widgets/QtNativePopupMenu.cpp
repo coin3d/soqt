@@ -654,12 +654,13 @@ QtNativePopupMenu::createMenuRecord(
 
 #if QT_VERSION >= 0x040000
   rec->menu = new QPOPUPMENU_CLASS(QString(name));
-#else
-  rec->menu = new QPOPUPMENU_CLASS((QWidget *) NULL, name);
-#endif
-
   QObject::connect(rec->menu, SIGNAL(triggered(QAction *)),
                    this, SLOT(itemActivation(QAction *)));
+#else
+  rec->menu = new QPOPUPMENU_CLASS((QWidget *) NULL, name);
+  QObject::connect(rec->menu, SIGNAL(activated(int)),
+                   this, SLOT(itemActivation(int)));
+#endif
 
   rec->parent = NULL;
   rec->action = NULL;
@@ -687,11 +688,20 @@ QtNativePopupMenu::createItemRecord(
 
 void
 QtNativePopupMenu::itemActivation(// private slot
-  QAction * action)
+  QAction * action
+  )
 {
   ItemRecord * rec = getItemRecordFromAction(action);
   assert(rec);
   inherited::invokeMenuSelection(rec->itemid);
 } // menuSelection()
+
+void
+QtNativePopupMenu::itemActivation(// private slot used for Qt3 code path
+  int itemid
+  )
+{
+  inherited::invokeMenuSelection(itemid);
+}
 
 // *************************************************************************
