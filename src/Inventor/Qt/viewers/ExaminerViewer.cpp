@@ -147,9 +147,14 @@ SoQtExaminerViewer::setCamera(SoCamera * newCamera)
         this->setRightWheelString("Dolly");
     }
     if (PRIVATE(this)->cameratogglebutton) {
-      PRIVATE(this)->cameratogglebutton->setIcon(orthogonal ?
-                                                   * (PRIVATE(this)->orthopixmap) :
-                                                   * (PRIVATE(this)->perspectivepixmap));
+#if QT_VERSION >= 0x040000
+      PRIVATE(this)->cameratogglebutton->setIcon(
+#else
+      PRIVATE(this)->cameratogglebutton->setPixmap(
+#endif
+	orthogonal ?
+	* (PRIVATE(this)->orthopixmap) :
+	* (PRIVATE(this)->perspectivepixmap));
     }
   }
 
@@ -188,7 +193,11 @@ SoQtExaminerViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
     p = PRIVATE(this)->perspectivepixmap;
   else assert(0 && "unsupported cameratype");
 
+#if QT_VERSION >= 0x040000
   PRIVATE(this)->cameratogglebutton->setIcon(*p);
+#else
+  PRIVATE(this)->cameratogglebutton->setPixmap(*p);
+#endif
   PRIVATE(this)->cameratogglebutton->adjustSize();
 
   QObject::connect(PRIVATE(this)->cameratogglebutton, SIGNAL(clicked()),

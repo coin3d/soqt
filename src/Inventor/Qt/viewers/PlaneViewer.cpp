@@ -93,8 +93,14 @@ SoQtPlaneViewer::setCamera(SoCamera * camera)
         this->setRightWheelString("Dolly");
     }
     if (PRIVATE(this)->buttons.camera) {
-      PRIVATE(this)->buttons.camera->setIcon(orthogonal ?
-        *(PRIVATE(this)->pixmaps.orthogonal) : *(PRIVATE(this)->pixmaps.perspective));
+#if QT_VERSION >= 0x040000
+      PRIVATE(this)->buttons.camera->setIcon(
+#else
+      PRIVATE(this)->buttons.camera->setPixmap(
+#endif
+        orthogonal ?
+	*(PRIVATE(this)->pixmaps.orthogonal) :
+	*(PRIVATE(this)->pixmaps.perspective));
     }
   }
   inherited::setCamera(camera);
@@ -125,10 +131,11 @@ SoQtPlaneViewer::createViewerButtons(QWidget * parent,
   PRIVATE(this)->buttons.x->setFocusPolicy(QTWIDGET_NOFOCUS);
 #if QT_VERSION >= 0x040000
   PRIVATE(this)->buttons.x->setCheckable(FALSE);
+  PRIVATE(this)->buttons.x->setIcon(QPixmap((const char **) x_xpm));
 #else
   PRIVATE(this)->buttons.x->setToggleButton(FALSE);
+  PRIVATE(this)->buttons.x->setPixmap(QPixmap((const char **) x_xpm));
 #endif
-  PRIVATE(this)->buttons.x->setIcon(QPixmap((const char **) x_xpm));
   QObject::connect(PRIVATE(this)->buttons.x, SIGNAL(clicked()),
                    PRIVATE(this), SLOT(xClicked()));
   buttons->append(PRIVATE(this)->buttons.x);
@@ -136,10 +143,11 @@ SoQtPlaneViewer::createViewerButtons(QWidget * parent,
   PRIVATE(this)->buttons.y->setFocusPolicy(QTWIDGET_NOFOCUS);
 #if QT_VERSION >= 0x040000
   PRIVATE(this)->buttons.y->setCheckable(FALSE);
+  PRIVATE(this)->buttons.y->setIcon(QPixmap((const char **) y_xpm));
 #else
   PRIVATE(this)->buttons.y->setToggleButton(FALSE);
+  PRIVATE(this)->buttons.y->setPixmap(QPixmap((const char **) y_xpm));
 #endif
-  PRIVATE(this)->buttons.y->setIcon(QPixmap((const char **) y_xpm));
   QObject::connect(PRIVATE(this)->buttons.y, SIGNAL(clicked()),
                    PRIVATE(this), SLOT(yClicked()));
   buttons->append(PRIVATE(this)->buttons.y);
@@ -147,10 +155,11 @@ SoQtPlaneViewer::createViewerButtons(QWidget * parent,
   PRIVATE(this)->buttons.z->setFocusPolicy(QTWIDGET_NOFOCUS);
 #if QT_VERSION >= 0x040000
   PRIVATE(this)->buttons.z->setCheckable(FALSE);
+  PRIVATE(this)->buttons.z->setIcon(QPixmap((const char **) z_xpm));
 #else
   PRIVATE(this)->buttons.z->setToggleButton(FALSE);
+  PRIVATE(this)->buttons.z->setPixmap(QPixmap((const char **) z_xpm));
 #endif
-  PRIVATE(this)->buttons.z->setIcon(QPixmap((const char **) z_xpm));
   QObject::connect(PRIVATE(this)->buttons.z, SIGNAL(clicked()),
                    PRIVATE(this), SLOT(zClicked()));
   buttons->append(PRIVATE(this)->buttons.z);
@@ -184,7 +193,11 @@ SoQtPlaneViewer::createViewerButtons(QWidget * parent,
     pixmap = PRIVATE(this)->pixmaps.perspective;
   else assert(0 && "unsupported cameratype");
 
+#if QT_VERSION >= 0x040000
   PRIVATE(this)->buttons.camera->setIcon(*pixmap);
+#else
+  PRIVATE(this)->buttons.camera->setPixmap(*pixmap);
+#endif
   buttons->append(PRIVATE(this)->buttons.camera);
 
   QObject::connect(PRIVATE(this)->buttons.camera, SIGNAL(clicked()),

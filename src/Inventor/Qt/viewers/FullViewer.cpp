@@ -637,11 +637,12 @@ SoQtFullViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
 #if QT_VERSION >= 0x040000
       p->setCheckable(TRUE);
       p->setChecked(this->isViewing() ? FALSE : TRUE);
+      p->setIcon(QPixmap((const char **)pick_xpm));
 #else
       p->setToggleButton(TRUE);
       p->setOn(this->isViewing() ? FALSE : TRUE);
+      p->setPixmap(QPixmap((const char **)pick_xpm));
 #endif
-      p->setIcon(QPixmap((const char **)pick_xpm));
       QObject::connect(p, SIGNAL(clicked()),
                        PRIVATE(this), SLOT(interactbuttonClicked()));
       break;
@@ -650,31 +651,48 @@ SoQtFullViewer::createViewerButtons(QWidget * parent, SbPList * buttonlist)
 #if QT_VERSION >= 0x040000
       p->setCheckable(TRUE);
       p->setChecked(this->isViewing());
+      p->setIcon(QPixmap((const char **)view_xpm));
 #else
       p->setToggleButton(TRUE);
       p->setOn(this->isViewing());
+      p->setPixmap(QPixmap((const char **)view_xpm));
 #endif
-      p->setIcon(QPixmap((const char **)view_xpm));
       QObject::connect(p, SIGNAL(clicked()),
                        PRIVATE(this), SLOT(viewbuttonClicked()));
       break;
     case HOME_BUTTON:
       QObject::connect(p, SIGNAL(clicked()), PRIVATE(this), SLOT(homebuttonClicked()));
+#if QT_VERSION >= 0x040000
       p->setIcon(QPixmap((const char **)home_xpm));
+#else
+      p->setPixmap(QPixmap((const char **)home_xpm));
+#endif
       break;
     case SET_HOME_BUTTON:
       QObject::connect(p, SIGNAL(clicked()),
                        PRIVATE(this), SLOT(sethomebuttonClicked()));
+#if QT_VERSION >= 0x040000
       p->setIcon(QPixmap((const char **)set_home_xpm));
+#else
+      p->setPixmap(QPixmap((const char **)set_home_xpm));
+#endif
       break;
     case VIEW_ALL_BUTTON:
       QObject::connect(p, SIGNAL(clicked()),
                        PRIVATE(this), SLOT(viewallbuttonClicked()));
+#if QT_VERSION >= 0x040000
       p->setIcon(QPixmap((const char **)view_all_xpm));
+#else
+      p->setPixmap(QPixmap((const char **)view_all_xpm));
+#endif
       break;
     case SEEK_BUTTON:
       QObject::connect(p, SIGNAL(clicked()), PRIVATE(this), SLOT(seekbuttonClicked()));
+#if QT_VERSION >= 0x040000
       p->setIcon(QPixmap((const char **)seek_xpm));
+#else
+      p->setPixmap(QPixmap((const char **)seek_xpm));
+#endif
       break;
     default:
       assert(0);
