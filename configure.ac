@@ -552,10 +552,6 @@ SIM_AC_INVENTOR_EXTENSIONS([
   SOGUI_EXTRA_LIBS="$sim_ac_iv_extension_LIBS $SOGUI_EXTRA_LIBS"
 ])
 
-BASIC_HEADER_TOP='#include <QtCore/QtGlobal>'
-AC_SUBST([BASIC_HEADER_TOP])
-
-
 SIM_AC_HAVE_INVENTOR_FEATURE(
   [for SbImage::addReadImageCB],
   [#include <Inventor/SbImage.h>], [SbImage::addReadImageCB(NULL, NULL);],
