@@ -62,9 +62,14 @@ SoQtImageReader::readImage(const SbString & filename, SbImage * sbimage) const
     }
     else {
       // FIXME: consider if we should detect allGrayscale() and alpha (c = 2)
+#if QT_VERSION >= 0x040000
       c = image.hasAlphaChannel() ? 4 : 3;
       image = image.convertToFormat(image.hasAlphaChannel() ?
                                     QImage::Format_ARGB32 : QImage::Format_RGB32);
+#else
+      c = image.hasAlphaBuffer() ? 4 : 3;
+      image = image.convertDepth(32);
+#endif
     }
 
     SbVec2s size((short) w, (short) h);

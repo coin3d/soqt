@@ -552,10 +552,6 @@ SIM_AC_INVENTOR_EXTENSIONS([
   SOGUI_EXTRA_LIBS="$sim_ac_iv_extension_LIBS $SOGUI_EXTRA_LIBS"
 ])
 
-BASIC_HEADER_TOP='#include <QtCore/QtGlobal>'
-AC_SUBST([BASIC_HEADER_TOP])
-
-
 SIM_AC_HAVE_INVENTOR_FEATURE(
   [for SbImage::addReadImageCB],
   [#include <Inventor/SbImage.h>], [SbImage::addReadImageCB(NULL, NULL);],
@@ -570,7 +566,7 @@ AC_ARG_ENABLE(
     *) ;;
   esac])
 
-if $sim_ac_build_library && $sim_ac_enable_pkgconfig; then
+if $sim_ac_enable_pkgconfig; then
   PKG_CHECK_MODULES([QT4], [QtCore QtGui QtOpenGL], [
     SOGUI_EXTRA_CPPFLAGS="$SOGUI_EXTRA_CPPFLAGS $QT4_CFLAGS"
     SOGUI_EXTRA_LIBS="$QT4_LIBS $SOGUI_EXTRA_LIBS"

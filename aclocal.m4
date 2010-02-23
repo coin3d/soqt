@@ -10979,7 +10979,7 @@ if $sim_ac_with_qt; then
 
   SIM_AC_HAVE_QT_FRAMEWORK
 
-  if $sim_ac_have_qt_framework; then
+  if $sim_cv_have_qt_framework; then
     sim_ac_qt_cppflags="-I$sim_ac_qt_framework_dir/QtCore.framework/Headers -I$sim_ac_qt_framework_dir/QtOpenGL.framework/Headers -I$sim_ac_qt_framework_dir/QtGui.framework/Headers -F$sim_ac_qt_framework_dir"
     sim_ac_qt_libs="-Wl,-F$sim_ac_qt_framework_dir -Wl,-framework,QtGui -Wl,-framework,QtOpenGL -Wl,-framework,QtCore -Wl,-framework,QtXml -Wl,-framework,QtNetwork -Wl,-framework,QtSql"
   else
@@ -11253,7 +11253,7 @@ if $sim_ac_with_qt; then
 
     fi # sim_ac_qglobal_unresolved = false
 
-  fi # sim_ac_have_qt_framework
+  fi # sim_cv_have_qt_framework
 
   # We should only *test* availability, not mutate the LIBS/CPPFLAGS
   # variables ourselves inside this macro. 20041021 larsa
@@ -11581,7 +11581,7 @@ fi
 # Uses the variable $sim_ac_qt_framework_dir which should either
 # point to /Library/Frameworks or $QTDIR/lib.
 #
-# Sets sim_ac_have_qt_framework to true if Qt is installed as
+# Sets sim_cv_have_qt_framework to true if Qt is installed as
 # a framework, and to false otherwise.
 #
 # Author: Karin Kosina, <kyrah@sim.no>.
@@ -11599,19 +11599,19 @@ case $host_os in
       LDFLAGS="$LDFLAGS -F$sim_ac_qt_framework_dir -framework QtCore"
       AC_CACHE_CHECK(
         [whether Qt is installed as a framework],
-        sim_ac_have_qt_framework,
+        sim_cv_have_qt_framework,
         [AC_TRY_LINK([#include <QtCore/qglobal.h>],
                  [],
-                 [sim_ac_have_qt_framework=true],
-                 [sim_ac_have_qt_framework=false])
+                 [sim_cv_have_qt_framework=true],
+                 [sim_cv_have_qt_framework=false])
         ])
         LDFLAGS=$sim_ac_save_ldflags_fw
     else
-      sim_ac_have_qt_framework=false
+      sim_cv_have_qt_framework=false
     fi
     ;;
   *)
-    sim_ac_have_qt_framework=false
+    sim_cv_have_qt_framework=false
     ;;
 esac
 ])

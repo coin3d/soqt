@@ -57,7 +57,6 @@ AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
-BASIC_HEADER_TOP = @BASIC_HEADER_TOP@
 BUILD_HTMLHELP_FALSE = @BUILD_HTMLHELP_FALSE@
 BUILD_HTMLHELP_TRUE = @BUILD_HTMLHELP_TRUE@
 BUILD_HTMLPAGES_FALSE = @BUILD_HTMLPAGES_FALSE@
@@ -620,7 +619,7 @@ all: all-am
 .SUFFIXES:
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(srcdir)/../src/Inventor/Qt/common/Makefile.common $(top_srcdir)/configure.ac $(ACLOCAL_M4)
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign  htmlhelp/Makefile
+	  $(AUTOMAKE) --gnu  htmlhelp/Makefile
 Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__depfiles_maybe)
 

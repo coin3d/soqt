@@ -465,7 +465,7 @@ ac_includes_default="\
 # include <unistd.h>
 #endif"
 
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os target target_cpu target_vendor target_os BUILD_WITH_MSVC SOQT_MAJOR_VERSION SOQT_MINOR_VERSION SOQT_MICRO_VERSION SOQT_BETA_VERSION SOQT_VERSION LT_CURRENT LT_REVISION LT_AGE SOQT_SO_VERSION ac_unique_file sim_ac_relative_src_dir sim_ac_relative_src_dir_p INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE am__leading_dot MAINTAINER_MODE_TRUE MAINTAINER_MODE_FALSE MAINT CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE CPP CXX CXXFLAGS ac_ct_CXX CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE CXXCPP SOGUI_MSVC_LIBC EGREP LN_S ECHO AR ac_ct_AR RANLIB ac_ct_RANLIB F77 FFLAGS ac_ct_F77 LIBTOOL SOGUI_EXTRA_CPPFLAGS SOGUI_EXTRA_CFLAGS SOGUI_EXTRA_CXXFLAGS SOGUI_EXTRA_LDFLAGS SOGUI_EXTRA_LIBS HACKING_COMPACT_BUILD_TRUE HACKING_COMPACT_BUILD_FALSE CONFIG SUFFIX BUILD_LIBRARY_TRUE BUILD_LIBRARY_FALSE htmldir htmlhelpdir SOGUI_DOC_HTML SOGUI_DOC_MAN SOGUI_DOC_HTML_HELP sogui_build_dir sogui_src_dir sogui_html_dir sogui_html_help_dir sogui_man_dir BUILD_MANPAGES_TRUE BUILD_MANPAGES_FALSE BUILD_HTMLPAGES_TRUE BUILD_HTMLPAGES_FALSE BUILD_HTMLHELP_TRUE BUILD_HTMLHELP_FALSE sim_ac_hhc_exe sim_ac_doxygen_exe sim_ac_perl_exe path_tag SOGUI_MAJOR_VERSION SOGUI_MINOR_VERSION BUILD_METAFILES_TRUE BUILD_METAFILES_FALSE meta_prefix X_CFLAGS X_PRE_LIBS X_LIBS X_EXTRA_LIBS sim_ac_coin_configcmd BASIC_HEADER_TOP PKG_CONFIG ac_pt_PKG_CONFIG QT4_CFLAGS QT4_LIBS MOC QT_VERSION sim_ac_qt_cygpath HAVE_JOYSTICK_LINUX_TRUE HAVE_JOYSTICK_LINUX_FALSE DSUFFIX COIN_COMPILER ac_compiler_gnu ivframeworkdir frameworkdir ivincludedir soguiincludedir MAC_FRAMEWORK MAC_FRAMEWORK_NAME MAC_FRAMEWORK_PREFIX MAC_FRAMEWORK_VERSION nop MAC_FRAMEWORK_TRUE MAC_FRAMEWORK_FALSE MACOSX_TRUE MACOSX_FALSE MACOSX_10_2FF_TRUE MACOSX_10_2FF_FALSE UNIX2WINPATH Gui gui GUI WIDGET EVENT COMPONENTHEADER soqt_build_dir soqt_w32_build_dir soqt_src_dir soqt_w32_src_dir LIBFLAGS BUILD_WITH_MSVC_TRUE BUILD_WITH_MSVC_FALSE SOQT_DSP_LIBS SOQT_DSP_INCS SOQT_DSP_DEFS SOQT_LIB_DSP_DEFS sim_ac_packagemaker_app MACOSX_PACKAGEABLE_TRUE MACOSX_PACKAGEABLE_FALSE LIBOBJS LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os target target_cpu target_vendor target_os BUILD_WITH_MSVC SOQT_MAJOR_VERSION SOQT_MINOR_VERSION SOQT_MICRO_VERSION SOQT_BETA_VERSION SOQT_VERSION LT_CURRENT LT_REVISION LT_AGE SOQT_SO_VERSION ac_unique_file sim_ac_relative_src_dir sim_ac_relative_src_dir_p INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE am__leading_dot MAINTAINER_MODE_TRUE MAINTAINER_MODE_FALSE MAINT CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE CPP CXX CXXFLAGS ac_ct_CXX CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE CXXCPP SOGUI_MSVC_LIBC EGREP LN_S ECHO AR ac_ct_AR RANLIB ac_ct_RANLIB F77 FFLAGS ac_ct_F77 LIBTOOL SOGUI_EXTRA_CPPFLAGS SOGUI_EXTRA_CFLAGS SOGUI_EXTRA_CXXFLAGS SOGUI_EXTRA_LDFLAGS SOGUI_EXTRA_LIBS HACKING_COMPACT_BUILD_TRUE HACKING_COMPACT_BUILD_FALSE CONFIG SUFFIX BUILD_LIBRARY_TRUE BUILD_LIBRARY_FALSE htmldir htmlhelpdir SOGUI_DOC_HTML SOGUI_DOC_MAN SOGUI_DOC_HTML_HELP sogui_build_dir sogui_src_dir sogui_html_dir sogui_html_help_dir sogui_man_dir BUILD_MANPAGES_TRUE BUILD_MANPAGES_FALSE BUILD_HTMLPAGES_TRUE BUILD_HTMLPAGES_FALSE BUILD_HTMLHELP_TRUE BUILD_HTMLHELP_FALSE sim_ac_hhc_exe sim_ac_doxygen_exe sim_ac_perl_exe path_tag SOGUI_MAJOR_VERSION SOGUI_MINOR_VERSION BUILD_METAFILES_TRUE BUILD_METAFILES_FALSE meta_prefix X_CFLAGS X_PRE_LIBS X_LIBS X_EXTRA_LIBS sim_ac_coin_configcmd PKG_CONFIG ac_pt_PKG_CONFIG QT4_CFLAGS QT4_LIBS MOC QT_VERSION sim_ac_qt_cygpath HAVE_JOYSTICK_LINUX_TRUE HAVE_JOYSTICK_LINUX_FALSE DSUFFIX COIN_COMPILER ac_compiler_gnu ivframeworkdir frameworkdir ivincludedir soguiincludedir MAC_FRAMEWORK MAC_FRAMEWORK_NAME MAC_FRAMEWORK_PREFIX MAC_FRAMEWORK_VERSION nop MAC_FRAMEWORK_TRUE MAC_FRAMEWORK_FALSE MACOSX_TRUE MACOSX_FALSE MACOSX_10_2FF_TRUE MACOSX_10_2FF_FALSE UNIX2WINPATH Gui gui GUI WIDGET EVENT COMPONENTHEADER soqt_build_dir soqt_w32_build_dir soqt_src_dir soqt_w32_src_dir LIBFLAGS BUILD_WITH_MSVC_TRUE BUILD_WITH_MSVC_FALSE SOQT_DSP_LIBS SOQT_DSP_INCS SOQT_DSP_DEFS SOQT_LIB_DSP_DEFS sim_ac_packagemaker_app MACOSX_PACKAGEABLE_TRUE MACOSX_PACKAGEABLE_FALSE LIBOBJS LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -27628,10 +27628,6 @@ LIBS=$sim_ac_iv_extension_save_LIBS
 
 
 
-BASIC_HEADER_TOP='#include <QtCore/QtGlobal>'
-
-
-
 
 echo "$as_me:$LINENO: checking for SbImage::addReadImageCB" >&5
 echo $ECHO_N "checking for SbImage::addReadImageCB... $ECHO_C" >&6
@@ -27712,7 +27708,7 @@ if test "${enable_pkgconfig+set}" = set; then
   esac
 fi;
 
-if $sim_ac_build_library && $sim_ac_enable_pkgconfig; then
+if $sim_ac_enable_pkgconfig; then
 
 
 if test "x$ac_cv_env_PKG_CONFIG_set" != "xset"; then
@@ -28484,7 +28480,7 @@ case $host_os in
       LDFLAGS="$LDFLAGS -F$sim_ac_qt_framework_dir -framework QtCore"
       echo "$as_me:$LINENO: checking whether Qt is installed as a framework" >&5
 echo $ECHO_N "checking whether Qt is installed as a framework... $ECHO_C" >&6
-if test "${sim_ac_have_qt_framework+set}" = set; then
+if test "${sim_cv_have_qt_framework+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
   cat >conftest.$ac_ext <<_ACEOF
@@ -28524,31 +28520,31 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
-  sim_ac_have_qt_framework=true
+  sim_cv_have_qt_framework=true
 else
   echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
 
-sim_ac_have_qt_framework=false
+sim_cv_have_qt_framework=false
 fi
 rm -f conftest.err conftest.$ac_objext \
       conftest$ac_exeext conftest.$ac_ext
 
 fi
-echo "$as_me:$LINENO: result: $sim_ac_have_qt_framework" >&5
-echo "${ECHO_T}$sim_ac_have_qt_framework" >&6
+echo "$as_me:$LINENO: result: $sim_cv_have_qt_framework" >&5
+echo "${ECHO_T}$sim_cv_have_qt_framework" >&6
         LDFLAGS=$sim_ac_save_ldflags_fw
     else
-      sim_ac_have_qt_framework=false
+      sim_cv_have_qt_framework=false
     fi
     ;;
   *)
-    sim_ac_have_qt_framework=false
+    sim_cv_have_qt_framework=false
     ;;
 esac
 
 
-  if $sim_ac_have_qt_framework; then
+  if $sim_cv_have_qt_framework; then
     sim_ac_qt_cppflags="-I$sim_ac_qt_framework_dir/QtCore.framework/Headers -I$sim_ac_qt_framework_dir/QtOpenGL.framework/Headers -I$sim_ac_qt_framework_dir/QtGui.framework/Headers -F$sim_ac_qt_framework_dir"
     sim_ac_qt_libs="-Wl,-F$sim_ac_qt_framework_dir -Wl,-framework,QtGui -Wl,-framework,QtOpenGL -Wl,-framework,QtCore -Wl,-framework,QtXml -Wl,-framework,QtNetwork -Wl,-framework,QtSql"
   else
@@ -29312,7 +29308,7 @@ echo "${ECHO_T}$sim_ac_qt_cppflags $sim_ac_QTDIR_ldflags $sim_ac_qt_libs" >&6
 
     fi # sim_ac_qglobal_unresolved = false
 
-  fi # sim_ac_have_qt_framework
+  fi # sim_cv_have_qt_framework
 
   # We should only *test* availability, not mutate the LIBS/CPPFLAGS
   # variables ourselves inside this macro. 20041021 larsa
@@ -34615,7 +34611,6 @@ s,@X_PRE_LIBS@,$X_PRE_LIBS,;t t
 s,@X_LIBS@,$X_LIBS,;t t
 s,@X_EXTRA_LIBS@,$X_EXTRA_LIBS,;t t
 s,@sim_ac_coin_configcmd@,$sim_ac_coin_configcmd,;t t
-s,@BASIC_HEADER_TOP@,$BASIC_HEADER_TOP,;t t
 s,@PKG_CONFIG@,$PKG_CONFIG,;t t
 s,@ac_pt_PKG_CONFIG@,$ac_pt_PKG_CONFIG,;t t
 s,@QT4_CFLAGS@,$QT4_CFLAGS,;t t

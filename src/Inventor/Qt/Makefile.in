@@ -56,7 +56,6 @@ AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
-BASIC_HEADER_TOP = @BASIC_HEADER_TOP@
 BUILD_HTMLHELP_FALSE = @BUILD_HTMLHELP_FALSE@
 BUILD_HTMLHELP_TRUE = @BUILD_HTMLHELP_TRUE@
 BUILD_HTMLPAGES_FALSE = @BUILD_HTMLPAGES_FALSE@
@@ -690,6 +689,10 @@ libSoQt@SUFFIX@_la_SOURCES = \
 	$(BuildSources)
 
 
+libSoQt@SUFFIX@_la_CXXFLAGS = \
+	$(AM_CXXFLAGS)
+
+
 nodist_libSoQt@SUFFIX@_la_SOURCES = \
 	$(NoDistSources)
 
@@ -792,15 +795,23 @@ am__libSoQt@SUFFIX@_la_SOURCES_DIST = SoQt.cpp SoQtP.h \
 	SoQtComponent.cpp SoQtComponentP.h SoQtGLWidget.cpp \
 	SoQtGLWidgetP.h SoQtImageReader.cpp SoQtImageReader.h \
 	all-soqt-cpp.cpp all-soqt2-cpp.cpp
-am__objects_8 = all-soqt-cpp.lo all-soqt2-cpp.lo
-am__objects_9 = SoQt.lo SoQtSignalThread.lo SoQtComponent.lo \
-	SoQtGLWidget.lo SoQtImageReader.lo
+am__objects_8 = libSoQt@SUFFIX@_la-all-soqt-cpp.lo \
+	libSoQt@SUFFIX@_la-all-soqt2-cpp.lo
+am__objects_9 = libSoQt@SUFFIX@_la-SoQt.lo \
+	libSoQt@SUFFIX@_la-SoQtSignalThread.lo \
+	libSoQt@SUFFIX@_la-SoQtComponent.lo \
+	libSoQt@SUFFIX@_la-SoQtGLWidget.lo \
+	libSoQt@SUFFIX@_la-SoQtImageReader.lo
 @HACKING_COMPACT_BUILD_TRUE@am__objects_10 = $(am__objects_8)
 @HACKING_COMPACT_BUILD_FALSE@am__objects_10 = $(am__objects_9)
 am_libSoQt@SUFFIX@_la_OBJECTS = $(am__objects_10)
-am__objects_11 = SoAny.lo So@Gui@Cursor.lo So@Gui@Object.lo \
-	So@Gui@Common.lo So@Gui@ComponentCommon.lo \
-	So@Gui@GLWidgetCommon.lo So@Gui@RenderArea.lo $(am__objects_4)
+am__objects_11 = libSoQt@SUFFIX@_la-SoAny.lo \
+	libSoQt@SUFFIX@_la-So@Gui@Cursor.lo \
+	libSoQt@SUFFIX@_la-So@Gui@Object.lo \
+	libSoQt@SUFFIX@_la-So@Gui@Common.lo \
+	libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.lo \
+	libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.lo \
+	libSoQt@SUFFIX@_la-So@Gui@RenderArea.lo $(am__objects_4)
 am__objects_12 = $(am__objects_11)
 @HACKING_COMPACT_BUILD_TRUE@am__objects_13 =
 @HACKING_COMPACT_BUILD_FALSE@am__objects_13 = $(am__objects_12)
@@ -809,32 +820,33 @@ libSoQt@SUFFIX@_la_OBJECTS = $(am_libSoQt@SUFFIX@_la_OBJECTS) \
 	$(nodist_libSoQt@SUFFIX@_la_OBJECTS)
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/So@Gui@Common.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/So@Gui@Common.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/So@Gui@ComponentCommon.Plo \
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/So@Gui@Common.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/So@Gui@ComponentCommon.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/So@Gui@Cursor.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/So@Gui@Cursor.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/So@Gui@GLWidgetCommon.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/So@Gui@GLWidgetCommon.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/So@Gui@Object.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/So@Gui@Object.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/So@Gui@RenderArea.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/So@Gui@RenderArea.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/SoAny.Plo ./$(DEPDIR)/SoAny.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/SoQt.Plo ./$(DEPDIR)/SoQt.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/SoQtComponent.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/SoAny.Po ./$(DEPDIR)/SoQt.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/SoQtComponent.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/SoQtGLWidget.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SoQtGLWidget.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/SoQtImageReader.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SoQtImageReader.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/SoQtSignalThread.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SoQtSignalThread.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/all-soqt-cpp.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/all-soqt-cpp.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/all-soqt2-cpp.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/all-soqt2-cpp.Po
+@AMDEP_TRUE@	./$(DEPDIR)/all-soqt2-cpp.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Common.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Cursor.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Object.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@RenderArea.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/libSoQt@SUFFIX@_la-SoAny.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/libSoQt@SUFFIX@_la-SoQt.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtComponent.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtGLWidget.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtImageReader.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtSignalThread.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt-cpp.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt2-cpp.Plo
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -872,7 +884,7 @@ all: $(BUILT_SOURCES)
 .SUFFIXES: .cpp .lo .o .obj
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(srcdir)/common/Makefile.common $(top_srcdir)/configure.ac $(ACLOCAL_M4)
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign  src/Inventor/Qt/Makefile
+	  $(AUTOMAKE) --gnu  src/Inventor/Qt/Makefile
 Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__depfiles_maybe)
 libLIBRARIES_INSTALL = $(INSTALL_DATA)
@@ -942,34 +954,34 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@Common.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@Common.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@ComponentCommon.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@ComponentCommon.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@Cursor.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@Cursor.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@GLWidgetCommon.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@GLWidgetCommon.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@Object.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@Object.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@RenderArea.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@RenderArea.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoAny.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoAny.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQt.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQt.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQtComponent.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQtComponent.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQtGLWidget.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQtGLWidget.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQtImageReader.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQtImageReader.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQtSignalThread.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQtSignalThread.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/all-soqt-cpp.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/all-soqt-cpp.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/all-soqt2-cpp.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/all-soqt2-cpp.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Common.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Cursor.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Object.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@RenderArea.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoQt@SUFFIX@_la-SoAny.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoQt@SUFFIX@_la-SoQt.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtComponent.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtGLWidget.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtImageReader.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtSignalThread.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt-cpp.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt2-cpp.Plo@am__quote@
 
 distclean-depend:
 	-rm -rf ./$(DEPDIR)
@@ -1237,6 +1249,468 @@ So@Gui@RenderArea.lo: $(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/So@Gui@RenderArea.Plo' tmpdepfile='$(DEPDIR)/So@Gui@RenderArea.TPlo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@RenderArea.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp
+
+libSoQt@SUFFIX@_la-all-soqt-cpp.o: all-soqt-cpp.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-all-soqt-cpp.o -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt-cpp.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-all-soqt-cpp.o `test -f 'all-soqt-cpp.cpp' || echo '$(srcdir)/'`all-soqt-cpp.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt-cpp.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt-cpp.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt-cpp.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='all-soqt-cpp.cpp' object='libSoQt@SUFFIX@_la-all-soqt-cpp.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt-cpp.Po' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt-cpp.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-all-soqt-cpp.o `test -f 'all-soqt-cpp.cpp' || echo '$(srcdir)/'`all-soqt-cpp.cpp
+
+libSoQt@SUFFIX@_la-all-soqt-cpp.obj: all-soqt-cpp.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-all-soqt-cpp.obj -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt-cpp.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-all-soqt-cpp.obj `if test -f 'all-soqt-cpp.cpp'; then $(CYGPATH_W) 'all-soqt-cpp.cpp'; else $(CYGPATH_W) '$(srcdir)/all-soqt-cpp.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt-cpp.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt-cpp.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt-cpp.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='all-soqt-cpp.cpp' object='libSoQt@SUFFIX@_la-all-soqt-cpp.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt-cpp.Po' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt-cpp.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-all-soqt-cpp.obj `if test -f 'all-soqt-cpp.cpp'; then $(CYGPATH_W) 'all-soqt-cpp.cpp'; else $(CYGPATH_W) '$(srcdir)/all-soqt-cpp.cpp'; fi`
+
+libSoQt@SUFFIX@_la-all-soqt-cpp.lo: all-soqt-cpp.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-all-soqt-cpp.lo -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt-cpp.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-all-soqt-cpp.lo `test -f 'all-soqt-cpp.cpp' || echo '$(srcdir)/'`all-soqt-cpp.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt-cpp.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt-cpp.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt-cpp.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='all-soqt-cpp.cpp' object='libSoQt@SUFFIX@_la-all-soqt-cpp.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt-cpp.Plo' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt-cpp.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-all-soqt-cpp.lo `test -f 'all-soqt-cpp.cpp' || echo '$(srcdir)/'`all-soqt-cpp.cpp
+
+libSoQt@SUFFIX@_la-all-soqt2-cpp.o: all-soqt2-cpp.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-all-soqt2-cpp.o -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt2-cpp.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-all-soqt2-cpp.o `test -f 'all-soqt2-cpp.cpp' || echo '$(srcdir)/'`all-soqt2-cpp.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt2-cpp.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt2-cpp.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt2-cpp.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='all-soqt2-cpp.cpp' object='libSoQt@SUFFIX@_la-all-soqt2-cpp.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt2-cpp.Po' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt2-cpp.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-all-soqt2-cpp.o `test -f 'all-soqt2-cpp.cpp' || echo '$(srcdir)/'`all-soqt2-cpp.cpp
+
+libSoQt@SUFFIX@_la-all-soqt2-cpp.obj: all-soqt2-cpp.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-all-soqt2-cpp.obj -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt2-cpp.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-all-soqt2-cpp.obj `if test -f 'all-soqt2-cpp.cpp'; then $(CYGPATH_W) 'all-soqt2-cpp.cpp'; else $(CYGPATH_W) '$(srcdir)/all-soqt2-cpp.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt2-cpp.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt2-cpp.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt2-cpp.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='all-soqt2-cpp.cpp' object='libSoQt@SUFFIX@_la-all-soqt2-cpp.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt2-cpp.Po' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt2-cpp.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-all-soqt2-cpp.obj `if test -f 'all-soqt2-cpp.cpp'; then $(CYGPATH_W) 'all-soqt2-cpp.cpp'; else $(CYGPATH_W) '$(srcdir)/all-soqt2-cpp.cpp'; fi`
+
+libSoQt@SUFFIX@_la-all-soqt2-cpp.lo: all-soqt2-cpp.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-all-soqt2-cpp.lo -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt2-cpp.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-all-soqt2-cpp.lo `test -f 'all-soqt2-cpp.cpp' || echo '$(srcdir)/'`all-soqt2-cpp.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt2-cpp.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt2-cpp.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt2-cpp.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='all-soqt2-cpp.cpp' object='libSoQt@SUFFIX@_la-all-soqt2-cpp.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt2-cpp.Plo' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-all-soqt2-cpp.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-all-soqt2-cpp.lo `test -f 'all-soqt2-cpp.cpp' || echo '$(srcdir)/'`all-soqt2-cpp.cpp
+
+libSoQt@SUFFIX@_la-SoQt.o: SoQt.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-SoQt.o -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQt.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-SoQt.o `test -f 'SoQt.cpp' || echo '$(srcdir)/'`SoQt.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQt.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQt.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQt.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoQt.cpp' object='libSoQt@SUFFIX@_la-SoQt.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoQt.Po' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoQt.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-SoQt.o `test -f 'SoQt.cpp' || echo '$(srcdir)/'`SoQt.cpp
+
+libSoQt@SUFFIX@_la-SoQt.obj: SoQt.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-SoQt.obj -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQt.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-SoQt.obj `if test -f 'SoQt.cpp'; then $(CYGPATH_W) 'SoQt.cpp'; else $(CYGPATH_W) '$(srcdir)/SoQt.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQt.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQt.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQt.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoQt.cpp' object='libSoQt@SUFFIX@_la-SoQt.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoQt.Po' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoQt.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-SoQt.obj `if test -f 'SoQt.cpp'; then $(CYGPATH_W) 'SoQt.cpp'; else $(CYGPATH_W) '$(srcdir)/SoQt.cpp'; fi`
+
+libSoQt@SUFFIX@_la-SoQt.lo: SoQt.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-SoQt.lo -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQt.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-SoQt.lo `test -f 'SoQt.cpp' || echo '$(srcdir)/'`SoQt.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQt.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQt.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQt.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoQt.cpp' object='libSoQt@SUFFIX@_la-SoQt.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoQt.Plo' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoQt.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-SoQt.lo `test -f 'SoQt.cpp' || echo '$(srcdir)/'`SoQt.cpp
+
+libSoQt@SUFFIX@_la-SoQtSignalThread.o: SoQtSignalThread.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-SoQtSignalThread.o -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtSignalThread.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-SoQtSignalThread.o `test -f 'SoQtSignalThread.cpp' || echo '$(srcdir)/'`SoQtSignalThread.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtSignalThread.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtSignalThread.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtSignalThread.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoQtSignalThread.cpp' object='libSoQt@SUFFIX@_la-SoQtSignalThread.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtSignalThread.Po' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtSignalThread.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-SoQtSignalThread.o `test -f 'SoQtSignalThread.cpp' || echo '$(srcdir)/'`SoQtSignalThread.cpp
+
+libSoQt@SUFFIX@_la-SoQtSignalThread.obj: SoQtSignalThread.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-SoQtSignalThread.obj -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtSignalThread.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-SoQtSignalThread.obj `if test -f 'SoQtSignalThread.cpp'; then $(CYGPATH_W) 'SoQtSignalThread.cpp'; else $(CYGPATH_W) '$(srcdir)/SoQtSignalThread.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtSignalThread.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtSignalThread.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtSignalThread.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoQtSignalThread.cpp' object='libSoQt@SUFFIX@_la-SoQtSignalThread.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtSignalThread.Po' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtSignalThread.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-SoQtSignalThread.obj `if test -f 'SoQtSignalThread.cpp'; then $(CYGPATH_W) 'SoQtSignalThread.cpp'; else $(CYGPATH_W) '$(srcdir)/SoQtSignalThread.cpp'; fi`
+
+libSoQt@SUFFIX@_la-SoQtSignalThread.lo: SoQtSignalThread.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-SoQtSignalThread.lo -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtSignalThread.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-SoQtSignalThread.lo `test -f 'SoQtSignalThread.cpp' || echo '$(srcdir)/'`SoQtSignalThread.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtSignalThread.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtSignalThread.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtSignalThread.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoQtSignalThread.cpp' object='libSoQt@SUFFIX@_la-SoQtSignalThread.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtSignalThread.Plo' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtSignalThread.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-SoQtSignalThread.lo `test -f 'SoQtSignalThread.cpp' || echo '$(srcdir)/'`SoQtSignalThread.cpp
+
+libSoQt@SUFFIX@_la-SoQtComponent.o: SoQtComponent.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-SoQtComponent.o -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtComponent.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-SoQtComponent.o `test -f 'SoQtComponent.cpp' || echo '$(srcdir)/'`SoQtComponent.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtComponent.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtComponent.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtComponent.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoQtComponent.cpp' object='libSoQt@SUFFIX@_la-SoQtComponent.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtComponent.Po' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtComponent.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-SoQtComponent.o `test -f 'SoQtComponent.cpp' || echo '$(srcdir)/'`SoQtComponent.cpp
+
+libSoQt@SUFFIX@_la-SoQtComponent.obj: SoQtComponent.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-SoQtComponent.obj -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtComponent.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-SoQtComponent.obj `if test -f 'SoQtComponent.cpp'; then $(CYGPATH_W) 'SoQtComponent.cpp'; else $(CYGPATH_W) '$(srcdir)/SoQtComponent.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtComponent.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtComponent.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtComponent.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoQtComponent.cpp' object='libSoQt@SUFFIX@_la-SoQtComponent.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtComponent.Po' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtComponent.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-SoQtComponent.obj `if test -f 'SoQtComponent.cpp'; then $(CYGPATH_W) 'SoQtComponent.cpp'; else $(CYGPATH_W) '$(srcdir)/SoQtComponent.cpp'; fi`
+
+libSoQt@SUFFIX@_la-SoQtComponent.lo: SoQtComponent.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-SoQtComponent.lo -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtComponent.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-SoQtComponent.lo `test -f 'SoQtComponent.cpp' || echo '$(srcdir)/'`SoQtComponent.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtComponent.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtComponent.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtComponent.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoQtComponent.cpp' object='libSoQt@SUFFIX@_la-SoQtComponent.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtComponent.Plo' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtComponent.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-SoQtComponent.lo `test -f 'SoQtComponent.cpp' || echo '$(srcdir)/'`SoQtComponent.cpp
+
+libSoQt@SUFFIX@_la-SoQtGLWidget.o: SoQtGLWidget.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-SoQtGLWidget.o -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtGLWidget.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-SoQtGLWidget.o `test -f 'SoQtGLWidget.cpp' || echo '$(srcdir)/'`SoQtGLWidget.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtGLWidget.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtGLWidget.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtGLWidget.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoQtGLWidget.cpp' object='libSoQt@SUFFIX@_la-SoQtGLWidget.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtGLWidget.Po' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtGLWidget.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-SoQtGLWidget.o `test -f 'SoQtGLWidget.cpp' || echo '$(srcdir)/'`SoQtGLWidget.cpp
+
+libSoQt@SUFFIX@_la-SoQtGLWidget.obj: SoQtGLWidget.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-SoQtGLWidget.obj -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtGLWidget.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-SoQtGLWidget.obj `if test -f 'SoQtGLWidget.cpp'; then $(CYGPATH_W) 'SoQtGLWidget.cpp'; else $(CYGPATH_W) '$(srcdir)/SoQtGLWidget.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtGLWidget.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtGLWidget.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtGLWidget.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoQtGLWidget.cpp' object='libSoQt@SUFFIX@_la-SoQtGLWidget.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtGLWidget.Po' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtGLWidget.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-SoQtGLWidget.obj `if test -f 'SoQtGLWidget.cpp'; then $(CYGPATH_W) 'SoQtGLWidget.cpp'; else $(CYGPATH_W) '$(srcdir)/SoQtGLWidget.cpp'; fi`
+
+libSoQt@SUFFIX@_la-SoQtGLWidget.lo: SoQtGLWidget.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-SoQtGLWidget.lo -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtGLWidget.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-SoQtGLWidget.lo `test -f 'SoQtGLWidget.cpp' || echo '$(srcdir)/'`SoQtGLWidget.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtGLWidget.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtGLWidget.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtGLWidget.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoQtGLWidget.cpp' object='libSoQt@SUFFIX@_la-SoQtGLWidget.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtGLWidget.Plo' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtGLWidget.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-SoQtGLWidget.lo `test -f 'SoQtGLWidget.cpp' || echo '$(srcdir)/'`SoQtGLWidget.cpp
+
+libSoQt@SUFFIX@_la-SoQtImageReader.o: SoQtImageReader.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-SoQtImageReader.o -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtImageReader.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-SoQtImageReader.o `test -f 'SoQtImageReader.cpp' || echo '$(srcdir)/'`SoQtImageReader.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtImageReader.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtImageReader.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtImageReader.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoQtImageReader.cpp' object='libSoQt@SUFFIX@_la-SoQtImageReader.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtImageReader.Po' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtImageReader.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-SoQtImageReader.o `test -f 'SoQtImageReader.cpp' || echo '$(srcdir)/'`SoQtImageReader.cpp
+
+libSoQt@SUFFIX@_la-SoQtImageReader.obj: SoQtImageReader.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-SoQtImageReader.obj -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtImageReader.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-SoQtImageReader.obj `if test -f 'SoQtImageReader.cpp'; then $(CYGPATH_W) 'SoQtImageReader.cpp'; else $(CYGPATH_W) '$(srcdir)/SoQtImageReader.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtImageReader.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtImageReader.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtImageReader.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoQtImageReader.cpp' object='libSoQt@SUFFIX@_la-SoQtImageReader.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtImageReader.Po' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtImageReader.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-SoQtImageReader.obj `if test -f 'SoQtImageReader.cpp'; then $(CYGPATH_W) 'SoQtImageReader.cpp'; else $(CYGPATH_W) '$(srcdir)/SoQtImageReader.cpp'; fi`
+
+libSoQt@SUFFIX@_la-SoQtImageReader.lo: SoQtImageReader.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-SoQtImageReader.lo -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtImageReader.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-SoQtImageReader.lo `test -f 'SoQtImageReader.cpp' || echo '$(srcdir)/'`SoQtImageReader.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtImageReader.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtImageReader.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtImageReader.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoQtImageReader.cpp' object='libSoQt@SUFFIX@_la-SoQtImageReader.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtImageReader.Plo' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoQtImageReader.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-SoQtImageReader.lo `test -f 'SoQtImageReader.cpp' || echo '$(srcdir)/'`SoQtImageReader.cpp
+
+libSoQt@SUFFIX@_la-SoAny.o: $(top_builddir)/src/Inventor/@Gui@/SoAny.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-SoAny.o -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-SoAny.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-SoAny.o `test -f '$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoAny.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-SoAny.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoAny.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp' object='libSoQt@SUFFIX@_la-SoAny.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoAny.Po' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoAny.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-SoAny.o `test -f '$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp
+
+libSoQt@SUFFIX@_la-SoAny.obj: $(top_builddir)/src/Inventor/@Gui@/SoAny.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-SoAny.obj -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-SoAny.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-SoAny.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoAny.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-SoAny.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoAny.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp' object='libSoQt@SUFFIX@_la-SoAny.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoAny.Po' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoAny.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-SoAny.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp'; fi`
+
+libSoQt@SUFFIX@_la-SoAny.lo: $(top_builddir)/src/Inventor/@Gui@/SoAny.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-SoAny.lo -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-SoAny.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-SoAny.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoAny.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-SoAny.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-SoAny.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp' object='libSoQt@SUFFIX@_la-SoAny.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoAny.Plo' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-SoAny.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-SoAny.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/SoAny.cpp
+
+libSoQt@SUFFIX@_la-So@Gui@Cursor.o: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-So@Gui@Cursor.o -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Cursor.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-So@Gui@Cursor.o `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Cursor.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Cursor.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Cursor.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp' object='libSoQt@SUFFIX@_la-So@Gui@Cursor.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Cursor.Po' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Cursor.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-So@Gui@Cursor.o `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp
+
+libSoQt@SUFFIX@_la-So@Gui@Cursor.obj: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-So@Gui@Cursor.obj -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Cursor.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-So@Gui@Cursor.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Cursor.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Cursor.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Cursor.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp' object='libSoQt@SUFFIX@_la-So@Gui@Cursor.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Cursor.Po' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Cursor.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-So@Gui@Cursor.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp'; fi`
+
+libSoQt@SUFFIX@_la-So@Gui@Cursor.lo: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-So@Gui@Cursor.lo -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Cursor.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-So@Gui@Cursor.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Cursor.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Cursor.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Cursor.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp' object='libSoQt@SUFFIX@_la-So@Gui@Cursor.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Cursor.Plo' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Cursor.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-So@Gui@Cursor.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@Cursor.cpp
+
+libSoQt@SUFFIX@_la-So@Gui@Object.o: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-So@Gui@Object.o -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Object.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-So@Gui@Object.o `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Object.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Object.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Object.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp' object='libSoQt@SUFFIX@_la-So@Gui@Object.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Object.Po' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Object.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-So@Gui@Object.o `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp
+
+libSoQt@SUFFIX@_la-So@Gui@Object.obj: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-So@Gui@Object.obj -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Object.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-So@Gui@Object.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Object.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Object.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Object.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp' object='libSoQt@SUFFIX@_la-So@Gui@Object.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Object.Po' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Object.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-So@Gui@Object.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp'; fi`
+
+libSoQt@SUFFIX@_la-So@Gui@Object.lo: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-So@Gui@Object.lo -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Object.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-So@Gui@Object.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Object.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Object.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Object.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp' object='libSoQt@SUFFIX@_la-So@Gui@Object.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Object.Plo' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Object.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-So@Gui@Object.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@Object.cpp
+
+libSoQt@SUFFIX@_la-So@Gui@Common.o: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-So@Gui@Common.o -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Common.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-So@Gui@Common.o `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Common.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Common.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Common.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp' object='libSoQt@SUFFIX@_la-So@Gui@Common.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Common.Po' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Common.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-So@Gui@Common.o `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp
+
+libSoQt@SUFFIX@_la-So@Gui@Common.obj: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-So@Gui@Common.obj -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Common.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-So@Gui@Common.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Common.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Common.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Common.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp' object='libSoQt@SUFFIX@_la-So@Gui@Common.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Common.Po' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Common.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-So@Gui@Common.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp'; fi`
+
+libSoQt@SUFFIX@_la-So@Gui@Common.lo: $(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-So@Gui@Common.lo -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Common.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-So@Gui@Common.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Common.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Common.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Common.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp' object='libSoQt@SUFFIX@_la-So@Gui@Common.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Common.Plo' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@Common.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-So@Gui@Common.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@Common.cpp
+
+libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.o: $(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.o -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.o `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp' object='libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.Po' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.o `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp
+
+libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.obj: $(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.obj -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp' object='libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.Po' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp'; fi`
+
+libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.lo: $(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.lo -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp' object='libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.Plo' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-So@Gui@ComponentCommon.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@ComponentCommon.cpp
+
+libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.o: $(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.o -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.o `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp' object='libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.Po' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.o `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp
+
+libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.obj: $(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.obj -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp' object='libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.Po' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp'; fi`
+
+libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.lo: $(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.lo -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp' object='libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.Plo' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-So@Gui@GLWidgetCommon.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@GLWidgetCommon.cpp
+
+libSoQt@SUFFIX@_la-So@Gui@RenderArea.o: $(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-So@Gui@RenderArea.o -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@RenderArea.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-So@Gui@RenderArea.o `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@RenderArea.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@RenderArea.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@RenderArea.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp' object='libSoQt@SUFFIX@_la-So@Gui@RenderArea.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@RenderArea.Po' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@RenderArea.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-So@Gui@RenderArea.o `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp
+
+libSoQt@SUFFIX@_la-So@Gui@RenderArea.obj: $(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-So@Gui@RenderArea.obj -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@RenderArea.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-So@Gui@RenderArea.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp'; fi`; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@RenderArea.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@RenderArea.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@RenderArea.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp' object='libSoQt@SUFFIX@_la-So@Gui@RenderArea.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@RenderArea.Po' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@RenderArea.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-So@Gui@RenderArea.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp'; fi`
+
+libSoQt@SUFFIX@_la-So@Gui@RenderArea.lo: $(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp
+@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQt@SUFFIX@_la-So@Gui@RenderArea.lo -MD -MP -MF "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@RenderArea.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o libSoQt@SUFFIX@_la-So@Gui@RenderArea.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp; \
+@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@RenderArea.Tpo" "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@RenderArea.Plo"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@RenderArea.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp' object='libSoQt@SUFFIX@_la-So@Gui@RenderArea.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@RenderArea.Plo' tmpdepfile='$(DEPDIR)/libSoQt@SUFFIX@_la-So@Gui@RenderArea.TPlo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQt@SUFFIX@_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQt@SUFFIX@_la-So@Gui@RenderArea.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/So@Gui@RenderArea.cpp
 
 mostlyclean-libtool:
 	-rm -f *.lo

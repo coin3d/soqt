@@ -160,7 +160,12 @@ SoQtMouse::translateEvent(QEvent * event)
       if (mouseevent->state() & Qt::ControlButton)
         PRIVATE(this)->buttonevent->setButton(SoMouseButtonEvent::BUTTON2);
 #elif (defined(Q_WS_MAC) && QT_VERSION >= 0x030100)
+
+#if QT_VERSION >= 0x040000
       if (mouseevent->modifiers() & Qt::MetaModifier)
+#else
+      if (mouseevent->state() & Qt::MetaButton)
+#endif
         PRIVATE(this)->buttonevent->setButton(SoMouseButtonEvent::BUTTON2);
 #endif
       break;
@@ -214,15 +219,27 @@ SoQtMouse::translateEvent(QEvent * event)
   if (conv) {
     // Modifiers
     if (mouseevent) {
+#if QT_VERSION >= 0x040000
       conv->setShiftDown(mouseevent->modifiers() & Qt::ShiftModifier);
       conv->setCtrlDown(mouseevent->modifiers() & Qt::ControlModifier);
       conv->setAltDown(mouseevent->modifiers() & Qt::AltModifier);
+#else
+      conv->setShiftDown(mouseevent->state() & Qt::ShiftButton);
+      conv->setCtrlDown(mouseevent->state() & Qt::ControlButton);
+      conv->setAltDown(mouseevent->state() & Qt::AltButton);
+#endif
       this->setEventPosition(conv, mouseevent->x(), mouseevent->y());
     }
     else { // wheelevent
+#if QT_VERSION >= 0x040000
       conv->setShiftDown(wheelevent->modifiers() & Qt::ShiftModifier);
       conv->setCtrlDown(wheelevent->modifiers() & Qt::ControlModifier);
       conv->setAltDown(wheelevent->modifiers() & Qt::AltModifier);
+#else
+      conv->setShiftDown(wheelevent->state() & Qt::ShiftButton);
+      conv->setCtrlDown(wheelevent->state() & Qt::ControlButton);
+      conv->setAltDown(wheelevent->state() & Qt::AltButton);
+#endif
       this->setEventPosition(conv, wheelevent->x(), wheelevent->y());
     }
 

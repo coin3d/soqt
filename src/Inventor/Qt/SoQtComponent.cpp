@@ -62,21 +62,6 @@
 
 static const char nullstring[] = "(null)";
 
-static void setAndAllocString(char * & dst, const char * src) {
-  if (dst == src)
-    return;
-  delete [] dst;
-
-  if(src == NULL) {
-    dst = NULL;
-    return;
-  }
-
-  size_t n = strlen(src);
-  dst = new char [n+1];
-  strcpy(dst,src);
-}
-
 #define PRIVATE(obj) (obj)
 #define PUBLIC(obj) ((obj)->pub)
 
@@ -89,18 +74,12 @@ static void setAndAllocString(char * & dst, const char * src) {
 SbDict * SoQtComponentP::cursordict = NULL;
 
 SoQtComponentP::SoQtComponentP(SoQtComponent * o)
-  : SoGuiComponentP(o),classname(NULL), widgetname(NULL), icontext(NULL)
+  : SoGuiComponentP(o), classname(""), widgetname("")
 {
 }
 
 SoQtComponentP::~SoQtComponentP()
 {
-  if (PRIVATE(this)->classname)
-    delete [] PRIVATE(this)->classname;
-  if (PRIVATE(this)->widgetname)
-    delete [] PRIVATE(this)->widgetname;
-  if (PRIVATE(this)->icontext)
-    delete [] PRIVATE(this)->icontext;
 }
 
 void
@@ -185,8 +164,13 @@ SoQtComponentP::getNativeCursor(const SoQtCursor::CustomCursor * cc)
   // Always 32x32 because that's what is recommended in the Qt
   // documentation for QCursor.  At least WinNT 4 will give us
   // "interesting" bugs for other cursor sizes.
+#if QT_VERSION >= 0x040000
   QBitmap bitmap = QBitmap::fromData(QSize(32, 32), cursorbitmap, QImage::Format_MonoLSB);
   QBitmap mask = QBitmap::fromData(QSize(32, 32), cursormask, QImage::Format_MonoLSB);
+#else
+  QBitmap bitmap(32, 32, cursorbitmap, TRUE);
+  QBitmap mask(32, 32, cursormask, TRUE);
+#endif
 
   // Sanity checks.
   assert(bitmap.size().width() > 0 && bitmap.size().height() > 0);
@@ -368,9 +352,6 @@ SoQtComponent::SoQtComponent(QWidget * const parent,
   PRIVATE(this)->visibilitychangeCBs = NULL;
   PRIVATE(this)->fullscreen = FALSE;
 
-  if (name)
-    setAndAllocString(PRIVATE(this)->widgetname,name);
-
   this->setClassName("SoQtComponent");
 
   PRIVATE(this)->storesize.setValue(-1, -1);
@@ -381,9 +362,16 @@ SoQtComponent::SoQtComponent(QWidget * const parent,
   SoAny::si()->addInternalFatalErrorHandler(SoQtComponentP::fatalerrorHandler,
                                             PRIVATE(this));
 
-  if ((parent == NULL) || ! embed) {
+  PRIVATE(this)->widgetname = (name ? name :
+			       this->getDefaultWidgetName());
+
+  if (!parent || !embed) {
+#if QT_VERSION >= 0x040000
     PRIVATE(this)->parent = new QMainWindow();
-    PRIVATE(this)->parent->setObjectName(name);
+    PRIVATE(this)->parent->setObjectName(PRIVATE(this)->widgetname);
+#else
+    PRIVATE(this)->parent = (QWidget *) new QMainWindow(NULL, name);
+#endif
     PRIVATE(this)->embedded = FALSE;
     PRIVATE(this)->shelled = TRUE;
   }
@@ -462,7 +450,7 @@ SoQtComponent::removeVisibilityChangeCallback(SoQtComponentVisibilityCB * const 
 void
 SoQtComponent::setClassName(const char * const name)
 {
-  setAndAllocString(PRIVATE(this)->classname,name);
+  PRIVATE(this)->classname = name;
 }
 
 // *************************************************************************
@@ -471,50 +459,65 @@ SoQtComponent::setClassName(const char * const name)
 void
 SoQtComponent::setBaseWidget(QWidget * widget)
 {
-//  SoDebugError::postInfo("SoQtComponent::setBaseWidget", "[invoked]");
+  QString iconText = this->getDefaultIconTitle();
+  QString widgetName = PRIVATE(this)->widgetname;
+
   assert(widget);
 
-//  if (PRIVATE(this)->parent)
-//    PRIVATE(this)->parent->removeEventFilter(PRIVATE(this));
-  if (PRIVATE(this)->widget)
-    PRIVATE(this)->widget->removeEventFilter(PRIVATE(this));
+  if (PRIVATE(this)->widget) {
+#if QT_VERSION >= 0x040000
+    iconText = (PRIVATE(this)->widget->windowIconText().isEmpty() ?
+		iconText :
+		PRIVATE(this)->widget->windowIconText());
+    widgetName = (PRIVATE(this)->widget->objectName().isEmpty() ?
+		  widgetName :
+		  PRIVATE(this)->widget->objectName());
+#else
+    iconText = (PRIVATE(this)->widget->iconText().isEmpty() ?
+		iconText :
+		PRIVATE(this)->widget->iconText());
+    widgetName = (PRIVATE(this)->widget->name() == "" ?
+		  widgetName :
+		  QString(PRIVATE(this)->widget->name()));
+#endif
 
-  if (PRIVATE(this)->widget) { this->unregisterWidget(PRIVATE(this)->widget); }
+    PRIVATE(this)->widget->removeEventFilter(PRIVATE(this));
+    this->unregisterWidget(PRIVATE(this)->widget);
+  }
+
   PRIVATE(this)->widget = widget;
   this->registerWidget(PRIVATE(this)->widget);
-
-//  PRIVATE(this)->parent = widget->parentWidget();
 
 #if 0 // debug
   SoDebugError::postInfo("SoQtComponent::setBaseWidget",
                          "widget: %p, parent: %p", w, PRIVATE(this)->parent);
 #endif // debug
 
-
   if (!PRIVATE(this)->parent || PRIVATE(this)->parent->isTopLevel()) {
-    if (PRIVATE(this)->widget->windowTitle()=="")
+#if QT_VERSION >= 0x040000
+    if (PRIVATE(this)->widget->windowTitle() == "") {
+#else
+    if (PRIVATE(this)->widget->caption() == "") {
+#endif
       this->setTitle(this->getDefaultTitle());
+    }
 
-    if (PRIVATE(this)->icontext==NULL)
-      setAndAllocString(PRIVATE(this)->icontext,this->getDefaultIconTitle());
-    SoQt::getShellWidget(this->getWidget())->setWindowIconText(PRIVATE(this)->icontext);
+#if QT_VERSION >= 0x040000
+    SoQt::getShellWidget(this->getWidget())->setWindowIconText(iconText);
+#else
+    SoQt::getShellWidget(this->getWidget())->setIconText(iconText);
+#endif
   }
-
-  if (PRIVATE(this)->widgetname==NULL)
-    setAndAllocString(PRIVATE(this)->widgetname,this->getDefaultWidgetName());
-  PRIVATE(this)->widget->setObjectName(PRIVATE(this)->widgetname);
-
+#if QT_VERSION >= 0x040000
+  PRIVATE(this)->widget->setObjectName(widgetName);
+#else
+  PRIVATE(this)->widget->setName(widgetName);
+#endif
   // Need this to auto-detect resize events.
-//  if (PRIVATE(this)->parent)
-//    PRIVATE(this)->parent->installEventFilter(PRIVATE(this));
-
   PRIVATE(this)->widget->installEventFilter(PRIVATE(this));
 
   QObject::connect(PRIVATE(this)->widget, SIGNAL(destroyed()),
                    PRIVATE(this), SLOT(widgetClosed()));
-
-//  if (storesize[0] != -1)
-//    PRIVATE(this)->widget->resize(QSize(storesize[0], storesize[1]));
 }
 
 // *************************************************************************
@@ -682,7 +685,11 @@ SoQtComponent::setTitle(const char * const title)
       toplevel = toplevel->parentWidget();
     }
     if (toplevel) {
+#if QT_VERSION >= 0x040000
       toplevel->setWindowTitle(title);
+#else
+      toplevel->setCaption(title);
+#endif
     }
   }
 }
@@ -691,29 +698,37 @@ SoQtComponent::setTitle(const char * const title)
 const char *
 SoQtComponent::getTitle(void) const
 {
+  const char * result = "";
+
   if (this->getWidget()) {
     QWidget * toplevel = this->getWidget();
     while (!toplevel->isTopLevel() ) {
       toplevel = toplevel->parentWidget();
     }
     if (toplevel) {
-      return toplevel->windowTitle().toLatin1();
-		  
+#if QT_VERSION >= 0x040000
+      result = toplevel->windowTitle().toUtf8().constData();
+#else
+      // Qt3 featured an implicit operator const char * () const
+      result = toplevel->caption();
+#endif
     }
   }
-	return "";
+
+  return result;
 }
 
 // documented in common/SoGuiComponentCommon.cpp.in.
 void
 SoQtComponent::setIconTitle(const char * const title)
 {
-  setAndAllocString(PRIVATE(this)->icontext,title);
-
-
   QWidget * w = this->getWidget();
   if (w && this->isTopLevelShell()) {
+#if QT_VERSION >= 0x040000
     SoQt::getShellWidget(w)->setWindowIconText(title);
+#else
+    SoQt::getShellWidget(w)->setIconText(title);
+#endif
   }
 }
 
@@ -721,22 +736,63 @@ SoQtComponent::setIconTitle(const char * const title)
 const char *
 SoQtComponent::getIconTitle(void) const
 {
-  return PRIVATE(this)->icontext == NULL ? nullstring : PRIVATE(this)->icontext;
+  const char * result = nullstring;
+
+  QWidget * w = this->getWidget();
+  if (w && this->isTopLevelShell()) {
+#if QT_VERSION >= 0x040000
+    QString iconText = SoQt::getShellWidget(w)->windowIconText();
+#else
+    QString iconText = SoQt::getShellWidget(w)->iconText();
+#endif
+
+    if (!iconText.isEmpty()) {
+#if QT_VERSION >= 0x040000
+      result = iconText.toUtf8().constData();
+#else
+    // Qt3 featured and implicit operator const char * () const
+      result = iconText;
+#endif
+    }
+  }
+
+  return result;
 }
 
 // documented in common/SoGuiComponentCommon.cpp.in.
 const char *
 SoQtComponent::getWidgetName(void) const
 {
-  return
-    PRIVATE(this)->widgetname==NULL ? nullstring : PRIVATE(this)->widgetname;
+  const char * result = nullstring;
+
+  if (!PRIVATE(this)->widgetname.isEmpty()) {
+#if QT_VERSION >= 0x040000
+    result = PRIVATE(this)->widgetname.toUtf8().constData();
+#else
+    // Qt3 featured an implicit operator const char * () const
+    result = PRIVATE(this)->widgetname;
+#endif
+  }
+
+  return result;
 }
 
 // documented in common/SoGuiComponentCommon.cpp.in.
 const char *
 SoQtComponent::getClassName(void) const
 {
-  return PRIVATE(this)->classname;
+  const char * result = nullstring;
+
+  if (!PRIVATE(this)->classname.isEmpty()) {
+#if QT_VERSION >= 0x040000
+    result = PRIVATE(this)->classname.toUtf8().constData();
+#else
+    // Qt3 featured and implicit operator const char * () const
+    result = PRIVATE(this)->classname;
+#endif
+  }
+
+  return result;
 }
 
 // *************************************************************************

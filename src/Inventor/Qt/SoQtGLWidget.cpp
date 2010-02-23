@@ -67,13 +67,14 @@
 #include <qevent.h>
 #include <qframe.h>
 #include <qmetaobject.h>
-#include <QtGui/QColormap>
 
-#ifdef Q_WS_X11
-#if QT_VERSION >= 0x040000 // Qt 4.0.0+
+#if (defined Q_WS_X11 && QT_VERSION >= 0x040000) // Qt 4.0.0+
 #include <qx11info_x11.h> // for QX11Info
-#endif // Qt 4.0.0+
 #endif // Q_WS_X11
+
+#if QT_VERSION >= 0x040000 // Qt 4.0.0+
+#include <QtGui/QColormap> // for QX11Info
+#endif // Qt 4.0.0+
 
 #include <Inventor/SbTime.h>
 #include <Inventor/errors/SoDebugError.h>
@@ -662,14 +663,13 @@ SoQtGLWidget::getOverlayTransparentPixel(void)
   const QGLContext * ctx = PRIVATE(this)->getOverlayContext();
   if (ctx) {
     QColor color = QGLContext_overlayTransparentColor(ctx);
-#ifdef Q_WS_X11
-    int screen = this->getGLWidget()->x11Info().screen();
-#else
-    int screen = -1;
-#endif //Q_WS_X11
 
+#if QT_VERSION >= 0x040000
     QColormap cmap = QColormap::instance();
     return cmap.pixel(color);
+#else
+    return color.pixel();
+#endif
   }
   return 0;
 }
@@ -867,8 +867,11 @@ bool
 SoQtGLWidgetP::eventFilter(QObject * obj, QEvent * e)
 {
   if (SOQT_DEBUG && 0) { // debug
-    QByteArray qba = obj->objectName().toAscii();
-    SbString w = qba.constData();
+#if QT_VERSION >= 0x040000
+    SbString w = obj->objectName().toAscii().constData();
+#else
+    SbString w = obj->name();
+#endif
     SbBool istoplevel = obj == this->currentglwidget->topLevelWidget();
 
     if (obj == this->glparent) { w = "glparent"; }
@@ -1023,9 +1026,14 @@ SoQtGLWidgetP::buildGLWidget(void)
   // the following Qt methods are only available under X11
 
   if (PUBLIC(this)->getGLWidget()) {
+#if QT_VERSION >= 0x040000
     QX11Info info = PUBLIC(this)->getGLWidget()->x11Info();
     display = info.display();
     screen = reinterpret_cast<void *>(info.screen());
+#else
+    display = PUBLIC(this)->getGLWidget()->x11Display();
+    screen = reinterpret_cast<void *>(PUBLIC(this)->getGLWidget()->x11Screen());
+#endif
   }
 #endif // Q_WS_X11
 

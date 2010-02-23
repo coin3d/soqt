@@ -584,11 +584,15 @@ SoQtP::slot_sensorQueueChanged(void)
 
   if (!SoQtP::timerqueuetimer) {
     SoQtP::timerqueuetimer = new QTimer;
+#if QT_VERSION >= 0x040000
     SoQtP::timerqueuetimer->setSingleShot(TRUE);
+#endif
     QObject::connect(SoQtP::timerqueuetimer, SIGNAL(timeout()),
                      SoQtP::soqt_instance(), SLOT(slot_timedOutSensor()));
     SoQtP::idletimer = new QTimer;
+#if QT_VERSION >= 0x040000
     SoQtP::idletimer->setSingleShot(TRUE);
+#endif
     QObject::connect(SoQtP::idletimer, SIGNAL(timeout()),
                      SoQtP::soqt_instance(), SLOT(slot_idleSensor()));
     SoQtP::delaytimeouttimer = new QTimer;
@@ -622,9 +626,18 @@ SoQtP::slot_sensorQueueChanged(void)
     // Change interval of timerqueuetimer when head node of the
     // timer-sensor queue of SoSensorManager changes.
     if (!SoQtP::timerqueuetimer->isActive())
-      SoQtP::timerqueuetimer->start((int)interval.getMsecValue());
-    else
+      SoQtP::timerqueuetimer->start((int)interval.getMsecValue()
+#if QT_VERSION < 0x040000
+				    , TRUE
+#endif
+	);
+    else {
+#if QT_VERSION >= 0x040000
       SoQtP::timerqueuetimer->setInterval((int)interval.getMsecValue());
+#else
+      SoQtP::timerqueuetimer->changeInterval((int)interval.getMsecValue());
+#endif
+    }
   }
   // Stop timerqueuetimer if queue is completely empty.
   else if (SoQtP::timerqueuetimer->isActive()) {
@@ -643,13 +656,21 @@ SoQtP::slot_sensorQueueChanged(void)
     // Start idletimer at 0 seconds in the future. -- That means it will
     // trigger when the Qt event queue has been run through, i.e. when
     // the application is idle.
-    if (!SoQtP::idletimer->isActive()) SoQtP::idletimer->start(0);
+    if (!SoQtP::idletimer->isActive()) SoQtP::idletimer->start(0
+#if QT_VERSION < 0x040000
+							       , TRUE
+#endif
+      );
 
     if (!SoQtP::delaytimeouttimer->isActive()) {
       const SbTime & t = SoDB::getDelaySensorTimeout();
       if (t != SbTime::zero()) {
         unsigned long timeout = t.getMsecValue();
-        SoQtP::delaytimeouttimer->start((int)timeout);
+        SoQtP::delaytimeouttimer->start((int)timeout
+#if QT_VERSION < 0x040000
+					, TRUE
+#endif
+	  );
       }
     }
   }
@@ -817,12 +838,22 @@ SoQt::init(int & argc, char ** argv, const char * appname, const char * classnam
     SoQtP::appobject = qApp;
   }
 
+#if QT_VERSION >= 0x040000
   QWidget * mainw = new QWidget();
   mainw->setObjectName(classname);
+#else
+  QWidget * mainw = new QWidget(NULL, classname);
+#endif
   SoQtP::didcreatemainwidget = TRUE;
   SoQt::init(mainw);
 
+#if QT_VERSION >= 0x040000
   if (appname) { SoQtP::mainwidget->setWindowTitle(appname); }
+#else
+  if (appname) { SoQtP::mainwidget->setCaption(appname); }
+  SoQtP::appobject->setMainWidget(SoQtP::mainwidget);
+#endif
+
   return SoQtP::mainwidget;
 }
 
