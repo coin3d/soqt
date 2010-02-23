@@ -47,9 +47,6 @@ endif
 libSoGuiEngines_la_SOURCES = \
 	$(BuildSources)
 
-libSoGuiEngines_la_CXXFLAGS = \
-	$(AM_CXXFLAGS)
-
 nodist_libSoGuiEngines_la_SOURCES = \
 	$(NoDistSources)
 

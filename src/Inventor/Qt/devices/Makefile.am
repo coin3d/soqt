@@ -84,9 +84,6 @@ endif
 libSoQtDevices_la_SOURCES = \
 	$(BuildSources)
 
-libSoQtDevices_la_CXXFLAGS = \
-	$(AM_CXXFLAGS)
-
 nodist_libSoQtDevices_la_SOURCES = \
 	$(NoDistSources)
 
@@ -99,8 +96,6 @@ EXTRA_libSoQtDevices_la_SOURCES = \
 
 devices_lst_SOURCES = \
 	$(BuildSources)
-
-devices_lst_CFLAGS = $(AM_CFLAGS)
 
 nodist_devices_lst_SOURCES = \
 	$(NoDistSources)
