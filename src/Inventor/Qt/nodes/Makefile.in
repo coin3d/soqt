@@ -647,10 +647,6 @@ libSoGuiNodes_la_SOURCES = \
 	$(BuildSources)
 
 
-libSoGuiNodes_la_CXXFLAGS = \
-	$(AM_CXXFLAGS)
-
-
 nodist_libSoGuiNodes_la_SOURCES = \
 	$(NoDistSources)
 
@@ -705,21 +701,15 @@ LTLIBRARIES = $(noinst_LTLIBRARIES)
 libSoGuiNodes_la_LDFLAGS =
 libSoGuiNodes_la_LIBADD =
 am__libSoGuiNodes_la_SOURCES_DIST = all-nodes-cpp.cpp
-am__objects_7 = libSoGuiNodes_la-all-nodes-cpp.lo
+am__objects_7 = all-nodes-cpp.lo
 @HACKING_COMPACT_BUILD_TRUE@am__objects_8 = $(am__objects_7)
 @HACKING_COMPACT_BUILD_FALSE@am__objects_8 = $(am__objects_2)
 am_libSoGuiNodes_la_OBJECTS = $(am__objects_8)
-am__objects_9 = libSoGuiNodes_la-Nodes.lo \
-	libSoGuiNodes_la-SceneTexture2.lo \
-	libSoGuiNodes_la-ViewportFix.lo \
-	libSoGuiNodes_la-ViewpointWrapper.lo libSoGuiNodes_la-Pane.lo \
-	libSoGuiNodes_la-Position.lo libSoGuiNodes_la-Translation.lo \
-	libSoGuiNodes_la-Frame.lo libSoGuiNodes_la-Image.lo \
-	libSoGuiNodes_la-Label.lo libSoGuiNodes_la-ToggleButton.lo \
-	libSoGuiNodes_la-RadioButton.lo \
-	libSoGuiNodes_la-ClickCounter.lo libSoGuiNodes_la-Slider1.lo \
-	libSoGuiNodes_la-Slider2.lo libSoGuiNodes_la-ColorEditor.lo \
-	libSoGuiNodes_la-MaterialEditor.lo
+am__objects_9 = Nodes.lo SceneTexture2.lo ViewportFix.lo \
+	ViewpointWrapper.lo Pane.lo Position.lo Translation.lo Frame.lo \
+	Image.lo Label.lo ToggleButton.lo RadioButton.lo \
+	ClickCounter.lo Slider1.lo Slider2.lo ColorEditor.lo \
+	MaterialEditor.lo
 am__objects_10 = $(am__objects_9)
 @HACKING_COMPACT_BUILD_TRUE@am__objects_11 =
 @HACKING_COMPACT_BUILD_FALSE@am__objects_11 = $(am__objects_10)
@@ -728,36 +718,32 @@ libSoGuiNodes_la_OBJECTS = $(am_libSoGuiNodes_la_OBJECTS) \
 	$(nodist_libSoGuiNodes_la_OBJECTS)
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/ClickCounter.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/ColorEditor.Po ./$(DEPDIR)/Frame.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/Image.Po ./$(DEPDIR)/Label.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/MaterialEditor.Po ./$(DEPDIR)/Nodes.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/Pane.Po ./$(DEPDIR)/Position.Po \
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/ClickCounter.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/ClickCounter.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ColorEditor.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/ColorEditor.Po ./$(DEPDIR)/Frame.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/Frame.Po ./$(DEPDIR)/Image.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/Image.Po ./$(DEPDIR)/Label.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/Label.Po ./$(DEPDIR)/MaterialEditor.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/MaterialEditor.Po ./$(DEPDIR)/Nodes.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/Nodes.Po ./$(DEPDIR)/Pane.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/Pane.Po ./$(DEPDIR)/Position.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/Position.Po ./$(DEPDIR)/RadioButton.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/RadioButton.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/SceneTexture2.Po ./$(DEPDIR)/Slider1.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/Slider2.Po ./$(DEPDIR)/ToggleButton.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/SceneTexture2.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/SceneTexture2.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/Slider1.Plo ./$(DEPDIR)/Slider1.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/Slider2.Plo ./$(DEPDIR)/Slider2.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ToggleButton.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/ToggleButton.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/Translation.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/Translation.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ViewpointWrapper.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/ViewpointWrapper.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ViewportFix.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/ViewportFix.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/all-nodes-cpp.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoGuiNodes_la-ClickCounter.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoGuiNodes_la-ColorEditor.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoGuiNodes_la-Frame.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoGuiNodes_la-Image.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoGuiNodes_la-Label.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoGuiNodes_la-MaterialEditor.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoGuiNodes_la-Nodes.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoGuiNodes_la-Pane.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoGuiNodes_la-Position.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoGuiNodes_la-RadioButton.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoGuiNodes_la-SceneTexture2.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoGuiNodes_la-Slider1.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoGuiNodes_la-Slider2.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoGuiNodes_la-ToggleButton.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoGuiNodes_la-Translation.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoGuiNodes_la-ViewpointWrapper.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoGuiNodes_la-ViewportFix.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoGuiNodes_la-all-nodes-cpp.Plo
+@AMDEP_TRUE@	./$(DEPDIR)/all-nodes-cpp.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/all-nodes-cpp.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -812,42 +798,42 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ClickCounter.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ClickCounter.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ColorEditor.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ColorEditor.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Frame.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Frame.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Image.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Image.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Label.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Label.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/MaterialEditor.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/MaterialEditor.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Nodes.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Nodes.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Pane.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Pane.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Position.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Position.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/RadioButton.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/RadioButton.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SceneTexture2.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SceneTexture2.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Slider1.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Slider1.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Slider2.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Slider2.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ToggleButton.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ToggleButton.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Translation.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Translation.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ViewpointWrapper.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ViewpointWrapper.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ViewportFix.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ViewportFix.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/all-nodes-cpp.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/all-nodes-cpp.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoGuiNodes_la-ClickCounter.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoGuiNodes_la-ColorEditor.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoGuiNodes_la-Frame.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoGuiNodes_la-Image.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoGuiNodes_la-Label.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoGuiNodes_la-MaterialEditor.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoGuiNodes_la-Nodes.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoGuiNodes_la-Pane.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoGuiNodes_la-Position.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoGuiNodes_la-RadioButton.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoGuiNodes_la-SceneTexture2.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoGuiNodes_la-Slider1.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoGuiNodes_la-Slider2.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoGuiNodes_la-ToggleButton.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoGuiNodes_la-Translation.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoGuiNodes_la-ViewpointWrapper.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoGuiNodes_la-ViewportFix.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoGuiNodes_la-all-nodes-cpp.Plo@am__quote@
 
 distclean-depend:
 	-rm -rf ./$(DEPDIR)
@@ -1445,600 +1431,6 @@ MaterialEditor.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/MaterialEditor.Plo' tmpdepfile='$(DEPDIR)/MaterialEditor.TPlo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o MaterialEditor.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp
-
-libSoGuiNodes_la-all-nodes-cpp.o: all-nodes-cpp.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-all-nodes-cpp.o -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-all-nodes-cpp.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-all-nodes-cpp.o `test -f 'all-nodes-cpp.cpp' || echo '$(srcdir)/'`all-nodes-cpp.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-all-nodes-cpp.Tpo" "$(DEPDIR)/libSoGuiNodes_la-all-nodes-cpp.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-all-nodes-cpp.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='all-nodes-cpp.cpp' object='libSoGuiNodes_la-all-nodes-cpp.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-all-nodes-cpp.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-all-nodes-cpp.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-all-nodes-cpp.o `test -f 'all-nodes-cpp.cpp' || echo '$(srcdir)/'`all-nodes-cpp.cpp
-
-libSoGuiNodes_la-all-nodes-cpp.obj: all-nodes-cpp.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-all-nodes-cpp.obj -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-all-nodes-cpp.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-all-nodes-cpp.obj `if test -f 'all-nodes-cpp.cpp'; then $(CYGPATH_W) 'all-nodes-cpp.cpp'; else $(CYGPATH_W) '$(srcdir)/all-nodes-cpp.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-all-nodes-cpp.Tpo" "$(DEPDIR)/libSoGuiNodes_la-all-nodes-cpp.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-all-nodes-cpp.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='all-nodes-cpp.cpp' object='libSoGuiNodes_la-all-nodes-cpp.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-all-nodes-cpp.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-all-nodes-cpp.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-all-nodes-cpp.obj `if test -f 'all-nodes-cpp.cpp'; then $(CYGPATH_W) 'all-nodes-cpp.cpp'; else $(CYGPATH_W) '$(srcdir)/all-nodes-cpp.cpp'; fi`
-
-libSoGuiNodes_la-all-nodes-cpp.lo: all-nodes-cpp.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-all-nodes-cpp.lo -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-all-nodes-cpp.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-all-nodes-cpp.lo `test -f 'all-nodes-cpp.cpp' || echo '$(srcdir)/'`all-nodes-cpp.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-all-nodes-cpp.Tpo" "$(DEPDIR)/libSoGuiNodes_la-all-nodes-cpp.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-all-nodes-cpp.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='all-nodes-cpp.cpp' object='libSoGuiNodes_la-all-nodes-cpp.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-all-nodes-cpp.Plo' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-all-nodes-cpp.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-all-nodes-cpp.lo `test -f 'all-nodes-cpp.cpp' || echo '$(srcdir)/'`all-nodes-cpp.cpp
-
-libSoGuiNodes_la-Nodes.o: $(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-Nodes.o -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-Nodes.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-Nodes.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-Nodes.Tpo" "$(DEPDIR)/libSoGuiNodes_la-Nodes.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-Nodes.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp' object='libSoGuiNodes_la-Nodes.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-Nodes.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-Nodes.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-Nodes.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp
-
-libSoGuiNodes_la-Nodes.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-Nodes.obj -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-Nodes.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-Nodes.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-Nodes.Tpo" "$(DEPDIR)/libSoGuiNodes_la-Nodes.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-Nodes.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp' object='libSoGuiNodes_la-Nodes.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-Nodes.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-Nodes.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-Nodes.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp'; fi`
-
-libSoGuiNodes_la-Nodes.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-Nodes.lo -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-Nodes.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-Nodes.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-Nodes.Tpo" "$(DEPDIR)/libSoGuiNodes_la-Nodes.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-Nodes.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp' object='libSoGuiNodes_la-Nodes.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-Nodes.Plo' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-Nodes.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-Nodes.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Nodes.cpp
-
-libSoGuiNodes_la-SceneTexture2.o: $(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-SceneTexture2.o -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-SceneTexture2.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-SceneTexture2.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-SceneTexture2.Tpo" "$(DEPDIR)/libSoGuiNodes_la-SceneTexture2.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-SceneTexture2.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp' object='libSoGuiNodes_la-SceneTexture2.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-SceneTexture2.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-SceneTexture2.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-SceneTexture2.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp
-
-libSoGuiNodes_la-SceneTexture2.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-SceneTexture2.obj -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-SceneTexture2.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-SceneTexture2.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-SceneTexture2.Tpo" "$(DEPDIR)/libSoGuiNodes_la-SceneTexture2.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-SceneTexture2.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp' object='libSoGuiNodes_la-SceneTexture2.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-SceneTexture2.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-SceneTexture2.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-SceneTexture2.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp'; fi`
-
-libSoGuiNodes_la-SceneTexture2.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-SceneTexture2.lo -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-SceneTexture2.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-SceneTexture2.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-SceneTexture2.Tpo" "$(DEPDIR)/libSoGuiNodes_la-SceneTexture2.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-SceneTexture2.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp' object='libSoGuiNodes_la-SceneTexture2.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-SceneTexture2.Plo' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-SceneTexture2.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-SceneTexture2.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/SceneTexture2.cpp
-
-libSoGuiNodes_la-ViewportFix.o: $(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-ViewportFix.o -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-ViewportFix.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-ViewportFix.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-ViewportFix.Tpo" "$(DEPDIR)/libSoGuiNodes_la-ViewportFix.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-ViewportFix.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp' object='libSoGuiNodes_la-ViewportFix.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-ViewportFix.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-ViewportFix.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-ViewportFix.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp
-
-libSoGuiNodes_la-ViewportFix.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-ViewportFix.obj -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-ViewportFix.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-ViewportFix.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-ViewportFix.Tpo" "$(DEPDIR)/libSoGuiNodes_la-ViewportFix.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-ViewportFix.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp' object='libSoGuiNodes_la-ViewportFix.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-ViewportFix.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-ViewportFix.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-ViewportFix.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp'; fi`
-
-libSoGuiNodes_la-ViewportFix.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-ViewportFix.lo -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-ViewportFix.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-ViewportFix.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-ViewportFix.Tpo" "$(DEPDIR)/libSoGuiNodes_la-ViewportFix.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-ViewportFix.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp' object='libSoGuiNodes_la-ViewportFix.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-ViewportFix.Plo' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-ViewportFix.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-ViewportFix.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ViewportFix.cpp
-
-libSoGuiNodes_la-ViewpointWrapper.o: $(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-ViewpointWrapper.o -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-ViewpointWrapper.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-ViewpointWrapper.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-ViewpointWrapper.Tpo" "$(DEPDIR)/libSoGuiNodes_la-ViewpointWrapper.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-ViewpointWrapper.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp' object='libSoGuiNodes_la-ViewpointWrapper.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-ViewpointWrapper.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-ViewpointWrapper.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-ViewpointWrapper.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp
-
-libSoGuiNodes_la-ViewpointWrapper.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-ViewpointWrapper.obj -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-ViewpointWrapper.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-ViewpointWrapper.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-ViewpointWrapper.Tpo" "$(DEPDIR)/libSoGuiNodes_la-ViewpointWrapper.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-ViewpointWrapper.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp' object='libSoGuiNodes_la-ViewpointWrapper.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-ViewpointWrapper.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-ViewpointWrapper.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-ViewpointWrapper.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp'; fi`
-
-libSoGuiNodes_la-ViewpointWrapper.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-ViewpointWrapper.lo -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-ViewpointWrapper.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-ViewpointWrapper.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-ViewpointWrapper.Tpo" "$(DEPDIR)/libSoGuiNodes_la-ViewpointWrapper.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-ViewpointWrapper.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp' object='libSoGuiNodes_la-ViewpointWrapper.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-ViewpointWrapper.Plo' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-ViewpointWrapper.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-ViewpointWrapper.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ViewpointWrapper.cpp
-
-libSoGuiNodes_la-Pane.o: $(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-Pane.o -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-Pane.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-Pane.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-Pane.Tpo" "$(DEPDIR)/libSoGuiNodes_la-Pane.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-Pane.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp' object='libSoGuiNodes_la-Pane.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-Pane.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-Pane.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-Pane.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp
-
-libSoGuiNodes_la-Pane.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-Pane.obj -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-Pane.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-Pane.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-Pane.Tpo" "$(DEPDIR)/libSoGuiNodes_la-Pane.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-Pane.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp' object='libSoGuiNodes_la-Pane.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-Pane.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-Pane.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-Pane.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp'; fi`
-
-libSoGuiNodes_la-Pane.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-Pane.lo -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-Pane.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-Pane.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-Pane.Tpo" "$(DEPDIR)/libSoGuiNodes_la-Pane.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-Pane.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp' object='libSoGuiNodes_la-Pane.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-Pane.Plo' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-Pane.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-Pane.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Pane.cpp
-
-libSoGuiNodes_la-Position.o: $(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-Position.o -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-Position.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-Position.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-Position.Tpo" "$(DEPDIR)/libSoGuiNodes_la-Position.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-Position.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp' object='libSoGuiNodes_la-Position.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-Position.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-Position.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-Position.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp
-
-libSoGuiNodes_la-Position.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-Position.obj -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-Position.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-Position.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-Position.Tpo" "$(DEPDIR)/libSoGuiNodes_la-Position.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-Position.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp' object='libSoGuiNodes_la-Position.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-Position.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-Position.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-Position.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp'; fi`
-
-libSoGuiNodes_la-Position.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-Position.lo -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-Position.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-Position.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-Position.Tpo" "$(DEPDIR)/libSoGuiNodes_la-Position.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-Position.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp' object='libSoGuiNodes_la-Position.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-Position.Plo' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-Position.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-Position.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Position.cpp
-
-libSoGuiNodes_la-Translation.o: $(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-Translation.o -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-Translation.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-Translation.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-Translation.Tpo" "$(DEPDIR)/libSoGuiNodes_la-Translation.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-Translation.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp' object='libSoGuiNodes_la-Translation.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-Translation.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-Translation.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-Translation.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp
-
-libSoGuiNodes_la-Translation.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-Translation.obj -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-Translation.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-Translation.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-Translation.Tpo" "$(DEPDIR)/libSoGuiNodes_la-Translation.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-Translation.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp' object='libSoGuiNodes_la-Translation.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-Translation.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-Translation.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-Translation.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp'; fi`
-
-libSoGuiNodes_la-Translation.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-Translation.lo -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-Translation.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-Translation.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-Translation.Tpo" "$(DEPDIR)/libSoGuiNodes_la-Translation.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-Translation.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp' object='libSoGuiNodes_la-Translation.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-Translation.Plo' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-Translation.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-Translation.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Translation.cpp
-
-libSoGuiNodes_la-Frame.o: $(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-Frame.o -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-Frame.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-Frame.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-Frame.Tpo" "$(DEPDIR)/libSoGuiNodes_la-Frame.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-Frame.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp' object='libSoGuiNodes_la-Frame.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-Frame.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-Frame.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-Frame.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp
-
-libSoGuiNodes_la-Frame.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-Frame.obj -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-Frame.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-Frame.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-Frame.Tpo" "$(DEPDIR)/libSoGuiNodes_la-Frame.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-Frame.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp' object='libSoGuiNodes_la-Frame.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-Frame.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-Frame.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-Frame.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp'; fi`
-
-libSoGuiNodes_la-Frame.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-Frame.lo -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-Frame.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-Frame.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-Frame.Tpo" "$(DEPDIR)/libSoGuiNodes_la-Frame.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-Frame.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp' object='libSoGuiNodes_la-Frame.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-Frame.Plo' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-Frame.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-Frame.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Frame.cpp
-
-libSoGuiNodes_la-Image.o: $(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-Image.o -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-Image.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-Image.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-Image.Tpo" "$(DEPDIR)/libSoGuiNodes_la-Image.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-Image.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp' object='libSoGuiNodes_la-Image.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-Image.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-Image.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-Image.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp
-
-libSoGuiNodes_la-Image.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-Image.obj -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-Image.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-Image.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-Image.Tpo" "$(DEPDIR)/libSoGuiNodes_la-Image.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-Image.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp' object='libSoGuiNodes_la-Image.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-Image.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-Image.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-Image.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp'; fi`
-
-libSoGuiNodes_la-Image.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-Image.lo -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-Image.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-Image.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-Image.Tpo" "$(DEPDIR)/libSoGuiNodes_la-Image.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-Image.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp' object='libSoGuiNodes_la-Image.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-Image.Plo' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-Image.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-Image.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Image.cpp
-
-libSoGuiNodes_la-Label.o: $(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-Label.o -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-Label.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-Label.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-Label.Tpo" "$(DEPDIR)/libSoGuiNodes_la-Label.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-Label.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp' object='libSoGuiNodes_la-Label.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-Label.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-Label.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-Label.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp
-
-libSoGuiNodes_la-Label.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-Label.obj -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-Label.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-Label.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-Label.Tpo" "$(DEPDIR)/libSoGuiNodes_la-Label.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-Label.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp' object='libSoGuiNodes_la-Label.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-Label.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-Label.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-Label.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp'; fi`
-
-libSoGuiNodes_la-Label.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-Label.lo -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-Label.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-Label.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-Label.Tpo" "$(DEPDIR)/libSoGuiNodes_la-Label.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-Label.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp' object='libSoGuiNodes_la-Label.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-Label.Plo' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-Label.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-Label.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Label.cpp
-
-libSoGuiNodes_la-ToggleButton.o: $(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-ToggleButton.o -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-ToggleButton.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-ToggleButton.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-ToggleButton.Tpo" "$(DEPDIR)/libSoGuiNodes_la-ToggleButton.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-ToggleButton.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp' object='libSoGuiNodes_la-ToggleButton.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-ToggleButton.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-ToggleButton.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-ToggleButton.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp
-
-libSoGuiNodes_la-ToggleButton.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-ToggleButton.obj -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-ToggleButton.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-ToggleButton.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-ToggleButton.Tpo" "$(DEPDIR)/libSoGuiNodes_la-ToggleButton.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-ToggleButton.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp' object='libSoGuiNodes_la-ToggleButton.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-ToggleButton.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-ToggleButton.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-ToggleButton.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp'; fi`
-
-libSoGuiNodes_la-ToggleButton.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-ToggleButton.lo -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-ToggleButton.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-ToggleButton.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-ToggleButton.Tpo" "$(DEPDIR)/libSoGuiNodes_la-ToggleButton.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-ToggleButton.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp' object='libSoGuiNodes_la-ToggleButton.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-ToggleButton.Plo' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-ToggleButton.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-ToggleButton.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ToggleButton.cpp
-
-libSoGuiNodes_la-RadioButton.o: $(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-RadioButton.o -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-RadioButton.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-RadioButton.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-RadioButton.Tpo" "$(DEPDIR)/libSoGuiNodes_la-RadioButton.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-RadioButton.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp' object='libSoGuiNodes_la-RadioButton.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-RadioButton.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-RadioButton.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-RadioButton.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp
-
-libSoGuiNodes_la-RadioButton.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-RadioButton.obj -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-RadioButton.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-RadioButton.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-RadioButton.Tpo" "$(DEPDIR)/libSoGuiNodes_la-RadioButton.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-RadioButton.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp' object='libSoGuiNodes_la-RadioButton.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-RadioButton.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-RadioButton.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-RadioButton.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp'; fi`
-
-libSoGuiNodes_la-RadioButton.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-RadioButton.lo -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-RadioButton.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-RadioButton.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-RadioButton.Tpo" "$(DEPDIR)/libSoGuiNodes_la-RadioButton.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-RadioButton.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp' object='libSoGuiNodes_la-RadioButton.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-RadioButton.Plo' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-RadioButton.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-RadioButton.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/RadioButton.cpp
-
-libSoGuiNodes_la-ClickCounter.o: $(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-ClickCounter.o -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-ClickCounter.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-ClickCounter.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-ClickCounter.Tpo" "$(DEPDIR)/libSoGuiNodes_la-ClickCounter.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-ClickCounter.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp' object='libSoGuiNodes_la-ClickCounter.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-ClickCounter.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-ClickCounter.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-ClickCounter.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp
-
-libSoGuiNodes_la-ClickCounter.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-ClickCounter.obj -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-ClickCounter.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-ClickCounter.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-ClickCounter.Tpo" "$(DEPDIR)/libSoGuiNodes_la-ClickCounter.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-ClickCounter.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp' object='libSoGuiNodes_la-ClickCounter.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-ClickCounter.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-ClickCounter.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-ClickCounter.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp'; fi`
-
-libSoGuiNodes_la-ClickCounter.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-ClickCounter.lo -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-ClickCounter.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-ClickCounter.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-ClickCounter.Tpo" "$(DEPDIR)/libSoGuiNodes_la-ClickCounter.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-ClickCounter.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp' object='libSoGuiNodes_la-ClickCounter.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-ClickCounter.Plo' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-ClickCounter.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-ClickCounter.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ClickCounter.cpp
-
-libSoGuiNodes_la-Slider1.o: $(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-Slider1.o -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-Slider1.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-Slider1.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-Slider1.Tpo" "$(DEPDIR)/libSoGuiNodes_la-Slider1.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-Slider1.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp' object='libSoGuiNodes_la-Slider1.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-Slider1.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-Slider1.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-Slider1.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp
-
-libSoGuiNodes_la-Slider1.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-Slider1.obj -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-Slider1.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-Slider1.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-Slider1.Tpo" "$(DEPDIR)/libSoGuiNodes_la-Slider1.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-Slider1.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp' object='libSoGuiNodes_la-Slider1.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-Slider1.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-Slider1.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-Slider1.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp'; fi`
-
-libSoGuiNodes_la-Slider1.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-Slider1.lo -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-Slider1.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-Slider1.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-Slider1.Tpo" "$(DEPDIR)/libSoGuiNodes_la-Slider1.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-Slider1.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp' object='libSoGuiNodes_la-Slider1.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-Slider1.Plo' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-Slider1.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-Slider1.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Slider1.cpp
-
-libSoGuiNodes_la-Slider2.o: $(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-Slider2.o -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-Slider2.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-Slider2.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-Slider2.Tpo" "$(DEPDIR)/libSoGuiNodes_la-Slider2.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-Slider2.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp' object='libSoGuiNodes_la-Slider2.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-Slider2.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-Slider2.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-Slider2.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp
-
-libSoGuiNodes_la-Slider2.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-Slider2.obj -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-Slider2.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-Slider2.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-Slider2.Tpo" "$(DEPDIR)/libSoGuiNodes_la-Slider2.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-Slider2.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp' object='libSoGuiNodes_la-Slider2.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-Slider2.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-Slider2.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-Slider2.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp'; fi`
-
-libSoGuiNodes_la-Slider2.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-Slider2.lo -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-Slider2.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-Slider2.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-Slider2.Tpo" "$(DEPDIR)/libSoGuiNodes_la-Slider2.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-Slider2.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp' object='libSoGuiNodes_la-Slider2.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-Slider2.Plo' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-Slider2.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-Slider2.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/Slider2.cpp
-
-libSoGuiNodes_la-ColorEditor.o: $(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-ColorEditor.o -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-ColorEditor.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-ColorEditor.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-ColorEditor.Tpo" "$(DEPDIR)/libSoGuiNodes_la-ColorEditor.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-ColorEditor.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp' object='libSoGuiNodes_la-ColorEditor.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-ColorEditor.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-ColorEditor.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-ColorEditor.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp
-
-libSoGuiNodes_la-ColorEditor.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-ColorEditor.obj -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-ColorEditor.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-ColorEditor.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-ColorEditor.Tpo" "$(DEPDIR)/libSoGuiNodes_la-ColorEditor.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-ColorEditor.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp' object='libSoGuiNodes_la-ColorEditor.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-ColorEditor.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-ColorEditor.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-ColorEditor.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp'; fi`
-
-libSoGuiNodes_la-ColorEditor.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-ColorEditor.lo -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-ColorEditor.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-ColorEditor.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-ColorEditor.Tpo" "$(DEPDIR)/libSoGuiNodes_la-ColorEditor.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-ColorEditor.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp' object='libSoGuiNodes_la-ColorEditor.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-ColorEditor.Plo' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-ColorEditor.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-ColorEditor.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/ColorEditor.cpp
-
-libSoGuiNodes_la-MaterialEditor.o: $(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-MaterialEditor.o -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-MaterialEditor.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-MaterialEditor.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-MaterialEditor.Tpo" "$(DEPDIR)/libSoGuiNodes_la-MaterialEditor.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-MaterialEditor.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp' object='libSoGuiNodes_la-MaterialEditor.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-MaterialEditor.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-MaterialEditor.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-MaterialEditor.o `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp
-
-libSoGuiNodes_la-MaterialEditor.obj: $(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-MaterialEditor.obj -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-MaterialEditor.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-MaterialEditor.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-MaterialEditor.Tpo" "$(DEPDIR)/libSoGuiNodes_la-MaterialEditor.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-MaterialEditor.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp' object='libSoGuiNodes_la-MaterialEditor.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-MaterialEditor.Po' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-MaterialEditor.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-MaterialEditor.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp'; fi`
-
-libSoGuiNodes_la-MaterialEditor.lo: $(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -MT libSoGuiNodes_la-MaterialEditor.lo -MD -MP -MF "$(DEPDIR)/libSoGuiNodes_la-MaterialEditor.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoGuiNodes_la-MaterialEditor.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoGuiNodes_la-MaterialEditor.Tpo" "$(DEPDIR)/libSoGuiNodes_la-MaterialEditor.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoGuiNodes_la-MaterialEditor.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp' object='libSoGuiNodes_la-MaterialEditor.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoGuiNodes_la-MaterialEditor.Plo' tmpdepfile='$(DEPDIR)/libSoGuiNodes_la-MaterialEditor.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoGuiNodes_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoGuiNodes_la-MaterialEditor.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/nodes/MaterialEditor.cpp
 
 mostlyclean-libtool:
 	-rm -f *.lo

@@ -660,10 +660,6 @@ libSoQtWidgets_la_SOURCES = \
 	$(BuildSources)
 
 
-libSoQtWidgets_la_CXXFLAGS = \
-	$(AM_CXXFLAGS)
-
-
 nodist_libSoQtWidgets_la_SOURCES = \
 	$(NoDistSources)
 
@@ -723,15 +719,12 @@ libSoQtWidgets_la_LIBADD =
 am__libSoQtWidgets_la_SOURCES_DIST = SoQtGLArea.cpp SoQtGLArea.h \
 	SoQtThumbWheel.cpp SoQtThumbWheel.h QtNativePopupMenu.cpp \
 	QtNativePopupMenu.h all-widgets-cpp.cpp
-am__objects_7 = libSoQtWidgets_la-all-widgets-cpp.lo
-am__objects_8 = libSoQtWidgets_la-SoQtGLArea.lo \
-	libSoQtWidgets_la-SoQtThumbWheel.lo \
-	libSoQtWidgets_la-QtNativePopupMenu.lo
+am__objects_7 = all-widgets-cpp.lo
+am__objects_8 = SoQtGLArea.lo SoQtThumbWheel.lo QtNativePopupMenu.lo
 @HACKING_COMPACT_BUILD_TRUE@am__objects_9 = $(am__objects_7)
 @HACKING_COMPACT_BUILD_FALSE@am__objects_9 = $(am__objects_8)
 am_libSoQtWidgets_la_OBJECTS = $(am__objects_9)
-am__objects_10 = libSoQtWidgets_la-SoAnyThumbWheel.lo \
-	libSoQtWidgets_la-So@Gui@PopupMenu.lo
+am__objects_10 = SoAnyThumbWheel.lo So@Gui@PopupMenu.lo
 am__objects_11 = $(am__objects_10)
 @HACKING_COMPACT_BUILD_TRUE@am__objects_12 =
 @HACKING_COMPACT_BUILD_FALSE@am__objects_12 = $(am__objects_11)
@@ -740,18 +733,18 @@ libSoQtWidgets_la_OBJECTS = $(am_libSoQtWidgets_la_OBJECTS) \
 	$(nodist_libSoQtWidgets_la_OBJECTS)
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/QtNativePopupMenu.Po \
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/QtNativePopupMenu.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/QtNativePopupMenu.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/So@Gui@PopupMenu.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/So@Gui@PopupMenu.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/SoAnyThumbWheel.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SoAnyThumbWheel.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/SoQtGLArea.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SoQtGLArea.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/SoQtThumbWheel.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SoQtThumbWheel.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/all-widgets-cpp.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoQtWidgets_la-QtNativePopupMenu.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoQtWidgets_la-So@Gui@PopupMenu.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoQtWidgets_la-SoAnyThumbWheel.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoQtWidgets_la-SoQtGLArea.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoQtWidgets_la-SoQtThumbWheel.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoQtWidgets_la-all-widgets-cpp.Plo
+@AMDEP_TRUE@	./$(DEPDIR)/all-widgets-cpp.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/all-widgets-cpp.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -806,18 +799,18 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/QtNativePopupMenu.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/QtNativePopupMenu.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@PopupMenu.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@PopupMenu.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoAnyThumbWheel.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoAnyThumbWheel.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQtGLArea.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQtGLArea.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQtThumbWheel.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoQtThumbWheel.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/all-widgets-cpp.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/all-widgets-cpp.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoQtWidgets_la-QtNativePopupMenu.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoQtWidgets_la-So@Gui@PopupMenu.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoQtWidgets_la-SoAnyThumbWheel.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoQtWidgets_la-SoQtGLArea.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoQtWidgets_la-SoQtThumbWheel.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoQtWidgets_la-all-widgets-cpp.Plo@am__quote@
 
 distclean-depend:
 	-rm -rf ./$(DEPDIR)
@@ -920,204 +913,6 @@ So@Gui@PopupMenu.lo: $(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/So@Gui@PopupMenu.Plo' tmpdepfile='$(DEPDIR)/So@Gui@PopupMenu.TPlo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@PopupMenu.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp
-
-libSoQtWidgets_la-all-widgets-cpp.o: all-widgets-cpp.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQtWidgets_la-all-widgets-cpp.o -MD -MP -MF "$(DEPDIR)/libSoQtWidgets_la-all-widgets-cpp.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoQtWidgets_la-all-widgets-cpp.o `test -f 'all-widgets-cpp.cpp' || echo '$(srcdir)/'`all-widgets-cpp.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQtWidgets_la-all-widgets-cpp.Tpo" "$(DEPDIR)/libSoQtWidgets_la-all-widgets-cpp.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQtWidgets_la-all-widgets-cpp.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='all-widgets-cpp.cpp' object='libSoQtWidgets_la-all-widgets-cpp.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQtWidgets_la-all-widgets-cpp.Po' tmpdepfile='$(DEPDIR)/libSoQtWidgets_la-all-widgets-cpp.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQtWidgets_la-all-widgets-cpp.o `test -f 'all-widgets-cpp.cpp' || echo '$(srcdir)/'`all-widgets-cpp.cpp
-
-libSoQtWidgets_la-all-widgets-cpp.obj: all-widgets-cpp.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQtWidgets_la-all-widgets-cpp.obj -MD -MP -MF "$(DEPDIR)/libSoQtWidgets_la-all-widgets-cpp.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoQtWidgets_la-all-widgets-cpp.obj `if test -f 'all-widgets-cpp.cpp'; then $(CYGPATH_W) 'all-widgets-cpp.cpp'; else $(CYGPATH_W) '$(srcdir)/all-widgets-cpp.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQtWidgets_la-all-widgets-cpp.Tpo" "$(DEPDIR)/libSoQtWidgets_la-all-widgets-cpp.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQtWidgets_la-all-widgets-cpp.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='all-widgets-cpp.cpp' object='libSoQtWidgets_la-all-widgets-cpp.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQtWidgets_la-all-widgets-cpp.Po' tmpdepfile='$(DEPDIR)/libSoQtWidgets_la-all-widgets-cpp.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQtWidgets_la-all-widgets-cpp.obj `if test -f 'all-widgets-cpp.cpp'; then $(CYGPATH_W) 'all-widgets-cpp.cpp'; else $(CYGPATH_W) '$(srcdir)/all-widgets-cpp.cpp'; fi`
-
-libSoQtWidgets_la-all-widgets-cpp.lo: all-widgets-cpp.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQtWidgets_la-all-widgets-cpp.lo -MD -MP -MF "$(DEPDIR)/libSoQtWidgets_la-all-widgets-cpp.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoQtWidgets_la-all-widgets-cpp.lo `test -f 'all-widgets-cpp.cpp' || echo '$(srcdir)/'`all-widgets-cpp.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQtWidgets_la-all-widgets-cpp.Tpo" "$(DEPDIR)/libSoQtWidgets_la-all-widgets-cpp.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQtWidgets_la-all-widgets-cpp.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='all-widgets-cpp.cpp' object='libSoQtWidgets_la-all-widgets-cpp.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQtWidgets_la-all-widgets-cpp.Plo' tmpdepfile='$(DEPDIR)/libSoQtWidgets_la-all-widgets-cpp.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQtWidgets_la-all-widgets-cpp.lo `test -f 'all-widgets-cpp.cpp' || echo '$(srcdir)/'`all-widgets-cpp.cpp
-
-libSoQtWidgets_la-SoQtGLArea.o: SoQtGLArea.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQtWidgets_la-SoQtGLArea.o -MD -MP -MF "$(DEPDIR)/libSoQtWidgets_la-SoQtGLArea.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoQtWidgets_la-SoQtGLArea.o `test -f 'SoQtGLArea.cpp' || echo '$(srcdir)/'`SoQtGLArea.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQtWidgets_la-SoQtGLArea.Tpo" "$(DEPDIR)/libSoQtWidgets_la-SoQtGLArea.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQtWidgets_la-SoQtGLArea.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoQtGLArea.cpp' object='libSoQtWidgets_la-SoQtGLArea.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQtWidgets_la-SoQtGLArea.Po' tmpdepfile='$(DEPDIR)/libSoQtWidgets_la-SoQtGLArea.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQtWidgets_la-SoQtGLArea.o `test -f 'SoQtGLArea.cpp' || echo '$(srcdir)/'`SoQtGLArea.cpp
-
-libSoQtWidgets_la-SoQtGLArea.obj: SoQtGLArea.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQtWidgets_la-SoQtGLArea.obj -MD -MP -MF "$(DEPDIR)/libSoQtWidgets_la-SoQtGLArea.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoQtWidgets_la-SoQtGLArea.obj `if test -f 'SoQtGLArea.cpp'; then $(CYGPATH_W) 'SoQtGLArea.cpp'; else $(CYGPATH_W) '$(srcdir)/SoQtGLArea.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQtWidgets_la-SoQtGLArea.Tpo" "$(DEPDIR)/libSoQtWidgets_la-SoQtGLArea.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQtWidgets_la-SoQtGLArea.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoQtGLArea.cpp' object='libSoQtWidgets_la-SoQtGLArea.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQtWidgets_la-SoQtGLArea.Po' tmpdepfile='$(DEPDIR)/libSoQtWidgets_la-SoQtGLArea.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQtWidgets_la-SoQtGLArea.obj `if test -f 'SoQtGLArea.cpp'; then $(CYGPATH_W) 'SoQtGLArea.cpp'; else $(CYGPATH_W) '$(srcdir)/SoQtGLArea.cpp'; fi`
-
-libSoQtWidgets_la-SoQtGLArea.lo: SoQtGLArea.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQtWidgets_la-SoQtGLArea.lo -MD -MP -MF "$(DEPDIR)/libSoQtWidgets_la-SoQtGLArea.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoQtWidgets_la-SoQtGLArea.lo `test -f 'SoQtGLArea.cpp' || echo '$(srcdir)/'`SoQtGLArea.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQtWidgets_la-SoQtGLArea.Tpo" "$(DEPDIR)/libSoQtWidgets_la-SoQtGLArea.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQtWidgets_la-SoQtGLArea.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoQtGLArea.cpp' object='libSoQtWidgets_la-SoQtGLArea.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQtWidgets_la-SoQtGLArea.Plo' tmpdepfile='$(DEPDIR)/libSoQtWidgets_la-SoQtGLArea.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQtWidgets_la-SoQtGLArea.lo `test -f 'SoQtGLArea.cpp' || echo '$(srcdir)/'`SoQtGLArea.cpp
-
-libSoQtWidgets_la-SoQtThumbWheel.o: SoQtThumbWheel.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQtWidgets_la-SoQtThumbWheel.o -MD -MP -MF "$(DEPDIR)/libSoQtWidgets_la-SoQtThumbWheel.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoQtWidgets_la-SoQtThumbWheel.o `test -f 'SoQtThumbWheel.cpp' || echo '$(srcdir)/'`SoQtThumbWheel.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQtWidgets_la-SoQtThumbWheel.Tpo" "$(DEPDIR)/libSoQtWidgets_la-SoQtThumbWheel.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQtWidgets_la-SoQtThumbWheel.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoQtThumbWheel.cpp' object='libSoQtWidgets_la-SoQtThumbWheel.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQtWidgets_la-SoQtThumbWheel.Po' tmpdepfile='$(DEPDIR)/libSoQtWidgets_la-SoQtThumbWheel.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQtWidgets_la-SoQtThumbWheel.o `test -f 'SoQtThumbWheel.cpp' || echo '$(srcdir)/'`SoQtThumbWheel.cpp
-
-libSoQtWidgets_la-SoQtThumbWheel.obj: SoQtThumbWheel.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQtWidgets_la-SoQtThumbWheel.obj -MD -MP -MF "$(DEPDIR)/libSoQtWidgets_la-SoQtThumbWheel.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoQtWidgets_la-SoQtThumbWheel.obj `if test -f 'SoQtThumbWheel.cpp'; then $(CYGPATH_W) 'SoQtThumbWheel.cpp'; else $(CYGPATH_W) '$(srcdir)/SoQtThumbWheel.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQtWidgets_la-SoQtThumbWheel.Tpo" "$(DEPDIR)/libSoQtWidgets_la-SoQtThumbWheel.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQtWidgets_la-SoQtThumbWheel.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoQtThumbWheel.cpp' object='libSoQtWidgets_la-SoQtThumbWheel.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQtWidgets_la-SoQtThumbWheel.Po' tmpdepfile='$(DEPDIR)/libSoQtWidgets_la-SoQtThumbWheel.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQtWidgets_la-SoQtThumbWheel.obj `if test -f 'SoQtThumbWheel.cpp'; then $(CYGPATH_W) 'SoQtThumbWheel.cpp'; else $(CYGPATH_W) '$(srcdir)/SoQtThumbWheel.cpp'; fi`
-
-libSoQtWidgets_la-SoQtThumbWheel.lo: SoQtThumbWheel.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQtWidgets_la-SoQtThumbWheel.lo -MD -MP -MF "$(DEPDIR)/libSoQtWidgets_la-SoQtThumbWheel.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoQtWidgets_la-SoQtThumbWheel.lo `test -f 'SoQtThumbWheel.cpp' || echo '$(srcdir)/'`SoQtThumbWheel.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQtWidgets_la-SoQtThumbWheel.Tpo" "$(DEPDIR)/libSoQtWidgets_la-SoQtThumbWheel.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQtWidgets_la-SoQtThumbWheel.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SoQtThumbWheel.cpp' object='libSoQtWidgets_la-SoQtThumbWheel.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQtWidgets_la-SoQtThumbWheel.Plo' tmpdepfile='$(DEPDIR)/libSoQtWidgets_la-SoQtThumbWheel.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQtWidgets_la-SoQtThumbWheel.lo `test -f 'SoQtThumbWheel.cpp' || echo '$(srcdir)/'`SoQtThumbWheel.cpp
-
-libSoQtWidgets_la-QtNativePopupMenu.o: QtNativePopupMenu.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQtWidgets_la-QtNativePopupMenu.o -MD -MP -MF "$(DEPDIR)/libSoQtWidgets_la-QtNativePopupMenu.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoQtWidgets_la-QtNativePopupMenu.o `test -f 'QtNativePopupMenu.cpp' || echo '$(srcdir)/'`QtNativePopupMenu.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQtWidgets_la-QtNativePopupMenu.Tpo" "$(DEPDIR)/libSoQtWidgets_la-QtNativePopupMenu.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQtWidgets_la-QtNativePopupMenu.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='QtNativePopupMenu.cpp' object='libSoQtWidgets_la-QtNativePopupMenu.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQtWidgets_la-QtNativePopupMenu.Po' tmpdepfile='$(DEPDIR)/libSoQtWidgets_la-QtNativePopupMenu.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQtWidgets_la-QtNativePopupMenu.o `test -f 'QtNativePopupMenu.cpp' || echo '$(srcdir)/'`QtNativePopupMenu.cpp
-
-libSoQtWidgets_la-QtNativePopupMenu.obj: QtNativePopupMenu.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQtWidgets_la-QtNativePopupMenu.obj -MD -MP -MF "$(DEPDIR)/libSoQtWidgets_la-QtNativePopupMenu.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoQtWidgets_la-QtNativePopupMenu.obj `if test -f 'QtNativePopupMenu.cpp'; then $(CYGPATH_W) 'QtNativePopupMenu.cpp'; else $(CYGPATH_W) '$(srcdir)/QtNativePopupMenu.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQtWidgets_la-QtNativePopupMenu.Tpo" "$(DEPDIR)/libSoQtWidgets_la-QtNativePopupMenu.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQtWidgets_la-QtNativePopupMenu.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='QtNativePopupMenu.cpp' object='libSoQtWidgets_la-QtNativePopupMenu.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQtWidgets_la-QtNativePopupMenu.Po' tmpdepfile='$(DEPDIR)/libSoQtWidgets_la-QtNativePopupMenu.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQtWidgets_la-QtNativePopupMenu.obj `if test -f 'QtNativePopupMenu.cpp'; then $(CYGPATH_W) 'QtNativePopupMenu.cpp'; else $(CYGPATH_W) '$(srcdir)/QtNativePopupMenu.cpp'; fi`
-
-libSoQtWidgets_la-QtNativePopupMenu.lo: QtNativePopupMenu.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQtWidgets_la-QtNativePopupMenu.lo -MD -MP -MF "$(DEPDIR)/libSoQtWidgets_la-QtNativePopupMenu.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoQtWidgets_la-QtNativePopupMenu.lo `test -f 'QtNativePopupMenu.cpp' || echo '$(srcdir)/'`QtNativePopupMenu.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQtWidgets_la-QtNativePopupMenu.Tpo" "$(DEPDIR)/libSoQtWidgets_la-QtNativePopupMenu.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQtWidgets_la-QtNativePopupMenu.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='QtNativePopupMenu.cpp' object='libSoQtWidgets_la-QtNativePopupMenu.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQtWidgets_la-QtNativePopupMenu.Plo' tmpdepfile='$(DEPDIR)/libSoQtWidgets_la-QtNativePopupMenu.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQtWidgets_la-QtNativePopupMenu.lo `test -f 'QtNativePopupMenu.cpp' || echo '$(srcdir)/'`QtNativePopupMenu.cpp
-
-libSoQtWidgets_la-SoAnyThumbWheel.o: $(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQtWidgets_la-SoAnyThumbWheel.o -MD -MP -MF "$(DEPDIR)/libSoQtWidgets_la-SoAnyThumbWheel.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoQtWidgets_la-SoAnyThumbWheel.o `test -f '$(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQtWidgets_la-SoAnyThumbWheel.Tpo" "$(DEPDIR)/libSoQtWidgets_la-SoAnyThumbWheel.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQtWidgets_la-SoAnyThumbWheel.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp' object='libSoQtWidgets_la-SoAnyThumbWheel.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQtWidgets_la-SoAnyThumbWheel.Po' tmpdepfile='$(DEPDIR)/libSoQtWidgets_la-SoAnyThumbWheel.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQtWidgets_la-SoAnyThumbWheel.o `test -f '$(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp
-
-libSoQtWidgets_la-SoAnyThumbWheel.obj: $(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQtWidgets_la-SoAnyThumbWheel.obj -MD -MP -MF "$(DEPDIR)/libSoQtWidgets_la-SoAnyThumbWheel.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoQtWidgets_la-SoAnyThumbWheel.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQtWidgets_la-SoAnyThumbWheel.Tpo" "$(DEPDIR)/libSoQtWidgets_la-SoAnyThumbWheel.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQtWidgets_la-SoAnyThumbWheel.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp' object='libSoQtWidgets_la-SoAnyThumbWheel.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQtWidgets_la-SoAnyThumbWheel.Po' tmpdepfile='$(DEPDIR)/libSoQtWidgets_la-SoAnyThumbWheel.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQtWidgets_la-SoAnyThumbWheel.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp'; fi`
-
-libSoQtWidgets_la-SoAnyThumbWheel.lo: $(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQtWidgets_la-SoAnyThumbWheel.lo -MD -MP -MF "$(DEPDIR)/libSoQtWidgets_la-SoAnyThumbWheel.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoQtWidgets_la-SoAnyThumbWheel.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQtWidgets_la-SoAnyThumbWheel.Tpo" "$(DEPDIR)/libSoQtWidgets_la-SoAnyThumbWheel.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQtWidgets_la-SoAnyThumbWheel.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp' object='libSoQtWidgets_la-SoAnyThumbWheel.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQtWidgets_la-SoAnyThumbWheel.Plo' tmpdepfile='$(DEPDIR)/libSoQtWidgets_la-SoAnyThumbWheel.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQtWidgets_la-SoAnyThumbWheel.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/widgets/SoAnyThumbWheel.cpp
-
-libSoQtWidgets_la-So@Gui@PopupMenu.o: $(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQtWidgets_la-So@Gui@PopupMenu.o -MD -MP -MF "$(DEPDIR)/libSoQtWidgets_la-So@Gui@PopupMenu.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoQtWidgets_la-So@Gui@PopupMenu.o `test -f '$(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQtWidgets_la-So@Gui@PopupMenu.Tpo" "$(DEPDIR)/libSoQtWidgets_la-So@Gui@PopupMenu.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQtWidgets_la-So@Gui@PopupMenu.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp' object='libSoQtWidgets_la-So@Gui@PopupMenu.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQtWidgets_la-So@Gui@PopupMenu.Po' tmpdepfile='$(DEPDIR)/libSoQtWidgets_la-So@Gui@PopupMenu.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQtWidgets_la-So@Gui@PopupMenu.o `test -f '$(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp
-
-libSoQtWidgets_la-So@Gui@PopupMenu.obj: $(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQtWidgets_la-So@Gui@PopupMenu.obj -MD -MP -MF "$(DEPDIR)/libSoQtWidgets_la-So@Gui@PopupMenu.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoQtWidgets_la-So@Gui@PopupMenu.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQtWidgets_la-So@Gui@PopupMenu.Tpo" "$(DEPDIR)/libSoQtWidgets_la-So@Gui@PopupMenu.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQtWidgets_la-So@Gui@PopupMenu.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp' object='libSoQtWidgets_la-So@Gui@PopupMenu.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQtWidgets_la-So@Gui@PopupMenu.Po' tmpdepfile='$(DEPDIR)/libSoQtWidgets_la-So@Gui@PopupMenu.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQtWidgets_la-So@Gui@PopupMenu.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp'; fi`
-
-libSoQtWidgets_la-So@Gui@PopupMenu.lo: $(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQtWidgets_la-So@Gui@PopupMenu.lo -MD -MP -MF "$(DEPDIR)/libSoQtWidgets_la-So@Gui@PopupMenu.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoQtWidgets_la-So@Gui@PopupMenu.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQtWidgets_la-So@Gui@PopupMenu.Tpo" "$(DEPDIR)/libSoQtWidgets_la-So@Gui@PopupMenu.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQtWidgets_la-So@Gui@PopupMenu.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp' object='libSoQtWidgets_la-So@Gui@PopupMenu.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQtWidgets_la-So@Gui@PopupMenu.Plo' tmpdepfile='$(DEPDIR)/libSoQtWidgets_la-So@Gui@PopupMenu.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtWidgets_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQtWidgets_la-So@Gui@PopupMenu.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/widgets/So@Gui@PopupMenu.cpp
 
 mostlyclean-libtool:
 	-rm -f *.lo

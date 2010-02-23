@@ -648,10 +648,6 @@ libSoQtEditors_la_SOURCES = \
 	$(BuildSources)
 
 
-libSoQtEditors_la_CXXFLAGS = \
-	$(AM_CXXFLAGS)
-
-
 nodist_libSoQtEditors_la_SOURCES = \
 	$(NoDistSources)
 
@@ -705,12 +701,11 @@ LTLIBRARIES = $(noinst_LTLIBRARIES)
 libSoQtEditors_la_LDFLAGS =
 libSoQtEditors_la_LIBADD =
 am__libSoQtEditors_la_SOURCES_DIST = all-editors-cpp.cpp
-am__objects_8 = libSoQtEditors_la-all-editors-cpp.lo
+am__objects_8 = all-editors-cpp.lo
 @HACKING_COMPACT_BUILD_TRUE@am__objects_9 = $(am__objects_8)
 @HACKING_COMPACT_BUILD_FALSE@am__objects_9 = $(am__objects_2)
 am_libSoQtEditors_la_OBJECTS = $(am__objects_9)
-am__objects_10 = libSoQtEditors_la-So@Gui@ColorEditor.lo \
-	libSoQtEditors_la-So@Gui@MaterialEditor.lo
+am__objects_10 = So@Gui@ColorEditor.lo So@Gui@MaterialEditor.lo
 am__objects_11 = $(am__objects_10) $(am__objects_5)
 @HACKING_COMPACT_BUILD_TRUE@am__objects_12 =
 @HACKING_COMPACT_BUILD_FALSE@am__objects_12 = $(am__objects_11)
@@ -719,12 +714,12 @@ libSoQtEditors_la_OBJECTS = $(am_libSoQtEditors_la_OBJECTS) \
 	$(nodist_libSoQtEditors_la_OBJECTS)
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/So@Gui@ColorEditor.Po \
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/So@Gui@ColorEditor.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/So@Gui@ColorEditor.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/So@Gui@MaterialEditor.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/So@Gui@MaterialEditor.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/all-editors-cpp.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoQtEditors_la-So@Gui@ColorEditor.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoQtEditors_la-So@Gui@MaterialEditor.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/libSoQtEditors_la-all-editors-cpp.Plo
+@AMDEP_TRUE@	./$(DEPDIR)/all-editors-cpp.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/all-editors-cpp.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -779,12 +774,12 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@ColorEditor.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@ColorEditor.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@MaterialEditor.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/So@Gui@MaterialEditor.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/all-editors-cpp.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/all-editors-cpp.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoQtEditors_la-So@Gui@ColorEditor.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoQtEditors_la-So@Gui@MaterialEditor.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libSoQtEditors_la-all-editors-cpp.Plo@am__quote@
 
 distclean-depend:
 	-rm -rf ./$(DEPDIR)
@@ -887,105 +882,6 @@ So@Gui@MaterialEditor.lo: $(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@Mate
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/So@Gui@MaterialEditor.Plo' tmpdepfile='$(DEPDIR)/So@Gui@MaterialEditor.TPlo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o So@Gui@MaterialEditor.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp
-
-libSoQtEditors_la-all-editors-cpp.o: all-editors-cpp.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtEditors_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQtEditors_la-all-editors-cpp.o -MD -MP -MF "$(DEPDIR)/libSoQtEditors_la-all-editors-cpp.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoQtEditors_la-all-editors-cpp.o `test -f 'all-editors-cpp.cpp' || echo '$(srcdir)/'`all-editors-cpp.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQtEditors_la-all-editors-cpp.Tpo" "$(DEPDIR)/libSoQtEditors_la-all-editors-cpp.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQtEditors_la-all-editors-cpp.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='all-editors-cpp.cpp' object='libSoQtEditors_la-all-editors-cpp.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQtEditors_la-all-editors-cpp.Po' tmpdepfile='$(DEPDIR)/libSoQtEditors_la-all-editors-cpp.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtEditors_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQtEditors_la-all-editors-cpp.o `test -f 'all-editors-cpp.cpp' || echo '$(srcdir)/'`all-editors-cpp.cpp
-
-libSoQtEditors_la-all-editors-cpp.obj: all-editors-cpp.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtEditors_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQtEditors_la-all-editors-cpp.obj -MD -MP -MF "$(DEPDIR)/libSoQtEditors_la-all-editors-cpp.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoQtEditors_la-all-editors-cpp.obj `if test -f 'all-editors-cpp.cpp'; then $(CYGPATH_W) 'all-editors-cpp.cpp'; else $(CYGPATH_W) '$(srcdir)/all-editors-cpp.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQtEditors_la-all-editors-cpp.Tpo" "$(DEPDIR)/libSoQtEditors_la-all-editors-cpp.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQtEditors_la-all-editors-cpp.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='all-editors-cpp.cpp' object='libSoQtEditors_la-all-editors-cpp.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQtEditors_la-all-editors-cpp.Po' tmpdepfile='$(DEPDIR)/libSoQtEditors_la-all-editors-cpp.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtEditors_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQtEditors_la-all-editors-cpp.obj `if test -f 'all-editors-cpp.cpp'; then $(CYGPATH_W) 'all-editors-cpp.cpp'; else $(CYGPATH_W) '$(srcdir)/all-editors-cpp.cpp'; fi`
-
-libSoQtEditors_la-all-editors-cpp.lo: all-editors-cpp.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtEditors_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQtEditors_la-all-editors-cpp.lo -MD -MP -MF "$(DEPDIR)/libSoQtEditors_la-all-editors-cpp.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoQtEditors_la-all-editors-cpp.lo `test -f 'all-editors-cpp.cpp' || echo '$(srcdir)/'`all-editors-cpp.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQtEditors_la-all-editors-cpp.Tpo" "$(DEPDIR)/libSoQtEditors_la-all-editors-cpp.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQtEditors_la-all-editors-cpp.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='all-editors-cpp.cpp' object='libSoQtEditors_la-all-editors-cpp.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQtEditors_la-all-editors-cpp.Plo' tmpdepfile='$(DEPDIR)/libSoQtEditors_la-all-editors-cpp.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtEditors_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQtEditors_la-all-editors-cpp.lo `test -f 'all-editors-cpp.cpp' || echo '$(srcdir)/'`all-editors-cpp.cpp
-
-libSoQtEditors_la-So@Gui@ColorEditor.o: $(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtEditors_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQtEditors_la-So@Gui@ColorEditor.o -MD -MP -MF "$(DEPDIR)/libSoQtEditors_la-So@Gui@ColorEditor.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoQtEditors_la-So@Gui@ColorEditor.o `test -f '$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQtEditors_la-So@Gui@ColorEditor.Tpo" "$(DEPDIR)/libSoQtEditors_la-So@Gui@ColorEditor.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQtEditors_la-So@Gui@ColorEditor.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp' object='libSoQtEditors_la-So@Gui@ColorEditor.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQtEditors_la-So@Gui@ColorEditor.Po' tmpdepfile='$(DEPDIR)/libSoQtEditors_la-So@Gui@ColorEditor.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtEditors_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQtEditors_la-So@Gui@ColorEditor.o `test -f '$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp
-
-libSoQtEditors_la-So@Gui@ColorEditor.obj: $(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtEditors_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQtEditors_la-So@Gui@ColorEditor.obj -MD -MP -MF "$(DEPDIR)/libSoQtEditors_la-So@Gui@ColorEditor.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoQtEditors_la-So@Gui@ColorEditor.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQtEditors_la-So@Gui@ColorEditor.Tpo" "$(DEPDIR)/libSoQtEditors_la-So@Gui@ColorEditor.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQtEditors_la-So@Gui@ColorEditor.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp' object='libSoQtEditors_la-So@Gui@ColorEditor.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQtEditors_la-So@Gui@ColorEditor.Po' tmpdepfile='$(DEPDIR)/libSoQtEditors_la-So@Gui@ColorEditor.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtEditors_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQtEditors_la-So@Gui@ColorEditor.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp'; fi`
-
-libSoQtEditors_la-So@Gui@ColorEditor.lo: $(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtEditors_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQtEditors_la-So@Gui@ColorEditor.lo -MD -MP -MF "$(DEPDIR)/libSoQtEditors_la-So@Gui@ColorEditor.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoQtEditors_la-So@Gui@ColorEditor.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQtEditors_la-So@Gui@ColorEditor.Tpo" "$(DEPDIR)/libSoQtEditors_la-So@Gui@ColorEditor.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQtEditors_la-So@Gui@ColorEditor.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp' object='libSoQtEditors_la-So@Gui@ColorEditor.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQtEditors_la-So@Gui@ColorEditor.Plo' tmpdepfile='$(DEPDIR)/libSoQtEditors_la-So@Gui@ColorEditor.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtEditors_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQtEditors_la-So@Gui@ColorEditor.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@ColorEditor.cpp
-
-libSoQtEditors_la-So@Gui@MaterialEditor.o: $(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtEditors_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQtEditors_la-So@Gui@MaterialEditor.o -MD -MP -MF "$(DEPDIR)/libSoQtEditors_la-So@Gui@MaterialEditor.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoQtEditors_la-So@Gui@MaterialEditor.o `test -f '$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQtEditors_la-So@Gui@MaterialEditor.Tpo" "$(DEPDIR)/libSoQtEditors_la-So@Gui@MaterialEditor.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQtEditors_la-So@Gui@MaterialEditor.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp' object='libSoQtEditors_la-So@Gui@MaterialEditor.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQtEditors_la-So@Gui@MaterialEditor.Po' tmpdepfile='$(DEPDIR)/libSoQtEditors_la-So@Gui@MaterialEditor.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtEditors_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQtEditors_la-So@Gui@MaterialEditor.o `test -f '$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp
-
-libSoQtEditors_la-So@Gui@MaterialEditor.obj: $(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtEditors_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQtEditors_la-So@Gui@MaterialEditor.obj -MD -MP -MF "$(DEPDIR)/libSoQtEditors_la-So@Gui@MaterialEditor.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoQtEditors_la-So@Gui@MaterialEditor.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp'; fi`; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQtEditors_la-So@Gui@MaterialEditor.Tpo" "$(DEPDIR)/libSoQtEditors_la-So@Gui@MaterialEditor.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQtEditors_la-So@Gui@MaterialEditor.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp' object='libSoQtEditors_la-So@Gui@MaterialEditor.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQtEditors_la-So@Gui@MaterialEditor.Po' tmpdepfile='$(DEPDIR)/libSoQtEditors_la-So@Gui@MaterialEditor.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtEditors_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQtEditors_la-So@Gui@MaterialEditor.obj `if test -f '$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp'; then $(CYGPATH_W) '$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp'; fi`
-
-libSoQtEditors_la-So@Gui@MaterialEditor.lo: $(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp
-@am__fastdepCXX_TRUE@	if $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtEditors_la_CXXFLAGS) $(CXXFLAGS) -MT libSoQtEditors_la-So@Gui@MaterialEditor.lo -MD -MP -MF "$(DEPDIR)/libSoQtEditors_la-So@Gui@MaterialEditor.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o libSoQtEditors_la-So@Gui@MaterialEditor.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp; \
-@am__fastdepCXX_TRUE@	then mv -f "$(DEPDIR)/libSoQtEditors_la-So@Gui@MaterialEditor.Tpo" "$(DEPDIR)/libSoQtEditors_la-So@Gui@MaterialEditor.Plo"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/libSoQtEditors_la-So@Gui@MaterialEditor.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp' object='libSoQtEditors_la-So@Gui@MaterialEditor.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/libSoQtEditors_la-So@Gui@MaterialEditor.Plo' tmpdepfile='$(DEPDIR)/libSoQtEditors_la-So@Gui@MaterialEditor.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libSoQtEditors_la_CXXFLAGS) $(CXXFLAGS) -c -o libSoQtEditors_la-So@Gui@MaterialEditor.lo `test -f '$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp' || echo '$(srcdir)/'`$(top_builddir)/src/Inventor/@Gui@/editors/So@Gui@MaterialEditor.cpp
 
 mostlyclean-libtool:
 	-rm -f *.lo
