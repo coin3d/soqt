@@ -717,6 +717,8 @@ AM_CONDITIONAL(HAVE_JOYSTICK_LINUX, false)
 # **************************************************************************
 # Compiler control.
 
+# Make it possible for the user to turn off optimization flags.
+SIM_AC_COMPILER_OPTIMIZATION
 
 SIM_AC_COMPILE_DEBUG([
   CPPFLAGS="$CPPFLAGS -DSOQT_DEBUG=1"
