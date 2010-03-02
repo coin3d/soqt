@@ -1,0 +1,36 @@
+SoQt 1.4.0 Released
+===================
+
+SoQt 1.4.0 is a minor release.  The release contains build setup
+improvements, bugfixes, documentation improvements and improved
+compatibility with the latest major Qt release, version 4.  It also
+contains some minor API extensions beyond the previous release.
+
+
+NEWS File Excerpt:
+------------------
+
+New in SoQt v1.4.0 (2006-08-29):
+* full support for Qt 4 on all platforms, including Mac OS 10.4 "Tiger"
+* worked around a Qt bug causing the maximum framerate with Qt-4 on
+  Windows to be ~ 20fps
+* many bug fixes
+
+
+Download Information:
+---------------------
+
+Source Code by FTP:
+  ftp://ftp.coin3d.org/pub/coin/src/all/SoQt-1.3.0.tar.gz
+
+We do not provide pre-compiled binary packages of the SoQt library
+for any platform. The reason behind this is that the Qt library on
+which SoQt depends can be installed on client systems in so many
+different configurations and different names, that this task seems
+difficult to do in a way that will be useful for the majority of
+our users.
+
+Regards,
+
+  Morten Eriksen,
+  developer, Systems in Motion

@@ -126,6 +126,7 @@ EXTRA_DIST = \
 	docs/announcement-1_3_0.txt \
 	docs/announcement-1_4_0.txt \
 	docs/announcement-1_4_1.txt \
+	docs/announcement-1_5_0.txt \
 	docs/ChangeLog.v1.0.0 \
 	docs/ChangeLog.v1.0.1 \
 	docs/ChangeLog.v1.0.2 \
@@ -133,6 +134,7 @@ EXTRA_DIST = \
 	docs/ChangeLog.v1.3.0 \
 	docs/ChangeLog.v1.4.0 \
 	docs/ChangeLog.v1.4.1 \
+	docs/ChangeLog.v1.5.0 \
 	models/coin_soqt.iv \
 	models/coin_soqt.wrl \
 	test-code/README \
