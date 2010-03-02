@@ -33,6 +33,9 @@ New in SoQt v1.5.0 (2010-03-02):
   - Changed default location for generated HTML documentation
   - Added pkg-config description and detection support
 
+* other:
+  - Removal of Spaceball support
+
 See the ChangeLog file for all the details that lead to this release.
 
 

@@ -18,6 +18,9 @@ New in SoQt v1.5.0 (2010-03-02):
   - Updated autotools to autoconf-2.65, automake-1.8.3, libtool-1.5.26
   - Changed default location for generated HTML documentation
   - Added pkg-config description and detection support
+
+* other:
+  - Removal of Spaceball support
 
 New in SoQt v1.4.1 (2006-10-29):
 * critical viewer/camera-related bugfix
