@@ -1,9 +1,33 @@
 2010-03-02  Tamer Fahmy  <tamer@sim.no>
 
+	* NEWS, docs/announcement-1_5_0.txt:
+	mention removal of Spaceball support.
+	[3f1c12118da1] [tip]
+
+	* .hgtags:
+	Added tag SoQt-1.5.0 for changeset 4b45e951b8c2
+	[e169f110f6aa]
+
+	* .hgtags:
+	Removed tag SoQt-1.5.0
+	[4b45e951b8c2] [SoQt-1.5.0]
+
+	* docs/announcement-1_5_0.txt:
+	add ChangeLog URL to announcement.
+	[6a48e5ddbfa5]
+
+	* .hgtags:
+	Added tag SoQt-1.5.0 for changeset 58e10e786d84
+	[cfe9b0961443]
+
+	* ChangeLog, docs/ChangeLog.v1.5.0:
+	updated ChangeLog file.
+	[58e10e786d84]
+
 	* build/msvc7/soqt1.vcproj, build/msvc8/soqt1.vcproj,
 	build/msvc9/soqt1.vcproj:
 	linkage fix: use coin3.lib for release (not coin3d.lib)
-	[82a07ebc419d] [tip]
+	[82a07ebc419d]
 
 	* NEWS, docs/announcement-1_5_0.txt:
 	update NEWS and announcement file.
