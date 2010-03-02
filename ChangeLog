@@ -1,8 +1,110 @@
 2010-03-02  Tamer Fahmy  <tamer@sim.no>
 
+	* COPYING, FAQ, packaging/macosx/License.rtf,
+	packaging/macosx/SoQtTools_Description.plist.in,
+	packaging/macosx/SoQtTools_Welcome.rtf,
+	packaging/macosx/SoQt_Description.plist.in,
+	packaging/macosx/SoQt_Welcome.rtf, packaging/macosx/inst-README-
+	gcc3.txt.in, packaging/macosx/inst-README-gcc4.txt.in,
+	packaging/macosx/makedmg.sh.in, packaging/macosx/makeinstdmg.sh.in,
+	packaging/macosx/makenoinstdmg.sh.in,
+	packaging/macosx/makesoqtpkg.sh.in,
+	packaging/macosx/makesoqttoolspkg.sh.in, packaging/macosx/noinst-
+	README-gcc3.txt.in, packaging/macosx/noinst-README-gcc4.txt.in,
+	src/Inventor/Qt/SoQt.cpp:
+	update copyright headers.
+	[d62063046935] [tip]
+
+	* .hgtags:
+	Removed tag SoQt-1.5.0
+	[bf507305d6c8]
+
+	* .hgsubstate, build/msvc6/src/Inventor/Qt/SoQtBasic.h,
+	build/msvc6/src/soqtdefs.h, build/msvc7/src/Inventor/Qt/SoQtBasic.h,
+	build/msvc7/src/soqtdefs.h, build/msvc8/src/Inventor/Qt/SoQtBasic.h,
+	build/msvc8/src/soqtdefs.h, build/msvc9/src/Inventor/Qt/SoQtBasic.h,
+	build/msvc9/src/soqtdefs.h, src/Inventor/Qt/SoQt.cpp,
+	src/Inventor/Qt/SoQtComponent.cpp, src/Inventor/Qt/SoQtComponentP.h,
+	src/Inventor/Qt/SoQtGLWidget.cpp, src/Inventor/Qt/SoQtGLWidgetP.h,
+	src/Inventor/Qt/SoQtImageReader.cpp,
+	src/Inventor/Qt/SoQtImageReader.h, src/Inventor/Qt/SoQtInternal.h,
+	src/Inventor/Qt/SoQtLightSliderSet.cpp,
+	src/Inventor/Qt/SoQtLightSliderSet.h,
+	src/Inventor/Qt/SoQtMaterialList.cpp,
+	src/Inventor/Qt/SoQtMaterialSliderSet.cpp,
+	src/Inventor/Qt/SoQtMaterialSliderSet.h, src/Inventor/Qt/SoQtP.h,
+	src/Inventor/Qt/SoQtSignalThread.cpp,
+	src/Inventor/Qt/SoQtSignalThread.h,
+	src/Inventor/Qt/SoQtSliderSet.cpp, src/Inventor/Qt/SoQtSliderSet.h,
+	src/Inventor/Qt/SoQtSliderSetBase.cpp,
+	src/Inventor/Qt/SoQtSliderSetBase.h,
+	src/Inventor/Qt/SoQtTransformSliderSet.cpp,
+	src/Inventor/Qt/SoQtTransformSliderSet.h, src/Inventor/Qt/all-soqt-
+	cpp.cpp, src/Inventor/Qt/all-soqt2-cpp.cpp,
+	src/Inventor/Qt/devices/6DOFEvents.cpp,
+	src/Inventor/Qt/devices/6DOFEvents.h,
+	src/Inventor/Qt/devices/SoQtDevice.cpp,
+	src/Inventor/Qt/devices/SoQtDeviceP.h,
+	src/Inventor/Qt/devices/SoQtInputFocus.cpp,
+	src/Inventor/Qt/devices/SoQtKeyboard.cpp,
+	src/Inventor/Qt/devices/SoQtLinuxJoystick.cpp,
+	src/Inventor/Qt/devices/SoQtLinuxJoystick.h,
+	src/Inventor/Qt/devices/SoQtLinuxJoystickP.h,
+	src/Inventor/Qt/devices/SoQtMouse.cpp, src/Inventor/Qt/devices/all-
+	devices-cpp.cpp, src/Inventor/Qt/devices/all-devices2-cpp.cpp,
+	src/Inventor/Qt/editors/RGBCubeEditorKit.cpp,
+	src/Inventor/Qt/editors/RGBCubeEditorKit.h,
+	src/Inventor/Qt/editors/RadioGroupKit.cpp,
+	src/Inventor/Qt/editors/RadioGroupKit.h,
+	src/Inventor/Qt/editors/old/QColorSelection.cpp,
+	src/Inventor/Qt/editors/old/QColorSelection.h,
+	src/Inventor/Qt/editors/old/SoGLMaterialSphere.cpp,
+	src/Inventor/Qt/editors/old/SoGLMaterialSphere.h,
+	src/Inventor/Qt/editors/old/SoQtColorSlider.cpp,
+	src/Inventor/Qt/editors/old/SoQtColorSlider.h,
+	src/Inventor/Qt/editors/old/SoQtMaterialEditor.cpp,
+	src/Inventor/Qt/editors/old/SoQtMaterialEditor.h,
+	src/Inventor/Qt/editors/old/SoQtMaterialList.cpp,
+	src/Inventor/Qt/editors/old/SoQtMaterialList.h,
+	src/Inventor/Qt/engines/all-engines-cpp.cpp, src/Inventor/Qt/nodes
+	/all-nodes-cpp.cpp, src/Inventor/Qt/viewers/ExaminerViewer.cpp,
+	src/Inventor/Qt/viewers/FullViewer.cpp,
+	src/Inventor/Qt/viewers/PlaneViewer.cpp,
+	src/Inventor/Qt/viewers/SoQtExaminerViewerP.h,
+	src/Inventor/Qt/viewers/SoQtFullViewerP.h,
+	src/Inventor/Qt/viewers/SoQtPlaneViewerP.h,
+	src/Inventor/Qt/viewers/WalkViewer.cpp, src/Inventor/Qt/viewers/all-
+	viewers-cpp.cpp, src/Inventor/Qt/widgets/QtNativePopupMenu.cpp,
+	src/Inventor/Qt/widgets/QtNativePopupMenu.h,
+	src/Inventor/Qt/widgets/SoQtGLArea.cpp,
+	src/Inventor/Qt/widgets/SoQtGLArea.h,
+	src/Inventor/Qt/widgets/SoQtThumbWheel.cpp,
+	src/Inventor/Qt/widgets/SoQtThumbWheel.h, src/Inventor/Qt/widgets
+	/all-widgets-cpp.cpp, test-code/assertdbg/crash.cpp, test-
+	code/components/coloreditor.cpp, test-
+	code/components/embeddedexaminer.cpp, test-
+	code/components/renderarea.cpp, test-code/components/scrollview.cpp,
+	test-code/components/tripleview.cpp, test-
+	code/components/withoutdecor0.cpp, test-
+	code/components/withoutdecor1.cpp, test-code/widgets/thumbwheel.cpp:
+	update copyright headers.
+	[84842b90c253]
+
+	* .hgtags:
+	Added tag SoQt-1.5.0 for changeset 7d33c9ca6635
+	[15f7826f3a0b]
+
+	* ChangeLog, docs/ChangeLog.v1.5.0:
+	update ChangeLog.
+	[7d33c9ca6635]
+
+	* .hgtags:
+	Removed tag SoQt-1.5.0
+	[c1f993e68bc9]
+
 	* NEWS, docs/announcement-1_5_0.txt:
 	mention removal of Spaceball support.
-	[3f1c12118da1] [tip]
+	[3f1c12118da1]
 
 	* .hgtags:
 	Added tag SoQt-1.5.0 for changeset 4b45e951b8c2
@@ -10,7 +112,7 @@
 
 	* .hgtags:
 	Removed tag SoQt-1.5.0
-	[4b45e951b8c2] [SoQt-1.5.0]
+	[4b45e951b8c2]
 
 	* docs/announcement-1_5_0.txt:
 	add ChangeLog URL to announcement.
