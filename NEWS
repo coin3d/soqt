@@ -1,3 +1,24 @@
+New in SoQt v1.5.0 (2010-03-02):
+* new:
+  - Builds against Qt3 and Qt4 without dependency on Qt3Support for Qt4
+  - Added support for reading texture images using Qt
+  - Added multisample support
+  - Added getVersionToolkitString() providing the version of the
+    underlying GUI toolkit version in use
+
+* bugfixes:
+  - Corrected spacing, margin and width fixes for application buttons
+  - Workaround for Qt versions with no QThread-support
+  - Improved Qt4 detection
+  - Various compile and robustness fixes
+  - Plugged memory leaks
+  - Many bug fixes
+
+* build system:
+  - Updated autotools to autoconf-2.65, automake-1.8.3, libtool-1.5.26
+  - Changed default location for generated HTML documentation
+  - Added pkg-config description and detection support
+
 New in SoQt v1.4.1 (2006-10-29):
 * critical viewer/camera-related bugfix
 

@@ -1,27 +1,47 @@
-SoQt 1.4.0 Released
+SoQt 1.5.0 Released
 ===================
 
-SoQt 1.4.0 is a minor release.  The release contains build setup
+SoQt 1.5.0 is a major release. The release contains build setup
 improvements, bugfixes, documentation improvements and improved
-compatibility with the latest major Qt release, version 4.  It also
-contains some minor API extensions beyond the previous release.
+compatibility with the latest major Qt release, version 4 without a
+dependency upon the Qt3Support library. It also contains
+some minor API extensions beyond the previous release.
 
 
 NEWS File Excerpt:
 ------------------
 
-New in SoQt v1.4.0 (2006-08-29):
-* full support for Qt 4 on all platforms, including Mac OS 10.4 "Tiger"
-* worked around a Qt bug causing the maximum framerate with Qt-4 on
-  Windows to be ~ 20fps
-* many bug fixes
+New in SoQt v1.5.0 (2010-03-02):
+
+* new:
+  - Builds against Qt3 and Qt4 without dependency on Qt3Support for Qt4
+  - Added support for reading texture images using Qt
+  - Added multisample support
+  - Added getVersionToolkitString() providing the version of the
+    underlying GUI toolkit version in use
+
+* bugfixes:
+  - Corrected spacing, margin and width fixes for application buttons
+  - Workaround for Qt versions with no QThread-support
+  - Improved Qt4 detection
+  - Various compile and robustness fixes
+  - Plugged memory leaks
+  - Many bug fixes
+
+* build system:
+  - Updated autotools to autoconf-2.65, automake-1.8.3, libtool-1.5.26
+  - Changed default location for generated HTML documentation
+  - Added pkg-config description and detection support
+
+See the ChangeLog file for all the details that lead to this release.
 
 
 Download Information:
 ---------------------
 
 Source Code by FTP:
-  ftp://ftp.coin3d.org/pub/coin/src/all/SoQt-1.3.0.tar.gz
+  http://ftp.coin3d.org/pub/coin/src/all/SoQt-1.5.0.tar.gz
+  http://ftp.coin3d.org/pub/coin/src/all/SoQt-1.5.0.zip
 
 We do not provide pre-compiled binary packages of the SoQt library
 for any platform. The reason behind this is that the Qt library on
@@ -29,8 +49,3 @@ which SoQt depends can be installed on client systems in so many
 different configurations and different names, that this task seems
 difficult to do in a way that will be useful for the majority of
 our users.
-
-Regards,
-
-  Morten Eriksen,
-  developer, Systems in Motion
