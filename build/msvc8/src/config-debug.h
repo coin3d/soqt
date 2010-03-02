@@ -143,16 +143,16 @@
 #define PACKAGE_NAME "SoQt"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "SoQt 1.5.0a"
+#define PACKAGE_STRING "SoQt 1.5.0"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "soqt"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.5.0a"
+#define PACKAGE_VERSION "1.5.0"
 
 /* define this to the SoQt beta version letter */
-#define SOQT_BETA_VERSION a
+#define SOQT_BETA_VERSION
 
 /* Define to the major version of SoQt */
 #define SOQT_MAJOR_VERSION 1
@@ -164,13 +164,13 @@
 #define SOQT_MINOR_VERSION 5
 
 /* Version string for SoQt */
-#define SOQT_VERSION "1.5.0a"
+#define SOQT_VERSION "1.5.0"
 
 /* Define to 1 if you have the ANSI C header files. */
 /* #undef STDC_HEADERS */
 
 /* Version number of package */
-#define VERSION "1.5.0a"
+#define VERSION "1.5.0"
 
 /* Define this if you want defaults to be linked into SoXt */
 #define WITH_STATIC_DEFAULTS 

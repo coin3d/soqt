@@ -75,10 +75,10 @@ inline void SoQtSwap(Type & a, Type & b) {
 #define SOQT_MICRO_VERSION 0
 #endif /* ! SOQT_MICRO_VERSION */
 #if ! defined(SOQT_BETA_VERSION)
-#define SOQT_BETA_VERSION a
+#define SOQT_BETA_VERSION
 #endif /* ! SOQT_BETA_VERSION */
 #if ! defined(SOQT_VERSION)
-#define SOQT_VERSION "1.5.0a"
+#define SOQT_VERSION "1.5.0"
 #endif /* ! SOQT_VERSION */
 
 // *************************************************************************
