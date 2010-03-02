@@ -1,5 +1,21 @@
 2010-03-02  Tamer Fahmy  <tamer@sim.no>
 
+	* configure.ac, docs/announcement-1_5_0.txt:
+	correctify download URLs.
+	[efa997f62c7b] [tip]
+
+	* .hgtags:
+	Removed tag SoQt-1.5.0
+	[0be37977f5af]
+
+	* .hgtags:
+	Added tag SoQt-1.5.0 for changeset c0a29f049d7a
+	[b47c9335f316]
+
+	* ChangeLog, docs/ChangeLog.v1.5.0:
+	updated ChangeLogs.
+	[c0a29f049d7a]
+
 	* COPYING, FAQ, packaging/macosx/License.rtf,
 	packaging/macosx/SoQtTools_Description.plist.in,
 	packaging/macosx/SoQtTools_Welcome.rtf,
@@ -13,7 +29,7 @@
 	README-gcc3.txt.in, packaging/macosx/noinst-README-gcc4.txt.in,
 	src/Inventor/Qt/SoQt.cpp:
 	update copyright headers.
-	[d62063046935] [tip]
+	[d62063046935]
 
 	* .hgtags:
 	Removed tag SoQt-1.5.0
