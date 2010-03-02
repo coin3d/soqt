@@ -1,10 +1,10 @@
 #!/bin/sh
 #
-# Copyright 2004-2005 Systems in Motion AS, All rights reserved.
+# Copyright 2004-2010 Kongsberg Oil & Gas Technologies, All rights reserved.
 #
 # This script creates the main SoQt.pkg.
 # The pkg file will be put in the current directory.
-# 
+#
 # Usage: makesoqtpkg.sh [-v] -f /path/including/SoQt.framework
 #  -v   verbose
 #  -f   Location of framework, e.g. "-f /Library/Frameworks/SoQt.framework"
@@ -45,8 +45,8 @@ ditto -rsrcFork @top_srcdir@/packaging/macosx/SoQt_Welcome.rtf pkgresources/Welc
 ditto -rsrcFork @top_srcdir@/packaging/macosx/background.tiff pkgresources/background.tiff
 
 # Set framework permissions to root:admin (same as /Library/Frameworks)
-# Note that due to a bug in the installer in Mac OS 10.3, we have to set 
-# the permissions for the root directory and not just for SoQt.framework 
+# Note that due to a bug in the installer in Mac OS 10.3, we have to set
+# the permissions for the root directory and not just for SoQt.framework
 # or else the permissions of / would be modified to the installing user!
 sudo chown -R root:admin pkgroot
 

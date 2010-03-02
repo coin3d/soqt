@@ -1,10 +1,10 @@
 #!/bin/sh
 #
-# Copyright 2004-2005 Systems in Motion AS, All rights reserved.
+# Copyright 2004-2010 Kongsberg Oil & Gas Technologies, All rights reserved.
 #
 # This script creates the SoQt-x.x.x-no_inst.dmg file.
 # The dmg file will be put in the current directory.
-# 
+#
 # Usage: makenoinstdmg.sh [-v] -f /path/including/SoQt.framework -c <SoQt-verion>
 #  -v   Verbose
 #  -f   Location of framework, e.g. "-f /Library/Frameworks/SoQt.framework"
@@ -54,7 +54,7 @@ rm -rf $VOLNAME-no_inst.dmg
 
 # Create dmgroot from template dir
 ditto -rsrcFork @top_srcdir@/packaging/macosx/noinst-dmg-files noinst-dmg-root
-mv noinst-dmg-root/Desktop_DB noinst-dmg-root/Desktop\ DB 
+mv noinst-dmg-root/Desktop_DB noinst-dmg-root/Desktop\ DB
 mv noinst-dmg-root/Desktop_DF noinst-dmg-root/Desktop\ DF
 
 # Copy dist files

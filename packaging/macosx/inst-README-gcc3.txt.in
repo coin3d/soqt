@@ -1,10 +1,10 @@
-This is SoQt-@VERSION@ by Systems in Motion. Double-click on SoQt.pkg
-to start the installation. If you intend to develop without using 
-Xcode, you should also install the SoQtTools package, which contains 
-the soqt-config commandline utility, its associated man page, and 
-its default configuration. 
+This is SoQt-@VERSION@ by Kongsberg Oil & Gas
+Technologies. Double-click on SoQt.pkg to start the installation. If
+you intend to develop without using Xcode, you should also install the
+SoQtTools package, which contains the soqt-config commandline utility,
+its associated man page, and its default configuration.
 
-If you do not want to use an installer, you can find a package 
+If you do not want to use an installer, you can find a package
 containing only the framework itself on our ftp server[0] (look
 for SoQt-@VERSION@-gcc4-no_inst.dmg).
 
@@ -13,14 +13,14 @@ install Coin (or another Open Inventor implementation). You can
 download the Coin binary SDK from the ftp server.
 
 Note that this binary SDK has been built with gcc 3.3, meaning
-that no earlier version of gcc should be used in combination with 
+that no earlier version of gcc should be used in combination with
 this framework. The framework is, however, built with
 MACOS_DEPLOYMENT_TARGET=10.2 to be deployable on 10.2 (Jaguar) or
 later versions of Mac OS X.
 
 The Coin3D/Mac homepage[2] contains more information on how to get
 started using Coin and SoQt. You might also want to consider
-joining our public mailing list for discussions related to Coin3D 
+joining our public mailing list for discussions related to Coin3D
 development[3].
 
 Enjoy!

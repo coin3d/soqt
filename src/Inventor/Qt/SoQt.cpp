@@ -211,7 +211,7 @@
   For those who are using the implementations of the Inventor API from
   either SGI or TGS, we would like to point out that %SoQt can also be
   used on top of either of those libraries instead of the \COIN
-  library from Systems in Motion.
+  library from Kongsberg Oil & Gas Technologies.
 
   The %SoQt API is based on and closely matches the InventorXt library
   API, originally developed by SGI. This should make it

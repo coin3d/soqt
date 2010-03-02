@@ -5,7 +5,7 @@
 	<key>IFPkgDescriptionDeleteWarning</key>
 	<string></string>
 	<key>IFPkgDescriptionDescription</key>
-	<string>The SoQt commandline tools for SoQt @VERSION@ by Systems in Motion</string>
+	<string>The SoQt commandline tools for SoQt @VERSION@ by Kongsberg Oil & Gas Technologies</string>
 	<key>IFPkgDescriptionTitle</key>
 	<string>SoQtTools</string>
 	<key>IFPkgDescriptionVersion</key>

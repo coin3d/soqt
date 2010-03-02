@@ -62,12 +62,13 @@ A:    No, the GNU GPL restricts the applications that can use SoQt to
 Q0.2: Is it possible to use the SoQt library without the restrictions
       of the GNU GPL?
 
-A:    Yes, as a service for those who would like to use the SoQt library
-      in proprietary software, we at Systems in Motion offer the "Coin
-      Professional Edition License" which buys developers that are
-      license holders the option to use the library with no strings
-      attached.  The "Coin Professional Edition License" covers all the
-      Coin libraries, including all the GUI toolkits.
+A:    Yes, as a service for those who would like to use the SoQt
+      library in proprietary software, we at Kongsberg Oil & Gas
+      Technologies offer the "Coin Professional Edition License" which
+      buys developers that are license holders the option to use the
+      library with no strings attached.  The "Coin Professional
+      Edition License" covers all the Coin libraries, including all
+      the GUI toolkits.
 
       By "no strings attached", we of course mean that you as a
       software developer would not have to obey the restrictions of
@@ -101,12 +102,13 @@ Q0.3: How can you sell a "Professional Edition License" when the
       library is released under the GNU GPL? Wouldn't that be
       disallowed by the GNU GPL?
 
-A:    Systems in Motion can do this dual licensing "trick" with Coin
-      because we are full copyright holders -- ie we own every single
-      line of code written for the Coin library. Therefore we are able
-      to license the Coin library both as Free Software aswell as
-      under a special purpose license for proprietary software
-      vendors.  TrollTech uses the same strategy for their Qt library.
+A:    Kongsberg Oil & Gas Technologies can do this dual licensing
+      "trick" with Coin because we are full copyright holders -- ie we
+      own every single line of code written for the Coin
+      library. Therefore we are able to license the Coin library both
+      as Free Software aswell as under a special purpose license for
+      proprietary software vendors.  TrollTech uses the same strategy
+      for their Qt library.
 
 
 
