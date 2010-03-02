@@ -37,7 +37,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(QTDIR)\lib\QtOpenGL4.lib $(QTDIR)\lib\QtGui4.lib $(QTDIR)\lib\QtCore4.lib $(COINDIR)\lib\coin3d.lib opengl32.lib"
+				AdditionalDependencies="$(QTDIR)\lib\QtOpenGL4.lib $(QTDIR)\lib\QtGui4.lib $(QTDIR)\lib\QtCore4.lib $(COINDIR)\lib\coin3.lib opengl32.lib"
 				OutputFile="soqt1.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
