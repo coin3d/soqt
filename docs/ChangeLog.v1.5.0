@@ -1,8 +1,24 @@
 2010-03-02  Tamer Fahmy  <tamer@sim.no>
 
+	* .hgtags:
+	Removed tag SoQt-1.5.0
+	[55007a61605c] [tip]
+
+	* configure.ac:
+	release version number fix.
+	[9d406d32e499]
+
+	* .hgtags:
+	Added tag SoQt-1.5.0 for changeset 93f6000a86ab
+	[8909f92ad6e2]
+
+	* ChangeLog, docs/ChangeLog.v1.5.0:
+	update ChangeLogs.
+	[93f6000a86ab]
+
 	* configure.ac, docs/announcement-1_5_0.txt:
 	correctify download URLs.
-	[efa997f62c7b] [tip]
+	[efa997f62c7b]
 
 	* .hgtags:
 	Removed tag SoQt-1.5.0
