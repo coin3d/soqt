@@ -5,7 +5,7 @@
 	<key>IFPkgDescriptionDeleteWarning</key>
 	<string></string>
 	<key>IFPkgDescriptionDescription</key>
-	<string>SoQt @VERSION@ by Kongsberg Oil & Gas Technologies, installed as SoQt.framework</string>
+	<string>SoQt @VERSION@ by Kongsberg Oil &amp; Gas Technologies, installed as SoQt.framework</string>
 	<key>IFPkgDescriptionTitle</key>
 	<string>SoQt</string>
 	<key>IFPkgDescriptionVersion</key>
