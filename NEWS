@@ -1,3 +1,6 @@
+New in SoQt v1.5.1 (so far):
+* bugfixes:
+
 New in SoQt v1.5.0 (2010-03-02):
 * new:
   - Builds against Qt3 and Qt4 without dependency on Qt3Support for Qt4
