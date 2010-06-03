@@ -4256,50 +4256,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\..\SoQt"
-				>
-				<FileConfiguration
-					Name="DLL (Release)|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\SoQtBasic.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\SoQtBasic.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="LIB (Release)|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\SoQtBasic.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\SoQtBasic.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="LIB (Debug)|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\SoQtBasic.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\SoQtBasic.h"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="DLL (Debug)|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="subst&apos;ing $(InputPath)"
-						CommandLine="..\..\cfg\csubst --file=..\..\:src\Inventor\Qt\SoQtBasic.h&#x0D;&#x0A;"
-						Outputs="src\Inventor\Qt\SoQtBasic.h"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\src\Inventor\Qt\common\spwinput.h.in"
 				>
 				<FileConfiguration
