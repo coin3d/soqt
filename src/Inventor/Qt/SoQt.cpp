@@ -106,6 +106,7 @@
     // Clean up resources.
     delete eviewer;
     root->unref();
+    SoQt::done();
 
     return 0;
   }
@@ -866,10 +867,6 @@ SoQt::mainLoop(void)
 // which means we would run into issues doing the usual...
 //    SoQt::mainLoop();
 //    root->unref();
-// FIXME: Is this what we want? Should the user explicitly have to call
-// SoQt::done()? If so, we should fix up our sample code to do so
-// too... 20060210 kyrah
-
 #if 0
   // The invocation of SoQt::done() used to be triggered from
   // atexit(), but this was changed as we were getting mysterious
