@@ -242,8 +242,8 @@ SoQtExaminerViewerP::constructor(SbBool build)
   PUBLIC(this)->setClassName("SoQtExaminerViewer");
 
   PUBLIC(this)->setPopupMenuString("Examiner Viewer");
-  PUBLIC(this)->setLeftWheelString("Rotx");
-  PUBLIC(this)->setBottomWheelString("Roty");
+  PUBLIC(this)->setLeftWheelString("RotX");
+  PUBLIC(this)->setBottomWheelString("RotY");
 
   if (build) {
     QWidget * widget = PUBLIC(this)->buildWidget(PUBLIC(this)->getParentWidget());
