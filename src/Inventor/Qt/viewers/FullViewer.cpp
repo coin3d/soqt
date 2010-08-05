@@ -159,7 +159,7 @@ SoQtFullViewer::SoQtFullViewer(QWidget * parent,
 
   this->setLeftWheelString("Motion X");
   this->setBottomWheelString("Motion Y");
-  this->setRightWheelString("Motion Z");
+  this->setRightWheelString("Dolly");
 
   PRIVATE(this)->mainlayout = NULL;
   PRIVATE(this)->appbuttonlayout = NULL;
