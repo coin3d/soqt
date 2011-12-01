@@ -1,3 +1,3 @@
-data = http://hg.sim.no/SoAnyData/default
-src/Inventor/Qt/common = http://hg.sim.no/SoGUI/default
-build/general = http://hg.sim.no/GeneralMSVCGeneration/default
+data = ../soanydata
+src/Inventor/Qt/common = ../sogui
+build/general = ../generalmsvcgeneration
