@@ -8,9 +8,8 @@ by executing
 
 (``soqt-config'' must be in your $PATH).
 
-The sources are all under the GNU General Public License for Free
-Software users of Coin and/or SoQt, and available for any use for our
-Professional Edition licensees.
+The sources are all under the 3-clause BSD license.
+
 
 -- 
 mortene@sim.no

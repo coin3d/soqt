@@ -198,25 +198,7 @@
 
   </ul>
 
-  The %SoQt library is "dual-licensed", which means it's available
-  either under a Free Software license (specifically the <a
-  href="http://www.fsf.org/copyleft/gpl.html">GNU General Public
-  License</a>), or a license better suited for the development of
-  proprietary / commercial applications: our <a
-  href="http://www.coin3d.org">Coin Professional Edition License</a>.
-
-  Note that to use %SoQt under the GNU General Public License, you
-  have to comply with that license's restrictions. These restrictions
-  are \e not well suited for the development of non-Free software, so
-  the availability of %SoQt under the GNU GPL is primarily meant to be
-  a service to the Free Software community. We \e strongly advise you
-  to invest in the Coin Professional Edition License for using %SoQt
-  in proprietary development projects. As a Coin Professional Edition
-  License holder, you gain the rights to use the %SoQt library in just
-  about any way you like. See the Coin web site at
-  <http://www.coin3d.org> for more information on the advantages of
-  the Coin Professional Edition License, and how to become a license
-  holder.
+  %SoQt is released publicly under the 3-clause BSD license.
 
   For those who are using the implementations of the Inventor API from
   either SGI or TGS, we would like to point out that %SoQt can also be
