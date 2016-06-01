@@ -50,7 +50,7 @@ public:
 protected:
   SoQtSliderSetBase(QWidget * parent = NULL,
                     const char * name = NULL,
-                    SbBool embed = TRUE,
+                    SbBool embed = true,
                     SoNode * editnode = NULL);
   ~SoQtSliderSetBase();
 

@@ -165,10 +165,10 @@ SoQtMouse::translateEvent(QEvent * event)
 // Since the standard way of emulating right-click in the Mac world is
 // ctrl-click, we have to check for "meta" on Qt/Mac >= 3.1.x
 
-#if (defined(__APPLE__) && defined(Q_WS_X11)) || (defined(Q_WS_MAC) && QT_VERSION < 0x030100)
+#if (defined(__APPLE__) && defined(Q_WS_X11)) || (defined(Q_OS_MAC) && QT_VERSION < 0x030100)
       if (mouseevent->state() & Qt::ControlButton)
         PRIVATE(this)->buttonevent->setButton(SoMouseButtonEvent::BUTTON2);
-#elif (defined(Q_WS_MAC) && QT_VERSION >= 0x030100)
+#elif (defined(Q_OS_MAC) && QT_VERSION >= 0x030100)
 
 #if QT_VERSION >= 0x040000
       if (mouseevent->modifiers() & Qt::MetaModifier)

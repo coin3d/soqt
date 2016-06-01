@@ -179,7 +179,7 @@ SoQtPlaneViewer::createViewerButtons(QWidget * parent,
   PRIVATE(this)->buttons.camera = new QPushButton(parent);
   PRIVATE(this)->buttons.camera->setFocusPolicy(QTWIDGET_NOFOCUS);
 
-#if (defined Q_WS_MAC && QT_VERSION >= 0x030100) && defined(HAVE_QSTYLEFACTORY_H)
+#if (defined Q_OS_MAC && QT_VERSION >= 0x030100) && defined(HAVE_QSTYLEFACTORY_H)
   // Since Qt/Mac 3.1.x, all pushbuttons (even those < 32x32) are
   // drawn using the Aqua style, i.e. with rounded edges and
   // shading. This looks really ugly in the viewer decoration. Drawing

@@ -143,8 +143,8 @@ int
 SoQt6dofDeviceButtonEvent::isButtonPress(void) const
 {
   if (this->t == (QEvent::Type) soqt6dofDeviceButtonPressedEvent)
-    return TRUE;
-  return FALSE;
+    return true;
+  return false;
 }
 
 // *************************************************************************

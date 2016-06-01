@@ -25870,7 +25870,7 @@ fi
 int
 main ()
 {
-#if defined(__APPLE__) && defined(Q_WS_MAC)
+#if defined(__APPLE__) && defined(Q_OS_MAC)
                        #error blah!
                        #endif
   ;

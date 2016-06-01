@@ -47,7 +47,7 @@
 
 // *************************************************************************
 
-#if defined(Q_WS_MAC) || (defined(__APPLE__) && defined(Q_WS_X11))
+#if defined(Q_OS_MAC) || (defined(__APPLE__) && defined(Q_WS_X11))
 #define QT_ON_MAC 1
 #endif
 

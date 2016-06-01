@@ -44,7 +44,7 @@ class SOQT_DLL_API SoQtTransformSliderSet : public SoQtSliderSet {
 public:
   SoQtTransformSliderSet(QWidget * parent = NULL,
                          const char * name = NULL,
-                         SbBool embed = TRUE,
+                         SbBool embed = true,
                          SoNode * editnode = NULL);
 
   ~SoQtTransformSliderSet(void);

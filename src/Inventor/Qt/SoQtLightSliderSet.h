@@ -44,7 +44,7 @@ class SOQT_DLL_API SoQtLightSliderSet : public SoQtSliderSet {
 public:
   SoQtLightSliderSet(QWidget * parent = NULL,
                      const char * name = NULL,
-                     SbBool embed = TRUE,
+                     SbBool embed = true,
                      SoNode * editnode = NULL);
 
   ~SoQtLightSliderSet(void);

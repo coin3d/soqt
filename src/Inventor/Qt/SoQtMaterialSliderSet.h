@@ -44,7 +44,7 @@ class SOQT_DLL_API SoQtMaterialSliderSet : public SoQtSliderSet {
 public:
   SoQtMaterialSliderSet(QWidget * parent = NULL,
                         const char * name = NULL,
-                        SbBool embed = TRUE,
+                        SbBool embed = true,
                         SoNode * editnode = NULL);
 
   ~SoQtMaterialSliderSet(void);

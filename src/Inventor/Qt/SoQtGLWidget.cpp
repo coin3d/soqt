@@ -82,7 +82,7 @@
 #endif // Q_WS_X11
 
 #if QT_VERSION >= 0x040000 // Qt 4.0.0+
-#include <QtGui/QColormap> // for QX11Info
+#include <QColormap> // for QX11Info
 #endif // Qt 4.0.0+
 
 #include <Inventor/SbTime.h>
@@ -177,13 +177,13 @@ SoQtGLWidget::SoQtGLWidget(QWidget * const parent,
                            const int glmodes,
                            const SbBool build)
   : inherited(parent, name, embed),
-    waitForExpose(TRUE),
-    drawToFrontBuffer(FALSE)
+    waitForExpose(true),
+    drawToFrontBuffer(false)
 {
   PRIVATE(this) = new SoQtGLWidgetP(this);
 
   PRIVATE(this)->glSize = SbVec2s(0, 0);
-  PRIVATE(this)->wasresized = FALSE;
+  PRIVATE(this)->wasresized = false;
 
   PRIVATE(this)->glformat = new QGLFormat(0);
   PRIVATE(this)->glformat->setDoubleBuffer((glmodes & SO_GL_DOUBLE) ? true : false);
@@ -283,7 +283,7 @@ SoQtGLWidget::setBorder(const SbBool enable)
 SbBool
 SoQtGLWidget::isBorder(void) const
 {
-  return PRIVATE(this)->borderthickness ? TRUE : FALSE;
+  return PRIVATE(this)->borderthickness ? true : false;
 }
 
 // *************************************************************************
@@ -365,7 +365,7 @@ SoQtGLWidget::setAccumulationBuffer(const SbBool enable)
 // is available if it has been requested in the QGLFormat,
 // regardless of whether it actually IS available. This should
 // be investigated further and reported to TT. 20070319 kyrah
-#ifndef Q_WS_MAC
+#ifndef Q_OS_MAC
   if ((enable && PRIVATE(this)->glformat->accum()) ||
        (!enable && !PRIVATE(this)->glformat->accum()))
     return;
@@ -520,7 +520,7 @@ SoQtGLWidget::setGLSize(const SbVec2s size)
 // is destroyed and re-created (see QGLWidget::macInternalRecreateContext()).
 // In this case, we must register a new context as well in order to get
 // a new SoGLRenderAction cache context id.
-#if (defined Q_WS_MAC && QT_VERSION >= 0x030100)
+#if (defined Q_OS_MAC && QT_VERSION >= 0x030100)
   QGLWidget * w = (QGLWidget*) this->getGLWidget();
   if (w && PRIVATE(this)->oldcontext != w->context()) {
     if (SOQT_DEBUG && 0) {
@@ -611,7 +611,7 @@ SoQtGLWidget::glFlushBuffer(void)
   // might be called for both normal and overlay widgets
   glFlush();
 
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
   // Qt/Mac double-buffers everything internally to circumvent some of
   // AGLs limitations. Since we don't use their "recommended"
   // updateGL() way of rendering, we have to explicitly swap the
@@ -645,7 +645,7 @@ SoQtGLWidget::glFlushBuffer(void)
   // fails miserably in full screen mode (with lots of Core Graphics
   // Services errors). 20011201 kyrah (writeup by mortene).
 
-#endif // Q_WS_MAC
+#endif // Q_OS_MAC
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
@@ -727,7 +727,7 @@ SoQtGLWidget::sizeChanged(const SbVec2s & size)
 SbBool
 SoQtGLWidget::glScheduleRedraw(void)
 {
-  return FALSE;
+  return false;
 }
 
 // Documented in common/SoGuiGLWidgetCommon.cpp.in.
@@ -787,7 +787,7 @@ SoQtGLWidgetP::gl_reshape(int width, int height)
   }
 
   this->glSize = SbVec2s((short) width, (short) height);
-  this->wasresized = TRUE;
+  this->wasresized = true;
 }
 
 // slot invoked upon QGLWidget expose events
@@ -799,7 +799,7 @@ SoQtGLWidgetP::gl_exposed(void)
   }
 
   if (PUBLIC(this)->waitForExpose) {
-    PUBLIC(this)->waitForExpose = FALSE; // Gets flipped from TRUE on first expose.
+    PUBLIC(this)->waitForExpose = false; // Gets flipped from TRUE on first expose.
 #if 1 // tmp disabled
     // The Qt library uses QApplication::sendPostedEvents() for
     // passing out various delayed events upon show(), among them a
@@ -813,7 +813,7 @@ SoQtGLWidgetP::gl_exposed(void)
   }
   if (this->wasresized) {
     PUBLIC(this)->sizeChanged(this->glSize);
-    this->wasresized = FALSE;
+    this->wasresized = false;
   }
 
   if (!PUBLIC(this)->glScheduleRedraw()) {
@@ -877,7 +877,7 @@ SoQtGLWidgetP::eventFilter(QObject * obj, QEvent * e)
 {
   if (SOQT_DEBUG && 0) { // debug
 #if QT_VERSION >= 0x040000
-    SbString w = obj->objectName().toAscii().constData();
+    SbString w = obj->objectName().toLatin1().constData();
 #else
     SbString w = obj->name();
 #endif
@@ -907,18 +907,18 @@ SoQtGLWidgetP::eventFilter(QObject * obj, QEvent * e)
        etype == QEvent::MouseButtonDblClick ||
        etype == QEvent::MouseMove) &&
       (obj != this->currentglwidget)) {
-    return FALSE;
+    return false;
   }
 
-  int kbdevent = FALSE;
-  if ( QEvent::KeyPress == etype ) kbdevent = TRUE;
-  if ( QEvent::KeyRelease == etype ) kbdevent = TRUE;
+  int kbdevent = false;
+  if ( QEvent::KeyPress == etype ) kbdevent = true;
+  if ( QEvent::KeyRelease == etype ) kbdevent = true;
 
   if (kbdevent) {
     // Ignore keyboard-events, as they are caught directly by the
     // SoQtGLArea widget and forwarded through the
     // SoQtGLWidgetP::GLAreaKeyEvent() callback.
-    return FALSE;
+    return false;
   }
 
   if (obj == (QObject *) this->glparent) {
@@ -971,12 +971,12 @@ SoQtGLWidgetP::eventFilter(QObject * obj, QEvent * e)
   else {
     // Handle in superclass.
     bool stop = PUBLIC(this)->eventFilter(obj, e);
-    if (stop) { return TRUE; }
+    if (stop) { return true; }
   }
 #endif // OBSOLETED
 
   PUBLIC(this)->processEvent(e);
-  return FALSE;
+  return false;
 }
 
 // Registered callback on device events, set up by the
@@ -1053,7 +1053,7 @@ SoQtGLWidgetP::buildGLWidget(void)
     // in BUFFER_INTERACTIVE mode).
 #if 0 // Keep this code around so we don't accidentally reinsert it. :^}
     wascurrent->removeEventFilter(this);
-    wascurrent->setMouseTracking(FALSE);
+    wascurrent->setMouseTracking(false);
 #endif // Permanently disabled.
     QObject::disconnect(wascurrent, SIGNAL(expose_sig()), this, SLOT(gl_exposed()));
     QObject::disconnect(wascurrent, SIGNAL(init_sig()), this, SLOT(gl_init()));
@@ -1249,11 +1249,11 @@ SoQtGLWidgetP::buildGLWidget(void)
   QObject::connect(this->currentglwidget, SIGNAL(expose_sig()),
                    this, SLOT(gl_exposed()));
 
-  this->currentglwidget->setMouseTracking(TRUE);
+  this->currentglwidget->setMouseTracking(true);
   this->currentglwidget->installEventFilter(this);
 
   // Reset to avoid unnecessary scenegraph redraws.
-  PUBLIC(this)->waitForExpose = TRUE;
+  PUBLIC(this)->waitForExpose = true;
 
   // We've changed to a new widget, so notify subclasses through this
   // virtual method.
@@ -1309,7 +1309,7 @@ SoQtGLWidgetP::isDirectRendering(void)
   if (!ctx) {
     SoDebugError::postWarning("SoQtGLWidgetP::isDirectRendering",
                               "Could not get hold of current context.");
-    return TRUE;
+    return true;
   }
   Display * d;
 #if QT_VERSION < 0x040000 // pre Qt 4
@@ -1319,9 +1319,9 @@ SoQtGLWidgetP::isDirectRendering(void)
 #endif
   Bool isdirect = glXIsDirect(d, ctx);
   PUBLIC(this)->glUnlockNormal();
-  return isdirect ? TRUE : FALSE;
+  return isdirect ? true : false;
 #else // ! X11
-  return TRUE; // Neither MSWindows nor Mac OS X is capable of remote display.
+  return true; // Neither MSWindows nor Mac OS X is capable of remote display.
 #endif // ! X11
 }
 

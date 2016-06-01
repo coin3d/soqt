@@ -105,9 +105,9 @@ SoQtImageReader::readImage(const SbString & filename, SbImage * sbimage) const
         }
       }
     }
-    return TRUE;
+    return true;
   }
-  return FALSE;
+  return false;
 }
 
 SbBool

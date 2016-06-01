@@ -52,7 +52,7 @@
 #include <qpopupmenu.h>
 #define QPOPUPMENU_CLASS QPopupMenu
 #else // Qt 4.0.0+
-#include <QtGui/QMenu>
+#include <QMenu>
 #define QPOPUPMENU_CLASS QMenu
 #endif // Qt 4.0.0+
 

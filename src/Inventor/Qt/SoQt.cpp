@@ -283,12 +283,12 @@
 
 QWidget * SoQtP::mainwidget = NULL;
 QApplication * SoQtP::appobject = NULL;
-SbBool SoQtP::madeappobject = FALSE;
+SbBool SoQtP::madeappobject = false;
 QTimer * SoQtP::idletimer = NULL;
 QTimer * SoQtP::timerqueuetimer = NULL;
 QTimer * SoQtP::delaytimeouttimer = NULL;
 SoQtP * SoQtP::slotobj = NULL;
-bool SoQtP::didcreatemainwidget = FALSE;
+bool SoQtP::didcreatemainwidget = false;
 SoQtImageReader * SoQtP::imagereader = NULL;
 
 // *************************************************************************
@@ -499,14 +499,14 @@ SoQtP::slot_idleSensor()
   // idle-timer at the end of the queue again.
   if (SoQtP::appobject->hasPendingEvents()) {
     if (SoQtP::idletimer->isActive()) SoQtP::idletimer->stop();
-    SoQtP::idletimer->start(0, TRUE);
+    SoQtP::idletimer->start(0, true);
     return;
   }
 #endif
 #endif // HAVE_QAPPLICATION_HASPENDINGEVENTS
 
   SoDB::getSensorManager()->processTimerQueue();
-  SoDB::getSensorManager()->processDelayQueue(TRUE);
+  SoDB::getSensorManager()->processDelayQueue(true);
 
   // The change callback is _not_ called automatically from
   // SoSensorManager after the process methods, so we need to
@@ -529,7 +529,7 @@ SoQtP::slot_delaytimeoutSensor()
   }
 
   SoDB::getSensorManager()->processTimerQueue();
-  SoDB::getSensorManager()->processDelayQueue(FALSE);
+  SoDB::getSensorManager()->processDelayQueue(false);
 
   // The change callback is _not_ called automatically from
   // SoSensorManager after the process methods, so we need to
@@ -577,13 +577,13 @@ SoQtP::slot_sensorQueueChanged(void)
   if (!SoQtP::timerqueuetimer) {
     SoQtP::timerqueuetimer = new QTimer;
 #if QT_VERSION >= 0x040000
-    SoQtP::timerqueuetimer->setSingleShot(TRUE);
+    SoQtP::timerqueuetimer->setSingleShot(true);
 #endif
     QObject::connect(SoQtP::timerqueuetimer, SIGNAL(timeout()),
                      SoQtP::soqt_instance(), SLOT(slot_timedOutSensor()));
     SoQtP::idletimer = new QTimer;
 #if QT_VERSION >= 0x040000
-    SoQtP::idletimer->setSingleShot(TRUE);
+    SoQtP::idletimer->setSingleShot(true);
 #endif
     QObject::connect(SoQtP::idletimer, SIGNAL(timeout()),
                      SoQtP::soqt_instance(), SLOT(slot_idleSensor()));
@@ -620,7 +620,7 @@ SoQtP::slot_sensorQueueChanged(void)
     if (!SoQtP::timerqueuetimer->isActive())
       SoQtP::timerqueuetimer->start((int)interval.getMsecValue()
 #if QT_VERSION < 0x040000
-				    , TRUE
+				    , true
 #endif
 	);
     else {
@@ -650,7 +650,7 @@ SoQtP::slot_sensorQueueChanged(void)
     // the application is idle.
     if (!SoQtP::idletimer->isActive()) SoQtP::idletimer->start(0
 #if QT_VERSION < 0x040000
-							       , TRUE
+							       , true
 #endif
       );
 
@@ -660,7 +660,7 @@ SoQtP::slot_sensorQueueChanged(void)
         unsigned long timeout = t.getMsecValue();
         SoQtP::delaytimeouttimer->start((int)timeout
 #if QT_VERSION < 0x040000
-					, TRUE
+					, true
 #endif
 	  );
       }
@@ -711,7 +711,7 @@ SoQt::init(QWidget * toplevelwidget)
     int argc = 1;
     SoQtP::appobject = new QApplication(argc, (char **) dummyargv);
     //new SoQtApplication(argc, (char **) dummyargv);
-    SoQtP::madeappobject = TRUE;
+    SoQtP::madeappobject = true;
   }
   else {
     // The user already set one up for us.
@@ -775,7 +775,7 @@ SoQt::init(QWidget * toplevelwidget)
 #else // Qt 4.0.0+
         d = QX11Info::display();
 #endif
-        XSynchronize(d, True);
+        XSynchronize(d, true);
       }
     }
   }
@@ -820,7 +820,7 @@ SoQt::init(int & argc, char ** argv, const char * appname, const char * classnam
     // Set up the QApplication instance which we have derived into a
     // subclass to catch spaceball events.
     SoQtP::appobject = new QApplication(argc, argv);
-    SoQtP::madeappobject = TRUE;
+    SoQtP::madeappobject = true;
   }
   else {
     // The user already set one up for us.
@@ -836,7 +836,7 @@ SoQt::init(int & argc, char ** argv, const char * appname, const char * classnam
 #else
   QWidget * mainw = new QWidget(NULL, classname);
 #endif
-  SoQtP::didcreatemainwidget = TRUE;
+  SoQtP::didcreatemainwidget = true;
   SoQt::init(mainw);
 
 #if QT_VERSION >= 0x040000
@@ -904,7 +904,7 @@ SoQt::done(void)
   if (SoQtP::didcreatemainwidget) {
     delete SoQtP::mainwidget;
     SoQtP::mainwidget = NULL;
-    SoQtP::didcreatemainwidget = FALSE;
+    SoQtP::didcreatemainwidget = false;
   }
 
   delete SoQtP::slotobj; SoQtP::slotobj = NULL;
@@ -922,7 +922,7 @@ SoQt::done(void)
     const char * env = SoAny::si()->getenv("SOQT_DELETE_QAPPLICATION");
     if (env && atoi(env) > 0) {
       delete SoQtP::appobject; SoQtP::appobject = NULL;
-      SoQtP::madeappobject = FALSE;
+      SoQtP::madeappobject = false;
     }
   }
 

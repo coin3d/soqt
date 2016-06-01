@@ -72,7 +72,7 @@ SoQtMaterialList::SoQtMaterialList(
   const char * const dir)
 : inherited(parent, name, embed)
 {
-  this->constructor(dir, TRUE);
+  this->constructor(dir, true);
 } // SoQtMaterialList()
 
 /*!
@@ -272,7 +272,7 @@ SoQtMaterialList::selectionCallback(// private
   if (data->flags & SOQT_BUILTIN_MATERIALS) {
     reader.setBuffer((void *) materialdata, strlen(materialdata));
   } else {
-    if (! reader.openFile(materialdata, FALSE)) {
+    if (! reader.openFile(materialdata, false)) {
       SoDebugError::postWarning("SoQtMaterialList::selectionCallback",
         "could not open file: \"%s\"", materialdata);
       return;

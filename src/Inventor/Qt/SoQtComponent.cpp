@@ -177,8 +177,8 @@ SoQtComponentP::getNativeCursor(const SoQtCursor::CustomCursor * cc)
   QBitmap bitmap = QBitmap::fromData(QSize(32, 32), cursorbitmap, QImage::Format_MonoLSB);
   QBitmap mask = QBitmap::fromData(QSize(32, 32), cursormask, QImage::Format_MonoLSB);
 #else
-  QBitmap bitmap(32, 32, cursorbitmap, TRUE);
-  QBitmap mask(32, 32, cursormask, TRUE);
+  QBitmap bitmap(32, 32, cursorbitmap, true);
+  QBitmap mask(32, 32, cursormask, true);
 #endif
 
   // Sanity checks.
@@ -266,7 +266,7 @@ SoQtComponentP::eventFilter(QObject * obj, QEvent * e)
   // (One way to reproduce such a case: set up two SoQtExaminerViewer
   // instances in an MDI workspace, first one, which is then
   // maximized, then the second one instantiated will cause a crash.)
-  if (this->widget == NULL) { return FALSE; }
+  if (this->widget == NULL) { return false; }
 
   if (e->type() == QEvent::Resize) {
     QResizeEvent * r = (QResizeEvent *)e;
@@ -295,7 +295,7 @@ SoQtComponentP::eventFilter(QObject * obj, QEvent * e)
         SoQtComponentVisibilityCB * cb =
           (SoQtComponentVisibilityCB *)(*(this->visibilitychangeCBs))[i*2+0];
         void * userdata = (*(this->visibilitychangeCBs))[i*2+1];
-        cb(userdata, e->type() == QEvent::Show ? TRUE : FALSE);
+        cb(userdata, e->type() == QEvent::Show ? true : false);
       }
     }
   }
@@ -306,11 +306,11 @@ SoQtComponentP::eventFilter(QObject * obj, QEvent * e)
   // version 2.2.2 at least) -- it has just been reserved for future
   // releases.
   if (e->type() == QEvent::Show && !this->realized) {
-    this->realized = TRUE;
+    this->realized = true;
     PUBLIC(this)->afterRealizeHook();
   }
 
-  return FALSE;
+  return false;
 }
 
 #endif // DOXYGEN_SKIP_THIS
@@ -352,19 +352,19 @@ SoQtComponent::SoQtComponent(QWidget * const parent,
 {
   PRIVATE(this) = new SoQtComponentP(this);
 
-  PRIVATE(this)->realized = FALSE;
-  PRIVATE(this)->shelled = FALSE;
+  PRIVATE(this)->realized = false;
+  PRIVATE(this)->shelled = false;
   PRIVATE(this)->widget = NULL;
   PRIVATE(this)->parent = parent;
   PRIVATE(this)->closeCB = NULL;
   PRIVATE(this)->closeCBdata = NULL;
   PRIVATE(this)->visibilitychangeCBs = NULL;
-  PRIVATE(this)->fullscreen = FALSE;
+  PRIVATE(this)->fullscreen = false;
 
   this->setClassName("SoQtComponent");
 
   PRIVATE(this)->storesize.setValue(-1, -1);
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
   PRIVATE(this)->windowsize.setValue(-1, -1);
 #endif
 
@@ -381,12 +381,12 @@ SoQtComponent::SoQtComponent(QWidget * const parent,
 #else
     PRIVATE(this)->parent = (QWidget *) new QMainWindow(NULL, name);
 #endif
-    PRIVATE(this)->embedded = FALSE;
-    PRIVATE(this)->shelled = TRUE;
+    PRIVATE(this)->embedded = false;
+    PRIVATE(this)->shelled = true;
   }
   else {
     PRIVATE(this)->parent = parent;
-    PRIVATE(this)->embedded = TRUE;
+    PRIVATE(this)->embedded = true;
   }
 
   PRIVATE(this)->parent->installEventFilter(PRIVATE(this));
@@ -609,9 +609,9 @@ SoQtComponent::show(void)
   // should not make a difference, since raise() puts the widget to
   // the top of the stack so that "the widget will be visually in
   // front of any overlapping sibling widgets".
-#if (defined Q_WS_MAC && QT_VERSION >= 0x030300 && QT_VERSION < 0x030304)
+#if (defined Q_OS_MAC && QT_VERSION >= 0x030300 && QT_VERSION < 0x030304)
   PRIVATE(this)->widget->raise();
-#endif // Q_WS_MAC
+#endif // Q_OS_MAC
 
   if (SOQTCOMP_RESIZE_DEBUG) {  // debug
     SoDebugError::postInfo("SoQtComponent::show-4",
@@ -645,7 +645,7 @@ SoQtComponent::hide(void)
 SbBool
 SoQtComponent::isVisible(void)
 {
-  if (! PRIVATE(this)->widget) { return FALSE; }
+  if (! PRIVATE(this)->widget) { return false; }
   return PRIVATE(this)->widget->isVisible();
 }
 
@@ -671,10 +671,10 @@ SoQtComponent::isTopLevelShell(void) const
   if (! PRIVATE(this)->widget) {
     SoDebugError::postWarning("SoQtComponent::isTopLevelShell",
                               "Called while no QWidget has been set.");
-    return FALSE;
+    return false;
   }
 #endif // SOQT_DEBUG
-  return PRIVATE(this)->embedded ? FALSE : TRUE;
+  return PRIVATE(this)->embedded ? false : true;
 }
 
 // documented in common/SoGuiComponentCommon.cpp.in.
@@ -902,14 +902,14 @@ SoQtComponent::afterRealizeHook(void)
 SbBool
 SoQtComponent::setFullScreen(const SbBool onoff)
 {
-  if (onoff == PRIVATE(this)->fullscreen) { return TRUE; }
+  if (onoff == PRIVATE(this)->fullscreen) { return true; }
 
   // FIXME: hmm.. this looks suspicious. Shouldn't we just return
   // FALSE if the (base)widget is not a shellwidget? 20010817 mortene.
   QWidget * w = this->getShellWidget();
   if (w == NULL) w = this->getParentWidget();
   if (w == NULL) w = this->getWidget();
-  if (!w) { return FALSE; }
+  if (!w) { return false; }
 
   // FIXME: note that the compile-time binding technique against
   // QWidget::showFullScreen() doesn't work very well with the idea
@@ -922,7 +922,7 @@ SoQtComponent::setFullScreen(const SbBool onoff)
   // setWindowState() will preserve other window flags/states.
 #if HAVE_QWIDGET_SETWINDOWSTATE
   if (onoff) {
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
     // Qt/Mac does not remember the window size when going fullscreen,
     // so when going back to windowed mode, the window will be 1x1 pixels
     // small -> we have to store the window size ourselves...
@@ -933,13 +933,13 @@ SoQtComponent::setFullScreen(const SbBool onoff)
     PRIVATE(this)->windowsize[1] = w->size().height();
 #endif
     w->setWindowState(w->windowState() | Qt::WindowFullScreen);
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
     // Explicit show needed for Mac OS X, otherwise the window "vanishes"
     w->show();
 #endif
   } else {
     w->setWindowState(w->windowState() & ~Qt::WindowFullScreen);
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
     w->resize(QSize(PRIVATE(this)->windowsize[0], PRIVATE(this)->windowsize[1]));
     w->show();
 #endif
@@ -953,10 +953,10 @@ SoQtComponent::setFullScreen(const SbBool onoff)
                             "which doesn't have the "
                             "QWidget::showFullScreen() method",
                             QT_VERSION_STR);
-  return FALSE;
+  return false;
 #endif // !HAVE_QWIDGET_SHOWFULLSCREEN && !HAVE_QWIDGET_SETWINDOWSTATE
   PRIVATE(this)->fullscreen = onoff;
-  return TRUE;
+  return true;
 }
 
 // documented in common/SoGuiComponentCommon.cpp.in.
@@ -991,10 +991,10 @@ SoQtComponent::setWidgetCursor(QWidget * w, const SoQtCursor & cursor)
     // introduced another bug: when you click on the widget, the
     // cursor disappears. The Trolls have acknowledged that this is a
     // bug, and that it will be fixed in 3.1.3.
-#if defined Q_WS_MAC && ((QT_VERSION == 0x030100) || (QT_VERSION == 0x030101) || (QT_VERSION == 0x030102))
+#if defined Q_OS_MAC && ((QT_VERSION == 0x030100) || (QT_VERSION == 0x030101) || (QT_VERSION == 0x030102))
     w->setCursor(QCursor(Qt::arrowCursor));
     // spit out a warning that this is a Qt/Mac bug, not an SoQt problem
-    static SbBool warningdisplayed = FALSE;
+    static SbBool warningdisplayed = false;
     if (!warningdisplayed) {
       const char * env = SoAny::si()->getenv("SOQT_NO_QTMAC_BUG_WARNINGS");
       if (!env || !atoi(env))
@@ -1005,7 +1005,7 @@ SoQtComponent::setWidgetCursor(QWidget * w, const SoQtCursor & cursor)
                                   "can be turned off permanently by setting\n"
                                   "the environment variable "
                                   "SOQT_NO_QTMAC_BUG_WARNINGS=1.\n");
-      warningdisplayed = TRUE;
+      warningdisplayed = true;
     }
 #else
     const SoQtCursor::CustomCursor * cc = &cursor.getCustomCursor();
@@ -1031,7 +1031,7 @@ SoQtComponent::setWidgetCursor(QWidget * w, const SoQtCursor & cursor)
       break;
 
     default:
-      assert(FALSE && "unsupported cursor shape type");
+      assert(false && "unsupported cursor shape type");
       break;
     }
   }
