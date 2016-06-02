@@ -142,7 +142,9 @@ check_include_files(strings.h HAVE_STRINGS_H)
 check_include_files(string.h HAVE_STRING_H)
 check_include_files(sys/stat.h HAVE_SYS_STAT_H)
 check_include_files(sys/time.h HAVE_SYS_TIME_H)
-check_include_files(tlhelp32.h HAVE_TLHELP32_H)
+if(HAVE_WINDOWS_H)
+	check_include_files("windows.h;tlhelp32.h" HAVE_TLHELP32_H)
+endif()
 check_include_files(unistd.h HAVE_UNISTD_H)
 check_cxx_source_compiles("
 	#include <windows.h>
