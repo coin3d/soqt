@@ -45,9 +45,6 @@ set(SOQT_BETA_VERSION "a")
 set(SOQT_VERSION "${SOQT_MAJOR_VERSION}.${SOQT_MINOR_VERSION}.${SOQT_MICRO_VERSION}${SOQT_BETA_VERSION}")
 set(VERSION "${SOQT_VERSION}")
 
-set(CMAKE_REQUIRED_INCLUDES ${OPENGL_INCLUDE_DIR})
-set(CMAKE_REQUIRED_LIBRARIES Coin::Coin ${OPENGL_LIBRARIES})
-
 check_include_files(windows.h HAVE_WINDOWS_H)
 check_include_files(sys/types.h HAVE_SYS_TYPES_H)
 
@@ -67,6 +64,10 @@ elseif(FUNCTION)
 endif()
 check_include_files(dlfcn.h HAVE_DLFCN_H)
 check_symbol_exists(GetEnvironmentVariable windows.h HAVE_GETENVIRONMENTVARIABLE)
+
+set(CMAKE_REQUIRED_INCLUDES ${OPENGL_INCLUDE_DIR})
+set(CMAKE_REQUIRED_LIBRARIES ${OPENGL_LIBRARIES})
+
 check_library_exists(GL glXChooseVisual "" HAVE_GLX)
 if(HAVE_WINDOWS_H)
 	check_include_files("windows.h;GL/glu.h" HAVE_GL_GLU_H)
@@ -75,11 +76,15 @@ else()
 	check_include_files(GL/glu.h HAVE_GL_GLU_H)
 	check_include_files(GL/gl.h HAVE_GL_GL_H)
 endif()
+check_include_files(OpenGL/glu.h HAVE_OPENGL_GLU_H)
+check_include_files(OpenGL/gl.h HAVE_OPENGL_GL_H)
+
+unset(CMAKE_REQUIRED_INCLUDES)
+unset(CMAKE_REQUIRED_LIBRARIES)
+
 check_include_files(inttypes.h HAVE_INTTYPES_H)
 check_include_files(memory.h HAVE_MEMORY_H)
 check_include_files(netinet/in.h HAVE_NETINET_IN_H)
-check_include_files(OpenGL/glu.h HAVE_OPENGL_GLU_H)
-check_include_files(OpenGL/gl.h HAVE_OPENGL_GL_H)
 if(HAVE_SYS_TYPES_H)
 	check_cxx_source_compiles("
 		#include <sys/types.h>
@@ -92,6 +97,9 @@ else()
 		int main() { struct timespec timeout; timeout.tv_nsec = 0; return 0; }
 	" HAVE_PTHREAD_TIMESPEC_NSEC)
 endif()
+
+set(CMAKE_REQUIRED_LIBRARIES Coin::Coin)
+
 check_cxx_source_compiles("
 	#include <Inventor/SbImage.h>
 	int main() { SbImage::addReadImageCB(NULL, NULL); return 0; }
@@ -136,6 +144,9 @@ check_cxx_source_compiles("
 	#include <Inventor/VRMLnodes/SoVRMLViewpoint.h>
 	int main() { SoVRMLViewpoint * p = new SoVRMLViewpoint; return 0; }
 " HAVE_SOVRMLVIEWPOINT)
+
+unset(CMAKE_REQUIRED_LIBRARIES)
+
 check_include_files(stdint.h HAVE_STDINT_H)
 check_include_files(stdlib.h HAVE_STDLIB_H)
 check_include_files(strings.h HAVE_STRINGS_H)
