@@ -85,6 +85,10 @@
 #include <QColormap> // for QX11Info
 #endif // Qt 4.0.0+
 
+#if QT_VERSION >= 0x050000
+#include <QWindow>
+#endif
+
 #include <Inventor/SbTime.h>
 #include <Inventor/errors/SoDebugError.h>
 #include <Inventor/misc/SoBasic.h>
@@ -183,6 +187,9 @@ SoQtGLWidget::SoQtGLWidget(QWidget * const parent,
   PRIVATE(this) = new SoQtGLWidgetP(this);
 
   PRIVATE(this)->glSize = SbVec2s(0, 0);
+#if QT_VERSION >= 0x050000
+  PRIVATE(this)->glSizeUnscaled = SbVec2s(0, 0);
+#endif
   PRIVATE(this)->wasresized = false;
 
   PRIVATE(this)->glformat = new QGLFormat(0);
@@ -511,7 +518,13 @@ SoQtGLWidget::setGLSize(const SbVec2s size)
                          "[invoked (%d, %d)]", size[0], size[1]);
 #endif // debug
   PRIVATE(this)->glSize = size;
+#if QT_VERSION >= 0x050000
+  PRIVATE(this)->glSizeUnscaled = size;
+#endif
   if (PRIVATE(this)->currentglwidget) {
+#if QT_VERSION >= 0x050000
+    PRIVATE(this)->glSize = PRIVATE(this)->glSizeUnscaled * PRIVATE(this)->currentglwidget->devicePixelRatio();
+#endif
     int frame = this->isBorder() ? PRIVATE(this)->borderthickness : 0;
     PRIVATE(this)->currentglwidget->setGeometry(QRect(frame, frame, PRIVATE(this)->glSize[0], PRIVATE(this)->glSize[1]));
   }
@@ -766,6 +779,25 @@ SoQtGLWidgetP::GLAreaKeyEvent(QKeyEvent * e, void * userdata)
   SoQtGLWidget * that = (SoQtGLWidget *)userdata;
   that->processEvent(e);
 }
+
+#if QT_VERSION >= 0x050000
+// slot invoked upon QScreen change
+void
+SoQtGLWidgetP::gl_changed(void)
+{
+  if (SOQT_DEBUG && 0) { // debug
+    SoDebugError::postInfo("gl_changed", "invoked");
+  }
+
+  if (this->currentglwidget) {
+    SbVec2s glSize = this->glSizeUnscaled * this->currentglwidget->devicePixelRatio();
+    if (glSize != this->glSize) {
+      this->glSize = glSize;
+      this->wasresized = true;
+    }
+  }
+}
+#endif
 
 // slot invoked upon QGLWidget initialization
 void
@@ -1057,6 +1089,9 @@ SoQtGLWidgetP::buildGLWidget(void)
 #endif // Permanently disabled.
     QObject::disconnect(wascurrent, SIGNAL(expose_sig()), this, SLOT(gl_exposed()));
     QObject::disconnect(wascurrent, SIGNAL(init_sig()), this, SLOT(gl_init()));
+#if QT_VERSION >= 0x050000
+    QObject::disconnect(wascurrent->windowHandle(), SIGNAL(screenChanged(QScreen*)), this, SLOT(gl_changed()));
+#endif
     //    QObject::disconnect(wascurrent, SIGNAL(reshape_sig()), this, SLOT(gl_reshape()));
     this->previousglwidget = wascurrent;
   }
@@ -1246,6 +1281,9 @@ SoQtGLWidgetP::buildGLWidget(void)
                    this, SLOT(gl_init()));
   //  QObject::connect(this->currentglwidget, SIGNAL(reshape_sig(int, int)),
   //                    this, SLOT(gl_reshape(int, int)));
+#if QT_VERSION >= 0x050000
+  QObject::connect(this->currentglwidget->windowHandle(), SIGNAL(screenChanged(QScreen*)), this, SLOT(gl_changed()));
+#endif
   QObject::connect(this->currentglwidget, SIGNAL(expose_sig()),
                    this, SLOT(gl_exposed()));
 
