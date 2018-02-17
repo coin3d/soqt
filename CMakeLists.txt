@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.11)
+cmake_minimum_required(VERSION 2.8.12)
 
 project(SoQt)
 
@@ -376,12 +376,12 @@ set(
 	src/Inventor/Qt/widgets/SoQtThumbWheel.h
 )
 
-install(FILES ${INST_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/Qt COMPONENT develoment)
-install(FILES ${INST_DEVICES_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/Qt/devices COMPONENT develoment)
-install(FILES ${INST_EDITORS_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/Qt/editors COMPONENT develoment)
-install(FILES ${INST_NODES_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/Qt/nodes COMPONENT develoment)
-install(FILES ${INST_VIEWERS_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/Qt/viewers COMPONENT develoment)
-install(FILES ${INST_WIDGETS_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/Qt/widgets COMPONENT develoment)
+install(FILES ${INST_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/Qt COMPONENT development)
+install(FILES ${INST_DEVICES_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/Qt/devices COMPONENT development)
+install(FILES ${INST_EDITORS_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/Qt/editors COMPONENT development)
+install(FILES ${INST_NODES_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/Qt/nodes COMPONENT development)
+install(FILES ${INST_VIEWERS_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/Qt/viewers COMPONENT development)
+install(FILES ${INST_WIDGETS_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/Qt/widgets COMPONENT development)
 
 install(
 	TARGETS	SoQt
@@ -411,7 +411,7 @@ configure_package_config_file(
 install(
 	FILES ${CMAKE_CURRENT_BINARY_DIR}/soqt-config.cmake
 	DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/SoQt-${SOQT_VERSION}
-	COMPONENT develoment
+	COMPONENT development
 )
 
 write_basic_package_version_file(
@@ -423,7 +423,7 @@ write_basic_package_version_file(
 install(
 	FILES ${CMAKE_CURRENT_BINARY_DIR}/soqt-config-version.cmake
 	DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/SoQt-${SOQT_VERSION}
-	COMPONENT develoment
+	COMPONENT development
 )
 
 install(
@@ -431,7 +431,7 @@ install(
 	DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/SoQt-${SOQT_VERSION}
 	NAMESPACE SoQt::
 	FILE soqt-export.cmake
-	COMPONENT develoment
+	COMPONENT development
 )
 
 set(CPACK_COMPONENT_DEVELOPMENT_DEPENDS runtime)
@@ -446,6 +446,7 @@ set(CPACK_DEBIAN_RUNTIME_PACKAGE_NAME "lib${PACKAGE_TARNAME}${QT_VERSION_MAJOR}-
 set(CPACK_DEBIAN_RUNTIME_PACKAGE_SECTION "libs")
 set(CPACK_NSIS_PACKAGE_NAME ${PACKAGE_STRING})
 set(CPACK_NSIS_URL_INFO_ABOUT ${PACKAGE_URL})
+set(CPACK_PACKAGE_DESCRIPTION_FILE "${PROJECT_SOURCE_DIR}/README")
 set(CPACK_PACKAGE_CONTACT ${PACKAGE_BUGREPORT})
 set(CPACK_PACKAGE_DISPLAY_NAME ${PACKAGE_STRING})
 set(CPACK_PACKAGE_INSTALL_DIRECTORY "${PACKAGE_TARNAME}-${PACKAGE_VERSION}")
@@ -463,6 +464,9 @@ set(CPACK_RPM_PACKAGE_LICENSE "BSD")
 set(CPACK_RPM_PACKAGE_NAME ${PACKAGE_TARNAME})
 set(CPACK_RPM_PACKAGE_URL ${PACKAGE_URL})
 set(CPACK_RPM_runtime_PACKAGE_NAME "${PACKAGE_TARNAME}")
+# workaround for erroneous inclusion of system directories
+# see https://stackoverflow.com/questions/24983181/cpack-generates-rpms-with-files-entries-that-conflict-with-the-rpm-spec-how-to
+set(CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST_ADDITION "/usr/lib64/cmake")
 
 if(WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 8)
 	set(CPACK_NSIS_INSTALL_ROOT "$PROGRAMFILES64")
