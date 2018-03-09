@@ -68,6 +68,9 @@ public:
   const class QGLContext * getOverlayContext(void);
 
   SbVec2s glSize;
+#if QT_VERSION >= 0x050000
+  SbVec2s glSizeUnscaled;
+#endif
   SbBool wasresized;
   const QGLContext * oldcontext;
 
@@ -79,6 +82,9 @@ public:
   class QGLFormat * glformat;
 
 public slots:
+#if QT_VERSION >= 0x050000
+  void gl_changed(void);
+#endif
   void gl_init(void);
   void gl_reshape(int, int);
   void gl_exposed(void);

@@ -42,6 +42,11 @@
 #include <Inventor/Qt/devices/SoQtMouse.h>
 #include <Inventor/Qt/devices/SoGuiMouseP.h>
 
+#if QT_VERSION >= 0x050000
+#include <QApplication>
+#include <QWidget>
+#endif
+
 #define PRIVATE(obj) ((obj)->pimpl)
 #define PUBLIC(obj) ((obj)->pub)
 
@@ -237,7 +242,13 @@ SoQtMouse::translateEvent(QEvent * event)
       conv->setCtrlDown(mouseevent->state() & Qt::ControlButton);
       conv->setAltDown(mouseevent->state() & Qt::AltButton);
 #endif
+#if (QT_VERSION >= 0x050000)
+      QWidget* widget = QApplication::widgetAt(mouseevent->globalPos());
+      qreal devicePixelRatio = NULL != widget ? widget->devicePixelRatio() : qreal(1);
+      this->setEventPosition(conv, mouseevent->x() * devicePixelRatio, mouseevent->y() * devicePixelRatio);
+#else
       this->setEventPosition(conv, mouseevent->x(), mouseevent->y());
+#endif
     }
     else { // wheelevent
 #if QT_VERSION >= 0x040000
