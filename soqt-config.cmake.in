@@ -21,7 +21,7 @@ endif()
 
 include("${CMAKE_CURRENT_LIST_DIR}/soqt-export.cmake")
 
-if(SIMAGE_BUILD_SHARED_LIBS)
+if(SOQT_BUILD_SHARED_LIBS)
 	set(SoQt_DEFINITIONS "-DSOQT_DLL")
 else()
 	set(SoQt_DEFINITIONS "-DSOQT_NOT_DLL")
