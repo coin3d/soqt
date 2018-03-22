@@ -141,7 +141,7 @@ SoQtComponentP::getNativeCursor(const SoQtCursor::CustomCursor * cc)
   }
 
   void * qc;
-  SbBool b = SoQtComponentP::cursordict->find((unsigned long)cc, qc);
+  SbBool b = SoQtComponentP::cursordict->find((uintptr_t)cc, qc);
   if (b) { return (QCursor *)qc; }
 
 #define MAXBITMAPWIDTH 32
@@ -188,7 +188,7 @@ SoQtComponentP::getNativeCursor(const SoQtCursor::CustomCursor * cc)
   assert(mask.depth() == 1);
 
   QCursor * c = new QCursor(bitmap, mask, cc->hotspot[0], cc->hotspot[1]);
-  SoQtComponentP::cursordict->enter((unsigned long)cc, c);
+  SoQtComponentP::cursordict->enter((uintptr_t)cc, c);
   return c;
 }
 

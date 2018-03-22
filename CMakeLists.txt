@@ -17,6 +17,7 @@ option(COIN_IV_EXTENSIONS "Enable extra open inventor extensions" ON)
 option(SOQT_BUILD_SHARED_LIBS "Build shared libraries" ON)
 option(USE_QT5 "Prefer Qt5 over Qt4 if available" ON)
 option(WITH_STATIC_DEFAULTS "Enable defaults from being statically linked in" ON)
+option(HAVE_SPACENAV_SUPPORT "Enable Space Navigator support" ON)
 
 find_package(OpenGL REQUIRED)
 
@@ -44,6 +45,10 @@ set(SOQT_MICRO_VERSION "0")
 set(SOQT_BETA_VERSION "a")
 set(SOQT_VERSION "${SOQT_MAJOR_VERSION}.${SOQT_MINOR_VERSION}.${SOQT_MICRO_VERSION}${SOQT_BETA_VERSION}")
 set(VERSION "${SOQT_VERSION}")
+
+if(MSVC)
+	add_definitions(-D_CRT_NONSTDC_NO_DEPRECATE -D_CRT_SECURE_NO_DEPRECATE -D_CRT_SECURE_NO_WARNINGS)
+endif()
 
 check_include_files(windows.h HAVE_WINDOWS_H)
 check_include_files(sys/types.h HAVE_SYS_TYPES_H)
@@ -174,6 +179,7 @@ check_include_files(X11/Xlib.h HAVE_X11_AVAILABLE)
 check_include_files(X11/extensions/SGIMisc.h HAVE_X11_EXTENSIONS_SGIMISC_H)
 check_include_files(X11/extensions/XInput.h HAVE_X11_EXTENSIONS_XINPUT_H)
 check_include_files(X11/Xproto.h HAVE_X11_XPROTO_H)
+
 set(PACKAGE "SoQt")
 set(PACKAGE_BUGREPORT "coin-support@coin3d.org")
 set(PACKAGE_NAME "SoQt")
@@ -186,6 +192,10 @@ set(USE_EXCEPTIONS ON)
 set(X_DISPLAY_MISSING ON)
 
 set(HAVE_JOYSTICK_LINUX OFF)
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 configure_file(src/config.h.cmake.in src/config.h)
 
