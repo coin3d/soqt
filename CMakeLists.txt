@@ -1,6 +1,28 @@
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.0)
 
-project(SoQt)
+set(gui qt)
+set(Gui Qt)
+set(GUI QT)
+set(WIDGET QWidget*)
+set(EVENT QEvent*)
+set(COMPONENTHEADER Q_OBJECT)
+
+set(SO${GUI}_MAJOR_VERSION 1)
+set(SO${GUI}_MINOR_VERSION 6)
+set(SO${GUI}_MICRO_VERSION 0)
+set(SO${GUI}_BETA_VERSION a)
+set(SO${GUI}_VERSION ${SO${GUI}_MAJOR_VERSION}.${SO${GUI}_MINOR_VERSION}.${SO${GUI}_MICRO_VERSION}${SO${GUI}_BETA_VERSION})
+string(TIMESTAMP SO${GUI}_BUILD_YEAR "%Y")
+math(EXPR SO${GUI}_SO_VERSION ${SO${GUI}_MAJOR_VERSION}*20)
+set(VERSION ${SO${GUI}_VERSION})
+
+project(So${Gui} VERSION ${SO${GUI}_MAJOR_VERSION}.${SO${GUI}_MINOR_VERSION}.${SO${GUI}_MICRO_VERSION})
+
+option(COIN_IV_EXTENSIONS "Enable extra open inventor extensions" ON)
+option(SO${GUI}_BUILD_SHARED_LIBS "Build shared libraries" ON)
+option(USE_QT5 "Prefer Qt5 over Qt4 if available" ON)
+option(WITH_STATIC_DEFAULTS "Enable statically linked in default materials" ON)
+option(HAVE_SPACENAV_SUPPORT "Enable Space Navigator support" ON)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -13,13 +35,17 @@ include(CheckSymbolExists)
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
 
-option(COIN_IV_EXTENSIONS "Enable extra open inventor extensions" ON)
-option(SOQT_BUILD_SHARED_LIBS "Build shared libraries" ON)
-option(USE_QT5 "Prefer Qt5 over Qt4 if available" ON)
-option(WITH_STATIC_DEFAULTS "Enable defaults from being statically linked in" ON)
-option(HAVE_SPACENAV_SUPPORT "Enable Space Navigator support" ON)
+if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
+	message(FATAL_ERROR "${CMAKE_PROJECT_NAME} requires an out of source build. Please create a separate build directory and run 'cmake <path_to_${CMAKE_PROJECT_NAME}> [options]' from there.")
+endif()
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 find_package(OpenGL REQUIRED)
+find_package(Coin REQUIRED)
+find_package(superglu REQUIRED)
 
 if(USE_QT5)
 	find_package(Qt5 COMPONENTS Core Gui OpenGL Widgets QUIET)
@@ -36,19 +62,7 @@ else()
 	include(${QT_USE_FILE})
 endif()
 
-find_package(Coin REQUIRED CONFIG)
 find_package(X11)
-
-set(SOQT_MAJOR_VERSION "1")
-set(SOQT_MINOR_VERSION "6")
-set(SOQT_MICRO_VERSION "0")
-set(SOQT_BETA_VERSION "a")
-set(SOQT_VERSION "${SOQT_MAJOR_VERSION}.${SOQT_MINOR_VERSION}.${SOQT_MICRO_VERSION}${SOQT_BETA_VERSION}")
-set(VERSION "${SOQT_VERSION}")
-
-if(MSVC)
-	add_definitions(-D_CRT_NONSTDC_NO_DEPRECATE -D_CRT_SECURE_NO_DEPRECATE -D_CRT_SECURE_NO_WARNINGS)
-endif()
 
 check_include_files(windows.h HAVE_WINDOWS_H)
 check_include_files(sys/types.h HAVE_SYS_TYPES_H)
@@ -68,7 +82,6 @@ elseif(FUNCTION)
 	set(HAVE_CPP_COMPILER_FUNCTION_NAME_VAR __FUNCTION__)
 endif()
 check_include_files(dlfcn.h HAVE_DLFCN_H)
-check_symbol_exists(GetEnvironmentVariable windows.h HAVE_GETENVIRONMENTVARIABLE)
 
 set(CMAKE_REQUIRED_INCLUDES ${OPENGL_INCLUDE_DIR})
 set(CMAKE_REQUIRED_LIBRARIES ${OPENGL_LIBRARIES})
@@ -158,95 +171,96 @@ check_include_files(strings.h HAVE_STRINGS_H)
 check_include_files(string.h HAVE_STRING_H)
 check_include_files(sys/stat.h HAVE_SYS_STAT_H)
 check_include_files(sys/time.h HAVE_SYS_TIME_H)
+check_include_files(unistd.h HAVE_UNISTD_H)
+check_include_files("assert.h;ctype.h;errno.h;float.h;limits.h;locale.h;math.h;setjmp.h;signal.h;stdarg.h;stddef.h;stdio.h;stdlib.h;string.h;time.h" STDC_HEADERS)
 if(HAVE_WINDOWS_H)
 	check_include_files("windows.h;tlhelp32.h" HAVE_TLHELP32_H)
+	check_cxx_source_compiles("
+		#include <windows.h>
+		int main() {
+			CreateDirectory(NULL, NULL);
+			RemoveDirectory(NULL);
+			SetLastError(0);
+			GetLastError();
+			LocalAlloc(0, 1);
+			LocalFree(NULL);
+			return 0;
+		}
+	" HAVE_WIN32_API)
+	check_symbol_exists(LoadLibrary windows.h HAVE_WIN32_LOADLIBRARY)
+	if(HAVE_WIN32_LOADLIBRARY)
+		set(HAVE_DYNAMIC_LINKING 1)
+	endif()
+	check_symbol_exists(GetEnvironmentVariable windows.h HAVE_GETENVIRONMENTVARIABLE)
 endif()
-check_include_files(unistd.h HAVE_UNISTD_H)
-check_cxx_source_compiles("
-	#include <windows.h>
-	int main() {
-		CreateDirectory(NULL, NULL);
-		RemoveDirectory(NULL);
-		SetLastError(0);
-		GetLastError();
-		LocalAlloc(0, 1);
-		LocalFree(NULL);
-		return 0;
-	}
-" HAVE_WIN32_API)
-check_symbol_exists(LoadLibrary windows.h HAVE_WIN32_LOADLIBRARY)
-check_include_files(X11/Xlib.h HAVE_X11_AVAILABLE)
-check_include_files(X11/extensions/SGIMisc.h HAVE_X11_EXTENSIONS_SGIMISC_H)
-check_include_files(X11/extensions/XInput.h HAVE_X11_EXTENSIONS_XINPUT_H)
-check_include_files(X11/Xproto.h HAVE_X11_XPROTO_H)
-
-set(PACKAGE "SoQt")
-set(PACKAGE_BUGREPORT "coin-support@coin3d.org")
-set(PACKAGE_NAME "SoQt")
-set(PACKAGE_STRING "SoQt ${SOQT_VERSION}")
-set(PACKAGE_TARNAME "soqt")
-set(PACKAGE_URL "https://bitbucket.org/Coin3D/soqt")
-set(PACKAGE_VERSION "${SOQT_VERSION}")
-check_include_files("assert.h;ctype.h;errno.h;float.h;limits.h;locale.h;math.h;setjmp.h;signal.h;stdarg.h;stddef.h;stdio.h;stdlib.h;string.h;time.h" STDC_HEADERS)
 set(USE_EXCEPTIONS ON)
 set(X_DISPLAY_MISSING ON)
-
 set(HAVE_JOYSTICK_LINUX OFF)
+check_include_files(X11/Xlib.h HAVE_X11_AVAILABLE)
+if(HAVE_X11_AVAILABLE)
+	check_include_files(X11/extensions/SGIMisc.h HAVE_X11_EXTENSIONS_SGIMISC_H)
+	check_include_files(X11/extensions/XInput.h HAVE_X11_EXTENSIONS_XINPUT_H)
+	check_include_files(X11/Xproto.h HAVE_X11_XPROTO_H)
+endif()
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(PACKAGE So${Gui})
+set(PACKAGE_DESCRIPTION "A Qt Gui-toolkit binding for Coin")
+set(PACKAGE_BUGREPORT "coin-support@coin3d.org")
+set(PACKAGE_NAME So${Gui})
+set(PACKAGE_STRING "So${Gui} ${SO${GUI}_VERSION}")
+set(PACKAGE_TARNAME so${gui})
+set(PACKAGE_URL "https://bitbucket.org/Coin3D/so${gui}")
+set(PACKAGE_VERSION ${SO${GUI}_VERSION})
+set(PACKAGE_HOST ${CMAKE_HOST_SYSTEM_PROCESSOR}-${CMAKE_HOST_SYSTEM_NAME})
+set(PACKAGE_COMPILER ${CMAKE_CXX_COMPILER})
+set(PACKAGE_REQUIREMENTS "Coin")
 
 configure_file(src/config.h.cmake.in src/config.h)
 
-set(COMPONENTHEADER Q_OBJECT)
-set(EVENT "QEvent *")
-set(gui qt)
-set(Gui Qt)
-set(GUI QT)
-set(WIDGET "QWidget *")
+add_subdirectory(data)
+add_subdirectory(src/Inventor/${Gui}/common)
 
-add_subdirectory(src/Inventor/Qt/common)
+file(GLOB_RECURSE COMMON_HDRS ${CMAKE_BINARY_DIR}/src/*.h)
+file(GLOB_RECURSE COMMON_SRCS ${CMAKE_BINARY_DIR}/src/*.cpp)
 
-file(GLOB_RECURSE COMMON_HDRS ${CMAKE_CURRENT_BINARY_DIR}/src/*.h)
-file(GLOB_RECURSE COMMON_SRCS ${CMAKE_CURRENT_BINARY_DIR}/src/*.cpp)
-
-set(
-	HDRS
-	src/Inventor/Qt/SoQtComponentP.h
-	src/Inventor/Qt/SoQtGLWidgetP.h
-	src/Inventor/Qt/SoQtImageReader.h
-	src/Inventor/Qt/SoQtInternal.h
-	src/Inventor/Qt/SoQtP.h
-	src/Inventor/Qt/SoQtSignalThread.h
-	src/Inventor/Qt/devices/6DOFEvents.h
-	src/Inventor/Qt/devices/SoQtDeviceP.h
-	src/Inventor/Qt/viewers/SoQtFullViewerP.h
-	src/Inventor/Qt/viewers/SoQtExaminerViewerP.h
-	src/Inventor/Qt/viewers/SoQtPlaneViewerP.h
-	src/Inventor/Qt/widgets/QtNativePopupMenu.h
-	src/Inventor/Qt/widgets/SoQtGLArea.h
-	src/Inventor/Qt/widgets/SoQtThumbWheel.h
+set(HDRS
+	src/Inventor/${Gui}/So${Gui}ComponentP.h
+	src/Inventor/${Gui}/So${Gui}GLWidgetP.h
+	src/Inventor/${Gui}/So${Gui}ImageReader.h
+	src/Inventor/${Gui}/So${Gui}Internal.h
+	src/Inventor/${Gui}/SoQtP.h
+	src/Inventor/${Gui}/So${Gui}SignalThread.h
+	src/Inventor/${Gui}/devices/6DOFEvents.h
+	src/Inventor/${Gui}/devices/So${Gui}DeviceP.h
+	src/Inventor/${Gui}/devices/So${Gui}SpacenavDevice.h
+	src/Inventor/${Gui}/viewers/So${Gui}ExaminerViewerP.h
+	src/Inventor/${Gui}/viewers/So${Gui}FullViewerP.h
+	src/Inventor/${Gui}/viewers/So${Gui}PlaneViewerP.h
+	src/Inventor/${Gui}/widgets/So${Gui}GLArea.h
+	src/Inventor/${Gui}/widgets/So${Gui}ThumbWheel.h
+	src/Inventor/${Gui}/widgets/${Gui}NativePopupMenu.h
 )
 
-set(
-	SRCS
-	src/Inventor/Qt/SoQt.cpp
-	src/Inventor/Qt/SoQtComponent.cpp
-	src/Inventor/Qt/SoQtGLWidget.cpp
-	src/Inventor/Qt/SoQtImageReader.cpp
-	src/Inventor/Qt/SoQtSignalThread.cpp
-	src/Inventor/Qt/devices/6DOFEvents.cpp
-	src/Inventor/Qt/devices/SoQtDevice.cpp
-	src/Inventor/Qt/devices/SoQtInputFocus.cpp
-	src/Inventor/Qt/devices/SoQtKeyboard.cpp
-	src/Inventor/Qt/devices/SoQtMouse.cpp
-	src/Inventor/Qt/viewers/ExaminerViewer.cpp
-	src/Inventor/Qt/viewers/FullViewer.cpp
-	src/Inventor/Qt/viewers/PlaneViewer.cpp
-	src/Inventor/Qt/widgets/QtNativePopupMenu.cpp
-	src/Inventor/Qt/widgets/SoQtGLArea.cpp
-	src/Inventor/Qt/widgets/SoQtThumbWheel.cpp
+set(SRCS
+	src/Inventor/${Gui}/So${Gui}.cpp
+	src/Inventor/${Gui}/So${Gui}Component.cpp
+	src/Inventor/${Gui}/So${Gui}GLWidget.cpp
+	#src/Inventor/${Gui}/So${Gui}MaterialList.cpp
+	src/Inventor/${Gui}/So${Gui}ImageReader.cpp
+	src/Inventor/${Gui}/So${Gui}SignalThread.cpp
+	src/Inventor/${Gui}/devices/6DOFEvents.cpp
+	src/Inventor/${Gui}/devices/So${Gui}Device.cpp
+	src/Inventor/${Gui}/devices/So${Gui}InputFocus.cpp
+	src/Inventor/${Gui}/devices/So${Gui}Keyboard.cpp
+	src/Inventor/${Gui}/devices/So${Gui}Mouse.cpp
+	src/Inventor/${Gui}/devices/So${Gui}SpacenavDevice.cpp
+	src/Inventor/${Gui}/viewers/ExaminerViewer.cpp
+	src/Inventor/${Gui}/viewers/FullViewer.cpp
+	src/Inventor/${Gui}/viewers/PlaneViewer.cpp
+	#src/Inventor/${Gui}/viewers/WalkViewer.cpp
+	src/Inventor/${Gui}/widgets/So${Gui}GLArea.cpp
+	src/Inventor/${Gui}/widgets/So${Gui}ThumbWheel.cpp
+	src/Inventor/${Gui}/widgets/${Gui}NativePopupMenu.cpp
 )
 
 macro(qt_generate_moc infile outfile)
@@ -257,223 +271,259 @@ macro(qt_generate_moc infile outfile)
 	endif()
 	
 	if(NOT IS_ABSOLUTE ${outfile})
-		list(APPEND MOC_SRCS ${CMAKE_CURRENT_BINARY_DIR}/${outfile})
+		list(APPEND MOC_SRCS ${CMAKE_BINARY_DIR}/${outfile})
 	else()
 		list(APPEND MOC_SRCS ${outfile})
 	endif()
 endmacro()
 
-qt_generate_moc(src/Inventor/Qt/SoQtComponentP.h src/Inventor/Qt/moc_SoQtComponentP.icc)
-qt_generate_moc(src/Inventor/Qt/SoQtGLWidgetP.h src/Inventor/Qt/moc_SoQtGLWidgetP.icc)
-qt_generate_moc(src/Inventor/Qt/SoQtMaterialList.cpp src/Inventor/Qt/moc_SoQtMaterialList.icc)
-qt_generate_moc(src/Inventor/Qt/SoQtMaterialSliderSet.h src/Inventor/Qt/moc_SoQtMaterialSliderSet.icc)
-qt_generate_moc(src/Inventor/Qt/SoQtP.h src/Inventor/Qt/moc_SoQtP.icc)
-qt_generate_moc(src/Inventor/Qt/SoQtSignalThread.h src/Inventor/Qt/moc_SoQtSignalThread.icc)
-qt_generate_moc(src/Inventor/Qt/SoQtSliderSetBase.h src/Inventor/Qt/moc_SoQtSliderSetBase.icc)
-qt_generate_moc(src/Inventor/Qt/SoQtTransformSliderSet.h src/Inventor/Qt/moc_SoQtTransformSliderSet.icc)
-qt_generate_moc(src/Inventor/Qt/viewers/SoQtExaminerViewerP.h src/Inventor/Qt/viewers/moc_SoQtExaminerViewerP.icc)
-qt_generate_moc(src/Inventor/Qt/viewers/SoQtFullViewerP.h src/Inventor/Qt/viewers/moc_SoQtFullViewerP.icc)
-qt_generate_moc(src/Inventor/Qt/viewers/SoQtPlaneViewerP.h src/Inventor/Qt/viewers/moc_SoQtPlaneViewerP.icc)
-qt_generate_moc(src/Inventor/Qt/widgets/QtNativePopupMenu.h src/Inventor/Qt/widgets/moc_QtNativePopupMenu.icc)
-qt_generate_moc(src/Inventor/Qt/widgets/SoQtGLArea.h src/Inventor/Qt/widgets/moc_SoQtGLArea.icc)
-qt_generate_moc(src/Inventor/Qt/widgets/SoQtThumbWheel.h src/Inventor/Qt/widgets/moc_SoQtThumbWheel.icc)
+qt_generate_moc(src/Inventor/${Gui}/So${Gui}ComponentP.h              src/Inventor/${Gui}/moc_So${Gui}ComponentP.icc)
+qt_generate_moc(src/Inventor/${Gui}/So${Gui}GLWidgetP.h               src/Inventor/${Gui}/moc_So${Gui}GLWidgetP.icc)
+qt_generate_moc(src/Inventor/${Gui}/So${Gui}MaterialList.cpp          src/Inventor/${Gui}/moc_So${Gui}MaterialList.icc)
+qt_generate_moc(src/Inventor/${Gui}/So${Gui}MaterialSliderSet.h       src/Inventor/${Gui}/moc_So${Gui}MaterialSliderSet.icc)
+qt_generate_moc(src/Inventor/${Gui}/SoQtP.h                           src/Inventor/${Gui}/moc_SoQtP.icc)
+qt_generate_moc(src/Inventor/${Gui}/So${Gui}SignalThread.h            src/Inventor/${Gui}/moc_So${Gui}SignalThread.icc)
+qt_generate_moc(src/Inventor/${Gui}/So${Gui}SliderSetBase.h           src/Inventor/${Gui}/moc_So${Gui}SliderSetBase.icc)
+qt_generate_moc(src/Inventor/${Gui}/So${Gui}TransformSliderSet.h      src/Inventor/${Gui}/moc_So${Gui}TransformSliderSet.icc)
+qt_generate_moc(src/Inventor/${Gui}/viewers/So${Gui}ExaminerViewerP.h src/Inventor/${Gui}/viewers/moc_So${Gui}ExaminerViewerP.icc)
+qt_generate_moc(src/Inventor/${Gui}/viewers/So${Gui}FullViewerP.h     src/Inventor/${Gui}/viewers/moc_So${Gui}FullViewerP.icc)
+qt_generate_moc(src/Inventor/${Gui}/viewers/So${Gui}PlaneViewerP.h    src/Inventor/${Gui}/viewers/moc_So${Gui}PlaneViewerP.icc)
+#qt_generate_moc(src/Inventor/${Gui}/viewers/So${Gui}WalkViewerP.h    src/Inventor/${Gui}/viewers/moc_So${Gui}WalkViewerP.icc)
+qt_generate_moc(src/Inventor/${Gui}/widgets/${Gui}NativePopupMenu.h    src/Inventor/${Gui}/widgets/moc_${Gui}NativePopupMenu.icc)
+qt_generate_moc(src/Inventor/${Gui}/widgets/So${Gui}GLArea.h          src/Inventor/${Gui}/widgets/moc_So${Gui}GLArea.icc)
+qt_generate_moc(src/Inventor/${Gui}/widgets/So${Gui}ThumbWheel.h      src/Inventor/${Gui}/widgets/moc_So${Gui}ThumbWheel.icc)
 
 if(HAVE_JOYSTICK_LINUX)
-	list(APPEND HDRS src/Inventor/Qt/devices/SoQtLinuxJoystick.h)
-	list(APPEND SRCS src/Inventor/Qt/devices/SoQtLinuxJoystick.cpp)
-	qt_generate_moc(src/Inventor/Qt/devices/SoQtLinuxJoystick.h src/Inventor/Qt/devices/moc_SoQtLinuxJoystick.icc)
+	list(APPEND HDRS src/Inventor/${Gui}/devices/So${Gui}LinuxJoystick.h)
+	list(APPEND SRCS src/Inventor/${Gui}/devices/So${Gui}LinuxJoystick.cpp)
+	qt_generate_moc(src/Inventor/${Gui}/devices/So${Gui}LinuxJoystick.h src/Inventor/${Gui}/devices/moc_So${Gui}LinuxJoystick.icc)
 endif()
 
-if(SOQT_BUILD_SHARED_LIBS)
+if(SO${GUI}_BUILD_SHARED_LIBS)
 	if(WIN32)
-		set(CMAKE_RELEASE_POSTFIX "${SOQT_MAJOR_VERSION}")
-		set(CMAKE_MINSIZEREL_POSTFIX "${SOQT_MAJOR_VERSION}")
-		set(CMAKE_RELWITHDEBINFO_POSTFIX "${SOQT_MAJOR_VERSION}")
-		set(CMAKE_DEBUG_POSTFIX "${SOQT_MAJOR_VERSION}d")
+		configure_file(src/So${Gui}.rc.cmake.in src/So${Gui}.rc)
+		set(SO${GUI}_RESSOURCE ${CMAKE_BINARY_DIR}/src/So${Gui}.rc CACHE INTERNAL "SO${GUI}_RESSOURCE")
+		set(CMAKE_RELEASE_POSTFIX ${PROJECT_VERSION_MAJOR})
+		set(CMAKE_MINSIZEREL_POSTFIX ${PROJECT_VERSION_MAJOR})
+		set(CMAKE_RELWITHDEBINFO_POSTFIX ${PROJECT_VERSION_MAJOR})
+		set(CMAKE_DEBUG_POSTFIX ${PROJECT_VERSION_MAJOR}d)
 	endif()
-	add_library(SoQt SHARED ${HDRS} ${COMMON_HDRS} ${SRCS} ${COMMON_SRCS} ${MOC_SRCS})
-	target_compile_definitions(SoQt PRIVATE -DSOQT_MAKE_DLL INTERFACE -DSOQT_DLL)
+	add_library(So${Gui} SHARED ${HDRS} ${COMMON_HDRS} ${SRCS} ${COMMON_SRCS} ${SO${GUI}_RESSOURCE} ${MOC_SRCS})
+	target_compile_definitions(So${Gui} PRIVATE SO${GUI}_MAKE_DLL INTERFACE SO${GUI}_DLL)
 else()
 	if(WIN32)
-		set(CMAKE_RELEASE_POSTFIX "${SOQT_MAJOR_VERSION}s")
-		set(CMAKE_MINSIZEREL_POSTFIX "${SOQT_MAJOR_VERSION}s")
-		set(CMAKE_RELWITHDEBINFO_POSTFIX "${SOQT_MAJOR_VERSION}s")
-		set(CMAKE_DEBUG_POSTFIX "${SOQT_MAJOR_VERSION}sd")
+		set(CMAKE_RELEASE_POSTFIX ${PROJECT_VERSION_MAJOR}s)
+		set(CMAKE_MINSIZEREL_POSTFIX ${PROJECT_VERSION_MAJOR}s)
+		set(CMAKE_RELWITHDEBINFO_POSTFIX ${PROJECT_VERSION_MAJOR}s)
+		set(CMAKE_DEBUG_POSTFIX ${PROJECT_VERSION_MAJOR}sd)
 	endif()
-	add_library(SoQt STATIC ${HDRS} ${COMMON_HDRS} ${SRCS} ${COMMON_SRCS} ${MOC_SRCS})
-	target_compile_definitions(SoQt INTERFACE -DSOQT_NOT_DLL)
+	add_library(So${Gui} STATIC ${HDRS} ${COMMON_HDRS} ${SRCS} ${COMMON_SRCS} ${MOC_SRCS})
+	target_compile_definitions(So${Gui} INTERFACE SO${GUI}_NOT_DLL)
 endif()
 
-set_target_properties(SoQt PROPERTIES VERSION ${VERSION})
+set_target_properties(So${Gui} PROPERTIES VERSION ${SO${GUI}_VERSION} SOVERSION ${SO${GUI}_SO_VERSION})
 
-target_compile_definitions(SoQt PRIVATE -DHAVE_CONFIG_H -DSOQT_INTERNAL)
-
-if(CMAKE_BUILD_TYPE MATCHES "[Dd][Ee][Bb][Uu][Gg]")
-	target_compile_definitions(SoQt PRIVATE -DSOQT_DEBUG=1)
-else()
-	target_compile_definitions(SoQt PRIVATE -DSOQT_DEBUG=0)
+target_compile_definitions(So${Gui} PRIVATE HAVE_CONFIG_H SO${GUI}_INTERNAL SO${GUI}_DEBUG=$<CONFIG:Debug>)
+if(MSVC)
+	target_compile_definitions(So${Gui} PRIVATE _CRT_NONSTDC_NO_DEPRECATE _CRT_SECURE_NO_DEPRECATE _CRT_SECURE_NO_WARNINGS)
 endif()
 
-target_include_directories(
-	SoQt
+target_include_directories(So${Gui}
 	PUBLIC
-	$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/src>
-	$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/Qt>
-	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
-	$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${CMAKE_INSTALL_INCLUDEDIR}>
+		$<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/src>
+#		$<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/src/Inventor/Qt>
+		$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/src>
+		$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${CMAKE_INSTALL_INCLUDEDIR}>
+		${OPENGL_INCLUDE_DIR}
 )
 
-target_include_directories(SoQt PUBLIC ${OPENGL_INCLUDE_DIR})
-target_link_libraries(SoQt Coin::Coin ${OPENGL_LIBRARIES} ${QT_LIBRARIES})
+target_link_libraries(So${Gui} Coin::Coin ${OPENGL_LIBRARIES} ${QT_LIBRARIES})
 
 if(X11_FOUND)
-	target_include_directories(SoQt PUBLIC ${X11_INCLUDE_DIR})
-	target_link_libraries(SoQt ${X11_LIBRARIES})
+	target_include_directories(So${Gui} PUBLIC ${X11_INCLUDE_DIR})
+	target_link_libraries(So${Gui} ${X11_LIBRARIES})
 endif()
 if(X11_Xi_FOUND)
-	target_include_directories(SoQt PUBLIC ${X11_Xi_INCLUDE_DIR})
-	target_link_libraries(SoQt ${X11_Xi_LIB})
+	target_include_directories(So${Gui} PUBLIC ${X11_Xi_INCLUDE_DIR})
+	target_link_libraries(So${Gui} ${X11_Xi_LIB})
 endif()
 
-set(
-	INST_HDRS
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/Qt/SoQt.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/Qt/SoQtBasic.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/Qt/SoQtColorEditor.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/Qt/SoQtComponent.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/Qt/SoQtCursor.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/Qt/SoQtObject.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/Qt/SoQtGLWidget.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/Qt/SoQtRenderArea.h
+##### documentation
+find_package(Doxygen)
+if(DOXYGEN_FOUND)
+	set(SOGUI_DOC_HTML YES)
+	set(SOGUI_DOC_HTML_HELP NO)
+	if(WIN32)
+		set(SOGUI_DOC_MAN NO)
+		find_program(HHC_PROGRAM NAMES hhc.exe PATHS "C:/Program Files/HTML Help Workshop" "C:/Program Files (x86)/HTML Help Workshop" DOC "HTML Help Compiler program")
+		if(HHC_PROGRAM)
+			option(SO${GUI}_BUILD_DOC_CHM "Create compressed HTML help (requires HHC)" OFF)
+			mark_as_advanced(HHC_PROGRAM)
+		else()
+			set(SO${GUI}_BUILD_DOC_CHM OFF)
+		endif()
+		if(SO${GUI}_BUILD_DOC_CHM)
+			set(SOGUI_DOC_HTML_HELP YES)
+			set(GENERATE_TREEVIEW NO)
+		else()
+			set(HHC_PROGRAM)
+			set(GENERATE_TREEVIEW YES)
+		endif()
+	else()
+		set(SOGUI_DOC_MAN YES)
+		set(GENERATE_TREEVIEW YES)
+		set(HHC_PROGRAM)
+	endif()
+
+	set(DOXYGEN_INTERNAL_DOCS NO)
+	set(DOXYGEN_EXTRACT_PRIVATE NO)
+	set(DOXYGEN_WARN_IF_UNDOCUMENTED YES)
+	set(DOXYGEN_EXCLUDE)
+
+	configure_file(src/Inventor/${Gui}/common/sogui.doxygen.cmake.in Doxyfile @ONLY)
+	add_custom_target(${PROJECT_NAME}_docs ALL
+		${DOXYGEN_EXECUTABLE} ${CMAKE_BINARY_DIR}/Doxyfile
+		WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+		COMMENT "Generating API documentation with Doxygen" VERBATIM
+	)
+	if(WIN32)
+		install(DIRECTORY ${CMAKE_BINARY_DIR}/html DESTINATION ${CMAKE_INSTALL_DOCDIR})
+	else()
+		install(DIRECTORY ${CMAKE_BINARY_DIR}/html DESTINATION ${CMAKE_INSTALL_DOCDIR})
+		install(DIRECTORY ${CMAKE_BINARY_DIR}/man DESTINATION ${CMAKE_INSTALL_MANDIR})
+	endif()
+endif(DOXYGEN_FOUND)
+
+set(INST_HDRS
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/So${Gui}.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/So${Gui}Basic.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/So${Gui}ColorEditor.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/So${Gui}Component.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/So${Gui}Cursor.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/So${Gui}GLWidget.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/So${Gui}Object.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/So${Gui}RenderArea.h
 )
 
-set(
-	INST_DEVICES_HDRS
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/Qt/devices/SoQtDevice.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/Qt/devices/SoQtKeyboard.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/Qt/devices/SoQtMouse.h
+set(INST_DEVICES_HDRS
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/devices/So${Gui}Device.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/devices/So${Gui}Keyboard.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/devices/So${Gui}Mouse.h
 )
 
 if(HAVE_JOYSTICK_LINUX)
-	list(APPEND INST_DEVICES_HDRS ${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/Qt/devices/SoQtLinuxJoystick.h)
+	list(APPEND INST_DEVICES_HDRS ${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/devices/So${Gui}LinuxJoystick.h)
 endif()
 
-set(
-	INST_EDITORS_HDRS
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/Qt/editors/SoQtColorEditor.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/Qt/editors/SoQtMaterialEditor.h
+set(INST_EDITORS_HDRS
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/editors/So${Gui}ColorEditor.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/editors/So${Gui}MaterialEditor.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/devices/So${Gui}SpacenavDevice.h
 )
 
-set(
-	INST_NODES_HDRS
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/Qt/nodes/SoGuiColorEditor.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/Qt/nodes/SoGuiMaterialEditor.h
+set(INST_NODES_HDRS
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/nodes/SoGuiColorEditor.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/nodes/SoGuiMaterialEditor.h
 )
 
-set(
-	INST_VIEWERS_HDRS
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/Qt/viewers/SoQtConstrainedViewer.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/Qt/viewers/SoQtExaminerViewer.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/Qt/viewers/SoQtFlyViewer.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/Qt/viewers/SoQtFullViewer.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/Qt/viewers/SoQtPlaneViewer.h
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/Qt/viewers/SoQtViewer.h
+set(INST_VIEWERS_HDRS
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/viewers/So${Gui}ConstrainedViewer.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/viewers/So${Gui}ExaminerViewer.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/viewers/So${Gui}FlyViewer.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/viewers/So${Gui}FullViewer.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/viewers/So${Gui}PlaneViewer.h
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/viewers/So${Gui}Viewer.h
+	#${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/viewers/So${Gui}WalkViewer.h
 )
 
-set(
-	INST_WIDGETS_HDRS
-	${CMAKE_CURRENT_BINARY_DIR}/src/Inventor/Qt/widgets/SoQtPopupMenu.h
-	src/Inventor/Qt/widgets/SoQtThumbWheel.h
+set(INST_WIDGETS_HDRS
+	${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/widgets/So${Gui}PopupMenu.h
+	src/Inventor/${Gui}/widgets/So${Gui}ThumbWheel.h
 )
 
-install(FILES ${INST_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/Qt COMPONENT development)
-install(FILES ${INST_DEVICES_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/Qt/devices COMPONENT development)
-install(FILES ${INST_EDITORS_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/Qt/editors COMPONENT development)
-install(FILES ${INST_NODES_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/Qt/nodes COMPONENT development)
-install(FILES ${INST_VIEWERS_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/Qt/viewers COMPONENT development)
-install(FILES ${INST_WIDGETS_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/Qt/widgets COMPONENT development)
+install(FILES ${INST_HDRS}         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/${Gui}         COMPONENT development)
+install(FILES ${INST_DEVICES_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/${Gui}/devices COMPONENT development)
+install(FILES ${INST_EDITORS_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/${Gui}/editors COMPONENT development)
+install(FILES ${INST_NODES_HDRS}   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/${Gui}/nodes   COMPONENT development)
+install(FILES ${INST_VIEWERS_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/${Gui}/viewers COMPONENT development)
+install(FILES ${INST_WIDGETS_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/${Gui}/widgets COMPONENT development)
 
-install(
-	TARGETS	SoQt
-	EXPORT SoQt
+install(TARGETS So${Gui} EXPORT So${Gui}
 	ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT development
 	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT runtime NAMELINK_SKIP
 	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT runtime
 )
 
-if(SOQT_BUILD_SHARED_LIBS)
-	install(
-		TARGETS	SoQt
-		EXPORT SoQt
-		LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT development NAMELINK_ONLY
-	)
+if(SO${GUI}_BUILD_SHARED_LIBS)
+	install(TARGETS So${Gui} EXPORT So${Gui} LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT development NAMELINK_ONLY)
 endif()
 
-if(MSVC AND SOQT_BUILD_SHARED_LIBS AND ${CMAKE_MAJOR_VERSION} GREATER 2 AND ${CMAKE_MINOR_VERSION} GREATER 0)
-	install(FILES $<TARGET_PDB_FILE:SoQt> DESTINATION ${CMAKE_INSTALL_BINDIR} CONFIGURATIONS Debug RelWithDebInfo COMPONENT debug)
+if(MSVC)
+	if(SO${GUI}_BUILD_SHARED_LIBS)
+		install(FILES $<TARGET_PDB_FILE:So${Gui}> DESTINATION ${CMAKE_INSTALL_BINDIR} CONFIGURATIONS Debug RelWithDebInfo COMPONENT debug)
+	else()
+		set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /Z7")                       # Override default /Zi to embed
+		set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} /Z7")     # debugging info in the .lib.
+	endif()
 endif()
 
-configure_package_config_file(
-  soqt-config.cmake.in soqt-config.cmake
-  INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/SoQt-${SOQT_VERSION}
+configure_package_config_file(so${gui}-config.cmake.in so${gui}-config.cmake
+	INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/So${Gui}-${SO${GUI}_VERSION}
 )
 
-install(
-	FILES ${CMAKE_CURRENT_BINARY_DIR}/soqt-config.cmake
-	DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/SoQt-${SOQT_VERSION}
-	COMPONENT development
-)
-
-write_basic_package_version_file(
-	${CMAKE_CURRENT_BINARY_DIR}/soqt-config-version.cmake
-	VERSION ${VERSION}
+write_basic_package_version_file(${CMAKE_BINARY_DIR}/so${gui}-config-version.cmake
+	VERSION ${SO${GUI}_VERSION}
 	COMPATIBILITY ExactVersion
 )
 
-install(
-	FILES ${CMAKE_CURRENT_BINARY_DIR}/soqt-config-version.cmake
-	DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/SoQt-${SOQT_VERSION}
+# To make the component usable not only from the install directory but also from the build directory
+export(
+	TARGETS So${Gui}
+	FILE so${gui}-export.cmake
+)
+
+install(FILES ${CMAKE_BINARY_DIR}/so${gui}-config.cmake ${CMAKE_BINARY_DIR}/so${gui}-config-version.cmake
+	DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/So${Gui}-${SO${GUI}_VERSION}
 	COMPONENT development
 )
 
-install(
-	EXPORT SoQt
-	DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/SoQt-${SOQT_VERSION}
-	NAMESPACE SoQt::
-	FILE soqt-export.cmake
+install(EXPORT So${Gui}
+	DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/So${Gui}-${SO${GUI}_VERSION}
+	NAMESPACE So${Gui}::
+	FILE so${gui}-export.cmake
 	COMPONENT development
 )
 
 set(CPACK_COMPONENT_DEVELOPMENT_DEPENDS runtime)
 set(CPACK_DEB_COMPONENT_INSTALL ON)
-set(CPACK_DEBIAN_DEVELOPMENT_PACKAGE_DEPENDS "lib${PACKAGE_TARNAME}${QT_VERSION_MAJOR}-20")
-set(CPACK_DEBIAN_DEVELOPMENT_PACKAGE_NAME "lib${PACKAGE_TARNAME}${QT_VERSION_MAJOR}-dev")
+set(CPACK_DEBIAN_DEVELOPMENT_PACKAGE_DEPENDS lib${PACKAGE_TARNAME}${QT_VERSION_MAJOR}-${SO${GUI}_SO_VERSION})
+set(CPACK_DEBIAN_DEVELOPMENT_PACKAGE_NAME lib${PACKAGE_TARNAME}${QT_VERSION_MAJOR}-dev)
 set(CPACK_DEBIAN_DEVELOPMENT_PACKAGE_SECTION "libdevel")
 set(CPACK_DEBIAN_PACKAGE_HOMEPAGE ${PACKAGE_URL})
-set(CPACK_DEBIAN_PACKAGE_NAME "lib${PACKAGE_TARNAME}${QT_VERSION_MAJOR}")
+set(CPACK_DEBIAN_PACKAGE_NAME lib${PACKAGE_TARNAME}${QT_VERSION_MAJOR})
 set(CPACK_DEBIAN_PACKAGE_SECTION "devel")
-set(CPACK_DEBIAN_RUNTIME_PACKAGE_NAME "lib${PACKAGE_TARNAME}${QT_VERSION_MAJOR}-20")
+set(CPACK_DEBIAN_RUNTIME_PACKAGE_NAME lib${PACKAGE_TARNAME}${QT_VERSION_MAJOR}-${SO${GUI}_SO_VERSION})
 set(CPACK_DEBIAN_RUNTIME_PACKAGE_SECTION "libs")
 set(CPACK_NSIS_PACKAGE_NAME ${PACKAGE_STRING})
 set(CPACK_NSIS_URL_INFO_ABOUT ${PACKAGE_URL})
-set(CPACK_PACKAGE_DESCRIPTION_FILE "${PROJECT_SOURCE_DIR}/README")
+set(CPACK_PACKAGE_DESCRIPTION_FILE ${PROJECT_SOURCE_DIR}/README)
 set(CPACK_PACKAGE_CONTACT ${PACKAGE_BUGREPORT})
 set(CPACK_PACKAGE_DISPLAY_NAME ${PACKAGE_STRING})
-set(CPACK_PACKAGE_INSTALL_DIRECTORY "${PACKAGE_TARNAME}-${PACKAGE_VERSION}")
+set(CPACK_PACKAGE_INSTALL_DIRECTORY ${PACKAGE_TARNAME}-${PACKAGE_VERSION})
 set(CPACK_PACKAGE_NAME ${PACKAGE_TARNAME})
-set(CPACK_PACKAGE_VERSION ${SOQT_MAJOR_VERSION}.${SOQT_MINOR_VERSION}.${SOQT_MICRO_VERSION})
-set(CPACK_PACKAGE_VERSION_MAJOR ${SOQT_MAJOR_VERSION})
-set(CPACK_PACKAGE_VERSION_MINOR ${SOQT_MINOR_VERSION})
-set(CPACK_PACKAGE_VERSION_PATCH ${SOQT_MICRO_VERSION})
-set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_CURRENT_SOURCE_DIR}/COPYING)
+set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
+set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
+set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
+set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
+set(CPACK_RESOURCE_FILE_LICENSE ${PROJECT_SOURCE_DIR}/COPYING)
 set(CPACK_RPM_COMPONENT_INSTALL ON)
-set(CPACK_RPM_development_PACKAGE_NAME "${PACKAGE_TARNAME}-devel")
-set(CPACK_RPM_development_PACKAGE_REQUIRES "${PACKAGE_TARNAME}")
+set(CPACK_RPM_development_PACKAGE_NAME ${PACKAGE_TARNAME}-devel)
+set(CPACK_RPM_development_PACKAGE_REQUIRES ${PACKAGE_TARNAME})
 set(CPACK_RPM_PACKAGE_GROUP "Development/Libraries")
 set(CPACK_RPM_PACKAGE_LICENSE "BSD")
 set(CPACK_RPM_PACKAGE_NAME ${PACKAGE_TARNAME})
 set(CPACK_RPM_PACKAGE_URL ${PACKAGE_URL})
-set(CPACK_RPM_runtime_PACKAGE_NAME "${PACKAGE_TARNAME}")
+set(CPACK_RPM_runtime_PACKAGE_NAME ${PACKAGE_TARNAME})
 # workaround for erroneous inclusion of system directories
 # see https://stackoverflow.com/questions/24983181/cpack-generates-rpms-with-files-entries-that-conflict-with-the-rpm-spec-how-to
 set(CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST_ADDITION "/usr/lib64/cmake")
