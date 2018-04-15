@@ -45,7 +45,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 find_package(OpenGL REQUIRED)
 find_package(Coin REQUIRED)
-find_package(superglu REQUIRED)
+#find_package(superglu REQUIRED)
 
 if(USE_QT5)
 	find_package(Qt5 COMPONENTS Core Gui OpenGL Widgets QUIET)
