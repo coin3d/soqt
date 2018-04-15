@@ -47,7 +47,7 @@
   \mainpage
 
   %SoQt is a library which provides the glue between Systems in
-  Motion's \COIN high-level 3D visualization library and Troll Tech's
+  Motion's \COIN high-level 3D visualization library and the
   \QT 2D user interface library.
 
   \QT is a C++ toolkit for multiplatform development of 2D user
@@ -56,8 +56,8 @@
   available on X11-based systems (UNIX, Linux and BSDs), MSWindows,
   Mac OS X and embedded systems.
 
-  For more information on the \QT toolkit, see the web site for Troll
-  Tech (makers of \QT): <http://www.trolltech.com>.
+  For more information on the \QT toolkit, see the web site 
+  for Qt: <http://www.qt.io>.
 
   By using the combination of \COIN, \QT and %SoQt for your 3D
   applications, you have a framework for writing completely portable
@@ -150,7 +150,7 @@
   </center>
 
   As can be seen from the above figure, %SoQt builds on Systems in
-  Motion's \COIN library for the 3D graphics, and Troll Tech's \QT
+  Motion's \COIN library for the 3D graphics, and the \QT
   library for the 2D user interface components and the OpenGL canvas
   binding.
 
