@@ -12,11 +12,13 @@ set(SO${GUI}_MINOR_VERSION 6)
 set(SO${GUI}_MICRO_VERSION 0)
 set(SO${GUI}_BETA_VERSION a)
 set(SO${GUI}_VERSION ${SO${GUI}_MAJOR_VERSION}.${SO${GUI}_MINOR_VERSION}.${SO${GUI}_MICRO_VERSION}${SO${GUI}_BETA_VERSION})
-string(TIMESTAMP SO${GUI}_BUILD_YEAR "%Y")
-math(EXPR SO${GUI}_SO_VERSION ${SO${GUI}_MAJOR_VERSION}*20)
-set(VERSION ${SO${GUI}_VERSION})
 
 project(So${Gui} VERSION ${SO${GUI}_MAJOR_VERSION}.${SO${GUI}_MINOR_VERSION}.${SO${GUI}_MICRO_VERSION})
+string(TOLOWER ${PROJECT_NAME} PROJECT_NAME_LOWER)
+
+string(TIMESTAMP SO${GUI}_BUILD_YEAR "%Y")
+math(EXPR SO${GUI}_SO_VERSION ${PROJECT_VERSION_MAJOR}*20)
+set(VERSION ${SO${GUI}_VERSION})
 
 option(COIN_IV_EXTENSIONS "Enable extra open inventor extensions" ON)
 option(SO${GUI}_BUILD_SHARED_LIBS "Build shared libraries" ON)
@@ -89,14 +91,14 @@ set(CMAKE_REQUIRED_LIBRARIES ${OPENGL_LIBRARIES})
 
 check_library_exists(GL glXChooseVisual "" HAVE_GLX)
 if(HAVE_WINDOWS_H)
-	check_include_files("windows.h;GL/glu.h" HAVE_GL_GLU_H)
 	check_include_files("windows.h;GL/gl.h" HAVE_GL_GL_H)
+	check_include_files("windows.h;GL/glu.h" HAVE_GL_GLU_H)
 else()
-	check_include_files(GL/glu.h HAVE_GL_GLU_H)
 	check_include_files(GL/gl.h HAVE_GL_GL_H)
+	check_include_files(GL/glu.h HAVE_GL_GLU_H)
 endif()
-check_include_files(OpenGL/glu.h HAVE_OPENGL_GLU_H)
 check_include_files(OpenGL/gl.h HAVE_OPENGL_GL_H)
+check_include_files(OpenGL/glu.h HAVE_OPENGL_GLU_H)
 
 unset(CMAKE_REQUIRED_INCLUDES)
 unset(CMAKE_REQUIRED_LIBRARIES)
@@ -204,14 +206,14 @@ if(HAVE_X11_AVAILABLE)
 	check_include_files(X11/Xproto.h HAVE_X11_XPROTO_H)
 endif()
 
-set(PACKAGE So${Gui})
+set(PACKAGE ${PROJECT_NAME})
 set(PACKAGE_DESCRIPTION "A Qt Gui-toolkit binding for Coin")
 set(PACKAGE_BUGREPORT "coin-support@coin3d.org")
-set(PACKAGE_NAME So${Gui})
-set(PACKAGE_STRING "So${Gui} ${SO${GUI}_VERSION}")
-set(PACKAGE_TARNAME so${gui})
-set(PACKAGE_URL "https://bitbucket.org/Coin3D/so${gui}")
-set(PACKAGE_VERSION ${SO${GUI}_VERSION})
+set(PACKAGE_NAME ${PROJECT_NAME})
+set(PACKAGE_STRING "${PROJECT_NAME} ${PROJECT_VERSION}")
+set(PACKAGE_TARNAME ${PROJECT_NAME_LOWER})
+set(PACKAGE_URL "https://bitbucket.org/Coin3D/${PROJECT_NAME_LOWER}")
+set(PACKAGE_VERSION ${PROJECT_VERSION})
 set(PACKAGE_HOST ${CMAKE_HOST_SYSTEM_PROCESSOR}-${CMAKE_HOST_SYSTEM_NAME})
 set(PACKAGE_COMPILER ${CMAKE_CXX_COMPILER})
 set(PACKAGE_REQUIREMENTS "Coin")
@@ -302,15 +304,15 @@ endif()
 
 if(SO${GUI}_BUILD_SHARED_LIBS)
 	if(WIN32)
-		configure_file(src/So${Gui}.rc.cmake.in src/So${Gui}.rc)
-		set(SO${GUI}_RESSOURCE ${CMAKE_BINARY_DIR}/src/So${Gui}.rc CACHE INTERNAL "SO${GUI}_RESSOURCE")
+		configure_file(src/${PROJECT_NAME}.rc.cmake.in src/${PROJECT_NAME}.rc)
+		set(SO${GUI}_RESSOURCE ${CMAKE_BINARY_DIR}/src/${PROJECT_NAME}.rc CACHE INTERNAL "SO${GUI}_RESSOURCE")
 		set(CMAKE_RELEASE_POSTFIX ${PROJECT_VERSION_MAJOR})
 		set(CMAKE_MINSIZEREL_POSTFIX ${PROJECT_VERSION_MAJOR})
 		set(CMAKE_RELWITHDEBINFO_POSTFIX ${PROJECT_VERSION_MAJOR})
 		set(CMAKE_DEBUG_POSTFIX ${PROJECT_VERSION_MAJOR}d)
 	endif()
-	add_library(So${Gui} SHARED ${HDRS} ${COMMON_HDRS} ${SRCS} ${COMMON_SRCS} ${SO${GUI}_RESSOURCE} ${MOC_SRCS})
-	target_compile_definitions(So${Gui} PRIVATE SO${GUI}_MAKE_DLL INTERFACE SO${GUI}_DLL)
+	add_library(${PROJECT_NAME} SHARED ${HDRS} ${COMMON_HDRS} ${SRCS} ${COMMON_SRCS} ${SO${GUI}_RESSOURCE} ${MOC_SRCS})
+	target_compile_definitions(${PROJECT_NAME} PRIVATE SO${GUI}_MAKE_DLL INTERFACE SO${GUI}_DLL)
 else()
 	if(WIN32)
 		set(CMAKE_RELEASE_POSTFIX ${PROJECT_VERSION_MAJOR}s)
@@ -318,18 +320,18 @@ else()
 		set(CMAKE_RELWITHDEBINFO_POSTFIX ${PROJECT_VERSION_MAJOR}s)
 		set(CMAKE_DEBUG_POSTFIX ${PROJECT_VERSION_MAJOR}sd)
 	endif()
-	add_library(So${Gui} STATIC ${HDRS} ${COMMON_HDRS} ${SRCS} ${COMMON_SRCS} ${MOC_SRCS})
-	target_compile_definitions(So${Gui} INTERFACE SO${GUI}_NOT_DLL)
+	add_library(${PROJECT_NAME} STATIC ${HDRS} ${COMMON_HDRS} ${SRCS} ${COMMON_SRCS} ${MOC_SRCS})
+	target_compile_definitions(${PROJECT_NAME} INTERFACE SO${GUI}_NOT_DLL)
 endif()
 
-set_target_properties(So${Gui} PROPERTIES VERSION ${SO${GUI}_VERSION} SOVERSION ${SO${GUI}_SO_VERSION})
+set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${SO${GUI}_VERSION} SOVERSION ${SO${GUI}_SO_VERSION})
 
-target_compile_definitions(So${Gui} PRIVATE HAVE_CONFIG_H SO${GUI}_INTERNAL SO${GUI}_DEBUG=$<CONFIG:Debug>)
+target_compile_definitions(${PROJECT_NAME} PRIVATE HAVE_CONFIG_H SO${GUI}_INTERNAL SO${GUI}_DEBUG=$<CONFIG:Debug>)
 if(MSVC)
-	target_compile_definitions(So${Gui} PRIVATE _CRT_NONSTDC_NO_DEPRECATE _CRT_SECURE_NO_DEPRECATE _CRT_SECURE_NO_WARNINGS)
+	target_compile_definitions(${PROJECT_NAME} PRIVATE _CRT_NONSTDC_NO_DEPRECATE _CRT_SECURE_NO_DEPRECATE _CRT_SECURE_NO_WARNINGS)
 endif()
 
-target_include_directories(So${Gui}
+target_include_directories(${PROJECT_NAME}
 	PUBLIC
 		$<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/src>
 #		$<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/src/Inventor/Qt>
@@ -338,15 +340,15 @@ target_include_directories(So${Gui}
 		${OPENGL_INCLUDE_DIR}
 )
 
-target_link_libraries(So${Gui} Coin::Coin ${OPENGL_LIBRARIES} ${QT_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} Coin::Coin ${OPENGL_LIBRARIES} ${QT_LIBRARIES})
 
 if(X11_FOUND)
-	target_include_directories(So${Gui} PUBLIC ${X11_INCLUDE_DIR})
-	target_link_libraries(So${Gui} ${X11_LIBRARIES})
+	target_include_directories(${PROJECT_NAME} PUBLIC ${X11_INCLUDE_DIR})
+	target_link_libraries(${PROJECT_NAME} ${X11_LIBRARIES})
 endif()
 if(X11_Xi_FOUND)
-	target_include_directories(So${Gui} PUBLIC ${X11_Xi_INCLUDE_DIR})
-	target_link_libraries(So${Gui} ${X11_Xi_LIB})
+	target_include_directories(${PROJECT_NAME} PUBLIC ${X11_Xi_INCLUDE_DIR})
+	target_link_libraries(${PROJECT_NAME} ${X11_Xi_LIB})
 endif()
 
 ##### small test programs (to be run interactively)
@@ -452,53 +454,53 @@ install(FILES ${INST_NODES_HDRS}   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inven
 install(FILES ${INST_VIEWERS_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/${Gui}/viewers COMPONENT development)
 install(FILES ${INST_WIDGETS_HDRS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Inventor/${Gui}/widgets COMPONENT development)
 
-install(TARGETS So${Gui} EXPORT So${Gui}
+install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}
 	ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT development
 	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT runtime NAMELINK_SKIP
 	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT runtime
 )
 
 if(SO${GUI}_BUILD_SHARED_LIBS)
-	install(TARGETS So${Gui} EXPORT So${Gui} LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT development NAMELINK_ONLY)
+	install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME} LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT development NAMELINK_ONLY)
 endif()
 
 if(MSVC)
 	if(SO${GUI}_BUILD_SHARED_LIBS)
-		install(FILES $<TARGET_PDB_FILE:So${Gui}> DESTINATION ${CMAKE_INSTALL_BINDIR} CONFIGURATIONS Debug RelWithDebInfo COMPONENT debug)
+		install(FILES $<TARGET_PDB_FILE:${PROJECT_NAME}> DESTINATION ${CMAKE_INSTALL_BINDIR} CONFIGURATIONS Debug RelWithDebInfo COMPONENT debug)
 	else()
 		set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /Z7")                       # Override default /Zi to embed
 		set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} /Z7")     # debugging info in the .lib.
 	endif()
 endif()
 
-configure_package_config_file(so${gui}-config.cmake.in so${gui}-config.cmake
-	INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/So${Gui}-${SO${GUI}_VERSION}
+configure_package_config_file(${PROJECT_NAME_LOWER}-config.cmake.in ${PROJECT_NAME_LOWER}-config.cmake
+	INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}-${PROJECT_VERSION}
 )
 
-write_basic_package_version_file(${CMAKE_BINARY_DIR}/so${gui}-config-version.cmake
-	VERSION ${SO${GUI}_VERSION}
+write_basic_package_version_file(${CMAKE_BINARY_DIR}/${PROJECT_NAME_LOWER}-config-version.cmake
+	VERSION ${PROJECT_VERSION}
 	COMPATIBILITY ExactVersion
 )
 
 # To make the component usable not only from the install directory but also from the build directory
 export(
-	TARGETS So${Gui}
-	FILE so${gui}-export.cmake
+	TARGETS ${PROJECT_NAME}
+	FILE ${PROJECT_NAME_LOWER}-export.cmake
 )
 
-install(FILES ${CMAKE_BINARY_DIR}/so${gui}-config.cmake ${CMAKE_BINARY_DIR}/so${gui}-config-version.cmake
-	DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/So${Gui}-${SO${GUI}_VERSION}
+install(FILES ${CMAKE_BINARY_DIR}/${PROJECT_NAME_LOWER}-config.cmake ${CMAKE_BINARY_DIR}/${PROJECT_NAME_LOWER}-config-version.cmake
+	DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}-${PROJECT_VERSION}
 	COMPONENT development
 )
 
-install(EXPORT So${Gui}
-	DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/So${Gui}-${SO${GUI}_VERSION}
-	NAMESPACE So${Gui}::
-	FILE so${gui}-export.cmake
+install(EXPORT ${PROJECT_NAME}
+	DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}-${PROJECT_VERSION}
+	NAMESPACE ${PROJECT_NAME}::
+	FILE ${PROJECT_NAME_LOWER}-export.cmake
 	COMPONENT development
 )
 
-set(CPACK_COMPONENT_DEVELOPMENT_DEPENDS runtime)
+set(CPACK_COMPONENT_DEVELOPMENT_DEPENDS "runtime")
 set(CPACK_DEB_COMPONENT_INSTALL ON)
 set(CPACK_DEBIAN_DEVELOPMENT_PACKAGE_DEPENDS lib${PACKAGE_TARNAME}${QT_VERSION_MAJOR}-${SO${GUI}_SO_VERSION})
 set(CPACK_DEBIAN_DEVELOPMENT_PACKAGE_NAME lib${PACKAGE_TARNAME}${QT_VERSION_MAJOR}-dev)
