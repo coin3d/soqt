@@ -52,7 +52,9 @@ main( int argc, char **argv )
   SoQtThumbWheel wheel_v(SoQtThumbWheel::Vertical);
   wheel_v.resize(30, 200);
 
+#if QT_VERSION < 0x040000 // Qt < 4.0.0
   a.setMainWidget(&wheel_h);
+#endif
   wheel_h.show();
   wheel_v.show();
   return a.exec();

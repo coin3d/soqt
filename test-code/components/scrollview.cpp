@@ -44,16 +44,21 @@
 #include <Inventor/nodes/SoSeparator.h>
 #include <qapplication.h>
 #include <qpainter.h>
+#if QT_VERSION < 0x040000 // Qt < 4.0.0
 #include <qscrollview.h>
-#include <qpushbutton.h>
+#else
+#include <qscrollarea.h>
+#endif
 
 
-class MyScrollView : public QScrollView {
+class MyScrollView : public QScrollArea {
 public:
-  MyScrollView(QWidget * parent) : QScrollView(parent)
+  MyScrollView(QWidget * parent) : QScrollArea(parent)
     {
+#if QT_VERSION < 0x040000 // Qt < 4.0.0
       this->resizeContents(10000, 10000);
       this->enableClipper(TRUE);
+#endif
 
       // Container widget for the SoQtRenderArea.
 
@@ -65,7 +70,7 @@ public:
       SoSeparator * root = new SoSeparator;
 
       SoDirectionalLight * light = new SoDirectionalLight;
-      light->direction.setValue(-0.5, -0.5, -0.8);
+      light->direction.setValue(-0.5f, -0.5f, -0.8f);
       root->addChild(light);
 
       SoPerspectiveCamera * camera = new SoPerspectiveCamera;
@@ -81,8 +86,12 @@ public:
       renderarea->setSceneGraph(root);
       camera->viewAll(root, renderarea->getViewportRegion());
 
+#if QT_VERSION < 0x040000 // Qt < 4.0.0
       this->addChild(container, 100, 100);
       this->showChild(container);
+#else
+      this->setWidget(container);
+#endif
     }
 
 protected:
@@ -108,7 +117,9 @@ main(int argc, char ** argv)
 
   // Set up scrollview window.
   MyScrollView * vp = new MyScrollView(NULL);
+#if QT_VERSION < 0x040000 // Qt < 4.0.0
   vp->viewport()->setBackgroundMode(QWidget::NoBackground);
+#endif
 
   // Map window.
   vp->show();

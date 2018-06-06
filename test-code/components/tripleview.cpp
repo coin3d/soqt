@@ -119,7 +119,9 @@ main(int argc, char ** argv)
 
   QApplication app(argc, argv);
   QWidget * parent = new QWidget;
+#if QT_VERSION < 0x040000 // Qt < 4.0.0
   app.setMainWidget(parent);
+#endif
   SoQt::init(parent);
 
   parent->setMinimumSize(300, 200);
@@ -145,7 +147,7 @@ main(int argc, char ** argv)
 
   SoGroup * commonroot = new SoGroup;
   SoDirectionalLight * light = new SoDirectionalLight;
-  light->direction.setValue(-0.5, -0.5, -0.8);
+  light->direction.setValue(-0.5f, -0.5f, -0.8f);
   commonroot->addChild(light);
   SoRotation * scenerotate = new SoRotation;
   commonroot->addChild(scenerotate);
@@ -181,8 +183,8 @@ main(int argc, char ** argv)
   // Add the 3 renderareas.
 
   add_view(view0, commonroot, SbRotation(SbVec3f(0, 0, 1), 0));
-  add_view(view1, commonroot, SbRotation(SbVec3f(0, 1, 0), M_PI / 2.0f));
-  add_view(view2, commonroot, SbRotation(SbVec3f(1, 0, 0), -M_PI / 2.0f));
+  add_view(view1, commonroot, SbRotation(SbVec3f(0, 1, 0), float(M_PI / 2.0)));
+  add_view(view2, commonroot, SbRotation(SbVec3f(1, 0, 0), float(-M_PI / 2.0)));
 
 
   // Set up a timer callback to do a simple animation.

@@ -349,6 +349,9 @@ if(X11_Xi_FOUND)
 	target_link_libraries(So${Gui} ${X11_Xi_LIB})
 endif()
 
+##### small test programs (to be run interactively)
+add_subdirectory(test-code)
+
 ##### documentation
 find_package(Doxygen)
 if(DOXYGEN_FOUND)
