@@ -15,7 +15,11 @@ set(SO${GUI}_VERSION ${SO${GUI}_MAJOR_VERSION}.${SO${GUI}_MINOR_VERSION}.${SO${G
 
 project(So${Gui} VERSION ${SO${GUI}_MAJOR_VERSION}.${SO${GUI}_MINOR_VERSION}.${SO${GUI}_MICRO_VERSION})
 string(TOLOWER ${PROJECT_NAME} PROJECT_NAME_LOWER)
-
+############################################################################
+# these will be removed after upgrading CMake minimum version to 3.9.6
+set(PROJECT_DESCRIPTION   "SoQt is a Qt GUI component toolkit library for Coin")
+############################################################################
+ 
 string(TIMESTAMP SO${GUI}_BUILD_YEAR "%Y")
 math(EXPR SO${GUI}_SO_VERSION ${PROJECT_VERSION_MAJOR}*20)
 set(VERSION ${SO${GUI}_VERSION})
@@ -504,6 +508,15 @@ install(EXPORT ${PROJECT_NAME}
 	FILE ${PROJECT_NAME_LOWER}-export.cmake
 	COMPONENT development
 )
+
+############################################################################
+# New CPACK section, please see the README file inside cpack.d directory.
+add_subdirectory(cpack.d)
+
+# ############################################################################
+# Legacy cmake statements, packagers should consider to populate the cpack.d
+# drop-in directory
+# ############################################################################
 
 set(CPACK_COMPONENT_DEVELOPMENT_DEPENDS "runtime")
 set(CPACK_DEB_COMPONENT_INSTALL ON)

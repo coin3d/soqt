@@ -1,0 +1,6 @@
+SoQt is a Qt GUI component toolkit library for Coin. It is also compatible 
+with SGI and TGS Open Inventor, and the API is based on the API of the 
+InventorXt GUI component toolkit. The library is released publicly under the 
+3-clause BSD  license (see COPYING). SoQt is supported on UNIX, Win32 and Mac 
+OS X platforms. Before using SoQt, consider whether Quarter is a better match 
+for your application.
