@@ -1,3 +1,4 @@
 data = ../soanydata
 src/Inventor/Qt/common = ../sogui
 build/general = ../generalmsvcgeneration
+cpack.d = https://bitbucket.org/ggabbiani/cpack.d

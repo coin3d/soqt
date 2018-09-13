@@ -46,6 +46,11 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
+# get rid of OpenGL GLVND warning from CMake 3.11
+if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.11")
+  cmake_policy(SET CMP0072 NEW)
+endif()
+
 find_package(OpenGL REQUIRED)
 find_package(Coin REQUIRED)
 #find_package(superglu REQUIRED)
