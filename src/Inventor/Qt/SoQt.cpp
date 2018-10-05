@@ -129,7 +129,7 @@
   controls:
 
   <center>
-  <img src="http://doc.coin3d.org/images/SoLibs/general/sogui-class-example.png">
+  <img src="sogui-class-example.png">
   </center>
 
   The %SoQt library contains several such high-level classes as the
@@ -146,7 +146,7 @@
   components:
 
   <center>
-  <img src="http://doc.coin3d.org/images/SoLibs/mainpage/soqt-boxology.png">
+  <img src="soqt-boxology.png">
   </center>
 
   As can be seen from the above figure, %SoQt builds on Systems in
@@ -177,14 +177,14 @@
   cone:
 
   <center>
-  <img src="http://doc.coin3d.org/images/Coin/draggers/trackball-cone.png">
+  <img src="trackball-cone.png">
   </center>
   </li>
 
   <li>Some abstract viewer classes, like the SoQtViewer and
   SoQtFullViewer, which provides additional services on top of the
   SoQtRenderArea for assisting the application programmer in
-  convenient handling of cameras and lightsources in the 3D scene (by
+  convenient handling of cameras and light sources in the 3D scene (by
   the SoQtViewer), plus adding the basic, common user interface
   components (by the SoQtFullViewer).</li>
 
@@ -207,10 +207,10 @@
 
   The %SoQt API is based on and closely matches the InventorXt library
   API, originally developed by SGI. This should make it
-  straigthforward to port InventorXt code over to %SoQt, for instance
+  straightforward to port InventorXt code over to %SoQt, for instance
   to gain greater portability.
 
-  \sa The documentation for the \COIN library: <http://doc.coin3d.org/Coin>.
+  \sa The documentation for the \COIN library: <https://coin3d.bitbucket.io/Coin/>.
 */
 
 // *************************************************************************
