@@ -52,7 +52,7 @@ static SoSeparator * get_scene_graph(void)
   SoGroup * group = new SoGroup;
 
   SoRotor * rotor = new SoRotor;
-  rotor->rotation = SbRotation(SbVec3f(0.2, 0.5, 0.9), M_PI/4.0);
+  rotor->rotation = SbRotation(SbVec3f(0.2f, 0.5f, 0.9f), float(M_PI)/4.0f);
   group->addChild(rotor);
 
   SoCube * cube = new SoCube;
