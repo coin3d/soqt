@@ -47,8 +47,6 @@ endif()
 # Include necessary submodules
 # ############################################################################
 
-set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
-
 include(CheckCXXSourceCompiles)
 include(CheckFunctionExists)
 include(CheckIncludeFiles)
@@ -63,11 +61,12 @@ include(GNUInstallDirs)
 # Provide options to customise the build
 # ############################################################################
 
-option(COIN_IV_EXTENSIONS "Enable extra open inventor extensions" ON)
+option(COIN_IV_EXTENSIONS "Enable extra Open Inventor extensions" ON)
 option(SO${GUI}_BUILD_SHARED_LIBS "Build shared libraries" ON)
 option(USE_QT5 "Prefer Qt5 over Qt4 if available" ON)
 option(WITH_STATIC_DEFAULTS "Enable statically linked in default materials" ON)
 option(HAVE_SPACENAV_SUPPORT "Enable Space Navigator support" ON)
+option(SO${GUI}_BUILD_DOCUMENTATION "Build and install API documentation (requires Doxygen)." ON)
 cmake_dependent_option(SO${GUI}_BUILD_INTERNAL_DOCUMENTATION "Document internal code not part of the API." OFF "SO${GUI}_BUILD_DOCUMENTATION" OFF)
 cmake_dependent_option(SO${GUI}_BUILD_DOC_MAN "Build So${Gui} man pages." OFF "SO${GUI}_BUILD_DOCUMENTATION" OFF)
 cmake_dependent_option(SO${GUI}_BUILD_DOC_QTHELP "Build QtHelp documentation." OFF "SO${GUI}_BUILD_DOCUMENTATION" OFF)
@@ -92,10 +91,12 @@ if(Qt5_FOUND)
   string(REGEX REPLACE "^([0-9]+)\\.[0-9]+\\.[0-9]+.*" "\\1" QT_VERSION_MAJOR "${Qt5Core_VERSION_STRING}")
   string(REGEX REPLACE "^[0-9]+\\.([0-9])+\\.[0-9]+.*" "\\1" QT_VERSION_MINOR "${Qt5Core_VERSION_STRING}")
   string(REGEX REPLACE "^[0-9]+\\.[0-9]+\\.([0-9]+).*" "\\1" QT_VERSION_PATCH "${Qt5Core_VERSION_STRING}")
+  set(PACKAGE_ADDITIONAL_REQUIREMENTS "Qt5Core, Qt5Gui, Qt5OpenGL, Qt5Widgets")
 else()
   set(QT_USE_IMPORTED_TARGETS ON)
   find_package(Qt4 COMPONENTS QtCore QtGui QtOpenGL REQUIRED)
   include(${QT_USE_FILE})
+  set(PACKAGE_ADDITIONAL_REQUIREMENTS "QtCore, QtGui, QtOpenGL")
 endif()
 
 find_package(X11)
@@ -270,7 +271,7 @@ set(PACKAGE_URL "https://bitbucket.org/Coin3D/${PROJECT_NAME_LOWER}")
 set(PACKAGE_VERSION ${PROJECT_VERSION})
 set(PACKAGE_HOST ${CMAKE_HOST_SYSTEM_PROCESSOR}-${CMAKE_HOST_SYSTEM_NAME})
 set(PACKAGE_COMPILER ${CMAKE_CXX_COMPILER})
-set(PACKAGE_REQUIREMENTS "Coin")
+set(PACKAGE_REQUIREMENTS "Coin, ${PACKAGE_ADDITIONAL_REQUIREMENTS}")
 
 # ############################################################################
 # Setup targets in subdirectories
