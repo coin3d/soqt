@@ -1,0 +1,22 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=${prefix}
+bindir=${exec_prefix}/bin
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+datarootdir=${prefix}/share
+datadir=${datarootdir}
+docdir=${datarootdir}/doc/@PROJECT_NAME_LOWER@
+infodir=${datarootdir}/info
+mandir=${datarootdir}/man
+htmldir=${docdir}/html
+
+Name: @PROJECT_NAME@
+Description: A Qt Gui-toolkit binding for Coin
+Version: @PROJECT_VERSION@
+Requires: Coin, QtCore, QtGui, QtOpenGL, QtWidgets
+Conflicts:
+Libs: -L${libdir} -lSoQt @SOQT_EXTRA_LDFLAGS@ @SOQT_EXTRA_LIBS@
+Cflags: -I${includedir} @SOQT_EXTRA_CFLAGS@ @SOQT_EXTRA_CPPFLAGS@
+
+frameworkdir=@frameworkdir@
+qt_version=@QT_VERSION@
