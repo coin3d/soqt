@@ -63,7 +63,7 @@ include(GNUInstallDirs)
 
 option(COIN_IV_EXTENSIONS "Enable extra Open Inventor extensions" ON)
 option(SO${GUI}_BUILD_SHARED_LIBS "Build shared libraries" ON)
-option(USE_QT5 "Prefer Qt5 over Qt4 if available" ON)
+option(SO${GUI}_USE_QT5 "Prefer Qt5 over Qt4 if available" ON)
 option(WITH_STATIC_DEFAULTS "Enable statically linked in default materials" ON)
 option(HAVE_SPACENAV_SUPPORT "Enable Space Navigator support" ON)
 option(SO${GUI}_BUILD_DOCUMENTATION "Build and install API documentation (requires Doxygen)." ON)
@@ -82,7 +82,7 @@ find_package(OpenGL REQUIRED)
 find_package(Coin REQUIRED)
 #find_package(superglu REQUIRED)
 
-if(USE_QT5)
+if(SO${GUI}_USE_QT5)
   find_package(Qt5 COMPONENTS Core Gui OpenGL Widgets QUIET)
 endif()
 
