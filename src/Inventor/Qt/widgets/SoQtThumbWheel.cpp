@@ -36,6 +36,7 @@
 /*!
   \class SoQtThumbWheel SoQtThumbWheel.h Inventor/Qt/widgets/SoQtThumbWheel.h
   \brief The SoQtThumbWheel class is a UI component for fancy looking thumbwheel controls.
+
   \ingroup components
 */
 
