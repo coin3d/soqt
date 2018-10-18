@@ -34,6 +34,7 @@
   \class SoQtLinuxJoystick Inventor/Qt/devices/SoQtLinuxJoystick.h
   \brief The SoQtLinuxJoystick class is for enabling use of joysticks with
   SoQt through the Linux Joystick driver.
+
   \ingroup devices
 
   This class is not included with Open Inventor, but is an SoQt-specific
