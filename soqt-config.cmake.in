@@ -1,32 +1,70 @@
-set(SoQt_VERSION "@SOQT_MAJOR_VERSION@.@SOQT_MINOR_VERSION@.@SOQT_MICRO_VERSION@")
-set(SoQt_VERSION_MAJOR "@SOQT_MAJOR_VERSION@")
-set(SoQt_VERSION_MINOR "@SOQT_MINOR_VERSION@")
-set(SoQt_VERSION_PATCH "@SOQT_MICRO_VERSION@")
+# CMake package configuration file for @PROJECT_NAME@
+#
+# Defines the target "@PROJECT_NAME@::@PROJECT_NAME@"
+#
+# Add the following lines to your CMakeLists.txt to depend on @PROJECT_NAME@
+#
+#    find_package(@PROJECT_NAME@ REQUIRED)
+#    target_link_libraries(my_target_name @PROJECT_NAME@::@PROJECT_NAME@)
+#
+# Additionally you may one of the following variables (or their corresponding
+# upper case version) that are also defined.
+#
+# @PROJECT_NAME@_COMPILE_DEFINITIONS
+# @PROJECT_NAME@_DEFINITIONS
+# @PROJECT_NAME@_INCLUDE_DIRS
+# @PROJECT_NAME@_INCLUDE_DIR
+# @PROJECT_NAME@_LIBRARY
+# @PROJECT_NAME@_LIBRARIES
+# @PROJECT_NAME@_LIBRARY_DIRS
+# @PROJECT_NAME@_LIBRARY_DIR
+#
+# However, in most cases using the @PROJECT_NAME@::@PROJECT_NAME@ target is sufficient,
+# and you won't need these variables.
 
 @PACKAGE_INIT@
 
 include(CMakeFindDependencyMacro)
-include(GNUInstallDirs)
 
-find_dependency(Coin)
+find_dependency(Coin REQUIRED)
 
-if(@Qt5_FOUND@)
-	find_dependency(Qt5Core)
-	find_dependency(Qt5Gui)
-	find_dependency(Qt5OpenGL)
-	find_dependency(Qt5Widgets)
-else(@Qt4_FOUND@)
-	find_dependency(Qt4)
+set(_have_qt5 "@Qt5_FOUND@")
+set(_have_qt4 "@Qt4_FOUND@")
+if(_have_qt5)
+  find_dependency(Qt5Core REQUIRED)
+  find_dependency(Qt5Gui REQUIRED)
+  find_dependency(Qt5OpenGL REQUIRED)
+  find_dependency(Qt5Widgets REQUIRED)
+elseif(_have_qt4)
+  find_dependency(Qt4 REQUIRED)
 endif()
 
-include("${CMAKE_CURRENT_LIST_DIR}/soqt-export.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME_LOWER@-export.cmake")
 
-if(SOQT_BUILD_SHARED_LIBS)
-	set(SoQt_DEFINITIONS "-DSOQT_DLL")
-else()
-	set(SoQt_DEFINITIONS "-DSOQT_NOT_DLL")
-endif()
+get_property(@PROJECT_NAME@_COMPILE_DEFINITIONS TARGET @PROJECT_NAME@::@PROJECT_NAME@ PROPERTY INTERFACE_COMPILE_DEFINITIONS)
+foreach(_def ${@PROJECT_NAME@_COMPILE_DEFINITIONS})
+  list(APPEND @PROJECT_NAME@_DEFINITIONS -D${_def})
+endforeach()
 
-set(SoQt_INCLUDE_DIRS "${PACKAGE_PREFIX_DIR}/@CMAKE_INSTALL_INCLUDEDIR@")
-set(SoQt_LIBRARY_DIRS "${PACKAGE_PREFIX_DIR}/@CMAKE_INSTALL_LIBDIR@")
-set(SoQt_LIBRARIES "SoQt::SoQt")
+get_property(@PROJECT_NAME@_INCLUDE_DIRS TARGET @PROJECT_NAME@::@PROJECT_NAME@ PROPERTY INTERFACE_INCLUDE_DIRECTORIES)
+set(@PROJECT_NAME@_INCLUDE_DIR ${@PROJECT_NAME@_INCLUDE_DIRS})
+set(@PROJECT_NAME@_LIBRARY @PROJECT_NAME@::@PROJECT_NAME@)
+get_property(@PROJECT_NAME@_LIBRARIES TARGET @PROJECT_NAME@::@PROJECT_NAME@ PROPERTY INTERFACE_LINK_LIBRARIES)
+set(@PROJECT_NAME@_LIBRARIES @PROJECT_NAME@::@PROJECT_NAME@ ${@PROJECT_NAME@_LIBRARIES})
+set(@PROJECT_NAME@_LIBRARY_DIRS "${PACKAGE_PREFIX_DIR}/@CMAKE_INSTALL_LIBDIR@")
+set(@PROJECT_NAME@_LIBRARY_DIR ${@PROJECT_NAME@_LIBRARY_DIRS})
+
+# For backwards compatibility define upper case versions of output variables
+foreach(_var
+  @PROJECT_NAME@_COMPILE_DEFINITIONS
+  @PROJECT_NAME@_DEFINITIONS
+  @PROJECT_NAME@_INCLUDE_DIRS
+  @PROJECT_NAME@_INCLUDE_DIR
+  @PROJECT_NAME@_LIBRARY
+  @PROJECT_NAME@_LIBRARIES
+  @PROJECT_NAME@_LIBRARY_DIRS
+  @PROJECT_NAME@_LIBRARY_DIR
+  )
+  string(TOUPPER ${_var} _uppercase_var)
+  set(${_uppercase_var} ${${_var}})
+endforeach()
