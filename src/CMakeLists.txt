@@ -101,29 +101,33 @@ if(WIN32)
   set(CMAKE_DEBUG_POSTFIX ${SO${GUI}_DEFAULT_POSTFIX}d)
 elseif(APPLE)
 else()
+  set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 endif()
 
 if(SO${GUI}_BUILD_SHARED_LIBS)
   add_library(${PROJECT_NAME} SHARED ${HDRS} ${COMMON_HDRS} ${SRCS} ${COMMON_SRCS} ${MOC_SRCS})
-  target_compile_definitions(${PROJECT_NAME} INTERFACE SO${GUI}_DLL)
-  if(WIN32)
-    configure_file(${PROJECT_NAME}.rc.cmake.in ${PROJECT_NAME}.rc)
-    target_sources(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.rc")
-    target_compile_definitions(${PROJECT_NAME} PRIVATE SO${GUI}_MAKE_DLL)
-  endif()
 else()
   add_library(${PROJECT_NAME} STATIC ${HDRS} ${COMMON_HDRS} ${SRCS} ${COMMON_SRCS} ${MOC_SRCS})
-  target_compile_definitions(${PROJECT_NAME} INTERFACE SO${GUI}_NOT_DLL)
 endif()
 
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${SO${GUI}_VERSION} SOVERSION ${SO${GUI}_SO_VERSION})
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE HAVE_CONFIG_H SO${GUI}_INTERNAL SO${GUI}_DEBUG=$<CONFIG:Debug>)
-if(MSVC)
-  target_compile_definitions(${PROJECT_NAME} PRIVATE _CRT_NONSTDC_NO_DEPRECATE _CRT_SECURE_NO_DEPRECATE _CRT_SECURE_NO_WARNINGS _USE_MATH_DEFINES)
-  if(NOT SO${GUI}_BUILD_SHARED_LIBS)
-    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /Z7")                       # Override default /Zi to embed
-    set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} /Z7")     # debugging info in the .lib.
+
+if(WIN32)
+  if(MSVC)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE _CRT_NONSTDC_NO_DEPRECATE _CRT_SECURE_NO_DEPRECATE _CRT_SECURE_NO_WARNINGS _USE_MATH_DEFINES)
+  endif()
+  if(SO${GUI}_BUILD_SHARED_LIBS)
+    configure_file(${PROJECT_NAME}.rc.cmake.in ${PROJECT_NAME}.rc)
+    target_sources(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.rc")
+    target_compile_definitions(${PROJECT_NAME} PRIVATE SO${GUI}_MAKE_DLL INTERFACE SO${GUI}_DLL)
+  else()
+    target_compile_definitions(${PROJECT_NAME} INTERFACE SO${GUI}_NOT_DLL)
+    if(MSVC)
+      set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /Z7")                       # Override default /Zi to embed
+      set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} /Z7")     # debugging info in the .lib.
+    endif()
   endif()
 endif()
 
