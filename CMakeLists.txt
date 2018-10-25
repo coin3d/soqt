@@ -80,7 +80,6 @@ cmake_dependent_option(SO${GUI}_BUILD_DOC_CHM "Build compressed HTML help manual
 
 find_package(OpenGL REQUIRED)
 find_package(Coin REQUIRED)
-#find_package(superglu REQUIRED)
 
 if(SO${GUI}_USE_QT5)
   find_package(Qt5 COMPONENTS Core Gui OpenGL Widgets QUIET)
