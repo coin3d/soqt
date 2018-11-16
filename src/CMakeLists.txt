@@ -123,7 +123,7 @@ elseif(APPLE)
 
   # package config *.pc entries
   set(frameworkdir "${SO${GUI}_MAC_FRAMEWORK_PREFIX}/${SO${GUI}_MAC_FRAMEWORK_NAME}.framework")
-  set(includedir "${frameworkdir}/Version/${SO${GUI}_MAC_FRAMEWORK_VERSION}/Resources/include")
+  set(includedir "${frameworkdir}/Versions/${SO${GUI}_MAC_FRAMEWORK_VERSION}/Resources/include")
   set(ivincludedir "${includedir}")
   set(SO${GUI}_EXTRA_CPPFLAGS "-F${SO${GUI}_MAC_FRAMEWORK_PREFIX}")
   set(SO${GUI}_EXTRA_FP_LDFLAGS "-Wl,-F${SO${GUI}_MAC_FRAMEWORK_PREFIX}")
@@ -152,9 +152,6 @@ if(SO${GUI}_BUILD_MAC_FRAMEWORK)
 
   set(SO${GUI}_INSTALL_LIBRARY_DIR ${SO${GUI}_MAC_FRAMEWORK_NAME}.framework/Versions/Current/Libraries)
   set(SO${GUI}_INSTALL_CMAKE_CONFIG_DIR ${SO${GUI}_MAC_FRAMEWORK_NAME}.framework/Versions/Current/Resources/CMake)
-
-  set(SO${GUI}_MAC_FRAMEWORK_HEADER "${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/So${Gui}.h")
-  set(SO${GUI}_MAC_FRAMEWORK_RESOURCE "${CMAKE_BINARY_DIR}/version.plist")
 else()
   set(SO${GUI}_INSTALL_LIBRARY_DIR ${CMAKE_INSTALL_LIBDIR})
   set(SO${GUI}_INSTALL_CMAKE_CONFIG_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}-${PROJECT_VERSION})
@@ -192,9 +189,9 @@ elseif(APPLE)
     set_target_properties(${PROJECT_NAME} PROPERTIES
       FRAMEWORK TRUE
       FRAMEWORK_VERSION ${SO${GUI}_MAC_FRAMEWORK_VERSION}
-      PUBLIC_HEADER "${SO${GUI}_MAC_FRAMEWORK_HEADER}"
+      PUBLIC_HEADER "${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/So${Gui}.h"
       #PRIVATE_HEADER "${SO${GUI}_PRIVATE_HEADERS}"
-      RESOURCE "${SO${GUI}_MAC_FRAMEWORK_RESOURCE}"
+      RESOURCE "${CMAKE_BINARY_DIR}/version.plist"
       MACOSX_FRAMEWORK_IDENTIFIER org.coin3d.SoQt.framework
       MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${PROJECT_VERSION}
       MACOSX_FRAMEWORK_BUNDLE_VERSION ${PROJECT_VERSION}
