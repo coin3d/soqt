@@ -72,6 +72,8 @@ cmake_dependent_option(SO${GUI}_BUILD_DOC_MAN "Build So${Gui} man pages." OFF "S
 cmake_dependent_option(SO${GUI}_BUILD_DOC_QTHELP "Build QtHelp documentation." OFF "SO${GUI}_BUILD_DOCUMENTATION" OFF)
 cmake_dependent_option(SO${GUI}_BUILD_DOC_CHM "Build compressed HTML help manual (requires HTML help compiler)" OFF "SO${GUI}_BUILD_DOCUMENTATION" OFF)
 
+cmake_dependent_option(SO${GUI}_BUILD_MAC_FRAMEWORK "Build framework instead of dylib on Mac OS X when ON. Only valid if SO${GUI}_BUILD_SHARED_LIBS is ON." ON "APPLE;NOT IOS;SO${GUI}_BUILD_SHARED_LIBS" OFF)
+
 # ############################################################################
 # Find all necessary and optional SoQt dependencies
 # ############################################################################
@@ -79,7 +81,13 @@ cmake_dependent_option(SO${GUI}_BUILD_DOC_CHM "Build compressed HTML help manual
 # Fail early if one of the required packages cannot be found
 
 find_package(OpenGL REQUIRED)
-find_package(Coin REQUIRED)
+# Coin is typically installed as Inventor.framework on APPLE
+find_package(Coin NAMES Inventor REQUIRED)
+#if("${PACKAGE_FIND_NAME}" STREQUAL "Coin")
+#  set(DEFAULT_COIN_TARGET Coin::Coin)
+#elseif("${PACKAGE_FIND_NAME}" STREQUAL "Inventor")
+  set(DEFAULT_COIN_TARGET Inventor::Inventor)
+#endif()
 
 if(SO${GUI}_USE_QT5)
   find_package(Qt5 COMPONENTS Core Gui OpenGL Widgets QUIET)
@@ -173,7 +181,7 @@ else()
   " HAVE_PTHREAD_TIMESPEC_NSEC)
 endif()
 
-set(CMAKE_REQUIRED_LIBRARIES Coin::Coin)
+set(CMAKE_REQUIRED_LIBRARIES ${DEFAULT_COIN_TARGET})
 
 check_cxx_source_compiles("
   #include <Inventor/SbImage.h>
