@@ -47,6 +47,8 @@ set(SRCS
   Inventor/${Gui}/widgets/${Gui}NativePopupMenu.cpp
 )
 
+file(GLOB_RECURSE COMMON_RESOURCES ${CMAKE_BINARY_DIR}/data/materials/*.h)
+
 macro(qt_generate_moc infile outfile)
   if(Qt5_FOUND)
     qt5_generate_moc(${infile} ${outfile})
@@ -138,30 +140,24 @@ else()
 endif()
 
 # As CMake does not support deep header hierarchies for framework generation we tweak the
-# installation paths for the install commands. To make sure the symbolic links for versioned
-# Binaries, Headers, and Resources are properly created we add at least a single header and a
-# resource file to the target.
+# installation paths for the install commands.  To make sure the symbolic links for versioned
+# Binaries, Headers, and Resources are properly created we add at headers and resources to
+# the target.
 # Because the default framework name differs from the project name we change the project name
-# variable on the fly for target set up and installation. It is reset at the end of this file.
+# variable on the fly for target set up and installation.  It is reset at the end of this file.
 set(DEFAULT_PROJECT_NAME ${PROJECT_NAME})
 string(TOLOWER ${DEFAULT_PROJECT_NAME} DEFAULT_PROJECT_NAME_LOWER)
 
 if(SO${GUI}_BUILD_MAC_FRAMEWORK)
   set(PROJECT_NAME ${SO${GUI}_MAC_FRAMEWORK_NAME})
   string(TOLOWER ${PROJECT_NAME} PROJECT_NAME_LOWER)
-
-  set(SO${GUI}_INSTALL_LIBRARY_DIR ${SO${GUI}_MAC_FRAMEWORK_NAME}.framework/Versions/Current/Libraries)
-  set(SO${GUI}_INSTALL_CMAKE_CONFIG_DIR ${SO${GUI}_MAC_FRAMEWORK_NAME}.framework/Versions/Current/Resources/CMake)
-else()
-  set(SO${GUI}_INSTALL_LIBRARY_DIR ${CMAKE_INSTALL_LIBDIR})
-  set(SO${GUI}_INSTALL_CMAKE_CONFIG_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}-${PROJECT_VERSION})
 endif()
 
 # Create the library target
 if(SO${GUI}_BUILD_SHARED_LIBS)
-  add_library(${PROJECT_NAME} SHARED ${HDRS} ${COMMON_HDRS} ${SRCS} ${COMMON_SRCS} ${MOC_SRCS})
+  add_library(${PROJECT_NAME} SHARED ${HDRS} ${COMMON_HDRS} ${SRCS} ${COMMON_SRCS} ${COMMON_RESOURCES} ${MOC_SRCS})
 else()
-  add_library(${PROJECT_NAME} STATIC ${HDRS} ${COMMON_HDRS} ${SRCS} ${COMMON_SRCS} ${MOC_SRCS})
+  add_library(${PROJECT_NAME} STATIC ${HDRS} ${COMMON_HDRS} ${SRCS} ${COMMON_SRCS} ${COMMON_RESOURCES} ${MOC_SRCS})
 endif()
 
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${SO${GUI}_VERSION} SOVERSION ${SO${GUI}_SO_VERSION})
@@ -189,7 +185,7 @@ elseif(APPLE)
     set_target_properties(${PROJECT_NAME} PROPERTIES
       FRAMEWORK TRUE
       FRAMEWORK_VERSION ${SO${GUI}_MAC_FRAMEWORK_VERSION}
-      PUBLIC_HEADER "${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/So${Gui}.h"
+      #PUBLIC_HEADER "${SO${GUI}_MAC_FRAMEWORK_HEADER}"
       #PRIVATE_HEADER "${SO${GUI}_PRIVATE_HEADERS}"
       RESOURCE "${CMAKE_BINARY_DIR}/version.plist"
       MACOSX_FRAMEWORK_IDENTIFIER org.coin3d.SoQt.framework
@@ -333,7 +329,7 @@ set(INST_DEVICES_HDRS
 )
 
 if(HAVE_JOYSTICK_LINUX)
-  list( APPEND INST_DEVICES_HDRS "${CMAKE_CURRENT_BINARY_DIR}/Inventor/${Gui}/devices/So${Gui}LinuxJoystick.h")
+  list(APPEND INST_DEVICES_HDRS "${CMAKE_CURRENT_BINARY_DIR}/Inventor/${Gui}/devices/So${Gui}LinuxJoystick.h")
 endif()
 
 set(INST_EDITORS_HDRS
@@ -368,47 +364,26 @@ set(INST_WIDGETS_HDRS
 # by default)
 if(SO${GUI}_BUILD_MAC_FRAMEWORK)
 
+# determine which subdirectory this file (header, resource) should be installed into.
+function(set_macosx_properties _removable_prefixes _install_prefix _source_files)
+  foreach(_file ${_source_files})
+    get_filename_component(_loc "${_file}" DIRECTORY)
+    foreach(_prefix ${_removable_prefixes})
+      string(REPLACE "${_prefix}" "" _loc "${_loc}")
+    endforeach()
+    set_source_files_properties(${_file} PROPERTIES MACOSX_PACKAGE_LOCATION ${_install_prefix}${_loc})
+  endforeach()
+endfunction()
+
 # ############################################################################
 # Add framework headers
 # ############################################################################
-
-  foreach(_header ${INST_HDRS})
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD 
-      COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:${PROJECT_NAME}>/Headers
-      COMMAND ${CMAKE_COMMAND} -E copy ${_header} $<TARGET_FILE_DIR:${PROJECT_NAME}>/Headers)
-  endforeach()
-  foreach(_header ${INST_DEVICES_HDRS})
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD 
-      COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:${PROJECT_NAME}>/Headers/devices
-      COMMAND ${CMAKE_COMMAND} -E copy ${_header} $<TARGET_FILE_DIR:${PROJECT_NAME}>/Headers/devices)
-  endforeach()
-  foreach(_header ${INST_EDITORS_HDRS})
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD 
-      COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:${PROJECT_NAME}>/Headers/editors
-      COMMAND ${CMAKE_COMMAND} -E copy ${_header} $<TARGET_FILE_DIR:${PROJECT_NAME}>/Headers/editors)
-  endforeach()
-  foreach(_header ${INST_NODES_HDRS})
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD 
-      COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:${PROJECT_NAME}>/Headers/nodes
-      COMMAND ${CMAKE_COMMAND} -E copy ${_header} $<TARGET_FILE_DIR:${PROJECT_NAME}>/Headers/nodes)
-  endforeach()
-  foreach(_header ${INST_VIEWERS_HDRS})
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD 
-      COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:${PROJECT_NAME}>/Headers/viewers
-      COMMAND ${CMAKE_COMMAND} -E copy ${_header} $<TARGET_FILE_DIR:${PROJECT_NAME}>/Headers/viewers)
-  endforeach()
-  foreach(_header ${INST_WIDGETS_HDRS})
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD 
-      COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:${PROJECT_NAME}>/Headers/widgets
-      COMMAND ${CMAKE_COMMAND} -E copy ${_header} $<TARGET_FILE_DIR:${PROJECT_NAME}>/Headers/widgets)
-  endforeach()
+  set_macosx_properties("${CMAKE_CURRENT_SOURCE_DIR}/Inventor/${Gui};${CMAKE_CURRENT_BINARY_DIR}/Inventor/${Gui}"  "Headers" "${INST_HDRS};${INST_DEVICES_HDRS};${INST_EDITORS_HDRS};${INST_NODES_HDRS};${INST_VIEWERS_HDRS};${INST_WIDGETS_HDRS}")
 
 # ############################################################################
 # Add framework data files
 # ############################################################################
-
-  add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD 
-    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_BINARY_DIR}/data/materials $<TARGET_FILE_DIR:${PROJECT_NAME}>/Resources/materials)
+  set_macosx_properties("${CMAKE_SOURCE_DIR}/data;${CMAKE_BINARY_DIR}/data" "Resources" "${COMMON_RESOURCES}")
 
 # ############################################################################
 # Add framework documentation files
@@ -498,9 +473,14 @@ endif()
 # Install pkgconfig file and CMake config package
 # ############################################################################
 
-if(UNIX OR MINGW)
-  configure_file("${CMAKE_SOURCE_DIR}/${DEFAULT_PROJECT_NAME}.pc.cmake.in" ${PROJECT_NAME}.pc @ONLY)
-  install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc" DESTINATION ${SO${GUI}_INSTALL_LIBRARY_DIR}/pkgconfig)
+if(SO${GUI}_BUILD_MAC_FRAMEWORK)
+  set(SO${GUI}_INSTALL_CMAKE_CONFIG_DIR ${SO${GUI}_MAC_FRAMEWORK_NAME}.framework/Versions/Current/Resources/CMake)
+else()
+  set(SO${GUI}_INSTALL_CMAKE_CONFIG_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}-${PROJECT_VERSION})
+  if(UNIX OR MINGW)
+    configure_file("${CMAKE_SOURCE_DIR}/${DEFAULT_PROJECT_NAME}.pc.cmake.in" ${PROJECT_NAME}.pc @ONLY)
+    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc" DESTINATION ${SO${GUI}_INSTALL_LIBDIR}/pkgconfig)
+  endif()
 endif()
 
 configure_package_config_file("${CMAKE_SOURCE_DIR}/${DEFAULT_PROJECT_NAME_LOWER}-config.cmake.in" ${PROJECT_NAME_LOWER}-config.cmake
