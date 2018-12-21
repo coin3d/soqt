@@ -642,7 +642,7 @@ SoQtGLWidget::glFlushBuffer(void)
   // For reference, this is what Sam Magnusen from TrollTech says why
   // they need the ugly bitblt hack on the Mac:
   //
-  // «All widgets in Qt/Mac are really just an area that you are
+  // <<All widgets in Qt/Mac are really just an area that you are
   // "allowed to paint on", and then when you do Qt/Mac will figure
   // out what that area is, and only paint on it. Most of this magic
   // is in QWidget/QPainter - however they can't handle the QGLWidget
@@ -652,7 +652,7 @@ SoQtGLWidget::glFlushBuffer(void)
   // not good enough if you had widgets overlapping the opengl widget,
   // if you are sure you don't, you can turn off the
   // QMAC_OPENGL_DOUBLEBUFFER ifdef (in qgl.h) and it will not use the
-  // technique, and I think you will get acceleration as well.»
+  // technique, and I think you will get acceleration as well.>>
 
   // UPDATE: testing shows that this works in window mode, but that it
   // fails miserably in full screen mode (with lots of Core Graphics
@@ -780,7 +780,6 @@ SoQtGLWidgetP::GLAreaKeyEvent(QKeyEvent * e, void * userdata)
   that->processEvent(e);
 }
 
-#if QT_VERSION >= 0x050000
 // slot invoked upon QScreen change
 void
 SoQtGLWidgetP::gl_changed(void)
@@ -789,6 +788,7 @@ SoQtGLWidgetP::gl_changed(void)
     SoDebugError::postInfo("gl_changed", "invoked");
   }
 
+#if QT_VERSION >= 0x050000
   if (this->currentglwidget) {
     SbVec2s glSize = this->glSizeUnscaled * this->currentglwidget->devicePixelRatio();
     if (glSize != this->glSize) {
@@ -796,8 +796,8 @@ SoQtGLWidgetP::gl_changed(void)
       this->wasresized = true;
     }
   }
-}
 #endif
+}
 
 // slot invoked upon QGLWidget initialization
 void
