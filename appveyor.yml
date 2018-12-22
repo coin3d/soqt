@@ -13,26 +13,26 @@ environment:
     secure: klDv0GkxxTy1F5PBcgsXlg==
 
   matrix:
-    #- APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-    #  CMAKE_GENERATOR: 'Unix Makefiles'
-    #  configuration: Release
-    #  platform: x86
-    #  CMAKE_CONFIGURATION: Release
-    #  CMAKE_PLATFORM: x86
-    #  CMAKE_ARCH_FLAGS: -m32
-    #  COMPILER_ID: gcc5
-    ##  QT_DIR: C:\Qt\5.10.1\msvc2015
-
-    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-      CMAKE_GENERATOR: 'Unix Makefiles'
-      CMAKE_CONFIGURATION: Release
-      CMAKE_PLATFORM: x64
-      CMAKE_ARCH_FLAGS: -m64
-      COMPILER_ID: gcc5
-      configuration: Release
-      platform: x64
-    #  QT_DIR: C:\Qt\5.10.1\msvc2015
-
+#    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+#      CMAKE_GENERATOR: 'Unix Makefiles'
+#      configuration: Release
+#      platform: x86
+#      CMAKE_CONFIGURATION: Release
+#      CMAKE_PLATFORM: x86
+#      CMAKE_ARCH_FLAGS: -m32
+#      COMPILER_ID: gcc5
+#    #  QT_DIR: C:\Qt\5.10.1\msvc2015
+#
+#    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+#      CMAKE_GENERATOR: 'Unix Makefiles'
+#      CMAKE_CONFIGURATION: Release
+#      CMAKE_PLATFORM: x64
+#      CMAKE_ARCH_FLAGS: -m64
+#      COMPILER_ID: gcc5
+#      configuration: Release
+#      platform: x64
+#    #  QT_DIR: C:\Qt\5.10.1\msvc2015
+#
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       CMAKE_GENERATOR: 'Visual Studio 14 2015'
       CMAKE_CONFIGURATION: Release
@@ -91,7 +91,7 @@ before_build:
   - cmd: |
       mkdir %APPVEYOR_BUILD_FOLDER%\downloads
       set DOWNLOAD_FILE_DOXYGEN=doxygen-1.8.14.windows.x64.bin.zip
-      set DOWNLOAD_ADDRESS_DOXYGEN=http://ftp.stack.nl/pub/users/dimitri/%DOWNLOAD_FILE_DOXYGEN%
+      set DOWNLOAD_ADDRESS_DOXYGEN=http://doxygen.nl/files/%DOWNLOAD_FILE_DOXYGEN%
       curl -fsSL -G -o "%DOWNLOAD_FILE_DOXYGEN%" "%DOWNLOAD_ADDRESS_DOXYGEN%"
       7z x %DOWNLOAD_FILE_DOXYGEN% -o%APPVEYOR_BUILD_FOLDER%\downloads\doxygen-1.8.14
       doxygen --version
