@@ -15,8 +15,8 @@ Description: A Qt Gui-toolkit binding for Coin
 Version: @PROJECT_VERSION@
 Requires: Coin, QtCore, QtGui, QtOpenGL, QtWidgets
 Conflicts:
-Libs: -L${libdir} -lSoQt @SOQT_EXTRA_LDFLAGS@ @SOQT_EXTRA_LIBS@
+Libs: -L${libdir} @SOQT_EXTRA_LDFLAGS@ @SOQT_EXTRA_LIBS@
 Cflags: -I${includedir} @SOQT_EXTRA_CFLAGS@ @SOQT_EXTRA_CPPFLAGS@
 
 frameworkdir=@frameworkdir@
-qt_version=@QT_VERSION@
+qt_version=@QT_VERSION_MAJOR@.@QT_VERSION_MINOR@.@QT_VERSION_PATCH@
