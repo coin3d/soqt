@@ -54,7 +54,6 @@ include(CheckLibraryExists)
 include(CheckStructHasMember)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
-include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
 
 # ############################################################################
@@ -82,12 +81,7 @@ cmake_dependent_option(SO${GUI}_BUILD_MAC_FRAMEWORK "Build framework instead of 
 
 find_package(OpenGL REQUIRED)
 # Coin is typically installed as Inventor.framework on APPLE
-find_package(Coin NAMES Inventor REQUIRED)
-#if("${PACKAGE_FIND_NAME}" STREQUAL "Coin")
-#  set(DEFAULT_COIN_TARGET Coin::Coin)
-#elseif("${PACKAGE_FIND_NAME}" STREQUAL "Inventor")
-  set(DEFAULT_COIN_TARGET Inventor::Inventor)
-#endif()
+find_package(Coin NAMES Inventor Coin REQUIRED)
 
 if(SO${GUI}_USE_QT5)
   find_package(Qt5 COMPONENTS Core Gui OpenGL Widgets QUIET)
@@ -181,7 +175,7 @@ else()
   " HAVE_PTHREAD_TIMESPEC_NSEC)
 endif()
 
-set(CMAKE_REQUIRED_LIBRARIES ${DEFAULT_COIN_TARGET})
+set(CMAKE_REQUIRED_LIBRARIES Coin::Coin)
 
 check_cxx_source_compiles("
   #include <Inventor/SbImage.h>
