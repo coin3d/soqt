@@ -7,6 +7,18 @@ set(WIDGET QWidget*)
 set(EVENT QEvent*)
 set(COMPONENTHEADER Q_OBJECT)
 
+function(dump_variable)
+  if (SO${GUI}_VERBOSE)
+    foreach(f ${ARGN})
+      if (DEFINED ${f})
+        message("${f} = ${${f}}")
+      else()
+        message("${f} = ***UNDEF***")
+      endif()
+    endforeach()
+  endif()
+endfunction()
+
 set(SO${GUI}_MAJOR_VERSION 1)
 set(SO${GUI}_MINOR_VERSION 6)
 set(SO${GUI}_MICRO_VERSION 0)
@@ -60,6 +72,7 @@ include(GNUInstallDirs)
 # Provide options to customise the build
 # ############################################################################
 
+option(SO${GUI}_VERBOSE "Verbose build " ON)
 option(COIN_IV_EXTENSIONS "Enable extra Open Inventor extensions" ON)
 option(SO${GUI}_BUILD_SHARED_LIBS "Build shared libraries" ON)
 option(SO${GUI}_USE_QT5 "Prefer Qt5 over Qt4 if available" ON)

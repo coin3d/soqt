@@ -149,6 +149,11 @@ endif()
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${SO${GUI}_VERSION} SOVERSION ${SO${GUI}_SO_VERSION})
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE HAVE_CONFIG_H SO${GUI}_INTERNAL SO${GUI}_DEBUG=$<CONFIG:Debug>)
+dump_variable(
+SO${GUI}_INTERNAL
+SOQT_INTERNAL
+SOQT_DEBUG
+)
 
 if(WIN32)
   if(MSVC)
