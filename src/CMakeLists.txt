@@ -473,7 +473,7 @@ endif()
 # ############################################################################
 
 if(SO${GUI}_BUILD_MAC_FRAMEWORK)
-  set(SO${GUI}_CONFIG_PACKAGE_LOCATION ${SO${GUI}_MAC_FRAMEWORK_PREFIX}/${SO${GUI}_MAC_FRAMEWORK_NAME}.framework/Versions/${SO${GUI}_MAC_FRAMEWORK_VERSION}/Resources/CMake)
+  set(SO${GUI}_CONFIG_PACKAGE_LOCATION ${SO${GUI}_MAC_FRAMEWORK_NAME}.framework/Resources/CMake)
   string(TOLOWER ${SO${GUI}_MAC_FRAMEWORK_NAME} SO${GUI}_CONFIG_PACKAGE_BASENAME)
 else()
   set(SO${GUI}_CONFIG_PACKAGE_LOCATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}-${PROJECT_VERSION})
