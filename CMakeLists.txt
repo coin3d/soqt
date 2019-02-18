@@ -136,10 +136,68 @@ foreach (_config ${CMAKE_CONFIGURATION_TYPES})
   set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${_config} "${CMAKE_BINARY_DIR}/bin")
 endforeach()
 
-check_include_files(windows.h HAVE_WINDOWS_H)
-check_include_files(sys/types.h HAVE_SYS_TYPES_H)
-
 set(GUI_TOOLKIT_VERSION ${QT_VERSION_MAJOR}${QT_VERSION_MINOR}${QT_VERSION_PATCH})
+
+if(WIN32)
+  if(MINGW)
+    set(SO${GUI}_DEFAULT_SHARED_POSTFIX "")
+    set(SO${GUI}_DEFAULT_STATIC_POSTFIX "")
+  else()
+    # On Windows the major version number is part of the library name
+    set(SO${GUI}_DEFAULT_SHARED_POSTFIX ${PROJECT_VERSION_MAJOR})
+    set(SO${GUI}_DEFAULT_STATIC_POSTFIX ${PROJECT_VERSION_MAJOR}s)
+  endif()
+  if(SO${GUI}_BUILD_SHARED_LIBS)
+    set(SO${GUI}_DEFAULT_POSTFIX ${SO${GUI}_DEFAULT_SHARED_POSTFIX})
+  else()
+    set(SO${GUI}_DEFAULT_POSTFIX ${SO${GUI}_DEFAULT_STATIC_POSTFIX})
+  endif()
+  set(CMAKE_RELEASE_POSTFIX ${SO${GUI}_DEFAULT_POSTFIX})
+  set(CMAKE_MINSIZEREL_POSTFIX ${SO${GUI}_DEFAULT_POSTFIX})
+  set(CMAKE_RELWITHDEBINFO_POSTFIX ${SO${GUI}_DEFAULT_POSTFIX})
+  set(CMAKE_DEBUG_POSTFIX ${SO${GUI}_DEFAULT_POSTFIX}d)
+elseif(APPLE)
+  if(POLICY CMP0042)
+    # get rid of MACOSX_RPATH warning on Mac OS X from CMake 3.12.2
+    cmake_policy(SET CMP0042 NEW)
+  endif()
+
+  if(POLICY CMP0068)
+    # get rid of BUILD_WITH_INSTALL_RPATH warning on Mac OS X from CMake 3.12.2
+    cmake_policy(SET CMP0068 NEW)
+  endif()
+
+  if(POLICY CMP0075)
+    # get rid of CMAKE_REQUIRED_LIBRARIES warning from CMake 3.12
+    cmake_policy(SET CMP0075 NEW)
+  endif()
+
+  configure_file(${CMAKE_SOURCE_DIR}/Info.plist.in ${CMAKE_BINARY_DIR}/Info.plist)
+  configure_file(${CMAKE_SOURCE_DIR}/version.plist.in ${CMAKE_BINARY_DIR}/version.plist)
+  set(HAVE_GZDOPEN)
+
+  set(SO${GUI}_MAC_FRAMEWORK ${SO${GUI}_BUILD_MAC_FRAMEWORK})
+  set(SO${GUI}_MAC_FRAMEWORK_NAME "SoQt")
+  set(SO${GUI}_MAC_FRAMEWORK_PREFIX "${CMAKE_INSTALL_PREFIX}")
+  set(SO${GUI}_MAC_FRAMEWORK_VERSION "A") # SoQt2 will be "B", to allow parallel installations of SoQt1
+  set(PACKAGING_FRAMEWORK_NAME "${SO${GUI}_MAC_FRAMEWORK_NAME}")
+
+  # package config *.pc entries
+  set(frameworkdir "${SO${GUI}_MAC_FRAMEWORK_PREFIX}/${SO${GUI}_MAC_FRAMEWORK_NAME}.framework")
+  set(includedir "${frameworkdir}/Versions/${SO${GUI}_MAC_FRAMEWORK_VERSION}/Resources/include")
+  set(ivincludedir "${includedir}")
+  set(SO${GUI}_EXTRA_CPPFLAGS "-F${SO${GUI}_MAC_FRAMEWORK_PREFIX}")
+  set(SO${GUI}_EXTRA_FP_LDFLAGS "-Wl,-F${SO${GUI}_MAC_FRAMEWORK_PREFIX}")
+  set(SO${GUI}_EXTRA_LDFLAGS "${SO${GUI}_EXTRA_FP_LDFLAGS} -Wl,-framework,${SO${GUI}_MAC_FRAMEWORK_NAME} -Wl,-framework,Inventor -Wl,-framework,OpenGL")
+
+  # Let's enable all OS X specific code
+  set(SO${GUI}_MACOSX_FRAMEWORK ${SO${GUI}_BUILD_MAC_FRAMEWORK})
+  set(SO${GUI}_MACOS_10 1)
+  set(SO${GUI}_MACOS_10_3 1)
+else()
+  set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+endif()
+
 check_symbol_exists(__func__ "" FUNC)
 check_symbol_exists(__PRETTY_FUNCTION__ "" PRETTY_FUNCTION)
 check_symbol_exists(__FUNCTION__ "" FUNCTION)
@@ -153,28 +211,27 @@ elseif(FUNCTION)
   set(HAVE_C_COMPILER_FUNCTION_NAME_VAR __FUNCTION__)
   set(HAVE_CPP_COMPILER_FUNCTION_NAME_VAR __FUNCTION__)
 endif()
-check_include_files(dlfcn.h HAVE_DLFCN_H)
 
 set(CMAKE_REQUIRED_INCLUDES ${OPENGL_INCLUDE_DIR})
-set(CMAKE_REQUIRED_LIBRARIES ${OPENGL_LIBRARIES})
+set(CMAKE_REQUIRED_LIBRARIES Coin::Coin ${OPENGL_LIBRARIES})
 
-check_library_exists(GL glXChooseVisual "" HAVE_GLX)
+check_include_files(windows.h HAVE_WINDOWS_H)
 if(HAVE_WINDOWS_H)
   check_include_files("windows.h;GL/gl.h" HAVE_GL_GL_H)
   check_include_files("windows.h;GL/glu.h" HAVE_GL_GLU_H)
+elseif(APPLE)
+  check_include_files(OpenGL/gl.h HAVE_OPENGL_GL_H)
+  check_include_files(OpenGL/glu.h HAVE_OPENGL_GLU_H)
 else()
   check_include_files(GL/gl.h HAVE_GL_GL_H)
   check_include_files(GL/glu.h HAVE_GL_GLU_H)
 endif()
-check_include_files(OpenGL/gl.h HAVE_OPENGL_GL_H)
-check_include_files(OpenGL/glu.h HAVE_OPENGL_GLU_H)
 
-unset(CMAKE_REQUIRED_INCLUDES)
-unset(CMAKE_REQUIRED_LIBRARIES)
-
+check_include_files(dlfcn.h HAVE_DLFCN_H)
 check_include_files(inttypes.h HAVE_INTTYPES_H)
 check_include_files(memory.h HAVE_MEMORY_H)
 check_include_files(netinet/in.h HAVE_NETINET_IN_H)
+check_include_files(sys/types.h HAVE_SYS_TYPES_H)
 if(HAVE_SYS_TYPES_H)
   check_cxx_source_compiles("
     #include <sys/types.h>
@@ -188,7 +245,12 @@ else()
   " HAVE_PTHREAD_TIMESPEC_NSEC)
 endif()
 
-set(CMAKE_REQUIRED_LIBRARIES Coin::Coin)
+check_cxx_source_compiles("
+  #include <GL/gl.h>
+  #include <GL/glx.h>
+  int main() { (void)glXChooseVisual(0L, 0, 0L); glEnd(); return 0; }
+" HAVE_GLX)
+check_library_exists(GL glXChooseVisual "" HAVE_GLX)
 
 check_cxx_source_compiles("
   #include <Inventor/SbImage.h>
@@ -266,14 +328,17 @@ if(HAVE_WINDOWS_H)
   check_symbol_exists(GetEnvironmentVariable windows.h HAVE_GETENVIRONMENTVARIABLE)
 endif()
 set(USE_EXCEPTIONS ON)
-set(X_DISPLAY_MISSING ON)
 set(HAVE_JOYSTICK_LINUX OFF)
 check_include_files(X11/Xlib.h HAVE_X11_AVAILABLE)
 if(HAVE_X11_AVAILABLE)
   check_include_files(X11/extensions/SGIMisc.h HAVE_X11_EXTENSIONS_SGIMISC_H)
   check_include_files(X11/extensions/XInput.h HAVE_X11_EXTENSIONS_XINPUT_H)
   check_include_files(X11/Xproto.h HAVE_X11_XPROTO_H)
+else()
+  set(X_DISPLAY_MISSING ON)
 endif()
+
+unset(CMAKE_REQUIRED_INCLUDES)
 
 set(PACKAGE ${PROJECT_NAME})
 set(PACKAGE_DESCRIPTION "A Qt Gui-toolkit binding for Coin")
