@@ -175,7 +175,7 @@
 #cmakedefine USE_EXCEPTIONS 1
 
 /* Version number of package */
-#cmakedefine VERSION "@SOQT_VERSION@"
+#define VERSION "@SOQT_VERSION@"
 
 /* Define this if you want defaults to be linked into SoXt */
 #cmakedefine WITH_STATIC_DEFAULTS

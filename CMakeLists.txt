@@ -72,7 +72,7 @@ include(GNUInstallDirs)
 # Provide options to customise the build
 # ############################################################################
 
-option(SO${GUI}_VERBOSE "Verbose build " ON)
+option(SO${GUI}_VERBOSE "Verbose build " OFF)
 option(COIN_IV_EXTENSIONS "Enable extra Open Inventor extensions" ON)
 option(SO${GUI}_BUILD_SHARED_LIBS "Build shared libraries" ON)
 option(SO${GUI}_USE_QT5 "Prefer Qt5 over Qt4 if available" ON)
@@ -250,7 +250,6 @@ check_cxx_source_compiles("
   #include <GL/glx.h>
   int main() { (void)glXChooseVisual(0L, 0, 0L); glEnd(); return 0; }
 " HAVE_GLX)
-check_library_exists(GL glXChooseVisual "" HAVE_GLX)
 
 check_cxx_source_compiles("
   #include <Inventor/SbImage.h>
@@ -331,11 +330,12 @@ set(USE_EXCEPTIONS ON)
 set(HAVE_JOYSTICK_LINUX OFF)
 check_include_files(X11/Xlib.h HAVE_X11_AVAILABLE)
 if(HAVE_X11_AVAILABLE)
+  set(X_DISPLAY_MISSING 0)
   check_include_files(X11/extensions/SGIMisc.h HAVE_X11_EXTENSIONS_SGIMISC_H)
   check_include_files(X11/extensions/XInput.h HAVE_X11_EXTENSIONS_XINPUT_H)
   check_include_files(X11/Xproto.h HAVE_X11_XPROTO_H)
 else()
-  set(X_DISPLAY_MISSING ON)
+  set(X_DISPLAY_MISSING 1)
 endif()
 
 unset(CMAKE_REQUIRED_INCLUDES)

@@ -95,11 +95,6 @@ endif()
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${SO${GUI}_VERSION} SOVERSION ${SO${GUI}_SO_VERSION})
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE HAVE_CONFIG_H SO${GUI}_INTERNAL SO${GUI}_DEBUG=$<CONFIG:Debug>)
-dump_variable(
-SO${GUI}_INTERNAL
-SOQT_INTERNAL
-SOQT_DEBUG
-)
 
 if(WIN32)
   if(MSVC)
@@ -146,9 +141,10 @@ elseif(APPLE)
 endif()
 
 target_include_directories(${PROJECT_NAME}
-PRIVATE
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
+  PRIVATE
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+)
 if(NOT SO${GUI}_BUILD_MAC_FRAMEWORK)
   target_include_directories(${PROJECT_NAME} INTERFACE $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 endif()
@@ -171,7 +167,9 @@ if(SO${GUI}_BUILD_DOCUMENTATION)
     message(FATAL_ERROR "Doxygen is needed to build the documentation.")
   endif()
 
-  set(DOXYGEN_TAGFILES "${Coin_DOC_DIR}/html/Coin.tag=${Coin_DOC_DIR}/html")
+  if(NOT "${Coin_DOC_DIR}" STREQUAL "")
+    set(DOXYGEN_TAGFILES "${Coin_DOC_DIR}/html/Coin.tag=${Coin_DOC_DIR}/html")
+  endif()
 
 # ############################################################################
 # Setup documentation options
