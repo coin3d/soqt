@@ -486,8 +486,11 @@ endif()
 
 include(CMakePackageConfigHelpers)
 
-configure_package_config_file("${CMAKE_SOURCE_DIR}/${PROJECT_NAME_LOWER}-config.cmake.in" ${SO${GUI}_CONFIG_PACKAGE_BASENAME}-config.cmake
+configure_package_config_file(
+  "${CMAKE_SOURCE_DIR}/${PROJECT_NAME_LOWER}-config.cmake.in"
+  ${SO${GUI}_CONFIG_PACKAGE_BASENAME}-config.cmake
   INSTALL_DESTINATION ${SO${GUI}_CONFIG_PACKAGE_LOCATION}
+  PATH_VARS CMAKE_INSTALL_LIBDIR
 )
 
 write_basic_package_version_file("${CMAKE_CURRENT_BINARY_DIR}/${SO${GUI}_CONFIG_PACKAGE_BASENAME}-config-version.cmake"
