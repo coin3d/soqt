@@ -424,14 +424,17 @@ else()
   string(TOLOWER ${PROJECT_NAME} SO${GUI}_CONFIG_PACKAGE_BASENAME)
   if(UNIX OR MINGW)
     configure_file("${CMAKE_SOURCE_DIR}/${PROJECT_NAME}.pc.cmake.in" ${PROJECT_NAME}.pc @ONLY)
-    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc" DESTINATION ${SO${GUI}_INSTALL_LIBDIR}/pkgconfig)
+    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc" DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
   endif()
 endif()
 
 include(CMakePackageConfigHelpers)
 
-configure_package_config_file("${CMAKE_SOURCE_DIR}/${PROJECT_NAME_LOWER}-config.cmake.in" ${SO${GUI}_CONFIG_PACKAGE_BASENAME}-config.cmake
+configure_package_config_file(
+  "${CMAKE_SOURCE_DIR}/${PROJECT_NAME_LOWER}-config.cmake.in"
+  ${SO${GUI}_CONFIG_PACKAGE_BASENAME}-config.cmake
   INSTALL_DESTINATION ${SO${GUI}_CONFIG_PACKAGE_LOCATION}
+  PATH_VARS CMAKE_INSTALL_LIBDIR
 )
 
 write_basic_package_version_file("${CMAKE_CURRENT_BINARY_DIR}/${SO${GUI}_CONFIG_PACKAGE_BASENAME}-config-version.cmake"
