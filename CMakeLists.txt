@@ -78,13 +78,13 @@ option(SO${GUI}_BUILD_SHARED_LIBS "Build shared libraries" ON)
 option(SO${GUI}_USE_QT5 "Prefer Qt5 over Qt4 if available" ON)
 option(WITH_STATIC_DEFAULTS "Enable statically linked in default materials" ON)
 option(HAVE_SPACENAV_SUPPORT "Enable Space Navigator support" ON)
-option(SO${GUI}_BUILD_DOCUMENTATION "Build and install API documentation (requires Doxygen)." ON)
+option(SO${GUI}_BUILD_DOCUMENTATION "Build and install API documentation (requires Doxygen)." OFF)
 cmake_dependent_option(SO${GUI}_BUILD_INTERNAL_DOCUMENTATION "Document internal code not part of the API." OFF "SO${GUI}_BUILD_DOCUMENTATION" OFF)
 cmake_dependent_option(SO${GUI}_BUILD_DOC_MAN "Build So${Gui} man pages." OFF "SO${GUI}_BUILD_DOCUMENTATION" OFF)
 cmake_dependent_option(SO${GUI}_BUILD_DOC_QTHELP "Build QtHelp documentation." OFF "SO${GUI}_BUILD_DOCUMENTATION" OFF)
 cmake_dependent_option(SO${GUI}_BUILD_DOC_CHM "Build compressed HTML help manual (requires HTML help compiler)" OFF "SO${GUI}_BUILD_DOCUMENTATION" OFF)
 
-cmake_dependent_option(SO${GUI}_BUILD_MAC_FRAMEWORK "Build framework instead of dylib on Mac OS X when ON. Only valid if SO${GUI}_BUILD_SHARED_LIBS is ON." ON "APPLE;NOT IOS;SO${GUI}_BUILD_SHARED_LIBS" OFF)
+cmake_dependent_option(SO${GUI}_BUILD_MAC_FRAMEWORK "Build framework instead of dylib on Mac OS X when ON. Only valid if SO${GUI}_BUILD_SHARED_LIBS is ON." OFF "APPLE;NOT IOS;SO${GUI}_BUILD_SHARED_LIBS" OFF)
 
 # ############################################################################
 # Find all necessary and optional SoQt dependencies
