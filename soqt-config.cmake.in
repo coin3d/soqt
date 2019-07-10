@@ -28,8 +28,8 @@ include(CMakeFindDependencyMacro)
 
 find_dependency(Coin REQUIRED)
 
-set(_have_qt5 "@Qt5_FOUND@")
-set(_have_qt4 "@Qt4_FOUND@")
+set(_have_qt5 @Qt5_FOUND@)
+set(_have_qt4 @Qt4_FOUND@)
 if(_have_qt5)
   find_dependency(Qt5Core REQUIRED)
   find_dependency(Qt5Gui REQUIRED)
