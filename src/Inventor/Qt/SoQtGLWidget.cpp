@@ -942,7 +942,7 @@ SoQtGLWidgetP::eventFilter(QObject * obj, QEvent * e)
     return false;
   }
 
-  int kbdevent = false;
+  bool kbdevent = false;
   if ( QEvent::KeyPress == etype ) kbdevent = true;
   if ( QEvent::KeyRelease == etype ) kbdevent = true;
 
