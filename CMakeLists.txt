@@ -19,6 +19,20 @@ function(dump_variable)
   endif()
 endfunction()
 
+function(report_prepare)
+  set(multiValueArgs IF_APPLE IF_WIN32)
+  cmake_parse_arguments(REPORT "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
+  if (REPORT_IF_APPLE AND APPLE)
+    list(APPEND res ${REPORT_IF_APPLE})
+  endif()
+  if (REPORT_IF_WIN32 AND WIN32)
+    list(APPEND res ${REPORT_IF_WIN32})
+  endif()
+  list(APPEND res ${REPORT_UNPARSED_ARGUMENTS})
+  list(APPEND PACKAGE_OPTIONS ${res})
+  set(PACKAGE_OPTIONS "${PACKAGE_OPTIONS}" PARENT_SCOPE)
+endfunction(report_prepare)
+
 set(SO${GUI}_MAJOR_VERSION 1)
 set(SO${GUI}_MINOR_VERSION 6)
 set(SO${GUI}_MICRO_VERSION 0)
@@ -85,6 +99,21 @@ cmake_dependent_option(SO${GUI}_BUILD_DOC_QTHELP "Build QtHelp documentation." O
 cmake_dependent_option(SO${GUI}_BUILD_DOC_CHM "Build compressed HTML help manual (requires HTML help compiler)" OFF "SO${GUI}_BUILD_DOCUMENTATION" OFF)
 
 cmake_dependent_option(SO${GUI}_BUILD_MAC_FRAMEWORK "Build framework instead of dylib on Mac OS X when ON. Only valid if SO${GUI}_BUILD_SHARED_LIBS is ON." OFF "APPLE;NOT IOS;SO${GUI}_BUILD_SHARED_LIBS" OFF)
+
+report_prepare(
+  COIN_IV_EXTENSIONS
+  SO${GUI}_BUILD_SHARED_LIBS
+  SO${GUI}_USE_QT5
+  WITH_STATIC_DEFAULTS
+  HAVE_SPACENAV_SUPPORT
+  SO${GUI}_BUILD_DOCUMENTATION
+  SO${GUI}_BUILD_INTERNAL_DOCUMENTATION
+  SO${GUI}_BUILD_DOC_MAN
+  SO${GUI}_BUILD_DOC_QTHELP
+  SO${GUI}_BUILD_DOC_CHM
+  IF_APPLE
+    SO${GUI}_BUILD_MAC_FRAMEWORK
+)
 
 # ############################################################################
 # Find all necessary and optional SoQt dependencies
