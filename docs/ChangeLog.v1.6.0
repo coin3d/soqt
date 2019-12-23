@@ -1,4 +1,12 @@
-2019-12-04 20:35 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (ed42475fbce5 [tip])
+2019-12-23 22:46 +0100  Volker Enderlein  <volkerenderlein@hotmail.com>  (49a7322d79c0 [tip])
+
+	* docs/ChangeLog.v1.6.0: new file.
+	* CMakeLists.txt, INSTALL, Makefile.am, Makefile.in, NEWS,
+	README.MACOSX, README.WIN32, configure, configure.ac,
+	docs/ChangeLog.v1.6.0:
+	[skip ci] Update version number for release. Bootstrap.
+
+2019-12-04 20:35 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (ed42475fbce5)
 
 	* Merged in jfboudreau/soqt-1/Joseph-Boudreau/qt-requirements-from-
 	variable-not-hardwi-1573833051883 (pull request #42)
