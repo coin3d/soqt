@@ -1,5 +1,16 @@
-New in SoQt v1.5.1 (so far):
+New in SoQt v1.6.0 (2019-12-23):
+* new:
+  - Kongsberg Oil & Gas Technologies AS ended SoQt as a commercial product
+    and re-licensed it under the BSD 3-clause license as a service to the
+    user community.
+  - The build system has been migrated from GNU Autotools to CMake
+  - Added support for Qt5
+  - Added support for high DPI displays in Qt5
+  - Support for BitBucket and AppVeyor as continuous integration service providers
+
 * bugfixes:
+  - Numerous documentation fixes
+  - Added resource information to Win DLL
 
 New in SoQt v1.5.0 (2010-03-02):
 * new:

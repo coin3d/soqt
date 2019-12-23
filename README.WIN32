@@ -1,3 +1,18 @@
+============================================================================
+==                        BUILDING SOQT ON WINDOWS                        ==
+============================================================================
+
+Building SoQt on Windows is done by using the CMake build configuration.
+Check out the detailed build instructions in the INSTALL file of the Coin
+installation directory.
+
+The Autotools build system is still maintained but at a significantly lower
+priority.
+
+============================================================================
+==             OLD INFORMATION ON BUILDING SOQT ON WINDOWS                ==
+============================================================================
+
 Make sure you have built Coin before building SoQt.  You can substitute
 another Open Inventor implementation for Coin, but expect to need to
 tweak source code or compile/link settings if doing so.  We try to be

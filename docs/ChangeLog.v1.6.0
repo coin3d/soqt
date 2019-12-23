@@ -1,0 +1,1139 @@
+2019-12-04 20:35 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (ed42475fbce5 [tip])
+
+	* Merged in jfboudreau/soqt-1/Joseph-Boudreau/qt-requirements-from-
+	variable-not-hardwi-1573833051883 (pull request #42)
+
+	Qt Requirements from Variable, not hardwired.
+
+2019-11-15 15:50 +0000  Joseph Boudreau  <boudreau@pitt.edu>  (aa35b90cd2c1 <Joseph-Boudreau/qt-requirements-from-variable-not-hardwi-1573833051883>)
+
+	* SoQt.pc.cmake.in:
+	Qt Requirements from Variable, not hardwired.
+
+2019-11-09 14:48 +0100  Giampiero Gabbiani  <giampiero@gabbiani.org>  (9394e5e3aeaf)
+
+	* .hgsubstate:
+	Updated to last cpack.d for centOS and RHEL support
+
+2019-10-13 11:52 +0200  Giampiero Gabbiani  <giampiero@gabbiani.org>  (223107b5c7f0)
+
+	* .hgsubstate:
+	Aligned with last cpack.d commit
+
+2019-09-17 20:27 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (13ad1aa7f405)
+
+	* appveyor.yml:
+	Only use the generic Qt version (major.minor) in appveyor scripts.
+
+2019-09-16 07:21 +0200  Giampiero Gabbiani  <giampiero@gabbiani.org>  (e2e488095c62)
+
+	* .hgsubstate, CMakeLists.txt:
+	cpack.d update and report setup
+
+2019-07-13 22:16 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (402ab08a4cd8)
+
+	* Merged in VolkerEnderlein/soqt (pull request #41)
+
+	Updated subrepo sogui.
+
+2019-07-13 21:44 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (6425870b6ad6)
+
+	* Merged in VolkerEnderlein/soqt/pvs_analysis (pull request #40)
+
+	Fixed checking of null pointers for delete operators and warnings
+	from PVS analysis.
+
+2019-07-14 00:12 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (74ca2f073e8b)
+
+	* .hgsubstate:
+	Updated subrepo sogui.
+
+2019-07-13 21:44 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (57c2f65f21d1 <pvs_analysis>)
+
+	* Close branch pvs_analysis
+
+2019-07-13 23:41 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (e8a1c5dc6a51 <pvs_analysis>)
+
+	* src/Inventor/Qt/SoQtGLWidget.cpp,
+	src/Inventor/Qt/viewers/FullViewer.cpp:
+	Fixed checking of null pointers for delete operators and warnings
+	from PVS analysis.
+
+2019-07-10 17:53 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (3d702f057d07)
+
+	* Merged in VolkerEnderlein/soqt/qt_target_names (pull request #39)
+
+	Use Qt config target names instead of libraries.
+
+2019-07-10 17:53 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (71e9a7b04e63 <qt_target_names>)
+
+	* Close branch qt_target_names
+
+2019-07-10 19:47 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (813275b2d48e <qt_target_names>)
+
+	* CMakeLists.txt, soqt-config.cmake.in, src/CMakeLists.txt:
+	Use Qt config target names instead of libraries.
+
+2019-07-03 18:15 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (ee1db692d5c2)
+
+	* appveyor.yml:
+	No suitable Qt version for MSVC2010 installed.
+
+2019-07-02 21:33 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (e03cd3e55e0e)
+
+	* appveyor.yml:
+	Streamlined AppVeyor script with other repos.
+
+2019-06-28 09:17 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (0ce7dedb482d)
+
+	* Merged Coin3D/soqt into default
+
+2019-06-25 01:09 +0200  Giampiero Gabbiani  <giampiero@gabbiani.org>  (b4a749e19f82)
+
+	* .hgsubstate:
+	updated cpack.d
+
+2019-06-22 14:32 +0200  Giampiero Gabbiani  <giampiero@gabbiani.org>  (8dd7ee07c6c2)
+
+	* .hgsubstate:
+	Updated cpack.d
+
+2019-06-20 21:23 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (68e94d9c801c)
+
+	* appveyor.yml:
+	Removed superfluous parameters from AppVeyor build matrix.
+
+2019-06-20 18:02 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (7ed44ad6bb12)
+
+	* appveyor.yml:
+	Added another missing architecture flag.
+
+2019-06-20 17:49 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (a573299fd3ac)
+
+	* appveyor.yml:
+	Added missing architecture flag.
+
+2019-06-20 05:45 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (85bfe8d64c86)
+
+	* appveyor.yml:
+	Missing line break in AppVeyor script added.
+
+2019-06-19 21:05 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (151c4fb81116)
+
+	* appveyor.yml:
+	Fixes to Appveyor script for CMAKE_ARCHITECTURE flag.
+
+2019-06-12 20:36 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (5f2afb4890e0)
+
+	* CMakeLists.txt:
+	Inverted default values for options COIN_BUILD_DOCUMENTATION and
+	COIN_BUILD_MAC_FRAMEWORK for better out of the box build experience.
+
+2019-03-20 19:59 +0100  Volker Enderlein  <volkerenderlein@hotmail.com>  (58b495aa6bed)
+
+	* CMakeLists.txt, src/CMakeLists.txt:
+	Reverting pull request #37
+
+2019-03-20 19:54 +0100  Volker Enderlein  <volkerenderlein@hotmail.com>  (6e5f409a1a89)
+
+	* CMakeLists.txt, src/CMakeLists.txt:
+	Backout changeset 3fcfb9495333923d40d006936bca871f2c1f7fce
+
+2019-03-20 16:28 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (9ee823ce0103)
+
+	* CMakeLists.txt, src/CMakeLists.txt:
+	Merged in FlorianFranzen/soqt (pull request #37)
+
+	Fix interface include propagation of modern CMake targets
+
+2019-03-07 17:07 +0100  Florian Franzen  <Florian.Franzen@gmail.com>  (3fcfb9495333)
+
+	* CMakeLists.txt, src/CMakeLists.txt:
+	Fix inteface include propagation of modern CMake targets
+
+	Modern CMake interface dependencies are not added to the
+	INTERFACE_INCLUDE_DIRECTORIES property of a target, but to
+	INTERFACE_LINK_LIBRARIES as their included will be propagated by
+	CMake on compilation. However the package config uses this variable
+	to populate the include dirs, which meant that coin and qt were
+	missing from the path.
+
+	This patch adds the missing include directories (as well as the GL
+	include that was forgotten before).
+
+2019-03-08 17:36 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (bef9d6df88b9)
+
+	* packaging/macosx/DMGBackground.tiff, packaging/macosx/Welcome.rtf,
+	version.plist.in: new file.
+	* src/CMakeLists.txt:
+	Merged in VolkerEnderlein/soqt/osxframework (pull request #35)
+
+	Added framework generation and packaging on MacOS
+
+2019-03-08 17:36 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (dede58907503 <osxframework>)
+
+	* Close branch osxframework
+
+2019-03-06 10:39 +0100  Florian Franzen  <Florian.Franzen@gmail.com>  (67a51c8fddbd)
+
+	* soqt-config.cmake.in, src/CMakeLists.txt:
+	Correctly export LIBDIR to CMake package config
+
+2019-03-06 10:36 +0100  Florian Franzen  <Florian.Franzen@gmail.com>  (8a11378c2755)
+
+	* src/CMakeLists.txt:
+	Use correct prefix to install pkgconfig
+
+2019-02-19 21:46 +0100  Volker Enderlein  <volkerenderlein@hotmail.com>  (f9e82e6cda7d <osxframework>)
+
+	* CMakeLists.txt, src/CMakeLists.txt, src/config.h.cmake.in:
+	Streamlining repo with other Gui toolkit repos.
+
+2019-02-18 23:30 +0100  Volker Enderlein  <volkerenderlein@hotmail.com>  (5b3b705e6132 <osxframework>)
+
+	* packaging/macosx/DMGBackground.tiff, packaging/macosx/Welcome.rtf,
+	version.plist.in: new file.
+	* .hgsubstate, CMakeLists.txt, packaging/macosx/DMGBackground.tiff,
+	packaging/macosx/Welcome.rtf, src/CMakeLists.txt, version.plist.in:
+	Added framework building for SoQt.
+
+2019-02-13 23:38 +0100  Volker Enderlein  <volkerenderlein@hotmail.com>  (423d44b6c710)
+
+	* src/CMakeLists.txt:
+	Fixed wrongly generated package config file for MacOS frameworks.
+
+2019-02-06 00:03 +0100  Giampiero Gabbiani  <giampiero@gabbiani.org>  (08958520df8f)
+
+	* .hgsubstate:
+	updated cpack.d subrepo state
+
+2019-02-06 00:02 +0100  Giampiero Gabbiani  <giampiero@gabbiani.org>  (a13c9ed50e7e)
+
+	* CMakeLists.txt, src/CMakeLists.txt:
+	added verbosity
+
+2019-02-05 22:58 +0100  Volker Enderlein  <volkerenderlein@hotmail.com>  (9893641fb994)
+
+	* .hgsub:
+	Set relative path to suprepository cpack.d
+
+2019-02-02 23:23 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (16dc0102f89e)
+
+	* Info.plist.in: new file.
+	* Merged in VolkerEnderlein/soqt/macosxframework (pull request #31)
+
+	Macosxframework
+
+2019-02-02 23:21 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (a25f9e21cdb9)
+
+	* Merged in efferre79/soqt (pull request #26)
+
+	Add missing version to config files
+
+2018-12-12 12:33 +0100  Fabio Rossi  <rossi.f@inwind.it>  (c4d680437e74)
+
+	* soqt-config.cmake.in:
+	Add missing version to config files
+
+2019-02-02 23:23 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (27a73cbd0c47 <macosxframework>)
+
+	* Close branch macosxframework
+
+2019-02-03 00:04 +0100  Volker Enderlein  <volkerenderlein@hotmail.com>  (db9893a0e1a0 <macosxframework>)
+
+	* CMakeLists.txt, src/CMakeLists.txt, test-code/CMakeLists.txt:
+	Added framework creation.
+
+2018-12-22 18:53 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (c654fc427542)
+
+	* Merged in VolkerEnderlein/soqt/addsource-ci (pull request #30)
+
+	Create source package from ci.
+
+2018-12-22 18:53 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (290e6f15dc09 <addsource-ci>)
+
+	* Close branch addsource-ci
+
+2018-12-22 19:50 +0100  Volker Enderlein  <volkerenderlein@hotmail.com>  (6cb13e4316b7 <addsource-ci>)
+
+	* appveyor.yml:
+	Create source package from ci.
+
+2018-12-22 13:21 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (fd7ae3be0e28)
+
+	* Merged in VolkerEnderlein/soqt/doxygen-ci2 (pull request #29)
+
+	Used sourceforge as faster alternative download location.
+
+2018-12-22 13:21 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (3f324e919119 <doxygen-ci2>)
+
+	* Close branch doxygen-ci2
+
+2018-12-22 14:18 +0100  Volker Enderlein  <volkerenderlein@hotmail.com>  (a161e096a08b <doxygen-ci2>)
+
+	* appveyor.yml:
+	Sync with default
+
+2018-12-22 14:06 +0100  Volker Enderlein  <volkerenderlein@hotmail.com>  (dc912683f919 <doxygen-ci2>)
+
+	* appveyor.yml:
+	Used sourceforge as faster alternative download location.
+
+2018-12-22 12:44 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (0f6c93d093be)
+
+	* Merged in VolkerEnderlein/soqt/doxygen-ci-fix (pull request #28)
+
+	Fixed broken appveyor build.
+
+2018-12-22 12:44 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (914685aed0e5 <doxygen-ci-fix>)
+
+	* Close branch doxygen-ci-fix
+
+2018-12-22 13:40 +0100  Volker Enderlein  <volkerenderlein@hotmail.com>  (11fe468b5497 <doxygen-ci-fix>)
+
+	* appveyor.yml:
+	Fixed out of service doxygen web address. Deactivated Ubuntu build.
+
+2018-12-21 21:58 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (872b87e73dfb)
+
+	* Merged in VolkerEnderlein/soqt/connectissue (pull request #27)
+
+	Fixed moc issue with conditional compilation for QT_VERSION.
+
+2018-12-21 21:58 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (e8295ac933f9 <connectissue>)
+
+	* Close branch connectissue
+
+2018-12-21 22:52 +0100  Volker Enderlein  <volkerenderlein@hotmail.com>  (2c3a3f93638c <connectissue>)
+
+	* src/Inventor/Qt/SoQtGLWidget.cpp, src/Inventor/Qt/SoQtGLWidgetP.h:
+	Fixed moc issue with conditional compilation for QT_VERSION.
+
+2018-12-10 20:00 +0100  Volker Enderlein  <volkerenderlein@hotmail.com>  (e2ec281d4b6d <macosxframework>)
+
+	* src/CMakeLists.txt:
+	Merged trunk.
+
+2018-12-10 19:48 +0100  Volker Enderlein  <volkerenderlein@hotmail.com>  (4c2d0ed8486a <macosxframework>)
+
+	* src/CMakeLists.txt:
+	Synchronized CMake script with coin (framework building).
+
+2018-11-16 23:52 +0100  Volker Enderlein  <volkerenderlein@hotmail.com>  (caf06d8a06b1 <macosxframework>)
+
+	* src/CMakeLists.txt:
+	Fixed wrong includedir path for pkgconfig.
+
+2018-11-16 21:13 +0100  Volker Enderlein  <volkerenderlein@hotmail.com>  (c0b000f3fdd9 <macosxframework>)
+
+	* Info.plist.in: new file.
+	* CMakeLists.txt, Info.plist.in, SoQt.pc.cmake.in, src/CMakeLists.txt,
+	test-code/CMakeLists.txt:
+	Framework building on MacOSX.
+
+2018-10-27 17:21 +0000  Giampiero Gabbiani  <giampiero@gabbiani.org>  (ea5cd7646087)
+
+	* Merged in ggabbiani/soqt-fork/cpack.d-move (pull request #25)
+
+	cpack.d moved from ggabbiani to coin3d
+
+2018-10-27 17:21 +0000  Giampiero Gabbiani  <giampiero@gabbiani.org>  (38fb9bf91379 <cpack.d-move>)
+
+	* Close branch cpack.d-move
+
+2018-10-27 09:51 +0200  Giampiero Gabbiani  <giampiero@gabbiani.org>  (58ad37f055a8 <cpack.d-move>)
+
+	* .hgsub, .hgsubstate:
+	cpack.d moved from ggabbiani to coin3d
+
+2018-10-25 23:02 +0000  Giampiero Gabbiani  <giampiero@gabbiani.org>  (4849c6e65b4a)
+
+	* CMakeLists.txt, src/CMakeLists.txt:
+	Merged in ggabbiani/soqt/cpack.d-update (pull request #23)
+
+	Cpack.d update
+
+	Approved-by: Volker Enderlein <volkerenderlein@hotmail.com>
+
+2018-10-25 23:02 +0000  Giampiero Gabbiani  <giampiero@gabbiani.org>  (d54d31edd3da <cpack.d-update>)
+
+	* Close branch cpack.d-update
+
+2018-10-23 21:45 +0200  Giampiero Gabbiani  <giampiero@gabbiani.org>  (8e0959095113 <cpack.d-update>)
+
+	* .hgsubstate:
+	updated to sogui subrepo
+
+2018-10-23 21:36 +0200  Giampiero Gabbiani  <giampiero@gabbiani.org>  (2643b0af4798 <cpack.d-update>)
+
+	* .hgsubstate:
+	updated to new sogui and cpack.d subrepo versions
+
+2018-10-23 21:34 +0200  Giampiero Gabbiani  <giampiero@gabbiani.org>  (60c1e4a2014e <cpack.d-update>)
+
+	* src/CMakeLists.txt:
+	fixed chm and qch file name
+
+2018-10-23 21:33 +0200  Giampiero Gabbiani  <giampiero@gabbiani.org>  (0e88d4895e08 <cpack.d-update>)
+
+	* CMakeLists.txt:
+	removed old cpack code
+
+2018-10-25 22:02 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (7ea9d90cd534)
+
+	* Merged in VolkerEnderlein/soqt/configpackage (pull request #24)
+
+	Configpackage
+
+2018-10-25 22:02 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (d3bfa25cbe86 <configpackage>)
+
+	* Close branch configpackage
+
+2018-10-25 23:12 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (ff768f6fbb52 <configpackage>)
+
+	* src/SoQt.rc.cmake.in:
+	Provided correct web address for Coin3D in rc file.
+
+2018-10-25 22:14 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (69fcd9a1ebd4 <configpackage>)
+
+	* CMakeLists.txt, src/CMakeLists.txt:
+	Synchronized layout of CMake script with other packages of Coin3D.
+
+2018-10-25 22:13 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (15467252b904 <configpackage>)
+
+	* soqt-config.cmake.in:
+	Updated config package.
+
+2018-10-21 19:35 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (6ce7e7fbe995 <ciwithoutglu>)
+
+	* appveyor.yml, src/CMakeLists.txt:
+	test build soqt
+
+2018-10-18 16:31 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (9cd743493a2a)
+
+	* Merged in VolkerEnderlein/soqt/docissues (pull request #22)
+
+	Documentation issues fixed
+
+2018-10-18 16:31 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (4886a818366b <docissues>)
+
+	* Close branch docissues
+
+2018-10-17 23:06 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (c92d9faa8eb2 <docissues>)
+
+	* .hgsubstate:
+	Updated subrepo sogui.
+
+2018-10-17 22:31 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (c70eb16108ec <docissues>)
+
+	* src/CMakeLists.txt, src/Inventor/Qt/devices/SoQtLinuxJoystick.cpp,
+	src/Inventor/Qt/widgets/SoQtThumbWheel.cpp:
+	Added _USE_MATH_DEFINES for MSVC in CMake scripts. Fixed minor
+	documentation issues.
+
+2018-10-06 23:37 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (63a8d429900c)
+
+	* appveyor.yml:
+	Merged in VolkerEnderlein/soqt/appveyorremoveplatfrom (pull request
+	#21)
+
+	Removed platform from appveyor file.
+
+2018-10-06 23:33 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (263eaa6348ac)
+
+	* Merged in VolkerEnderlein/soqt/updatesubrepo (pull request #20)
+
+	Follow options naming scheme form other projects. Updated subrepo.
+
+2018-10-06 23:37 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (23d5b4436f64 <appveyorremoveplatfrom>)
+
+	* Close branch appveyorremoveplatfrom
+
+2018-10-07 01:36 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (9a3a6c7f430f <appveyorremoveplatfrom>)
+
+	* appveyor.yml:
+	Removed platform from appveyor file.
+
+2018-10-06 23:33 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (30aacbe7fd1a <updatesubrepo>)
+
+	* Close branch updatesubrepo
+
+2018-10-07 01:19 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (e01d9fdcdb74 <updatesubrepo>)
+
+	* .hgsubstate, CMakeLists.txt:
+	Follow options naming scheme form other projects.
+
+2018-10-06 20:08 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (765a9e7dbf5f)
+
+	* Merged in VolkerEnderlein/soqt/branchcorrection (pull request #19)
+
+	Use default branch for downloading artifacts in appveyor script.
+
+2018-10-06 20:08 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (1c26eeb747fb <branchcorrection>)
+
+	* Close branch branchcorrection
+
+2018-10-06 22:05 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (9b78e91640d9 <branchcorrection>)
+
+	* appveyor.yml:
+	Use default branch for downloading artifacts in appveyor script.
+
+2018-10-06 19:30 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (7bdf809aed39)
+
+	* Merged in VolkerEnderlein/soqt/doxygenappveyor (pull request #18)
+
+	Added Doxygen commands to appveyor script.
+
+2018-10-06 19:30 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (fea315cecd86 <doxygenappveyor>)
+
+	* Close branch doxygenappveyor
+
+2018-10-06 21:27 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (bb2f04dacefa <doxygenappveyor>)
+
+	* appveyor.yml:
+	Added Doxygen commands to appveyor script.
+
+2018-10-05 23:25 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (16616a223e2b)
+
+	* SoQt.pc.cmake.in, src/CMakeLists.txt: new file.
+	* Merged in VolkerEnderlein/soqt/docfixes (pull request #16)
+
+	CMake script refactoring and syncing with SoGui repos.
+
+2018-10-05 22:26 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (e250047344db)
+
+	* appveyor.yml: new file.
+	* Merged in VolkerEnderlein/soqt/appveyor-ci (pull request #13)
+
+	Added initial version of AppVeyor script
+
+2018-10-05 22:23 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (dfd1a6e28775)
+
+	* Merged in VolkerEnderlein/soqt/removewarnings (pull request #17)
+
+	Removed some warnings.
+
+2018-10-05 23:25 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (49ee0ac7a82c <docfixes>)
+
+	* Close branch docfixes
+
+2018-10-05 22:26 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (8ee411812cbf <appveyor-ci>)
+
+	* Close branch appveyor-ci
+
+2018-10-05 22:23 +0000  Volker Enderlein  <volkerenderlein@hotmail.com>  (7eb37c7e1e40 <removewarnings>)
+
+	* Close branch removewarnings
+
+2018-10-06 00:19 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (6ccb05d72ec0 <removewarnings>)
+
+	* test-code/components/renderarea.cpp:
+	Removed some warnings.
+
+2018-10-05 23:58 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (9f34f2c50a9b <docfixes>)
+
+	* src/Inventor/Qt/SoQt.cpp:
+	Miscellaneous documentation fixes.
+
+2018-10-05 22:24 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (3a68bebca5da <soqtcleanup>)
+
+	* CMakeLists.txt:
+	Further streamline with sowin.
+
+2018-10-05 21:50 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (b71b3654607b <soqtcleanup>)
+
+	* SoQt.pc.cmake.in, src/CMakeLists.txt: new file.
+	* CMakeLists.txt, SoQt.pc.cmake.in, src/CMakeLists.txt:
+	Restructuring CMake build scripts.
+
+2018-09-28 19:55 +0000  Giampiero Gabbiani  <giampiero@gabbiani.org>  (dac6096bb7d0)
+
+	* bitbucket-pipelines.yml, packaging/description-summary.txt: new
+	file.
+	* Merged in ggabbiani/soqt/cpack.d (pull request #15)
+
+	cpack.d
+
+	Approved-by: Bastiaan Veelo <bastiaan@sarc.nl> Approved-by: Volker
+	Enderlein <volkerenderlein@hotmail.com>
+
+2018-09-28 19:55 +0000  Giampiero Gabbiani  <giampiero@gabbiani.org>  (f214c25d16bf <cpack.d>)
+
+	* Close branch cpack.d
+
+2018-09-14 01:20 +0200  Giampiero Gabbiani  <giampiero@gabbiani.org>  (14766866d067 <cpack.d>)
+
+	* bitbucket-pipelines.yml: new file.
+	* bitbucket-pipelines.yml:
+	first import
+
+2018-09-14 01:11 +0200  Giampiero Gabbiani  <giampiero@gabbiani.org>  (8094ec48bdbb <cpack.d>)
+
+	* CMakeLists.txt:
+	added OPT_MAN
+
+2018-09-14 00:54 +0200  Giampiero Gabbiani  <giampiero@gabbiani.org>  (683f433ac52f <cpack.d>)
+
+	* CMakeLists.txt:
+	applied documentation component
+
+2018-09-14 00:50 +0200  Giampiero Gabbiani  <giampiero@gabbiani.org>  (c57e06f30cbb <cpack.d>)
+
+	* packaging/description-summary.txt: new file.
+	* .hgsubstate, CMakeLists.txt, packaging/description-summary.txt:
+	modification for enabling cpack.d
+
+2018-09-14 00:49 +0200  Giampiero Gabbiani  <giampiero@gabbiani.org>  (63e540969c0a <cpack.d>)
+
+	* CMakeLists.txt:
+	removed windows/DOS new-lines
+
+2018-09-14 00:37 +0200  Giampiero Gabbiani  <giampiero@gabbiani.org>  (7c909707d9e0 <cpack.d>)
+
+	* .hgsub, .hgsubstate, CMakeLists.txt:
+	get rid of OpenGL GLVND warning from CMake 3.11 added cpack.d as sub
+	repo
+
+2018-06-06 23:44 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (4b6d52192cf9 <appveyor-ci>)
+
+	* appveyor.yml: new file.
+	* appveyor.yml:
+	Added AppVeyor script
+
+2018-06-06 23:40 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (6719cfeef271)
+
+	* CMakeLists.txt:
+	Consequent use of CMake variables
+
+2018-06-06 23:38 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (dcf097291422)
+
+	* test-code/CMakeLists.txt: new file.
+	* CMakeLists.txt, test-code/CMakeLists.txt, test-
+	code/components/scrollview.cpp, test-code/components/tripleview.cpp,
+	test-code/widgets/thumbwheel.cpp:
+	Added test-code directory with examples. Removed warnings.
+
+2018-06-06 23:35 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (086325a292eb)
+
+	* CMakeLists.txt:
+	Added default build type for non multi configuration environments
+	(Visual Studio, Xcode).
+
+2018-06-05 21:43 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (ea2947f1fb30 <AppVeyorCI>)
+
+	* appveyor.yml:
+	32bit and msvc 2017 uses Qt2015.
+
+2018-06-05 21:12 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (d502626fcc13 <AppVeyorCI>)
+
+	* appveyor.yml:
+	Removed superfluous output.
+
+2018-06-05 21:09 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (3831b62b78e3 <AppVeyorCI>)
+
+	* appveyor.yml:
+	Fixed job environment.
+
+2018-06-05 21:05 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (14cb39170bf4 <AppVeyorCI>)
+
+	* appveyor.yml:
+	Enable full build matrix.
+
+2018-05-04 19:53 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (f3a51dd241d2 <AppVeyorCI>)
+
+	* appveyor.yml:
+	Fixed Appveyor script for multi configuration environments.
+
+2018-05-03 23:13 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (0919908b846e <AppVeyorCI>)
+
+	* CMakeLists.txt, appveyor.yml:
+	Changed build matrix
+
+2018-05-01 23:48 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (cb42cd775c7d <AppVeyorCI>)
+
+	* appveyor.yml:
+	curl command
+
+2018-05-01 23:35 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (a86dd4beed30 <AppVeyorCI>)
+
+	* appveyor.yml:
+	perl:i386 is missing
+
+2018-05-01 23:26 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (cfd37896ea99 <AppVeyorCI>)
+
+	* appveyor.yml:
+	qtbase5-dev-tools:i386 missing
+
+2018-05-01 23:21 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (48e13fa71955 <AppVeyorCI>)
+
+	* appveyor.yml:
+	try ps.
+
+2018-05-01 23:06 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (f39ad8f0c73c <AppVeyorCI>)
+
+	* appveyor.yml:
+	further exploring.
+
+2018-05-01 22:49 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (fe54abf23d5b <AppVeyorCI>)
+
+	* appveyor.yml:
+	try.
+
+2018-05-01 20:12 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (2b99b5d10710 <AppVeyorCI>)
+
+	* appveyor.yml:
+	explore env.
+
+2018-05-01 20:05 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (e3d8ca6988ee <AppVeyorCI>)
+
+	* appveyor.yml:
+	Only install qt5-default.
+
+2018-05-01 01:10 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (a3e4dc08a87d <AppVeyorCI>)
+
+	* appveyor.yml:
+	Explore env
+
+2018-05-01 01:01 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (209b287cb0a8 <AppVeyorCI>)
+
+	* appveyor.yml:
+	Way too much output :(
+
+2018-05-01 00:58 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (e1c9247d55db <AppVeyorCI>)
+
+	* appveyor.yml:
+	Another try.
+
+2018-05-01 00:46 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (3027e0ca24f1 <AppVeyorCI>)
+
+	* appveyor.yml:
+	try.
+
+2018-05-01 00:41 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (fe8a63fb340c <AppVeyorCI>)
+
+	* appveyor.yml:
+	Hopefully the right package.
+
+2018-05-01 00:32 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (dac59ac56851 <AppVeyorCI>)
+
+	* appveyor.yml:
+	Next try.
+
+2018-05-01 00:24 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (804a554f5161 <AppVeyorCI>)
+
+	* appveyor.yml:
+	Qt tools were missing.
+
+2018-05-01 00:18 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (330829c21210 <AppVeyorCI>)
+
+	* appveyor.yml:
+	fixed package dependencies.
+
+2018-05-01 00:14 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (383a1e60d4f1 <AppVeyorCI>)
+
+	* appveyor.yml:
+	Need to install Qt5
+
+2018-05-01 00:07 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (743d33f25dc0 <AppVeyorCI>)
+
+	* appveyor.yml:
+	script corrected.
+
+2018-04-30 23:58 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (7965243de33f <AppVeyorCI>)
+
+	* appveyor.yml:
+	Test soqt on Qt5
+
+2018-04-24 20:10 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (ce4c85983756 <AppVeyorCI>)
+
+	* appveyor.yml:
+	Enabled multiple configurations.
+
+2018-04-23 21:59 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (74757563efcd <AppVeyorCI>)
+
+	* appveyor.yml:
+	Updated Qt path in appveyor script.
+
+2018-04-23 21:52 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (cd4751ee3f6a <AppVeyorCI>)
+
+	* appveyor.yml: new file.
+	* CMakeLists.txt, appveyor.yml:
+	Added appveyor script.
+
+2018-04-16 07:16 +0000  Bastiaan Veelo  <Bastiaan@SARC.nl>  (a8814c9ed52b)
+
+	* src/SoQt.rc.cmake.in: new file.
+	* Merged in VolkerEnderlein/soqt/unifydatadocs (pull request #11)
+
+	Unify CMakeLists with SoWin. Added Data and Documentation.
+
+2018-04-16 00:15 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (5709339f9dae <unifydatadocs>)
+
+	* CMakeLists.txt:
+	Removed superglu reminder from test.
+
+2018-04-16 00:07 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (e68b0ae59f52 <unifydatadocs>)
+
+	* .hgsubstate:
+	Updated subrepos sogui soanydata.
+
+2018-04-15 22:58 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (e05387272acb <unifydatadocs>)
+
+	* src/Inventor/Qt/SoQt.cpp:
+	Documentation fixes.
+
+2018-04-15 22:57 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (2378acc12714 <unifydatadocs>)
+
+	* CMakeLists.txt, src/config.h.cmake.in:
+	Unification of CMakeLists.txt with sowin. Added data and
+	documentation export.
+
+2018-04-15 22:56 +0200  Volker Enderlein  <volkerenderlein@hotmail.com>  (60d0eb03e763 <unifydatadocs>)
+
+	* src/SoQt.rc.cmake.in: new file.
+	* src/SoQt.rc.cmake.in:
+	Added resource information for Win DLL
+
+2018-03-23 11:24 +0100  Volker Enderlein  <Volker Enderlein>  (18653721de3d)
+
+	* .hgsubstate:
+	Updated subrepo sogui
+
+2018-03-23 08:17 +0000  Bastiaan Veelo  <Bastiaan@SARC.nl>  (9a329165fea8)
+
+	* Merged in VolkerEnderlein/soqt/warningfree (pull request #9)
+
+	Fixed warnings for 64bit build
+
+2018-03-22 23:31 +0100  Volker Enderlein  <volkerenderlein@hotmail.com>  (7f94eb3b0e0b <warningfree>)
+
+	* CMakeLists.txt, src/Inventor/Qt/SoQtComponent.cpp:
+	Fixed all warnings for 64bit build
+
+2018-03-20 00:11 +0000  Bastiaan Veelo  <Bastiaan@SARC.nl>  (bbe175c7ad4f)
+
+	* Merged in VolkerEnderlein/soqt/cmake (pull request #8)
+
+	Referring correct CMake variable
+
+2018-03-20 01:05 +0100  Volker Enderlein  <volkerenderlein@hotmail.com>  (c04d36135eba <cmake>)
+
+	* soqt-config.cmake.in:
+	Referring correct CMake variable
+
+2018-03-12 19:00 +0000  Bastiaan Veelo  <Bastiaan@SARC.nl>  (d710bea622a8)
+
+	* Merged in efferre79/soqt (pull request #6)
+
+	config file should be generated with cmake vars at compilation time
+
+2018-02-08 10:11 +0100  efferre79  <rossi.f@inwind.it>  (08cba6b33f8c)
+
+	* soqt-config.cmake.in:
+	config file should be generated with cmake vars at compilation time
+
+2018-03-12 18:59 +0000  Bastiaan Veelo  <Bastiaan@SARC.nl>  (cef4b14fa1b2)
+
+	* Merged in ggabbiani/soqt/fix-cpack (pull request #7)
+
+	fixed cpack generator
+
+2018-02-17 10:57 +0100  Giampiero Gabbiani  <giampiero@gabbiani.org>  (adf4cd1a81d3 <fix-cpack>)
+
+	* CMakeLists.txt:
+	fixed cpack generator
+
+2018-03-09 09:17 +0000  Bastiaan Veelo  <Bastiaan@SARC.nl>  (945ec22f6219)
+
+	* Merged in roboticslibrary/soqt/patch-hidpi (pull request #5)
+
+	Add support for high DPI displays in Qt5
+
+2018-01-02 16:07 +0100  Markus Rickert  <rickert@fortiss.org>  (214c74a36217 <patch-hidpi>)
+
+	* src/Inventor/Qt/SoQtGLWidget.cpp, src/Inventor/Qt/SoQtGLWidgetP.h,
+	src/Inventor/Qt/devices/SoQtMouse.cpp:
+	Add support for high DPI displays in Qt5
+
+2017-11-04 21:16 +0000  Bastiaan Veelo  <Bastiaan@SARC.nl>  (483ecb26b30c)
+
+	* README:
+	Add reference to Quarter.
+
+2017-10-31 14:15 +0100  Markus Rickert  <rickert@fortiss.org>  (e59eabc15878)
+
+	* .hgsubstate:
+	Use updated SoGUI with fixed SoGuiSpacenavDevice
+
+2017-10-01 08:50 +0000  Bastiaan Veelo  <Bastiaan@SARC.nl>  (788d47c185c8)
+
+	* Merged in roboticslibrary/soqt/patch-1 (pull request #3)
+
+	Use CMAKE_REQUIRED_INCLUDES and CMAKE_REQUIRED_LIBRARIES only for
+	relevant checks
+
+2017-09-30 18:29 +0200  Markus Rickert  <rickert@fortiss.org>  (dae603ffce67 <patch-1>)
+
+	* CMakeLists.txt:
+	Use CMAKE_REQUIRED_INCLUDES and CMAKE_REQUIRED_LIBRARIES only for
+	relevant checks
+
+2017-09-10 01:51 +0200  Markus Rickert  <rickert@fortiss.org>  (7cf3070b5e3d)
+
+	* CMakeLists.txt:
+	Add major version number to library name and adjust postfixes to
+	match simage and Coin libraries
+
+2016-06-02 22:47 +0200  Markus Rickert  <rickert@fortiss.org>  (db4c6f0e5e69)
+
+	* CMakeLists.txt:
+	Include windows.h for HAVE_TLHELP32_H check
+
+2016-06-02 22:46 +0200  Markus Rickert  <rickert@fortiss.org>  (6cf26163fef3)
+
+	* CMakeLists.txt:
+	Use Coin::Coin target for CMAKE_REQUIRED_LIBRARIES
+
+2016-06-02 02:05 +0200  Markus Rickert  <rickert@fortiss.org>  (9cb0343f2cc3)
+
+	* CMakeLists.txt, soqt-config.cmake.in, src/config.h.cmake.in: new
+	file.
+	* .hgsubstate, CMakeLists.txt, soqt-config.cmake.in,
+	src/config.h.cmake.in:
+	Add CMake build files
+
+2016-06-02 01:13 +0200  Markus Rickert  <rickert@fortiss.org>  (d6417abe771f)
+
+	* .hgsubstate, configure, src/Inventor/Qt/SoQt.cpp,
+	src/Inventor/Qt/SoQtComponent.cpp, src/Inventor/Qt/SoQtComponentP.h,
+	src/Inventor/Qt/SoQtGLWidget.cpp,
+	src/Inventor/Qt/SoQtImageReader.cpp,
+	src/Inventor/Qt/SoQtLightSliderSet.h,
+	src/Inventor/Qt/SoQtMaterialList.cpp,
+	src/Inventor/Qt/SoQtMaterialSliderSet.h,
+	src/Inventor/Qt/SoQtSliderSetBase.h,
+	src/Inventor/Qt/SoQtTransformSliderSet.h,
+	src/Inventor/Qt/devices/6DOFEvents.cpp,
+	src/Inventor/Qt/devices/SoQtKeyboard.cpp,
+	src/Inventor/Qt/devices/SoQtMouse.cpp,
+	src/Inventor/Qt/viewers/ExaminerViewer.cpp,
+	src/Inventor/Qt/viewers/FullViewer.cpp,
+	src/Inventor/Qt/viewers/PlaneViewer.cpp,
+	src/Inventor/Qt/widgets/QtNativePopupMenu.cpp:
+	Fix for Qt5
+
+2011-12-04 22:53 +0100  Marius Kintel  <marius@kintel.net>  (e8310fe21c1b)
+
+	* LICENSE.GPL: deleted file.
+	* COPYING, FAQ, LICENSE.GPL, Makefile.am, Makefile.in, README,
+	build/msvc6/Makefile, build/msvc6/soqt1.dsp, build/msvc7/Makefile,
+	build/msvc7/soqt1.vcproj, build/msvc8/Makefile,
+	build/msvc8/soqt1.vcproj, build/msvc9/Makefile,
+	build/msvc9/soqt1.vcproj, cfg/gendsp.pl.in,
+	packaging/macosx/License.rtf, packaging/windows/Makefile.in,
+	packaging/windows/heading.nsi.in, src/Inventor/Qt/SoQt.cpp, test-
+	code/README:
+	fixed issue #5
+
+2011-12-04 14:52 +0100  Marius Kintel  <marius@kintel.net>  (66b682650f25)
+
+	* .hgsubstate:
+	Updated subrepos
+
+2011-12-03 16:54 +0100  Marius Kintel  <marius@kintel.net>  (bafd4136d456)
+
+	* .hgsubstate, build/msvc6/src/Inventor/Qt/SoQtBasic.h,
+	build/msvc6/src/soqtdefs.h, build/msvc7/src/Inventor/Qt/SoQtBasic.h,
+	build/msvc7/src/soqtdefs.h, build/msvc8/src/Inventor/Qt/SoQtBasic.h,
+	build/msvc8/src/soqtdefs.h, build/msvc9/src/Inventor/Qt/SoQtBasic.h,
+	build/msvc9/src/soqtdefs.h, src/Inventor/Qt/SoQt.cpp,
+	src/Inventor/Qt/SoQtComponent.cpp, src/Inventor/Qt/SoQtComponentP.h,
+	src/Inventor/Qt/SoQtGLWidget.cpp, src/Inventor/Qt/SoQtGLWidgetP.h,
+	src/Inventor/Qt/SoQtImageReader.cpp,
+	src/Inventor/Qt/SoQtImageReader.h, src/Inventor/Qt/SoQtInternal.h,
+	src/Inventor/Qt/SoQtLightSliderSet.cpp,
+	src/Inventor/Qt/SoQtLightSliderSet.h,
+	src/Inventor/Qt/SoQtMaterialList.cpp,
+	src/Inventor/Qt/SoQtMaterialSliderSet.cpp,
+	src/Inventor/Qt/SoQtMaterialSliderSet.h, src/Inventor/Qt/SoQtP.h,
+	src/Inventor/Qt/SoQtSignalThread.cpp,
+	src/Inventor/Qt/SoQtSignalThread.h,
+	src/Inventor/Qt/SoQtSliderSet.cpp, src/Inventor/Qt/SoQtSliderSet.h,
+	src/Inventor/Qt/SoQtSliderSetBase.cpp,
+	src/Inventor/Qt/SoQtSliderSetBase.h,
+	src/Inventor/Qt/SoQtTransformSliderSet.cpp,
+	src/Inventor/Qt/SoQtTransformSliderSet.h, src/Inventor/Qt/all-soqt-
+	cpp.cpp, src/Inventor/Qt/all-soqt2-cpp.cpp,
+	src/Inventor/Qt/devices/6DOFEvents.cpp,
+	src/Inventor/Qt/devices/6DOFEvents.h,
+	src/Inventor/Qt/devices/SoQtDevice.cpp,
+	src/Inventor/Qt/devices/SoQtDeviceP.h,
+	src/Inventor/Qt/devices/SoQtInputFocus.cpp,
+	src/Inventor/Qt/devices/SoQtKeyboard.cpp,
+	src/Inventor/Qt/devices/SoQtLinuxJoystick.cpp,
+	src/Inventor/Qt/devices/SoQtLinuxJoystick.h,
+	src/Inventor/Qt/devices/SoQtLinuxJoystickP.h,
+	src/Inventor/Qt/devices/SoQtMouse.cpp, src/Inventor/Qt/devices/all-
+	devices-cpp.cpp, src/Inventor/Qt/devices/all-devices2-cpp.cpp,
+	src/Inventor/Qt/editors/RGBCubeEditorKit.cpp,
+	src/Inventor/Qt/editors/RGBCubeEditorKit.h,
+	src/Inventor/Qt/editors/RadioGroupKit.cpp,
+	src/Inventor/Qt/editors/RadioGroupKit.h,
+	src/Inventor/Qt/editors/old/QColorSelection.cpp,
+	src/Inventor/Qt/editors/old/QColorSelection.h,
+	src/Inventor/Qt/editors/old/SoGLMaterialSphere.cpp,
+	src/Inventor/Qt/editors/old/SoGLMaterialSphere.h,
+	src/Inventor/Qt/editors/old/SoQtColorSlider.cpp,
+	src/Inventor/Qt/editors/old/SoQtColorSlider.h,
+	src/Inventor/Qt/editors/old/SoQtMaterialEditor.cpp,
+	src/Inventor/Qt/editors/old/SoQtMaterialEditor.h,
+	src/Inventor/Qt/editors/old/SoQtMaterialList.cpp,
+	src/Inventor/Qt/editors/old/SoQtMaterialList.h,
+	src/Inventor/Qt/engines/all-engines-cpp.cpp, src/Inventor/Qt/nodes
+	/all-nodes-cpp.cpp, src/Inventor/Qt/viewers/ExaminerViewer.cpp,
+	src/Inventor/Qt/viewers/FullViewer.cpp,
+	src/Inventor/Qt/viewers/PlaneViewer.cpp,
+	src/Inventor/Qt/viewers/SoQtExaminerViewerP.h,
+	src/Inventor/Qt/viewers/SoQtFullViewerP.h,
+	src/Inventor/Qt/viewers/SoQtPlaneViewerP.h,
+	src/Inventor/Qt/viewers/WalkViewer.cpp, src/Inventor/Qt/viewers/all-
+	viewers-cpp.cpp, src/Inventor/Qt/widgets/QtNativePopupMenu.cpp,
+	src/Inventor/Qt/widgets/QtNativePopupMenu.h,
+	src/Inventor/Qt/widgets/SoQtGLArea.cpp,
+	src/Inventor/Qt/widgets/SoQtGLArea.h,
+	src/Inventor/Qt/widgets/SoQtThumbWheel.cpp,
+	src/Inventor/Qt/widgets/SoQtThumbWheel.h, src/Inventor/Qt/widgets
+	/all-widgets-cpp.cpp, test-code/assertdbg/crash.cpp, test-
+	code/components/coloreditor.cpp, test-
+	code/components/embeddedexaminer.cpp, test-
+	code/components/renderarea.cpp, test-code/components/scrollview.cpp,
+	test-code/components/tripleview.cpp, test-
+	code/components/withoutdecor0.cpp, test-
+	code/components/withoutdecor1.cpp, test-code/widgets/thumbwheel.cpp:
+	Updated license headers to BSD
+
+2011-12-01 18:52 +0100  Marius Kintel  <marius@kintel.net>  (0a9e3a1ff58d)
+
+	* .hgsub:
+	Made suprepositories relative
+
+2011-02-02 13:47 +0100  Tom Fredrik Blenning Klaussen  <bfg@sim.no>  (7da66374cd9a)
+
+	* .hgsub:
+	Rollback last commit.
+
+2011-02-02 13:40 +0100  Tom Fredrik Blenning Klaussen  <bfg@sim.no>  (a4e9bee6641d)
+
+	* .hgsub:
+	Changing to SoGUI-CMake
+
+2010-10-18 13:38 +0200  Øystein Handegard  <handegar@sim.no>  (c0fc8eafb1b1)
+
+	* .hgsubstate:
+	Updated to latest subrepo
+
+2010-10-18 13:30 +0200  Øystein Handegard  <handegar@sim.no>  (aa88e0092b23)
+
+	* .hgsubstate:
+	Updated to newest subrepo
+
+2010-08-05 15:29 +0200  Jostein  <josteint@sim.no>  (bb2d3916586f)
+
+	* src/Inventor/Qt/viewers/ExaminerViewer.cpp:
+	Match examiner viewer labels equal to SoWin's.
+
+2010-08-05 15:25 +0200  Jostein  <josteint@sim.no>  (33787477d966)
+
+	* src/Inventor/Qt/viewers/FullViewer.cpp:
+	Right wheel label set to display Dolly or Zoom, equal to
+	SoWinExaminerViewer.
+
+2010-06-08 16:07 +0200  Terje Wiesener  <wiesener@sim.no>  (f34bff6f2a79)
+
+	* build/msvc9/soqt1.vcproj, build/msvc9/soqt1_docs.vcproj,
+	build/msvc9/soqt1_install.vcproj,
+	build/msvc9/soqt1_uninstall.vcproj:
+	EOL-styles
+
+2010-06-08 16:06 +0200  Terje Wiesener  <wiesener@sim.no>  (ff6dca9910d9)
+
+	* src/Inventor/Qt/SoQt.cpp:
+	Fix example, remove FIXME
+
+2010-06-03 10:25 +0200  ToolsReleaseBot  <coin@sim.no>  (3be527cbc523)
+
+	* build/msvc7/soqt1.vcproj, build/msvc8/soqt1.vcproj,
+	build/msvc9/soqt1.vcproj, cfg/gendsp.pl.in:
+	Attempt at working MSVC projects
+
+2010-06-01 14:21 +0200  ToolsReleaseBot  <coin@sim.no>  (01c8f22a27ca)
+
+	* build/msvc7/Makefile, build/msvc7/soqt1.vcproj,
+	build/msvc7/src/Inventor/Qt/SoQtBasic.h, build/msvc7/src/config-
+	debug.h, build/msvc7/src/config-release.h, build/msvc8/Makefile,
+	build/msvc8/soqt1.vcproj, build/msvc8/soqt1_docs.vcproj,
+	build/msvc8/soqt1_install.vcproj,
+	build/msvc8/soqt1_uninstall.vcproj,
+	build/msvc8/src/Inventor/Qt/SoQtBasic.h, build/msvc8/src/config-
+	debug.h, build/msvc8/src/config-release.h, build/msvc9/Makefile,
+	build/msvc9/soqt1.vcproj, build/msvc9/soqt1_docs.vcproj,
+	build/msvc9/soqt1_install.vcproj,
+	build/msvc9/soqt1_uninstall.vcproj,
+	build/msvc9/src/Inventor/Qt/SoQtBasic.h, build/msvc9/src/config-
+	debug.h, build/msvc9/src/config-release.h:
+	Updated MSVC build files
+
+2010-06-01 12:49 +0200  ToolsReleaseBot  <coin@sim.no>  (dc063a846967)
+
+	* configure:
+	Bootstrap with correct line endings
+
+2010-06-01 11:57 +0200  Terje Wiesener  <wiesener@sim.no>  (646ac77e07b3)
+
+	* .hgsubstate:
+	Updating SoGUI subrepos
+
+2010-06-01 10:55 +0200  Terje Wiesener  <wiesener@sim.no>  (5e88572ccec4)
+
+	* cfg/csubst.exe, cfg/wrapmsvc.exe, configure:
+	Bootstrap
+
+2010-05-31 13:13 +0200  Terje Wiesener  <wiesener@sim.no>  (914cbae3ad2b)
+
+	* configure.ac:
+	Bump SoQt version to match SoWin
+
+2010-03-22 14:41 +0100  Tamer Fahmy  <tamer@sim.no>  (100f241dc3fd)
+
+	* .hgsubstate:
+	update subrepository.
+
+2010-03-03 18:46 +0100  Tamer Fahmy  <tamer@sim.no>  (539ebb9b40ec)
+
+	* ChangeLog, NEWS:
+	reinstate template ChangeLog and prep NEWS file.
+
+2010-03-03 18:45 +0100  Tamer Fahmy  <tamer@sim.no>  (5a4d797e190d)
+
+	* packaging/macosx/SoQtTools_Description.plist.in,
+	packaging/macosx/SoQt_Description.plist.in, packaging/macosx/inst-
+	README-gcc3.txt.in, packaging/macosx/inst-README-gcc4.txt.in,
+	packaging/macosx/noinst-README-gcc3.txt.in, packaging/macosx/noinst-
+	README-gcc4.txt.in:
+	escape ampersand and various minor updates.
+
+2010-03-03 00:19 +0100  Tamer Fahmy  <tamer@sim.no>  (68228cba2a04)
+
+	* configure, configure.ac:
+	bump version number.
+
+2010-03-02 23:57 +0100  Tamer Fahmy  <tamer@sim.no>  (ce167ab164a5)
+
+	* .hgtags:
+	Added tag SoQt-1.5.0 for changeset 1a381ca22d93
+
+2010-03-02 23:57 +0100  Tamer Fahmy  <tamer@sim.no>  (1a381ca22d93 [SoQt-1.5.0])
+
+	* ChangeLog, docs/ChangeLog.v1.5.0:
+	update ChangeLogs.
+
