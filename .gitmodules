@@ -1,0 +1,12 @@
+[submodule "cpack.d"]
+	path = cpack.d
+	url = https://github.com/coin3d/cpack.d
+[submodule "data"]
+	path = data
+	url = https://github.com/coin3d/soanydata
+[submodule "src/Inventor/Qt/common"]
+	path = src/Inventor/Qt/common
+	url = https://github.com/coin3d/sogui
+[submodule "build/general"]
+	path = build/general
+	url = https://github.com/coin3d/generalmsvcgeneration
