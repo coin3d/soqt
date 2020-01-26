@@ -32,7 +32,7 @@
 
 /*!
   \class QtNativePopupMenu Inventor/Qt/widgets/QtNativePopupMenu.h
-  \brief The QtNativePopupMenu class implements a common interface for popup
+  \brief The QtNativePopupMenu class implements a common interface for pop-up
   menu management for all the Coin GUI toolkit libraries.
 */
 
@@ -519,7 +519,7 @@ QtNativePopupMenu::addSeparator(int menuid,
 /*!
   This method removes the submenu with the given \a menuid.
 
-  A removed menu can be attached again later - its menuid will still be
+  A removed menu can be attached again later - its menu id will still be
   allocated.
 */
 
@@ -552,7 +552,7 @@ QtNativePopupMenu::removeMenu(int menuid)
 /*!
   This method removes the menu item with the given \a itemid.
 
-  A removed menu item can be attached again later - its itemid will still
+  A removed menu item can be attached again later - its item id will still
   be allocated.
 */
 

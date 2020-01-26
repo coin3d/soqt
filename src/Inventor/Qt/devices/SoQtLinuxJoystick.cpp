@@ -296,7 +296,7 @@ SoQtLinuxJoystick::getTranslationScaleFactor(void) const
 // *************************************************************************
 
 /*!
-  This method returns wether there is a Joystick device on the given
+  This method returns whether there is a Joystick device on the given
   display or not.  A NULL \a display argument means the default display,
   of course.
 */
