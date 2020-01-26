@@ -32,7 +32,7 @@
 
 /*!
   \class RadioGroupKit RadioGroupKit.h
-  \brief The RadioGroupKit class is a radiobutton group.
+  \brief The RadioGroupKit class is a radio button group.
 
   This is a 3D user interface component.
 
@@ -64,14 +64,14 @@
     SoSeparator * root = new SoSeparator;
     root->ref();
 
-    // Creating a basic radiobutton group
+    // Creating a basic radio button group
     RadioGroupKit * radiogroup = new RadioGroupKit;
     radiogroup->labels.set1Value(0,"Item #1");
     radiogroup->labels.set1Value(1,"Item #2");
     radiogroup->labels.set1Value(2,"Item #3");
     root->addChild(radiogroup);
 
-    // Setting up a callback sensor for the radiobuttons
+    // Setting up a callback sensor for the radio buttons
     SoFieldSensor * radioGroupSensor =
       new SoFieldSensor(myRadioButtonCallback, NULL);
     radioGroupSensor->attach(&radiogroup->selected);
@@ -203,7 +203,7 @@ RadioGroupKit::RadioGroupKit(void)
   PRIVATE(this)->root = new SoSelection;
   this->setPart("radioGroupRoot", PRIVATE(this)->root);
 
-  // General SoSelector node for this radiogroup
+  // General SoSelector node for this radio button group
   PRIVATE(this)->root->addSelectionCallback(&PRIVATE(this)->buttonClickedCallback, PRIVATE(this));
 
 }
@@ -302,7 +302,7 @@ void
 RadioGroupKitP::removeAllRadioButtons()
 {
 
-  // Remove all registrated buttons for list
+  // Remove all registered buttons for list
   for(int i=0;i<this->buttonList->getLength();++i)
     this->buttonList->remove(i);
 
@@ -354,13 +354,13 @@ RadioGroupKitP::addRadioButton(SbString label)
   this->buttonList->set(buttonCounter,sep);    // Save the separator node for later changes @ callback
   buttonRoot->addChild(sep);
 
-  // Fetch bullet boundingbox
+  // Fetch bullet bounding box
   SbViewportRegion dummyViewport(100,100);
   SoGetBoundingBoxAction bboxAction(dummyViewport);
   if(buttonCounter == 0)
     bboxAction.apply(sep);
   else
-    bboxAction.apply((SoTransformSeparator *) buttonList->get(buttonCounter-1)); // Previous radiobutton
+    bboxAction.apply((SoTransformSeparator *) buttonList->get(buttonCounter-1)); // Previous radio button
 
   SbBox3f bbox = bboxAction.getBoundingBox();
   SoTranslation *spacingX = new SoTranslation;

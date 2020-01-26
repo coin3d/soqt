@@ -50,10 +50,10 @@
   Motion's \COIN high-level 3D visualization library and the
   \QT 2D user interface library.
 
-  \QT is a C++ toolkit for multiplatform development of 2D user
+  \QT is a C++ toolkit for multi platform development of 2D user
   interfaces, and also includes other functionality to help
-  programmers write multiplatform applications. \QT is currently
-  available on X11-based systems (UNIX, Linux and BSDs), MSWindows,
+  programmers write multi platform applications. \QT is currently
+  available on X11-based systems (UNIX, Linux and BSDs), Microsoft Windows,
   Mac OS X and embedded systems.
 
   For more information on the \QT toolkit, see the web site 
@@ -63,13 +63,13 @@
   applications, you have a framework for writing completely portable
   software across the whole range of UNIX, Linux, Microsoft Windows
   and Mac OS X operating systems. \COIN, \QT and %SoQt makes this
-  possible from a 100% common codebase, which means there is a minimum
-  of hassle for developers when working on multiplatform software,
+  possible from a 100% common code base, which means there is a minimum
+  of hassle for developers when working on multi platform software,
   with the resulting large gains in productivity.
 
   %SoQt, like \COIN and \QT, provides the programmer with a high-level
-  application programmer's interface (API) in C++. The library
-  primarily includes a class-hierarchy of viewer components of varying
+  Application Programming Interface (API) in C++. The library
+  primarily includes a class hierarchy of viewer components of varying
   functionality and complexity, with various modes for the end-user to
   control the 3D-scene camera interaction.
 
@@ -92,7 +92,7 @@
     QWidget * mainwin = SoQt::init(argc, argv, argv[0]);
 
     // Make a dead simple scene graph by using the Coin library, only
-    // containing a single yellow cone under the scenegraph root.
+    // containing a single yellow cone under the scene graph root.
     SoSeparator * root = new SoSeparator;
     root->ref();
 
@@ -160,7 +160,7 @@
   <ul>
 
   <li>The most convenient management of OpenGL context types, such as
-  singlebuffered versus doublebuffered rendering, the use of overlay
+  single buffered versus double buffered rendering, the use of overlay
   planes, stereo rendering, etc. This is handled through the
   SoQtGLWidget class, which builds on Qt's QGLWidget class, and
   through the SoQtRenderArea class (which contains the main binding
@@ -171,7 +171,7 @@
   types. The translation is done by the SoQtDevice classes, controlled
   by the SoQtRenderArea.
 
-  These "generic" \COIN events are then passed into the 3D scenegraph
+  These "generic" \COIN events are then passed into the 3D scene graph
   for further processing, for instance by \COIN's 3D user interaction
   components -- like this "trackball manipulator" attached to a simple
   cone:
@@ -210,7 +210,7 @@
   straightforward to port InventorXt code over to %SoQt, for instance
   to gain greater portability.
 
-  \sa The documentation for the \COIN library: <https://coin3d.bitbucket.io/Coin/>.
+  \sa The documentation for the \COIN library: <https://coin3d.github.io/Coin/>.
 */
 
 // *************************************************************************
@@ -407,7 +407,7 @@ SoQtP::X11Errorhandler(void * d, void * ee)
                          "breakpoint set on SoQtP::X11Errorhandler() to get a "
                          "valid backtrace. "
                      "Then please forward the following information in an "
-                     "e-mail to <coin-bugs@coin3d.org> along with the "
+                     "e-mail to <coin-support@coin3d.org> along with the "
                      "backtrace. ",
                          SoQtP::SOQT_XSYNC);
 #else // __COIN__
@@ -416,7 +416,7 @@ SoQtP::X11Errorhandler(void * d, void * ee)
                          "breakpoint set on SoQtP::X11Errorhandler() to get a "
                          "valid backtrace. "
                      "Then please forward the following information in an "
-                     "e-mail to <coin-bugs@coin3d.org> along with the "
+                     "e-mail to <coin-support@coin3d.org> along with the "
                      "backtrace. ";
 #endif // ! __COIN__
   }

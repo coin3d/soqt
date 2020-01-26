@@ -269,7 +269,7 @@ RGBCubeEditorKitP::mouseClickCallback(void * classObject, SoEventCallback * cb)
 
   RGBCubeEditorKitP * rgbCubeP = (RGBCubeEditorKitP *) classObject;  // Fetch caller object
 
-  // Fetch viewport and scenegraph
+  // Fetch viewport and scene graph
   SoHandleEventAction * handleaction = cb->getAction();
   const SbViewportRegion viewport = handleaction->getViewportRegion();
   const SoPath * scenePath = handleaction->getCurPath();
@@ -531,7 +531,7 @@ RGBCubeEditorKitP::initCubeFacelist(SoTransformSeparator * root,
   colorIndicatorRoot->addChild(colorIndicator);
 
 
-  // build scenegraph
+  // build scene graph
   root->addChild(cubeMatBind);
   root->addChild(cubeMaterial);
   root->addChild(cubeLight);

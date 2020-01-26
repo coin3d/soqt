@@ -1,4 +1,0 @@
-data = ../soanydata
-src/Inventor/Qt/common = ../sogui
-build/general = ../generalmsvcgeneration
-cpack.d = ../cpack.d
