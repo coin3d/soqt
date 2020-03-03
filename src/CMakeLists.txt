@@ -168,7 +168,8 @@ if(SO${GUI}_BUILD_DOCUMENTATION)
   endif()
 
   if(NOT "${Coin_DOC_DIR}" STREQUAL "")
-    set(DOXYGEN_TAGFILES "${Coin_DOC_DIR}/html/Coin.tag=${Coin_DOC_DIR}/html")
+    get_filename_component(_coin_versioned_dir ${Coin_DOC_DIR} NAME)
+    set(DOXYGEN_TAGFILES "${Coin_DOC_DIR}/html/Coin.tag=../../${_coin_versioned_dir}/html")
   endif()
 
 # ############################################################################
