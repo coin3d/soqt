@@ -210,7 +210,7 @@
   straightforward to port InventorXt code over to %SoQt, for instance
   to gain greater portability.
 
-  \sa The documentation for the \COIN library: <https://coin3d.github.io/Coin/>.
+  \sa The documentation for the \COIN library: <https://coin3d.github.io/Coin/html/>.
 */
 
 // *************************************************************************
