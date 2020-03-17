@@ -522,11 +522,13 @@ SoQtGLWidget::setGLSize(const SbVec2s size)
   PRIVATE(this)->glSizeUnscaled = size;
 #endif
   if (PRIVATE(this)->currentglwidget) {
-#if QT_VERSION >= 0x050000
+#if QT_VERSION >= 0x050600
+    PRIVATE(this)->glSize = PRIVATE(this)->glSizeUnscaled * PRIVATE(this)->currentglwidget->devicePixelRatioF();
+#elif QT_VERSION >= 0x050000
     PRIVATE(this)->glSize = PRIVATE(this)->glSizeUnscaled * PRIVATE(this)->currentglwidget->devicePixelRatio();
 #endif
     int frame = this->isBorder() ? PRIVATE(this)->borderthickness : 0;
-    PRIVATE(this)->currentglwidget->setGeometry(QRect(frame, frame, PRIVATE(this)->glSize[0], PRIVATE(this)->glSize[1]));
+    PRIVATE(this)->currentglwidget->setGeometry(QRect(frame, frame, PRIVATE(this)->glSizeUnscaled[0], PRIVATE(this)->glSizeUnscaled[1]));
   }
 
 // Due to an internal hack in Qt/Mac 3.1.x, sometimes the OpenGL context
@@ -790,10 +792,14 @@ SoQtGLWidgetP::gl_changed(void)
 
 #if QT_VERSION >= 0x050000
   if (this->currentglwidget) {
+#if QT_VERSION >= 0x050600
+    SbVec2s glSize = this->glSizeUnscaled * this->currentglwidget->devicePixelRatioF();
+#else
     SbVec2s glSize = this->glSizeUnscaled * this->currentglwidget->devicePixelRatio();
+#endif
     if (glSize != this->glSize) {
       this->glSize = glSize;
-      this->wasresized = true;
+      PUBLIC(this)->setSize(PUBLIC(this)->getSize());
     }
   }
 #endif
