@@ -150,13 +150,16 @@ before_build:
       cmake -H. -Bbuild -G "%CMAKE_GENERATOR%" -A %CMAKE_ARCHITECTURE% -DCMAKE_INSTALL_PREFIX=%APPVEYOR_BUILD_FOLDER%\Coin3D -DCMAKE_PREFIX_PATH=%APPVEYOR_BUILD_FOLDER%\downloads\Coin3D;%QT_DIR%
   - sh: |
       if [ -z "${APPVEYOR_REPO_TAG_NAME+x}" ]; then export CI_REPO_TAG_NAME=${APPVEYOR_REPO_TAG_NAME:1}; else export CI_REPO_TAG_NAME=latest; fi
-      if [ -z "${APPVEYOR_REPO_TAG_NAME+x}" ]; then export SUPERGLU_REPO_TAG_NAME=${SUPERGLU_VERSION}; else export SUPERGLU_REPO_TAG_NAME=latest; fi
-      if [ -z "${APPVEYOR_REPO_TAG_NAME+x}" ]; then export COIN_REPO_TAG_NAME=${COIN_VERSION}; else export COIN_REPO_TAG_NAME=latest; fi
       BUILD_SOURCE_ARCHIVE=$APPVEYOR_PROJECT_NAME-$CI_REPO_TAG_NAME-src.tar.gz
-      if [ ! -d "../$APPVEYOR_PROJECT_NAME" ]; then cp -r $APPVEYOR_BUILD_FOLDER ../$APPVEYOR_PROJECT_NAME; fi
-      cd $APPVEYOR_BUILD_FOLDER/.. && tar -czf $APPVEYOR_BUILD_FOLDER/$BUILD_SOURCE_ARCHIVE $APPVEYOR_PROJECT_NAME && cd -
+      if [ ! -d "$APPVEYOR_BUILD_FOLDER/../$APPVEYOR_PROJECT_NAME" ]; then cp -r $APPVEYOR_BUILD_FOLDER $APPVEYOR_BUILD_FOLDER/../$APPVEYOR_PROJECT_NAME; fi
+      cd $APPVEYOR_BUILD_FOLDER/..
+      tar -czf $BUILD_SOURCE_ARCHIVE $APPVEYOR_PROJECT_NAME
+      mv $BUILD_SOURCE_ARCHIVE $APPVEYOR_BUILD_FOLDER
+      cd $APPVEYOR_BUILD_FOLDER
       mkdir $APPVEYOR_BUILD_FOLDER/downloads
+      export COMPILER_ID=$APPVEYOR_BUILD_WORKER_IMAGE-$COMPILER_ID`$COMPILER_ID -dumpversion | tr '.' '\n'`
       ###############
+      if [ -z "${APPVEYOR_REPO_TAG_NAME+x}" ]; then export SUPERGLU_REPO_TAG_NAME=${SUPERGLU_VERSION}; else export SUPERGLU_REPO_TAG_NAME=latest; fi
       DOWNLOAD_FILE_SUPERGLU=superglu-$SUPERGLU_REPO_TAG_NAME-$COMPILER_ID-$CMAKE_PLATFORM.tar.gz
       echo download file $DOWNLOAD_FILE_SUPERGLU
       if [ -z "${APPVEYOR_REPO_TAG_NAME+x}" ]; then
@@ -170,6 +173,7 @@ before_build:
       curl -s -S -L -H "Authorization: token $GH_AUTH_TOKEN" -H "Accept: application/octet-stream" -o $DOWNLOAD_FILE_SUPERGLU $DOWNLOAD_ADDRESS_SUPERGLU
       tar -xzf $DOWNLOAD_FILE_SUPERGLU -C $APPVEYOR_BUILD_FOLDER/downloads
       ###############
+      if [ -z "${APPVEYOR_REPO_TAG_NAME+x}" ]; then export COIN_REPO_TAG_NAME=${COIN_VERSION}; else export COIN_REPO_TAG_NAME=latest; fi
       DOWNLOAD_FILE_COIN=coin-$COIN_REPO_TAG_NAME-$COMPILER_ID-$CMAKE_PLATFORM.tar.gz
       echo download file $DOWNLOAD_FILE_COIN
       if [ -z "${APPVEYOR_REPO_TAG_NAME+x}" ]; then
