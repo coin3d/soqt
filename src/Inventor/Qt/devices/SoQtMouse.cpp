@@ -242,9 +242,13 @@ SoQtMouse::translateEvent(QEvent * event)
       conv->setCtrlDown(mouseevent->state() & Qt::ControlButton);
       conv->setAltDown(mouseevent->state() & Qt::AltButton);
 #endif
-#if (QT_VERSION >= 0x050000)
+#if QT_VERSION >= 0x050000
       QWidget* widget = QApplication::widgetAt(mouseevent->globalPos());
+#if QT_VERSION >= 0x050600
+      qreal devicePixelRatio = NULL != widget ? widget->devicePixelRatioF() : qreal(1);
+#else
       qreal devicePixelRatio = NULL != widget ? widget->devicePixelRatio() : qreal(1);
+#endif
       this->setEventPosition(conv, mouseevent->x() * devicePixelRatio, mouseevent->y() * devicePixelRatio);
 #else
       this->setEventPosition(conv, mouseevent->x(), mouseevent->y());
