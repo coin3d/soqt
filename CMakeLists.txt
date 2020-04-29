@@ -124,8 +124,9 @@ report_prepare(
 # Fail early if one of the required packages cannot be found
 
 find_package(OpenGL REQUIRED)
-# Coin is typically installed as Inventor.framework on APPLE
-find_package(Coin NAMES Inventor Coin REQUIRED)
+find_package(Coin REQUIRED)
+
+set(SO${GUI}_PKG_DEPS "Coin")
 
 if(SO${GUI}_USE_QT5)
   find_package(Qt5 COMPONENTS Core Gui OpenGL Widgets QUIET)
@@ -136,13 +137,13 @@ if(Qt5_FOUND)
   string(REGEX REPLACE "^([0-9]+)\\.[0-9]+\\.[0-9]+.*" "\\1" QT_VERSION_MAJOR "${Qt5Core_VERSION_STRING}")
   string(REGEX REPLACE "^[0-9]+\\.([0-9]+)\\.[0-9]+.*" "\\1" QT_VERSION_MINOR "${Qt5Core_VERSION_STRING}")
   string(REGEX REPLACE "^[0-9]+\\.[0-9]+\\.([0-9]+).*" "\\1" QT_VERSION_PATCH "${Qt5Core_VERSION_STRING}")
-  set(PACKAGE_ADDITIONAL_REQUIREMENTS "Qt5Core, Qt5Gui, Qt5OpenGL, Qt5Widgets")
+  set(SO${GUI}_PKG_DEPS "${SO${GUI}_PKG_DEPS} Qt5Core Qt5Gui Qt5OpenGL Qt5Widgets")
 else()
   set(QT_USE_IMPORTED_TARGETS ON)
   find_package(Qt4 COMPONENTS QtCore QtGui QtOpenGL REQUIRED)
-  set(SOQT_QT_TARGETS Qt4::QtCore Qt4::QtGui Qt4::QtOpenGL)
+  set(SO${GUI}_QT_TARGETS Qt4::QtCore Qt4::QtGui Qt4::QtOpenGL)
   include(${QT_USE_FILE})
-  set(PACKAGE_ADDITIONAL_REQUIREMENTS "QtCore, QtGui, QtOpenGL")
+  set(SO${GUI}_PKG_DEPS "${SO${GUI}_PKG_DEPS} QtCore QtGui QtOpenGL")
 endif()
 
 find_package(X11)
@@ -181,13 +182,16 @@ if(WIN32)
   endif()
   if(SO${GUI}_BUILD_SHARED_LIBS)
     set(SO${GUI}_DEFAULT_POSTFIX ${SO${GUI}_DEFAULT_SHARED_POSTFIX})
+    set(SO${GUI}_PKG_FLAGS "-DSOQT_DLL")
   else()
     set(SO${GUI}_DEFAULT_POSTFIX ${SO${GUI}_DEFAULT_STATIC_POSTFIX})
+    set(SO${GUI}_PKG_FLAGS "-DSOQT_NOT_DLL")
   endif()
   set(CMAKE_RELEASE_POSTFIX ${SO${GUI}_DEFAULT_POSTFIX})
   set(CMAKE_MINSIZEREL_POSTFIX ${SO${GUI}_DEFAULT_POSTFIX})
   set(CMAKE_RELWITHDEBINFO_POSTFIX ${SO${GUI}_DEFAULT_POSTFIX})
   set(CMAKE_DEBUG_POSTFIX ${SO${GUI}_DEFAULT_POSTFIX}d)
+  set(SO${GUI}_PKG_LIBS "-l${PROJECT_NAME}")
 elseif(APPLE)
   if(POLICY CMP0042)
     # get rid of MACOSX_RPATH warning on Mac OS X from CMake 3.12.2
@@ -208,25 +212,32 @@ elseif(APPLE)
   configure_file(${CMAKE_SOURCE_DIR}/version.plist.in ${CMAKE_BINARY_DIR}/version.plist)
   set(HAVE_GZDOPEN)
 
-  set(SO${GUI}_MAC_FRAMEWORK ${SO${GUI}_BUILD_MAC_FRAMEWORK})
-  set(SO${GUI}_MAC_FRAMEWORK_NAME "SoQt")
-  set(SO${GUI}_MAC_FRAMEWORK_PREFIX "${CMAKE_INSTALL_PREFIX}")
-  set(SO${GUI}_MAC_FRAMEWORK_VERSION "A") # SoQt2 will be "B", to allow parallel installations of SoQt1
-  set(PACKAGING_FRAMEWORK_NAME "${SO${GUI}_MAC_FRAMEWORK_NAME}")
+  #get rid of all warning related to OpenGL deprecation
+  add_definitions(-DGL_SILENCE_DEPRECATION)
 
-  # package config *.pc entries
-  set(frameworkdir "${SO${GUI}_MAC_FRAMEWORK_PREFIX}/${SO${GUI}_MAC_FRAMEWORK_NAME}.framework")
-  set(includedir "${frameworkdir}/Versions/${SO${GUI}_MAC_FRAMEWORK_VERSION}/Resources/include")
-  set(ivincludedir "${includedir}")
-  set(SO${GUI}_EXTRA_CPPFLAGS "-F${SO${GUI}_MAC_FRAMEWORK_PREFIX}")
-  set(SO${GUI}_EXTRA_FP_LDFLAGS "-Wl,-F${SO${GUI}_MAC_FRAMEWORK_PREFIX}")
-  set(SO${GUI}_EXTRA_LDFLAGS "${SO${GUI}_EXTRA_FP_LDFLAGS} -Wl,-framework,${SO${GUI}_MAC_FRAMEWORK_NAME} -Wl,-framework,Inventor -Wl,-framework,OpenGL")
+  if(SO${GUI}_BUILD_MAC_FRAMEWORK)
+    set(SO${GUI}_MAC_FRAMEWORK ${SO${GUI}_BUILD_MAC_FRAMEWORK})
+    set(SO${GUI}_MAC_FRAMEWORK_NAME "SoQt")
+    set(SO${GUI}_MAC_FRAMEWORK_PREFIX "${CMAKE_INSTALL_PREFIX}")
+    set(SO${GUI}_MAC_FRAMEWORK_VERSION "A") # SoQt2 will be "B", to allow parallel installations of SoQt1
+    set(PACKAGING_FRAMEWORK_NAME "${SO${GUI}_MAC_FRAMEWORK_NAME}")
+
+    # package config *.pc entries
+    set(frameworkdir "${SO${GUI}_MAC_FRAMEWORK_PREFIX}/${SO${GUI}_MAC_FRAMEWORK_NAME}.framework")
+    set(includedir "${frameworkdir}/Versions/${SO${GUI}_MAC_FRAMEWORK_VERSION}/Resources/include")
+    set(ivincludedir "${includedir}")
+    set(SO${GUI}_PKG_FLAGS "-F${SO${GUI}_MAC_FRAMEWORK_PREFIX}")
+    set(SO${GUI}_PKG_LIBS "-Wl,-F${SO${GUI}_MAC_FRAMEWORK_PREFIX} -Wl,-framework,${SO${GUI}_MAC_FRAMEWORK_NAME} -Wl,-framework,Inventor -Wl,-framework,OpenGL")
+  else()
+    set(SO${GUI}_PKG_LIBS "-l${PROJECT_NAME} -Wl,-framework,OpenGL")
+  endif()
 
   # Let's enable all OS X specific code
   set(SO${GUI}_MACOSX_FRAMEWORK ${SO${GUI}_BUILD_MAC_FRAMEWORK})
   set(SO${GUI}_MACOS_10 1)
   set(SO${GUI}_MACOS_10_3 1)
 else()
+  set(SO${GUI}_PKG_LIBS "-l${PROJECT_NAME}")
   set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 endif()
 
@@ -382,7 +393,7 @@ set(PACKAGE_URL "https://github.com/coin3d/${PROJECT_NAME_LOWER}")
 set(PACKAGE_VERSION ${PROJECT_VERSION})
 set(PACKAGE_HOST ${CMAKE_HOST_SYSTEM_PROCESSOR}-${CMAKE_HOST_SYSTEM_NAME})
 set(PACKAGE_COMPILER ${CMAKE_CXX_COMPILER})
-set(PACKAGE_REQUIREMENTS "Coin, ${PACKAGE_ADDITIONAL_REQUIREMENTS}")
+set(PACKAGE_REQUIREMENTS "${SOQT_PKG_DEPS}")
 
 # ############################################################################
 # Setup targets in subdirectories

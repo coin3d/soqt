@@ -13,10 +13,10 @@ htmldir=${docdir}/html
 Name: @PROJECT_NAME@
 Description: A Qt Gui-toolkit binding for Coin
 Version: @PROJECT_VERSION@
-Requires: Coin, @PACKAGE_ADDITIONAL_REQUIREMENTS@
+Requires: @SOQT_PKG_DEPS@
 Conflicts:
-Libs: -L${libdir} -lSoQt @SOQT_EXTRA_LDFLAGS@ @SOQT_EXTRA_LIBS@
-Cflags: -I${includedir} @SOQT_EXTRA_CFLAGS@ @SOQT_EXTRA_CPPFLAGS@
+Libs: -L${libdir} @SOQT_PKG_LIBS@
+Cflags: -I${includedir} @SOQT_PKG_FLAGS@
 
 frameworkdir=@frameworkdir@
 qt_version=@QT_VERSION_MAJOR@.@QT_VERSION_MINOR@.@QT_VERSION_PATCH@
