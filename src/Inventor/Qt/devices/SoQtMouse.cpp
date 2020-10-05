@@ -117,9 +117,9 @@ SoQtMouse::translateEvent(QEvent * event)
 
 #ifdef HAVE_SOMOUSEBUTTONEVENT_BUTTON5
   if (wheelevent) {
-    if (wheelevent->delta() > 0)
+    if (wheelevent->angleDelta().y() > 0)
       PRIVATE(this)->buttonevent->setButton(SoMouseButtonEvent::BUTTON4);
-    else if (wheelevent->delta() < 0)
+    else if (wheelevent->angleDelta().y() < 0)
       PRIVATE(this)->buttonevent->setButton(SoMouseButtonEvent::BUTTON5);
 #if SOQT_DEBUG
     else {
@@ -264,7 +264,7 @@ SoQtMouse::translateEvent(QEvent * event)
       conv->setCtrlDown(wheelevent->state() & Qt::ControlButton);
       conv->setAltDown(wheelevent->state() & Qt::AltButton);
 #endif
-      this->setEventPosition(conv, wheelevent->x(), wheelevent->y());
+      this->setEventPosition(conv, wheelevent->position().x(), wheelevent->position().y());
     }
 
     // FIXME: should be time of Qt event. 19990211 mortene.
