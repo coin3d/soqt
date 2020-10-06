@@ -117,10 +117,23 @@ SoQtMouse::translateEvent(QEvent * event)
 
 #ifdef HAVE_SOMOUSEBUTTONEVENT_BUTTON5
   if (wheelevent) {
+#if QT_VERSION >= 0x050700
+    if (wheelevent->angleDelta().y() > 0)
+      PRIVATE(this)->buttonevent->setButton(wheelevent->inverted() ? SoMouseButtonEvent::BUTTON5 : SoMouseButtonEvent::BUTTON4);
+    else if (wheelevent->angleDelta().y() < 0)
+      PRIVATE(this)->buttonevent->setButton(wheelevent->inverted() ? SoMouseButtonEvent::BUTTON4 : SoMouseButtonEvent::BUTTON5);
+#elif QT_VERSION >= 0x050000
     if (wheelevent->angleDelta().y() > 0)
       PRIVATE(this)->buttonevent->setButton(SoMouseButtonEvent::BUTTON4);
     else if (wheelevent->angleDelta().y() < 0)
       PRIVATE(this)->buttonevent->setButton(SoMouseButtonEvent::BUTTON5);
+#else
+    if (wheelevent->delta() > 0)
+      PRIVATE(this)->buttonevent->setButton(SoMouseButtonEvent::BUTTON4);
+    else if (wheelevent->delta() < 0)
+      PRIVATE(this)->buttonevent->setButton(SoMouseButtonEvent::BUTTON5);
+#endif // QT_VERSION
+
 #if SOQT_DEBUG
     else {
       SoDebugError::postInfo("SoQtMouse::translateEvent",
@@ -264,7 +277,12 @@ SoQtMouse::translateEvent(QEvent * event)
       conv->setCtrlDown(wheelevent->state() & Qt::ControlButton);
       conv->setAltDown(wheelevent->state() & Qt::AltButton);
 #endif
+
+#if QT_VERSION >= 0x050E00
       this->setEventPosition(conv, wheelevent->position().x(), wheelevent->position().y());
+#else
+      this->setEventPosition(conv, wheelevent->x(), wheelevent->y());
+#endif // QT_VERSION
     }
 
     // FIXME: should be time of Qt event. 19990211 mortene.

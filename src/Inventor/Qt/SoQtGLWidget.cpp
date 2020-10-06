@@ -192,7 +192,7 @@ SoQtGLWidget::SoQtGLWidget(QWidget * const parent,
 #endif
   PRIVATE(this)->wasresized = false;
 
-  PRIVATE(this)->glformat = new QGLFormat();
+  PRIVATE(this)->glformat = new QGLFormat(QGLFormat::defaultFormat());
   PRIVATE(this)->glformat->setDoubleBuffer((glmodes & SO_GL_DOUBLE) ? true : false);
   PRIVATE(this)->glformat->setDepth((glmodes & SO_GL_ZBUFFER) ? true : false);
   PRIVATE(this)->glformat->setRgba((glmodes & SO_GL_RGB) ? true : false);
