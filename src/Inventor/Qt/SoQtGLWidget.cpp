@@ -528,7 +528,7 @@ SoQtGLWidget::setGLSize(const SbVec2s size)
     PRIVATE(this)->glSize = PRIVATE(this)->glSizeUnscaled * PRIVATE(this)->currentglwidget->devicePixelRatio();
 #endif
     int frame = this->isBorder() ? PRIVATE(this)->borderthickness : 0;
-    PRIVATE(this)->currentglwidget->setGeometry(QRect(frame, frame, PRIVATE(this)->glSizeUnscaled[0], PRIVATE(this)->glSizeUnscaled[1]));
+    PRIVATE(this)->currentglwidget->setGeometry(QRect(frame, frame, size[0], size[1]));
   }
 
 // Due to an internal hack in Qt/Mac 3.1.x, sometimes the OpenGL context
