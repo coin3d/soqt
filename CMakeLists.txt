@@ -90,6 +90,7 @@ option(SO${GUI}_VERBOSE "Verbose build " OFF)
 option(COIN_IV_EXTENSIONS "Enable extra Open Inventor extensions" ON)
 option(SO${GUI}_BUILD_SHARED_LIBS "Build shared libraries" ON)
 option(SO${GUI}_USE_QT5 "Prefer Qt5 over Qt4 if available" ON)
+option(SO${GUI}_USE_X11 "Enable use of X11 libraries. [if OFF, SoQt will be not linked against X11]" ON)
 option(WITH_STATIC_DEFAULTS "Enable statically linked in default materials" ON)
 option(HAVE_SPACENAV_SUPPORT "Enable Space Navigator support" ON)
 option(SO${GUI}_USE_CPACK "If enabled the cpack subrepo is mandatory" OFF)
@@ -146,7 +147,6 @@ else()
   set(SO${GUI}_PKG_DEPS "${SO${GUI}_PKG_DEPS} QtCore QtGui QtOpenGL")
 endif()
 
-find_package(X11)
 
 # ##########################################################################
 # Setup build environment
@@ -371,12 +371,21 @@ if(HAVE_WINDOWS_H)
 endif()
 set(USE_EXCEPTIONS ON)
 set(HAVE_JOYSTICK_LINUX OFF)
-check_include_files(X11/Xlib.h HAVE_X11_AVAILABLE)
-if(HAVE_X11_AVAILABLE)
-  set(X_DISPLAY_MISSING 0)
-  check_include_files(X11/extensions/SGIMisc.h HAVE_X11_EXTENSIONS_SGIMISC_H)
-  check_include_files(X11/extensions/XInput.h HAVE_X11_EXTENSIONS_XINPUT_H)
-  check_include_files(X11/Xproto.h HAVE_X11_XPROTO_H)
+
+# Use X11. 
+# Users can disable this. Especially useful on macOS, where X11 is not needed. 
+# Default is TRUE.
+if(SO${GUI}_USE_X11)
+  find_package(X11)
+  check_include_files(X11/Xlib.h HAVE_X11_AVAILABLE)
+  if(HAVE_X11_AVAILABLE)
+    set(X_DISPLAY_MISSING 0)
+    check_include_files(X11/extensions/SGIMisc.h HAVE_X11_EXTENSIONS_SGIMISC_H)
+    check_include_files(X11/extensions/XInput.h HAVE_X11_EXTENSIONS_XINPUT_H)
+    check_include_files(X11/Xproto.h HAVE_X11_XPROTO_H)
+  else()
+    set(X_DISPLAY_MISSING 1)
+  endif()
 else()
   set(X_DISPLAY_MISSING 1)
 endif()
