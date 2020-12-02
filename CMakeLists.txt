@@ -100,6 +100,7 @@ cmake_dependent_option(SO${GUI}_BUILD_DOC_MAN "Build So${Gui} man pages." OFF "S
 cmake_dependent_option(SO${GUI}_BUILD_DOC_QTHELP "Build QtHelp documentation." OFF "SO${GUI}_BUILD_DOCUMENTATION" OFF)
 cmake_dependent_option(SO${GUI}_BUILD_DOC_CHM "Build compressed HTML help manual (requires HTML help compiler)" OFF "SO${GUI}_BUILD_DOCUMENTATION" OFF)
 
+cmake_dependent_option(SO${GUI}_BUILD_MAC_X11 "Prefer Qt/X11 over Qt/Mac linkage" OFF "APPLE" OFF)
 cmake_dependent_option(SO${GUI}_BUILD_MAC_FRAMEWORK "Build framework instead of dylib on Mac OS X when ON. Only valid if SO${GUI}_BUILD_SHARED_LIBS is ON." OFF "APPLE;NOT IOS;SO${GUI}_BUILD_SHARED_LIBS" OFF)
 
 report_prepare(
@@ -114,6 +115,7 @@ report_prepare(
   SO${GUI}_BUILD_DOC_QTHELP
   SO${GUI}_BUILD_DOC_CHM
   IF_APPLE
+    SO${GUI}_BUILD_MAC_X11
     SO${GUI}_BUILD_MAC_FRAMEWORK
 )
 
@@ -146,7 +148,22 @@ else()
   set(SO${GUI}_PKG_DEPS "${SO${GUI}_PKG_DEPS} QtCore QtGui QtOpenGL")
 endif()
 
-find_package(X11)
+if((UNIX AND NOT APPLE) OR (APPLE AND ${SO${GUI}_BUILD_MAC_X11}))
+  find_package(X11)
+  if(X11_FOUND)
+    if(X11_Xext_FOUND)
+      list(APPEND SOQT_X11_INCLUDE_DIRECTORIES ${X11_Xext_INCLUDE_DIR})
+      list(APPEND SOQT_X11_LIBRARIES ${X11_Xext_LIB})
+    endif()
+    if(X11_Xi_FOUND)
+      list(APPEND SOQT_X11_INCLUDE_DIRECTORIES ${X11_Xi_INCLUDE_DIR})
+      list(APPEND SOQT_X11_LIBRARIES ${X11_Xi_LIB})
+    endif()
+  
+    list(APPEND SOQT_X11_INCLUDE_DIRECTORIES ${X11_INCLUDE_DIR})
+    list(APPEND SOQT_X11_LIBRARIES ${X11_LIBRARIES})
+  endif()
+endif()
 
 # ##########################################################################
 # Setup build environment
@@ -371,14 +388,16 @@ if(HAVE_WINDOWS_H)
 endif()
 set(USE_EXCEPTIONS ON)
 set(HAVE_JOYSTICK_LINUX OFF)
-check_include_files(X11/Xlib.h HAVE_X11_AVAILABLE)
-if(HAVE_X11_AVAILABLE)
-  set(X_DISPLAY_MISSING 0)
-  check_include_files(X11/extensions/SGIMisc.h HAVE_X11_EXTENSIONS_SGIMISC_H)
-  check_include_files(X11/extensions/XInput.h HAVE_X11_EXTENSIONS_XINPUT_H)
-  check_include_files(X11/Xproto.h HAVE_X11_XPROTO_H)
-else()
-  set(X_DISPLAY_MISSING 1)
+if(X11_FOUND)
+  check_include_files(X11/Xlib.h HAVE_X11_AVAILABLE)
+  if(HAVE_X11_AVAILABLE)
+    set(X_DISPLAY_MISSING 0)
+    check_include_files(X11/extensions/SGIMisc.h HAVE_X11_EXTENSIONS_SGIMISC_H)
+    check_include_files(X11/extensions/XInput.h HAVE_X11_EXTENSIONS_XINPUT_H)
+    check_include_files(X11/Xproto.h HAVE_X11_XPROTO_H)
+  else()
+    set(X_DISPLAY_MISSING 1)
+  endif()
 endif()
 
 unset(CMAKE_REQUIRED_INCLUDES)
