@@ -144,21 +144,14 @@ target_include_directories(${PROJECT_NAME}
   PRIVATE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+  PUBLIC
+    ${SOQT_X11_INCLUDE_DIRECTORIES}
 )
 if(NOT SO${GUI}_BUILD_MAC_FRAMEWORK)
   target_include_directories(${PROJECT_NAME} INTERFACE $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 endif()
 
-target_link_libraries(${PROJECT_NAME} PUBLIC Coin::Coin ${SOQT_QT_TARGETS} ${OPENGL_LIBRARIES})
-
-if(X11_FOUND)
-  target_include_directories(${PROJECT_NAME} PUBLIC ${X11_INCLUDE_DIR})
-  target_link_libraries(${PROJECT_NAME} PUBLIC ${X11_LIBRARIES})
-endif()
-if(X11_Xi_FOUND)
-  target_include_directories(${PROJECT_NAME} PUBLIC ${X11_Xi_INCLUDE_DIR})
-  target_link_libraries(${PROJECT_NAME} PUBLIC ${X11_Xi_LIB})
-endif()
+target_link_libraries(${PROJECT_NAME} PUBLIC Coin::Coin ${SOQT_QT_TARGETS} ${OPENGL_LIBRARIES} ${SOQT_X11_LIBRARIES})
 
 # Add a target to generate API documentation with Doxygen
 if(SO${GUI}_BUILD_DOCUMENTATION)
