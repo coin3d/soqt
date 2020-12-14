@@ -47,6 +47,10 @@
 #include <qcursor.h>
 #include <qevent.h>
 
+#if QT_VERSION >= 0x060000
+#include <QWindow>
+#endif
+
 #include <Inventor/errors/SoDebugError.h>
 
 #include <Inventor/Qt/SoQtComponentP.h>
@@ -975,12 +979,18 @@ SoQtComponent::setComponentCursor(const SoQtCursor & cursor)
 
 // documented in common/SoGuiComponentCommon.cpp.in.
 void
-SoQtComponent::setWidgetCursor(QWidget * w, const SoQtCursor & cursor)
+SoQtComponent::setWidgetCursor(QWidget * widget, const SoQtCursor & cursor)
 {
   // FIXME: as this function is called all the time when the cursor is
   // grabbed by the window under X11, we should really compare with
   // the previous cursor before doing anything, to avoid spending
   // unnecessary clockcycles during animation. 20011203 mortene.
+
+#if QT_VERSION >= 0x060000
+  QWindow * w = widget->property("SoQtGLArea").value<QWindow *>();
+#else
+  QWidget * w = widget;
+#endif
 
   if (cursor.getShape() == SoQtCursor::CUSTOM_BITMAP) {
 

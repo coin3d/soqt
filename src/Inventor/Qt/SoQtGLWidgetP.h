@@ -39,7 +39,12 @@
 
 // *************************************************************************
 
+#include <qglobal.h>
 #include <qobject.h>
+
+#if QT_VERSION >= 0x060000
+#include <QOpenGLContext>
+#endif
 
 #include <Inventor/Qt/SoGuiGLWidgetP.h>
 #include <Inventor/SbLinear.h>
@@ -64,20 +69,35 @@ public:
   virtual bool eventFilter(QObject * obj, QEvent * e);
   static void eventHandler(QWidget *, void *, QEvent *, bool *);
 
+#if QT_VERSION >= 0x060000
+  const class QOpenGLContext * getNormalContext(void);
+  const class QOpenGLContext * getOverlayContext(void);
+#else
   const class QGLContext * getNormalContext(void);
   const class QGLContext * getOverlayContext(void);
+#endif
 
   SbVec2s glSize;
   SbVec2s glSizeUnscaled;
   SbBool wasresized;
+#if QT_VERSION >= 0x060000
+  const QOpenGLContext * oldcontext;
+#else
   const QGLContext * oldcontext;
+#endif
 
-  class SoQtGLArea * currentglwidget;
-  class SoQtGLArea * previousglwidget;
+  class QWidget * currentglwidget;
+  class QWidget * previousglwidget;
+  class SoQtGLArea * currentglarea;
+  class SoQtGLArea * previousglarea;
   QWidget * glparent;
   class QFrame * borderwidget;
   int borderthickness;
+#if QT_VERSION >= 0x060000
+  class QSurfaceFormat * glformat;
+#else
   class QGLFormat * glformat;
+#endif
 
 public slots:
   void gl_changed(void);
