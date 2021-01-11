@@ -33,7 +33,13 @@
 #ifndef SOQT_GLAREA_H
 #define SOQT_GLAREA_H
 
+#include <qglobal.h>
+
+#if QT_VERSION >= 0x060000
+#include <QOpenGLWindow>
+#else
 #include <qgl.h>
+#endif
 
 #include <Inventor/Qt/SoQtBasic.h>
 
@@ -42,13 +48,23 @@ typedef void GLAreaKeyHandler(QKeyEvent * ke, void * userdata);
 
 // *************************************************************************
 
+#if QT_VERSION >= 0x060000
+class SoQtGLArea : public QOpenGLWindow {
+  typedef QOpenGLWindow inherited;
+#else
 class SoQtGLArea : public QGLWidget {
   typedef QGLWidget inherited;
+#endif
   Q_OBJECT
 
 public:
+#if QT_VERSION >= 0x060000
+  SoQtGLArea(QSurfaceFormat * const format, QWindow * const parent,
+             const QOpenGLWindow * sharewidget,
+#else
   SoQtGLArea(QGLFormat * const format, QWidget * const parent,
              const QGLWidget * sharewidget,
+#endif
              const char * const name = "QtGLArea");
   ~SoQtGLArea();
 

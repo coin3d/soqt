@@ -92,6 +92,22 @@
 
 #endif /* Qt 4.* */
 
+#if (QT_VERSION >= 0x060000)
+
+/* Define this to 1 if operator==(QGLFormat&, QGLFormat&) is available */
+#undef HAVE_QGLFORMAT_EQ_OP
+
+/* Define this to 1 if QGLFormat::setOverlay() is available */
+#undef HAVE_QGLFORMAT_SETOVERLAY
+
+/* Define this to 1 if QGLFormat::setSampleBuffers() is available */
+#undef HAVE_QGLFORMAT_SETSAMPLEBUFFERS
+
+/* Define this to 1 if QGLWidget::setAutoBufferSwap() is available */
+#undef HAVE_QGLWIDGET_SETAUTOBUFFERSWAP
+
+#endif /* Qt 6.* */
+
 /* ********************************************************************** */
 
 #endif /* !COIN_QTCONFIG_H */

@@ -45,7 +45,6 @@
 #include <qsplitter.h>
 #include <qmainwindow.h>
 #include <qlistview.h>
-#include <qgl.h>
 
 
 class MyMainWindow : public QMainWindow {

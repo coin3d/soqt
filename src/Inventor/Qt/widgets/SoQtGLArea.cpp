@@ -84,16 +84,27 @@
 
 // *************************************************************************
 
+#if QT_VERSION >= 0x060000
+SoQtGLArea::SoQtGLArea(QSurfaceFormat * const format,
+                       QWindow * const parent,
+                       const QOpenGLWindow * sharewidget,
+#else
 SoQtGLArea::SoQtGLArea(QGLFormat * const format,
                        QWidget * const parent,
                        const QGLWidget * sharewidget,
+#endif
                        const char * const name)
-#if QT_VERSION >= 0x040000
+#if QT_VERSION >= 0x060000
+   : inherited(sharewidget ? sharewidget->context() : NULL, QOpenGLWindow::NoPartialUpdate, parent)
+#elif QT_VERSION >= 0x040000
    : inherited(*format, parent, sharewidget)
 #else
    : inherited(*format, parent, NULL, sharewidget, Qt::WResizeNoErase)
 #endif
 {
+#if QT_VERSION >= 0x060000
+  this->setFormat(*format);
+#endif
 #if QT_VERSION >= 0x040000
   this->setObjectName(name);
 #else
@@ -108,7 +119,9 @@ SoQtGLArea::SoQtGLArea(QGLFormat * const format,
 #endif // HAVE_QGLWIDGET_SETAUTOBUFFERSWAP
 
   this->keycb = NULL;
+#if QT_VERSION < 0x060000
   this->setFocusPolicy(QTWIDGET_STRONGFOCUS);
+#endif
 }
 
 SoQtGLArea::~SoQtGLArea()
@@ -193,9 +206,13 @@ SoQtGLArea::event(QEvent * e)
   // doesn't have the focus.
   //
   // Problem found with Win2000 and Qt 3.3.2.
+#if QT_VERSION >= 0x060000
+  if (e->type() == QEvent::Wheel && this->focusObject() != this) { return FALSE; }
+#else
   if (e->type() == QEvent::Wheel && ! this->hasFocus()) { return FALSE; }
+#endif
 
-  return QGLWidget::event(e);
+  return inherited::event(e);
 }
 
 // *************************************************************************

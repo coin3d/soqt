@@ -50,11 +50,19 @@ set(SRCS
 file(GLOB_RECURSE COMMON_RESOURCES ${CMAKE_BINARY_DIR}/data/materials/*.h)
 
 macro(qt_generate_moc infile outfile)
-  if(Qt5_FOUND)
+  get_directory_property(_DIRECTORY_INCLUDE_DIRECTORIES INCLUDE_DIRECTORIES)
+  set_directory_properties(PROPERTIES INCLUDE_DIRECTORIES "${QT_QTCORE_INCLUDE_DIR};${_DIRECTORY_INCLUDE_DIRECTORIES}")
+
+  if(Qt6_FOUND)
+    qt6_generate_moc(${infile} ${outfile})
+  elseif(Qt5_FOUND)
     qt5_generate_moc(${infile} ${outfile})
   elseif(Qt4_FOUND)
     qt4_generate_moc(${infile} ${outfile})
   endif()
+
+  set_directory_properties(PROPERTIES INCLUDE_DIRECTORIES "${_DIRECTORY_INCLUDE_DIRECTORIES}")
+  unset(_DIRECTORY_INCLUDE_DIRECTORIES)
 
   if(NOT IS_ABSOLUTE ${outfile})
     list(APPEND MOC_SRCS "${CMAKE_CURRENT_BINARY_DIR}/${outfile}")

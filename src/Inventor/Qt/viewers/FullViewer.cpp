@@ -550,7 +550,9 @@ SoQtFullViewer::buildRightTrim(QWidget * parent)
   l->setContentsMargins(0,0,0,0);
   l->setVerticalSpacing(0);
 #endif
+#if QT_VERSION < 0x060000
   l->setMargin(0);
+#endif
   l->addWidget(this->buildViewerButtons(w), 0, 0);
   l->addWidget(t, 2, 0, Qt::AlignBottom | Qt::AlignHCenter);
   l->activate();
@@ -587,7 +589,11 @@ SoQtFullViewer::buildViewerButtons(QWidget * parent)
   // assert(PRIVATE(this)->viewerbuttons->getLength() != 0);
   QGridLayout * l =
     new QGridLayout(w);
+#if QT_VERSION >= 0x060000
+  l->setContentsMargins(0, 0, 0, 0);
+#else
   l->setMargin(0);
+#endif
 #if QT_VERSION >= 0x040000
   l->setVerticalSpacing(0);
 #endif
