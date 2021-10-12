@@ -107,6 +107,7 @@ cmake_dependent_option(SO${GUI}_BUILD_MAC_FRAMEWORK "Build framework instead of 
 report_prepare(
   COIN_IV_EXTENSIONS
   SO${GUI}_BUILD_SHARED_LIBS
+  SO${GUI}_USE_QT6
   SO${GUI}_USE_QT5
   WITH_STATIC_DEFAULTS
   HAVE_SPACENAV_SUPPORT
