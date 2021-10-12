@@ -506,7 +506,11 @@ SoQtComponent::setBaseWidget(QWidget * widget)
                          "widget: %p, parent: %p", w, PRIVATE(this)->parent);
 #endif // debug
 
+#if QT_VERSION >= 0x060100
+  if (!PRIVATE(this)->parent || PRIVATE(this)->parent->isWindow()) {
+#else
   if (!PRIVATE(this)->parent || PRIVATE(this)->parent->isTopLevel()) {
+#endif
 #if QT_VERSION >= 0x040000
     if (PRIVATE(this)->widget->windowTitle() == "") {
 #else
@@ -694,7 +698,11 @@ SoQtComponent::setTitle(const char * const title)
 {
   if (this->getWidget()) {
     QWidget * toplevel = this->getWidget();
-    while (!toplevel->isTopLevel() ) {
+#if QT_VERSION >= 0x060100
+    while (!toplevel->isWindow()) {
+#else
+    while (!toplevel->isTopLevel()) {
+#endif
       toplevel = toplevel->parentWidget();
     }
     if (toplevel) {
@@ -715,7 +723,11 @@ SoQtComponent::getTitle(void) const
 
   if (this->getWidget()) {
     QWidget * toplevel = this->getWidget();
-    while (!toplevel->isTopLevel() ) {
+#if QT_VERSION >= 0x060100
+    while (!toplevel->isWindow()) {
+#else
+    while (!toplevel->isTopLevel()) {
+#endif
       toplevel = toplevel->parentWidget();
     }
     if (toplevel) {
