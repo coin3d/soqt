@@ -129,12 +129,6 @@ install:
       set PATH=%APPVEYOR_BUILD_FOLDER%\downloads\doxygen-1.8.14;C:\msys64\%COMPILER_ID%\bin;C:\msys64\usr\bin\;%PATH%
       curl --version
       cd %APPVEYOR_BUILD_FOLDER%
-      dir /B C:\Qt\5.3\
-      dir /B C:\Qt\5.4\
-      dir /B C:\Qt\5.5\
-      dir /B C:\Qt\5.6\
-      dir /B C:\Qt\5.7\
-      dir /B C:\Qt\5.8\
   - git submodule update --init --recursive
 
 # Assumes that we use the vx.y.z tagging scheme (e.g. v1.3.0)
