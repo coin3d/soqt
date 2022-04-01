@@ -200,7 +200,8 @@ before_build:
       md5sum -b $BUILD_SOURCE_ARCHIVE > $BUILD_SOURCE_ARCHIVE.md5
       sha256sum -b $BUILD_SOURCE_ARCHIVE > $BUILD_SOURCE_ARCHIVE.sha256
       mkdir $APPVEYOR_BUILD_FOLDER/downloads
-      export COMPILER_ID=$APPVEYOR_BUILD_WORKER_IMAGE-$COMPILER_ID`$COMPILER_ID -dumpversion | tr '.' '\n'`
+      if [ "$COMPILER_ID" != "clang" ]; then export COMPILER_ID=$APPVEYOR_BUILD_WORKER_IMAGE-$COMPILER_ID`$COMPILER_ID -dumpversion | tr '.' '\n'`; fi
+      if [ "$COMPILER_ID" = "clang" ]; then export COMPILER_ID=$APPVEYOR_BUILD_WORKER_IMAGE-$COMPILER_ID`$COMPILER_ID -v 2>&1 | grep version | sed 's/^.*version \([0-9]*\)\.[0-9]*\.[0-9]*.*$/\1/g'`; fi
       ###############
       # if [ -n "${APPVEYOR_REPO_TAG_NAME}" ]; then export SUPERGLU_REPO_VERSION=$SUPERGLU_VERSION; else export SUPERGLU_REPO_VERSION=latest; fi
       # if [ -n "${APPVEYOR_REPO_TAG_NAME}" ]; then export SUPERGLU_REPO_TAG_NAME=superglu-$SUPERGLU_VERSION; else export SUPERGLU_REPO_TAG_NAME=CI-builds; fi
