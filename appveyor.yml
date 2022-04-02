@@ -132,7 +132,8 @@ install:
       then
         brew install jq
         brew install qt5
-        brew link --force qt5
+        export PATH=$PATH:$(brew --prefix qt5)/bin
+        export CMAKE_PREFIX_PATH=/usr/local/opt/qt5
         #brew install doxygen
       else
         sudo apt-get -y update
