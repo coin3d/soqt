@@ -131,8 +131,8 @@ install:
       if [ "$COMPILER_ID" = "clang" ]
       then
         brew install jq
-        brew install boost
         brew install qt5
+        brew link --force qt5
         #brew install doxygen
       else
         sudo apt-get -y update
