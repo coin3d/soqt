@@ -201,7 +201,7 @@ SoQtMouse::translateEvent(QEvent * event)
       PRIVATE(this)->buttonevent->setButton(SoMouseButtonEvent::BUTTON2);
       break;
 
-#if QT_VERSION >= 0x060000
+#if QT_VERSION >= 0x050F00
     case Qt::MiddleButton:
 #else
     case Qt::MidButton:
