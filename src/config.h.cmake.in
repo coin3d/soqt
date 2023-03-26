@@ -36,6 +36,9 @@
 /* Define to 1 if you have the <inttypes.h> header file. */
 #cmakedefine HAVE_INTTYPES_H 1
 
+/* Define to 1 if you have the <Inventor/SbColorRGBA.h> header file. */
+#cmakedefine HAVE_SBCOLORRGBA_H 1
+
 /* Define to 1 if you have the <memory.h> header file. */
 #cmakedefine HAVE_MEMORY_H 1
 
@@ -50,6 +53,9 @@
 
 /* define if pthread's struct timespec uses nsecs and not usecs */
 #cmakedefine HAVE_PTHREAD_TIMESPEC_NSEC 1
+
+/* Define to enable use of Inventor feature */
+#cmakedefine HAVE_SOSCENEMANAGER_GETBACKGROUNDCOLORRGBA 1
 
 /* Define to enable use of Inventor feature */
 #cmakedefine HAVE_SBIMAGE_ADDREADIMAGECB 1
