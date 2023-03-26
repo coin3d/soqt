@@ -372,6 +372,15 @@ check_cxx_source_compiles("
   #include <Inventor/VRMLnodes/SoVRMLViewpoint.h>
   int main() { SoVRMLViewpoint * p = new SoVRMLViewpoint; return 0; }
 " HAVE_SOVRMLVIEWPOINT)
+check_cxx_source_compiles("
+  #include <Inventor/SbColorRGBA.h>
+  int main() { SbColorRGBA c; return 0; }
+" HAVE_SBCOLORRGBA_H)
+check_cxx_source_compiles("
+  #include <Inventor/SbColorRGBA.h>
+  #include <Inventor/SoSceneManager.h>
+  int main() { SoSceneManager * p = new SoSceneManager; SbColorRGBA c = p->getBackgroundColorRGBA(); return 0; }
+" HAVE_SOSCENEMANAGER_GETBACKGROUNDCOLORRGBA)
 
 unset(CMAKE_REQUIRED_LIBRARIES)
 
