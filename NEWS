@@ -1,3 +1,21 @@
+New in SoQt v1.6.1 (2023-11-18):
+* new:
+  - Version control system has been changed from Mercurial to Git
+  - Home of Coin3d organization has been changed from https://bitbucket.org/Coin3D
+    to https://github.com/coin3d due to Bitbucket ending Mercurial support
+  - Added CI for macOS, Windows, and Ubuntu per GitHub actions to repository
+  - Added support for Qt6
+
+* bugfixes:
+  - cpack.d was made optional and disabled by default (add -DSOQT_USE_CPACK=ON
+    to the cmake commandline to enable it)
+  - Fixed numerous documentation issues
+  - Added SOQT_BUILD_TESTS option to control building of test code (default: ON)
+  - Fix hidpi black screen issue
+  - Fix broken SoQt.pc.cmake.in. Added -lSoQt
+  - Fix wrong glwidget geometry size for Qt4
+  - Add handling for background color RGBA
+
 New in SoQt v1.6.0 (2019-12-23):
 * new:
   - Kongsberg Oil & Gas Technologies AS ended SoQt as a commercial product
