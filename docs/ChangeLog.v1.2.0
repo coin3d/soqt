@@ -250,7 +250,7 @@ cvs2cl script used to generate this file.
 
 	* src/Inventor/Qt/SoQtComponent.cpp:
 	
-	Explain why setWindowState() is prefered to showFullScreen().
+	Explain why setWindowState() is preferred to showFullScreen().
 
 2004-06-24 12:31  pederb
 
@@ -820,7 +820,7 @@ cvs2cl script used to generate this file.
 	widgets/gradientp/GradientView.cpp, widgets/gradientp/TickMark.cpp,
 	widgets/gradientp/TickMark.h:
 	
-	here is the reason why that assert never trigged on my computer; i
+	here is the reason why that assert never triggered on my computer; i
 	did not commit my own fix for it...
 
 2003-10-16 12:02  frodo

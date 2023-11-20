@@ -30,7 +30,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 \**************************************************************************/
 
-// problems compiling this one inbetween the other sources for some
+// problems compiling this one in between the other sources for some
 // unknown reason
 #include <Inventor/Qt/SoQtGLWidget.cpp>
 #include <Inventor/Qt/SoQtGLWidgetCommon.cpp>

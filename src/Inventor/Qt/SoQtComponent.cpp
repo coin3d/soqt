@@ -453,7 +453,7 @@ SoQtComponent::removeVisibilityChangeCallback(SoQtComponentVisibilityCB * const 
 #if SOQT_DEBUG
   if (idx == -1) {
     SoDebugError::postWarning("SoQtComponent::removeVisibilityChangeCallback",
-                              "tried to remove non-existant callback");
+                              "tried to remove non-existent callback");
     return;
   }
 #endif // SOQT_DEBUG

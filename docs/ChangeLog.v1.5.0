@@ -282,11 +282,11 @@
 	src/Inventor/Qt/nodes/Makefile.in,
 	src/Inventor/Qt/viewers/Makefile.in,
 	src/Inventor/Qt/widgets/Makefile.in, src/Makefile.in:
-	boostrap.
+	bootstrap.
 	[cb351fd9ddca]
 
 	* configure.ac:
-	remove ununsed BASIC_HEADER_TOP substitution hack.
+	remove unused BASIC_HEADER_TOP substitution hack.
 	[5103a0aedb7f]
 
 	* Makefile.in, aclocal.m4, cfg/config.guess, cfg/config.sub,
@@ -301,7 +301,7 @@
 	src/Inventor/Qt/viewers/Makefile.in,
 	src/Inventor/Qt/widgets/Makefile.in, src/Makefile.in,
 	src/config.h.in:
-	get rid of cfg/compile boostrap warning.
+	get rid of cfg/compile bootstrap warning.
 	[9c9cedf4faef]
 
 2010-02-18  Tamer Fahmy  <tamer@sim.no>
@@ -330,7 +330,7 @@
 	[cda9e9c94236]
 
 	* src/Inventor/Qt/SoQtGLWidget.cpp:
-	incldue of QColormap drawing system independent
+	include of QColormap drawing system independent
 	[af25b1489cc0]
 
 	* src/Inventor/Qt/SoQtGLWidget.cpp:

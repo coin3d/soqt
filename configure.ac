@@ -658,7 +658,7 @@ if $sim_ac_build_library && test x"$sim_ac_enable_pkgconfig" = xfalse; then
   ])
 
   # ALERT: We have disabled these Qt checks because Qt features are now
-  # to be set up in src/qt-config.h.  Do not reenable them, unless 
+  # to be set up in src/qt-config.h.  Do not re-enable them, unless 
   # we for some reason decide to go back from this system again.
   # It is still OK to use Qt-checking features for other projects, but
   # SoQt must be buildable from pregenerated files against several
@@ -794,7 +794,7 @@ AC_ARG_WITH([framework],
   * ) sim_ac_framework=false ;;
   esac])
 
-# don't allow name to be overrided - just toggled on/off
+# don't allow name to be overridden - just toggled on/off
 sim_ac_framework_name="MAC_FRAMEWORK_NAME_DEFAULT"
 
 AC_ARG_WITH([framework-prefix],
@@ -805,7 +805,7 @@ AC_ARG_WITH([framework-prefix],
   fi],
   [sim_ac_framework_prefix="MAC_FRAMEWORK_PREFIX_DEFAULT"])
 
-# don't allow version to be overrided
+# don't allow version to be overridden
 # AC_ARG_WITH([framework-version],
 #   [  --with-framework-version=<version>  (default: "MAC_FRAMEWORK_VERSION_DEFAULT")],
 #   [sim_ac_framework_version="$withval"],

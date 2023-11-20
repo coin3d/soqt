@@ -318,7 +318,7 @@ RGBCubeEditorKitP::mouseClickCallback(void * classObject, SoEventCallback * cb)
     newPoint[1] = (ipoint[1] - cubeOrigo[1])/CUBE_SIZE_Y;
     newPoint[2] = (ipoint[2] - cubeOrigo[2])/CUBE_SIZE_Z;
 
-    // Chech if new corner is out of bounds
+    // Check if new corner is out of bounds
     if(newPoint[0] > CUBE_SIZE_X/2) newPoint[0] = CUBE_SIZE_X/2;
     if(newPoint[1] > CUBE_SIZE_Y/2) newPoint[1] = CUBE_SIZE_Y/2;
     if(newPoint[2] > CUBE_SIZE_Z/2) newPoint[2] = CUBE_SIZE_Z/2;

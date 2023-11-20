@@ -318,7 +318,7 @@ SoQtFullViewer::removeAppPushButton(QWidget * oldButton)
 #if SOQT_DEBUG
   if (idx == -1) {
     SoDebugError::postWarning("SoQtFullViewer::removeAppPushButton",
-                              "tried to remove non-existant button");
+                              "tried to remove non-existent button");
     return;
   }
 #endif // SOQT_DEBUG

@@ -41,7 +41,7 @@
 
 // FIXME: i had to make this hack to work around different versions of
 // Qt. We could consider adding a test-for-QThread configure test, but
-// we'd still need a hack to avoid that moc comlains about this file
+// we'd still need a hack to avoid that moc complains about this file
 // if we're unable to inherit from QThread. pederb, 2008-09-18
 
 #if QT_VERSION > 0x040000 && !defined(QT_NO_THREAD)

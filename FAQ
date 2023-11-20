@@ -49,7 +49,7 @@ A:    Yes, the support for the Qt 2.* series is well tested.
 Q1.3: Does SoQt work with Qt >= 3.0?
 
 A:    There has been various reports about problems with Qt 3.0, particularly
-      the Windows port.   We do use Qt 3.0 on Linux annd it seems to work
+      the Windows port.   We do use Qt 3.0 on Linux and it seems to work
       well here.
 
 

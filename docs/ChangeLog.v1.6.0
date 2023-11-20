@@ -157,7 +157,7 @@
 2019-03-07 17:07 +0100  Florian Franzen  <Florian.Franzen@gmail.com>  (3fcfb9495333)
 
 	* CMakeLists.txt, src/CMakeLists.txt:
-	Fix inteface include propagation of modern CMake targets
+	Fix interface include propagation of modern CMake targets
 
 	Modern CMake interface dependencies are not added to the
 	INTERFACE_INCLUDE_DIRECTORIES property of a target, but to

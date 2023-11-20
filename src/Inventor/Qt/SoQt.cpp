@@ -483,11 +483,11 @@ SoQtP::slot_idleSensor()
       // not it is really needed at all, even for Qt 3. If we however
       // get reports of unacceptable latency in Qt handling GUI
       // events, updating widgets, etc, we should probably choose to
-      // reenable it.
+      // re-enable it.
       //
       // If so, I suggest two changes:
       //
-      // 1) only reenable it for Qt versions < 4
+      // 1) only re-enable it for Qt versions < 4
       //
       // 2) put in a counter which checks how many times in a row
       //    we've returned without processing the queues, and do so

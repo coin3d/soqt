@@ -306,7 +306,7 @@ NOTE: see also src/Inventor/Qt/common/BUGS.txt.
 016 SoQtExaminerViewer pref menu needs two RMB presses to pop up.
 
     This problem was reported by Scott Toelly. Happens both when the
-    SoQtExaminerViewer is embedded within a QMainWindow, aswell as
+    SoQtExaminerViewer is embedded within a QMainWindow, as well as
     from the SoGuiExample/components/examinerviewer example.
 
     Scott is seeing this on Windows 2000 Pro + Visual C++ .NET Pro +

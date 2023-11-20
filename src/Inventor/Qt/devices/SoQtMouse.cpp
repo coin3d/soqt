@@ -146,10 +146,10 @@ SoQtMouse::translateEvent(QEvent * event)
 #endif // HAVE_SOMOUSEBUTTONEVENT_BUTTON5
 
   // Check for mousebutton press/release. Note that mousebutton
-  // doubleclick events are handled by converting them to two
+  // double-click events are handled by converting them to two
   // press/release events. In other words: it's the user's
-  // responsibility to translate pairs of singleclicks to
-  // doubleclicks, if doubleclicks have a special meaning in the
+  // responsibility to translate pairs of single clicks to
+  // double clicks, if double clicks have a special meaning in the
   // application.
 
   // Qt actually sends this series of events upon dblclick:

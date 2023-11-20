@@ -595,7 +595,7 @@
 	
 	Remove creation of Symlink from Inventor.framework to
 	SoQt.framework.  This is now done when installing Coin, making it
-	possible to drag and drop the frameworks indvidually without
+	possible to drag and drop the frameworks individually without
 	running any scripts.
 
 2005-09-27 18:56  kyrah
