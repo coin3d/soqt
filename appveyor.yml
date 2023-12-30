@@ -1,4 +1,4 @@
-version: 1.6.1-{branch}-ci-{build}
+version: 1.6.2-{branch}-ci-{build}
 
 branches:
   only:
