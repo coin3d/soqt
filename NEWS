@@ -1,3 +1,9 @@
+New in SoQt v1.6.2 (2023-12-30):
+* bugfixes:
+  - Link build artifacts to Coin v4.0.2
+  - Update CI workflow and build matrix
+  - Fixed numerous typos found with codespell
+
 New in SoQt v1.6.1 (2023-11-18):
 * new:
   - Version control system has been changed from Mercurial to Git
