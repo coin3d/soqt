@@ -1,0 +1,1166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.10.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<!-- BEGIN opengraph metadata -->
+<meta property="og:title" content="Doxygen Awesome" />
+<meta property="og:image" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta property="og:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<meta property="og:url" content="https://jothepro.github.io/doxygen-awesome-css/" />
+<!-- END opengraph metadata -->
+<!-- BEGIN twitter metadata -->
+<meta name="twitter:image:src" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta name="twitter:title" content="Doxygen Awesome" />
+<meta name="twitter:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<!-- END twitter metadata -->
+<title>SoQt: SoQtComponent Class Reference</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link rel="icon" type="image/svg+xml" href="logo.drawio.svg"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript" src="doxygen-awesome-tabs.js"></script>
+<script type="text/javascript" src="toggle-alternative-theme.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeFragmentCopyButton.init()
+    DoxygenAwesomeDarkModeToggle.init()
+    DoxygenAwesomeParagraphLink.init()
+    DoxygenAwesomeInteractiveToc.init()
+    DoxygenAwesomeTabs.init()
+</script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="custom-alternative.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/coin3d/soqt" class="github-corner" title="View source on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="40" height="40" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="Coin_logo.png"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">SoQt
+   &#160;<span id="projectnumber">1.6.2</span>
+   </div>
+   <div id="projectbrief">Coin3D GUI toolkit binding</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.10.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('classSoQtComponent.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Loading...</div>
+<div class="SRStatus" id="Searching">Searching...</div>
+<div class="SRStatus" id="NoMatches">No Matches</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="classSoQtComponent-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">SoQtComponent Class Reference</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>The <a class="el" href="classSoQtComponent.html" title="The SoQtComponent class is the base class for all GUI components.">SoQtComponent</a> class is the base class for all GUI components.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="SoQtComponent_8h_source.html">Inventor/Qt/SoQtComponent.h</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for SoQtComponent:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classSoQtComponent.png" usemap="#SoQtComponent_map" alt=""/>
+  <map id="SoQtComponent_map" name="SoQtComponent_map">
+<area href="classSoQtObject.html" title="The SoQtObject class is the common superclass for all SoQt component classes." alt="SoQtObject" shape="rect" coords="158,0,306,24"/>
+<area href="classSoQtGLWidget.html" title="The SoQtGLWidget class manages OpenGL contexts." alt="SoQtGLWidget" shape="rect" coords="158,112,306,136"/>
+<area href="classSoQtRenderArea.html" title="The SoQtRenderArea class adds scene graph handling and event management." alt="SoQtRenderArea" shape="rect" coords="158,168,306,192"/>
+<area href="classSoQtViewer.html" title="The SoQtViewer class is the top level base viewer class." alt="SoQtViewer" shape="rect" coords="158,224,306,248"/>
+<area href="classSoQtFullViewer.html" title="The SoQtFullViewer class adds some user interface components to the viewer canvas." alt="SoQtFullViewer" shape="rect" coords="158,280,306,304"/>
+<area href="classSoQtConstrainedViewer.html" title="The SoQtConstrainedViewer class is the superclass for viewers with constrains on the viewpoint." alt="SoQtConstrainedViewer" shape="rect" coords="0,336,148,360"/>
+<area href="classSoQtExaminerViewer.html" title="The SoQtExaminerViewer class is a 3D-model examination viewer." alt="SoQtExaminerViewer" shape="rect" coords="158,336,306,360"/>
+<area href="classSoQtPlaneViewer.html" title="The SoQtPlaneViewer class is for examining 3D models by moving the camera in orthogonal planes." alt="SoQtPlaneViewer" shape="rect" coords="316,336,464,360"/>
+<area href="classSoQtFlyViewer.html" title="The SoQtFlyViewer class implements controls for moving the camera in a &quot;flying&quot; motion." alt="SoQtFlyViewer" shape="rect" coords="0,392,148,416"/>
+  </map>
+</div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:ad182766a538bc3d600a23a85148d58bf" id="r_ad182766a538bc3d600a23a85148d58bf"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad182766a538bc3d600a23a85148d58bf">~SoQtComponent</a> ()</td></tr>
+<tr class="separator:ad182766a538bc3d600a23a85148d58bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a184b839e53b531026d98a797c8104b17" id="r_a184b839e53b531026d98a797c8104b17"><td class="memItemLeft" align="right" valign="top">QWidget *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a184b839e53b531026d98a797c8104b17">getBaseWidget</a> (void) const</td></tr>
+<tr class="separator:a184b839e53b531026d98a797c8104b17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc9c39c06aa78c89b025dc9fa286cf98" id="r_abc9c39c06aa78c89b025dc9fa286cf98"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abc9c39c06aa78c89b025dc9fa286cf98">getClassName</a> (void) const</td></tr>
+<tr class="separator:abc9c39c06aa78c89b025dc9fa286cf98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2ba22180a17f9474309e7223350ee9c" id="r_aa2ba22180a17f9474309e7223350ee9c"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa2ba22180a17f9474309e7223350ee9c">getIconTitle</a> (void) const</td></tr>
+<tr class="separator:aa2ba22180a17f9474309e7223350ee9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16862a47163c6f7e508441d2f840cbdf" id="r_a16862a47163c6f7e508441d2f840cbdf"><td class="memItemLeft" align="right" valign="top">QWidget *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a16862a47163c6f7e508441d2f840cbdf">getParentWidget</a> (void) const</td></tr>
+<tr class="separator:a16862a47163c6f7e508441d2f840cbdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6cd04904ca2004c81547275b71eb3837" id="r_a6cd04904ca2004c81547275b71eb3837"><td class="memItemLeft" align="right" valign="top">QWidget *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6cd04904ca2004c81547275b71eb3837">getShellWidget</a> (void) const</td></tr>
+<tr class="separator:a6cd04904ca2004c81547275b71eb3837"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2775cc57aaf78886d5c98e7d6ef887c" id="r_af2775cc57aaf78886d5c98e7d6ef887c"><td class="memItemLeft" align="right" valign="top">SbVec2s&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af2775cc57aaf78886d5c98e7d6ef887c">getSize</a> (void) const</td></tr>
+<tr class="separator:af2775cc57aaf78886d5c98e7d6ef887c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30d7eb5a3e1642fed2f461385e74ee3f" id="r_a30d7eb5a3e1642fed2f461385e74ee3f"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a30d7eb5a3e1642fed2f461385e74ee3f">getTitle</a> (void) const</td></tr>
+<tr class="separator:a30d7eb5a3e1642fed2f461385e74ee3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2e5cace0476f6b52c22e1e2f7481d1f" id="r_ad2e5cace0476f6b52c22e1e2f7481d1f"><td class="memItemLeft" align="right" valign="top">QWidget *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad2e5cace0476f6b52c22e1e2f7481d1f">getWidget</a> (void) const</td></tr>
+<tr class="separator:ad2e5cace0476f6b52c22e1e2f7481d1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6af47f13392237418e19164604448b83" id="r_a6af47f13392237418e19164604448b83"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6af47f13392237418e19164604448b83">getWidgetName</a> (void) const</td></tr>
+<tr class="separator:a6af47f13392237418e19164604448b83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e0681987a9fa6c57a6f93275cc3503e" id="r_a5e0681987a9fa6c57a6f93275cc3503e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5e0681987a9fa6c57a6f93275cc3503e">hide</a> (void)</td></tr>
+<tr class="separator:a5e0681987a9fa6c57a6f93275cc3503e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83dbeb3138242b433de463a3d460f835" id="r_a83dbeb3138242b433de463a3d460f835"><td class="memItemLeft" align="right" valign="top">SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a83dbeb3138242b433de463a3d460f835">isFullScreen</a> (void) const</td></tr>
+<tr class="separator:a83dbeb3138242b433de463a3d460f835"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a97b169f5a714898bcf5fb30538c7b3" id="r_a5a97b169f5a714898bcf5fb30538c7b3"><td class="memItemLeft" align="right" valign="top">SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5a97b169f5a714898bcf5fb30538c7b3">isTopLevelShell</a> (void) const</td></tr>
+<tr class="separator:a5a97b169f5a714898bcf5fb30538c7b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a987e6a3f31dc7aca7e9448d01dad562a" id="r_a987e6a3f31dc7aca7e9448d01dad562a"><td class="memItemLeft" align="right" valign="top">SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a987e6a3f31dc7aca7e9448d01dad562a">isVisible</a> (void)</td></tr>
+<tr class="separator:a987e6a3f31dc7aca7e9448d01dad562a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14395837c352b822a6cb1e9367f81b42" id="r_a14395837c352b822a6cb1e9367f81b42"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a14395837c352b822a6cb1e9367f81b42">setComponentCursor</a> (const <a class="el" href="classSoQtCursor.html">SoQtCursor</a> &amp;cursor)</td></tr>
+<tr class="separator:a14395837c352b822a6cb1e9367f81b42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7084f17ec48d133b13b972cf1d201ec" id="r_aa7084f17ec48d133b13b972cf1d201ec"><td class="memItemLeft" align="right" valign="top">SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa7084f17ec48d133b13b972cf1d201ec">setFullScreen</a> (const SbBool onoff)</td></tr>
+<tr class="separator:aa7084f17ec48d133b13b972cf1d201ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02ac1d98e7904baacb4eac2c0281b962" id="r_a02ac1d98e7904baacb4eac2c0281b962"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a02ac1d98e7904baacb4eac2c0281b962">setIconTitle</a> (const char *const title)</td></tr>
+<tr class="separator:a02ac1d98e7904baacb4eac2c0281b962"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6cd8bc4ca7ee9a67a6b7dbbef2e6fc07" id="r_a6cd8bc4ca7ee9a67a6b7dbbef2e6fc07"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6cd8bc4ca7ee9a67a6b7dbbef2e6fc07">setSize</a> (const SbVec2s size)</td></tr>
+<tr class="separator:a6cd8bc4ca7ee9a67a6b7dbbef2e6fc07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c0fee9dbd24a614e9c66ec88bd663c4" id="r_a2c0fee9dbd24a614e9c66ec88bd663c4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2c0fee9dbd24a614e9c66ec88bd663c4">setTitle</a> (const char *const title)</td></tr>
+<tr class="separator:a2c0fee9dbd24a614e9c66ec88bd663c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3fbe075942ec1e9216c856bcc4e1a5c" id="r_aa3fbe075942ec1e9216c856bcc4e1a5c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa3fbe075942ec1e9216c856bcc4e1a5c">setWindowCloseCallback</a> (SoQtComponentCB *const func, void *const user=NULL)</td></tr>
+<tr class="separator:aa3fbe075942ec1e9216c856bcc4e1a5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb5037cd1e82e087426888d3fd7511fb" id="r_abb5037cd1e82e087426888d3fd7511fb"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abb5037cd1e82e087426888d3fd7511fb">show</a> (void)</td></tr>
+<tr class="separator:abb5037cd1e82e087426888d3fd7511fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classSoQtObject"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_classSoQtObject')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classSoQtObject.html">SoQtObject</a></td></tr>
+<tr class="memitem:a6e8a275be6045a6121dde25537ed3429 inherit pub_methods_classSoQtObject" id="r_a6e8a275be6045a6121dde25537ed3429"><td class="memItemLeft" align="right" valign="top">virtual SoType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoQtObject.html#a6e8a275be6045a6121dde25537ed3429">getTypeId</a> (void) const =0</td></tr>
+<tr class="separator:a6e8a275be6045a6121dde25537ed3429 inherit pub_methods_classSoQtObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad67d1c02506e025550c5b8572cece20c inherit pub_methods_classSoQtObject" id="r_ad67d1c02506e025550c5b8572cece20c"><td class="memItemLeft" align="right" valign="top">SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoQtObject.html#ad67d1c02506e025550c5b8572cece20c">isOfType</a> (SoType type) const</td></tr>
+<tr class="separator:ad67d1c02506e025550c5b8572cece20c inherit pub_methods_classSoQtObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a53ba67d82596d8d0ea38e8679aa0391c" id="r_a53ba67d82596d8d0ea38e8679aa0391c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classSoQtComponent.html">SoQtComponent</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a53ba67d82596d8d0ea38e8679aa0391c">getComponent</a> (QWidget *widget)</td></tr>
+<tr class="separator:a53ba67d82596d8d0ea38e8679aa0391c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afab3009a4ac4b5426f13ca83ef2f5593" id="r_afab3009a4ac4b5426f13ca83ef2f5593"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afab3009a4ac4b5426f13ca83ef2f5593">initClasses</a> (void)</td></tr>
+<tr class="separator:afab3009a4ac4b5426f13ca83ef2f5593"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35b5d3f9df5517926b3f2bb8fefe309a" id="r_a35b5d3f9df5517926b3f2bb8fefe309a"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a35b5d3f9df5517926b3f2bb8fefe309a">setWidgetCursor</a> (QWidget *w, const <a class="el" href="classSoQtCursor.html">SoQtCursor</a> &amp;cursor)</td></tr>
+<tr class="separator:a35b5d3f9df5517926b3f2bb8fefe309a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_static_methods_classSoQtObject"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_static_methods_classSoQtObject')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="classSoQtObject.html">SoQtObject</a></td></tr>
+<tr class="memitem:a565e58069f85c82349bf1d8a68212b80 inherit pub_static_methods_classSoQtObject" id="r_a565e58069f85c82349bf1d8a68212b80"><td class="memItemLeft" align="right" valign="top">static SoType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoQtObject.html#a565e58069f85c82349bf1d8a68212b80">getClassTypeId</a> (void)</td></tr>
+<tr class="separator:a565e58069f85c82349bf1d8a68212b80 inherit pub_static_methods_classSoQtObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:affa0550225ecb90628dc90db64f205da inherit pub_static_methods_classSoQtObject" id="r_affa0550225ecb90628dc90db64f205da"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoQtObject.html#affa0550225ecb90628dc90db64f205da">init</a> (void)</td></tr>
+<tr class="separator:affa0550225ecb90628dc90db64f205da inherit pub_static_methods_classSoQtObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcdd569d4a61e703b49cb5d7d8698e09 inherit pub_static_methods_classSoQtObject" id="r_afcdd569d4a61e703b49cb5d7d8698e09"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSoQtObject.html#afcdd569d4a61e703b49cb5d7d8698e09">initClass</a> (void)</td></tr>
+<tr class="separator:afcdd569d4a61e703b49cb5d7d8698e09 inherit pub_static_methods_classSoQtObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:ad0adee4f108b6c6d0d9b25b199cc73ac" id="r_ad0adee4f108b6c6d0d9b25b199cc73ac"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad0adee4f108b6c6d0d9b25b199cc73ac">SoQtComponent</a> (QWidget *const parent=NULL, const char *const name=NULL, const SbBool embed=TRUE)</td></tr>
+<tr class="separator:ad0adee4f108b6c6d0d9b25b199cc73ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a78577eeddde900036dd599c686a6b0" id="r_a3a78577eeddde900036dd599c686a6b0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3a78577eeddde900036dd599c686a6b0">addVisibilityChangeCallback</a> (SoQtComponentVisibilityCB *const func, void *const user=NULL)</td></tr>
+<tr class="separator:a3a78577eeddde900036dd599c686a6b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb9a2dbe88ee0b36a306716c8cf609c3" id="r_aeb9a2dbe88ee0b36a306716c8cf609c3"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeb9a2dbe88ee0b36a306716c8cf609c3">afterRealizeHook</a> (void)</td></tr>
+<tr class="separator:aeb9a2dbe88ee0b36a306716c8cf609c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2bd96b9eb6b3a0ea9072643d3ccddf3" id="r_ae2bd96b9eb6b3a0ea9072643d3ccddf3"><td class="memItemLeft" align="right" valign="top">virtual const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae2bd96b9eb6b3a0ea9072643d3ccddf3">getDefaultIconTitle</a> (void) const</td></tr>
+<tr class="separator:ae2bd96b9eb6b3a0ea9072643d3ccddf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3930b8c135be212077ed85afc4dc6823" id="r_a3930b8c135be212077ed85afc4dc6823"><td class="memItemLeft" align="right" valign="top">virtual const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3930b8c135be212077ed85afc4dc6823">getDefaultTitle</a> (void) const</td></tr>
+<tr class="separator:a3930b8c135be212077ed85afc4dc6823"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abee7cadb116da8b01fd63e92116695ef" id="r_abee7cadb116da8b01fd63e92116695ef"><td class="memItemLeft" align="right" valign="top">virtual const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abee7cadb116da8b01fd63e92116695ef">getDefaultWidgetName</a> (void) const</td></tr>
+<tr class="separator:abee7cadb116da8b01fd63e92116695ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74d6b996abd793827fcafe31f2419ef2" id="r_a74d6b996abd793827fcafe31f2419ef2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a74d6b996abd793827fcafe31f2419ef2">registerWidget</a> (QWidget *widget)</td></tr>
+<tr class="separator:a74d6b996abd793827fcafe31f2419ef2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace0b18341eb7460e7823e42a8f3242ed" id="r_ace0b18341eb7460e7823e42a8f3242ed"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ace0b18341eb7460e7823e42a8f3242ed">removeVisibilityChangeCallback</a> (SoQtComponentVisibilityCB *const func, void *const user=NULL)</td></tr>
+<tr class="separator:ace0b18341eb7460e7823e42a8f3242ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a661180bf4d042606fabff6a7d91d690e" id="r_a661180bf4d042606fabff6a7d91d690e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a661180bf4d042606fabff6a7d91d690e">setBaseWidget</a> (QWidget *widget)</td></tr>
+<tr class="separator:a661180bf4d042606fabff6a7d91d690e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72e988b8723a1127a18381ce1f60405c" id="r_a72e988b8723a1127a18381ce1f60405c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a72e988b8723a1127a18381ce1f60405c">setClassName</a> (const char *const name)</td></tr>
+<tr class="separator:a72e988b8723a1127a18381ce1f60405c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af439bfdc524635d660a37736ce678f96" id="r_af439bfdc524635d660a37736ce678f96"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af439bfdc524635d660a37736ce678f96">sizeChanged</a> (const SbVec2s &amp;size)</td></tr>
+<tr class="separator:af439bfdc524635d660a37736ce678f96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1efd24a86fdf9c1afe8312cc742f024c" id="r_a1efd24a86fdf9c1afe8312cc742f024c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1efd24a86fdf9c1afe8312cc742f024c">unregisterWidget</a> (QWidget *widget)</td></tr>
+<tr class="separator:a1efd24a86fdf9c1afe8312cc742f024c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The <a class="el" href="classSoQtComponent.html" title="The SoQtComponent class is the base class for all GUI components.">SoQtComponent</a> class is the base class for all GUI components. </p>
+<p>Components in the <a class="el" href="classSoQt.html" title="The SoQt class takes care of Qt initialization and event dispatching.">SoQt</a> component library all inherit this abstract base class. It provides basic methods for setting and querying about the relationship between the component object and its underlying Qt object(s).</p>
+<p>Application programmers should not need to interface any code against this class, unless they want to extend the <a class="el" href="classSoQt.html" title="The SoQt class takes care of Qt initialization and event dispatching.">SoQt</a> library in entirely new directions. For making new viewer components, for instance, other classes further down the inheritance hierarchy would be better suited for subclassing.</p>
+<p>Note that the relationship between all <a class="el" href="classSoQtComponent.html" title="The SoQtComponent class is the base class for all GUI components.">SoQtComponent</a> derived classes and Qt widgets is one of "has-A", <em>not</em> "is-A" &ndash; i.e. <a class="el" href="classSoQtComponent.html" title="The SoQtComponent class is the base class for all GUI components.">SoQtComponent</a> <em>contains</em> a QWidget*, it doesn't derive from or subclass it. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="ad182766a538bc3d600a23a85148d58bf" name="ad182766a538bc3d600a23a85148d58bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad182766a538bc3d600a23a85148d58bf">&#9670;&#160;</a></span>~SoQtComponent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">SoQtComponent::~SoQtComponent </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Destructor. </p>
+
+</div>
+</div>
+<a id="ad0adee4f108b6c6d0d9b25b199cc73ac" name="ad0adee4f108b6c6d0d9b25b199cc73ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0adee4f108b6c6d0d9b25b199cc73ac">&#9670;&#160;</a></span>SoQtComponent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">SoQtComponent::SoQtComponent </td>
+          <td>(</td>
+          <td class="paramtype">QWidget *const</td>          <td class="paramname"><span class="paramname"><em>parent</em><span class="paramdefsep"> = </span><span class="paramdefval">NULL</span>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *const</td>          <td class="paramname"><span class="paramname"><em>name</em><span class="paramdefsep"> = </span><span class="paramdefval">NULL</span>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const SbBool</td>          <td class="paramname"><span class="paramname"><em>embed</em><span class="paramdefsep"> = </span><span class="paramdefval">TRUE</span></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This is a protected constructor, used only by derived classes.</p>
+<p>The <em>parent</em> argument is the parent widget of the component. If you don't supply a parent, the main window (the one given to or returned from <a class="el" href="classSoQt.html#a3980524f04265015be0508a27b0be473">SoQt::init()</a>) is used (and the <em>embed</em> argument is considered to be <code>FALSE</code>).</p>
+<p>The <em>name</em> argument is the name of the component. If you don't supply one, the name will default to something, depending on the inheritance hierarchy.</p>
+<p>The <em>embed</em> argument tells whether the component should be embedded in the <em>parent</em> widget or should create its own shell. This flag is only checked if the <em>parent</em> widget argument is specified (not <code>NULL</code>).</p>
+<p>If you create a non-embedded component, the component will create its own shell, which will be a top level shell type. If you embed the component, the component will create a form widget type widget inside the <em>parent</em> widget, which you can get the handle of by calling <a class="el" href="#a184b839e53b531026d98a797c8104b17">SoQtComponent::getBaseWidget()</a>. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a3a78577eeddde900036dd599c686a6b0" name="a3a78577eeddde900036dd599c686a6b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a78577eeddde900036dd599c686a6b0">&#9670;&#160;</a></span>addVisibilityChangeCallback()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoQtComponent::addVisibilityChangeCallback </td>
+          <td>(</td>
+          <td class="paramtype">SoQtComponentVisibilityCB *const</td>          <td class="paramname"><span class="paramname"><em>func</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *const</td>          <td class="paramname"><span class="paramname"><em>user</em><span class="paramdefsep"> = </span><span class="paramdefval">NULL</span></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Add a callback which will be called whenever the widget component changes visibility status (because of iconification or deiconification, for instance).</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#ace0b18341eb7460e7823e42a8f3242ed">removeVisibilityChangeCallback()</a>, <a class="el" href="#a987e6a3f31dc7aca7e9448d01dad562a">isVisible()</a> </dd></dl>
+
+</div>
+</div>
+<a id="aeb9a2dbe88ee0b36a306716c8cf609c3" name="aeb9a2dbe88ee0b36a306716c8cf609c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb9a2dbe88ee0b36a306716c8cf609c3">&#9670;&#160;</a></span>afterRealizeHook()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoQtComponent::afterRealizeHook </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>A function "hook" / callback invoked just after the window for the component has been realized.</p>
+<p>Override this if you need specific initialization for your own component or viewer class to happen right after it has been made visible, but remember to call upwards in the inheritance hierarchy:</p>
+<div class="fragment"><div class="line"><span class="keywordtype">void</span></div>
+<div class="line">MyLittleViewer::afterRealizeHook(<span class="keywordtype">void</span>)</div>
+<div class="line">{</div>
+<div class="line">  &lt;superclass&gt;<a class="code hl_function" href="#aeb9a2dbe88ee0b36a306716c8cf609c3">::afterRealizeHook</a>();</div>
+<div class="line">  <span class="comment">// [own initialization here]</span></div>
+<div class="line">}</div>
+<div class="ttc" id="aclassSoQtComponent_html_aeb9a2dbe88ee0b36a306716c8cf609c3"><div class="ttname"><a href="#aeb9a2dbe88ee0b36a306716c8cf609c3">SoQtComponent::afterRealizeHook</a></div><div class="ttdeci">virtual void afterRealizeHook(void)</div><div class="ttdef"><b>Definition</b> SoQtComponent.cpp:913</div></div>
+</div><!-- fragment --> 
+<p>Reimplemented in <a class="el" href="classSoQtRenderArea.html#a5bb9159308958c7c3a1c4adf1b0fc676">SoQtRenderArea</a>, <a class="el" href="classSoQtExaminerViewer.html#a343ce650d3f341d7cd026f4ea2c92584">SoQtExaminerViewer</a>, <a class="el" href="classSoQtFlyViewer.html#a83a04f4f7132524ab104030acb9ab3d3">SoQtFlyViewer</a>, and <a class="el" href="classSoQtPlaneViewer.html#a455888529212848fac6ae9b08c7c7c1a">SoQtPlaneViewer</a>.</p>
+
+</div>
+</div>
+<a id="a184b839e53b531026d98a797c8104b17" name="a184b839e53b531026d98a797c8104b17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a184b839e53b531026d98a797c8104b17">&#9670;&#160;</a></span>getBaseWidget()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QWidget * SoQtComponent::getBaseWidget </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>An <a class="el" href="classSoQtComponent.html" title="The SoQtComponent class is the base class for all GUI components.">SoQtComponent</a> may be composed of any number of widgets in parent-children relationships in a tree structure with any depth. This method will return the root widget in that tree.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a661180bf4d042606fabff6a7d91d690e">setBaseWidget()</a> </dd></dl>
+
+</div>
+</div>
+<a id="abc9c39c06aa78c89b025dc9fa286cf98" name="abc9c39c06aa78c89b025dc9fa286cf98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc9c39c06aa78c89b025dc9fa286cf98">&#9670;&#160;</a></span>getClassName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char * SoQtComponent::getClassName </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns class name of widget. </p>
+
+</div>
+</div>
+<a id="a53ba67d82596d8d0ea38e8679aa0391c" name="a53ba67d82596d8d0ea38e8679aa0391c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a53ba67d82596d8d0ea38e8679aa0391c">&#9670;&#160;</a></span>getComponent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classSoQtComponent.html">SoQtComponent</a> * SoQtComponent::getComponent </td>
+          <td>(</td>
+          <td class="paramtype">QWidget *</td>          <td class="paramname"><span class="paramname"><em>widget</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Finds and returns the <a class="el" href="classSoQtComponent.html" title="The SoQtComponent class is the base class for all GUI components.">SoQtComponent</a> corresponding to the given QWidget*, if any. If the widget does not seem to belong to any <a class="el" href="classSoQtComponent.html" title="The SoQtComponent class is the base class for all GUI components.">SoQtComponent</a>, <code>NULL</code> will be returned. </p>
+
+</div>
+</div>
+<a id="ae2bd96b9eb6b3a0ea9072643d3ccddf3" name="ae2bd96b9eb6b3a0ea9072643d3ccddf3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2bd96b9eb6b3a0ea9072643d3ccddf3">&#9670;&#160;</a></span>getDefaultIconTitle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char * SoQtComponent::getDefaultIconTitle </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This method returns the default icon title of the component.</p>
+<p>It should be overridden by derived non-abstract classes so icons will get proper titles. </p>
+
+<p>Reimplemented in <a class="el" href="classSoQtRenderArea.html#a50383c3fc473e249be90fd2dc19769ab">SoQtRenderArea</a>, <a class="el" href="classSoQtExaminerViewer.html#a4c313f8331204950516666955bcf3caf">SoQtExaminerViewer</a>, <a class="el" href="classSoQtFlyViewer.html#a34e52e0d3d78c6bdb432d6063f14aefa">SoQtFlyViewer</a>, and <a class="el" href="classSoQtPlaneViewer.html#a6855676a683c8e0df97dc6e5b1ecd872">SoQtPlaneViewer</a>.</p>
+
+</div>
+</div>
+<a id="a3930b8c135be212077ed85afc4dc6823" name="a3930b8c135be212077ed85afc4dc6823"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3930b8c135be212077ed85afc4dc6823">&#9670;&#160;</a></span>getDefaultTitle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char * SoQtComponent::getDefaultTitle </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This method returns the default window caption string of the component.</p>
+<p>It should be overridden by derived non-abstract classes so the window and pop-up menu will get a proper title. </p>
+
+<p>Reimplemented in <a class="el" href="classSoQtRenderArea.html#a99f2cc44981304c6b4ea2e72d360b4b3">SoQtRenderArea</a>, <a class="el" href="classSoQtExaminerViewer.html#a2c467c42af93f81507af0e45adf31ddc">SoQtExaminerViewer</a>, <a class="el" href="classSoQtFlyViewer.html#a0aa7c39735a0de2d3de0dc5513fe02a2">SoQtFlyViewer</a>, and <a class="el" href="classSoQtPlaneViewer.html#a066199c2f0b846370bd7b230ed9aafd8">SoQtPlaneViewer</a>.</p>
+
+</div>
+</div>
+<a id="abee7cadb116da8b01fd63e92116695ef" name="abee7cadb116da8b01fd63e92116695ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abee7cadb116da8b01fd63e92116695ef">&#9670;&#160;</a></span>getDefaultWidgetName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char * SoQtComponent::getDefaultWidgetName </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This method returns the default name of a component widget class.</p>
+<p>It should be overridden by derived non-abstract classes for the topmost widget in the component to have a proper name. </p>
+
+<p>Reimplemented in <a class="el" href="classSoQtRenderArea.html#ade7b2aaf30031ea561ef188e85a0b47c">SoQtRenderArea</a>, <a class="el" href="classSoQtExaminerViewer.html#a45078b8b0b02504589eea8401be27582">SoQtExaminerViewer</a>, <a class="el" href="classSoQtFlyViewer.html#a94826c860c7ee065ead8fa21b2cc56d5">SoQtFlyViewer</a>, and <a class="el" href="classSoQtPlaneViewer.html#aea7be04f17a846d392ecc8eb573158fb">SoQtPlaneViewer</a>.</p>
+
+</div>
+</div>
+<a id="aa2ba22180a17f9474309e7223350ee9c" name="aa2ba22180a17f9474309e7223350ee9c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa2ba22180a17f9474309e7223350ee9c">&#9670;&#160;</a></span>getIconTitle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char * SoQtComponent::getIconTitle </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the title the window has when iconified.</p>
+<p>If an icon title has been set, that icon title is returned. If no icon title has been set, the default icon title is returned.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a02ac1d98e7904baacb4eac2c0281b962">setIconTitle()</a>, <a class="el" href="#a5a97b169f5a714898bcf5fb30538c7b3">isTopLevelShell()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a16862a47163c6f7e508441d2f840cbdf" name="a16862a47163c6f7e508441d2f840cbdf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a16862a47163c6f7e508441d2f840cbdf">&#9670;&#160;</a></span>getParentWidget()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QWidget * SoQtComponent::getParentWidget </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the widget which is the parent of (i.e. contains) this component's base widget.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#ad2e5cace0476f6b52c22e1e2f7481d1f">getWidget()</a>, baseWidget(), <a class="el" href="#a5a97b169f5a714898bcf5fb30538c7b3">isTopLevelShell()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a6cd04904ca2004c81547275b71eb3837" name="a6cd04904ca2004c81547275b71eb3837"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6cd04904ca2004c81547275b71eb3837">&#9670;&#160;</a></span>getShellWidget()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QWidget * SoQtComponent::getShellWidget </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method returns the shell widget of the component, but only if it was created as a top level shell. <code>NULL</code> will be returned for embedded components.</p>
+<p>(The top level shell is the desktop window which contains the component.)</p>
+<p>To get the top level shell of embedded components, you can use the <a class="el" href="classSoQt.html#aea1927971ec7ab2af9c528fa7ffaf8a0">SoQt::getShellWidget()</a> method.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a5a97b169f5a714898bcf5fb30538c7b3">isTopLevelShell()</a>, <a class="el" href="#ad2e5cace0476f6b52c22e1e2f7481d1f">getWidget()</a> </dd></dl>
+
+</div>
+</div>
+<a id="af2775cc57aaf78886d5c98e7d6ef887c" name="af2775cc57aaf78886d5c98e7d6ef887c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2775cc57aaf78886d5c98e7d6ef887c">&#9670;&#160;</a></span>getSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SbVec2s SoQtComponent::getSize </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the component widget size.</p>
+<p>The size that is returned is a cached size value, not a value fetched from the GUI system.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a6cd8bc4ca7ee9a67a6b7dbbef2e6fc07">setSize()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a30d7eb5a3e1642fed2f461385e74ee3f" name="a30d7eb5a3e1642fed2f461385e74ee3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a30d7eb5a3e1642fed2f461385e74ee3f">&#9670;&#160;</a></span>getTitle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char * SoQtComponent::getTitle </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the window title.</p>
+<p>If a title has been set, that title will be returned. If no title has been set, the default title is returned.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a2c0fee9dbd24a614e9c66ec88bd663c4">setTitle()</a>, <a class="el" href="#a5a97b169f5a714898bcf5fb30538c7b3">isTopLevelShell()</a> </dd></dl>
+
+</div>
+</div>
+<a id="ad2e5cace0476f6b52c22e1e2f7481d1f" name="ad2e5cace0476f6b52c22e1e2f7481d1f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2e5cace0476f6b52c22e1e2f7481d1f">&#9670;&#160;</a></span>getWidget()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QWidget * SoQtComponent::getWidget </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns a pointer to the component's window system widget.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a6cd04904ca2004c81547275b71eb3837">getShellWidget()</a>, <a class="el" href="#a16862a47163c6f7e508441d2f840cbdf">getParentWidget()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a6af47f13392237418e19164604448b83" name="a6af47f13392237418e19164604448b83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6af47f13392237418e19164604448b83">&#9670;&#160;</a></span>getWidgetName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char * SoQtComponent::getWidgetName </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns name of the widget. </p>
+
+</div>
+</div>
+<a id="a5e0681987a9fa6c57a6f93275cc3503e" name="a5e0681987a9fa6c57a6f93275cc3503e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e0681987a9fa6c57a6f93275cc3503e">&#9670;&#160;</a></span>hide()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoQtComponent::hide </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This will hide the widget.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#abb5037cd1e82e087426888d3fd7511fb">show()</a>, <a class="el" href="#a987e6a3f31dc7aca7e9448d01dad562a">isVisible()</a> </dd></dl>
+
+</div>
+</div>
+<a id="afab3009a4ac4b5426f13ca83ef2f5593" name="afab3009a4ac4b5426f13ca83ef2f5593"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afab3009a4ac4b5426f13ca83ef2f5593">&#9670;&#160;</a></span>initClasses()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoQtComponent::initClasses </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This function initializes the type system for all the component classes. It is called indirectly for you when you call <a class="el" href="classSoQt.html#a3980524f04265015be0508a27b0be473">SoQt::init()</a>.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classSoQt.html#a3980524f04265015be0508a27b0be473">SoQt::init()</a>, <a class="el" href="classSoQtDevice.html#a7465c65b7706925be1d39bfcbf3d384b">SoQtDevice::initClasses()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a83dbeb3138242b433de463a3d460f835" name="a83dbeb3138242b433de463a3d460f835"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83dbeb3138242b433de463a3d460f835">&#9670;&#160;</a></span>isFullScreen()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SbBool SoQtComponent::isFullScreen </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns whether this widget/component is in full screen mode or not. </p>
+
+</div>
+</div>
+<a id="a5a97b169f5a714898bcf5fb30538c7b3" name="a5a97b169f5a714898bcf5fb30538c7b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a97b169f5a714898bcf5fb30538c7b3">&#9670;&#160;</a></span>isTopLevelShell()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SbBool SoQtComponent::isTopLevelShell </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns <code>TRUE</code> if this component is a top level shell, i.e. it has a window representation on the desktop.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a6cd04904ca2004c81547275b71eb3837">getShellWidget()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a987e6a3f31dc7aca7e9448d01dad562a" name="a987e6a3f31dc7aca7e9448d01dad562a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a987e6a3f31dc7aca7e9448d01dad562a">&#9670;&#160;</a></span>isVisible()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SbBool SoQtComponent::isVisible </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns visibility status on the widget. If any parents of this widget or this widget itself is hidden, returns <code>FALSE</code>.</p>
+<p>Note that a widget which is just obscured by other windows on the desktop is not hidden in this sense, and <code>TRUE</code> will be returned.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#abb5037cd1e82e087426888d3fd7511fb">show()</a>, <a class="el" href="#a5e0681987a9fa6c57a6f93275cc3503e">hide()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a74d6b996abd793827fcafe31f2419ef2" name="a74d6b996abd793827fcafe31f2419ef2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74d6b996abd793827fcafe31f2419ef2">&#9670;&#160;</a></span>registerWidget()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoQtComponent::registerWidget </td>
+          <td>(</td>
+          <td class="paramtype">QWidget *</td>          <td class="paramname"><span class="paramname"><em>widget</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This method should be used by subclasses to register the widgets they set up from the underlying native toolkit, so they can be "reverse" mapped to the owner component.</p>
+<p>Subclasses failing to register the widgets they use will cause the <a class="el" href="#a53ba67d82596d8d0ea38e8679aa0391c">SoQtComponent::getComponent()</a> method to fail with those widgets.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a1efd24a86fdf9c1afe8312cc742f024c">unregisterWidget()</a>, <a class="el" href="#a53ba67d82596d8d0ea38e8679aa0391c">getComponent()</a> </dd></dl>
+
+</div>
+</div>
+<a id="ace0b18341eb7460e7823e42a8f3242ed" name="ace0b18341eb7460e7823e42a8f3242ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace0b18341eb7460e7823e42a8f3242ed">&#9670;&#160;</a></span>removeVisibilityChangeCallback()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoQtComponent::removeVisibilityChangeCallback </td>
+          <td>(</td>
+          <td class="paramtype">SoQtComponentVisibilityCB *const</td>          <td class="paramname"><span class="paramname"><em>func</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *const</td>          <td class="paramname"><span class="paramname"><em>data</em><span class="paramdefsep"> = </span><span class="paramdefval">NULL</span></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Remove one of the callbacks from the list of visibility notification callbacks.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a3a78577eeddde900036dd599c686a6b0">addVisibilityChangeCallback()</a>, <a class="el" href="#a987e6a3f31dc7aca7e9448d01dad562a">isVisible()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a661180bf4d042606fabff6a7d91d690e" name="a661180bf4d042606fabff6a7d91d690e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a661180bf4d042606fabff6a7d91d690e">&#9670;&#160;</a></span>setBaseWidget()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoQtComponent::setBaseWidget </td>
+          <td>(</td>
+          <td class="paramtype">QWidget *</td>          <td class="paramname"><span class="paramname"><em>widget</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Set the core widget for this <a class="el" href="classSoQt.html" title="The SoQt class takes care of Qt initialization and event dispatching.">SoQt</a> component. It is important that subclasses get this correct, as the widget set here will be the widget returned from query methods.</p>
+<dl class="section see"><dt>See also</dt><dd>baseWidget() </dd></dl>
+
+</div>
+</div>
+<a id="a72e988b8723a1127a18381ce1f60405c" name="a72e988b8723a1127a18381ce1f60405c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a72e988b8723a1127a18381ce1f60405c">&#9670;&#160;</a></span>setClassName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoQtComponent::setClassName </td>
+          <td>(</td>
+          <td class="paramtype">const char *const</td>          <td class="paramname"><span class="paramname"><em>name</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Set class name of component.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#abc9c39c06aa78c89b025dc9fa286cf98">getClassName()</a>, componentClassName() </dd></dl>
+
+</div>
+</div>
+<a id="a14395837c352b822a6cb1e9367f81b42" name="a14395837c352b822a6cb1e9367f81b42"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14395837c352b822a6cb1e9367f81b42">&#9670;&#160;</a></span>setComponentCursor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoQtComponent::setComponentCursor </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classSoQtCursor.html">SoQtCursor</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>cursor</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Sets the cursor for this component.</p>
+<p>Note: not part of the original SGI InventorXt API. </p>
+
+<p>Reimplemented in <a class="el" href="classSoQtFullViewer.html#a5bba927317116a620e7d04ef3ab6be0e">SoQtFullViewer</a>.</p>
+
+</div>
+</div>
+<a id="aa7084f17ec48d133b13b972cf1d201ec" name="aa7084f17ec48d133b13b972cf1d201ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7084f17ec48d133b13b972cf1d201ec">&#9670;&#160;</a></span>setFullScreen()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SbBool SoQtComponent::setFullScreen </td>
+          <td>(</td>
+          <td class="paramtype">const SbBool</td>          <td class="paramname"><span class="paramname"><em>onoff</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Toggle full screen mode for this component, if possible.</p>
+<p>Returns <code>FALSE</code> if operation failed. This might happen if the toolkit doesn't support attempts at making the component cover the complete screen or if the component is not a top level window. </p>
+
+</div>
+</div>
+<a id="a02ac1d98e7904baacb4eac2c0281b962" name="a02ac1d98e7904baacb4eac2c0281b962"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a02ac1d98e7904baacb4eac2c0281b962">&#9670;&#160;</a></span>setIconTitle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoQtComponent::setIconTitle </td>
+          <td>(</td>
+          <td class="paramtype">const char *const</td>          <td class="paramname"><span class="paramname"><em>title</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method sets the title of the icon representation of the window.</p>
+<p>The title will appear on the window icon, if the component manages its own window.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#aa2ba22180a17f9474309e7223350ee9c">getIconTitle()</a>, <a class="el" href="#a2c0fee9dbd24a614e9c66ec88bd663c4">setTitle()</a>, <a class="el" href="#a5a97b169f5a714898bcf5fb30538c7b3">isTopLevelShell()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a6cd8bc4ca7ee9a67a6b7dbbef2e6fc07" name="a6cd8bc4ca7ee9a67a6b7dbbef2e6fc07"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6cd8bc4ca7ee9a67a6b7dbbef2e6fc07">&#9670;&#160;</a></span>setSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoQtComponent::setSize </td>
+          <td>(</td>
+          <td class="paramtype">const SbVec2s</td>          <td class="paramname"><span class="paramname"><em>size</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Resize the component widget.</p>
+<p>The method assumes the caller knows what he is doing.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#af2775cc57aaf78886d5c98e7d6ef887c">getSize()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a2c0fee9dbd24a614e9c66ec88bd663c4" name="a2c0fee9dbd24a614e9c66ec88bd663c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c0fee9dbd24a614e9c66ec88bd663c4">&#9670;&#160;</a></span>setTitle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoQtComponent::setTitle </td>
+          <td>(</td>
+          <td class="paramtype">const char *const</td>          <td class="paramname"><span class="paramname"><em>title</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Set the window title of this component. The title will appear on the window title bar, if the component manages its own window.</p>
+<p>Note that there is one peculiarity to be aware of if you are using the non-commercial version of Qt: only window titles with the substring "Qt" in them are allowed (!), and attempts to set a window title without this substring will simply be ignored.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a30d7eb5a3e1642fed2f461385e74ee3f">getTitle()</a>, <a class="el" href="#a02ac1d98e7904baacb4eac2c0281b962">setIconTitle()</a>, <a class="el" href="#a5a97b169f5a714898bcf5fb30538c7b3">isTopLevelShell()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a35b5d3f9df5517926b3f2bb8fefe309a" name="a35b5d3f9df5517926b3f2bb8fefe309a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a35b5d3f9df5517926b3f2bb8fefe309a">&#9670;&#160;</a></span>setWidgetCursor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoQtComponent::setWidgetCursor </td>
+          <td>(</td>
+          <td class="paramtype">QWidget *</td>          <td class="paramname"><span class="paramname"><em>w</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classSoQtCursor.html">SoQtCursor</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>cursor</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Set cursor for a native widget in the underlying toolkit.</p>
+<p>Note: not part of the original SGI InventorXt API. </p>
+
+</div>
+</div>
+<a id="aa3fbe075942ec1e9216c856bcc4e1a5c" name="aa3fbe075942ec1e9216c856bcc4e1a5c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3fbe075942ec1e9216c856bcc4e1a5c">&#9670;&#160;</a></span>setWindowCloseCallback()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoQtComponent::setWindowCloseCallback </td>
+          <td>(</td>
+          <td class="paramtype">SoQtComponentCB *const</td>          <td class="paramname"><span class="paramname"><em>func</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *const</td>          <td class="paramname"><span class="paramname"><em>data</em><span class="paramdefsep"> = </span><span class="paramdefval">NULL</span></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Set up a callback function to use when the component gets closed. A component must be a top level shell for this to have any effect.</p>
+<p>For top level shells with no close callback set, the window will simply be hidden. The typical action to take in the callback would be to delete the component.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a5a97b169f5a714898bcf5fb30538c7b3">isTopLevelShell()</a> </dd></dl>
+
+</div>
+</div>
+<a id="abb5037cd1e82e087426888d3fd7511fb" name="abb5037cd1e82e087426888d3fd7511fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb5037cd1e82e087426888d3fd7511fb">&#9670;&#160;</a></span>show()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoQtComponent::show </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This will show the widget, de-iconifying and raising it if necessary.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a5e0681987a9fa6c57a6f93275cc3503e">hide()</a>, <a class="el" href="#a987e6a3f31dc7aca7e9448d01dad562a">isVisible()</a></dd></dl>
+<p>This function <em>must</em> be called by subclasses after the component's widget has been otherwise initialized. </p>
+
+</div>
+</div>
+<a id="af439bfdc524635d660a37736ce678f96" name="af439bfdc524635d660a37736ce678f96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af439bfdc524635d660a37736ce678f96">&#9670;&#160;</a></span>sizeChanged()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoQtComponent::sizeChanged </td>
+          <td>(</td>
+          <td class="paramtype">const SbVec2s &amp;</td>          <td class="paramname"><span class="paramname"><em>size</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Called internally from within the <a class="el" href="classSoQt.html" title="The SoQt class takes care of Qt initialization and event dispatching.">SoQt</a> library when the widget embedded in a component changes its size, which is usually triggered by end-user interaction.</p>
+<p>This method is then invoked to notify the component that the size has changed. It is called from the top and all the way down to the bottom, the size being adjusted to take into account extra decorations having been added at each level in the component class hierarchy. </p>
+
+<p>Reimplemented in <a class="el" href="classSoQtGLWidget.html#ae1c95445c0b6f03092d62763761e433e">SoQtGLWidget</a>, <a class="el" href="classSoQtRenderArea.html#a1950dcf557db90d626cbd87397a3f510">SoQtRenderArea</a>, <a class="el" href="classSoQtFullViewer.html#aa03f21857ea5eb51601ad7f1983f502e">SoQtFullViewer</a>, and <a class="el" href="classSoQtViewer.html#a1dfa709a4cf96b16143ab6eb6013d874">SoQtViewer</a>.</p>
+
+</div>
+</div>
+<a id="a1efd24a86fdf9c1afe8312cc742f024c" name="a1efd24a86fdf9c1afe8312cc742f024c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1efd24a86fdf9c1afe8312cc742f024c">&#9670;&#160;</a></span>unregisterWidget()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SoQtComponent::unregisterWidget </td>
+          <td>(</td>
+          <td class="paramtype">QWidget *</td>          <td class="paramname"><span class="paramname"><em>widget</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Remove a previously registered native toolkit widget from the widget-to-component mappings used by <a class="el" href="#a53ba67d82596d8d0ea38e8679aa0391c">SoQtComponent::getComponent()</a>.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a74d6b996abd793827fcafe31f2419ef2">registerWidget()</a> </dd></dl>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li><a class="el" href="SoQtComponent_8h_source.html">SoQtComponent.h</a></li>
+<li><b>SoQtComponentCommon.cpp</b></li>
+<li><b>SoQtComponent.cpp</b></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="classSoQtComponent.html">SoQtComponent</a></li>
+    <li class="footer">Generated on Mon May 13 2024 19:48:22 for SoQt by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0 </li>
+  </ul>
+</div>
+</body>
+</html>
