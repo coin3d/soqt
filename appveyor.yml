@@ -241,16 +241,16 @@ install:
         brew install jq
         if [ "$QT_ID" = "5.15" ]
         then
-          export CMAKE_PREFIX_PATH=$HOME/Qt/$QT_ID/clang_64
+          export QT_DIR=$HOME/Qt/$QT_ID/clang_64
         else
-          export CMAKE_PREFIX_PATH=$HOME/Qt/$QT_ID/macos
+          export QT_DIR=$HOME/Qt/$QT_ID/macos
         fi
         #brew install doxygen
       else
         sudo apt-get -y update
         sudo apt-get -y install freeglut3-dev
         sudo apt-get -y install doxygen jq
-        export CMAKE_PREFIX_PATH=$HOME/Qt/$QT_ID/gcc_64
+        export QT_DIR=$HOME/Qt/$QT_ID/gcc_64
       fi
       cd $APPVEYOR_BUILD_FOLDER
   - cmd: |
@@ -328,8 +328,8 @@ before_build:
       ###############
       export CFLAGS=$CMAKE_ARCH_FLAGS
       export CXXFLAGS=$CMAKE_ARCH_FLAGS
-      #cmake -H. -Bbuild_debug   -G "$CMAKE_GENERATOR" -DCMAKE_BUILD_TYPE=Debug   -DCMAKE_INSTALL_PREFIX=$APPVEYOR_BUILD_FOLDER/Coin3D -DCMAKE_PREFIX_PATH=$APPVEYOR_BUILD_FOLDER/downloads/Coin3D
-      cmake -H. -Bbuild_release -G "$CMAKE_GENERATOR" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$APPVEYOR_BUILD_FOLDER/Coin3D -DCMAKE_PREFIX_PATH=$APPVEYOR_BUILD_FOLDER/downloads/Coin3D
+      #cmake -H. -Bbuild_debug   -G "$CMAKE_GENERATOR" -DCMAKE_BUILD_TYPE=Debug   -DCMAKE_INSTALL_PREFIX=$APPVEYOR_BUILD_FOLDER/Coin3D -DCMAKE_PREFIX_PATH=$APPVEYOR_BUILD_FOLDER/downloads/Coin3D;$QT_DIR
+      cmake -H. -Bbuild_release -G "$CMAKE_GENERATOR" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$APPVEYOR_BUILD_FOLDER/Coin3D -DCMAKE_PREFIX_PATH=$APPVEYOR_BUILD_FOLDER/downloads/Coin3D;$QT_DIR
 
 build_script:
   - cmd: |
