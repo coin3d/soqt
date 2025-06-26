@@ -3,7 +3,7 @@
 
 m4_define([SOQT_MAJOR], [1])
 m4_define([SOQT_MINOR], [6])
-m4_define([SOQT_MICRO], [3])
+m4_define([SOQT_MICRO], [4])
 m4_define([SOQT_BETA], [])
 
 m4_define([VERSION_STRING], [SOQT_MAJOR.SOQT_MINOR.SOQT_MICRO[]SOQT_BETA])
